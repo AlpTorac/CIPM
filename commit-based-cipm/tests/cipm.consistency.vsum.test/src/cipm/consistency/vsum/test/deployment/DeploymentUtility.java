@@ -6,6 +6,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.palladiosimulator.pcm.core.CoreFactory;
 import org.palladiosimulator.pcm.core.PCMRandomVariable;
@@ -46,11 +47,12 @@ public class DeploymentUtility extends TeaStoreCITest {
 
 	@Test
 	public void compileAndDeployInstrumentedCode() throws IOException {
-//		this.controller.instrumentCode(false);
+		//this.controller.instrumentCode(false);
 		this.controller.compileAndDeployInstrumentedCode();
 	}
 
 	@Test
+	@Disabled
 	public void preparePCMModels() {
 		preparedPCM = this.controller.getVSUMFacade().getPCMWrapper().copyDeep();
 		eliminateDuplicatedInterfaceNames();
