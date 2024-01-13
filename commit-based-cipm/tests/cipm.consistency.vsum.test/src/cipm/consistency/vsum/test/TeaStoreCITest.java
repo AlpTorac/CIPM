@@ -176,15 +176,7 @@ public class TeaStoreCITest extends AbstractCITest {
 	}
 
 	@Override
-	protected ChangePropagationSpecification getJavaPCMSpecification() {
-		// Needed to instantiate the singleton CommitIntegrationSettingsContainer for the first time,
-		// so that CommitIntegrationController can be instantiated, since getJavaPCMSpecification() requires it
-		if (CommitIntegrationSettingsContainer.getSettingsContainer() == null) {
-			Path settingsPath = Paths.get(getSettingsPath());
-			CommitIntegrationSettingsContainer.initialize(settingsPath);
-			CommitIntegrationSettingsContainer.getSettingsContainer();
-		}
-		
+	protected ChangePropagationSpecification getJavaPCMSpecification() {		
 		return new CommitIntegrationJavaPCMChangePropagationSpecification();
 	}
 }
