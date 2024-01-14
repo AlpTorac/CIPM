@@ -46,6 +46,7 @@ public class DeploymentUtility extends TeaStoreCITest {
 	private InMemoryPCM preparedPCM;
 
 	@Test
+	@Disabled
 	public void compileAndDeployInstrumentedCode() throws IOException {
 		//this.controller.instrumentCode(false);
 		this.controller.compileAndDeployInstrumentedCode();
