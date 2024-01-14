@@ -700,7 +700,6 @@
         <setEntry value="cipm.consistency.domains.pcm@default:default"/>
         <setEntry value="cipm.consistency.models.instrumentation@default:default"/>
         <setEntry value="cipm.consistency.tools.evaluation.data@default:default"/>
-        <setEntry value="cipm.consistency.workflow@default:default"/>
         <setEntry value="org.splevo.commons@default:default"/>
         <setEntry value="org.splevo.diffing@default:default"/>
         <setEntry value="org.splevo.extraction@default:default"/>
