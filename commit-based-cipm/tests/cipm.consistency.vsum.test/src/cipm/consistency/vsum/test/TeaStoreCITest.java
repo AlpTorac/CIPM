@@ -2,8 +2,6 @@ package cipm.consistency.vsum.test;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -15,7 +13,6 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.commitintegration.diff.util.ComparisonBasedJaccardCoefficientCalculator;
 import cipm.consistency.commitintegration.diff.util.pcm.PCMModelComparator;
-import cipm.consistency.commitintegration.settings.CommitIntegrationSettingsContainer;
 import cipm.consistency.cpr.javapcm.CommitIntegrationJavaPCMChangePropagationSpecification;
 import tools.vitruv.framework.propagation.ChangePropagationSpecification;
 
@@ -176,7 +173,7 @@ public class TeaStoreCITest extends AbstractCITest {
 	}
 
 	@Override
-	protected ChangePropagationSpecification getJavaPCMSpecification() {		
+	protected ChangePropagationSpecification getJavaPCMSpecification() {
 		return new CommitIntegrationJavaPCMChangePropagationSpecification();
 	}
 }
