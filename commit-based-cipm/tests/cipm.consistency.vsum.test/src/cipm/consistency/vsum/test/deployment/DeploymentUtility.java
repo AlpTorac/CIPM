@@ -50,14 +50,6 @@ public class DeploymentUtility extends TeaStoreCITest {
 	public void compileAndDeployInstrumentedCode() throws IOException {
 		//this.controller.instrumentCode(false);
 		this.controller.compileAndDeployInstrumentedCode();
-		
-		/*
-		 * Problem: Creating a CommitIntegrationController requires a
-		 * CommitIntegrationSettingsContainer instance, which can only be
-		 * created by instantiating CommitIntegrationController in the first place.
-		 * 
-		 * Solved by instantiating CommitIntegrationSettingsContainer in TeaStoreCITest
-		 */
 	}
 
 	@Test
