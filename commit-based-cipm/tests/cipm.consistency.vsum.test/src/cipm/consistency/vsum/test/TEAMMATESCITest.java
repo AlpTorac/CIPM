@@ -36,7 +36,7 @@ public class TEAMMATESCITest extends AbstractCITest {
 
 	@Override
 	protected String getRepositoryPath() {
-		return "https://github.com/TEAMMATES/teammates";
+		return "file:///C:/Users/atora/OneDrive/Belgeler/GitHub/teammates";
 	}
 
 	@Override
