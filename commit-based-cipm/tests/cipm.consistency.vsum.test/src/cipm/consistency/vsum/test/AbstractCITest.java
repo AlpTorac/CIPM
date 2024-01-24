@@ -12,17 +12,21 @@ import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
+import cipm.consistency.commitintegration.IJavaModelParserListener;
+import cipm.consistency.commitintegration.JavaParserAndPropagatorUtils;
 import cipm.consistency.commitintegration.settings.CommitIntegrationSettingsContainer;
 import cipm.consistency.tools.evaluation.data.EvaluationDataContainer;
 import cipm.consistency.tools.evaluation.data.EvaluationDataContainerReaderWriter;
 import cipm.consistency.vsum.CommitIntegrationController;
 import tools.vitruv.framework.propagation.ChangePropagationSpecification;
+import tools.vitruv.framework.vsum.VirtualModel;
 
 /**
  * An abstract superclass for test cases providing the setup.
@@ -32,6 +36,7 @@ import tools.vitruv.framework.propagation.ChangePropagationSpecification;
 public abstract class AbstractCITest {
 	private static final Logger LOGGER = Logger.getLogger("cipm." + AbstractCITest.class.getSimpleName());
 	protected CommitIntegrationController controller;
+	protected int testNumber = 1;
 
 	@BeforeEach
 	public void setUp() throws Exception {
@@ -53,8 +58,57 @@ public abstract class AbstractCITest {
 			CommitIntegrationSettingsContainer.getSettingsContainer();
 		}
 		
+		this.addJavaModelParseListeners();
+		
 		controller = new CommitIntegrationController(Paths.get(getTestPath()), getRepositoryPath(),
 				Paths.get(getSettingsPath()), getJavaPCMSpecification());
+	}
+	
+	protected void addJavaModelParseListeners() {
+		var parseListener = new IJavaModelParserListener() {
+			private Path fiTestResourcePath;
+			
+			@Override
+			public void javaModelParsed(Path dir, Path target, VirtualModel vsum, Path configPath, Resource all) {
+				/* 
+				 * Changing the URI of the Resource all and
+				 * then calling all.save(null) results in NullPointerException
+				 */ 
+				try {
+					JavaParserAndPropagatorUtils.parseJavaCodeIntoOneModel(dir, this.fiTestResourcePath, configPath).save(null);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
+			@Override
+			public void setVariables(Object... vars) {
+				this.fiTestResourcePath = (Path) vars[0];
+			}
+		};
+		
+		var newPathString = this.getFiTestsTargetPath();
+		var newURI = URI.createFileURI(newPathString);
+		var newPath = Path.of(newPathString);
+		
+		LOGGER.debug("Setting listener path to: " + newPath.toString() + " made of: " + newURI.toString() + " made of: " + newPath);
+		parseListener.setVariables(newPath);
+		JavaParserAndPropagatorUtils.addParseListener(parseListener);
+	}
+	
+	protected abstract String getTestName();
+	
+	protected String getTestSpecificModelID() {
+		return "test" + this.testNumber;
+	}
+	
+	protected String getFiTestsTargetPath() {
+		var currentPath = new File(".").getAbsoluteFile();
+		var pathToTarget = currentPath.getParentFile().getParentFile().getParentFile().getAbsolutePath();
+		pathToTarget += File.separator + "fi-tests" + File.separator + "cipm.consistency.fitests" + File.separator + "target";
+		pathToTarget += File.separator + this.getTestName() + File.separator + "JavaModel-" + this.getTestSpecificModelID() + ".javaxmi";
+		return pathToTarget;
 	}
 	
 	protected void propagateMultipleCommits(String firstCommit, String lastCommit)
@@ -169,6 +223,7 @@ public abstract class AbstractCITest {
 	@AfterEach
 	public void tearDown() throws Exception {
 		controller.shutdown();
+		JavaParserAndPropagatorUtils.removeAllParseListeners();
 	}
 
 	/**
@@ -176,7 +231,9 @@ public abstract class AbstractCITest {
 	 * 
 	 * @return the path.
 	 */
-	protected abstract String getTestPath();
+	protected String getTestPath() {
+		return "target" + File.separator + this.getTestName();
+	}
 
 	/**
 	 * Returns the path to the remote repository from which the commits are fetched.
