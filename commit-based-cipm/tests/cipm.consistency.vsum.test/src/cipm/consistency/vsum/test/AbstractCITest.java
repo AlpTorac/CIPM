@@ -35,6 +35,20 @@ public abstract class AbstractCITest {
 
 	@BeforeEach
 	public void setUp() throws Exception {
+		this.initLogger();
+		this.initCommitIntegrationSettingsContainer();
+		this.prepareForControllerInit();
+		controller = this.initController();
+	}
+	
+	@AfterEach
+	public void tearDown() throws Exception {
+		controller.shutdown();
+	}
+	
+	protected void prepareForControllerInit() {}
+	
+	protected void initLogger() {
 		Logger logger = Logger.getLogger("cipm");
 		logger.setLevel(Level.ALL);
 		logger = Logger.getLogger("jamopp");
@@ -44,18 +58,23 @@ public abstract class AbstractCITest {
 		ConsoleAppender ap = new ConsoleAppender(new PatternLayout("[%d{DATE}] %-5p: %c - %m%n"),
 				ConsoleAppender.SYSTEM_OUT);
 		logger.addAppender(ap);
-		
+	}
+	
+	protected void initCommitIntegrationSettingsContainer() {
 		// Needed to instantiate the singleton CommitIntegrationSettingsContainer for the first time,
 		// so that CommitIntegrationController can be instantiated, since getJavaPCMSpecification() requires it
 		if (CommitIntegrationSettingsContainer.getSettingsContainer() == null) {
 			Path settingsPath = Paths.get(getSettingsPath());
 			CommitIntegrationSettingsContainer.initialize(settingsPath);
-			CommitIntegrationSettingsContainer.getSettingsContainer();
 		}
-		
-		controller = new CommitIntegrationController(Paths.get(getTestPath()), getRepositoryPath(),
+	}
+	
+	protected CommitIntegrationController initController() throws IOException, GitAPIException {
+		return new CommitIntegrationController(Paths.get(getTestPath()), getRepositoryPath(),
 				Paths.get(getSettingsPath()), getJavaPCMSpecification());
 	}
+	
+	protected abstract String getTestName();
 	
 	protected void propagateMultipleCommits(String firstCommit, String lastCommit)
 			throws InterruptedException, GitAPIException, IOException {
@@ -164,11 +183,6 @@ public abstract class AbstractCITest {
 				root.resolveSibling("EvaluationResult-" + newCommit
 						+ "-" + evalResult.getEvaluationTime() + ".json"));
 		LOGGER.debug("Finished the evaluation.");
-	}
-
-	@AfterEach
-	public void tearDown() throws Exception {
-		controller.shutdown();
 	}
 
 	/**
