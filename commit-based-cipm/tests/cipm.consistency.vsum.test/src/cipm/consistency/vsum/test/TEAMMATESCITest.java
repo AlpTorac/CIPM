@@ -9,7 +9,7 @@ public class TEAMMATESCITest extends AbstractRepoTest {
 		return new TeammatesRepoSettings();
 	}
 	
-//	@Disabled("Only one test case should run at once.")
+	@Disabled("Only one test case should run at once.")
 	@Test
 	public void testTeammatesIntegration() throws Exception {
 		// Integrates TEAMMATES version 8.0.0-rc.0.
