@@ -14,6 +14,7 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.compare.postprocessor.IPostProcessor;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -25,7 +26,10 @@ import cipm.consistency.commitintegration.diff.util.JavaModelComparator;
 public abstract class AbstractFITest {
 	private static final Logger LOGGER = Logger.getLogger("cipm." + AbstractFITest.class.getSimpleName());
 	
-	private final String workingResourcesPath = new File(this.getTargetPath()).getAbsoluteFile().getParentFile().getAbsolutePath() + File.separator + "tmp";
+	private final String workingResourcesPath = new File(this.getTargetPath())
+			.getAbsoluteFile()
+			.getParentFile()
+			.getAbsolutePath() + File.separator + "tmp";
 	
 	protected void setUpLogger() {
 		Logger logger = Logger.getLogger("cipm");
@@ -175,6 +179,9 @@ public abstract class AbstractFITest {
 		return cmp;
 	}
 	
+	/**
+	 * Asserts that a given resource is loaded successfully
+	 */
 	protected void assertResourceLoaded(Resource res) {
 		Assertions.assertNotNull(res);
 		Assertions.assertTrue(res.isLoaded());
@@ -195,8 +202,10 @@ public abstract class AbstractFITest {
 	}
 
 	/**
-	 * Asserts that all found matches, which reference found differences,
-	 * are also referenced from the said found differences.
+	 * Asserts that all found matches during the given comparison are
+	 * correctly referenced by their corresponding differences. Asserts
+	 * further that all of the said differences are also contained within
+	 * the list of differences found during comparison ({@code cmp.getDifferences()})
 	 */
 	protected void assertAllMatchDiffsHaveDiffs(Comparison cmp) {
 		var matches = cmp.getMatches();
@@ -204,15 +213,34 @@ public abstract class AbstractFITest {
 		
 		Assertions.assertTrue(matches.stream()
 				.allMatch(((m) -> {
-					var mDiffs = m.getAllDifferences();
-					boolean result = true;
-					
-					for (var md : mDiffs) {
-						result = result && diffs.contains(md);
+					// Make sure all differences the matches reference are
+					// contained in list of differences found during comparison.
+					for (var md : m.getAllDifferences()) {
+						// Fail as early as possible
+						if (!diffs.contains(md)) {
+							LOGGER.debug("A difference in matches is not contained in comparison differences");
+							return false;
+						}
 					}
 					
-					return result;
+					// Make sure that cross-referencing between matches and
+					// differences is correct
+					return this.matchToDiffReferencesCorrect(m);
 				})));
+	}
+
+	/**
+	 * @return Whether differences contained in the given match and its sub-matches
+	 * reference their corresponding matches correctly
+	 */
+	protected boolean matchToDiffReferencesCorrect(Match m) {
+		var directDiffsCorrect = m.getDifferences().stream()
+				.allMatch((md) -> md.getMatch() == m);
+		
+		var indirectDiffsCorrect = m.getSubmatches().stream()
+				.allMatch((sm) -> this.matchToDiffReferencesCorrect(sm));
+		
+		return directDiffsCorrect && indirectDiffsCorrect;
 	}
 	
 	/**
@@ -229,11 +257,18 @@ public abstract class AbstractFITest {
 				.allMatch(((d) -> {
 					var diffMatch = d.getMatch();
 					
+					/* 
+					 * Make sure that the match of the difference
+					 * has a direct reference to it as well
+					 */
+					boolean result = diffMatch.getDifferences().contains(d);
+					
 					/*
 					 * Match referenced in difference should either be
-					 * in "matches" or be a sub-match of a match in "matches"
+					 * in cmp.getMatches() or be a sub-match of a match
+					 * in cmp.getMatches()
 					 */
-					boolean result = matches.contains(diffMatch) ||
+					result = result && (matches.contains(diffMatch) ||
 							matches.stream().anyMatch((m) -> {
 								for (var sm : m.getAllSubmatches()) {
 									if (sm == diffMatch) {
@@ -241,22 +276,32 @@ public abstract class AbstractFITest {
 									}
 								}
 								return false;
-							});
+							}));
 					
 					if (!result) {
-						LOGGER.debug("A difference has no corresponding match");
+						LOGGER.debug("A difference has no corresponding match in comparison matches");
 					}
 					
 					return result;
 				})));
 	}
 	
+	/**
+	 * Asserts that the given resource contains no errors
+	 * 
+	 * {@code res.getErrors() == 0}
+	 */
 	protected void assertNoResourceErrors(Resource res) {
 		var errors = res.getErrors();
 		errors.forEach((e) -> LOGGER.debug("Error while loading: " + e.getMessage()));
 		Assertions.assertEquals(errors.size(), 0);
 	}
 	
+	/**
+	 * Asserts that the given resource contains no warnings
+	 * 
+	 * {@code res.getWarnings() == 0}
+	 */
 	protected void assertNoResourceWarnings(Resource res) {
 		var warnings = res.getWarnings();
 		warnings.forEach((e) -> LOGGER.debug("Warning while loading: " + e.getMessage()));

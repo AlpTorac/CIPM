@@ -56,7 +56,7 @@ public class TEAMMATESCITest extends AbstractCITest {
 //		performIndependentEvaluation();
 	}
 	
-//	@Disabled("Only one test case should run at once.")
+	@Disabled("Only one test case should run at once.")
 	@Test
 	public void testTeammatesFirstPropagation() throws Exception {
 		executePropagationAndEvaluation(COMMIT_HASHES[0], COMMIT_HASHES[1], 1);
