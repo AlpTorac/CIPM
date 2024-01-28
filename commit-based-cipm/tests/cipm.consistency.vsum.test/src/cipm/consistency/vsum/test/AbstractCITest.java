@@ -36,10 +36,23 @@ import tools.vitruv.framework.vsum.VirtualModel;
 public abstract class AbstractCITest {
 	private static final Logger LOGGER = Logger.getLogger("cipm." + AbstractCITest.class.getSimpleName());
 	protected CommitIntegrationController controller;
-	protected int testNumber = 1;
 
 	@BeforeEach
 	public void setUp() throws Exception {
+		this.initLogger();
+		this.initCommitIntegrationSettingsContainer();
+		this.prepareForControllerInit();
+		controller = this.initController();
+	}
+	
+	@AfterEach
+	public void tearDown() throws Exception {
+		controller.shutdown();
+	}
+	
+	protected void prepareForControllerInit() {}
+	
+	protected void initLogger() {
 		Logger logger = Logger.getLogger("cipm");
 		logger.setLevel(Level.ALL);
 		logger = Logger.getLogger("jamopp");
@@ -49,67 +62,23 @@ public abstract class AbstractCITest {
 		ConsoleAppender ap = new ConsoleAppender(new PatternLayout("[%d{DATE}] %-5p: %c - %m%n"),
 				ConsoleAppender.SYSTEM_OUT);
 		logger.addAppender(ap);
-		
+	}
+	
+	protected void initCommitIntegrationSettingsContainer() {
 		// Needed to instantiate the singleton CommitIntegrationSettingsContainer for the first time,
 		// so that CommitIntegrationController can be instantiated, since getJavaPCMSpecification() requires it
 		if (CommitIntegrationSettingsContainer.getSettingsContainer() == null) {
 			Path settingsPath = Paths.get(getSettingsPath());
 			CommitIntegrationSettingsContainer.initialize(settingsPath);
-			CommitIntegrationSettingsContainer.getSettingsContainer();
 		}
-		
-		this.addJavaModelParseListeners();
-		
-		controller = new CommitIntegrationController(Paths.get(getTestPath()), getRepositoryPath(),
+	}
+	
+	protected CommitIntegrationController initController() throws IOException, GitAPIException {
+		return new CommitIntegrationController(Paths.get(getTestPath()), getRepositoryPath(),
 				Paths.get(getSettingsPath()), getJavaPCMSpecification());
 	}
 	
-	protected void addJavaModelParseListeners() {
-		var parseListener = new IJavaModelParserListener() {
-			private Path fiTestResourcePath;
-			
-			@Override
-			public void javaModelParsed(Path dir, Path target, VirtualModel vsum, Path configPath, Resource all) {
-				/* 
-				 * Changing the URI of the Resource all and
-				 * then calling all.save(null) results in NullPointerException
-				 */ 
-				try {
-					JavaParserAndPropagatorUtils.parseJavaCodeIntoOneModel(dir, this.fiTestResourcePath, configPath).save(null);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-
-			@Override
-			public void setVariables(Object... vars) {
-				this.fiTestResourcePath = (Path) vars[0];
-			}
-		};
-		
-		var newPathString = this.getFiTestsTargetPath();
-		var newURI = URI.createFileURI(newPathString);
-		var newPath = Path.of(newPathString);
-		
-		LOGGER.debug("Setting listener path to: " + newPath.toString() + " made of: " + newURI.toString() + " made of: " + newPath);
-		parseListener.setVariables(newPath);
-		JavaParserAndPropagatorUtils.addParseListener(parseListener);
-	}
-	
 	protected abstract String getTestName();
-	
-	protected String getTestSpecificModelID() {
-		return "test" + this.testNumber;
-	}
-	
-	protected String getFiTestsTargetPath() {
-		var currentPath = new File(".").getAbsoluteFile();
-		var pathToTarget = currentPath.getParentFile().getParentFile().getParentFile().getAbsolutePath();
-		pathToTarget += File.separator + "fi-tests" + File.separator + "cipm.consistency.fitests" + File.separator + "target";
-		pathToTarget += File.separator + this.getTestName() + File.separator + "JavaModel-" + this.getTestSpecificModelID() + ".javaxmi";
-		return pathToTarget;
-	}
 	
 	protected void propagateMultipleCommits(String firstCommit, String lastCommit)
 			throws InterruptedException, GitAPIException, IOException {
@@ -218,12 +187,6 @@ public abstract class AbstractCITest {
 				root.resolveSibling("EvaluationResult-" + newCommit
 						+ "-" + evalResult.getEvaluationTime() + ".json"));
 		LOGGER.debug("Finished the evaluation.");
-	}
-
-	@AfterEach
-	public void tearDown() throws Exception {
-		controller.shutdown();
-		JavaParserAndPropagatorUtils.removeAllParseListeners();
 	}
 
 	/**
