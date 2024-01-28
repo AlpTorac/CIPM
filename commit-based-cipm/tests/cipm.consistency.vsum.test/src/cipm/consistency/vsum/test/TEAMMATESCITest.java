@@ -4,12 +4,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class TEAMMATESCITest extends AbstractTEAMMATESCITest {
-//	@Test
-//	public void test() {
-//		System.out.println("initialisation successful");
-//	}
-	
-	@Disabled("Only one test case should run at once.")
+//	@Disabled("Only one test case should run at once.")
 	@Test
 	public void testTeammatesIntegration() throws Exception {
 		// Integrates TEAMMATES version 8.0.0-rc.0.

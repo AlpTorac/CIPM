@@ -40,17 +40,21 @@ public abstract class AbstractCITest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		this.initLogger();
+		LOGGER.debug("Logger initialised");
+		
+		LOGGER.debug("Initialising settings container");
 		this.initCommitIntegrationSettingsContainer();
-		this.prepareForControllerInit();
+		LOGGER.debug("Initialised settings container");
+		
+		LOGGER.debug("Initialising controller");
 		controller = this.initController();
+		LOGGER.debug("Initialised controller");
 	}
 	
 	@AfterEach
 	public void tearDown() throws Exception {
 		controller.shutdown();
 	}
-	
-	protected void prepareForControllerInit() {}
 	
 	protected void initLogger() {
 		Logger logger = Logger.getLogger("cipm");
@@ -78,7 +82,10 @@ public abstract class AbstractCITest {
 				Paths.get(getSettingsPath()), getJavaPCMSpecification());
 	}
 	
-	protected abstract String getTestName();
+	/**
+	 * @return The name of the test group (example: TeammatesTest)
+	 */
+	protected abstract String getTestType();
 	
 	protected void propagateMultipleCommits(String firstCommit, String lastCommit)
 			throws InterruptedException, GitAPIException, IOException {
@@ -195,7 +202,7 @@ public abstract class AbstractCITest {
 	 * @return the path.
 	 */
 	protected String getTestPath() {
-		return "target" + File.separator + this.getTestName();
+		return "target" + File.separator + this.getTestType();
 	}
 
 	/**
