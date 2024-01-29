@@ -35,6 +35,8 @@ public abstract class AbstractFITest {
 		logger.setLevel(Level.ALL);
 		logger = Logger.getLogger("jamopp");
 		logger.setLevel(Level.ALL);
+		logger = Logger.getLogger("org.splevo.jamopp.diffing.similarity.SimilaritySwitch");
+		logger.setLevel(Level.ALL);
 		logger = Logger.getRootLogger();
 		logger.removeAllAppenders();
 		ConsoleAppender ap = new ConsoleAppender(new PatternLayout("[%d{DATE}] %-5p: %c - %m%n"),
