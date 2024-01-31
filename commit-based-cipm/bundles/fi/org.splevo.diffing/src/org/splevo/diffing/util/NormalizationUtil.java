@@ -29,6 +29,7 @@ import com.google.common.collect.Maps;
 public final class NormalizationUtil {
 
     private static Logger logger = Logger.getLogger(NormalizationUtil.class);
+    private static Logger fiLogger = Logger.getLogger("fi."+NormalizationUtil.class.getSimpleName());
 
     private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
@@ -84,7 +85,7 @@ public final class NormalizationUtil {
      * @return The prepared normalization pattern map.
      */
     public static LinkedHashMap<Pattern, String> loadRemoveNormalizations(String configString, String suffix) {
-
+    	fiLogger.debug("Loading remove normalisations (configString | suffix): " + configString + " | " + suffix);
         suffix = Strings.nullToEmpty(suffix);
         configString = Strings.nullToEmpty(configString);
 
@@ -95,11 +96,14 @@ public final class NormalizationUtil {
                 String patternString = "(.*)" + entry.substring(1) + suffix;
                 Pattern pattern = Pattern.compile(patternString);
                 normalizations.put(pattern, "$1" + suffix);
+                fiLogger.debug("Added remove normalisation pattern (key | value): " + pattern.toString() + " | " + "$1" + suffix);
             } else if (entry.endsWith("*")) {
                 String patternString = entry.substring(0, entry.length()) + "(.*)" + suffix;
                 Pattern pattern = Pattern.compile(patternString);
                 normalizations.put(pattern, "$1" + suffix);
+                fiLogger.debug("Added remove normalisation pattern (key | value): " + pattern.toString() + " | " + "$1" + suffix);
             } else {
+            	fiLogger.warn("Classifier normalization config without * wildcard: " + entry);
                 logger.warn("Classifier normalization config without * wildcard: " + entry);
                 continue;
             }
@@ -115,6 +119,7 @@ public final class NormalizationUtil {
      * @return The prepared normalization pattern map.
      */
     public static LinkedHashMap<Pattern, String> loadReplaceNormalizations(String configString) {
+    	fiLogger.debug("Loading remove normalisations from configuration string: " + configString);
         String normalizations = Strings.nullToEmpty(configString);
         Iterable<String> entries = Splitter.on(LINE_SEPARATOR).omitEmptyStrings().trimResults().split(normalizations);
         LinkedHashMap<Pattern, String> uriNormalizationPatterns = Maps.newLinkedHashMap();
@@ -126,6 +131,7 @@ public final class NormalizationUtil {
             }
             Pattern pattern = Pattern.compile(pair.get(0));
             uriNormalizationPatterns.put(pattern, pair.get(1));
+            fiLogger.debug("Added replace normalisation pattern (key | value): " + pattern.toString() + " | " + pair.get(1));
         }
         return uriNormalizationPatterns;
     }
