@@ -157,6 +157,11 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
 
     /** The logger for this class. */
     private Logger logger = Logger.getLogger(SimilaritySwitch.class);
+    
+    /** 
+     * The secondary, more detailed logger
+     */
+    private Logger fiLogger = Logger.getLogger("fi."+SimilaritySwitch.class.getSimpleName());
 
     /** The object to compare the switched element with. */
     private EObject compareElement = null;
@@ -209,7 +214,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
         addSwitch(new LayoutSimilaritySwitch());
         addSwitch(new ModulesSimilaritySwitch());
         
-        SSLoggingHelper.setLogger(logger);
+        SSLoggingHelper.setLogger(fiLogger);
     }
     
     static final class SSLoggingHelper {
@@ -222,6 +227,7 @@ public class SimilaritySwitch extends ComposedSwitch<Boolean> {
     	
     	static void setLogger(Logger logger) {
     		ssLogger = logger;
+    		ssLogger.debug("SimilaritySwitch logger set");
     	}
     	
     	static void setComparisonSubjectType(String cst) {
