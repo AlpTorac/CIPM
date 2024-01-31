@@ -61,7 +61,15 @@ public abstract class AbstractCITest {
 		logger.setLevel(Level.ALL);
 		logger = Logger.getLogger("jamopp");
 		logger.setLevel(Level.ALL);
-		logger = Logger.getLogger("org.splevo.jamopp.diffing.similarity.SimilaritySwitch");
+//		logger = Logger.getLogger("fi.SimilaritySwitch");
+//		logger.setLevel(Level.ALL);
+		logger = Logger.getLogger("fi.JaMoPPDiffBuilder");
+		logger.setLevel(Level.ALL);
+//		logger = Logger.getLogger("fi.HierarchicalMatchEngine");
+//		logger.setLevel(Level.ALL);
+		logger = Logger.getLogger("fi.JaMoPPSoftwareModelExtractor");
+		logger.setLevel(Level.ALL);
+		logger = Logger.getLogger("fi.NormalizationUtil");
 		logger.setLevel(Level.ALL);
 		logger = Logger.getRootLogger();
 		logger.removeAllAppenders();
