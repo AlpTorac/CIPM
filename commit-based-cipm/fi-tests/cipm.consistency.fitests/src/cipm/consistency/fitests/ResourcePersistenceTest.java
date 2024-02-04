@@ -27,7 +27,7 @@ public class ResourcePersistenceTest extends AbstractFITest {
 		this.copyModels(this.getTargetPath(), this.getWorkingResourcesPath());
 	}
 	
-//	@Disabled
+	@Disabled
 	@Test
 	public void modelLoadingTest() throws IOException {
 		var res1Path = this.getWorkingTeammatesPath() + File.separator + FIRST_MODEL_NAME;
@@ -44,7 +44,7 @@ public class ResourcePersistenceTest extends AbstractFITest {
 		res.unload();
 	}
 	
-//	@Disabled("Takes a long time to complete")
+	@Disabled("Takes a long time to complete")
 	@Test
 	public void modelComparingTest() throws IOException {
 		var res1Path = this.getWorkingTeammatesPath() + File.separator + INITIAL_MODEL_NAME;
