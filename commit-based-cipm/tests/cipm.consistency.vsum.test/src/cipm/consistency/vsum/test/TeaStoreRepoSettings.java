@@ -70,7 +70,7 @@ public class TeaStoreRepoSettings extends AbstractRepoSettings {
 
 	@Override
 	public String getRepositoryAddress() {
-		return "https://github.com/DescartesResearch/TeaStore";
+		return "file:///C:/Users/atora/OneDrive/Belgeler/GitHub/TeaStore";
 	}
 
 	@Override
