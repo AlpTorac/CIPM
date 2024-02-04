@@ -31,7 +31,7 @@ public class TeammatesRepoSettings extends AbstractRepoSettings {
 	}
 
 	@Override
-	public String getTestType() {
+	public String getTestGroup() {
 		return "TeammatesTest";
 	}
 
