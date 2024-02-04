@@ -46,7 +46,7 @@ public class FITeammatesTestResourceGenerator extends AbstractFITestResourceGene
 	}
 
 	@Override
-	protected AbstractRepoSettings initRepoSettings() {
+	protected HasRepoSettings initRepoSettings() {
 		return new TeammatesRepoSettings();
 	}
 }
