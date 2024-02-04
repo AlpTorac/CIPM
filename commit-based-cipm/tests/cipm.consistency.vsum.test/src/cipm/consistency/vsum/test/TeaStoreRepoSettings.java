@@ -84,7 +84,7 @@ public class TeaStoreRepoSettings implements HasRepoSettings {
 	}
 	
 	@Override
-	public ComponentDetectionStrategy getComponentDetectionStrategy() {
+	public ComponentDetectionStrategy[] getComponentDetectionStrategy() {
 		return null;
 	}
 
