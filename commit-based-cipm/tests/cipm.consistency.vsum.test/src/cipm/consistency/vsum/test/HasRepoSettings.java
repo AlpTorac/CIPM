@@ -1,5 +1,6 @@
 package cipm.consistency.vsum.test;
 
+import cipm.consistency.commitintegration.JavaParserAndPropagatorUtils;
 import cipm.consistency.commitintegration.detection.ComponentDetectionStrategy;
 import tools.vitruv.framework.propagation.ChangePropagationSpecification;
 
@@ -58,10 +59,10 @@ public interface HasRepoSettings {
 		return this.getRepoSettings().getJavaPCMSpec();
 	}
 	/**
-	 * @return The component detection strategy, which may be required
-	 * by some test cases
+	 * @return The component detection strategies, which may be required
+	 * by {@link JavaParserAndPropagatorUtils.Configuration} in some cases
 	 */
-	public default ComponentDetectionStrategy getComponentDetectionStrategy() {
+	public default ComponentDetectionStrategy[] getComponentDetectionStrategy() {
 		return this.getRepoSettings().getComponentDetectionStrategy();
 	}
 	
