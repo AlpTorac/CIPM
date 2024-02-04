@@ -42,6 +42,7 @@ import cipm.consistency.vsum.test.TeaStoreCITest;
  * 
  * @author Martin Armbruster
  */
+@Disabled("Do not run TeaStoreCITest twice")
 public class DeploymentUtility extends TeaStoreCITest {
 	private InMemoryPCM preparedPCM;
 
