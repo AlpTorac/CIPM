@@ -61,8 +61,8 @@ public class TeammatesRepoSettings implements HasRepoSettings {
 	}
 
 	@Override
-	public ComponentDetectionStrategy getComponentDetectionStrategy() {
-		return new TEAMMATESComponentDetectionStrategy();
+	public ComponentDetectionStrategy[] getComponentDetectionStrategy() {
+		return new ComponentDetectionStrategy[] {new TEAMMATESComponentDetectionStrategy()};
 	}
 
 	@Override
