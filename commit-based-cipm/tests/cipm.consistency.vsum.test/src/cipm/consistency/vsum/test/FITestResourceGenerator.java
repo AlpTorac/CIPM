@@ -18,7 +18,7 @@ import tools.vitruv.framework.vsum.VirtualModel;
  * FirstInstance tests (fitests). 
  * <br><br>
  * It has to be initialised via {@link #init(String, String, boolean)} and finalised via
- * {@link #finalise()} to add and remove the hook respectively. If the boolean parameter, fastReturn,
+ * {@link #cleanUp()} to add and remove the hook respectively. If the boolean parameter, fastReturn,
  * is set to true, the generation of the test resource will result in a {@link ResourceGeneratedException},
  * which has to be caught by passing the action that generates the test resource as a Callable instance
  * to {@link #generateResourceWhile(Callable)}.
@@ -33,58 +33,84 @@ class FITestResourceGenerator {
 	private static final Logger LOGGER = Logger.getLogger("cipm." + FITestResourceGenerator.class.getSimpleName());
 	private IJavaModelParserListener parseListener;
 	
+	private String testType;
+	private String extension;
+	
 	/**
 	 * If the boolean parameter, fastReturn, is set to true, the generation of the test resource
 	 * will result in a {@link ResourceGeneratedException}, which has to be caught by passing
 	 * the action that generates the test resource as a Callable instance
 	 * to {@link #generateResourceWhile(Callable)}.
 	 * 
-	 * @param testType The name of the test group ({@link AbstractCITest#getTestType()}
+	 * @param testType The name of the test group ({@link AbstractCITest#getTestType()})
 	 * @param modelFileName The name of the file, to which the generated Java model will be saved
 	 * @param fastReturn Whether the call chain should end with the generation of the new model
 	 * with an Exception, which will be caught internally (
 	 * {@link #generateResourceWhile(Callable)},
 	 * {@link #generateResource(Path, Path, VirtualModel, Path, Resource, boolean)}
 	 */
-	public void init(String testType, String modelFileName, boolean fastReturn) {
-		this.removeListener();
+	public void init(String testType, String extension) {
+		this.testType = testType;
+		this.extension = extension;
+	}
+	
+	/**
+	 * The generation of the test resource
+	 * will result in a {@link ResourceGeneratedException}, which has to be caught by passing
+	 * the action that generates the test resource as a Callable instance
+	 * to {@link #generateResourceWhile(Callable)}.
+	 * 
+	 * @param testType The name of the test group ({@link AbstractCITest#getTestType()})
+	 * @param modelFileName The name of the file, to which the generated Java model will be saved
+	 * 
+	 * @see {@link #generateResourceWhile(Callable)}
+	 * @see {@link #generateResource(Path, Path, VirtualModel, Path, Resource, boolean)}
+	 */
+	protected void addModelGenerationHook(String modelFileName) {
+		this.removeModelGenerationHook();
 		
 		this.parseListener = new IJavaModelParserListener() {
 			private Path fiTestResourcePath;
-			private boolean fastReturn;
 			
 			@Override
 			public void javaModelParsed(Path dir, Path target, VirtualModel vsum, Path configPath, Resource all) {
-				generateResource(dir, this.fiTestResourcePath, vsum, configPath, all, this.fastReturn);
+				generateResource(dir, this.fiTestResourcePath, vsum, configPath, all);
 			}
 
 			@Override
 			public void setVariables(Object... vars) {
 				this.fiTestResourcePath = (Path) vars[0];
-				this.fastReturn = (boolean) vars[1];
 			}
 		};
 		
-		var newPathString = this.getFITestsTargetResourcePath(testType, modelFileName);
+		var newPathString = this.getFITestsTargetResourcePath(this.getTestType(), modelFileName);
 		var newURI = URI.createFileURI(newPathString);
 		var newPath = Path.of(newPathString);
 		
 		LOGGER.debug("Setting listener path to: " + newPath.toString() + " made of: " + newURI.toString() + " made of: " + newPath);
-		this.parseListener.setVariables(newPath, fastReturn);
+		this.parseListener.setVariables(newPath);
 		JavaParserAndPropagatorUtils.addParseListener(this.parseListener);
+	}
+	
+	public String getTestType() {
+		return this.testType;
+	}
+	
+	public String getExtension() {
+		return this.extension;
 	}
 	
 	/**
 	 * Method to be called to clean up
 	 */
-	public void finalise() {
-		this.removeListener();
+	public void cleanUp() {
+		this.removeModelGenerationHook();
 	}
 
 	/**
 	 * Removes the hook from {@link JavaParserAndPropagatorUtils}
 	 */
-	protected void removeListener() {
+	protected void removeModelGenerationHook() {
 		if (this.parseListener != null) {
 			JavaParserAndPropagatorUtils.removeParseListener(this.parseListener);
 		}
@@ -117,7 +143,7 @@ class FITestResourceGenerator {
 	 */
 	protected String getFITestsTargetResourcePath(String testType, String modelFileName) {
 		return  this.getFITestsAbsoluteTargetPath() + File.separator +
-				testType + File.separator + modelFileName + ".javaxmi";
+				testType + File.separator + modelFileName + this.getExtension();
 	}
 	
 	/**
@@ -137,26 +163,19 @@ class FITestResourceGenerator {
 	
 	/**
 	 * Generates the FirstInstance test resource. Meant to be used only the listener defined
-	 * in {@link #init(String, String, boolean)}
+	 * in {@link #init(String, String)}
 	 * 
-	 * Throws a {@link ResourceGeneratedException} return as soon as the said test resource is generated,
-	 * if the fastReturn parameter is true.
+	 * Throws a {@link ResourceGeneratedException} return as soon as the said test resource is generated
 	 */
-	protected void generateResource(Path dir, Path target, VirtualModel vsum, Path configPath, Resource all, boolean fastReturn) {
-		/* 
-		 * Changing the URI of the Resource all and
-		 * then calling all.save(null) results in NullPointerException
-		 */ 
+	protected void generateResource(Path dir, Path target, VirtualModel vsum, Path configPath, Resource all)
+			throws ResourceGeneratedException {
 		try {
 			JavaParserAndPropagatorUtils.parseJavaCodeIntoOneModel(dir, target, configPath).save(null);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		if (fastReturn) {
-			throw new ResourceGeneratedException();
-		}
+		throw new ResourceGeneratedException();
 	}
 
 	/**
