@@ -43,6 +43,11 @@ public abstract class AbstractRepoTest extends AbstractCITest implements HasRepo
 		return this.getSettingsAddress();
 	}
 	
+	@Override
+	protected String getTestType() {
+		return this.getTestGroup();
+	}
+	
 	protected void setJavaParserAndPropagatorUtilsConfig() {
 		var compDetectionStrategy = this.getComponentDetectionStrategy();
 		

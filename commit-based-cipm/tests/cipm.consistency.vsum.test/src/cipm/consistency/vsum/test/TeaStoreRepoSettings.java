@@ -64,7 +64,7 @@ public class TeaStoreRepoSettings extends AbstractRepoSettings {
 	}
 	
 	@Override
-	public String getTestType() {
+	public String getTestGroup() {
 		return "TeaStoreTest";
 	}
 
