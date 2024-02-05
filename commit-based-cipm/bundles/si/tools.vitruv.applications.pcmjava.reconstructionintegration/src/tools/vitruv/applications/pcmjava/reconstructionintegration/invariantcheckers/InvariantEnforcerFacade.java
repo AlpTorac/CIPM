@@ -2,8 +2,6 @@ package tools.vitruv.applications.pcmjava.reconstructionintegration.invariantche
 
 import org.eclipse.emf.ecore.resource.Resource;
 
-import tools.vitruv.extensions.constructionsimulation.invariantcheckers.InvariantEnforcer;
-
 /**
  * The Class DynamicInvariantEnforcer.
  */

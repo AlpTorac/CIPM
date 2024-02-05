@@ -45,10 +45,7 @@ import tools.vitruv.framework.change.description.CompositeContainerChange;
 import tools.vitruv.framework.change.description.TransactionalChange;
 import tools.vitruv.framework.change.description.VitruviusChange;
 import tools.vitruv.framework.change.description.VitruviusChangeFactory;
-import tools.vitruv.framework.change.recording.AtomicEmfChangeRecorder;
 import tools.vitruv.framework.domains.StateBasedChangeResolutionStrategy;
-import tools.vitruv.framework.uuid.UuidGeneratorAndResolver;
-import tools.vitruv.framework.uuid.UuidGeneratorAndResolverImpl;
 
 /**
  * An alternative implementation of {@link StateBasedChangeResolutionStrategy} if you are not using {@link DefaultStateBasedChangeResolutionStrategy}

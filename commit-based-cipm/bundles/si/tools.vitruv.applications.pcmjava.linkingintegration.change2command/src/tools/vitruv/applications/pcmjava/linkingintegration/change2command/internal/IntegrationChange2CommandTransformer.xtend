@@ -1,29 +1,23 @@
 package tools.vitruv.applications.pcmjava.linkingintegration.change2command.internal
 
-import tools.vitruv.framework.tuid.Tuid
-import tools.vitruv.framework.correspondence.Correspondence
 import java.util.ArrayList
 import java.util.concurrent.Callable
+import mir.reactions.packageMappingIntegration.PackageMappingIntegrationChangePropagationSpecification
 import org.eclipse.emf.ecore.EObject
 import org.emftext.language.java.classifiers.Class
 import org.emftext.language.java.classifiers.Interface
 import org.emftext.language.java.containers.CompilationUnit
-
 import org.palladiosimulator.pcm.core.entity.NamedElement
-import tools.vitruv.framework.change.echange.root.InsertRootEObject
-import tools.vitruv.framework.change.echange.feature.reference.InsertEReference
-import tools.vitruv.framework.change.echange.root.RemoveRootEObject
-import tools.vitruv.framework.change.echange.feature.FeatureEChange
-import tools.vitruv.framework.correspondence.CorrespondenceModel
-import tools.vitruv.extensions.integration.correspondence.integration.IntegrationCorrespondence
-import tools.vitruv.framework.util.command.ResourceAccess
-import tools.vitruv.applications.pcmjava.linkingintegration.change2command.Java2PcmIntegrationChangePropagationSpecification
 import tools.vitruv.framework.change.description.TransactionalChange
-import tools.vitruv.applications.pcmjava.pojotransformations.java2pcm.Java2PcmChangePropagationSpecification
-import tools.vitruv.framework.userinteraction.UserInteractor
+import tools.vitruv.framework.change.echange.feature.FeatureEChange
+import tools.vitruv.framework.change.echange.feature.reference.InsertEReference
+import tools.vitruv.framework.change.echange.root.InsertRootEObject
+import tools.vitruv.framework.change.echange.root.RemoveRootEObject
+import tools.vitruv.framework.correspondence.Correspondence
+import tools.vitruv.framework.correspondence.CorrespondenceModel
+import tools.vitruv.framework.propagation.ResourceAccess
 import tools.vitruv.framework.userinteraction.UserInteractionOptions.WindowModality
-import tools.vitruv.extensions.integration.correspondence.util.IntegrationCorrespondenceModelViewFactory
-import mir.reactions.packageMappingIntegration.PackageMappingIntegrationChangePropagationSpecification
+import tools.vitruv.framework.userinteraction.UserInteractor
 
 class IntegrationChange2CommandTransformer {
 	

@@ -23,8 +23,8 @@ import org.somox.sourcecodedecorator.InterfaceSourceCodeLink
 import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink
 import org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl
 import tools.vitruv.framework.correspondence.CorrespondenceModel
-import tools.vitruv.framework.vsum.InternalVirtualModel
 import tools.vitruv.applications.pcmjava.reconstructionintegration.transformations.util.JamoppResourceHelper
+import tools.vitruv.framework.vsum.internal.InternalVirtualModel
 
 /**
  * Class that creates correspondences between PCM and JaMopp model elements.

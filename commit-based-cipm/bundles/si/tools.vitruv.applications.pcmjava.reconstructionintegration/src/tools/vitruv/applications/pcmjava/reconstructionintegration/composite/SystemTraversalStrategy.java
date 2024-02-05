@@ -6,9 +6,7 @@ import org.eclipse.emf.common.util.URI;
 import org.palladiosimulator.pcm.system.System;
 
 import tools.vitruv.applications.pcmjava.reconstructionintegration.util.PcmChangeBuildHelper;
-import tools.vitruv.extensions.constructionsimulation.traversal.ITraversalStrategy;
 import tools.vitruv.framework.change.description.VitruviusChange;
-import tools.vitruv.framework.util.datatypes.VURI;
 import tools.vitruv.framework.change.echange.EChange;
 import tools.vitruv.framework.change.description.VitruviusChangeFactory;
 

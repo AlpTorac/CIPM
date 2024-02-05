@@ -4,13 +4,11 @@ import tools.vitruv.framework.correspondence.CorrespondenceModel
 import java.util.ArrayList
 import tools.vitruv.applications.pcmjava.linkingintegration.change2command.internal.IntegrationChange2CommandTransformer
 import tools.vitruv.framework.change.description.TransactionalChange
-import tools.vitruv.framework.change.description.CompositeTransactionalChange
-import tools.vitruv.framework.change.description.ConcreteChange
-import tools.vitruv.framework.change.processing.impl.AbstractChangePropagationSpecification
 import tools.vitruv.domains.java.JavaDomainProvider
 import tools.vitruv.domains.pcm.PcmDomainProvider
-import tools.vitruv.framework.util.command.ResourceAccess
 import tools.vitruv.framework.userinteraction.UserInteractor
+import tools.vitruv.framework.propagation.impl.AbstractChangePropagationSpecification
+import tools.vitruv.framework.propagation.ResourceAccess
 
 class CodeIntegrationChangeProcessor extends AbstractChangePropagationSpecification {
 	private val IntegrationChange2CommandTransformer integrationTransformer;

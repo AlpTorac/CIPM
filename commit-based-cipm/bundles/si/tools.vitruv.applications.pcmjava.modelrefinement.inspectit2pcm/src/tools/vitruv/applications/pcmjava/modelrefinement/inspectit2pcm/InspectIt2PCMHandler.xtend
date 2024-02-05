@@ -37,22 +37,11 @@ import org.palladiosimulator.pcm.repository.OperationInterface
 import org.palladiosimulator.pcm.repository.Repository
 import org.palladiosimulator.pcm.seff.ServiceEffectSpecification
 import org.somox.analyzer.SimpleAnalysisResult
-import org.somox.analyzer.simplemodelanalyzer.jobs.SoMoXBlackboard
-import org.somox.ejbmox.inspectit2pcm.launch.II2PCMConfiguration
-import org.somox.ejbmox.inspectit2pcm.launch.II2PCMConfigurationBuilder
-import org.somox.ejbmox.inspectit2pcm.launch.InspectIT2PCMConfigurationAttributes
-import org.somox.ejbmox.inspectit2pcm.workflow.II2PCMJob
 import org.somox.sourcecodedecorator.SourceCodeDecoratorRepository
 import org.somox.sourcecodedecorator.SourcecodedecoratorFactory
-import tools.vitruv.applications.pcmjava.util.PcmJavaRepositoryCreationUtil
 import tools.vitruv.framework.correspondence.CorrespondenceModel
-import tools.vitruv.framework.userinteraction.impl.UserInteractor
-import tools.vitruv.framework.util.bridges.EcoreResourceBridge
-import tools.vitruv.framework.vsum.VirtualModelConfiguration
-import tools.vitruv.framework.vsum.VirtualModelImpl
-import tools.vitruv.testutils.util.TestUtil
-
-import static extension tools.vitruv.framework.correspondence.CorrespondenceModelUtil.*
+import tools.vitruv.framework.userinteraction.UserInteractor
+import tools.vitruv.framework.vsum.internal.VirtualModelImpl
 
 /** 
  * Handler to enrich the coevolved PCM models with resource demands. Is based on the II2PCMJob from
@@ -86,11 +75,11 @@ class InspectIt2PCMHandler extends AbstractHandler {
             }
         });			
 		} catch (JobFailedException e) {
-			throw new RuntimeException('''Could not execute II2PCM Job. Reason: «e.toString()»''', e)
+			throw new RuntimeException('''Could not execute II2PCM Job. Reason: ï¿½e.toString()ï¿½''', e)
 		} 
 		
 		catch (UserCanceledException e) {
-			throw new RuntimeException('''Could not execute II2PCM Job. Reason: «e.toString()»''', e)
+			throw new RuntimeException('''Could not execute II2PCM Job. Reason: ï¿½e.toString()ï¿½''', e)
 		} 
 
 		return null

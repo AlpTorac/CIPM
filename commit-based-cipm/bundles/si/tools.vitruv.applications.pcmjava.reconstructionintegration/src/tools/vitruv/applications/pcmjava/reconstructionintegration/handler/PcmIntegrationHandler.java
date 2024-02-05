@@ -27,17 +27,9 @@ import tools.vitruv.applications.pcmjava.reconstructionintegration.strategies.Pc
 import tools.vitruv.applications.pcmjava.reconstructionintegration.util.PcmMetaModelConverter;
 import tools.vitruv.domains.java.JavaDomainProvider;
 import tools.vitruv.domains.pcm.PcmDomainProvider;
-import tools.vitruv.domains.pcm.util.RepositoryModelLoader;
-import tools.vitruv.extensions.constructionsimulation.handler.IntegrationHandler;
-import tools.vitruv.extensions.constructionsimulation.invariantcheckers.IMModelImplExtractor;
-import tools.vitruv.extensions.constructionsimulation.traversal.util.UnorderedReferencesRespectingEqualityHelper;
-import tools.vitruv.extensions.constructionsimulation.util.IntegrationUtil;
-import tools.vitruv.extensions.constructionsimulation.util.ResourceHelper;
 import tools.vitruv.framework.domains.VitruvDomain;
-import tools.vitruv.framework.util.datatypes.ModelInstance;
-import tools.vitruv.framework.util.datatypes.VURI;
-import tools.vitruv.framework.vsum.InternalVirtualModel;
 import tools.vitruv.framework.vsum.VirtualModel;
+import tools.vitruv.framework.vsum.internal.InternalVirtualModel;
 
 public class PcmIntegrationHandler extends IntegrationHandler<IFile> {
 

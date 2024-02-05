@@ -3,8 +3,6 @@ package tools.vitruv.applications.pcmjava.reconstructionintegration.invariantche
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 
-import tools.vitruv.extensions.constructionsimulation.invariantcheckers.IMModelImplExtractor;
-
 /**
  * Base class for traversal of different pcm model instances. (e.g. Repository, System) Is mainly
  * used as traversal strategy for rename invariant enforcers. Is ALWAYS used within a

@@ -9,9 +9,7 @@ import org.palladiosimulator.pcm.repository.CompositeComponent;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.repository.RepositoryComponent;
 
-import tools.vitruv.extensions.constructionsimulation.traversal.ITraversalStrategy;
 import tools.vitruv.framework.change.description.VitruviusChange;
-import tools.vitruv.framework.util.datatypes.VURI;
 
 /**
  * This class traverses all composed PCM entities that derive from ComposedProvidingRequiringEntity

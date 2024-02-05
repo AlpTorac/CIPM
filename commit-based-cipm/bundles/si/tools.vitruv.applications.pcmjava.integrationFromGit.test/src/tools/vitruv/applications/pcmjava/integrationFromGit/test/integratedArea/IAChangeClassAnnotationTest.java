@@ -31,6 +31,7 @@ import tools.vitruv.applications.pcmjava.integrationFromGit.GitRepository;
 import tools.vitruv.applications.pcmjava.integrationFromGit.test.ApplyingChangesTestUtil;
 import tools.vitruv.applications.pcmjava.integrationFromGit.test.commits.EuFpetersenCbsPc_integratedArea_fineGrained_commits;
 import tools.vitruv.framework.propagation.ChangePropagationSpecification;
+import tools.vitruv.framework.vsum.ChangePropagationListener;
 import tools.vitruv.framework.vsum.internal.InternalVirtualModel;
 
 /**
@@ -82,7 +83,7 @@ public class IAChangeClassAnnotationTest {
         //create change applier for copied repository
         changeApplier = new GitChangeApplier(gitRepository);
         //integrate test project in Vitruv
-        virtualModel = ApplyingChangesTestUtil.integrateProjectWithChangePropagationSpecification(testProject, changePropagationSpecifications, changeApplier);
+        virtualModel = ApplyingChangesTestUtil.integrateProjectWithChangePropagationSpecification(testProject, changePropagationSpecifications, (ChangePropagationListener) changeApplier);
         //checkout and track branch
         gitRepository.checkoutAndTrackBranch(EuFpetersenCbsPc_integratedArea_fineGrained_commits.CLASS_ANNOTATION_BRANCH_NAME);
         //get all commits from branch and save them in a Map. Commit hash as Key and commit itself as Value in the Map.

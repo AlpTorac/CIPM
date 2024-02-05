@@ -1,20 +1,17 @@
 package tools.vitruv.applications.pcmjava.seffstatements.ejbtransformations.java2pcm
 
-import tools.vitruv.applications.pcmjava.seffstatements.code2seff.BasicComponentFinding
-import tools.vitruv.framework.util.datatypes.VURI
 import java.util.List
 import org.apache.log4j.Logger
+import org.eclipse.emf.ecore.resource.ResourceSet
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
 import org.emftext.language.java.containers.ContainersFactory
 import org.emftext.language.java.containers.JavaRoot
 import org.emftext.language.java.containers.Package
 import org.emftext.language.java.members.Method
 import org.palladiosimulator.pcm.repository.BasicComponent
-
-import static extension tools.vitruv.framework.correspondence.CorrespondenceModelUtil.*
-import org.eclipse.emf.ecore.resource.ResourceSet
-import tools.vitruv.framework.correspondence.CorrespondenceModelUtil
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl
+import tools.vitruv.applications.pcmjava.seffstatements.code2seff.BasicComponentFinding
 import tools.vitruv.framework.correspondence.CorrespondenceModel
+import tools.vitruv.framework.correspondence.CorrespondenceModelUtil
 
 /**
  * Finds the corresponding basic component for a given method.

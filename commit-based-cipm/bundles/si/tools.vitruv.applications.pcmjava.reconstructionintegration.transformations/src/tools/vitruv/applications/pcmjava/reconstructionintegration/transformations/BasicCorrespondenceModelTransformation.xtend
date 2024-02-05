@@ -1,17 +1,13 @@
 package tools.vitruv.applications.pcmjava.reconstructionintegration.transformations
 
-import tools.vitruv.framework.correspondence.Correspondence
-import tools.vitruv.framework.util.bridges.EMFBridge
 import org.apache.log4j.Logger
 import org.eclipse.core.resources.ResourcesPlugin
 import org.eclipse.core.runtime.IPath
 import org.eclipse.emf.common.util.URI
 import org.eclipse.emf.ecore.EObject
-
-import static extension tools.vitruv.framework.correspondence.CorrespondenceModelUtil.*
-import static extension tools.vitruv.framework.util.bridges.CollectionBridge.*
-import tools.vitruv.framework.correspondence.CorrespondenceModel
 import org.eclipse.emf.ecore.util.EcoreUtil
+import tools.vitruv.framework.correspondence.Correspondence
+import tools.vitruv.framework.correspondence.CorrespondenceModel
 
 /**
  * Class that provides general methods for creating correspondences between two metamodels. 

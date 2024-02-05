@@ -9,13 +9,10 @@ import org.apache.log4j.Logger;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jdt.core.IJavaProject;
-
 import tools.vitruv.domains.java.JavaDomainProvider;
 import tools.vitruv.domains.pcm.PcmDomainProvider;
-import tools.vitruv.extensions.constructionsimulation.handler.IntegrationHandler;
-import tools.vitruv.extensions.constructionsimulation.util.IntegrationUtil;
 import tools.vitruv.framework.domains.VitruvDomain;
-import tools.vitruv.framework.vsum.InternalVirtualModel;
+import tools.vitruv.framework.vsum.internal.InternalVirtualModel;
 
 public class JavaIntegrationHandler extends IntegrationHandler<IJavaProject> {
 

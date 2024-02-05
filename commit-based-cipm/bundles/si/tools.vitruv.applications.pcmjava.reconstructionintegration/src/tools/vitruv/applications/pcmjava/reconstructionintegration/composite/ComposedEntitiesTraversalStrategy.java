@@ -1,6 +1,7 @@
 package tools.vitruv.applications.pcmjava.reconstructionintegration.composite;
 
-import static tools.vitruv.applications.pcmjava.reconstructionintegration.util.PcmChangeBuildHelper.*;
+import static tools.vitruv.applications.pcmjava.reconstructionintegration.util.PcmChangeBuildHelper.encapsulateChanges;
+
 import java.util.List;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -15,14 +16,12 @@ import org.palladiosimulator.pcm.repository.RepositoryComponent;
 import org.palladiosimulator.pcm.repository.Role;
 import org.palladiosimulator.pcm.system.System;
 
+import tools.vitruv.applications.pcmjava.reconstructionintegration.util.PcmChangeBuildHelper;
+import tools.vitruv.framework.change.description.CompositeContainerChange;
 import tools.vitruv.framework.change.description.VitruviusChange;
-import tools.vitruv.framework.util.datatypes.VURI;
+import tools.vitruv.framework.change.description.VitruviusChangeFactory;
 import tools.vitruv.framework.change.echange.EChange;
 import tools.vitruv.framework.change.echange.feature.reference.InsertEReference;
-import tools.vitruv.applications.pcmjava.reconstructionintegration.util.PcmChangeBuildHelper;
-import tools.vitruv.extensions.constructionsimulation.traversal.EMFTraversalStrategy;
-import tools.vitruv.framework.change.description.CompositeContainerChange;
-import tools.vitruv.framework.change.description.VitruviusChangeFactory;
 
 /**
  * This base class provides common methods used for traversing composed PCM entities that derive
