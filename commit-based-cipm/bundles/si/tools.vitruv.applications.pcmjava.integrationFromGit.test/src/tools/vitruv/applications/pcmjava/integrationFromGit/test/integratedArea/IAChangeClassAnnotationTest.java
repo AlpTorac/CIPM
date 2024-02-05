@@ -28,6 +28,7 @@ import org.junit.Test;
 
 import tools.vitruv.applications.pcmjava.integrationFromGit.GitChangeApplier;
 import tools.vitruv.applications.pcmjava.integrationFromGit.GitRepository;
+import tools.vitruv.applications.pcmjava.integrationFromGit.response.GitIntegrationChangePropagationSpecification;
 import tools.vitruv.applications.pcmjava.integrationFromGit.test.ApplyingChangesTestUtil;
 import tools.vitruv.applications.pcmjava.integrationFromGit.test.commits.EuFpetersenCbsPc_integratedArea_fineGrained_commits;
 import tools.vitruv.framework.propagation.ChangePropagationSpecification;
@@ -60,8 +61,6 @@ public class IAChangeClassAnnotationTest {
 	private static IWorkspace workspace;
 	//Vitruv Virtual Model. It contains all created JaMoPP models as well as correspondences between the JaMoPP and PCM models. 
 	private static InternalVirtualModel virtualModel;
-	//User dialog used for informing or asking user to make a decision about propagated changes
-	private static TestUserInteraction testUserInteractor;
 	//Git repository copied into workspace
 	private static GitRepository gitRepository;
 	//Git change applier. It applies commits on the integrated project

@@ -19,5 +19,7 @@ Require-Bundle: org.apache.log4j,
  tools.vitruv.applications.pcmjava.linkingintegration,
  tools.vitruv.framework.userinteraction,
  tools.vitruv.domains.pcm,
- tools.vitruv.domains.java
+ tools.vitruv.domains.java,
+ cipm.consistency.commitintegration,
+ tools.vitruv.framework.propagation
 Export-Package: tools.vitruv.applications.pcmjava.linkingintegration.ui.commands

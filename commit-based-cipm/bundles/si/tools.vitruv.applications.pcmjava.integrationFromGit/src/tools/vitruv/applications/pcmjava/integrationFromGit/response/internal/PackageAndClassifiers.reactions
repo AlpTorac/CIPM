@@ -6,7 +6,6 @@ import org.emftext.language.java.types.NamespaceClassifierReference
 import org.palladiosimulator.pcm.core.entity.Entity
 import org.palladiosimulator.pcm.repository.CollectionDataType
 import org.palladiosimulator.pcm.repository.CompositeDataType
-import org.palladiosimulator.pcm.repository.Repository
 import org.palladiosimulator.pcm.repository.RepositoryPackage
 import org.palladiosimulator.pcm.system.SystemPackage
 import tools.vitruv.framework.userinteraction.UserInteractionOptions.WindowModality
@@ -225,19 +224,19 @@ routine createArchitecturalElement(java::Package javaPackage, String name, Strin
 	action {
 		call {
 			val String userMsg = "A package or class has been created. Please decide whether and which corresponding architectural element should be created"
-			val String[] selections = #[Java2PcmUserSelection.SELECT_BASIC_COMPONENT.message,
-				Java2PcmUserSelection.SELECT_COMPOSITE_COMPONENT.message,
-				Java2PcmUserSelection.SELECT_SYSTEM.message,
-				Java2PcmUserSelection.SELECT_NOTHING_DECIDE_LATER.message
+			val String[] selections = #["SELECT_BASIC_COMPONENT",
+				"SELECT_COMPOSITE_COMPONENT",
+				"SELECT_SYSTEM",
+				"SELECT_NOTHING_DECIDE_LATER"
 			]
 			val selected = userInteractor.singleSelectionDialogBuilder.message(userMsg).choices(selections)
 				.windowModality(WindowModality.MODAL).startInteraction()
 			switch(selected) {
-				case Java2PcmUserSelection.SELECT_BASIC_COMPONENT.selection: 
+				case "SELECT_BASIC_COMPONENT": 
 					createBasicComponent(javaPackage, name, rootPackageName) 
-				case Java2PcmUserSelection.SELECT_COMPOSITE_COMPONENT.selection: 
+				case "SELECT_COMPOSITE_COMPONENT": 
 					createCompositeComponent(javaPackage, name, rootPackageName)
-				case Java2PcmUserSelection.SELECT_SYSTEM.selection: 
+				case "SELECT_SYSTEM": 
 					createOrFindSystem(javaPackage, name)
 			}
 		}
@@ -256,7 +255,7 @@ routine createOrFindPCMInterface(java::Interface javaInterface, java::Compilatio
 	action {
 		call {
 			val containingPackage = getContainingPackageFromCorrespondenceModel(javaInterface, correspondenceModel)
-			val pcmRepository = correspondenceModel.getAllEObjectsOfTypeInCorrespondences(typeof(Repository)).toList.get(0)
+//			val pcmRepository = correspondenceModel.getAllEObjectsOfTypeInCorrespondences(typeof(Repository)).toList.get(0)
 			createNonContractsInterface(javaInterface, compilationUnit, containingPackage)
 		}
 	}
@@ -269,12 +268,12 @@ routine createNonContractsInterface(java::Interface javaInterface, java::Compila
 		call {
 			val String userMsg = "Should an architectural interface be created for the interface " +
 					javaInterface.name + " ?"
-			val String[] selections = #[Java2PcmUserSelection.SELECT_CREATE_INTERFACE_NOT_IN_CONTRACTS.message,
-				Java2PcmUserSelection.SELECT_DONT_CREATE_INTERFACE_NOT_IN_CONTRACTS.message
+			val String[] selections = #["SELECT_CREATE_INTERFACE_NOT_IN_CONTRACTS",
+				"SELECT_DONT_CREATE_INTERFACE_NOT_IN_CONTRACTS"
 			]
 			val selected = userInteractor.singleSelectionDialogBuilder.message(userMsg).choices(selections)
 				.windowModality(WindowModality.MODAL).startInteraction()
-			if (selected == Java2PcmUserSelection.SELECT_CREATE_INTERFACE_NOT_IN_CONTRACTS.selection) {
+			if (selected.equals("SELECT_CREATE_INTERFACE_NOT_IN_CONTRACTS")) {
 				createInterface(javaInterface, compilationUnit, javaPackage)
 			}
 		}
@@ -287,7 +286,8 @@ routine createInterface(java::Interface javaInterface, java::CompilationUnit com
 			pcmInterface.entityName = javaInterface.name
 		}
 		call {
-			val pcmRepository = correspondenceModel.getAllEObjectsOfTypeInCorrespondences(typeof(Repository)).toList.get(0)
+//			val pcmRepository = correspondenceModel.getAllEObjectsOfTypeInCorrespondences(typeof(Repository)).toList.get(0)
+			val pcmRepository = pcmInterface.repository__Interface
 			
 			addInterfaceCorrespondence(pcmInterface, javaInterface, compilationUnit)
 			updateRepositoryInterfaces(pcmInterface, pcmRepository)
@@ -392,12 +392,12 @@ routine createOrFindArchitecturalElement(java::Package javaPackage, String conta
 
 routine createOrFindArchitecturalElementInPackage(java::Package javaPackage, java::Package containingPackage, String rootPackageName) {
 	match {
+		val pcmRepository = retrieve pcm::Repository corresponding to ContainersPackage.Literals.JAVA_ROOT
 		require absence of pcm::RepositoryComponent corresponding to javaPackage
 	}
 	action {
 		
 		call {
-			val pcmRepository = correspondenceModel.getAllEObjectsOfTypeInCorrespondences(typeof(Repository)).toList.get(0)
 			val pcmComponentCandidate = pcmRepository.components__Repository.findFirst[entityName == javaPackage.name.toFirstUpper]
 			if (pcmComponentCandidate === null) {
 				createArchitecturalElement(javaPackage, containingPackage.name, rootPackageName)
@@ -411,12 +411,13 @@ routine createOrFindArchitecturalElementInPackage(java::Package javaPackage, jav
 
 routine createOrFindRepository(java::Package javaPackage, String packageName, String newTag) {
 	match {
+		val pcmRepository = retrieve pcm::Repository corresponding to ContainersPackage.Literals.JAVA_ROOT
 		require absence of pcm::Repository corresponding to javaPackage tagged with newTag
 		require absence of pcm::Repository corresponding to ContainersPackage.Literals.PACKAGE
 	}
 	action {
 		call {
-			val foundRepository = correspondenceModel.getAllEObjectsOfTypeInCorrespondences(typeof(Repository)).toList.get(0)
+			val foundRepository = pcmRepository
 			ensureFirstCaseUpperCaseRepositoryNaming(foundRepository, javaPackage)
 			addRepositoryCorrespondence(foundRepository, javaPackage, newTag)
 		}
@@ -610,7 +611,8 @@ routine createBasicComponent(java::Package javaPackage, String name, String root
 			pcmBasicComponent.entityName = name
 		}
 		call {
-			val pcmRepository = correspondenceModel.getAllEObjectsOfTypeInCorrespondences(typeof(Repository)).toList.get(0)
+//			val pcmRepository = correspondenceModel.getAllEObjectsOfTypeInCorrespondences(typeof(Repository)).toList.get(0)
+			val pcmRepository = pcmBasicComponent.repository__RepositoryComponent
 			addCorrespondenceAndUpdateRepository(pcmBasicComponent, javaPackage, pcmRepository)
 		}
 	}
@@ -622,7 +624,8 @@ routine createCompositeComponent(java::Package javaPackage, String name, String 
 			pcmCompositeComponent.entityName = name
 		}		
 		call {
-			val pcmRepository = correspondenceModel.getAllEObjectsOfTypeInCorrespondences(typeof(Repository)).toList.get(0)
+//			val pcmRepository = correspondenceModel.getAllEObjectsOfTypeInCorrespondences(typeof(Repository)).toList.get(0)
+			val pcmRepository = pcmCompositeComponent.repository__RepositoryComponent
 			addCorrespondenceAndUpdateRepository(pcmCompositeComponent, javaPackage, pcmRepository)
 		}
 	}
@@ -770,16 +773,16 @@ routine createDataType(java::Class javaClass, java::CompilationUnit compilationU
 		call {
 			val String userMsg = "Class " + javaClass.name +
 						" has been created in the datatypes package. Please decide which kind of data type should be created."
-			val String[] selections = #[Java2PcmUserSelection.SELECT_COMPOSITE_DATA_TYPE.message,
-				Java2PcmUserSelection.SELECT_COLLECTION_DATA_TYPE.message,
-				Java2PcmUserSelection.SELECT_NOTHING_DECIDE_LATER.message
+			val String[] selections = #["SELECT_COMPOSITE_DATA_TYPE",
+				"SELECT_COLLECTION_DATA_TYPE",
+				"SELECT_NOTHING_DECIDE_LATER"
 			]
 			val selected = userInteractor.singleSelectionDialogBuilder.message(userMsg).choices(selections)
 				.windowModality(WindowModality.MODAL).startInteraction()
 			switch(selected) {
-				case Java2PcmUserSelection.SELECT_COMPOSITE_DATA_TYPE.selection: 
+				case "SELECT_COMPOSITE_DATA_TYPE": 
 					createOrFindCompositeDataType(javaClass, compilationUnit)
-				case Java2PcmUserSelection.SELECT_COLLECTION_DATA_TYPE.selection: 
+				case "SELECT_COLLECTION_DATA_TYPE": 
 					createOrFindCollectionDataType(javaClass, compilationUnit)
 			}
 		}

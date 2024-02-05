@@ -924,7 +924,7 @@ public abstract class ApplyingChangesTestUtil {
 			 return false;
 		 }
 		 
-		 final Set<RepositoryComponent> correspondingRepositoryComponents = CorrespondenceModelUtil.getCorrespondingEObjectsByType(virtualModel.getCorrespondenceModel(), classifier_JaMoPP, RepositoryComponent.class);
+		 final Set<RepositoryComponent> correspondingRepositoryComponents = CorrespondenceModelUtil.getCorrespondingEObjects(virtualModel.getCorrespondenceModel(), classifier_JaMoPP, RepositoryComponent.class);
 		 
 		 if (correspondingRepositoryComponents.size() == 1) {
 			 return true;
@@ -1031,7 +1031,7 @@ public abstract class ApplyingChangesTestUtil {
 				return false;
 		  }
 
-		  Set<InternalAction> internalActions_PCM = CorrespondenceModelUtil.getCorrespondingEObjectsByType(
+		  Set<InternalAction> internalActions_PCM = CorrespondenceModelUtil.getCorrespondingEObjects(
 					virtualModel.getCorrespondenceModel(), method_JaMoPP,  InternalAction.class);
 		  
 		  if (internalActions_PCM.size() == expectedNumberOfInternalActions) {
@@ -1057,7 +1057,7 @@ public abstract class ApplyingChangesTestUtil {
 				return false;
 			}
 
-			Set<ExternalCallAction> externalCalls_PCM = CorrespondenceModelUtil.getCorrespondingEObjectsByType(
+			Set<ExternalCallAction> externalCalls_PCM = CorrespondenceModelUtil.getCorrespondingEObjects(
 					virtualModel.getCorrespondenceModel(), method_JaMoPP,  ExternalCallAction.class);
 			if (externalCalls_PCM.size() == numberOfExpectedExternalCalls) {
 				return true;
@@ -1081,7 +1081,7 @@ public abstract class ApplyingChangesTestUtil {
 				return false;
 			}
 
-			Set<LoopAction> loopActions_PCM = CorrespondenceModelUtil.getCorrespondingEObjectsByType(
+			Set<LoopAction> loopActions_PCM = CorrespondenceModelUtil.getCorrespondingEObjects(
 					virtualModel.getCorrespondenceModel(), method_JaMoPP,  LoopAction.class);
 			if (loopActions_PCM.size() == 1) {
 				Iterator<LoopAction> iterator = loopActions_PCM.iterator();
@@ -1109,7 +1109,7 @@ public abstract class ApplyingChangesTestUtil {
 				return false;
 			}
 
-			Set<LoopAction> loopActions_PCM = CorrespondenceModelUtil.getCorrespondingEObjectsByType(
+			Set<LoopAction> loopActions_PCM = CorrespondenceModelUtil.getCorrespondingEObjects(
 					virtualModel.getCorrespondenceModel(), method_JaMoPP,  LoopAction.class);
 			if (loopActions_PCM.size() == 0) {
 				return true;
@@ -1133,7 +1133,7 @@ public abstract class ApplyingChangesTestUtil {
 				return false;
 			}
 
-			Set<BranchAction> branchActions_PCM = CorrespondenceModelUtil.getCorrespondingEObjectsByType(
+			Set<BranchAction> branchActions_PCM = CorrespondenceModelUtil.getCorrespondingEObjects(
 					virtualModel.getCorrespondenceModel(), method_JaMoPP,  BranchAction.class);
 			if (branchActions_PCM.size() == 1) {
 				Iterator<BranchAction> iterator = branchActions_PCM.iterator();
@@ -1171,7 +1171,7 @@ public abstract class ApplyingChangesTestUtil {
 				return false;
 			}
 
-			Set<BranchAction> branchActions_PCM = CorrespondenceModelUtil.getCorrespondingEObjectsByType(
+			Set<BranchAction> branchActions_PCM = CorrespondenceModelUtil.getCorrespondingEObjects(
 					virtualModel.getCorrespondenceModel(), method_JaMoPP,  BranchAction.class);
 			if (branchActions_PCM.size() == 0) {
 				return true;
@@ -1196,7 +1196,7 @@ public abstract class ApplyingChangesTestUtil {
 				return false;
 			}
 			//Find the corresponding PCM SEFF. If not found, look for an InternalAction or an ExternalCall corresponding to method_JaMoPP
-			Set<ResourceDemandingSEFF> SEFFs_PCM = CorrespondenceModelUtil.getCorrespondingEObjectsByType(
+			Set<ResourceDemandingSEFF> SEFFs_PCM = CorrespondenceModelUtil.getCorrespondingEObjects(
 					virtualModel.getCorrespondenceModel(), method_JaMoPP,  ResourceDemandingSEFF.class);
 			if (!SEFFs_PCM.isEmpty()) {
 				return true;
@@ -1221,7 +1221,7 @@ public abstract class ApplyingChangesTestUtil {
 			}
 			//Find the corresponding PCM OperationRequiredRole
 			//claimOne throws an exception if no or many correspondences was found
-			OperationSignature method_PCM = claimOne(CorrespondenceModelUtil.getCorrespondingEObjectsByType(
+			OperationSignature method_PCM = claimOne(CorrespondenceModelUtil.getCorrespondingEObjects(
 					virtualModel.getCorrespondenceModel(), method_JaMoPP,  OperationSignature.class));
 			
 			return true;
@@ -1244,7 +1244,7 @@ public abstract class ApplyingChangesTestUtil {
 			}
 			//Find the corresponding PCM OperationRequiredRole
 			//claimOne throws an exception if no or many correspondences was found
-			OperationSignature method_PCM = claimOne(CorrespondenceModelUtil.getCorrespondingEObjectsByType(
+			OperationSignature method_PCM = claimOne(CorrespondenceModelUtil.getCorrespondingEObjects(
 					virtualModel.getCorrespondenceModel(), method_JaMoPP,  OperationSignature.class));
 			DataType returnType = method_PCM.getReturnType__OperationSignature();
 			if (returnType instanceof PrimitiveDataType) {
@@ -1274,7 +1274,7 @@ public abstract class ApplyingChangesTestUtil {
 			}
 			//Find the corresponding PCM OperationRequiredRole
 			//claimOne throws an exception if no or many correspondences was found
-			OperationSignature method_PCM = claimOne(CorrespondenceModelUtil.getCorrespondingEObjectsByType(
+			OperationSignature method_PCM = claimOne(CorrespondenceModelUtil.getCorrespondingEObjects(
 					virtualModel.getCorrespondenceModel(), method_JaMoPP,  OperationSignature.class));
 			EList <Parameter> parameters = method_PCM.getParameters__OperationSignature();
 			for (Parameter parameter : parameters) {
@@ -1331,7 +1331,7 @@ public abstract class ApplyingChangesTestUtil {
 		}
 		//Find the corresponding PCM OperationRequiredRole
 		//claimOne throws an exception if no or many correspondences was found
-		OperationRequiredRole field_PCM = claimOne(CorrespondenceModelUtil.getCorrespondingEObjectsByType(
+		OperationRequiredRole field_PCM = claimOne(CorrespondenceModelUtil.getCorrespondingEObjects(
 				virtualModel.getCorrespondenceModel(), field_JaMoPP,  OperationRequiredRole.class));
 		
 		return true;
@@ -1356,7 +1356,7 @@ public abstract class ApplyingChangesTestUtil {
 			for (ClassifierReference classifierReference : ((NamespaceClassifierReferenceImpl) reference).getClassifierReferences()) {
 				if (classifierReference.getTarget().getName().equals(providedInterfaceName)) {
 					//Find the corresponding PCM OperationProvidedRole
-					Set<OperationProvidedRole> providedRoles = CorrespondenceModelUtil.getCorrespondingEObjectsByType(
+					Set<OperationProvidedRole> providedRoles = CorrespondenceModelUtil.getCorrespondingEObjects(
 							virtualModel.getCorrespondenceModel(), reference,  OperationProvidedRole.class);
 					for (OperationProvidedRole providedRole : providedRoles) {
 						if (providedRole.getEntityName().contains(providedInterfaceName)) {
@@ -1390,7 +1390,7 @@ public abstract class ApplyingChangesTestUtil {
 			for (ClassifierReference classifierReference : ((NamespaceClassifierReferenceImpl) reference).getClassifierReferences()) {
 				if (classifierReference.getTarget().getName().equals(providedInterfaceName)) {
 					//Find the corresponding PCM OperationProvidedRole
-					Set<OperationProvidedRole> providedRoles = CorrespondenceModelUtil.getCorrespondingEObjectsByType(
+					Set<OperationProvidedRole> providedRoles = CorrespondenceModelUtil.getCorrespondingEObjects(
 							virtualModel.getCorrespondenceModel(), reference,  OperationProvidedRole.class);
 					for (OperationProvidedRole providedRole : providedRoles) {
 						if (providedRole.getEntityName().contains(providedInterfaceName)) {
@@ -1467,7 +1467,7 @@ public abstract class ApplyingChangesTestUtil {
 			 return false;
 		 }
 		 
-		 final Set<RepositoryComponent> repoComponents = CorrespondenceModelUtil.getCorrespondingEObjectsByType(virtualModel.getCorrespondenceModel(), classifier_JaMoPP, RepositoryComponent.class);
+		 final Set<RepositoryComponent> repoComponents = CorrespondenceModelUtil.getCorrespondingEObjects(virtualModel.getCorrespondenceModel(), classifier_JaMoPP, RepositoryComponent.class);
 		//final Set<RepositoryComponent> repoComponents = virtualModel.getCorrespondenceModel().<RepositoryComponent>getAllEObjectsOfTypeInCorrespondences(RepositoryComponent.class);
 	    if (repoComponents.size() != 1) {
 	    	return false;
@@ -1503,7 +1503,7 @@ public abstract class ApplyingChangesTestUtil {
 		}
 		//Find the corresponding PCM OperationRequiredRole to the JaMoPP Field.
 
-		Set<OperationRequiredRole> fields_PCM = CorrespondenceModelUtil.getCorrespondingEObjectsByType(
+		Set<OperationRequiredRole> fields_PCM = CorrespondenceModelUtil.getCorrespondingEObjects(
 				virtualModel.getCorrespondenceModel(), field_JaMoPP, OperationRequiredRole.class);
 		
 		if (fields_PCM.isEmpty()) {
@@ -1536,7 +1536,7 @@ public abstract class ApplyingChangesTestUtil {
 			return false;
 		}
 		//Find the corresponding PCM InnerDeclaraion to the JaMoPP Field.
-		Set<OperationRequiredRole> fields_PCM = CorrespondenceModelUtil.getCorrespondingEObjectsByType(
+		Set<OperationRequiredRole> fields_PCM = CorrespondenceModelUtil.getCorrespondingEObjects(
 				virtualModel.getCorrespondenceModel(), field_JaMoPP, OperationRequiredRole.class);
 		if (fields_PCM.isEmpty()) {
 			return true;
@@ -1603,7 +1603,7 @@ public abstract class ApplyingChangesTestUtil {
 				return true;
 			}
 			//Find the corresponding PCM SEFF. If not found, look for an InternalAction or an ExternalCall corresponding to method_JaMoPP
-			Set<ResourceDemandingSEFF> SEFFs_PCM = CorrespondenceModelUtil.getCorrespondingEObjectsByType(
+			Set<ResourceDemandingSEFF> SEFFs_PCM = CorrespondenceModelUtil.getCorrespondingEObjects(
 					virtualModel.getCorrespondenceModel(), method_JaMoPP,  ResourceDemandingSEFF.class);
 			if (!SEFFs_PCM.isEmpty()) {
 				return false;
@@ -1619,7 +1619,7 @@ public abstract class ApplyingChangesTestUtil {
 				return true;
 			}
 			//Find the corresponding PCM OperationRequiredRole
-			Set<OperationSignature> methods_PCM = CorrespondenceModelUtil.getCorrespondingEObjectsByType(
+			Set<OperationSignature> methods_PCM = CorrespondenceModelUtil.getCorrespondingEObjects(
 					virtualModel.getCorrespondenceModel(), method_JaMoPP,  OperationSignature.class);
 			if (methods_PCM.isEmpty()) {
 				return true;

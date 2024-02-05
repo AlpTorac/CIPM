@@ -42,6 +42,7 @@ import tools.vitruv.framework.propagation.ChangePropagationSpecification;
 import tools.vitruv.framework.vsum.internal.InternalVirtualModel;
 import tools.vitruv.applications.pcmjava.integrationFromGit.GitChangeApplier;
 import tools.vitruv.applications.pcmjava.integrationFromGit.GitRepository;
+import tools.vitruv.applications.pcmjava.integrationFromGit.response.GitIntegrationChangePropagationSpecification;
 
 /**
  * Test for changing class annotation in Non-Integrated Area (NIA) 

@@ -12,10 +12,12 @@ import org.emftext.language.java.JavaClasspath;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
-import tools.vitruv.applications.pcmjava.commitintegration.domains.java.AdjustedJavaDomainProvider;
+import cipm.consistency.commitintegration.CommitChangePropagator;
+import tools.vitruv.domains.java.JavaDomainProvider;
 import tools.vitruv.framework.userinteraction.UserInteractionFactory;
 import tools.vitruv.framework.vsum.VirtualModel;
 import tools.vitruv.framework.vsum.VirtualModelBuilder;
+import tools.vitruv.framework.vsum.internal.InternalVirtualModel;
 
 public abstract class AbstractGitIntegrationTest {
 	protected VirtualModel vsum;
@@ -44,11 +46,11 @@ public abstract class AbstractGitIntegrationTest {
 		vsum = setUpVSUM();
 		File localRepo = new File(targetDir + File.separator + getRepository() + File.separator + ".git").getAbsoluteFile();
 		String repoCopy = Paths.get(targetDir, localRepoDirName).toAbsolutePath().toString();
-		prop = new CommitChangePropagator(localRepo, repoCopy, vsum);
+		prop = new CommitChangePropagator(localRepo, repoCopy, (InternalVirtualModel) vsum);
 	}
 	
 	private VirtualModel setUpVSUM() {
-		return new VirtualModelBuilder().withDomain(new AdjustedJavaDomainProvider().getDomain())
+		return new VirtualModelBuilder().withDomain(new JavaDomainProvider().getDomain())
 				.withStorageFolder(Paths.get(vsumDir))
 				.withUserInteractor(UserInteractionFactory.instance.createDialogUserInteractor())
 				.buildAndInitialize();

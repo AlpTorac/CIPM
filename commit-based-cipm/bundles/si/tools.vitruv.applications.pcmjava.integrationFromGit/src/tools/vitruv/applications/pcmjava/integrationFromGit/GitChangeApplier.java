@@ -44,16 +44,10 @@ import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.containers.JavaRoot;
 import org.emftext.language.java.containers.Package;
 
-import edu.kit.ipd.sdq.commons.util.org.eclipse.emf.common.util.URIUtil;
-import tools.vitruv.applications.pcmjava.tests.util.CompilationUnitManipulatorHelper;
-import tools.vitruv.applications.pcmjava.tests.util.Java2PcmTransformationTest;
-import tools.vitruv.applications.pcmjava.tests.util.SynchronizationAwaitCallback;
-import tools.vitruv.framework.util.bridges.EcoreResourceBridge;
-import tools.vitruv.framework.util.datatypes.VURI;
-import tools.vitruv.framework.vsum.InternalVirtualModel;
-import tools.vitruv.framework.vsum.modelsynchronization.ChangePropagationAbortCause;
-import tools.vitruv.framework.vsum.modelsynchronization.ChangePropagationListener;
+import tools.vitruv.framework.vsum.ChangePropagationAbortCause;
+import tools.vitruv.framework.vsum.ChangePropagationListener;
 //import tools.vitruv.domains.java.util.gitchangereplay.extractors.GumTreeChangeExtractor;
+import tools.vitruv.framework.vsum.internal.InternalVirtualModel;
 
 
 /**
@@ -64,10 +58,10 @@ import tools.vitruv.framework.vsum.modelsynchronization.ChangePropagationListene
  * @author Manar Mazkatli (advisor)
  *
  */
-public class GitChangeApplier implements SynchronizationAwaitCallback, ChangePropagationListener {
+public class GitChangeApplier implements ChangePropagationListener {
 
 	private GitRepository gitRepository;
-	private static final Logger logger = Logger.getLogger(Java2PcmTransformationTest.class.getSimpleName());
+	private static final Logger logger = Logger.getLogger(GitChangeApplier.class.getSimpleName());
 	private static int MAXIMUM_SYNC_WAITING_TIME = 10000;
 	private AtomicInteger expectedNumberOfSyncs = new AtomicInteger(0);
 	
@@ -319,12 +313,15 @@ public class GitChangeApplier implements SynchronizationAwaitCallback, ChangePro
 			//but changes must be applied on a JDT Model, what is only possible with TextEdit (see: org.eclipse.jdt.core.ICompilationUnit.applyTextEdit(TextEdit edit, IProgressMonitor monitor))	
 			List<TextEdit> textEdits = gitRepository.transformEditListIntoTextEdits(editList, oldContent, newContent);
 			//Apply changes on the given compilation unit
-			try {
-				CompilationUnitManipulatorHelper.editCompilationUnit(compilationUnit, this, textEdits.toArray(new TextEdit[textEdits.size()]));
-			} catch (JavaModelException e) {
-				System.err.println(e.getMessage());
-				e.printStackTrace();
-			}
+			textEdits.forEach((te) -> {
+				try {
+					compilationUnit.applyTextEdit(te, null);
+				} catch (JavaModelException e) {
+					System.err.println(e.getMessage());
+					e.printStackTrace();
+				}
+			});
+//				CompilationUnitManipulatorHelper.editCompilationUnit(compilationUnit, this, textEdits.toArray(new TextEdit[textEdits.size()]));
 		}
 		//Find the non-java file and replace its entire content with the new one
 		else {
@@ -461,7 +458,8 @@ public class GitChangeApplier implements SynchronizationAwaitCallback, ChangePro
 						//Set empty content on the new file. Necessary to inform Vitruv about the new created java file.
 						InsertEdit edit = new InsertEdit(0, elementContent);
 						try {
-							CompilationUnitManipulatorHelper.editCompilationUnit(compilationUnit, this, edit);
+							compilationUnit.applyTextEdit(edit, null);
+//							CompilationUnitManipulatorHelper.editCompilationUnit(compilationUnit, this, edit);
 						} catch (JavaModelException e) {
 							System.err.println(e.getMessage());
 							e.printStackTrace();
@@ -742,13 +740,13 @@ public class GitChangeApplier implements SynchronizationAwaitCallback, ChangePro
 				List<String> namespaceList = Arrays.asList(namespace);
 				jaMoPPPackage.setName(namespaceList.get(namespaceList.size() - 1));
 				jaMoPPPackage.getNamespaces().addAll(namespaceList.subList(0, namespaceList.size() - 1));
-				
 				ResourceSet resourceSet = new ResourceSetImpl();
-				VURI vuri = VURI.getInstance(project.getName() + "/src/" + currentPackage);
-				final Resource resource = resourceSet.createResource(vuri.getEMFUri());
+				URI vuri = URI.createURI(project.getName() + "/src/" + currentPackage);
+				final Resource resource = resourceSet.createResource(vuri);
 				
 				try {
-					EcoreResourceBridge.saveEObjectAsOnlyContent(jaMoPPPackage, resource);
+					resource.save(null);
+//					EcoreResourceBridge.saveEObjectAsOnlyContent(jaMoPPPackage, resource);
 				} catch (IOException e) {
 					System.err.println(e.getMessage());
 					e.printStackTrace();
@@ -787,12 +785,12 @@ public class GitChangeApplier implements SynchronizationAwaitCallback, ChangePro
 	 * @param elementName file
 	 * @return computed {@link VURI}
 	 */
-	public VURI getVURIForElementInPackage(final IPackageFragment packageFragment, final String elementName) {
+	public URI getVURIForElementInPackage(final IPackageFragment packageFragment, final String elementName) {
 		String vuriKey = packageFragment.getResource().getFullPath().toString() + "/" + elementName;
 		if (vuriKey.startsWith("/")) {
 			vuriKey = vuriKey.substring(1, vuriKey.length());
 		}
-		final VURI vuri = VURI.getInstance(vuriKey);
+		final URI vuri = URI.createURI(vuriKey);
 		return vuri;
 	}
 	
@@ -802,7 +800,7 @@ public class GitChangeApplier implements SynchronizationAwaitCallback, ChangePro
 	 * @param vuri given {@link VURI}
 	 * @return found {@link ConcreteClassifier}
 	 */
-	protected ConcreteClassifier getJaMoPPClassifierForVURI(final VURI vuri) {
+	protected ConcreteClassifier getJaMoPPClassifierForVURI(final URI vuri) {
 		final CompilationUnit cu = this.getJaMoPPRootForVURI(vuri);
 		final Classifier jaMoPPClassifier = cu.getClassifiers().get(0);
 		return (ConcreteClassifier) jaMoPPClassifier;
@@ -815,15 +813,25 @@ public class GitChangeApplier implements SynchronizationAwaitCallback, ChangePro
 	 * @param vuri given {@link VURI}
 	 * @return found {@link JavaRoot}
 	 */
-	private <T extends JavaRoot> T getJaMoPPRootForVURI(final VURI vuri) {
-		final Resource resource = URIUtil.loadResourceAtURI(vuri.getEMFUri(), new ResourceSetImpl());
+	private <T extends JavaRoot> T getJaMoPPRootForVURI(final URI vuri) {
+//		final Resource resource = URIUtil.loadResourceAtURI(vuri, new ResourceSetImpl());
+		final Resource resource = this.loadResourceAtURI(vuri, new ResourceSetImpl());
 		// unchecked is OK for the test.
 		@SuppressWarnings("unchecked")
 		final T javaRoot = (T) resource.getContents().get(0);
 		return javaRoot;
 	}
 
-	
+	private Resource loadResourceAtURI(final URI vuri, final ResourceSetImpl rSet) {
+		final Resource resource = rSet.createResource(vuri);
+		try {
+			resource.load(null);
+		} catch (IOException e) {
+			logger.debug("Resource could not be loaded");
+			return null;
+		}
+		return resource;
+	}
 	
 
     /**
@@ -926,7 +934,6 @@ public class GitChangeApplier implements SynchronizationAwaitCallback, ChangePro
 	 *
 	 * @param numberOfExpectedSynchronizationCalls usually equals 1
 	 */
-	@Override
 	public synchronized void waitForSynchronization(int numberOfExpectedSynchronizationCalls) {
 		expectedNumberOfSyncs.addAndGet(numberOfExpectedSynchronizationCalls);
 		logger.debug("Starting to wait for finished synchronization. Expected syncs: "
@@ -996,11 +1003,11 @@ public class GitChangeApplier implements SynchronizationAwaitCallback, ChangePro
 		//VURI vuriOld = VURI.getInstance(oldProjectState);
 		//final Resource resourceOld = URIUtil.loadResourceAtURI(URI.createPlatformResourceURI(oldProjectState.getLocationURI().toString())/*vuri.getEMFUri()*//*newProjectState.getLocationURI()*/, new ResourceSetImpl());
 		
-		VURI newVuriCompilationUnit = VURI.getInstance(newCompilationUnitState.getResource());
-		final Resource newResourceCompilationUnit = URIUtil.loadResourceAtURI(newVuriCompilationUnit.getEMFUri(), new ResourceSetImpl());
+		URI newVuriCompilationUnit = URI.createFileURI(newCompilationUnitState.getResource().getFullPath().toFile().getAbsolutePath());
+		final Resource newResourceCompilationUnit = this.loadResourceAtURI(newVuriCompilationUnit, new ResourceSetImpl());
 		
-		VURI oldVuriCompilationUnit = VURI.getInstance(oldCompilationUnitState.getResource());
-		final Resource oldResourceCompilationUnit = URIUtil.loadResourceAtURI(oldVuriCompilationUnit.getEMFUri(), new ResourceSetImpl());
+		URI oldVuriCompilationUnit = URI.createFileURI(oldCompilationUnitState.getResource().getFullPath().toFile().getAbsolutePath());
+		final Resource oldResourceCompilationUnit = this.loadResourceAtURI(oldVuriCompilationUnit, new ResourceSetImpl());
 		
 		virtualModel.propagateChangedState(newResourceCompilationUnit, oldResourceCompilationUnit.getURI());
 
