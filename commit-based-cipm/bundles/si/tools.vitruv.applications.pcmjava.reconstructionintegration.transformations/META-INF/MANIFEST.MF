@@ -30,6 +30,8 @@ Require-Bundle: org.apache.commons.logging,
  tools.vitruv.framework.correspondence,
  tools.vitruv.framework.vsum,
  tools.vitruv.applications.pcmjava.util,
- org.eclipse.core.commands
+ org.eclipse.core.commands,
+ tools.vitruv.domains.pcm,
+ tools.vitruv.domains.java
 Export-Package: tools.vitruv.applications.pcmjava.reconstructionintegration.transformations
 
