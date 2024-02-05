@@ -34,6 +34,7 @@ import org.emftext.language.java.parameters.Parametrizable
 import tools.vitruv.framework.correspondence.CorrespondenceModel
 import static extension edu.kit.ipd.sdq.commons.util.java.lang.IterableUtil.*
 import tools.vitruv.framework.vsum.internal.InternalVirtualModel
+import java.util.ArrayList
 
 /**
  * Class that creates correspondences between PCM and JaMopp model elements.
@@ -131,19 +132,20 @@ class PcmJavaCorrespondenceModelTransformation {
 
 		scdmRepo.dataTypeSourceCodeLink.forEach[createDataTypeCorrespondence]
 
-		findAndExecuteAfterTransformationExtensions()
+//		findAndExecuteAfterTransformationExtensions()
 
 		// forces saving of correspondence instance
-		this.vmodel.save()//VURI.getInstance(pcmRepo.eResource))
+		pcmRepo.eResource.save(null)
+//		this.vmodel.save()//VURI.getInstance(pcmRepo.eResource))
 	}
 
-	def private findAndExecuteAfterTransformationExtensions() {
-		EclipseBridge.getRegisteredExtensions(PcmJavaIntegrationExtending.ID,
-			VitruviusConstants.getExtensionPropertyName(), PcmJavaIntegrationExtending).forEach [
-			it.afterBasicTransformations(this)
-		]
-
-	}
+//	def private findAndExecuteAfterTransformationExtensions() {
+//		EclipseBridge.getRegisteredExtensions(PcmJavaIntegrationExtending.ID,
+//			VitruviusConstants.getExtensionPropertyName(), PcmJavaIntegrationExtending).forEach [
+//			it.afterBasicTransformations(this)
+//		]
+//
+//	}
 
 	private def createRepoPackageCorrespondence() {
 		addCorrespondence(pcmRepo, getRootPackage)
@@ -167,8 +169,8 @@ class PcmJavaCorrespondenceModelTransformation {
 				val deresolvedPcmRepo = deresolveIfNesessary(pcmRepo)
 				val deresolvedRootPackage = deresolveIfNesessary(getRootPackage)
 	
-				var parentRepoPackageCorr = getCorrespondencesBetween(cInstance, deresolvedPcmRepo.toList,
-					deresolvedRootPackage.toList).claimOne
+				var parentRepoPackageCorr = getCorrespondencesBetween(cInstance, deresolvedPcmRepo.eContents,
+					deresolvedRootPackage.eContents).claimOne
 	
 				// 2. Component <-> Package correspondence
 				addCorrespondence(pcmComponent, package, parentRepoPackageCorr)
@@ -189,8 +191,8 @@ class PcmJavaCorrespondenceModelTransformation {
 		// Get parent Repository <-> Package correspondence from correspondence instance	
 		val deresolvedPcmRepo = deresolveIfNesessary(pcmRepo)
 		val deresolvedRootPackage = deresolveIfNesessary(getRootPackage)
-		var parentCorrespondence = getCorrespondencesBetween(cInstance, deresolvedPcmRepo.toList,
-			deresolvedRootPackage.toList).claimOne
+		var parentCorrespondence = getCorrespondencesBetween(cInstance, deresolvedPcmRepo.eContents,
+			deresolvedRootPackage.eContents).claimOne
 
 		// 5. PCM Interface <-> CompUnit correspondence
 		addCorrespondence(pcmInterface, jamoppType.containingCompilationUnit, parentCorrespondence)
@@ -228,8 +230,8 @@ class PcmJavaCorrespondenceModelTransformation {
 		// Get parent Interface <-> Type correspondence from correspondence instance
 		val deresolvedPcmInterface = deresolveIfNesessary(pcmInterface)
 		val deresolvedJamoppInterface = deresolveIfNesessary(jamoppInterface)
-		var interfaceCorrespondence = getCorrespondencesBetween(cInstance, deresolvedPcmInterface.toList,
-			deresolvedJamoppInterface.toList)
+		var interfaceCorrespondence = getCorrespondencesBetween(cInstance, deresolvedPcmInterface.eContents,
+			deresolvedJamoppInterface.eContents)
 		if (interfaceCorrespondence.nullOrEmpty) {
 			return
 		}
@@ -256,8 +258,8 @@ class PcmJavaCorrespondenceModelTransformation {
 		// Get parent Repository <-> Package correspondence from correspondence instance
 		val deresolvedPcmRepo = deresolveIfNesessary(pcmRepo)
 		val deresolvedRootPackage = deresolveIfNesessary(getRootPackage)
-		var parentCorrespondence = getCorrespondencesBetween(cInstance, deresolvedPcmRepo.toList,
-			deresolvedRootPackage.toList).claimOne
+		var parentCorrespondence = getCorrespondencesBetween(cInstance, deresolvedPcmRepo.eContents,
+			deresolvedRootPackage.eContents).claimOne
 
 		// 9. PCM DataType <-> JaMopp CompUnit correspondence
 		addCorrespondence(pcmDataType, jamoppType.containingCompilationUnit, parentCorrespondence)
@@ -339,10 +341,9 @@ class PcmJavaCorrespondenceModelTransformation {
 		if (!cInstance.getCorrespondingEObjects(#[objectA]).flatten.exists[EcoreUtil.equals(it, objectB)]) { 
 			val useIntegrationCorrespondence = this.decideIntegrationCorrespondenceUsage(objectA, objectB)
 			if(useIntegrationCorrespondence){
-				val integrationCorrespondenceView = IntegrationCorrespondenceHelper.getEditableView(cInstance) 
-				correspondence = integrationCorrespondenceView.createAndAddCorrespondence(deresolvedA.toList, deresolvedB.toList, null)
+				correspondence = this.vmodel.correspondenceModel.createAndAddCorrespondence(deresolvedA.eContents, deresolvedB.eContents, null)
 			}else{ // create a standard reactions correspondence
-				correspondence = cInstance.createAndAddCorrespondence(deresolvedA, deresolvedB)
+				correspondence = cInstance.createAndAddCorrespondence(deresolvedA.eContents, deresolvedB.eContents)
 			}
 			//existingEntries.add(identifier)
 			logger.info("Created Correspondence for element: " + objectA + " and Element: " + objectB)
@@ -352,13 +353,17 @@ class PcmJavaCorrespondenceModelTransformation {
 	}
 	
 	def decideIntegrationCorrespondenceUsage(EObject objectA, EObject objectB) {
-		val correspondenceTypeDeciders = EclipseBridge.getRegisteredExtensions(CorrespondenceTypeDeciding.ID,
-			VitruviusConstants.getExtensionPropertyName(), CorrespondenceTypeDeciding)
-		val correspondenceTypeDecider = correspondenceTypeDeciders.claimNotMany
-		if(null === correspondenceTypeDecider){
-			return true
-		}
-		return correspondenceTypeDecider.useIntegratedCorrespondence(objectA, objectB, cInstance, this.jaMoppResources)
+//		val correspondenceTypeDeciders = EclipseBridge.getRegisteredExtensions(CorrespondenceTypeDeciding.ID,
+//			VitruviusConstants.getExtensionPropertyName(), CorrespondenceTypeDeciding)
+//		val correspondenceTypeDecider = correspondenceTypeDeciders.claimNotMany
+//		if(null === correspondenceTypeDecider){
+//			return true
+//		}
+		var objList = new ArrayList<EObject>()
+		objList.add(objectA)
+		objList.add(objectB)
+//		return correspondenceTypeDecider.useIntegratedCorrespondence(objectA, objectB, cInstance, this.jaMoppResources)
+		return cInstance.hasCorrespondences(objList)
 	}
 	
 	/**
@@ -373,7 +378,7 @@ class PcmJavaCorrespondenceModelTransformation {
 		if (!uri.platform) {
 			var base = URI.createFileURI(projectBase.toString + IPath.SEPARATOR)
 			var relativeUri = uri.deresolve(base)
-			object.eResource.URI = EMFBridge.createPlatformResourceURI(relativeUri.toString)
+			object.eResource.URI = URI.createPlatformResourceURI(relativeUri.toString)
 		}
 		return object
 	}
