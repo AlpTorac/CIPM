@@ -26,6 +26,8 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import tools.vitruv.applications.pcmjava.integrationFromGit.GitChangeApplier;
+import tools.vitruv.applications.pcmjava.integrationFromGit.GitRepository;
 import tools.vitruv.applications.pcmjava.integrationFromGit.test.ApplyingChangesTestUtil;
 import tools.vitruv.applications.pcmjava.integrationFromGit.test.commits.EuFpetersenCbsPc_integratedArea_fineGrained_commits;
 import tools.vitruv.framework.propagation.ChangePropagationSpecification;

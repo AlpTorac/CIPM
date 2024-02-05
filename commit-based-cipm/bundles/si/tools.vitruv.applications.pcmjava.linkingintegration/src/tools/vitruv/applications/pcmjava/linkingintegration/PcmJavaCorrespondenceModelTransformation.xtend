@@ -2,8 +2,6 @@ package tools.vitruv.applications.pcmjava.linkingintegration
 
 import tools.vitruv.framework.correspondence.Correspondence
 import tools.vitruv.framework.util.VitruviusConstants
-import tools.vitruv.framework.util.bridges.EMFBridge
-import tools.vitruv.framework.util.bridges.EclipseBridge
 import java.util.HashSet
 import java.util.List
 import java.util.Set
@@ -31,14 +29,11 @@ import org.somox.sourcecodedecorator.MethodLevelSourceCodeLink
 import org.somox.sourcecodedecorator.impl.SourceCodeDecoratorRepositoryImpl
 
 
-import static extension tools.vitruv.framework.correspondence.CorrespondenceModelUtil.*
-import static extension tools.vitruv.framework.util.bridges.CollectionBridge.*
 import org.emftext.language.java.members.Constructor
 import org.emftext.language.java.parameters.Parametrizable
 import tools.vitruv.framework.correspondence.CorrespondenceModel
-import tools.vitruv.extensions.integration.correspondence.util.IntegrationCorrespondenceHelper
-import tools.vitruv.framework.vsum.InternalVirtualModel
 import static extension edu.kit.ipd.sdq.commons.util.java.lang.IterableUtil.*
+import tools.vitruv.framework.vsum.internal.InternalVirtualModel
 
 /**
  * Class that creates correspondences between PCM and JaMopp model elements.

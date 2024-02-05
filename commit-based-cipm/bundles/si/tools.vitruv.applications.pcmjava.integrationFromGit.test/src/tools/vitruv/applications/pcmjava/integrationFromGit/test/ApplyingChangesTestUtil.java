@@ -107,6 +107,9 @@ import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.SeffFactory;
 
 import edu.kit.ipd.sdq.commons.util.org.eclipse.emf.common.util.URIUtil;
+import tools.vitruv.applications.pcmjava.integrationFromGit.GitChangeApplier;
+import tools.vitruv.applications.pcmjava.integrationFromGit.GitRepository;
+import tools.vitruv.applications.pcmjava.linkingintegration.PcmJavaCorrespondenceModelTransformation;
 import tools.vitruv.domains.java.JavaDomainProvider;
 import tools.vitruv.domains.pcm.PcmDomainProvider;
 import tools.vitruv.domains.pcm.PcmNamespace;

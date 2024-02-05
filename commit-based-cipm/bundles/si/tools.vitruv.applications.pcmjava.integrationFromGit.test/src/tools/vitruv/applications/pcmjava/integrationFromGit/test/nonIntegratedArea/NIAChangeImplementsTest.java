@@ -40,6 +40,8 @@ import tools.vitruv.framework.correspondence.Correspondence;
 import tools.vitruv.framework.correspondence.CorrespondenceModel;
 import tools.vitruv.framework.propagation.ChangePropagationSpecification;
 import tools.vitruv.framework.vsum.internal.InternalVirtualModel;
+import tools.vitruv.applications.pcmjava.integrationFromGit.GitChangeApplier;
+import tools.vitruv.applications.pcmjava.integrationFromGit.GitRepository;
 
 /**
  * Test for changing 'implements' in Non-Integrated Area (NIA) 
