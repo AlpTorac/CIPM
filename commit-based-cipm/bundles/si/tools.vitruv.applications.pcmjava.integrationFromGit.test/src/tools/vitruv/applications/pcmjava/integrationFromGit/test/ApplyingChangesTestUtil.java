@@ -105,40 +105,20 @@ import org.palladiosimulator.pcm.seff.LoopAction;
 import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.SeffFactory;
-//import org.somox.gast2seff.visitors.AbstractFunctionClassificationStrategy;
-//import org.somox.gast2seff.visitors.FunctionCallClassificationVisitor;
-//import org.somox.gast2seff.visitors.InterfaceOfExternalCallFindingFactory;
-//import org.somox.gast2seff.visitors.MethodCallFinder;
-//import org.somox.gast2seff.visitors.ResourceDemandingBehaviourForClassMethodFinding;
-//import org.somox.gast2seff.visitors.VisitorUtils;
 
 import edu.kit.ipd.sdq.commons.util.org.eclipse.emf.common.util.URIUtil;
-import tools.vitruv.applications.pcmjava.integrationFromGit.GitChangeApplier;
-import tools.vitruv.applications.pcmjava.integrationFromGit.GitRepository;
-import tools.vitruv.applications.pcmjava.linkingintegration.PcmJavaCorrespondenceModelTransformation;
-//import tools.vitruv.applications.pcmjava.seffstatements.code2seff.BasicComponentFinding;
-//import tools.vitruv.applications.pcmjava.seffstatements.pojotransformations.code2seff.PojoJava2PcmCodeToSeffFactory;
-//import tools.vitruv.applications.pcmjava.tests.util.CompilationUnitManipulatorHelper;
 import tools.vitruv.domains.java.JavaDomainProvider;
-import tools.vitruv.domains.java.builder.VitruviusJavaBuilder;
-import tools.vitruv.domains.java.builder.VitruviusJavaBuilderApplicator;
 import tools.vitruv.domains.pcm.PcmDomainProvider;
 import tools.vitruv.domains.pcm.PcmNamespace;
-import tools.vitruv.framework.change.processing.ChangePropagationSpecification;
 import tools.vitruv.framework.correspondence.CorrespondenceModelUtil;
 import tools.vitruv.framework.domains.StateBasedChangeResolutionStrategy;
 import tools.vitruv.framework.domains.VitruvDomain;
+import tools.vitruv.framework.propagation.ChangePropagationSpecification;
 import tools.vitruv.framework.userinteraction.InternalUserInteractor;
 import tools.vitruv.framework.userinteraction.UserInteractionFactory;
-import tools.vitruv.framework.util.datatypes.ModelInstance;
-import tools.vitruv.framework.util.datatypes.VURI;
-import tools.vitruv.framework.vsum.InternalVirtualModel;
-import tools.vitruv.framework.vsum.VirtualModelConfiguration;
-import tools.vitruv.framework.vsum.VirtualModelImpl;
-import tools.vitruv.framework.vsum.modelsynchronization.ChangePropagationListener;
-
-//import tools.vitruv.domains.java.monitorededitor.jamopputil.AST2Jamopp;
-//import tools.vitruv.domains.java.monitorededitor.javamodel2ast.JavaModel2AST;
+import tools.vitruv.framework.vsum.ChangePropagationListener;
+import tools.vitruv.framework.vsum.internal.InternalVirtualModel;
+import tools.vitruv.framework.vsum.internal.ModelInstance;
 
 /**
  * Contains many convenient methods used for testing. 

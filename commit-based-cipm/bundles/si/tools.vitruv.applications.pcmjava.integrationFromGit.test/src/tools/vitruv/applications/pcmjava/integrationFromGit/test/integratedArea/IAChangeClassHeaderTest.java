@@ -28,17 +28,11 @@ import org.junit.Test;
 import org.palladiosimulator.pcm.repository.BasicComponent;
 import org.palladiosimulator.pcm.repository.Repository;
 
-import tools.vitruv.applications.pcmjava.integrationFromGit.GitChangeApplier;
-import tools.vitruv.applications.pcmjava.integrationFromGit.GitRepository;
-import tools.vitruv.applications.pcmjava.integrationFromGit.response.GitIntegrationChangePropagationSpecification;
 import tools.vitruv.applications.pcmjava.integrationFromGit.test.ApplyingChangesTestUtil;
 import tools.vitruv.applications.pcmjava.integrationFromGit.test.commits.EuFpetersenCbsPc_integratedArea_fineGrained_commits;
-import tools.vitruv.applications.pcmjava.tests.util.CompilationUnitManipulatorHelper;
-import tools.vitruv.domains.java.builder.VitruviusJavaBuilderApplicator;
-import tools.vitruv.framework.change.processing.ChangePropagationSpecification;
 import tools.vitruv.framework.correspondence.CorrespondenceModelUtil;
-import tools.vitruv.framework.vsum.InternalVirtualModel;
-import tools.vitruv.testutils.TestUserInteraction;
+import tools.vitruv.framework.propagation.ChangePropagationSpecification;
+import tools.vitruv.framework.vsum.internal.InternalVirtualModel;
 
 /**
  * Test for changing class header in Integrated Area (IA) 

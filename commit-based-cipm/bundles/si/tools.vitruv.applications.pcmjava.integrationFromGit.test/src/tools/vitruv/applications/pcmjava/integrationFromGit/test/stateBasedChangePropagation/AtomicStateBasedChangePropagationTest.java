@@ -33,24 +33,15 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import tools.vitruv.applications.pcmjava.integrationFromGit.GitChangeApplier;
-import tools.vitruv.applications.pcmjava.integrationFromGit.GitRepository;
-
-import tools.vitruv.applications.pcmjava.integrationFromGit.propagation.GitStateBasedChangeResolutionStrategy;
-import tools.vitruv.applications.pcmjava.integrationFromGit.response.GitIntegrationChangePropagationSpecification;
-
 import tools.vitruv.applications.pcmjava.integrationFromGit.test.ApplyingChangesTestUtil;
 import tools.vitruv.applications.pcmjava.integrationFromGit.test.commits.EuFpetersenCbsPc_integratedArea_fineGrained_commits;
 import tools.vitruv.applications.pcmjava.integrationFromGit.test.commits.EuFpetersenCbsPc_nonIntegratedArea_compilationUnitChanges_coarseGrained_Commits;
-import tools.vitruv.applications.pcmjava.tests.util.CompilationUnitManipulatorHelper;
 import tools.vitruv.domains.java.JavaDomainProvider;
-import tools.vitruv.domains.java.builder.VitruviusJavaBuilderApplicator;
 import tools.vitruv.domains.pcm.PcmDomainProvider;
-import tools.vitruv.framework.change.processing.ChangePropagationSpecification;
 import tools.vitruv.framework.correspondence.Correspondence;
 import tools.vitruv.framework.correspondence.CorrespondenceModel;
-import tools.vitruv.framework.vsum.InternalVirtualModel;
-import tools.vitruv.testutils.TestUserInteraction;
+import tools.vitruv.framework.propagation.ChangePropagationSpecification;
+import tools.vitruv.framework.vsum.internal.InternalVirtualModel;
 
 /**
  * Test for changing a method header in Integrated Area (IA) with State Based Propagation Strategy (SBPS)
