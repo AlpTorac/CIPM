@@ -52,7 +52,12 @@ public class TeammatesRepoSettings implements HasRepoSettings {
 
 	@Override
 	public String getSettingsAddress() {
-		return "teammates-exec-files" + File.separator + "settings.properties";
+		return this.getExecFilesAddress() + File.separator + "settings.properties";
+	}
+	
+	@Override
+	public String getExecFilesAddress() {
+		return "teammates-exec-files";
 	}
 
 	@Override

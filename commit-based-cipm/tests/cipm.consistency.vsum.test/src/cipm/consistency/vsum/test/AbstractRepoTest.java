@@ -2,6 +2,7 @@ package cipm.consistency.vsum.test;
 
 import java.io.File;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
 import cipm.consistency.commitintegration.JavaParserAndPropagatorUtils;
@@ -16,8 +17,16 @@ public abstract class AbstractRepoTest extends AbstractCITest implements HasRepo
 		this.repoSettings = this.initRepoSettings();
 		this.setJavaParserAndPropagatorUtilsConfig();
 		super.setUp();
+		this.performTestSpecificSetUp();
 	}
 
+	@AfterEach
+	@Override
+	public void tearDown() throws Exception {
+		this.performTestSpecificTearDown();
+		super.tearDown();
+	}
+	
 	@Override
 	protected ChangePropagationSpecification getJavaPCMSpecification() {
 		return this.getJavaPCMSpec();
@@ -48,6 +57,15 @@ public abstract class AbstractRepoTest extends AbstractCITest implements HasRepo
 		return this.getTestGroup();
 	}
 
+	@Override
+	public Object[] getTestSpecificSetUpParams() {
+		return new Object[] {this.getTargetPath()};
+	}
+	
+	protected String getTargetPath() {
+		return "target";
+	}
+	
 	/**
 	 * Sets {@link JavaParserAndPropagatorUtils} configuration, if necessary.
 	 */
@@ -67,7 +85,7 @@ public abstract class AbstractRepoTest extends AbstractCITest implements HasRepo
 	protected boolean getJavaParserAndPropagatorUtilsResolveAll() {
 		return false;
 	}
-
+	
 	/**
 	 * @return The {@link HasRepoSettings} instance to be used during unit tests
 	 */

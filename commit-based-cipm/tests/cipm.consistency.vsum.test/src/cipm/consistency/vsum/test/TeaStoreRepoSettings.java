@@ -1,10 +1,12 @@
 package cipm.consistency.vsum.test;
 
 import java.io.File;
+import java.nio.file.StandardCopyOption;
 import java.util.EnumMap;
 import java.util.Map;
 
-import cipm.consistency.commitintegration.detection.ComponentDetectionStrategy;
+import java.nio.file.Files;
+
 import cipm.consistency.cpr.javapcm.CommitIntegrationJavaPCMChangePropagationSpecification;
 import tools.vitruv.framework.propagation.ChangePropagationSpecification;
 
@@ -75,21 +77,66 @@ public class TeaStoreRepoSettings implements HasRepoSettings {
 
 	@Override
 	public String getSettingsAddress() {
-		return "teastore-exec-files" + File.separator + "settings.properties";
+		return this.getExecFilesAddress() + File.separator + "settings.properties";
+	}
+	
+	public String getExternalCallTargetPairsFileName() {
+		return "external-call-target-pairs.json";
+	}
+	
+	public String getModuleConfigsFileName() {
+		return "module-configuration.properties";
+	}
+	
+	public String getExternalCallTargetPairsAddress() {
+		return this.getExecFilesAddress() + File.separator + this.getExternalCallTargetPairsFileName();
+	}
+	
+	public String getModuleConfigsAddress() {
+		return this.getExecFilesAddress() + File.separator + this.getModuleConfigsFileName();
+	}
+	
+	public String getExecFilesAddress() {
+		return "teastore-exec-files";
 	}
 	
 	@Override
 	public ChangePropagationSpecification getJavaPCMSpec() {
 		return new CommitIntegrationJavaPCMChangePropagationSpecification();
 	}
-	
-	@Override
-	public ComponentDetectionStrategy[] getComponentDetectionStrategy() {
-		return null;
-	}
 
 	@Override
 	public HasRepoSettings getRepoSettings() {
 		return this;
+	}
+	
+	/**
+	 * {@inheritDoc}
+	 * <br><br>
+	 * params[0]: The path to the target directory
+	 */
+	@Override
+	public void performTestSpecificSetUp(Object[] params) throws Exception {
+		File targetPairsFile = new File(this.getExternalCallTargetPairsAddress());
+		File moduleConfigsFile = new File(this.getModuleConfigsAddress());
+		
+		String javaDirPath = this.makeJavaDir((String) params[0]);
+		
+		File copyTargetPairsFile = new File(javaDirPath + File.separator + this.getExternalCallTargetPairsFileName());
+		File copyModuleConfigsFile = new File(javaDirPath + File.separator + this.getModuleConfigsFileName());
+		
+		copyTargetPairsFile.createNewFile();
+		copyModuleConfigsFile.createNewFile();
+		
+		Files.copy(targetPairsFile.toPath(), copyTargetPairsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(moduleConfigsFile.toPath(), copyModuleConfigsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+	}
+	
+	protected String makeJavaDir(String pathToTargetDir) {
+		String pathToTargetTestType = pathToTargetDir + File.separator + this.getTestGroup();
+		
+		File javaDir = new File(pathToTargetTestType + File.separator + "java");
+		javaDir.mkdirs();
+		return javaDir.getPath();
 	}
 }
