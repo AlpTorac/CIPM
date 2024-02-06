@@ -1,6 +1,8 @@
 package cipm.consistency.vsum.test;
 
 import java.io.File;
+import java.io.FilenameFilter;
+import java.io.IOException;
 import java.nio.file.StandardCopyOption;
 import java.util.EnumMap;
 import java.util.Map;
@@ -100,6 +102,10 @@ public class TeaStoreRepoSettings implements HasRepoSettings {
 		return "teastore-exec-files";
 	}
 	
+	public String getJavaDirName() {
+		return "java";
+	}
+	
 	@Override
 	public ChangePropagationSpecification getJavaPCMSpec() {
 		return new CommitIntegrationJavaPCMChangePropagationSpecification();
@@ -120,10 +126,38 @@ public class TeaStoreRepoSettings implements HasRepoSettings {
 		File targetPairsFile = new File(this.getExternalCallTargetPairsAddress());
 		File moduleConfigsFile = new File(this.getModuleConfigsAddress());
 		
-		String javaDirPath = this.makeJavaDir((String) params[0]);
+		String pathToTargetDir = (String) params[0];
+		File targetDir = new File(pathToTargetDir);
+		File[] testDirs = null;
 		
-		File copyTargetPairsFile = new File(javaDirPath + File.separator + this.getExternalCallTargetPairsFileName());
-		File copyModuleConfigsFile = new File(javaDirPath + File.separator + this.getModuleConfigsFileName());
+		if (targetDir.exists()) {
+			testDirs = targetDir.listFiles(new FilenameFilter() {
+				@Override
+				public boolean accept(File dir, String name) {
+					return dir.getName().contains(getTestGroup());
+				}
+			});
+		}
+		
+		if (testDirs != null && testDirs.length > 0) {
+			for (File td : testDirs) {
+				
+				File javaDir = this.makeJavaDir(td.getPath());
+				this.copyExecFilesInto(targetPairsFile, moduleConfigsFile, javaDir.getPath());
+			}
+		} else {
+			targetDir.mkdirs();
+			
+			File tgd = this.makeTestGroupDir(targetDir.getPath());
+			File javaDir = this.makeJavaDir(tgd.getPath());
+			
+			this.copyExecFilesInto(targetPairsFile, moduleConfigsFile, javaDir.getPath());
+		}
+	}
+	
+	protected void copyExecFilesInto(File targetPairsFile, File moduleConfigsFile, String copyToPath) throws IOException {
+		File copyTargetPairsFile = new File(copyToPath + File.separator + this.getExternalCallTargetPairsFileName());
+		File copyModuleConfigsFile = new File(copyToPath + File.separator + this.getModuleConfigsFileName());
 		
 		copyTargetPairsFile.createNewFile();
 		copyModuleConfigsFile.createNewFile();
@@ -132,11 +166,15 @@ public class TeaStoreRepoSettings implements HasRepoSettings {
 		Files.copy(moduleConfigsFile.toPath(), copyModuleConfigsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 	}
 	
-	protected String makeJavaDir(String pathToTargetDir) {
-		String pathToTargetTestType = pathToTargetDir + File.separator + this.getTestGroup();
-		
-		File javaDir = new File(pathToTargetTestType + File.separator + "java");
+	protected File makeTestGroupDir(String pathToTargetDir) {
+		File targetDir = new File(pathToTargetDir + File.separator + this.getTestGroup());
+		targetDir.mkdirs();
+		return targetDir;
+	}
+	
+	protected File makeJavaDir(String pathToTestGroupDir) {
+		File javaDir = new File(pathToTestGroupDir + File.separator + this.getJavaDirName());
 		javaDir.mkdirs();
-		return javaDir.getPath();
+		return javaDir;
 	}
 }
