@@ -1,5 +1,19 @@
 package cipm.consistency.vsum.test;
 
+/**
+ * An abstract class for test classes, which are to be used to generate test resources required by
+ * FirstInstance tests. It encapsulates the logic needed to generate test resources for
+ * FirstInstance tests (fitests) and save them at the corresponding path in the target directory of
+ * FirstInstance tests fitests.
+ * <br><br>
+ * Use the {@link #generateResourcesFor(Object)} method from the super class to generate the said
+ * test resources. Pass the index of the last commit hash to the aforementioned method, as the resource
+ * will only be generated with that commit in mind.
+ * <br><br>
+ * <b>Note that the size of generated test resources may slightly vary, which is to be expected</b>
+ * 
+ * @author atora
+ */
 public abstract class AbstractFITestResourceGenerator extends AbstractRepoTest {
 	/**
 	 * The object responsible for generating Java-Models.
