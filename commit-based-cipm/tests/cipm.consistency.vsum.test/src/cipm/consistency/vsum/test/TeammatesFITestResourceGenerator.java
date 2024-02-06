@@ -21,8 +21,8 @@ import org.junit.jupiter.api.TestMethodOrder;
  * @author atora
  */
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-public class FITeammatesTestResourceGenerator extends AbstractFITestResourceGenerator {
-	private static final Logger LOGGER = Logger.getLogger("cipm." + FITeammatesTestResourceGenerator.class.getSimpleName());
+public class TeammatesFITestResourceGenerator extends AbstractFITestResourceGenerator {
+	private static final Logger LOGGER = Logger.getLogger("cipm." + TeammatesFITestResourceGenerator.class.getSimpleName());
 	
 	@Disabled("Enable to generate resource")
 	@Order(0)
