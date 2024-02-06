@@ -8,15 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 
 /**
- * A test case that is to be used to generate test resources required by FirstInstance tests. It
- * is meant to generate test resources for FirstInstance tests (fitests) and save them at the
- * corresponding path in the target directory of FirstInstance tests fitests.
- * <br><br>
- * Use the {@link #generateResourcesFor(Object)} method from the super class to generate the said
- * test resources. Pass the index of the last commit hash to the aforementioned method, as the resource
- * will only be generated with that commit in mind.
- * <br><br>
- * <b>Note that the size of generated test resources may slightly vary, which is to be expected</b>
+ * The concrete implementation of {@link AbstractFITestResourceGenerator} for
+ * Teammates tests.
  * 
  * @author atora
  */
@@ -27,7 +20,7 @@ public class TeammatesFITestResourceGenerator extends AbstractFITestResourceGene
 	@Disabled("Enable to generate resource")
 	@Order(0)
 	@Test
-	public void testTeammatesIntegration() throws Exception {
+	public void testTeammatesIntegration0() throws Exception {
 		this.initResGen(0);
 		this.generateResourcesFor(0);
 	}
@@ -35,7 +28,7 @@ public class TeammatesFITestResourceGenerator extends AbstractFITestResourceGene
 	@Disabled("Enable to generate resource")
 	@Order(1)
 	@Test
-	public void testTeammatesFirstPropagation() throws Exception {
+	public void testTeammatesIntegration1() throws Exception {
 		this.initResGen(1);
 		this.generateResourcesFor(1);
 	}
