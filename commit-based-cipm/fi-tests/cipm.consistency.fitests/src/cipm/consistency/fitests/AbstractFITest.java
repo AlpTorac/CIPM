@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
@@ -15,7 +14,6 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
-import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.Match;
 import org.eclipse.emf.compare.postprocessor.IPostProcessor;
 import org.eclipse.emf.ecore.resource.Resource;
