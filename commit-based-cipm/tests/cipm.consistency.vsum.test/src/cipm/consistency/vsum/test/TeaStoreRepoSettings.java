@@ -13,7 +13,20 @@ import java.util.Map;
 import cipm.consistency.cpr.javapcm.CommitIntegrationJavaPCMChangePropagationSpecification;
 import tools.vitruv.framework.propagation.ChangePropagationSpecification;
 
+/**
+ * The implementation of {@link HasRepoSettings} for TeaStore tests. Contains a map of
+ * ({@link TeaStoreCommitTag}, commit hash) key-value pairs.
+ * 
+ * @author atora
+ * 
+ * @see {@link #getCommitHash(Object)}
+ */
 public class TeaStoreRepoSettings implements HasRepoSettings {
+	/**
+	 * An enum for encapsulating individual TeaStore commit hashes to be used in unit tests.
+	 * 
+	 * @author atora
+	 */
 	public enum TeaStoreCommitTag {
 		COMMIT_1_0("1_0"),
 		COMMIT_1_1("1_1"),
@@ -23,12 +36,18 @@ public class TeaStoreRepoSettings implements HasRepoSettings {
 		COMMIT_1_3_1("1_3_1"),
 		;
 
+		/**
+		 * The version part of the concrete enum values as String (ex: "1_0" for {@link #COMMIT_1_0})
+		 */
 		private final String tagName;
 		
 		private TeaStoreCommitTag(String tagName) {
 			this.tagName = tagName;
 		}
 		
+		/**
+		 * @return {@link #tagName}
+		 */
 		public String getTagName() {
 			return this.tagName;
 		}
@@ -46,6 +65,9 @@ public class TeaStoreRepoSettings implements HasRepoSettings {
 	 * private static final String COMMIT_TAG_1_3_1 = "de69e957597d20d4be17fc7db2a0aa2fb3a414f7";
 	 */
 	
+	/**
+	 * Contains ({@link TeaStoreCommitTag}, commit hash) pairs for cleaner access to commit hashes.
+	 */
 	@SuppressWarnings("serial")
 	private static final Map<TeaStoreCommitTag, String> COMMIT_TAGS =
 	new EnumMap<TeaStoreCommitTag, String>(TeaStoreCommitTag.class) {{
@@ -83,26 +105,42 @@ public class TeaStoreRepoSettings implements HasRepoSettings {
 		return this.getExecFilesAddress() + File.separator + "settings.properties";
 	}
 	
+	/**
+	 * @return Full file name of external call target pairs file with extension.
+	 */
 	public String getExternalCallTargetPairsFileName() {
 		return "external-call-target-pairs.json";
 	}
 	
+	/**
+	 * @return Full file name of module configurations file with extension
+	 */
 	public String getModuleConfigsFileName() {
 		return "module-configuration.properties";
 	}
 	
+	/**
+	 * @return The path to {@link #getExternalCallTargetPairsFileName()}
+	 */
 	public String getExternalCallTargetPairsAddress() {
 		return this.getExecFilesAddress() + File.separator + this.getExternalCallTargetPairsFileName();
 	}
 	
+	/**
+	 * @return The path to {@link #getModuleConfigsFileName()}
+	 */
 	public String getModuleConfigsAddress() {
 		return this.getExecFilesAddress() + File.separator + this.getModuleConfigsFileName();
 	}
 
+	@Override
 	public String getExecFilesAddress() {
 		return "teastore-exec-files";
 	}
 	
+	/**
+	 * @return The name of the directory, to which {@link #getExternalCallTargetPairsFileName()} and {@link #getModuleConfigsFileName()} should be copied
+	 */
 	public String getJavaDirName() {
 		return "java";
 	}
