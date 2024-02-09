@@ -8,6 +8,17 @@ import org.junit.jupiter.api.BeforeEach;
 import cipm.consistency.commitintegration.JavaParserAndPropagatorUtils;
 import tools.vitruv.framework.propagation.ChangePropagationSpecification;
 
+/**
+ * The class meant to be extended by concrete test cases. Extends
+ * {@link AbstractCITest} with the means to access test-specific details (stored
+ * in underlying {@link HasRepoSettings}) to make its implementors cleaner and
+ * the said details re-usable/extendable. <br>
+ * <br>
+ * Implements {@link HasRepoSettings} itself, in order to not duplicate most of
+ * the methods from {@link HasRepoSettings}.
+ * 
+ * @author atora
+ */
 public abstract class AbstractRepoTest extends AbstractCITest implements HasRepoSettings {
 	protected HasRepoSettings repoSettings;
 
@@ -26,7 +37,7 @@ public abstract class AbstractRepoTest extends AbstractCITest implements HasRepo
 		this.performTestSpecificTearDown();
 		super.tearDown();
 	}
-	
+
 	@Override
 	protected ChangePropagationSpecification getJavaPCMSpecification() {
 		return this.getJavaPCMSpec();
@@ -59,13 +70,16 @@ public abstract class AbstractRepoTest extends AbstractCITest implements HasRepo
 
 	@Override
 	public Object[] getTestSpecificSetUpParams() {
-		return new Object[] {this.getTargetPath()};
+		return new Object[] { this.getTargetPath() };
 	}
-	
+
+	/**
+	 * @return The path to the target directory
+	 */
 	protected String getTargetPath() {
 		return "target";
 	}
-	
+
 	/**
 	 * Sets {@link JavaParserAndPropagatorUtils} configuration, if necessary.
 	 */
@@ -85,7 +99,7 @@ public abstract class AbstractRepoTest extends AbstractCITest implements HasRepo
 	protected boolean getJavaParserAndPropagatorUtilsResolveAll() {
 		return false;
 	}
-	
+
 	/**
 	 * @return The {@link HasRepoSettings} instance to be used during unit tests
 	 */
