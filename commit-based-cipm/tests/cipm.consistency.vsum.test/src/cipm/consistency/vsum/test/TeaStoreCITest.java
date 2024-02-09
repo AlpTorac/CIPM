@@ -22,12 +22,8 @@ import cipm.consistency.vsum.test.TeaStoreRepoSettings.TeaStoreCommitTag;
 public class TeaStoreCITest extends AbstractRepoTest {
 
 	@Override
-	protected AbstractRepoSettings initRepoSettings() {
+	protected HasRepoSettings initRepoSettings() {
 		return new TeaStoreRepoSettings();
-	}
-	
-	protected String getCommitHash(TeaStoreCommitTag tagID) {
-		return this.getRepoSettings().getCommitHash(tagID);
 	}
 	
 	@Disabled("Only one test case should run at once.")
