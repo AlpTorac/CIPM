@@ -17,15 +17,14 @@ import tools.vitruv.framework.vsum.VirtualModel;
  * A class that helps initialise the hook needed to generate test resources
  * required for FirstInstance tests (fitests). <br>
  * <br>
- * It has to be initialised via {@link #init(String, String, boolean)} and
- * finalised via {@link #cleanUp()} to add and remove the hook respectively. The
- * generation of the test resource will result in a
- * {@link ResourceGeneratedException}, which has to be caught by passing the
- * action that generates the test resource as a Callable instance to
- * {@link #generateResourceWhile(Callable)}. <br>
+ * It has to be initialised via {@link #init(String, String)} and finalised via
+ * {@link #cleanUp()} to add and remove the hook respectively. The generation of
+ * the test resource will result in a {@link ResourceGeneratedException}, which
+ * has to be caught by passing the action that generates the test resource as a
+ * {@link Callable} instance to {@link #generateResourceWhile(Callable)}. <br>
  * <br>
  * <b>Make sure to use {@link #generateResourceWhile(Callable)} method to avoid
- * getting {@link ResourceGeneratedException}</b>
+ * getting the {@link ResourceGeneratedException}</b>
  * 
  * @author atora
  * @see {@link ResourceGeneratedException},
@@ -43,7 +42,7 @@ class FITestResourceGenerator {
 	private IJavaModelParserListener parseListener;
 
 	/**
-	 * @see {@link AbstractCITest#getTestType()}
+	 * The name of the test group ({@link AbstractCITest#getTestType()})
 	 */
 	private String testType;
 	/**
@@ -52,15 +51,16 @@ class FITestResourceGenerator {
 	private String extension;
 
 	/**
-	 * The generation of the test resource will result in a
-	 * {@link ResourceGeneratedException}, which has to be caught by passing the
-	 * action that generates the test resource as a Callable instance to
-	 * {@link #generateResourceWhile(Callable)}.
+	 * Initialises {@code this} by setting {@link #testType} and {@link #extension}.
+	 * <br>
+	 * <br>
+	 * <b>The hook {@link #parseListener} has to be initialised separately by
+	 * calling {@link #addModelGenerationHook(String)}</b>
 	 * 
-	 * @param testType      The name of the test group
-	 *                      ({@link AbstractCITest#getTestType()})
-	 * @param modelFileName The name of the file, to which the generated Java model
-	 *                      will be saved
+	 * @param testType  The name of the test group
+	 *                  ({@link AbstractCITest#getTestType()})
+	 * @param extension The extension of the file, to which the generated Java model
+	 *                  will be saved
 	 */
 	public void init(String testType, String extension) {
 		this.testType = testType;
@@ -68,13 +68,11 @@ class FITestResourceGenerator {
 	}
 
 	/**
-	 * The generation of the test resource will result in a
-	 * {@link ResourceGeneratedException}, which has to be caught by passing the
-	 * action that generates the test resource as a Callable instance to
-	 * {@link #generateResourceWhile(Callable)}.
+	 * Initialises the hook {@link #parseListener}. <br>
+	 * <br>
+	 * <b> {@link #testType} and {@link #extension} have to be initialised via
+	 * {@link #init(String, String)} </b>
 	 * 
-	 * @param testType      The name of the test group
-	 *                      ({@link AbstractCITest#getTestType()})
 	 * @param modelFileName The name of the file, to which the generated Java model
 	 *                      will be saved
 	 * 
@@ -84,19 +82,7 @@ class FITestResourceGenerator {
 	protected void addModelGenerationHook(String modelFileName) {
 		this.removeModelGenerationHook();
 
-		this.parseListener = new IJavaModelParserListener() {
-			private Path fiTestResourcePath;
-
-			@Override
-			public void javaModelParsed(Path dir, Path target, VirtualModel vsum, Path configPath, Resource all) {
-				generateResource(dir, this.fiTestResourcePath, vsum, configPath, all);
-			}
-
-			@Override
-			public void setVariables(Object... vars) {
-				this.fiTestResourcePath = (Path) vars[0];
-			}
-		};
+		this.parseListener = this.createModelGenerationHook();
 
 		var newPathString = this.getFITestsTargetResourcePath(this.getTestType(), modelFileName);
 		var newURI = URI.createFileURI(newPathString);
@@ -106,6 +92,36 @@ class FITestResourceGenerator {
 				+ newPath);
 		this.parseListener.setVariables(newPath);
 		JavaParserAndPropagatorUtils.addParseListener(this.parseListener);
+	}
+
+	/**
+	 * Creates a hook that can be used to trigger an action each time
+	 * {@link JavaParserAndPropagatorUtils} parses a Java-Model
+	 * 
+	 * @return The said hook
+	 */
+	protected IJavaModelParserListener createModelGenerationHook() {
+		return new IJavaModelParserListener() {
+			/**
+			 * The path, at which the Java-Model file will be created
+			 */
+			private Path fiTestResourcePath;
+
+			@Override
+			public void javaModelParsed(Path dir, Path target, VirtualModel vsum, Path configPath, Resource all) {
+				generateResource(dir, this.fiTestResourcePath, vsum, configPath, all);
+			}
+
+			/**
+			 * {@inheritDoc}
+			 * 
+			 * vars[0] = {@link #fiTestResourcePath}
+			 */
+			@Override
+			public void setVariables(Object... vars) {
+				this.fiTestResourcePath = (Path) vars[0];
+			}
+		};
 	}
 
 	/**
@@ -140,7 +156,7 @@ class FITestResourceGenerator {
 	}
 
 	/**
-	 * @return The absolute path of target folder of FirstInstance tests
+	 * @return The absolute path of the target folder of FirstInstance tests
 	 */
 	protected String getFITestsAbsoluteTargetPath() {
 		var currentPath = new File(".").getAbsoluteFile();
@@ -167,8 +183,8 @@ class FITestResourceGenerator {
 
 	/**
 	 * Use this method to make the call chain terminate as soon as the needed test
-	 * resource is generated and no unhandled {@link ResourceGeneratedException}
-	 * causes termination.
+	 * resource is generated without any {@link ResourceGeneratedException}
+	 * terminating the program.
 	 */
 	public void generateResourceWhile(Callable<Boolean> c) throws Exception {
 		try {
@@ -179,8 +195,8 @@ class FITestResourceGenerator {
 	}
 
 	/**
-	 * Generates the FirstInstance test resource. Meant to be used only the listener
-	 * defined in {@link #init(String, String)}
+	 * Generates the FirstInstance test resource. Meant to be used only by the
+	 * listener defined in {@link #createModelGenerationHook()}
 	 * 
 	 * Throws a {@link ResourceGeneratedException} return as soon as the said test
 	 * resource is generated
@@ -199,8 +215,8 @@ class FITestResourceGenerator {
 	/**
 	 * An Exception that is only meant to be thrown/caught by the internals of
 	 * {@link FITestResourceGenerator}. This is a temporary solution for generating
-	 * test resources for FirstInstance tests without having to propagate models,
-	 * which can take a very long time.
+	 * test resources for FirstInstance tests without having to wait till the end of
+	 * the propagation process, which can take a very long time.
 	 * 
 	 * @author atora
 	 */
