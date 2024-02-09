@@ -8,7 +8,7 @@ import cipm.consistency.commitintegration.detection.ComponentDetectionStrategy;
 import cipm.consistency.cpr.javapcm.CommitIntegrationJavaPCMChangePropagationSpecification;
 import tools.vitruv.framework.propagation.ChangePropagationSpecification;
 
-public class TeaStoreRepoSettings extends AbstractRepoSettings {
+public class TeaStoreRepoSettings implements HasRepoSettings {
 	public enum TeaStoreCommitTag {
 		COMMIT_1_0("1_0"),
 		COMMIT_1_1("1_1"),
@@ -81,5 +81,15 @@ public class TeaStoreRepoSettings extends AbstractRepoSettings {
 	@Override
 	public ChangePropagationSpecification getJavaPCMSpec() {
 		return new CommitIntegrationJavaPCMChangePropagationSpecification();
+	}
+	
+	@Override
+	public ComponentDetectionStrategy getComponentDetectionStrategy() {
+		return null;
+	}
+
+	@Override
+	public HasRepoSettings getRepoSettings() {
+		return this;
 	}
 }

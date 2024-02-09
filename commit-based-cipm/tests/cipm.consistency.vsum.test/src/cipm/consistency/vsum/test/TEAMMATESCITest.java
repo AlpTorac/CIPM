@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 public class TEAMMATESCITest extends AbstractRepoTest {
 	@Override
-	protected AbstractRepoSettings initRepoSettings() {
+	protected HasRepoSettings initRepoSettings() {
 		return new TeammatesRepoSettings();
 	}
 	
