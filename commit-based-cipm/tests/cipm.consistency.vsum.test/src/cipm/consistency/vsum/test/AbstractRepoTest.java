@@ -39,7 +39,7 @@ public abstract class AbstractRepoTest extends AbstractCITest implements HasRepo
 
 	@Override
 	protected String getTestPath() {
-		return "target" + File.separator + this.getTestType();
+		return this.getTargetPath() + File.separator + this.getTestType();
 	}
 
 	@Override
