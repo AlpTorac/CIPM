@@ -1,6 +1,8 @@
 package cipm.consistency.vsum.test;
 
 import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -90,5 +92,56 @@ public class TeaStoreRepoSettings implements HasRepoSettings {
 	@Override
 	public HasRepoSettings getRepoSettings() {
 		return this;
+	}
+	
+	public String getExternalCallTargetPairsFileName() {
+		return "external-call-target-pairs.json";
+	}
+	
+	public String getModuleConfigsFileName() {
+		return "module-configuration.properties";
+	}
+	
+	public String getExternalCallTargetPairsAddress() {
+		return this.getExecFilesAddress() + File.separator + this.getExternalCallTargetPairsFileName();
+	}
+	
+	public String getModuleConfigsAddress() {
+		return this.getExecFilesAddress() + File.separator + this.getModuleConfigsFileName();
+	}
+	/**
+	 * {@inheritDoc}
+	 * <br><br>
+	 * params[0]: The path to the target directory
+	 */
+	@Override
+	public void performTestSpecificSetUp(Object[] params) throws Exception {
+		File targetPairsFile = new File(this.getExternalCallTargetPairsAddress());
+		File moduleConfigsFile = new File(this.getModuleConfigsAddress());
+		
+		String javaDirPath = this.makeJavaDir((String) params[0]);
+		
+		File copyTargetPairsFile = new File(javaDirPath + File.separator + this.getExternalCallTargetPairsFileName());
+		File copyModuleConfigsFile = new File(javaDirPath + File.separator + this.getModuleConfigsFileName());
+		
+		copyTargetPairsFile.createNewFile();
+		copyModuleConfigsFile.createNewFile();
+		
+		Files.copy(targetPairsFile.toPath(), copyTargetPairsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+		Files.copy(moduleConfigsFile.toPath(), copyModuleConfigsFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+	}
+	
+	/**
+	 * Creates the TestGroup/java directory under the given target directory path. 
+	 * Creates all necessary directories along the way, if needed and possible.
+	 * 
+	 * @return The path to the newly created java directory
+	 */
+	protected String makeJavaDir(String pathToTargetDir) {
+		String pathToTargetTestType = pathToTargetDir + File.separator + this.getTestGroup();
+		
+		File javaDir = new File(pathToTargetTestType + File.separator + "java");
+		javaDir.mkdirs();
+		return javaDir.getPath();
 	}
 }
