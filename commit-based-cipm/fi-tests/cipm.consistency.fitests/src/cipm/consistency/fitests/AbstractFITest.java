@@ -30,6 +30,9 @@ public abstract class AbstractFITest {
 	
 	private final String workingResourcesPath = new File(this.getTargetPath()).getAbsoluteFile().getParentFile().getAbsolutePath() + File.separator + "tmp";
 	
+	/**
+	 * Prepares loggers. Enabling too many loggers can cause Java memory issues.
+	 */
 	protected void setUpLogger() {
 		Logger logger = Logger.getLogger("cipm");
 		logger.setLevel(Level.ALL);
@@ -37,14 +40,14 @@ public abstract class AbstractFITest {
 		logger.setLevel(Level.ALL);
 //		logger = Logger.getLogger("fi.SimilaritySwitch");
 //		logger.setLevel(Level.ALL);
-		logger = Logger.getLogger("fi.JaMoPPDiffBuilder");
-		logger.setLevel(Level.ALL);
+//		logger = Logger.getLogger("fi.JaMoPPDiffBuilder");
+//		logger.setLevel(Level.ALL);
 //		logger = Logger.getLogger("fi.HierarchicalMatchEngine");
 //		logger.setLevel(Level.ALL);
-		logger = Logger.getLogger("fi.JaMoPPSoftwareModelExtractor");
-		logger.setLevel(Level.ALL);
-		logger = Logger.getLogger("fi.NormalizationUtil");
-		logger.setLevel(Level.ALL);
+//		logger = Logger.getLogger("fi.JaMoPPSoftwareModelExtractor");
+//		logger.setLevel(Level.ALL);
+//		logger = Logger.getLogger("fi.NormalizationUtil");
+//		logger.setLevel(Level.ALL);
 		logger = Logger.getRootLogger();
 		logger.removeAllAppenders();
 		ConsoleAppender ap = new ConsoleAppender(new PatternLayout("[%d{DATE}] %-5p: %c - %m%n"),
