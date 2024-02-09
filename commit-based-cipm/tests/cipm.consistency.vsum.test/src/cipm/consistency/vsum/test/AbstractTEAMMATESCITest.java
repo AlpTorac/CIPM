@@ -38,7 +38,7 @@ public abstract class AbstractTEAMMATESCITest extends AbstractCITest {
 		return this.commitTag_v800RC2;
 	}
 	
-	protected String getTestName() {
+	protected String getTestType() {
 		return "TeammatesTest";
 	}
 
