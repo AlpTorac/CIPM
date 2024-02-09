@@ -1,16 +1,23 @@
 package cipm.consistency.vsum.test;
 
 /**
- * An abstract class for test classes, which are to be used to generate test resources required by
- * FirstInstance tests. It encapsulates the logic needed to generate test resources for
- * FirstInstance tests (fitests) and save them at the corresponding path in the target directory of
- * FirstInstance tests fitests.
- * <br><br>
- * Use the {@link #generateResourcesFor(Object)} method from the super class to generate the said
- * test resources. Pass the index of the last commit hash to the aforementioned method, as the resource
- * will only be generated with that commit in mind.
- * <br><br>
- * <b>Note that the size of generated test resources may slightly vary, which is to be expected</b>
+ * An abstract class for test classes, which are to be used to generate test
+ * resources required by FirstInstance tests. It encapsulates the logic needed
+ * to generate test resources for FirstInstance tests (fitests) and save them at
+ * the corresponding path in the target directory of FirstInstance tests
+ * (fitests). <br>
+ * <br>
+ * Use the {@link #generateResourcesFor(Object)} method from
+ * {@link AbstractFITestResourceGenerator} to generate the said test resources.
+ * Pass the index of the last commit hash to the aforementioned method, as the
+ * resource will only be generated with that commit in mind. <br>
+ * <br>
+ * Make sure to call {@link #initResGen(Object)} at the start of each test to
+ * initialise the generator responsible for creating Java-Model files required
+ * by fitests. <br>
+ * <br>
+ * <b>Note that the size of generated test resources may slightly vary, which is
+ * to be expected</b>
  * 
  * @author atora
  */
@@ -18,7 +25,7 @@ public abstract class AbstractFITestResourceGenerator extends AbstractRepoTest {
 	/**
 	 * The object responsible for generating Java-Models.
 	 * 
-	 * Has to be instantiated via
+	 * Generate an instance using
 	 * {@link FITestResourceGenerator#init(String, String)}
 	 */
 	private FITestResourceGenerator resGen = null;
@@ -31,8 +38,7 @@ public abstract class AbstractFITestResourceGenerator extends AbstractRepoTest {
 
 	/**
 	 * Instantiates a {@link FITestResourceGenerator} but does not initialise it.
-	 * Make sure to call {@link #initResGen(Object)} at the start of each test to
-	 * initialise the generated instance.
+	 * Meant to be used in {@link #initResGen(Object)}.
 	 */
 	protected FITestResourceGenerator createResGen() {
 		return new FITestResourceGenerator();
@@ -58,7 +64,7 @@ public abstract class AbstractFITestResourceGenerator extends AbstractRepoTest {
 	}
 
 	/**
-	 * Initialises {@link #resGen}
+	 * Prepares {@code this} for resource generation.
 	 * 
 	 * @param commitHashIdentifier see {@link HasRepoSettings#getCommitHash(Object)}
 	 */
@@ -87,7 +93,8 @@ public abstract class AbstractFITestResourceGenerator extends AbstractRepoTest {
 	}
 
 	/**
-	 * Attempts to generate a model for the commit hash with the given identifier
+	 * Attempts to generate a Java-Model file for the commit hash with the given
+	 * identifier
 	 * 
 	 * @param commitHashIdentifier see {@link HasRepoSettings#getCommitHash(Object)}
 	 */
