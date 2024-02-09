@@ -4,7 +4,7 @@ import cipm.consistency.commitintegration.detection.ComponentDetectionStrategy;
 import tools.vitruv.framework.propagation.ChangePropagationSpecification;
 
 /**
- * An interface for {@link AbstractRepoTest} and {@link AbstractRepoSettings} to
+ * An interface for {@link AbstractRepoTest} to
  * avoid implementing trivial getter methods below in both.
  * <br><br>
  * Getters below return things that are required by {@link AbstractCITest}, although
@@ -66,9 +66,9 @@ public interface HasRepoSettings {
 	}
 	
 	/**
-	 * Implemented to access {@link AbstractRepoSettings} members to avoid
+	 * Implemented to access the underlying {@link HasRepoSettings} members to avoid
 	 * having to unnecessarily duplicate all getter methods above in
 	 * implementors.
 	 */
-	public AbstractRepoSettings getRepoSettings();
+	public HasRepoSettings getRepoSettings();
 }
