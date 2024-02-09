@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.EnumMap;
 import java.util.Map;
 
-import cipm.consistency.commitintegration.detection.ComponentDetectionStrategy;
 import cipm.consistency.cpr.javapcm.CommitIntegrationJavaPCMChangePropagationSpecification;
 import tools.vitruv.framework.propagation.ChangePropagationSpecification;
 
@@ -75,17 +74,17 @@ public class TeaStoreRepoSettings implements HasRepoSettings {
 
 	@Override
 	public String getSettingsAddress() {
-		return "teastore-exec-files" + File.separator + "settings.properties";
+		return this.getExecFilesAddress() + File.separator + "settings.properties";
+	}
+	
+	@Override
+	public String getExecFilesAddress() {
+		return "teastore-exec-files";
 	}
 	
 	@Override
 	public ChangePropagationSpecification getJavaPCMSpec() {
 		return new CommitIntegrationJavaPCMChangePropagationSpecification();
-	}
-	
-	@Override
-	public ComponentDetectionStrategy[] getComponentDetectionStrategy() {
-		return null;
 	}
 
 	@Override
