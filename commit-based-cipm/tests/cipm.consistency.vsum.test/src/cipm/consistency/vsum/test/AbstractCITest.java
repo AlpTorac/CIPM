@@ -63,14 +63,14 @@ public abstract class AbstractCITest {
 		logger.setLevel(Level.ALL);
 //		logger = Logger.getLogger("fi.SimilaritySwitch");
 //		logger.setLevel(Level.ALL);
-		logger = Logger.getLogger("fi.JaMoPPDiffBuilder");
-		logger.setLevel(Level.ALL);
+//		logger = Logger.getLogger("fi.JaMoPPDiffBuilder");
+//		logger.setLevel(Level.ALL);
 //		logger = Logger.getLogger("fi.HierarchicalMatchEngine");
 //		logger.setLevel(Level.ALL);
-		logger = Logger.getLogger("fi.JaMoPPSoftwareModelExtractor");
-		logger.setLevel(Level.ALL);
-		logger = Logger.getLogger("fi.NormalizationUtil");
-		logger.setLevel(Level.ALL);
+//		logger = Logger.getLogger("fi.JaMoPPSoftwareModelExtractor");
+//		logger.setLevel(Level.ALL);
+//		logger = Logger.getLogger("fi.NormalizationUtil");
+//		logger.setLevel(Level.ALL);
 		logger = Logger.getRootLogger();
 		logger.removeAllAppenders();
 		ConsoleAppender ap = new ConsoleAppender(new PatternLayout("[%d{DATE}] %-5p: %c - %m%n"),
