@@ -101,7 +101,7 @@ public class TeaStoreRepoSettings implements HasRepoSettings {
 
 	@Override
 	public String getRepositoryAddress() {
-		return "file:///C:/Users/atora/OneDrive/Belgeler/GitHub/TeaStore";
+		return "https://github.com/DescartesResearch/TeaStore";
 	}
 
 	@Override

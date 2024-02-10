@@ -47,7 +47,7 @@ public class TeammatesRepoSettings implements HasRepoSettings {
 
 	@Override
 	public String getRepositoryAddress() {
-		return "file:///C:/Users/atora/OneDrive/Belgeler/GitHub/teammates";
+		return "https://github.com/TEAMMATES/teammates";
 	}
 
 	@Override
