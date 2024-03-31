@@ -179,8 +179,8 @@ public class SimilarityChecker {
      */
     protected Boolean checkSimilarityForResolvedAndSameType(EObject element1, EObject element2,
     		boolean checkStatementPosition) {
-    	return new SimilaritySwitch(element2, checkStatementPosition, classifierNormalizations,
-    			compilationUnitNormalizations, packageNormalizations).doSwitch(element1);
+    	return new SimilaritySwitch(checkStatementPosition, classifierNormalizations,
+    			compilationUnitNormalizations, packageNormalizations).compare(element1, element2, this);
     }
 
     /**
