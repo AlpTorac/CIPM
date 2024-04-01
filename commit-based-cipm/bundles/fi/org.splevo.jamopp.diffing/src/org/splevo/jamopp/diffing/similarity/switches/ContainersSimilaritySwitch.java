@@ -1,14 +1,11 @@
 package org.splevo.jamopp.diffing.similarity.switches;
 
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.containers.util.ContainersSwitch;
 import org.splevo.diffing.util.NormalizationUtil;
 import org.splevo.jamopp.diffing.similarity.ILoggableSwitch;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
 import org.splevo.jamopp.diffing.util.JaMoPPModelUtil;
 
 import com.google.common.base.Strings;
@@ -17,11 +14,7 @@ import com.google.common.base.Strings;
  * Similarity decisions for container elements.
  */
 public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean> implements ILoggableSwitch {
-	private final ISimilaritySwitch similaritySwitch;
-
-	private Map<Pattern, String> compilationUnitNormalizations = null;
-
-    private Map<Pattern, String> packageNormalizations = null;
+	private final SimilaritySwitch similaritySwitch;
 
     /**
      * Constructor to set the required configurations.
@@ -33,10 +26,8 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean> implem
      *            A list of package normalization patterns.
      * @param similaritySwitch TODO
      */
-    public ContainersSimilaritySwitch(ISimilaritySwitch similaritySwitch) {
+    public ContainersSimilaritySwitch(SimilaritySwitch similaritySwitch) {
         this.similaritySwitch = similaritySwitch;
-		this.compilationUnitNormalizations = this.similaritySwitch.getCompilationUnitNormalizations();
-        this.packageNormalizations = this.similaritySwitch.getPackageNormalizations();
     }
 
     /**
@@ -59,8 +50,8 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean> implem
         this.logComparison(unit1.getName(), unit2.getName(), CompilationUnit.class.getSimpleName());
         this.logComparison(unit1.eClass().getName(), unit2.eClass().getName(), "compilation unit class");
         
-        String name1 = NormalizationUtil.normalize(unit1.getName(), compilationUnitNormalizations);
-        name1 = NormalizationUtil.normalize(name1, packageNormalizations);
+        String name1 = NormalizationUtil.normalize(unit1.getName(), this.similaritySwitch.getCompilationUnitNormalizations());
+        name1 = NormalizationUtil.normalize(name1, this.similaritySwitch.getPackageNormalizations());
         String name2 = unit2.getName();
         
         this.logResult(name1.equals(name2), "compilation unit name");
@@ -69,7 +60,7 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean> implem
         }
         
         String namespaceString1 = NormalizationUtil.normalizeNamespace(unit1.getNamespacesAsString(),
-                packageNormalizations);
+        		this.similaritySwitch.getPackageNormalizations());
         String namespaceString2 = Strings.nullToEmpty(unit2.getNamespacesAsString());
         
         this.logResult(namespaceString1.equals(namespaceString2), "compilation unit namespace");
@@ -99,7 +90,7 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean> implem
         this.logComparison(package1.getNamespacesAsString(), package2.getNamespacesAsString(), "package namespace");
         
         String packagePath1 = JaMoPPModelUtil.buildNamespacePath(package1);
-        packagePath1 = NormalizationUtil.normalizeNamespace(packagePath1, packageNormalizations);
+        packagePath1 = NormalizationUtil.normalizeNamespace(packagePath1, this.similaritySwitch.getPackageNormalizations());
         String packagePath2 = JaMoPPModelUtil.buildNamespacePath(package2);
         
         this.logResult(packagePath1.equals(packagePath2), "package path");

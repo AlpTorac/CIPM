@@ -10,23 +10,19 @@ import org.emftext.language.java.references.Reference;
 import org.emftext.language.java.references.ReferenceableElement;
 import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.references.util.ReferencesSwitch;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 
 /**
  * Similarity decisions for reference elements.
  */
 public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean> {
-
-    /**
-	 * 
-	 */
-	private final ISimilaritySwitch similaritySwitch;
+	private final SimilaritySwitch similaritySwitch;
 
 	/**
 	 * @param similaritySwitch
 	 */
-	public ReferencesSimilaritySwitch(ISimilaritySwitch similaritySwitch) {
+	public ReferencesSimilaritySwitch(SimilaritySwitch similaritySwitch) {
 		this.similaritySwitch = similaritySwitch;
 	}
 
