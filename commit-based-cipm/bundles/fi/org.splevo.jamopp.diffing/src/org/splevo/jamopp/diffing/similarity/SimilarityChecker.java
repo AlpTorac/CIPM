@@ -18,6 +18,7 @@ import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import com.google.common.collect.Maps;
 
@@ -28,7 +29,7 @@ import com.google.common.collect.Maps;
  * switch as well!
  *
  */
-public class SimilarityChecker {
+public class SimilarityChecker implements ISimilarityChecker {
 
     /** The logger for this class. */
     @SuppressWarnings("unused")
@@ -72,7 +73,8 @@ public class SimilarityChecker {
      * 
      * @return true if the statement positions are checked. false otherwise.
      */
-    public boolean checksStatementPositionOnDefault() {
+    @Override
+	public boolean checksStatementPositionOnDefault() {
     	return this.defaultCheckStatementPositionFlag;
     }
     
@@ -81,7 +83,8 @@ public class SimilarityChecker {
      * 
      * @param defaultCheckStatementPositionFlag true if the statement positions are checked. false otherwise.
      */
-    public void setCheckStatementPositionOnDefault(boolean defaultCheckStatementPositionFlag) {
+    @Override
+	public void setCheckStatementPositionOnDefault(boolean defaultCheckStatementPositionFlag) {
     	this.defaultCheckStatementPositionFlag = defaultCheckStatementPositionFlag;
     }
 
@@ -98,24 +101,36 @@ public class SimilarityChecker {
      *            The second list of elements to check.
      * @return TRUE, if they are all similar; FALSE if a different number of elements is submitted or at least one pair of elements is not similar to each other.
      */
+	@Override
 	public Boolean areSimilar(final List<? extends EObject> elements1, final List<? extends EObject> elements2) {
-        return this.makeSwitch().areSimilar(elements1, elements2);
+        if (elements1.size() != elements2.size()) {
+            return Boolean.FALSE;
+        }
+        for (int i = 0; i < elements1.size(); i++) {
+            Boolean childSimilarity = isSimilar(elements1.get(i), elements2.get(i));
+            if (childSimilarity == Boolean.FALSE) {
+                return Boolean.FALSE;
+            }
+        }
+
+        return Boolean.TRUE;
     }
 
-    /**
-     * Check two objects if they are similar.
-     *
-     * @param element1
-     *            The first element to check.
-     * @param element2
-     *            The second element to check.
-     * @return TRUE, if they are similar; FALSE if not, NULL if it can't be decided.
-     */
-	public Boolean isSimilar(final EObject element1, final EObject element2) {
-    	return this.isSimilar(element1, element2, this.checksStatementPositionOnDefault());
-    }
-
-    /**
+	/**
+	 * Check two objects if they are similar.
+	 *
+	 * @param element1
+	 *            The first element to check.
+	 * @param element2
+	 *            The second element to check.
+	 * @return TRUE, if they are similar; FALSE if not, NULL if it can't be decided.
+	 */
+	@Override
+	public Boolean isSimilar(EObject element1, EObject element2) {
+		return this.isSimilar(element1, element2, this.checksStatementPositionOnDefault());
+	}
+	
+	/**
      * Check two objects if they are similar.
      *
      * @param element1
@@ -126,16 +141,73 @@ public class SimilarityChecker {
      *            Flag if the position of statement elements should be considered or not.
      * @return TRUE, if they are similar; FALSE if not, NULL if it can't be decided.
      */
+    @Override
 	public Boolean isSimilar(EObject element1, EObject element2, boolean checkStatementPosition) {
-    	return this.makeSwitch(checkStatementPosition).isSimilar(element1, element2, checkStatementPosition);
+
+        // check that either both or none of them is null
+        if (element1 == element2) {
+            return Boolean.TRUE;
+        }
+
+        if (onlyOneIsNull(element1, element2)) {
+            return Boolean.FALSE;
+        }
+
+        // if a proxy is present try to resolve it
+        // the other element is used as a context.
+        // TODO Clarify why it can happen that one proxy is resolved and the other is not
+        // further notes available with the issue
+        // https://sdqbuild.ipd.kit.edu/jira/browse/SPLEVO-279
+        if (element2.eIsProxy() && !element1.eIsProxy()) {
+            element2 = EcoreUtil.resolve(element2, element1);
+        } else if (element1.eIsProxy() && !element2.eIsProxy()) {
+            element1 = EcoreUtil.resolve(element1, element2);
+        }
+
+        // check the elements to be of the same type
+        if (!element1.getClass().equals(element2.getClass())) {
+            return Boolean.FALSE;
+        }
+
+        // check type specific similarity
+        return this.checkSimilarityForResolvedAndSameType(element1, element2, checkStatementPosition);
+    }
+
+    /**
+     * Method to check if only one of the provided elements is null.
+     *
+     * @param element1
+     *            The first element.
+     * @param element2
+     *            The second element.
+     * @return True if only one element is null and the other is not.
+     */
+    protected Boolean onlyOneIsNull(final EObject element1, final EObject element2) {
+        Boolean onlyOneIsNull = false;
+        if (element1 != null && element2 == null) {
+            onlyOneIsNull = Boolean.TRUE;
+        } else if (element1 == null && element2 != null) {
+            onlyOneIsNull = Boolean.TRUE;
+        }
+        return onlyOneIsNull;
     }
     
+    /**
+     * Checks the similarity of two EObjects where both EObjects are resolved and have the same type.
+     * 
+     * @param element1 the first EObject.
+     * @param element2 the second EObject.
+     * @param checkStatementPosition true if the position of statements should be checked. false otherwise.
+     *                               If no statements are involved, the flag can be ignored.
+     * @return true if the EObjects are similar. null if they cannot be compared. false otherwise.
+     */
+    protected Boolean checkSimilarityForResolvedAndSameType(EObject element1, EObject element2,
+    		boolean checkStatementPosition) {
+    	return this.makeSwitch(checkStatementPosition).compare(element1, element2);
+    }
+	
     protected ISimilaritySwitch makeSwitch(boolean defaultCheckStatementPositionFlag) {
-    	return new SimilaritySwitch(defaultCheckStatementPositionFlag, classifierNormalizations,
+    	return new SimilaritySwitch(this, defaultCheckStatementPositionFlag, classifierNormalizations,
     			compilationUnitNormalizations, packageNormalizations);
-    }
-    
-    protected ISimilaritySwitch makeSwitch() {
-    	return this.makeSwitch(this.checksStatementPositionOnDefault());
     }
 }

@@ -4,7 +4,7 @@ import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.StaticMemberImport;
 import org.emftext.language.java.imports.util.ImportsSwitch;
 import org.emftext.language.java.references.ReferenceableElement;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
 
 import com.google.common.base.Strings;
 
@@ -12,12 +12,12 @@ import com.google.common.base.Strings;
  * Similarity decisions for the import elements.
  */
 public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean> {
-	private final ISimilaritySwitch similaritySwitch;
+	private final SimilaritySwitch similaritySwitch;
 
 	/**
 	 * @param similaritySwitch
 	 */
-	public ImportsSimilaritySwitch(ISimilaritySwitch similaritySwitch) {
+	public ImportsSimilaritySwitch(SimilaritySwitch similaritySwitch) {
 		this.similaritySwitch = similaritySwitch;
 	}
 

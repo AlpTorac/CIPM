@@ -9,18 +9,16 @@ import org.emftext.language.java.commons.NamespaceAwareElement;
 
 public interface ISimilaritySwitch {
 
+	public ISimilarityChecker getSimilarityChecker();
+	
 	public boolean getDefaultCheckStatementPosition();
 
 	public void setDefaultCheckStatementPosition(boolean defaultCheckStatementPositionFlag);
-	
-	public Map<Pattern, String> getClassifierNormalizations();
-
-	public Map<Pattern, String> getCompilationUnitNormalizations();
-
-	public Map<Pattern, String> getPackageNormalizations();
 
 	public EObject getCompareElement();
 
+	public Boolean compare(EObject eo1, EObject eo2);
+	
 	/**
 	 * Check two object lists if they are similar.
 	 *
@@ -34,7 +32,9 @@ public interface ISimilaritySwitch {
 	 *            The second list of elements to check.
 	 * @return TRUE, if they are all similar; FALSE if a different number of elements is submitted or at least one pair of elements is not similar to each other.
 	 */
-	public Boolean areSimilar(List<? extends EObject> elements1, List<? extends EObject> elements2);
+	public default Boolean areSimilar(List<? extends EObject> elements1, List<? extends EObject> elements2) {
+		return this.getSimilarityChecker().areSimilar(elements1, elements2);
+	}
 
 	/**
 	 * Check two objects if they are similar.
@@ -49,7 +49,9 @@ public interface ISimilaritySwitch {
 		return this.isSimilar(element1, element2, this.getDefaultCheckStatementPosition());
 	}
 	
-	public Boolean isSimilar(EObject element1, EObject element2, boolean checkStatementPosition);
+	public default Boolean isSimilar(EObject element1, EObject element2, boolean checkStatementPosition) {
+		return this.getSimilarityChecker().isSimilar(element1, element2, checkStatementPosition);
+	}
 	
 	public boolean compareNamespacesByPart(NamespaceAwareElement ele1, NamespaceAwareElement ele2);
 }
