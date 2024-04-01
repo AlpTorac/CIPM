@@ -6,18 +6,18 @@ import org.emftext.language.java.generics.SuperTypeArgument;
 import org.emftext.language.java.generics.TypeParameter;
 import org.emftext.language.java.generics.UnknownTypeArgument;
 import org.emftext.language.java.generics.util.GenericsSwitch;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
 
 /**
  * Similarity decisions for the generic elements.
  */
 public class GenericsSimilaritySwitch extends GenericsSwitch<Boolean> {
-	private final ISimilaritySwitch similaritySwitch;
+	private final SimilaritySwitch similaritySwitch;
 
 	/**
 	 * @param similaritySwitch
 	 */
-	public GenericsSimilaritySwitch(ISimilaritySwitch similaritySwitch) {
+	public GenericsSimilaritySwitch(SimilaritySwitch similaritySwitch) {
 		this.similaritySwitch = similaritySwitch;
 	}
 

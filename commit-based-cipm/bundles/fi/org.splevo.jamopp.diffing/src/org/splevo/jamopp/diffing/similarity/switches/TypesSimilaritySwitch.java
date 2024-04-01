@@ -7,7 +7,7 @@ import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.util.TypesSwitch;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
 
 import com.google.common.base.Strings;
@@ -16,16 +16,12 @@ import com.google.common.base.Strings;
  * Similarity decisions for elements of the types package.
  */
 public class TypesSimilaritySwitch extends TypesSwitch<Boolean> {
-
-    /**
-	 * 
-	 */
-	private final ISimilaritySwitch similaritySwitch;
+	private final SimilaritySwitch similaritySwitch;
 
 	/**
 	 * @param similaritySwitch
 	 */
-	public TypesSimilaritySwitch(ISimilaritySwitch similaritySwitch) {
+	public TypesSimilaritySwitch(SimilaritySwitch similaritySwitch) {
 		this.similaritySwitch = similaritySwitch;
 	}
 
