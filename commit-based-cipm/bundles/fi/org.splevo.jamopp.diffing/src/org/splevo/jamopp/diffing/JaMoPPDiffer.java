@@ -63,6 +63,7 @@ import org.splevo.jamopp.diffing.match.JaMoPPIgnoreStrategy;
 import org.splevo.jamopp.diffing.postprocessor.JaMoPPPostProcessor;
 import org.splevo.jamopp.diffing.scope.JavaModelMatchScope;
 import org.splevo.jamopp.diffing.scope.PackageIgnoreChecker;
+import org.splevo.jamopp.diffing.similarity.ISimilarityChecker;
 import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 
@@ -405,7 +406,7 @@ public class JaMoPPDiffer implements Differ {
     private IMatchEngine.Factory.Registry initMatchEngine(PackageIgnoreChecker packageIgnoreChecker,
             Map<String, String> diffingOptions) {
 
-        SimilarityChecker similarityChecker = initSimilarityChecker(diffingOptions);
+        ISimilarityChecker similarityChecker = initSimilarityChecker(diffingOptions);
         IEqualityHelper equalityHelper = initEqualityHelper(similarityChecker);
         EqualityStrategy equalityStrategy = new JaMoPPEqualityStrategy(similarityChecker);
         IgnoreStrategy ignoreStrategy = new JaMoPPIgnoreStrategy(packageIgnoreChecker);
@@ -428,7 +429,7 @@ public class JaMoPPDiffer implements Differ {
      *            The map of configurations.
      * @return The prepared checker.
      */
-    private SimilarityChecker initSimilarityChecker(Map<String, String> diffingOptions) {
+    private ISimilarityChecker initSimilarityChecker(Map<String, String> diffingOptions) {
         String configString = diffingOptions.get(OPTION_JAVA_CLASSIFIER_NORMALIZATION);
         LinkedHashMap<Pattern, String> classifierNorms = NormalizationUtil.loadRemoveNormalizations(configString, null);
         LinkedHashMap<Pattern, String> compUnitNorms = NormalizationUtil
@@ -447,7 +448,7 @@ public class JaMoPPDiffer implements Differ {
      *            The similarity checker to use.
      * @return The prepared equality helper.
      */
-    private IEqualityHelper initEqualityHelper(SimilarityChecker similarityChecker) {
+    private IEqualityHelper initEqualityHelper(ISimilarityChecker similarityChecker) {
         final LoadingCache<EObject, org.eclipse.emf.common.util.URI> cache = initEqualityCache();
         IEqualityHelper equalityHelper = new JaMoPPEqualityHelper(cache, similarityChecker);
         return equalityHelper;
