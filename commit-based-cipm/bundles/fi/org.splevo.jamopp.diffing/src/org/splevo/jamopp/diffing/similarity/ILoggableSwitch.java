@@ -16,7 +16,7 @@ import com.google.common.base.Strings;
  */
 public interface ILoggableSwitch {
 	public default Logger getLogger() {
-		return Logger.getLogger(this.getClass().getSimpleName());
+		return Logger.getLogger(ILoggableSwitch.class.getSimpleName());
 	}
 
 	public default void logComparison(String subject1, String subject2, String subjectDesc) {
