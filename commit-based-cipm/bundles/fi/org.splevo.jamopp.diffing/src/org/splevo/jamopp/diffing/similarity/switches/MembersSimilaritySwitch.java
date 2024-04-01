@@ -11,26 +11,37 @@ import org.emftext.language.java.members.Method;
 import org.emftext.language.java.members.util.MembersSwitch;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.types.Type;
-import org.splevo.jamopp.diffing.similarity.ILoggableSwitch;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 
 import com.google.common.base.Strings;
 
 /**
  * Similarity decisions for the member elements.
  */
-public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements ILoggableSwitch {
+public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements ILoggableJavaSwitch, IJavaSimilarityPositionInnerSwitch {
+	private IJavaSimilaritySwitch similaritySwitch;
+	private boolean checkStatementPosition;
 
-    /**
-	 * 
-	 */
-	private final ISimilaritySwitch similaritySwitch;
+	@Override
+	public ISimilarityRequestHandler getSimilarityRequestHandler() {
+		return this.similaritySwitch;
+	}
 
-	/**
-	 * @param similaritySwitch
-	 */
-	public MembersSimilaritySwitch(ISimilaritySwitch similaritySwitch) {
+	@Override
+	public boolean shouldCheckStatementPosition() {
+		return this.checkStatementPosition;
+	}
+	
+	@Override
+	public IJavaSimilaritySwitch getContainingSwitch() {
+		return this.similaritySwitch;
+	}
+
+    public MembersSimilaritySwitch(IJavaSimilaritySwitch similaritySwitch, boolean checkStatementPosition) {
 		this.similaritySwitch = similaritySwitch;
+		this.checkStatementPosition = checkStatementPosition;
 	}
 
 	/**
@@ -59,7 +70,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements I
     @Override
     public Boolean caseMethod(Method method1) {
 
-        Method method2 = (Method) this.similaritySwitch.getCompareElement();
+        Method method2 = (Method) this.getCompareElement();
 
         // if methods have different names they are not similar.
         if (!method1.getName().equals(method2.getName())) {
@@ -75,7 +86,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements I
             Parameter param2 = method2.getParameters().get(i);
             Type type1 = param1.getTypeReference().getTarget();
             Type type2 = param2.getTypeReference().getTarget();
-            Boolean typeSimilarity = this.similaritySwitch.isSimilar(type1, type2);
+            Boolean typeSimilarity = this.isSimilar(type1, type2);
             if (typeSimilarity == Boolean.FALSE) {
                 return Boolean.FALSE;
             }
@@ -90,7 +101,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements I
         if (method1.getContainingConcreteClassifier() != null) {
             ConcreteClassifier type1 = method1.getContainingConcreteClassifier();
             ConcreteClassifier type2 = method2.getContainingConcreteClassifier();
-            return this.similaritySwitch.isSimilar(type1, type2);
+            return this.isSimilar(type1, type2);
         }
 
         /* **************************************
@@ -99,7 +110,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements I
         if (method1.getContainingAnonymousClass() != null) {
             AnonymousClass type1 = method1.getContainingAnonymousClass();
             AnonymousClass type2 = method2.getContainingAnonymousClass();
-            Boolean typeSimilarity = this.similaritySwitch.isSimilar(type1, type2);
+            Boolean typeSimilarity = this.isSimilar(type1, type2);
             if (typeSimilarity != null) {
                 return typeSimilarity;
             }
@@ -136,7 +147,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements I
     @Override
     public Boolean caseConstructor(Constructor constructor1) {
 
-        Constructor constructor2 = (Constructor) this.similaritySwitch.getCompareElement();
+        Constructor constructor2 = (Constructor) this.getCompareElement();
 
         // if methods have different names they are not similar.
         if (!constructor1.getName().equals(constructor2.getName())) {
@@ -145,7 +156,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements I
 
         EList<Parameter> params1 = constructor1.getParameters();
         EList<Parameter> params2 = constructor2.getParameters();
-        Boolean parameterSimilarity = this.similaritySwitch.areSimilar(params1, params2);
+        Boolean parameterSimilarity = this.areSimilar(params1, params2);
         if (parameterSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
@@ -156,7 +167,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements I
         if (constructor1.getContainingConcreteClassifier() != null) {
             ConcreteClassifier type1 = constructor1.getContainingConcreteClassifier();
             ConcreteClassifier type2 = constructor2.getContainingConcreteClassifier();
-            return this.similaritySwitch.isSimilar(type1, type2);
+            return this.isSimilar(type1, type2);
         }
 
         /* **************************************
@@ -165,7 +176,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements I
         if (constructor1.getContainingAnonymousClass() != null) {
             AnonymousClass type1 = constructor1.getContainingAnonymousClass();
             AnonymousClass type2 = constructor2.getContainingAnonymousClass();
-            Boolean typeSimilarity = this.similaritySwitch.isSimilar(type1, type2);
+            Boolean typeSimilarity = this.isSimilar(type1, type2);
             if (typeSimilarity != null) {
                 return typeSimilarity;
             }
@@ -178,7 +189,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements I
 
     @Override
     public Boolean caseEnumConstant(EnumConstant const1) {
-        EnumConstant const2 = (EnumConstant) this.similaritySwitch.getCompareElement();
+        EnumConstant const2 = (EnumConstant) this.getCompareElement();
         String name1 = Strings.nullToEmpty(const1.getName());
         String name2 = Strings.nullToEmpty(const2.getName());
         return (name1.equals(name2));
@@ -186,7 +197,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements I
 
     @Override
     public Boolean caseMember(Member member1) {
-        Member member2 = (Member) this.similaritySwitch.getCompareElement();
+        Member member2 = (Member) this.getCompareElement();
         String name1 = Strings.nullToEmpty(member1.getName());
         String name2 = Strings.nullToEmpty(member2.getName());
         return (name1.equals(name2));

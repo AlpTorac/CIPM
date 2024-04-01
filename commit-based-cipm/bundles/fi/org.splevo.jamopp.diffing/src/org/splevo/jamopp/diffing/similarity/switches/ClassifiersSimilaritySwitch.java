@@ -1,43 +1,39 @@
 package org.splevo.jamopp.diffing.similarity.switches;
 
-import java.util.Map;
-import java.util.regex.Pattern;
-
 import org.emftext.language.java.classifiers.AnonymousClass;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.classifiers.util.ClassifiersSwitch;
-import org.splevo.diffing.util.NormalizationUtil;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 
 import com.google.common.base.Strings;
 
 /**
  * Similarity decisions for classifier elements.
  */
-public class ClassifiersSimilaritySwitch extends ClassifiersSwitch<Boolean> {
+public class ClassifiersSimilaritySwitch extends ClassifiersSwitch<Boolean> implements IJavaSimilarityPositionInnerSwitch {
+	private IJavaSimilaritySwitch similaritySwitch;
+	private boolean checkStatementPosition;
 
-    /**
-	 * 
-	 */
-	private final ISimilaritySwitch similaritySwitch;
-	/**
-     * A list of patterns replace any match in a classifier name with the defined replacement
-     * string.
-     */
-    private Map<Pattern, String> classifierNormalizationPatterns = null;
+	@Override
+	public ISimilarityRequestHandler getSimilarityRequestHandler() {
+		return this.similaritySwitch;
+	}
 
-    /**
-     * Constructor to set the required configurations.
-     * 
-     * @param classifierNormalizationPatterns
-     *            A list of patterns replace any match in a classifier name with the defined
-     *            replacement string.
-     * @param similaritySwitch TODO
-     */
-    public ClassifiersSimilaritySwitch(ISimilaritySwitch similaritySwitch) {
-        this.similaritySwitch = similaritySwitch;
-		this.classifierNormalizationPatterns = this.similaritySwitch.getClassifierNormalizations();
-    }
+	@Override
+	public boolean shouldCheckStatementPosition() {
+		return this.checkStatementPosition;
+	}
+	
+	@Override
+	public IJavaSimilaritySwitch getContainingSwitch() {
+		return this.similaritySwitch;
+	}
+
+    public ClassifiersSimilaritySwitch(IJavaSimilaritySwitch similaritySwitch, boolean checkStatementPosition) {
+		this.similaritySwitch = similaritySwitch;
+		this.checkStatementPosition = checkStatementPosition;
+	}
 
     /**
      * Concrete classifiers such as classes and interface are identified by their location and
@@ -50,9 +46,9 @@ public class ClassifiersSimilaritySwitch extends ClassifiersSwitch<Boolean> {
     @Override
     public Boolean caseConcreteClassifier(ConcreteClassifier classifier1) {
 
-        ConcreteClassifier classifier2 = (ConcreteClassifier) this.similaritySwitch.getCompareElement();
+        ConcreteClassifier classifier2 = (ConcreteClassifier) this.getCompareElement();
 
-        String name1 = NormalizationUtil.normalize(classifier1.getQualifiedName(), classifierNormalizationPatterns);
+        String name1 = this.normalizeClassifier(classifier1.getQualifiedName());
         String name2 = Strings.nullToEmpty(classifier2.getQualifiedName());
 
         return (name1.equals(name2));
