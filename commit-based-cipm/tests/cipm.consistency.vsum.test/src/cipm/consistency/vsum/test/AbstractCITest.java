@@ -71,6 +71,8 @@ public abstract class AbstractCITest {
 //		logger.setLevel(Level.ALL);
 //		logger = Logger.getLogger("fi.NormalizationUtil");
 //		logger.setLevel(Level.ALL);
+//		logger = Logger.getLogger("ILoggableSwitch");
+//		logger.setLevel(Level.ALL);
 		logger = Logger.getRootLogger();
 		logger.removeAllAppenders();
 		ConsoleAppender ap = new ConsoleAppender(new PatternLayout("[%d{DATE}] %-5p: %c - %m%n"),
