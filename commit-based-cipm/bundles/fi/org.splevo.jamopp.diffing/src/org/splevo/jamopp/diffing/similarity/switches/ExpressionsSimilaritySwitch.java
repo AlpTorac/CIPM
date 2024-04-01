@@ -27,7 +27,7 @@ import org.emftext.language.java.operators.EqualityOperator;
 import org.emftext.language.java.operators.RelationOperator;
 import org.emftext.language.java.operators.UnaryOperator;
 import org.emftext.language.java.types.TypeReference;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
 
 /**
  * Similarity decisions for expression elements.
@@ -38,12 +38,12 @@ import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
  * </p>
  */
 public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> {
-	private final ISimilaritySwitch similaritySwitch;
+	private final SimilaritySwitch similaritySwitch;
 
 	/**
 	 * @param similaritySwitch
 	 */
-	public ExpressionsSimilaritySwitch(ISimilaritySwitch similaritySwitch) {
+	public ExpressionsSimilaritySwitch(SimilaritySwitch similaritySwitch) {
 		this.similaritySwitch = similaritySwitch;
 	}
 

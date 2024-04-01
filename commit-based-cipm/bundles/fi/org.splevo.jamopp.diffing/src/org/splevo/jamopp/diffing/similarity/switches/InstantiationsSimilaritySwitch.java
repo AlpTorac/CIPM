@@ -7,18 +7,18 @@ import org.emftext.language.java.instantiations.ExplicitConstructorCall;
 import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.emftext.language.java.instantiations.util.InstantiationsSwitch;
 import org.emftext.language.java.types.Type;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
 
 /**
  * Similarity decisions for object instantiation elements.
  */
 public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean> {
-	private final ISimilaritySwitch similaritySwitch;
+	private final SimilaritySwitch similaritySwitch;
 
 	/**
 	 * @param similaritySwitch
 	 */
-	public InstantiationsSimilaritySwitch(ISimilaritySwitch similaritySwitch) {
+	public InstantiationsSimilaritySwitch(SimilaritySwitch similaritySwitch) {
 		this.similaritySwitch = similaritySwitch;
 	}
 

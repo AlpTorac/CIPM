@@ -2,18 +2,18 @@ package org.splevo.jamopp.diffing.similarity.switches;
 
 import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.commons.util.CommonsSwitch;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
 
 /**
  * Similarity decisions for commons elements.
  */
 public class CommonsSimilaritySwitch extends CommonsSwitch<Boolean> {
-	private final ISimilaritySwitch similaritySwitch;
+	private final SimilaritySwitch similaritySwitch;
 
 	/**
 	 * @param similaritySwitch
 	 */
-	public CommonsSimilaritySwitch(ISimilaritySwitch similaritySwitch) {
+	public CommonsSimilaritySwitch(SimilaritySwitch similaritySwitch) {
 		this.similaritySwitch = similaritySwitch;
 	}
 

@@ -2,7 +2,7 @@ package org.splevo.jamopp.diffing.similarity.switches;
 
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.parameters.util.ParametersSwitch;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
 
 import com.google.common.base.Strings;
 
@@ -14,12 +14,12 @@ import com.google.common.base.Strings;
  * </p>
  */
 public class ParametersSimilaritySwitch extends ParametersSwitch<Boolean> {
-	private final ISimilaritySwitch similaritySwitch;
+	private final SimilaritySwitch similaritySwitch;
 
 	/**
 	 * @param similaritySwitch
 	 */
-	public ParametersSimilaritySwitch(ISimilaritySwitch similaritySwitch) {
+	public ParametersSimilaritySwitch(SimilaritySwitch similaritySwitch) {
 		this.similaritySwitch = similaritySwitch;
 	}
 

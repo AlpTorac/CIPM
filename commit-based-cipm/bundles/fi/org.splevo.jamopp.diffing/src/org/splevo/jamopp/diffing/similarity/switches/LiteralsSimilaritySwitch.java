@@ -16,22 +16,18 @@ import org.emftext.language.java.literals.HexLongLiteral;
 import org.emftext.language.java.literals.OctalIntegerLiteral;
 import org.emftext.language.java.literals.OctalLongLiteral;
 import org.emftext.language.java.literals.util.LiteralsSwitch;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
 
 /**
  * Similarity decisions for literal elements.
  */
 public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean> {
-
-    /**
-	 * 
-	 */
-	private final ISimilaritySwitch similaritySwitch;
+	private final SimilaritySwitch similaritySwitch;
 
 	/**
 	 * @param similaritySwitch
 	 */
-	public LiteralsSimilaritySwitch(ISimilaritySwitch similaritySwitch) {
+	public LiteralsSimilaritySwitch(SimilaritySwitch similaritySwitch) {
 		this.similaritySwitch = similaritySwitch;
 	}
 

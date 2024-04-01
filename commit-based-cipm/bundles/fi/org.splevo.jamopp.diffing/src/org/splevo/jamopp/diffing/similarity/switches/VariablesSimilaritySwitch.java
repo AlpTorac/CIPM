@@ -3,7 +3,7 @@ package org.splevo.jamopp.diffing.similarity.switches;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 import org.emftext.language.java.variables.Variable;
 import org.emftext.language.java.variables.util.VariablesSwitch;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
 
 import com.google.common.base.Strings;
 
@@ -11,16 +11,12 @@ import com.google.common.base.Strings;
  * Similarity decisions for the variable elements.
  */
 public class VariablesSimilaritySwitch extends VariablesSwitch<Boolean> {
-
-    /**
-	 * 
-	 */
-	private final ISimilaritySwitch similaritySwitch;
+	private final SimilaritySwitch similaritySwitch;
 
 	/**
 	 * @param similaritySwitch
 	 */
-	public VariablesSimilaritySwitch(ISimilaritySwitch similaritySwitch) {
+	public VariablesSimilaritySwitch(SimilaritySwitch similaritySwitch) {
 		this.similaritySwitch = similaritySwitch;
 	}
 

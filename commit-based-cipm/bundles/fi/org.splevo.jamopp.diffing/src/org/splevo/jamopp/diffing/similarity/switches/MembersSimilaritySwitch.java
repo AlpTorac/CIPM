@@ -12,7 +12,7 @@ import org.emftext.language.java.members.util.MembersSwitch;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.types.Type;
 import org.splevo.jamopp.diffing.similarity.ILoggableSwitch;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
 
 import com.google.common.base.Strings;
 
@@ -20,16 +20,12 @@ import com.google.common.base.Strings;
  * Similarity decisions for the member elements.
  */
 public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements ILoggableSwitch {
-
-    /**
-	 * 
-	 */
-	private final ISimilaritySwitch similaritySwitch;
+	private final SimilaritySwitch similaritySwitch;
 
 	/**
 	 * @param similaritySwitch
 	 */
-	public MembersSimilaritySwitch(ISimilaritySwitch similaritySwitch) {
+	public MembersSimilaritySwitch(SimilaritySwitch similaritySwitch) {
 		this.similaritySwitch = similaritySwitch;
 	}
 

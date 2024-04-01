@@ -6,18 +6,18 @@ import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.util.AnnotationsSwitch;
 import org.emftext.language.java.classifiers.Classifier;
 import org.splevo.jamopp.diffing.similarity.ILoggableSwitch;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
 
 /**
  * Similarity decisions for annotation elements.
  */
 public class AnnotationsSimilaritySwitch extends AnnotationsSwitch<Boolean> implements ILoggableSwitch {
-	private final ISimilaritySwitch similaritySwitch;
+	private final SimilaritySwitch similaritySwitch;
 
 	/**
 	 * @param similaritySwitch
 	 */
-	public AnnotationsSimilaritySwitch(ISimilaritySwitch similaritySwitch) {
+	public AnnotationsSimilaritySwitch(SimilaritySwitch similaritySwitch) {
 		this.similaritySwitch = similaritySwitch;
 	}
 

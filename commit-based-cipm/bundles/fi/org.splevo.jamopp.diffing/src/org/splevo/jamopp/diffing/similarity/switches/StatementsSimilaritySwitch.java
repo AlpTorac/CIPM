@@ -17,7 +17,7 @@ import org.emftext.language.java.statements.SynchronizedBlock;
 import org.emftext.language.java.statements.Throw;
 import org.emftext.language.java.statements.util.StatementsSwitch;
 import org.emftext.language.java.variables.Variable;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 
 import com.google.common.base.Strings;
@@ -26,11 +26,7 @@ import com.google.common.base.Strings;
  * Similarity decisions for the statement elements.
  */
 public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
-
-    /**
-	 * 
-	 */
-	private final ISimilaritySwitch similaritySwitch;
+	private final SimilaritySwitch similaritySwitch;
 	/**
      * Flag if the position of a statement should be considered for similarity or not.
      */
@@ -44,7 +40,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
      *            not.
      * @param similaritySwitch TODO
      */
-    public StatementsSimilaritySwitch(ISimilaritySwitch similaritySwitch) {
+    public StatementsSimilaritySwitch(SimilaritySwitch similaritySwitch) {
         this.similaritySwitch = similaritySwitch;
 		this.checkStatementPosition = this.similaritySwitch.getDefaultCheckStatementPosition();
     }

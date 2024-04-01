@@ -6,21 +6,18 @@ import org.emftext.language.java.modules.ProvidesModuleDirective;
 import org.emftext.language.java.modules.RequiresModuleDirective;
 import org.emftext.language.java.modules.UsesModuleDirective;
 import org.emftext.language.java.modules.util.ModulesSwitch;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
 
 /**
  * Similarity Decisions for module elements.
  */
 public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> {
-	/**
-	 * 
-	 */
-	private final ISimilaritySwitch similaritySwitch;
+	private final SimilaritySwitch similaritySwitch;
 
 	/**
 	 * @param similaritySwitch
 	 */
-	public ModulesSimilaritySwitch(ISimilaritySwitch similaritySwitch) {
+	public ModulesSimilaritySwitch(SimilaritySwitch similaritySwitch) {
 		this.similaritySwitch = similaritySwitch;
 	}
 
