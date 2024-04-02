@@ -3,7 +3,6 @@ package org.splevo.jamopp.diffing.similarity.switches;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.containers.util.ContainersSwitch;
-import org.splevo.diffing.util.NormalizationUtil;
 import org.splevo.jamopp.diffing.similarity.ILoggableSwitch;
 import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
 import org.splevo.jamopp.diffing.util.JaMoPPModelUtil;
@@ -50,8 +49,8 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean> implem
         this.logComparison(unit1.getName(), unit2.getName(), CompilationUnit.class.getSimpleName());
         this.logComparison(unit1.eClass().getName(), unit2.eClass().getName(), "compilation unit class");
         
-        String name1 = NormalizationUtil.normalize(unit1.getName(), this.similaritySwitch.getCompilationUnitNormalizations());
-        name1 = NormalizationUtil.normalize(name1, this.similaritySwitch.getPackageNormalizations());
+        String name1 = this.similaritySwitch.normalizeCompilationUnit(unit1.getName());
+        name1 = this.similaritySwitch.normalizePackage(name1);
         String name2 = unit2.getName();
         
         this.logResult(name1.equals(name2), "compilation unit name");
@@ -59,8 +58,7 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean> implem
             return Boolean.FALSE;
         }
         
-        String namespaceString1 = NormalizationUtil.normalizeNamespace(unit1.getNamespacesAsString(),
-        		this.similaritySwitch.getPackageNormalizations());
+        String namespaceString1 = this.similaritySwitch.normalizeNamespace(unit1.getNamespacesAsString());
         String namespaceString2 = Strings.nullToEmpty(unit2.getNamespacesAsString());
         
         this.logResult(namespaceString1.equals(namespaceString2), "compilation unit namespace");
@@ -90,7 +88,7 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean> implem
         this.logComparison(package1.getNamespacesAsString(), package2.getNamespacesAsString(), "package namespace");
         
         String packagePath1 = JaMoPPModelUtil.buildNamespacePath(package1);
-        packagePath1 = NormalizationUtil.normalizeNamespace(packagePath1, this.similaritySwitch.getPackageNormalizations());
+        packagePath1 = this.similaritySwitch.normalizeNamespace(packagePath1);
         String packagePath2 = JaMoPPModelUtil.buildNamespacePath(package2);
         
         this.logResult(packagePath1.equals(packagePath2), "package path");
