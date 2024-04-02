@@ -27,10 +27,6 @@ import com.google.common.base.Strings;
  */
 public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
 	private final SimilaritySwitch similaritySwitch;
-	/**
-     * Flag if the position of a statement should be considered for similarity or not.
-     */
-    private boolean checkStatementPosition;
 
     /**
      * Constructor to set required configurations.
@@ -42,7 +38,6 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
      */
     public StatementsSimilaritySwitch(SimilaritySwitch similaritySwitch) {
         this.similaritySwitch = similaritySwitch;
-		this.checkStatementPosition = this.similaritySwitch.getDefaultCheckStatementPosition();
     }
 
     /**
@@ -70,7 +65,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
         }
 
         // check predecessor similarity
-        if (checkStatementPosition) {
+        if (this.similaritySwitch.shouldCheckStatementPosition()) {
             if (differentPredecessor(statement1, statement2) && differentSuccessor(statement1, statement2)) {
                 return Boolean.FALSE;
             }
@@ -100,7 +95,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
             return Boolean.FALSE;
         }
         
-        if (checkStatementPosition) {
+        if (this.similaritySwitch.shouldCheckStatementPosition()) {
         	varSimilarity = this.similaritySwitch.isSimilar(varStmt1.eContainer(), varStmt2.eContainer(), false);
         	if (!varSimilarity) {
         		return Boolean.FALSE;
@@ -158,7 +153,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
             return Boolean.FALSE;
         }
 
-        if (checkStatementPosition) {
+        if (this.similaritySwitch.shouldCheckStatementPosition()) {
             if (differentPredecessor(statement1, statement2) && differentSuccessor(statement1, statement2)) {
                 return Boolean.FALSE;
             }
