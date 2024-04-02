@@ -19,6 +19,8 @@ import java.util.regex.Pattern;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.emftext.language.java.commons.NamespaceAwareElement;
+import org.splevo.diffing.util.NormalizationUtil;
 
 import com.google.common.collect.Maps;
 
@@ -38,6 +40,9 @@ public class SimilarityChecker implements ISimilarityChecker {
     private LinkedHashMap<Pattern, String> classifierNormalizations = null;
     private LinkedHashMap<Pattern, String> compilationUnitNormalizations = null;
     private LinkedHashMap<Pattern, String> packageNormalizations = null;
+    /**
+     * Flag if the position of statement elements should be considered or not.
+     */
     private boolean defaultCheckStatementPositionFlag = true;
 
     /**
@@ -76,16 +81,6 @@ public class SimilarityChecker implements ISimilarityChecker {
     @Override
 	public boolean checksStatementPositionOnDefault() {
     	return this.defaultCheckStatementPositionFlag;
-    }
-    
-    /**
-     * Controls if the SimilarityChecker checks the position of statements in the default behavior.
-     * 
-     * @param defaultCheckStatementPositionFlag true if the statement positions are checked. false otherwise.
-     */
-    @Override
-	public void setCheckStatementPositionOnDefault(boolean defaultCheckStatementPositionFlag) {
-    	this.defaultCheckStatementPositionFlag = defaultCheckStatementPositionFlag;
     }
 
     /**
@@ -182,7 +177,7 @@ public class SimilarityChecker implements ISimilarityChecker {
      *            The second element.
      * @return True if only one element is null and the other is not.
      */
-    protected Boolean onlyOneIsNull(final EObject element1, final EObject element2) {
+    public Boolean onlyOneIsNull(final EObject element1, final EObject element2) {
         Boolean onlyOneIsNull = false;
         if (element1 != null && element2 == null) {
             onlyOneIsNull = Boolean.TRUE;
@@ -201,13 +196,47 @@ public class SimilarityChecker implements ISimilarityChecker {
      *                               If no statements are involved, the flag can be ignored.
      * @return true if the EObjects are similar. null if they cannot be compared. false otherwise.
      */
-    protected Boolean checkSimilarityForResolvedAndSameType(EObject element1, EObject element2,
-    		boolean checkStatementPosition) {
-    	return this.makeSwitch(checkStatementPosition).compare(element1, element2);
+    protected Boolean checkSimilarityForResolvedAndSameType(EObject element1, EObject element2, boolean checkStatementPosition) {
+    	this.defaultCheckStatementPositionFlag = checkStatementPosition;
+    	return this.makeSwitch().compare(element1, element2);
     }
 	
-    protected ISimilaritySwitch makeSwitch(boolean defaultCheckStatementPositionFlag) {
-    	return new SimilaritySwitch(this, defaultCheckStatementPositionFlag, classifierNormalizations,
-    			compilationUnitNormalizations, packageNormalizations);
+    /**
+     * Compares the namespaces of two elements by comparing each part of the namespaces.
+     * 
+     * @param ele1 the first element.
+     * @param ele2 the second element to compare to the first element.
+     * @return true if the number of parts of the namespaces and each part in both namespaces are equal. false otherwise.
+     */
+    public boolean compareNamespacesByPart(NamespaceAwareElement ele1, NamespaceAwareElement ele2) {
+    	if (ele1.getNamespaces().size() != ele2.getNamespaces().size()) {
+    		return false;
+    	}
+    	for (int idx = 0; idx < ele1.getNamespaces().size(); idx++) {
+    		if (!ele1.getNamespaces().get(idx).equals(ele2.getNamespaces().get(idx))) {
+    			return false;
+    		}
+    	}
+    	return true;
+    }
+    
+    public String normalizeCompilationUnit(String original) {
+    	return NormalizationUtil.normalize(original, this.compilationUnitNormalizations);
+    }
+    
+    public String normalizePackage(String original) {
+    	return NormalizationUtil.normalize(original, this.packageNormalizations);
+    }
+    
+    public String normalizeClassifier(String original) {
+    	return NormalizationUtil.normalize(original, this.classifierNormalizations);
+    }
+    
+    public String normalizeNamespace(String namespace) {
+    	return NormalizationUtil.normalizeNamespace(namespace, this.packageNormalizations);
+    }
+    
+    public ISimilaritySwitch makeSwitch() {
+    	return new SimilaritySwitch(this);
     }
 }

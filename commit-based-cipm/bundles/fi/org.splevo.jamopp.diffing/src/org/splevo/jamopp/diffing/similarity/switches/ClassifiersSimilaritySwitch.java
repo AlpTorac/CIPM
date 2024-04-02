@@ -3,7 +3,6 @@ package org.splevo.jamopp.diffing.similarity.switches;
 import org.emftext.language.java.classifiers.AnonymousClass;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.classifiers.util.ClassifiersSwitch;
-import org.splevo.diffing.util.NormalizationUtil;
 import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
 
 import com.google.common.base.Strings;
@@ -39,8 +38,7 @@ public class ClassifiersSimilaritySwitch extends ClassifiersSwitch<Boolean> {
 
         ConcreteClassifier classifier2 = (ConcreteClassifier) this.similaritySwitch.getCompareElement();
 
-        String name1 = NormalizationUtil.normalize(classifier1.getQualifiedName(),
-        		this.similaritySwitch.getClassifierNormalizations());
+        String name1 = this.similaritySwitch.normalizeClassifier(classifier1.getQualifiedName());
         String name2 = Strings.nullToEmpty(classifier2.getQualifiedName());
 
         return (name1.equals(name2));

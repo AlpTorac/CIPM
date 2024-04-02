@@ -3,6 +3,7 @@ package org.splevo.jamopp.diffing.similarity;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.emftext.language.java.commons.NamespaceAwareElement;
 
 public interface ISimilarityChecker {
 
@@ -12,13 +13,6 @@ public interface ISimilarityChecker {
 	 * @return true if the statement positions are checked. false otherwise.
 	 */
 	public boolean checksStatementPositionOnDefault();
-
-	/**
-	 * Controls if the SimilarityChecker checks the position of statements in the default behavior.
-	 * 
-	 * @param defaultCheckStatementPositionFlag true if the statement positions are checked. false otherwise.
-	 */
-	public void setCheckStatementPositionOnDefault(boolean defaultCheckStatementPositionFlag);
 
 	/**
 	 * Check two object lists if they are similar.
@@ -58,5 +52,23 @@ public interface ISimilarityChecker {
 	 * @return TRUE, if they are similar; FALSE if not, NULL if it can't be decided.
 	 */
 	public Boolean isSimilar(EObject element1, EObject element2, boolean checkStatementPosition);
-
+	
+    /**
+     * Compares the namespaces of two elements by comparing each part of the namespaces.
+     * 
+     * @param ele1 the first element.
+     * @param ele2 the second element to compare to the first element.
+     * @return true if the number of parts of the namespaces and each part in both namespaces are equal. false otherwise.
+     */
+	public boolean compareNamespacesByPart(NamespaceAwareElement ele1, NamespaceAwareElement ele2);
+	
+    public String normalizeCompilationUnit(String original);
+    
+    public String normalizePackage(String original);
+    
+    public String normalizeClassifier(String original);
+    
+    public String normalizeNamespace(String namespace);
+    
+    public ISimilaritySwitch makeSwitch();
 }

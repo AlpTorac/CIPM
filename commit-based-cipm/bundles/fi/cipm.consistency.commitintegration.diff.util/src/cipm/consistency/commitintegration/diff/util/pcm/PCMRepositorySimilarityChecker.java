@@ -10,7 +10,7 @@ import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
  */
 public class PCMRepositorySimilarityChecker extends SimilarityChecker {
 	@Override
-	protected ISimilaritySwitch makeSwitch(boolean defaultCheckStatementPositionFlag) {
-		return new PCMRepositorySimilaritySwitch(this, defaultCheckStatementPositionFlag);
+	public ISimilaritySwitch makeSwitch() {
+		return new PCMRepositorySimilaritySwitch(this);
 	}
 }

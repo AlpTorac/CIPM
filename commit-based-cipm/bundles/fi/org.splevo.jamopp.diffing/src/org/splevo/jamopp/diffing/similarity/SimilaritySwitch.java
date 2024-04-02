@@ -12,11 +12,6 @@
  *******************************************************************************/
 package org.splevo.jamopp.diffing.similarity;
 
-import java.util.Map;
-import java.util.regex.Pattern;
-
-import org.apache.log4j.Logger;
-import org.emftext.language.java.commons.NamespaceAwareElement;
 import org.splevo.jamopp.diffing.similarity.switches.AnnotationsSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.switches.ArraysSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.switches.ClassifiersSimilaritySwitch;
@@ -53,36 +48,18 @@ import org.splevo.jamopp.diffing.similarity.switches.VariablesSimilaritySwitch;
  * </p>
  */
 public class SimilaritySwitch extends AbstractSimilaritySwitch {
-    private Map<Pattern, String> classifierNormalizations = null;
-	private Map<Pattern, String> compilationUnitNormalizations = null;
-    private Map<Pattern, String> packageNormalizations = null;
-    
     /**
      * Constructor requiring the element to compare with.
      * 
      * @param defaultCheckStatementPosition
      *            Flag if the similarity check should consider the position of a statement or not.
-     * @param classifierNormalizations
-     *            A list of patterns replace any match in a classifier name with the defined
-     *            replacement string.
-     * @param compilationUnitNormalizations
-     *            A list of patterns replace any match in a compilation unit name with the defined
-     *            replacement string.
-     * @param packageNormalizations
-     *            A list of package normalization patterns.
      */
-    public SimilaritySwitch(ISimilarityChecker sc,
-    		boolean defaultCheckStatementPosition,
-    		Map<Pattern, String> classifierNormalizations,
-    		Map<Pattern, String> compilationUnitNormalizations,
-    		Map<Pattern, String> packageNormalizations) {
-    	
-    	super(sc, defaultCheckStatementPosition);
-    	
-    	this.classifierNormalizations = classifierNormalizations;
-    	this.compilationUnitNormalizations = compilationUnitNormalizations;
-    	this.packageNormalizations = packageNormalizations;
-
+    public SimilaritySwitch(ISimilarityChecker sc) {
+    	super(sc);
+    }
+    
+    @Override
+    protected void initInnerSwitches() {
         addSwitch(new AnnotationsSimilaritySwitch(this));
         addSwitch(new ArraysSimilaritySwitch());
         addSwitch(new ClassifiersSimilaritySwitch(this));
@@ -104,21 +81,4 @@ public class SimilaritySwitch extends AbstractSimilaritySwitch {
         addSwitch(new LayoutSimilaritySwitch());
         addSwitch(new ModulesSimilaritySwitch(this));
     }
-    
-	public Map<Pattern, String> getClassifierNormalizations() {
-		return classifierNormalizations;
-	}
-
-	public Map<Pattern, String> getCompilationUnitNormalizations() {
-		return compilationUnitNormalizations;
-	}
-
-	public Map<Pattern, String> getPackageNormalizations() {
-		return packageNormalizations;
-	}
-	
-	protected ISimilaritySwitch makeSwitch(boolean checkStatementPosition) {
-		return new SimilaritySwitch(this.getSimilarityChecker(), checkStatementPosition, this.classifierNormalizations,
-    			this.compilationUnitNormalizations, this.packageNormalizations);
-	}
 }
