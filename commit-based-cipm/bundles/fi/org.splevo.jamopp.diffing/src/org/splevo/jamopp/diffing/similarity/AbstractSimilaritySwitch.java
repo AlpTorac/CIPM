@@ -4,12 +4,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
 
 public abstract class AbstractSimilaritySwitch extends ComposedSwitch<Boolean> implements ISimilaritySwitch {
-	private ISimilarityChecker sc;
+	private ISimilarityComparer sc;
     
     /** The object to compare the switched element with. */
     private EObject compareElement = null;
     
-    public AbstractSimilaritySwitch(ISimilarityChecker sc) {
+    public AbstractSimilaritySwitch(ISimilarityComparer sc) {
     	this.sc = sc;
     	
     	this.initInnerSwitches();
@@ -40,7 +40,7 @@ public abstract class AbstractSimilaritySwitch extends ComposedSwitch<Boolean> i
     }
     
 	@Override
-	public ISimilarityChecker getSimilarityChecker() {
+	public ISimilarityComparer getSimilarityComparer() {
 		return this.sc;
 	}
 	

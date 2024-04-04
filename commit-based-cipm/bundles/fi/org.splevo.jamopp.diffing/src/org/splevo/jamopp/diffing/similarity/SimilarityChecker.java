@@ -13,14 +13,9 @@
 package org.splevo.jamopp.diffing.similarity;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.emftext.language.java.commons.NamespaceAwareElement;
-import org.splevo.diffing.util.NormalizationUtil;
 
 import com.google.common.collect.Maps;
 
@@ -40,11 +35,9 @@ public class SimilarityChecker implements ISimilarityChecker {
     private LinkedHashMap<Pattern, String> classifierNormalizations = null;
     private LinkedHashMap<Pattern, String> compilationUnitNormalizations = null;
     private LinkedHashMap<Pattern, String> packageNormalizations = null;
-    /**
-     * Flag if the position of statement elements should be considered or not.
-     */
-    private boolean defaultCheckStatementPositionFlag = true;
 
+    private SimilarityComparer sc;
+    
     /**
      * Constructor to set the required configurations.
      *
@@ -62,6 +55,8 @@ public class SimilarityChecker implements ISimilarityChecker {
         this.classifierNormalizations = classifierNormalizations;
         this.compilationUnitNormalizations = compilationUnitNormalizations;
         this.packageNormalizations = packageNormalizations;
+        
+        this.sc = this.createSimilarityComparer();
     }
 
     /**
@@ -71,172 +66,21 @@ public class SimilarityChecker implements ISimilarityChecker {
         this.classifierNormalizations = Maps.newLinkedHashMap();
         this.compilationUnitNormalizations = Maps.newLinkedHashMap();
         this.packageNormalizations = Maps.newLinkedHashMap();
+        
+        this.sc = this.createSimilarityComparer();
     }
     
-    /**
-     * Indicates if the SimilarityChecker instance checks the position of statements in its default behavior.
-     * 
-     * @return true if the statement positions are checked. false otherwise.
-     */
     @Override
-	public boolean checksStatementPositionOnDefault() {
-    	return this.defaultCheckStatementPositionFlag;
+    public SimilarityComparer createSimilarityComparer() {
+    	SimilarityComparer sc = new SimilarityComparer(classifierNormalizations,
+    			compilationUnitNormalizations,
+    			packageNormalizations);
+    	
+    	return sc;
     }
 
-    /**
-     * Check two object lists if they are similar.
-     *
-     * The elements is compared pairwise and it is the responsibility of the provided list
-     * implementations to return them in an appropriate order by calling get(i) with a increasing
-     * index i.
-     *
-     * @param elements1
-     *            The first list of elements to check.
-     * @param elements2
-     *            The second list of elements to check.
-     * @return TRUE, if they are all similar; FALSE if a different number of elements is submitted or at least one pair of elements is not similar to each other.
-     */
 	@Override
-	public Boolean areSimilar(final List<? extends EObject> elements1, final List<? extends EObject> elements2) {
-        if (elements1.size() != elements2.size()) {
-            return Boolean.FALSE;
-        }
-        for (int i = 0; i < elements1.size(); i++) {
-            Boolean childSimilarity = isSimilar(elements1.get(i), elements2.get(i));
-            if (childSimilarity == Boolean.FALSE) {
-                return Boolean.FALSE;
-            }
-        }
-
-        return Boolean.TRUE;
-    }
-
-	/**
-	 * Check two objects if they are similar.
-	 *
-	 * @param element1
-	 *            The first element to check.
-	 * @param element2
-	 *            The second element to check.
-	 * @return TRUE, if they are similar; FALSE if not, NULL if it can't be decided.
-	 */
-	@Override
-	public Boolean isSimilar(EObject element1, EObject element2) {
-		return this.isSimilar(element1, element2, this.checksStatementPositionOnDefault());
+	public SimilarityComparer getSimilarityComparer() {
+		return this.sc;
 	}
-	
-	/**
-     * Check two objects if they are similar.
-     *
-     * @param element1
-     *            The first element to check.
-     * @param element2
-     *            The second element to check.
-     * @param checkStatementPosition
-     *            Flag if the position of statement elements should be considered or not.
-     * @return TRUE, if they are similar; FALSE if not, NULL if it can't be decided.
-     */
-    @Override
-	public Boolean isSimilar(EObject element1, EObject element2, boolean checkStatementPosition) {
-
-        // check that either both or none of them is null
-        if (element1 == element2) {
-            return Boolean.TRUE;
-        }
-
-        if (onlyOneIsNull(element1, element2)) {
-            return Boolean.FALSE;
-        }
-
-        // if a proxy is present try to resolve it
-        // the other element is used as a context.
-        // TODO Clarify why it can happen that one proxy is resolved and the other is not
-        // further notes available with the issue
-        // https://sdqbuild.ipd.kit.edu/jira/browse/SPLEVO-279
-        if (element2.eIsProxy() && !element1.eIsProxy()) {
-            element2 = EcoreUtil.resolve(element2, element1);
-        } else if (element1.eIsProxy() && !element2.eIsProxy()) {
-            element1 = EcoreUtil.resolve(element1, element2);
-        }
-
-        // check the elements to be of the same type
-        if (!element1.getClass().equals(element2.getClass())) {
-            return Boolean.FALSE;
-        }
-
-        // check type specific similarity
-        return this.checkSimilarityForResolvedAndSameType(element1, element2, checkStatementPosition);
-    }
-
-    /**
-     * Method to check if only one of the provided elements is null.
-     *
-     * @param element1
-     *            The first element.
-     * @param element2
-     *            The second element.
-     * @return True if only one element is null and the other is not.
-     */
-    public Boolean onlyOneIsNull(final EObject element1, final EObject element2) {
-        Boolean onlyOneIsNull = false;
-        if (element1 != null && element2 == null) {
-            onlyOneIsNull = Boolean.TRUE;
-        } else if (element1 == null && element2 != null) {
-            onlyOneIsNull = Boolean.TRUE;
-        }
-        return onlyOneIsNull;
-    }
-    
-    /**
-     * Checks the similarity of two EObjects where both EObjects are resolved and have the same type.
-     * 
-     * @param element1 the first EObject.
-     * @param element2 the second EObject.
-     * @param checkStatementPosition true if the position of statements should be checked. false otherwise.
-     *                               If no statements are involved, the flag can be ignored.
-     * @return true if the EObjects are similar. null if they cannot be compared. false otherwise.
-     */
-    protected Boolean checkSimilarityForResolvedAndSameType(EObject element1, EObject element2, boolean checkStatementPosition) {
-    	this.defaultCheckStatementPositionFlag = checkStatementPosition;
-    	return this.makeSwitch().compare(element1, element2);
-    }
-	
-    /**
-     * Compares the namespaces of two elements by comparing each part of the namespaces.
-     * 
-     * @param ele1 the first element.
-     * @param ele2 the second element to compare to the first element.
-     * @return true if the number of parts of the namespaces and each part in both namespaces are equal. false otherwise.
-     */
-    public boolean compareNamespacesByPart(NamespaceAwareElement ele1, NamespaceAwareElement ele2) {
-    	if (ele1.getNamespaces().size() != ele2.getNamespaces().size()) {
-    		return false;
-    	}
-    	for (int idx = 0; idx < ele1.getNamespaces().size(); idx++) {
-    		if (!ele1.getNamespaces().get(idx).equals(ele2.getNamespaces().get(idx))) {
-    			return false;
-    		}
-    	}
-    	return true;
-    }
-    
-    public String normalizeCompilationUnit(String original) {
-    	return NormalizationUtil.normalize(original, this.compilationUnitNormalizations);
-    }
-    
-    public String normalizePackage(String original) {
-    	return NormalizationUtil.normalize(original, this.packageNormalizations);
-    }
-    
-    public String normalizeClassifier(String original) {
-    	return NormalizationUtil.normalize(original, this.classifierNormalizations);
-    }
-    
-    public String normalizeNamespace(String namespace) {
-    	return NormalizationUtil.normalizeNamespace(namespace, this.packageNormalizations);
-    }
-    
-    public ISimilaritySwitch makeSwitch() {
-    	return new SimilaritySwitch(this);
-    }
 }

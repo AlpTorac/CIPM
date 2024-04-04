@@ -12,6 +12,7 @@
  *******************************************************************************/
 package org.splevo.jamopp.diffing.similarity;
 
+import org.emftext.language.java.commons.NamespaceAwareElement;
 import org.splevo.jamopp.diffing.similarity.switches.AnnotationsSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.switches.ArraysSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.switches.ClassifiersSimilaritySwitch;
@@ -54,7 +55,7 @@ public class SimilaritySwitch extends AbstractSimilaritySwitch {
      * @param defaultCheckStatementPosition
      *            Flag if the similarity check should consider the position of a statement or not.
      */
-    public SimilaritySwitch(ISimilarityChecker sc) {
+    public SimilaritySwitch(SimilarityComparer sc) {
     	super(sc);
     }
     
@@ -75,10 +76,39 @@ public class SimilaritySwitch extends AbstractSimilaritySwitch {
         addSwitch(new OperatorsSimilaritySwitch());
         addSwitch(new ParametersSimilaritySwitch(this));
         addSwitch(new ReferencesSimilaritySwitch(this));
-        addSwitch(new StatementsSimilaritySwitch(this));
+        addSwitch(new StatementsSimilaritySwitch(this, this.checksStatementPositionOnDefault()));
         addSwitch(new TypesSimilaritySwitch(this));
         addSwitch(new VariablesSimilaritySwitch(this));
         addSwitch(new LayoutSimilaritySwitch());
         addSwitch(new ModulesSimilaritySwitch(this));
+    }
+    
+    @Override
+    public SimilarityComparer getSimilarityComparer() {
+    	return (SimilarityComparer) super.getSimilarityComparer();
+    }
+ 
+	public boolean checksStatementPositionOnDefault() {
+    	return this.getSimilarityComparer().checksStatementPositionOnDefault();
+    }
+    
+    public String normalizeCompilationUnit(String original) {
+    	return this.getSimilarityComparer().normalizeCompilationUnit(original);
+    }
+    
+    public String normalizePackage(String original) {
+    	return this.getSimilarityComparer().normalizePackage(original);
+    }
+    
+    public String normalizeClassifier(String original) {
+    	return this.getSimilarityComparer().normalizeClassifier(original);
+    }
+    
+    public String normalizeNamespace(String namespace) {
+    	return this.getSimilarityComparer().normalizeNamespace(namespace);
+    }
+
+    public boolean compareNamespacesByPart(NamespaceAwareElement ele1, NamespaceAwareElement ele2) {
+    	return this.getSimilarityComparer().compareNamespacesByPart(ele1, ele2);
     }
 }
