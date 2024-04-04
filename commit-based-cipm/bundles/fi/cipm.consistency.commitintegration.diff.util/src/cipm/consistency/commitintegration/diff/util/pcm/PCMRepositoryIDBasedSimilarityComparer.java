@@ -5,6 +5,15 @@ import org.eclipse.emf.ecore.EObject;
 import de.uka.ipd.sdq.identifier.Identifier;
 
 public class PCMRepositoryIDBasedSimilarityComparer extends PCMRepositorySimilarityComparer {
+
+	@Override
+	public PCMRepositoryIDBasedSimilarityComparer clone(boolean checkStatementPosition) {
+		var clone = new PCMRepositoryIDBasedSimilarityComparer();
+		clone.setChecksStatementPositionOnDefault(checkStatementPosition);
+		
+		return clone;
+	}
+	
 	@Override
 	public Boolean checkSimilarityForResolvedAndSameType(EObject element1, EObject element2,
 			boolean checkStatementPosition) {
