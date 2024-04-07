@@ -42,7 +42,11 @@ public class DummySimilarityComparer extends SimilarityComparer {
     
     @Override
     public DummySimilarityComparer clone(boolean checkStatementPosition) {
-    	var clone = new DummySimilarityComparer();
+    	var clone = new DummySimilarityComparer(
+    				this.getClassifierNormalizations(),
+    				this.getCompilationUnitNormalizations(),
+    				this.getPackageNormalizations()
+    			);
     	
     	clone.setChecksStatementPositionOnDefault(checkStatementPosition);
     	return clone;
