@@ -11,5 +11,9 @@ Require-Bundle: cipm.consistency.commitintegration.diff.util,
  org.eclipse.emf.common,
  org.eclipse.emf.ecore,
  org.eclipse.emf.compare,
- org.apache.log4j
+ org.apache.log4j,
+ org.emftext.language.java,
+ org.eclipse.emf.ecore.xmi,
+ org.splevo.jamopp.diffing
 Export-Package: cipm.consistency.fitests
+Import-Package: org.apache.commons.io
