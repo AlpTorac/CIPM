@@ -8,15 +8,16 @@ import org.emftext.language.java.commons.NamespaceAwareElement;
 import org.splevo.diffing.util.NormalizationUtil;
 
 public class SimilarityComparer extends AbstractSimilarityComparer {
-    private Map<Pattern, String> classifierNormalizations = null;
-    private Map<Pattern, String> compilationUnitNormalizations = null;
-    private Map<Pattern, String> packageNormalizations = null;
+    private final Map<Pattern, String> classifierNormalizations;
+    private final Map<Pattern, String> compilationUnitNormalizations;
+    private final Map<Pattern, String> packageNormalizations;
     
     public SimilarityComparer(Map<Pattern, String> classifierNormalizations,
     		Map<Pattern, String> compilationUnitNormalizations,
     		Map<Pattern, String> packageNormalizations) {
     	
     	super();
+    	
         this.classifierNormalizations = classifierNormalizations;
         this.compilationUnitNormalizations = compilationUnitNormalizations;
         this.packageNormalizations = packageNormalizations;
@@ -62,11 +63,24 @@ public class SimilarityComparer extends AbstractSimilarityComparer {
     	return new SimilaritySwitch(clone).compare(element1, element2);
     }
     
-    @Override
+    protected Map<Pattern, String> getClassifierNormalizations() {
+		return this.classifierNormalizations;
+	}
+
+	protected Map<Pattern, String> getCompilationUnitNormalizations() {
+		return this.compilationUnitNormalizations;
+	}
+
+	protected Map<Pattern, String> getPackageNormalizations() {
+		return this.packageNormalizations;
+	}
+
+	@Override
     public SimilarityComparer clone(boolean checkStatementPosition) {
-    	var clone = new SimilarityComparer(classifierNormalizations,
-    			compilationUnitNormalizations,
-    			packageNormalizations);
+    	var clone = new SimilarityComparer(
+    			this.getClassifierNormalizations(),
+    			this.getCompilationUnitNormalizations(),
+    			this.getPackageNormalizations());
     	
     	clone.setChecksStatementPositionOnDefault(checkStatementPosition);
     	return clone;

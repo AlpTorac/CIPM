@@ -7,7 +7,6 @@ import org.eclipse.emf.ecore.EObject;
 public interface ISimilarityComparer {
 
 	public boolean checksStatementPositionOnDefault();
-	public void setChecksStatementPositionOnDefault(boolean defaultCheckStatementPositionFlag);
 	
 	/**
 	 * Check two object lists if they are similar.

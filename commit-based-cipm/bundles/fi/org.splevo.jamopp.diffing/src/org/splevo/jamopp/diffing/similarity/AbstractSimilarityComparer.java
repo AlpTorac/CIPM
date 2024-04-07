@@ -16,8 +16,7 @@ public abstract class AbstractSimilarityComparer implements ISimilarityComparer 
     	return this.defaultCheckStatementPositionFlag;
     }
 
-	@Override
-	public void setChecksStatementPositionOnDefault(boolean defaultCheckStatementPositionFlag) {
+	protected void setChecksStatementPositionOnDefault(boolean defaultCheckStatementPositionFlag) {
     	this.defaultCheckStatementPositionFlag = defaultCheckStatementPositionFlag;
     }
 	

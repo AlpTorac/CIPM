@@ -12,7 +12,7 @@
  *******************************************************************************/
 package org.splevo.jamopp.diffing.similarity;
 
-import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.apache.log4j.Logger;
@@ -32,9 +32,9 @@ public class SimilarityChecker implements ISimilarityChecker {
     @SuppressWarnings("unused")
     private Logger logger = Logger.getLogger(SimilarityChecker.class);
 
-    private LinkedHashMap<Pattern, String> classifierNormalizations = null;
-    private LinkedHashMap<Pattern, String> compilationUnitNormalizations = null;
-    private LinkedHashMap<Pattern, String> packageNormalizations = null;
+    private final Map<Pattern, String> classifierNormalizations;
+    private final Map<Pattern, String> compilationUnitNormalizations;
+    private final Map<Pattern, String> packageNormalizations;
 
     private SimilarityComparer sc;
     
@@ -50,8 +50,8 @@ public class SimilarityChecker implements ISimilarityChecker {
      * @param packageNormalizations
      *            The normalizations to replace expressions.
      */
-    public SimilarityChecker(LinkedHashMap<Pattern, String> classifierNormalizations,
-            LinkedHashMap<Pattern, String> compilationUnitNormalizations, LinkedHashMap<Pattern, String> packageNormalizations) {
+    public SimilarityChecker(Map<Pattern, String> classifierNormalizations,
+    		Map<Pattern, String> compilationUnitNormalizations, Map<Pattern, String> packageNormalizations) {
         this.classifierNormalizations = classifierNormalizations;
         this.compilationUnitNormalizations = compilationUnitNormalizations;
         this.packageNormalizations = packageNormalizations;
@@ -63,18 +63,29 @@ public class SimilarityChecker implements ISimilarityChecker {
      * Default constructor for a similarity checker without any normalization configurations.
      */
     public SimilarityChecker() {
-        this.classifierNormalizations = Maps.newLinkedHashMap();
-        this.compilationUnitNormalizations = Maps.newLinkedHashMap();
-        this.packageNormalizations = Maps.newLinkedHashMap();
-        
-        this.sc = this.createSimilarityComparer();
+    	this(Maps.newLinkedHashMap(),
+    			Maps.newLinkedHashMap(),
+    			Maps.newLinkedHashMap());
     }
     
-    @Override
+    protected Map<Pattern, String> getClassifierNormalizations() {
+		return this.classifierNormalizations;
+	}
+
+	protected Map<Pattern, String> getCompilationUnitNormalizations() {
+		return this.compilationUnitNormalizations;
+	}
+
+	protected Map<Pattern, String> getPackageNormalizations() {
+		return this.packageNormalizations;
+	}
+
+	@Override
     public SimilarityComparer createSimilarityComparer() {
-    	SimilarityComparer sc = new SimilarityComparer(classifierNormalizations,
-    			compilationUnitNormalizations,
-    			packageNormalizations);
+    	SimilarityComparer sc = new SimilarityComparer(
+    			this.getClassifierNormalizations(),
+    			this.getCompilationUnitNormalizations(),
+    			this.getPackageNormalizations());
     	
     	return sc;
     }
