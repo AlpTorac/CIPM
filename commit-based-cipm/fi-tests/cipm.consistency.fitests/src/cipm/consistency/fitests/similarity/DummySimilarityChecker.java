@@ -6,9 +6,11 @@ public class DummySimilarityChecker extends SimilarityChecker {
 	
     @Override
     public DummySimilarityComparer createSimilarityComparer() {
-    	// ToDo: Pass normalisation mechanisms
-    	// ToDo: Replace LinkedHashMap with Map
-    	DummySimilarityComparer sc = new DummySimilarityComparer();
+    	DummySimilarityComparer sc = new DummySimilarityComparer(
+    				this.getClassifierNormalizations(),
+    				this.getCompilationUnitNormalizations(),
+    				this.getPackageNormalizations()
+    			);
     	return sc;
     }
 
