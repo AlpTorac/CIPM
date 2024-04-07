@@ -1,16 +1,37 @@
 package cipm.consistency.fitests.similarity;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.Switch;
 import org.emftext.language.java.containers.ContainersFactory;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import org.splevo.jamopp.diffing.similarity.switches.ContainersSimilaritySwitch;
 
 public class ModuleSimilarityTest extends AbstractSimilarityTest {
 	private final String moduleName = "mName";
+	
+	@BeforeEach
+	@Override
+	public void setUp() {
+		super.setUp();
+		
+		this.setSwitchFactory(new InnerSwitchFactory() {
+			@Override
+			public List<Switch<Boolean>> createSwitchesFor(DummySimilaritySwitch dss) {
+				var list = new ArrayList<Switch<Boolean>>();
+				list.add(new ContainersSimilaritySwitch(dss));
+				return list;
+			}
+		});
+	}
 	
 	@SuppressWarnings("serial")
 	@Test
