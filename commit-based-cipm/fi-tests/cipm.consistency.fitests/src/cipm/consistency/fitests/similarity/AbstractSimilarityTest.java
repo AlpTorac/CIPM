@@ -5,15 +5,17 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.splevo.jamopp.diffing.similarity.ISimilarityChecker;
-import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
 
 public abstract class AbstractSimilarityTest {
 	private static final Logger LOGGER = Logger.getLogger("cipm." + AbstractSimilarityTest.class.getSimpleName());
@@ -25,11 +27,12 @@ public abstract class AbstractSimilarityTest {
 	
 	private final List<Resource> createdResources = new ArrayList<Resource>();
 	
-	private ISimilarityChecker sc;
+	private DummySimilarityChecker sc;
 	
 	@BeforeEach
 	public void setUp() {
-//		System.out.println(this.getResourceRootPath());
+		this.setUpLogger();
+		LOGGER.debug("Resource root path set to: " + this.getResourceRootPath());
 		this.setResourceRegistry(this.getResourceRootPath());
 		this.sc = this.initSC();
 	}
@@ -41,10 +44,28 @@ public abstract class AbstractSimilarityTest {
 		this.deleteResourceDir();
 	}
 	
-	protected ISimilarityChecker initSC() {
-		ISimilarityChecker result = new SimilarityChecker();
-		this.sc = result;
+	/**
+	 * Prepares loggers. Enabling too many loggers can cause Java memory issues.
+	 */
+	protected void setUpLogger() {
+		Logger logger = Logger.getLogger("cipm");
+		logger.setLevel(Level.ALL);
+		logger = Logger.getLogger("jamopp");
+		logger.setLevel(Level.ALL);
+		logger = Logger.getRootLogger();
+		logger.removeAllAppenders();
+		ConsoleAppender ap = new ConsoleAppender(new PatternLayout("[%d{DATE}] %-5p: %c - %m%n"),
+				ConsoleAppender.SYSTEM_OUT);
+		logger.addAppender(ap);
+	}
+	
+	protected DummySimilarityChecker initSC() {
+		this.sc = new DummySimilarityChecker();
 		return this.sc;
+	}
+	
+	protected void setSwitchFactory(InnerSwitchFactory switchFac) {
+		this.sc.setSwitchFactory(switchFac);
 	}
 	
 	public String getExtension() {
