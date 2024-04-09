@@ -12,8 +12,11 @@
  *******************************************************************************/
 package org.splevo.jamopp.diffing.similarity;
 
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
+import java.util.Collection;
+
+import org.eclipse.emf.ecore.util.Switch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
+import org.splevo.jamopp.diffing.similarity.base.ecore.AbstractComposedSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.switches.AnnotationsSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.switches.ArraysSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.switches.ClassifiersSimilaritySwitch;
@@ -49,17 +52,9 @@ import org.splevo.jamopp.diffing.similarity.switches.VariablesSimilaritySwitch;
  * First all "not-similar"-criteria are checked. If none hits, true will be returned.
  * </p>
  */
-public class JavaSimilaritySwitch extends AbstractJavaSimilaritySwitch {
-	private ISimilarityRequestHandler srh;
-	
-    /**
-     * Constructor requiring the element to compare with.
-     * 
-     * @param defaultCheckStatementPosition
-     *            Flag if the similarity check should consider the position of a statement or not.
-     */
+public class JavaSimilaritySwitch extends AbstractComposedSimilaritySwitch implements IJavaSimilaritySwitch {
     public JavaSimilaritySwitch(ISimilarityRequestHandler srh, boolean checkStatementPosition) {
-    	super();
+    	super(srh);
     	
         addSwitch(new AnnotationsSimilaritySwitch(this, checkStatementPosition));
         addSwitch(new ArraysSimilaritySwitch());
@@ -83,12 +78,11 @@ public class JavaSimilaritySwitch extends AbstractJavaSimilaritySwitch {
         addSwitch(new ModulesSimilaritySwitch(this, checkStatementPosition));
     }
     
-    protected ISimilarityRequestHandler getSimilarityRequestHandler() {
-    	return this.srh;
+    protected JavaSimilaritySwitch(ISimilarityRequestHandler srh, Collection<Switch<Boolean>> switches) {
+    	super(srh, switches);
     }
-
-	@Override
-	public Object handleSimilarityRequest(ISimilarityRequest req) {
-		return this.srh.handleSimilarityRequest(req);
-	}
+    
+    protected JavaSimilaritySwitch(ISimilarityRequestHandler srh, Switch<Boolean>[] switches) {
+    	super(srh, switches);
+    }
 }

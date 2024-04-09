@@ -23,7 +23,7 @@ public class ParametersSimilaritySwitch extends ParametersSwitch<Boolean> implem
 	}
 	
 	@Override
-	public IJavaSimilaritySwitch getSimilaritySwitch() {
+	public IJavaSimilaritySwitch getContainingSwitch() {
 		return this.similaritySwitch;
 	}
 

@@ -1,14 +1,12 @@
-package org.splevo.jamopp.diffing.similarity.handlers;
+package org.splevo.jamopp.diffing.similarity.base.ecore;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
-import org.splevo.jamopp.diffing.similarity.requests.SingleSimilarityCheckRequest;
 
 public class SingleSimilarityCheckHandler implements ISimilarityRequestHandler {
-	public Boolean isSimilar(EObject element1, EObject element2, IJavaSimilaritySwitch ss) {
+	public Boolean isSimilar(EObject element1, EObject element2, IComposedSwitchWrapper ss) {
 
         // check that either both or none of them is null
         if (element1 == element2) {
@@ -73,7 +71,7 @@ public class SingleSimilarityCheckHandler implements ISimilarityRequestHandler {
 		var params = castedR.getParams();
 		EObject elem1 = (EObject) params[0];
 		EObject elem2 = (EObject) params[1];
-		IJavaSimilaritySwitch ss = (IJavaSimilaritySwitch) params[2];
+		IComposedSwitchWrapper ss = (IComposedSwitchWrapper) params[2];
 		
 		return this.isSimilar(elem1, elem2, ss);
 	}

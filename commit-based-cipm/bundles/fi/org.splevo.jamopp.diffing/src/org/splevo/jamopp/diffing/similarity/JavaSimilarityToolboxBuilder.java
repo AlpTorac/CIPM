@@ -6,22 +6,22 @@ import java.util.regex.Pattern;
 import org.splevo.jamopp.diffing.similarity.base.AbstractSimilarityToolboxBuilder;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
+import org.splevo.jamopp.diffing.similarity.base.ecore.MultipleSimilarityCheckHandler;
+import org.splevo.jamopp.diffing.similarity.base.ecore.MultipleSimilarityCheckRequest;
+import org.splevo.jamopp.diffing.similarity.base.ecore.SingleSimilarityCheckHandler;
+import org.splevo.jamopp.diffing.similarity.base.ecore.SingleSimilarityCheckRequest;
 import org.splevo.jamopp.diffing.similarity.handlers.ClassifierNormalizationHandler;
 import org.splevo.jamopp.diffing.similarity.handlers.CompilationUnitNormalizationHandler;
-import org.splevo.jamopp.diffing.similarity.handlers.MultipleSimilarityCheckHandler;
 import org.splevo.jamopp.diffing.similarity.handlers.NamespaceCheckHandler;
 import org.splevo.jamopp.diffing.similarity.handlers.NamespaceNormalizationHandler;
 import org.splevo.jamopp.diffing.similarity.handlers.NewSimilaritySwitchHandler;
 import org.splevo.jamopp.diffing.similarity.handlers.PackageNormalizationHandler;
-import org.splevo.jamopp.diffing.similarity.handlers.SingleSimilarityCheckHandler;
 import org.splevo.jamopp.diffing.similarity.requests.ClassifierNormalizationRequest;
 import org.splevo.jamopp.diffing.similarity.requests.NamespaceCheckRequest;
 import org.splevo.jamopp.diffing.similarity.requests.CompilationUnitNormalizationRequest;
-import org.splevo.jamopp.diffing.similarity.requests.MultipleSimilarityCheckRequest;
 import org.splevo.jamopp.diffing.similarity.requests.NamespaceNormalizationRequest;
 import org.splevo.jamopp.diffing.similarity.requests.NewSimilaritySwitchRequest;
 import org.splevo.jamopp.diffing.similarity.requests.PackageNormalizationRequest;
-import org.splevo.jamopp.diffing.similarity.requests.SingleSimilarityCheckRequest;
 
 public class JavaSimilarityToolboxBuilder extends AbstractSimilarityToolboxBuilder {
 	@Override

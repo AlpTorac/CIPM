@@ -1,11 +1,28 @@
-package org.splevo.jamopp.diffing.similarity;
+package org.splevo.jamopp.diffing.similarity.base.ecore;
+
+import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
+import org.eclipse.emf.ecore.util.Switch;
 
-public abstract class AbstractJavaSimilaritySwitch extends ComposedSwitch<Boolean> implements IJavaSimilaritySwitch {
+public abstract class AbstractComposedSwitchWrapper extends ComposedSwitch<Boolean> implements IComposedSwitchWrapper {
     /** The object to compare the switched element with. */
     private EObject compareElement = null;
+    
+    public AbstractComposedSwitchWrapper() {
+    	
+    }
+    
+    protected AbstractComposedSwitchWrapper(Collection<Switch<Boolean>> switches) {
+    	switches.forEach((s) -> this.addSwitch(s));
+    }
+    
+    protected AbstractComposedSwitchWrapper(Switch<Boolean>[] switches) {
+    	for (var s : switches) {
+    		this.addSwitch(s);
+    	}
+    }
     
 	@Override
 	public EObject getCompareElement() {

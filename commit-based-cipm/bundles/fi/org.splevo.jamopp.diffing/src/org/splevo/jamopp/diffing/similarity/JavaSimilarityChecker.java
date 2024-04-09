@@ -16,8 +16,8 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.splevo.jamopp.diffing.similarity.base.AbstractSimilarityChecker;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolbox;
+import org.splevo.jamopp.diffing.similarity.base.ecore.SingleSimilarityCheckRequest;
 import org.splevo.jamopp.diffing.similarity.requests.NewSimilaritySwitchRequest;
-import org.splevo.jamopp.diffing.similarity.requests.SingleSimilarityCheckRequest;
 
 /**
  * Checker for the similarity of two elements specific for the java application model.
