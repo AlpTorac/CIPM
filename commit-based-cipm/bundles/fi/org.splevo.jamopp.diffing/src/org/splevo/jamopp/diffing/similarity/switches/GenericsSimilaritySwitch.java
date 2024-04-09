@@ -27,7 +27,7 @@ public class GenericsSimilaritySwitch extends GenericsSwitch<Boolean> implements
 	}
 	
 	@Override
-	public IJavaSimilaritySwitch getSimilaritySwitch() {
+	public IJavaSimilaritySwitch getContainingSwitch() {
 		return this.similaritySwitch;
 	}
 

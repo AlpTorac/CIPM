@@ -27,7 +27,7 @@ public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> implements I
 	}
 	
 	@Override
-	public IJavaSimilaritySwitch getSimilaritySwitch() {
+	public IJavaSimilaritySwitch getContainingSwitch() {
 		return this.similaritySwitch;
 	}
 

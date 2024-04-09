@@ -27,7 +27,7 @@ public class AnnotationsSimilaritySwitch extends AnnotationsSwitch<Boolean> impl
 	}
 	
 	@Override
-	public IJavaSimilaritySwitch getSimilaritySwitch() {
+	public IJavaSimilaritySwitch getContainingSwitch() {
 		return this.similaritySwitch;
 	}
 	

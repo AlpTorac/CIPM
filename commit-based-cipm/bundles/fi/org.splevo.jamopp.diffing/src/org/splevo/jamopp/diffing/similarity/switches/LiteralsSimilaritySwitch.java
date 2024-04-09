@@ -31,7 +31,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean> implements
 	}
 	
 	@Override
-	public IJavaSimilaritySwitch getSimilaritySwitch() {
+	public IJavaSimilaritySwitch getContainingSwitch() {
 		return this.similaritySwitch;
 	}
 

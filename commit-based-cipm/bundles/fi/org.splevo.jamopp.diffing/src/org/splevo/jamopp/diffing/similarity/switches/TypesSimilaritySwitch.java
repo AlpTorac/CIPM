@@ -31,7 +31,7 @@ public class TypesSimilaritySwitch extends TypesSwitch<Boolean> implements IJava
 	}
 	
 	@Override
-	public IJavaSimilaritySwitch getSimilaritySwitch() {
+	public IJavaSimilaritySwitch getContainingSwitch() {
 		return this.similaritySwitch;
 	}
 

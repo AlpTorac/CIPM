@@ -32,7 +32,7 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean> implem
 	}
 	
 	@Override
-	public IJavaSimilaritySwitch getSimilaritySwitch() {
+	public IJavaSimilaritySwitch getContainingSwitch() {
 		return this.similaritySwitch;
 	}
 
