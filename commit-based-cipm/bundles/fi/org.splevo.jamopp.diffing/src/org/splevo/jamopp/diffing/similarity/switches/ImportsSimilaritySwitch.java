@@ -27,7 +27,7 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean> implements I
 	}
 	
 	@Override
-	public IJavaSimilaritySwitch getSimilaritySwitch() {
+	public IJavaSimilaritySwitch getContainingSwitch() {
 		return this.similaritySwitch;
 	}
 

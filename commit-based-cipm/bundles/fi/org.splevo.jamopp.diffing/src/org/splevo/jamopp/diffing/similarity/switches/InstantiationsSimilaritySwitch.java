@@ -28,7 +28,7 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 	}
 	
 	@Override
-	public IJavaSimilaritySwitch getSimilaritySwitch() {
+	public IJavaSimilaritySwitch getContainingSwitch() {
 		return this.similaritySwitch;
 	}
 

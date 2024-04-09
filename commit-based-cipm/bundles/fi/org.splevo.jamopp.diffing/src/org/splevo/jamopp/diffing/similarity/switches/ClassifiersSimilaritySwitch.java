@@ -26,7 +26,7 @@ public class ClassifiersSimilaritySwitch extends ClassifiersSwitch<Boolean> impl
 	}
 	
 	@Override
-	public IJavaSimilaritySwitch getSimilaritySwitch() {
+	public IJavaSimilaritySwitch getContainingSwitch() {
 		return this.similaritySwitch;
 	}
 

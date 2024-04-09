@@ -23,7 +23,7 @@ public class CommonsSimilaritySwitch extends CommonsSwitch<Boolean> implements I
 	}
 	
 	@Override
-	public IJavaSimilaritySwitch getSimilaritySwitch() {
+	public IJavaSimilaritySwitch getContainingSwitch() {
 		return this.similaritySwitch;
 	}
 
