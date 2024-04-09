@@ -5,25 +5,40 @@ import org.emftext.language.java.annotations.AnnotationAttributeSetting;
 import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.util.AnnotationsSwitch;
 import org.emftext.language.java.classifiers.Classifier;
-import org.splevo.jamopp.diffing.similarity.ILoggableSwitch;
-import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 
 /**
  * Similarity decisions for annotation elements.
  */
-public class AnnotationsSimilaritySwitch extends AnnotationsSwitch<Boolean> implements ILoggableSwitch {
-	private final SimilaritySwitch similaritySwitch;
+public class AnnotationsSimilaritySwitch extends AnnotationsSwitch<Boolean> implements ILoggableJavaSwitch, IJavaSimilarityPositionInnerSwitch {
+	private IJavaSimilaritySwitch similaritySwitch;
+	private boolean checkStatementPosition;
 
-	/**
-	 * @param similaritySwitch
-	 */
-	public AnnotationsSimilaritySwitch(SimilaritySwitch similaritySwitch) {
+	@Override
+	public ISimilarityRequestHandler getSimilarityRequestHandler() {
+		return this.similaritySwitch;
+	}
+
+	@Override
+	public boolean shouldCheckStatementPosition() {
+		return this.checkStatementPosition;
+	}
+	
+	@Override
+	public IJavaSimilaritySwitch getSimilaritySwitch() {
+		return this.similaritySwitch;
+	}
+	
+	public AnnotationsSimilaritySwitch(IJavaSimilaritySwitch similaritySwitch, boolean checkStatementPosition) {
 		this.similaritySwitch = similaritySwitch;
+		this.checkStatementPosition = checkStatementPosition;
 	}
 
 	@Override
     public Boolean caseAnnotationInstance(AnnotationInstance instance1) {
-        AnnotationInstance instance2 = (AnnotationInstance) this.similaritySwitch.getCompareElement();
+        AnnotationInstance instance2 = (AnnotationInstance) this.getCompareElement();
         this.logComparison(
         		instance1.getAnnotation().getName(),
         		instance2.getAnnotation().getName(),
@@ -31,7 +46,7 @@ public class AnnotationsSimilaritySwitch extends AnnotationsSwitch<Boolean> impl
 
         Classifier class1 = instance1.getAnnotation();
         Classifier class2 = instance2.getAnnotation();
-        Boolean classifierSimilarity = this.similaritySwitch.isSimilar(class1, class2);
+        Boolean classifierSimilarity = this.isSimilar(class1, class2);
         this.logResult(classifierSimilarity, Classifier.class.getSimpleName());
         if (classifierSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
@@ -51,9 +66,9 @@ public class AnnotationsSimilaritySwitch extends AnnotationsSwitch<Boolean> impl
 
     @Override
     public Boolean caseAnnotationAttributeSetting(AnnotationAttributeSetting setting1) {
-        AnnotationAttributeSetting setting2 = (AnnotationAttributeSetting) this.similaritySwitch.getCompareElement();
+        AnnotationAttributeSetting setting2 = (AnnotationAttributeSetting) this.getCompareElement();
         this.logComparison(setting1.getAttribute().getName(), setting2.getAttribute().getName(), AnnotationAttributeSetting.class.getSimpleName());
-        Boolean similarity = this.similaritySwitch.isSimilar(setting1.getAttribute(), setting2.getAttribute());
+        Boolean similarity = this.isSimilar(setting1.getAttribute(), setting2.getAttribute());
         this.logResult(similarity, AnnotationAttributeSetting.class.getSimpleName());
         if (similarity == Boolean.FALSE) {
             return Boolean.FALSE;

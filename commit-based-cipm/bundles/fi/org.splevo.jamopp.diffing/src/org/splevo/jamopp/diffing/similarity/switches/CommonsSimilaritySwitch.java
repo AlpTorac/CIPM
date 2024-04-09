@@ -2,19 +2,34 @@ package org.splevo.jamopp.diffing.similarity.switches;
 
 import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.commons.util.CommonsSwitch;
-import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 
 /**
  * Similarity decisions for commons elements.
  */
-public class CommonsSimilaritySwitch extends CommonsSwitch<Boolean> {
-	private final SimilaritySwitch similaritySwitch;
+public class CommonsSimilaritySwitch extends CommonsSwitch<Boolean> implements IJavaSimilarityPositionInnerSwitch {
+	private IJavaSimilaritySwitch similaritySwitch;
+	private boolean checkStatementPosition;
 
-	/**
-	 * @param similaritySwitch
-	 */
-	public CommonsSimilaritySwitch(SimilaritySwitch similaritySwitch) {
+	@Override
+	public ISimilarityRequestHandler getSimilarityRequestHandler() {
+		return this.similaritySwitch;
+	}
+
+	@Override
+	public boolean shouldCheckStatementPosition() {
+		return this.checkStatementPosition;
+	}
+	
+	@Override
+	public IJavaSimilaritySwitch getSimilaritySwitch() {
+		return this.similaritySwitch;
+	}
+
+    public CommonsSimilaritySwitch(IJavaSimilaritySwitch similaritySwitch, boolean checkStatementPosition) {
 		this.similaritySwitch = similaritySwitch;
+		this.checkStatementPosition = checkStatementPosition;
 	}
 
 	/**
@@ -28,7 +43,7 @@ public class CommonsSimilaritySwitch extends CommonsSwitch<Boolean> {
      */
     @Override
     public Boolean caseNamedElement(NamedElement element1) {
-        NamedElement element2 = (NamedElement) this.similaritySwitch.getCompareElement();
+        NamedElement element2 = (NamedElement) this.getCompareElement();
 
         if (element1.getName() == null) {
             return (element2.getName() == null);

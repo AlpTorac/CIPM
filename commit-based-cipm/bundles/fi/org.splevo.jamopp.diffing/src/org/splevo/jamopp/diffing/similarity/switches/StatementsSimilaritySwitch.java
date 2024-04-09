@@ -17,7 +17,8 @@ import org.emftext.language.java.statements.SynchronizedBlock;
 import org.emftext.language.java.statements.Throw;
 import org.emftext.language.java.statements.util.StatementsSwitch;
 import org.emftext.language.java.variables.Variable;
-import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 
 import com.google.common.base.Strings;
@@ -25,21 +26,29 @@ import com.google.common.base.Strings;
 /**
  * Similarity decisions for the statement elements.
  */
-public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
-	private final SimilaritySwitch similaritySwitch;
-	private final boolean checkStatementPosition;
-    /**
-     * Constructor to set required configurations.
-     * 
-     * @param checkStatementPosition
-     *            Flag if the position of a statement should be considered for similarity or
-     *            not.
-     * @param similaritySwitch TODO
-     */
-    public StatementsSimilaritySwitch(SimilaritySwitch similaritySwitch, boolean checkStatementPosition) {
-        this.similaritySwitch = similaritySwitch;
-        this.checkStatementPosition = checkStatementPosition;
-    }
+public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implements IJavaSimilarityPositionInnerSwitch {
+	private IJavaSimilaritySwitch similaritySwitch;
+	private boolean checkStatementPosition;
+
+	@Override
+	public ISimilarityRequestHandler getSimilarityRequestHandler() {
+		return this.similaritySwitch;
+	}
+
+	@Override
+	public boolean shouldCheckStatementPosition() {
+		return this.checkStatementPosition;
+	}
+	
+	@Override
+	public IJavaSimilaritySwitch getSimilaritySwitch() {
+		return this.similaritySwitch;
+	}
+
+    public StatementsSimilaritySwitch(IJavaSimilaritySwitch similaritySwitch, boolean checkStatementPosition) {
+		this.similaritySwitch = similaritySwitch;
+		this.checkStatementPosition = checkStatementPosition;
+	}
 
     /**
      * Check expression statement similarity.<br>
@@ -55,12 +64,12 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
     @Override
     public Boolean caseExpressionStatement(ExpressionStatement statement1) {
 
-        ExpressionStatement statement2 = (ExpressionStatement) this.similaritySwitch.getCompareElement();
+        ExpressionStatement statement2 = (ExpressionStatement) this.getCompareElement();
 
         Expression exp1 = statement1.getExpression();
         Expression exp2 = statement2.getExpression();
 
-        Boolean expSimilarity = this.similaritySwitch.isSimilar(exp1, exp2);
+        Boolean expSimilarity = this.isSimilar(exp1, exp2);
         if (expSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
@@ -87,17 +96,17 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
      */
     @Override
     public Boolean caseLocalVariableStatement(LocalVariableStatement varStmt1) {
-        LocalVariableStatement varStmt2 = (LocalVariableStatement) this.similaritySwitch.getCompareElement();
+        LocalVariableStatement varStmt2 = (LocalVariableStatement) this.getCompareElement();
 
         Variable var1 = varStmt1.getVariable();
         Variable var2 = varStmt2.getVariable();
-        Boolean varSimilarity = this.similaritySwitch.isSimilar(var1, var2);
+        Boolean varSimilarity = this.isSimilar(var1, var2);
         if (varSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
         
         if (checkStatementPosition) {
-        	varSimilarity = this.similaritySwitch.isSimilar(varStmt1.eContainer(), varStmt2.eContainer(), false);
+        	varSimilarity = this.isSimilar(varStmt1.eContainer(), varStmt2.eContainer(), false);
         	if (!varSimilarity) {
         		return Boolean.FALSE;
         	}
@@ -123,12 +132,12 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
     @Override
     public Boolean caseReturn(Return returnStatement1) {
 
-        Return returnStatement2 = (Return) this.similaritySwitch.getCompareElement();
+        Return returnStatement2 = (Return) this.getCompareElement();
 
         Expression exp1 = returnStatement1.getReturnValue();
         Expression exp2 = returnStatement2.getReturnValue();
 
-        return this.similaritySwitch.isSimilar(exp1, exp2);
+        return this.isSimilar(exp1, exp2);
     }
 
     /**
@@ -145,11 +154,11 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
     @Override
     public Boolean caseSynchronizedBlock(SynchronizedBlock statement1) {
 
-        SynchronizedBlock statement2 = (SynchronizedBlock) this.similaritySwitch.getCompareElement();
+        SynchronizedBlock statement2 = (SynchronizedBlock) this.getCompareElement();
 
         Expression exp1 = statement1.getLockProvider();
         Expression exp2 = statement2.getLockProvider();
-        Boolean similarity = this.similaritySwitch.isSimilar(exp1, exp2);
+        Boolean similarity = this.isSimilar(exp1, exp2);
         if (similarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
@@ -180,12 +189,12 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
     @Override
     public Boolean caseCatchBlock(CatchBlock catchBlock1) {
 
-        CatchBlock catchBlock2 = (CatchBlock) this.similaritySwitch.getCompareElement();
+        CatchBlock catchBlock2 = (CatchBlock) this.getCompareElement();
 
         OrdinaryParameter catchedException1 = catchBlock1.getParameter();
         OrdinaryParameter catchedException2 = catchBlock2.getParameter();
 
-        Boolean exceptionSimilarity = this.similaritySwitch.isSimilar(catchedException1, catchedException2);
+        Boolean exceptionSimilarity = this.isSimilar(catchedException1, catchedException2);
         if (exceptionSimilarity == Boolean.FALSE) {
             return exceptionSimilarity;
         }
@@ -213,11 +222,11 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
     @Override
     public Boolean caseConditional(Conditional conditional1) {
 
-        Conditional conditional2 = (Conditional) this.similaritySwitch.getCompareElement();
+        Conditional conditional2 = (Conditional) this.getCompareElement();
 
         Expression expression1 = conditional1.getCondition();
         Expression expression2 = conditional2.getCondition();
-        Boolean expressionSimilarity = this.similaritySwitch.isSimilar(expression1, expression2);
+        Boolean expressionSimilarity = this.isSimilar(expression1, expression2);
         if (expressionSimilarity == Boolean.FALSE) {
             return expressionSimilarity;
         }
@@ -227,9 +236,9 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
 
     @Override
     public Boolean caseJump(Jump jump1) {
-        Jump jump2 = (Jump) this.similaritySwitch.getCompareElement();
+        Jump jump2 = (Jump) this.getCompareElement();
 
-        Boolean similarity = this.similaritySwitch.isSimilar(jump1.getTarget(), jump2.getTarget());
+        Boolean similarity = this.isSimilar(jump1.getTarget(), jump2.getTarget());
         if (similarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
@@ -240,7 +249,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
     @Override
     public Boolean caseJumpLabel(JumpLabel label1) {
 
-        JumpLabel label2 = (JumpLabel) this.similaritySwitch.getCompareElement();
+        JumpLabel label2 = (JumpLabel) this.getCompareElement();
 
         String name1 = Strings.nullToEmpty(label1.getName());
         String name2 = Strings.nullToEmpty(label2.getName());
@@ -250,9 +259,9 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
     
     @Override
     public Boolean caseSwitch(Switch switch1) {
-    	Switch switch2 = (Switch) this.similaritySwitch.getCompareElement();
+    	Switch switch2 = (Switch) this.getCompareElement();
     	
-    	return this.similaritySwitch.isSimilar(switch1.getVariable(), switch2.getVariable());
+    	return this.isSimilar(switch1.getVariable(), switch2.getVariable());
     }
 
     @Override
@@ -272,7 +281,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
     private boolean differentPredecessor(Statement statement1, Statement statement2) {
         Statement pred1 = getPredecessor(statement1);
         Statement pred2 = getPredecessor(statement2);
-        Boolean similarity = this.similaritySwitch.isSimilar(pred1, pred2, false);
+        Boolean similarity = this.isSimilar(pred1, pred2, false);
         return similarity == Boolean.FALSE;
     }
 
@@ -288,7 +297,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> {
     private boolean differentSuccessor(Statement statement1, Statement statement2) {
         Statement pred1 = getSuccessor(statement1);
         Statement pred2 = getSuccessor(statement2);
-        Boolean similarity = this.similaritySwitch.isSimilar(pred1, pred2, false);
+        Boolean similarity = this.isSimilar(pred1, pred2, false);
         return similarity == Boolean.FALSE;
     }
 
