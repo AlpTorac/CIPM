@@ -3,20 +3,28 @@ package org.splevo.jamopp.diffing.similarity.switches;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 import org.emftext.language.java.variables.Variable;
 import org.emftext.language.java.variables.util.VariablesSwitch;
-import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 
 import com.google.common.base.Strings;
 
 /**
  * Similarity decisions for the variable elements.
  */
-public class VariablesSimilaritySwitch extends VariablesSwitch<Boolean> {
-	private final SimilaritySwitch similaritySwitch;
+public class VariablesSimilaritySwitch extends VariablesSwitch<Boolean> implements IJavaSimilarityInnerSwitch {
+	private IJavaSimilaritySwitch similaritySwitch;
 
-	/**
-	 * @param similaritySwitch
-	 */
-	public VariablesSimilaritySwitch(SimilaritySwitch similaritySwitch) {
+	@Override
+	public ISimilarityRequestHandler getSimilarityRequestHandler() {
+		return this.similaritySwitch;
+	}
+	
+	@Override
+	public IJavaSimilaritySwitch getSimilaritySwitch() {
+		return this.similaritySwitch;
+	}
+
+    public VariablesSimilaritySwitch(IJavaSimilaritySwitch similaritySwitch) {
 		this.similaritySwitch = similaritySwitch;
 	}
 
@@ -35,7 +43,7 @@ public class VariablesSimilaritySwitch extends VariablesSwitch<Boolean> {
     @Override
     public Boolean caseVariable(Variable var1) {
 
-        Variable var2 = (Variable) this.similaritySwitch.getCompareElement();
+        Variable var2 = (Variable) this.getCompareElement();
 
         // check the variables name equality
         if (!var1.getName().equals(var2.getName())) {
@@ -47,7 +55,7 @@ public class VariablesSimilaritySwitch extends VariablesSwitch<Boolean> {
 
     @Override
     public Boolean caseAdditionalLocalVariable(AdditionalLocalVariable var1) {
-        AdditionalLocalVariable var2 = (AdditionalLocalVariable) this.similaritySwitch.getCompareElement();
+        AdditionalLocalVariable var2 = (AdditionalLocalVariable) this.getCompareElement();
 
         // check the variables name equality
         String name1 = Strings.nullToEmpty(var1.getName());
