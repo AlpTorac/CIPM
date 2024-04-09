@@ -1,48 +1,13 @@
-package org.splevo.jamopp.diffing.similarity;
-
-import java.util.List;
+package org.splevo.jamopp.diffing.similarity.handlers;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.splevo.jamopp.diffing.similarity.requests.ISimilarityRequest;
+import org.splevo.jamopp.diffing.similarity.requests.SingleSimilarityCheckRequest;
 
-public abstract class AbstractSimilarityComparer implements ISimilarityComparer {
-    /**
-     * Flag if the position of statement elements should be considered or not.
-     */
-    private boolean defaultCheckStatementPositionFlag = true;
+public class SingleSimilarityCheckHandler implements ISimilarityRequestHandler {
 	
-    @Override
-	public boolean checksStatementPositionOnDefault() {
-    	return this.defaultCheckStatementPositionFlag;
-    }
-
-	protected void setChecksStatementPositionOnDefault(boolean defaultCheckStatementPositionFlag) {
-    	this.defaultCheckStatementPositionFlag = defaultCheckStatementPositionFlag;
-    }
-	
-	@Override
-	public Boolean areSimilar(final List<? extends EObject> elements1, final List<? extends EObject> elements2) {
-        if (elements1.size() != elements2.size()) {
-            return Boolean.FALSE;
-        }
-        for (int i = 0; i < elements1.size(); i++) {
-            Boolean childSimilarity = isSimilar(elements1.get(i), elements2.get(i));
-            if (childSimilarity == Boolean.FALSE) {
-                return Boolean.FALSE;
-            }
-        }
-
-        return Boolean.TRUE;
-    }
-	
-	@Override
 	public Boolean isSimilar(EObject element1, EObject element2) {
-		return this.isSimilar(element1, element2, this.checksStatementPositionOnDefault());
-	}
-	
-	@Override
-	public Boolean isSimilar(EObject element1, EObject element2, boolean checkStatementPosition) {
-
         // check that either both or none of them is null
         if (element1 == element2) {
             return Boolean.TRUE;
@@ -67,10 +32,9 @@ public abstract class AbstractSimilarityComparer implements ISimilarityComparer 
         if (!element1.getClass().equals(element2.getClass())) {
             return Boolean.FALSE;
         }
-
-        // check type specific similarity
-        return this.checkSimilarityForResolvedAndSameType(element1, element2, checkStatementPosition);
-    }
+        
+        return Boolean.TRUE;
+	}
 
     /**
      * Method to check if only one of the provided elements is null.
@@ -90,13 +54,14 @@ public abstract class AbstractSimilarityComparer implements ISimilarityComparer 
         }
         return onlyOneIsNull;
     }
-
-    @Override
-    public abstract Boolean checkSimilarityForResolvedAndSameType(EObject element1,
-    		EObject element2,
-    		boolean checkStatementPosition);
-    
-	@Override
-	public abstract ISimilarityComparer clone(boolean checkStatementPosition);
 	
+	@Override
+	public Boolean handleSimilarityRequest(ISimilarityRequest req) {
+		SingleSimilarityCheckRequest castedR = (SingleSimilarityCheckRequest) req;
+		var params = castedR.getParams();
+		EObject elem1 = (EObject) params[0];
+		EObject elem2 = (EObject) params[1];
+		
+		return this.isSimilar(elem1, elem2);
+	}
 }
