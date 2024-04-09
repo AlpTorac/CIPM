@@ -7,19 +7,34 @@ import org.emftext.language.java.instantiations.ExplicitConstructorCall;
 import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.emftext.language.java.instantiations.util.InstantiationsSwitch;
 import org.emftext.language.java.types.Type;
-import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 
 /**
  * Similarity decisions for object instantiation elements.
  */
-public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean> {
-	private final SimilaritySwitch similaritySwitch;
+public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean> implements IJavaSimilarityPositionInnerSwitch {
+	private IJavaSimilaritySwitch similaritySwitch;
+	private boolean checkStatementPosition;
 
-	/**
-	 * @param similaritySwitch
-	 */
-	public InstantiationsSimilaritySwitch(SimilaritySwitch similaritySwitch) {
+	@Override
+	public ISimilarityRequestHandler getSimilarityRequestHandler() {
+		return this.similaritySwitch;
+	}
+
+	@Override
+	public boolean shouldCheckStatementPosition() {
+		return this.checkStatementPosition;
+	}
+	
+	@Override
+	public IJavaSimilaritySwitch getSimilaritySwitch() {
+		return this.similaritySwitch;
+	}
+
+    public InstantiationsSimilaritySwitch(IJavaSimilaritySwitch similaritySwitch, boolean checkStatementPosition) {
 		this.similaritySwitch = similaritySwitch;
+		this.checkStatementPosition = checkStatementPosition;
 	}
 
 	/**
@@ -38,10 +53,10 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
     @Override
     public Boolean caseExplicitConstructorCall(ExplicitConstructorCall call1) {
 
-        ExplicitConstructorCall call2 = (ExplicitConstructorCall) this.similaritySwitch.getCompareElement();
+        ExplicitConstructorCall call2 = (ExplicitConstructorCall) this.getCompareElement();
 
         // check the class instance types
-        Boolean typeSimilarity = this.similaritySwitch.isSimilar(call1.getCallTarget(), call2.getCallTarget());
+        Boolean typeSimilarity = this.isSimilar(call1.getCallTarget(), call2.getCallTarget());
         if (typeSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
@@ -55,7 +70,7 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 
         // check the argument similarity
         for (int i = 0; i < cic1Args.size(); i++) {
-            Boolean argumentSimilarity = this.similaritySwitch.isSimilar(cic1Args.get(i), cic2Args.get(i));
+            Boolean argumentSimilarity = this.isSimilar(cic1Args.get(i), cic2Args.get(i));
             if (argumentSimilarity == Boolean.FALSE) {
                 return Boolean.FALSE;
             }
@@ -66,11 +81,11 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 
     @Override
     public Boolean caseNewConstructorCall(NewConstructorCall call1) {
-        NewConstructorCall call2 = (NewConstructorCall) this.similaritySwitch.getCompareElement();
+        NewConstructorCall call2 = (NewConstructorCall) this.getCompareElement();
 
         Type type1 = call1.getTypeReference().getTarget();
         Type type2 = call2.getTypeReference().getTarget();
-        Boolean typeSimilarity = this.similaritySwitch.isSimilar(type1, type2);
+        Boolean typeSimilarity = this.isSimilar(type1, type2);
         if (typeSimilarity == Boolean.FALSE) {
             return Boolean.FALSE;
         }
@@ -83,7 +98,7 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
         for (int i = 0; i < types1.size(); i++) {
             Expression argType1 = types1.get(i);
             Expression argType2 = types2.get(i);
-            Boolean similarity = this.similaritySwitch.isSimilar(argType1, argType2);
+            Boolean similarity = this.isSimilar(argType1, argType2);
             if (similarity == Boolean.FALSE) {
                 return Boolean.FALSE;
             }

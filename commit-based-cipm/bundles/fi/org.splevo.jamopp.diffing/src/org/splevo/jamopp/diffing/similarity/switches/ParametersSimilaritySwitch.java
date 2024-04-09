@@ -2,7 +2,8 @@ package org.splevo.jamopp.diffing.similarity.switches;
 
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.parameters.util.ParametersSwitch;
-import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 
 import com.google.common.base.Strings;
 
@@ -13,19 +14,26 @@ import com.google.common.base.Strings;
  * more identifying attributes or references exist.
  * </p>
  */
-public class ParametersSimilaritySwitch extends ParametersSwitch<Boolean> {
-	private final SimilaritySwitch similaritySwitch;
+public class ParametersSimilaritySwitch extends ParametersSwitch<Boolean> implements IJavaSimilarityInnerSwitch {
+	private IJavaSimilaritySwitch similaritySwitch;
 
-	/**
-	 * @param similaritySwitch
-	 */
-	public ParametersSimilaritySwitch(SimilaritySwitch similaritySwitch) {
+	@Override
+	public ISimilarityRequestHandler getSimilarityRequestHandler() {
+		return this.similaritySwitch;
+	}
+	
+	@Override
+	public IJavaSimilaritySwitch getSimilaritySwitch() {
+		return this.similaritySwitch;
+	}
+
+    public ParametersSimilaritySwitch(IJavaSimilaritySwitch similaritySwitch) {
 		this.similaritySwitch = similaritySwitch;
 	}
 
 	@Override
     public Boolean caseParameter(Parameter param1) {
-        Parameter param2 = (Parameter) this.similaritySwitch.getCompareElement();
+        Parameter param2 = (Parameter) this.getCompareElement();
         String name1 = Strings.nullToEmpty(param1.getName());
         String name2 = Strings.nullToEmpty(param2.getName());
         return (name1.equals(name2));
