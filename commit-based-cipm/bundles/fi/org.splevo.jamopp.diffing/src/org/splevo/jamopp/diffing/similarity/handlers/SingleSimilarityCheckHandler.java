@@ -2,12 +2,14 @@ package org.splevo.jamopp.diffing.similarity.handlers;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
-import org.splevo.jamopp.diffing.similarity.requests.ISimilarityRequest;
+import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.similarity.requests.SingleSimilarityCheckRequest;
 
 public class SingleSimilarityCheckHandler implements ISimilarityRequestHandler {
-	
-	public Boolean isSimilar(EObject element1, EObject element2) {
+	public Boolean isSimilar(EObject element1, EObject element2, IJavaSimilaritySwitch ss) {
+
         // check that either both or none of them is null
         if (element1 == element2) {
             return Boolean.TRUE;
@@ -32,9 +34,10 @@ public class SingleSimilarityCheckHandler implements ISimilarityRequestHandler {
         if (!element1.getClass().equals(element2.getClass())) {
             return Boolean.FALSE;
         }
-        
-        return Boolean.TRUE;
-	}
+
+        // check type specific similarity
+        return ss.compare(element1, element2);
+    }
 
     /**
      * Method to check if only one of the provided elements is null.
@@ -55,13 +58,23 @@ public class SingleSimilarityCheckHandler implements ISimilarityRequestHandler {
         return onlyOneIsNull;
     }
 	
+	/**
+	 * Check two objects if they are similar.
+	 *
+	 * @param element1
+	 *            The first element to check.
+	 * @param element2
+	 *            The second element to check.
+	 * @return TRUE, if they are similar; FALSE if not, NULL if it can't be decided.
+	 */
 	@Override
 	public Boolean handleSimilarityRequest(ISimilarityRequest req) {
 		SingleSimilarityCheckRequest castedR = (SingleSimilarityCheckRequest) req;
 		var params = castedR.getParams();
 		EObject elem1 = (EObject) params[0];
 		EObject elem2 = (EObject) params[1];
+		IJavaSimilaritySwitch ss = (IJavaSimilaritySwitch) params[2];
 		
-		return this.isSimilar(elem1, elem2);
+		return this.isSimilar(elem1, elem2, ss);
 	}
 }

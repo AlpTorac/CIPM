@@ -4,7 +4,8 @@ import java.util.Map;
 import java.util.regex.Pattern;
 
 import org.splevo.diffing.util.NormalizationUtil;
-import org.splevo.jamopp.diffing.similarity.requests.ISimilarityRequest;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.similarity.requests.NamespaceNormalizationRequest;
 
 public class NamespaceNormalizationHandler implements ISimilarityRequestHandler {

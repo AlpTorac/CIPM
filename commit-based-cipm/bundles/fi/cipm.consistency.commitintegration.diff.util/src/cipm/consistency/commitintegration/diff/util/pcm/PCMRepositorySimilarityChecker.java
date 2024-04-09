@@ -1,6 +1,6 @@
 package cipm.consistency.commitintegration.diff.util.pcm;
 
-import org.splevo.jamopp.diffing.similarity.ISimilarityChecker;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
 
 /**
  * A SimilarityChecker for PCM repository models.

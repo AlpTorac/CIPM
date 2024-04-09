@@ -14,9 +14,9 @@ import com.google.common.base.Strings;
  * 
  * @author atora
  */
-public interface ILoggableSwitch {
+public interface ILoggableJavaSwitch {
 	public default Logger getLogger() {
-		return Logger.getLogger(ILoggableSwitch.class.getSimpleName());
+		return Logger.getLogger(ILoggableJavaSwitch.class.getSimpleName());
 	}
 
 	public default void logComparison(String subject1, String subject2, String subjectDesc) {

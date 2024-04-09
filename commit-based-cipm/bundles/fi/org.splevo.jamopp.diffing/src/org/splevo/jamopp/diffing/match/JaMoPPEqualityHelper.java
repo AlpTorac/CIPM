@@ -13,7 +13,7 @@ package org.splevo.jamopp.diffing.match;
 
 import org.eclipse.emf.compare.utils.EqualityHelper;
 import org.eclipse.emf.ecore.EObject;
-import org.splevo.jamopp.diffing.similarity.ISimilarityChecker;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
 
 import com.google.common.cache.LoadingCache;
 

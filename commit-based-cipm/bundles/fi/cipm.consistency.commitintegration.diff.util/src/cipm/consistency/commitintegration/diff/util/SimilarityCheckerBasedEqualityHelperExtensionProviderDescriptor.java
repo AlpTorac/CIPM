@@ -5,7 +5,7 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.compare.match.eobject.EqualityHelperExtensionProvider;
 import org.eclipse.emf.compare.utils.IEqualityHelper;
 import org.eclipse.emf.ecore.EObject;
-import org.splevo.jamopp.diffing.similarity.ISimilarityChecker;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
 
 /**
  * A descriptor for the provider of a EqualityHelperExtension which is based on the SimilarityChecker.

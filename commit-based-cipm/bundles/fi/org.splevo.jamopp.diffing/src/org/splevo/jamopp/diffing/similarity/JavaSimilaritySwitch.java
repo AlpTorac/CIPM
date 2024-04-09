@@ -12,7 +12,8 @@
  *******************************************************************************/
 package org.splevo.jamopp.diffing.similarity;
 
-import org.emftext.language.java.commons.NamespaceAwareElement;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.similarity.switches.AnnotationsSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.switches.ArraysSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.switches.ClassifiersSimilaritySwitch;
@@ -48,67 +49,46 @@ import org.splevo.jamopp.diffing.similarity.switches.VariablesSimilaritySwitch;
  * First all "not-similar"-criteria are checked. If none hits, true will be returned.
  * </p>
  */
-public class SimilaritySwitch extends AbstractSimilaritySwitch {
+public class JavaSimilaritySwitch extends AbstractJavaSimilaritySwitch {
+	private ISimilarityRequestHandler srh;
+	
     /**
      * Constructor requiring the element to compare with.
      * 
      * @param defaultCheckStatementPosition
      *            Flag if the similarity check should consider the position of a statement or not.
      */
-    public SimilaritySwitch(SimilarityComparer sc) {
-    	super(sc);
-    }
-    
-    @Override
-    protected void initInnerSwitches() {
-        addSwitch(new AnnotationsSimilaritySwitch(this));
+    public JavaSimilaritySwitch(ISimilarityRequestHandler srh, boolean checkStatementPosition) {
+    	super();
+    	
+        addSwitch(new AnnotationsSimilaritySwitch(this, checkStatementPosition));
         addSwitch(new ArraysSimilaritySwitch());
-        addSwitch(new ClassifiersSimilaritySwitch(this));
-        addSwitch(new CommonsSimilaritySwitch(this));
-        addSwitch(new ContainersSimilaritySwitch(this));
-        addSwitch(new ExpressionsSimilaritySwitch(this));
-        addSwitch(new GenericsSimilaritySwitch(this));
-        addSwitch(new ImportsSimilaritySwitch(this));
-        addSwitch(new InstantiationsSimilaritySwitch(this));
+        addSwitch(new ClassifiersSimilaritySwitch(this, checkStatementPosition));
+        addSwitch(new CommonsSimilaritySwitch(this, checkStatementPosition));
+        addSwitch(new ContainersSimilaritySwitch(this, checkStatementPosition));
+        addSwitch(new ExpressionsSimilaritySwitch(this, checkStatementPosition));
+        addSwitch(new GenericsSimilaritySwitch(this, checkStatementPosition));
+        addSwitch(new ImportsSimilaritySwitch(this, checkStatementPosition));
+        addSwitch(new InstantiationsSimilaritySwitch(this, checkStatementPosition));
         addSwitch(new LiteralsSimilaritySwitch(this));
-        addSwitch(new MembersSimilaritySwitch(this));
+        addSwitch(new MembersSimilaritySwitch(this, checkStatementPosition));
         addSwitch(new ModifiersSimilaritySwitch());
         addSwitch(new OperatorsSimilaritySwitch());
         addSwitch(new ParametersSimilaritySwitch(this));
-        addSwitch(new ReferencesSimilaritySwitch(this));
-        addSwitch(new StatementsSimilaritySwitch(this, this.checksStatementPositionOnDefault()));
-        addSwitch(new TypesSimilaritySwitch(this));
+        addSwitch(new ReferencesSimilaritySwitch(this, checkStatementPosition));
+        addSwitch(new StatementsSimilaritySwitch(this, checkStatementPosition));
+        addSwitch(new TypesSimilaritySwitch(this, checkStatementPosition));
         addSwitch(new VariablesSimilaritySwitch(this));
         addSwitch(new LayoutSimilaritySwitch());
-        addSwitch(new ModulesSimilaritySwitch(this));
+        addSwitch(new ModulesSimilaritySwitch(this, checkStatementPosition));
     }
     
-    @Override
-    public SimilarityComparer getSimilarityComparer() {
-    	return (SimilarityComparer) super.getSimilarityComparer();
-    }
- 
-	public boolean checksStatementPositionOnDefault() {
-    	return this.getSimilarityComparer().checksStatementPositionOnDefault();
-    }
-    
-    public String normalizeCompilationUnit(String original) {
-    	return this.getSimilarityComparer().normalizeCompilationUnit(original);
-    }
-    
-    public String normalizePackage(String original) {
-    	return this.getSimilarityComparer().normalizePackage(original);
-    }
-    
-    public String normalizeClassifier(String original) {
-    	return this.getSimilarityComparer().normalizeClassifier(original);
-    }
-    
-    public String normalizeNamespace(String namespace) {
-    	return this.getSimilarityComparer().normalizeNamespace(namespace);
+    protected ISimilarityRequestHandler getSimilarityRequestHandler() {
+    	return this.srh;
     }
 
-    public boolean compareNamespacesByPart(NamespaceAwareElement ele1, NamespaceAwareElement ele2) {
-    	return this.getSimilarityComparer().compareNamespacesByPart(ele1, ele2);
-    }
+	@Override
+	public Object handleSimilarityRequest(ISimilarityRequest req) {
+		return this.srh.handleSimilarityRequest(req);
+	}
 }

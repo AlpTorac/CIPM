@@ -1,7 +1,7 @@
 package cipm.consistency.commitintegration.diff.util.pcm;
 
 import org.eclipse.emf.ecore.EObject;
-import org.splevo.jamopp.diffing.similarity.AbstractSimilarityComparer;
+import org.splevo.jamopp.diffing.similarity.base.AbstractSimilarityComparer;
 
 public class PCMRepositorySimilarityComparer extends AbstractSimilarityComparer {
 

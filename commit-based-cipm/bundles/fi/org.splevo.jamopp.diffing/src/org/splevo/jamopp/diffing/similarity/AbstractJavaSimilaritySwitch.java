@@ -3,17 +3,9 @@ package org.splevo.jamopp.diffing.similarity;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
 
-public abstract class AbstractSimilaritySwitch extends ComposedSwitch<Boolean> implements ISimilaritySwitch {
-	private ISimilarityComparer sc;
-    
+public abstract class AbstractJavaSimilaritySwitch extends ComposedSwitch<Boolean> implements IJavaSimilaritySwitch {
     /** The object to compare the switched element with. */
     private EObject compareElement = null;
-    
-    public AbstractSimilaritySwitch(ISimilarityComparer sc) {
-    	this.sc = sc;
-    	
-    	this.initInnerSwitches();
-    }
     
 	@Override
 	public EObject getCompareElement() {
@@ -38,11 +30,4 @@ public abstract class AbstractSimilaritySwitch extends ComposedSwitch<Boolean> i
     public Boolean defaultCase(EObject object) {
         return null;
     }
-    
-	@Override
-	public ISimilarityComparer getSimilarityComparer() {
-		return this.sc;
-	}
-	
-    protected abstract void initInnerSwitches();
 }

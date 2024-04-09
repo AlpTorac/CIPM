@@ -1,5 +1,7 @@
 package org.splevo.jamopp.diffing.similarity.requests;
 
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
+
 public class NewSimilaritySwitchRequest implements ISimilarityRequest {
 	private boolean checkStatementPosition;
 	
@@ -12,6 +14,6 @@ public class NewSimilaritySwitchRequest implements ISimilarityRequest {
 	 */
 	@Override
 	public Boolean getParams() {
-		return this.checkStatementPosition ? Boolean.TRUE : Boolean.FALSE;
+		return this.checkStatementPosition;
 	}
 }

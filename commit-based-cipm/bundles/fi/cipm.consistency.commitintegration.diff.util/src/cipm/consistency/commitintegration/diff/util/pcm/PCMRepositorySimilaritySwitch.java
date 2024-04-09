@@ -1,11 +1,11 @@
 package cipm.consistency.commitintegration.diff.util.pcm;
 
-import org.splevo.jamopp.diffing.similarity.AbstractSimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.AbstractJavaSimilaritySwitch;
 
 import cipm.consistency.commitintegration.diff.util.pcm.switches.SimilarityRepositorySwitch;
 import cipm.consistency.commitintegration.diff.util.pcm.switches.SimilaritySeffSwitch;
 
-public class PCMRepositorySimilaritySwitch extends AbstractSimilaritySwitch {
+public class PCMRepositorySimilaritySwitch extends AbstractJavaSimilaritySwitch {
 	public PCMRepositorySimilaritySwitch(PCMRepositorySimilarityComparer sc) {
 		super(sc);
 	}

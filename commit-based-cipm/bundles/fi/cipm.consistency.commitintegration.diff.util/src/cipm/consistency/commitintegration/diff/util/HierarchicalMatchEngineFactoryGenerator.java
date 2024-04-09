@@ -12,7 +12,7 @@ import org.splevo.diffing.match.HierarchicalStrategyResourceMatcher;
 import org.splevo.jamopp.diffing.match.JaMoPPEqualityStrategy;
 import org.splevo.jamopp.diffing.match.JaMoPPIgnoreStrategy;
 import org.splevo.jamopp.diffing.scope.PackageIgnoreChecker;
-import org.splevo.jamopp.diffing.similarity.ISimilarityChecker;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
 
 import com.google.common.cache.CacheBuilder;
 

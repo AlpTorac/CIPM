@@ -13,7 +13,7 @@ package org.splevo.jamopp.diffing.match;
 
 import org.eclipse.emf.ecore.EObject;
 import org.splevo.diffing.match.HierarchicalMatchEngine.EqualityStrategy;
-import org.splevo.jamopp.diffing.similarity.ISimilarityChecker;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
 
 /**
  * JaMoPP java model specific equality strategy based on the similarity checker strategy.

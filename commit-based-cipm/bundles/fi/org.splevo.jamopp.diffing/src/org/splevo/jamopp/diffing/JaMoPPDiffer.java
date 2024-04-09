@@ -63,8 +63,10 @@ import org.splevo.jamopp.diffing.match.JaMoPPIgnoreStrategy;
 import org.splevo.jamopp.diffing.postprocessor.JaMoPPPostProcessor;
 import org.splevo.jamopp.diffing.scope.JavaModelMatchScope;
 import org.splevo.jamopp.diffing.scope.PackageIgnoreChecker;
-import org.splevo.jamopp.diffing.similarity.ISimilarityChecker;
-import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
+import org.splevo.jamopp.diffing.similarity.JavaSimilarityChecker;
+import org.splevo.jamopp.diffing.similarity.JavaSimilarityToolboxBuilder;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
+import org.splevo.jamopp.diffing.similarity.base.MapSimilarityToolboxFactory;
 import org.splevo.jamopp.extraction.JaMoPPSoftwareModelExtractor;
 
 import com.google.common.cache.CacheBuilder;
@@ -438,7 +440,16 @@ public class JaMoPPDiffer implements Differ {
         String configStringPackage = diffingOptions.get(OPTION_JAVA_PACKAGE_NORMALIZATION);
         LinkedHashMap<Pattern, String> packageNorms = NormalizationUtil.loadReplaceNormalizations(configStringPackage);
 
-        return new SimilarityChecker(classifierNorms, compUnitNorms, packageNorms);
+        var builder = new JavaSimilarityToolboxBuilder();
+        builder.setSimilarityToolboxFactory(new MapSimilarityToolboxFactory());
+        
+        var toolbox = builder.instantiate()
+        	.buildNewSimilaritySwitchHandler()
+        	.buildNormalizationHandlers(classifierNorms, compUnitNorms, packageNorms)
+        	.buildComparisonHandlers()
+        	.build();
+        
+        return new JavaSimilarityChecker(toolbox);
     }
 
     /**
