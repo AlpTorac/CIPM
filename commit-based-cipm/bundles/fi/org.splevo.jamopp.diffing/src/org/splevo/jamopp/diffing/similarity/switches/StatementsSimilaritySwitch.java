@@ -41,7 +41,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
 	}
 	
 	@Override
-	public IJavaSimilaritySwitch getSimilaritySwitch() {
+	public IJavaSimilaritySwitch getContainingSwitch() {
 		return this.similaritySwitch;
 	}
 
@@ -75,7 +75,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
         }
 
         // check predecessor similarity
-        if (checkStatementPosition) {
+        if (this.shouldCheckStatementPosition()) {
             if (differentPredecessor(statement1, statement2) && differentSuccessor(statement1, statement2)) {
                 return Boolean.FALSE;
             }
@@ -105,7 +105,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
             return Boolean.FALSE;
         }
         
-        if (checkStatementPosition) {
+        if (this.shouldCheckStatementPosition()) {
         	varSimilarity = this.isSimilar(varStmt1.eContainer(), varStmt2.eContainer(), false);
         	if (!varSimilarity) {
         		return Boolean.FALSE;
@@ -163,7 +163,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
             return Boolean.FALSE;
         }
 
-        if (checkStatementPosition) {
+        if (this.shouldCheckStatementPosition()) {
             if (differentPredecessor(statement1, statement2) && differentSuccessor(statement1, statement2)) {
                 return Boolean.FALSE;
             }

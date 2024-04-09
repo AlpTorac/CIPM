@@ -53,7 +53,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
 	}
 	
 	@Override
-	public IJavaSimilaritySwitch getSimilaritySwitch() {
+	public IJavaSimilaritySwitch getContainingSwitch() {
 		return this.similaritySwitch;
 	}
 
