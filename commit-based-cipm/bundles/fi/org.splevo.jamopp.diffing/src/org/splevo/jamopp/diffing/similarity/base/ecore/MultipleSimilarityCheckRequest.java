@@ -24,7 +24,7 @@ public class MultipleSimilarityCheckRequest implements ISimilarityRequest {
 	 * @return {{@link #elements1}, {@link #elements2}, {@link #sss}}
 	 */
 	@Override
-	public Object[] getParams() {
+	public Object getParams() {
 		return new Object[] {
 				this.elements1,
 			 	this.elements2,

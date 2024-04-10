@@ -13,7 +13,7 @@ public class NamespaceNormalizationRequest implements ISimilarityRequest {
 	 * @return {@link #toBeNormalized}
 	 */
 	@Override
-	public String getParams() {
+	public Object getParams() {
 		return this.toBeNormalized;
 	}
 }

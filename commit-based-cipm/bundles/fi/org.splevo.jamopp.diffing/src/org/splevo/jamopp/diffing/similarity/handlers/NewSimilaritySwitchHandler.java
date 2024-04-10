@@ -13,9 +13,9 @@ public class NewSimilaritySwitchHandler implements ISimilarityRequestHandler {
 	}
 	
 	@Override
-	public JavaSimilaritySwitch handleSimilarityRequest(ISimilarityRequest req) {
+	public Object handleSimilarityRequest(ISimilarityRequest req) {
 		NewSimilaritySwitchRequest castedR = (NewSimilaritySwitchRequest) req;
-		var csp = castedR.getParams();
+		Boolean csp = (Boolean) castedR.getParams();
 		return new JavaSimilaritySwitch(this.srh, csp);
 	}
 }

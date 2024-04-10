@@ -25,10 +25,10 @@ public class MultipleSimilarityCheckHandler implements ISimilarityRequestHandler
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public Boolean handleSimilarityRequest(ISimilarityRequest req) {
+	public Object handleSimilarityRequest(ISimilarityRequest req) {
 		MultipleSimilarityCheckRequest castedR = (MultipleSimilarityCheckRequest) req;
 		
-		var params = castedR.getParams();
+		Object[] params = (Object[]) castedR.getParams();
 		Collection<? extends EObject> elements1 = (Collection<? extends EObject>) params[0];
 		Collection<? extends EObject> elements2 = (Collection<? extends EObject>) params[1];
 		Collection<? extends IComposedSwitchWrapper> sss = (Collection<? extends IComposedSwitchWrapper>) params[2];

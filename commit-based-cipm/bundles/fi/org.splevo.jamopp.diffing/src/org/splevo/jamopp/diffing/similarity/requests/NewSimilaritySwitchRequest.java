@@ -13,7 +13,7 @@ public class NewSimilaritySwitchRequest implements ISimilarityRequest {
 	 * @return {@link #checkStatementPosition}
 	 */
 	@Override
-	public Boolean getParams() {
+	public Object getParams() {
 		return this.checkStatementPosition;
 	}
 }

@@ -14,9 +14,9 @@ public class NewPCMRepositorySimilaritySwitchHandler implements ISimilarityReque
 	}
 	
 	@Override
-	public PCMRepositorySimilaritySwitch handleSimilarityRequest(ISimilarityRequest req) {
+	public Object handleSimilarityRequest(ISimilarityRequest req) {
 		NewPCMRepositorySimilaritySwitchRequest castedR = (NewPCMRepositorySimilaritySwitchRequest) req;
-		var csp = castedR.getParams();
+		Boolean csp = (Boolean) castedR.getParams();
 		return new PCMRepositorySimilaritySwitch(this.srh, csp);
 	}
 }

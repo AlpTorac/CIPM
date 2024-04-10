@@ -16,9 +16,9 @@ public class ClassifierNormalizationHandler implements ISimilarityRequestHandler
 	}
 	
 	@Override
-	public String handleSimilarityRequest(ISimilarityRequest req) {
+	public Object handleSimilarityRequest(ISimilarityRequest req) {
 		ClassifierNormalizationRequest castedR = (ClassifierNormalizationRequest) req;
 		
-		return NormalizationUtil.normalize(castedR.getParams(), this.classifierNormalizations);
+		return NormalizationUtil.normalize((String) castedR.getParams(), this.classifierNormalizations);
 	}
 }

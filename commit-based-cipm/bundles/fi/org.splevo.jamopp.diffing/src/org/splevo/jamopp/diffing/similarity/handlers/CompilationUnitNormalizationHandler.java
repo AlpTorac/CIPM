@@ -16,9 +16,9 @@ public class CompilationUnitNormalizationHandler implements ISimilarityRequestHa
 	}
 	
 	@Override
-	public String handleSimilarityRequest(ISimilarityRequest req) {
+	public Object handleSimilarityRequest(ISimilarityRequest req) {
 		CompilationUnitNormalizationRequest castedR = (CompilationUnitNormalizationRequest) req;
 		
-		return NormalizationUtil.normalize(castedR.getParams(), this.compilationUnitNormalizations);
+		return NormalizationUtil.normalize((String) castedR.getParams(), this.compilationUnitNormalizations);
 	}
 }

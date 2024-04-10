@@ -16,7 +16,7 @@ public class NamespaceCheckRequest implements ISimilarityRequest {
 	 * @return {{@link #ele1}, {@link #ele2}}
 	 */
 	@Override
-	public NamespaceAwareElement[] getParams() {
+	public Object getParams() {
 		return new NamespaceAwareElement[] {this.ele1, this.ele2};
 	}
 }

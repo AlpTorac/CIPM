@@ -66,9 +66,9 @@ public class SingleSimilarityCheckHandler implements ISimilarityRequestHandler {
 	 * @return TRUE, if they are similar; FALSE if not, NULL if it can't be decided.
 	 */
 	@Override
-	public Boolean handleSimilarityRequest(ISimilarityRequest req) {
+	public Object handleSimilarityRequest(ISimilarityRequest req) {
 		SingleSimilarityCheckRequest castedR = (SingleSimilarityCheckRequest) req;
-		var params = castedR.getParams();
+		Object[] params = (Object[]) castedR.getParams();
 		EObject elem1 = (EObject) params[0];
 		EObject elem2 = (EObject) params[1];
 		IComposedSwitchWrapper ss = (IComposedSwitchWrapper) params[2];

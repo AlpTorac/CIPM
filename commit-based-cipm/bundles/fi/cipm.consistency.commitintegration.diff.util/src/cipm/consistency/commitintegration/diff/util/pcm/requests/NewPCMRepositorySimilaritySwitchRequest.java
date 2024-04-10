@@ -13,7 +13,7 @@ public class NewPCMRepositorySimilaritySwitchRequest implements ISimilarityReque
 	 * @return {@link #checkStatementPosition}
 	 */
 	@Override
-	public Boolean getParams() {
+	public Object getParams() {
 		return this.checkStatementPosition;
 	}
 }

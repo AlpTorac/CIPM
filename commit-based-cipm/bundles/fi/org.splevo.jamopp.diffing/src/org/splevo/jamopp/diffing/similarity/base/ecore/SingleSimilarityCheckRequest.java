@@ -18,7 +18,7 @@ public class SingleSimilarityCheckRequest implements ISimilarityRequest {
 	 * @return {{@link #element1}, {@link #element2}, {@link #ss}}
 	 */
 	@Override
-	public Object[] getParams() {
+	public Object getParams() {
 		return new Object[] {this.element1, this.element2, this.ss};
 	}
 }
