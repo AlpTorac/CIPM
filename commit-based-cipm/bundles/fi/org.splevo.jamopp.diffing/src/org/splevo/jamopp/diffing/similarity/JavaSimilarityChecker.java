@@ -42,12 +42,12 @@ public class JavaSimilarityChecker extends AbstractSimilarityChecker {
 	}
 
 	@Override
-	public Boolean isSimilar(EObject element1, EObject element2) {
+	public Boolean isSimilar(Object element1, Object element2) {
 		IJavaSimilaritySwitch ss = (IJavaSimilaritySwitch) 
 				this.getSimilarityComparer().handleSimilarityRequest(
 							new NewSimilaritySwitchRequest(true)
 						);
 		
-		return (Boolean) ss.handleSimilarityRequest(new SingleSimilarityCheckRequest(element1, element2, ss));
+		return (Boolean) ss.handleSimilarityRequest(new SingleSimilarityCheckRequest((EObject) element1, (EObject) element2, ss));
 	}
 }

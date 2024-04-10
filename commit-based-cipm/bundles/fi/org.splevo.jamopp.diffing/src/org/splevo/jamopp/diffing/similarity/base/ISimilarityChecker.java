@@ -1,7 +1,5 @@
 package org.splevo.jamopp.diffing.similarity.base;
 
-import org.eclipse.emf.ecore.EObject;
-
 public interface ISimilarityChecker {
 	/**
 	 * Check two objects if they are similar.
@@ -12,5 +10,5 @@ public interface ISimilarityChecker {
 	 *            The second element to check.
 	 * @return TRUE, if they are similar; FALSE if not, NULL if it can't be decided.
 	 */
-	public Boolean isSimilar(EObject element1, EObject element2);
+	public Boolean isSimilar(Object element1, Object element2);
 }
