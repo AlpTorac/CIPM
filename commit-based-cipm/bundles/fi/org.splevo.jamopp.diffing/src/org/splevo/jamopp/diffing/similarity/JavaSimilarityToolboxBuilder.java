@@ -1,5 +1,6 @@
 package org.splevo.jamopp.diffing.similarity;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -45,6 +46,17 @@ public class JavaSimilarityToolboxBuilder extends AbstractSimilarityToolboxBuild
 		this.buildRequestHandlerPair(NamespaceNormalizationRequest.class, new NamespaceNormalizationHandler(packageNormalizations));
 		
 		return this;
+	}
+	
+	public JavaSimilarityToolboxBuilder buildNormalizationHandlers() {
+		var classifierNormalizations = new LinkedHashMap<Pattern, String>();
+		var compilationUnitNormalizations = new LinkedHashMap<Pattern, String>();
+		var packageNormalizations = new LinkedHashMap<Pattern, String>();
+		
+		return this.buildNormalizationHandlers(
+				classifierNormalizations,
+				compilationUnitNormalizations,
+				packageNormalizations);
 	}
 	
 	public JavaSimilarityToolboxBuilder buildComparisonHandlers() {

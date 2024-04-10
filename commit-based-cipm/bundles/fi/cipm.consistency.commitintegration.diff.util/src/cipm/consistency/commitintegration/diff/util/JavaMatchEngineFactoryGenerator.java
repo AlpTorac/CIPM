@@ -1,8 +1,5 @@
 package cipm.consistency.commitintegration.diff.util;
 
-import java.util.LinkedHashMap;
-import java.util.regex.Pattern;
-
 import org.splevo.diffing.match.HierarchicalMatchEngineFactory;
 import org.splevo.jamopp.diffing.similarity.JavaSimilarityChecker;
 import org.splevo.jamopp.diffing.similarity.JavaSimilarityToolboxBuilder;
@@ -28,11 +25,7 @@ public final class JavaMatchEngineFactoryGenerator {
         
         var toolbox = builder.instantiate()
         	.buildNewSimilaritySwitchHandler()
-        	.buildNormalizationHandlers(
-        			new LinkedHashMap<Pattern, String>(),
-        			new LinkedHashMap<Pattern, String>(),
-        			new LinkedHashMap<Pattern, String>()
-        		)
+        	.buildNormalizationHandlers()
         	.buildComparisonHandlers()
         	.build();
 		
