@@ -17,6 +17,7 @@ public class MultipleSimilarityCheckRequest implements ISimilarityRequest {
 			) {
 		this.elements1 = elements1;
 		this.elements2 = elements2;
+		this.sss = sss;
 	}
 	
 	/**
