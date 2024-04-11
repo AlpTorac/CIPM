@@ -1,9 +1,8 @@
 package cipm.consistency.commitintegration.diff.util.pcm;
 
-import org.eclipse.emf.ecore.EObject;
-import org.splevo.jamopp.diffing.similarity.base.AbstractSimilarityChecker;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolbox;
-import org.splevo.jamopp.diffing.similarity.base.ecore.SingleSimilarityCheckRequest;
+import org.splevo.jamopp.diffing.similarity.base.ecore.AbstractComposedSwitchSimilarityChecker;
 
 import cipm.consistency.commitintegration.diff.util.pcm.requests.NewPCMRepositorySimilaritySwitchRequest;
 
@@ -12,21 +11,18 @@ import cipm.consistency.commitintegration.diff.util.pcm.requests.NewPCMRepositor
  * 
  * @author Martin Armbruster
  */
-public class PCMRepositorySimilarityChecker extends AbstractSimilarityChecker {
+public class PCMRepositorySimilarityChecker extends AbstractComposedSwitchSimilarityChecker {
 	public PCMRepositorySimilarityChecker(ISimilarityToolbox st) {
 		super(st);
 	}
-
+    
 	@Override
 	protected PCMRepositorySimilarityComparer createSimilarityComparer(ISimilarityToolbox st) {
 		return new PCMRepositorySimilarityComparer(st);
 	}
 
 	@Override
-	public Boolean isSimilar(Object element1, Object element2) {
-		IPCMRepositorySimilaritySwitch ss = (IPCMRepositorySimilaritySwitch) this.getSimilarityComparer()
-				.handleSimilarityRequest(new NewPCMRepositorySimilaritySwitchRequest(true));
-		
-		return (Boolean) ss.handleSimilarityRequest(new SingleSimilarityCheckRequest((EObject) element1, (EObject) element2, ss));
+	protected ISimilarityRequest makeDefaultSwitchRequest() {
+		return new NewPCMRepositorySimilaritySwitchRequest(true);
 	}
 }

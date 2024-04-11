@@ -13,10 +13,9 @@
 package org.splevo.jamopp.diffing.similarity;
 
 import org.apache.log4j.Logger;
-import org.eclipse.emf.ecore.EObject;
-import org.splevo.jamopp.diffing.similarity.base.AbstractSimilarityChecker;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolbox;
-import org.splevo.jamopp.diffing.similarity.base.ecore.SingleSimilarityCheckRequest;
+import org.splevo.jamopp.diffing.similarity.base.ecore.AbstractComposedSwitchSimilarityChecker;
 import org.splevo.jamopp.diffing.similarity.requests.NewSimilaritySwitchRequest;
 
 /**
@@ -26,7 +25,7 @@ import org.splevo.jamopp.diffing.similarity.requests.NewSimilaritySwitchRequest;
  * switch as well!
  *
  */
-public class JavaSimilarityChecker extends AbstractSimilarityChecker {
+public class JavaSimilarityChecker extends AbstractComposedSwitchSimilarityChecker {
 
     /** The logger for this class. */
     @SuppressWarnings("unused")
@@ -35,19 +34,14 @@ public class JavaSimilarityChecker extends AbstractSimilarityChecker {
     public JavaSimilarityChecker(ISimilarityToolbox st) {
         super(st);
     }
-
+    
 	@Override
 	protected JavaSimilarityComparer createSimilarityComparer(ISimilarityToolbox st) {
 		return new JavaSimilarityComparer(st);
 	}
 
 	@Override
-	public Boolean isSimilar(Object element1, Object element2) {
-		IJavaSimilaritySwitch ss = (IJavaSimilaritySwitch) 
-				this.getSimilarityComparer().handleSimilarityRequest(
-							new NewSimilaritySwitchRequest(true)
-						);
-		
-		return (Boolean) ss.handleSimilarityRequest(new SingleSimilarityCheckRequest((EObject) element1, (EObject) element2, ss));
+	protected ISimilarityRequest makeDefaultSwitchRequest() {
+		return new NewSimilaritySwitchRequest(true);
 	}
 }

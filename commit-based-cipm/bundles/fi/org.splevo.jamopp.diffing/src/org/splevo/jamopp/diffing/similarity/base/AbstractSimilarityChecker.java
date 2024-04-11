@@ -12,5 +12,9 @@ public abstract class AbstractSimilarityChecker implements ISimilarityChecker {
 		return this.sc;
 	}
 
+    protected Object handleSimilarityRequest(ISimilarityRequest req) {
+    	return this.getSimilarityComparer().handleSimilarityRequest(req);
+    }
+	
 	protected abstract ISimilarityComparer createSimilarityComparer(ISimilarityToolbox st);
 }
