@@ -1,29 +1,29 @@
-package cipm.consistency.fitests.similarity;
+package cipm.consistency.fitests.similarity.java;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.util.Switch;
-import org.splevo.jamopp.diffing.similarity.SimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.JavaSimilaritySwitch;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 
-public class DummySimilaritySwitch extends SimilaritySwitch implements HasInnerSwitches {
+public class DummySimilaritySwitch extends JavaSimilaritySwitch implements HasInnerSwitches {
 	private List<Switch<Boolean>> switches;
-
-	public DummySimilaritySwitch(DummySimilarityComparer sc) {
-		super(sc);
+	
+	public DummySimilaritySwitch(ISimilarityRequestHandler srh, boolean checkStatementPosition) {
+		super(srh, checkStatementPosition);
 	}
 	
-	public DummySimilaritySwitch(DummySimilarityComparer sc,
-			List<Switch<Boolean>> switchesToAdd) {
-		super(sc);
-		
-		this.setSwitches(switchesToAdd);
+	public DummySimilaritySwitch(ISimilarityRequestHandler srh,
+			Collection<Switch<Boolean>> switches) {
+		super(srh, switches);
 	}
 	
-	@Override
-	public DummySimilarityComparer getSimilarityComparer() {
-		return (DummySimilarityComparer) super.getSimilarityComparer();
-	}
+    public DummySimilaritySwitch(ISimilarityRequestHandler srh,
+    		Switch<Boolean>[] switches) {
+    	super(srh, switches);
+    }
 	
 	@Override
 	public List<Switch<Boolean>> getSwitches() {
