@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity;
+package cipm.consistency.fitests.similarity.java;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -16,7 +16,12 @@ import org.junit.jupiter.api.Test;
 import org.splevo.jamopp.diffing.similarity.switches.ContainersSimilaritySwitch;
 
 public class ModuleSimilarityTest extends AbstractSimilarityTest {
+	private final boolean defaultCheckStatementPosition = true;
 	private final String moduleName = "mName";
+	
+	public boolean getDefaultCheckStatementPosition() {
+		return this.defaultCheckStatementPosition;
+	}
 	
 	@BeforeEach
 	@Override
@@ -27,7 +32,7 @@ public class ModuleSimilarityTest extends AbstractSimilarityTest {
 			@Override
 			public List<Switch<Boolean>> createSwitchesFor(DummySimilaritySwitch dss) {
 				var list = new ArrayList<Switch<Boolean>>();
-				list.add(new ContainersSimilaritySwitch(dss));
+				list.add(new ContainersSimilaritySwitch(dss, getDefaultCheckStatementPosition()));
 				return list;
 			}
 		});
