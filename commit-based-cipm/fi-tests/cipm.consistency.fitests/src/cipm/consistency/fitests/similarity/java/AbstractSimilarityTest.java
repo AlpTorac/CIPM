@@ -1,8 +1,9 @@
-package cipm.consistency.fitests.similarity;
+package cipm.consistency.fitests.similarity.java;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -16,11 +17,13 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.splevo.jamopp.diffing.similarity.JavaSimilarityToolboxBuilder;
+import org.splevo.jamopp.diffing.similarity.base.MapSimilarityToolboxFactory;
 
 public abstract class AbstractSimilarityTest {
 	private static final Logger LOGGER = Logger.getLogger("cipm." + AbstractSimilarityTest.class.getSimpleName());
 	
-	private final String resourceRootPath = new File("").getAbsoluteFile().getAbsolutePath()
+	private static final String resourceRootPath = new File("").getAbsoluteFile().getAbsolutePath()
 			+ File.separator + "testModels";
 	
 	private final String extension = "javaxmi";
@@ -32,7 +35,6 @@ public abstract class AbstractSimilarityTest {
 	@BeforeEach
 	public void setUp() {
 		this.setUpLogger();
-		LOGGER.debug("Resource root path set to: " + this.getResourceRootPath());
 		this.setResourceRegistry(this.getResourceRootPath());
 		this.sc = this.initSC();
 	}
@@ -50,8 +52,8 @@ public abstract class AbstractSimilarityTest {
 	protected void setUpLogger() {
 		Logger logger = Logger.getLogger("cipm");
 		logger.setLevel(Level.ALL);
-		logger = Logger.getLogger("jamopp");
-		logger.setLevel(Level.ALL);
+//		logger = Logger.getLogger("jamopp");
+//		logger.setLevel(Level.ALL);
 		logger = Logger.getRootLogger();
 		logger.removeAllAppenders();
 		ConsoleAppender ap = new ConsoleAppender(new PatternLayout("[%d{DATE}] %-5p: %c - %m%n"),
@@ -60,7 +62,16 @@ public abstract class AbstractSimilarityTest {
 	}
 	
 	protected DummySimilarityChecker initSC() {
-		this.sc = new DummySimilarityChecker();
+        var builder = new JavaSimilarityToolboxBuilder();
+        builder.setSimilarityToolboxFactory(new MapSimilarityToolboxFactory());
+        
+        var toolbox = builder.instantiate()
+        	.buildNewSimilaritySwitchHandler()
+        	.buildNormalizationHandlers()
+        	.buildComparisonHandlers()
+        	.build();
+		
+		this.sc = new DummySimilarityChecker(toolbox);
 		return this.sc;
 	}
 	
@@ -72,8 +83,12 @@ public abstract class AbstractSimilarityTest {
 		return this.extension;
 	}
 	
+	public static String getAbstractSimilarityTestResourceRootPath() {
+		return resourceRootPath;
+	}
+	
 	public String getResourceRootPath() {
-		return this.resourceRootPath;
+		return resourceRootPath;
 	}
 	
 	public URI createURI(String resourceName, String resourceExtension) {
@@ -131,15 +146,12 @@ public abstract class AbstractSimilarityTest {
 		reg.getExtensionToFactoryMap().remove(this.getExtension());
 	}
 	
-	public Boolean areSimilar(final List<? extends EObject> elements1, final List<? extends EObject> elements2) {
-		return this.sc.areSimilar(elements1, elements2);
-	}
-	
 	public Boolean isSimilar(EObject element1, EObject element2) {
 		return this.sc.isSimilar(element1, element2);
 	}
 	
-	public Boolean isSimilar(EObject element1, EObject element2, boolean checkStatementPosition) {
-		return this.sc.isSimilar(element1, element2, checkStatementPosition);
+	@SuppressWarnings("unchecked")
+	public Boolean areSimilar(Collection<? extends EObject> elements1, Collection<? extends EObject> elements2) {
+		return this.sc.areSimilar((Collection<Object>) elements1, (Collection<Object>) elements2);
 	}
 }

@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity;
+package cipm.consistency.fitests.similarity.java;
 
 import java.io.IOException;
 import java.util.Map;
