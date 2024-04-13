@@ -7,15 +7,22 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.Switch;
+import org.emftext.language.java.containers.Origin;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.splevo.jamopp.diffing.similarity.switches.ContainersSimilaritySwitch;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ModuleInitialiser;
 
-public class ModuleSimilarityTest extends AbstractSimilarityTest implements IModuleTest {
+public class PackageSimilarityTest extends AbstractSimilarityTest implements IPackageTest {
+	private IJavaModelConstructor ctor = new IJavaModelConstructor() {
+		@Override
+		public void fillResource(Resource res, Map<ResourceParameters, Object> params) {
+			res.getContents().add(new ModuleInitialiser().build(params));
+		}
+	};
+	
 	@BeforeEach
 	@Override
 	public void setUp() {
@@ -31,23 +38,19 @@ public class ModuleSimilarityTest extends AbstractSimilarityTest implements IMod
 		});
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
-	public void test() throws IOException {
-		var ctor = new IJavaModelConstructor() {
-			@Override
-			public void fillResource(Resource res, Map<ResourceParameters, Object> params) {
-				res.getContents().add(new ModuleInitialiser().build(params));
-			}
-		};
+	public void testPackageEquality() throws IOException {
+		var pacNamespaces = new String[] {"ns1", "ns2", "ns3"};
 		
-		var params1 = this.makeMinimalModuleParam("mod1");
-		var params2 = this.makeMinimalModuleParam("mod2");
+		var params1 = this.makeMinimalModuleWithPackagesParam("mod",
+				new Map[] {
+						this.makePackageParam("pac", Origin.BINDING, pacNamespaces)
+				});
 		
-		var resOne = this.createResource("modResOne", ctor, params1);
-		var resTwo = this.createResource("modResTwo", ctor, params2);
-		var resThree = this.createResource("modResThree", ctor, params2);
+		var resOne = this.createResource("pacResOne", ctor, params1);
+		var resTwo = this.createResource("pacResTwo", ctor, params1);
 		
-		Assertions.assertTrue(this.areSimilar(resTwo.getContents(), resThree.getContents()));
-		Assertions.assertFalse(this.areSimilar(resOne.getContents(), resTwo.getContents()));
+		Assertions.assertTrue(this.areSimilar(resOne.getContents(), resTwo.getContents()));
 	}
 }
