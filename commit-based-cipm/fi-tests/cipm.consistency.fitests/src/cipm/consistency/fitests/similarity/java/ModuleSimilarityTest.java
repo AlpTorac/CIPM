@@ -9,12 +9,14 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.Switch;
 import org.emftext.language.java.containers.Origin;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.splevo.jamopp.diffing.similarity.switches.ContainersSimilaritySwitch;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ModuleInitialiser;
+import cipm.consistency.fitests.similarity.java.utils.DummySimilaritySwitch;
+import cipm.consistency.fitests.similarity.java.utils.IJavaModelConstructor;
+import cipm.consistency.fitests.similarity.java.utils.InnerSwitchFactory;
 
 public class ModuleSimilarityTest extends AbstractSimilarityTest implements IModuleTest, IPackageTest {
 	private IJavaModelConstructor ctor = new IJavaModelConstructor() {
@@ -27,19 +29,16 @@ public class ModuleSimilarityTest extends AbstractSimilarityTest implements IMod
 		}
 	};
 	
-	@BeforeEach
 	@Override
-	public void setUp() {
-		super.setUp();
-		
-		this.setSwitchFactory(new InnerSwitchFactory() {
+	public InnerSwitchFactory initSwitchFactory() {
+		return new InnerSwitchFactory() {
 			@Override
 			public List<Switch<Boolean>> createSwitchesFor(DummySimilaritySwitch dss) {
 				var list = new ArrayList<Switch<Boolean>>();
 				list.add(new ContainersSimilaritySwitch(dss, getDefaultCheckStatementPosition()));
 				return list;
 			}
-		});
+		};
 	}
 	
 	@Test
