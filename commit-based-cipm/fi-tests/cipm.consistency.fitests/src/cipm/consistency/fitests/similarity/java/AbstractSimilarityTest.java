@@ -30,6 +30,8 @@ public abstract class AbstractSimilarityTest {
 	
 	private final List<Resource> createdResources = new ArrayList<Resource>();
 	
+	private boolean defaultCheckStatementPosition = true;
+	
 	private DummySimilarityChecker sc;
 	
 	@BeforeEach
@@ -44,6 +46,10 @@ public abstract class AbstractSimilarityTest {
 		this.cleanAllResources();
 		this.cleanRegistry();
 		this.deleteResourceDir();
+	}
+	
+	public boolean getDefaultCheckStatementPosition() {
+		return this.defaultCheckStatementPosition;
 	}
 	
 	/**
@@ -101,7 +107,7 @@ public abstract class AbstractSimilarityTest {
 	}
 	
 	public Resource createResource(String resourceName,
-			IJavaModelConstructor ctor, Map<String, Object> params) {
+			IJavaModelConstructor ctor, Map<ResourceParameters, Object> params) {
 		Resource res = null;
 		
 		try {
