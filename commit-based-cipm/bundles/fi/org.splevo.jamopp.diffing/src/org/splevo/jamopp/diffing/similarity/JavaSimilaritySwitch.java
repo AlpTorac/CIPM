@@ -78,6 +78,10 @@ public class JavaSimilaritySwitch extends AbstractComposedSimilaritySwitch imple
         addSwitch(new ModulesSimilaritySwitch(this, checkStatementPosition));
     }
     
+    protected JavaSimilaritySwitch(ISimilarityRequestHandler srh) {
+    	super(srh);
+    }
+    
     protected JavaSimilaritySwitch(ISimilarityRequestHandler srh, Collection<Switch<Boolean>> switches) {
     	super(srh, switches);
     }

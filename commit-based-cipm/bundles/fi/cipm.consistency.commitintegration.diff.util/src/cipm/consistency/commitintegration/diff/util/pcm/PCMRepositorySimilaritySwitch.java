@@ -17,6 +17,10 @@ public class PCMRepositorySimilaritySwitch extends AbstractComposedSimilaritySwi
 		this.addSwitch(new SimilaritySeffSwitch(this, checkStatementPosition));
 	}
 	
+	protected PCMRepositorySimilaritySwitch(ISimilarityRequestHandler srh) {
+		super(srh);
+	}
+	
     protected PCMRepositorySimilaritySwitch(ISimilarityRequestHandler srh, Collection<Switch<Boolean>> switches) {
     	super(srh, switches);
     }
