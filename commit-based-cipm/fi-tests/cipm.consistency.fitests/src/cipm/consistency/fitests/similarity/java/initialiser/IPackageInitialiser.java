@@ -12,9 +12,11 @@ public interface IPackageInitialiser extends IJavaRootInitialiser {
 	public Package instantiatePackage(Map<ResourceParameters, Object> pacParam);
 	
 	public default Package initialiseModuleField(Package pac, Module mod) {
-		pac.setModule(mod);
+		if (mod != null) {
+			pac.setModule(mod);
+			assert pac.getModule().equals(mod);
+		}
 		
-		assert pac.getModule().equals(mod);
 		return pac;
 	}
 	
@@ -43,7 +45,11 @@ public interface IPackageInitialiser extends IJavaRootInitialiser {
 	@Override
 	public default Package build(Map<ResourceParameters, Object> params) {
 		var instance = this.instantiate();
-		return this.initialise(instance, params);
+		var pac = this.initialise(instance, params);
+		
+		this.getResource().getContents().add(pac);
+		
+		return pac;
 	}
 	
 	@Override

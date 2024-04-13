@@ -29,9 +29,8 @@ public interface IModuleInitialiser extends IJavaRootInitialiser {
 				}
 				
 				var pacInitialiser = this.getPackageInitialiserFor(param);
-				var pac = pacInitialiser.instantiatePackage(param);
-				
-				pacInitialiser.initialisePackage(pac, param);
+				pacInitialiser.setResource(this.getResource());
+				pacInitialiser.build(param);
 			}
 		}
 		
@@ -81,7 +80,11 @@ public interface IModuleInitialiser extends IJavaRootInitialiser {
 	@Override
 	public default Module build(Map<ResourceParameters, Object> params) {
 		var instance = this.instantiate(params);
-		return this.initialise(instance, params);
+		var mod = this.initialise(instance, params);
+		
+		this.getResource().getContents().add(mod);
+		
+		return mod;
 	}
 	
 	@Override
