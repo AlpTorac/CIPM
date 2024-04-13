@@ -17,8 +17,12 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.splevo.jamopp.diffing.similarity.JavaSimilarityToolboxBuilder;
 import org.splevo.jamopp.diffing.similarity.base.MapSimilarityToolboxFactory;
+
+import cipm.consistency.fitests.similarity.java.utils.DummySimilarityChecker;
+import cipm.consistency.fitests.similarity.java.utils.DummySimilarityToolboxBuilder;
+import cipm.consistency.fitests.similarity.java.utils.IJavaModelConstructor;
+import cipm.consistency.fitests.similarity.java.utils.InnerSwitchFactory;
 
 public abstract class AbstractSimilarityTest {
 	private static final Logger LOGGER = Logger.getLogger("cipm." + AbstractSimilarityTest.class.getSimpleName());
@@ -68,8 +72,9 @@ public abstract class AbstractSimilarityTest {
 	}
 	
 	protected DummySimilarityChecker initSC() {
-        var builder = new JavaSimilarityToolboxBuilder();
+        var builder = new DummySimilarityToolboxBuilder();
         builder.setSimilarityToolboxFactory(new MapSimilarityToolboxFactory());
+        builder.setSwitchFactory(this.initSwitchFactory());
         
         var toolbox = builder.instantiate()
         	.buildNewSimilaritySwitchHandler()
@@ -79,10 +84,6 @@ public abstract class AbstractSimilarityTest {
 		
 		this.sc = new DummySimilarityChecker(toolbox);
 		return this.sc;
-	}
-	
-	protected void setSwitchFactory(InnerSwitchFactory switchFac) {
-		this.sc.setSwitchFactory(switchFac);
 	}
 	
 	public String getExtension() {
@@ -159,5 +160,13 @@ public abstract class AbstractSimilarityTest {
 	@SuppressWarnings("unchecked")
 	public Boolean areSimilar(Collection<? extends EObject> elements1, Collection<? extends EObject> elements2) {
 		return this.sc.areSimilar((Collection<Object>) elements1, (Collection<Object>) elements2);
+	}
+	
+	/**
+	 * Override in tests, if the underlying similarity switch
+	 * needs to have only the specified switches.
+	 */
+	public InnerSwitchFactory initSwitchFactory() {
+		return null;
 	}
 }

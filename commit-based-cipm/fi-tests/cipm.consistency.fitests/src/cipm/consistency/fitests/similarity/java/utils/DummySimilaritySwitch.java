@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.java;
+package cipm.consistency.fitests.similarity.java.utils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -13,6 +13,10 @@ public class DummySimilaritySwitch extends JavaSimilaritySwitch implements HasIn
 	
 	public DummySimilaritySwitch(ISimilarityRequestHandler srh, boolean checkStatementPosition) {
 		super(srh, checkStatementPosition);
+	}
+	
+	public DummySimilaritySwitch(ISimilarityRequestHandler srh) {
+		super(srh);
 	}
 	
 	public DummySimilaritySwitch(ISimilarityRequestHandler srh,

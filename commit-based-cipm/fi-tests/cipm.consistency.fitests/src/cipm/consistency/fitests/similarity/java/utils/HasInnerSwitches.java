@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.java;
+package cipm.consistency.fitests.similarity.java.utils;
 
 import java.util.List;
 
