@@ -14,12 +14,26 @@ import org.junit.jupiter.api.Test;
 import org.splevo.jamopp.diffing.similarity.switches.ContainersSimilaritySwitch;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ModuleInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.PackageInitialiser;
 
 public class PackageSimilarityTest extends AbstractSimilarityTest implements IPackageTest {
-	private IJavaModelConstructor ctor = new IJavaModelConstructor() {
+	private IJavaModelConstructor modCTor = new IJavaModelConstructor() {
 		@Override
 		public void fillResource(Resource res, Map<ResourceParameters, Object> params) {
-			res.getContents().add(new ModuleInitialiser().build(params));
+			var initialiser = new ModuleInitialiser();
+			
+			initialiser.setResource(res);
+			initialiser.build(params);
+		}
+	};
+	
+	private IJavaModelConstructor pacCTor = new IJavaModelConstructor() {
+		@Override
+		public void fillResource(Resource res, Map<ResourceParameters, Object> params) {
+			var initialiser = new PackageInitialiser();
+			
+			initialiser.setResource(res);
+			initialiser.build(params);
 		}
 	};
 	
@@ -38,19 +52,92 @@ public class PackageSimilarityTest extends AbstractSimilarityTest implements IPa
 		});
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Test
-	public void testPackageEquality() throws IOException {
+	public void testNamespaceEquality() throws IOException {
 		var pacNamespaces = new String[] {"ns1", "ns2", "ns3"};
 		
-		var params1 = this.makeMinimalModuleWithPackagesParam("mod",
-				new Map[] {
-						this.makePackageParam("pac", Origin.BINDING, pacNamespaces)
-				});
+		Map<ResourceParameters, Object> params1 = this.makePackageParam("pac", Origin.BINDING, pacNamespaces);
+		Map<ResourceParameters, Object> params2 = this.makePackageParam("pac", Origin.BINDING, pacNamespaces);
 		
-		var resOne = this.createResource("pacResOne", ctor, params1);
-		var resTwo = this.createResource("pacResTwo", ctor, params1);
+		var resOne = this.createResource("pacRes11", pacCTor, params1);
+		var resTwo = this.createResource("pacRes12", pacCTor, params2);
 		
 		Assertions.assertTrue(this.areSimilar(resOne.getContents(), resTwo.getContents()));
+	}
+	
+	@Test
+	public void testNamespaceUnequality() throws IOException {
+		var pacNamespaces1 = new String[] {"ns1", "ns2", "ns3"};
+		var pacNamespaces2 = new String[] {"ns11", "n", "ns"};
+		
+		Map<ResourceParameters, Object> params1 = this.makePackageParam("pac", Origin.BINDING, pacNamespaces1);
+		Map<ResourceParameters, Object> params2 = this.makePackageParam("pac", Origin.BINDING, pacNamespaces2);
+		
+		var resOne = this.createResource("pacRes11", pacCTor, params1);
+		var resTwo = this.createResource("pacRes12", pacCTor, params2);
+		
+		Assertions.assertFalse(this.areSimilar(resOne.getContents(), resTwo.getContents()));
+	}
+	
+	@Test
+	public void testModuleEquality() throws IOException {
+		var pacNamespaces = new String[] {"ns1", "ns2", "ns3"};
+		
+		@SuppressWarnings("unchecked")
+		Map<ResourceParameters, Object> params1 = this.makeMinimalModuleWithPackagesParam("mod",
+				new Map[] {
+						this.makePackageParam("pac", Origin.BINDING, pacNamespaces)
+		});
+		
+		@SuppressWarnings("unchecked")
+		Map<ResourceParameters, Object> params2 = this.makeMinimalModuleWithPackagesParam("mod",
+				new Map[] {
+						this.makePackageParam("pac", Origin.BINDING, pacNamespaces)
+		});
+		
+		var resOne = this.createResource("pacRes11", modCTor, params1);
+		var resTwo = this.createResource("pacRes12", modCTor, params2);
+		
+		Assertions.assertTrue(this.areSimilar(resOne.getContents(), resTwo.getContents()));
+	}
+	
+	@Test
+	public void testModuleUnequality() throws IOException {
+		var pacNamespaces = new String[] {"ns1", "ns2", "ns3"};
+		
+		@SuppressWarnings("unchecked")
+		Map<ResourceParameters, Object> params1 = this.makeMinimalModuleWithPackagesParam("mod1",
+				new Map[] {
+						this.makePackageParam("pac", Origin.BINDING, pacNamespaces)
+		});
+		
+		@SuppressWarnings("unchecked")
+		Map<ResourceParameters, Object> params2 = this.makeMinimalModuleWithPackagesParam("mod2",
+				new Map[] {
+						this.makePackageParam("pac", Origin.BINDING, pacNamespaces)
+		});
+		
+		var resOne = this.createResource("pacRes11", modCTor, params1);
+		var resTwo = this.createResource("pacRes12", modCTor, params2);
+		
+		Assertions.assertFalse(this.areSimilar(resOne.getContents(), resTwo.getContents()));
+	}
+	
+	@Test
+	public void testModuleAbsence() throws IOException {
+		var pacNamespaces = new String[] {"ns1", "ns2", "ns3"};
+		
+		@SuppressWarnings("unchecked")
+		Map<ResourceParameters, Object> params1 = this.makeMinimalModuleWithPackagesParam("mod",
+				new Map[] {
+						this.makePackageParam("pac", Origin.BINDING, pacNamespaces)
+		});
+		
+		Map<ResourceParameters, Object> params2 = this.makePackageParam("pac", Origin.BINDING, pacNamespaces);
+		
+		var resOne = this.createResource("pacRes11", modCTor, params1);
+		var resTwo = this.createResource("pacRes12", pacCTor, params2);
+		
+		Assertions.assertFalse(this.areSimilar(resOne.getContents(), resTwo.getContents()));
 	}
 }

@@ -14,6 +14,11 @@ public interface IModuleTest {
 	public default Map<ResourceParameters, Object> makeMinimalModuleWithPackagesParam(String name,
 			Map<ResourceParameters, Object>[] packages) {
 		var result = this.makeMinimalModuleParam(name);
+		if (packages != null) {
+			for (var p : packages) {
+				p.put(ResourceParameters.SET_MODULE_AS_PACKAGE_CONTAINER, Boolean.TRUE);
+			}
+		}
 		result.put(ResourceParameters.PACKAGES, packages);
 		return result;
 	}
