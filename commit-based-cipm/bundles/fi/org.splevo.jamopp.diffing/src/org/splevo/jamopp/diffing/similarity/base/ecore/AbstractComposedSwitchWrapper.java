@@ -15,12 +15,16 @@ public abstract class AbstractComposedSwitchWrapper extends ComposedSwitch<Boole
     }
     
     protected AbstractComposedSwitchWrapper(Collection<Switch<Boolean>> switches) {
-    	switches.forEach((s) -> this.addSwitch(s));
+    	if (switches != null) {
+    		switches.forEach((s) -> this.addSwitch(s));
+    	}
     }
     
     protected AbstractComposedSwitchWrapper(Switch<Boolean>[] switches) {
-    	for (var s : switches) {
-    		this.addSwitch(s);
+    	if (switches != null) {
+    		for (var s : switches) {
+        		this.addSwitch(s);
+        	}
     	}
     }
     
