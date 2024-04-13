@@ -15,6 +15,9 @@ import org.splevo.jamopp.diffing.similarity.switches.ContainersSimilaritySwitch;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ModuleInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.PackageInitialiser;
+import cipm.consistency.fitests.similarity.java.utils.DummySimilaritySwitch;
+import cipm.consistency.fitests.similarity.java.utils.IJavaModelConstructor;
+import cipm.consistency.fitests.similarity.java.utils.InnerSwitchFactory;
 
 public class PackageSimilarityTest extends AbstractSimilarityTest implements IPackageTest {
 	private IJavaModelConstructor modCTor = new IJavaModelConstructor() {
@@ -37,19 +40,16 @@ public class PackageSimilarityTest extends AbstractSimilarityTest implements IPa
 		}
 	};
 	
-	@BeforeEach
 	@Override
-	public void setUp() {
-		super.setUp();
-		
-		this.setSwitchFactory(new InnerSwitchFactory() {
+	public InnerSwitchFactory initSwitchFactory() {
+		return new InnerSwitchFactory() {
 			@Override
 			public List<Switch<Boolean>> createSwitchesFor(DummySimilaritySwitch dss) {
 				var list = new ArrayList<Switch<Boolean>>();
 				list.add(new ContainersSimilaritySwitch(dss, getDefaultCheckStatementPosition()));
 				return list;
 			}
-		});
+		};
 	}
 	
 	@Test

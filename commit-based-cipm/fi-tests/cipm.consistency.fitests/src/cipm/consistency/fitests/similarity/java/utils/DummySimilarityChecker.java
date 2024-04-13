@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.java;
+package cipm.consistency.fitests.similarity.java.utils;
 
 import org.splevo.jamopp.diffing.similarity.JavaSimilarityChecker;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolbox;
