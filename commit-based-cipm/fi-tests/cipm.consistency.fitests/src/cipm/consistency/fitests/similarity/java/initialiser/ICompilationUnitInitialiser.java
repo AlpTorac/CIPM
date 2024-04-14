@@ -1,49 +1,41 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 
 public interface ICompilationUnitInitialiser extends IJavaRootInitialiser {
 	@Override
-	public CompilationUnit getCurrentObject();
-	
-	public default void addImport(String imprt) {
-		var cObj = this.getCurrentObject();
-		
-		if (imprt != null) {
-			cObj.addImport(imprt);
-		}
-	}
-	
-	public default void addPackageImport(String imprt) {
-		var cObj = this.getCurrentObject();
-		
-		if (imprt != null) {
-			cObj.addPackageImport(imprt);
-		}
-	}
-	
-	public default void addClassifier(ConcreteClassifier cc) {
-		var cObj = this.getCurrentObject();
-		
-		if (cc != null) {
-			cObj.getClassifiers().add(cc);
-			assert cObj.getClassifiers().contains(cc);
-		}
-	}
-	
-	public default void addClassifierInSamePackage(ConcreteClassifier cc) {
-		var cObj = this.getCurrentObject();
-		
-		if (cc != null) {
-			cObj.getClassifiersInSamePackage().add(cc);
-			assert cObj.getClassifiersInSamePackage().contains(cc);
-		}
-	}
+	public CompilationUnit instantiate();
 	
 	@Override
-	public default CompilationUnit build() {
-		return (CompilationUnit) IJavaRootInitialiser.super.build();
+	public default CompilationUnit clone(EObject obj) {
+		return (CompilationUnit) IJavaRootInitialiser.super.clone(obj);
+	}
+	
+	public default void addImport(CompilationUnit cu, String imprt) {
+		if (imprt != null) {
+			cu.addImport(imprt);
+		}
+	}
+	
+	public default void addPackageImport(CompilationUnit cu, String imprt) {
+		if (imprt != null) {
+			cu.addPackageImport(imprt);
+		}
+	}
+	
+	public default void addClassifier(CompilationUnit cu, ConcreteClassifier cc) {
+		if (cc != null) {
+			cu.getClassifiers().add(cc);
+			assert cu.getClassifiers().contains(cc);
+		}
+	}
+	
+	public default void addClassifierInSamePackage(CompilationUnit cu, ConcreteClassifier cc) {
+		if (cc != null) {
+			cu.getClassifiersInSamePackage().add(cc);
+			assert cu.getClassifiersInSamePackage().contains(cc);
+		}
 	}
 }

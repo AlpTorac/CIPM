@@ -26,6 +26,15 @@ import cipm.consistency.fitests.similarity.java.utils.DummySimilarityChecker;
 import cipm.consistency.fitests.similarity.java.utils.DummySimilarityToolboxBuilder;
 import cipm.consistency.fitests.similarity.java.utils.InnerSwitchFactory;
 
+/**
+ * ToDo: Write proper commentary
+ * 
+ * Make sure to not try to add an EObject, which has already been added to a Resource, to another Resource.
+ * Doing so will detach it from its former Resource and add it to the second one.
+ * 
+ * @author atora
+ *
+ */
 public abstract class AbstractSimilarityTest {
 	private static final Logger LOGGER = Logger.getLogger("cipm." + AbstractSimilarityTest.class.getSimpleName());
 	
@@ -40,9 +49,6 @@ public abstract class AbstractSimilarityTest {
 	
 	private DummySimilarityChecker sc;
 	
-	private boolean createResourceFiles = false;
-	private boolean deleteResourceFiles = false;
-	
 	private String testPrefix = "";
 	private String testIdentifier = "";
 	
@@ -56,11 +62,8 @@ public abstract class AbstractSimilarityTest {
 	@AfterEach
 	public void tearDown() {
 		this.cleanRegistry();
-		
-		if (this.shouldDeleteResourceFiles()) {
-			this.cleanAllResources();
-			this.deleteResourceDir();
-		}
+		this.cleanAllResources();
+		this.deleteResourceDir();
 	}
 	
 	private Resource initResource(URI uri) {
@@ -74,22 +77,6 @@ public abstract class AbstractSimilarityTest {
 		} catch (IOException e) {
 			Assertions.fail();
 		}
-	}
-	
-	public boolean shouldCreateResourceFiles() {
-		return this.createResourceFiles;
-	}
-	
-	public void setCreateResourceFiles(boolean createResourceFiles) {
-		this.createResourceFiles = createResourceFiles;
-	}
-	
-	public boolean shouldDeleteResourceFiles() {
-		return this.deleteResourceFiles;
-	}
-	
-	public void setDeleteResourceFiles(boolean deleteResourceFiles) {
-		this.deleteResourceFiles = deleteResourceFiles;
 	}
 	
 	public boolean getDefaultCheckStatementPosition() {
@@ -170,10 +157,6 @@ public abstract class AbstractSimilarityTest {
 			for (var eo : eos) {
 				res.getContents().add(eo);
 			}
-		}
-		
-		if (this.shouldCreateResourceFiles()) {
-			this.saveResource(res);
 		}
 		
 		return res;

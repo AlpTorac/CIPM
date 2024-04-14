@@ -3,13 +3,8 @@ package cipm.consistency.fitests.similarity.java.initialiser;
 import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.containers.Package;
 
-public class PackageInitialiser extends AbstractInitialiser implements IPackageInitialiser {
+public class PackageInitialiser implements IPackageInitialiser {
 	private boolean setDefaultName = true;
-	
-	@Override
-	public Package getCurrentObject() {
-		return (Package) super.getCurrentObject();
-	}
 	
 	@Override
 	public boolean isSetDefaultName() {
@@ -17,10 +12,9 @@ public class PackageInitialiser extends AbstractInitialiser implements IPackageI
 	}
 
 	@Override
-	public void instantiate() {
+	public Package instantiate() {
 		var fac = ContainersFactory.eINSTANCE;
-		var pac = fac.createPackage();
-		this.setCurrentObject(pac);
+		return fac.createPackage();
 	}
 
 	@Override

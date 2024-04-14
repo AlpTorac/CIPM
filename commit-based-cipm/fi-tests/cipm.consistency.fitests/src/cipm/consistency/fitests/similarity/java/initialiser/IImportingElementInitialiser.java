@@ -1,23 +1,23 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
+import org.eclipse.emf.ecore.EObject;
+import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.imports.ImportingElement;
 
 public interface IImportingElementInitialiser extends EObjectInitialiser {
 	@Override
-	public ImportingElement getCurrentObject();
-	
-	public default void addImport(Import imp) {
-		var cObj = this.getCurrentObject();
-		
-		if (imp != null) {
-			cObj.getImports().add(imp);
-			assert cObj.getImports().contains(imp);
-		}
-	}
+	public ImportingElement instantiate();
 	
 	@Override
-	public default ImportingElement build() {
-		return (ImportingElement) EObjectInitialiser.super.build();
+	public default ImportingElement clone(EObject obj) {
+		return (ImportingElement) EObjectInitialiser.super.clone(obj);
+	}
+	
+	public default void addImport(ImportingElement ie, Import imp) {
+		if (imp != null) {
+			ie.getImports().add(imp);
+			assert ie.getImports().contains(imp);
+		}
 	}
 }
