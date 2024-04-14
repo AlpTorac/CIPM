@@ -1,23 +1,24 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
-import java.util.Map;
-
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
-import cipm.consistency.fitests.similarity.java.ResourceParameters;
-
 public interface EObjectInitialiser {
-	public EObject initialise(EObject obj, Map<ResourceParameters, Object> params);
-	public EObject instantiate(Map<ResourceParameters, Object> params);
+	public void resetCurrentObject();
+	public EObject getCurrentObject();
+	public void instantiate();
 	
-	public default EObject instantiate() {
-		return this.instantiate(null);
+	public default EObject build() {
+		var result = this.getCurrentObject();
+		this.resetCurrentObject();
+		return result;
 	}
 	
-	public EObject build(Map<ResourceParameters, Object> params);
-	public EObject build();
-	
-	public void setResource(Resource res);
-	public Resource getResource();
+	public default void addToResource(Resource res) {
+		var cObj = this.getCurrentObject();
+		
+		if (res != null && !res.getContents().contains(cObj)) {
+			res.getContents().add(cObj);
+		}
+	}
 }

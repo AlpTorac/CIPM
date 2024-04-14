@@ -1,28 +1,34 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
-import java.util.Map;
-
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.JavaRoot;
 import org.emftext.language.java.containers.Origin;
 
-import cipm.consistency.fitests.similarity.java.ResourceParameters;
-
-public interface IJavaRootInitialiser extends INameInitialiser, INamespaceAwareElementInitialiser {
-	public default JavaRoot initialiseOrigin(JavaRoot elem, Origin origin) {
-		elem.setOrigin(origin);
-		assert elem.getOrigin().equals(origin);
-		return elem;
-	}
+public interface IJavaRootInitialiser extends INameInitialiser, INamespaceAwareElementInitialiser,
+IAnnotableInitialiser, IImportingElementInitialiser {
+	@Override
+	public JavaRoot getCurrentObject();
 	
-	public default JavaRoot initialiseJavaRoot(JavaRoot elem, Map<ResourceParameters, Object> params) {
-		this.initialiseOrigin(elem, this.getOriginParam(params));
-		this.initialiseNamedElement(elem, params);
-		this.initialiseNamespaceAwareElement(elem, params);
+	public default void addClassifierInSamePackage(ConcreteClassifier cc) {
+		var cObj = this.getCurrentObject();
 		
-		return elem;
+		if (cc != null) {
+			cObj.getClassifiersInSamePackage().add(cc);
+			assert cObj.getClassifiersInSamePackage().contains(cc);
+		}
 	}
 	
-	public default Origin getOriginParam(Map<ResourceParameters, Object> params) {
-		return (Origin) params.get(ResourceParameters.ORIGIN);
+	public default void initialiseOrigin(Origin origin) {
+		var cObj = this.getCurrentObject();
+		
+		if (origin != null) {
+			cObj.setOrigin(origin);
+			assert cObj.getOrigin().equals(origin);
+		}
+	}
+	
+	@Override
+	public default JavaRoot build() {
+		return (JavaRoot) IAnnotableInitialiser.super.build();
 	}
 }
