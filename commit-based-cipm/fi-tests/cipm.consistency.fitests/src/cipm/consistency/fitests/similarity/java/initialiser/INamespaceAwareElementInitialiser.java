@@ -1,26 +1,32 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
-import java.util.Map;
+import java.util.List;
 
 import org.emftext.language.java.commons.NamespaceAwareElement;
 
-import cipm.consistency.fitests.similarity.java.ResourceParameters;
-
-public interface INamespaceAwareElementInitialiser extends EObjectInitialiser {
-	public default NamespaceAwareElement initialiseNamespaces(NamespaceAwareElement elem, String[] namespaces) {
+public interface INamespaceAwareElementInitialiser extends ICommentableInitialiser {
+	@Override
+	public NamespaceAwareElement getCurrentObject();
+	
+	public default void initialiseNamespaces(String[] namespaces) {
 		if (namespaces != null) {
 			for (var ns : namespaces) {
-				elem.getNamespaces().add(ns);
+				this.initialiseNamespace(ns);
 			}
+			
+			assert this.getCurrentObject().getNamespaces().containsAll(List.of(namespaces));
 		}
-		return elem;
 	}
 	
-	public default NamespaceAwareElement initialiseNamespaceAwareElement(NamespaceAwareElement elem, Map<ResourceParameters, Object> params) {
-		return this.initialiseNamespaces(elem, this.getNamespacesParam(params));
+	public default void initialiseNamespace(String namespace) {
+		if (namespace != null) {
+			this.getCurrentObject().getNamespaces().add(namespace);
+			assert this.getCurrentObject().getNamespaces().contains(namespace);
+		}
 	}
 	
-	public default String[] getNamespacesParam(Map<ResourceParameters, Object> params) {
-		return (String[]) params.get(ResourceParameters.NAMESPACE);
+	@Override
+	public default NamespaceAwareElement build() {
+		return (NamespaceAwareElement) ICommentableInitialiser.super.build();
 	}
 }
