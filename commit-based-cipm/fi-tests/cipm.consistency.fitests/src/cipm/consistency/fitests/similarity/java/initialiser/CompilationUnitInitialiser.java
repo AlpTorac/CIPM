@@ -1,22 +1,22 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
+import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.ContainersFactory;
-import org.emftext.language.java.containers.Module;
 
-public class ModuleInitialiser implements IModuleInitialiser {
+public class CompilationUnitInitialiser implements ICompilationUnitInitialiser {
 	private boolean setDefaultName = true;
 	
 	@Override
 	public boolean isSetDefaultName() {
 		return this.setDefaultName;
 	}
-	
+
 	@Override
-	public Module instantiate() {
+	public CompilationUnit instantiate() {
 		var fac = ContainersFactory.eINSTANCE;
-		return fac.createModule();
+		return fac.createCompilationUnit();
 	}
-	
+
 	@Override
 	public void shouldSetDefaultName(boolean setDefaultName) {
 		this.setDefaultName = setDefaultName;
