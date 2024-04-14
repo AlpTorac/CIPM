@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.Switch;
 import org.emftext.language.java.containers.Origin;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.splevo.jamopp.diffing.similarity.switches.ContainersSimilaritySwitch;
 
@@ -20,26 +19,6 @@ import cipm.consistency.fitests.similarity.java.utils.IJavaModelConstructor;
 import cipm.consistency.fitests.similarity.java.utils.InnerSwitchFactory;
 
 public class PackageSimilarityTest extends AbstractSimilarityTest implements IPackageTest {
-	private IJavaModelConstructor modCTor = new IJavaModelConstructor() {
-		@Override
-		public void fillResource(Resource res, Map<ResourceParameters, Object> params) {
-			var initialiser = new ModuleInitialiser();
-			
-			initialiser.setResource(res);
-			initialiser.build(params);
-		}
-	};
-	
-	private IJavaModelConstructor pacCTor = new IJavaModelConstructor() {
-		@Override
-		public void fillResource(Resource res, Map<ResourceParameters, Object> params) {
-			var initialiser = new PackageInitialiser();
-			
-			initialiser.setResource(res);
-			initialiser.build(params);
-		}
-	};
-	
 	@Override
 	public InnerSwitchFactory initSwitchFactory() {
 		return new InnerSwitchFactory() {

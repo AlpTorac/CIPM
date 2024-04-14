@@ -1,59 +1,33 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
-import java.util.Map;
-
-import org.eclipse.emf.ecore.EObject;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.Module;
 import org.emftext.language.java.containers.Package;
 
-import cipm.consistency.fitests.similarity.java.ResourceParameters;
-
 public interface IPackageInitialiser extends IJavaRootInitialiser {
-	public Package instantiatePackage(Map<ResourceParameters, Object> pacParam);
+	@Override
+	public Package getCurrentObject();
 	
-	public default Package initialiseModuleField(Package pac, Module mod) {
+	public default void initialiseModuleField(Module mod) {
+		var cObj = this.getCurrentObject();
+		
 		if (mod != null) {
-			pac.setModule(mod);
-			assert pac.getModule().equals(mod);
+			cObj.setModule(mod);
+			assert cObj.getModule().equals(mod);
 		}
+	}
+	
+	public default void addClassifier(ConcreteClassifier cc) {
+		var cObj = this.getCurrentObject();
 		
-		return pac;
-	}
-	
-	public default Package initialisePackage(Package pac, Map<ResourceParameters, Object> params) {
-		this.initialiseJavaRoot(pac, params);
-		this.initialiseModuleField(pac, this.getModuleFieldParam(params));
-		
-		return pac;
-	}
-	
-	public default Module getModuleFieldParam(Map<ResourceParameters, Object> params) {
-		return (Module) params.get(ResourceParameters.MODULE);
-	}
-	
-	@Override
-	public default Package initialise(EObject obj, Map<ResourceParameters, Object> params) {
-		Package pac = (Package) obj;
-		return this.initialisePackage(pac, params);
-	}
-	
-	@Override
-	public default Package instantiate(Map<ResourceParameters, Object> params) {
-		return this.instantiatePackage(params);
-	}
-	
-	@Override
-	public default Package build(Map<ResourceParameters, Object> params) {
-		var instance = this.instantiate();
-		var pac = this.initialise(instance, params);
-		
-		this.getResource().getContents().add(pac);
-		
-		return pac;
+		if (cc != null) {
+			cObj.getClassifiers().add(cc);
+			assert cObj.getClassifiers().contains(cc);
+		}
 	}
 	
 	@Override
 	public default Package build() {
-		return this.build(null);
+		return (Package) IJavaRootInitialiser.super.build();
 	}
 }

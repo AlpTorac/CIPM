@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.Switch;
@@ -11,6 +12,9 @@ import org.emftext.language.java.containers.Origin;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.splevo.jamopp.diffing.similarity.switches.ContainersSimilaritySwitch;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ModuleInitialiser;
@@ -19,15 +23,11 @@ import cipm.consistency.fitests.similarity.java.utils.IJavaModelConstructor;
 import cipm.consistency.fitests.similarity.java.utils.InnerSwitchFactory;
 
 public class ModuleSimilarityTest extends AbstractSimilarityTest implements IModuleTest, IPackageTest {
-	private IJavaModelConstructor ctor = new IJavaModelConstructor() {
-		@Override
-		public void fillResource(Resource res, Map<ResourceParameters, Object> params) {
-			var initialiser = new ModuleInitialiser();
-			
-			initialiser.setResource(res);
-			initialiser.build(params);
-		}
-	};
+	@Override
+	public void setUp() {
+		this.setResourceFileTestPrefix(ModuleSimilarityTest.class.getSimpleName());
+		super.setUp();
+	}
 	
 	@Override
 	public InnerSwitchFactory initSwitchFactory() {
@@ -41,14 +41,29 @@ public class ModuleSimilarityTest extends AbstractSimilarityTest implements IMod
 		};
 	}
 	
-	@Test
-	public void testModuleNameEquality() throws IOException {
-		var param = this.makeMinimalModuleParam("mod1");
+	private static Stream<Arguments> generateNameSimilarityArguments() {
+		String name1 = "mod1";
+		String name2 = "mod2";
 		
-		var resOne = this.createResource("modRes1", ctor, param);
-		var resTwo = this.createResource("modRes2", ctor, param);
+		return Stream.of(
+					Arguments.of(new MinimalModuleGenerator(name1), new MinimalModuleGenerator(name1), Boolean.TRUE),
+					Arguments.of(new MinimalModuleGenerator(name1), new MinimalModuleGenerator(name2), Boolean.FALSE),
+					Arguments.of(new MinimalModuleGenerator(name2), new MinimalModuleGenerator(name1), Boolean.FALSE)
+				);
+	}
+	
+	@ParameterizedTest
+	@MethodSource("generateNameSimilarityArguments")
+	public void testModuleNameSimilarity(IModelTestParamGenerator param1,
+			IModelTestParamGenerator param2,
+			Boolean result) {
 		
-		Assertions.assertTrue(this.areSimilar(resOne.getContents(), resTwo.getContents()));
+		this.setResourceFileTestIdentifier("moduleNameEquality");
+		
+		var resOne = this.createResource(param1.generateParam());
+		var resTwo = this.createResource(param2.generateParam());
+		
+		Assertions.assertEquals(result, this.areSimilar(resOne.getContents(), resTwo.getContents()));
 	}
 	
 	@Test
