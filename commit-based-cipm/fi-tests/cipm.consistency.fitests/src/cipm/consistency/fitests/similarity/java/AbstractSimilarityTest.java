@@ -26,15 +26,6 @@ import cipm.consistency.fitests.similarity.java.utils.DummySimilarityChecker;
 import cipm.consistency.fitests.similarity.java.utils.DummySimilarityToolboxBuilder;
 import cipm.consistency.fitests.similarity.java.utils.InnerSwitchFactory;
 
-/**
- * ToDo: Write proper commentary
- * 
- * Make sure to not try to add an EObject, which has already been added to a Resource, to another Resource.
- * Doing so will detach it from its former Resource and add it to the second one.
- * 
- * @author atora
- *
- */
 public abstract class AbstractSimilarityTest {
 	private static final Logger LOGGER = Logger.getLogger("cipm." + AbstractSimilarityTest.class.getSimpleName());
 	
@@ -155,6 +146,14 @@ public abstract class AbstractSimilarityTest {
 		
 		if (eos != null) {
 			for (var eo : eos) {
+				
+				/*
+				 * Make sure to not add an EObject, which has already been added to a Resource, to another Resource.
+				 * Doing so will detach it from its former Resource and add it to the second one.
+				 */
+				if (eo.eResource() != null) {
+					LOGGER.error("An EObject's resource was set and shifted during resource creation");
+				}
 				res.getContents().add(eo);
 			}
 		}
