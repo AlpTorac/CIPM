@@ -2,32 +2,33 @@ package cipm.consistency.fitests.similarity.java.initialiser;
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.annotations.AnnotationInstance;
 
 public interface IAnnotableInitialiser extends ICommentableInitialiser {
 	@Override
-	public Annotable getCurrentObject();
+	public Annotable instantiate();
 	
 	@Override
-	public default Annotable build() {
-		return (Annotable) ICommentableInitialiser.super.build();
+	public default Annotable clone(EObject obj) {
+		return (Annotable) ICommentableInitialiser.super.clone(obj);
 	}
 	
-	public default void addAnnotation(AnnotationInstance ai) {
+	public default void addAnnotation(Annotable aObj, AnnotationInstance ai) {
 		if (ai != null) {
-			this.getCurrentObject().getAnnotations().add(ai);
-			assert this.getCurrentObject().getAnnotations().contains(ai);
+			aObj.getAnnotations().add(ai);
+			assert aObj.getAnnotations().contains(ai);
 		}
 	}
 	
-	public default void addAnnotations(AnnotationInstance[] ais) {
+	public default void addAnnotations(Annotable aObj, AnnotationInstance[] ais) {
 		if (ais != null) {
 			for (var ai : ais) {
-				this.addAnnotation(ai);
+				this.addAnnotation(aObj, ai);
 			}
 			
-			assert this.getCurrentObject().getAnnotations().containsAll(List.of(ais));
+			assert aObj.getAnnotations().containsAll(List.of(ais));
 		}
 	}
 }

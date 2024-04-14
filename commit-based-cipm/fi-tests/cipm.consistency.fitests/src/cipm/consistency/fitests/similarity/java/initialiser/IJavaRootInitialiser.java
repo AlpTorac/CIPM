@@ -1,34 +1,32 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.JavaRoot;
 import org.emftext.language.java.containers.Origin;
+import org.emftext.language.java.imports.ImportingElement;
 
-public interface IJavaRootInitialiser extends INameInitialiser, INamespaceAwareElementInitialiser,
+public interface IJavaRootInitialiser extends INamedElementInitialiser, INamespaceAwareElementInitialiser,
 IAnnotableInitialiser, IImportingElementInitialiser {
 	@Override
-	public JavaRoot getCurrentObject();
-	
-	public default void addClassifierInSamePackage(ConcreteClassifier cc) {
-		var cObj = this.getCurrentObject();
-		
-		if (cc != null) {
-			cObj.getClassifiersInSamePackage().add(cc);
-			assert cObj.getClassifiersInSamePackage().contains(cc);
-		}
-	}
-	
-	public default void initialiseOrigin(Origin origin) {
-		var cObj = this.getCurrentObject();
-		
-		if (origin != null) {
-			cObj.setOrigin(origin);
-			assert cObj.getOrigin().equals(origin);
-		}
-	}
+	public JavaRoot instantiate();
 	
 	@Override
-	public default JavaRoot build() {
-		return (JavaRoot) IAnnotableInitialiser.super.build();
+	public default JavaRoot clone(EObject obj) {
+		return (JavaRoot) IAnnotableInitialiser.super.clone(obj);
+	}
+	
+	public default void addClassifierInSamePackage(JavaRoot jr, ConcreteClassifier cc) {
+		if (cc != null) {
+			jr.getClassifiersInSamePackage().add(cc);
+			assert jr.getClassifiersInSamePackage().contains(cc);
+		}
+	}
+	
+	public default void initialiseOrigin(JavaRoot jr, Origin origin) {
+		if (origin != null) {
+			jr.setOrigin(origin);
+			assert jr.getOrigin().equals(origin);
+		}
 	}
 }
