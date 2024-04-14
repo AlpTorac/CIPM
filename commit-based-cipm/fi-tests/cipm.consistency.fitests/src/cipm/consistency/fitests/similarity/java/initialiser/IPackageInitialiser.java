@@ -1,33 +1,31 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.commons.NamespaceAwareElement;
 import org.emftext.language.java.containers.Module;
 import org.emftext.language.java.containers.Package;
 
 public interface IPackageInitialiser extends IJavaRootInitialiser {
 	@Override
-	public Package getCurrentObject();
-	
-	public default void initialiseModuleField(Module mod) {
-		var cObj = this.getCurrentObject();
-		
-		if (mod != null) {
-			cObj.setModule(mod);
-			assert cObj.getModule().equals(mod);
-		}
-	}
-	
-	public default void addClassifier(ConcreteClassifier cc) {
-		var cObj = this.getCurrentObject();
-		
-		if (cc != null) {
-			cObj.getClassifiers().add(cc);
-			assert cObj.getClassifiers().contains(cc);
-		}
-	}
+	public Package instantiate();
 	
 	@Override
-	public default Package build() {
-		return (Package) IJavaRootInitialiser.super.build();
+	public default Package clone(EObject obj) {
+		return (Package) IJavaRootInitialiser.super.clone(obj);
+	}
+	
+	public default void initialiseModuleField(Package pac, Module mod) {
+		if (mod != null) {
+			pac.setModule(mod);
+			assert pac.getModule().equals(mod);
+		}
+	}
+	
+	public default void addClassifier(Package pac, ConcreteClassifier cc) {
+		if (cc != null) {
+			pac.getClassifiers().add(cc);
+			assert pac.getClassifiers().contains(cc);
+		}
 	}
 }
