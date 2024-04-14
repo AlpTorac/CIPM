@@ -14,14 +14,16 @@ import org.apache.log4j.PatternLayout;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.splevo.jamopp.diffing.similarity.base.MapSimilarityToolboxFactory;
 
 import cipm.consistency.fitests.similarity.java.utils.DummySimilarityChecker;
 import cipm.consistency.fitests.similarity.java.utils.DummySimilarityToolboxBuilder;
-import cipm.consistency.fitests.similarity.java.utils.IJavaModelConstructor;
 import cipm.consistency.fitests.similarity.java.utils.InnerSwitchFactory;
 
 public abstract class AbstractSimilarityTest {
@@ -38,6 +40,12 @@ public abstract class AbstractSimilarityTest {
 	
 	private DummySimilarityChecker sc;
 	
+	private boolean createResourceFiles = false;
+	private boolean deleteResourceFiles = false;
+	
+	private String testPrefix = "";
+	private String testIdentifier = "";
+	
 	@BeforeEach
 	public void setUp() {
 		this.setUpLogger();
@@ -47,9 +55,41 @@ public abstract class AbstractSimilarityTest {
 	
 	@AfterEach
 	public void tearDown() {
-		this.cleanAllResources();
 		this.cleanRegistry();
-		this.deleteResourceDir();
+		
+		if (this.shouldDeleteResourceFiles()) {
+			this.cleanAllResources();
+			this.deleteResourceDir();
+		}
+	}
+	
+	private Resource initResource(URI uri) {
+		ResourceSet rSet = new ResourceSetImpl();
+		return rSet.createResource(uri);
+	}
+	
+	protected void saveResource(Resource res) {
+		try {
+			res.save(null);
+		} catch (IOException e) {
+			Assertions.fail();
+		}
+	}
+	
+	public boolean shouldCreateResourceFiles() {
+		return this.createResourceFiles;
+	}
+	
+	public void setCreateResourceFiles(boolean createResourceFiles) {
+		this.createResourceFiles = createResourceFiles;
+	}
+	
+	public boolean shouldDeleteResourceFiles() {
+		return this.deleteResourceFiles;
+	}
+	
+	public void setDeleteResourceFiles(boolean deleteResourceFiles) {
+		this.deleteResourceFiles = deleteResourceFiles;
 	}
 	
 	public boolean getDefaultCheckStatementPosition() {
@@ -107,15 +147,33 @@ public abstract class AbstractSimilarityTest {
 		return this.createURI(resourceName, this.getExtension());
 	}
 	
-	public Resource createResource(String resourceName,
-			IJavaModelConstructor ctor, Map<ResourceParameters, Object> params) {
-		Resource res = null;
+	public String getResourceName() {
+		var count = 1;
 		
-		try {
-			res = ctor.createResource(this.createURI(resourceName), params);
-			this.createdResources.add(res);
-		} catch (IOException e) {
-			e.printStackTrace();
+		var prefix = this.getResourceFileTestPrefix() +
+				"_" + this.getResourceFileTestIdentifier();
+		
+		var resourceRoot = new File(this.getResourceRootPath());
+		
+		if (resourceRoot.exists()) {
+			count = resourceRoot.listFiles((f) -> f.getName().equals(prefix)).length + count;
+		}
+		
+		return prefix + "_" + count;
+	}
+	
+	protected Resource createResource(Collection<? extends EObject> eos) {
+		Resource res = this.initResource(this.createURI(this.getResourceName()));
+		this.createdResources.add(res);
+		
+		if (eos != null) {
+			for (var eo : eos) {
+				res.getContents().add(eo);
+			}
+		}
+		
+		if (this.shouldCreateResourceFiles()) {
+			this.saveResource(res);
 		}
 		
 		return res;
@@ -133,11 +191,13 @@ public abstract class AbstractSimilarityTest {
 	
 	public void cleanAllResources() {
 		this.createdResources.forEach((r) -> {
+			this.unloadResource(r);
+			
 			try {
-				this.unloadResource(r);
 				r.delete(null);
 			} catch (IOException e) {
-				e.printStackTrace();
+				LOGGER.debug("Resource either was not created as a file or has already been deleted: "
+			+ r.getURI().toString());
 			}
 		});
 		
@@ -168,5 +228,21 @@ public abstract class AbstractSimilarityTest {
 	 */
 	public InnerSwitchFactory initSwitchFactory() {
 		return null;
+	}
+	
+	public String getResourceFileTestPrefix() {
+		return this.testPrefix;
+	}
+	
+	public String getResourceFileTestIdentifier() {
+		return this.testIdentifier;
+	}
+	
+	protected void setResourceFileTestPrefix(String testPrefix) {
+		this.testPrefix = testPrefix;
+	}
+	
+	protected void setResourceFileTestIdentifier(String testIdentifier) {
+		this.testIdentifier = testIdentifier;
 	}
 }
