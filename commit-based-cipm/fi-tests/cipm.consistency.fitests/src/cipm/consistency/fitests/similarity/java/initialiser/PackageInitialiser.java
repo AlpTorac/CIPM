@@ -1,34 +1,30 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
-import java.util.Map;
-
-import org.eclipse.emf.ecore.resource.Resource;
 import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.containers.Package;
 
-import cipm.consistency.fitests.similarity.java.ResourceParameters;
-
-public class PackageInitialiser implements IPackageInitialiser {
-	private Resource res;
+public class PackageInitialiser extends AbstractInitialiser implements IPackageInitialiser {
+	private boolean setDefaultName = true;
+	
+	@Override
+	public Package getCurrentObject() {
+		return (Package) super.getCurrentObject();
+	}
 	
 	@Override
 	public boolean isSetDefaultName() {
-		return true;
+		return this.setDefaultName;
 	}
 
 	@Override
-	public Package instantiatePackage(Map<ResourceParameters, Object> pacParam) {
+	public void instantiate() {
 		var fac = ContainersFactory.eINSTANCE;
-		return fac.createPackage();
+		var pac = fac.createPackage();
+		this.setCurrentObject(pac);
 	}
 
 	@Override
-	public void setResource(Resource res) {
-		this.res = res;
-	}
-
-	@Override
-	public Resource getResource() {
-		return this.res;
+	public void shouldSetDefaultName(boolean setDefaultName) {
+		this.setDefaultName = setDefaultName;
 	}
 }
