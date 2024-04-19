@@ -10,7 +10,9 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.initialiser.INamedElementInitialiser;
 
-// TODO: Clarify whether Package-instances' names (not namespace) should be compared.
+/*
+ * Package names (package.getName()) are supposed to always be empty. The names are saved in namespace.
+ */
 
 public class NamedElementSimilarityTest extends AbstractSimilarityTest {
 	private final String name11 = "name11";

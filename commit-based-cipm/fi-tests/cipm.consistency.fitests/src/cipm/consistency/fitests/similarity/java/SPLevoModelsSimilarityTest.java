@@ -114,11 +114,11 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 	}
 	
 	private static Resource parseModelsDir(Path modelDir) {
-		// ToDo: Find out the correct options
+		// Leave out commented options
 		ParserOptions.CREATE_LAYOUT_INFORMATION.setValue(Boolean.FALSE);
 		ParserOptions.REGISTER_LOCAL.setValue(Boolean.TRUE);
-		ParserOptions.RESOLVE_EVERYTHING.setValue(Boolean.TRUE);
-		ParserOptions.RESOLVE_ALL_BINDINGS.setValue(Boolean.TRUE);
+//		ParserOptions.RESOLVE_EVERYTHING.setValue(Boolean.TRUE);
+//		ParserOptions.RESOLVE_ALL_BINDINGS.setValue(Boolean.TRUE);
 		
 		JaMoPPJDTSingleFileParser parser = new JaMoPPJDTSingleFileParser();
 		parser.setResourceSet(new ResourceSetImpl());
@@ -127,6 +127,7 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 		ResourceSet next = new ResourceSetImpl();
 		Resource all = next.createResource(URI.createFileURI(targetPath.toAbsolutePath().toString()));
 		for (Resource r : new ArrayList<>(resourceSet.getResources())) {
+			// Filter Resources in ResourceSet that belong in the modelDir (based on URI)
 			all.getContents().addAll(r.getContents());
 		}
 		return all;
