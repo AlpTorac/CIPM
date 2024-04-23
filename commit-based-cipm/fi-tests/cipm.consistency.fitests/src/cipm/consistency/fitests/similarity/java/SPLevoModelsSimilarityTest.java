@@ -29,14 +29,34 @@ import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
 public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 	private static final Logger LOGGER = Logger.getLogger("cipm." + SPLevoModelsSimilarityTest.class.getSimpleName());
 	
+	/**
+	 * The name of the root directory of the models from SPLevo
+	 */
+	private static final String splevoModelImplDirName = "splevo-testmodels";
+	/**
+	 * Path to the root folder of the models from SPLevo
+	 */
 	private static final String splevoModelImplPath = new File("").getAbsoluteFile().getAbsolutePath()
-			+ File.separator + "splevo-testmodels";
+			+ File.separator + splevoModelImplDirName;
 	
+	/**
+	 * List of the parent directory of the directories
+	 * {@link #model1Name} and {@link #model2Name}.
+	 */
 	private static final Collection<Path> modelDirs = new ArrayList<Path>();
 	
+	/**
+	 * The first model to parse.
+	 */
 	private static final String model1Name = "a";
+	/**
+	 * The second model to parse.
+	 */
 	private static final String model2Name = "b";
 	
+	/**
+	 * The path, at which the resource file's URI will point at.
+	 */
 	private static Path targetPath = Path.of(AbstractSimilarityTest.getAbstractSimilarityTestResourceRootPath());
 	
 	@BeforeAll
@@ -126,7 +146,13 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 		
 		ResourceSet next = new ResourceSetImpl();
 		Resource all = next.createResource(URI.createFileURI(targetPath.toAbsolutePath().toString()));
-		for (Resource r : new ArrayList<>(resourceSet.getResources())) {
+		
+		var filteredResources = new ArrayList<Resource>();
+		resourceSet.getResources().stream()
+			.filter((r) -> r.getURI().path().contains(splevoModelImplDirName))
+			.forEach((r) -> filteredResources.add(r));
+		
+		for (Resource r : filteredResources) {
 			// Filter Resources in ResourceSet that belong in the modelDir (based on URI)
 			all.getContents().addAll(r.getContents());
 		}
