@@ -12,8 +12,9 @@ import cipm.consistency.fitests.similarity.java.initialiser.INamedElementInitial
 
 /*
  * Package names (package.getName()) are supposed to always be empty. The names are saved in namespace.
+ * 
+ * ToDo: Remove package initialiser from the parameter list
  */
-
 public class NamedElementSimilarityTest extends AbstractSimilarityTest {
 	private final String name11 = "name11";
 	private final String name12 = "name12";
