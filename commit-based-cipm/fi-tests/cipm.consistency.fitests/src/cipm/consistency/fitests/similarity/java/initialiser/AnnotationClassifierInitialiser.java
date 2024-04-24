@@ -3,7 +3,7 @@ package cipm.consistency.fitests.similarity.java.initialiser;
 import org.emftext.language.java.classifiers.Annotation;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 
-public class AnnotationInitialiser implements IAnnotationInitialiser {
+public class AnnotationClassifierInitialiser implements IAnnotationInitialiser {
 	@Override
 	public void shouldSetDefaultName(boolean setDefaultName) {}
 
