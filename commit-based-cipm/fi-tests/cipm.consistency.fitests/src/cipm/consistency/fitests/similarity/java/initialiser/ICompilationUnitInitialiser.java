@@ -1,17 +1,11 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
-import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 
 public interface ICompilationUnitInitialiser extends IJavaRootInitialiser {
 	@Override
 	public CompilationUnit instantiate();
-	
-	@Override
-	public default CompilationUnit clone(EObject obj) {
-		return (CompilationUnit) IJavaRootInitialiser.super.clone(obj);
-	}
 	
 	public default void addImport(CompilationUnit cu, String imprt) {
 		if (imprt != null) {

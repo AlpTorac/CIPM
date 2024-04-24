@@ -1,0 +1,29 @@
+package cipm.consistency.fitests.similarity.java.initialiser;
+
+import org.emftext.language.java.annotations.AnnotationInstance;
+import org.emftext.language.java.annotations.AnnotationParameter;
+import org.emftext.language.java.classifiers.Classifier;
+
+public interface IAnnotationInstanceInitialiser extends INamespaceAwareElementInitialiser {
+	@Override
+	public AnnotationInstance instantiate();
+	
+	@Override
+	public default AnnotationInstance minimalInstantiation() {
+		return (AnnotationInstance) INamespaceAwareElementInitialiser.super.minimalInstantiation();
+	}
+	
+	public default void setAnnotation(AnnotationInstance ai, Classifier cls) {
+		if (cls != null) {
+			ai.setAnnotation(cls);
+			assert ai.getAnnotation().equals(cls);
+		}
+	}
+	
+	public default void setAnnotationParameter(AnnotationInstance ai, AnnotationParameter param) {
+		if (param != null) {
+			ai.setParameter(param);
+			assert ai.getParameter().equals(param);
+		}
+	}
+}
