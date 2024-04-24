@@ -4,12 +4,17 @@ import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.JavaRoot;
 import org.emftext.language.java.containers.Origin;
-import org.emftext.language.java.imports.ImportingElement;
 
 public interface IJavaRootInitialiser extends INamedElementInitialiser, INamespaceAwareElementInitialiser,
 IAnnotableInitialiser, IImportingElementInitialiser {
 	@Override
 	public JavaRoot instantiate();
+	
+	@Override
+	public default JavaRoot minimalInstantiation() {
+		// TODO Auto-generated method stub
+		return (JavaRoot) INamedElementInitialiser.super.minimalInstantiation();
+	}
 	
 	@Override
 	public default JavaRoot clone(EObject obj) {

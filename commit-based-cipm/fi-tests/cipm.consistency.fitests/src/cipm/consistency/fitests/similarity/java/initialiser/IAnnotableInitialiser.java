@@ -11,6 +11,11 @@ public interface IAnnotableInitialiser extends ICommentableInitialiser {
 	public Annotable instantiate();
 	
 	@Override
+	public default Annotable minimalInstantiation() {
+		return (Annotable) ICommentableInitialiser.super.minimalInstantiation();
+	}
+	
+	@Override
 	public default Annotable clone(EObject obj) {
 		return (Annotable) ICommentableInitialiser.super.clone(obj);
 	}

@@ -5,4 +5,9 @@ import org.emftext.language.java.classifiers.Annotation;
 public interface IAnnotationInitialiser extends IConcreteClassifierInitialiser {
 	@Override
 	public Annotation instantiate();
+	
+	@Override
+	public default Annotation minimalInstantiation() {
+		return (Annotation) IConcreteClassifierInitialiser.super.minimalInstantiation();
+	}
 }

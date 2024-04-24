@@ -6,6 +6,9 @@ import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.containers.Module;
 import org.emftext.language.java.containers.Package;
 
+/*
+ * Package names (package.getName()) are supposed to always be empty. The names are saved in namespace.
+ */
 public interface IPackageInitialiser extends IJavaRootInitialiser, IReferenceableElementInitialiser {
 	@Override
 	public Package instantiate();

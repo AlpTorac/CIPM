@@ -12,6 +12,11 @@ public class CompilationUnitInitialiser implements ICompilationUnitInitialiser {
 	}
 
 	@Override
+	public CompilationUnit minimalInstantiation() {
+		return (CompilationUnit) ICompilationUnitInitialiser.super.minimalInstantiation();
+	}
+	
+	@Override
 	public CompilationUnit instantiate() {
 		var fac = ContainersFactory.eINSTANCE;
 		return fac.createCompilationUnit();
