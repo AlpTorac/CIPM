@@ -1,7 +1,7 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
 import org.eclipse.emf.ecore.EObject;
-import org.emftext.language.java.containers.JavaRoot;
+import org.emftext.language.java.commons.NamespaceAwareElement;
 import org.emftext.language.java.containers.Module;
 import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.modifiers.Open;
@@ -15,6 +15,18 @@ public interface IModuleInitialiser extends IJavaRootInitialiser {
 	public default Module clone(EObject obj) {
 		return (Module) IJavaRootInitialiser.super.clone(obj);
 	}
+	
+	/**
+	 * Modules' namespaces are NOT used while comparing them.
+	 */
+	@Override
+	public default void initialiseNamespace(NamespaceAwareElement nae, String namespace) {}
+	
+	/**
+	 * Modules' namespaces are NOT used while comparing them.
+	 */
+	@Override
+	public default void initialiseNamespaces(NamespaceAwareElement nae, String[] namespaces) {}
 	
 	public default void initialiseOpen(Module mod, Open open) {
 		if (open != null) {
