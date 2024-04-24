@@ -7,7 +7,7 @@ import org.emftext.language.java.types.ClassifierReference;
 public interface IConcreteClassifierInitialiser extends
 	IAnnotableAndModifiableInitialiser,
 	IMemberContainerInitialiser,
-	INamedElementInitialiser,
+	IMemberInitialiser,
 	IStatementInitialiser,
 	IClassifierInitialiser,
 	ITypeParametrizableInitialiser {
