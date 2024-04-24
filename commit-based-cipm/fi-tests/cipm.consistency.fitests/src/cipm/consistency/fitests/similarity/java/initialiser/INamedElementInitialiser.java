@@ -14,6 +14,17 @@ public interface INamedElementInitialiser extends ICommentableInitialiser {
 	@Override
 	public NamedElement instantiate();
 	
+	/**
+	 * Uses {@link #getDefaultName()} to generate a valid
+	 * name.
+	 */
+	@Override
+	public default NamedElement minimalInstantiation() {
+		var result = this.instantiate();
+		this.initialiseName(result, this.getDefaultName());
+		return result;
+	}
+	
 	@Override
 	public default NamedElement clone(EObject obj) {
 		return (NamedElement) ICommentableInitialiser.super.clone(obj);
