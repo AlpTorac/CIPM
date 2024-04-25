@@ -13,8 +13,8 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.emftext.language.java.containers.Module;
 
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.ModuleInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.PackageInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.impl.ModuleInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.impl.PackageInitialiser;
 import cipm.consistency.fitests.similarity.java.params.GeneralTestParams;
 
 /**
