@@ -1,6 +1,5 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
-import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.JavaRoot;
 import org.emftext.language.java.containers.Origin;
@@ -12,13 +11,7 @@ IAnnotableInitialiser, IImportingElementInitialiser {
 	
 	@Override
 	public default JavaRoot minimalInstantiation() {
-		// TODO Auto-generated method stub
 		return (JavaRoot) INamedElementInitialiser.super.minimalInstantiation();
-	}
-	
-	@Override
-	public default JavaRoot clone(EObject obj) {
-		return (JavaRoot) IAnnotableInitialiser.super.clone(obj);
 	}
 	
 	public default void addClassifierInSamePackage(JavaRoot jr, ConcreteClassifier cc) {

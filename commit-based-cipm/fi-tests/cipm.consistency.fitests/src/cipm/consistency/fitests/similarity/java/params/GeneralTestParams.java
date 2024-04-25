@@ -6,13 +6,13 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
-import cipm.consistency.fitests.similarity.java.initialiser.AnnotationClassifierInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.ClassInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.CompilationUnitInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.EnumerationInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.InterfaceInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.ModuleInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.PackageInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.impl.AnnotationInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.impl.ClassInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.impl.CompilationUnitInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.impl.EnumerationInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.impl.InterfaceInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.impl.ModuleInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.impl.PackageInitialiser;
 
 public class GeneralTestParams implements ArgumentsProvider {
 	@Override
@@ -24,7 +24,7 @@ public class GeneralTestParams implements ArgumentsProvider {
 				Arguments.of(new ClassInitialiser()),
 				Arguments.of(new EnumerationInitialiser()),
 				Arguments.of(new InterfaceInitialiser()),
-				Arguments.of(new AnnotationClassifierInitialiser())
+				Arguments.of(new AnnotationInitialiser())
 			);
 	}
 }
