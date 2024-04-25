@@ -183,7 +183,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements I
         }
 
         this.logMessage("ConstructorDeclaration in unknown container: " + constructor1.getName() + " : "
-                + constructor1.eContainer().getClass().getSimpleName(), Level.WARN);
+                + constructor1.eContainer(), Level.WARN);
         return super.caseConstructor(constructor1);
     }
 
