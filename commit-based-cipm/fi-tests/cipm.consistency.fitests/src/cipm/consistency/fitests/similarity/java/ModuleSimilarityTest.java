@@ -5,7 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IModuleInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.ModuleInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.impl.ModuleInitialiser;
 
 public class ModuleSimilarityTest extends EObjectSimilarityTest {
 	private IModuleInitialiser moduleInitialiser;

@@ -7,6 +7,11 @@ public interface IEnumerationInitialiser extends IConcreteClassifierInitialiser,
 	@Override
 	public Enumeration instantiate();
 	
+	@Override
+	public default Enumeration minimalInstantiation() {
+		return (Enumeration) IConcreteClassifierInitialiser.super.minimalInstantiation();
+	}
+	
 	public default void addConstant(Enumeration enm, EnumConstant cst) {
 		if (cst != null) {
 			enm.getConstants().add(cst);
