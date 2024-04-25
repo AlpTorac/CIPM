@@ -19,6 +19,13 @@ public interface ILoggableJavaSwitch {
 		return Logger.getLogger(ILoggableJavaSwitch.class.getSimpleName());
 	}
 
+	public default void logComparison(Object subject1, Object subject2, String subjectDesc) {
+		String s1 = subject1 != null ? subject1.toString() : null;
+		String s2 = subject2 != null ? subject2.toString() : null;
+		
+		this.logComparison(s1, s2, subjectDesc);
+	}
+	
 	public default void logComparison(String subject1, String subject2, String subjectDesc) {
 		this.logMessage("Comparing " + subjectDesc + "s (1 vs 2): " +
     			Strings.nullToEmpty(subject1) + " vs " + Strings.nullToEmpty(subject2));
