@@ -6,13 +6,6 @@ import org.emftext.language.java.containers.Origin;
 
 public interface IJavaRootInitialiser extends INamedElementInitialiser, INamespaceAwareElementInitialiser,
 IAnnotableInitialiser, IImportingElementInitialiser {
-	@Override
-	public JavaRoot instantiate();
-	
-	@Override
-	public default JavaRoot minimalInstantiation() {
-		return (JavaRoot) INamedElementInitialiser.super.minimalInstantiation();
-	}
 	
 	public default void addClassifierInSamePackage(JavaRoot jr, ConcreteClassifier cc) {
 		if (cc != null) {

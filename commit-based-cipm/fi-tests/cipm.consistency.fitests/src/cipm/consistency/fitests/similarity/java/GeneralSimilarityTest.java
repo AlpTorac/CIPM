@@ -13,6 +13,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.emftext.language.java.containers.Module;
 
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.impl.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.ModuleInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.PackageInitialiser;
 import cipm.consistency.fitests.similarity.java.params.GeneralTestParams;
@@ -38,7 +39,7 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public void testSameReference(EObjectInitialiser initialiser) {
+	public <T extends EObjectInitialiser & IInitialiser> void testSameReference(T initialiser) {
 		this.setResourceFileTestIdentifier("testSameReference");
 		
 		var obj11 = initialiser.instantiate();
@@ -52,7 +53,7 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public void testListSameReference(EObjectInitialiser initialiser) {
+	public <T extends EObjectInitialiser & IInitialiser> void testListSameReference(T initialiser) {
 		this.setResourceFileTestIdentifier("testListSameReference");
 		
 		var obj11 = initialiser.instantiate();
@@ -67,7 +68,7 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public void testOneListSubList(EObjectInitialiser initialiser) {
+	public <T extends EObjectInitialiser & IInitialiser> void testOneListSubList(T initialiser) {
 		this.setResourceFileTestIdentifier("testListSubList");
 		
 		var obj11 = initialiser.instantiate();
@@ -87,7 +88,7 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public void testOneListEmpty(EObjectInitialiser initialiser) {
+	public <T extends EObjectInitialiser & IInitialiser> void testOneListEmpty(T initialiser) {
 		this.setResourceFileTestIdentifier("testOneListEmpty");
 		
 		var obj11 = initialiser.instantiate();

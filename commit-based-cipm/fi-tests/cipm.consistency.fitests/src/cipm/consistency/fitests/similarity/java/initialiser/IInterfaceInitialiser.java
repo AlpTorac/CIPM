@@ -4,14 +4,6 @@ import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.types.TypeReference;
 
 public interface IInterfaceInitialiser extends IConcreteClassifierInitialiser {
-	@Override
-	public Interface instantiate();
-	
-	@Override
-	public default Interface minimalInstantiation() {
-		return (Interface) IConcreteClassifierInitialiser.super.minimalInstantiation();
-	}
-	
 	public default void addDefaultExtends(Interface intfc, TypeReference tref) {
 		if (tref != null) {
 			intfc.getDefaultExtends().add(tref);
