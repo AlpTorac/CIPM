@@ -4,14 +4,6 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 
 public interface ICompilationUnitInitialiser extends IJavaRootInitialiser {
-	@Override
-	public CompilationUnit instantiate();
-	
-	@Override
-	public default CompilationUnit minimalInstantiation() {
-		return (CompilationUnit) IJavaRootInitialiser.super.minimalInstantiation();
-	}
-	
 	public default void addImport(CompilationUnit cu, String imprt) {
 		if (imprt != null) {
 			cu.addImport(imprt);

@@ -11,11 +11,4 @@ public interface IMethodInitialiser extends IAnnotableAndModifiableInitialiser,
 	ITypedElementInitialiser,
 	ITypeParametrizableInitialiser {
 	
-	@Override
-	public Method instantiate();
-	
-	@Override
-	public default Method minimalInstantiation() {
-		return (Method) IMemberInitialiser.super.minimalInstantiation();
-	}
 }
