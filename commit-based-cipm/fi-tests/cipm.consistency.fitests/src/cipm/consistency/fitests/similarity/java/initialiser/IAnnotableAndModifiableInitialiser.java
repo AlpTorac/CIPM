@@ -16,8 +16,29 @@ public interface IAnnotableAndModifiableInitialiser extends ICommentableInitiali
 	
 	public default void addAnnotationInstance(AnnotableAndModifiable aam, AnnotationInstance ai) {
 		if (aam != null) {
-			aam.getAnnotationInstances().add(ai);
+			aam.getAnnotationsAndModifiers().add(ai);
+			assert aam.getAnnotationsAndModifiers().contains(ai);
 			assert aam.getAnnotationInstances().contains(ai);
+		}
+	}
+	
+	public default void setVisibility(AnnotableAndModifiable aam, InitialiserVisibilityModifier modifier) {
+		if (modifier != null) {
+			switch (modifier) {
+				case PRIVATE: 
+					this.makePrivate(aam);
+					assert aam.isPrivate();
+					break;
+				case PROTECTED: 
+					this.makeProtected(aam); 
+					assert aam.isProtected();
+					break;
+				case PUBLIC: 
+					this.makePublic(aam); 
+					assert aam.isPublic();
+					break;
+				default: throw new IllegalArgumentException("Invalid InitialiserVisibilityModifier");
+			}
 		}
 	}
 	
