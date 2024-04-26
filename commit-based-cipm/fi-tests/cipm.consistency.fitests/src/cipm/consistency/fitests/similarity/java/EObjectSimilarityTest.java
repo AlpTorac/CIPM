@@ -3,6 +3,8 @@ package cipm.consistency.fitests.similarity.java;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.EcoreUtil;
+
 import org.junit.jupiter.api.Assertions;
 
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
@@ -20,7 +22,8 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 		var resOne = this.createResource(List.of(objOne));
 		var resTwo = this.createResource(List.of(objTwo));
 		
-		Assertions.assertTrue(this.areSimilar(resOne.getContents(), resTwo.getContents()));
+		Assertions.assertTrue(this.areSimilar(resOne.getContents(), resTwo.getContents()),
+				"EcoreUtil comparison result: " + EcoreUtil.equals(objOne, objTwo));
 	}
 	
 	public void differentX(EObject elem1, EObject elem2) {
@@ -30,7 +33,8 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 		var resOne = this.createResource(List.of(objOne));
 		var resTwo = this.createResource(List.of(objTwo));
 		
-		Assertions.assertFalse(this.areSimilar(resOne.getContents(), resTwo.getContents()));
+		Assertions.assertFalse(this.areSimilar(resOne.getContents(), resTwo.getContents()),
+				"EcoreUtil comparison result: " + EcoreUtil.equals(objOne, objTwo));
 	}
 
 	public void listSameXSameOrder(EObject elem1, EObject elem2, EObjectInitialiser initialiser) {
@@ -46,7 +50,8 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 		var resOne = this.createResource(list1);
 		var resTwo = this.createResource(list2);
 		
-		Assertions.assertTrue(this.areSimilar(resOne.getContents(), resTwo.getContents()));
+		Assertions.assertTrue(this.areSimilar(resOne.getContents(), resTwo.getContents()),
+				"EcoreUtil comparison result: " + EcoreUtil.equals(list1, list2));
 	}
 	
 	/**
@@ -68,13 +73,15 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 		var resOne = this.createResource(list1);
 		var resTwo = this.createResource(list2);
 		
-		Assertions.assertFalse(this.areSimilar(resOne.getContents(), resTwo.getContents()));
+		Assertions.assertFalse(this.areSimilar(resOne.getContents(), resTwo.getContents()),
+				"EcoreUtil comparison result: " + EcoreUtil.equals(list1, list2));
 	}
 	
 	public void listDifferentX(List<? extends EObject> elems1, List<? extends EObject> elems2) {
 		var resOne = this.createResource(elems1);
 		var resTwo = this.createResource(elems2);
 		
-		Assertions.assertFalse(this.areSimilar(resOne.getContents(), resTwo.getContents()));
+		Assertions.assertFalse(this.areSimilar(resOne.getContents(), resTwo.getContents()),
+				"EcoreUtil comparison result: " + EcoreUtil.equals(elems1, elems2));
 	}
 }
