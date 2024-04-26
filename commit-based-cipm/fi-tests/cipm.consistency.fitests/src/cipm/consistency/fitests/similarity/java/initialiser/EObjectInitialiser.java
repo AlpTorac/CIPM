@@ -9,7 +9,9 @@ public interface EObjectInitialiser {
 	 * @see {@link EcoreUtil#copy(EObject)}
 	 */
 	public default <T extends EObject> T clone(T obj) {
-		return EcoreUtil.copy(obj);
+		var clone = EcoreUtil.copy(obj);
+		assert EcoreUtil.equals(obj, clone);
+		return clone;
 	}
 	
 	/**
