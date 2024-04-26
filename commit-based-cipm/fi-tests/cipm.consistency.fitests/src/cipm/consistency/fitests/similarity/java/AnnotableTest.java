@@ -21,6 +21,10 @@ public class AnnotableTest extends EObjectSimilarityTest {
 	@Override
 	public void setUp() {
 		this.setResourceFileTestPrefix(NamedElementSimilarityTest.class.getSimpleName());
+		
+		// TODO: Figure out a way to structurally initialise elements that require a container to function
+		// For example by creating minimal JavaRoot instances and adding the said element into them
+		
 		var ai = new AnnotationInitialiser();
 		var aii = new AnnotationInstanceInitialiser();
 		
