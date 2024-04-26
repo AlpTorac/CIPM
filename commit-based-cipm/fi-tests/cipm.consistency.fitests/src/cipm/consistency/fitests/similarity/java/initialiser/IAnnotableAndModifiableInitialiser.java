@@ -5,9 +5,6 @@ import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.Modifier;
 
 public interface IAnnotableAndModifiableInitialiser extends ICommentableInitialiser {
-	@Override
-	public AnnotableAndModifiable instantiate();
-	
 	public default void addModifier(AnnotableAndModifiable aam, Modifier modif) {
 		if (modif != null) {
 			aam.addModifier(modif);

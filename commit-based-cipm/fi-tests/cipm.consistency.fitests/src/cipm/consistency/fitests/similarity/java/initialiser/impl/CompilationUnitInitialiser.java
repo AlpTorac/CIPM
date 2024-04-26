@@ -5,7 +5,7 @@ import org.emftext.language.java.containers.ContainersFactory;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ICompilationUnitInitialiser;
 
-public class CompilationUnitInitialiser implements ICompilationUnitInitialiser {
+public class CompilationUnitInitialiser implements ICompilationUnitInitialiser, IInitialiser {
 	@Override
 	public CompilationUnit instantiate() {
 		var fac = ContainersFactory.eINSTANCE;

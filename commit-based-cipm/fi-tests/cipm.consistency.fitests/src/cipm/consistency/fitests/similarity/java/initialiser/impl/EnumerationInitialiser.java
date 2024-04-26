@@ -5,7 +5,7 @@ import org.emftext.language.java.classifiers.Enumeration;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IEnumerationInitialiser;
 
-public class EnumerationInitialiser implements IEnumerationInitialiser {
+public class EnumerationInitialiser implements IEnumerationInitialiser, IInitialiser {
 	@Override
 	public Enumeration instantiate() {
 		var fac = ClassifiersFactory.eINSTANCE;

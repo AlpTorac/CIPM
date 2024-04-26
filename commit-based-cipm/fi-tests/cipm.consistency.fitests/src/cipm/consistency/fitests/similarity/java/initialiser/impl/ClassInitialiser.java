@@ -6,7 +6,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.IClassInitialiser;
 
 import org.emftext.language.java.classifiers.Class;
 
-public class ClassInitialiser implements IClassInitialiser {
+public class ClassInitialiser implements IClassInitialiser, IInitialiser {
 	@Override
 	public Class instantiate() {
 		var fac = ClassifiersFactory.eINSTANCE;
