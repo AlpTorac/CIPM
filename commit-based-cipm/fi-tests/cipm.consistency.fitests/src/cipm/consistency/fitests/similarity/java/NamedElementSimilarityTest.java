@@ -6,13 +6,11 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.initialiser.INamedElementInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.impl.IInitialiser;
 import cipm.consistency.fitests.similarity.java.params.NameTestParams;
 
 public class NamedElementSimilarityTest extends EObjectSimilarityTest {
 	private final String name11 = "name11";
-	private final String name12 = "name12";
-	
-	private final String name21 = "name21";
 	private final String name22 = "name22";
 	
 	@BeforeEach
@@ -22,15 +20,15 @@ public class NamedElementSimilarityTest extends EObjectSimilarityTest {
 		super.setUp();
 	}
 	
-	protected NamedElement initElement(INamedElementInitialiser initialiser, String name) {
-		var result = initialiser.instantiate();
+	protected <T extends INamedElementInitialiser & IInitialiser> NamedElement initElement(T initialiser, String name) {
+		var result = (NamedElement) initialiser.instantiate();
 		initialiser.initialiseName(result, name);
 		return result;
 	}
 	
 	@ParameterizedTest
 	@ArgumentsSource(NameTestParams.class)
-	public void testSameName(INamedElementInitialiser initialiser) {
+	public <T extends INamedElementInitialiser & IInitialiser> void testSameName(T initialiser) {
 		this.setResourceFileTestIdentifier("testSameName");
 		
 		var objOne = this.initElement(initialiser, name11);
@@ -40,7 +38,7 @@ public class NamedElementSimilarityTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(NameTestParams.class)
-	public void testDifferentName(INamedElementInitialiser initialiser) {
+	public <T extends INamedElementInitialiser & IInitialiser> void testDifferentName(T initialiser) {
 		this.setResourceFileTestIdentifier("testDifferentName");
 		
 		var objOne = this.initElement(initialiser, name11);

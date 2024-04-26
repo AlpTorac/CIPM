@@ -9,12 +9,5 @@ public interface IConstructorInitialiser extends IAnnotableAndModifiableInitiali
 	IParametrizableInitialiser,
 	IStatementListContainerInitialiser,
 	ITypeParametrizableInitialiser {
-
-	@Override
-	public Constructor instantiate();
 	
-	@Override
-	public default Constructor minimalInstantiation() {
-		return (Constructor) IMemberInitialiser.super.minimalInstantiation();
-	}
 }

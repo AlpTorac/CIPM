@@ -5,7 +5,7 @@ import org.emftext.language.java.members.InterfaceMethod;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IInterfaceMethodInitialiser;
 
-public class InterfaceMethodInitialiser implements IInterfaceMethodInitialiser {
+public class InterfaceMethodInitialiser implements IInterfaceMethodInitialiser, IInitialiser {
 	@Override
 	public InterfaceMethod instantiate() {
 		return MembersFactory.eINSTANCE.createInterfaceMethod();

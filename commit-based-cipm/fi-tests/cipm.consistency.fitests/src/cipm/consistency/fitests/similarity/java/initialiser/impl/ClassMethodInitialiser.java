@@ -5,7 +5,7 @@ import org.emftext.language.java.members.ClassMethod;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IClassMethodInitialiser;
 
-public class ClassMethodInitialiser implements IClassMethodInitialiser {
+public class ClassMethodInitialiser implements IClassMethodInitialiser, IInitialiser {
 	@Override
 	public ClassMethod instantiate() {
 		return MembersFactory.eINSTANCE.createClassMethod();
