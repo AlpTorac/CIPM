@@ -6,9 +6,6 @@ import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.Method;
 
 public interface IMemberContainerInitialiser extends ICommentableInitialiser {
-	@Override
-	public MemberContainer instantiate();
-	
 	public default void addMember(MemberContainer mc, Member mbr) {
 		if (mbr != null) {
 			mc.getMembers().add(mbr);

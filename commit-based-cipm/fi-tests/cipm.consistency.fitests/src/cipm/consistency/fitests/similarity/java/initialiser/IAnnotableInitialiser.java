@@ -3,19 +3,10 @@ package cipm.consistency.fitests.similarity.java.initialiser;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.annotations.AnnotationInstance;
 
 public interface IAnnotableInitialiser extends ICommentableInitialiser {
-	@Override
-	public Annotable instantiate();
-	
-	@Override
-	public default Annotable minimalInstantiation() {
-		return (Annotable) ICommentableInitialiser.super.minimalInstantiation();
-	}
-	
 	public default void addAnnotation(Annotable aObj, AnnotationInstance ai) {
 		if (ai != null) {
 			aObj.getAnnotations().add(ai);

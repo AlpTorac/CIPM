@@ -5,7 +5,7 @@ import org.emftext.language.java.parameters.ReceiverParameter;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IReceiverParameterInitialiser;
 
-public class ReceiverParameterInitialiser implements IReceiverParameterInitialiser {
+public class ReceiverParameterInitialiser implements IReceiverParameterInitialiser, IInitialiser {
 	@Override
 	public ReceiverParameter instantiate() {
 		return ParametersFactory.eINSTANCE.createReceiverParameter();

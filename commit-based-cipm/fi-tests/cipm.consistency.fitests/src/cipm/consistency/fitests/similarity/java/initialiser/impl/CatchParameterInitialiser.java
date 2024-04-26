@@ -5,7 +5,7 @@ import org.emftext.language.java.parameters.CatchParameter;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ICatchParameterInitialiser;
 
-public class CatchParameterInitialiser implements ICatchParameterInitialiser {
+public class CatchParameterInitialiser implements ICatchParameterInitialiser, IInitialiser {
 	@Override
 	public CatchParameter instantiate() {
 		return ParametersFactory.eINSTANCE.createCatchParameter();

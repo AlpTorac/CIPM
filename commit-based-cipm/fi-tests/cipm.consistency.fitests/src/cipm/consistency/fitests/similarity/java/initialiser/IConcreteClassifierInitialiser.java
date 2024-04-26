@@ -12,13 +12,6 @@ public interface IConcreteClassifierInitialiser extends
 	IStatementInitialiser,
 	IClassifierInitialiser,
 	ITypeParametrizableInitialiser {
-	@Override
-	public ConcreteClassifier instantiate();
-	
-	@Override
-	public default ConcreteClassifier minimalInstantiation() {
-		return (ConcreteClassifier) IMemberInitialiser.super.minimalInstantiation();
-	}
 	
 	public default void addInnerClassifier(ConcreteClassifier cls, ConcreteClassifier toBeAddedToCls) {
 		if (toBeAddedToCls != null) {

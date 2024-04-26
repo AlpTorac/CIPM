@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.commons.NamedElement;
 
 public interface INamedElementInitialiser extends ICommentableInitialiser {
@@ -7,18 +8,17 @@ public interface INamedElementInitialiser extends ICommentableInitialiser {
 		return "";
 	}
 	
-	@Override
-	public NamedElement instantiate();
-	
 	/**
 	 * Uses {@link #getDefaultName()} to generate a valid
 	 * name.
 	 */
 	@Override
-	public default NamedElement minimalInstantiation() {
-		var result = this.instantiate();
-		this.initialiseName(result, this.getDefaultName());
-		return result;
+	public default void minimalInitialisation(EObject obj) {
+		NamedElement castedO = (NamedElement) obj;
+		
+		if (castedO.getName() == null) {
+			this.initialiseName(castedO, this.getDefaultName());
+		}
 	}
 	
 	public default void initialiseName(NamedElement ne, String name) {

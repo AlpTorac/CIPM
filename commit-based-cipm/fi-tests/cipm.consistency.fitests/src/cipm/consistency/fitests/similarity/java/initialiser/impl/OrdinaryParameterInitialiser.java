@@ -5,7 +5,7 @@ import org.emftext.language.java.parameters.OrdinaryParameter;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IOrdinaryParameterInitialiser;
 
-public class OrdinaryParameterInitialiser implements IOrdinaryParameterInitialiser {
+public class OrdinaryParameterInitialiser implements IOrdinaryParameterInitialiser, IInitialiser {
 	@Override
 	public OrdinaryParameter instantiate() {
 		return ParametersFactory.eINSTANCE.createOrdinaryParameter();

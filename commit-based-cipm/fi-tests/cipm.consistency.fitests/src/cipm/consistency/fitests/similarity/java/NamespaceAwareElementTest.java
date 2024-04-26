@@ -7,6 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.initialiser.INamespaceAwareElementInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.impl.IInitialiser;
 import cipm.consistency.fitests.similarity.java.params.NamespaceTestParams;
 
 public class NamespaceAwareElementTest extends EObjectSimilarityTest {
@@ -28,15 +29,16 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 		super.setUp();
 	}
 	
-	protected NamespaceAwareElement initElement(INamespaceAwareElementInitialiser initialiser, String[] nss) {
-		NamespaceAwareElement result = (NamespaceAwareElement) initialiser.minimalInstantiation();
+	protected <T extends INamespaceAwareElementInitialiser & IInitialiser> NamespaceAwareElement initElement(T initialiser, String[] nss) {
+		var result = (NamespaceAwareElement) initialiser.instantiate();
+		initialiser.minimalInitialisation(result);
 		initialiser.initialiseNamespaces(result, nss);
 		return result;
 	}
 	
 	@ParameterizedTest
 	@ArgumentsSource(NamespaceTestParams.class)
-	public void testSameNamespace(INamespaceAwareElementInitialiser initialiser) {
+	public <T extends INamespaceAwareElementInitialiser & IInitialiser> void testSameNamespace(T initialiser) {
 		this.setResourceFileTestIdentifier("testSameNamespace");
 		
 		var objOne = this.initElement(initialiser, nss1);
@@ -46,7 +48,7 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 
 	@ParameterizedTest
 	@ArgumentsSource(NamespaceTestParams.class)
-	public void testDifferentNamespace(INamespaceAwareElementInitialiser initialiser) {
+	public <T extends INamespaceAwareElementInitialiser & IInitialiser> void testDifferentNamespace(T initialiser) {
 		this.setResourceFileTestIdentifier("testDifferentNamespace");
 		
 		var objOne = this.initElement(initialiser, nss1);
@@ -60,7 +62,7 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	 */
 	@ParameterizedTest
 	@ArgumentsSource(NamespaceTestParams.class)
-	public void testNamespaceScope(INamespaceAwareElementInitialiser initialiser) {
+	public <T extends INamespaceAwareElementInitialiser & IInitialiser> void testNamespaceScope(T initialiser) {
 		this.setResourceFileTestIdentifier("testNamespaceScope");
 		
 		for (int i = 0; i < nss1.length; i++) {
