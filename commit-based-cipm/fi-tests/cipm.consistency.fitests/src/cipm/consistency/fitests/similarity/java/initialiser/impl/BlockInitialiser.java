@@ -5,7 +5,7 @@ import org.emftext.language.java.statements.Block;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IBlockInitialiser;
 
-public class BlockInitialiser implements IBlockInitialiser, IInitialiser {
+public class BlockInitialiser implements IBlockInitialiser, IInitialiser<Block> {
 	@Override
 	public Block instantiate() {
 		return StatementsFactory.eINSTANCE.createBlock();

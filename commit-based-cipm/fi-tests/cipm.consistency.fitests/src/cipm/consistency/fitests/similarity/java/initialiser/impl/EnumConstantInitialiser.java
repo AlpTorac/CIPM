@@ -5,7 +5,7 @@ import org.emftext.language.java.members.EnumConstant;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IEnumConstantInitialiser;
 
-public class EnumConstantInitialiser implements IEnumConstantInitialiser, IInitialiser {
+public class EnumConstantInitialiser implements IEnumConstantInitialiser, IInitialiser<EnumConstant> {
 	@Override
 	public EnumConstant instantiate() {
 		return MembersFactory.eINSTANCE.createEnumConstant();

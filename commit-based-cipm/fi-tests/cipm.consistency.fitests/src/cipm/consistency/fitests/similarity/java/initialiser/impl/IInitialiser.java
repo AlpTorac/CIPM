@@ -2,7 +2,7 @@ package cipm.consistency.fitests.similarity.java.initialiser.impl;
 
 import org.eclipse.emf.ecore.EObject;
 
-public interface IInitialiser {
+public interface IInitialiser<T extends EObject> {
 	/**
 	 * Instantiates the {@link EObject} sub-class denoted by the name of {@code this}
 	 * <br><br>
@@ -15,5 +15,5 @@ public interface IInitialiser {
 	 * would require overriding this method in each Initialiser interface just to alter the
 	 * return type.
 	 */
-	public EObject instantiate();
+	public T instantiate();
 }
