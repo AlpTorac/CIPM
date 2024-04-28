@@ -5,7 +5,7 @@ import org.emftext.language.java.variables.AdditionalLocalVariable;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IAdditionalLocalVariableInitialiser;
 
-public class AdditionalLocalVariableInitialiser implements IAdditionalLocalVariableInitialiser, IInitialiser {
+public class AdditionalLocalVariableInitialiser implements IAdditionalLocalVariableInitialiser, IInitialiser<AdditionalLocalVariable> {
 	@Override
 	public AdditionalLocalVariable instantiate() {
 		return VariablesFactory.eINSTANCE.createAdditionalLocalVariable();

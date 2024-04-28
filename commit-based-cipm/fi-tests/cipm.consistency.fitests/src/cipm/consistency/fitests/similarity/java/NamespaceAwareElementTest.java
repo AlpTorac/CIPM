@@ -29,8 +29,8 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 		super.setUp();
 	}
 	
-	protected <T extends INamespaceAwareElementInitialiser & IInitialiser> NamespaceAwareElement initElement(T initialiser, String[] nss) {
-		var result = (NamespaceAwareElement) initialiser.instantiate();
+	protected <T extends INamespaceAwareElementInitialiser & IInitialiser<NamespaceAwareElement>> NamespaceAwareElement initElement(T initialiser, String[] nss) {
+		var result = initialiser.instantiate();
 		initialiser.minimalInitialisation(result);
 		initialiser.initialiseNamespaces(result, nss);
 		return result;
@@ -38,7 +38,7 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(NamespaceTestParams.class)
-	public <T extends INamespaceAwareElementInitialiser & IInitialiser> void testSameNamespace(T initialiser) {
+	public <T extends INamespaceAwareElementInitialiser & IInitialiser<NamespaceAwareElement>> void testSameNamespace(T initialiser) {
 		this.setResourceFileTestIdentifier("testSameNamespace");
 		
 		var objOne = this.initElement(initialiser, nss1);
@@ -48,7 +48,7 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 
 	@ParameterizedTest
 	@ArgumentsSource(NamespaceTestParams.class)
-	public <T extends INamespaceAwareElementInitialiser & IInitialiser> void testDifferentNamespace(T initialiser) {
+	public <T extends INamespaceAwareElementInitialiser & IInitialiser<NamespaceAwareElement>> void testDifferentNamespace(T initialiser) {
 		this.setResourceFileTestIdentifier("testDifferentNamespace");
 		
 		var objOne = this.initElement(initialiser, nss1);
@@ -62,7 +62,7 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	 */
 	@ParameterizedTest
 	@ArgumentsSource(NamespaceTestParams.class)
-	public <T extends INamespaceAwareElementInitialiser & IInitialiser> void testNamespaceScope(T initialiser) {
+	public <T extends INamespaceAwareElementInitialiser & IInitialiser<NamespaceAwareElement>> void testNamespaceScope(T initialiser) {
 		this.setResourceFileTestIdentifier("testNamespaceScope");
 		
 		for (int i = 0; i < nss1.length; i++) {

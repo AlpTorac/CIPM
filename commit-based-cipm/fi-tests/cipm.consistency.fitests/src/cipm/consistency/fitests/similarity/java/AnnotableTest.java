@@ -49,8 +49,8 @@ public class AnnotableTest extends EObjectSimilarityTest {
 		super.setUp();
 	}
 	
-	protected <T extends IAnnotableInitialiser & IInitialiser> Annotable initElement(T initialiser, AnnotationInstance... annotations) {
-		var result = (Annotable) initialiser.instantiate();
+	protected <T extends IAnnotableInitialiser & IInitialiser<Annotable>> Annotable initElement(T initialiser, AnnotationInstance... annotations) {
+		var result = initialiser.instantiate();
 		initialiser.minimalInitialisation(result);
 		initialiser.addAnnotations(result, annotations);
 		return result;
@@ -58,7 +58,7 @@ public class AnnotableTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableTestParams.class)
-	public <T extends IAnnotableInitialiser & IInitialiser> void testSameAnnotation(T initialiser) {
+	public <T extends IAnnotableInitialiser & IInitialiser<Annotable>> void testSameAnnotation(T initialiser) {
 		this.setResourceFileTestIdentifier("testSameAnnotation");
 		
 		var objOne = this.initElement(initialiser, this.aii1);
@@ -69,7 +69,7 @@ public class AnnotableTest extends EObjectSimilarityTest {
 	@Disabled("Disabled until parameters are befitting")
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableTestParams.class)
-	public <T extends IAnnotableInitialiser & IInitialiser> void testDifferentAnnotation(T initialiser) {
+	public <T extends IAnnotableInitialiser & IInitialiser<Annotable>> void testDifferentAnnotation(T initialiser) {
 		this.setResourceFileTestIdentifier("testDifferentAnnotation");
 		
 		var objOne = this.initElement(initialiser, this.aii1);

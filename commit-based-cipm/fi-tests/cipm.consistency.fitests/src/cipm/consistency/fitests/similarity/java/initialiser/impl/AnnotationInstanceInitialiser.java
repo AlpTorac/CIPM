@@ -6,7 +6,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.IAnnotationInstanceI
 
 import org.emftext.language.java.annotations.AnnotationInstance;
 
-public class AnnotationInstanceInitialiser implements IAnnotationInstanceInitialiser, IInitialiser {
+public class AnnotationInstanceInitialiser implements IAnnotationInstanceInitialiser, IInitialiser<AnnotationInstance> {
 	@Override
 	public AnnotationInstance instantiate() {
 		var fac = AnnotationsFactory.eINSTANCE;
