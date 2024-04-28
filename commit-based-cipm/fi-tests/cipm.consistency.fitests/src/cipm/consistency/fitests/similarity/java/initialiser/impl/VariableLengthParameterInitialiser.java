@@ -8,16 +8,13 @@ import cipm.consistency.fitests.similarity.java.initialiser.IParametrizableIniti
 import cipm.consistency.fitests.similarity.java.initialiser.IVariableLengthParameterInitialiser;
 
 public class VariableLengthParameterInitialiser extends ParameterInitialiser implements IVariableLengthParameterInitialiser {
-	public VariableLengthParameterInitialiser() {
-		super();
-	}
-	
-	public VariableLengthParameterInitialiser(IParametrizableInitialiser pInit) {
-		super(pInit);
-	}
-
 	@Override
 	public VariableLengthParameter instantiate() {
 		return ParametersFactory.eINSTANCE.createVariableLengthParameter();
+	}
+	
+	@Override
+	public VariableLengthParameterInitialiser withPInit(IParametrizableInitialiser pInit) {
+		return (VariableLengthParameterInitialiser) super.withPInit(pInit);
 	}
 }

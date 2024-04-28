@@ -8,16 +8,13 @@ import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IMemberContainerInitialiser;
 
 public class ConstructorInitialiser extends MemberInitialiser implements IConstructorInitialiser {
-	public ConstructorInitialiser() {
-		super();
-	}
-	
-	public ConstructorInitialiser(IMemberContainerInitialiser mcInit) {
-		super(mcInit);
-	}
-
 	@Override
 	public Constructor instantiate() {
 		return MembersFactory.eINSTANCE.createConstructor();
+	}
+	
+	@Override
+	public ConstructorInitialiser withMCInit(IMemberContainerInitialiser mcInit) {
+		return (ConstructorInitialiser) super.withMCInit(mcInit);
 	}
 }

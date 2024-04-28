@@ -138,8 +138,8 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		this.sameX(objOne, initialiser);
 	}
 	
-	// TODO: Clarify whether such differences matter
-	@Disabled("See TODO")
+	// TODO: Clarify whether such differences matter, currently they do not matter
+//	@Disabled("See TODO")
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testDifferentModifier(IAnnotableAndModifiableInitialiser initialiser) {
@@ -148,7 +148,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(initialiser, new Modifier[] {mod1, mod2}, null, null);
 		var objTwo = this.initElement(initialiser, new Modifier[] {mod3, mod4}, null, null);
 		
-		this.differentX(objOne, objTwo);
+		this.compareX(objOne, objTwo, true);
 	}
 	
 	@ParameterizedTest
@@ -161,8 +161,8 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		this.sameX(objOne, initialiser);
 	}
 	
-	// TODO: Clarify whether such differences matter
-	@Disabled("See TODO")
+	// TODO: Clarify whether such differences matter, currently they do not matter
+//	@Disabled("See TODO")
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testDifferentAnnoInstance(IAnnotableAndModifiableInitialiser initialiser) {
@@ -171,7 +171,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(initialiser, null, new AnnotationInstance[] {aii1}, null);
 		var objTwo = this.initElement(initialiser, null, new AnnotationInstance[] {aii2}, null);
 		
-		this.differentX(objOne, objTwo);
+		this.compareX(objOne, objTwo, true);
 	}
 	
 	@ParameterizedTest
@@ -184,8 +184,8 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		this.sameX(objOne, initialiser);
 	}
 	
-	// TODO: Clarify whether such differences matter
-	@Disabled("See TODO")
+	// TODO: Clarify whether such differences matter, currently they do not matter
+//	@Disabled("See TODO")
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testDifferentVisibility(IAnnotableAndModifiableInitialiser initialiser) {
@@ -194,6 +194,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PRIVATE);
 		var objTwo = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PUBLIC);
 		
-		this.differentX(objOne, objTwo);
+		this.compareX(objOne, objTwo, true);
 	}
 }

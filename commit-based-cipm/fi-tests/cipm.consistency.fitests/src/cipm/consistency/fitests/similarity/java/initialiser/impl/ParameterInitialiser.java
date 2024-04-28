@@ -9,13 +9,21 @@ import cipm.consistency.fitests.similarity.java.initialiser.IParametrizableIniti
 public abstract class ParameterInitialiser implements IParameterInitialiser {
 	private IParametrizableInitialiser pInit;
 	
-	public ParameterInitialiser() {}
+	/**
+	 * Same function as {@link #setPInit(IParametrizableInitialiser)}.
+	 * Implemented to keep initialiser lists tidier.
+	 * @return This
+	 */
+	public ParameterInitialiser withPInit(IParametrizableInitialiser pInit) {
+		this.setPInit(pInit);
+		return this;
+	}
 	
-	public ParameterInitialiser(IParametrizableInitialiser pInit) {
+	public void setPInit(IParametrizableInitialiser pInit) {
 		this.pInit = pInit;
 	}
 	
-	protected IParametrizableInitialiser getPInit() {
+	public IParametrizableInitialiser getPInit() {
 		return this.pInit;
 	}
 	
