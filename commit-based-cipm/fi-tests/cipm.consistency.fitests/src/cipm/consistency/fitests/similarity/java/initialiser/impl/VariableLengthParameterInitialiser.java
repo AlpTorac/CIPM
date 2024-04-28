@@ -5,7 +5,7 @@ import org.emftext.language.java.parameters.VariableLengthParameter;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IVariableLengthParameterInitialiser;
 
-public class VariableLengthParameterInitialiser implements IVariableLengthParameterInitialiser, IInitialiser {
+public class VariableLengthParameterInitialiser implements IVariableLengthParameterInitialiser, IInitialiser<VariableLengthParameter> {
 	@Override
 	public VariableLengthParameter instantiate() {
 		return ParametersFactory.eINSTANCE.createVariableLengthParameter();

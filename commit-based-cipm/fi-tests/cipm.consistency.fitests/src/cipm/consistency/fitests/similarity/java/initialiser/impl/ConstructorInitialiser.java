@@ -5,7 +5,7 @@ import org.emftext.language.java.members.Constructor;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IConstructorInitialiser;
 
-public class ConstructorInitialiser implements IConstructorInitialiser, IInitialiser {
+public class ConstructorInitialiser implements IConstructorInitialiser, IInitialiser<Constructor> {
 	@Override
 	public Constructor instantiate() {
 		return MembersFactory.eINSTANCE.createConstructor();

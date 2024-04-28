@@ -39,7 +39,7 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public <T extends EObjectInitialiser & IInitialiser> void testSameReference(T initialiser) {
+	public <T extends EObjectInitialiser & IInitialiser<EObject>> void testSameReference(T initialiser) {
 		this.setResourceFileTestIdentifier("testSameReference");
 		
 		var obj11 = initialiser.instantiate();
@@ -53,7 +53,7 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public <T extends EObjectInitialiser & IInitialiser> void testListSameReference(T initialiser) {
+	public <T extends EObjectInitialiser & IInitialiser<EObject>> void testListSameReference(T initialiser) {
 		this.setResourceFileTestIdentifier("testListSameReference");
 		
 		var obj11 = initialiser.instantiate();
@@ -68,7 +68,7 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public <T extends EObjectInitialiser & IInitialiser> void testOneListSubList(T initialiser) {
+	public <T extends EObjectInitialiser & IInitialiser<EObject>> void testOneListSubList(T initialiser) {
 		this.setResourceFileTestIdentifier("testListSubList");
 		
 		var obj11 = initialiser.instantiate();
@@ -88,7 +88,7 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public <T extends EObjectInitialiser & IInitialiser> void testOneListEmpty(T initialiser) {
+	public <T extends EObjectInitialiser & IInitialiser<EObject>> void testOneListEmpty(T initialiser) {
 		this.setResourceFileTestIdentifier("testOneListEmpty");
 		
 		var obj11 = initialiser.instantiate();

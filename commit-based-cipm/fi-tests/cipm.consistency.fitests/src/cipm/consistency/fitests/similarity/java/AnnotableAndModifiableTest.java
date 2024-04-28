@@ -72,12 +72,12 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		super.setUp();
 	}
 	
-	protected <T extends IAnnotableAndModifiableInitialiser & IInitialiser> CompilationUnit initElement(T initialiser,
+	protected <T extends IAnnotableAndModifiableInitialiser & IInitialiser<AnnotableAndModifiable>> CompilationUnit initElement(T initialiser,
 			Modifier[] mods,
 			AnnotationInstance[] ais,
 			InitialiserVisibilityModifier visibility) {
 		
-		var result = (AnnotableAndModifiable) initialiser.instantiate();
+		var result = initialiser.instantiate();
 		initialiser.minimalInitialisation(result);
 		
 		if (mods != null) {
@@ -129,7 +129,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser> void testSameModifier(T initialiser) {
+	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser<AnnotableAndModifiable>> void testSameModifier(T initialiser) {
 		this.setResourceFileTestIdentifier("testSameModifier");
 		
 		var objOne = this.initElement(initialiser, new Modifier[] {mod1, mod2}, null, null);
@@ -141,7 +141,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	@Disabled("See TODO")
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser> void testDifferentModifier(T initialiser) {
+	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser<AnnotableAndModifiable>> void testDifferentModifier(T initialiser) {
 		this.setResourceFileTestIdentifier("testDifferentModifier");
 		
 		var objOne = this.initElement(initialiser, new Modifier[] {mod1, mod2}, null, null);
@@ -152,7 +152,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser> void testSameAnnoInstance(T initialiser) {
+	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser<AnnotableAndModifiable>> void testSameAnnoInstance(T initialiser) {
 		this.setResourceFileTestIdentifier("testSameAnnoInstance");
 		
 		var objOne = this.initElement(initialiser, null, new AnnotationInstance[] {aii1}, null);
@@ -164,7 +164,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	@Disabled("See TODO")
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser> void testDifferentAnnoInstance(T initialiser) {
+	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser<AnnotableAndModifiable>> void testDifferentAnnoInstance(T initialiser) {
 		this.setResourceFileTestIdentifier("testDifferentAnnoInstance");
 		
 		var objOne = this.initElement(initialiser, null, new AnnotationInstance[] {aii1}, null);
@@ -175,7 +175,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser> void testSameVisibility(T initialiser) {
+	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser<AnnotableAndModifiable>> void testSameVisibility(T initialiser) {
 		this.setResourceFileTestIdentifier("testSameVisibility");
 		
 		var objOne = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PRIVATE);
@@ -187,7 +187,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	@Disabled("See TODO")
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser> void testDifferentVisibility(T initialiser) {
+	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser<AnnotableAndModifiable>> void testDifferentVisibility(T initialiser) {
 		this.setResourceFileTestIdentifier("testDifferentVisibility");
 		
 		var objOne = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PRIVATE);
