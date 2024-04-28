@@ -6,6 +6,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
+import cipm.consistency.fitests.similarity.java.initialiser.INamedElementInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.AdditionalLocalVariableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.AnnotationInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.BlockInitialiser;
@@ -22,6 +23,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.impl.InterfaceMethod
 import cipm.consistency.fitests.similarity.java.initialiser.impl.LocalVariableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.ModuleInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.OrdinaryParameterInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.impl.PackageInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.ReceiverParameterInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.TypeParameterInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.VariableLengthParameterInitialiser;
@@ -29,9 +31,6 @@ import cipm.consistency.fitests.similarity.java.initialiser.impl.VariableLengthP
 public class NameTestParams implements ArgumentsProvider {
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
-		// PackageInitialiser is excluded, as its name (.getName()) is NOT supposed to be fiddled with
-		// Block is excluded, since its name also is NOT used while comparing
-		
 		/*
 		 * ConcreteClassifier +
 		 * TypeParameter +
@@ -45,41 +44,14 @@ public class NameTestParams implements ArgumentsProvider {
 		 * AdditionalLocalVariable +
 		 */
 		
-		return Stream.of(
+		return new InitialiserParameters()
+				.getInitialisersBySuper(INamedElementInitialiser.class)
+				.stream()
 				
-				// Containers (except Package)
-				Arguments.of(new ModuleInitialiser()),
-				Arguments.of(new CompilationUnitInitialiser()),
-				
-				// ConcreteClassifier
-				Arguments.of(new AnnotationInitialiser()),
-				Arguments.of(new ClassInitialiser()),
-				Arguments.of(new EnumerationInitialiser()),
-				Arguments.of(new InterfaceInitialiser()),
-				
-				// TypeParameter
-				Arguments.of(new TypeParameterInitialiser()),
-				
-				// Member (except Block)
-				Arguments.of(new ConstructorInitialiser()),
-				Arguments.of(new FieldInitialiser()),
-				Arguments.of(new ClassMethodInitialiser()),
-				Arguments.of(new InterfaceMethodInitialiser()),
-				
-				// Parameter
-				Arguments.of(new OrdinaryParameterInitialiser()),
-				Arguments.of(new CatchParameterInitialiser()),
-				Arguments.of(new ReceiverParameterInitialiser()),
-				Arguments.of(new VariableLengthParameterInitialiser()),
-				
-				// EnumConstant
-				Arguments.of(new EnumConstantInitialiser()),
-				
-				// Variable
-				Arguments.of(new LocalVariableInitialiser()),
-				
-				// AdditionalLocalVariable
-				Arguments.of(new AdditionalLocalVariableInitialiser())
-			);
+				// PackageInitialiser is excluded, as its name (.getName()) is NOT supposed to be fiddled with
+				// Block is excluded, since its name also is NOT used while comparing
+				.filter((i) -> !i.getClass().equals(PackageInitialiser.class)
+						&& !i.getClass().equals(BlockInitialiser.class))
+				.map((i) -> Arguments.of(i));
 	}
 }

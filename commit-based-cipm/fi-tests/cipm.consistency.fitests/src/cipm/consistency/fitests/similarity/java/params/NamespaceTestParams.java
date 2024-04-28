@@ -6,7 +6,9 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
+import cipm.consistency.fitests.similarity.java.initialiser.INamespaceAwareElementInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.CompilationUnitInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.impl.ModuleInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.PackageInitialiser;
 
 public class NamespaceTestParams implements ArgumentsProvider {
@@ -25,9 +27,10 @@ public class NamespaceTestParams implements ArgumentsProvider {
 				NamespaceClassifierReference
 		 */
 		
-		return Stream.of(
-					Arguments.of(new PackageInitialiser()),
-					Arguments.of(new CompilationUnitInitialiser())
-				);
+		return new InitialiserParameters()
+				.getInitialisersBySuper(INamespaceAwareElementInitialiser.class)
+				.stream()
+				.filter((i) -> !i.getClass().equals(ModuleInitialiser.class))
+				.map((i) -> Arguments.of(i));
 	}
 }

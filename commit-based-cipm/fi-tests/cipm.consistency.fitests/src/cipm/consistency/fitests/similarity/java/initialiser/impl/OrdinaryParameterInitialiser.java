@@ -8,16 +8,13 @@ import cipm.consistency.fitests.similarity.java.initialiser.IOrdinaryParameterIn
 import cipm.consistency.fitests.similarity.java.initialiser.IParametrizableInitialiser;
 
 public class OrdinaryParameterInitialiser extends ParameterInitialiser implements IOrdinaryParameterInitialiser {
-	public OrdinaryParameterInitialiser() {
-		super();
-	}
-	
-	public OrdinaryParameterInitialiser(IParametrizableInitialiser pInit) {
-		super(pInit);
-	}
-
 	@Override
 	public OrdinaryParameter instantiate() {
 		return ParametersFactory.eINSTANCE.createOrdinaryParameter();
+	}
+	
+	@Override
+	public OrdinaryParameterInitialiser withPInit(IParametrizableInitialiser pInit) {
+		return (OrdinaryParameterInitialiser) super.withPInit(pInit);
 	}
 }
