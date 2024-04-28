@@ -8,16 +8,13 @@ import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IMemberContainerInitialiser;
 
 public class ClassMethodInitialiser extends MemberInitialiser implements IClassMethodInitialiser {
-	public ClassMethodInitialiser() {
-		super();
-	}
-	
-	public ClassMethodInitialiser(IMemberContainerInitialiser mcInit) {
-		super(mcInit);
-	}
-
 	@Override
 	public ClassMethod instantiate() {
 		return MembersFactory.eINSTANCE.createClassMethod();
+	}
+	
+	@Override
+	public ClassMethodInitialiser withMCInit(IMemberContainerInitialiser mcInit) {
+		return (ClassMethodInitialiser) super.withMCInit(mcInit);
 	}
 }

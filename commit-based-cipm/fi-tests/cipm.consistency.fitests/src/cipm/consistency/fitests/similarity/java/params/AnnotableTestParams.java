@@ -6,18 +6,15 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
-import cipm.consistency.fitests.similarity.java.initialiser.impl.CompilationUnitInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.ModuleInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.PackageInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.IAnnotableInitialiser;
 
 public class AnnotableTestParams implements ArgumentsProvider {
 
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
-		return Stream.of(
-					Arguments.of(new ModuleInitialiser()),
-					Arguments.of(new PackageInitialiser()),
-					Arguments.of(new CompilationUnitInitialiser())
-				);
+		return new InitialiserParameters()
+				.getInitialisersBySuper(IAnnotableInitialiser.class)
+				.stream()
+				.map((i) -> Arguments.of(i));
 	}
 }

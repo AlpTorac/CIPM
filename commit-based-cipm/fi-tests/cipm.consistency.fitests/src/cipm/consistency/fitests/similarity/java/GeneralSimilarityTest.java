@@ -39,8 +39,18 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public void testSameReference(EObjectInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testSameReference");
+	public void testIsSimilarSameReference(EObjectInitialiser initialiser) {
+		this.setResourceFileTestIdentifier("testIsSimilarSameReference");
+		
+		var obj11 = initialiser.instantiate();
+		
+		Assertions.assertTrue(this.isSimilar(obj11, obj11));
+	}
+	
+	@ParameterizedTest
+	@ArgumentsSource(GeneralTestParams.class)
+	public void testAreSimilarSameReference(EObjectInitialiser initialiser) {
+		this.setResourceFileTestIdentifier("testAreSimilarSameReference");
 		
 		var obj11 = initialiser.instantiate();
 		
@@ -134,7 +144,7 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	}
 	
 	/**
-	 * Minimal test that checks, whether lists with the same size but
+	 * Checks whether lists with the same size but
 	 * different elements can be distinguished.
 	 * <br><br>
 	 * Implemented by cloning and comparing 2
@@ -296,5 +306,47 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 		var resTwo = this.createResource(list2);
 		
 		Assertions.assertFalse(this.areSimilar(resOne.getContents(), resTwo.getContents()));
+	}
+	
+	/**
+	 * Checks for potential control flow issues in
+	 * {@link #isSimilar(EObject, EObject)}
+	 */
+	@Test
+	public void testIsSimilarEqual() {
+		this.setResourceFileTestIdentifier("testIsSimilarEqual");
+		
+		var initialiser = new ModuleInitialiser();
+		
+		var obj11 = initialiser.instantiate();
+		initialiser.minimalInitialisation(obj11);
+		
+		var obj11Copy = initialiser.clone(obj11);
+		
+		Assertions.assertTrue(this.isSimilar(obj11, obj11Copy));
+	}
+	
+	/**
+	 * Checks for potential control flow issues in
+	 * {@link #areSimilar(java.util.Collection, java.util.Collection)}
+	 */
+	@Test
+	public void testAreSimilarEqual() {
+		this.setResourceFileTestIdentifier("testAreSimilarEqual");
+		
+		var initialiser = new ModuleInitialiser();
+		
+		var obj11 = initialiser.instantiate();
+		initialiser.minimalInitialisation(obj11);
+		
+		var obj11Copy = initialiser.clone(obj11);
+		
+		var list1 = List.of(obj11);
+		var list2 = List.of(obj11Copy);
+		
+		var resOne = this.createResource(list1);
+		var resTwo = this.createResource(list2);
+		
+		Assertions.assertTrue(this.areSimilar(resOne.getContents(), resTwo.getContents()));
 	}
 }
