@@ -3,9 +3,13 @@ package cipm.consistency.fitests.similarity.java.initialiser;
 import java.util.Collection;
 import java.util.List;
 
+import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.commons.NamespaceAwareElement;
 
 public interface INamespaceAwareElementInitialiser extends ICommentableInitialiser {
+	@Override
+	public NamespaceAwareElement instantiate();
+	
 	public default void initialiseNamespaces(NamespaceAwareElement nae, String[] namespaces) {
 		if (namespaces != null) {
 			this.initialiseNamespaces(nae, List.of(namespaces));
