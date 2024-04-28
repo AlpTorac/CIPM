@@ -6,8 +6,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
+import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.INamespaceAwareElementInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.IInitialiser;
 import cipm.consistency.fitests.similarity.java.params.NamespaceTestParams;
 
 public class NamespaceAwareElementTest extends EObjectSimilarityTest {
@@ -29,7 +29,7 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 		super.setUp();
 	}
 	
-	protected <T extends INamespaceAwareElementInitialiser & IInitialiser<NamespaceAwareElement>> NamespaceAwareElement initElement(T initialiser, String[] nss) {
+	protected NamespaceAwareElement initElement(INamespaceAwareElementInitialiser initialiser, String[] nss) {
 		var result = initialiser.instantiate();
 		initialiser.minimalInitialisation(result);
 		initialiser.initialiseNamespaces(result, nss);
@@ -38,7 +38,7 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(NamespaceTestParams.class)
-	public <T extends INamespaceAwareElementInitialiser & IInitialiser<NamespaceAwareElement>> void testSameNamespace(T initialiser) {
+	public void testSameNamespace(INamespaceAwareElementInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testSameNamespace");
 		
 		var objOne = this.initElement(initialiser, nss1);
@@ -48,7 +48,7 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 
 	@ParameterizedTest
 	@ArgumentsSource(NamespaceTestParams.class)
-	public <T extends INamespaceAwareElementInitialiser & IInitialiser<NamespaceAwareElement>> void testDifferentNamespace(T initialiser) {
+	public void testDifferentNamespace(INamespaceAwareElementInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testDifferentNamespace");
 		
 		var objOne = this.initElement(initialiser, nss1);
@@ -62,7 +62,7 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	 */
 	@ParameterizedTest
 	@ArgumentsSource(NamespaceTestParams.class)
-	public <T extends INamespaceAwareElementInitialiser & IInitialiser<NamespaceAwareElement>> void testNamespaceScope(T initialiser) {
+	public void testNamespaceScope(INamespaceAwareElementInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testNamespaceScope");
 		
 		for (int i = 0; i < nss1.length; i++) {

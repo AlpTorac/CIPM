@@ -24,6 +24,9 @@ public class AnnotableAndModifiableTestParams implements ArgumentsProvider {
 
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
+		var mc = new ClassInitialiser();
+		var pc = new ConstructorInitialiser(mc);
+		
 		return Stream.of(
 					// ConcreteClassifier
 					Arguments.of(new AnnotationInitialiser()),
@@ -32,23 +35,23 @@ public class AnnotableAndModifiableTestParams implements ArgumentsProvider {
 					Arguments.of(new InterfaceInitialiser()),
 					
 					// Constructor
-					Arguments.of(new ConstructorInitialiser()),
+					Arguments.of(new ConstructorInitialiser(mc)),
 					
 					// Field
-					Arguments.of(new FieldInitialiser()),
+					Arguments.of(new FieldInitialiser(mc)),
 					
 					// LocalVariable
 //					Arguments.of(new LocalVariableInitialiser()),
 					
 					// Method
-					Arguments.of(new ClassMethodInitialiser()),
-					Arguments.of(new InterfaceMethodInitialiser()),
+					Arguments.of(new ClassMethodInitialiser(mc)),
+					Arguments.of(new InterfaceMethodInitialiser(mc)),
 					
 					// Parameter
-					Arguments.of(new OrdinaryParameterInitialiser()),
-					Arguments.of(new CatchParameterInitialiser()),
-					Arguments.of(new ReceiverParameterInitialiser()),
-					Arguments.of(new VariableLengthParameterInitialiser())
+					Arguments.of(new OrdinaryParameterInitialiser(pc)),
+					Arguments.of(new CatchParameterInitialiser(pc)),
+					Arguments.of(new ReceiverParameterInitialiser(pc)),
+					Arguments.of(new VariableLengthParameterInitialiser(pc))
 				);
 	}
 }
