@@ -8,9 +8,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IAnnotableInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.AnnotationInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.AnnotationInstanceInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.IInitialiser;
 import cipm.consistency.fitests.similarity.java.params.AnnotableTestParams;
 
 public class AnnotableTest extends EObjectSimilarityTest {
@@ -49,7 +49,7 @@ public class AnnotableTest extends EObjectSimilarityTest {
 		super.setUp();
 	}
 	
-	protected <T extends IAnnotableInitialiser & IInitialiser<Annotable>> Annotable initElement(T initialiser, AnnotationInstance... annotations) {
+	protected Annotable initElement(IAnnotableInitialiser initialiser, AnnotationInstance... annotations) {
 		var result = initialiser.instantiate();
 		initialiser.minimalInitialisation(result);
 		initialiser.addAnnotations(result, annotations);
@@ -58,7 +58,7 @@ public class AnnotableTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableTestParams.class)
-	public <T extends IAnnotableInitialiser & IInitialiser<Annotable>> void testSameAnnotation(T initialiser) {
+	public void testSameAnnotation(IAnnotableInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testSameAnnotation");
 		
 		var objOne = this.initElement(initialiser, this.aii1);
@@ -69,7 +69,7 @@ public class AnnotableTest extends EObjectSimilarityTest {
 	@Disabled("Disabled until parameters are befitting")
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableTestParams.class)
-	public <T extends IAnnotableInitialiser & IInitialiser<Annotable>> void testDifferentAnnotation(T initialiser) {
+	public void testDifferentAnnotation(IAnnotableInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testDifferentAnnotation");
 		
 		var objOne = this.initElement(initialiser, this.aii1);

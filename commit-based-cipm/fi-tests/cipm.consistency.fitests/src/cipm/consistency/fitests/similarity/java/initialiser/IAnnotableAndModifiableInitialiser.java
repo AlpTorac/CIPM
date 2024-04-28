@@ -3,8 +3,12 @@ package cipm.consistency.fitests.similarity.java.initialiser;
 import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.Modifier;
+import org.emftext.language.java.variables.AdditionalLocalVariable;
 
 public interface IAnnotableAndModifiableInitialiser extends ICommentableInitialiser {
+	@Override
+	public AnnotableAndModifiable instantiate();
+	
 	public default void addModifier(AnnotableAndModifiable aam, Modifier modif) {
 		if (modif != null) {
 			aam.addModifier(modif);

@@ -1,9 +1,13 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
 import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 
 public interface ICompilationUnitInitialiser extends IJavaRootInitialiser {
+	@Override
+	public CompilationUnit instantiate();
+	
 	public default void addImport(CompilationUnit cu, String imprt) {
 		if (imprt != null) {
 			cu.addImport(imprt);

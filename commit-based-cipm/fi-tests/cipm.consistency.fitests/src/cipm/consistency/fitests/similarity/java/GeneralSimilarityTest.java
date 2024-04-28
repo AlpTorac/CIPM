@@ -13,7 +13,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.emftext.language.java.containers.Module;
 
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.IInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.ModuleInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.PackageInitialiser;
 import cipm.consistency.fitests.similarity.java.params.GeneralTestParams;
@@ -39,7 +39,7 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public <T extends EObjectInitialiser & IInitialiser<EObject>> void testSameReference(T initialiser) {
+	public void testSameReference(EObjectInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testSameReference");
 		
 		var obj11 = initialiser.instantiate();
@@ -53,7 +53,7 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public <T extends EObjectInitialiser & IInitialiser<EObject>> void testListSameReference(T initialiser) {
+	public void testListSameReference(EObjectInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testListSameReference");
 		
 		var obj11 = initialiser.instantiate();
@@ -68,7 +68,7 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public <T extends EObjectInitialiser & IInitialiser<EObject>> void testOneListSubList(T initialiser) {
+	public void testOneListSubList(EObjectInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testListSubList");
 		
 		var obj11 = initialiser.instantiate();
@@ -88,7 +88,7 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public <T extends EObjectInitialiser & IInitialiser<EObject>> void testOneListEmpty(T initialiser) {
+	public void testOneListEmpty(EObjectInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testOneListEmpty");
 		
 		var obj11 = initialiser.instantiate();
