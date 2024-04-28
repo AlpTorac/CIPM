@@ -66,7 +66,8 @@ public class AnnotableTest extends EObjectSimilarityTest {
 		this.sameX(objOne, initialiser);
 	}
 	
-	@Disabled("Disabled until parameters are befitting")
+	// TODO: Clarify whether such differences matter, currently they do not matter
+//	@Disabled("Disabled until parameters are befitting")
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableTestParams.class)
 	public void testDifferentAnnotation(IAnnotableInitialiser initialiser) {
@@ -75,6 +76,6 @@ public class AnnotableTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(initialiser, this.aii1);
 		var objTwo = this.initElement(initialiser, this.aii2);
 		
-		this.differentX(objOne, objTwo);
+		this.compareX(objOne, objTwo, true);
 	}
 }

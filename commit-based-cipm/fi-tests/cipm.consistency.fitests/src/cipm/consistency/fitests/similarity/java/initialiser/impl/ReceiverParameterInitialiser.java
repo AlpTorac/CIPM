@@ -8,16 +8,13 @@ import cipm.consistency.fitests.similarity.java.initialiser.IParametrizableIniti
 import cipm.consistency.fitests.similarity.java.initialiser.IReceiverParameterInitialiser;
 
 public class ReceiverParameterInitialiser extends ParameterInitialiser implements IReceiverParameterInitialiser {
-	public ReceiverParameterInitialiser() {
-		super();
-	}
-	
-	public ReceiverParameterInitialiser(IParametrizableInitialiser pInit) {
-		super(pInit);
-	}
-
 	@Override
 	public ReceiverParameter instantiate() {
 		return ParametersFactory.eINSTANCE.createReceiverParameter();
+	}
+	
+	@Override
+	public ReceiverParameterInitialiser withPInit(IParametrizableInitialiser pInit) {
+		return (ReceiverParameterInitialiser) super.withPInit(pInit);
 	}
 }
