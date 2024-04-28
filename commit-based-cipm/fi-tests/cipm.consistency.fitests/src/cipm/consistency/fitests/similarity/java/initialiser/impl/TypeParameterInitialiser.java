@@ -5,7 +5,7 @@ import org.emftext.language.java.generics.GenericsFactory;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ITypeParameterInitialiser;
 
-public class TypeParameterInitialiser implements ITypeParameterInitialiser, IInitialiser {
+public class TypeParameterInitialiser implements ITypeParameterInitialiser, IInitialiser<TypeParameter> {
 	@Override
 	public TypeParameter instantiate() {
 		return GenericsFactory.eINSTANCE.createTypeParameter();

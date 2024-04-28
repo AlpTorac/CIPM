@@ -20,15 +20,15 @@ public class NamedElementSimilarityTest extends EObjectSimilarityTest {
 		super.setUp();
 	}
 	
-	protected <T extends INamedElementInitialiser & IInitialiser> NamedElement initElement(T initialiser, String name) {
-		var result = (NamedElement) initialiser.instantiate();
+	protected <T extends INamedElementInitialiser & IInitialiser<NamedElement>> NamedElement initElement(T initialiser, String name) {
+		var result = initialiser.instantiate();
 		initialiser.initialiseName(result, name);
 		return result;
 	}
 	
 	@ParameterizedTest
 	@ArgumentsSource(NameTestParams.class)
-	public <T extends INamedElementInitialiser & IInitialiser> void testSameName(T initialiser) {
+	public <T extends INamedElementInitialiser & IInitialiser<NamedElement>> void testSameName(T initialiser) {
 		this.setResourceFileTestIdentifier("testSameName");
 		
 		var objOne = this.initElement(initialiser, name11);
@@ -38,7 +38,7 @@ public class NamedElementSimilarityTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(NameTestParams.class)
-	public <T extends INamedElementInitialiser & IInitialiser> void testDifferentName(T initialiser) {
+	public <T extends INamedElementInitialiser & IInitialiser<NamedElement>> void testDifferentName(T initialiser) {
 		this.setResourceFileTestIdentifier("testDifferentName");
 		
 		var objOne = this.initElement(initialiser, name11);
