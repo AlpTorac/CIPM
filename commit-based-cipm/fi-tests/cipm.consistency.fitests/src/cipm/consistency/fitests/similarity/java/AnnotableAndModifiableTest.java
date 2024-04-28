@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java;
 
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
@@ -14,13 +15,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IAnnotableAndModifiableInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.InitialiserVisibilityModifier;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.AnnotationInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.AnnotationInstanceInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.ClassInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.CompilationUnitInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.ConstructorInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.params.ModifierFactory;
 import cipm.consistency.fitests.similarity.java.params.AnnotableAndModifiableTestParams;
 
@@ -72,13 +73,13 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		super.setUp();
 	}
 	
-	protected <T extends IAnnotableAndModifiableInitialiser & IInitialiser<AnnotableAndModifiable>> CompilationUnit initElement(T initialiser,
+	protected EObject initElement(IAnnotableAndModifiableInitialiser initialiser,
 			Modifier[] mods,
 			AnnotationInstance[] ais,
 			InitialiserVisibilityModifier visibility) {
 		
 		var result = initialiser.instantiate();
-		initialiser.minimalInitialisation(result);
+		var root = initialiser.minimalInitialisationWithContainer(result);
 		
 		if (mods != null) {
 			for (var m : mods) initialiser.addModifier(result, m);
@@ -92,44 +93,44 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		
 		// TODO: Extract the code underneath, when there is a systematic way to initialise elements that need a container
 		
-		var cuInit = new CompilationUnitInitialiser();
-		var unit = cuInit.instantiate();
-		cuInit.minimalInitialisation(unit);
+//		var cuInit = new CompilationUnitInitialiser();
+//		var unit = cuInit.instantiate();
+//		cuInit.minimalInitialisation(unit);
+//		
+//		if (result instanceof ConcreteClassifier) {
+//			cuInit.addClassifier(unit, (ConcreteClassifier) result);
+//			return unit;
+//		}
+//		
+//		var clsInit = new ClassInitialiser();
+//		var cls = clsInit.instantiate();
+//		clsInit.minimalInitialisation(cls);
+//		
+//		if (result instanceof Member) { // Method or Constructor
+//			clsInit.addMember(cls, (Member) result);
+//			cuInit.addClassifier(unit, cls);
+//			
+//			return unit;
+//		}
+//		
+//		var ctorInit = new ConstructorInitialiser();
+//		var ctor = ctorInit.instantiate();
+//		ctorInit.minimalInitialisation(ctor);
+//		
+//		if (result instanceof Parameter) {
+//			ctorInit.addParameter(ctor, (Parameter) result);
+//			clsInit.addMember(cls, ctor);
+//			cuInit.addClassifier(unit, cls);
+//			
+//			return unit;
+//		}
 		
-		if (result instanceof ConcreteClassifier) {
-			cuInit.addClassifier(unit, (ConcreteClassifier) result);
-			return unit;
-		}
-		
-		var clsInit = new ClassInitialiser();
-		var cls = clsInit.instantiate();
-		clsInit.minimalInitialisation(cls);
-		
-		if (result instanceof Member) { // Method or Constructor
-			clsInit.addMember(cls, (Member) result);
-			cuInit.addClassifier(unit, cls);
-			
-			return unit;
-		}
-		
-		var ctorInit = new ConstructorInitialiser();
-		var ctor = ctorInit.instantiate();
-		ctorInit.minimalInitialisation(ctor);
-		
-		if (result instanceof Parameter) {
-			ctorInit.addParameter(ctor, (Parameter) result);
-			clsInit.addMember(cls, ctor);
-			cuInit.addClassifier(unit, cls);
-			
-			return unit;
-		}
-		
-		return null;
+		return root;
 	}
 	
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser<AnnotableAndModifiable>> void testSameModifier(T initialiser) {
+	public void testSameModifier(IAnnotableAndModifiableInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testSameModifier");
 		
 		var objOne = this.initElement(initialiser, new Modifier[] {mod1, mod2}, null, null);
@@ -141,7 +142,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	@Disabled("See TODO")
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser<AnnotableAndModifiable>> void testDifferentModifier(T initialiser) {
+	public void testDifferentModifier(IAnnotableAndModifiableInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testDifferentModifier");
 		
 		var objOne = this.initElement(initialiser, new Modifier[] {mod1, mod2}, null, null);
@@ -152,7 +153,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser<AnnotableAndModifiable>> void testSameAnnoInstance(T initialiser) {
+	public void testSameAnnoInstance(IAnnotableAndModifiableInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testSameAnnoInstance");
 		
 		var objOne = this.initElement(initialiser, null, new AnnotationInstance[] {aii1}, null);
@@ -164,7 +165,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	@Disabled("See TODO")
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser<AnnotableAndModifiable>> void testDifferentAnnoInstance(T initialiser) {
+	public void testDifferentAnnoInstance(IAnnotableAndModifiableInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testDifferentAnnoInstance");
 		
 		var objOne = this.initElement(initialiser, null, new AnnotationInstance[] {aii1}, null);
@@ -175,7 +176,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser<AnnotableAndModifiable>> void testSameVisibility(T initialiser) {
+	public void testSameVisibility(IAnnotableAndModifiableInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testSameVisibility");
 		
 		var objOne = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PRIVATE);
@@ -187,7 +188,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	@Disabled("See TODO")
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public <T extends IAnnotableAndModifiableInitialiser & IInitialiser<AnnotableAndModifiable>> void testDifferentVisibility(T initialiser) {
+	public void testDifferentVisibility(IAnnotableAndModifiableInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testDifferentVisibility");
 		
 		var objOne = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PRIVATE);

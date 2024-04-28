@@ -5,8 +5,12 @@ import java.util.List;
 
 import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.annotations.AnnotationInstance;
+import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 
 public interface IAnnotableInitialiser extends ICommentableInitialiser {
+	@Override
+	public Annotable instantiate();
+	
 	public default void addAnnotation(Annotable aObj, AnnotationInstance ai) {
 		if (ai != null) {
 			aObj.getAnnotations().add(ai);

@@ -1,6 +1,5 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
-import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.types.ClassifierReference;
@@ -12,6 +11,8 @@ public interface IConcreteClassifierInitialiser extends
 	IStatementInitialiser,
 	IClassifierInitialiser,
 	ITypeParametrizableInitialiser {
+	@Override
+	public ConcreteClassifier instantiate();
 	
 	public default void addInnerClassifier(ConcreteClassifier cls, ConcreteClassifier toBeAddedToCls) {
 		if (toBeAddedToCls != null) {

@@ -1,10 +1,10 @@
-package cipm.consistency.fitests.similarity.java.initialiser.impl;
+package cipm.consistency.fitests.similarity.java.initialiser;
 
 import org.eclipse.emf.ecore.EObject;
 
-public interface IInitialiser<T extends EObject> {
+public interface IInitialiser {
 	/**
-	 * Instantiates the {@link EObject} sub-class denoted by the name of {@code this}
+	 * Instantiates the {@link EObject} sub-class denoted by the generic parameter.
 	 * <br><br>
 	 * <b>Note: The created instance may not be "valid" due to certain attributes not being set.
 	 * The method {@code minimalInitialisation(EObject)} from {@link EObjectInitialiser} implementors
@@ -15,5 +15,5 @@ public interface IInitialiser<T extends EObject> {
 	 * would require overriding this method in each Initialiser interface just to alter the
 	 * return type.
 	 */
-	public T instantiate();
+	public EObject instantiate();
 }
