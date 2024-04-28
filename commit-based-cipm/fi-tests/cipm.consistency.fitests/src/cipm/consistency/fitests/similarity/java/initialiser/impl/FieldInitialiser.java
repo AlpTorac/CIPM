@@ -8,16 +8,13 @@ import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IMemberContainerInitialiser;
 
 public class FieldInitialiser extends MemberInitialiser implements IFieldInitialiser {
-	public FieldInitialiser() {
-		super();
-	}
-	
-	public FieldInitialiser(IMemberContainerInitialiser mcInit) {
-		super(mcInit);
-	}
-
 	@Override
 	public Field instantiate() {
 		return MembersFactory.eINSTANCE.createField();
+	}
+	
+	@Override
+	public FieldInitialiser withMCInit(IMemberContainerInitialiser mcInit) {
+		return (FieldInitialiser) super.withMCInit(mcInit);
 	}
 }

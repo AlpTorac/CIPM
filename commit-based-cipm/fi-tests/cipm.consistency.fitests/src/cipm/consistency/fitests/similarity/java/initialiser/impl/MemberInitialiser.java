@@ -9,13 +9,21 @@ import cipm.consistency.fitests.similarity.java.initialiser.IMemberInitialiser;
 public abstract class MemberInitialiser implements IMemberInitialiser {
 	private IMemberContainerInitialiser mcInit;
 	
-	public MemberInitialiser() {}
+	/**
+	 * Same function as {@link #setMCInit(IMemberContainerInitialiser)}.
+	 * Implemented to keep initialiser lists tidier.
+	 * @return This
+	 */
+	public MemberInitialiser withMCInit(IMemberContainerInitialiser mcInit) {
+		this.setMCInit(mcInit);
+		return this;
+	}
 	
-	public MemberInitialiser(IMemberContainerInitialiser mcInit) {
+	public void setMCInit(IMemberContainerInitialiser mcInit) {
 		this.mcInit = mcInit;
 	}
 	
-	protected IMemberContainerInitialiser getMCInit() {
+	public IMemberContainerInitialiser getMCInit() {
 		return this.mcInit;
 	}
 	
