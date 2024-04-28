@@ -3,10 +3,14 @@ package cipm.consistency.fitests.similarity.java.initialiser;
 import org.emftext.language.java.commons.NamespaceAwareElement;
 import org.emftext.language.java.containers.Module;
 import org.emftext.language.java.containers.Package;
+import org.emftext.language.java.modifiers.Modifiable;
 import org.emftext.language.java.modifiers.Open;
 import org.emftext.language.java.modules.ModuleDirective;
 
 public interface IModuleInitialiser extends IJavaRootInitialiser {
+	@Override
+	public Module instantiate();
+	
 	public default void initialiseOpen(Module mod, Open open) {
 		if (open != null) {
 			mod.setOpen(open);

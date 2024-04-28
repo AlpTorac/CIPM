@@ -1,7 +1,11 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
-public interface IStatementInitialiser extends ICommentableInitialiser {
+import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.statements.StatementContainer;
 
+public interface IStatementInitialiser extends ICommentableInitialiser {
+	@Override
+	public Statement instantiate();
 }
 
 /*

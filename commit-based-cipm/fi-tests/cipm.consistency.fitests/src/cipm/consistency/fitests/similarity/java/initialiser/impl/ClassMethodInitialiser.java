@@ -4,8 +4,18 @@ import org.emftext.language.java.members.MembersFactory;
 import org.emftext.language.java.members.ClassMethod;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IClassMethodInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.IMemberContainerInitialiser;
 
-public class ClassMethodInitialiser implements IClassMethodInitialiser, IInitialiser<ClassMethod> {
+public class ClassMethodInitialiser extends MemberInitialiser implements IClassMethodInitialiser {
+	public ClassMethodInitialiser() {
+		super();
+	}
+	
+	public ClassMethodInitialiser(IMemberContainerInitialiser mcInit) {
+		super(mcInit);
+	}
+
 	@Override
 	public ClassMethod instantiate() {
 		return MembersFactory.eINSTANCE.createClassMethod();
