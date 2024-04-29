@@ -21,7 +21,7 @@ public class NamedElementSimilarityTest extends EObjectSimilarityTest {
 	}
 	
 	protected NamedElement initElement(INamedElementInitialiser initialiser, String name) {
-		var result = initialiser.instantiate();
+		NamedElement result = initialiser.instantiate();
 		initialiser.initialiseName(result, name);
 		return result;
 	}

@@ -17,4 +17,9 @@ public class OrdinaryParameterInitialiser extends ParameterInitialiser implement
 	public OrdinaryParameterInitialiser withPInit(IParametrizableInitialiser pInit) {
 		return (OrdinaryParameterInitialiser) super.withPInit(pInit);
 	}
+
+	@Override
+	public ParameterInitialiser newInitialiser() {
+		return new OrdinaryParameterInitialiser();
+	}
 }

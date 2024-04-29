@@ -7,6 +7,8 @@ import java.util.stream.Stream;
 import org.junit.jupiter.params.provider.Arguments;
 
 public class ParameterUtil {
+	// TODO: Find a way to generate display names for arguments
+	
 	/**
 	 * @param arg1 Argument on the left hand side
 	 * @param arg2 Argument on the right hand side

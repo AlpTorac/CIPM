@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.initialiser.impl;
 
 import org.emftext.language.java.annotations.AnnotationsFactory;
 
+import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IAnnotationInstanceInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 
@@ -11,10 +12,11 @@ public class AnnotationInstanceInitialiser implements IAnnotationInstanceInitial
 	@Override
 	public AnnotationInstance instantiate() {
 		var fac = AnnotationsFactory.eINSTANCE;
-//		fac.createAnnotationAttributeSetting()
-//		fac.createAnnotationParameterList()
-//		fac.createSingleAnnotationParameter()
-		
 		return fac.createAnnotationInstance();
+	}
+
+	@Override
+	public IAnnotationInstanceInitialiser newInitialiser() {
+		return new AnnotationInstanceInitialiser();
 	}
 }
