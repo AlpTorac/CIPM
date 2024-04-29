@@ -7,9 +7,6 @@ import org.emftext.language.java.members.InterfaceMethod;
 
 public interface IJavaRootInitialiser extends INamedElementInitialiser, INamespaceAwareElementInitialiser,
 IAnnotableInitialiser, IImportingElementInitialiser {
-	@Override
-	public JavaRoot instantiate();
-	
 	public default void addClassifierInSamePackage(JavaRoot jr, ConcreteClassifier cc) {
 		if (cc != null) {
 			jr.getClassifiersInSamePackage().add(cc);
