@@ -4,6 +4,4 @@ import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.classifiers.Annotation;
 
 public interface IAnnotationInitialiser extends IConcreteClassifierInitialiser {
-	@Override
-	public Annotation instantiate();
 }

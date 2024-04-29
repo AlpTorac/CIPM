@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.initialiser.impl;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.MembersFactory;
 
+import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IFieldInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IMemberContainerInitialiser;
@@ -16,5 +17,10 @@ public class FieldInitialiser extends MemberInitialiser implements IFieldInitial
 	@Override
 	public FieldInitialiser withMCInit(IMemberContainerInitialiser mcInit) {
 		return (FieldInitialiser) super.withMCInit(mcInit);
+	}
+
+	@Override
+	public MemberInitialiser newInitialiser() {
+		return new FieldInitialiser();
 	}
 }

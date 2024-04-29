@@ -10,6 +10,4 @@ public interface IConstructorInitialiser extends IAnnotableAndModifiableInitiali
 	IParametrizableInitialiser,
 	IStatementListContainerInitialiser,
 	ITypeParametrizableInitialiser {
-	@Override
-	public Constructor instantiate();
 }

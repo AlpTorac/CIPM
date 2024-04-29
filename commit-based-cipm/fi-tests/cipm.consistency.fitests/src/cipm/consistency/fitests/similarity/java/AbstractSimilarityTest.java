@@ -140,6 +140,17 @@ public abstract class AbstractSimilarityTest {
 		return prefix + "_" + count;
 	}
 	
+	/**
+	 * Creates a {@link Resource} instance for the given EObject instances.
+	 * <br><br>
+	 * <b>!!! IMPORTANT !!!</b>
+	 * <br><br>
+	 * <b>Using this method will cause {@link AbstractSimilarityTest#LOGGER} to send
+	 * an error message, if some of the EObject instances (from eos) that are already in
+	 * a Resource instance are attempted to be placed into another Resource. This
+	 * should be avoided, since doing so will REMOVE the said EObject instances
+	 * from their former Resource and cause side effects in tests.</b>
+	 */
 	protected Resource createResource(Collection<? extends EObject> eos) {
 		Resource res = this.initResource(this.createURI(this.getResourceName()));
 		this.createdResources.add(res);

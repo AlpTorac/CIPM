@@ -11,4 +11,9 @@ public class EnumerationInitialiser extends ConcreteClassifierInitialiser implem
 		var fac = ClassifiersFactory.eINSTANCE;
 		return fac.createEnumeration();
 	}
+
+	@Override
+	public ConcreteClassifierInitialiser newInitialiser() {
+		return new EnumerationInitialiser();
+	}
 }

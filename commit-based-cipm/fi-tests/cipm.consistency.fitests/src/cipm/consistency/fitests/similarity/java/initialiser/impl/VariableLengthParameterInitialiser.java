@@ -17,4 +17,9 @@ public class VariableLengthParameterInitialiser extends ParameterInitialiser imp
 	public VariableLengthParameterInitialiser withPInit(IParametrizableInitialiser pInit) {
 		return (VariableLengthParameterInitialiser) super.withPInit(pInit);
 	}
+
+	@Override
+	public ParameterInitialiser newInitialiser() {
+		return new VariableLengthParameterInitialiser();
+	}
 }
