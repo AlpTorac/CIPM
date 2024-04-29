@@ -8,9 +8,6 @@ import org.emftext.language.java.modifiers.Open;
 import org.emftext.language.java.modules.ModuleDirective;
 
 public interface IModuleInitialiser extends IJavaRootInitialiser {
-	@Override
-	public Module instantiate();
-	
 	public default void initialiseOpen(Module mod, Open open) {
 		if (open != null) {
 			mod.setOpen(open);

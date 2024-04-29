@@ -5,9 +5,6 @@ import org.emftext.language.java.members.Field;
 import org.emftext.language.java.types.TypeReference;
 
 public interface IImplementorInitialiser extends ICommentableInitialiser {
-	@Override
-	public Implementor instantiate();
-	
 	public default void addImplements(Implementor implementor, TypeReference tref) {
 		if (tref != null) {
 			implementor.getImplements().add(tref);

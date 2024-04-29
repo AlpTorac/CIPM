@@ -5,9 +5,6 @@ import org.emftext.language.java.members.ExceptionThrower;
 import org.emftext.language.java.types.NamespaceClassifierReference;
 
 public interface IExceptionThrowerInitialiser extends ICommentableInitialiser {
-	@Override
-	public ExceptionThrower instantiate();
-	
 	public default void addException(ExceptionThrower extt, NamespaceClassifierReference ncref) {
 		if (ncref != null) {
 			extt.getExceptions().add(ncref);

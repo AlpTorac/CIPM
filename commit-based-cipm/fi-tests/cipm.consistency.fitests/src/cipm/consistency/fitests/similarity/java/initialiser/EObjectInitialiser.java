@@ -13,6 +13,16 @@ public interface EObjectInitialiser extends IInitialiser {
 		assert EcoreUtil.equals(obj, clone);
 		return clone;
 	}
+//	public <T extends EObjectInitialiser> T newInitialiser(T initialiser);
+	
+	/**
+	 * Returns a fresh instance of the passed initialiser. Passing the
+	 * initialiser is necessary for sparing type-casting and overriding
+	 * the signature of this method in all implementors.
+	 * 
+	 * @return A fresh instance of the passed initialiser
+	 */
+	public <T extends EObjectInitialiser> T newInitialiser();
 	
 	/**
 	 * Initialises the given EObject minimally with default values

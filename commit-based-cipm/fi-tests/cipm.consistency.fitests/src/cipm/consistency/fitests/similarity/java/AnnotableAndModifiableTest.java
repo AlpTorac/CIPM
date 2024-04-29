@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java;
 
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.annotations.AnnotationInstance;
+import org.emftext.language.java.classifiers.Annotation;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.generics.TypeParametrizable;
@@ -15,6 +16,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IAnnotableAndModifiableInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.IAnnotationInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.InitialiserVisibilityModifier;
 import cipm.consistency.fitests.similarity.java.initialiser.impl.AnnotationInitialiser;
@@ -25,6 +27,16 @@ import cipm.consistency.fitests.similarity.java.initialiser.impl.ConstructorInit
 import cipm.consistency.fitests.similarity.java.initialiser.params.ModifierFactory;
 import cipm.consistency.fitests.similarity.java.params.AnnotableAndModifiableTestParams;
 
+/**
+ * TODO: Write proper commentary
+ * <br><br>
+ * If loggers are enabled, the "X in unknown container: Y
+ * (can be empty, if a minimal instance is used) : null"
+ * warnings are to be expected. They are, however, not
+ * important in this case.
+ * 
+ * @author atora
+ */
 public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	private Modifier mod1;
 	private Modifier mod2;
@@ -42,14 +54,14 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		// TODO: Figure out a way to structurally initialise elements that require containers to function
 		// For example by creating minimal JavaRoot instances and adding the said element into them
 		
-		var ai = new AnnotationInitialiser();
+		IAnnotationInitialiser ai = new AnnotationInitialiser();
 		var aii = new AnnotationInstanceInitialiser();
 		
 		aii1 = aii.instantiate();
 		aii.minimalInitialisation(aii1);
 		aii.initialiseNamespace(aii1, "ns1");
 		
-		var ai1 = ai.instantiate();
+		Annotation ai1 = ai.instantiate();
 		ai.minimalInitialisation(ai1);
 		ai.initialiseName(ai1, "anno1");
 		aii.setAnnotation(aii1, ai1);
@@ -58,7 +70,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		aii.minimalInitialisation(aii2);
 		aii.initialiseNamespace(aii2, "ns2");
 		
-		var ai2 = ai.instantiate();
+		Annotation ai2 = ai.instantiate();
 		ai.minimalInitialisation(ai2);
 		ai.initialiseName(ai2, "anno2");
 		aii.setAnnotation(aii2, ai2);
@@ -73,13 +85,22 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		super.setUp();
 	}
 	
+	/**
+	 * Returning {@code result} on its own works for the tests.
+	 * 
+	 * Uncommenting and returning {@code root} also works. If this is preferred,
+	 * the inner initialisers for {@link MemberInitialiser} and
+	 * {@link ParameterInitialiser} have to be set. {@link ConcreteClassifierInitialiser}
+	 * already has its inner initialiser set (since there is only one possibility).
+	 */
 	protected EObject initElement(IAnnotableAndModifiableInitialiser initialiser,
 			Modifier[] mods,
 			AnnotationInstance[] ais,
 			InitialiserVisibilityModifier visibility) {
 		
-		var result = initialiser.instantiate();
-		var root = initialiser.minimalInitialisationWithContainer(result);
+		AnnotableAndModifiable result = initialiser.instantiate();
+//		var root = initialiser.minimalInitialisationWithContainer(result);
+		initialiser.minimalInitialisation(result);
 		
 		if (mods != null) {
 			for (var m : mods) initialiser.addModifier(result, m);
@@ -125,12 +146,13 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 //			return unit;
 //		}
 		
-		return root;
+//		return root;
+		return result;
 	}
 	
-	@ParameterizedTest
+	@ParameterizedTest(name = "{index}: {1}")
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testSameModifier(IAnnotableAndModifiableInitialiser initialiser) {
+	public void testSameModifier(IAnnotableAndModifiableInitialiser initialiser, String testName) {
 		this.setResourceFileTestIdentifier("testSameModifier");
 		
 		var objOne = this.initElement(initialiser, new Modifier[] {mod1, mod2}, null, null);
@@ -140,9 +162,9 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	
 	// TODO: Clarify whether such differences matter, currently they do not matter
 //	@Disabled("See TODO")
-	@ParameterizedTest
+	@ParameterizedTest(name = "{index}: {1}")
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testDifferentModifier(IAnnotableAndModifiableInitialiser initialiser) {
+	public void testDifferentModifier(IAnnotableAndModifiableInitialiser initialiser, String testName) {
 		this.setResourceFileTestIdentifier("testDifferentModifier");
 		
 		var objOne = this.initElement(initialiser, new Modifier[] {mod1, mod2}, null, null);
@@ -151,9 +173,9 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		this.compareX(objOne, objTwo, true);
 	}
 	
-	@ParameterizedTest
+	@ParameterizedTest(name = "{index}: {1}")
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testSameAnnoInstance(IAnnotableAndModifiableInitialiser initialiser) {
+	public void testSameAnnoInstance(IAnnotableAndModifiableInitialiser initialiser, String testName) {
 		this.setResourceFileTestIdentifier("testSameAnnoInstance");
 		
 		var objOne = this.initElement(initialiser, null, new AnnotationInstance[] {aii1}, null);
@@ -163,9 +185,9 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	
 	// TODO: Clarify whether such differences matter, currently they do not matter
 //	@Disabled("See TODO")
-	@ParameterizedTest
+	@ParameterizedTest(name = "{index}: {1}")
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testDifferentAnnoInstance(IAnnotableAndModifiableInitialiser initialiser) {
+	public void testDifferentAnnoInstance(IAnnotableAndModifiableInitialiser initialiser, String testName) {
 		this.setResourceFileTestIdentifier("testDifferentAnnoInstance");
 		
 		var objOne = this.initElement(initialiser, null, new AnnotationInstance[] {aii1}, null);
@@ -174,9 +196,9 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		this.compareX(objOne, objTwo, true);
 	}
 	
-	@ParameterizedTest
+	@ParameterizedTest(name = "{index}: {1}")
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testSameVisibility(IAnnotableAndModifiableInitialiser initialiser) {
+	public void testSameVisibility(IAnnotableAndModifiableInitialiser initialiser, String testName) {
 		this.setResourceFileTestIdentifier("testSameVisibility");
 		
 		var objOne = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PRIVATE);
@@ -186,9 +208,9 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	
 	// TODO: Clarify whether such differences matter, currently they do not matter
 //	@Disabled("See TODO")
-	@ParameterizedTest
+	@ParameterizedTest(name = "{index}: {1}")
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testDifferentVisibility(IAnnotableAndModifiableInitialiser initialiser) {
+	public void testDifferentVisibility(IAnnotableAndModifiableInitialiser initialiser, String testName) {
 		this.setResourceFileTestIdentifier("testDifferentVisibility");
 		
 		var objOne = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PRIVATE);

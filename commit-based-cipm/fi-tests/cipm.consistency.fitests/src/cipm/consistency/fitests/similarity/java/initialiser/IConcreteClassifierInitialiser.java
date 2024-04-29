@@ -11,8 +11,6 @@ public interface IConcreteClassifierInitialiser extends
 	IStatementInitialiser,
 	IClassifierInitialiser,
 	ITypeParametrizableInitialiser {
-	@Override
-	public ConcreteClassifier instantiate();
 	
 	public default void addInnerClassifier(ConcreteClassifier cls, ConcreteClassifier toBeAddedToCls) {
 		if (toBeAddedToCls != null) {

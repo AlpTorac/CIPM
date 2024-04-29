@@ -6,9 +6,6 @@ import org.emftext.language.java.references.Argumentable;
 import org.emftext.language.java.types.Type;
 
 public interface IArgumentableInitialiser extends ICommentableInitialiser {
-	@Override
-	public Argumentable instantiate();
-	
 	public default void addArgument(Argumentable argable, Expression expr) {
 		if (expr != null) {
 			argable.getArguments().add(expr);

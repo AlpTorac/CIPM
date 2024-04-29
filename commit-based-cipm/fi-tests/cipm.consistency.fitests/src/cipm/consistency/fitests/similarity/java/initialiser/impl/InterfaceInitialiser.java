@@ -11,4 +11,9 @@ public class InterfaceInitialiser extends ConcreteClassifierInitialiser implemen
 		var fac = ClassifiersFactory.eINSTANCE;
 		return fac.createInterface();
 	}
+	
+	@Override
+	public ConcreteClassifierInitialiser newInitialiser() {
+		return new InterfaceInitialiser();
+	}
 }

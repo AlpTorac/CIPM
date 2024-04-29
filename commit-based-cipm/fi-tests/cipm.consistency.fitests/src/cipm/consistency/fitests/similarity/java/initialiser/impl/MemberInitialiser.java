@@ -2,7 +2,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.impl;
 
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.members.Member;
+import org.emftext.language.java.members.MemberContainer;
 
+import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IMemberContainerInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IMemberInitialiser;
 
@@ -34,11 +36,14 @@ public abstract class MemberInitialiser implements IMemberInitialiser {
 		
 		var mcInit = this.getMCInit();
 		
-		var mc = mcInit.instantiate();
+		MemberContainer mc = mcInit.instantiate();
 		
 		var root = mcInit.minimalInitialisationWithContainer(mc);
 		mcInit.addMember(mc, castedO);
 		
 		return root;
 	}
+	
+	@Override
+	public abstract MemberInitialiser newInitialiser();
 }
