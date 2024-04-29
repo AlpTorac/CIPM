@@ -6,9 +6,6 @@ import org.emftext.language.java.classifiers.Annotation;
 import org.emftext.language.java.classifiers.Classifier;
 
 public interface IAnnotationInstanceInitialiser extends INamespaceAwareElementInitialiser {
-	@Override
-	public AnnotationInstance instantiate();
-	
 	public default void setAnnotation(AnnotationInstance ai, Classifier cls) {
 		if (cls != null) {
 			ai.setAnnotation(cls);

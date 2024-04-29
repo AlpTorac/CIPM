@@ -50,7 +50,7 @@ public class AnnotableTest extends EObjectSimilarityTest {
 	}
 	
 	protected Annotable initElement(IAnnotableInitialiser initialiser, AnnotationInstance... annotations) {
-		var result = initialiser.instantiate();
+		Annotable result = initialiser.instantiate();
 		initialiser.minimalInitialisation(result);
 		initialiser.addAnnotations(result, annotations);
 		return result;

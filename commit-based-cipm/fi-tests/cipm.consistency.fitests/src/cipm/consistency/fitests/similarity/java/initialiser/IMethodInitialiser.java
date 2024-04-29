@@ -11,7 +11,4 @@ public interface IMethodInitialiser extends IAnnotableAndModifiableInitialiser,
 	IStatementContainerInitialiser,
 	ITypedElementInitialiser,
 	ITypeParametrizableInitialiser {
-	
-	@Override
-	public Method instantiate();
 }

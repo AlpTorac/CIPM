@@ -17,4 +17,9 @@ public class ReceiverParameterInitialiser extends ParameterInitialiser implement
 	public ReceiverParameterInitialiser withPInit(IParametrizableInitialiser pInit) {
 		return (ReceiverParameterInitialiser) super.withPInit(pInit);
 	}
+
+	@Override
+	public ParameterInitialiser newInitialiser() {
+		return new ReceiverParameterInitialiser();
+	}
 }

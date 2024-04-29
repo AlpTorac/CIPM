@@ -5,6 +5,4 @@ import org.emftext.language.java.statements.BlockContainer;
 
 public interface IBlockInitialiser extends IModifiableInitialiser, IMemberInitialiser,
 	IStatementInitialiser, IStatementListContainerInitialiser {
-	@Override
-	public Block instantiate();
 }

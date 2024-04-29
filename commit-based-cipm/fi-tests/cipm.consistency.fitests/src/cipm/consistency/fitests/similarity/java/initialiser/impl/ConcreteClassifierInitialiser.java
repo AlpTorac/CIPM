@@ -4,6 +4,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 
+import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.ICompilationUnitInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IConcreteClassifierInitialiser;
 
@@ -30,11 +31,14 @@ public abstract class ConcreteClassifierInitialiser implements IConcreteClassifi
 		this.minimalInitialisation(castedO);
 		
 		var cuInit = this.getCUInit();
-		var unit = cuInit.instantiate();
+		CompilationUnit unit = cuInit.instantiate();
 		
 		cuInit.minimalInitialisation(unit);
 		cuInit.addClassifier(unit, castedO);
 		
 		return unit;
 	}
+	
+	@Override
+	public abstract ConcreteClassifierInitialiser newInitialiser();
 }

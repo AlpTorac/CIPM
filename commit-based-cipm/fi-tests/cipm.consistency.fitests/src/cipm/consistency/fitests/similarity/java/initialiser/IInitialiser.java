@@ -15,5 +15,5 @@ public interface IInitialiser {
 	 * would require overriding this method in each Initialiser interface just to alter the
 	 * return type.
 	 */
-	public EObject instantiate();
+	public <T extends EObject> T instantiate();
 }

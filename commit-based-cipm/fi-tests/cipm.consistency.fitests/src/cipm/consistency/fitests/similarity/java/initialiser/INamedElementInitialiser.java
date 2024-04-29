@@ -5,9 +5,6 @@ import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.containers.Module;
 
 public interface INamedElementInitialiser extends ICommentableInitialiser {
-	@Override
-	public NamedElement instantiate();
-	
 	public default String getDefaultName() {
 		return "";
 	}

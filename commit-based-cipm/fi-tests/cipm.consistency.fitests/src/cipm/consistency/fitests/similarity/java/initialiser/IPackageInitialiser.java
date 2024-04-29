@@ -9,9 +9,6 @@ import org.emftext.language.java.parameters.OrdinaryParameter;
  * Package names (package.getName()) are supposed to always be empty. The names are saved in namespace.
  */
 public interface IPackageInitialiser extends IJavaRootInitialiser, IReferenceableElementInitialiser {
-	@Override
-	public Package instantiate();
-	
 	public default void initialiseModuleField(Package pac, Module mod) {
 		if (mod != null) {
 			pac.setModule(mod);
