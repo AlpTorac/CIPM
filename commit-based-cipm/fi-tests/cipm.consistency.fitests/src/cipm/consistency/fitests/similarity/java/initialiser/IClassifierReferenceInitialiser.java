@@ -1,5 +1,7 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
-public interface IClassifierReferenceInitialiser extends ITypeArgumentableInitialiser {
+public interface IClassifierReferenceInitialiser extends ITypeArgumentableInitialiser,
+	IAnnotableInitialiser,
+	ITypeReferenceInitialiser {
 	
 }
