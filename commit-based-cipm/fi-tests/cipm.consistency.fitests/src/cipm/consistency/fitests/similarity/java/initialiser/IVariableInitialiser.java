@@ -5,4 +5,5 @@ import org.emftext.language.java.variables.Variable;
 
 public interface IVariableInitialiser extends IReferenceableElementInitialiser,
 	ITypeArgumentableInitialiser, ITypedElementInitialiser {
+	// TODO: Inspect createMethodCall methods
 }
