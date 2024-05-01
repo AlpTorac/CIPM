@@ -1,6 +1,5 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
-import org.emftext.language.java.parameters.Parametrizable;
 import org.emftext.language.java.parameters.ReceiverParameter;
 import org.emftext.language.java.types.TypeReference;
 
