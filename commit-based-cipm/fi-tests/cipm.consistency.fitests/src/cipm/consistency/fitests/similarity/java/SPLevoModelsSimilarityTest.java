@@ -259,10 +259,10 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 		this.testSimilarity(res1, res2, areSimilar);
 	}
 	
-	@Disabled("Not functional")
 	@ParameterizedTest
 	@MethodSource({"generateUnsimilarityTestParams"})
 	public void differentFileSimilarityTest(Resource res1, Resource res2, Boolean areSimilar) {
+		// TODO: Make a break point and check the parsed java resource or save it as a file and check
 		this.testSimilarity(res1, res2, areSimilar);
 	}
 }
