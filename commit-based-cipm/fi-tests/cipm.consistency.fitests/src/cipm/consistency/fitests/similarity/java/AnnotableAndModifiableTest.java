@@ -16,14 +16,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IAnnotableAndModifiableInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IAnnotationInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.InitialiserVisibilityModifier;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.AnnotationInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.AnnotationInstanceInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.ClassInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.CompilationUnitInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.ConstructorInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.annotations.AnnotationInstanceInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.classifiers.AnnotationInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.classifiers.IAnnotationInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.containers.CompilationUnitInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.members.ConstructorInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.params.ModifierFactory;
 import cipm.consistency.fitests.similarity.java.params.AnnotableAndModifiableTestParams;
 

@@ -4,8 +4,8 @@ import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IModuleInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.ModuleInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.containers.IModuleInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.containers.ModuleInitialiser;
 
 public class ModuleSimilarityTest extends EObjectSimilarityTest {
 	private IModuleInitialiser moduleInitialiser;

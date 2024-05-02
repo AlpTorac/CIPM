@@ -13,21 +13,21 @@ import cipm.consistency.fitests.similarity.java.initialiser.IMemberContainerInit
 import cipm.consistency.fitests.similarity.java.initialiser.IMemberInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IParameterInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IParametrizableInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.AnnotationInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.CatchParameterInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.ClassInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.ClassMethodInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.ConstructorInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.EnumerationInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.FieldInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.InterfaceInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.InterfaceMethodInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.LocalVariableInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.MemberInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.OrdinaryParameterInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.ParameterInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.ReceiverParameterInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.VariableLengthParameterInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.MemberInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.ParameterInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.classifiers.AnnotationInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.classifiers.EnumerationInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.classifiers.InterfaceInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.members.ClassMethodInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.members.ConstructorInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.members.FieldInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.members.InterfaceMethodInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.parameters.CatchParameterInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.parameters.OrdinaryParameterInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.parameters.ReceiverParameterInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.parameters.VariableLengthParameterInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.variables.LocalVariableInitialiser;
 
 public class AnnotableAndModifiableTestParams implements ArgumentsProvider {
 
