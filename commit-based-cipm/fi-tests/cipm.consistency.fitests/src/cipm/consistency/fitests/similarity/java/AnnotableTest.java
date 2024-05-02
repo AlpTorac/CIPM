@@ -9,8 +9,8 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IAnnotableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.AnnotationInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.AnnotationInstanceInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.annotations.AnnotationInstanceInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.classifiers.AnnotationInitialiser;
 import cipm.consistency.fitests.similarity.java.params.AnnotableTestParams;
 
 public class AnnotableTest extends EObjectSimilarityTest {
