@@ -12,8 +12,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.splevo.jamopp.diffing.similarity.switches.ContainersSimilaritySwitch;
 
-import cipm.consistency.fitests.similarity.java.initialiser.impl.ModuleInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.PackageInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.containers.ModuleInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageInitialiser;
 import cipm.consistency.fitests.similarity.java.utils.DummySimilaritySwitch;
 import cipm.consistency.fitests.similarity.java.utils.IJavaModelConstructor;
 import cipm.consistency.fitests.similarity.java.utils.InnerSwitchFactory;

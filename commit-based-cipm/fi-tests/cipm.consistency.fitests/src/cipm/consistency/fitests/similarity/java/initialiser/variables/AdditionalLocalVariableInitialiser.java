@@ -1,0 +1,21 @@
+package cipm.consistency.fitests.similarity.java.initialiser.variables;
+
+import org.emftext.language.java.variables.VariablesFactory;
+
+import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
+
+import org.emftext.language.java.variables.AdditionalLocalVariable;
+
+public class AdditionalLocalVariableInitialiser implements IAdditionalLocalVariableInitialiser {
+	// TODO: Implement minimalInitialisationWithContainer 
+	
+	@Override
+	public AdditionalLocalVariable instantiate() {
+		return VariablesFactory.eINSTANCE.createAdditionalLocalVariable();
+	}
+	
+	@Override
+	public IAdditionalLocalVariableInitialiser newInitialiser() {
+		return new AdditionalLocalVariableInitialiser();
+	}
+}

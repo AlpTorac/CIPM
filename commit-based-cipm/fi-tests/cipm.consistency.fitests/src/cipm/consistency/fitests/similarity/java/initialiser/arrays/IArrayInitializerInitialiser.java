@@ -1,0 +1,17 @@
+package cipm.consistency.fitests.similarity.java.initialiser.arrays;
+
+import org.emftext.language.java.arrays.ArrayInitializationValue;
+import org.emftext.language.java.arrays.ArrayInitializer;
+
+import cipm.consistency.fitests.similarity.java.initialiser.IAnnotationValueInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.IArrayInitializationValueInitialiser;
+
+public interface IArrayInitializerInitialiser extends IAnnotationValueInitialiser,
+	IArrayInitializationValueInitialiser {
+	public default void addInitialValue(ArrayInitializer ai, ArrayInitializationValue aiv) {
+		if (aiv != null) {
+			ai.getInitialValues().add(aiv);
+			assert ai.getInitialValues().contains(aiv);
+		}
+	}
+}
