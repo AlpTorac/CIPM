@@ -1,0 +1,16 @@
+package cipm.consistency.fitests.similarity.java.initialiser.statements;
+
+import org.emftext.language.java.statements.ForEachLoop;
+import org.emftext.language.java.statements.StatementsFactory;
+
+public class ForEachLoopInitialiser implements IForEachLoopInitialiser {
+	@Override
+	public IForEachLoopInitialiser newInitialiser() {
+		return new ForEachLoopInitialiser();
+	}
+
+	@Override
+	public ForEachLoop instantiate() {
+		return StatementsFactory.eINSTANCE.createForEachLoop();
+	}
+}

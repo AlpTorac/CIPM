@@ -7,9 +7,9 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
 import cipm.consistency.fitests.similarity.java.initialiser.INamespaceAwareElementInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.CompilationUnitInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.ModuleInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.impl.PackageInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.containers.CompilationUnitInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.containers.ModuleInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageInitialiser;
 
 public class NamespaceTestParams implements ArgumentsProvider {
 	@Override
