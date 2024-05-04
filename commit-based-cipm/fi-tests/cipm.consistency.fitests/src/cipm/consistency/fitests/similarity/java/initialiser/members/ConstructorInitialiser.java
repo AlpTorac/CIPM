@@ -4,12 +4,12 @@ import org.emftext.language.java.members.MembersFactory;
 
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IMemberContainerInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.MemberInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.MemberContaineeInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IMemberContainerInitialiser;
 
 import org.emftext.language.java.members.Constructor;
 
-public class ConstructorInitialiser extends MemberInitialiser implements IConstructorInitialiser {
+public class ConstructorInitialiser extends MemberContaineeInitialiser implements IConstructorInitialiser {
 	@Override
 	public Constructor instantiate() {
 		return MembersFactory.eINSTANCE.createConstructor();
@@ -21,7 +21,7 @@ public class ConstructorInitialiser extends MemberInitialiser implements IConstr
 	}
 
 	@Override
-	public MemberInitialiser newInitialiser() {
+	public MemberContaineeInitialiser newInitialiser() {
 		return new ConstructorInitialiser();
 	}
 }

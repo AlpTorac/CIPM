@@ -7,7 +7,7 @@ import org.emftext.language.java.containers.CompilationUnit;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.CompilationUnitInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.ICompilationUnitInitialiser;
 
-public abstract class ConcreteClassifierInitialiser implements IConcreteClassifierInitialiser {
+public abstract class ConcreteClassifierInitialiser implements EObjectInitialiser {
 	/**
 	 * Since {@link CompilationUnit} is the only root ({@link JavaRoot}) element,
 	 * whose {@link ConcreteClassifier}s can be directly modified, providing a

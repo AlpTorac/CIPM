@@ -4,7 +4,7 @@ import org.emftext.language.java.expressions.InstanceOfExpression;
 import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IEqualityExpressionChildInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.ITypedElementInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.ITypedElementInitialiser;
 
 public interface IInstanceOfExpressionInitialiser extends
 	IEqualityExpressionChildInitialiser,

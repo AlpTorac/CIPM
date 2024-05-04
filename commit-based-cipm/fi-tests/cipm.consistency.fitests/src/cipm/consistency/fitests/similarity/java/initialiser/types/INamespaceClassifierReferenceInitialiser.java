@@ -3,8 +3,8 @@ package cipm.consistency.fitests.similarity.java.initialiser.types;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.NamespaceClassifierReference;
 
-import cipm.consistency.fitests.similarity.java.initialiser.INamespaceAwareElementInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.ITypeReferenceInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.INamespaceAwareElementInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.ITypeReferenceInitialiser;
 
 public interface INamespaceClassifierReferenceInitialiser extends
 	INamespaceAwareElementInitialiser,

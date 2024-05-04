@@ -6,7 +6,6 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
-import cipm.consistency.fitests.similarity.java.initialiser.INamedElementInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.AnnotationInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.EnumerationInitialiser;
@@ -25,25 +24,13 @@ import cipm.consistency.fitests.similarity.java.initialiser.parameters.OrdinaryP
 import cipm.consistency.fitests.similarity.java.initialiser.parameters.ReceiverParameterInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.parameters.VariableLengthParameterInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.BlockInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.INamedElementInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.variables.AdditionalLocalVariableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.variables.LocalVariableInitialiser;
 
 public class NameTestParams implements ArgumentsProvider {
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
-		/*
-		 * ConcreteClassifier +
-		 * TypeParameter +
-		 * Method +
-		 * Constructor +
-		 * EnumConstant +
-		 * Member +
-		 * Parameter +
-		 * TODO: Add JumpLabel
-		 * Variable +
-		 * AdditionalLocalVariable +
-		 */
-		
 		return new InitialiserParameters()
 				.getInitialisersBySuper(INamedElementInitialiser.class)
 				.stream()

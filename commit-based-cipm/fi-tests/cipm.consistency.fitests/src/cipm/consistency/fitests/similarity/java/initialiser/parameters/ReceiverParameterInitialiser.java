@@ -4,8 +4,8 @@ import org.emftext.language.java.parameters.ParametersFactory;
 import org.emftext.language.java.parameters.ReceiverParameter;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IParametrizableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.ParameterInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IParametrizableInitialiser;
 
 public class ReceiverParameterInitialiser extends ParameterInitialiser implements IReceiverParameterInitialiser {
 	@Override

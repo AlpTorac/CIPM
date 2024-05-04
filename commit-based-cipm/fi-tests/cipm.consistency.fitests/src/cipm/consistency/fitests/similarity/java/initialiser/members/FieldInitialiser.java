@@ -5,10 +5,10 @@ import org.emftext.language.java.members.MembersFactory;
 
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IMemberContainerInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.MemberInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.MemberContaineeInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IMemberContainerInitialiser;
 
-public class FieldInitialiser extends MemberInitialiser implements IFieldInitialiser {
+public class FieldInitialiser extends MemberContaineeInitialiser implements IFieldInitialiser {
 	@Override
 	public Field instantiate() {
 		return MembersFactory.eINSTANCE.createField();
@@ -20,7 +20,7 @@ public class FieldInitialiser extends MemberInitialiser implements IFieldInitial
 	}
 
 	@Override
-	public MemberInitialiser newInitialiser() {
+	public MemberContaineeInitialiser newInitialiser() {
 		return new FieldInitialiser();
 	}
 }

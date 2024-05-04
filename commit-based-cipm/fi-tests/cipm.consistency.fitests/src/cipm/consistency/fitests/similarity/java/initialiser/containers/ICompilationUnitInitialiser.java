@@ -4,7 +4,7 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IJavaRootInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IJavaRootInitialiser;
 
 public interface ICompilationUnitInitialiser extends IJavaRootInitialiser {
 	public default void addImport(CompilationUnit cu, String imprt) {
