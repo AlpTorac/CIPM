@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.initialiser.generics;
 
 import org.emftext.language.java.generics.TypeParameter;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ConcreteClassifierInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 

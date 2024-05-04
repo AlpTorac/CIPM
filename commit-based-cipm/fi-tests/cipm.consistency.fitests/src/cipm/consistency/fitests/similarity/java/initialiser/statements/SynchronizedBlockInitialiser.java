@@ -3,10 +3,10 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.emftext.language.java.statements.SynchronizedBlock;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IMemberContainerInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.MemberInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.MemberContaineeInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IMemberContainerInitialiser;
 
-public class SynchronizedBlockInitialiser extends MemberInitialiser implements ISynchronizedBlockInitialiser {
+public class SynchronizedBlockInitialiser extends MemberContaineeInitialiser implements ISynchronizedBlockInitialiser {
 	@Override
 	public SynchronizedBlock instantiate() {
 		return StatementsFactory.eINSTANCE.createSynchronizedBlock();
@@ -18,7 +18,7 @@ public class SynchronizedBlockInitialiser extends MemberInitialiser implements I
 	}
 
 	@Override
-	public MemberInitialiser newInitialiser() {
+	public MemberContaineeInitialiser newInitialiser() {
 		return new SynchronizedBlockInitialiser();
 	}
 }

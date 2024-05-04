@@ -4,6 +4,8 @@ import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.parameters.Parametrizable;
 
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IParametrizableInitialiser;
+
 public abstract class ParameterInitialiser implements IParameterInitialiser {
 	private IParametrizableInitialiser pInit;
 	

@@ -7,7 +7,7 @@ import org.emftext.language.java.modifiers.Modifiable;
 import org.emftext.language.java.modifiers.Open;
 import org.emftext.language.java.modules.ModuleDirective;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IJavaRootInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IJavaRootInitialiser;
 
 public interface IModuleInitialiser extends IJavaRootInitialiser {
 	public default void initialiseOpen(Module mod, Open open) {
