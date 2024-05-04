@@ -10,13 +10,10 @@ import org.eclipse.emf.ecore.util.Switch;
 import org.emftext.language.java.containers.Origin;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.splevo.jamopp.diffing.similarity.switches.ContainersSimilaritySwitch;
 
 import cipm.consistency.fitests.similarity.java.initialiser.containers.ModuleInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageInitialiser;
-import cipm.consistency.fitests.similarity.java.utils.DummySimilaritySwitch;
 import cipm.consistency.fitests.similarity.java.utils.IJavaModelConstructor;
-import cipm.consistency.fitests.similarity.java.utils.InnerSwitchFactory;
 
 public class PackageSimilarityTest extends AbstractSimilarityTest {
 //	@Override
