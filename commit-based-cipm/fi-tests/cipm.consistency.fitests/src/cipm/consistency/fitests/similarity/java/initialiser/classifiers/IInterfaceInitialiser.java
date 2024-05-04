@@ -4,7 +4,7 @@ import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.instantiations.Initializable;
 import org.emftext.language.java.types.TypeReference;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IConcreteClassifierInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IConcreteClassifierInitialiser;
 
 public interface IInterfaceInitialiser extends IConcreteClassifierInitialiser {
 	public default void addDefaultExtends(Interface intfc, TypeReference tref) {

@@ -4,7 +4,7 @@ import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.members.ClassMethod;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IMethodInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IStatementListContainerInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IStatementListContainerInitialiser;
 
 public interface IClassMethodInitialiser extends IMethodInitialiser, IStatementListContainerInitialiser {
 }

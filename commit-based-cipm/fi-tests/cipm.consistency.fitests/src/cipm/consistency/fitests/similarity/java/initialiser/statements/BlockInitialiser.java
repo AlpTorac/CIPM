@@ -2,12 +2,12 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 
 import org.emftext.language.java.statements.StatementsFactory;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IMemberContainerInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.MemberInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.MemberContaineeInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IMemberContainerInitialiser;
 
 import org.emftext.language.java.statements.Block;
 
-public class BlockInitialiser extends MemberInitialiser implements IBlockInitialiser {
+public class BlockInitialiser extends MemberContaineeInitialiser implements IBlockInitialiser {
 	@Override
 	public Block instantiate() {
 		return StatementsFactory.eINSTANCE.createBlock();
@@ -19,7 +19,7 @@ public class BlockInitialiser extends MemberInitialiser implements IBlockInitial
 	}
 
 	@Override
-	public MemberInitialiser newInitialiser() {
+	public MemberContaineeInitialiser newInitialiser() {
 		return new BlockInitialiser();
 	}
 }

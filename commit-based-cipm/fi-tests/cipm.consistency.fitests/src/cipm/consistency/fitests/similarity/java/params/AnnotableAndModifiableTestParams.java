@@ -7,13 +7,9 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IAnnotableAndModifiableInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IConcreteClassifierInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IMemberContainerInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IMemberInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IParameterInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IParametrizableInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.MemberInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.MemberContaineeInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.ParameterInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.AnnotationInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
@@ -27,6 +23,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.parameters.CatchPara
 import cipm.consistency.fitests.similarity.java.initialiser.parameters.OrdinaryParameterInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.parameters.ReceiverParameterInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.parameters.VariableLengthParameterInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IAnnotableAndModifiableInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IConcreteClassifierInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IMemberContainerInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IParametrizableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.variables.LocalVariableInitialiser;
 
 public class AnnotableAndModifiableTestParams implements ArgumentsProvider {
