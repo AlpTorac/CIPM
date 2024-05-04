@@ -4,10 +4,10 @@ import org.emftext.language.java.members.AdditionalField;
 import org.emftext.language.java.members.ExceptionThrower;
 import org.emftext.language.java.members.Field;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IAnnotableAndModifiableInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IInitializableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IMemberInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IVariableInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IAnnotableAndModifiableInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IInitializableInitialiser;
 
 public interface IFieldInitialiser extends IAnnotableAndModifiableInitialiser,
 	IInitializableInitialiser, IMemberInitialiser, IVariableInitialiser {

@@ -4,7 +4,7 @@ import org.emftext.language.java.arrays.ArrayInstantiationBySize;
 import org.emftext.language.java.expressions.Expression;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IArrayInstantiationInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.ITypedElementInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.ITypedElementInitialiser;
 
 public interface IArrayInstantiationBySizeInitialiser extends 
 	IArrayInstantiationInitialiser,

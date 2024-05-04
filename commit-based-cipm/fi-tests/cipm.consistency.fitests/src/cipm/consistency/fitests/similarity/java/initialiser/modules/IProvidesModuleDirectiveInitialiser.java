@@ -4,7 +4,7 @@ import org.emftext.language.java.modules.ProvidesModuleDirective;
 import org.emftext.language.java.types.TypeReference;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IModuleDirectiveInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.ITypedElementInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.ITypedElementInitialiser;
 
 public interface IProvidesModuleDirectiveInitialiser extends
 	IModuleDirectiveInitialiser,

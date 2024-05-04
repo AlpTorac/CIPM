@@ -3,10 +3,10 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.StatementsFactory;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IMemberContainerInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.MemberInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.MemberContaineeInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IMemberContainerInitialiser;
 
-public class CatchBlockInitialiser extends MemberInitialiser implements ICatchBlockInitialiser {
+public class CatchBlockInitialiser extends MemberContaineeInitialiser implements ICatchBlockInitialiser {
 	@Override
 	public CatchBlock instantiate() {
 		return StatementsFactory.eINSTANCE.createCatchBlock();
@@ -18,7 +18,7 @@ public class CatchBlockInitialiser extends MemberInitialiser implements ICatchBl
 	}
 
 	@Override
-	public MemberInitialiser newInitialiser() {
+	public MemberContaineeInitialiser newInitialiser() {
 		return new CatchBlockInitialiser();
 	}
 }

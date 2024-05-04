@@ -3,8 +3,8 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.NormalSwitchCase;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IConditionalInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.ISwitchCaseInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IConditionalInitialiser;
 
 public interface INormalSwitchCaseInitialiser extends IConditionalInitialiser,
 	ISwitchCaseInitialiser {

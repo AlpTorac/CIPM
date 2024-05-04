@@ -4,7 +4,7 @@ import org.emftext.language.java.arrays.ArrayInstantiationBySize;
 import org.emftext.language.java.arrays.ArraysFactory;
 import org.emftext.language.java.references.ElementReference;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IElementReferenceInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IElementReferenceInitialiser;
 
 public class ArrayInstantiationBySizeInitialiser implements IArrayInstantiationBySizeInitialiser {
 	@Override

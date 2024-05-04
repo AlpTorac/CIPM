@@ -3,10 +3,10 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.emftext.language.java.statements.TryBlock;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IMemberContainerInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.MemberInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.MemberContaineeInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IMemberContainerInitialiser;
 
-public class TryBlockInitialiser extends MemberInitialiser implements ITryBlockInitialiser {
+public class TryBlockInitialiser extends MemberContaineeInitialiser implements ITryBlockInitialiser {
 	@Override
 	public TryBlock instantiate() {
 		return StatementsFactory.eINSTANCE.createTryBlock();
@@ -18,7 +18,7 @@ public class TryBlockInitialiser extends MemberInitialiser implements ITryBlockI
 	}
 
 	@Override
-	public MemberInitialiser newInitialiser() {
+	public MemberContaineeInitialiser newInitialiser() {
 		return new TryBlockInitialiser();
 	}
 }

@@ -4,9 +4,9 @@ import org.emftext.language.java.containers.JavaRoot;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 import org.emftext.language.java.variables.LocalVariable;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IAnnotableAndModifiableInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IInitializableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IVariableInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IAnnotableAndModifiableInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IInitializableInitialiser;
 
 public interface ILocalVariableInitialiser extends
 	IAnnotableAndModifiableInitialiser,
