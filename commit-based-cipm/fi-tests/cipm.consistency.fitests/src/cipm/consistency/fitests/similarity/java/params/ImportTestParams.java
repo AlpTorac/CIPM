@@ -6,17 +6,19 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
-import cipm.consistency.fitests.similarity.java.initialiser.generics.ITypeParameterInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IClassifierInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.ImportInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.testable.IImportInitialiser;
 
-public class ClassifierTestParams implements ArgumentsProvider {
+public class ImportTestParams implements ArgumentsProvider {
 
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
 		return new InitialiserParameters()
-				.getInitialisersBySuper(IClassifierInitialiser.class)
+				.getInitialisersBySuper(IImportInitialiser.class)
 				.stream()
-				.filter((i) -> !ITypeParameterInitialiser.class.isInstance(i))
+				.map((i) -> ((ImportInitialiser) i).withClsInit(new ClassInitialiser()))
 				.map((i) -> Arguments.of(i));
 	}
+
 }
