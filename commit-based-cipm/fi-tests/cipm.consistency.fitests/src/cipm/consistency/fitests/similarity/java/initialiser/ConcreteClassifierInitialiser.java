@@ -4,20 +4,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 
-import cipm.consistency.fitests.similarity.java.initialiser.containers.CompilationUnitInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.containers.ICompilationUnitInitialiser;
-
-public abstract class ConcreteClassifierInitialiser implements EObjectInitialiser {
-	/**
-	 * Since {@link CompilationUnit} is the only root ({@link JavaRoot}) element,
-	 * whose {@link ConcreteClassifier}s can be directly modified, providing a
-	 * {@link ICompilationUnitInitialiser} instance enables
-	 * {@link #minimalInitialisationWithContainer(EObject)}.
-	 */
-	protected ICompilationUnitInitialiser getCUInit() {
-		return new CompilationUnitInitialiser();
-	}
-	
+public abstract class ConcreteClassifierInitialiser	implements ICompilationUnitContaineeInitialiser {
 	/**
 	 * {@inheritDoc}
 	 * <br><br>
@@ -25,7 +12,7 @@ public abstract class ConcreteClassifierInitialiser implements EObjectInitialise
 	 * @param obj: A given {@link ConcreteClassifier} instance
 	 */
 	@Override
-	public EObject minimalInitialisationWithContainer(EObject obj) {
+	public CompilationUnit minimalInitialisationWithContainer(EObject obj) {
 		var castedO = (ConcreteClassifier) obj;
 		this.minimalInitialisation(castedO);
 		
@@ -37,7 +24,4 @@ public abstract class ConcreteClassifierInitialiser implements EObjectInitialise
 		
 		return unit;
 	}
-	
-	@Override
-	public abstract ConcreteClassifierInitialiser newInitialiser();
 }
