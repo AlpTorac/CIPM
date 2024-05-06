@@ -1,7 +1,6 @@
 package cipm.consistency.fitests.similarity.java.initialiser.classifiers;
 
 import org.emftext.language.java.classifiers.Interface;
-import org.emftext.language.java.instantiations.Initializable;
 import org.emftext.language.java.types.TypeReference;
 
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IConcreteClassifierInitialiser;

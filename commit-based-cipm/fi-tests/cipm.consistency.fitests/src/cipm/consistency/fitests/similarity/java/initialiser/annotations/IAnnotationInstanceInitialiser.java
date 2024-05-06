@@ -2,7 +2,6 @@ package cipm.consistency.fitests.similarity.java.initialiser.annotations;
 
 import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationParameter;
-import org.emftext.language.java.classifiers.Annotation;
 import org.emftext.language.java.classifiers.Classifier;
 
 import cipm.consistency.fitests.similarity.java.initialiser.testable.INamespaceAwareElementInitialiser;

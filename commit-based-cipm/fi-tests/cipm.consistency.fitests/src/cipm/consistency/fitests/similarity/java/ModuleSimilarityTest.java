@@ -1,9 +1,6 @@
 package cipm.consistency.fitests.similarity.java;
 
-import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import cipm.consistency.fitests.similarity.java.initialiser.containers.IModuleInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.ModuleInitialiser;
 

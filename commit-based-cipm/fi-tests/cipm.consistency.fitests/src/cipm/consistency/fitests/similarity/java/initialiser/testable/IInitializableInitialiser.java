@@ -1,7 +1,6 @@
 package cipm.consistency.fitests.similarity.java.initialiser.testable;
 
 import org.emftext.language.java.expressions.Expression;
-import org.emftext.language.java.imports.ImportingElement;
 import org.emftext.language.java.instantiations.Initializable;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ICommentableInitialiser;

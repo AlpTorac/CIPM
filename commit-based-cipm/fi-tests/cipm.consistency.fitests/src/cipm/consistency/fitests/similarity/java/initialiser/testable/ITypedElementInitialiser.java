@@ -1,6 +1,5 @@
 package cipm.consistency.fitests.similarity.java.initialiser.testable;
 
-import org.emftext.language.java.generics.TypeArgumentable;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypedElement;
 

@@ -3,8 +3,6 @@ package cipm.consistency.fitests.similarity.java.initialiser.testable;
 import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.Modifier;
-import org.emftext.language.java.variables.AdditionalLocalVariable;
-
 import cipm.consistency.fitests.similarity.java.initialiser.ICommentableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.InitialiserVisibilityModifier;
 

@@ -1,6 +1,5 @@
 package cipm.consistency.fitests.similarity.java.initialiser.testable;
 
-import org.emftext.language.java.references.ReferenceableElement;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementContainer;
 

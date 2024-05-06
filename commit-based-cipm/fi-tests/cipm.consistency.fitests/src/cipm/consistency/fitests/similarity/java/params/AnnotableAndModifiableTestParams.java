@@ -9,7 +9,6 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IMemberInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IParameterInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.MemberContaineeInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.ParameterInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.AnnotationInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;

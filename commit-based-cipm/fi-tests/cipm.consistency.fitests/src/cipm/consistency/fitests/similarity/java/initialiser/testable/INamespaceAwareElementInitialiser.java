@@ -3,7 +3,6 @@ package cipm.consistency.fitests.similarity.java.initialiser.testable;
 import java.util.Collection;
 import java.util.List;
 
-import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.commons.NamespaceAwareElement;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ICommentableInitialiser;

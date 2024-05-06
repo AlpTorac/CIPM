@@ -1,6 +1,5 @@
 package cipm.consistency.fitests.similarity.java.initialiser.variables;
 
-import org.emftext.language.java.containers.JavaRoot;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 import org.emftext.language.java.variables.LocalVariable;
 

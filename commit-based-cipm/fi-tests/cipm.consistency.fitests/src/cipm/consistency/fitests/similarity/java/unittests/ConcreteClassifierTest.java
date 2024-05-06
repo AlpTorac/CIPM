@@ -27,9 +27,11 @@ public class ConcreteClassifierTest extends EObjectSimilarityTest {
 		var pacInit = new PackageInitialiser();
 		
 		this.pac1 = pacInit.instantiate();
+		pacInit.minimalInitialisation(pac1);
 		pacInit.initialiseNamespaces(pac1, pac1nss);
 		
 		this.pac2 = pacInit.instantiate();
+		pacInit.minimalInitialisation(pac2);
 		pacInit.initialiseNamespaces(pac2, pac2nss);
 		
 		super.setUp();
@@ -66,6 +68,6 @@ public class ConcreteClassifierTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(initialiser, pac1);
 		var objTwo = this.initElement(initialiser, pac2);
 		
-		this.compareX(objOne, objTwo, Boolean.TRUE);
+		this.differentX(objOne, objTwo);
 	}
 }

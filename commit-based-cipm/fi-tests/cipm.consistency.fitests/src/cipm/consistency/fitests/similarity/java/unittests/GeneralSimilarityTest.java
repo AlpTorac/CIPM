@@ -14,7 +14,6 @@ import org.emftext.language.java.containers.Module;
 
 import cipm.consistency.fitests.similarity.java.AbstractSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.ModuleInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageInitialiser;
 import cipm.consistency.fitests.similarity.java.params.GeneralTestParams;
