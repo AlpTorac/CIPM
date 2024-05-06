@@ -12,6 +12,7 @@ import java.util.stream.Stream;
 
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -186,11 +187,13 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 		var args = new ArrayList<Arguments>();
 		
 		modelDirs.forEach((md) -> {
+			var modelDirName = md.getName(md.getNameCount()-1).toString();
+			
 			var res1 = parseModelsDir(Paths.get(md.toString(), model1Name));
 			var res2 = parseModelsDir(Paths.get(md.toString(), model2Name));
 			
-			args.add(Arguments.of(res1, res1, true));
-			args.add(Arguments.of(res2, res2, true));
+			args.add(Arguments.of(res1, res1, true, modelDirName));
+			args.add(Arguments.of(res2, res2, true, modelDirName));
 		});
 		
 		return args.stream();
@@ -200,6 +203,8 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 		var args = new ArrayList<Arguments>();
 		
 		modelDirs.forEach((md) -> {
+			var modelDirName = md.getName(md.getNameCount()-1).toString();
+			
 			var model1Path = Paths.get(md.toString(), model1Name);
 			var model2Path = Paths.get(md.toString(), model2Name);
 			
@@ -209,8 +214,8 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 			var res21 = parseModelsDir(model2Path);
 			var res22 = parseModelsDir(model2Path);
 			
-			args.add(Arguments.of(res11, res12, true));
-			args.add(Arguments.of(res21, res22, true));
+			args.add(Arguments.of(res11, res12, true, modelDirName));
+			args.add(Arguments.of(res21, res22, true, modelDirName));
 		});
 		
 		return args.stream();
@@ -220,6 +225,8 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 		var args = new ArrayList<Arguments>();
 		
 		modelDirs.forEach((md) -> {
+			var modelDirName = md.getName(md.getNameCount()-1).toString();
+			
 			var model1Path = Paths.get(md.toString(), model1Name);
 			var model2Path = Paths.get(md.toString(), model2Name);
 			
@@ -237,32 +244,44 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 			var res1 = parseModelsDir(model1Path);
 			var res2 = parseModelsDir(model2Path);
 			
-			args.add(Arguments.of(res1, res2, contentEquality));
+			args.add(Arguments.of(res1, res2, contentEquality, modelDirName));
 		});
 		
 		return args.stream();
 	}
 	
 	protected void testSimilarity(Resource res1, Resource res2, Boolean areSimilar) {
-		Assertions.assertEquals(areSimilar, this.areSimilar(res1.getContents(), res2.getContents()));
+		var list1 = new ArrayList<EObject>();
+		var list2 = new ArrayList<EObject>();
+		
+		// Java files, which are not in proper project settings,
+		// can result in similarity checking issues, if resource.getContents()
+		// is used to return the EObject contents.
+		// getAllContents() bypasses this, as it makes sure that everything
+		// is visited.
+		res1.getAllContents().forEachRemaining((o) -> list1.add(o));
+		res2.getAllContents().forEachRemaining((o) -> list2.add(o));
+		
+		Assertions.assertEquals(areSimilar, this.areSimilar(list1, list2));
 	}
 	
-	@ParameterizedTest
+	@ParameterizedTest(name = "{3}")
 	@MethodSource({"generateReferenceEqualityTestParams"})
-	public void sameResourceSimilarityTest(Resource res1, Resource res2, Boolean areSimilar) {
+	public void sameResourceSimilarityTest(Resource res1, Resource res2, Boolean areSimilar, String modelDirName) {
 		this.testSimilarity(res1, res2, areSimilar);
 	}
 	
-	@ParameterizedTest
+	@ParameterizedTest(name = "{3}")
 	@MethodSource({"generateEqualityTestParams"})
-	public void sameFileSimilarityTest(Resource res1, Resource res2, Boolean areSimilar) {
+	public void sameFileSimilarityTest(Resource res1, Resource res2, Boolean areSimilar, String modelDirName) {
 		this.testSimilarity(res1, res2, areSimilar);
 	}
 	
-	@ParameterizedTest
+	@ParameterizedTest(name = "{3}")
 	@MethodSource({"generateUnsimilarityTestParams"})
-	public void differentFileSimilarityTest(Resource res1, Resource res2, Boolean areSimilar) {
+	public void differentFileSimilarityTest(Resource res1, Resource res2, Boolean areSimilar, String modelDirName) {
 		// TODO: Make a break point and check the parsed java resource or save it as a file and check
 		this.testSimilarity(res1, res2, areSimilar);
+		LOGGER.info("------------------------------Test Done----------------------------------");
 	}
 }
