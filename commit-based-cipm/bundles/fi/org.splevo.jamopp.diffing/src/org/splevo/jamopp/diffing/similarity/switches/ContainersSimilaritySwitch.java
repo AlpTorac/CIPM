@@ -53,6 +53,8 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean> implem
      */
     @Override
     public Boolean caseCompilationUnit(CompilationUnit unit1) {
+    	this.logMessage("caseCompilationUnit");
+    	
         CompilationUnit unit2 = (CompilationUnit) this.getCompareElement();
         this.logComparison(unit1.getName(), unit2.getName(), CompilationUnit.class.getSimpleName());
         
@@ -90,6 +92,8 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean> implem
      */
     @Override
     public Boolean casePackage(Package package1) {
+    	this.logMessage("casePackage");
+    	
         Package package2 = (Package) this.getCompareElement();
         this.logComparison(package1, package2, Package.class.getSimpleName());
         
@@ -119,10 +123,12 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean> implem
      */
     @Override
     public Boolean caseModule(org.emftext.language.java.containers.Module module1) {
+    	this.logMessage("caseModule");
+    	
     	org.emftext.language.java.containers.Module module2 =
     			(org.emftext.language.java.containers.Module) this.getCompareElement();
     	
-    	this.logResult(module1.getName().equals(module2.getName()), Module.class.getSimpleName());
+    	this.logResult(module1.getName().equals(module2.getName()), org.emftext.language.java.containers.Module.class.getSimpleName());
     	if (!module1.getName().equals(module2.getName())) {
     		return Boolean.FALSE;
     	}
