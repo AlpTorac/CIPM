@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.initialiser.members;
 
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.members.Constructor;
 
@@ -18,4 +19,9 @@ public interface IConstructorInitialiser extends IAnnotableAndModifiableInitiali
 	IParametrizableInitialiser,
 	IStatementListContainerInitialiser,
 	ITypeParametrizableInitialiser {
+	
+	@Override
+	public default void minimalInitialisation(EObject obj) {
+		IMemberInitialiser.super.minimalInitialisation(obj);
+	}
 }

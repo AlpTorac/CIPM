@@ -5,22 +5,27 @@ import org.emftext.language.java.members.MembersFactory;
 
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.MemberContaineeInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IMemberContainerInitialiser;
 
-public class FieldInitialiser extends MemberContaineeInitialiser implements IFieldInitialiser {
+public class FieldInitialiser implements IFieldInitialiser {
+	private IMemberContainerInitialiser mcInit;
+	
+	public FieldInitialiser withMCInit(IMemberContainerInitialiser mcInit) {
+		this.mcInit = mcInit;
+		return this;
+	}
+	
+	public IMemberContainerInitialiser getMCInit() {
+		return this.mcInit;
+	}
+	
 	@Override
 	public Field instantiate() {
 		return MembersFactory.eINSTANCE.createField();
 	}
-	
-	@Override
-	public FieldInitialiser withMCInit(IMemberContainerInitialiser mcInit) {
-		return (FieldInitialiser) super.withMCInit(mcInit);
-	}
 
 	@Override
-	public MemberContaineeInitialiser newInitialiser() {
+	public FieldInitialiser newInitialiser() {
 		return new FieldInitialiser();
 	}
 }

@@ -5,7 +5,6 @@ import org.emftext.language.java.modifiers.Default;
 import org.emftext.language.java.modifiers.Final;
 import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.emftext.language.java.modifiers.Native;
-import org.emftext.language.java.modifiers.Open;
 import org.emftext.language.java.modifiers.Private;
 import org.emftext.language.java.modifiers.Protected;
 import org.emftext.language.java.modifiers.Public;
@@ -13,7 +12,6 @@ import org.emftext.language.java.modifiers.Static;
 import org.emftext.language.java.modifiers.Strictfp;
 import org.emftext.language.java.modifiers.Synchronized;
 import org.emftext.language.java.modifiers.Transient;
-import org.emftext.language.java.modifiers.Transitive;
 import org.emftext.language.java.modifiers.Volatile;
 
 public interface IModifierFactory {

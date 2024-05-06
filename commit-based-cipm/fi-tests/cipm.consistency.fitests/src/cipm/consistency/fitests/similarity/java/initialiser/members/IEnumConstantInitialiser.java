@@ -1,7 +1,6 @@
 package cipm.consistency.fitests.similarity.java.initialiser.members;
 
 import org.emftext.language.java.classifiers.AnonymousClass;
-import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.EnumConstant;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IReferenceableElementInitialiser;

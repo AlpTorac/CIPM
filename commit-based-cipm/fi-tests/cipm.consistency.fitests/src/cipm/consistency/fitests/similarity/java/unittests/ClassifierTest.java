@@ -1,62 +1,98 @@
 package cipm.consistency.fitests.similarity.java.unittests;
 
-import java.math.BigInteger;
-import java.util.Collection;
-
-import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.classifiers.Classifier;
-import org.emftext.language.java.containers.CompilationUnit;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.containers.Package;
+import org.emftext.language.java.imports.Import;
+import org.emftext.language.java.imports.PackageImport;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.imports.ClassifierImportInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.imports.PackageImportInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IClassifierInitialiser;
 import cipm.consistency.fitests.similarity.java.params.ClassifierTestParams;
 
 public class ClassifierTest extends EObjectSimilarityTest {
-	private String is1;
-	private String is2;
-	private String is3;
+	private final String cls1Name = "cls1Name";
+	private ConcreteClassifier cls1;
+	private Import imp1;
 	
-	private String ips1;
-	private String ips2;
-	private String ips3;
+	private final String cls2Name = "cls2Name";
+	private ConcreteClassifier cls2;
+	private Import imp2;
+	
+	private final String[] pac1nss = new String[] {"ns1", "ns2", "ns3"};
+	private Package pac1;
+	private PackageImport pImp1;
+	
+	private final String[] pac2nss = new String[] {"ns1", "ns4"};
+	private Package pac2;
+	private PackageImport pImp2;
 	
 	@BeforeEach
 	@Override
 	public void setUp() {
 		this.setResourceFileTestPrefix(ClassifierTest.class.getSimpleName());
 		
-		JavaClasspath.get().registerStdLib();
+		var clsInit = new ClassInitialiser();
+		var impInit = new ClassifierImportInitialiser();
 		
-		this.is1 = String.class.getSimpleName();
-		this.is2 = Collection.class.getSimpleName();
-		this.is3 = BigInteger.class.getSimpleName();
+		var pacInit = new PackageInitialiser();
+		var pImpInit = new PackageImportInitialiser();
 		
-		this.ips1 = String.class.getPackageName();
-		this.ips2 = Collection.class.getPackageName();
-		this.ips3 = BigInteger.class.getPackageName();
+		this.pac1 = pacInit.instantiate();
+		pacInit.minimalInitialisation(pac1);
+		pacInit.initialiseNamespaces(pac1, pac1nss);
+		
+		this.pac2 = pacInit.instantiate();
+		pacInit.minimalInitialisation(pac2);
+		pacInit.initialiseNamespaces(pac2, pac2nss);
+		
+		this.pImp1 = pImpInit.instantiate();
+		pImpInit.minimalInitialisation(pImp1);
+		pImpInit.initialiseNamespaces(pImp1, pac1nss);
+		
+		this.pImp2 = pImpInit.instantiate();
+		pImpInit.minimalInitialisation(pImp2);
+		pImpInit.initialiseNamespaces(pImp2, pac2nss);
+		
+		this.cls1 = clsInit.instantiate();
+		clsInit.minimalInitialisation(cls1);
+		clsInit.initialiseName(cls1, cls1Name);
+		
+		this.cls2 = clsInit.instantiate();
+		clsInit.minimalInitialisation(cls2);
+		clsInit.initialiseName(cls2, cls2Name);
+		
+		this.imp1 = impInit.instantiate();
+		impInit.minimalInitialisation(imp1);
+		impInit.setClassifier(imp1, cls1);
+		
+		this.imp2 = impInit.instantiate();
+		impInit.minimalInitialisation(imp2);
+		impInit.setClassifier(imp2, cls2);
 		
 		super.setUp();
 	}
 	
 	protected Classifier initElement(IClassifierInitialiser initialiser,
-			String[] importStrings, String[] importPackageStrings) {
+			Import[] imps, PackageImport[] pImps) {
 		Classifier result = initialiser.instantiate();
-		CompilationUnit cu = (CompilationUnit) initialiser.minimalInitialisationWithContainer(result);
-		JavaClasspath.get(cu).registerStdLib();
-		JavaClasspath.get(result).registerStdLib();
+		initialiser.minimalInitialisationWithContainer(result);
 		
-		if (importStrings != null) {
-			for (var s : importStrings) {
+		if (imps != null) {
+			for (var s : imps) {
 				initialiser.addImport(result, s);
 			}
 		}
 		
-		if (importPackageStrings != null) {
-			for (var s : importPackageStrings) {
+		if (pImps != null) {
+			for (var s : pImps) {
 				initialiser.addPackageImport(result, s);
 			}
 		}
@@ -66,28 +102,26 @@ public class ClassifierTest extends EObjectSimilarityTest {
 	
 	// TODO: Figure out how to add imports with import strings
 	
-	@Disabled("Not functional")
 	@ParameterizedTest
 	@ArgumentsSource(ClassifierTestParams.class)
 	public void testSameImports(IClassifierInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testSameImports");
 		
 		var objOne = this.initElement(initialiser,
-				new String[] {this.is1, this.is2}, null);
+				new Import[] {this.imp1, this.imp2}, null);
 		
 		this.sameX(objOne, initialiser);
 	}
 	
-	@Disabled("Not functional")
 	@ParameterizedTest
 	@ArgumentsSource(ClassifierTestParams.class)
 	public void testDifferentImports(IClassifierInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testDifferentImports");
 		
 		var objOne = this.initElement(initialiser,
-				new String[] {this.is1, this.is2}, null);
+				new Import[] {this.imp1}, null);
 		var objTwo = this.initElement(initialiser,
-				new String[] {this.is1, this.is3}, null);
+				new Import[] {this.imp2}, null);
 		
 		this.differentX(objOne, objTwo);
 	}
@@ -98,7 +132,7 @@ public class ClassifierTest extends EObjectSimilarityTest {
 		this.setResourceFileTestIdentifier("testSamePackageImports");
 		
 		var objOne = this.initElement(initialiser,
-				null, new String [] {this.ips1});
+				null, new PackageImport[] {this.pImp1, this.pImp2});
 		
 		this.sameX(objOne, initialiser);
 	}
@@ -112,10 +146,10 @@ public class ClassifierTest extends EObjectSimilarityTest {
 		this.setResourceFileTestIdentifier("testDifferentPackageImports");
 		
 		var objOne = this.initElement(initialiser,
-				null, new String [] {this.ips1, this.ips3});
+				null, new PackageImport[] {this.pImp1});
 		var objTwo = this.initElement(initialiser,
-				null, new String [] {this.ips1, this.ips2});
+				null, new PackageImport[] {this.pImp2});
 		
-		this.compareX(objOne, objTwo, Boolean.TRUE);
+		this.differentX(objOne, objTwo);
 	}
 }
