@@ -16,7 +16,7 @@ import com.google.common.base.Strings;
  */
 public interface ILoggableJavaSwitch {
 	public default Logger getLogger() {
-		return Logger.getLogger(ILoggableJavaSwitch.class.getSimpleName());
+		return Logger.getLogger("cipm."+this.getClass().getSimpleName());
 	}
 
 	public default void logComparison(Object subject1, Object subject2, String subjectDesc) {
