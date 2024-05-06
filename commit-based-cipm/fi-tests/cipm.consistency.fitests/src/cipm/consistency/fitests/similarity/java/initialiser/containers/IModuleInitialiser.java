@@ -1,9 +1,7 @@
 package cipm.consistency.fitests.similarity.java.initialiser.containers;
 
-import org.emftext.language.java.commons.NamespaceAwareElement;
 import org.emftext.language.java.containers.Module;
 import org.emftext.language.java.containers.Package;
-import org.emftext.language.java.modifiers.Modifiable;
 import org.emftext.language.java.modifiers.Open;
 import org.emftext.language.java.modules.ModuleDirective;
 

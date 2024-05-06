@@ -1,6 +1,5 @@
 package cipm.consistency.fitests.similarity.java.initialiser.testable;
 
-import org.emftext.language.java.members.Method;
 import org.emftext.language.java.modifiers.Modifiable;
 import org.emftext.language.java.modifiers.Modifier;
 

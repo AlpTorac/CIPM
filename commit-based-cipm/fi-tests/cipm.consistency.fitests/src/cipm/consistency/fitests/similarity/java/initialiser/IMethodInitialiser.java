@@ -1,8 +1,5 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
-import org.emftext.language.java.members.Member;
-import org.emftext.language.java.members.Method;
-
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IAnnotableAndModifiableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IExceptionThrowerInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IParametrizableInitialiser;

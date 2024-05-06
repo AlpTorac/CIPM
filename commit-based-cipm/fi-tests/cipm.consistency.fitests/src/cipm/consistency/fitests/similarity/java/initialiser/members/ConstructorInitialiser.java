@@ -2,26 +2,51 @@ package cipm.consistency.fitests.similarity.java.initialiser.members;
 
 import org.emftext.language.java.members.MembersFactory;
 
-import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.MemberContaineeInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.helper.IBlockContainerHelperInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.statements.IBlockInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IMemberContainerInitialiser;
 
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.members.Constructor;
 
-public class ConstructorInitialiser extends MemberContaineeInitialiser implements IConstructorInitialiser {
+public class ConstructorInitialiser implements IConstructorInitialiser, IBlockContainerHelperInitialiser {
+	private IMemberContainerInitialiser mcInit;
+	private IBlockInitialiser bInit;
+	
+	@Override
+	public void minimalInitialisation(EObject obj) {
+		IConstructorInitialiser.super.minimalInitialisation(obj);
+		IBlockContainerHelperInitialiser.super.minimalInitialisation(obj);
+	}
+	
 	@Override
 	public Constructor instantiate() {
 		return MembersFactory.eINSTANCE.createConstructor();
 	}
 	
-	@Override
+	
 	public ConstructorInitialiser withMCInit(IMemberContainerInitialiser mcInit) {
-		return (ConstructorInitialiser) super.withMCInit(mcInit);
+		this.mcInit = mcInit;
+		return this;
+	}
+	
+	public IMemberContainerInitialiser getMCInit() {
+		return this.mcInit;
 	}
 
 	@Override
-	public MemberContaineeInitialiser newInitialiser() {
+	public ConstructorInitialiser newInitialiser() {
 		return new ConstructorInitialiser();
+	}
+
+	@Override
+	public ConstructorInitialiser withBInit(IBlockInitialiser bInit) {
+		this.bInit = bInit;
+		return this;
+	}
+
+	@Override
+	public IBlockInitialiser getBInit() {
+		return this.bInit;
 	}
 }

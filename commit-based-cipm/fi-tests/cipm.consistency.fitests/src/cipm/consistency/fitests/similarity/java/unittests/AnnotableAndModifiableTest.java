@@ -3,27 +3,17 @@ package cipm.consistency.fitests.similarity.java.unittests;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.classifiers.Annotation;
-import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.emftext.language.java.containers.CompilationUnit;
-import org.emftext.language.java.generics.TypeParametrizable;
-import org.emftext.language.java.members.Member;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.Modifier;
-import org.emftext.language.java.parameters.Parameter;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.InitialiserVisibilityModifier;
 import cipm.consistency.fitests.similarity.java.initialiser.annotations.AnnotationInstanceInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.AnnotationInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.IAnnotationInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.containers.CompilationUnitInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.members.ConstructorInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.params.ModifierFactory;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IAnnotableAndModifiableInitialiser;
 import cipm.consistency.fitests.similarity.java.params.AnnotableAndModifiableTestParams;
@@ -90,9 +80,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	 * Returning {@code result} on its own works for the tests.
 	 * 
 	 * Uncommenting and returning {@code root} also works. If this is preferred,
-	 * the inner initialisers for {@link MemberContaineeInitialiser} and
-	 * {@link ParameterInitialiser} have to be set. {@link ConcreteClassifierInitialiser}
-	 * already has its inner initialiser set (since there is only one possibility).
+	 * the inner initialisers have to be set.
 	 */
 	protected EObject initElement(IAnnotableAndModifiableInitialiser initialiser,
 			Modifier[] mods,
@@ -171,7 +159,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(initialiser, new Modifier[] {mod1, mod2}, null, null);
 		var objTwo = this.initElement(initialiser, new Modifier[] {mod3, mod4}, null, null);
 		
-		this.compareX(objOne, objTwo, true);
+		this.differentX(objOne, objTwo);
 	}
 	
 	@ParameterizedTest(name = "{index}: {1}")
@@ -194,7 +182,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(initialiser, null, new AnnotationInstance[] {aii1}, null);
 		var objTwo = this.initElement(initialiser, null, new AnnotationInstance[] {aii2}, null);
 		
-		this.compareX(objOne, objTwo, true);
+		this.differentX(objOne, objTwo);
 	}
 	
 	@ParameterizedTest(name = "{index}: {1}")
@@ -217,6 +205,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PRIVATE);
 		var objTwo = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PUBLIC);
 		
-		this.compareX(objOne, objTwo, true);
+		this.differentX(objOne, objTwo);
 	}
 }
