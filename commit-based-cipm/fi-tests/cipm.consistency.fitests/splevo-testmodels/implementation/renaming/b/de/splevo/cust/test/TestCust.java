@@ -1,4 +1,4 @@
-package de.splevo.test;
+package de.splevo.cust.test;
 
 /**
  * Testcode to test mapping configurations.
