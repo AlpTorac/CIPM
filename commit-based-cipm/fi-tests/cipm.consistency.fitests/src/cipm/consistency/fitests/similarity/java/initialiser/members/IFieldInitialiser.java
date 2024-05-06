@@ -1,7 +1,6 @@
 package cipm.consistency.fitests.similarity.java.initialiser.members;
 
 import org.emftext.language.java.members.AdditionalField;
-import org.emftext.language.java.members.ExceptionThrower;
 import org.emftext.language.java.members.Field;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IMemberInitialiser;

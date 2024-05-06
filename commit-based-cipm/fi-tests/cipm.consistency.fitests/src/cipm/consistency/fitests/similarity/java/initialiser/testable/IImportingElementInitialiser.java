@@ -1,7 +1,5 @@
 package cipm.consistency.fitests.similarity.java.initialiser.testable;
 
-import org.eclipse.emf.ecore.EObject;
-import org.emftext.language.java.classifiers.Implementor;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.imports.ImportingElement;
 

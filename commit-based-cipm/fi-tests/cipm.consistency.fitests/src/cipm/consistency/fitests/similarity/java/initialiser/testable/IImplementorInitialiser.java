@@ -1,7 +1,6 @@
 package cipm.consistency.fitests.similarity.java.initialiser.testable;
 
 import org.emftext.language.java.classifiers.Implementor;
-import org.emftext.language.java.members.Field;
 import org.emftext.language.java.types.TypeReference;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ICommentableInitialiser;

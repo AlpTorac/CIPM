@@ -5,8 +5,6 @@ import java.util.List;
 
 import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.modifiers.AnnotableAndModifiable;
-
 import cipm.consistency.fitests.similarity.java.initialiser.ICommentableInitialiser;
 
 public interface IAnnotableInitialiser extends ICommentableInitialiser {

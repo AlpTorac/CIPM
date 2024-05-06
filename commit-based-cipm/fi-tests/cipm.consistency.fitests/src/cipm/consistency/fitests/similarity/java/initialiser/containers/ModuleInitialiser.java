@@ -3,9 +3,6 @@ package cipm.consistency.fitests.similarity.java.initialiser.containers;
 import org.emftext.language.java.containers.ContainersFactory;
 import org.emftext.language.java.containers.Module;
 
-import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
-
 public class ModuleInitialiser implements IModuleInitialiser {
 	@Override
 	public Module instantiate() {
