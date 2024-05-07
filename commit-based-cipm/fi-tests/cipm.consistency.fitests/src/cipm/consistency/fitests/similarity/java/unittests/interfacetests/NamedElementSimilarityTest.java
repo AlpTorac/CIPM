@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.java.unittests;
+package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.commons.NamedElement;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,7 +7,6 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.INamedElementInitialiser;
-import cipm.consistency.fitests.similarity.java.params.NameTestParams;
 
 public class NamedElementSimilarityTest extends EObjectSimilarityTest {
 	private final String name11 = "name11";
