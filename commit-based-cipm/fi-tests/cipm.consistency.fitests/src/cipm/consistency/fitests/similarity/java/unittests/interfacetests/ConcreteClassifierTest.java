@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.java.unittests;
+package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.containers.Package;
 
@@ -10,7 +10,6 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IConcreteClassifierInitialiser;
-import cipm.consistency.fitests.similarity.java.params.ConcreteClassifierTestParams;
 
 public class ConcreteClassifierTest extends EObjectSimilarityTest {
 	private final String[] pac1nss = new String[] {"pns", "p1ns1"};

@@ -4,11 +4,12 @@ import org.emftext.language.java.members.MembersFactory;
 
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.helper.IMemberHelperInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IMemberContainerInitialiser;
 
 import org.emftext.language.java.members.InterfaceMethod;
 
-public class InterfaceMethodInitialiser implements IInterfaceMethodInitialiser {
+public class InterfaceMethodInitialiser implements IInterfaceMethodInitialiser, IMemberHelperInitialiser {
 	private IMemberContainerInitialiser mcInit;
 	
 	public InterfaceMethodInitialiser withMCInit(IMemberContainerInitialiser mcInit) {

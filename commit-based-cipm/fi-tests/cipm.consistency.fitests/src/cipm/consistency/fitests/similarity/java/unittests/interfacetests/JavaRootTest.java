@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.java.unittests;
+package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.containers.JavaRoot;
 import org.emftext.language.java.containers.Origin;
@@ -8,7 +8,6 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IJavaRootInitialiser;
-import cipm.consistency.fitests.similarity.java.params.JavaRootTestParams;
 
 public class JavaRootTest extends EObjectSimilarityTest {
 	@BeforeEach

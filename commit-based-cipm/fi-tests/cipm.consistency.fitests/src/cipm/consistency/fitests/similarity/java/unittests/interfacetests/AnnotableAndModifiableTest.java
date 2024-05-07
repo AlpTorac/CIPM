@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.java.unittests;
+package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.annotations.AnnotationInstance;
@@ -16,7 +16,6 @@ import cipm.consistency.fitests.similarity.java.initialiser.classifiers.Annotati
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.IAnnotationInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.params.ModifierFactory;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IAnnotableAndModifiableInitialiser;
-import cipm.consistency.fitests.similarity.java.params.AnnotableAndModifiableTestParams;
 
 /**
  * TODO: Write proper commentary
