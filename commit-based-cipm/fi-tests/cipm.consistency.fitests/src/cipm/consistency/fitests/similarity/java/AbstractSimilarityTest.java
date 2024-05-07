@@ -45,6 +45,8 @@ public abstract class AbstractSimilarityTest {
 	
 	@BeforeEach
 	public void setUp() {
+		this.setResourceFileTestPrefix(this.getClass().getSimpleName());
+		
 		this.setUpLogger();
 		this.setResourceRegistry(this.getResourceRootPath());
 		this.sc = this.initSC();

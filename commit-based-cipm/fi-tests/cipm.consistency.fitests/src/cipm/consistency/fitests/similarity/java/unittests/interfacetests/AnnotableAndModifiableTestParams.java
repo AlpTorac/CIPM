@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.java.params;
+package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import java.util.ArrayList;
 import java.util.stream.Stream;
@@ -27,6 +27,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.testable.IConcreteCl
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IMemberContainerInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IParametrizableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.variables.LocalVariableInitialiser;
+import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
+import cipm.consistency.fitests.similarity.java.params.ParameterUtil;
 
 public class AnnotableAndModifiableTestParams implements ArgumentsProvider {
 

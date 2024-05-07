@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.java.unittests;
+package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
@@ -15,7 +15,6 @@ import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageIn
 import cipm.consistency.fitests.similarity.java.initialiser.imports.ClassifierImportInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.imports.PackageImportInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IClassifierInitialiser;
-import cipm.consistency.fitests.similarity.java.params.ClassifierTestParams;
 
 public class ClassifierTest extends EObjectSimilarityTest {
 	private final String cls1Name = "cls1Name";

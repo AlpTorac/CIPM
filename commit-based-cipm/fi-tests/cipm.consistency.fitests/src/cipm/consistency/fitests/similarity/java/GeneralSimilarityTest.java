@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.java.unittests;
+package cipm.consistency.fitests.similarity.java;
 
 import java.util.List;
 
@@ -12,11 +12,9 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import org.emftext.language.java.containers.Module;
 
-import cipm.consistency.fitests.similarity.java.AbstractSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.ModuleInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageInitialiser;
-import cipm.consistency.fitests.similarity.java.params.GeneralTestParams;
 
 /**
  * A test class dedicated to test the general control flow of
