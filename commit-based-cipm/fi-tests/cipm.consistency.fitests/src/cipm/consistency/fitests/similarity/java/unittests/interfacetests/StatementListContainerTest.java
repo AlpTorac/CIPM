@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.java.unittests;
+package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.operators.Operator;
 import org.emftext.language.java.operators.UnaryOperator;
@@ -24,7 +24,6 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.IExpressi
 import cipm.consistency.fitests.similarity.java.initialiser.statements.ReturnInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.ThrowInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IStatementListContainerInitialiser;
-import cipm.consistency.fitests.similarity.java.params.StatementListContainerTestParams;
 
 public class StatementListContainerTest extends EObjectSimilarityTest {
 	private IExpressionStatementInitialiser exprStInit;

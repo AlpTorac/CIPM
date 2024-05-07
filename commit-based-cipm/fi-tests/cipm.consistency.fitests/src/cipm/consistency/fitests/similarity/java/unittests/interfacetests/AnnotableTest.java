@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.java.unittests;
+package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.annotations.AnnotationInstance;
@@ -10,7 +10,6 @@ import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.annotations.AnnotationInstanceInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.AnnotationInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IAnnotableInitialiser;
-import cipm.consistency.fitests.similarity.java.params.AnnotableTestParams;
 
 public class AnnotableTest extends EObjectSimilarityTest {
 	private AnnotationInstance aii1;

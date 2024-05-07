@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.java.params;
+package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import java.util.stream.Stream;
 
@@ -9,6 +9,7 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.BlockInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.INamedElementInitialiser;
+import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
 
 public class NameTestParams implements ArgumentsProvider {
 	@Override
