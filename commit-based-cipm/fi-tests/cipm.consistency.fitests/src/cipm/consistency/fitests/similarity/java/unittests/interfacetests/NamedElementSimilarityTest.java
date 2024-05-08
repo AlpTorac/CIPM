@@ -1,22 +1,29 @@
 package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.commons.NamedElement;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.java.generators.NameGenerator;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.INamedElementInitialiser;
 
 public class NamedElementSimilarityTest extends EObjectSimilarityTest {
-	private final String name11 = "name11";
-	private final String name22 = "name22";
+	private NameGenerator nGen;
 	
 	@BeforeEach
 	@Override
 	public void setUp() {
-		this.setResourceFileTestPrefix(NamedElementSimilarityTest.class.getSimpleName());
+		this.nGen = new NameGenerator();
+		this.registerGenerator(nGen);
+		
 		super.setUp();
+	}
+	
+	protected String generateName() {
+		return this.nGen.generateDefaultElement();
 	}
 	
 	protected NamedElement initElement(INamedElementInitialiser initialiser, String name) {
@@ -27,22 +34,13 @@ public class NamedElementSimilarityTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(NameTestParams.class)
-	public void testSameName(INamedElementInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testSameName");
+	public void testName(INamedElementInitialiser initialiser) {
+		this.setResourceFileTestIdentifier("testName");
 		
-		var objOne = this.initElement(initialiser, name11);
+		var objOne = this.initElement(initialiser, this.generateName());
+		var objTwo = this.initElement(initialiser, this.generateName());
 		
-		this.sameX(objOne, initialiser);
-	}
-	
-	@ParameterizedTest
-	@ArgumentsSource(NameTestParams.class)
-	public void testDifferentName(INamedElementInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testDifferentName");
-		
-		var objOne = this.initElement(initialiser, name11);
-		var objTwo = this.initElement(initialiser, name22);
-		
-		this.differentX(objOne, objTwo);
+		// TODO: Replace last parameter
+		this.testX(objOne, objTwo, initialiser, false);
 	}
 }

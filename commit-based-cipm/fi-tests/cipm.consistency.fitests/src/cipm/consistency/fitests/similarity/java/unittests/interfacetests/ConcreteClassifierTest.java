@@ -3,37 +3,30 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 import org.emftext.language.java.containers.Package;
 
 import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.java.generators.PackageGenerator;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IConcreteClassifierInitialiser;
 
 public class ConcreteClassifierTest extends EObjectSimilarityTest {
-	private final String[] pac1nss = new String[] {"pns", "p1ns1"};
-	private Package pac1;
-	
-	private final String[] pac2nss = new String[] {"pns", "p2ns1"};
-	private Package pac2;
+	private PackageGenerator pacGen;
 	
 	@BeforeEach
 	@Override
 	public void setUp() {
-		this.setResourceFileTestPrefix(ConcreteClassifierTest.class.getSimpleName());
-		
-		var pacInit = new PackageInitialiser();
-		
-		this.pac1 = pacInit.instantiate();
-		pacInit.minimalInitialisation(pac1);
-		pacInit.initialiseNamespaces(pac1, pac1nss);
-		
-		this.pac2 = pacInit.instantiate();
-		pacInit.minimalInitialisation(pac2);
-		pacInit.initialiseNamespaces(pac2, pac2nss);
+		this.pacGen = new PackageGenerator();
+		this.registerGenerator(pacGen);
 		
 		super.setUp();
+	}
+	
+	protected Package generatePackage() {
+		return this.pacGen.generateDefaultElement();
 	}
 	
 	protected ConcreteClassifier initElement(IConcreteClassifierInitialiser initialiser,
@@ -48,25 +41,13 @@ public class ConcreteClassifierTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(ConcreteClassifierTestParams.class)
-	public void testSamePackage(IConcreteClassifierInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testSamePackage");
+	public void testPackage(IConcreteClassifierInitialiser initialiser) {
+		this.setResourceFileTestIdentifier("testPackage");
 		
-		var objOne = this.initElement(initialiser, pac1);
+		var objOne = this.initElement(initialiser, this.generatePackage());
+		var objTwo = this.initElement(initialiser, this.generatePackage());
 		
-		this.sameX(objOne, initialiser);
-	}
-	
-	/**
-	 * Differences in Package do not break similarity
-	 */
-	@ParameterizedTest
-	@ArgumentsSource(ConcreteClassifierTestParams.class)
-	public void testDifferentPackage(IConcreteClassifierInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testDifferentPackage");
-		
-		var objOne = this.initElement(initialiser, pac1);
-		var objTwo = this.initElement(initialiser, pac2);
-		
-		this.differentX(objOne, objTwo);
+		// TODO: Replace last parameter
+		this.testX(objOne, objTwo, initialiser, false);
 	}
 }

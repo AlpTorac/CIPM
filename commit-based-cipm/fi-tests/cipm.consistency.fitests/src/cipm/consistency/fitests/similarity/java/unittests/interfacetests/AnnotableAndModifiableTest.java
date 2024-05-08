@@ -49,7 +49,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		
 		aii1 = aii.instantiate();
 		aii.minimalInitialisation(aii1);
-		aii.initialiseNamespace(aii1, "ns1");
+		aii.addNamespace(aii1, "ns1");
 		
 		Annotation ai1 = ai.instantiate();
 		ai.minimalInitialisation(ai1);
@@ -58,7 +58,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		
 		aii2 = aii.instantiate();
 		aii.minimalInitialisation(aii2);
-		aii.initialiseNamespace(aii2, "ns2");
+		aii.addNamespace(aii2, "ns2");
 		
 		Annotation ai2 = ai.instantiate();
 		ai.minimalInitialisation(ai2);
@@ -140,70 +140,37 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest(name = "{index}: {1}")
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testSameModifier(IAnnotableAndModifiableInitialiser initialiser, String testName) {
-		this.setResourceFileTestIdentifier("testSameModifier");
-		
-		var objOne = this.initElement(initialiser, new Modifier[] {mod1, mod2}, null, null);
-		
-		this.sameX(objOne, initialiser);
-	}
-	
-	// TODO: Clarify whether such differences matter, currently they do not matter
-//	@Disabled("See TODO")
-	@ParameterizedTest(name = "{index}: {1}")
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testDifferentModifier(IAnnotableAndModifiableInitialiser initialiser, String testName) {
-		this.setResourceFileTestIdentifier("testDifferentModifier");
+	public void testModifier(IAnnotableAndModifiableInitialiser initialiser, String testName) {
+		this.setResourceFileTestIdentifier("testModifier");
 		
 		var objOne = this.initElement(initialiser, new Modifier[] {mod1, mod2}, null, null);
 		var objTwo = this.initElement(initialiser, new Modifier[] {mod3, mod4}, null, null);
 		
-		this.differentX(objOne, objTwo);
+		// TODO: Replace last parameter
+		this.testX(objOne, objTwo, initialiser, false);
 	}
 	
 	@ParameterizedTest(name = "{index}: {1}")
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testSameAnnoInstance(IAnnotableAndModifiableInitialiser initialiser, String testName) {
-		this.setResourceFileTestIdentifier("testSameAnnoInstance");
-		
-		var objOne = this.initElement(initialiser, null, new AnnotationInstance[] {aii1}, null);
-		
-		this.sameX(objOne, initialiser);
-	}
-	
-	// TODO: Clarify whether such differences matter, currently they do not matter
-//	@Disabled("See TODO")
-	@ParameterizedTest(name = "{index}: {1}")
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testDifferentAnnoInstance(IAnnotableAndModifiableInitialiser initialiser, String testName) {
-		this.setResourceFileTestIdentifier("testDifferentAnnoInstance");
+	public void testAnnoInstance(IAnnotableAndModifiableInitialiser initialiser, String testName) {
+		this.setResourceFileTestIdentifier("testAnnoInstance");
 		
 		var objOne = this.initElement(initialiser, null, new AnnotationInstance[] {aii1}, null);
 		var objTwo = this.initElement(initialiser, null, new AnnotationInstance[] {aii2}, null);
 		
-		this.differentX(objOne, objTwo);
+		// TODO: Replace last parameter
+		this.testX(objOne, objTwo, initialiser, false);
 	}
 	
 	@ParameterizedTest(name = "{index}: {1}")
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testSameVisibility(IAnnotableAndModifiableInitialiser initialiser, String testName) {
-		this.setResourceFileTestIdentifier("testSameVisibility");
-		
-		var objOne = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PRIVATE);
-		
-		this.sameX(objOne, initialiser);
-	}
-	
-	// TODO: Clarify whether such differences matter, currently they do not matter
-//	@Disabled("See TODO")
-	@ParameterizedTest(name = "{index}: {1}")
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testDifferentVisibility(IAnnotableAndModifiableInitialiser initialiser, String testName) {
-		this.setResourceFileTestIdentifier("testDifferentVisibility");
+	public void testVisibility(IAnnotableAndModifiableInitialiser initialiser, String testName) {
+		this.setResourceFileTestIdentifier("testVisibility");
 		
 		var objOne = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PRIVATE);
 		var objTwo = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PUBLIC);
 		
-		this.differentX(objOne, objTwo);
+		// TODO: Replace last parameter
+		this.testX(objOne, objTwo, initialiser, false);
 	}
 }

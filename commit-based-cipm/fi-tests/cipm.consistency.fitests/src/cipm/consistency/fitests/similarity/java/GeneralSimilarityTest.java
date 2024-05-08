@@ -31,7 +31,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	@BeforeEach
 	@Override
 	public void setUp() {
-		this.setResourceFileTestPrefix(GeneralSimilarityTest.class.getSimpleName());
 		super.setUp();
 	}
 	

@@ -64,40 +64,24 @@ public class AnnotationAttributeSettingTest extends EObjectSimilarityTest {
 	}
 	
 	@Test
-	public void testSameAttribute() {
-		this.setResourceFileTestIdentifier("testSameAttribute");
-		
-		var objOne = this.initElement(this.aasInit, im1, null);
-		
-		this.sameX(objOne, aasInit);
-	}
-	
-	@Test
-	public void testDifferentAttribute() {
-		this.setResourceFileTestIdentifier("testDifferentAttribute");
+	public void testAttribute() {
+		this.setResourceFileTestIdentifier("testAttribute");
 		
 		var objOne = this.initElement(this.aasInit, im1, null);
 		var objTwo = this.initElement(this.aasInit, im2, null);
 		
-		this.differentX(objOne, objTwo);
+		// TODO: Replace last parameter
+		this.testX(objOne, objTwo, aasInit, false);
 	}
 	
 	@Test
-	public void testSameValue() {
-		this.setResourceFileTestIdentifier("testSameValue");
-		
-		var objOne = this.initElement(aasInit, null, val1);
-		
-		this.sameX(objOne, aasInit);
-	}
-	
-	@Test
-	public void testDifferentValue() {
-		this.setResourceFileTestIdentifier("testDifferentValue");
+	public void testValue() {
+		this.setResourceFileTestIdentifier("testValue");
 		
 		var objOne = this.initElement(aasInit, null, val1);
 		var objTwo = this.initElement(aasInit, null, val2);
 		
-		this.differentX(objOne, objTwo);
+		// TODO: Replace last parameter
+		this.testX(objOne, objTwo, aasInit, false);
 	}
 }

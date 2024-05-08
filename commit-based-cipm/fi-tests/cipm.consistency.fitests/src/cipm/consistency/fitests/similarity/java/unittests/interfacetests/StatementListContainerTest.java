@@ -80,20 +80,8 @@ public class StatementListContainerTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(StatementListContainerTestParams.class)
-	public void testSameStatements(IStatementListContainerInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testSameStatements");
-		
-		var objOne = this.initElement(initialiser, new Statement[] {
-				this.cloneStAt(0), this.cloneStAt(1)
-		});
-		
-		this.sameX(objOne, initialiser);
-	}
-	
-	@ParameterizedTest
-	@ArgumentsSource(StatementListContainerTestParams.class)
-	public void testDifferentStatements(IStatementListContainerInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testDifferentStatements");
+	public void testStatements(IStatementListContainerInitialiser initialiser) {
+		this.setResourceFileTestIdentifier("testStatements");
 		
 		var objOne = this.initElement(initialiser, new Statement[] {
 				this.cloneStAt(0), this.cloneStAt(1)
@@ -102,6 +90,7 @@ public class StatementListContainerTest extends EObjectSimilarityTest {
 				this.cloneStAt(1), this.cloneStAt(0)
 		});
 		
-		this.differentX(objOne, objTwo);
+		// TODO: Replace last parameter
+		this.testX(objOne, objTwo, initialiser, false);
 	}
 }

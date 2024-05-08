@@ -46,19 +46,19 @@ public class ClassifierTest extends EObjectSimilarityTest {
 		
 		this.pac1 = pacInit.instantiate();
 		pacInit.minimalInitialisation(pac1);
-		pacInit.initialiseNamespaces(pac1, pac1nss);
+		pacInit.addNamespaces(pac1, pac1nss);
 		
 		this.pac2 = pacInit.instantiate();
 		pacInit.minimalInitialisation(pac2);
-		pacInit.initialiseNamespaces(pac2, pac2nss);
+		pacInit.addNamespaces(pac2, pac2nss);
 		
 		this.pImp1 = pImpInit.instantiate();
 		pImpInit.minimalInitialisation(pImp1);
-		pImpInit.initialiseNamespaces(pImp1, pac1nss);
+		pImpInit.addNamespaces(pImp1, pac1nss);
 		
 		this.pImp2 = pImpInit.instantiate();
 		pImpInit.minimalInitialisation(pImp2);
-		pImpInit.initialiseNamespaces(pImp2, pac2nss);
+		pImpInit.addNamespaces(pImp2, pac2nss);
 		
 		this.cls1 = clsInit.instantiate();
 		clsInit.minimalInitialisation(cls1);
@@ -103,52 +103,29 @@ public class ClassifierTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(ClassifierTestParams.class)
-	public void testSameImports(IClassifierInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testSameImports");
+	public void testImports(IClassifierInitialiser initialiser) {
+		this.setResourceFileTestIdentifier("testImports");
 		
 		var objOne = this.initElement(initialiser,
 				new Import[] {this.imp1, this.imp2}, null);
-		
-		this.sameX(objOne, initialiser);
-	}
-	
-	@ParameterizedTest
-	@ArgumentsSource(ClassifierTestParams.class)
-	public void testDifferentImports(IClassifierInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testDifferentImports");
-		
-		var objOne = this.initElement(initialiser,
-				new Import[] {this.imp1}, null);
 		var objTwo = this.initElement(initialiser,
 				new Import[] {this.imp2}, null);
 		
-		this.differentX(objOne, objTwo);
+		// TODO: Replace last parameter
+		this.testX(objOne, objTwo, initialiser, false);
 	}
 	
 	@ParameterizedTest
 	@ArgumentsSource(ClassifierTestParams.class)
-	public void testSamePackageImports(IClassifierInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testSamePackageImports");
+	public void testPackageImports(IClassifierInitialiser initialiser) {
+		this.setResourceFileTestIdentifier("testPackageImports");
 		
 		var objOne = this.initElement(initialiser,
 				null, new PackageImport[] {this.pImp1, this.pImp2});
-		
-		this.sameX(objOne, initialiser);
-	}
-	
-	/**
-	 * Package import differences do not break similarity
-	 */
-	@ParameterizedTest
-	@ArgumentsSource(ClassifierTestParams.class)
-	public void testDifferentPackageImports(IClassifierInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testDifferentPackageImports");
-		
-		var objOne = this.initElement(initialiser,
-				null, new PackageImport[] {this.pImp1});
 		var objTwo = this.initElement(initialiser,
 				null, new PackageImport[] {this.pImp2});
 		
-		this.differentX(objOne, objTwo);
+		// TODO: Replace last parameter
+		this.testX(objOne, objTwo, initialiser, false);
 	}
 }

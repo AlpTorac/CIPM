@@ -54,7 +54,7 @@ public class ModuleSimilarityTest extends EObjectSimilarityTest {
 		for (var pacNs : pacNss) {
 			Package pac = pacInit.instantiate();
 			pacInit.minimalInitialisation(pac);
-			pacInit.initialiseNamespaces(pac, pacNs);
+			pacInit.addNamespaces(pac, pacNs);
 			
 			this.pacList.add(pac);
 		}
@@ -103,40 +103,19 @@ public class ModuleSimilarityTest extends EObjectSimilarityTest {
 	}
 	
 	@Test
-	public void testSameOpen() {
-		this.setResourceFileTestIdentifier("testSameOpen");
+	public void testOpen() {
+		this.setResourceFileTestIdentifier("testOpen");
 		
 		var objOne = this.initElement(moduleInitialiser, null, null, true);
 		var objTwo = this.initElement(moduleInitialiser, null, null, false);
 		
-		this.sameX(objOne, moduleInitialiser);
-		this.sameX(objTwo, moduleInitialiser);
+		// TODO: Replace last parameter
+		this.testX(objOne, objTwo, moduleInitialiser, false);
 	}
 	
 	@Test
-	public void testDifferentOpen() {
-		this.setResourceFileTestIdentifier("testSameOpen");
-		
-		var objOne = this.initElement(moduleInitialiser, null, null, true);
-		var objTwo = this.initElement(moduleInitialiser, null, null, false);
-		
-		this.differentX(objOne, objTwo);
-	}
-	
-	@Test
-	public void testSamePackages() {
-		this.setResourceFileTestIdentifier("testSamePackages");
-		
-		var objOne = this.initElement(moduleInitialiser, new Package[] {
-				this.getPacAt(0), this.getPacAt(1)
-		}, null, false);
-		
-		this.sameX(objOne, moduleInitialiser);
-	}
-	
-	@Test
-	public void testDifferentPackages() {
-		this.setResourceFileTestIdentifier("testDifferentPackages");
+	public void testPackages() {
+		this.setResourceFileTestIdentifier("testPackages");
 		
 		var objOne = this.initElement(moduleInitialiser, new Package[] {
 				this.getPacAt(0), this.getPacAt(1)
@@ -145,30 +124,22 @@ public class ModuleSimilarityTest extends EObjectSimilarityTest {
 				this.getPacAt(2), this.getPacAt(3)
 		}, null, false);
 		
-		this.differentX(objOne, objTwo);
+		// TODO: Replace last parameter
+		this.testX(objOne, objTwo, moduleInitialiser, false);
 	}
 	
-	public void testSameModuleDirectives() {
-		this.setResourceFileTestIdentifier("testSameModuleDirectives");
+	public void testModuleDirectives() {
+		this.setResourceFileTestIdentifier("testModuleDirectives");
 		
 		var objOne = this.initElement(moduleInitialiser, null, new ModuleDirective[] {
 				this.md1Init.clone(this.md1),
-				this.md2Init.clone(this.md2)
-		}, false);
-		
-		this.sameX(objOne, moduleInitialiser);
-	}
-	
-	public void testDifferentModuleDirectives() {
-		this.setResourceFileTestIdentifier("testSameModuleDirectives");
-		
-		var objOne = this.initElement(moduleInitialiser, null, new ModuleDirective[] {
 				this.md2Init.clone(this.md2)
 		}, false);
 		var objTwo = this.initElement(moduleInitialiser, null, new ModuleDirective[] {
 				this.md1Init.clone(this.md1)
 		}, false);
 		
-		this.differentX(objOne, objTwo);
+		// TODO: Replace last parameter
+		this.testX(objOne, objTwo, moduleInitialiser, false);
 	}
 }

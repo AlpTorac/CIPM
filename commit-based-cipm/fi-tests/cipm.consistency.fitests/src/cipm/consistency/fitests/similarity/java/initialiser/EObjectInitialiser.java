@@ -1,7 +1,13 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
+import java.util.Collection;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.emftext.language.java.commons.NamespaceAwareElement;
 
 public interface EObjectInitialiser extends IInitialiser {
 	/**
@@ -56,5 +62,21 @@ public interface EObjectInitialiser extends IInitialiser {
 	public default EObject minimalInitialisationWithContainer(EObject obj) {
 		this.minimalInitialisation(obj);
 		return obj;
+	}
+	
+	public default <E extends EObject, X extends Object> void addXs(E obj, BiConsumer<E,X> func, X[] xs) {
+		if (xs != null) {
+			for (var x : xs) {
+				func.accept(obj, x);
+			}
+		}
+	}
+	
+	public default <E extends EObject, X extends Object> void addXs(E obj, BiConsumer<E,X> func, Collection<X> xs) {
+		if (xs != null) {
+			for (var x : xs) {
+				func.accept(obj, x);
+			}
+		}
 	}
 }

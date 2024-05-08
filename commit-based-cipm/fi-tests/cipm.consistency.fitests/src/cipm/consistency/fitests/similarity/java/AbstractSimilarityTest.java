@@ -22,6 +22,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.splevo.jamopp.diffing.similarity.base.MapSimilarityToolboxFactory;
 
+import cipm.consistency.fitests.similarity.java.generators.AbstractParameterGenerator;
 import cipm.consistency.fitests.similarity.java.utils.DummySimilarityChecker;
 import cipm.consistency.fitests.similarity.java.utils.DummySimilarityToolboxBuilder;
 import cipm.consistency.fitests.similarity.java.utils.InnerSwitchFactory;
@@ -35,6 +36,7 @@ public abstract class AbstractSimilarityTest {
 	private final String extension = "javaxmi";
 	
 	private final List<Resource> createdResources = new ArrayList<Resource>();
+	private final List<AbstractParameterGenerator<?>> generators = new ArrayList<AbstractParameterGenerator<?>>();
 	
 	private boolean defaultCheckStatementPosition = true;
 	
@@ -57,11 +59,21 @@ public abstract class AbstractSimilarityTest {
 		this.cleanRegistry();
 		this.cleanAllResources();
 		this.deleteResourceDir();
+		
+		this.resetGenerators();
 	}
 	
 	private Resource initResource(URI uri) {
 		ResourceSet rSet = new ResourceSetImpl();
 		return rSet.createResource(uri);
+	}
+	
+	protected void registerGenerator(AbstractParameterGenerator<?> gen) {
+		this.generators.add(gen);
+	}
+	
+	protected void resetGenerators() {
+		this.generators.forEach((g) -> g.reset());
 	}
 	
 	protected void saveResource(Resource res) {
@@ -166,6 +178,7 @@ public abstract class AbstractSimilarityTest {
 				 */
 				if (eo.eResource() != null) {
 					LOGGER.error("An EObject's resource was set and shifted during resource creation");
+					Assertions.fail();
 				}
 				res.getContents().add(eo);
 			}

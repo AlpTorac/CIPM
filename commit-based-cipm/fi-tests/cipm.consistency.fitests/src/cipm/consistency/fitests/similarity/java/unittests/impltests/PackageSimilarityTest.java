@@ -11,6 +11,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.java.generators.ConcreteClassifierGenerator;
+import cipm.consistency.fitests.similarity.java.generators.ModuleGenerator;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.IModuleInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.IPackageInitialiser;
@@ -20,52 +22,30 @@ import cipm.consistency.fitests.similarity.java.initialiser.testable.IConcreteCl
 
 public class PackageSimilarityTest extends EObjectSimilarityTest {
 	private IPackageInitialiser pacInit;
-	private IConcreteClassifierInitialiser clsInit;
-	private IModuleInitialiser modInit;
 	
-	private List<ConcreteClassifier> clsList;
-	private List<Module> modList;
+	private ConcreteClassifierGenerator ccGen;
+	private ModuleGenerator modGen;
 	
 	@BeforeEach
 	@Override
 	public void setUp() {
-		this.setResourceFileTestPrefix(PackageSimilarityTest.class.getSimpleName());
-		
 		this.pacInit = new PackageInitialiser();
-		modInit = new ModuleInitialiser();
-		clsInit = new ClassInitialiser();
 		
-		this.clsList = new ArrayList<ConcreteClassifier>();
-		this.modList = new ArrayList<Module>();
+		this.ccGen = new ConcreteClassifierGenerator();
+		this.registerGenerator(ccGen);
 		
-		var modNames = new String[] {"mod1", "mod2"};
-		var clsNames = new String[] {"cls1", "cls2"};
-		
-		for (var mn : modNames) {
-			Module mod = modInit.instantiate();
-			modInit.minimalInitialisation(mod);
-			modInit.initialiseName(mod, mn);
-			
-			this.modList.add(mod);
-		}
-		
-		for (var cn : clsNames) {
-			ConcreteClassifier cls = clsInit.instantiate();
-			clsInit.minimalInitialisation(cls);
-			clsInit.initialiseName(cls, cn);
-			
-			this.clsList.add(cls);
-		}
+		this.modGen = new ModuleGenerator();
+		this.registerGenerator(modGen);
 		
 		super.setUp();
 	}
 	
-	protected ConcreteClassifier getCCAt(int index) {
-		return this.clsInit.clone(this.clsList.get(index));
+	protected ConcreteClassifier generateCC() {
+		return this.ccGen.generateDefaultElement();
 	}
 	
-	protected Module getModAt(int index) {
-		return this.modInit.clone(this.modList.get(index));
+	protected Module generateMod() {
+		return this.modGen.generateDefaultElement();
 	}
 	
 	protected Package initElement(IPackageInitialiser initialiser, Module mod, ConcreteClassifier[] clss) {
@@ -84,46 +64,28 @@ public class PackageSimilarityTest extends EObjectSimilarityTest {
 	}
 	
 	@Test
-	public void testSameModule() {
-		this.setResourceFileTestIdentifier("testSameModule");
+	public void testModule() {
+		this.setResourceFileTestIdentifier("testModule");
 		
-		var objOne = this.initElement(pacInit, this.getModAt(0), null);
+		var objOne = this.initElement(pacInit, this.generateMod(), null);
+		var objTwo = this.initElement(pacInit, this.generateMod(), null);
 		
-		this.sameX(objOne, pacInit);
+		// TODO: Replace last parameter
+		this.testX(objOne, objTwo, pacInit, false);
 	}
 	
 	@Test
-	public void testDifferentModule() {
-		this.setResourceFileTestIdentifier("testDifferentModule");
-		
-		var objOne = this.initElement(pacInit, this.getModAt(0), null);
-		var objTwo = this.initElement(pacInit, this.getModAt(1), null);
-		
-		this.differentX(objOne, objTwo);
-	}
-	
-	@Test
-	public void testSameClassifiers() {
-		this.setResourceFileTestIdentifier("testSameClassifiers");
+	public void testClassifiers() {
+		this.setResourceFileTestIdentifier("testClassifiers");
 		
 		var objOne = this.initElement(pacInit, null, new ConcreteClassifier[] {
-				this.getCCAt(0), this.getCCAt(1)
-		});
-		
-		this.sameX(objOne, pacInit);
-	}
-	
-	@Test
-	public void testDifferentClassifiers() {
-		this.setResourceFileTestIdentifier("testDifferentClassifiers");
-		
-		var objOne = this.initElement(pacInit, null, new ConcreteClassifier[] {
-				this.getCCAt(0)
+				this.generateCC()
 		});
 		var objTwo = this.initElement(pacInit, null, new ConcreteClassifier[] {
-				this.getCCAt(1)
+				this.generateCC()
 		});
 		
-		this.differentX(objOne, objTwo);
+		// TODO: Replace last parameter
+		this.testX(objOne, objTwo, pacInit, false);
 	}
 }

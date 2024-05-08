@@ -70,6 +70,13 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 		super.setUp();
 	}
 	
+	/**
+	 * Gets rid of all whitespaces and newlines in the file.
+	 * <br><br>
+	 * <b>Currently does NOT remove commentary and other non-code lines</b>
+	 * 
+	 * @return File content without whitespaces/newlines.
+	 */
 	private static String readEffectiveCode(File f) throws IOException {
 		var content = Files.readString(f.toPath());
 		
@@ -78,6 +85,12 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 				.replaceAll("\\s", "");
 	}
 	
+	/**
+	 * Compares both files based on {@link #readEffectiveCode(File)}.
+	 * <br><br>
+	 * Use this method as a quick way to determine, whether 2 files are
+	 * equal.
+	 */
 	private static boolean filesEqual(File f1, File f2) throws IOException {
 		var f1Content = readEffectiveCode(f1);
 		var f2Content = readEffectiveCode(f2);
@@ -85,6 +98,9 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 		return f1Content.equals(f2Content);
 	}
 	
+	/**
+	 * Compares both directories based on files and sub-directories.
+	 */
 	private static boolean dirsEqual(File dir1, File dir2) throws IOException {
 		LOGGER.debug("Comparing: " + dir1.getName() + " and " + dir2.getName());
 		
@@ -101,6 +117,7 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 			files2.add(f);
 		}
 		
+		// Compare number of files in directories
 		if (files1.size() != files2.size()) {
 			return false;
 		}
@@ -108,6 +125,8 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 		var fileIter1 = files1.iterator();
 		var fileIter2 = files2.iterator();
 		
+		// Compare directory contents pairwise, as they are sorted by the TreeSet
+		// at the start
 		for (int i = 0; i < files1.size(); i++) {
 			var f1 = fileIter1.next();
 			var f2 = fileIter2.next();
@@ -133,6 +152,12 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 		return true;
 	}
 	
+	/**
+	 * Parses relevant model elements under modelDir, creates a
+	 * Resource to store them and returns that Resource.
+	 * 
+	 * @param modelDir: Path to individual module directories (such as {@link #model1Name})
+	 */
 	private static Resource parseModelsDir(Path modelDir) {
 		// Leave out commented options
 		ParserOptions.CREATE_LAYOUT_INFORMATION.setValue(Boolean.FALSE);
@@ -159,6 +184,13 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 		return all;
 	}
 	
+	/**
+	 * Adds paths to all directories, which have individual test model
+	 * directories ({@link #model1Name} {@link #model2Name}), to foundModelDirs.
+	 * <br><br>
+	 * This means, foundModelDirs contains each path that is the direct parent of
+	 * the {@link #model1Name} and {@link #model2Name} directories.
+	 */
 	private static void discoverFiles(File dirToDiscover, Collection<Path> foundModelDirs) {
 		if (dirToDiscover != null && dirToDiscover.isDirectory()) {
 			var discovered = new ArrayList<File>();
@@ -176,6 +208,9 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 		}
 	}
 	
+	/**
+	 * @see {@link #discoverFiles(File, Collection)}
+	 */
 	private static Collection<Path> discoverFiles(File dirToDiscover) {
 		var foundModelDirs = new ArrayList<Path>();
 		discoverFiles(dirToDiscover, foundModelDirs);

@@ -28,7 +28,7 @@ public class AnnotableTest extends EObjectSimilarityTest {
 		
 		aii1 = aii.instantiate();
 		aii.minimalInitialisation(aii1);
-		aii.initialiseNamespace(aii1, "ns1");
+		aii.addNamespace(aii1, "ns1");
 		
 		var ai1 = ai.instantiate();
 		ai.minimalInitialisation(ai1);
@@ -37,7 +37,7 @@ public class AnnotableTest extends EObjectSimilarityTest {
 		
 		aii2 = aii.instantiate();
 		aii.minimalInitialisation(aii2);
-		aii.initialiseNamespace(aii2, "ns2");
+		aii.addNamespace(aii2, "ns2");
 		
 		var ai2 = ai.instantiate();
 		ai.minimalInitialisation(ai2);
@@ -56,24 +56,13 @@ public class AnnotableTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableTestParams.class)
-	public void testSameAnnotation(IAnnotableInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testSameAnnotation");
-		
-		var objOne = this.initElement(initialiser, this.aii1);
-		
-		this.sameX(objOne, initialiser);
-	}
-	
-	// TODO: Clarify whether such differences matter, currently they do not matter
-//	@Disabled("Disabled until parameters are befitting")
-	@ParameterizedTest
-	@ArgumentsSource(AnnotableTestParams.class)
-	public void testDifferentAnnotation(IAnnotableInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testDifferentAnnotation");
+	public void testAnnotation(IAnnotableInitialiser initialiser) {
+		this.setResourceFileTestIdentifier("testAnnotation");
 		
 		var objOne = this.initElement(initialiser, this.aii1);
 		var objTwo = this.initElement(initialiser, this.aii2);
 		
-		this.differentX(objOne, objTwo);
+		// TODO: Replace last parameter
+		this.testX(objOne, objTwo, initialiser, false);
 	}
 }
