@@ -169,9 +169,18 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.ThrowInit
 import cipm.consistency.fitests.similarity.java.initialiser.statements.TryBlockInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.WhileLoopInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.YieldStatementInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.types.BooleanInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.types.ByteInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.types.CharInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.types.ClassifierReferenceInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.types.DoubleInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.types.FloatInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.types.InferableTypeInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.types.IntInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.types.LongInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.types.NamespaceClassifierReferenceInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.types.ShortInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.types.VoidInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.variables.AdditionalLocalVariableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.variables.LocalVariableInitialiser;
 
@@ -384,6 +393,15 @@ public class InitialiserParameters {
 			add(new ClassifierReferenceInitialiser());
 			add(new InferableTypeInitialiser());
 			add(new NamespaceClassifierReferenceInitialiser());
+			add(new BooleanInitialiser());
+			add(new ByteInitialiser());
+			add(new CharInitialiser());
+			add(new DoubleInitialiser());
+			add(new FloatInitialiser());
+			add(new IntInitialiser());
+			add(new LongInitialiser());
+			add(new ShortInitialiser());
+			add(new VoidInitialiser());
 			
 			// Variables
 			add(new AdditionalLocalVariableInitialiser());
