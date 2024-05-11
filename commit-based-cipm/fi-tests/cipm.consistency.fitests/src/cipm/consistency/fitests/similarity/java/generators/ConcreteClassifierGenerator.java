@@ -1,18 +1,35 @@
 package cipm.consistency.fitests.similarity.java.generators;
 
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.containers.Package;
 
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IConcreteClassifierInitialiser;
 
-public class ConcreteClassifierGenerator extends EObjectGenerator<ConcreteClassifier>
-	implements INamedElementGenerator {
+public class ConcreteClassifierGenerator<T extends ConcreteClassifier> extends EObjectGenerator<T>
+	implements INamedElementGenerator, IPackageContaineeGenerator,
+		ICompilationUnitContaineeGenerator {
 	
-	private NameGenerator nGen = new NameGenerator() {{
-		setNamePrefix("classifier");
-	}};
-	private PackageGenerator pacGen = new PackageGenerator();
+	private NameGenerator nGen;
+	private PackageGenerator pacGen;
+	private CompilationUnitGenerator cuGen;
+	
+	public ConcreteClassifierGenerator() {
+		super();
+		this.setDefaultNameGen();
+		this.setDefaultPacGen();
+		this.setDefaultCUGen();
+	}
+	
+	public void setPacGen(PackageGenerator pacGen) {
+		this.pacGen = pacGen;
+	}
+	
+	public PackageGenerator getPacGen() {
+		return this.pacGen;
+	}
 	
 	@Override
 	public void reset() {
@@ -30,26 +47,40 @@ public class ConcreteClassifierGenerator extends EObjectGenerator<ConcreteClassi
 		return new ClassInitialiser();
 	}
 	
-	protected void setPackage(ConcreteClassifier cc) {
-		this.getInitialiser().setPackage(cc,
-				this.pacGen.generateDefaultElement());
-	}
-	
-	public ConcreteClassifier generateWithPackage() {
-		var result = this.createDefaultElement();
-		this.setPackage(result);
-		return result;
-	}
-	
-	public ConcreteClassifier generateWithPackageAndName() {
-		ConcreteClassifier result = this.generateWithName();
-		this.setPackage(result);
-		return result;
+	@Override
+	public T generateElement() {
+		T result = super.generateElement();
 		
+		this.setName(result);
+		this.setPackage(result);
+		this.setCU(result);
+		
+		return result;
 	}
 
 	@Override
 	public NameGenerator getNameGenerator() {
 		return this.nGen;
+	}
+	
+	@Override
+	public void setNameGenerator(NameGenerator nGen) {
+		this.nGen = nGen;
+	}
+
+	@Override
+	public <C extends EObject> void initialiserSetPackage(Package pac, C obj) {
+		this.getInitialiser().setPackage((ConcreteClassifier) obj,
+				pac);
+	}
+
+	@Override
+	public void setCUGen(CompilationUnitGenerator cuGen) {
+		this.cuGen = cuGen;
+	}
+
+	@Override
+	public CompilationUnitGenerator getCUGen() {
+		return this.cuGen;
 	}
 }

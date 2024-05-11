@@ -6,19 +6,19 @@ import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.INamespaceAwareElementInitialiser;
 
 public interface INamespaceAwareElementGenerator {
-	public <T extends NamespaceAwareElement> T generateDefaultElement();
+	public <T extends NamespaceAwareElement> T generateElement();
 	public EObjectInitialiser getInitialiser();
 	public NamespaceGenerator getNamespaceGenerator();
-	
-	public default <T extends NamespaceAwareElement> void setNamespace(T obj) {
-		var init = (INamespaceAwareElementInitialiser) this.getInitialiser();
-		init.addNamespaces(obj, this.getNamespaceGenerator().generateDefaultElement());
+	public void setNamespaceGenerator(NamespaceGenerator nsGen);
+	public default void setDefaultNamespaceGenerator() {
+		this.setNamespaceGenerator(new NamespaceGenerator());
 	}
 	
-	@SuppressWarnings("unchecked")
-	public default <T extends NamespaceAwareElement> T generateWithNamespace() {
-		var result = this.generateDefaultElement();
-		this.setNamespace(result);
-		return (T) result;
+	public default <T extends NamespaceAwareElement> void setNamespace(T obj) {
+		var gen = this.getNamespaceGenerator();
+		if (gen != null) {
+			var init = (INamespaceAwareElementInitialiser) this.getInitialiser();
+			init.addNamespaces(obj, gen.generateElement());
+		}
 	}
 }

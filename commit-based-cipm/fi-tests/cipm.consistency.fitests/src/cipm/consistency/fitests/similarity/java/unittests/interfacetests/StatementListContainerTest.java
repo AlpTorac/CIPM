@@ -63,7 +63,7 @@ public class StatementListContainerTest extends EObjectSimilarityTest {
 			Statement[] sts) {
 		
 		StatementListContainer result = initialiser.instantiate();
-		initialiser.minimalInitialisationWithContainer(result);
+//		initialiser.minimalInitialisationWithContainer(result);
 		
 		if (sts != null) {
 			for (var st : sts) {
@@ -91,6 +91,6 @@ public class StatementListContainerTest extends EObjectSimilarityTest {
 		});
 		
 		// TODO: Replace last parameter
-		this.testX(objOne, objTwo, initialiser, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

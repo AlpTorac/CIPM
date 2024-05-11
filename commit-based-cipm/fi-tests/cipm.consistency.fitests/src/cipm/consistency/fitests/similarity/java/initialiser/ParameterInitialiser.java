@@ -27,19 +27,19 @@ public abstract class ParameterInitialiser implements IParameterInitialiser {
 		return this.pInit;
 	}
 	
-	@Override
-	public EObject minimalInitialisationWithContainer(EObject obj) {
-		var castedO = (Parameter) obj;
-		this.minimalInitialisation(castedO);
-		
-		var pAbleInit = this.getPInit();
-		Parametrizable pAble = pAbleInit.instantiate();
-		
-		var root = pAbleInit.minimalInitialisationWithContainer(pAble);
-		pAbleInit.addParameter(pAble, castedO);
-		
-		return root;
-	}
+//	@Override
+//	public EObject minimalInitialisationWithContainer(EObject obj) {
+//		var castedO = (Parameter) obj;
+//		this.minimalInitialisation(castedO);
+//		
+//		var pAbleInit = this.getPInit();
+//		Parametrizable pAble = pAbleInit.instantiate();
+//		
+//		var root = pAbleInit.minimalInitialisationWithContainer(pAble);
+//		pAbleInit.addParameter(pAble, castedO);
+//		
+//		return root;
+//	}
 	
 	@Override
 	public abstract ParameterInitialiser newInitialiser();

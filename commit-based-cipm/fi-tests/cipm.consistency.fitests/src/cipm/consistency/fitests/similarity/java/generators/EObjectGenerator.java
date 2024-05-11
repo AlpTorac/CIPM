@@ -13,7 +13,7 @@ public abstract class EObjectGenerator<T extends EObject> extends AbstractParame
 	}
 	
 	@Override
-	protected T createDefaultElement() {
+	protected T createElement() {
 		return this.minimallyInstantiateObj();
 	}
 	

@@ -110,7 +110,7 @@ public class ModuleSimilarityTest extends EObjectSimilarityTest {
 		var objTwo = this.initElement(moduleInitialiser, null, null, false);
 		
 		// TODO: Replace last parameter
-		this.testX(objOne, objTwo, moduleInitialiser, false);
+		this.testX(objOne, objTwo, false);
 	}
 	
 	@Test
@@ -125,7 +125,7 @@ public class ModuleSimilarityTest extends EObjectSimilarityTest {
 		}, null, false);
 		
 		// TODO: Replace last parameter
-		this.testX(objOne, objTwo, moduleInitialiser, false);
+		this.testX(objOne, objTwo, false);
 	}
 	
 	public void testModuleDirectives() {
@@ -140,6 +140,6 @@ public class ModuleSimilarityTest extends EObjectSimilarityTest {
 		}, false);
 		
 		// TODO: Replace last parameter
-		this.testX(objOne, objTwo, moduleInitialiser, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

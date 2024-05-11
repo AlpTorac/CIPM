@@ -8,7 +8,12 @@ import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageIn
 public class PackageGenerator extends EObjectGenerator<Package>
 	implements INamespaceAwareElementGenerator {
 	
-	private NamespaceGenerator nsGen = new NamespaceGenerator();
+	private NamespaceGenerator nsGen;
+	
+	public PackageGenerator() {
+		super();
+		this.setDefaultNamespaceGenerator();
+	}
 	
 	@Override
 	public void reset() {
@@ -29,5 +34,17 @@ public class PackageGenerator extends EObjectGenerator<Package>
 	@Override
 	public NamespaceGenerator getNamespaceGenerator() {
 		return this.nsGen;
+	}
+
+	@Override
+	public void setNamespaceGenerator(NamespaceGenerator nsGen) {
+		this.nsGen = nsGen;
+	}
+	
+	@Override
+	public Package generateElement() {
+		Package result = super.generateElement();
+		this.setNamespace(result);
+		return result;
 	}
 }

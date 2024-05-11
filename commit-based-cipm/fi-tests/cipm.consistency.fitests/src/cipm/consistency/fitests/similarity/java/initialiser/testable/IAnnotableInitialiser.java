@@ -16,18 +16,10 @@ public interface IAnnotableInitialiser extends ICommentableInitialiser {
 	}
 	
 	public default void addAnnotations(Annotable aObj, AnnotationInstance[] ais) {
-		if (ais != null) {
-			this.addAnnotations(aObj, List.of(ais));
-		}
+		this.addXs(aObj, (o, ai) -> this.addAnnotation(o, ai), ais);
 	}
 	
 	public default void addAnnotations(Annotable aObj, Collection<AnnotationInstance> ais) {
-		if (ais != null) {
-			for (var ai : ais) {
-				this.addAnnotation(aObj, ai);
-			}
-			
-			assert aObj.getAnnotations().containsAll(ais);
-		}
+		this.addXs(aObj, (o, ai) -> this.addAnnotation(o, ai), ais);
 	}
 }

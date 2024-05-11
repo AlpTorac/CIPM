@@ -1,5 +1,7 @@
 package cipm.consistency.fitests.similarity.java.initialiser.testable;
 
+import java.util.Collection;
+
 import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.Modifier;
@@ -16,12 +18,28 @@ public interface IAnnotableAndModifiableInitialiser extends ICommentableInitiali
 		}
 	}
 	
+	public default void addModifiers(AnnotableAndModifiable aam, Modifier[] modifs) {
+		this.addXs(aam, (o,m)->this.addModifier(o, m), modifs);
+	}
+	
+	public default void addModifiers(AnnotableAndModifiable aam, Collection<Modifier> modifs) {
+		this.addXs(aam, (o,m)->this.addModifier(o, m), modifs);
+	}
+	
 	public default void addAnnotationInstance(AnnotableAndModifiable aam, AnnotationInstance ai) {
 		if (aam != null) {
 			aam.getAnnotationsAndModifiers().add(ai);
 			assert aam.getAnnotationsAndModifiers().contains(ai);
 			assert aam.getAnnotationInstances().contains(ai);
 		}
+	}
+	
+	public default void addAnnotationInstances(AnnotableAndModifiable aam, AnnotationInstance[] ais) {
+		this.addXs(aam, (o, ai) -> this.addAnnotationInstance(o, ai), ais);
+	}
+	
+	public default void addAnnotationInstances(AnnotableAndModifiable aam, Collection<AnnotationInstance> ais) {
+		this.addXs(aam, (o, ai) -> this.addAnnotationInstance(o, ai), ais);
 	}
 	
 	public default void setVisibility(AnnotableAndModifiable aam, InitialiserVisibilityModifier modifier) {

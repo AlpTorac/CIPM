@@ -3,9 +3,7 @@ package cipm.consistency.fitests.similarity.java.generators;
 import java.util.ArrayList;
 
 public class NamespaceGenerator extends AbstractParameterGenerator<String[]> {
-	private NameGenerator nGen = new NameGenerator() {{
-		setNamePrefix("ns");
-	}};
+	private NameGenerator nGen = new NameGenerator();
 	
 	@Override
 	public void reset() {
@@ -14,12 +12,12 @@ public class NamespaceGenerator extends AbstractParameterGenerator<String[]> {
 	}
 	
 	@Override
-	protected String[] createDefaultElement() {
+	protected String[] createElement() {
 		return this.generateNamespace(3);
 	}
 	
 	protected String generateName() {
-		return this.nGen.generateDefaultElement();
+		return this.nGen.generateElement();
 	}
 	
 	public String[] generateNamespace(int nsCount) {

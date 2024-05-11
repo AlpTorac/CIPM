@@ -16,19 +16,19 @@ public interface IBlockContainerContaineeInitialiser extends EObjectInitialiser 
 		return new ConstructorInitialiser();
 	}
 	
-	@Override
-	public default EObject minimalInitialisationWithContainer(EObject obj) {
-		var castedO = (Block) obj;
-				
-		var bcInit = this.getBCInit();
-		if (bcInit == null) {
-			bcInit = this.getDefaultBCInit();
-		}
-		
-		BlockContainer bc = bcInit.instantiate();
-		bcInit.minimalInitialisation(bc);
-		bcInit.setBlock(bc, castedO);
-		
-		return bc;
-	}
+//	@Override
+//	public default EObject minimalInitialisationWithContainer(EObject obj) {
+//		var castedO = (Block) obj;
+//				
+//		var bcInit = this.getBCInit();
+//		if (bcInit == null) {
+//			bcInit = this.getDefaultBCInit();
+//		}
+//		
+//		BlockContainer bc = bcInit.instantiate();
+//		bcInit.minimalInitialisation(bc);
+//		bcInit.setBlock(bc, castedO);
+//		
+//		return bc;
+//	}
 }

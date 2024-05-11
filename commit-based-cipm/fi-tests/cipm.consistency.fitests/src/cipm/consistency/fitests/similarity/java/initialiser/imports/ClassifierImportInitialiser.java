@@ -5,7 +5,7 @@ import org.emftext.language.java.imports.ImportsFactory;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ImportInitialiser;
 
-public class ClassifierImportInitialiser extends ImportInitialiser implements IClassifierImportInitialiser {
+public class ClassifierImportInitialiser implements IClassifierImportInitialiser {
 	@Override
 	public IClassifierImportInitialiser newInitialiser() {
 		return new ClassifierImportInitialiser();

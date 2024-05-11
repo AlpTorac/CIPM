@@ -8,9 +8,12 @@ import cipm.consistency.fitests.similarity.java.initialiser.containers.ModuleIni
 
 public class ModuleGenerator extends EObjectGenerator<Module>
 	implements INamedElementGenerator {
-	private NameGenerator nGen = new NameGenerator() {{
-		setNamePrefix("mod");
-	}};
+	private NameGenerator nGen;
+	
+	public ModuleGenerator() {
+		super();
+		this.setDefaultNameGen();
+	}
 	
 	@Override
 	public void reset() {
@@ -29,7 +32,19 @@ public class ModuleGenerator extends EObjectGenerator<Module>
 	}
 
 	@Override
+	public Module generateElement() {
+		Module result = super.generateElement();
+		this.setName(result);
+		return result;
+	}
+	
+	@Override
 	public NameGenerator getNameGenerator() {
 		return this.nGen;
+	}
+
+	@Override
+	public void setNameGenerator(NameGenerator nGen) {
+		this.nGen = nGen;
 	}
 }

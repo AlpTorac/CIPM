@@ -18,7 +18,7 @@ public class ImportTestParams implements ArgumentsProvider {
 		return new InitialiserParameters()
 				.getInitialisersBySuper(IImportInitialiser.class)
 				.stream()
-				.map((i) -> ((ImportInitialiser) i).withClsInit(new ClassInitialiser()))
+//				.map((i) -> ((ImportInitialiser) i).withClsInit(new ClassInitialiser()))
 				.map((i) -> Arguments.of(i));
 	}
 

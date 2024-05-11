@@ -5,7 +5,7 @@ import org.emftext.language.java.imports.PackageImport;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ImportInitialiser;
 
-public class PackageImportInitialiser extends ImportInitialiser implements IPackageImportInitialiser {
+public class PackageImportInitialiser implements IPackageImportInitialiser {
 	@Override
 	public IPackageImportInitialiser newInitialiser() {
 		return new PackageImportInitialiser();

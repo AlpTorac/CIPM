@@ -7,19 +7,14 @@ import cipm.consistency.fitests.similarity.java.initialiser.testable.IParametriz
 
 import org.emftext.language.java.parameters.CatchParameter;
 
-public class CatchParameterInitialiser extends ParameterInitialiser implements ICatchParameterInitialiser {
+public class CatchParameterInitialiser implements ICatchParameterInitialiser {
 	@Override
 	public CatchParameter instantiate() {
 		return ParametersFactory.eINSTANCE.createCatchParameter();
 	}
-	
-	@Override
-	public CatchParameterInitialiser withPInit(IParametrizableInitialiser pInit) {
-		return (CatchParameterInitialiser) super.withPInit(pInit);
-	}
 
 	@Override
-	public ParameterInitialiser newInitialiser() {
+	public CatchParameterInitialiser newInitialiser() {
 		return new CatchParameterInitialiser();
 	}
 }

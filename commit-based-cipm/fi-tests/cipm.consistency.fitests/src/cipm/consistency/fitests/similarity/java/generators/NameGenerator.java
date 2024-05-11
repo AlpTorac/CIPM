@@ -1,15 +1,16 @@
 package cipm.consistency.fitests.similarity.java.generators;
 
 public class NameGenerator extends AbstractParameterGenerator<String> {
+	private static int nameCount = 0;
+	
 	private String namePrefix = "name";
-	private int nameCount = 0;
 	
 	public NameGenerator() {
 		super();
 	}
 	
 	protected int getNameCount() {
-		return this.nameCount;
+		return nameCount;
 	}
 	
 	protected String getNamePrefix() {
@@ -27,11 +28,11 @@ public class NameGenerator extends AbstractParameterGenerator<String> {
 	@Override
 	public void reset() {
 		super.reset();
-		this.nameCount = 0;
+		nameCount = 0;
 	}
 	
 	@Override
-	public String createDefaultElement() {
+	public String createElement() {
 		var result = this.getNamePrefix() + this.getNameCount();
 		this.incNameCount();
 		return result;

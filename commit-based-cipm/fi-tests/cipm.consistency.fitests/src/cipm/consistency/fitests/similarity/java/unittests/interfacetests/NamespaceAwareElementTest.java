@@ -41,6 +41,6 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 		var objTwo = this.initElement(initialiser, this.generateNS(3));
 		
 		// TODO: Replace last parameter
-		this.testX(objOne, objTwo, initialiser, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

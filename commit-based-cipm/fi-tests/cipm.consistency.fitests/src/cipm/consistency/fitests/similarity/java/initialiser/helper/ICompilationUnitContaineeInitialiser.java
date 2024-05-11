@@ -22,28 +22,28 @@ public interface ICompilationUnitContaineeInitialiser extends EObjectInitialiser
 	public ICompilationUnitInitialiser getCUInit();
 	public ICompilationUnitContaineeInitialiser withCUInit(ICompilationUnitInitialiser cuInit);
 	
-	/**
-	 * {@inheritDoc}
-	 * <br><br>
-	 * Creates a minimal {@link CompilationUnit} and puts obj in it.
-	 * @param obj: A given {@link ConcreteClassifier} instance
-	 */
-	@Override
-	public default CompilationUnit minimalInitialisationWithContainer(EObject obj) {
-		var castedO = (ConcreteClassifier) obj;
-		this.minimalInitialisation(castedO);
-		
-		var cuInit = this.getCUInit();
-		
-		if (cuInit == null) {
-			cuInit = this.getDefaultCUInit();
-		}
-		
-		CompilationUnit unit = cuInit.instantiate();
-		
-		cuInit.minimalInitialisation(unit);
-		cuInit.addClassifier(unit, castedO);
-		
-		return unit;
-	}
+//	/**
+//	 * {@inheritDoc}
+//	 * <br><br>
+//	 * Creates a minimal {@link CompilationUnit} and puts obj in it.
+//	 * @param obj: A given {@link ConcreteClassifier} instance
+//	 */
+//	@Override
+//	public default CompilationUnit minimalInitialisationWithContainer(EObject obj) {
+//		var castedO = (ConcreteClassifier) obj;
+//		this.minimalInitialisation(castedO);
+//		
+//		var cuInit = this.getCUInit();
+//		
+//		if (cuInit == null) {
+//			cuInit = this.getDefaultCUInit();
+//		}
+//		
+//		CompilationUnit unit = cuInit.instantiate();
+//		
+//		cuInit.minimalInitialisation(unit);
+//		cuInit.addClassifier(unit, castedO);
+//		
+//		return unit;
+//	}
 }

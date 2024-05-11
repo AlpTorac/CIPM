@@ -17,21 +17,21 @@ public interface IMemberHelperInitialiser extends EObjectInitialiser {
 		return new ClassInitialiser();
 	}
 	
-	@Override
-	public default EObject minimalInitialisationWithContainer(EObject member) {
-		var castedO = (Member) member;
-		this.minimalInitialisation(castedO);
-		
-		var mcInit = this.getMCInit();
-		if (mcInit == null) {
-			mcInit = this.getDefaultMCInit();
-		}
-		
-		MemberContainer mc = mcInit.instantiate();
-		
-		var root = mcInit.minimalInitialisationWithContainer(mc);
-		mcInit.addMember(mc, castedO);
-		
-		return root;
-	}
+//	@Override
+//	public default EObject minimalInitialisationWithContainer(EObject member) {
+//		var castedO = (Member) member;
+//		this.minimalInitialisation(castedO);
+//		
+//		var mcInit = this.getMCInit();
+//		if (mcInit == null) {
+//			mcInit = this.getDefaultMCInit();
+//		}
+//		
+//		MemberContainer mc = mcInit.instantiate();
+//		
+//		var root = mcInit.minimalInitialisationWithContainer(mc);
+//		mcInit.addMember(mc, castedO);
+//		
+//		return root;
+//	}
 }

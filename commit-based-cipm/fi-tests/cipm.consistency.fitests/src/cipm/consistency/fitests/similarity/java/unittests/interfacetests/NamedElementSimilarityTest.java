@@ -23,7 +23,7 @@ public class NamedElementSimilarityTest extends EObjectSimilarityTest {
 	}
 	
 	protected String generateName() {
-		return this.nGen.generateDefaultElement();
+		return this.nGen.generateElement();
 	}
 	
 	protected NamedElement initElement(INamedElementInitialiser initialiser, String name) {
@@ -41,6 +41,6 @@ public class NamedElementSimilarityTest extends EObjectSimilarityTest {
 		var objTwo = this.initElement(initialiser, this.generateName());
 		
 		// TODO: Replace last parameter
-		this.testX(objOne, objTwo, initialiser, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

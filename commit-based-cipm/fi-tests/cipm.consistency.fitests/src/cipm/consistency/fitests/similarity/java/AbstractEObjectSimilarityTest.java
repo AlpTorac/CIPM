@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Assertions;
  * 
  * @author atora
  */
-public class EObjectSimilarityTest extends AbstractSimilarityTest {
+public class AbstractEObjectSimilarityTest extends AbstractSimilarityTest {
 	public Boolean compareWithEcore(EObject obj1, EObject obj2) {
 		return EcoreUtil.equals(obj1, obj2);
 	}
@@ -29,7 +29,7 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 		return "EcoreUtil comparison (list) result: " + this.compareListWithEcore(obj1, obj2);
 	}
 	
-	public <T extends EObject> T cloneEObj(T obj) {
+	public <T extends EObject> T cloneEObject(T obj) {
 		return EcoreUtil.copy(obj);
 	}
 	
@@ -38,8 +38,8 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	 * They are expected to be similar.
 	 */
 	public void sameX(EObject elem) {
-		var objOne = this.cloneEObj(elem);
-		var objTwo = this.cloneEObj(objOne);
+		var objOne = this.cloneEObject(elem);
+		var objTwo = this.cloneEObject(objOne);
 		
 		var resOne = this.createResource(List.of(objOne));
 		var resTwo = this.createResource(List.of(objTwo));
@@ -61,8 +61,8 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	 * same with the given expected value.
 	 */
 	public void compareX(EObject elem1, EObject elem2, Boolean expectedSimilarityResult) {
-		var objOne = this.cloneEObj(elem1);
-		var objTwo = this.cloneEObj(elem2);
+		var objOne = this.cloneEObject(elem1);
+		var objTwo = this.cloneEObject(elem2);
 		
 		var resOne = this.createResource(List.of(objOne));
 		var resTwo = this.createResource(List.of(objTwo));
@@ -95,10 +95,10 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	// TODO: If needed, uncomment and clone all EObjects before using them
 //	public void listSameXSameOrder(EObject elem1, EObject elem2, EObjectInitialiser initialiser) {
 //		var obj11 = elem1;
-//		var obj11Copy = this.cloneEObj(obj11);
+//		var obj11Copy = initialiser.clone(obj11);
 //		
 //		var obj12 = elem2;
-//		var obj12Copy = this.cloneEObj(obj12);
+//		var obj12Copy = initialiser.clone(obj12);
 //		
 //		var list1 = List.of(obj11, obj12);
 //		var list2 = List.of(obj11Copy, obj12Copy);
@@ -119,10 +119,10 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 //	 */
 //	public void listSameXDifferentOrder(EObject elem1, EObject elem2, EObjectInitialiser initialiser) {
 //		var obj11 = elem1;
-//		var obj11Copy = this.cloneEObj(obj11);
+//		var obj11Copy = initialiser.clone(obj11);
 //		
 //		var obj12 = elem2;
-//		var obj12Copy = this.cloneEObj(obj12);
+//		var obj12Copy = initialiser.clone(obj12);
 //		
 //		var list1 = List.of(obj11, obj12);
 //		var list2 = List.of(obj12Copy, obj11Copy);

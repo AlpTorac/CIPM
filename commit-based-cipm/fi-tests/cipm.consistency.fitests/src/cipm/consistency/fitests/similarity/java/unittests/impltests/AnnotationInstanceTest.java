@@ -85,7 +85,7 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest {
 		var objTwo = this.initElement(aiInit, cls2, null);
 		
 		// TODO: Replace last parameter
-		this.testX(objOne, objTwo, aiInit, false);
+		this.testX(objOne, objTwo, false);
 	}
 	
 	@Test
@@ -96,6 +96,6 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest {
 		var objTwo = this.initElement(aiInit, null, param2);
 		
 		// TODO: Replace last parameter
-		this.testX(objOne, objTwo, aiInit, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

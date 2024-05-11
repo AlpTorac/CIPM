@@ -8,20 +8,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.helper.ICompilationU
 
 import org.emftext.language.java.classifiers.Class;
 
-public class ClassInitialiser implements IClassInitialiser, ICompilationUnitContaineeInitialiser {
-	private ICompilationUnitInitialiser cuInit;
-	
-	@Override
-	public ICompilationUnitInitialiser getCUInit() {
-		return this.cuInit;
-	}
-	
-	@Override
-	public ClassInitialiser withCUInit(ICompilationUnitInitialiser cuInit) {
-		this.cuInit = cuInit;
-		return this;
-	}
-	
+public class ClassInitialiser implements IClassInitialiser {
 	@Override
 	public Class instantiate() {
 		var fac = ClassifiersFactory.eINSTANCE;

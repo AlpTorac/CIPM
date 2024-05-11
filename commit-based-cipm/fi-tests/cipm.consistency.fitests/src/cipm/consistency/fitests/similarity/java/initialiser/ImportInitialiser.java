@@ -22,16 +22,16 @@ public abstract class ImportInitialiser implements EObjectInitialiser {
 		return this.clsInit;
 	}
 	
-	@Override
-	public EObject minimalInitialisationWithContainer(EObject obj) {
-		var castedO = (Import) obj;
-		this.minimalInitialisation(castedO);
-		
-		var clsInit = this.getClsInit();
-		ConcreteClassifier cls = clsInit.instantiate();
-		var unit = clsInit.minimalInitialisationWithContainer(cls);
-		cls.addImport(castedO.getNamespacesAsString());
-		
-		return unit;
-	}
+//	@Override
+//	public EObject minimalInitialisationWithContainer(EObject obj) {
+//		var castedO = (Import) obj;
+//		this.minimalInitialisation(castedO);
+//		
+//		var clsInit = this.getClsInit();
+//		ConcreteClassifier cls = clsInit.instantiate();
+//		var unit = clsInit.minimalInitialisationWithContainer(cls);
+//		cls.addImport(castedO.getNamespacesAsString());
+//		
+//		return unit;
+//	}
 }

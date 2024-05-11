@@ -61,6 +61,8 @@ public abstract class AbstractSimilarityTest {
 		this.deleteResourceDir();
 		
 		this.resetGenerators();
+		
+		this.generators.clear();
 	}
 	
 	private Resource initResource(URI uri) {

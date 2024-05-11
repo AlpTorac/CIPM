@@ -22,7 +22,7 @@ public class ImportTest extends EObjectSimilarityTest {
 	}
 	
 	protected ConcreteClassifier generateCC() {
-		return this.ccGen.generateDefaultElement();
+		return this.ccGen.generateElement();
 	}
 	
 	protected Import initElement(IImportInitialiser initialiser, ConcreteClassifier cls) {
@@ -43,6 +43,6 @@ public class ImportTest extends EObjectSimilarityTest {
 		var objTwo = this.initElement(initialiser, this.generateCC());
 		
 		// TODO: Replace last parameter
-		this.testX(objOne, objTwo, initialiser, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

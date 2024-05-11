@@ -41,11 +41,11 @@ public class PackageSimilarityTest extends EObjectSimilarityTest {
 	}
 	
 	protected ConcreteClassifier generateCC() {
-		return this.ccGen.generateDefaultElement();
+		return this.ccGen.generateElement();
 	}
 	
 	protected Module generateMod() {
-		return this.modGen.generateDefaultElement();
+		return this.modGen.generateElement();
 	}
 	
 	protected Package initElement(IPackageInitialiser initialiser, Module mod, ConcreteClassifier[] clss) {
@@ -71,7 +71,7 @@ public class PackageSimilarityTest extends EObjectSimilarityTest {
 		var objTwo = this.initElement(pacInit, this.generateMod(), null);
 		
 		// TODO: Replace last parameter
-		this.testX(objOne, objTwo, pacInit, false);
+		this.testX(objOne, objTwo, false);
 	}
 	
 	@Test
@@ -86,6 +86,6 @@ public class PackageSimilarityTest extends EObjectSimilarityTest {
 		});
 		
 		// TODO: Replace last parameter
-		this.testX(objOne, objTwo, pacInit, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

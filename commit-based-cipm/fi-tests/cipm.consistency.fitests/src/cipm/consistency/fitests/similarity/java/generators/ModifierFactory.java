@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.java.initialiser.params;
+package cipm.consistency.fitests.similarity.java.generators;
 
 import org.emftext.language.java.modifiers.ModifiersFactory;
 

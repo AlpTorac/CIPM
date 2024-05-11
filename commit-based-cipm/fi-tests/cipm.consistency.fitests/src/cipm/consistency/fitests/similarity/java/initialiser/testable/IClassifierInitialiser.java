@@ -1,5 +1,7 @@
 package cipm.consistency.fitests.similarity.java.initialiser.testable;
 
+import java.util.Collection;
+
 import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.imports.Import;
 
@@ -32,11 +34,23 @@ public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceable
 		}
 	}
 	
+	public default void addImports(Classifier cls, Import[] imps) {
+		this.addXs(cls, (o, imp)->this.addImport(o, imp), imps);
+	}
+	
+	public default void addImports(Classifier cls, Collection<? extends Import> imps) {
+		this.addXs(cls, (o, imp)->this.addImport(o, imp), imps);
+	}
+	
 	public default void addPackageImport(Classifier cls, Import imp) {
-		if (imp != null) {
-			cls.getContainingCompilationUnit().getImports().add(imp);
-			assert cls.getContainingCompilationUnit().getImports().stream()
-			.anyMatch((i) -> i.equals(imp));
-		}
+		this.addImport(cls, imp);
+	}
+	
+	public default void addPackageImports(Classifier cls, Import[] imp) {
+		this.addImports(cls, imp);
+	}
+	
+	public default void addPackageImports(Classifier cls, Collection<? extends Import> imp) {
+		this.addImports(cls, imp);
 	}
 }

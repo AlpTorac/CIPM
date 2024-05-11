@@ -8,20 +8,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.containers.ICompilat
 import cipm.consistency.fitests.similarity.java.initialiser.helper.ICompilationUnitContaineeInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IMemberContainerInitialiser;
 
-public class AnnotationInitialiser implements IAnnotationInitialiser, ICompilationUnitContaineeInitialiser {
-	private ICompilationUnitInitialiser cuInit;
-	
-	@Override
-	public ICompilationUnitInitialiser getCUInit() {
-		return this.cuInit;
-	}
-	
-	@Override
-	public AnnotationInitialiser withCUInit(ICompilationUnitInitialiser cuInit) {
-		this.cuInit = cuInit;
-		return this;
-	}
-
+public class AnnotationInitialiser implements IAnnotationInitialiser {
 	@Override
 	public Annotation instantiate() {
 		var fac = ClassifiersFactory.eINSTANCE;
@@ -32,5 +19,4 @@ public class AnnotationInitialiser implements IAnnotationInitialiser, ICompilati
 	public AnnotationInitialiser newInitialiser() {
 		return new AnnotationInitialiser();
 	}
-
 }

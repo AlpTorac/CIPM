@@ -1,6 +1,7 @@
 package cipm.consistency.fitests.similarity.java.generators;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public abstract class AbstractParameterGenerator<T> {
@@ -43,30 +44,25 @@ public abstract class AbstractParameterGenerator<T> {
 	 * Creates an instance of T with neither initialisation
 	 * nor adding to the list.
 	 */
-	protected abstract T createDefaultElement();
+	protected abstract T createElement();
 	
 	/**
 	 * Generates an element that is different compared to others,
 	 * adds it to {@link #objList} and then returns a clone of it.
 	 */
-	public T generateDefaultElement() {
-		T result = this.createDefaultElement();
+	public T generateElement() {
+		T result = this.createElement();
 		this.addToList(result);
 		return result;
 	}
 	
-	/*
-	 * Since T is in any case an instance of Object,
-	 * the type cast at return is safe.
-	 */
-	@SuppressWarnings("unchecked")
-	public T[] generateDefaultElements(int count) {
+	public Collection<T> generateElements(int count) {
 		var elems = new ArrayList<T>();
 		
 		for (int i = 0; i < count; i++) {
-			elems.add(this.generateDefaultElement());
+			elems.add(this.generateElement());
 		}
 		
-		return (T[]) elems.toArray(Object[]::new);
+		return elems;
 	}
 }
