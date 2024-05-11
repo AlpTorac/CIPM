@@ -53,7 +53,7 @@ public class ConcreteClassifierTest extends EObjectSimilarityTest {
 		
 		var objOne = this.initElement(initialiser, pac1);
 		
-		this.sameX(objOne, initialiser);
+		this.sameX(objOne);
 	}
 	
 	/**

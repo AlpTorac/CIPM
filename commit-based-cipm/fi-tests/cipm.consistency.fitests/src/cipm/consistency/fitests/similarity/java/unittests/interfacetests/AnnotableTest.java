@@ -61,7 +61,7 @@ public class AnnotableTest extends EObjectSimilarityTest {
 		
 		var objOne = this.initElement(initialiser, this.aii1);
 		
-		this.sameX(objOne, initialiser);
+		this.sameX(objOne);
 	}
 	
 	// TODO: Clarify whether such differences matter, currently they do not matter

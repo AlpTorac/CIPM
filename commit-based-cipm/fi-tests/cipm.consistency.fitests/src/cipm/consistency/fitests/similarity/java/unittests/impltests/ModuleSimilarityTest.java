@@ -82,17 +82,8 @@ public class ModuleSimilarityTest extends EObjectSimilarityTest {
 		Module result = initialiser.instantiate();
 		initialiser.minimalInitialisation(result);
 		
-		if (pacs != null) {
-			for (var pac : pacs) {
-				initialiser.addPackage(result, pac);
-			}
-		}
-		
-		if (targets != null) {
-			for (var t : targets) {
-				initialiser.addTarget(result, t);
-			}
-		}
+		initialiser.addPackages(result, pacs);
+		initialiser.addTargets(result, targets);
 		
 		if (isOpen) {
 			initialiser.initialiseOpen(result,
@@ -109,8 +100,8 @@ public class ModuleSimilarityTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(moduleInitialiser, null, null, true);
 		var objTwo = this.initElement(moduleInitialiser, null, null, false);
 		
-		this.sameX(objOne, moduleInitialiser);
-		this.sameX(objTwo, moduleInitialiser);
+		this.sameX(objOne);
+		this.sameX(objTwo);
 	}
 	
 	@Test
@@ -131,7 +122,7 @@ public class ModuleSimilarityTest extends EObjectSimilarityTest {
 				this.getPacAt(0), this.getPacAt(1)
 		}, null, false);
 		
-		this.sameX(objOne, moduleInitialiser);
+		this.sameX(objOne);
 	}
 	
 	@Test
@@ -156,7 +147,7 @@ public class ModuleSimilarityTest extends EObjectSimilarityTest {
 				this.md2Init.clone(this.md2)
 		}, false);
 		
-		this.sameX(objOne, moduleInitialiser);
+		this.sameX(objOne);
 	}
 	
 	public void testDifferentModuleDirectives() {

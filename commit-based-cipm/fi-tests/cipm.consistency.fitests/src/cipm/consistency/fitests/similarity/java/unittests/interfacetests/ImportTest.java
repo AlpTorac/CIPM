@@ -85,7 +85,7 @@ public class ImportTest extends EObjectSimilarityTest {
 		
 		var objOne = this.initElement(initialiser, this.cls1);
 		
-		this.sameX(objOne, initialiser);
+		this.sameX(objOne);
 	}
 	
 //	@Disabled("Only Classifier and StaticMember Imports are being compared")
