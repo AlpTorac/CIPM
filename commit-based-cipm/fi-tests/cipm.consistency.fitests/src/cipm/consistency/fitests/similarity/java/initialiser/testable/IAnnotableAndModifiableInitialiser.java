@@ -16,12 +16,20 @@ public interface IAnnotableAndModifiableInitialiser extends ICommentableInitiali
 		}
 	}
 	
+	public default void addModifiers(AnnotableAndModifiable aam, Modifier[] modifs) {
+		this.addXs(aam, modifs, this::addModifier);
+	}
+	
 	public default void addAnnotationInstance(AnnotableAndModifiable aam, AnnotationInstance ai) {
 		if (aam != null) {
 			aam.getAnnotationsAndModifiers().add(ai);
 			assert aam.getAnnotationsAndModifiers().contains(ai);
 			assert aam.getAnnotationInstances().contains(ai);
 		}
+	}
+	
+	public default void addAnnotationInstances(AnnotableAndModifiable aam, AnnotationInstance[] ais) {
+		this.addXs(aam, ais, this::addAnnotationInstance);
 	}
 	
 	public default void setVisibility(AnnotableAndModifiable aam, InitialiserVisibilityModifier modifier) {

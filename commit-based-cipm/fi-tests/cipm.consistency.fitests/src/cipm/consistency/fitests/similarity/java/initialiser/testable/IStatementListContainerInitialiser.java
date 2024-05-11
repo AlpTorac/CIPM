@@ -12,4 +12,8 @@ public interface IStatementListContainerInitialiser extends ICommentableInitiali
 			assert slc.getStatements().contains(s);
 		}
 	}
+	
+	public default void addStatements(StatementListContainer slc, Statement[] ss) {
+		this.addXs(slc, ss, this::addStatement);
+	}
 }

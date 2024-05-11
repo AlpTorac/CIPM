@@ -1,5 +1,7 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
+import java.util.function.BiConsumer;
+
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
@@ -56,5 +58,21 @@ public interface EObjectInitialiser extends IInitialiser {
 	public default EObject minimalInitialisationWithContainer(EObject obj) {
 		this.minimalInitialisation(obj);
 		return obj;
+	}
+	
+	public default <T extends EObject, X extends Object> void addXs(T obj, Iterable<X> xs, BiConsumer<T, X> addFunction) {
+		if (xs != null) {
+			for (var x : xs) {
+				addFunction.accept(obj, x);
+			}
+		}
+	}
+	
+	public default <T extends EObject, X extends Object> void addXs(T obj, X[] xs, BiConsumer<T, X> addFunction) {
+		if (xs != null) {
+			for (var x : xs) {
+				addFunction.accept(obj, x);
+			}
+		}
 	}
 }

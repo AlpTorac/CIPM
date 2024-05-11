@@ -69,7 +69,7 @@ public class AnnotationAttributeSettingTest extends EObjectSimilarityTest {
 		
 		var objOne = this.initElement(this.aasInit, im1, null);
 		
-		this.sameX(objOne, aasInit);
+		this.sameX(objOne);
 	}
 	
 	@Test
@@ -88,7 +88,7 @@ public class AnnotationAttributeSettingTest extends EObjectSimilarityTest {
 		
 		var objOne = this.initElement(aasInit, null, val1);
 		
-		this.sameX(objOne, aasInit);
+		this.sameX(objOne);
 	}
 	
 	@Test

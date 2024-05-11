@@ -83,19 +83,8 @@ public class ClassifierTest extends EObjectSimilarityTest {
 			Import[] imps, PackageImport[] pImps) {
 		Classifier result = initialiser.instantiate();
 		initialiser.minimalInitialisationWithContainer(result);
-		
-		if (imps != null) {
-			for (var s : imps) {
-				initialiser.addImport(result, s);
-			}
-		}
-		
-		if (pImps != null) {
-			for (var s : pImps) {
-				initialiser.addPackageImport(result, s);
-			}
-		}
-		
+		initialiser.addImports(result, imps);
+		initialiser.addPackageImports(result, pImps);
 		return result;
 	}
 	
@@ -109,7 +98,7 @@ public class ClassifierTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(initialiser,
 				new Import[] {this.imp1, this.imp2}, null);
 		
-		this.sameX(objOne, initialiser);
+		this.sameX(objOne);
 	}
 	
 	@ParameterizedTest
@@ -133,7 +122,7 @@ public class ClassifierTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(initialiser,
 				null, new PackageImport[] {this.pImp1, this.pImp2});
 		
-		this.sameX(objOne, initialiser);
+		this.sameX(objOne);
 	}
 	
 	/**

@@ -42,7 +42,7 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 		
 		var objOne = this.initElement(initialiser, nss1);
 		
-		this.sameX(objOne, initialiser);
+		this.sameX(objOne);
 	}
 
 	@ParameterizedTest

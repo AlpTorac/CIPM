@@ -89,15 +89,8 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		AnnotableAndModifiable result = initialiser.instantiate();
 //		var root = initialiser.minimalInitialisationWithContainer(result);
 		initialiser.minimalInitialisation(result);
-		
-		if (mods != null) {
-			for (var m : mods) initialiser.addModifier(result, m);
-		}
-		
-		if (ais != null) {
-			for (var ai : ais) initialiser.addAnnotationInstance(result, ai);
-		}
-		
+		initialiser.addModifiers(result, mods);
+		initialiser.addAnnotationInstances(result, ais);
 		initialiser.setVisibility(result, visibility);
 		
 		// TODO: Extract the code underneath, when there is a systematic way to initialise elements that need a container
@@ -145,7 +138,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		
 		var objOne = this.initElement(initialiser, new Modifier[] {mod1, mod2}, null, null);
 		
-		this.sameX(objOne, initialiser);
+		this.sameX(objOne);
 	}
 	
 	// TODO: Clarify whether such differences matter, currently they do not matter
@@ -168,7 +161,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		
 		var objOne = this.initElement(initialiser, null, new AnnotationInstance[] {aii1}, null);
 		
-		this.sameX(objOne, initialiser);
+		this.sameX(objOne);
 	}
 	
 	// TODO: Clarify whether such differences matter, currently they do not matter
@@ -191,7 +184,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 		
 		var objOne = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PRIVATE);
 		
-		this.sameX(objOne, initialiser);
+		this.sameX(objOne);
 	}
 	
 	// TODO: Clarify whether such differences matter, currently they do not matter

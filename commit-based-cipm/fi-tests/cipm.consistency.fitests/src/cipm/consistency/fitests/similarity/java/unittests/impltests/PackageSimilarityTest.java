@@ -73,12 +73,7 @@ public class PackageSimilarityTest extends EObjectSimilarityTest {
 		initialiser.minimalInitialisation(pac);
 		
 		initialiser.initialiseModuleField(pac, mod);
-		
-		if (clss != null) {
-			for (var cls : clss) {
-				initialiser.addClassifier(pac, cls);
-			}
-		}
+		initialiser.addClassifiers(pac, clss);
 		
 		return pac;
 	}
@@ -89,7 +84,7 @@ public class PackageSimilarityTest extends EObjectSimilarityTest {
 		
 		var objOne = this.initElement(pacInit, this.getModAt(0), null);
 		
-		this.sameX(objOne, pacInit);
+		this.sameX(objOne);
 	}
 	
 	@Test
@@ -110,7 +105,7 @@ public class PackageSimilarityTest extends EObjectSimilarityTest {
 				this.getCCAt(0), this.getCCAt(1)
 		});
 		
-		this.sameX(objOne, pacInit);
+		this.sameX(objOne);
 	}
 	
 	@Test

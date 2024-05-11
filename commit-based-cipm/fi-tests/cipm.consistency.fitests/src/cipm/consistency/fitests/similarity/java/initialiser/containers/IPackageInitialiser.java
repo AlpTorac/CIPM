@@ -23,4 +23,8 @@ public interface IPackageInitialiser extends IJavaRootInitialiser, IReferenceabl
 			assert pac.getClassifiers().contains(cc);
 		}
 	}
+	
+	public default void addClassifiers(Package pac, ConcreteClassifier[] ccs) {
+		this.addXs(pac, ccs, this::addClassifier);
+	}
 }

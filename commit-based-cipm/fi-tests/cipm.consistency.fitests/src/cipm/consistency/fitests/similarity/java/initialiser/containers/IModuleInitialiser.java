@@ -22,10 +22,18 @@ public interface IModuleInitialiser extends IJavaRootInitialiser {
 		}
 	}
 	
+	public default void addTargets(Module mod, ModuleDirective[] mds) {
+		this.addXs(mod, mds, this::addTarget);
+	}
+	
 	public default void addPackage(Module mod, Package pac) {
 		if (pac != null) {
 			mod.getPackages().add(pac);
 			assert mod.getPackages().contains(pac);
 		}
+	}
+	
+	public default void addPackages(Module mod, Package[] pacs) {
+		this.addXs(mod, pacs, this::addPackage);
 	}
 }

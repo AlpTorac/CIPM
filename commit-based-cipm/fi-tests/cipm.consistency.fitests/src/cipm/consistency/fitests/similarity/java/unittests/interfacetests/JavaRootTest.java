@@ -32,7 +32,7 @@ public class JavaRootTest extends EObjectSimilarityTest {
 		
 		var objOne = this.initElement(initialiser, Origin.BINDING);
 		
-		this.sameX(objOne, initialiser);
+		this.sameX(objOne);
 	}
 	
 	/**
