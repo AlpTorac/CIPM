@@ -32,11 +32,19 @@ public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceable
 		}
 	}
 	
+	public default void addImports(Classifier cls, Import[] imps) {
+		this.addXs(cls, imps, this::addImport);
+	}
+	
 	public default void addPackageImport(Classifier cls, Import imp) {
 		if (imp != null) {
 			cls.getContainingCompilationUnit().getImports().add(imp);
 			assert cls.getContainingCompilationUnit().getImports().stream()
 			.anyMatch((i) -> i.equals(imp));
 		}
+	}
+	
+	public default void addPackageImports(Classifier cls, Import[] imps) {
+		this.addXs(cls, imps, this::addPackageImport);
 	}
 }

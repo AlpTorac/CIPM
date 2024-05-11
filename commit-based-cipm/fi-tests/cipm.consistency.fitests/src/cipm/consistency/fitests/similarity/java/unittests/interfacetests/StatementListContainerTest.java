@@ -65,11 +65,7 @@ public class StatementListContainerTest extends EObjectSimilarityTest {
 		StatementListContainer result = initialiser.instantiate();
 		initialiser.minimalInitialisationWithContainer(result);
 		
-		if (sts != null) {
-			for (var st : sts) {
-				initialiser.addStatement(result, st);
-			}
-		}
+		initialiser.addStatements(result, sts);
 		
 		return result;
 	}
@@ -87,7 +83,7 @@ public class StatementListContainerTest extends EObjectSimilarityTest {
 				this.cloneStAt(0), this.cloneStAt(1)
 		});
 		
-		this.sameX(objOne, initialiser);
+		this.sameX(objOne);
 	}
 	
 	@ParameterizedTest

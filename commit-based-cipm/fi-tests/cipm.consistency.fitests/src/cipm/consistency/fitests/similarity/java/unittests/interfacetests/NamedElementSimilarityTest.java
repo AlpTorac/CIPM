@@ -32,7 +32,7 @@ public class NamedElementSimilarityTest extends EObjectSimilarityTest {
 		
 		var objOne = this.initElement(initialiser, name11);
 		
-		this.sameX(objOne, initialiser);
+		this.sameX(objOne);
 	}
 	
 	@ParameterizedTest
