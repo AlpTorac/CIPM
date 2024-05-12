@@ -2,8 +2,6 @@ package cipm.consistency.fitests.similarity.java.initialiser.members;
 
 import org.emftext.language.java.members.MembersFactory;
 
-import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IMemberContainerInitialiser;
 
 import org.emftext.language.java.members.ClassMethod;

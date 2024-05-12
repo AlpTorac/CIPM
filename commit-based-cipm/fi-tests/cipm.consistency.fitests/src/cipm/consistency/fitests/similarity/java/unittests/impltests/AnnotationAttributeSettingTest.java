@@ -31,7 +31,6 @@ public class AnnotationAttributeSettingTest extends EObjectSimilarityTest {
 		
 		var imInit = new InterfaceMethodInitialiser();
 		
-		
 		im1 = imInit.instantiate();
 		imInit.minimalInitialisation(im1);
 		imInit.initialiseName(im1, "im1Name");
@@ -52,6 +51,8 @@ public class AnnotationAttributeSettingTest extends EObjectSimilarityTest {
 		
 		super.setUp();
 	}
+	
+	
 	
 	protected AnnotationAttributeSetting initElement(IAnnotationAttributeSettingInitialiser initialiser,
 			InterfaceMethod attr, AnnotationValue val) {

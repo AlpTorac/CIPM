@@ -1,8 +1,12 @@
 package cipm.consistency.fitests.similarity.java.initialiser.containers;
 
+import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.Module;
+import org.emftext.language.java.containers.Origin;
 import org.emftext.language.java.containers.Package;
+import org.emftext.language.java.imports.Import;
+
 import cipm.consistency.fitests.similarity.java.initialiser.IReferenceableElementInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IJavaRootInitialiser;
 

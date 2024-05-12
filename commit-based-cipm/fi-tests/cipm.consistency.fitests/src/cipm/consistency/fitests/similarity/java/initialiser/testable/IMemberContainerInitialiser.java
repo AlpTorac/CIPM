@@ -4,8 +4,6 @@ import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.Method;
-import org.emftext.language.java.variables.LocalVariable;
-
 import cipm.consistency.fitests.similarity.java.initialiser.ICommentableInitialiser;
 
 public interface IMemberContainerInitialiser extends ICommentableInitialiser {

@@ -4,7 +4,6 @@ import org.emftext.language.java.statements.StatementsFactory;
 import org.emftext.language.java.statements.SynchronizedBlock;
 
 import cipm.consistency.fitests.similarity.java.initialiser.helper.IBlockContainerHelperInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IBlockContainerInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IMemberContainerInitialiser;
 
 public class SynchronizedBlockInitialiser implements ISynchronizedBlockInitialiser, IBlockContainerHelperInitialiser {

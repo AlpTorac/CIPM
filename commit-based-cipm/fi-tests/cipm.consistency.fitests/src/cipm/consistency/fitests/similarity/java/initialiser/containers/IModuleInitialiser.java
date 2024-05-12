@@ -1,7 +1,11 @@
 package cipm.consistency.fitests.similarity.java.initialiser.containers;
 
+import org.emftext.language.java.annotations.AnnotationInstance;
+import org.emftext.language.java.containers.JavaRoot;
 import org.emftext.language.java.containers.Module;
+import org.emftext.language.java.containers.Origin;
 import org.emftext.language.java.containers.Package;
+import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.modifiers.Open;
 import org.emftext.language.java.modules.ModuleDirective;
 

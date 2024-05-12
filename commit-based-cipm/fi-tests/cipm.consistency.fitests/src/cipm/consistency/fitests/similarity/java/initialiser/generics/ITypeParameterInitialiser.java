@@ -13,4 +13,8 @@ public interface ITypeParameterInitialiser extends IClassifierInitialiser, IAnno
 			assert tp.getExtendTypes().contains(tref);
 		}
 	}
+	
+	public default void addExtendTypes(TypeParameter tp, TypeReference[] trefs) {
+		this.addXs(tp, trefs, (o,t)->this.addExtendType(o, t));
+	}
 }

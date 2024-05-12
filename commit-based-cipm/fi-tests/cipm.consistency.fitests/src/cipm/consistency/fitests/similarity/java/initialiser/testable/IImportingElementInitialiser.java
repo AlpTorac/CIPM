@@ -12,4 +12,8 @@ public interface IImportingElementInitialiser extends ICommentableInitialiser {
 			assert ie.getImports().contains(imp);
 		}
 	}
+	
+	public default void addImports(ImportingElement ie, Import[] imps) {
+		this.addXs(ie, imps, (o,i)->this.addImport(o, i));
+	}
 }

@@ -12,4 +12,8 @@ public interface IParametrizableInitialiser extends ICommentableInitialiser {
 			assert parametrizable.getParameters().contains(param);
 		}
 	}
+	
+	public default void addParameters(Parametrizable parametrizable, Parameter[] params) {
+		this.addXs(parametrizable, params, (o,p)->this.addParameter(o, p));
+	}
 }
