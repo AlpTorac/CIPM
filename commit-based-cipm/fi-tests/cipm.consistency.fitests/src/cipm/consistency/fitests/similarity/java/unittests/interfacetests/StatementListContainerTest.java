@@ -1,6 +1,5 @@
 package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
-import org.emftext.language.java.operators.Operator;
 import org.emftext.language.java.operators.UnaryOperator;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.Statement;
@@ -11,18 +10,10 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.UnaryExpressionInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.operators.AssignmentMinusInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.operators.AssignmentPlusInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.operators.ComplementInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.operators.MinusMinusInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.operators.NegateInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.operators.PlusPlusInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.statements.AssertInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.statements.EmptyStatementInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.ExpressionStatementInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.IExpressionStatementInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.statements.ReturnInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.statements.ThrowInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IStatementListContainerInitialiser;
 
 public class StatementListContainerTest extends EObjectSimilarityTest {
@@ -49,6 +40,7 @@ public class StatementListContainerTest extends EObjectSimilarityTest {
 			exprStInit.minimalInitialisation(entry);
 			
 			var expr = unaryExprInit.instantiate();
+			
 			unaryExprInit.minimalInitialisation(expr);
 			unaryExprInit.addOperator(expr, op);
 			

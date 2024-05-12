@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.emftext.language.java.containers.Module;
 import org.emftext.language.java.containers.Package;
-import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

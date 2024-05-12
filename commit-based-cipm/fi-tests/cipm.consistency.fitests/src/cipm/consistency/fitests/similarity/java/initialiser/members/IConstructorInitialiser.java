@@ -1,9 +1,6 @@
 package cipm.consistency.fitests.similarity.java.initialiser.members;
 
 import org.eclipse.emf.ecore.EObject;
-import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.emftext.language.java.members.Constructor;
-
 import cipm.consistency.fitests.similarity.java.initialiser.IMemberInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IAnnotableAndModifiableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IBlockContainerInitialiser;

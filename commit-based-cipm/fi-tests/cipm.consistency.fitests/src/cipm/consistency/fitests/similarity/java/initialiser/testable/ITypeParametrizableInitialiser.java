@@ -12,4 +12,8 @@ public interface ITypeParametrizableInitialiser extends ICommentableInitialiser 
 			assert tp.getTypeParameters().contains(param);
 		}
 	}
+	
+	public default void addTypeParameters(TypeParametrizable tp, TypeParameter[] params) {
+		this.addXs(tp, params, (o,p)->this.addTypeParameter(o, p));
+	}
 }
