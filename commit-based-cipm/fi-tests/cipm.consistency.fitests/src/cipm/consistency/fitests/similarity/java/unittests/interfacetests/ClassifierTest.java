@@ -15,70 +15,11 @@ import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageIn
 import cipm.consistency.fitests.similarity.java.initialiser.imports.ClassifierImportInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.imports.PackageImportInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IClassifierInitialiser;
+import cipm.consistency.fitests.similarity.java.unittests.UsesImports;
+import cipm.consistency.fitests.similarity.java.unittests.UsesPackageImports;
+import cipm.consistency.fitests.similarity.java.unittests.UsesPackages;
 
-public class ClassifierTest extends EObjectSimilarityTest {
-	private final String cls1Name = "cls1Name";
-	private ConcreteClassifier cls1;
-	private Import imp1;
-	
-	private final String cls2Name = "cls2Name";
-	private ConcreteClassifier cls2;
-	private Import imp2;
-	
-	private final String[] pac1nss = new String[] {"ns1", "ns2", "ns3"};
-	private Package pac1;
-	private PackageImport pImp1;
-	
-	private final String[] pac2nss = new String[] {"ns1", "ns4"};
-	private Package pac2;
-	private PackageImport pImp2;
-	
-	@BeforeEach
-	@Override
-	public void setUp() {
-		this.setResourceFileTestPrefix(ClassifierTest.class.getSimpleName());
-		
-		var clsInit = new ClassInitialiser();
-		var impInit = new ClassifierImportInitialiser();
-		
-		var pacInit = new PackageInitialiser();
-		var pImpInit = new PackageImportInitialiser();
-		
-		this.pac1 = pacInit.instantiate();
-		pacInit.minimalInitialisation(pac1);
-		pacInit.initialiseNamespaces(pac1, pac1nss);
-		
-		this.pac2 = pacInit.instantiate();
-		pacInit.minimalInitialisation(pac2);
-		pacInit.initialiseNamespaces(pac2, pac2nss);
-		
-		this.pImp1 = pImpInit.instantiate();
-		pImpInit.minimalInitialisation(pImp1);
-		pImpInit.initialiseNamespaces(pImp1, pac1nss);
-		
-		this.pImp2 = pImpInit.instantiate();
-		pImpInit.minimalInitialisation(pImp2);
-		pImpInit.initialiseNamespaces(pImp2, pac2nss);
-		
-		this.cls1 = clsInit.instantiate();
-		clsInit.minimalInitialisation(cls1);
-		clsInit.initialiseName(cls1, cls1Name);
-		
-		this.cls2 = clsInit.instantiate();
-		clsInit.minimalInitialisation(cls2);
-		clsInit.initialiseName(cls2, cls2Name);
-		
-		this.imp1 = impInit.instantiate();
-		impInit.minimalInitialisation(imp1);
-		impInit.setClassifier(imp1, cls1);
-		
-		this.imp2 = impInit.instantiate();
-		impInit.minimalInitialisation(imp2);
-		impInit.setClassifier(imp2, cls2);
-		
-		super.setUp();
-	}
-	
+public class ClassifierTest extends EObjectSimilarityTest implements UsesImports, UsesPackageImports {
 	protected Classifier initElement(IClassifierInitialiser initialiser,
 			Import[] imps, PackageImport[] pImps) {
 		Classifier result = initialiser.instantiate();
@@ -88,41 +29,17 @@ public class ClassifierTest extends EObjectSimilarityTest {
 		return result;
 	}
 	
-	// TODO: Figure out how to add imports with import strings
-	
 	@ParameterizedTest
 	@ArgumentsSource(ClassifierTestParams.class)
-	public void testSameImports(IClassifierInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testSameImports");
+	public void testImports(IClassifierInitialiser initialiser) {
+		this.setResourceFileTestIdentifier("testImports");
 		
 		var objOne = this.initElement(initialiser,
-				new Import[] {this.imp1, this.imp2}, null);
-		
-		this.sameX(objOne);
-	}
-	
-	@ParameterizedTest
-	@ArgumentsSource(ClassifierTestParams.class)
-	public void testDifferentImports(IClassifierInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testDifferentImports");
-		
-		var objOne = this.initElement(initialiser,
-				new Import[] {this.imp1}, null);
+				new Import[] {this.createMinimalClsImport("cls1"), this.createMinimalClsImport("cls2")}, null);
 		var objTwo = this.initElement(initialiser,
-				new Import[] {this.imp2}, null);
+				new Import[] {this.createMinimalClsImport("cls3")}, null);
 		
-		this.differentX(objOne, objTwo);
-	}
-	
-	@ParameterizedTest
-	@ArgumentsSource(ClassifierTestParams.class)
-	public void testSamePackageImports(IClassifierInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testSamePackageImports");
-		
-		var objOne = this.initElement(initialiser,
-				null, new PackageImport[] {this.pImp1, this.pImp2});
-		
-		this.sameX(objOne);
+		this.testX(objOne, objTwo, false);
 	}
 	
 	/**
@@ -130,13 +47,15 @@ public class ClassifierTest extends EObjectSimilarityTest {
 	 */
 	@ParameterizedTest
 	@ArgumentsSource(ClassifierTestParams.class)
-	public void testDifferentPackageImports(IClassifierInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testDifferentPackageImports");
+	public void testPackageImports(IClassifierInitialiser initialiser) {
+		this.setResourceFileTestIdentifier("testPackageImports");
 		
 		var objOne = this.initElement(initialiser,
-				null, new PackageImport[] {this.pImp1});
+				null, new PackageImport[] {
+						this.createMinimalPackageImport(new String[] {"ns1", "ns2"}),
+						this.createMinimalPackageImport(new String[] {"ns3", "ns4"})});
 		var objTwo = this.initElement(initialiser,
-				null, new PackageImport[] {this.pImp2});
+				null, new PackageImport[] {this.createMinimalPackageImport(new String[] {"ns5", "ns6"})});
 		
 		this.differentX(objOne, objTwo);
 	}

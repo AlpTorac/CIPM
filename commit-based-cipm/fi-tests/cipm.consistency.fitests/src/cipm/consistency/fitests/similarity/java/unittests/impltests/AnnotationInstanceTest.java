@@ -16,61 +16,14 @@ import cipm.consistency.fitests.similarity.java.initialiser.annotations.SingleAn
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.AnnotationInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.literals.NullLiteralInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.references.StringReferenceInitialiser;
+import cipm.consistency.fitests.similarity.java.unittests.UsesAnnotationParameters;
+import cipm.consistency.fitests.similarity.java.unittests.UsesConcreteClassifiers;
 
-public class AnnotationInstanceTest extends EObjectSimilarityTest {
-	private IAnnotationInstanceInitialiser aiInit;
+public class AnnotationInstanceTest extends EObjectSimilarityTest
+	implements UsesConcreteClassifiers, UsesAnnotationParameters {
 	
-	private Classifier cls1;
-	private Classifier cls2;
-	
-	private SingleAnnotationParameter param1;
-	private SingleAnnotationParameter param2;
-	
-	private NullLiteral val1;
-	private StringReference val2;
-	
-	@BeforeEach
-	@Override
-	public void setUp() {
-		aiInit = new AnnotationInstanceInitialiser();
-		
-		var annoInit = new AnnotationInitialiser();
-		
-		cls1 = annoInit.instantiate();
-		annoInit.minimalInitialisation(cls1);
-		annoInit.initialiseName(cls1, "cls1Name");
-		
-		cls2 = annoInit.instantiate();
-		annoInit.minimalInitialisation(cls2);
-		annoInit.initialiseName(cls2, "cls2Name");
-		
-		var val1Init = new NullLiteralInitialiser();
-		var val2Init = new StringReferenceInitialiser();
-		
-		val1 = val1Init.instantiate();
-		val1Init.minimalInitialisation(val1);
-		
-		val2 = val2Init.instantiate();
-		val2Init.minimalInitialisation(val2);
-		val2Init.setValue(val2, "someVal");
-		
-		var paramInit = new SingleAnnotationParameterInitialiser();
-		
-		param1 = paramInit.instantiate();
-		paramInit.minimalInitialisation(param1);
-		paramInit.setValue(param1, val1);
-		
-		param2 = paramInit.instantiate();
-		paramInit.minimalInitialisation(param2);
-		paramInit.setValue(param2, val2);
-		
-		super.setUp();
-	}
-	
-	
-	
-	protected AnnotationInstance initElement(IAnnotationInstanceInitialiser initialiser,
-			Classifier cls, AnnotationParameter param) {
+	protected AnnotationInstance initElement(Classifier cls, AnnotationParameter param) {
+		var initialiser = new AnnotationInstanceInitialiser();
 		AnnotationInstance ai = initialiser.instantiate();
 		initialiser.minimalInitialisation(ai);
 		initialiser.setAnnotation(ai, cls);
@@ -79,40 +32,22 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest {
 	}
 	
 	@Test
-	public void testSameClassifier() {
-		this.setResourceFileTestIdentifier("testSameClassifier");
+	public void testClassifier() {
+		this.setResourceFileTestIdentifier("testClassifier");
 		
-		var objOne = this.initElement(aiInit, cls1, null);
+		var objOne = this.initElement(this.createMinimalClass("cls1"), null);
+		var objTwo = this.initElement(this.createMinimalClass("cls2"), null);
 		
-		this.sameX(objOne);
+		this.testX(objOne, objTwo, false);
 	}
 	
 	@Test
-	public void testDifferentClassifier() {
-		this.setResourceFileTestIdentifier("testDifferentClassifier");
+	public void testParameter() {
+		this.setResourceFileTestIdentifier("testParameter");
 		
-		var objOne = this.initElement(aiInit, cls1, null);
-		var objTwo = this.initElement(aiInit, cls2, null);
+		var objOne = this.initElement(null, this.createSingleNullAnnoParam());
+		var objTwo = this.initElement(null, this.createSingleStrAnnoParam("val"));
 		
-		this.differentX(objOne, objTwo);
-	}
-	
-	@Test
-	public void testSameParameter() {
-		this.setResourceFileTestIdentifier("testSameParameter");
-		
-		var objOne = this.initElement(aiInit, null, param1);
-		
-		this.sameX(objOne);
-	}
-	
-	@Test
-	public void testDifferentParameter() {
-		this.setResourceFileTestIdentifier("testDifferentParameter");
-		
-		var objOne = this.initElement(aiInit, null, param1);
-		var objTwo = this.initElement(aiInit, null, param2);
-		
-		this.differentX(objOne, objTwo);
+		this.testX(objOne, objTwo, false);
 	}
 }
