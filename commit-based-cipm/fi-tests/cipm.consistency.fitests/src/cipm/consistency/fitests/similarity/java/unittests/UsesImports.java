@@ -13,7 +13,7 @@ public interface UsesImports extends UsesConcreteClassifiers {
 	}
 	public default ClassifierImport createMinimalClsImport(String clsName) {
 		return (ClassifierImport) this.createMinimalImport(new ClassifierImportInitialiser(),
-				this.createMinimalClass(clsName));
+				this.createMinimalClassWithCU(clsName));
 	}
 	
 	public default Import createMinimalImport(IImportInitialiser initialiser, ConcreteClassifier cls) {

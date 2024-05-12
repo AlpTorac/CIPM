@@ -1,73 +1,19 @@
 package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.emftext.language.java.containers.Module;
 import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.containers.IModuleInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.containers.IPackageInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.containers.ModuleInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IConcreteClassifierInitialiser;
+import cipm.consistency.fitests.similarity.java.unittests.UsesConcreteClassifiers;
+import cipm.consistency.fitests.similarity.java.unittests.UsesModules;
 
-public class PackageSimilarityTest extends EObjectSimilarityTest {
-	private IPackageInitialiser pacInit;
-	private IConcreteClassifierInitialiser clsInit;
-	private IModuleInitialiser modInit;
-	
-	private List<ConcreteClassifier> clsList;
-	private List<Module> modList;
-	
-	@BeforeEach
-	@Override
-	public void setUp() {
-		this.setResourceFileTestPrefix(PackageSimilarityTest.class.getSimpleName());
-		
-		this.pacInit = new PackageInitialiser();
-		modInit = new ModuleInitialiser();
-		clsInit = new ClassInitialiser();
-		
-		this.clsList = new ArrayList<ConcreteClassifier>();
-		this.modList = new ArrayList<Module>();
-		
-		var modNames = new String[] {"mod1", "mod2"};
-		var clsNames = new String[] {"cls1", "cls2"};
-		
-		for (var mn : modNames) {
-			Module mod = modInit.instantiate();
-			modInit.minimalInitialisation(mod);
-			modInit.initialiseName(mod, mn);
-			
-			this.modList.add(mod);
-		}
-		
-		for (var cn : clsNames) {
-			ConcreteClassifier cls = clsInit.instantiate();
-			clsInit.minimalInitialisation(cls);
-			clsInit.initialiseName(cls, cn);
-			
-			this.clsList.add(cls);
-		}
-		
-		super.setUp();
-	}
-	
-	protected ConcreteClassifier getCCAt(int index) {
-		return this.clsInit.clone(this.clsList.get(index));
-	}
-	
-	protected Module getModAt(int index) {
-		return this.modInit.clone(this.modList.get(index));
-	}
-	
-	protected Package initElement(IPackageInitialiser initialiser, Module mod, ConcreteClassifier[] clss) {
+public class PackageSimilarityTest extends EObjectSimilarityTest implements UsesModules, UsesConcreteClassifiers {
+	protected Package initElement(Module mod, ConcreteClassifier[] clss) {
+		var initialiser = new PackageInitialiser();
 		Package pac = initialiser.instantiate();
 		initialiser.minimalInitialisation(pac);
 		
@@ -78,46 +24,26 @@ public class PackageSimilarityTest extends EObjectSimilarityTest {
 	}
 	
 	@Test
-	public void testSameModule() {
-		this.setResourceFileTestIdentifier("testSameModule");
+	public void testModule() {
+		this.setResourceFileTestIdentifier("testModule");
 		
-		var objOne = this.initElement(pacInit, this.getModAt(0), null);
+		var objOne = this.initElement(this.createMinimalModule("mod1"), null);
+		var objTwo = this.initElement(this.createMinimalModule("mod2"), null);
 		
-		this.sameX(objOne);
+		this.testX(objOne, objTwo, false);
 	}
 	
 	@Test
-	public void testDifferentModule() {
-		this.setResourceFileTestIdentifier("testDifferentModule");
+	public void testClassifiers() {
+		this.setResourceFileTestIdentifier("testClassifiers");
 		
-		var objOne = this.initElement(pacInit, this.getModAt(0), null);
-		var objTwo = this.initElement(pacInit, this.getModAt(1), null);
-		
-		this.differentX(objOne, objTwo);
-	}
-	
-	@Test
-	public void testSameClassifiers() {
-		this.setResourceFileTestIdentifier("testSameClassifiers");
-		
-		var objOne = this.initElement(pacInit, null, new ConcreteClassifier[] {
-				this.getCCAt(0), this.getCCAt(1)
+		var objOne = this.initElement(null, new ConcreteClassifier[] {
+				this.createMinimalClass("cls1")
+		});
+		var objTwo = this.initElement(null, new ConcreteClassifier[] {
+				this.createMinimalClass("cls2")
 		});
 		
-		this.sameX(objOne);
-	}
-	
-	@Test
-	public void testDifferentClassifiers() {
-		this.setResourceFileTestIdentifier("testDifferentClassifiers");
-		
-		var objOne = this.initElement(pacInit, null, new ConcreteClassifier[] {
-				this.getCCAt(0)
-		});
-		var objTwo = this.initElement(pacInit, null, new ConcreteClassifier[] {
-				this.getCCAt(1)
-		});
-		
-		this.differentX(objOne, objTwo);
+		this.testX(objOne, objTwo, false);
 	}
 }

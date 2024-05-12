@@ -10,14 +10,6 @@ import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IJavaRootInitialiser;
 
 public class JavaRootTest extends EObjectSimilarityTest {
-	@BeforeEach
-	@Override
-	public void setUp() {
-		this.setResourceFileTestPrefix(JavaRootTest.class.getSimpleName());
-		
-		super.setUp();
-	}
-	
 	protected JavaRoot initElement(IJavaRootInitialiser initialiser, Origin origin) {
 		JavaRoot result = initialiser.instantiate();
 		initialiser.minimalInitialisation(result);
@@ -27,25 +19,12 @@ public class JavaRootTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(JavaRootTestParams.class)
-	public void testSameOrigin(IJavaRootInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testSameOrigin");
-		
-		var objOne = this.initElement(initialiser, Origin.BINDING);
-		
-		this.sameX(objOne);
-	}
-	
-	/**
-	 * Differences in Origin do not break similarity
-	 */
-	@ParameterizedTest
-	@ArgumentsSource(JavaRootTestParams.class)
-	public void testDifferentOrigin(IJavaRootInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testDifferentOrigin");
+	public void testOrigin(IJavaRootInitialiser initialiser) {
+		this.setResourceFileTestIdentifier("testOrigin");
 		
 		var objOne = this.initElement(initialiser, Origin.BINDING);
 		var objTwo = this.initElement(initialiser, Origin.CLASS);
 		
-		this.differentX(objOne, objTwo);
+		this.testX(objOne, objTwo, false);
 	}
 }

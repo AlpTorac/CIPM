@@ -22,6 +22,14 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 		return EcoreUtil.copyAll(objs);
 	}
 	
+	public boolean getActualEquality(EObject elem1, EObject elem2) {
+		return EcoreUtil.equals(elem1, elem2);
+	}
+	
+	public boolean getActualEquality(List<? extends EObject> elems1, List<? extends EObject> elems2) {
+		return EcoreUtil.equals(elems1, elems2);
+	}
+	
 	/**
 	 * Clones elem and compares it with its clone.
 	 * They are expected to be similar.
@@ -50,7 +58,7 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 		
 		Assertions.assertEquals(this.areSimilar(resOne.getContents(), resTwo.getContents()),
 				expectedSimilarityResult,
-				"EcoreUtil comparison result: " + EcoreUtil.equals(objOne, objTwo));
+				"EcoreUtil comparison result: " + this.getActualEquality(objOne, objTwo));
 	}
 
 	public void testX(EObject elem1, EObject elem2, Boolean expectedSimilarityResult) {
@@ -75,7 +83,7 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 		var resTwo = this.createResource(list2);
 		
 		Assertions.assertTrue(this.areSimilar(resOne.getContents(), resTwo.getContents()),
-				"EcoreUtil comparison result: " + EcoreUtil.equals(list1, list2));
+				"EcoreUtil comparison result: " + this.getActualEquality(list1, list2));
 	}
 	
 	/**
@@ -98,7 +106,7 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 		var resTwo = this.createResource(list2);
 		
 		Assertions.assertFalse(this.areSimilar(resOne.getContents(), resTwo.getContents()),
-				"EcoreUtil comparison result: " + EcoreUtil.equals(list1, list2));
+				"EcoreUtil comparison result: " + this.getActualEquality(list1, list2));
 	}
 	
 	public void listDifferentX(List<? extends EObject> elems1, List<? extends EObject> elems2) {
@@ -106,6 +114,6 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 		var resTwo = this.createResource(elems2);
 		
 		Assertions.assertFalse(this.areSimilar(resOne.getContents(), resTwo.getContents()),
-				"EcoreUtil comparison result: " + EcoreUtil.equals(elems1, elems2));
+				"EcoreUtil comparison result: " + this.getActualEquality(elems1, elems2));
 	}
 }

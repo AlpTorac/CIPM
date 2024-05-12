@@ -20,6 +20,9 @@ public interface IReferenceInitialiser extends IPrimaryExpressionInitialiser,
 		if (next != null) {
 			ref.setNext(next);
 			assert ref.getNext().equals(next);
+			assert ref.getNext().getPrevious().equals(ref);
+			assert next.getPrevious().equals(ref);
+			assert next.getPrevious().getNext().equals(next);
 		}
 	}
 }

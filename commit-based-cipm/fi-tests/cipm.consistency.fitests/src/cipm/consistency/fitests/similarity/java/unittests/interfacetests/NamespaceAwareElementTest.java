@@ -2,7 +2,6 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.commons.NamespaceAwareElement;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -21,13 +20,6 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	private final String[] nss1 = new String[] {ns11, ns12, ns13};
 	private final String[] nss2 = new String[] {ns21, ns22, ns23};
 	
-	@BeforeEach
-	@Override
-	public void setUp() {
-		this.setResourceFileTestPrefix(NamespaceAwareElementTest.class.getSimpleName());
-		super.setUp();
-	}
-	
 	protected NamespaceAwareElement initElement(INamespaceAwareElementInitialiser initialiser, String[] nss) {
 		NamespaceAwareElement result = initialiser.instantiate();
 		initialiser.minimalInitialisation(result);
@@ -37,23 +29,13 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(NamespaceTestParams.class)
-	public void testSameNamespace(INamespaceAwareElementInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testSameNamespace");
-		
-		var objOne = this.initElement(initialiser, nss1);
-		
-		this.sameX(objOne);
-	}
-
-	@ParameterizedTest
-	@ArgumentsSource(NamespaceTestParams.class)
-	public void testDifferentNamespace(INamespaceAwareElementInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testDifferentNamespace");
+	public void testNamespace(INamespaceAwareElementInitialiser initialiser) {
+		this.setResourceFileTestIdentifier("testNamespace");
 		
 		var objOne = this.initElement(initialiser, nss1);
 		var objTwo = this.initElement(initialiser, nss2);
 		
-		this.differentX(objOne, objTwo);	
+		this.testX(objOne, objTwo, false);	
 	}
 	
 	/**
