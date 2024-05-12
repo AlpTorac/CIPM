@@ -14,7 +14,6 @@ import cipm.consistency.fitests.similarity.java.initialiser.annotations.Annotati
 import cipm.consistency.fitests.similarity.java.initialiser.annotations.IAnnotationInstanceInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.annotations.SingleAnnotationParameterInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.AnnotationInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.classifiers.IAnnotationInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.literals.NullLiteralInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.references.StringReferenceInitialiser;
 
@@ -67,6 +66,8 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest {
 		
 		super.setUp();
 	}
+	
+	
 	
 	protected AnnotationInstance initElement(IAnnotationInstanceInitialiser initialiser,
 			Classifier cls, AnnotationParameter param) {
