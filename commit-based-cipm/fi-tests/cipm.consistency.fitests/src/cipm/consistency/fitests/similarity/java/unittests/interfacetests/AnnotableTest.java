@@ -2,51 +2,15 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.annotations.AnnotationInstance;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.java.initialiser.annotations.AnnotationInstanceInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.classifiers.AnnotationInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IAnnotableInitialiser;
+import cipm.consistency.fitests.similarity.java.unittests.UsesAnnotationInstances;
 
-public class AnnotableTest extends EObjectSimilarityTest {
-	private AnnotationInstance aii1;
-	private AnnotationInstance aii2;
-	
-	@BeforeEach
-	@Override
-	public void setUp() {
-		this.setResourceFileTestPrefix(NamedElementSimilarityTest.class.getSimpleName());
-		
-		// TODO: Figure out a way to structurally initialise elements that require a container to function
-		// For example by creating minimal JavaRoot instances and adding the said element into them
-		
-		var ai = new AnnotationInitialiser();
-		var aii = new AnnotationInstanceInitialiser();
-		
-		aii1 = aii.instantiate();
-		aii.minimalInitialisation(aii1);
-		aii.initialiseNamespace(aii1, "ns1");
-		
-		var ai1 = ai.instantiate();
-		ai.minimalInitialisation(ai1);
-		ai.initialiseName(ai1, "anno1");
-		aii.setAnnotation(aii1, ai1);
-		
-		aii2 = aii.instantiate();
-		aii.minimalInitialisation(aii2);
-		aii.initialiseNamespace(aii2, "ns2");
-		
-		var ai2 = ai.instantiate();
-		ai.minimalInitialisation(ai2);
-		ai.initialiseName(ai2, "anno2");
-		aii.setAnnotation(aii2, ai2);
-		
-		super.setUp();
-	}
-	
+public class AnnotableTest extends EObjectSimilarityTest implements UsesAnnotationInstances {
 	protected Annotable initElement(IAnnotableInitialiser initialiser, AnnotationInstance... annotations) {
 		Annotable result = initialiser.instantiate();
 		initialiser.minimalInitialisation(result);
@@ -56,24 +20,12 @@ public class AnnotableTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest
 	@ArgumentsSource(AnnotableTestParams.class)
-	public void testSameAnnotation(IAnnotableInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testSameAnnotation");
+	public void testAnnotation(IAnnotableInitialiser initialiser) {
+		this.setResourceFileTestIdentifier("testAnnotation");
 		
-		var objOne = this.initElement(initialiser, this.aii1);
+		var objOne = this.initElement(initialiser, this.createMinimalAI(new String[] {"ns1"}, "anno1"));
+		var objTwo = this.initElement(initialiser, this.createMinimalAI(new String[] {"ns2"}, "anno2"));
 		
-		this.sameX(objOne);
-	}
-	
-	// TODO: Clarify whether such differences matter, currently they do not matter
-//	@Disabled("Disabled until parameters are befitting")
-	@ParameterizedTest
-	@ArgumentsSource(AnnotableTestParams.class)
-	public void testDifferentAnnotation(IAnnotableInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testDifferentAnnotation");
-		
-		var objOne = this.initElement(initialiser, this.aii1);
-		var objTwo = this.initElement(initialiser, this.aii2);
-		
-		this.differentX(objOne, objTwo);
+		this.testX(objOne, objTwo, false);
 	}
 }

@@ -16,6 +16,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.classifiers.Annotati
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.IAnnotationInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.params.ModifierFactory;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IAnnotableAndModifiableInitialiser;
+import cipm.consistency.fitests.similarity.java.unittests.UsesAnnotationInstances;
 
 /**
  * TODO: Write proper commentary
@@ -27,44 +28,15 @@ import cipm.consistency.fitests.similarity.java.initialiser.testable.IAnnotableA
  * 
  * @author atora
  */
-public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
+public class AnnotableAndModifiableTest extends EObjectSimilarityTest implements UsesAnnotationInstances {
 	private Modifier mod1;
 	private Modifier mod2;
 	private Modifier mod3;
 	private Modifier mod4;
 	
-	private AnnotationInstance aii1;
-	private AnnotationInstance aii2;
-	
 	@BeforeEach
 	@Override
 	public void setUp() {
-		this.setResourceFileTestPrefix(AnnotableAndModifiableTest.class.getSimpleName());
-		
-		// TODO: Figure out a way to structurally initialise elements that require containers to function
-		// For example by creating minimal JavaRoot instances and adding the said element into them
-		
-		IAnnotationInitialiser ai = new AnnotationInitialiser();
-		var aii = new AnnotationInstanceInitialiser();
-		
-		aii1 = aii.instantiate();
-		aii.minimalInitialisation(aii1);
-		aii.initialiseNamespace(aii1, "ns1");
-		
-		Annotation ai1 = ai.instantiate();
-		ai.minimalInitialisation(ai1);
-		ai.initialiseName(ai1, "anno1");
-		aii.setAnnotation(aii1, ai1);
-		
-		aii2 = aii.instantiate();
-		aii.minimalInitialisation(aii2);
-		aii.initialiseNamespace(aii2, "ns2");
-		
-		Annotation ai2 = ai.instantiate();
-		ai.minimalInitialisation(ai2);
-		ai.initialiseName(ai2, "anno2");
-		aii.setAnnotation(aii2, ai2);
-		
 		var modFac = new ModifierFactory();
 		
 		mod1 = modFac.createAbstract();
@@ -133,70 +105,36 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest {
 	
 	@ParameterizedTest(name = "{index}: {1}")
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testSameModifier(IAnnotableAndModifiableInitialiser initialiser, String testName) {
-		this.setResourceFileTestIdentifier("testSameModifier");
-		
-		var objOne = this.initElement(initialiser, new Modifier[] {mod1, mod2}, null, null);
-		
-		this.sameX(objOne);
-	}
-	
-	// TODO: Clarify whether such differences matter, currently they do not matter
-//	@Disabled("See TODO")
-	@ParameterizedTest(name = "{index}: {1}")
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testDifferentModifier(IAnnotableAndModifiableInitialiser initialiser, String testName) {
-		this.setResourceFileTestIdentifier("testDifferentModifier");
+	public void testModifier(IAnnotableAndModifiableInitialiser initialiser, String testName) {
+		this.setResourceFileTestIdentifier("testModifier");
 		
 		var objOne = this.initElement(initialiser, new Modifier[] {mod1, mod2}, null, null);
 		var objTwo = this.initElement(initialiser, new Modifier[] {mod3, mod4}, null, null);
 		
-		this.differentX(objOne, objTwo);
+		this.testX(objOne, objTwo, false);
 	}
 	
 	@ParameterizedTest(name = "{index}: {1}")
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testSameAnnoInstance(IAnnotableAndModifiableInitialiser initialiser, String testName) {
-		this.setResourceFileTestIdentifier("testSameAnnoInstance");
+	public void testAnnoInstance(IAnnotableAndModifiableInitialiser initialiser, String testName) {
+		this.setResourceFileTestIdentifier("testAnnoInstance");
 		
-		var objOne = this.initElement(initialiser, null, new AnnotationInstance[] {aii1}, null);
+		var objOne = this.initElement(initialiser, null, new AnnotationInstance[] {
+				this.createMinimalAI(new String[] {"ns1"}, "anno1")}, null);
+		var objTwo = this.initElement(initialiser, null, new AnnotationInstance[] {
+				this.createMinimalAI(new String[] {"ns2"}, "anno2")}, null);
 		
-		this.sameX(objOne);
-	}
-	
-	// TODO: Clarify whether such differences matter, currently they do not matter
-//	@Disabled("See TODO")
-	@ParameterizedTest(name = "{index}: {1}")
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testDifferentAnnoInstance(IAnnotableAndModifiableInitialiser initialiser, String testName) {
-		this.setResourceFileTestIdentifier("testDifferentAnnoInstance");
-		
-		var objOne = this.initElement(initialiser, null, new AnnotationInstance[] {aii1}, null);
-		var objTwo = this.initElement(initialiser, null, new AnnotationInstance[] {aii2}, null);
-		
-		this.differentX(objOne, objTwo);
+		this.testX(objOne, objTwo, false);
 	}
 	
 	@ParameterizedTest(name = "{index}: {1}")
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testSameVisibility(IAnnotableAndModifiableInitialiser initialiser, String testName) {
-		this.setResourceFileTestIdentifier("testSameVisibility");
-		
-		var objOne = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PRIVATE);
-		
-		this.sameX(objOne);
-	}
-	
-	// TODO: Clarify whether such differences matter, currently they do not matter
-//	@Disabled("See TODO")
-	@ParameterizedTest(name = "{index}: {1}")
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testDifferentVisibility(IAnnotableAndModifiableInitialiser initialiser, String testName) {
-		this.setResourceFileTestIdentifier("testDifferentVisibility");
+	public void testVisibility(IAnnotableAndModifiableInitialiser initialiser, String testName) {
+		this.setResourceFileTestIdentifier("testVisibility");
 		
 		var objOne = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PRIVATE);
 		var objTwo = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PUBLIC);
 		
-		this.differentX(objOne, objTwo);
+		this.testX(objOne, objTwo, false);
 	}
 }
