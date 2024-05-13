@@ -27,8 +27,6 @@ import cipm.consistency.fitests.similarity.java.utils.DummySimilarityToolboxBuil
 import cipm.consistency.fitests.similarity.java.utils.InnerSwitchFactory;
 
 public abstract class AbstractSimilarityTest {
-	private static final Logger LOGGER = Logger.getLogger("cipm." + AbstractSimilarityTest.class.getSimpleName());
-	
 	private static final String resourceRootPath = new File("").getAbsoluteFile().getAbsolutePath()
 			+ File.separator + "testModels";
 	
@@ -57,6 +55,10 @@ public abstract class AbstractSimilarityTest {
 		this.cleanRegistry();
 		this.cleanAllResources();
 		this.deleteResourceDir();
+	}
+	
+	protected Logger getLogger() {
+		return Logger.getLogger("cipm."+this.getClass().getSimpleName());
 	}
 	
 	private Resource initResource(URI uri) {
@@ -165,7 +167,7 @@ public abstract class AbstractSimilarityTest {
 				 * Doing so will detach it from its former Resource and add it to the second one.
 				 */
 				if (eo.eResource() != null) {
-					LOGGER.error("An EObject's resource was set and shifted during resource creation");
+					this.getLogger().error("An EObject's resource was set and shifted during resource creation");
 				}
 				res.getContents().add(eo);
 			}
@@ -191,7 +193,7 @@ public abstract class AbstractSimilarityTest {
 			try {
 				r.delete(null);
 			} catch (IOException e) {
-				LOGGER.debug("Resource either was not created as a file or has already been deleted: "
+				this.getLogger().debug("Resource either was not created as a file or has already been deleted: "
 			+ r.getURI().toString());
 			}
 		});
