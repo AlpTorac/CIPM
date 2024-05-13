@@ -12,4 +12,8 @@ public interface IImplementorInitialiser extends ICommentableInitialiser {
 			assert implementor.getImplements().contains(tref);
 		}
 	}
+	
+	public default void addImplements(Implementor implementor, TypeReference[] trefs) {
+		this.addXs(implementor, trefs, this::addImplements);
+	}
 }

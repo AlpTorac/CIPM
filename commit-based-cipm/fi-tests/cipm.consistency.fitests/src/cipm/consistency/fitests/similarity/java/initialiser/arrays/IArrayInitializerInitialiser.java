@@ -14,4 +14,8 @@ public interface IArrayInitializerInitialiser extends IAnnotationValueInitialise
 			assert ai.getInitialValues().contains(aiv);
 		}
 	}
+	
+	public default void addInitialValues(ArrayInitializer ai, ArrayInitializationValue[] aivs) {
+		this.addXs(ai, aivs, this::addInitialValue);
+	}
 }
