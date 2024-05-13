@@ -50,6 +50,12 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	 * same with the given expected value.
 	 */
 	public void compareX(EObject elem1, EObject elem2, Boolean expectedSimilarityResult) {
+		if (!expectedSimilarityResult.booleanValue() &&
+				this.getActualEquality(elem1, elem2)) {
+			this.getLogger().debug("Elements are expected to be different"+
+				" in "+this.getResourceFileTestIdentifier()+" but are similar according to EcoreUtil");
+		}
+		
 		var objOne = this.cloneEObj(elem1);
 		var objTwo = this.cloneEObj(elem2);
 		
