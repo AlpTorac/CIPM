@@ -17,6 +17,8 @@ public interface IConcreteClassifierInitialiser extends
 		if (pac != null) {
 			cls.setPackage(pac);
 			assert cls.getPackage().equals(pac);
+			assert pac.getClassifiers().contains(cls);
+			assert pac.getClassifiersInSamePackage().contains(cls);
 		}
 	}
 }

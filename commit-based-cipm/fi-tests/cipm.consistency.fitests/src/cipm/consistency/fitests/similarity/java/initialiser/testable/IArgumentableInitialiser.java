@@ -14,10 +14,18 @@ public interface IArgumentableInitialiser extends ICommentableInitialiser {
 		}
 	}
 	
+	public default void addArguments(Argumentable argable, Expression[] exprs) {
+		this.addXs(argable, exprs, this::addArgument);
+	}
+	
 	public default void addArgumentType(Argumentable argable, Type type) {
 		if (type != null) {
 			argable.getArgumentTypes().add(type);
 			assert argable.getArgumentTypes().contains(type);
 		}
+	}
+	
+	public default void addArgumentTypes(Argumentable argable, Type[] types) {
+		this.addXs(argable, types, this::addArgumentType);
 	}
 }

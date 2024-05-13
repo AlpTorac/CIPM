@@ -12,4 +12,7 @@ public interface IExceptionThrowerInitialiser extends ICommentableInitialiser {
 			assert extt.getExceptions().contains(ncref);
 		}
 	}
+	public default void addExceptions(ExceptionThrower extt, NamespaceClassifierReference[] ncrefs) {
+		this.addXs(extt, ncrefs, this::addException);
+	}
 }
