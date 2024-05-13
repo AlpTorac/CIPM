@@ -23,4 +23,8 @@ public interface IAccessProvidingModuleDirectiveInitialiser extends
 			assert apmd.getModules().contains(modref);
 		}
 	}
+	
+	public default void addModules(AccessProvidingModuleDirective apmd, ModuleReference[] modrefs) {
+		this.addXs(apmd, modrefs, this::addModule);
+	}
 }

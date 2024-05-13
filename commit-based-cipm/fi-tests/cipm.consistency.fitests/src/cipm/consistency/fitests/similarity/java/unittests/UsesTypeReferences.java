@@ -2,11 +2,13 @@ package cipm.consistency.fitests.similarity.java.unittests;
 
 import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.types.ClassifierReference;
+import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.TypeReference;
 
 import cipm.consistency.fitests.similarity.java.initialiser.testable.ITypeReferenceInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.types.ClassifierReferenceInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.types.INamespaceClassifierReferenceInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.types.NamespaceClassifierReferenceInitialiser;
 
 public interface UsesTypeReferences extends UsesConcreteClassifiers {
 	public default ClassifierReference createMinimalClsRef(String clsName) {
@@ -23,6 +25,14 @@ public interface UsesTypeReferences extends UsesConcreteClassifiers {
 		TypeReference result = init.instantiate();
 		init.minimalInitialisation(result);
 		init.setTarget(result, cls);
+		return result;
+	}
+	
+	public default NamespaceClassifierReference createMinimalCNR(String clsName) {
+		var init = new NamespaceClassifierReferenceInitialiser();
+		NamespaceClassifierReference result = init.instantiate();
+		init.minimalInitialisation(result);
+		init.addClassifierReference(result, this.createMinimalClsRef(clsName));
 		return result;
 	}
 }
