@@ -16,4 +16,8 @@ public interface IProvidesModuleDirectiveInitialiser extends
 			assert pmd.getServiceProviders().contains(tref);
 		}
 	}
+	
+	public default void addServiceProviders(ProvidesModuleDirective pmd, TypeReference[] trefs) {
+		this.addXs(pmd, trefs, this::addServiceProvider);
+	}
 }

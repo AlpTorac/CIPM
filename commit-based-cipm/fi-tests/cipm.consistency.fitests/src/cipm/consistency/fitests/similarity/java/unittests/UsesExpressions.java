@@ -4,14 +4,27 @@ import java.math.BigInteger;
 
 import org.emftext.language.java.expressions.EqualityExpression;
 import org.emftext.language.java.expressions.EqualityExpressionChild;
-import org.emftext.language.java.literals.Literal;
+import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.expressions.ExpressionList;
 
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.EqualityExpressionInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.expressions.ExpressionListInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.operators.EqualInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.operators.NotEqualInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.params.LiteralFactory;
 
-public interface UsesExpressions {
+public interface UsesExpressions extends UsesLiterals, UsesStringReferences {
+	public default ExpressionList createExprList() {
+		return new ExpressionListInitialiser().instantiate();
+	}
+	
+	public default ExpressionList createExprList(Expression... exprs) {
+		var elInit = new ExpressionListInitialiser();
+		var el = this.createExprList();
+		elInit.addExpressions(el, exprs);
+		return el;
+	}
+	
 	/**
 	 * @return {@code 1 == 1} in expression form
 	 */
@@ -78,13 +91,5 @@ public interface UsesExpressions {
 		eqInit.addChild(result, rhs);
 		
 		return result;
-	}
-	
-	public default Literal createInteger(BigInteger val) {
-		return new LiteralFactory().createDecIntegerLiteral(val);
-	}
-	
-	public default Literal createInteger(int val) {
-		return this.createInteger(BigInteger.valueOf(val));
 	}
 }
