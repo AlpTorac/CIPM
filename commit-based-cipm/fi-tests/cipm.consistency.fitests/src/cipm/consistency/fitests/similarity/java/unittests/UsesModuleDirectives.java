@@ -7,7 +7,7 @@ import org.emftext.language.java.modules.OpensModuleDirective;
 import cipm.consistency.fitests.similarity.java.initialiser.modules.ExportsModuleDirectiveInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.modules.OpensModuleDirectiveInitialiser;
 
-public interface UsesModuleDirectives extends UsesPackages {
+public interface UsesModuleDirectives extends UsesPackages, UsesModuleReferences {
 	public default ExportsModuleDirective createMinimalEMD(Package pac) {
 		var init = new ExportsModuleDirectiveInitialiser();
 		ExportsModuleDirective result = init.instantiate();

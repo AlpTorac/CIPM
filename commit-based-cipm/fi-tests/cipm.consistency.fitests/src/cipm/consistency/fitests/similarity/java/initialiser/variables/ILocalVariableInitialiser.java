@@ -17,4 +17,8 @@ public interface ILocalVariableInitialiser extends
 			assert lv.getAdditionalLocalVariables().contains(alv);
 		}
 	}
+	
+	public default void addAdditionalLocalVariables(LocalVariable lv, AdditionalLocalVariable[] alvs) {
+		this.addXs(lv, alvs, this::addAdditionalLocalVariable);
+	}
 }

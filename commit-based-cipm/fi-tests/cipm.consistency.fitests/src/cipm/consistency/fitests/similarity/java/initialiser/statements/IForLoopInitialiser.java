@@ -25,4 +25,8 @@ public interface IForLoopInitialiser extends IConditionalInitialiser,
 			assert fl.getUpdates().contains(expr);
 		}
 	}
+	
+	public default void addUpdates(ForLoop fl, Expression[] exprs) {
+		this.addXs(fl, exprs, this::addUpdate);
+	}
 }

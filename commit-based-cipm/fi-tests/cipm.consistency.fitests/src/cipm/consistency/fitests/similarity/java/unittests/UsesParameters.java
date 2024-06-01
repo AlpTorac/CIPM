@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.unittests;
 
+import org.emftext.language.java.parameters.OrdinaryParameter;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.types.TypeReference;
 
@@ -9,6 +10,11 @@ import cipm.consistency.fitests.similarity.java.initialiser.parameters.OrdinaryP
 public interface UsesParameters extends UsesTypeReferences {
 	public default Parameter createMinimalParamWithClsTarget(String paramName, String targetName) {
 		return this.createMinimalParameter(new OrdinaryParameterInitialiser(),
+				paramName, this.createMinimalClsRef(targetName));
+	}
+	
+	public default OrdinaryParameter createMinimalOrdParam(String paramName, String targetName) {
+		return (OrdinaryParameter) this.createMinimalParameter(new OrdinaryParameterInitialiser(),
 				paramName, this.createMinimalClsRef(targetName));
 	}
 	

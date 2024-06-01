@@ -13,6 +13,10 @@ public interface IExpressionListInitialiser extends IForLoopInitializerInitialis
 		}
 	}
 	
+	public default void addExpressions(ExpressionList exprList, Iterable<? extends Expression> exprs) {
+		this.addXs(exprList, exprs, this::addExpression);
+	}
+	
 	public default void addExpressions(ExpressionList exprList, Expression[] exprs) {
 		this.addXs(exprList, exprs, this::addExpression);
 	}

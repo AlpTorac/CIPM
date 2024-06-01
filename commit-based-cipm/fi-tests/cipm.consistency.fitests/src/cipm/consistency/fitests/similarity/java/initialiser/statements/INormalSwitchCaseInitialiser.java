@@ -15,4 +15,8 @@ public interface INormalSwitchCaseInitialiser extends IConditionalInitialiser,
 			assert nsc.getAdditionalConditions().contains(expr);
 		}
 	}
+	
+	public default void addAdditionalConditions(NormalSwitchCase nsc, Expression[] exprs) {
+		this.addXs(nsc, exprs, this::addAdditionalCondition);
+	}
 }

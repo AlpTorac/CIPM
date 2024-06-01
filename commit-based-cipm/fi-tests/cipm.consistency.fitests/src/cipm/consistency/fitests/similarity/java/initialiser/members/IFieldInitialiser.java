@@ -16,4 +16,8 @@ public interface IFieldInitialiser extends IAnnotableAndModifiableInitialiser,
 			assert field.getAdditionalFields().contains(adField);
 		}
 	}
+	
+	public default void addAdditionalFields(Field field, AdditionalField[] adFields) {
+		this.addXs(field, adFields, this::addAdditionalField);
+	}
 }

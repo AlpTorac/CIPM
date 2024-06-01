@@ -9,10 +9,14 @@ import cipm.consistency.fitests.similarity.java.initialiser.testable.IConditiona
 public interface INormalSwitchRuleInitialiser extends IConditionalInitialiser,
 	ISwitchRuleInitialiser {
 	
-	public default void addAdditionalConditions(NormalSwitchRule nsr, Expression expr) {
+	public default void addAdditionalCondition(NormalSwitchRule nsr, Expression expr) {
 		if (expr != null) {
 			nsr.getAdditionalConditions().add(expr);
 			assert nsr.getAdditionalConditions().contains(expr);
 		}
+	}
+	
+	public default void addAdditionalConditions(NormalSwitchRule nsr, Expression[] exprs) {
+		this.addXs(nsr, exprs, this::addAdditionalCondition);
 	}
 }

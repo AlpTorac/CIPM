@@ -10,4 +10,8 @@ public interface ICatchParameterInitialiser extends IOrdinaryParameterInitialise
 			assert cp.getTypeReferences().contains(tref);
 		}
 	}
+	
+	public default void addTypeReferences(CatchParameter cp, TypeReference[] trefs) {
+		this.addXs(cp, trefs, this::addTypeReference);
+	}
 }
