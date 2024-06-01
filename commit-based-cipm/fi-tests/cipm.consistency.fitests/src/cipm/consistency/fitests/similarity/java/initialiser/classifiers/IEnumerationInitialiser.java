@@ -14,4 +14,8 @@ public interface IEnumerationInitialiser extends IConcreteClassifierInitialiser,
 			assert enm.getContainedConstant(cst.getName()).equals(cst);
 		}
 	}
+	
+	public default void addConstants(Enumeration enm, EnumConstant[] csts) {
+		this.addXs(enm, csts, this::addConstant);
+	}
 }
