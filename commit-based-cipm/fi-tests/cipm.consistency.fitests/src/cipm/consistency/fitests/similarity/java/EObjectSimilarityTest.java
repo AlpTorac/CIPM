@@ -62,8 +62,8 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 		var resOne = this.createResource(List.of(objOne));
 		var resTwo = this.createResource(List.of(objTwo));
 		
-		Assertions.assertEquals(this.areSimilar(resOne.getContents(), resTwo.getContents()),
-				expectedSimilarityResult,
+		Assertions.assertEquals(expectedSimilarityResult,
+				this.areSimilar(resOne.getContents(), resTwo.getContents()),
 				"EcoreUtil comparison result: " + this.getActualEquality(objOne, objTwo));
 	}
 
