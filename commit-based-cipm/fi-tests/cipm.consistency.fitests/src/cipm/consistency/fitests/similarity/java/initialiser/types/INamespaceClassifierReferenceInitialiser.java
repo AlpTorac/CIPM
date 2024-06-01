@@ -16,4 +16,8 @@ public interface INamespaceClassifierReferenceInitialiser extends
 			assert ncr.getClassifierReferences().contains(cref);
 		}
 	}
+	
+	public default void addClassifierReferences(NamespaceClassifierReference ncr, ClassifierReference[] crefs) {
+		this.addXs(ncr, crefs, this::addClassifierReference);
+	}
 }
