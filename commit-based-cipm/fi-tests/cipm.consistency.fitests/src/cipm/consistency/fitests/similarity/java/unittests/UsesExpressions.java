@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 import org.emftext.language.java.expressions.EqualityExpression;
 import org.emftext.language.java.expressions.EqualityExpressionChild;
+import org.emftext.language.java.literals.Literal;
 
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.EqualityExpressionInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.operators.EqualInitialiser;
@@ -77,5 +78,13 @@ public interface UsesExpressions {
 		eqInit.addChild(result, rhs);
 		
 		return result;
+	}
+	
+	public default Literal createInteger(BigInteger val) {
+		return new LiteralFactory().createDecIntegerLiteral(val);
+	}
+	
+	public default Literal createInteger(int val) {
+		return this.createInteger(BigInteger.valueOf(val));
 	}
 }

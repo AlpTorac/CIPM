@@ -13,4 +13,8 @@ public interface IStaticMemberImportInitialiser extends
 			assert smi.getStaticMembers().contains(re);
 		}
 	}
+	
+	public default void addStaticMembers(StaticMemberImport smi, ReferenceableElement[] res) {
+		this.addXs(smi, res, this::addStaticMember);
+	}
 }

@@ -13,10 +13,18 @@ public interface IInterfaceInitialiser extends IConcreteClassifierInitialiser {
 		}
 	}
 	
+	public default void addDefaultExtends(Interface intfc, TypeReference[] trefs) {
+		this.addXs(intfc, trefs, this::addDefaultExtends);
+	}
+	
 	public default void addExtends(Interface intfc, TypeReference tref) {
 		if (tref != null) {
 			intfc.getExtends().add(tref);
 			assert intfc.getExtends().contains(tref);
 		}
+	}
+	
+	public default void addExtends(Interface intfc, TypeReference[] trefs) {
+		this.addXs(intfc, trefs, this::addExtends);
 	}
 }

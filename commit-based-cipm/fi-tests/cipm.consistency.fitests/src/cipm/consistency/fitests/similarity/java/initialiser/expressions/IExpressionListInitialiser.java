@@ -12,4 +12,8 @@ public interface IExpressionListInitialiser extends IForLoopInitializerInitialis
 			assert exprList.getExpressions().contains(expr);
 		}
 	}
+	
+	public default void addExpressions(ExpressionList exprList, Expression[] exprs) {
+		this.addXs(exprList, exprs, this::addExpression);
+	}
 }

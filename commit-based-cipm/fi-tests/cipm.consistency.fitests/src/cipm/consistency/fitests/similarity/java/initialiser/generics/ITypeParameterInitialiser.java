@@ -15,6 +15,6 @@ public interface ITypeParameterInitialiser extends IClassifierInitialiser, IAnno
 	}
 	
 	public default void addExtendTypes(TypeParameter tp, TypeReference[] trefs) {
-		this.addXs(tp, trefs, (o,t)->this.addExtendType(o, t));
+		this.addXs(tp, trefs, this::addExtendType);
 	}
 }
