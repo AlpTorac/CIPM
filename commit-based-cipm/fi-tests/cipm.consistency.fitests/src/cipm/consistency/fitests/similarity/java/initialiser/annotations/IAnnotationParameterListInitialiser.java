@@ -12,4 +12,8 @@ public interface IAnnotationParameterListInitialiser extends IAnnotationParamete
 			assert apl.getSettings().contains(aas);
 		}
 	}
+	
+	public default void addSettings(AnnotationParameterList apl, AnnotationAttributeSetting[] aass) {
+		this.addXs(apl, aass, this::addSetting);
+	}
 }

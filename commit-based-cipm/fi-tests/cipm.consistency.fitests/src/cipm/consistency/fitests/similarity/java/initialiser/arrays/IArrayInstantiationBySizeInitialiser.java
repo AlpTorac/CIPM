@@ -16,4 +16,8 @@ public interface IArrayInstantiationBySizeInitialiser extends
 			assert arrIns.getSizes().contains(expr);
 		}
 	}
+	
+	public default void addSizes(ArrayInstantiationBySize arrIns, Expression[] exprs) {
+		this.addXs(arrIns, exprs, this::addSize);
+	}
 }

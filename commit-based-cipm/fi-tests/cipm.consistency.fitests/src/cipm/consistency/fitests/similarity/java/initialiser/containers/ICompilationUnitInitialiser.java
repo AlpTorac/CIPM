@@ -27,11 +27,7 @@ public interface ICompilationUnitInitialiser extends IJavaRootInitialiser {
 		}
 	}
 	
-	public default void addClassifierInSamePackage(CompilationUnit cu, ConcreteClassifier cc) {
-		if (cc != null) {
-			cu.getClassifiersInSamePackage().add(cc);
-			assert cu.getClassifiersInSamePackage().contains(cc);
-			assert cu.getContainedClassifier(cc.getQualifiedName()).equals(cc);
-		}
+	public default void addClassifiers(CompilationUnit cu, ConcreteClassifier[] ccs) {
+		this.addXs(cu, ccs, this::addClassifier);
 	}
 }

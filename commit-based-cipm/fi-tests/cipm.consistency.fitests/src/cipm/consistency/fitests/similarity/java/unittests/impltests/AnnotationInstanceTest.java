@@ -32,8 +32,8 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest
 	}
 	
 	@Test
-	public void testClassifier() {
-		this.setResourceFileTestIdentifier("testClassifier");
+	public void testAnnotation() {
+		this.setResourceFileTestIdentifier("testAnnotation");
 		
 		var objOne = this.initElement(this.createMinimalClass("cls1"), null);
 		var objTwo = this.initElement(this.createMinimalClass("cls2"), null);
