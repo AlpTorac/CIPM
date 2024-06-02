@@ -38,6 +38,9 @@ import cipm.consistency.fitests.similarity.java.initialiser.expressions.Equality
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.ExclusiveOrExpressionInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.ExplicitlyTypedLambdaParametersInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.ExpressionListInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.expressions.ImplicitlyTypedLambdaParametersInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.expressions.InclusiveOrExpressionInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.expressions.InstanceOfExpressionInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.MultiplicativeExpressionInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.NestedExpressionInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.PrefixUnaryModificationExpressionInitialiser;
@@ -235,6 +238,9 @@ public class InitialiserParameters {
 			add(new ExclusiveOrExpressionInitialiser());
 			add(new ExplicitlyTypedLambdaParametersInitialiser());
 			add(new ExpressionListInitialiser());
+			add(new ImplicitlyTypedLambdaParametersInitialiser());
+			add(new InclusiveOrExpressionInitialiser());
+			add(new InstanceOfExpressionInitialiser());
 			add(new MultiplicativeExpressionInitialiser());
 			add(new NestedExpressionInitialiser());
 			add(new PrefixUnaryModificationExpressionInitialiser());
@@ -390,16 +396,16 @@ public class InitialiserParameters {
 			add(new YieldStatementInitialiser());
 			
 			// Types
-			add(new ClassifierReferenceInitialiser());
-			add(new InferableTypeInitialiser());
-			add(new NamespaceClassifierReferenceInitialiser());
 			add(new BooleanInitialiser());
 			add(new ByteInitialiser());
 			add(new CharInitialiser());
+			add(new ClassifierReferenceInitialiser());
 			add(new DoubleInitialiser());
 			add(new FloatInitialiser());
+			add(new InferableTypeInitialiser());
 			add(new IntInitialiser());
 			add(new LongInitialiser());
+			add(new NamespaceClassifierReferenceInitialiser());
 			add(new ShortInitialiser());
 			add(new VoidInitialiser());
 			
