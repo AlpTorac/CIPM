@@ -20,4 +20,8 @@ public interface IEqualityExpressionInitialiser extends IAndExpressionChildIniti
 			assert eqEx.getChildren().contains(child);
 		}
 	}
+	
+	public default void addChildren(EqualityExpression eqEx, EqualityExpressionChild[] children) {
+		this.addXs(eqEx, children, this::addChild);
+	}
 }
