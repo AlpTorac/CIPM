@@ -18,6 +18,10 @@ public interface ICastExpressionInitialiser extends ITypedElementInitialiser,
 		}
 	}
 	
+	public default void addAdditionalBounds(CastExpression ce, TypeReference[] trefs) {
+		this.addXs(ce, trefs, this::addAdditionalBound);
+	}
+	
 	public default void setChild(CastExpression ce, MultiplicativeExpressionChild child) {
 		if (child != null) {
 			ce.setChild(child);

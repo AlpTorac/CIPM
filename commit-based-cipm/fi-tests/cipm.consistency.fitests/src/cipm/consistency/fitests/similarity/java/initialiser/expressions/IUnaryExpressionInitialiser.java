@@ -14,6 +14,10 @@ public interface IUnaryExpressionInitialiser extends IMultiplicativeExpressionCh
 		}
 	}
 	
+	public default void addOperators(UnaryExpression ue, UnaryOperator[] ops) {
+		this.addXs(ue, ops, this::addOperator);
+	}
+	
 	public default void setChild(UnaryExpression ue, UnaryExpressionChild child) {
 		if (child != null) {
 			ue.setChild(child);
