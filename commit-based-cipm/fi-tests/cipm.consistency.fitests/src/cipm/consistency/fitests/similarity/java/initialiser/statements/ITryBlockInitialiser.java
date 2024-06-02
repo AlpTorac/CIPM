@@ -28,6 +28,10 @@ public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
 		}
 	}
 	
+	public default void addCatchBlocks(TryBlock tb, CatchBlock[] cbs) {
+		this.addXs(tb, cbs, this::addCatchBlock);
+	}
+	
 	public default void addCatcheBlock(TryBlock tb, CatchBlock cb) {
 		if (cb != null) {
 			// TODO: Clarify why there are 2 methods: getCatchBlocks() and getCatcheBlocks()
@@ -36,10 +40,18 @@ public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
 		}
 	}
 	
+	public default void addCatcheBlocks(TryBlock tb, CatchBlock[] cbs) {
+		this.addXs(tb, cbs, this::addCatcheBlock);
+	}
+	
 	public default void addResource(TryBlock tb, Resource res) {
 		if (res != null) {
 			tb.getResources().add(res);
 			assert tb.getResources().contains(res);
 		}
+	}
+	
+	public default void addResources(TryBlock tb, Resource[] ress) {
+		this.addXs(tb, ress, this::addResource);
 	}
 }

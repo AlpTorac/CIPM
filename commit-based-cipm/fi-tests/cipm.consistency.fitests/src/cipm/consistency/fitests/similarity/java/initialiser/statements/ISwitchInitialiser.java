@@ -17,6 +17,10 @@ public interface ISwitchInitialiser extends IStatementInitialiser,
 		}
 	}
 	
+	public default void addCases(Switch sw, SwitchCase[] scs) {
+		this.addXs(sw, scs, this::addCase);
+	}
+	
 	public default void setVariable(Switch sw, Expression expr) {
 		if (expr != null) {
 			sw.setVariable(expr);
