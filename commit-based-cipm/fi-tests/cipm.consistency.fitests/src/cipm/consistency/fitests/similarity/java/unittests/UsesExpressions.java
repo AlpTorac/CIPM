@@ -13,7 +13,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.operators.EqualIniti
 import cipm.consistency.fitests.similarity.java.initialiser.operators.NotEqualInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.params.LiteralFactory;
 
-public interface UsesExpressions extends UsesLiterals, UsesStringReferences {
+public interface UsesExpressions extends UsesOperators, UsesLiterals, UsesStringReferences {
 	public default ExpressionList createExprList() {
 		return new ExpressionListInitialiser().instantiate();
 	}
@@ -52,7 +52,7 @@ public interface UsesExpressions extends UsesLiterals, UsesStringReferences {
 		
 		EqualityExpression result = eqInit.instantiate();
 		eqInit.minimalInitialisation(result);
-		eqInit.addEqualityOperator(result, new EqualInitialiser().instantiate());
+		eqInit.addEqualityOperator(result, this.createEqualityOperator());
 		eqInit.addChild(result, lhs);
 		eqInit.addChild(result, rhs);
 		
@@ -86,7 +86,7 @@ public interface UsesExpressions extends UsesLiterals, UsesStringReferences {
 		
 		EqualityExpression result = eqInit.instantiate();
 		eqInit.minimalInitialisation(result);
-		eqInit.addEqualityOperator(result, new NotEqualInitialiser().instantiate());
+		eqInit.addEqualityOperator(result, this.createNotEqualOperator());
 		eqInit.addChild(result, lhs);
 		eqInit.addChild(result, rhs);
 		
