@@ -31,6 +31,7 @@ import tools.vitruv.framework.propagation.ChangePropagationSpecification;
  */
 public abstract class AbstractCITest {
 	private static final Logger LOGGER = Logger.getLogger("cipm." + AbstractCITest.class.getSimpleName());
+	private final String evaluationResultFileNamePrefix = "eval_";
 	protected CommitIntegrationController controller;
 
 	@BeforeEach
@@ -44,15 +45,15 @@ public abstract class AbstractCITest {
 		ConsoleAppender ap = new ConsoleAppender(new PatternLayout("[%d{DATE}] %-5p: %c - %m%n"),
 				ConsoleAppender.SYSTEM_OUT);
 		logger.addAppender(ap);
-		
+		Thread.sleep(5000);
+
 		// Needed to instantiate the singleton CommitIntegrationSettingsContainer for the first time,
 		// so that CommitIntegrationController can be instantiated, since getJavaPCMSpecification() requires it
 		if (CommitIntegrationSettingsContainer.getSettingsContainer() == null) {
 			Path settingsPath = Paths.get(getSettingsPath());
 			CommitIntegrationSettingsContainer.initialize(settingsPath);
-			CommitIntegrationSettingsContainer.getSettingsContainer();
 		}
-		
+
 		controller = new CommitIntegrationController(Paths.get(getTestPath()), getRepositoryPath(),
 				Paths.get(getSettingsPath()), getJavaPCMSpecification());
 	}
@@ -114,14 +115,14 @@ public abstract class AbstractCITest {
 			Resource javaModel = this.controller.getJavaModelResource();
 			Resource instrumentedModel = this.controller.getLastInstrumentedModelResource();
 			Path root = this.controller.getVSUMFacade().getFileLayout().getRootPath();
-			Path copy = root.resolveSibling(root.getFileName().toString() + "-" + num + "-" + newCommit);
-			LOGGER.debug("Copying the propagated state.");
-			FileUtils.copyDirectory(root.toFile(), copy.toFile());
 			LOGGER.debug("Evaluating the instrumentation.");
 			new InstrumentationEvaluator().evaluateInstrumentationDependently(
 					this.controller.getVSUMFacade().getInstrumentationModel(), javaModel, instrumentedModel,
 					this.controller.getVSUMFacade().getVSUM().getCorrespondenceModel());
-			EvaluationDataContainerReaderWriter.write(evalResult, copy.resolve("DependentEvaluationResult.json"));
+			EvaluationDataContainerReaderWriter.write(evalResult, root.resolve(this.evaluationResultFileNamePrefix + newCommit + ".json"));
+			LOGGER.debug("Copying the propagated state.");
+			Path copy = root.resolveSibling(root.getFileName().toString() + "-" + num + "-" + newCommit);
+			FileUtils.copyDirectory(root.toFile(), copy.toFile());
 			LOGGER.debug("Finished the evaluation.");
 		}
 		return result;
@@ -141,9 +142,11 @@ public abstract class AbstractCITest {
 		String oldCommit = commits[0];
 		String newCommit = commits[1];
 		LOGGER.debug("Evaluating the propagation " + oldCommit + "->" + newCommit);
-		EvaluationDataContainer evalResult = EvaluationDataContainer.getGlobalContainer();
-		evalResult.getChangeStatistic().setOldCommit(oldCommit);
-		evalResult.getChangeStatistic().setNewCommit(newCommit);
+		var evalResultFile = this.controller.getVSUMFacade().getFileLayout().getRootPath().resolve(this.evaluationResultFileNamePrefix + newCommit + ".json");
+		EvaluationDataContainer evalResult = EvaluationDataContainerReaderWriter.read(evalResultFile);
+		EvaluationDataContainer.setGlobalContainer(evalResult);
+//		evalResult.getChangeStatistic().setOldCommit(oldCommit);
+//		evalResult.getChangeStatistic().setNewCommit(newCommit);
 		Resource javaModel = this.controller.getJavaModelResource();
 		LOGGER.debug("Evaluating the Java model.");
 		new JavaModelEvaluator().evaluateJavaModels(javaModel,
@@ -159,10 +162,7 @@ public abstract class AbstractCITest {
 				this.controller.getVSUMFacade().getInstrumentationModel(), javaModel,
 				this.controller.getCommitChangePropagator().getJavaFileSystemLayout(),
 				this.controller.getVSUMFacade().getVSUM().getCorrespondenceModel());
-		Path root = this.controller.getVSUMFacade().getFileLayout().getRootPath();
-		EvaluationDataContainerReaderWriter.write(evalResult,
-				root.resolveSibling("EvaluationResult-" + newCommit
-						+ "-" + evalResult.getEvaluationTime() + ".json"));
+		EvaluationDataContainerReaderWriter.write(evalResult, evalResultFile);
 		LOGGER.debug("Finished the evaluation.");
 	}
 
