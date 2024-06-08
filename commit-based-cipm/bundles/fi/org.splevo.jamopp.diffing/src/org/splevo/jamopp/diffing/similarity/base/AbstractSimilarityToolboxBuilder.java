@@ -1,7 +1,18 @@
 package org.splevo.jamopp.diffing.similarity.base;
 
+/**
+ * An abstract class for concrete similarity toolbox builders to extend.
+ * Complements {@link ISimilarityToolboxBuilder} with the integration of
+ * {@link ISimilarityToolboxFactory}.
+ * 
+ * @author atora
+ */
 public class AbstractSimilarityToolboxBuilder implements ISimilarityToolboxBuilder {
 	private ISimilarityToolboxFactory stf;
+
+	/**
+	 * The current version of the {@link ISimilarityToolbox} instance being built.
+	 */
 	private ISimilarityToolbox st;
 
 	public AbstractSimilarityToolboxBuilder() {
@@ -22,6 +33,11 @@ public class AbstractSimilarityToolboxBuilder implements ISimilarityToolboxBuild
 		return this.st;
 	}
 
+	/**
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * <b>Sets {@link #st} to null. </b>
+	 */
 	@Override
 	public ISimilarityToolbox build() {
 		var result = this.getCurrentToolbox();
@@ -36,7 +52,8 @@ public class AbstractSimilarityToolboxBuilder implements ISimilarityToolboxBuild
 	}
 
 	@Override
-	public ISimilarityToolboxBuilder buildRequestHandlerPair(Class<? extends ISimilarityRequest> req, ISimilarityRequestHandler srh) {
+	public ISimilarityToolboxBuilder buildRequestHandlerPair(Class<? extends ISimilarityRequest> req,
+			ISimilarityRequestHandler srh) {
 		this.getCurrentToolbox().addRequestHandlerPair(req, srh);
 		return this;
 	}

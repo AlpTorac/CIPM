@@ -3,11 +3,24 @@ package org.splevo.jamopp.diffing.similarity.base.ecore;
 import org.eclipse.emf.ecore.EObject;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
 
+/**
+ * An {@link ISimilarityRequest} for checking the similarity of
+ * 2 {@link EObject} instances.
+ * 
+ * @author atora
+ */
 public class SingleSimilarityCheckRequest implements ISimilarityRequest {
 	private EObject element1;
 	private EObject element2;
 	private IComposedSwitchWrapper ss;
 	
+	/**
+	 * @param element1 The first element.
+	 * @param element2 The second element.
+	 * @param ss The switch that will be used to compare the elements above.
+	 * 
+	 * @see {@link ISimilarityChecker}
+	 */
 	public SingleSimilarityCheckRequest(EObject element1, EObject element2, IComposedSwitchWrapper ss) {
 		this.element1 = element1;
 		this.element2 = element2;

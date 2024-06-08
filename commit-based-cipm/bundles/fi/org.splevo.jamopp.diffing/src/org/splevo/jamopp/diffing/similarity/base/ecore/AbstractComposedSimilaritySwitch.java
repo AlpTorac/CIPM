@@ -6,30 +6,56 @@ import org.eclipse.emf.ecore.util.Switch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 
+/**
+ * An abstract class that complements {@link AbstractComposedSwitchWrapper} with
+ * an attribute to store an {@link ISimilarityRequestHandler} instance. This
+ * attribute is then used during similarity checking to delegate
+ * {@link ISimilarityRequest} instances to their proper
+ * {@link ISimilarityRequestHandler} instance.
+ * 
+ * @author atora
+ */
 public abstract class AbstractComposedSimilaritySwitch extends AbstractComposedSwitchWrapper
 		implements ISimilarityRequestHandler {
 
+	/**
+	 * The {@link ISimilarityRequestHandler}, to which incoming
+	 * {@link ISimilarityRequest} instances will be delegated.
+	 */
 	private ISimilarityRequestHandler srh;
-	
-    public AbstractComposedSimilaritySwitch(ISimilarityRequestHandler srh) {
-    	super();
-    	this.srh = srh;
-    }
-    
-    protected AbstractComposedSimilaritySwitch(ISimilarityRequestHandler srh, Collection<Switch<Boolean>> switches) {
-    	super(switches);
-    	this.srh = srh;
-    }
-    
-    protected AbstractComposedSimilaritySwitch(ISimilarityRequestHandler srh, Switch<Boolean>[] switches) {
-    	super(switches);
-    	this.srh = srh;
-    }
-    
-    protected ISimilarityRequestHandler getSimilarityRequestHandler() {
-    	return this.srh;
-    }
-	
+
+	public AbstractComposedSimilaritySwitch(ISimilarityRequestHandler srh) {
+		super();
+		this.srh = srh;
+	}
+
+	/**
+	 * Constructs an instance with the given switches.
+	 * 
+	 * @see {@link AbstractComposedSwitchWrapper#AbstractComposedSwitchWrapper(Collection)}
+	 */
+	protected AbstractComposedSimilaritySwitch(ISimilarityRequestHandler srh, Collection<Switch<Boolean>> switches) {
+		super(switches);
+		this.srh = srh;
+	}
+
+	/**
+	 * Constructs an instance with the given switches.
+	 * 
+	 * @see {@link AbstractComposedSwitchWrapper#AbstractComposedSwitchWrapper(Switch[])}
+	 */
+	protected AbstractComposedSimilaritySwitch(ISimilarityRequestHandler srh, Switch<Boolean>[] switches) {
+		super(switches);
+		this.srh = srh;
+	}
+
+	/**
+	 * @return {@link #srh}
+	 */
+	protected ISimilarityRequestHandler getSimilarityRequestHandler() {
+		return this.srh;
+	}
+
 	@Override
 	public Object handleSimilarityRequest(ISimilarityRequest req) {
 		return this.getSimilarityRequestHandler().handleSimilarityRequest(req);

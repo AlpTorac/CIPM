@@ -5,7 +5,18 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 
+/**
+ * A {@link ISimilarityRequestHandler} that processes
+ * {@link SingleSimilarityCheckRequest} instances.
+ * 
+ * @author atora
+ */
 public class SingleSimilarityCheckHandler implements ISimilarityRequestHandler {
+	/**
+	 * Uses the given switch to compute the similarity of the given elements.
+	 * 
+	 * @see {@link ISimilarityChecker}
+	 */
 	public Boolean isSimilar(EObject element1, EObject element2, IComposedSwitchWrapper ss) {
 
         // check that either both or none of them is null
