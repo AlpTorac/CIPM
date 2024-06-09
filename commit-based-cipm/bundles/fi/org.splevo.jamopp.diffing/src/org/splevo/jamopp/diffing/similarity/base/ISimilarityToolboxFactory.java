@@ -13,8 +13,9 @@ package org.splevo.jamopp.diffing.similarity.base;
  */
 public interface ISimilarityToolboxFactory {
 	/**
-	 * @return An {@link ISimilarityToolbox} instance that uses the data structure
-	 * implied by the concrete {@link ISimilarityToolboxFactory} implementor.
+	 * Constructs and returns an {@link ISimilarityToolbox} instance that uses the
+	 * data structure implied by the concrete {@link ISimilarityToolboxFactory}
+	 * implementor's name.
 	 */
 	public ISimilarityToolbox createSimilarityToolbox();
 }

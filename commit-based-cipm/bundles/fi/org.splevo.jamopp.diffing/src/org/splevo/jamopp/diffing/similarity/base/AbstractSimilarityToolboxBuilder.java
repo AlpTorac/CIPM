@@ -8,6 +8,10 @@ package org.splevo.jamopp.diffing.similarity.base;
  * @author atora
  */
 public class AbstractSimilarityToolboxBuilder implements ISimilarityToolboxBuilder {
+	/**
+	 * The {@link ISimilarityToolboxFactory}, which determines the data structure
+	 * used by the {@link ISimilarityToolbox} instances built using this builder.
+	 */
 	private ISimilarityToolboxFactory stf;
 
 	/**
@@ -15,20 +19,32 @@ public class AbstractSimilarityToolboxBuilder implements ISimilarityToolboxBuild
 	 */
 	private ISimilarityToolbox st;
 
+	/**
+	 * Constructs an instance.
+	 */
 	public AbstractSimilarityToolboxBuilder() {
 		super();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void setSimilarityToolboxFactory(ISimilarityToolboxFactory stf) {
 		this.stf = stf;
 	}
 
+	/**
+	 * @return {@link #stf}
+	 */
 	@Override
 	public ISimilarityToolboxFactory getToolboxFactory() {
 		return this.stf;
 	}
 
+	/**
+	 * @return {@link #st}
+	 */
 	protected ISimilarityToolbox getCurrentToolbox() {
 		return this.st;
 	}
@@ -45,12 +61,18 @@ public class AbstractSimilarityToolboxBuilder implements ISimilarityToolboxBuild
 		return result;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public ISimilarityToolboxBuilder instantiate() {
 		this.st = this.getToolboxFactory().createSimilarityToolbox();
 		return this;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public ISimilarityToolboxBuilder buildRequestHandlerPair(Class<? extends ISimilarityRequest> req,
 			ISimilarityRequestHandler srh) {

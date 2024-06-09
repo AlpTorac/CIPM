@@ -31,15 +31,24 @@ public class JavaSimilarityChecker extends AbstractComposedSwitchSimilarityCheck
     @SuppressWarnings("unused")
     private Logger logger = Logger.getLogger(JavaSimilarityChecker.class);
 
+    /**
+     * @see {@link AbstractComposedSwitchSimilarityChecker#AbstractComposedSwitchSimilarityChecker(ISimilarityToolbox)}
+     */
     public JavaSimilarityChecker(ISimilarityToolbox st) {
         super(st);
     }
     
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	protected JavaSimilarityComparer createSimilarityComparer(ISimilarityToolbox st) {
 		return new JavaSimilarityComparer(st);
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	protected ISimilarityRequest makeDefaultSwitchRequest() {
 		return new NewSimilaritySwitchRequest(true);

@@ -12,5 +12,8 @@ package org.splevo.jamopp.diffing.similarity.base;
  * @author atora
  */
 public interface ISimilarityRequest {
+	/**
+	 * Returns all parameters encapsulated by this request instance. 
+	 */
 	public Object getParams();
 }

@@ -6,9 +6,13 @@ import java.util.Map;
 /**
  * An {@link ISimilarityToolbox} implementor, that uses a {@link Map} to contain
  * 1 to 1 mappings between {@link ISimilarityRequest} classes and
- * {@link ISimilarityRequestHandler} instances.
- * <br><br>
- *  <b>This means that only one {@link ISimilarityRequestHandler} will process incoming {@link ISimilarityRequest}.</b>
+ * {@link ISimilarityRequestHandler} instances. <br>
+ * <br>
+ * <b>This means that only one {@link ISimilarityRequestHandler} stored in this
+ * instance will process incoming {@link ISimilarityRequest}.</b> Therefore, if
+ * a request is to be handled by further handlers, either the delegation to
+ * those handlers must be implemented in the first handler or another
+ * {@link ISimilarityToolbox} should be used.
  * 
  * @author atora
  */
@@ -19,28 +23,45 @@ public class MapSimilarityToolbox implements ISimilarityToolbox {
 	 */
 	private Map<Class<? extends ISimilarityRequest>, ISimilarityRequestHandler> rhMap;
 
+	/**
+	 * Constructs an instance and initialises the map it uses to store
+	 * ({@link ISimilarityRequest} (class), {@link ISimilarityRequestHandler}
+	 * (instance)) pairs.
+	 */
 	public MapSimilarityToolbox() {
 		this.rhMap = new HashMap<Class<? extends ISimilarityRequest>, ISimilarityRequestHandler>();
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void addRequestHandlerPair(Class<? extends ISimilarityRequest> reqClass, ISimilarityRequestHandler srh) {
 		this.rhMap.put(reqClass, srh);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void removeRequestHandlerPair(Class<? extends ISimilarityRequest> reqClass) {
 		this.rhMap.remove(reqClass);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public void clearRequestHandlerPairs() {
 		this.rhMap.clear();
 	}
 
 	/**
-	 * Attempts to handle the given {@link ISimilarityRequest} (req) by searching {@link #rhMap} for
-	 * a matching {@link ISimilarityRequestHandler} and having it process req.
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * Attempts to handle the given {@link ISimilarityRequest} (req) by searching
+	 * {@link #rhMap} for a matching {@link ISimilarityRequestHandler} and having it
+	 * process req.
 	 */
 	@Override
 	public Object handleSimilarityRequest(ISimilarityRequest req) {

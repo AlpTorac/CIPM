@@ -14,6 +14,9 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolbox;
  * @author atora
  */
 public abstract class AbstractComposedSwitchSimilarityChecker extends AbstractSimilarityChecker {
+	/**
+	 * @see {@link AbstractSimilarityChecker#AbstractSimilarityChecker(ISimilarityToolbox)}
+	 */
 	public AbstractComposedSwitchSimilarityChecker(ISimilarityToolbox st) {
 		super(st);
 	}
@@ -25,11 +28,17 @@ public abstract class AbstractComposedSwitchSimilarityChecker extends AbstractSi
     	return (IComposedSwitchWrapper) this.handleSimilarityRequest(this.makeDefaultSwitchRequest());
     }
 	
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public Boolean isSimilar(Object element1, Object element2) {
 		return (Boolean) this.handleSimilarityRequest(new SingleSimilarityCheckRequest((EObject) element1, (EObject) element2, this.createDefaultNewSwitch()));
 	}
 
+    /**
+     * {@inheritDoc}
+     */
 	@SuppressWarnings("unchecked")
 	@Override
 	public Boolean areSimilar(Collection<Object> elements1, Collection<Object> elements2) {

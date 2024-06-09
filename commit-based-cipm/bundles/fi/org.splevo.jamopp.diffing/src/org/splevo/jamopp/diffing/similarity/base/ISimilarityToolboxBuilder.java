@@ -15,9 +15,10 @@ package org.splevo.jamopp.diffing.similarity.base;
  * {@link #buildRequestHandlerPair(Class, ISimilarityRequestHandler)}.
  * <li>Return the end product by calling {@link #build()}.
  * </ol>
- * Concrete implementors may provide additional building methods, such as those that
- * summarise multiple {@link #buildRequestHandlerPair(Class, ISimilarityRequestHandler)}
- * calls into one method. In those cases, it is recommended to use those methods instead,
+ * Concrete implementors may provide additional building methods, such as those
+ * that summarise multiple
+ * {@link #buildRequestHandlerPair(Class, ISimilarityRequestHandler)} calls into
+ * one method. In those cases, it is recommended to use those methods instead,
  * in order to keep the building process tidier.
  * 
  * @author atora
@@ -59,6 +60,12 @@ public interface ISimilarityToolboxBuilder {
 	/**
 	 * Adds the given pair ({@link ISimilarityRequest},
 	 * {@link ISimilarityRequestHandler}) to the {@link ISimilarityToolbox}.
+	 * 
+	 * @param req The class of the {@link ISimilarityRequest} instances, which
+	 *            should be processed using the given request handler.
+	 * @param srh The {@link ISimilarityRequestHandler} instance, which should be
+	 *            used to process the {@link ISimilarityRequest} instances of the
+	 *            given class.
 	 * 
 	 * @return this
 	 */

@@ -22,11 +22,13 @@ import org.eclipse.emf.ecore.EObject;
  */
 public interface IComposedSwitchWrapper {
 	/**
-	 * @return The current compare element.
+	 * Returns the current compare element.
 	 */
 	public EObject getCompareElement();
 
 	/**
+	 * Compares the given {@link EObject} instances and returns the result.
+	 * 
 	 * @param eo1 An {@link EObject} instance, which will be compared with eo2.
 	 * @param eo2 The EObject, which will be the compare element.
 	 * @return True, if given EObjects are similar; false, if they are not similar;

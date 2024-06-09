@@ -1,10 +1,20 @@
 package org.splevo.jamopp.diffing.similarity;
 
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolbox;
 import org.splevo.jamopp.diffing.similarity.base.ecore.AbstractComposedSimilaritySwitchComparer;
 
+/**
+ * Concrete implementation of {@link AbstractComposedSimilaritySwitchComparer}
+ * for comparing Java elements.
+ * 
+ * @author atora
+ */
 public class JavaSimilarityComparer extends AbstractComposedSimilaritySwitchComparer {
-    public JavaSimilarityComparer(ISimilarityToolbox st) {
-    	super(st);
-    }
+	/**
+	 * @see {@link AbstractComposedSimilaritySwitchComparer#AbstractComposedSimilaritySwitchComparer(ISimilarityToolbox)}
+	 */
+	public JavaSimilarityComparer(ISimilarityToolbox st) {
+		super(st);
+	}
 }

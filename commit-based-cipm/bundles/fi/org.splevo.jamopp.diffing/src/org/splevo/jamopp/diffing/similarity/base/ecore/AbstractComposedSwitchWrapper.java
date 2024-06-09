@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.eclipse.emf.ecore.util.Switch;
 
 //TODO: Consider renaming to "AbstractComposedSwitchAdapter"
+//TODO: Re-use ComposedSwitch#ComposedSwitch(Collection)
 
 /**
  * An abstract class that complements {@link IComposedSwitchWrapper} with an
@@ -19,6 +20,11 @@ public abstract class AbstractComposedSwitchWrapper extends ComposedSwitch<Boole
 	/** The object to compare the switched element with. */
 	private EObject compareElement = null;
 
+	/**
+	 * Constructs an instance using {@code super()}
+	 * 
+	 * @see {@link ComposedSwitch#ComposedSwitch()}
+	 */
 	public AbstractComposedSwitchWrapper() {
 
 	}
@@ -47,11 +53,19 @@ public abstract class AbstractComposedSwitchWrapper extends ComposedSwitch<Boole
 		}
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @return {@link #compareElement}
+	 */
 	@Override
 	public EObject getCompareElement() {
 		return this.compareElement;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public Boolean compare(EObject eo1, EObject eo2) {
 		this.compareElement = eo2;

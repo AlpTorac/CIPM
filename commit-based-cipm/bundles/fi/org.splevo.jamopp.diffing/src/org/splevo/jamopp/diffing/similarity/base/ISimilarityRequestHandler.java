@@ -22,6 +22,8 @@ public interface ISimilarityRequestHandler {
 	 * <br>
 	 * It is recommended to not override the return type, especially if the concrete
 	 * {@link ISimilarityRequestHandler} instances are planned to be extended.
+	 * 
+	 * @param req The incoming request.
 	 */
 	public Object handleSimilarityRequest(ISimilarityRequest req);
 }

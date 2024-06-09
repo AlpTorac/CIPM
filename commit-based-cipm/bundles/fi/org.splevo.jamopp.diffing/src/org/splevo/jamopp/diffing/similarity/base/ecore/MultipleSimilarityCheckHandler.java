@@ -15,18 +15,25 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 public class MultipleSimilarityCheckHandler implements ISimilarityRequestHandler {
 	/**
 	 * The {@link ISimilarityRequestHandler}, to which
-	 * {@link SingleSimilarityCheckRequest} instances from
-	 * {@link #handleSimilarityRequest(ISimilarityRequest)} will be delegated.
+	 * {@link SingleSimilarityCheckRequest} instances will be delegated.
 	 */
 	private ISimilarityRequestHandler srh;
 
+	/**
+	 * Constructs an instance with the given {@link ISimilarityRequestHandler}
+	 * 
+	 * @param srh {@link #srh}
+	 */
 	public MultipleSimilarityCheckHandler(ISimilarityRequestHandler srh) {
 		this.srh = srh;
 	}
 
 	/**
-	 * Compares the similarity of the {@link EObject} collections from the incoming request pairwise. To do so
-	 * it uses the switch at index i to compare elements at the index i in their respective lists.
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * Compares the similarity of the {@link EObject} collections from the incoming
+	 * request pairwise. To do so, it uses the switch at index i to compare elements
+	 * at the index i in their respective lists.
 	 * 
 	 * @return TRUE, if they are all similar; FALSE if a different number of
 	 *         elements is submitted or at least one pair of elements is not similar

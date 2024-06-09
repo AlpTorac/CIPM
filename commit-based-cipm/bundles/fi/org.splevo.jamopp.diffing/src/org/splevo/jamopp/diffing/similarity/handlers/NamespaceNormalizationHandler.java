@@ -8,13 +8,32 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.similarity.requests.NamespaceNormalizationRequest;
 
+/**
+ * An {@link ISimilarityRequestHandler} that processes incoming
+ * {@link NamespaceNormalizationRequest} instances.
+ * 
+ * @author atora
+ */
 public class NamespaceNormalizationHandler implements ISimilarityRequestHandler {
+	/**
+	 * @see {@link JaMoPPDiffer#initSimilarityChecker(Map)}
+	 */
 	private Map<Pattern, String> packageNormalizations;
 	
+	/**
+	 * Constructs an instance with the given parameter.
+	 * 
+	 * @see {@link JaMoPPDiffer#initSimilarityChecker(Map)}
+	 */
 	public NamespaceNormalizationHandler(Map<Pattern, String> packageNormalizations) {
 		this.packageNormalizations = packageNormalizations;
 	}
 	
+	/**
+	 * {@inheritDoc}
+	 * <br><br>
+	 * Performs the requested normalisation and returns the result.
+	 */
 	@Override
 	public Object handleSimilarityRequest(ISimilarityRequest req) {
 		NamespaceNormalizationRequest castedR = (NamespaceNormalizationRequest) req;

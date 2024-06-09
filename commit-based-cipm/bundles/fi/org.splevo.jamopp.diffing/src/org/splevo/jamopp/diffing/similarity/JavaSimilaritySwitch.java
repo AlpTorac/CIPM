@@ -53,6 +53,15 @@ import org.splevo.jamopp.diffing.similarity.switches.VariablesSimilaritySwitch;
  * </p>
  */
 public class JavaSimilaritySwitch extends AbstractComposedSimilaritySwitch implements IJavaSimilaritySwitch {
+	/**
+	 * Constructs an instance with the given request handler and the flag. Adds default
+	 * inner switches to the constructed instance.
+	 * 
+	 * @param srh The request handler, to which all incoming {@link ISimilarityRequest}
+	 * instances will be delegated.
+	 * @param checkStatementPosition The flag, which denotes whether this switch should
+	 * take positions of statements while comparing.
+	 */
     public JavaSimilaritySwitch(ISimilarityRequestHandler srh, boolean checkStatementPosition) {
     	super(srh);
     	
@@ -78,14 +87,26 @@ public class JavaSimilaritySwitch extends AbstractComposedSimilaritySwitch imple
         addSwitch(new ModulesSimilaritySwitch(this, checkStatementPosition));
     }
     
+    /**
+     * Constructs an instance without any inner switches.
+     * 
+     * @see {@link AbstractComposedSimilaritySwitch}
+     * @see {@link IInnerSwitch}
+     */
     protected JavaSimilaritySwitch(ISimilarityRequestHandler srh) {
     	super(srh);
     }
     
+    /**
+     * @see {@link AbstractComposedSimilaritySwitch}
+     */
     protected JavaSimilaritySwitch(ISimilarityRequestHandler srh, Collection<Switch<Boolean>> switches) {
     	super(srh, switches);
     }
     
+    /**
+     * @see {@link AbstractComposedSimilaritySwitch}
+     */
     protected JavaSimilaritySwitch(ISimilarityRequestHandler srh, Switch<Boolean>[] switches) {
     	super(srh, switches);
     }

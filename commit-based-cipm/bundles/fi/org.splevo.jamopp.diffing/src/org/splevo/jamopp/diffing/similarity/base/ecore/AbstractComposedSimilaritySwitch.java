@@ -24,6 +24,12 @@ public abstract class AbstractComposedSimilaritySwitch extends AbstractComposedS
 	 */
 	private ISimilarityRequestHandler srh;
 
+	/**
+	 * Constructs an instance with the given {@link ISimilarityRequestHandler}
+	 * 
+	 * @param srh The request handler, to which all incoming {@link ISimilarityRequest}
+	 * instances will be delegated.
+	 */
 	public AbstractComposedSimilaritySwitch(ISimilarityRequestHandler srh) {
 		super();
 		this.srh = srh;
@@ -56,6 +62,11 @@ public abstract class AbstractComposedSimilaritySwitch extends AbstractComposedS
 		return this.srh;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <br><br>
+	 * Here, it delegates the incoming {@link ISimilarityRequest} to its {@link #srh}.
+	 */
 	@Override
 	public Object handleSimilarityRequest(ISimilarityRequest req) {
 		return this.getSimilarityRequestHandler().handleSimilarityRequest(req);
