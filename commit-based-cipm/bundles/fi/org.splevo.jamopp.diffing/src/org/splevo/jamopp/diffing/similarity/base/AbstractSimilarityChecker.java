@@ -23,6 +23,8 @@ public abstract class AbstractSimilarityChecker implements ISimilarityChecker {
 	 * Constructs an {@link AbstractSimilarityChecker} instance and sets its
 	 * {@link #sc} by calling {@link #createSimilarityComparer(ISimilarityToolbox)}
 	 * and assigning the result to it.
+	 * 
+	 * @param st The toolbox that {@link #sc} will use.
 	 */
 	public AbstractSimilarityChecker(ISimilarityToolbox st) {
 		this.sc = this.createSimilarityComparer(st);
@@ -52,6 +54,8 @@ public abstract class AbstractSimilarityChecker implements ISimilarityChecker {
 	/**
 	 * Creates an {@link ISimilarityComparer} with the given
 	 * {@link ISimilarityToolbox}.
+	 * 
+	 * @param st The toolbox that the constructed {@link ISimilarityComparer} will use.
 	 */
 	protected abstract ISimilarityComparer createSimilarityComparer(ISimilarityToolbox st);
 }

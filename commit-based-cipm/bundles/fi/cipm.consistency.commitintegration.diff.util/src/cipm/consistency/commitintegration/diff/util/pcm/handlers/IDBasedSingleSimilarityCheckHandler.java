@@ -7,7 +7,18 @@ import org.splevo.jamopp.diffing.similarity.base.ecore.SingleSimilarityCheckRequ
 
 import de.uka.ipd.sdq.identifier.Identifier;
 
+/**
+ * A {@link SingleSimilarityCheckHandler} sub-class that handles
+ * {@link SingleSimilarityCheckRequest} instances.
+ * 
+ * @author atora
+ */
 public class IDBasedSingleSimilarityCheckHandler extends SingleSimilarityCheckHandler {
+	/**
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * Takes the IDs of the elements from {@code req} into account.
+	 */
 	@Override
 	public Object handleSimilarityRequest(ISimilarityRequest req) {
 		SingleSimilarityCheckRequest castedR = (SingleSimilarityCheckRequest) req;
@@ -23,7 +34,7 @@ public class IDBasedSingleSimilarityCheckHandler extends SingleSimilarityCheckHa
 			}
 			return Boolean.FALSE;
 		}
-		
+
 		return super.handleSimilarityRequest(req);
 	}
 }

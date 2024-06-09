@@ -16,11 +16,17 @@ public class PCMRepositorySimilarityChecker extends AbstractComposedSwitchSimila
 		super(st);
 	}
     
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected PCMRepositorySimilarityComparer createSimilarityComparer(ISimilarityToolbox st) {
 		return new PCMRepositorySimilarityComparer(st);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	protected ISimilarityRequest makeDefaultSwitchRequest() {
 		return new NewPCMRepositorySimilaritySwitchRequest(true);

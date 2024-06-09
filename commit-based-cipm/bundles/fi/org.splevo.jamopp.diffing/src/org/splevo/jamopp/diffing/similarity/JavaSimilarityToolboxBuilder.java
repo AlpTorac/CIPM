@@ -24,6 +24,13 @@ import org.splevo.jamopp.diffing.similarity.requests.NamespaceNormalizationReque
 import org.splevo.jamopp.diffing.similarity.requests.NewSimilaritySwitchRequest;
 import org.splevo.jamopp.diffing.similarity.requests.PackageNormalizationRequest;
 
+/**
+ * Concrete implementation of {@link AbstractSimilarityToolboxBuilder} for
+ * constructing {@link ISimilarityToolbox} instances for computing similarity of
+ * Java model elements.
+ * 
+ * @author atora
+ */
 public class JavaSimilarityToolboxBuilder extends AbstractSimilarityToolboxBuilder {
 	/**
 	 * {@inheritDoc}
