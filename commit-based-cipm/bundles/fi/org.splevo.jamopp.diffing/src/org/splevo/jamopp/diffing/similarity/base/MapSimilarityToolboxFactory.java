@@ -8,9 +8,6 @@ package org.splevo.jamopp.diffing.similarity.base;
  * @author atora
  */
 public class MapSimilarityToolboxFactory implements ISimilarityToolboxFactory {
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public MapSimilarityToolbox createSimilarityToolbox() {
 		return new MapSimilarityToolbox();

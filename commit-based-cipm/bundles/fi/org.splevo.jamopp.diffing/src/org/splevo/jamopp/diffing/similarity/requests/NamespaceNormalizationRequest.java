@@ -12,14 +12,14 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
  */
 public class NamespaceNormalizationRequest implements ISimilarityRequest {
 	/**
-	 * All namespaces of a {@link NamespaceAwareElement} instance as String.
+	 * All namespaces of the {@link NamespaceAwareElement} instance as String.
 	 */
 	private String toBeNormalized;
 	
 	/**
 	 * Constructs an instance with the given parameter.
 	 * 
-	 * @param toBeNormalized {@link #toBeNormalized}
+	 * @param toBeNormalized All namespaces of the {@link NamespaceAwareElement} instance as String
 	 */
 	public NamespaceNormalizationRequest(String toBeNormalized) {
 		this.toBeNormalized = toBeNormalized;
@@ -27,7 +27,7 @@ public class NamespaceNormalizationRequest implements ISimilarityRequest {
 	
 	/**
 	 * {@inheritDoc}
-	 * @return {@link #toBeNormalized}
+	 * @return All namespaces of the {@link NamespaceAwareElement} instance as String.
 	 */
 	@Override
 	public Object getParams() {

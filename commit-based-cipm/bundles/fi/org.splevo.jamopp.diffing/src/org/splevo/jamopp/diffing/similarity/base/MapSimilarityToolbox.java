@@ -32,25 +32,16 @@ public class MapSimilarityToolbox implements ISimilarityToolbox {
 		this.rhMap = new HashMap<Class<? extends ISimilarityRequest>, ISimilarityRequestHandler>();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void addRequestHandlerPair(Class<? extends ISimilarityRequest> reqClass, ISimilarityRequestHandler srh) {
 		this.rhMap.put(reqClass, srh);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void removeRequestHandlerPair(Class<? extends ISimilarityRequest> reqClass) {
 		this.rhMap.remove(reqClass);
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void clearRequestHandlerPairs() {
 		this.rhMap.clear();
@@ -59,9 +50,8 @@ public class MapSimilarityToolbox implements ISimilarityToolbox {
 	/**
 	 * {@inheritDoc} <br>
 	 * <br>
-	 * Attempts to handle the given {@link ISimilarityRequest} (req) by searching
-	 * {@link #rhMap} for a matching {@link ISimilarityRequestHandler} and having it
-	 * process req.
+	 * Attempts to handle the given {@link ISimilarityRequest} with a matching
+	 * {@link ISimilarityRequestHandler} and returns the output.
 	 */
 	@Override
 	public Object handleSimilarityRequest(ISimilarityRequest req) {

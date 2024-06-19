@@ -28,16 +28,15 @@ public class AbstractSimilarityToolboxBuilder implements ISimilarityToolboxBuild
 		super();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public void setSimilarityToolboxFactory(ISimilarityToolboxFactory stf) {
 		this.stf = stf;
 	}
 
 	/**
-	 * @return {@link #stf}
+	 * @return The {@link ISimilarityToolboxFactory}, which determines the data
+	 *         structure used by the {@link ISimilarityToolbox} instances built
+	 *         using this builder.
 	 */
 	@Override
 	public ISimilarityToolboxFactory getToolboxFactory() {
@@ -45,7 +44,8 @@ public class AbstractSimilarityToolboxBuilder implements ISimilarityToolboxBuild
 	}
 
 	/**
-	 * @return {@link #st}
+	 * @return The current version of the {@link ISimilarityToolbox} instance being
+	 *         built.
 	 */
 	protected ISimilarityToolbox getCurrentToolbox() {
 		return this.st;
@@ -54,7 +54,8 @@ public class AbstractSimilarityToolboxBuilder implements ISimilarityToolboxBuild
 	/**
 	 * {@inheritDoc} <br>
 	 * <br>
-	 * <b>Sets {@link #st} to null. </b>
+	 * <b>Resets the {@link ISimilarityToolbox} instance currently being built to
+	 * null. </b>
 	 */
 	@Override
 	public ISimilarityToolbox build() {
@@ -63,18 +64,12 @@ public class AbstractSimilarityToolboxBuilder implements ISimilarityToolboxBuild
 		return result;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public ISimilarityToolboxBuilder instantiate() {
 		this.st = this.getToolboxFactory().createSimilarityToolbox();
 		return this;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public ISimilarityToolboxBuilder buildRequestHandlerPair(Class<? extends ISimilarityRequest> req,
 			ISimilarityRequestHandler srh) {

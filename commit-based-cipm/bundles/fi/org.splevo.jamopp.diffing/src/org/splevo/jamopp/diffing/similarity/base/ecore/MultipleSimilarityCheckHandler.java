@@ -20,9 +20,10 @@ public class MultipleSimilarityCheckHandler implements ISimilarityRequestHandler
 	private ISimilarityRequestHandler srh;
 
 	/**
-	 * Constructs an instance with the given {@link ISimilarityRequestHandler}
+	 * Constructs an instance with the given {@link ISimilarityRequestHandler}.
 	 * 
-	 * @param srh {@link #srh}
+	 * @param srh The {@link ISimilarityRequestHandler}, to which
+	 *            {@link SingleSimilarityCheckRequest} instances will be delegated.
 	 */
 	public MultipleSimilarityCheckHandler(ISimilarityRequestHandler srh) {
 		this.srh = srh;

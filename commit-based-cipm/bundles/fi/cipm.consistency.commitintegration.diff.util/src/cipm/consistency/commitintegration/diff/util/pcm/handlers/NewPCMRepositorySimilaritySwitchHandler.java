@@ -23,7 +23,9 @@ public class NewPCMRepositorySimilaritySwitchHandler implements ISimilarityReque
 	/**
 	 * Constructs an instance with the given {@link ISimilarityRequestHandler}.
 	 * 
-	 * @param srh {@link #srh}
+	 * @param srh The {@link ISimilarityRequestHandler}, which will be passed onto
+	 *            the similarity switches created in
+	 *            {@link #handleSimilarityRequest(ISimilarityRequest)}.
 	 */
 	public NewPCMRepositorySimilaritySwitchHandler(ISimilarityRequestHandler srh) {
 		this.srh = srh;

@@ -25,10 +25,10 @@ public abstract class AbstractComposedSimilaritySwitch extends AbstractComposedS
 	private ISimilarityRequestHandler srh;
 
 	/**
-	 * Constructs an instance with the given {@link ISimilarityRequestHandler}
+	 * Constructs an instance with the given {@link ISimilarityRequestHandler}.
 	 * 
-	 * @param srh The request handler, to which all incoming {@link ISimilarityRequest}
-	 * instances will be delegated.
+	 * @param srh The {@link ISimilarityRequestHandler}, to which incoming
+	 *            {@link ISimilarityRequest} instances will be delegated.
 	 */
 	public AbstractComposedSimilaritySwitch(ISimilarityRequestHandler srh) {
 		super();
@@ -36,7 +36,9 @@ public abstract class AbstractComposedSimilaritySwitch extends AbstractComposedS
 	}
 
 	/**
-	 * Constructs an instance with the given switches.
+	 * Variation of
+	 * {@link #AbstractComposedSimilaritySwitch(ISimilarityRequestHandler)} that
+	 * constructs an instance with the given switches.
 	 * 
 	 * @see {@link AbstractComposedSwitchWrapper#AbstractComposedSwitchWrapper(Collection)}
 	 */
@@ -46,7 +48,9 @@ public abstract class AbstractComposedSimilaritySwitch extends AbstractComposedS
 	}
 
 	/**
-	 * Constructs an instance with the given switches.
+	 * Variation of
+	 * {@link #AbstractComposedSimilaritySwitch(ISimilarityRequestHandler)} that
+	 * constructs an instance with the given switches.
 	 * 
 	 * @see {@link AbstractComposedSwitchWrapper#AbstractComposedSwitchWrapper(Switch[])}
 	 */
@@ -56,16 +60,18 @@ public abstract class AbstractComposedSimilaritySwitch extends AbstractComposedS
 	}
 
 	/**
-	 * @return {@link #srh}
+	 * @return The {@link ISimilarityRequestHandler}, to which incoming
+	 *         {@link ISimilarityRequest} instances will be delegated.
 	 */
 	protected ISimilarityRequestHandler getSimilarityRequestHandler() {
 		return this.srh;
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * <br><br>
-	 * Here, it delegates the incoming {@link ISimilarityRequest} to its {@link #srh}.
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * Here, it delegates the incoming {@link ISimilarityRequest} to
+	 * {@link #getSimilarityRequestHandler()}.
 	 */
 	@Override
 	public Object handleSimilarityRequest(ISimilarityRequest req) {

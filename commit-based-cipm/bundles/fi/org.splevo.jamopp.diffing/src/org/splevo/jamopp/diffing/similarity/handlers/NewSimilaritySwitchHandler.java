@@ -22,7 +22,9 @@ public class NewSimilaritySwitchHandler implements ISimilarityRequestHandler {
 	/**
 	 * Constructs an instance with the given {@link ISimilarityRequestHandler}.
 	 * 
-	 * @param srh {@link #srh}
+	 * @param srh The {@link ISimilarityRequestHandler}, which will be passed onto
+	 *            the similarity switches created in
+	 *            {@link #handleSimilarityRequest(ISimilarityRequest)}.
 	 */
 	public NewSimilaritySwitchHandler(ISimilarityRequestHandler srh) {
 		this.srh = srh;
@@ -31,8 +33,7 @@ public class NewSimilaritySwitchHandler implements ISimilarityRequestHandler {
 	/**
 	 * {@inheritDoc} <br>
 	 * <br>
-	 * Constructs a new {@link JavaSimilaritySwitch} (with its {@link #srh}) and
-	 * returns it.
+	 * Constructs a new {@link JavaSimilaritySwitch}.
 	 */
 	@Override
 	public Object handleSimilarityRequest(ISimilarityRequest req) {

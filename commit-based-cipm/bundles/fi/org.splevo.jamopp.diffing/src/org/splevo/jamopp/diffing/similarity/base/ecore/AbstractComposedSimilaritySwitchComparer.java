@@ -12,7 +12,10 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolbox;
  */
 public abstract class AbstractComposedSimilaritySwitchComparer extends AbstractSimilarityComparer {
 	/**
-	 * @see {@link AbstractSimilarityComparer#AbstractSimilarityComparer(ISimilarityToolbox)}
+	 * Constructs an instance with a given {@link ISimilarityToolbox}.
+	 * 
+	 * @param st The {@link ISimilarityToolbox}, to which all incoming
+	 *           {@link ISimilarityRequest} instances should be delegated to.
 	 */
 	public AbstractComposedSimilaritySwitchComparer(ISimilarityToolbox st) {
 		super(st);

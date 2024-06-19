@@ -36,7 +36,8 @@ public class MultipleSimilarityCheckRequest implements ISimilarityRequest {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @return {{@link #elements1}, {@link #elements2}, {@link #sss}}
+	 * @return { The first element list, The second element list, Switches that will
+	 *         be used for comparing the elements }
 	 * @see {@link #MultipleSimilarityCheckRequest(Collection, Collection, Collection)}
 	 */
 	@Override

@@ -19,36 +19,34 @@ import org.splevo.jamopp.diffing.similarity.base.ecore.AbstractComposedSwitchSim
 import org.splevo.jamopp.diffing.similarity.requests.NewSimilaritySwitchRequest;
 
 /**
- * Checker for the similarity of two elements specific for the java application model.
+ * Checker for the similarity of two elements specific for the java application
+ * model.
  *
- * TODO: Check caching for this similarity checker. Would require to pass this to the similarity
- * switch as well!
+ * TODO: Check caching for this similarity checker. Would require to pass this
+ * to the similarity switch as well!
  *
  */
 public class JavaSimilarityChecker extends AbstractComposedSwitchSimilarityChecker {
 
-    /** The logger for this class. */
-    @SuppressWarnings("unused")
-    private Logger logger = Logger.getLogger(JavaSimilarityChecker.class);
+	/** The logger for this class. */
+	@SuppressWarnings("unused")
+	private Logger logger = Logger.getLogger(JavaSimilarityChecker.class);
 
-    /**
-     * @see {@link AbstractComposedSwitchSimilarityChecker#AbstractComposedSwitchSimilarityChecker(ISimilarityToolbox)}
-     */
-    public JavaSimilarityChecker(ISimilarityToolbox st) {
-        super(st);
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
+	/**
+	 * Constructs an instance with the given parameter.
+	 * 
+	 * @param st {@link ISimilarityToolbox} to which all incoming
+	 *           {@link ISimilarityRequest} instances will be delegated to.
+	 */
+	public JavaSimilarityChecker(ISimilarityToolbox st) {
+		super(st);
+	}
+
 	@Override
 	protected JavaSimilarityComparer createSimilarityComparer(ISimilarityToolbox st) {
 		return new JavaSimilarityComparer(st);
 	}
 
-    /**
-     * {@inheritDoc}
-     */
 	@Override
 	protected ISimilarityRequest makeDefaultSwitchRequest() {
 		return new NewSimilaritySwitchRequest(true);

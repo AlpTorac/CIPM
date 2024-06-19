@@ -32,17 +32,11 @@ import org.splevo.jamopp.diffing.similarity.requests.PackageNormalizationRequest
  * @author atora
  */
 public class JavaSimilarityToolboxBuilder extends AbstractSimilarityToolboxBuilder {
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public JavaSimilarityToolboxBuilder instantiate() {
 		return (JavaSimilarityToolboxBuilder) super.instantiate();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public JavaSimilarityToolboxBuilder buildRequestHandlerPair(Class<? extends ISimilarityRequest> req,
 			ISimilarityRequestHandler srh) {

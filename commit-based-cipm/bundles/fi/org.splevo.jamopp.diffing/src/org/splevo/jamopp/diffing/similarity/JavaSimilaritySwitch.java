@@ -42,72 +42,87 @@ import org.splevo.jamopp.diffing.similarity.switches.VariablesSimilaritySwitch;
  * Internal switch class to prove element similarity.
  * 
  * <p>
- * The similarity case methods do not need to check for null values. It is assumed that the calling
- * class does a null value check for the elements to compare in advanced, such as done by the
- * SimilarityChecker class.
+ * The similarity case methods do not need to check for null values. It is
+ * assumed that the calling class does a null value check for the elements to
+ * compare in advanced, such as done by the SimilarityChecker class.
  * </p>
  * 
  * <p>
  * Check strategy:<br>
- * First all "not-similar"-criteria are checked. If none hits, true will be returned.
+ * First all "not-similar"-criteria are checked. If none hits, true will be
+ * returned.
  * </p>
  */
 public class JavaSimilaritySwitch extends AbstractComposedSimilaritySwitch implements IJavaSimilaritySwitch {
 	/**
-	 * Constructs an instance with the given request handler and the flag. Adds default
-	 * inner switches to the constructed instance.
+	 * Constructs an instance with the given request handler and the flag. Adds
+	 * default inner switches to the constructed instance.
 	 * 
-	 * @param srh The request handler, to which all incoming {@link ISimilarityRequest}
-	 * instances will be delegated.
-	 * @param checkStatementPosition The flag, which denotes whether this switch should
-	 * take positions of statements while comparing.
+	 * @param srh                    The request handler, to which all incoming
+	 *                               {@link ISimilarityRequest} instances will be
+	 *                               delegated.
+	 * @param checkStatementPosition The flag, which denotes whether this switch
+	 *                               should take positions of statements while
+	 *                               comparing.
 	 */
-    public JavaSimilaritySwitch(ISimilarityRequestHandler srh, boolean checkStatementPosition) {
-    	super(srh);
-    	
-        addSwitch(new AnnotationsSimilaritySwitch(this, checkStatementPosition));
-        addSwitch(new ArraysSimilaritySwitch());
-        addSwitch(new ClassifiersSimilaritySwitch(this, checkStatementPosition));
-        addSwitch(new CommonsSimilaritySwitch(this, checkStatementPosition));
-        addSwitch(new ContainersSimilaritySwitch(this, checkStatementPosition));
-        addSwitch(new ExpressionsSimilaritySwitch(this, checkStatementPosition));
-        addSwitch(new GenericsSimilaritySwitch(this, checkStatementPosition));
-        addSwitch(new ImportsSimilaritySwitch(this, checkStatementPosition));
-        addSwitch(new InstantiationsSimilaritySwitch(this, checkStatementPosition));
-        addSwitch(new LiteralsSimilaritySwitch(this));
-        addSwitch(new MembersSimilaritySwitch(this, checkStatementPosition));
-        addSwitch(new ModifiersSimilaritySwitch());
-        addSwitch(new OperatorsSimilaritySwitch());
-        addSwitch(new ParametersSimilaritySwitch(this));
-        addSwitch(new ReferencesSimilaritySwitch(this, checkStatementPosition));
-        addSwitch(new StatementsSimilaritySwitch(this, checkStatementPosition));
-        addSwitch(new TypesSimilaritySwitch(this, checkStatementPosition));
-        addSwitch(new VariablesSimilaritySwitch(this));
-        addSwitch(new LayoutSimilaritySwitch());
-        addSwitch(new ModulesSimilaritySwitch(this, checkStatementPosition));
-    }
-    
-    /**
-     * Constructs an instance without any inner switches.
-     * 
-     * @see {@link AbstractComposedSimilaritySwitch}
-     * @see {@link IInnerSwitch}
-     */
-    protected JavaSimilaritySwitch(ISimilarityRequestHandler srh) {
-    	super(srh);
-    }
-    
-    /**
-     * @see {@link AbstractComposedSimilaritySwitch}
-     */
-    protected JavaSimilaritySwitch(ISimilarityRequestHandler srh, Collection<Switch<Boolean>> switches) {
-    	super(srh, switches);
-    }
-    
-    /**
-     * @see {@link AbstractComposedSimilaritySwitch}
-     */
-    protected JavaSimilaritySwitch(ISimilarityRequestHandler srh, Switch<Boolean>[] switches) {
-    	super(srh, switches);
-    }
+	public JavaSimilaritySwitch(ISimilarityRequestHandler srh, boolean checkStatementPosition) {
+		super(srh);
+
+		addSwitch(new AnnotationsSimilaritySwitch(this, checkStatementPosition));
+		addSwitch(new ArraysSimilaritySwitch());
+		addSwitch(new ClassifiersSimilaritySwitch(this, checkStatementPosition));
+		addSwitch(new CommonsSimilaritySwitch(this, checkStatementPosition));
+		addSwitch(new ContainersSimilaritySwitch(this, checkStatementPosition));
+		addSwitch(new ExpressionsSimilaritySwitch(this, checkStatementPosition));
+		addSwitch(new GenericsSimilaritySwitch(this, checkStatementPosition));
+		addSwitch(new ImportsSimilaritySwitch(this, checkStatementPosition));
+		addSwitch(new InstantiationsSimilaritySwitch(this, checkStatementPosition));
+		addSwitch(new LiteralsSimilaritySwitch(this));
+		addSwitch(new MembersSimilaritySwitch(this, checkStatementPosition));
+		addSwitch(new ModifiersSimilaritySwitch());
+		addSwitch(new OperatorsSimilaritySwitch());
+		addSwitch(new ParametersSimilaritySwitch(this));
+		addSwitch(new ReferencesSimilaritySwitch(this, checkStatementPosition));
+		addSwitch(new StatementsSimilaritySwitch(this, checkStatementPosition));
+		addSwitch(new TypesSimilaritySwitch(this, checkStatementPosition));
+		addSwitch(new VariablesSimilaritySwitch(this));
+		addSwitch(new LayoutSimilaritySwitch());
+		addSwitch(new ModulesSimilaritySwitch(this, checkStatementPosition));
+	}
+
+	/**
+	 * Variation of
+	 * {@link #JavaSimilaritySwitch(ISimilarityRequestHandler, boolean)} that
+	 * constructs an instance without any inner switches.
+	 * 
+	 * @see {@link AbstractComposedSimilaritySwitch}
+	 * @see {@link IInnerSwitch}
+	 */
+	protected JavaSimilaritySwitch(ISimilarityRequestHandler srh) {
+		super(srh);
+	}
+
+	/**
+	 * Variation of
+	 * {@link #JavaSimilaritySwitch(ISimilarityRequestHandler, boolean)} that
+	 * constructs an instance with the given switches.
+	 * 
+	 * @see {@link AbstractComposedSimilaritySwitch}
+	 * @see {@link IInnerSwitch}
+	 */
+	protected JavaSimilaritySwitch(ISimilarityRequestHandler srh, Collection<Switch<Boolean>> switches) {
+		super(srh, switches);
+	}
+
+	/**
+	 * Variation of
+	 * {@link #JavaSimilaritySwitch(ISimilarityRequestHandler, boolean)} that
+	 * constructs an instance with the given switches.
+	 * 
+	 * @see {@link AbstractComposedSimilaritySwitch}
+	 * @see {@link IInnerSwitch}
+	 */
+	protected JavaSimilaritySwitch(ISimilarityRequestHandler srh, Switch<Boolean>[] switches) {
+		super(srh, switches);
+	}
 }

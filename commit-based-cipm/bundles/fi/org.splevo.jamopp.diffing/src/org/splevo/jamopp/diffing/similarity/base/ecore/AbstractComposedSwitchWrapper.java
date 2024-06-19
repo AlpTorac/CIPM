@@ -21,8 +21,6 @@ public abstract class AbstractComposedSwitchWrapper extends ComposedSwitch<Boole
 	private EObject compareElement = null;
 
 	/**
-	 * Constructs an instance using {@code super()}
-	 * 
 	 * @see {@link ComposedSwitch#ComposedSwitch()}
 	 */
 	public AbstractComposedSwitchWrapper() {
@@ -56,16 +54,13 @@ public abstract class AbstractComposedSwitchWrapper extends ComposedSwitch<Boole
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @return {@link #compareElement}
+	 * @return The object to compare the switched element with.
 	 */
 	@Override
 	public EObject getCompareElement() {
 		return this.compareElement;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public Boolean compare(EObject eo1, EObject eo2) {
 		this.compareElement = eo2;

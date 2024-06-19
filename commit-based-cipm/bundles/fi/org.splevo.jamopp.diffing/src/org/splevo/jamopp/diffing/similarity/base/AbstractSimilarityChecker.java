@@ -20,11 +20,12 @@ public abstract class AbstractSimilarityChecker implements ISimilarityChecker {
 	private ISimilarityComparer sc;
 
 	/**
-	 * Constructs an {@link AbstractSimilarityChecker} instance and sets its
-	 * {@link #sc} by calling {@link #createSimilarityComparer(ISimilarityToolbox)}
-	 * and assigning the result to it.
+	 * Constructs an {@link AbstractSimilarityChecker} instance with a
+	 * {@link ISimilarityComparer}, which delegates all incoming
+	 * {@link ISimilarityRequest} to the given parameter.
 	 * 
-	 * @param st The toolbox that {@link #sc} will use.
+	 * @param st {@link ISimilarityToolbox} to which all incoming
+	 *           {@link ISimilarityRequest} instances will be delegated to.
 	 */
 	public AbstractSimilarityChecker(ISimilarityToolbox st) {
 		this.sc = this.createSimilarityComparer(st);
@@ -33,14 +34,16 @@ public abstract class AbstractSimilarityChecker implements ISimilarityChecker {
 	/**
 	 * Declared as protected only to allow access from concrete implementors.
 	 * 
-	 * @return {@link #sc}
+	 * @return {@link ISimilarityToolbox} to which all incoming
+	 *         {@link ISimilarityRequest} instances will be delegated to.
 	 */
 	protected ISimilarityComparer getSimilarityComparer() {
 		return this.sc;
 	}
 
 	/**
-	 * Delegates the incoming {@link ISimilarityRequest} to {@link #sc}. <br>
+	 * Delegates the incoming {@link ISimilarityRequest} to the underlying
+	 * {@link ISimilarityComparer}. <br>
 	 * <br>
 	 * Declared as protected only to allow access from concrete implementors. This
 	 * is necessary, because creating further internal constructs may involve using
@@ -55,7 +58,8 @@ public abstract class AbstractSimilarityChecker implements ISimilarityChecker {
 	 * Creates an {@link ISimilarityComparer} with the given
 	 * {@link ISimilarityToolbox}.
 	 * 
-	 * @param st The toolbox that the constructed {@link ISimilarityComparer} will use.
+	 * @param st The toolbox that the constructed {@link ISimilarityComparer} will
+	 *           use.
 	 */
 	protected abstract ISimilarityComparer createSimilarityComparer(ISimilarityToolbox st);
 }

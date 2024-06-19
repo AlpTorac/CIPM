@@ -30,7 +30,8 @@ public class SingleSimilarityCheckRequest implements ISimilarityRequest {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @return {{@link #element1}, {@link #element2}, {@link #ss}}
+	 * @return {The first element, The second element, The switch that will be used
+	 *         to compare the elements}
 	 */
 	@Override
 	public Object getParams() {

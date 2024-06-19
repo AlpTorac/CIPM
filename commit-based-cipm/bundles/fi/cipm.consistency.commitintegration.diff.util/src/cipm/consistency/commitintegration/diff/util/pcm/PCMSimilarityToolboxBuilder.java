@@ -22,17 +22,11 @@ import cipm.consistency.commitintegration.diff.util.pcm.requests.NewPCMRepositor
  * @author atora
  */
 public class PCMSimilarityToolboxBuilder extends AbstractSimilarityToolboxBuilder {
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public PCMSimilarityToolboxBuilder instantiate() {
 		return (PCMSimilarityToolboxBuilder) super.instantiate();
 	}
 
-	/**
-	 * {@inheritDoc}
-	 */
 	@Override
 	public PCMSimilarityToolboxBuilder buildRequestHandlerPair(Class<? extends ISimilarityRequest> req,
 			ISimilarityRequestHandler srh) {

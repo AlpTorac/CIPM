@@ -12,7 +12,7 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
  */
 public class PackageNormalizationRequest implements ISimilarityRequest {
 	/**
-	 * The name of a {@link CompilationUnit} instance normalised via
+	 * The name of the {@link CompilationUnit} instance normalised via
 	 * {@link CompilationUnitNormalizationRequest} first.
 	 */
 	private String toBeNormalized;
@@ -20,7 +20,9 @@ public class PackageNormalizationRequest implements ISimilarityRequest {
 	/**
 	 * Constructs an instance with the given parameter.
 	 * 
-	 * @param toBeNormalized {@link #toBeNormalized}
+	 * @param toBeNormalized The name of the {@link CompilationUnit} instance
+	 *                       normalised via
+	 *                       {@link CompilationUnitNormalizationRequest} first.
 	 */
 	public PackageNormalizationRequest(String toBeNormalized) {
 		this.toBeNormalized = toBeNormalized;
@@ -29,7 +31,8 @@ public class PackageNormalizationRequest implements ISimilarityRequest {
 	/**
 	 * {@inheritDoc}
 	 * 
-	 * @return {@link #toBeNormalized}
+	 * @return The name of the {@link CompilationUnit} instance normalised via
+	 *         {@link CompilationUnitNormalizationRequest} first.
 	 */
 	@Override
 	public Object getParams() {
