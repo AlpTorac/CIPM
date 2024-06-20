@@ -32,7 +32,7 @@ UsesStatements, UsesLocalVariables {
 		var objOne = this.initElement(new Resource[] {this.createMinimalLV("lv1")}, null, null, null);
 		var objTwo = this.initElement(new Resource[] {this.createMinimalLV("lv2")}, null, null, null);
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 	
 	@Test
@@ -42,7 +42,7 @@ UsesStatements, UsesLocalVariables {
 		var objOne = this.initElement(null, new CatchBlock[] {this.createMinimalCB("p1", "t1")}, null, null);
 		var objTwo = this.initElement(null, new CatchBlock[] {this.createMinimalCB("p2", "t2")}, null, null);
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 	
 	@Test
@@ -52,7 +52,7 @@ UsesStatements, UsesLocalVariables {
 		var objOne = this.initElement(null, null, new CatchBlock[] {this.createMinimalCB("p1", "t1")}, null);
 		var objTwo = this.initElement(null, null, new CatchBlock[] {this.createMinimalCB("p2", "t2")}, null);
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 	
 	@Test
@@ -62,6 +62,6 @@ UsesStatements, UsesLocalVariables {
 		var objOne = this.initElement(null, null, null, this.createMinimalBlockWithNullReturn());
 		var objTwo = this.initElement(null, null, null, this.createMinimalBlockWithTrivialAssert());
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

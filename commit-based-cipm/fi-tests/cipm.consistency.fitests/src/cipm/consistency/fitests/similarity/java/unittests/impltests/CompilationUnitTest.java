@@ -24,6 +24,6 @@ public class CompilationUnitTest extends EObjectSimilarityTest implements UsesCo
 		var objOne = this.initElement(new ConcreteClassifier[] {this.createMinimalClass("cls1")});
 		var objTwo = this.initElement(new ConcreteClassifier[] {this.createMinimalClass("cls2")});
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

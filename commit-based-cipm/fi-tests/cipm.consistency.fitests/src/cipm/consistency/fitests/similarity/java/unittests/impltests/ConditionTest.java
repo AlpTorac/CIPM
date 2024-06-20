@@ -24,6 +24,6 @@ public class ConditionTest extends EObjectSimilarityTest implements UsesStatemen
 		var objOne = this.initElement(this.createMinimalTrivialAssert());
 		var objTwo = this.initElement(this.createMinimalNullReturn());
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

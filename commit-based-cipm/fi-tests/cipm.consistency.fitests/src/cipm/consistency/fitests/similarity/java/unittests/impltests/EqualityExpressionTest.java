@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.expressions.EqualityExpression;
 import org.emftext.language.java.expressions.EqualityExpressionChild;
+import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.operators.EqualityOperator;
 import org.junit.jupiter.api.Test;
 
@@ -22,19 +23,19 @@ public class EqualityExpressionTest extends EObjectSimilarityTest implements Use
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(new EqualityExpressionChild[] {this.createInteger(1)}, null),
 				this.initElement(new EqualityExpressionChild[] {this.createInteger(2)}, null),
-				false);
+				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__CHILDREN);
 	}
 	
 	@Test
 	public void testEqualityOperator() {
 		this.setResourceFileTestIdentifier("testEqualityOperator");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(null, this.createEqualityOperator()),
 				this.initElement(null, this.createNotEqualOperator()),
-				false);
+				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__EQUALITY_OPERATORS);
 	}
 }

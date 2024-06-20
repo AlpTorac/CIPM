@@ -24,6 +24,6 @@ public class ProvidesModuleDirectiveTest extends EObjectSimilarityTest implement
 		var objOne = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls1")});
 		var objTwo = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls2")});
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

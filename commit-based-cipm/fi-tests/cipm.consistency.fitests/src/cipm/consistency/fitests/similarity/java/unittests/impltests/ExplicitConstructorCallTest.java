@@ -24,6 +24,6 @@ public class ExplicitConstructorCallTest extends EObjectSimilarityTest implement
 		var objOne = this.initElement(this.createThis());
 		var objTwo = this.initElement(this.createSuper());
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

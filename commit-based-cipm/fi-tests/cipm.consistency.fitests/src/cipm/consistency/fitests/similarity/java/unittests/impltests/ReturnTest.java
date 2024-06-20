@@ -24,6 +24,6 @@ public class ReturnTest extends EObjectSimilarityTest implements UsesExpressions
 		var objOne = this.initElement(this.createInteger(1));
 		var objTwo = this.initElement(this.createMinimalFalseEE());
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

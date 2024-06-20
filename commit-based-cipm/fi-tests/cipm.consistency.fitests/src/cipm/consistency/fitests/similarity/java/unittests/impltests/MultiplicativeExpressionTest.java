@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
+import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.expressions.MultiplicativeExpression;
 import org.emftext.language.java.expressions.MultiplicativeExpressionChild;
 import org.emftext.language.java.operators.MultiplicativeOperator;
@@ -22,19 +23,19 @@ public class MultiplicativeExpressionTest extends EObjectSimilarityTest implemen
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(new MultiplicativeExpressionChild[] {this.createInteger(1)}, null),
 				this.initElement(new MultiplicativeExpressionChild[] {this.createInteger(2)}, null),
-				false);
+				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__CHILDREN);
 	}
 	
 	@Test
 	public void testMultiplicativeOperator() {
 		this.setResourceFileTestIdentifier("testMultiplicativeOperator");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(null, new MultiplicativeOperator[] {this.createDivisionOperator()}),
 				this.initElement(null, new MultiplicativeOperator[] {this.createMultiplicationOperator()}),
-				false);
+				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__MULTIPLICATIVE_OPERATORS);
 	}
 }

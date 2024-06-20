@@ -24,6 +24,6 @@ public class ReceiverParameterTest extends EObjectSimilarityTest implements Uses
 		var objOne = this.initElement(this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(this.createMinimalClsRef("cls2"));
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

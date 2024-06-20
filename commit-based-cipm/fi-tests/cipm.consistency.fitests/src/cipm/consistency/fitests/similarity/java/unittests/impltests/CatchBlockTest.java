@@ -24,6 +24,6 @@ public class CatchBlockTest extends EObjectSimilarityTest implements UsesParamet
 		var objOne = this.initElement(this.createMinimalOrdParam("param1", "cls1"));
 		var objTwo = this.initElement(this.createMinimalOrdParam("param2", "cls2"));
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

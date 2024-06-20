@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
+import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.expressions.InstanceOfExpression;
 import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 import org.junit.jupiter.api.Test;
@@ -20,9 +21,9 @@ public class InstanceOfExpressionTest extends EObjectSimilarityTest implements U
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(this.createInteger(1)),
 				this.initElement(this.createInteger(2)),
-				false);
+				ExpressionsPackage.Literals.INSTANCE_OF_EXPRESSION__CHILD);
 	}
 }

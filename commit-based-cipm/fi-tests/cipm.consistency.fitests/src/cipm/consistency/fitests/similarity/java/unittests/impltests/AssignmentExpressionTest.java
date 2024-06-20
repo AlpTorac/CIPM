@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.expressions.AssignmentExpression;
 import org.emftext.language.java.expressions.AssignmentExpressionChild;
 import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.operators.AssignmentOperator;
 import org.junit.jupiter.api.Test;
 
@@ -26,29 +27,29 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 	public void testAssignmentOperator() {
 		this.setResourceFileTestIdentifier("testAssignmentOperator");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(this.createAssignmentOperator(), null, null),
 				this.initElement(this.createAssignmentOrOperator(), null, null),
-				false);
+				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__ASSIGNMENT_OPERATOR);
 	}
 	
 	@Test
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(null, this.createInteger(1), null),
 				this.initElement(null, this.createInteger(2), null),
-				false);
+				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__CHILD);
 	}
 	
 	@Test
 	public void testValue() {
 		this.setResourceFileTestIdentifier("testValue");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(null, null, this.createInteger(1)),
 				this.initElement(null, null, this.createInteger(2)),
-				false);
+				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__VALUE);
 	}
 }

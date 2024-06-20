@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.expressions.AndExpression;
 import org.emftext.language.java.expressions.AndExpressionChild;
+import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -20,9 +21,9 @@ public class AndExpressionTest extends EObjectSimilarityTest implements UsesExpr
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(new AndExpressionChild[] {this.createInteger(1)}),
 				this.initElement(new AndExpressionChild[] {this.createInteger(2)}),
-				false);
+				ExpressionsPackage.Literals.AND_EXPRESSION__CHILDREN);
 	}
 }

@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
+import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.expressions.RelationExpression;
 import org.emftext.language.java.expressions.RelationExpressionChild;
 import org.emftext.language.java.operators.RelationOperator;
@@ -22,19 +23,19 @@ public class RelationExpressionTest extends EObjectSimilarityTest implements Use
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(new RelationExpressionChild[] {this.createInteger(1)}, null),
 				this.initElement(new RelationExpressionChild[] {this.createInteger(2)}, null),
-				false);
+				ExpressionsPackage.Literals.RELATION_EXPRESSION__CHILDREN);
 	}
 	
 	@Test
 	public void testRelationOperator() {
 		this.setResourceFileTestIdentifier("testRelationOperator");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(null, new RelationOperator[] {this.createGreaterThanOperator()}),
 				this.initElement(null, new RelationOperator[] {this.createLessThanOperator()}),
-				false);
+				ExpressionsPackage.Literals.RELATION_EXPRESSION__RELATION_OPERATORS);
 	}
 }
