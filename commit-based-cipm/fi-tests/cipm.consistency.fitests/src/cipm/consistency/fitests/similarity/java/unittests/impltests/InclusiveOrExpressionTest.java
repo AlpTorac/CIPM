@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
+import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.expressions.InclusiveOrExpression;
 import org.emftext.language.java.expressions.InclusiveOrExpressionChild;
 import org.junit.jupiter.api.Test;
@@ -20,9 +21,9 @@ public class InclusiveOrExpressionTest extends EObjectSimilarityTest implements 
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(new InclusiveOrExpressionChild[] {this.createInteger(1)}),
 				this.initElement(new InclusiveOrExpressionChild[] {this.createInteger(2)}),
-				false);
+				ExpressionsPackage.Literals.INCLUSIVE_OR_EXPRESSION__CHILDREN);
 	}
 }

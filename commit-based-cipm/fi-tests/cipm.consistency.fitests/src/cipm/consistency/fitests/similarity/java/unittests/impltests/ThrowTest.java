@@ -24,6 +24,6 @@ public class ThrowTest extends EObjectSimilarityTest implements UsesExpressions 
 		var objOne = this.initElement(this.createMinimalSR("str1"));
 		var objTwo = this.initElement(this.createMinimalSR("str2"));
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

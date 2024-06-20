@@ -25,6 +25,6 @@ UsesAnnotationParameters, UsesAnnotationAttributeSettings {
 		var objOne = this.initElement(new AnnotationAttributeSetting[] {this.createEmptyAAS()});
 		var objTwo = this.initElement(new AnnotationAttributeSetting[] {this.createNullAAS()});
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

@@ -28,7 +28,7 @@ UsesModuleReferences {
 		var objOne = this.initElement(this.createStatic(), null);
 		var objTwo = this.initElement(this.createTransitive(), null);
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 	
 	@Test
@@ -38,6 +38,6 @@ UsesModuleReferences {
 		var objOne = this.initElement(null, this.createMinimalModuleReference("mod1"));
 		var objTwo = this.initElement(null, this.createMinimalModuleReference("mod2"));
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

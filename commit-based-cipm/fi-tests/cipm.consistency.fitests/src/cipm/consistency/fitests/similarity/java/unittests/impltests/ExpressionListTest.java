@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionList;
+import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -24,6 +25,6 @@ public class ExpressionListTest extends EObjectSimilarityTest implements UsesExp
 		var objOne = this.initElement(new Expression[] {this.createMinimalFalseEE()});
 		var objTwo = this.initElement(new Expression[] {this.createMinimalTrueNEE()});
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ExpressionsPackage.Literals.EXPRESSION_LIST__EXPRESSIONS);
 	}
 }

@@ -24,6 +24,6 @@ public class ModuleReferenceTest extends EObjectSimilarityTest implements UsesMo
 		var objOne = this.initElement(this.createMinimalModule("mod1"));
 		var objTwo = this.initElement(this.createMinimalModule("mod2"));
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

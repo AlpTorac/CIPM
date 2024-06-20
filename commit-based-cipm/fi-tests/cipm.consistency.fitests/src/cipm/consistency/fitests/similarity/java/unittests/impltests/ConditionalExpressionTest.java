@@ -4,6 +4,7 @@ import org.emftext.language.java.expressions.AssignmentExpressionChild;
 import org.emftext.language.java.expressions.ConditionalExpression;
 import org.emftext.language.java.expressions.ConditionalExpressionChild;
 import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -29,39 +30,39 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(this.createInteger(1), null, null, null),
 				this.initElement(this.createInteger(2), null, null, null),
-				false);
+				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__CHILD);
 	}
 	
 	@Test
 	public void testExpressionChild() {
 		this.setResourceFileTestIdentifier("testExpressionChild");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(null, this.createInteger(1), null, null),
 				this.initElement(null, this.createInteger(2), null, null),
-				false);
+				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__CHILD);
 	}
 	
 	@Test
 	public void testExpressionIf() {
 		this.setResourceFileTestIdentifier("testExpressionIf");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(null, null, this.createInteger(1), null),
 				this.initElement(null, null, this.createInteger(2), null),
-				false);
+				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__EXPRESSION_IF);
 	}
 	
 	@Test
 	public void testGeneralExpressionElse() {
 		this.setResourceFileTestIdentifier("testGeneralExpressionElse");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(null, null, null, this.createInteger(1)),
 				this.initElement(null, null, null, this.createInteger(2)),
-				false);
+				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__GENERAL_EXPRESSION_ELSE);
 	}
 }

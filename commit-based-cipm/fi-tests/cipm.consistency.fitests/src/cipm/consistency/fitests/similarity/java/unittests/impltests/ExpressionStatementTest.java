@@ -24,6 +24,6 @@ public class ExpressionStatementTest extends EObjectSimilarityTest implements Us
 		var objOne = this.initElement(this.createMinimalFalseEE());
 		var objTwo = this.initElement(this.createMinimalTrueNEE());
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

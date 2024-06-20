@@ -25,6 +25,6 @@ public class PrimitiveTypeReferenceTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(new BooleanInitialiser().instantiate());
 		var objTwo = this.initElement(new IntInitialiser().instantiate());
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

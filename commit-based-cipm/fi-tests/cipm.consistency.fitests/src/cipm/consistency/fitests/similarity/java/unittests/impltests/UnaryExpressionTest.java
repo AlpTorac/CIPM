@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
+import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.expressions.UnaryExpression;
 import org.emftext.language.java.expressions.UnaryExpressionChild;
 import org.emftext.language.java.operators.UnaryOperator;
@@ -22,19 +23,19 @@ public class UnaryExpressionTest extends EObjectSimilarityTest implements UsesEx
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(this.createInteger(1), null),
 				this.initElement(this.createInteger(2), null),
-				false);
+				ExpressionsPackage.Literals.UNARY_EXPRESSION__CHILD);
 	}
 	
 	@Test
 	public void testOperator() {
 		this.setResourceFileTestIdentifier("testOperator");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(null, new UnaryOperator[] {this.createAdditionOperator()}),
 				this.initElement(null, new UnaryOperator[] {this.createSubtractionOperator()}),
-				false);
+				ExpressionsPackage.Literals.UNARY_EXPRESSION__OPERATORS);
 	}
 }

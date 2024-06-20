@@ -25,6 +25,6 @@ public class AssertTest extends EObjectSimilarityTest implements UsesExpressions
 		var objOne = this.initElement(this.createMinimalSR("val1"));
 		var objTwo = this.initElement(this.createMinimalSR("val2"));
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

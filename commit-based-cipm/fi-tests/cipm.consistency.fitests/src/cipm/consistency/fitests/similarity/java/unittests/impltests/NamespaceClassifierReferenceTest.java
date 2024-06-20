@@ -24,6 +24,6 @@ public class NamespaceClassifierReferenceTest extends EObjectSimilarityTest impl
 		var objOne = this.initElement(new ClassifierReference[] {this.createMinimalClsRef("cls1")});
 		var objTwo = this.initElement(new ClassifierReference[] {this.createMinimalClsRef("cls2")});
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

@@ -27,7 +27,7 @@ public class ForEachLoopTest extends EObjectSimilarityTest implements UsesExpres
 		var objOne = this.initElement(this.createMinimalFalseEE(), null);
 		var objTwo = this.initElement(this.createMinimalTrueNEE(), null);
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 	
 	@Test
@@ -37,6 +37,6 @@ public class ForEachLoopTest extends EObjectSimilarityTest implements UsesExpres
 		var objOne = this.initElement(null, this.createMinimalOrdParam("param1", "cls1"));
 		var objTwo = this.initElement(null, this.createMinimalOrdParam("param2", "cls2"));
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

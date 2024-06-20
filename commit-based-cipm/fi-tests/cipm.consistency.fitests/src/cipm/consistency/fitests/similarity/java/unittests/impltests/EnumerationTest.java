@@ -24,6 +24,6 @@ public class EnumerationTest extends EObjectSimilarityTest implements UsesEnumCo
 		var objOne = this.initElement(new EnumConstant[] {this.createMinimalEnumConstant("cst1")});
 		var objTwo = this.initElement(new EnumConstant[] {this.createMinimalEnumConstant("cst2")});
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

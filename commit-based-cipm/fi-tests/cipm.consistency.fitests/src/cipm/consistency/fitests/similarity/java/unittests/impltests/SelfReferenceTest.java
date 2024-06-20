@@ -24,6 +24,6 @@ public class SelfReferenceTest extends EObjectSimilarityTest implements UsesLite
 		var objOne = this.initElement(this.createThis());
 		var objTwo = this.initElement(this.createSuper());
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

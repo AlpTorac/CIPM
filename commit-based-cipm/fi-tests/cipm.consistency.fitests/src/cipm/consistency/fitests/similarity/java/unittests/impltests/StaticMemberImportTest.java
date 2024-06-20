@@ -24,6 +24,6 @@ public class StaticMemberImportTest extends EObjectSimilarityTest implements Use
 		var objOne = this.initElement(new ReferenceableElement[] {this.createMinimalClsMethod("met1")});
 		var objTwo = this.initElement(new ReferenceableElement[] {this.createMinimalClsMethod("met2")});
 		
-		this.compareX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, false);
 	}
 }

@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
+import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.expressions.MethodReferenceExpressionChild;
 import org.emftext.language.java.expressions.PrimaryExpressionReferenceExpression;
 import org.emftext.language.java.references.Reference;
@@ -23,19 +24,19 @@ public class PrimaryExpressionReferenceExpressionTest extends EObjectSimilarityT
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(this.createInteger(1), null),
 				this.initElement(this.createInteger(2), null),
-				false);
+				ExpressionsPackage.Literals.PRIMARY_EXPRESSION_REFERENCE_EXPRESSION__CHILD);
 	}
 	
 	@Test
 	public void testMethodReference() {
 		this.setResourceFileTestIdentifier("testMethodReference");
 		
-		this.compareX(
+		this.testX(
 				this.initElement(null, this.createMinimalSR("str1")),
 				this.initElement(null, this.createMinimalSR("str2")),
-				false);
+				ExpressionsPackage.Literals.PRIMARY_EXPRESSION_REFERENCE_EXPRESSION__METHOD_REFERENCE);
 	}
 }
