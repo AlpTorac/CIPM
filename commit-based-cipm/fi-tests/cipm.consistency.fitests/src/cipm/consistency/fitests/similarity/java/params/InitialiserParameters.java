@@ -2,8 +2,6 @@ package cipm.consistency.fitests.similarity.java.params;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
-import java.util.stream.Stream;
 
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.annotations.AnnotationAttributeSettingInitialiser;
@@ -187,7 +185,13 @@ import cipm.consistency.fitests.similarity.java.initialiser.types.VoidInitialise
 import cipm.consistency.fitests.similarity.java.initialiser.variables.AdditionalLocalVariableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.variables.LocalVariableInitialiser;
 
-public class InitialiserParameters {
+/**
+ * All initialisers are created anew every time, because they could contain
+ * attributes that can be modified.
+ * 
+ * @author atora
+ */
+public class InitialiserParameters implements IInitialiserParameters {
 	/*
 	 * TODO: Include whether certain differing aspects are supposed
 	 * to cause the respective EObject instances to be considered
@@ -413,37 +417,5 @@ public class InitialiserParameters {
 			add(new AdditionalLocalVariableInitialiser());
 			add(new LocalVariableInitialiser());
 		}};
-	}
-	
-	public List<EObjectInitialiser> getInitialisersBy(Predicate<EObjectInitialiser> pred) {
-		var result = new ArrayList<EObjectInitialiser>();
-		this.getAllInitialisers().stream().filter(pred).forEach((i) -> result.add(i));
-		return result;
-	}
-	
-	public List<EObjectInitialiser> getInitialisersBySuper(Stream<Class<? extends EObjectInitialiser>> clss) {
-		return this.getInitialisersBy(
-					(i) -> clss.anyMatch((cls) -> cls.isInstance(i))
-				);
-	}
-	
-	public EObjectInitialiser getInitialiserByClass(Stream<Class<? extends EObjectInitialiser>> clss) {
-		return this.getAllInitialisers().stream()
-				.filter((i) -> clss.anyMatch((cls) -> i.getClass().equals(cls)))
-				.findFirst()
-				.orElseGet(null);
-	}
-	
-	public List<EObjectInitialiser> getInitialisersBySuper(Class<? extends EObjectInitialiser> cls) {
-		return this.getInitialisersBy(
-				(i) -> cls.isInstance(i)
-				);
-	}
-	
-	public EObjectInitialiser getInitialiserByClass(Class<? extends EObjectInitialiser> cls) {
-		return this.getAllInitialisers().stream()
-				.filter((i) -> i.getClass().equals(cls))
-				.findFirst()
-				.orElseGet(null);
 	}
 }

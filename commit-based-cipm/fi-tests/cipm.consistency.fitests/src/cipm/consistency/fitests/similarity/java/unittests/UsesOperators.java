@@ -8,8 +8,10 @@ import org.emftext.language.java.operators.EqualityOperator;
 import org.emftext.language.java.operators.GreaterThan;
 import org.emftext.language.java.operators.LeftShift;
 import org.emftext.language.java.operators.LessThan;
+import org.emftext.language.java.operators.MinusMinus;
 import org.emftext.language.java.operators.Multiplication;
 import org.emftext.language.java.operators.NotEqual;
+import org.emftext.language.java.operators.PlusPlus;
 import org.emftext.language.java.operators.RightShift;
 import org.emftext.language.java.operators.Subtraction;
 
@@ -21,8 +23,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.operators.EqualIniti
 import cipm.consistency.fitests.similarity.java.initialiser.operators.GreaterThanInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.operators.LeftShiftInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.operators.LessThanInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.operators.MinusMinusInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.operators.MultiplicationInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.operators.NotEqualInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.operators.PlusPlusInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.operators.RightShiftInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.operators.SubtractionInitialiser;
 
@@ -73,5 +77,13 @@ public interface UsesOperators {
 	
 	public default Multiplication createMultiplicationOperator() {
 		return new MultiplicationInitialiser().instantiate();
+	}
+	
+	public default PlusPlus createPlusPlusOperator() {
+		return new PlusPlusInitialiser().instantiate();
+	}
+	
+	public default MinusMinus createMinusMinusOperator() {
+		return new MinusMinusInitialiser().instantiate();
 	}
 }
