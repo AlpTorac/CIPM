@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -42,8 +43,12 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 		InitialiserTestSettingsProvider.reset();
 	}
 	
-	public Boolean getExpectedSimilarityResult(Object attrKey) {
+	public Boolean getExpectedSimilarityResult(EStructuralFeature attrKey) {
 		return InitialiserTestSettingsProvider.getSimilarityValues().getExpectedSimilarityResult(attrKey);
+	}
+	
+	public Boolean getExpectedSimilarityResult(Class<? extends EObject> objCls, EStructuralFeature attrKey) {
+		return InitialiserTestSettingsProvider.getSimilarityValues().getExpectedSimilarityResult(objCls, attrKey);
 	}
 	
 	public <T extends EObject> T cloneEObj(T obj) {
@@ -113,15 +118,18 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	 * 
 	 * @param attrKey The key of the attribute, based on which the
 	 * similarity is compared. If its type is {@link Boolean}, it is assumed to be the
-	 * expected result of the similarity comparing.
+	 * expected result of the similarity comparing. Otherwise, its type is assumed to
+	 * be {@link EStructuralFeature}.
 	 */
 	public void testX(EObject elem1, EObject elem2, Object attrKey) {
 		this.sameX(elem1);
 		this.sameX(elem2);
 		
+		@SuppressWarnings("unchecked")
 		var key = attrKey.getClass().equals(Boolean.class) ?
 				(Boolean) attrKey :
-					this.getExpectedSimilarityResult(attrKey);
+					this.getExpectedSimilarityResult((Class<? extends EObject>) elem1.eClass().getInstanceClass(),
+							(EStructuralFeature) attrKey);
 		
 		this.compareX(elem1, elem2, key);
 		this.compareX(elem2, elem1, key);
