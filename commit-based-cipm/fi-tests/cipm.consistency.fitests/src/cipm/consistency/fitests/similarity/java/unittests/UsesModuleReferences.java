@@ -5,11 +5,18 @@ import org.emftext.language.java.modules.ModuleReference;
 import cipm.consistency.fitests.similarity.java.initialiser.modules.ModuleReferenceInitialiser;
 
 public interface UsesModuleReferences extends UsesModules {
-	public default ModuleReference createMinimalModuleReference(String modName) {
+	public default ModuleReference createMinimalMR(String modName) {
 		var mrInit = new ModuleReferenceInitialiser();
 		var mr = mrInit.instantiate();
 		mrInit.minimalInitialisation(mr);
 		mrInit.setTarget(mr, this.createMinimalModule(modName));
+		return mr;
+	}
+	
+	public default ModuleReference createMinimalMR(String modName, String[] modRefNss) {
+		var mr = this.createMinimalMR(modName);
+		var mrInit = new ModuleReferenceInitialiser();
+		mrInit.initialiseNamespaces(mr, modRefNss);
 		return mr;
 	}
 }
