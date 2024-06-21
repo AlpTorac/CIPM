@@ -18,11 +18,22 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 		return new SimilarityEntry(objCls, attr);
 	}
 	
+	/**
+	 * First, tries to find a direct match for the given parameters. If there is no direct match,
+	 * it relaxes the class parameter to super classes and interfaces of objCls and tries to find
+	 * a match again.
+	 */
 	protected SimilarityEntry findEntry(Class<? extends EObject> objCls, EStructuralFeature attr) {
-		return this.similarityValues.keySet().stream()
+		var directMatch = this.similarityValues.keySet().stream()
 				.filter((se) -> se.objCls.equals(objCls) && se.attr.equals(attr))
 				.findFirst()
 				.orElse(null);
+		
+		return directMatch != null ? directMatch :
+			this.similarityValues.keySet().stream()
+			.filter((se) -> se.objCls.isAssignableFrom(objCls) && se.attr.equals(attr))
+			.findFirst()
+			.orElse(null);
 	}
 	
 	protected Map<SimilarityEntry, Boolean> initSimilarityValues() {
