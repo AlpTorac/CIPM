@@ -50,6 +50,20 @@ public interface UsesStatements {
 		return this.createMinimalJL(this.createMinimalTrivialAssert());
 	}
 	
+	public default JumpLabel createMinimalJLToNullReturn(String jlName) {
+		var jl = this.createMinimalJL(this.createMinimalNullReturn());
+		var init = new JumpLabelInitialiser();
+		init.initialiseName(jl, jlName);
+		return jl;
+	}
+	
+	public default JumpLabel createMinimalJLToTrivialAssert(String jlName) {
+		var jl = this.createMinimalJL(this.createMinimalTrivialAssert());
+		var init = new JumpLabelInitialiser();
+		init.initialiseName(jl, jlName);
+		return jl;
+	}
+	
 	public default Block createMinimalBlock(Statement[] sts) {
 		var init = new BlockInitialiser();
 		Block result = init.instantiate();
