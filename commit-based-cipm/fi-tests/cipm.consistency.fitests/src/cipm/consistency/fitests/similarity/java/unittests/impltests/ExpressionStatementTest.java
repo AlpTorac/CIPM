@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.ExpressionStatement;
+import org.emftext.language.java.statements.StatementsPackage;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -24,6 +25,6 @@ public class ExpressionStatementTest extends EObjectSimilarityTest implements Us
 		var objOne = this.initElement(this.createMinimalFalseEE());
 		var objTwo = this.initElement(this.createMinimalTrueNEE());
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, StatementsPackage.Literals.EXPRESSION_STATEMENT__EXPRESSION);
 	}
 }

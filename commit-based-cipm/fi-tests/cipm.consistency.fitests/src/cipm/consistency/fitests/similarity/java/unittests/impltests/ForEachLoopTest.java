@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.parameters.OrdinaryParameter;
 import org.emftext.language.java.statements.ForEachLoop;
+import org.emftext.language.java.statements.StatementsPackage;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -27,7 +28,7 @@ public class ForEachLoopTest extends EObjectSimilarityTest implements UsesExpres
 		var objOne = this.initElement(this.createMinimalFalseEE(), null);
 		var objTwo = this.initElement(this.createMinimalTrueNEE(), null);
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, StatementsPackage.Literals.FOR_EACH_LOOP__COLLECTION);
 	}
 	
 	@Test
@@ -37,6 +38,6 @@ public class ForEachLoopTest extends EObjectSimilarityTest implements UsesExpres
 		var objOne = this.initElement(null, this.createMinimalOrdParam("param1", "cls1"));
 		var objTwo = this.initElement(null, this.createMinimalOrdParam("param2", "cls2"));
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, StatementsPackage.Literals.FOR_EACH_LOOP__NEXT);
 	}
 }

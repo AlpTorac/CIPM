@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
+import org.emftext.language.java.references.ReferencesPackage;
 import org.emftext.language.java.references.StringReference;
 import org.junit.jupiter.api.Test;
 
@@ -22,6 +23,6 @@ public class StringReferenceTest extends EObjectSimilarityTest {
 		var objOne = this.initElement("val1");
 		var objTwo = this.initElement("val2");
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ReferencesPackage.Literals.STRING_REFERENCE__VALUE);
 	}
 }

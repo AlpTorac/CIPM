@@ -1,6 +1,7 @@
 package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.classifiers.Interface;
+import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.types.TypeReference;
 import org.junit.jupiter.api.Test;
 
@@ -25,7 +26,7 @@ public class InterfaceTest extends EObjectSimilarityTest implements UsesTypeRefe
 		var objOne = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls1")}, null);
 		var objTwo = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls2")}, null);
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ClassifiersPackage.Literals.INTERFACE__DEFAULT_EXTENDS);
 	}
 	
 	@Test
@@ -35,6 +36,6 @@ public class InterfaceTest extends EObjectSimilarityTest implements UsesTypeRefe
 		var objOne = this.initElement(null, new TypeReference[] {this.createMinimalClsRef("cls1")});
 		var objTwo = this.initElement(null, new TypeReference[] {this.createMinimalClsRef("cls2")});
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ClassifiersPackage.Literals.INTERFACE__EXTENDS);
 	}
 }

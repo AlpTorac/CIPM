@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.annotations.AnnotationAttributeSetting;
 import org.emftext.language.java.annotations.AnnotationValue;
+import org.emftext.language.java.annotations.AnnotationsPackage;
 import org.emftext.language.java.members.InterfaceMethod;
 import org.junit.jupiter.api.Test;
 
@@ -29,7 +30,7 @@ public class AnnotationAttributeSettingTest extends EObjectSimilarityTest
 		var objOne = this.initElement(this.createMinimalInterfaceMethod("im1Name"), null);
 		var objTwo = this.initElement(this.createMinimalInterfaceMethod("im2Name"), null);
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__ATTRIBUTE);
 	}
 	
 	@Test
@@ -39,6 +40,6 @@ public class AnnotationAttributeSettingTest extends EObjectSimilarityTest
 		var objOne = this.initElement(null, this.createNullVal());
 		var objTwo = this.initElement(null, this.createStringRefVal("val"));
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__VALUE);
 	}
 }

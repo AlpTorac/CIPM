@@ -1,6 +1,7 @@
 package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.modules.ProvidesModuleDirective;
+import org.emftext.language.java.modules.ModulesPackage;
 import org.emftext.language.java.types.TypeReference;
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +25,6 @@ public class ProvidesModuleDirectiveTest extends EObjectSimilarityTest implement
 		var objOne = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls1")});
 		var objTwo = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls2")});
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ModulesPackage.Literals.PROVIDES_MODULE_DIRECTIVE__SERVICE_PROVIDERS);
 	}
 }

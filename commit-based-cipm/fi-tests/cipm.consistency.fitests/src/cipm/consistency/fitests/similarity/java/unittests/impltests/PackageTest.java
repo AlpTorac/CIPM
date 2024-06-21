@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
+import org.emftext.language.java.containers.ContainersPackage;
 import org.emftext.language.java.containers.Module;
 import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
@@ -11,7 +12,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageIn
 import cipm.consistency.fitests.similarity.java.unittests.UsesConcreteClassifiers;
 import cipm.consistency.fitests.similarity.java.unittests.UsesModules;
 
-public class PackageSimilarityTest extends EObjectSimilarityTest implements UsesModules, UsesConcreteClassifiers {
+public class PackageTest extends EObjectSimilarityTest implements UsesModules, UsesConcreteClassifiers {
 	protected Package initElement(Module mod, ConcreteClassifier[] clss) {
 		var initialiser = new PackageInitialiser();
 		Package pac = initialiser.instantiate();
@@ -30,7 +31,7 @@ public class PackageSimilarityTest extends EObjectSimilarityTest implements Uses
 		var objOne = this.initElement(this.createMinimalModule("mod1"), null);
 		var objTwo = this.initElement(this.createMinimalModule("mod2"), null);
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ContainersPackage.Literals.PACKAGE__MODULE);
 	}
 	
 	@Test
@@ -44,6 +45,6 @@ public class PackageSimilarityTest extends EObjectSimilarityTest implements Uses
 				this.createMinimalClass("cls2")
 		});
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ContainersPackage.Literals.PACKAGE__CLASSIFIERS);
 	}
 }

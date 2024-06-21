@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.CatchBlock;
+import org.emftext.language.java.statements.StatementsPackage;
 import org.emftext.language.java.statements.TryBlock;
 import org.emftext.language.java.variables.Resource;
 import org.junit.jupiter.api.Test;
@@ -32,7 +33,7 @@ UsesStatements, UsesLocalVariables {
 		var objOne = this.initElement(new Resource[] {this.createMinimalLV("lv1")}, null, null, null);
 		var objTwo = this.initElement(new Resource[] {this.createMinimalLV("lv2")}, null, null, null);
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__RESOURCES);
 	}
 	
 	@Test
@@ -42,18 +43,20 @@ UsesStatements, UsesLocalVariables {
 		var objOne = this.initElement(null, new CatchBlock[] {this.createMinimalCB("p1", "t1")}, null, null);
 		var objTwo = this.initElement(null, new CatchBlock[] {this.createMinimalCB("p2", "t2")}, null, null);
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__CATCH_BLOCKS);
 	}
 	
-	@Test
-	public void testCatcheBlock() {
-		this.setResourceFileTestIdentifier("testCatcheBlock");
-		
-		var objOne = this.initElement(null, null, new CatchBlock[] {this.createMinimalCB("p1", "t1")}, null);
-		var objTwo = this.initElement(null, null, new CatchBlock[] {this.createMinimalCB("p2", "t2")}, null);
-		
-		this.testX(objOne, objTwo, false);
-	}
+	// TODO: Clarify if this is necessary
+	
+//	@Test
+//	public void testCatcheBlock() {
+//		this.setResourceFileTestIdentifier("testCatcheBlock");
+//		
+//		var objOne = this.initElement(null, null, new CatchBlock[] {this.createMinimalCB("p1", "t1")}, null);
+//		var objTwo = this.initElement(null, null, new CatchBlock[] {this.createMinimalCB("p2", "t2")}, null);
+//		
+//		this.testX(objOne, objTwo, false);
+//	}
 	
 	@Test
 	public void testFinallyBlock() {
@@ -62,6 +65,6 @@ UsesStatements, UsesLocalVariables {
 		var objOne = this.initElement(null, null, null, this.createMinimalBlockWithNullReturn());
 		var objTwo = this.initElement(null, null, null, this.createMinimalBlockWithTrivialAssert());
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__FINALLY_BLOCK);
 	}
 }

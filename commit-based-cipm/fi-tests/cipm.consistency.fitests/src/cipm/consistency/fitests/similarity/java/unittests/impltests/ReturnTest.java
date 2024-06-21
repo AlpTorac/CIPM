@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.Return;
+import org.emftext.language.java.statements.StatementsPackage;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -24,6 +25,6 @@ public class ReturnTest extends EObjectSimilarityTest implements UsesExpressions
 		var objOne = this.initElement(this.createInteger(1));
 		var objTwo = this.initElement(this.createMinimalFalseEE());
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, StatementsPackage.Literals.RETURN__RETURN_VALUE);
 	}
 }

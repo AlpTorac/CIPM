@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.NormalSwitchRule;
+import org.emftext.language.java.statements.StatementsPackage;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -24,6 +25,6 @@ public class NormalSwitchRuleTest extends EObjectSimilarityTest implements UsesE
 		var objOne = this.initElement(new Expression[] {this.createMinimalFalseEE()});
 		var objTwo = this.initElement(new Expression[] {this.createMinimalTrueNEE()});
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, StatementsPackage.Literals.NORMAL_SWITCH_RULE__ADDITIONAL_CONDITIONS);
 	}
 }

@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.classifiers.AnonymousClass;
 import org.emftext.language.java.members.EnumConstant;
+import org.emftext.language.java.members.MembersPackage;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -24,6 +25,6 @@ public class EnumConstantTest extends EObjectSimilarityTest implements UsesAnony
 		var objOne = this.initElement(this.createMinimalAnonymousClassWithMethod("met1"));
 		var objTwo = this.initElement(this.createMinimalAnonymousClassWithMethod("met2"));
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, MembersPackage.Literals.ENUM_CONSTANT__ANONYMOUS_CLASS);
 	}
 }

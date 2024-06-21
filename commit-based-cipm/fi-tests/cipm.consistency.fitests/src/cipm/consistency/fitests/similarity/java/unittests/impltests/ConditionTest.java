@@ -1,6 +1,7 @@
 package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.statements.Condition;
+import org.emftext.language.java.statements.StatementsPackage;
 import org.emftext.language.java.statements.Statement;
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +25,6 @@ public class ConditionTest extends EObjectSimilarityTest implements UsesStatemen
 		var objOne = this.initElement(this.createMinimalTrivialAssert());
 		var objTwo = this.initElement(this.createMinimalNullReturn());
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, StatementsPackage.Literals.CONDITION__ELSE_STATEMENT);
 	}
 }

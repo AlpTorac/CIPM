@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
+import org.emftext.language.java.imports.ImportsPackage;
 import org.emftext.language.java.imports.StaticMemberImport;
 import org.emftext.language.java.references.ReferenceableElement;
 import org.junit.jupiter.api.Test;
@@ -24,6 +25,6 @@ public class StaticMemberImportTest extends EObjectSimilarityTest implements Use
 		var objOne = this.initElement(new ReferenceableElement[] {this.createMinimalClsMethod("met1")});
 		var objTwo = this.initElement(new ReferenceableElement[] {this.createMinimalClsMethod("met2")});
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ImportsPackage.Literals.STATIC_MEMBER_IMPORT__STATIC_MEMBERS);
 	}
 }

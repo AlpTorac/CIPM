@@ -1,6 +1,7 @@
 package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.annotations.AnnotationValue;
+import org.emftext.language.java.annotations.AnnotationsPackage;
 import org.emftext.language.java.annotations.SingleAnnotationParameter;
 import org.junit.jupiter.api.Test;
 
@@ -24,6 +25,6 @@ public class SingleAnnotationParameterTest extends EObjectSimilarityTest impleme
 		var objOne = this.initElement(this.createNullVal());
 		var objTwo = this.initElement(this.createStringRefVal("strVal"));
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, AnnotationsPackage.Literals.SINGLE_ANNOTATION_PARAMETER__VALUE);
 	}
 }
