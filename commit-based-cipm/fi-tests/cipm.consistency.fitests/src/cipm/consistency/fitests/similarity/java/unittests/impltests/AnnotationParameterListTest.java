@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.annotations.AnnotationAttributeSetting;
 import org.emftext.language.java.annotations.AnnotationParameterList;
+import org.emftext.language.java.annotations.AnnotationsPackage;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -25,6 +26,6 @@ UsesAnnotationParameters, UsesAnnotationAttributeSettings {
 		var objOne = this.initElement(new AnnotationAttributeSetting[] {this.createEmptyAAS()});
 		var objTwo = this.initElement(new AnnotationAttributeSetting[] {this.createNullAAS()});
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_PARAMETER_LIST__SETTINGS);
 	}
 }

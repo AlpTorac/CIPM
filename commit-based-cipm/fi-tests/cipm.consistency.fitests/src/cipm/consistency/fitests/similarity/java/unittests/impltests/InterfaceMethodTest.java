@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.members.InterfaceMethod;
+import org.emftext.language.java.members.MembersPackage;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -24,6 +25,6 @@ public class InterfaceMethodTest extends EObjectSimilarityTest implements UsesAn
 		var objOne = this.initElement(this.createNullVal());
 		var objTwo = this.initElement(this.createStringRefVal("strval"));
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, MembersPackage.Literals.INTERFACE_METHOD__DEFAULT_VALUE);
 	}
 }

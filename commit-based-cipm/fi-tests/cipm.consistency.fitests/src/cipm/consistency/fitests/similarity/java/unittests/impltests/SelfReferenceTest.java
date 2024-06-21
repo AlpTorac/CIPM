@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.literals.Self;
 import org.emftext.language.java.references.SelfReference;
+import org.emftext.language.java.references.ReferencesPackage;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -24,6 +25,6 @@ public class SelfReferenceTest extends EObjectSimilarityTest implements UsesLite
 		var objOne = this.initElement(this.createThis());
 		var objTwo = this.initElement(this.createSuper());
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ReferencesPackage.Literals.SELF_REFERENCE__SELF);
 	}
 }

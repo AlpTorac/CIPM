@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.modifiers.ModuleRequiresModifier;
 import org.emftext.language.java.modules.ModuleReference;
+import org.emftext.language.java.modules.ModulesPackage;
 import org.emftext.language.java.modules.RequiresModuleDirective;
 import org.junit.jupiter.api.Test;
 
@@ -28,16 +29,16 @@ UsesModuleReferences {
 		var objOne = this.initElement(this.createStatic(), null);
 		var objTwo = this.initElement(this.createTransitive(), null);
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ModulesPackage.Literals.REQUIRES_MODULE_DIRECTIVE__MODIFIER);
 	}
 	
 	@Test
 	public void testRequiredModule() {
 		this.setResourceFileTestIdentifier("testRequiredModule");
 		
-		var objOne = this.initElement(null, this.createMinimalModuleReference("mod1"));
-		var objTwo = this.initElement(null, this.createMinimalModuleReference("mod2"));
+		var objOne = this.initElement(null, this.createMinimalMR("mod1", new String[] {"ns1", "ns2"}));
+		var objTwo = this.initElement(null, this.createMinimalMR("mod2", new String[] {"ns3", "ns4"}));
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ModulesPackage.Literals.REQUIRES_MODULE_DIRECTIVE__REQUIRED_MODULE);
 	}
 }

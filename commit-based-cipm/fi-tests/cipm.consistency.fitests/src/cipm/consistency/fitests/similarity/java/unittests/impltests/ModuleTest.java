@@ -1,6 +1,7 @@
 package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.containers.Module;
+import org.emftext.language.java.containers.ContainersPackage;
 import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.modules.ModuleDirective;
 
@@ -11,7 +12,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.containers.ModuleIni
 import cipm.consistency.fitests.similarity.java.initialiser.modifiers.OpenInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesModuleDirectives;
 
-public class ModuleSimilarityTest extends EObjectSimilarityTest implements UsesModuleDirectives {
+public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirectives {
 	protected Module initElement(Package[] pacs, ModuleDirective[] targets, boolean isOpen) {
 		var initialiser = new ModuleInitialiser();
 		Module result = initialiser.instantiate();
@@ -35,7 +36,7 @@ public class ModuleSimilarityTest extends EObjectSimilarityTest implements UsesM
 		var objOne = this.initElement(null, null, true);
 		var objTwo = this.initElement(null, null, false);
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ContainersPackage.Literals.MODULE__OPEN);
 	}
 	
 	@Test
@@ -49,11 +50,11 @@ public class ModuleSimilarityTest extends EObjectSimilarityTest implements UsesM
 				this.createMinimalPackage(new String[] {"ns2"})
 		}, null, false);
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ContainersPackage.Literals.MODULE__PACKAGES);
 	}
 
-	public void testModuleDirectives() {
-		this.setResourceFileTestIdentifier("testModuleDirectives");
+	public void testTargets() {
+		this.setResourceFileTestIdentifier("testTargets");
 		
 		var objOne = this.initElement(null, new ModuleDirective[] {
 				this.createMinimalEMD(new String[] {"ns1"})
@@ -62,6 +63,6 @@ public class ModuleSimilarityTest extends EObjectSimilarityTest implements UsesM
 				this.createMinimalOMD(new String[] {"ns1"})
 		}, false);
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ContainersPackage.Literals.MODULE__TARGET);
 	}
 }

@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 import org.emftext.language.java.variables.LocalVariable;
+import org.emftext.language.java.variables.VariablesPackage;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -24,6 +25,6 @@ public class LocalVariableTest extends EObjectSimilarityTest implements UsesAddi
 		var objOne = this.initElement(new AdditionalLocalVariable[] {this.createMinimalALV("alv1")});
 		var objTwo = this.initElement(new AdditionalLocalVariable[] {this.createMinimalALV("alv2")});
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, VariablesPackage.Literals.LOCAL_VARIABLE__ADDITIONAL_LOCAL_VARIABLES);
 	}
 }
