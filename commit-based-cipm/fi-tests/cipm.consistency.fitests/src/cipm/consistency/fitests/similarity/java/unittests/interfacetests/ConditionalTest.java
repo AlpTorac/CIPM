@@ -2,7 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.Conditional;
-
+import org.emftext.language.java.statements.StatementsPackage;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -20,12 +20,12 @@ public class ConditionalTest extends EObjectSimilarityTest implements UsesExpres
 	
 	@ParameterizedTest
 	@ArgumentsSource(ConditionalTestParams.class)
-	public void testConditional(IConditionalInitialiser init) {
+	public void testCondition(IConditionalInitialiser init) {
 		this.setResourceFileTestIdentifier("testConditional");
 		
 		var objOne = this.initElement(init, this.createMinimalTrueEE());
 		var objTwo = this.initElement(init, this.createMinimalTrueNEE());
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, StatementsPackage.Literals.CONDITIONAL__CONDITION);
 	}
 }

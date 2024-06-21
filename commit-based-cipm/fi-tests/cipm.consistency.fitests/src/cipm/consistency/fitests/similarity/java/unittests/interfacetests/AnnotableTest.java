@@ -2,7 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.annotations.AnnotationInstance;
-
+import org.emftext.language.java.annotations.AnnotationsPackage;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -26,6 +26,6 @@ public class AnnotableTest extends EObjectSimilarityTest implements UsesAnnotati
 		var objOne = this.initElement(initialiser, this.createMinimalAI(new String[] {"ns1"}, "anno1"));
 		var objTwo = this.initElement(initialiser, this.createMinimalAI(new String[] {"ns2"}, "anno2"));
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, AnnotationsPackage.Literals.ANNOTABLE__ANNOTATIONS);
 	}
 }

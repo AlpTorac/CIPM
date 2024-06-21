@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.modifiers.Modifiable;
 import org.emftext.language.java.modifiers.Modifier;
+import org.emftext.language.java.modifiers.ModifiersPackage;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -24,6 +25,6 @@ public class ModifiableTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(init, new Modifier[] {new ModifierFactory().createFinal()});
 		var objTwo = this.initElement(init, null);
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ModifiersPackage.Literals.MODIFIABLE__MODIFIERS);
 	}
 }

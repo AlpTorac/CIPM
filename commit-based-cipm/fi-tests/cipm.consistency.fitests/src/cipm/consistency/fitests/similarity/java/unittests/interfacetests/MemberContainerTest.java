@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MemberContainer;
+import org.emftext.language.java.members.MembersPackage;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -34,7 +35,7 @@ public class MemberContainerTest extends EObjectSimilarityTest implements
 				this.createMinimalClass("cls2")
 		}, null);
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
 	}
 	
 	@ParameterizedTest
@@ -49,6 +50,6 @@ public class MemberContainerTest extends EObjectSimilarityTest implements
 				this.createMinimalClass("cls2")
 		});
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
 	}
 }

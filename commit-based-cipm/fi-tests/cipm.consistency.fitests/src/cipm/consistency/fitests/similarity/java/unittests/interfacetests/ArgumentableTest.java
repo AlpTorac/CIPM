@@ -4,25 +4,21 @@ import java.math.BigInteger;
 
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.references.Argumentable;
-import org.emftext.language.java.types.Type;
+import org.emftext.language.java.references.ReferencesPackage;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.params.LiteralFactory;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IArgumentableInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.types.DoubleInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.types.IntInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.types.VoidInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesConcreteClassifiers;
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class ArgumentableTest extends EObjectSimilarityTest implements UsesConcreteClassifiers, UsesExpressions {
-	protected Argumentable initElement(IArgumentableInitialiser init, Expression[] args, Type[] types) {
+	protected Argumentable initElement(IArgumentableInitialiser init, Expression[] args) {
 		Argumentable result = init.instantiate();
 		init.minimalInitialisation(result);
 		init.addArguments(result, args);
-		init.addArgumentTypes(result, types);
 		return result;
 	}
 	
@@ -33,26 +29,11 @@ public class ArgumentableTest extends EObjectSimilarityTest implements UsesConcr
 		
 		var objOne = this.initElement(init, new Expression[] {
 				new LiteralFactory().createDecIntegerLiteral(BigInteger.ONE)
-		}, null);
+		});
 		var objTwo = this.initElement(init, new Expression[] {
 				new LiteralFactory().createDecIntegerLiteral(BigInteger.ZERO)
-		}, null);
-		
-		this.testX(objOne, objTwo, false);
-	}
-	
-	@ParameterizedTest
-	@ArgumentsSource(ArgumentableTestParams.class)
-	public void testArgumentTypes(IArgumentableInitialiser init) {
-		this.setResourceFileTestIdentifier("testArgumentTypes");
-		
-		var objOne = this.initElement(init, null, new Type[] {
-				new IntInitialiser().instantiate()
-		});
-		var objTwo = this.initElement(init, null, new Type[] {
-				new VoidInitialiser().instantiate()
 		});
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS);
 	}
 }

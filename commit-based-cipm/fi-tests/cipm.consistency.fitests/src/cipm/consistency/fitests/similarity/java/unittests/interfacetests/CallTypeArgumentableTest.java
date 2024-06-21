@@ -1,6 +1,7 @@
 package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.generics.CallTypeArgumentable;
+import org.emftext.language.java.generics.GenericsPackage;
 import org.emftext.language.java.generics.TypeArgument;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -29,6 +30,6 @@ public class CallTypeArgumentableTest extends EObjectSimilarityTest implements U
 				this.createMinimalSuperTAWithCls("cls2")
 		});
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, GenericsPackage.Literals.CALL_TYPE_ARGUMENTABLE__CALL_TYPE_ARGUMENTS);
 	}
 }

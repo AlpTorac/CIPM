@@ -1,6 +1,7 @@
 package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.members.ExceptionThrower;
+import org.emftext.language.java.members.MembersPackage;
 import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -29,6 +30,6 @@ public class ExceptionThrowerTest extends EObjectSimilarityTest implements UsesT
 				this.createMinimalCNR("cls2")	
 		});
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, MembersPackage.Literals.EXCEPTION_THROWER__EXCEPTIONS);
 	}
 }
