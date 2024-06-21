@@ -6,6 +6,12 @@ import org.emftext.language.java.imports.Import;
 import cipm.consistency.fitests.similarity.java.initialiser.IReferenceableElementInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.ITypeInitialiser;
 
+/**
+ * Adder methods of Classifier add the imports to its CompilationUnit.
+ * Classifier has no attributes itself.
+ * 
+ * @author atora
+ */
 public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceableElementInitialiser {
 	// TODO: Clean up after tests are finished
 //	public default void addImport(Classifier cls, String importString) {
