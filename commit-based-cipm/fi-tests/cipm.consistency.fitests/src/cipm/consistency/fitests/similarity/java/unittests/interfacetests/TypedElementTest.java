@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypedElement;
+import org.emftext.language.java.types.TypesPackage;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -25,6 +26,6 @@ public class TypedElementTest extends EObjectSimilarityTest implements UsesTypeR
 		var objOne = this.initElement(init, this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(init, this.createMinimalClsRef("cls2"));
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE);
 	}
 }

@@ -1,7 +1,7 @@
 package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.containers.Package;
-
+import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -29,6 +29,6 @@ public class ConcreteClassifierTest extends EObjectSimilarityTest implements Use
 		var objOne = this.initElement(initialiser, this.createMinimalPackage("pOneNS", 2));
 		var objTwo = this.initElement(initialiser, this.createMinimalPackage("pTwoNS", 2));
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ClassifiersPackage.Literals.CONCRETE_CLASSIFIER__PACKAGE);
 	}
 }

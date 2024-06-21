@@ -1,8 +1,8 @@
 package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
+import org.emftext.language.java.containers.ContainersPackage;
 import org.emftext.language.java.containers.JavaRoot;
 import org.emftext.language.java.containers.Origin;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -25,6 +25,6 @@ public class JavaRootTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(initialiser, Origin.BINDING);
 		var objTwo = this.initElement(initialiser, Origin.CLASS);
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ContainersPackage.Literals.JAVA_ROOT__ORIGIN);
 	}
 }

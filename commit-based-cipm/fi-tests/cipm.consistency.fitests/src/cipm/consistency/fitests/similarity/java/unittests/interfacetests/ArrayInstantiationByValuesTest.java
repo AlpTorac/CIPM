@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 import org.emftext.language.java.arrays.ArrayInitializer;
 import org.emftext.language.java.arrays.ArrayInstantiationByValues;
+import org.emftext.language.java.arrays.ArraysPackage;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -31,6 +32,6 @@ public class ArrayInstantiationByValuesTest extends EObjectSimilarityTest implem
 		var objTwo = this.initElement(init, this.createMinimalArrayInitializer(
 				new LiteralFactory().createDecIntegerLiteral(BigInteger.ONE)));
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER);
 	}
 }

@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.references.ElementReference;
 import org.emftext.language.java.references.ReferenceableElement;
+import org.emftext.language.java.references.ReferencesPackage;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -39,7 +40,7 @@ UsesAnnotationInstances, UsesAnnotationParameters {
 		var objOne = this.initElement(init, cls1.getPackage(), cls1);
 		var objTwo = this.initElement(init, cls2.getPackage(), cls2);
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__TARGET);
 	}
 	
 	@ParameterizedTest
@@ -50,6 +51,6 @@ UsesAnnotationInstances, UsesAnnotationParameters {
 		var objOne = this.initElement(init, null, this.createMinimalClassWithPac("cls1", new String[] {"ns1"}));
 		var objTwo = this.initElement(init, null, this.createMinimalClassWithPac("cls2", new String[] {"ns2"}));
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__CONTAINED_TARGET);
 	}
 }

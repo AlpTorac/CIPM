@@ -4,15 +4,16 @@ import org.emftext.language.java.containers.Package;
 
 import org.emftext.language.java.modules.AccessProvidingModuleDirective;
 import org.emftext.language.java.modules.ModuleReference;
+import org.emftext.language.java.modules.ModulesPackage;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.testable.IAccessProvidingModuleDirectiveInitialiser;
-import cipm.consistency.fitests.similarity.java.unittests.UsesModules;
+import cipm.consistency.fitests.similarity.java.unittests.UsesModuleReferences;
 import cipm.consistency.fitests.similarity.java.unittests.UsesPackages;
 
-public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest implements UsesModules, UsesPackages {
+public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest implements UsesModuleReferences, UsesPackages {
 	protected AccessProvidingModuleDirective initElement(IAccessProvidingModuleDirectiveInitialiser init,
 			ModuleReference[] modrefs, Package pac) {
 		AccessProvidingModuleDirective result = init.instantiate();
@@ -24,7 +25,7 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest im
 	
 	@ParameterizedTest
 	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
-	public void testModuleReference(IAccessProvidingModuleDirectiveInitialiser init) {
+	public void testModule(IAccessProvidingModuleDirectiveInitialiser init) {
 		this.setResourceFileTestIdentifier("testModuleReference");
 		
 		var objOne = this.initElement(init, new ModuleReference[] {
@@ -34,7 +35,7 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest im
 				this.createMinimalMR("mod2")
 		}, null);
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__MODULES);
 	}
 	
 	@ParameterizedTest
@@ -45,6 +46,6 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest im
 		var objOne = this.initElement(init, null, this.createMinimalPackage(new String[] {"ns1", "ns2"}));
 		var objTwo = this.initElement(init, null, this.createMinimalPackage(new String[] {"ns3", "ns4"}));
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__ACCESSABLE_PACKAGE);
 	}
 }

@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.instantiations.Initializable;
+import org.emftext.language.java.instantiations.InstantiationsPackage;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -28,6 +29,6 @@ public class InitializableTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(init, new LiteralFactory().createDecIntegerLiteral(BigInteger.valueOf(5)));
 		var objTwo = this.initElement(init, new LiteralFactory().createBooleanLiteral(false));
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, InstantiationsPackage.Literals.INITIALIZABLE__INITIAL_VALUE);
 	}
 }

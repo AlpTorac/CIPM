@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
+import org.emftext.language.java.imports.ImportsPackage;
 import org.emftext.language.java.imports.StaticImport;
 import org.emftext.language.java.modifiers.Static;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -26,6 +27,6 @@ public class StaticImportTest extends EObjectSimilarityTest implements UsesImpor
 		var objOne = this.initElement(init, new ModifierFactory().createStatic());
 		var objTwo = this.initElement(init, null);
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ImportsPackage.Literals.STATIC_IMPORT__STATIC);
 	}
 }

@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.statements.Jump;
 import org.emftext.language.java.statements.JumpLabel;
+import org.emftext.language.java.statements.StatementsPackage;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -22,9 +23,9 @@ public class JumpTest extends EObjectSimilarityTest implements UsesStatements {
 	public void testTarget(IJumpInitialiser init) {
 		this.setResourceFileTestIdentifier("testTarget");
 		
-		var objOne = this.initElement(init, this.createMinimalJLToNullReturn());
-		var objTwo = this.initElement(init, this.createMinimalJLToTrivialAssert());
+		var objOne = this.initElement(init, this.createMinimalJLToNullReturn("jl1"));
+		var objTwo = this.initElement(init, this.createMinimalJLToTrivialAssert("jl2"));
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, StatementsPackage.Literals.JUMP__TARGET);
 	}
 }

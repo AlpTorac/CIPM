@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
+import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.classifiers.Implementor;
 import org.emftext.language.java.types.TypeReference;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -29,6 +30,6 @@ public class ImplementorTest extends EObjectSimilarityTest implements UsesTypeRe
 				this.createMinimalClsRef("cls2")
 		});
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
 	}
 }

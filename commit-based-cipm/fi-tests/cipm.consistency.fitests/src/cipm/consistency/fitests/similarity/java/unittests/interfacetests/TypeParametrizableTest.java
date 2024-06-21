@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
+import org.emftext.language.java.generics.GenericsPackage;
 import org.emftext.language.java.generics.TypeParameter;
 import org.emftext.language.java.generics.TypeParametrizable;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -25,6 +26,6 @@ public class TypeParametrizableTest extends EObjectSimilarityTest implements Use
 		var objOne = this.initElement(init, new TypeParameter[] {this.createMinimalTypeParamWithClsRef("cls1")});
 		var objTwo = this.initElement(init, new TypeParameter[] {this.createMinimalTypeParamWithClsRef("cls2")});
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, GenericsPackage.Literals.TYPE_PARAMETRIZABLE__TYPE_PARAMETERS);
 	}
 }

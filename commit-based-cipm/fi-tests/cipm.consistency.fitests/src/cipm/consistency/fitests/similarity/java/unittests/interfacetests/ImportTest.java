@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
+import org.emftext.language.java.imports.ImportsPackage;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -16,6 +17,6 @@ public class ImportTest extends EObjectSimilarityTest implements UsesImports {
 		var objOne = this.createMinimalImport(initialiser, this.createMinimalClass("cls1Name"));
 		var objTwo = this.createMinimalImport(initialiser, this.createMinimalClass("cls2Name"));
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, ImportsPackage.Literals.IMPORT__CLASSIFIER);
 	}
 }

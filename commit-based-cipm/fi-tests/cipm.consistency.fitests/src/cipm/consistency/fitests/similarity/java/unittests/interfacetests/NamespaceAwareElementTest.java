@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
+import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.commons.NamespaceAwareElement;
 
 import org.junit.jupiter.params.ParameterizedTest;
@@ -35,7 +36,7 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(initialiser, nss1);
 		var objTwo = this.initElement(initialiser, nss2);
 		
-		this.testX(objOne, objTwo, false);	
+		this.testX(objOne, objTwo, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);	
 	}
 	
 	/**
@@ -56,8 +57,7 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 			var objOne = this.initElement(initialiser, newNss);
 			var objTwo = this.initElement(initialiser, nss1);
 			
-			this.differentX(objOne, objTwo);
-			this.differentX(initialiser.clone(objTwo), initialiser.clone(objOne));
+			this.testX(objOne, objTwo, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
 		}
 	}
 }

@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.BlockContainer;
+import org.emftext.language.java.statements.StatementsPackage;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -25,6 +26,6 @@ public class BlockContainerTest extends EObjectSimilarityTest implements UsesSta
 		var objOne = this.initElement(init, this.createMinimalBlockWithNullReturn());
 		var objTwo = this.initElement(init, this.createMinimalBlockWithTrivialAssert());
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, StatementsPackage.Literals.BLOCK_CONTAINER__BLOCK);
 	}
 }

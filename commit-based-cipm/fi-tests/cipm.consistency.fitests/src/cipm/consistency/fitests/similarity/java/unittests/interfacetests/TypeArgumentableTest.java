@@ -1,8 +1,8 @@
 package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
+import org.emftext.language.java.generics.GenericsPackage;
 import org.emftext.language.java.generics.TypeArgument;
 import org.emftext.language.java.generics.TypeArgumentable;
-import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -26,6 +26,6 @@ public class TypeArgumentableTest extends EObjectSimilarityTest implements UsesT
 		var objOne = this.initElement(init, this.createMinimalExtendsTAWithCls("cls1"));
 		var objTwo = this.initElement(init, this.createMinimalSuperTAWithCls("cls2"));
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, GenericsPackage.Literals.TYPE_ARGUMENTABLE__TYPE_ARGUMENTS);
 	}
 }
