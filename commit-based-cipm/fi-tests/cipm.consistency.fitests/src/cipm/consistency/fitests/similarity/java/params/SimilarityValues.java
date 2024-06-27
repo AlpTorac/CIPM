@@ -5,6 +5,7 @@ import org.emftext.language.java.arrays.ArraysPackage;
 import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.containers.ContainersPackage;
+import org.emftext.language.java.containers.Module;
 import org.emftext.language.java.containers.EmptyModel;
 import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.expressions.ExplicitlyTypedLambdaParameters;
@@ -82,6 +83,7 @@ public class SimilarityValues extends AbstractSimilarityValues {
  		this.addSimilarityEntry(PackageImport.class, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, Boolean.TRUE);
  		this.addSimilarityEntry(StaticClassifierImport.class, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, Boolean.TRUE);
  		this.addSimilarityEntry(PackageReference.class, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, Boolean.TRUE);
+ 		this.addSimilarityEntry(Module.class, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, Boolean.TRUE);
  		
 		// Classifiers
  		this.addSimilarityEntry(ClassifiersPackage.Literals.CLASS__DEFAULT_EXTENDS, Boolean.TRUE);
