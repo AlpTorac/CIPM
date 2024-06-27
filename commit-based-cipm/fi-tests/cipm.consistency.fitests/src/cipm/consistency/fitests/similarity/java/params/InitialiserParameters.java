@@ -192,12 +192,6 @@ import cipm.consistency.fitests.similarity.java.initialiser.variables.LocalVaria
  * @author atora
  */
 public class InitialiserParameters implements IInitialiserParameters {
-	/*
-	 * TODO: Include whether certain differing aspects are supposed
-	 * to cause the respective EObject instances to be considered
-	 * different.
-	 */
-	
 	@SuppressWarnings("serial")
 	public List<EObjectInitialiser> getAllInitialisers() {
 		return new ArrayList<EObjectInitialiser>() {{

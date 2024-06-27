@@ -5,8 +5,6 @@ import org.emftext.language.java.variables.VariablesFactory;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 
 public class AdditionalLocalVariableInitialiser implements IAdditionalLocalVariableInitialiser {
-	// TODO: Implement minimalInitialisationWithContainer 
-	
 	@Override
 	public AdditionalLocalVariable instantiate() {
 		return VariablesFactory.eINSTANCE.createAdditionalLocalVariable();
