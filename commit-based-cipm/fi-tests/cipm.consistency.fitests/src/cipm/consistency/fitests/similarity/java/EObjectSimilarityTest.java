@@ -116,23 +116,35 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	 * 	<li> Compares elem2 with elem1
 	 * </ol>
 	 * 
+	 * @param objCls The {@link EObject} sub-class that is being compared. This parameter's
+	 * purpose is providing a way to allow manually inputting the (objCls, attr) pair. It is
+	 * important for cases, where an element contained by the given elems is being modified.
+	 * 
 	 * @param attrKey The key of the attribute, based on which the
 	 * similarity is compared. If its type is {@link Boolean}, it is assumed to be the
 	 * expected result of the similarity comparing. Otherwise, its type is assumed to
 	 * be {@link EStructuralFeature}.
 	 */
-	public void testX(EObject elem1, EObject elem2, Object attrKey) {
+	public void testX(EObject elem1, EObject elem2, Class<? extends EObject> objCls, Object attrKey) {
 		this.sameX(elem1);
 		this.sameX(elem2);
 		
-		@SuppressWarnings("unchecked")
 		var key = attrKey.getClass().equals(Boolean.class) ?
 				(Boolean) attrKey :
-					this.getExpectedSimilarityResult((Class<? extends EObject>) elem1.eClass().getInstanceClass(),
+					this.getExpectedSimilarityResult(objCls,
 							(EStructuralFeature) attrKey);
 		
 		this.compareX(elem1, elem2, key);
 		this.compareX(elem2, elem1, key);
+	}
+	
+	/**
+	 * The variant of {@link #testX(EObject, EObject, Class, Object)} that uses the same class
+	 * as the given elems.
+	 */
+	@SuppressWarnings("unchecked")
+	public void testX(EObject elem1, EObject elem2, Object attrKey) {
+		this.testX(elem1, elem2, (Class<? extends EObject>) elem1.eClass().getInstanceClass(), attrKey);
 	}
 	
 	public void listSameXSameOrder(EObject elem1, EObject elem2) {
