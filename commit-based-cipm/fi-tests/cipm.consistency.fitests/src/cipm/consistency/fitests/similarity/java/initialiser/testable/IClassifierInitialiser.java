@@ -13,22 +13,6 @@ import cipm.consistency.fitests.similarity.java.initialiser.ITypeInitialiser;
  * @author atora
  */
 public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceableElementInitialiser {
-	// TODO: Clean up after tests are finished
-//	public default void addImport(Classifier cls, String importString) {
-//		if (importString != null) {
-//			cls.addImport(importString);
-//			assert cls.getContainingCompilationUnit().getImports().stream()
-//			.anyMatch((i) -> i.getClassifier().getQualifiedName().equals(importString));
-//		}
-//	}
-//	
-//	public default void addPackageImport(Classifier cls, String importString) {
-//		if (importString != null) {
-//			cls.addPackageImport(importString);
-//			assert cls.getContainingCompilationUnit().getImports().stream()
-//			.anyMatch((i) -> i.getNamespacesAsString().equals(importString));
-//		}
-//	}
 	
 	public default void addImport(Classifier cls, Import imp) {
 		if (imp != null) {
