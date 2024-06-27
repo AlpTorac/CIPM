@@ -279,7 +279,6 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 	@ParameterizedTest(name = "{3}")
 	@MethodSource({"generateUnsimilarityTestParams"})
 	public void differentFileSimilarityTest(Resource res1, Resource res2, Boolean areSimilar, String modelDirName) {
-		// TODO: Make a break point and check the parsed java resource or save it as a file and check
 		this.testSimilarity(res1, res2, areSimilar);
 		LOGGER.info("------------------------------Test Done----------------------------------");
 	}
