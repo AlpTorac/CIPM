@@ -3,14 +3,16 @@ package cipm.consistency.fitests.similarity.java.params;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+// TODO: Write proper commentary
+
 public interface ISimilarityValues {
 	/**
-	 * If no direct match is found, an entry for super classes/interfaces will be sought
+	 * If no direct match is found, an entry for super interfaces will be sought
 	 * and returned.
 	 */
 	public void addSimilarityEntry(EStructuralFeature attr, Boolean expectedSimResult);
 	/**
-	 * If no direct match is found, an entry for super classes/interfaces will be sought
+	 * If no direct match is found, an entry for super interfaces will be sought
 	 * and returned.
 	 */
 	public void addSimilarityEntry(Class<? extends EObject> objCls, EStructuralFeature attr, Boolean breaksSimilarity);
