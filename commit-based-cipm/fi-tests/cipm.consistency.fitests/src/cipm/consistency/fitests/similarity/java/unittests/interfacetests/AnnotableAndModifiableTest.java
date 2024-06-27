@@ -14,16 +14,6 @@ import cipm.consistency.fitests.similarity.java.initialiser.testable.IAnnotableA
 import cipm.consistency.fitests.similarity.java.unittests.UsesAnnotationInstances;
 import cipm.consistency.fitests.similarity.java.unittests.UsesModifiers;
 
-/**
- * TODO: Write proper commentary
- * <br><br>
- * If loggers are enabled, the "X in unknown container: Y
- * (can be empty, if a minimal instance is used) : null"
- * warnings are to be expected. They are, however, not
- * important in this case.
- * 
- * @author atora
- */
 public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	implements UsesAnnotationInstances, UsesModifiers {
 	

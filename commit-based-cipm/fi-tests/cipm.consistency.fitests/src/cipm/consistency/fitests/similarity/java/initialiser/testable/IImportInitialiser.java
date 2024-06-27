@@ -8,7 +8,6 @@ public interface IImportInitialiser extends INamespaceAwareElementInitialiser {
 		if (cls != null) {
 			imp.setClassifier(cls);
 			assert imp.getClassifier().equals(cls);
-			// TODO: See if further assertions are possible (over imported things)
 		}
 	}
 }
