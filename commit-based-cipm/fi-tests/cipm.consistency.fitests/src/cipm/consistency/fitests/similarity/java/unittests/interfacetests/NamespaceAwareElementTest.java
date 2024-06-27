@@ -29,7 +29,7 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	}
 	
 	@ParameterizedTest
-	@ArgumentsSource(NamespaceTestParams.class)
+	@ArgumentsSource(NamespaceAwareElementTestParams.class)
 	public void testNamespace(INamespaceAwareElementInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testNamespace");
 		
@@ -43,7 +43,7 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	 * Tests whether nested namespaces are different.
 	 */
 	@ParameterizedTest
-	@ArgumentsSource(NamespaceTestParams.class)
+	@ArgumentsSource(NamespaceAwareElementTestParams.class)
 	public void testNamespaceScope(INamespaceAwareElementInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testNamespaceScope");
 		
