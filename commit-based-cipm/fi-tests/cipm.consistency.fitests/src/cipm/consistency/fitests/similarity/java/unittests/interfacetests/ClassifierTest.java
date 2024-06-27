@@ -28,8 +28,6 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 		return result;
 	}
 	
-	//TODO: Clean up, if these tests prove to be useless.
-	
 	@ParameterizedTest
 	@ArgumentsSource(ClassifierTestParams.class)
 	public void testImports(IClassifierInitialiser initialiser) {
