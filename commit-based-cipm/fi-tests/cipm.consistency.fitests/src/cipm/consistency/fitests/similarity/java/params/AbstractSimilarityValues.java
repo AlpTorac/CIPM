@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.params;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -20,20 +21,62 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	
 	/**
 	 * First, tries to find a direct match for the given parameters. If there is no direct match,
-	 * it relaxes the class parameter to super classes and interfaces of objCls and tries to find
+	 * it relaxes objCls to super interfaces of objCls and tries to find
 	 * a match again.
+	 * 
+	 * @param objCls The interface of the EObject instance
+	 * @param An attribute of the EObject instance, which is the subject of the current similarity check
+	 * @return The corresponding {@link SimilarityEntry}
 	 */
 	protected SimilarityEntry findEntry(Class<? extends EObject> objCls, EStructuralFeature attr) {
-		var directMatch = this.similarityValues.keySet().stream()
+		var directMatch = this.findDirectEntry(objCls, attr);
+		
+		return directMatch != null ? directMatch :
+			this.findParentEntry(objCls, attr);
+	}
+	
+	/**
+	 * Tries to find a directly matching entry.
+	 * 
+	 * @param objCls The interface of the EObject instance
+	 * @param attr An attribute of the EObject instance, which is the subject of the current similarity check
+	 * @return The corresponding {@link SimilarityEntry}
+	 */
+	protected SimilarityEntry findDirectEntry(Class<? extends EObject> objCls, EStructuralFeature attr) {
+		return this.similarityValues.keySet().stream()
 				.filter((se) -> se.objCls.equals(objCls) && se.attr.equals(attr))
 				.findFirst()
 				.orElse(null);
+	}
+	
+	/**
+	 * Tries to find an entry of a super interface using a depth-first recursion in the
+	 * hierarchy of objCls towards EObject.
+	 * <br><br>
+	 * <b>This method DOES NOT look for a directly matching entry for objCls.</b>
+	 * 
+	 * @param objCls The interface of the EObject instance
+	 * @param attr An attribute of the EObject instance, which is the subject of the current similarity check
+	 * @return The corresponding {@link SimilarityEntry}
+	 */
+	protected SimilarityEntry findParentEntry(Class<? extends EObject> objCls, EStructuralFeature attr) {
+		var parents = objCls.getInterfaces();
+		SimilarityEntry result = null;
 		
-		return directMatch != null ? directMatch :
-			this.similarityValues.keySet().stream()
-			.filter((se) -> se.objCls.isAssignableFrom(objCls) && se.attr.equals(attr))
-			.findFirst()
-			.orElse(null);
+		for (var p: parents) {
+			if (EObject.class.isAssignableFrom(p)) {
+				@SuppressWarnings("unchecked")
+				var castedP = (Class<? extends EObject>) p;
+				
+				result = this.findDirectEntry(castedP, attr);
+				if (result != null) return result;
+				
+				result = this.findParentEntry(castedP, attr);
+				if (result != null) return result;
+			}
+		}
+		
+		return result;
 	}
 	
 	protected Map<SimilarityEntry, Boolean> initSimilarityValues() {
