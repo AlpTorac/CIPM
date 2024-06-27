@@ -40,9 +40,9 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 		return result;
 	}
 	
-	@ParameterizedTest(name = "{index}: {1}")
+	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testModifier(IAnnotableAndModifiableInitialiser initialiser, String testName) {
+	public void testModifier(IAnnotableAndModifiableInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testModifier");
 		
 		var objOne = this.initElement(initialiser, new Modifier[] {this.createAbstractModifier(), this.createSynchronizedModifier()}, null, null);
@@ -51,9 +51,9 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 		this.testX(objOne, objTwo, ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 	
-	@ParameterizedTest(name = "{index}: {1}")
+	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testAnnoInstance(IAnnotableAndModifiableInitialiser initialiser, String testName) {
+	public void testAnnoInstance(IAnnotableAndModifiableInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testAnnoInstance");
 		
 		var objOne = this.initElement(initialiser, null, new AnnotationInstance[] {
@@ -64,9 +64,9 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 		this.testX(objOne, objTwo, ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 	
-	@ParameterizedTest(name = "{index}: {1}")
+	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testVisibility(IAnnotableAndModifiableInitialiser initialiser, String testName) {
+	public void testVisibility(IAnnotableAndModifiableInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testVisibility");
 		
 		var objOne = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PRIVATE);
