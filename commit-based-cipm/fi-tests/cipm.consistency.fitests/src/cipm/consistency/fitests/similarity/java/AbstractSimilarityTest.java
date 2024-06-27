@@ -36,6 +36,7 @@ public abstract class AbstractSimilarityTest {
 	
 	private boolean defaultCheckStatementPosition = true;
 	
+	// TODO: Remove inner switches and other dummy elements
 	private DummySimilarityChecker sc;
 	
 	private String testPrefix = "";
