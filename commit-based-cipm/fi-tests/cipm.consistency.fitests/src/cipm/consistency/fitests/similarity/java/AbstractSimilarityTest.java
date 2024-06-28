@@ -22,6 +22,13 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
 
+/**
+ * The abstract test class that contains test elements needed in similarity
+ * checking tests.
+ * 
+ * @author atora
+ * @see {@link EObjectSimilarityTest}
+ */
 public abstract class AbstractSimilarityTest {
 	/**
 	 * The directory, where the created {@link Resource} instances will be stored,
