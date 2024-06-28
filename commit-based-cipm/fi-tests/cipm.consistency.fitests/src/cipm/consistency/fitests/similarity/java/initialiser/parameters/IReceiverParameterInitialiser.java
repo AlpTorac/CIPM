@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.initialiser.parameters;
 
+import org.emftext.language.java.literals.This;
 import org.emftext.language.java.parameters.ReceiverParameter;
 import org.emftext.language.java.types.TypeReference;
 
@@ -10,6 +11,13 @@ public interface IReceiverParameterInitialiser extends IAnnotableInitialiser, IP
 		if (tref != null) {
 			rp.setOuterTypeReference(tref);
 			assert rp.getOuterTypeReference().equals(tref);
+		}
+	}
+	
+	public default void setThisReference(ReceiverParameter rp, This th) {
+		if (th != null) {
+			rp.setThisReference(th);
+			assert rp.getThisReference().equals(th);
 		}
 	}
 }
