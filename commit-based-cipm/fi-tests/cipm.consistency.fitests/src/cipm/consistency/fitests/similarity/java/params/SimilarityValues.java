@@ -33,6 +33,7 @@ import org.emftext.language.java.modules.UsesModuleDirective;
 import org.emftext.language.java.parameters.ParametersPackage;
 import org.emftext.language.java.references.PackageReference;
 import org.emftext.language.java.references.ReferencesPackage;
+import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.StatementsPackage;
 import org.emftext.language.java.types.TypesPackage;
 import org.emftext.language.java.variables.VariablesPackage;
@@ -101,6 +102,7 @@ public class SimilarityValues extends AbstractSimilarityValues {
 		this.addSimilarityEntry(AdditionalField.class, CommonsPackage.Literals.NAMED_ELEMENT__NAME, Boolean.TRUE);
 		this.addSimilarityEntry(Package.class, CommonsPackage.Literals.NAMED_ELEMENT__NAME, Boolean.TRUE);
 		this.addSimilarityEntry(PackageReference.class, CommonsPackage.Literals.NAMED_ELEMENT__NAME, Boolean.TRUE);
+		this.addSimilarityEntry(Block.class, CommonsPackage.Literals.NAMED_ELEMENT__NAME, Boolean.TRUE);
 		this.addSimilarityEntry(EmptyModel.class, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES,
 				Boolean.TRUE);
 		this.addSimilarityEntry(PackageImport.class, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES,
