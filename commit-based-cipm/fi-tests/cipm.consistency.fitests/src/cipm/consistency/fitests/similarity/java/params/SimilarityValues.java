@@ -201,6 +201,7 @@ public class SimilarityValues extends AbstractSimilarityValues {
 
 		// Parameters
 		this.addSimilarityEntry(ParametersPackage.Literals.CATCH_PARAMETER__TYPE_REFERENCES, Boolean.TRUE);
+		this.addSimilarityEntry(ParametersPackage.Literals.RECEIVER_PARAMETER__THIS_REFERENCE, Boolean.TRUE);
 		this.addSimilarityEntry(ParametersPackage.Literals.RECEIVER_PARAMETER__OUTER_TYPE_REFERENCE, Boolean.TRUE);
 		this.addSimilarityEntry(ExplicitlyTypedLambdaParameters.class,
 				ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS, Boolean.TRUE);
