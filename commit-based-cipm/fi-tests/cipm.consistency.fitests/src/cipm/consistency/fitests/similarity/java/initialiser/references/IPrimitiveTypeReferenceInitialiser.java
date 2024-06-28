@@ -3,8 +3,7 @@ package cipm.consistency.fitests.similarity.java.initialiser.references;
 import org.emftext.language.java.references.PrimitiveTypeReference;
 import org.emftext.language.java.types.PrimitiveType;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IArrayTypeableInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IReferenceInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.arrays.IArrayTypeableInitialiser;
 
 public interface IPrimitiveTypeReferenceInitialiser extends IArrayTypeableInitialiser,
 	IReferenceInitialiser {

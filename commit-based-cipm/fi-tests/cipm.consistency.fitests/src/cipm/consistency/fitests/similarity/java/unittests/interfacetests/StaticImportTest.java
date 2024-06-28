@@ -7,8 +7,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.java.initialiser.imports.IStaticImportInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.params.ModifierFactory;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IStaticImportInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesImports;
 
 public class StaticImportTest extends EObjectSimilarityTest implements UsesImports {

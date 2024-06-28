@@ -10,8 +10,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.java.initialiser.instantiations.IInitializableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.params.LiteralFactory;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IInitializableInitialiser;
 
 public class InitializableTest extends EObjectSimilarityTest {
 	protected Initializable initElement(IInitializableInitialiser init, Expression initVal) {

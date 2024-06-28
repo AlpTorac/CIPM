@@ -6,10 +6,9 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.emftext.language.java.types.TypeReference;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IInstantiationInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.ITypedElementInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.types.ClassifierReferenceInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementInitialiser;
 
 public interface INewConstructorCallInitialiser extends
 	IInstantiationInitialiser,

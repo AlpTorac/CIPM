@@ -1,7 +1,6 @@
 package cipm.consistency.fitests.similarity.java.initialiser.arrays;
 
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IArrayInstantiationByValuesInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.ITypedElementInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementInitialiser;
 
 public interface IArrayInstantiationByValuesTypedInitialiser extends
 	IArrayInstantiationByValuesInitialiser,

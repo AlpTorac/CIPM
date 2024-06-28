@@ -4,7 +4,7 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.classifiers.Class;
 
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IConcreteClassifierInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.classifiers.IConcreteClassifierInitialiser;
 
 public interface UsesConcreteClassifiers extends UsesPackages {
 	public default Class createMinimalClass(String name) {

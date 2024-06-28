@@ -5,7 +5,7 @@ import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.Import;
 
 import cipm.consistency.fitests.similarity.java.initialiser.imports.ClassifierImportInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IImportInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.imports.IImportInitialiser;
 
 public interface UsesImports extends UsesConcreteClassifiers {
 	public default ClassifierImport createMinimalClsImport(ConcreteClassifier cls) {

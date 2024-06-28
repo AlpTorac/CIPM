@@ -3,9 +3,8 @@ package cipm.consistency.fitests.similarity.java.initialiser.variables;
 import org.emftext.language.java.variables.AdditionalLocalVariable;
 import org.emftext.language.java.variables.LocalVariable;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IVariableInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IAnnotableAndModifiableInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IInitializableInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.instantiations.IInitializableInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.modifiers.IAnnotableAndModifiableInitialiser;
 
 public interface ILocalVariableInitialiser extends
 	IAnnotableAndModifiableInitialiser,

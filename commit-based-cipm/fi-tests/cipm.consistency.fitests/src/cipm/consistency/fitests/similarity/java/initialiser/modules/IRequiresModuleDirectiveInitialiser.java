@@ -4,8 +4,6 @@ import org.emftext.language.java.modifiers.ModuleRequiresModifier;
 import org.emftext.language.java.modules.ModuleReference;
 import org.emftext.language.java.modules.RequiresModuleDirective;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IModuleDirectiveInitialiser;
-
 public interface IRequiresModuleDirectiveInitialiser extends IModuleDirectiveInitialiser {
 	public default void setModifier(RequiresModuleDirective rmd, ModuleRequiresModifier mrm) {
 		if (mrm != null) {

@@ -4,7 +4,7 @@ import org.emftext.language.java.annotations.AnnotationAttributeSetting;
 import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.members.InterfaceMethod;
 
-import cipm.consistency.fitests.similarity.java.initialiser.ICommentableInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface IAnnotationAttributeSettingInitialiser extends ICommentableInitialiser {
 	public default void setAttribute(AnnotationAttributeSetting aas, InterfaceMethod im) {

@@ -1,8 +1,7 @@
 package cipm.consistency.fitests.similarity.java.initialiser.references;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IArrayTypeableInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IAnnotableInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IElementReferenceInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.annotations.IAnnotableInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.arrays.IArrayTypeableInitialiser;
 
 public interface IIdentifierReferenceInitialiser extends IAnnotableInitialiser,
 	IArrayTypeableInitialiser,

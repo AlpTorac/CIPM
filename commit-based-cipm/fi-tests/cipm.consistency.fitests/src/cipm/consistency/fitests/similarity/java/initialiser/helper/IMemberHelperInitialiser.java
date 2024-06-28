@@ -5,9 +5,9 @@ import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MemberContainer;
 
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IMemberInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IMemberContainerInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.members.IMemberContainerInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.members.IMemberInitialiser;
 
 public interface IMemberHelperInitialiser extends EObjectInitialiser {
 	public IMemberInitialiser withMCInit(IMemberContainerInitialiser mcInit);

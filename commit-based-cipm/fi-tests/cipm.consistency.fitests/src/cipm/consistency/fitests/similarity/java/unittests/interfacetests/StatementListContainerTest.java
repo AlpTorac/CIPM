@@ -7,7 +7,7 @@ import org.emftext.language.java.statements.StatementListContainer;
 //import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IStatementListContainerInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.statements.IStatementListContainerInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesStatements;
 
 /**

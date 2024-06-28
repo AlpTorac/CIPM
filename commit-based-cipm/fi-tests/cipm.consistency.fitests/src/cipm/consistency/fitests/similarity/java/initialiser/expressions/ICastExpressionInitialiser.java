@@ -5,8 +5,7 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.MultiplicativeExpressionChild;
 import org.emftext.language.java.types.TypeReference;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IUnaryModificationExpressionChildInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.ITypedElementInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementInitialiser;
 
 public interface ICastExpressionInitialiser extends ITypedElementInitialiser,
 	IUnaryModificationExpressionChildInitialiser {

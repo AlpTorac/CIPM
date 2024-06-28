@@ -5,8 +5,7 @@ import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.TypeReference;
 
-import cipm.consistency.fitests.similarity.java.initialiser.testable.INamespaceAwareElementInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.ITypeReferenceInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.commons.INamespaceAwareElementInitialiser;
 
 public interface INamespaceClassifierReferenceInitialiser extends
 	INamespaceAwareElementInitialiser,

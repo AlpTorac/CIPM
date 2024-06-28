@@ -4,7 +4,7 @@ import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationParameter;
 import org.emftext.language.java.classifiers.Classifier;
 
-import cipm.consistency.fitests.similarity.java.initialiser.testable.INamespaceAwareElementInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.commons.INamespaceAwareElementInitialiser;
 
 public interface IAnnotationInstanceInitialiser extends INamespaceAwareElementInitialiser {
 	public default void setAnnotation(AnnotationInstance ai, Classifier cls) {

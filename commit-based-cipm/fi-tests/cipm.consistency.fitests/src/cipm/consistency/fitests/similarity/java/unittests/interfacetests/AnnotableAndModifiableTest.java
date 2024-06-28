@@ -10,7 +10,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.InitialiserVisibilityModifier;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IAnnotableAndModifiableInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.modifiers.IAnnotableAndModifiableInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesAnnotationInstances;
 import cipm.consistency.fitests.similarity.java.unittests.UsesModifiers;
 

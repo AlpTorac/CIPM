@@ -7,7 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IJavaRootInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.containers.IJavaRootInitialiser;
 
 public class JavaRootTest extends EObjectSimilarityTest {
 	protected JavaRoot initElement(IJavaRootInitialiser initialiser, Origin origin) {

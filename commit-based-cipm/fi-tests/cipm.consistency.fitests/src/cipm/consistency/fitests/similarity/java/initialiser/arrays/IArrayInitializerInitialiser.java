@@ -3,8 +3,7 @@ package cipm.consistency.fitests.similarity.java.initialiser.arrays;
 import org.emftext.language.java.arrays.ArrayInitializationValue;
 import org.emftext.language.java.arrays.ArrayInitializer;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IAnnotationValueInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IArrayInitializationValueInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.annotations.IAnnotationValueInitialiser;
 
 public interface IArrayInitializerInitialiser extends IAnnotationValueInitialiser,
 	IArrayInitializationValueInitialiser {

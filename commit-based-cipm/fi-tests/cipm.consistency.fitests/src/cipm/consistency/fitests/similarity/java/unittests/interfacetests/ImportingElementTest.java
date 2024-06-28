@@ -6,7 +6,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.emftext.language.java.imports.ImportsPackage;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IImportingElementInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.imports.IImportingElementInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesImportingElements;
 
 public class ImportingElementTest extends EObjectSimilarityTest implements UsesImportingElements {

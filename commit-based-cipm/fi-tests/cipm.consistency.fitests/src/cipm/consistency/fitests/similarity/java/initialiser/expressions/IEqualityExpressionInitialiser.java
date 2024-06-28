@@ -4,8 +4,6 @@ import org.emftext.language.java.expressions.EqualityExpression;
 import org.emftext.language.java.expressions.EqualityExpressionChild;
 import org.emftext.language.java.operators.EqualityOperator;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IAndExpressionChildInitialiser;
-
 public interface IEqualityExpressionInitialiser extends IAndExpressionChildInitialiser {
 	public default void addEqualityOperator(EqualityExpression eqEx, EqualityOperator op) {
 		if (op != null) {

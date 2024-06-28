@@ -7,7 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IJumpInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.statements.IJumpInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesStatements;
 
 public class JumpTest extends EObjectSimilarityTest implements UsesStatements {

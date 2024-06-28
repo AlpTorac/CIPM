@@ -7,8 +7,7 @@ import org.emftext.language.java.containers.Origin;
 import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.imports.Import;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IReferenceableElementInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IJavaRootInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.references.IReferenceableElementInitialiser;
 
 /*
  * Package names (package.getName()) are supposed to always be empty. The names are saved in namespace.

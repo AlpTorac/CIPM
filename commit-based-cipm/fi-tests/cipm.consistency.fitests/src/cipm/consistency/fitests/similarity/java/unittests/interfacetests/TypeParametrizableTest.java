@@ -7,7 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.ITypeParametrizableInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.generics.ITypeParametrizableInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesTypeParameters;
 
 public class TypeParametrizableTest extends EObjectSimilarityTest implements UsesTypeParameters {

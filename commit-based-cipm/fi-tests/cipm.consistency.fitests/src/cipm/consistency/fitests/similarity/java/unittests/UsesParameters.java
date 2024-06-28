@@ -4,7 +4,7 @@ import org.emftext.language.java.parameters.OrdinaryParameter;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.types.TypeReference;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IParameterInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.parameters.IParameterInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.parameters.OrdinaryParameterInitialiser;
 
 public interface UsesParameters extends UsesTypeReferences {
