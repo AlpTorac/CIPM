@@ -16,7 +16,8 @@ import cipm.consistency.fitests.similarity.java.params.InitialiserTestSettingsPr
 import cipm.consistency.fitests.similarity.java.params.SimilarityValues;
 
 /**
- * Contains re-usable test code to spare code duplication.
+ * Extends {@link AbstractSimilarityTest} with similarity checking methods to
+ * avoid code duplication.
  * 
  * @author atora
  */
