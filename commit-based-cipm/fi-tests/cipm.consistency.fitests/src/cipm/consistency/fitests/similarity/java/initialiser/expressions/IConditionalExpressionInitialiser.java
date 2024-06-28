@@ -5,8 +5,6 @@ import org.emftext.language.java.expressions.ConditionalExpression;
 import org.emftext.language.java.expressions.ConditionalExpressionChild;
 import org.emftext.language.java.expressions.Expression;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IAssignmentExpressionChildInitialiser;
-
 public interface IConditionalExpressionInitialiser extends IAssignmentExpressionChildInitialiser {
 	public default void setChild(ConditionalExpression ce, ConditionalExpressionChild child) {
 		if (child != null) {

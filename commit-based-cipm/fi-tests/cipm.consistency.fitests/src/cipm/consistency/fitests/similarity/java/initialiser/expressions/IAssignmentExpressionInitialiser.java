@@ -5,8 +5,6 @@ import org.emftext.language.java.expressions.AssignmentExpressionChild;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.operators.AssignmentOperator;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IExpressionInitialiser;
-
 public interface IAssignmentExpressionInitialiser extends IExpressionInitialiser {
 	public default void setAssignmentOperator(AssignmentExpression ae, AssignmentOperator op) {
 		if (op != null) {

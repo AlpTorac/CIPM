@@ -3,7 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.imports.ImportingElement;
 
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IImportingElementInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.imports.IImportingElementInitialiser;
 
 public interface UsesImportingElements extends UsesImports {
 	public default ImportingElement createMinimalImportingElement(IImportingElementInitialiser init, String clsName) {

@@ -3,8 +3,7 @@ package cipm.consistency.fitests.similarity.java.initialiser.expressions;
 import org.emftext.language.java.expressions.InstanceOfExpression;
 import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IEqualityExpressionChildInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.ITypedElementInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementInitialiser;
 
 public interface IInstanceOfExpressionInitialiser extends
 	IEqualityExpressionChildInitialiser,

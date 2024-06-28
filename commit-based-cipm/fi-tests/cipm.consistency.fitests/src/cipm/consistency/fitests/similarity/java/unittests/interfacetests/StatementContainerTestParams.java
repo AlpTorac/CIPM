@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IStatementContainerInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.statements.IStatementContainerInitialiser;
 import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
 
 public class StatementContainerTestParams implements ArgumentsProvider {

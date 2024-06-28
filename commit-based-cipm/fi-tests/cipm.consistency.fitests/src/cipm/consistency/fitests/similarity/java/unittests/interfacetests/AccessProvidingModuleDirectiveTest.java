@@ -9,7 +9,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IAccessProvidingModuleDirectiveInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.modules.IAccessProvidingModuleDirectiveInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesModuleReferences;
 import cipm.consistency.fitests.similarity.java.unittests.UsesPackages;
 

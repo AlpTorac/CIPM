@@ -4,8 +4,7 @@ import org.emftext.language.java.expressions.MethodReferenceExpressionChild;
 import org.emftext.language.java.expressions.PrimaryExpressionReferenceExpression;
 import org.emftext.language.java.references.Reference;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IMethodReferenceExpressionInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.ICallTypeArgumentableInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.generics.ICallTypeArgumentableInitialiser;
 
 public interface IPrimaryExpressionReferenceExpressionInitialiser extends
 	ICallTypeArgumentableInitialiser,

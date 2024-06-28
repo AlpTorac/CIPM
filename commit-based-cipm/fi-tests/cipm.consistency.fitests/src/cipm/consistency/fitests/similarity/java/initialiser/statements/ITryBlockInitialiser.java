@@ -5,10 +5,6 @@ import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.TryBlock;
 import org.emftext.language.java.variables.Resource;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IStatementInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IBlockContainerInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IStatementListContainerInitialiser;
-
 public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
 	IStatementInitialiser,
 	IStatementListContainerInitialiser {

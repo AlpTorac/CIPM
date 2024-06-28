@@ -4,7 +4,7 @@ import org.emftext.language.java.statements.StatementsFactory;
 import org.emftext.language.java.statements.TryBlock;
 
 import cipm.consistency.fitests.similarity.java.initialiser.helper.IBlockContainerHelperInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IMemberContainerInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.members.IMemberContainerInitialiser;
 
 public class TryBlockInitialiser implements ITryBlockInitialiser, IBlockContainerHelperInitialiser {
 	private IMemberContainerInitialiser mcInit;

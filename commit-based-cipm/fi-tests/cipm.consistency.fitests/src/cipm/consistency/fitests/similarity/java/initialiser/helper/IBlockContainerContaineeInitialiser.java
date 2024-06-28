@@ -6,7 +6,7 @@ import org.emftext.language.java.statements.BlockContainer;
 
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.members.ConstructorInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IBlockContainerInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.statements.IBlockContainerInitialiser;
 
 public interface IBlockContainerContaineeInitialiser extends EObjectInitialiser {
 	public IBlockContainerContaineeInitialiser withBCInit(IBlockContainerInitialiser bInit);

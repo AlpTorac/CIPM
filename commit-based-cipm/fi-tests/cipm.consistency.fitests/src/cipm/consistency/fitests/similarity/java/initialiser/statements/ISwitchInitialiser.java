@@ -4,8 +4,7 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.Switch;
 import org.emftext.language.java.statements.SwitchCase;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IStatementInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IUnaryModificationExpressionChildInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.expressions.IUnaryModificationExpressionChildInitialiser;
 
 public interface ISwitchInitialiser extends IStatementInitialiser,
 	IUnaryModificationExpressionChildInitialiser {

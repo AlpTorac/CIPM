@@ -5,8 +5,8 @@ import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.BlockContainer;
 
 import cipm.consistency.fitests.similarity.java.initialiser.statements.BlockInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.statements.IBlockContainerInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.IBlockInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IBlockContainerInitialiser;
 
 public interface IBlockContainerHelperInitialiser extends IBlockContainerInitialiser {
 	public IBlockContainerHelperInitialiser withBInit(IBlockInitialiser bInit);

@@ -8,7 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.java.initialiser.IUnaryModificationExpressionInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.expressions.IUnaryModificationExpressionInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class UnaryModificationExpressionTest extends EObjectSimilarityTest implements UsesExpressions {

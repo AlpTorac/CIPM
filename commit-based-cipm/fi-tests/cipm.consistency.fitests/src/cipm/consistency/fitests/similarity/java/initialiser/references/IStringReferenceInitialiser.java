@@ -2,8 +2,6 @@ package cipm.consistency.fitests.similarity.java.initialiser.references;
 
 import org.emftext.language.java.references.StringReference;
 
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IReferenceInitialiser;
-
 public interface IStringReferenceInitialiser extends IReferenceInitialiser {
 	public default void setValue(StringReference sref, String val) {
 		if (val != null) {

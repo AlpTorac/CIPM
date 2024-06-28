@@ -7,7 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IExceptionThrowerInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.members.IExceptionThrowerInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesTypeReferences;
 
 public class ExceptionThrowerTest extends EObjectSimilarityTest implements UsesTypeReferences {

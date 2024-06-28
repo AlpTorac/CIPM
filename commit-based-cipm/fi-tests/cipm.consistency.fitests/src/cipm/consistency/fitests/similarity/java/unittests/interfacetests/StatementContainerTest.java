@@ -7,7 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.IStatementContainerInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.statements.IStatementContainerInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesStatements;
 
 public class StatementContainerTest extends EObjectSimilarityTest implements UsesStatements {

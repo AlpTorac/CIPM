@@ -3,8 +3,7 @@ package cipm.consistency.fitests.similarity.java.initialiser.modules;
 import org.emftext.language.java.modules.ProvidesModuleDirective;
 import org.emftext.language.java.types.TypeReference;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IModuleDirectiveInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.testable.ITypedElementInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementInitialiser;
 
 public interface IProvidesModuleDirectiveInitialiser extends
 	IModuleDirectiveInitialiser,
