@@ -18,13 +18,8 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.splevo.jamopp.diffing.similarity.base.MapSimilarityToolboxFactory;
-
-import cipm.consistency.fitests.similarity.java.utils.DummySimilarityChecker;
-import cipm.consistency.fitests.similarity.java.utils.DummySimilarityToolboxBuilder;
-import cipm.consistency.fitests.similarity.java.utils.InnerSwitchFactory;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
 
 public abstract class AbstractSimilarityTest {
 	private static final String resourceRootPath = new File("").getAbsoluteFile().getAbsolutePath()
@@ -34,12 +29,16 @@ public abstract class AbstractSimilarityTest {
 	
 	private final List<Resource> createdResources = new ArrayList<Resource>();
 	
-	private boolean defaultCheckStatementPosition = true;
-	
 	// TODO: Remove inner switches and other dummy elements
-	private DummySimilarityChecker sc;
+	private ISimilarityChecker sc;
 	
+	/**
+	 * The name of the current test class.
+	 */
 	private String testPrefix = "";
+	/**
+	 * The name of the current test method.
+	 */
 	private String testIdentifier = "";
 	
 	@BeforeEach
@@ -67,18 +66,6 @@ public abstract class AbstractSimilarityTest {
 		return rSet.createResource(uri);
 	}
 	
-	protected void saveResource(Resource res) {
-		try {
-			res.save(null);
-		} catch (IOException e) {
-			Assertions.fail();
-		}
-	}
-	
-	public boolean getDefaultCheckStatementPosition() {
-		return this.defaultCheckStatementPosition;
-	}
-	
 	/**
 	 * Prepares loggers. Enabling too many loggers can cause Java memory issues.
 	 */
@@ -94,19 +81,8 @@ public abstract class AbstractSimilarityTest {
 		logger.addAppender(ap);
 	}
 	
-	protected DummySimilarityChecker initSC() {
-        var builder = new DummySimilarityToolboxBuilder();
-        builder.setSimilarityToolboxFactory(new MapSimilarityToolboxFactory());
-        builder.setSwitchFactory(this.initSwitchFactory());
-        
-        var toolbox = builder.instantiate()
-        	.buildNewSimilaritySwitchHandler()
-        	.buildNormalizationHandlers()
-        	.buildComparisonHandlers()
-        	.build();
-		
-		this.sc = new DummySimilarityChecker(toolbox);
-		return this.sc;
+	protected ISimilarityChecker initSC() {
+        return new JavaSimilarityCheckerProvider().createSC();
 	}
 	
 	public String getExtension() {
@@ -218,14 +194,6 @@ public abstract class AbstractSimilarityTest {
 	@SuppressWarnings("unchecked")
 	public Boolean areSimilar(Collection<? extends EObject> elements1, Collection<? extends EObject> elements2) {
 		return this.sc.areSimilar((Collection<Object>) elements1, (Collection<Object>) elements2);
-	}
-	
-	/**
-	 * Override in tests, if the underlying similarity switch
-	 * needs to have only the specified switches.
-	 */
-	public InnerSwitchFactory initSwitchFactory() {
-		return null;
 	}
 	
 	public String getResourceFileTestPrefix() {

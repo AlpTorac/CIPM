@@ -28,13 +28,6 @@ import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageIn
  * @author atora
  */
 public class GeneralSimilarityTest extends AbstractSimilarityTest {
-	@BeforeEach
-	@Override
-	public void setUp() {
-		this.setResourceFileTestPrefix(GeneralSimilarityTest.class.getSimpleName());
-		super.setUp();
-	}
-	
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
 	public void testIsSimilarSameReference(EObjectInitialiser initialiser) {
