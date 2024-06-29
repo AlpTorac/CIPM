@@ -9,8 +9,6 @@ import org.emftext.language.java.expressions.ExpressionList;
 
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.EqualityExpressionInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.ExpressionListInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.operators.EqualInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.operators.NotEqualInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.params.LiteralFactory;
 
 public interface UsesExpressions extends UsesOperators, UsesLiterals, UsesStringReferences {

@@ -6,7 +6,6 @@ import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.TypeReference;
 
 import cipm.consistency.fitests.similarity.java.initialiser.types.ClassifierReferenceInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.types.INamespaceClassifierReferenceInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.types.ITypeReferenceInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.types.NamespaceClassifierReferenceInitialiser;
 
