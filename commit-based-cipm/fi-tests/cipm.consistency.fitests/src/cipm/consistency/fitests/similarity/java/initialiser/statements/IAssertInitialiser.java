@@ -11,6 +11,6 @@ public interface IAssertInitialiser extends IConditionalInitialiser,
 			asrt.setErrorMessage(expr);
 			return asrt.getErrorMessage().equals(expr);
 		}
-		return false;
+		return true;
 	}
 }

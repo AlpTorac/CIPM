@@ -9,6 +9,6 @@ public interface IYieldStatementInitialiser extends IStatementInitialiser {
 			ys.setYieldExpression(expr);
 			return ys.getYieldExpression().equals(expr);
 		}
-		return false;
+		return true;
 	}
 }

@@ -19,7 +19,7 @@ public interface INewConstructorCallInitialiser extends
 			ncc.setAnonymousClass(ac);
 			return ncc.getAnonymousClass().equals(ac);
 		}
-		return false;
+		return true;
 	}
 	
 	@Override
@@ -40,6 +40,6 @@ public interface INewConstructorCallInitialiser extends
 			this.setTypeReference(castedO, tref);
 			return castedO.getTypeReference().equals(tref);
 		}
-		return false;
+		return true;
 	}
 }

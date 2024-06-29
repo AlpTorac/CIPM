@@ -10,7 +10,7 @@ public interface IUnaryModificationExpressionInitialiser extends IUnaryExpressio
 			ume.setChild(child);
 			return ume.getChild().equals(child);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean setOperator(UnaryModificationExpression ume, UnaryModificationOperator op) {
@@ -18,6 +18,6 @@ public interface IUnaryModificationExpressionInitialiser extends IUnaryExpressio
 			ume.setOperator(op);
 			return ume.getOperator().equals(op);
 		}
-		return false;
+		return true;
 	}
 }

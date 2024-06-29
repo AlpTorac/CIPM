@@ -14,7 +14,7 @@ public interface IFieldInitialiser extends IAnnotableAndModifiableInitialiser,
 			field.getAdditionalFields().add(adField);
 			return field.getAdditionalFields().contains(adField);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addAdditionalFields(Field field, AdditionalField[] adFields) {

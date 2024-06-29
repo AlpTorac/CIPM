@@ -15,7 +15,7 @@ public interface IAnnotableAndModifiableInitialiser extends ICommentableInitiali
 					aam.hasModifier(modif.getClass()) &&
 					aam.getModifiers().contains(modif);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addModifiers(AnnotableAndModifiable aam, Modifier[] modifs) {
@@ -28,7 +28,7 @@ public interface IAnnotableAndModifiableInitialiser extends ICommentableInitiali
 			return aam.getAnnotationsAndModifiers().contains(ai) &&
 					aam.getAnnotationInstances().contains(ai);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addAnnotationInstances(AnnotableAndModifiable aam, AnnotationInstance[] ais) {
@@ -50,7 +50,7 @@ public interface IAnnotableAndModifiableInitialiser extends ICommentableInitiali
 				default: throw new IllegalArgumentException("Invalid InitialiserVisibilityModifier");
 			}
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean makePrivate(AnnotableAndModifiable aam) {

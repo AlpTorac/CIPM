@@ -10,7 +10,7 @@ public interface IUnaryExpressionInitialiser extends IMultiplicativeExpressionCh
 			ue.getOperators().add(op);
 			return ue.getOperators().contains(op);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addOperators(UnaryExpression ue, UnaryOperator[] ops) {
@@ -22,6 +22,6 @@ public interface IUnaryExpressionInitialiser extends IMultiplicativeExpressionCh
 			ue.setChild(child);
 			return ue.getChild().equals(child);
 		}
-		return false;
+		return true;
 	}
 }

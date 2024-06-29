@@ -15,7 +15,7 @@ public interface IPackageInitialiser extends IJavaRootInitialiser, IReferenceabl
 			pac.setModule(mod);
 			return pac.getModule().equals(mod);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addClassifier(Package pac, ConcreteClassifier cc) {
@@ -23,7 +23,7 @@ public interface IPackageInitialiser extends IJavaRootInitialiser, IReferenceabl
 			pac.getClassifiers().add(cc);
 			return pac.getClassifiers().contains(cc);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addClassifiers(Package pac, ConcreteClassifier[] ccs) {

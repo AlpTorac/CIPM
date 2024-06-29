@@ -11,7 +11,7 @@ public interface IParametrizableInitialiser extends ICommentableInitialiser {
 			parametrizable.getParameters().add(param);
 			return parametrizable.getParameters().contains(param);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addParameters(Parametrizable parametrizable, Parameter[] params) {

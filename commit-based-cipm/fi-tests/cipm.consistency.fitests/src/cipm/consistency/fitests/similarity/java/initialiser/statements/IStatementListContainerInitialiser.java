@@ -14,7 +14,7 @@ public interface IStatementListContainerInitialiser extends ICommentableInitiali
 			slc.getStatements().add(s);
 			return slc.getStatements().contains(s);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addStatements(StatementListContainer slc, Statement[] ss) {

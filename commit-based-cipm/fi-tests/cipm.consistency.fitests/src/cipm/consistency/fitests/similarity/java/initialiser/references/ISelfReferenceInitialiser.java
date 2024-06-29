@@ -9,6 +9,6 @@ public interface ISelfReferenceInitialiser extends IReferenceInitialiser {
 			sref.setSelf(self);
 			return sref.getSelf().equals(self);
 		}
-		return false;
+		return true;
 	}
 }

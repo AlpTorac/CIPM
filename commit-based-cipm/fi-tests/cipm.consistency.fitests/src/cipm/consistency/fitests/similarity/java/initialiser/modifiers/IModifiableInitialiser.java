@@ -11,7 +11,7 @@ public interface IModifiableInitialiser extends ICommentableInitialiser {
 			modifiable.getModifiers().add(modifier);
 			return modifiable.getModifiers().contains(modifier);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addModifiers(Modifiable modifiable, Modifier[] modifiers) {

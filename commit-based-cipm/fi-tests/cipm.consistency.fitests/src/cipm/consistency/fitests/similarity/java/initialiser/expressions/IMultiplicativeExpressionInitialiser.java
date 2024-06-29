@@ -10,7 +10,7 @@ public interface IMultiplicativeExpressionInitialiser extends IMultiplicativeExp
 			ae.getMultiplicativeOperators().add(op);
 			return ae.getMultiplicativeOperators().contains(op);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addMultiplicativeOperators(MultiplicativeExpression ae, MultiplicativeOperator[] ops) {
@@ -22,7 +22,7 @@ public interface IMultiplicativeExpressionInitialiser extends IMultiplicativeExp
 			ae.getChildren().add(child);
 			return ae.getChildren().contains(child);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addChildren(MultiplicativeExpression ae, MultiplicativeExpressionChild[] children) {

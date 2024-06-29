@@ -10,7 +10,7 @@ public interface IRelationExpressionInitialiser extends IInstanceOfExpressionChi
 			re.getRelationOperators().add(op);
 			return re.getRelationOperators().contains(op);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addRelationOperators(RelationExpression re, RelationOperator[] ops) {
@@ -22,7 +22,7 @@ public interface IRelationExpressionInitialiser extends IInstanceOfExpressionChi
 			cae.getChildren().add(child);
 			return cae.getChildren().contains(child);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addChildren(RelationExpression cae, RelationExpressionChild[] children) {

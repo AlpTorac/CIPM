@@ -20,7 +20,7 @@ public interface INamedElementInitialiser extends ICommentableInitialiser {
 			return this.setName(castedO, this.getDefaultName());
 		}
 		
-		return false;
+		return true;
 	}
 	
 	public default boolean setName(NamedElement ne, String name) {
@@ -28,6 +28,6 @@ public interface INamedElementInitialiser extends ICommentableInitialiser {
 			ne.setName(name);
 			return ne.getName().equals(name);
 		}
-		return false;
+		return true;
 	}
 }

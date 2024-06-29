@@ -15,7 +15,7 @@ public interface IAccessProvidingModuleDirectiveInitialiser extends
 			apmd.setAccessablePackage(pac);
 			return apmd.getAccessablePackage().equals(pac);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addModule(AccessProvidingModuleDirective apmd, ModuleReference modref) {
@@ -23,7 +23,7 @@ public interface IAccessProvidingModuleDirectiveInitialiser extends
 			apmd.getModules().add(modref);
 			return apmd.getModules().contains(modref);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addModules(AccessProvidingModuleDirective apmd, ModuleReference[] modrefs) {

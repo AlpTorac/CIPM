@@ -9,7 +9,7 @@ public interface IConditionalOrExpressionInitialiser extends IConditionalExpress
 			coe.getChildren().add(child);
 			return coe.getChildren().contains(child);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addChildren(ConditionalOrExpression coe, ConditionalOrExpressionChild[] children) {

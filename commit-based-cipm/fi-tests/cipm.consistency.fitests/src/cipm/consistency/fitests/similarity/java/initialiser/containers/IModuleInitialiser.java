@@ -11,7 +11,7 @@ public interface IModuleInitialiser extends IJavaRootInitialiser {
 			mod.setOpen(open);
 			return mod.getOpen().equals(open);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addTarget(Module mod, ModuleDirective md) {
@@ -19,7 +19,7 @@ public interface IModuleInitialiser extends IJavaRootInitialiser {
 			mod.getTarget().add(md);
 			return mod.getTarget().contains(md);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addTargets(Module mod, ModuleDirective[] mds) {
@@ -31,7 +31,7 @@ public interface IModuleInitialiser extends IJavaRootInitialiser {
 			mod.getPackages().add(pac);
 			return mod.getPackages().contains(pac);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addPackages(Module mod, Package[] pacs) {

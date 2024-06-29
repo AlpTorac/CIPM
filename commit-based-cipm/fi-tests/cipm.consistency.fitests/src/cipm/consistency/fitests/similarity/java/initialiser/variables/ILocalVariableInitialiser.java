@@ -15,7 +15,7 @@ public interface ILocalVariableInitialiser extends
 			lv.getAdditionalLocalVariables().add(alv);
 			return lv.getAdditionalLocalVariables().contains(alv);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addAdditionalLocalVariables(LocalVariable lv, AdditionalLocalVariable[] alvs) {

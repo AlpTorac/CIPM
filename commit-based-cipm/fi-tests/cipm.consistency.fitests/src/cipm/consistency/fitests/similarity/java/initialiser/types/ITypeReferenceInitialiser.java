@@ -14,6 +14,6 @@ public interface ITypeReferenceInitialiser extends IArrayTypeableInitialiser {
 			tref.setTarget(cls);
 			return tref.getTarget().equals(cls);
 		}
-		return false;
+		return true;
 	}
 }

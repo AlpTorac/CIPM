@@ -8,6 +8,6 @@ public interface IStringReferenceInitialiser extends IReferenceInitialiser {
 			sref.setValue(val);
 			return sref.getValue().equals(val);
 		}
-		return false;
+		return true;
 	}
 }

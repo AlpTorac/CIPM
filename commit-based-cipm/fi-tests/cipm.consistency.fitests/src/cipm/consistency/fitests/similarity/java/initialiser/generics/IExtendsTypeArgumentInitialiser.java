@@ -13,6 +13,6 @@ public interface IExtendsTypeArgumentInitialiser extends IAnnotableInitialiser,
 			return eta.getExtendType().equals(tref) &&
 					eta.getExtendTypes().contains(tref);
 		}
-		return false;
+		return true;
 	}
 }

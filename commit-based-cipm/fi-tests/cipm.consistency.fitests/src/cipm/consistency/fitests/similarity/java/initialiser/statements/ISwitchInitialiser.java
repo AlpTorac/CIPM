@@ -14,7 +14,7 @@ public interface ISwitchInitialiser extends IStatementInitialiser,
 			sw.getCases().add(sc);
 			return sw.getCases().contains(sc);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addCases(Switch sw, SwitchCase[] scs) {
@@ -26,6 +26,6 @@ public interface ISwitchInitialiser extends IStatementInitialiser,
 			sw.setVariable(expr);
 			return sw.getVariable().equals(expr);
 		}
-		return false;
+		return true;
 	}
 }

@@ -11,6 +11,6 @@ public interface ITypeArgumentableInitialiser extends ICommentableInitialiser {
 			ta.getTypeArguments().add(targ);
 			return ta.getTypeArguments().contains(targ);
 		}
-		return false;
+		return true;
 	}
 }

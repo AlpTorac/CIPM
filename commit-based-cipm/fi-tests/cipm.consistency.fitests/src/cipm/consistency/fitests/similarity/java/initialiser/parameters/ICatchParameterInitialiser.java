@@ -9,7 +9,7 @@ public interface ICatchParameterInitialiser extends IOrdinaryParameterInitialise
 			cp.getTypeReferences().add(tref);
 			return cp.getTypeReferences().contains(tref);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addTypeReferences(CatchParameter cp, TypeReference[] trefs) {

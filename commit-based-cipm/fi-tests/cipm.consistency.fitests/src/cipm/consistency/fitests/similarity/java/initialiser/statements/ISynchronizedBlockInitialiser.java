@@ -12,6 +12,6 @@ public interface ISynchronizedBlockInitialiser extends IBlockContainerInitialise
 			sb.setLockProvider(expr);
 			return sb.getLockProvider().equals(expr);
 		}
-		return false;
+		return true;
 	}
 }

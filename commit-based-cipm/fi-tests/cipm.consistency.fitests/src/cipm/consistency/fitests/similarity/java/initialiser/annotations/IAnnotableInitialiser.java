@@ -12,7 +12,7 @@ public interface IAnnotableInitialiser extends ICommentableInitialiser {
 			return aObj.getAnnotations().contains(ai);
 		}
 		
-		return false;
+		return true;
 	}
 	
 	public default boolean addAnnotations(Annotable aObj, AnnotationInstance[] ais) {

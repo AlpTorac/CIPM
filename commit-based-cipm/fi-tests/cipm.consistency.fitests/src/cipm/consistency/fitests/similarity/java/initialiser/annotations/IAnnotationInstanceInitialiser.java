@@ -12,7 +12,7 @@ public interface IAnnotationInstanceInitialiser extends INamespaceAwareElementIn
 			ai.setAnnotation(cls);
 			return ai.getAnnotation().equals(cls);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean setAnnotationParameter(AnnotationInstance ai, AnnotationParameter param) {
@@ -20,6 +20,6 @@ public interface IAnnotationInstanceInitialiser extends INamespaceAwareElementIn
 			ai.setParameter(param);
 			return ai.getParameter().equals(param);
 		}
-		return false;
+		return true;
 	}
 }

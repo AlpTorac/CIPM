@@ -9,7 +9,7 @@ public interface IConditionalAndExpressionInitialiser extends IConditionalAndExp
 			cae.getChildren().add(child);
 			return cae.getChildren().contains(child);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addChildren(ConditionalAndExpression cae, ConditionalAndExpressionChild[] children) {

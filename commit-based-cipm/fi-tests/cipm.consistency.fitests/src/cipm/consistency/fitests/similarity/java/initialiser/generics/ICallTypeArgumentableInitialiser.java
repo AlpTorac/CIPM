@@ -11,7 +11,7 @@ public interface ICallTypeArgumentableInitialiser extends ICommentableInitialise
 			cta.getCallTypeArguments().add(ta);
 			return cta.getCallTypeArguments().contains(ta);
 		}
-		return false;
+		return true;
 	}
 	public default boolean addCallTypeArguments(CallTypeArgumentable cta, TypeArgument[] tas) {
 		return this.addXs(cta, tas, this::addCallTypeArgument);

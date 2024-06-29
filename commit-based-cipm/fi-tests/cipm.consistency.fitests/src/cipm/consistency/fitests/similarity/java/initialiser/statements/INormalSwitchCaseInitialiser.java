@@ -11,7 +11,7 @@ public interface INormalSwitchCaseInitialiser extends IConditionalInitialiser,
 			nsc.getAdditionalConditions().add(expr);
 			return nsc.getAdditionalConditions().contains(expr);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addAdditionalConditions(NormalSwitchCase nsc, Expression[] exprs) {

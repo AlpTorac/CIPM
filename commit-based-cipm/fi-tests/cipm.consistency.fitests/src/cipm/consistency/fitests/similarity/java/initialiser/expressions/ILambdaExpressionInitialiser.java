@@ -10,7 +10,7 @@ public interface ILambdaExpressionInitialiser extends IExpressionInitialiser {
 			le.setBody(lb);
 			return le.getBody().equals(lb);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean setParameters(LambdaExpression le, LambdaParameters lp) {
@@ -18,6 +18,6 @@ public interface ILambdaExpressionInitialiser extends IExpressionInitialiser {
 			le.setParameters(lp);
 			return le.getParameters().equals(lp);
 		}
-		return false;
+		return true;
 	}
 }

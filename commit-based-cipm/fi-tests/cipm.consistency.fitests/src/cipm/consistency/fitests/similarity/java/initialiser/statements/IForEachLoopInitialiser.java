@@ -12,7 +12,7 @@ public interface IForEachLoopInitialiser extends IStatementInitialiser,
 			fel.setCollection(expr);
 			return fel.getCollection().equals(expr);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean setNext(ForEachLoop fel, OrdinaryParameter op) {
@@ -20,6 +20,6 @@ public interface IForEachLoopInitialiser extends IStatementInitialiser,
 			fel.setNext(op);
 			return fel.getNext().equals(op);
 		}
-		return false;
+		return true;
 	}
 }

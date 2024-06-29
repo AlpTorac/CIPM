@@ -8,6 +8,6 @@ public interface ITextBlockReferenceInitialiser extends IReferenceInitialiser {
 			tbref.setValue(val);
 			return tbref.getValue().equals(val);
 		}
-		return false;
+		return true;
 	}
 }

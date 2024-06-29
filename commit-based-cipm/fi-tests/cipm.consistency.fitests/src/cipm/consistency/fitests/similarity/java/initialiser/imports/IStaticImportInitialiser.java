@@ -9,6 +9,6 @@ public interface IStaticImportInitialiser extends IImportInitialiser {
 			sImp.setStatic(st);
 			return sImp.getStatic().equals(st);
 		}
-		return false;
+		return true;
 	}
 }

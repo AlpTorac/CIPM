@@ -14,7 +14,7 @@ public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
 			tb.setFinallyBlock(block);
 			return tb.getFinallyBlock().equals(block);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addCatchBlock(TryBlock tb, CatchBlock cb) {
@@ -23,7 +23,7 @@ public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
 			tb.getCatchBlocks().add(cb);
 			return tb.getCatchBlocks().contains(cb);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addCatchBlocks(TryBlock tb, CatchBlock[] cbs) {
@@ -36,7 +36,7 @@ public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
 			tb.getCatcheBlocks().add(cb);
 			return tb.getCatcheBlocks().contains(cb);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addCatcheBlocks(TryBlock tb, CatchBlock[] cbs) {
@@ -48,7 +48,7 @@ public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
 			tb.getResources().add(res);
 			return tb.getResources().contains(res);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addResources(TryBlock tb, Resource[] ress) {

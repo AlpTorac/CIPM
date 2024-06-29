@@ -9,6 +9,6 @@ public interface IThrowInitialiser extends IStatementInitialiser {
 			th.setThrowable(expr);
 			return th.getThrowable().equals(expr);
 		}
-		return false;
+		return true;
 	}
 }

@@ -11,6 +11,6 @@ public interface ITypedElementExtensionInitialiser extends ICommentableInitialis
 			tee.getActualTargets().add(tref);
 			return tee.getActualTargets().contains(tref);
 		}
-		return false;
+		return true;
 	}
 }

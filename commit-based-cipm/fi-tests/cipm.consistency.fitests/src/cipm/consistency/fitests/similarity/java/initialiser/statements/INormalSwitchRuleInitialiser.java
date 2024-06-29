@@ -11,7 +11,7 @@ public interface INormalSwitchRuleInitialiser extends IConditionalInitialiser,
 			nsr.getAdditionalConditions().add(expr);
 			return nsr.getAdditionalConditions().contains(expr);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addAdditionalConditions(NormalSwitchRule nsr, Expression[] exprs) {

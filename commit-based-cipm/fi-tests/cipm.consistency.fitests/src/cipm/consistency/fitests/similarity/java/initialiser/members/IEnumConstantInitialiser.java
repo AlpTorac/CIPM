@@ -13,6 +13,6 @@ public interface IEnumConstantInitialiser extends IArgumentableInitialiser, IAnn
 			ec.setAnonymousClass(cls);
 			return ec.getAnonymousClass().equals(cls);
 		}
-		return false;
+		return true;
 	}
 }

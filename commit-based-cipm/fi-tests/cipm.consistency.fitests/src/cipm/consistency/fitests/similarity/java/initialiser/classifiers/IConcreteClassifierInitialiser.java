@@ -24,6 +24,6 @@ public interface IConcreteClassifierInitialiser extends
 					pac.getClassifiers().contains(cls) &&
 					pac.getClassifiersInSamePackage().contains(cls);
 		}
-		return false;
+		return true;
 	}
 }

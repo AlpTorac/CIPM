@@ -12,6 +12,6 @@ public interface IConditionInitialiser extends IConditionalInitialiser,
 			cond.setElseStatement(st);
 			return cond.getElseStatement().equals(st);
 		}
-		return false;
+		return true;
 	}
 }

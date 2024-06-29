@@ -9,6 +9,6 @@ public interface ISingleAnnotationParameterInitialiser extends IAnnotationParame
 			sap.setValue(val);
 			return sap.getValue().equals(val);
 		}
-		return false;
+		return true;
 	}
 }

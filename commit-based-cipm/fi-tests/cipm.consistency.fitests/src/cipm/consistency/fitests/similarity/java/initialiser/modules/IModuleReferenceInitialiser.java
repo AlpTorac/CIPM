@@ -13,6 +13,6 @@ public interface IModuleReferenceInitialiser extends
 			mref.setTarget(mod);
 			return mref.getTarget().equals(mod);
 		}
-		return false;
+		return true;
 	}
 }

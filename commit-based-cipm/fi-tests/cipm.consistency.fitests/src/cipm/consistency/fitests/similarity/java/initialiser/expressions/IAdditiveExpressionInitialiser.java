@@ -10,7 +10,7 @@ public interface IAdditiveExpressionInitialiser extends IShiftExpressionChildIni
 			ae.getAdditiveOperators().add(op);
 			return ae.getAdditiveOperators().contains(op);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addAdditiveOperators(AdditiveExpression ae, AdditiveOperator[] ops) {
@@ -22,7 +22,7 @@ public interface IAdditiveExpressionInitialiser extends IShiftExpressionChildIni
 			ae.getChildren().add(child);
 			return ae.getChildren().contains(child);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addChildren(AdditiveExpression ae, AdditiveExpressionChild[] children) {
