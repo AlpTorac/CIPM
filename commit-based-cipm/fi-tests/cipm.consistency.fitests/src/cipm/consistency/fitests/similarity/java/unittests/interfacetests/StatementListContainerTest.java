@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
+import org.emftext.language.java.statements.StatementsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
@@ -41,6 +42,6 @@ public class StatementListContainerTest extends EObjectSimilarityTest implements
 				this.createMinimalTrivialAssert()
 		});
 		
-		this.testX(objOne, objTwo, false);
+		this.testX(objOne, objTwo, StatementsPackage.Literals.BLOCK__STATEMENTS);
 	}
 }

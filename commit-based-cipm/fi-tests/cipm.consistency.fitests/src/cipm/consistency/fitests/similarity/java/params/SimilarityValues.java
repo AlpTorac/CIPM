@@ -33,6 +33,7 @@ import org.emftext.language.java.parameters.ParametersPackage;
 import org.emftext.language.java.references.PackageReference;
 import org.emftext.language.java.references.ReferencesPackage;
 import org.emftext.language.java.statements.Block;
+import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.StatementsPackage;
 import org.emftext.language.java.types.TypesPackage;
 import org.emftext.language.java.variables.VariablesPackage;
@@ -143,7 +144,7 @@ public class SimilarityValues extends AbstractSimilarityValues {
 		this.addSimilarityEntry(ExpressionsPackage.Literals.SHIFT_EXPRESSION__SHIFT_OPERATORS, Boolean.TRUE);
 		this.addSimilarityEntry(ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__CHILD, Boolean.TRUE);
 		this.addSimilarityEntry(ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__OPERATOR, Boolean.TRUE);
-
+		
 		// Generics
 		this.addSimilarityEntry(GenericsPackage.Literals.CALL_TYPE_ARGUMENTABLE__CALL_TYPE_ARGUMENTS, Boolean.TRUE);
 		this.addSimilarityEntry(GenericsPackage.Literals.TYPE_ARGUMENTABLE__TYPE_ARGUMENTS, Boolean.TRUE);
@@ -197,7 +198,8 @@ public class SimilarityValues extends AbstractSimilarityValues {
 		this.addSimilarityEntry(StatementsPackage.Literals.YIELD_STATEMENT__YIELD_EXPRESSION, Boolean.TRUE);
 		this.addSimilarityEntry(StatementsPackage.Literals.BLOCK_CONTAINER__BLOCK, Boolean.TRUE);
 		this.addSimilarityEntry(StatementsPackage.Literals.STATEMENT_CONTAINER__STATEMENT, Boolean.TRUE);
-
+		this.addSimilarityEntry(StatementListContainer.class, StatementsPackage.Literals.BLOCK__STATEMENTS, Boolean.TRUE);
+		
 		// Parameters
 		this.addSimilarityEntry(ParametersPackage.Literals.CATCH_PARAMETER__TYPE_REFERENCES, Boolean.TRUE);
 		this.addSimilarityEntry(ParametersPackage.Literals.RECEIVER_PARAMETER__THIS_REFERENCE, Boolean.TRUE);
