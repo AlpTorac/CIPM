@@ -39,6 +39,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.expressions.Expressi
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.ImplicitlyTypedLambdaParametersInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.InclusiveOrExpressionInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.InstanceOfExpressionInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.expressions.LambdaExpressionInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.MultiplicativeExpressionInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.NestedExpressionInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.PrefixUnaryModificationExpressionInitialiser;
@@ -239,6 +240,7 @@ public class InitialiserParameters implements IInitialiserParameters {
 			add(new ImplicitlyTypedLambdaParametersInitialiser());
 			add(new InclusiveOrExpressionInitialiser());
 			add(new InstanceOfExpressionInitialiser());
+			add(new LambdaExpressionInitialiser());
 			add(new MultiplicativeExpressionInitialiser());
 			add(new NestedExpressionInitialiser());
 			add(new PrefixUnaryModificationExpressionInitialiser());
