@@ -2,7 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.commons.NamedElement;
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -12,7 +12,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.commons.INamedElemen
 public class NamedElementTest extends EObjectSimilarityTest {
 	protected NamedElement initElement(INamedElementInitialiser initialiser, String name) {
 		NamedElement result = initialiser.instantiate();
-		initialiser.setName(result, name);
+		Assertions.assertTrue(initialiser.setName(result, name));
 		return result;
 	}
 	

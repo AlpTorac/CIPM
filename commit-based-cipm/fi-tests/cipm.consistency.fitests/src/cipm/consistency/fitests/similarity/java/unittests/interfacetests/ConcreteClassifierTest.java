@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -15,8 +16,8 @@ public class ConcreteClassifierTest extends EObjectSimilarityTest implements Use
 			Package pac) {
 		
 		ConcreteClassifier result = initialiser.instantiate();
-		initialiser.minimalInitialisation(result);
-		initialiser.setPackage(result, pac);
+		Assertions.assertTrue(initialiser.minimalInitialisation(result));
+		Assertions.assertTrue(initialiser.setPackage(result, pac));
 		
 		return result;
 	}

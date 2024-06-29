@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementContainer;
 import org.emftext.language.java.statements.StatementsPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -14,7 +15,7 @@ public class StatementContainerTest extends EObjectSimilarityTest implements Use
 	protected StatementContainer initElement(IStatementContainerInitialiser init, Statement st) {
 		StatementContainer result = init.instantiate();
 		init.minimalInitialisationWithContainer(result);
-		init.setStatement(result, st);
+		Assertions.assertTrue(init.setStatement(result, st));
 		return result;
 	}
 	

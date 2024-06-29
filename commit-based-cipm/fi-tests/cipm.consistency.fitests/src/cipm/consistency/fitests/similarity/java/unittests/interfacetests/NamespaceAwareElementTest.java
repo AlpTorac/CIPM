@@ -2,7 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.commons.NamespaceAwareElement;
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -23,8 +23,8 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	
 	protected NamespaceAwareElement initElement(INamespaceAwareElementInitialiser initialiser, String[] nss) {
 		NamespaceAwareElement result = initialiser.instantiate();
-		initialiser.minimalInitialisation(result);
-		initialiser.addNamespaces(result, nss);
+		Assertions.assertTrue(initialiser.minimalInitialisation(result));
+		Assertions.assertTrue(initialiser.addNamespaces(result, nss));
 		return result;
 	}
 	

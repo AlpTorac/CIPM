@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 import org.emftext.language.java.generics.CallTypeArgumentable;
 import org.emftext.language.java.generics.GenericsPackage;
 import org.emftext.language.java.generics.TypeArgument;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -13,8 +14,8 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesTypeArguments;
 public class CallTypeArgumentableTest extends EObjectSimilarityTest implements UsesTypeArguments {
 	protected CallTypeArgumentable initElement(ICallTypeArgumentableInitialiser init, TypeArgument[] tas) {
 		CallTypeArgumentable result = init.instantiate();
-		init.minimalInitialisation(result);
-		init.addCallTypeArguments(result, tas);
+		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.addCallTypeArguments(result, tas));
 		return result;
 	}
 	

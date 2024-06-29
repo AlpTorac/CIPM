@@ -5,7 +5,7 @@ import java.math.BigInteger;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.instantiations.Initializable;
 import org.emftext.language.java.instantiations.InstantiationsPackage;
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -16,8 +16,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.params.LiteralFactor
 public class InitializableTest extends EObjectSimilarityTest {
 	protected Initializable initElement(IInitializableInitialiser init, Expression initVal) {
 		Initializable result = init.instantiate();
-		init.minimalInitialisation(result);
-		init.setInitialValue(result, initVal);
+		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.setInitialValue(result, initVal));
 		return result;
 	}
 	

@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.MembersPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -17,9 +18,9 @@ public class MemberContainerTest extends EObjectSimilarityTest implements
 	protected MemberContainer initElement(IMemberContainerInitialiser init,
 			Member[] members, Member[] defMembers) {
 		MemberContainer result = init.instantiate();
-		init.minimalInitialisation(result);
-		init.addMembers(result, members);
-		init.addDefaultMembers(result, defMembers);
+		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.addMembers(result, members));
+		Assertions.assertTrue(init.addDefaultMembers(result, defMembers));
 		return result;
 	}
 	

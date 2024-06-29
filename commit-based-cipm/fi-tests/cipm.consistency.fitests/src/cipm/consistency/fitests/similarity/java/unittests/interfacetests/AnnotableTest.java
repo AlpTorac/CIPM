@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationsPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -13,8 +14,8 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesAnnotationInstance
 public class AnnotableTest extends EObjectSimilarityTest implements UsesAnnotationInstances {
 	protected Annotable initElement(IAnnotableInitialiser initialiser, AnnotationInstance... annotations) {
 		Annotable result = initialiser.instantiate();
-		initialiser.minimalInitialisation(result);
-		initialiser.addAnnotations(result, annotations);
+		Assertions.assertTrue(initialiser.minimalInitialisation(result));
+		Assertions.assertTrue(initialiser.addAnnotations(result, annotations));
 		return result;
 	}
 	

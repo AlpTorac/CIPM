@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.BlockContainer;
 import org.emftext.language.java.statements.StatementsPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -13,8 +14,8 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesStatements;
 public class BlockContainerTest extends EObjectSimilarityTest implements UsesStatements{
 	protected BlockContainer initElement(IBlockContainerInitialiser init, Block bl) {
 		BlockContainer result = init.instantiate();
-		init.minimalInitialisation(result);
-		init.setBlock(result, bl);
+		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.setBlock(result, bl));
 		return result;
 	}
 	

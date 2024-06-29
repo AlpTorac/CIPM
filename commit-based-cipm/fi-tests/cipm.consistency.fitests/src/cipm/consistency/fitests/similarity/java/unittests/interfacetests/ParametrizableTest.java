@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.parameters.ParametersPackage;
 import org.emftext.language.java.parameters.Parametrizable;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -13,8 +14,8 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesParameters;
 public class ParametrizableTest extends EObjectSimilarityTest implements UsesParameters {
 	protected Parametrizable initElement(IParametrizableInitialiser init, Parameter[] params) {
 		Parametrizable result = init.instantiate();
-		init.minimalInitialisation(result);
-		init.addParameters(result, params);
+		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.addParameters(result, params));
 		return result;
 	}
 	
