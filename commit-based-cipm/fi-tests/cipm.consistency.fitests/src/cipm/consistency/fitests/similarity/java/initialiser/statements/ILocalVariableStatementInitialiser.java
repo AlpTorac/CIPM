@@ -9,6 +9,6 @@ public interface ILocalVariableStatementInitialiser extends IStatementInitialise
 			lvs.setVariable(lv);
 			return lvs.getVariable().equals(lv);
 		}
-		return false;
+		return true;
 	}
 }

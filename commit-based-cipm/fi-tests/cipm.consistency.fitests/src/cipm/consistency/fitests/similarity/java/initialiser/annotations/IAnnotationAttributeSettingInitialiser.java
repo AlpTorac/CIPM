@@ -12,7 +12,7 @@ public interface IAnnotationAttributeSettingInitialiser extends ICommentableInit
 			aas.setAttribute(im);
 			return aas.getAttribute().equals(im);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean setValue(AnnotationAttributeSetting aas, AnnotationValue val) {
@@ -20,6 +20,6 @@ public interface IAnnotationAttributeSettingInitialiser extends ICommentableInit
 			aas.setValue(val);
 			return aas.getValue().equals(val);
 		}
-		return false;
+		return true;
 	}
 }

@@ -11,7 +11,7 @@ public interface ITypeParametrizableInitialiser extends ICommentableInitialiser 
 			tp.getTypeParameters().add(param);
 			return tp.getTypeParameters().contains(param);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addTypeParameters(TypeParametrizable tp, TypeParameter[] params) {

@@ -11,6 +11,6 @@ public interface IStatementContainerInitialiser extends ICommentableInitialiser 
 			sc.setStatement(s);
 			return sc.getStatement().equals(s);
 		}
-		return false;
+		return true;
 	}
 }

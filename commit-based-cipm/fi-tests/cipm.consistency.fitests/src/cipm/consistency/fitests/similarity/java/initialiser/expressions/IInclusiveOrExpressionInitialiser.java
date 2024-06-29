@@ -9,7 +9,7 @@ public interface IInclusiveOrExpressionInitialiser extends IInclusiveOrExpressio
 			ioe.getChildren().add(child);
 			return ioe.getChildren().contains(child);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addChildren(InclusiveOrExpression ioe, InclusiveOrExpressionChild[] children) {

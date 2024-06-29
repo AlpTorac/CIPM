@@ -20,7 +20,7 @@ public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceable
 			return cls.getContainingCompilationUnit().getImports().stream()
 			.anyMatch((i) -> i.equals(imp));
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addImports(Classifier cls, Import[] imps) {
@@ -33,7 +33,7 @@ public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceable
 			return cls.getContainingCompilationUnit().getImports().stream()
 			.anyMatch((i) -> i.equals(imp));
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addPackageImports(Classifier cls, Import[] imps) {

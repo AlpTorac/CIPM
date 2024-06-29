@@ -16,7 +16,7 @@ public interface IReferenceInitialiser extends IPrimaryExpressionInitialiser,
 			ref.getArraySelectors().add(as);
 			return ref.getArraySelectors().contains(as);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean setNext(Reference ref, Reference next) {
@@ -27,6 +27,6 @@ public interface IReferenceInitialiser extends IPrimaryExpressionInitialiser,
 				next.getPrevious().equals(ref) &&
 				next.getPrevious().getNext().equals(next);
 		}
-		return false;
+		return true;
 	}
 }

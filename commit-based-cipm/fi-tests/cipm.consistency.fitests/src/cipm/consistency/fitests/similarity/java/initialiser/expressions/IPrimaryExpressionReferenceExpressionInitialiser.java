@@ -15,7 +15,7 @@ public interface IPrimaryExpressionReferenceExpressionInitialiser extends
 			pere.setChild(mrec);
 			return pere.getChild().equals(mrec);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean setMethodReference(PrimaryExpressionReferenceExpression pere, Reference ref) {
@@ -23,6 +23,6 @@ public interface IPrimaryExpressionReferenceExpressionInitialiser extends
 			pere.setMethodReference(ref);
 			return pere.getMethodReference().equals(ref);
 		}
-		return false;
+		return true;
 	}
 }

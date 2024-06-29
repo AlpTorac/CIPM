@@ -11,7 +11,7 @@ public interface IExpressionListInitialiser extends IForLoopInitializerInitialis
 			exprList.getExpressions().add(expr);
 			return exprList.getExpressions().contains(expr);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addExpressions(ExpressionList exprList, Expression[] exprs) {

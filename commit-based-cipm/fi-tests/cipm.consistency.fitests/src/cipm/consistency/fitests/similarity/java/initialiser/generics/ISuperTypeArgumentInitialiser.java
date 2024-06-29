@@ -12,6 +12,6 @@ public interface ISuperTypeArgumentInitialiser extends IAnnotableInitialiser,
 			sta.setSuperType(tref);
 			return sta.getSuperType().equals(tref);
 		}
-		return false;
+		return true;
 	}
 }

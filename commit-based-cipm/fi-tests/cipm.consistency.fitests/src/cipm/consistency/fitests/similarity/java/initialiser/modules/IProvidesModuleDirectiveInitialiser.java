@@ -14,7 +14,7 @@ public interface IProvidesModuleDirectiveInitialiser extends
 			pmd.getServiceProviders().add(tref);
 			return pmd.getServiceProviders().contains(tref);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addServiceProviders(ProvidesModuleDirective pmd, TypeReference[] trefs) {

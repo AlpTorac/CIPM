@@ -11,6 +11,6 @@ public interface INestedExpressionInitialiser extends IReferenceInitialiser {
 			ne.setExpression(expr);
 			return ne.getExpression().equals(expr);
 		}
-		return false;
+		return true;
 	}
 }

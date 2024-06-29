@@ -12,6 +12,6 @@ public interface INamespaceAwareElementInitialiser extends ICommentableInitialis
 			nae.getNamespaces().add(namespace);
 			return nae.getNamespaces().contains(namespace);
 		}
-		return false;
+		return true;
 	}
 }

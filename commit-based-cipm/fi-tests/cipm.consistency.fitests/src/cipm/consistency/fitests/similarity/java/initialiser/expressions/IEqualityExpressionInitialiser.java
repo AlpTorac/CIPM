@@ -10,7 +10,7 @@ public interface IEqualityExpressionInitialiser extends IAndExpressionChildIniti
 			eqEx.getEqualityOperators().add(op);
 			return eqEx.getEqualityOperators().contains(op);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addChild(EqualityExpression eqEx, EqualityExpressionChild child) {
@@ -18,7 +18,7 @@ public interface IEqualityExpressionInitialiser extends IAndExpressionChildIniti
 			eqEx.getChildren().add(child);
 			return eqEx.getChildren().contains(child);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addChildren(EqualityExpression eqEx, EqualityExpressionChild[] children) {

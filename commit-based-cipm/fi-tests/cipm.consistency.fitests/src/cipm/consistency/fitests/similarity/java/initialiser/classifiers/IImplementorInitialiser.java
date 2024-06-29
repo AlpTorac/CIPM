@@ -11,7 +11,7 @@ public interface IImplementorInitialiser extends ICommentableInitialiser {
 			implementor.getImplements().add(tref);
 			return implementor.getImplements().contains(tref);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addImplements(Implementor implementor, TypeReference[] trefs) {

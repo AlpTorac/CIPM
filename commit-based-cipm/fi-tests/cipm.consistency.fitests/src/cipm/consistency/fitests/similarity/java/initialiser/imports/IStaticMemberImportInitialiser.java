@@ -10,7 +10,7 @@ public interface IStaticMemberImportInitialiser extends
 			smi.getStaticMembers().add(re);
 			return smi.getStaticMembers().contains(re);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addStaticMembers(StaticMemberImport smi, ReferenceableElement[] res) {

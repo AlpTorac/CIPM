@@ -9,7 +9,7 @@ public interface IElementReferenceInitialiser extends IReferenceInitialiser {
 			eref.setContainedTarget(re);
 			return eref.getContainedTarget().equals(re);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean setTarget(ElementReference eref, ReferenceableElement re) {
@@ -17,6 +17,6 @@ public interface IElementReferenceInitialiser extends IReferenceInitialiser {
 			eref.setTarget(re);
 			return eref.getTarget().equals(re);
 		}
-		return false;
+		return true;
 	}
 }

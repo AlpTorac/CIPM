@@ -9,7 +9,7 @@ public interface IInterfaceInitialiser extends IConcreteClassifierInitialiser {
 			intfc.getDefaultExtends().add(tref);
 			return intfc.getDefaultExtends().contains(tref);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addDefaultExtends(Interface intfc, TypeReference[] trefs) {
@@ -21,7 +21,7 @@ public interface IInterfaceInitialiser extends IConcreteClassifierInitialiser {
 			intfc.getExtends().add(tref);
 			return intfc.getExtends().contains(tref);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addExtends(Interface intfc, TypeReference[] trefs) {

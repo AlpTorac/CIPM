@@ -11,6 +11,6 @@ public interface ITypedElementInitialiser extends ICommentableInitialiser {
 			te.setTypeReference(tref);
 			return te.getTypeReference().equals(tref);
 		}
-		return false;
+		return true;
 	}
 }

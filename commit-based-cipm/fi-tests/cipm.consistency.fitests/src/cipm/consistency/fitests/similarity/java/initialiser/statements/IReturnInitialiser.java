@@ -9,6 +9,6 @@ public interface IReturnInitialiser extends IStatementInitialiser {
 			ret.setReturnValue(expr);
 			return ret.getReturnValue().equals(expr);
 		}
-		return false;
+		return true;
 	}
 }

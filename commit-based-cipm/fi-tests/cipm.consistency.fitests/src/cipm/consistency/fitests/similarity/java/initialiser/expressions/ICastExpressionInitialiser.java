@@ -15,7 +15,7 @@ public interface ICastExpressionInitialiser extends ITypedElementInitialiser,
 			ce.getAdditionalBounds().add(tref);
 			return ce.getAdditionalBounds().contains(tref);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addAdditionalBounds(CastExpression ce, TypeReference[] trefs) {
@@ -27,7 +27,7 @@ public interface ICastExpressionInitialiser extends ITypedElementInitialiser,
 			ce.setChild(child);
 			return ce.getChild().equals(child);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean setGeneralChild(CastExpression ce, Expression expr) {
@@ -35,6 +35,6 @@ public interface ICastExpressionInitialiser extends ITypedElementInitialiser,
 			ce.setGeneralChild(expr);
 			return ce.getGeneralChild().equals(expr);
 		}
-		return false;
+		return true;
 	}
 }

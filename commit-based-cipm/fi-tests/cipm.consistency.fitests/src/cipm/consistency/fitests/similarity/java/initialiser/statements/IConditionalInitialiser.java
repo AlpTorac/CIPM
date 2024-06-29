@@ -11,6 +11,6 @@ public interface IConditionalInitialiser extends ICommentableInitialiser {
 			cond.setCondition(expr);
 			return cond.getCondition().equals(expr);
 		}
-		return false;
+		return true;
 	}
 }

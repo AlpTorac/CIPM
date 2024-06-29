@@ -11,7 +11,7 @@ public interface IMemberContainerInitialiser extends ICommentableInitialiser {
 			mc.getMembers().add(mbr);
 			return mc.getMembers().contains(mbr);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addMembers(MemberContainer mc, Member[] mbrs) {
@@ -23,7 +23,7 @@ public interface IMemberContainerInitialiser extends ICommentableInitialiser {
 			mc.getDefaultMembers().add(mbr);
 			return mc.getDefaultMembers().contains(mbr);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addDefaultMembers(MemberContainer mc, Member[] mbrs) {

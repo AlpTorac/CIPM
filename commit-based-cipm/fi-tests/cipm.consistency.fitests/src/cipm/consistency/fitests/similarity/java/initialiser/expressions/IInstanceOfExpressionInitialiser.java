@@ -14,6 +14,6 @@ public interface IInstanceOfExpressionInitialiser extends
 			ioe.setChild(child);
 			return ioe.getChild().equals(child);
 		}
-		return false;
+		return true;
 	}
 }

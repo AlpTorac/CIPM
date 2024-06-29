@@ -11,7 +11,7 @@ public interface IAssignmentExpressionInitialiser extends IExpressionInitialiser
 			ae.setAssignmentOperator(op);
 			return ae.getAssignmentOperator().equals(op);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean setChild(AssignmentExpression ae, AssignmentExpressionChild child) {
@@ -19,7 +19,7 @@ public interface IAssignmentExpressionInitialiser extends IExpressionInitialiser
 			ae.setChild(child);
 			return ae.getChild().equals(child);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean setValue(AssignmentExpression ae, Expression expr) {
@@ -27,6 +27,6 @@ public interface IAssignmentExpressionInitialiser extends IExpressionInitialiser
 			ae.setValue(expr);
 			return ae.getValue().equals(expr);
 		}
-		return false;
+		return true;
 	}
 }

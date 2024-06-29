@@ -9,7 +9,7 @@ public interface IAndExpressionInitialiser extends IExclusiveOrExpressionChildIn
 			ae.getChildren().add(child);
 			return ae.getChildren().contains(child);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addChildren(AndExpression ae, AndExpressionChild[] children) {

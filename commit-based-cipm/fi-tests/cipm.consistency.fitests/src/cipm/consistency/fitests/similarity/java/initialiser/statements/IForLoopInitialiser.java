@@ -13,7 +13,7 @@ public interface IForLoopInitialiser extends IConditionalInitialiser,
 			fl.setInit(fli);
 			return fl.getInit().equals(fli);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addUpdate(ForLoop fl, Expression expr) {
@@ -21,7 +21,7 @@ public interface IForLoopInitialiser extends IConditionalInitialiser,
 			fl.getUpdates().add(expr);
 			return fl.getUpdates().contains(expr);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addUpdates(ForLoop fl, Expression[] exprs) {

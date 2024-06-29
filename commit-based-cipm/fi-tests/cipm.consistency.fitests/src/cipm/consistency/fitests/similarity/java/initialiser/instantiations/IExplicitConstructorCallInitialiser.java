@@ -9,6 +9,6 @@ public interface IExplicitConstructorCallInitialiser extends IInstantiationIniti
 			ecc.setCallTarget(self);
 			return ecc.getCallTarget().equals(self);
 		}
-		return false;
+		return true;
 	}
 }

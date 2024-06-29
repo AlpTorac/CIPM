@@ -9,6 +9,6 @@ public interface IJumpInitialiser extends IStatementInitialiser {
 			jump.setTarget(jl);
 			return jump.getTarget().equals(jl);
 		}
-		return false;
+		return true;
 	}
 }

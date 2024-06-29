@@ -9,7 +9,7 @@ public interface IAnnotationParameterListInitialiser extends IAnnotationParamete
 			apl.getSettings().add(aas);
 			return apl.getSettings().contains(aas);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addSettings(AnnotationParameterList apl, AnnotationAttributeSetting[] aass) {

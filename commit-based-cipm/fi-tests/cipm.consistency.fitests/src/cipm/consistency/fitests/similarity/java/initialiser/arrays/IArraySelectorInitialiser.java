@@ -13,6 +13,6 @@ public interface IArraySelectorInitialiser extends IAnnotableInitialiser,
 			as.setPosition(expr);
 			return as.getPosition().equals(expr);
 		}
-		return false;
+		return true;
 	}
 }

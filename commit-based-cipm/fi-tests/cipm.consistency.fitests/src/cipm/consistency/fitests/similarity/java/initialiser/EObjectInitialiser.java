@@ -75,6 +75,6 @@ public interface EObjectInitialiser extends IInitialiser {
 			}
 		}
 		
-		return result;
+		return xs == null || result;
 	}
 }

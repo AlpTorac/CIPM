@@ -11,6 +11,6 @@ public interface IArrayInstantiationByValuesInitialiser extends
 			arrIns.setArrayInitializer(init);
 			return arrIns.getArrayInitializer().equals(init);
 		}
-		return false;
+		return true;
 	}
 }

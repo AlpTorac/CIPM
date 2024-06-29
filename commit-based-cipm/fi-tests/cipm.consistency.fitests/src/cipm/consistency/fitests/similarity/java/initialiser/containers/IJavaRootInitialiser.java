@@ -15,6 +15,6 @@ IAnnotableInitialiser, IImportingElementInitialiser {
 			jr.setOrigin(origin);
 			return jr.getOrigin().equals(origin);
 		}
-		return false;
+		return true;
 	}
 }

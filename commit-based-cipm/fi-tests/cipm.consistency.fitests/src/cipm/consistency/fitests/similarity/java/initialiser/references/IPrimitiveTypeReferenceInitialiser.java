@@ -12,6 +12,6 @@ public interface IPrimitiveTypeReferenceInitialiser extends IArrayTypeableInitia
 			ptr.setPrimitiveType(pt);
 			return ptr.getPrimitiveType().equals(pt);
 		}
-		return false;
+		return true;
 	}
 }

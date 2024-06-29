@@ -11,6 +11,6 @@ public interface IBlockContainerInitialiser extends ICommentableInitialiser {
 			bc.setBlock(block);
 			return bc.getBlock().equals(block);
 		}
-		return false;
+		return true;
 	}
 }

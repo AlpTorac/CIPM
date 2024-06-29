@@ -10,7 +10,7 @@ public interface ICompilationUnitInitialiser extends IJavaRootInitialiser {
 			return cu.getClassifiers().contains(cc) &&
 					cu.getContainedClassifier(cc.getQualifiedName()).equals(cc);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addClassifiers(CompilationUnit cu, ConcreteClassifier[] ccs) {

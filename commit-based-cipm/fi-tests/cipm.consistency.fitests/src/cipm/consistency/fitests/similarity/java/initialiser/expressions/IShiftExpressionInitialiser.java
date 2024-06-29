@@ -10,7 +10,7 @@ public interface IShiftExpressionInitialiser extends IRelationExpressionChildIni
 			se.getShiftOperators().add(op);
 			return se.getShiftOperators().contains(op);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addShiftOperators(ShiftExpression se, ShiftOperator[] ops) {
@@ -22,7 +22,7 @@ public interface IShiftExpressionInitialiser extends IRelationExpressionChildIni
 			se.getChildren().add(child);
 			return se.getChildren().contains(child);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addChildren(ShiftExpression se, ShiftExpressionChild[] children) {

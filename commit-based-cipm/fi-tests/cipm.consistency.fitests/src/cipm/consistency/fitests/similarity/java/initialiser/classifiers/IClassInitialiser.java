@@ -9,7 +9,7 @@ public interface IClassInitialiser extends IConcreteClassifierInitialiser, IImpl
 			cls.setDefaultExtends(tref);
 			return cls.getDefaultExtends().equals(tref);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean setExtends(Class cls, TypeReference tref) {
@@ -17,6 +17,6 @@ public interface IClassInitialiser extends IConcreteClassifierInitialiser, IImpl
 			cls.setExtends(tref);
 			return cls.getExtends().equals(tref);
 		}
-		return false;
+		return true;
 	}
 }

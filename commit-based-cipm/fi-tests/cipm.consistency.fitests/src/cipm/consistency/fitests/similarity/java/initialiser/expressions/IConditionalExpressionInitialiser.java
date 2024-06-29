@@ -11,7 +11,7 @@ public interface IConditionalExpressionInitialiser extends IAssignmentExpression
 			ce.setChild(child);
 			return ce.getChild().equals(child);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean setExpressionChild(ConditionalExpression ce, AssignmentExpressionChild child) {
@@ -19,7 +19,7 @@ public interface IConditionalExpressionInitialiser extends IAssignmentExpression
 			ce.setExpressionChild(child);
 			return ce.getExpressionElse().equals(child);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean setExpressionIf(ConditionalExpression ce, Expression expr) {
@@ -27,7 +27,7 @@ public interface IConditionalExpressionInitialiser extends IAssignmentExpression
 			ce.setExpressionIf(expr);
 			return ce.getExpressionIf().equals(expr);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean setGeneralExpressionElse(ConditionalExpression ce, Expression expr) {
@@ -35,6 +35,6 @@ public interface IConditionalExpressionInitialiser extends IAssignmentExpression
 			ce.setGeneralExpressionElse(expr);
 			return ce.getGeneralExpressionElse().equals(expr);
 		}
-		return false;
+		return true;
 	}
 }

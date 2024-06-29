@@ -29,7 +29,7 @@ public interface INamespaceClassifierReferenceInitialiser extends
 				 castedTref.getClassifierReferences().stream()
 				.anyMatch((cr) -> cr.getTarget().equals(cls));
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addClassifierReference(NamespaceClassifierReference ncr, ClassifierReference cref) {
@@ -37,7 +37,7 @@ public interface INamespaceClassifierReferenceInitialiser extends
 			ncr.getClassifierReferences().add(cref);
 			return ncr.getClassifierReferences().contains(cref);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addClassifierReferences(NamespaceClassifierReference ncr, ClassifierReference[] crefs) {

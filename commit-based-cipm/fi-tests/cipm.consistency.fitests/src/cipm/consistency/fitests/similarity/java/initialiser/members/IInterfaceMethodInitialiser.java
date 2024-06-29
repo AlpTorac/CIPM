@@ -9,6 +9,6 @@ public interface IInterfaceMethodInitialiser extends IMethodInitialiser {
 			im.setDefaultValue(av);
 			return im.getDefaultValue().equals(av);
 		}
-		return false;
+		return true;
 	}
 }

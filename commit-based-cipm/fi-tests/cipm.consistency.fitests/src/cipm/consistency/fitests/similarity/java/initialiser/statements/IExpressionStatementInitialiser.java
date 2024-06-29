@@ -9,6 +9,6 @@ public interface IExpressionStatementInitialiser extends IStatementInitialiser {
 			es.setExpression(expr);
 			return es.getExpression().equals(expr);
 		}
-		return false;
+		return true;
 	}
 }

@@ -12,7 +12,7 @@ public interface ITypeParameterInitialiser extends IClassifierInitialiser, IAnno
 			tp.getExtendTypes().add(tref);
 			return tp.getExtendTypes().contains(tref);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addExtendTypes(TypeParameter tp, TypeReference[] trefs) {

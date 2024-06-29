@@ -11,6 +11,6 @@ public interface ICatchBlockInitialiser extends IBlockContainerInitialiser,
 			cb.setParameter(oParam);
 			return cb.getParameter().equals(oParam);
 		}
-		return false;
+		return true;
 	}
 }

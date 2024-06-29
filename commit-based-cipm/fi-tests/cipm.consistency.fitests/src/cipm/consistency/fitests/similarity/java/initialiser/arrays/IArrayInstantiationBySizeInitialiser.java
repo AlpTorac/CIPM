@@ -14,7 +14,7 @@ public interface IArrayInstantiationBySizeInitialiser extends
 			arrIns.getSizes().add(expr);
 			return arrIns.getSizes().contains(expr);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addSizes(ArrayInstantiationBySize arrIns, Expression[] exprs) {

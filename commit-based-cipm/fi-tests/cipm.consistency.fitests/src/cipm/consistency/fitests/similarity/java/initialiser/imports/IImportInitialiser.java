@@ -11,6 +11,6 @@ public interface IImportInitialiser extends INamespaceAwareElementInitialiser {
 			imp.setClassifier(cls);
 			return imp.getClassifier().equals(cls);
 		}
-		return false;
+		return true;
 	}
 }

@@ -10,7 +10,7 @@ public interface IEnumerationInitialiser extends IConcreteClassifierInitialiser,
 			return enm.getConstants().contains(cst) &&
 					enm.getContainedConstant(cst.getName()).equals(cst);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addConstants(Enumeration enm, EnumConstant[] csts) {

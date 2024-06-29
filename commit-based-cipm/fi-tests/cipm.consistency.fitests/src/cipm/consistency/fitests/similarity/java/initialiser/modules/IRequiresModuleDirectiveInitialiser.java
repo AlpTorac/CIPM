@@ -10,7 +10,7 @@ public interface IRequiresModuleDirectiveInitialiser extends IModuleDirectiveIni
 			rmd.setModifier(mrm);
 			return rmd.getModifier().equals(mrm);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean setRequiredModule(RequiresModuleDirective rmd, ModuleReference mref) {
@@ -18,6 +18,6 @@ public interface IRequiresModuleDirectiveInitialiser extends IModuleDirectiveIni
 			rmd.setRequiredModule(mref);
 			return rmd.getRequiredModule().equals(mref);
 		}
-		return false;
+		return true;
 	}
 }

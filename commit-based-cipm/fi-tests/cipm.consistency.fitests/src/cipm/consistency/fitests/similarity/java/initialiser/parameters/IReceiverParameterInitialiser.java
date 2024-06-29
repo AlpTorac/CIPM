@@ -12,7 +12,7 @@ public interface IReceiverParameterInitialiser extends IAnnotableInitialiser, IP
 			rp.setOuterTypeReference(tref);
 			return rp.getOuterTypeReference().equals(tref);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean setThisReference(ReceiverParameter rp, This th) {
@@ -20,6 +20,6 @@ public interface IReceiverParameterInitialiser extends IAnnotableInitialiser, IP
 			rp.setThisReference(th);
 			return rp.getThisReference().equals(th);
 		}
-		return false;
+		return true;
 	}
 }

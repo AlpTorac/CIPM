@@ -11,7 +11,7 @@ public interface IImportingElementInitialiser extends ICommentableInitialiser {
 			ie.getImports().add(imp);
 			return ie.getImports().contains(imp);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addImports(ImportingElement ie, Import[] imps) {

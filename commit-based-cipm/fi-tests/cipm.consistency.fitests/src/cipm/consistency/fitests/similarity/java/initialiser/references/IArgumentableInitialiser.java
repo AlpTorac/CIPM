@@ -17,7 +17,7 @@ public interface IArgumentableInitialiser extends ICommentableInitialiser {
 			argable.getArguments().add(expr);
 			return argable.getArguments().contains(expr);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addArguments(Argumentable argable, Expression[] exprs) {

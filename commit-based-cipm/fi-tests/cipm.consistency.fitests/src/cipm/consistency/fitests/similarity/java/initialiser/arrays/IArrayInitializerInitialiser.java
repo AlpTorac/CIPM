@@ -12,7 +12,7 @@ public interface IArrayInitializerInitialiser extends IAnnotationValueInitialise
 			ai.getInitialValues().add(aiv);
 			return ai.getInitialValues().contains(aiv);
 		}
-		return false;
+		return true;
 	}
 	
 	public default boolean addInitialValues(ArrayInitializer ai, ArrayInitializationValue[] aivs) {
