@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.arrays.ArrayInstantiationBySize;
 import org.emftext.language.java.arrays.ArraysPackage;
 import org.emftext.language.java.expressions.Expression;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,7 +14,7 @@ public class ArrayInstantiationBySizeTest extends EObjectSimilarityTest implemen
 	protected ArrayInstantiationBySize initElement(Expression[] sizes) {
 		var aibsInit = new ArrayInstantiationBySizeInitialiser();
 		var aibs = aibsInit.instantiate();
-		aibsInit.addSizes(aibs, sizes);
+		Assertions.assertTrue(aibsInit.addSizes(aibs, sizes));
 		return aibs;
 	}
 	

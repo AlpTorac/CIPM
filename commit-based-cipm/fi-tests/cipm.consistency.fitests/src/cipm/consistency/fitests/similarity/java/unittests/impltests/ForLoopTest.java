@@ -4,6 +4,7 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.ForLoop;
 import org.emftext.language.java.statements.StatementsPackage;
 import org.emftext.language.java.statements.ForLoopInitializer;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -14,9 +15,9 @@ public class ForLoopTest extends EObjectSimilarityTest implements UsesExpression
 	protected ForLoop initElement(ForLoopInitializer fli, Expression[] exprs) {
 		var flInit = new ForLoopInitialiser();
 		var fl = flInit.instantiate();
-		flInit.minimalInitialisation(fl);
-		flInit.setInit(fl, fli);
-		flInit.addUpdates(fl, exprs);
+		Assertions.assertTrue(flInit.minimalInitialisation(fl));
+		Assertions.assertTrue(flInit.setInit(fl, fli));
+		Assertions.assertTrue(flInit.addUpdates(fl, exprs));
 		return fl;
 	}
 	

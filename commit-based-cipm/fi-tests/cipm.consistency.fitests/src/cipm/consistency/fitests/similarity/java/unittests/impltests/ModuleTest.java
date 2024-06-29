@@ -4,7 +4,7 @@ import org.emftext.language.java.containers.Module;
 import org.emftext.language.java.containers.ContainersPackage;
 import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.modules.ModuleDirective;
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -16,14 +16,13 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 	protected Module initElement(Package[] pacs, ModuleDirective[] targets, boolean isOpen) {
 		var initialiser = new ModuleInitialiser();
 		Module result = initialiser.instantiate();
-		initialiser.minimalInitialisation(result);
+		Assertions.assertTrue(initialiser.minimalInitialisation(result));
 		
-		initialiser.addPackages(result, pacs);
-		initialiser.addTargets(result, targets);
+		Assertions.assertTrue(initialiser.addPackages(result, pacs));
+		Assertions.assertTrue(initialiser.addTargets(result, targets));
 		
 		if (isOpen) {
-			initialiser.setOpen(result,
-					new OpenInitialiser().instantiate());
+			Assertions.assertTrue(initialiser.setOpen(result, new OpenInitialiser().instantiate()));
 		}
 		
 		return result;

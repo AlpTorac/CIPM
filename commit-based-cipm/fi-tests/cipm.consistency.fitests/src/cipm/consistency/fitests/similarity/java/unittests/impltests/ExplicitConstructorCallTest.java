@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.instantiations.ExplicitConstructorCall;
 import org.emftext.language.java.instantiations.InstantiationsPackage;
 import org.emftext.language.java.literals.Self;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class ExplicitConstructorCallTest extends EObjectSimilarityTest implement
 	protected ExplicitConstructorCall initElement(Self self) {
 		var eccInit = new ExplicitConstructorCallInitialiser();
 		var ecc = eccInit.instantiate();
-		eccInit.minimalInitialisation(ecc);
-		eccInit.setCallTarget(ecc, self);
+		Assertions.assertTrue(eccInit.minimalInitialisation(ecc));
+		Assertions.assertTrue(eccInit.setCallTarget(ecc, self));
 		return ecc;
 	}
 	

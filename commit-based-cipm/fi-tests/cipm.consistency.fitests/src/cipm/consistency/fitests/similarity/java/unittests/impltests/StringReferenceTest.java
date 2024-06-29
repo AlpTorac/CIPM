@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.references.ReferencesPackage;
 import org.emftext.language.java.references.StringReference;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -11,8 +12,8 @@ public class StringReferenceTest extends EObjectSimilarityTest {
 	protected StringReference initElement(String val) {
 		var srInit = new StringReferenceInitialiser();
 		var sr = srInit.instantiate();
-		srInit.minimalInitialisation(sr);
-		srInit.setValue(sr, val);
+		Assertions.assertTrue(srInit.minimalInitialisation(sr));
+		Assertions.assertTrue(srInit.setValue(sr, val));
 		return sr;
 	}
 	

@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.imports.ImportsPackage;
 import org.emftext.language.java.imports.StaticMemberImport;
 import org.emftext.language.java.references.ReferenceableElement;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class StaticMemberImportTest extends EObjectSimilarityTest implements Use
 	protected StaticMemberImport initElement(ReferenceableElement[] res) {
 		var smiInit = new StaticMemberImportInitialiser();
 		var smi = smiInit.instantiate();
-		smiInit.minimalInitialisation(smi);
-		smiInit.addStaticMembers(smi, res);
+		Assertions.assertTrue(smiInit.minimalInitialisation(smi));
+		Assertions.assertTrue(smiInit.addStaticMembers(smi, res));
 		return smi;
 	}
 	

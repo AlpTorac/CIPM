@@ -5,6 +5,7 @@ import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.StatementsPackage;
 import org.emftext.language.java.statements.TryBlock;
 import org.emftext.language.java.variables.Resource;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -18,11 +19,11 @@ UsesStatements, UsesLocalVariables {
 	protected TryBlock initElement(Resource[] ress, CatchBlock[] catchBlocks, CatchBlock[] catcheBlocks, Block block) {
 		var tbInit = new TryBlockInitialiser();
 		var tb = tbInit.instantiate();
-		tbInit.minimalInitialisation(tb);
-		tbInit.addResources(tb, ress);
-		tbInit.addCatchBlocks(tb, catchBlocks);
-		tbInit.addCatcheBlocks(tb, catcheBlocks);
-		tbInit.setFinallyBlock(tb, block);
+		Assertions.assertTrue(tbInit.minimalInitialisation(tb));
+		Assertions.assertTrue(tbInit.addResources(tb, ress));
+		Assertions.assertTrue(tbInit.addCatchBlocks(tb, catchBlocks));
+		Assertions.assertTrue(tbInit.addCatcheBlocks(tb, catcheBlocks));
+		Assertions.assertTrue(tbInit.setFinallyBlock(tb, block));
 		return tb;
 	}
 	

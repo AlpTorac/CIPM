@@ -4,6 +4,7 @@ import org.emftext.language.java.expressions.EqualityExpression;
 import org.emftext.language.java.expressions.EqualityExpressionChild;
 import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.operators.EqualityOperator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -14,8 +15,8 @@ public class EqualityExpressionTest extends EObjectSimilarityTest implements Use
 	protected EqualityExpression initElement(EqualityExpressionChild[] children, EqualityOperator op) {
 		var eeInit = new EqualityExpressionInitialiser();
 		var ee = eeInit.instantiate();
-		eeInit.addChildren(ee, children);
-		eeInit.addEqualityOperator(ee, op);
+		Assertions.assertTrue(eeInit.addChildren(ee, children));
+		Assertions.assertTrue(eeInit.addEqualityOperator(ee, op));
 		return ee;
 	}
 	

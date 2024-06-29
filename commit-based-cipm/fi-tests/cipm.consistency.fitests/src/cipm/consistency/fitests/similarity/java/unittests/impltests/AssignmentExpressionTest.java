@@ -5,6 +5,7 @@ import org.emftext.language.java.expressions.AssignmentExpressionChild;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.operators.AssignmentOperator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -16,10 +17,10 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 			AssignmentExpressionChild child, Expression expr) {
 		var aeInit = new AssignmentExpressionInitialiser();
 		var ae = aeInit.instantiate();
-		aeInit.minimalInitialisation(ae);
-		aeInit.setAssignmentOperator(ae, op);
-		aeInit.setChild(ae, child);
-		aeInit.setValue(ae, expr);
+		Assertions.assertTrue(aeInit.minimalInitialisation(ae));
+		Assertions.assertTrue(aeInit.setAssignmentOperator(ae, op));
+		Assertions.assertTrue(aeInit.setChild(ae, child));
+		Assertions.assertTrue(aeInit.setValue(ae, expr));
 		return ae;
 	}
 	

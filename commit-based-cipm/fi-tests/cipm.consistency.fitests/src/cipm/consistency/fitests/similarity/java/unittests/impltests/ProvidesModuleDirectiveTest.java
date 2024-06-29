@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.modules.ProvidesModuleDirective;
 import org.emftext.language.java.modules.ModulesPackage;
 import org.emftext.language.java.types.TypeReference;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class ProvidesModuleDirectiveTest extends EObjectSimilarityTest implement
 	protected ProvidesModuleDirective initElement(TypeReference[] trefs) {
 		var pmdInit = new ProvidesModuleDirectiveInitialiser();
 		var pmd = pmdInit.instantiate();
-		pmdInit.minimalInitialisation(pmd);
-		pmdInit.addServiceProviders(pmd, trefs);
+		Assertions.assertTrue(pmdInit.minimalInitialisation(pmd));
+		Assertions.assertTrue(pmdInit.addServiceProviders(pmd, trefs));
 		return pmd;
 	}
 	

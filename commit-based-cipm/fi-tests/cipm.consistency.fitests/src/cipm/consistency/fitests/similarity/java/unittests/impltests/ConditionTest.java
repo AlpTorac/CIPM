@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.StatementsPackage;
 import org.emftext.language.java.statements.Statement;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class ConditionTest extends EObjectSimilarityTest implements UsesStatemen
 	protected Condition initElement(Statement st) {
 		var conInit = new ConditionInitialiser();
 		var con = conInit.instantiate();
-		conInit.minimalInitialisation(con);
-		conInit.setElseStatement(con, st);
+		Assertions.assertTrue(conInit.minimalInitialisation(con));
+		Assertions.assertTrue(conInit.setElseStatement(con, st));
 		return con;
 	}
 	

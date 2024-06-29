@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.annotations.AnnotationAttributeSetting;
 import org.emftext.language.java.annotations.AnnotationParameterList;
 import org.emftext.language.java.annotations.AnnotationsPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -15,7 +16,7 @@ UsesAnnotationParameters, UsesAnnotationAttributeSettings {
 	protected AnnotationParameterList initElement(AnnotationAttributeSetting[] aass) {
 		var aplInit = new AnnotationParameterListInitialiser();
 		var apl = aplInit.instantiate();
-		aplInit.addSettings(apl, aass);
+		Assertions.assertTrue(aplInit.addSettings(apl, aass));
 		return apl;
 	}
 	

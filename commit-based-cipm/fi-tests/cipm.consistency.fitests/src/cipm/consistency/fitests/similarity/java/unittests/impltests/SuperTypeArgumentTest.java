@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.generics.GenericsPackage;
 import org.emftext.language.java.generics.SuperTypeArgument;
 import org.emftext.language.java.types.TypeReference;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class SuperTypeArgumentTest extends EObjectSimilarityTest implements Uses
 	protected SuperTypeArgument initElement(TypeReference tref) {
 		var staInit = new SuperTypeArgumentInitialiser();
 		var sta = staInit.instantiate();
-		staInit.minimalInitialisation(sta);
-		staInit.setSuperType(sta, tref);
+		Assertions.assertTrue(staInit.minimalInitialisation(sta));
+		Assertions.assertTrue(staInit.setSuperType(sta, tref));
 		return sta;
 	}
 	

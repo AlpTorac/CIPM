@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.annotations.AnnotationsPackage;
 import org.emftext.language.java.annotations.SingleAnnotationParameter;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class SingleAnnotationParameterTest extends EObjectSimilarityTest impleme
 	protected SingleAnnotationParameter initElement(AnnotationValue val) {
 		var sapInit = new SingleAnnotationParameterInitialiser();
 		var sap = sapInit.instantiate();
-		sapInit.minimalInitialisation(sap);
-		sapInit.setValue(sap, val);
+		Assertions.assertTrue(sapInit.minimalInitialisation(sap));
+		Assertions.assertTrue(sapInit.setValue(sap, val));
 		return sap;
 	}
 	

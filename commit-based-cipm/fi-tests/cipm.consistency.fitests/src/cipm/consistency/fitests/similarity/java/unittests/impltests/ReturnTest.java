@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.statements.StatementsPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class ReturnTest extends EObjectSimilarityTest implements UsesExpressions
 	protected Return initElement(Expression expr) {
 		var retInit = new ReturnInitialiser();
 		var ret = retInit.instantiate();
-		retInit.minimalInitialisation(ret);
-		retInit.setReturnValue(ret, expr);
+		Assertions.assertTrue(retInit.minimalInitialisation(ret));
+		Assertions.assertTrue(retInit.setReturnValue(ret, expr));
 		return ret;
 	}
 	

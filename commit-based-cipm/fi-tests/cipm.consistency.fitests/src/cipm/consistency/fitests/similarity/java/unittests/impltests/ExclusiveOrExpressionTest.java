@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.expressions.ExclusiveOrExpression;
 import org.emftext.language.java.expressions.ExclusiveOrExpressionChild;
 import org.emftext.language.java.expressions.ExpressionsPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,7 +14,7 @@ public class ExclusiveOrExpressionTest extends EObjectSimilarityTest implements 
 	protected ExclusiveOrExpression initElement(ExclusiveOrExpressionChild[] children) {
 		var eoeInit = new ExclusiveOrExpressionInitialiser();
 		var eoe = eoeInit.instantiate();
-		eoeInit.addChildren(eoe, children);
+		Assertions.assertTrue(eoeInit.addChildren(eoe, children));
 		return eoe;
 	}
 	

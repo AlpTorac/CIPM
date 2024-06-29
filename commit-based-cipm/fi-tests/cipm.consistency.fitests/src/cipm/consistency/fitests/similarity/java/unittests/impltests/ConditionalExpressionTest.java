@@ -5,6 +5,7 @@ import org.emftext.language.java.expressions.ConditionalExpression;
 import org.emftext.language.java.expressions.ConditionalExpressionChild;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionsPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -18,11 +19,11 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 			Expression geeExpr) {
 		var ceInit = new ConditionalExpressionInitialiser();
 		var ce = ceInit.instantiate();
-		ceInit.minimalInitialisation(ce);
-		ceInit.setChild(ce, child);
-		ceInit.setExpressionChild(ce, exprChild);
-		ceInit.setExpressionIf(ce, exprIf);
-		ceInit.setGeneralExpressionElse(ce, geeExpr);
+		Assertions.assertTrue(ceInit.minimalInitialisation(ce));
+		Assertions.assertTrue(ceInit.setChild(ce, child));
+		Assertions.assertTrue(ceInit.setExpressionChild(ce, exprChild));
+		Assertions.assertTrue(ceInit.setExpressionIf(ce, exprIf));
+		Assertions.assertTrue(ceInit.setGeneralExpressionElse(ce, geeExpr));
 		return ce;
 	}
 	

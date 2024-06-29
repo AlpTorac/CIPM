@@ -4,6 +4,7 @@ import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.expressions.MethodReferenceExpressionChild;
 import org.emftext.language.java.expressions.PrimaryExpressionReferenceExpression;
 import org.emftext.language.java.references.Reference;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -14,9 +15,9 @@ public class PrimaryExpressionReferenceExpressionTest extends EObjectSimilarityT
 	protected PrimaryExpressionReferenceExpression initElement(MethodReferenceExpressionChild child, Reference metRef) {
 		var pereInit = new PrimaryExpressionReferenceExpressionInitialiser();
 		var pere = pereInit.instantiate();
-		pereInit.minimalInitialisation(pere);
-		pereInit.setChild(pere, child);
-		pereInit.setMethodReference(pere, metRef);
+		Assertions.assertTrue(pereInit.minimalInitialisation(pere));
+		Assertions.assertTrue(pereInit.setChild(pere, child));
+		Assertions.assertTrue(pereInit.setMethodReference(pere, metRef));
 		return pere;
 	}
 	

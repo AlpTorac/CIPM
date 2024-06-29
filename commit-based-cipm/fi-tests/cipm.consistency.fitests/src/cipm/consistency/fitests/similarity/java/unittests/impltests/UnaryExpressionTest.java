@@ -4,6 +4,7 @@ import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.expressions.UnaryExpression;
 import org.emftext.language.java.expressions.UnaryExpressionChild;
 import org.emftext.language.java.operators.UnaryOperator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -14,8 +15,8 @@ public class UnaryExpressionTest extends EObjectSimilarityTest implements UsesEx
 	protected UnaryExpression initElement(UnaryExpressionChild child, UnaryOperator[] ops) {
 		var ueInit = new UnaryExpressionInitialiser();
 		var ue = ueInit.instantiate();
-		ueInit.setChild(ue, child);
-		ueInit.addOperators(ue, ops);
+		Assertions.assertTrue(ueInit.setChild(ue, child));
+		Assertions.assertTrue(ueInit.addOperators(ue, ops));
 		return ue;
 	}
 	

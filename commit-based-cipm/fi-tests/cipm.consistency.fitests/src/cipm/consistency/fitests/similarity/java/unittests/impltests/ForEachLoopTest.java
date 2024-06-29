@@ -4,6 +4,7 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.parameters.OrdinaryParameter;
 import org.emftext.language.java.statements.ForEachLoop;
 import org.emftext.language.java.statements.StatementsPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -15,9 +16,9 @@ public class ForEachLoopTest extends EObjectSimilarityTest implements UsesExpres
 	protected ForEachLoop initElement(Expression expr, OrdinaryParameter op) {
 		var felInit = new ForEachLoopInitialiser();
 		var fel = felInit.instantiate();
-		felInit.minimalInitialisation(fel);
-		felInit.setCollection(fel, expr);
-		felInit.setNext(fel, op);
+		Assertions.assertTrue(felInit.minimalInitialisation(fel));
+		Assertions.assertTrue(felInit.setCollection(fel, expr));
+		Assertions.assertTrue(felInit.setNext(fel, op));
 		return fel;
 	}
 	

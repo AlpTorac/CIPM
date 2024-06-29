@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 
 import org.emftext.language.java.references.ReferencesPackage;
 import org.emftext.language.java.references.TextBlockReference;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -11,8 +12,8 @@ public class TextBlockReferenceTest extends EObjectSimilarityTest {
 	protected TextBlockReference initElement(String val) {
 		var tbrInit = new TextBlockReferenceInitialiser();
 		var tbr = tbrInit.instantiate();
-		tbrInit.minimalInitialisation(tbr);
-		tbrInit.setValue(tbr, val);
+		Assertions.assertTrue(tbrInit.minimalInitialisation(tbr));
+		Assertions.assertTrue(tbrInit.setValue(tbr, val));
 		return tbr;
 	}
 	

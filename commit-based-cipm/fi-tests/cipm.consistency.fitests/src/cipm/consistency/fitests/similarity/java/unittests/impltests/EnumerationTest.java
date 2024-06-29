@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.classifiers.Enumeration;
 import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.members.EnumConstant;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class EnumerationTest extends EObjectSimilarityTest implements UsesEnumCo
 	protected Enumeration initElement(EnumConstant[] csts) {
 		var enmInit = new EnumerationInitialiser();
 		var enm = enmInit.instantiate();
-		enmInit.minimalInitialisation(enm);
-		enmInit.addConstants(enm, csts);
+		Assertions.assertTrue(enmInit.minimalInitialisation(enm));
+		Assertions.assertTrue(enmInit.addConstants(enm, csts));
 		return enm;
 	}
 	

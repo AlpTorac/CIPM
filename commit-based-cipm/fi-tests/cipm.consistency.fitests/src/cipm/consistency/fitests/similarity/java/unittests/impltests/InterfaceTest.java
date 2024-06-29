@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.types.TypeReference;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,9 +14,9 @@ public class InterfaceTest extends EObjectSimilarityTest implements UsesTypeRefe
 	protected Interface initElement(TypeReference[] defExts, TypeReference[] exts) {
 		var intfcInit = new InterfaceInitialiser();
 		var intfc = intfcInit.instantiate();
-		intfcInit.minimalInitialisation(intfc);
-		intfcInit.addDefaultExtends(intfc, defExts);
-		intfcInit.addExtends(intfc, exts);
+		Assertions.assertTrue(intfcInit.minimalInitialisation(intfc));
+		Assertions.assertTrue(intfcInit.addDefaultExtends(intfc, defExts));
+		Assertions.assertTrue(intfcInit.addExtends(intfc, exts));
 		return intfc;
 	}
 	

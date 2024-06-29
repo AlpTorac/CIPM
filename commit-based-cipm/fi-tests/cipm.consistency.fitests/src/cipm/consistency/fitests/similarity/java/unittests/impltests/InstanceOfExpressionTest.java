@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.expressions.InstanceOfExpression;
 import org.emftext.language.java.expressions.InstanceOfExpressionChild;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,7 +14,7 @@ public class InstanceOfExpressionTest extends EObjectSimilarityTest implements U
 	protected InstanceOfExpression initElement(InstanceOfExpressionChild child) {
 		var ioeInit = new InstanceOfExpressionInitialiser();
 		var ioe = ioeInit.instantiate();
-		ioeInit.setChild(ioe, child);
+		Assertions.assertTrue(ioeInit.setChild(ioe, child));
 		return ioe;
 	}
 	

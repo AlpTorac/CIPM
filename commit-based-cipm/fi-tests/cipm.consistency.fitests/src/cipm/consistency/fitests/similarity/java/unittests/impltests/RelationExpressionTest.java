@@ -4,6 +4,7 @@ import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.expressions.RelationExpression;
 import org.emftext.language.java.expressions.RelationExpressionChild;
 import org.emftext.language.java.operators.RelationOperator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -14,8 +15,8 @@ public class RelationExpressionTest extends EObjectSimilarityTest implements Use
 	protected RelationExpression initElement(RelationExpressionChild[] children, RelationOperator[] ops) {
 		var reInit = new RelationExpressionInitialiser();
 		var re = reInit.instantiate();
-		reInit.addChildren(re, children);
-		reInit.addRelationOperators(re, ops);
+		Assertions.assertTrue(reInit.addChildren(re, children));
+		Assertions.assertTrue(reInit.addRelationOperators(re, ops));
 		return re;
 	}
 	

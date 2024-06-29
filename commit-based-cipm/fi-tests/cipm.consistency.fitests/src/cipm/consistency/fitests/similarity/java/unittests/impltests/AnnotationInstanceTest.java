@@ -4,6 +4,7 @@ import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationParameter;
 import org.emftext.language.java.annotations.AnnotationsPackage;
 import org.emftext.language.java.classifiers.Classifier;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -17,9 +18,9 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest
 	protected AnnotationInstance initElement(Classifier cls, AnnotationParameter param) {
 		var initialiser = new AnnotationInstanceInitialiser();
 		AnnotationInstance ai = initialiser.instantiate();
-		initialiser.minimalInitialisation(ai);
-		initialiser.setAnnotation(ai, cls);
-		initialiser.setAnnotationParameter(ai, param);
+		Assertions.assertTrue(initialiser.minimalInitialisation(ai));
+		Assertions.assertTrue(initialiser.setAnnotation(ai, cls));
+		Assertions.assertTrue(initialiser.setAnnotationParameter(ai, param));
 		return ai;
 	}
 	

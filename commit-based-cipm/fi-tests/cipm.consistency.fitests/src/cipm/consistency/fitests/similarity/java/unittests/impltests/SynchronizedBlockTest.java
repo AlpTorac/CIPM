@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.StatementsPackage;
 import org.emftext.language.java.statements.SynchronizedBlock;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class SynchronizedBlockTest extends EObjectSimilarityTest implements Uses
 	protected SynchronizedBlock initElement(Expression expr) {
 		var sbInit = new SynchronizedBlockInitialiser();
 		var sb = sbInit.instantiate();
-		sbInit.minimalInitialisation(sb);
-		sbInit.setLockProvider(sb, expr);
+		Assertions.assertTrue(sbInit.minimalInitialisation(sb));
+		Assertions.assertTrue(sbInit.setLockProvider(sb, expr));
 		return sb;
 	}
 	

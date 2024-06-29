@@ -4,6 +4,7 @@ import org.emftext.language.java.modifiers.ModuleRequiresModifier;
 import org.emftext.language.java.modules.ModuleReference;
 import org.emftext.language.java.modules.ModulesPackage;
 import org.emftext.language.java.modules.RequiresModuleDirective;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -16,9 +17,9 @@ UsesModuleReferences {
 	protected RequiresModuleDirective initElement(ModuleRequiresModifier mrm, ModuleReference mref) {
 		var rmdInit = new RequiresModuleDirectiveInitialiser();
 		var rmd = rmdInit.instantiate();
-		rmdInit.minimalInitialisation(rmd);
-		rmdInit.setModifier(rmd, mrm);
-		rmdInit.setRequiredModule(rmd, mref);
+		Assertions.assertTrue(rmdInit.minimalInitialisation(rmd));
+		Assertions.assertTrue(rmdInit.setModifier(rmd, mrm));
+		Assertions.assertTrue(rmdInit.setRequiredModule(rmd, mref));
 		return rmd;
 	}
 	
