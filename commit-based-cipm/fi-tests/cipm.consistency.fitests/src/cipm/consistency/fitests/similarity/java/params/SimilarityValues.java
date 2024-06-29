@@ -25,7 +25,6 @@ import org.emftext.language.java.instantiations.NewConstructorCallWithInferredTy
 import org.emftext.language.java.members.AdditionalField;
 import org.emftext.language.java.members.EnumConstant;
 import org.emftext.language.java.members.MembersPackage;
-import org.emftext.language.java.members.Method;
 import org.emftext.language.java.modifiers.ModifiersPackage;
 import org.emftext.language.java.modules.ModulesPackage;
 import org.emftext.language.java.modules.ProvidesModuleDirective;
