@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 import org.emftext.language.java.modifiers.Modifiable;
 import org.emftext.language.java.modifiers.Modifier;
 import org.emftext.language.java.modifiers.ModifiersPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -13,7 +14,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.params.ModifierFacto
 public class ModifiableTest extends EObjectSimilarityTest {
 	protected Modifiable initElement(IModifiableInitialiser init, Modifier[] modifs) {
 		Modifiable result = init.instantiate();
-		init.addModifiers(result, modifs);
+		Assertions.assertTrue(init.addModifiers(result, modifs));
 		return result;
 	}
 	

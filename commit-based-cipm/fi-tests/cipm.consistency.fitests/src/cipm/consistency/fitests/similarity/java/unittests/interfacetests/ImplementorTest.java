@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.classifiers.Implementor;
 import org.emftext.language.java.types.TypeReference;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -13,8 +14,8 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesTypeReferences;
 public class ImplementorTest extends EObjectSimilarityTest implements UsesTypeReferences {
 	protected Implementor initElement(IImplementorInitialiser init, TypeReference[] trefs) {
 		Implementor result = init.instantiate();
-		init.minimalInitialisation(result);
-		init.addImplements(result, trefs);
+		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.addImplements(result, trefs));
 		return result;
 	}
 	

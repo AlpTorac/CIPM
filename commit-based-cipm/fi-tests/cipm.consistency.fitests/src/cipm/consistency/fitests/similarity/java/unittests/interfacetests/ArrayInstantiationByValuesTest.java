@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import org.emftext.language.java.arrays.ArrayInitializer;
 import org.emftext.language.java.arrays.ArrayInstantiationByValues;
 import org.emftext.language.java.arrays.ArraysPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -17,8 +18,8 @@ public class ArrayInstantiationByValuesTest extends EObjectSimilarityTest implem
 	protected ArrayInstantiationByValues initElement(IArrayInstantiationByValuesInitialiser init,
 			ArrayInitializer ai) {
 		ArrayInstantiationByValues result = init.instantiate();
-		init.minimalInitialisation(result);
-		init.setArrayInitializer(result, ai);
+		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.setArrayInitializer(result, ai));
 		return result;
 	}
 	

@@ -4,6 +4,7 @@ import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.expressions.UnaryModificationExpression;
 import org.emftext.language.java.expressions.UnaryModificationExpressionChild;
 import org.emftext.language.java.operators.UnaryModificationOperator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -15,9 +16,9 @@ public class UnaryModificationExpressionTest extends EObjectSimilarityTest imple
 	protected UnaryModificationExpression initElement(IUnaryModificationExpressionInitialiser initialiser,
 			UnaryModificationExpressionChild child, UnaryModificationOperator op) {
 		UnaryModificationExpression result = initialiser.instantiate();
-		initialiser.minimalInitialisation(result);
-		initialiser.setChild(result, child);
-		initialiser.setOperator(result, op);
+		Assertions.assertTrue(initialiser.minimalInitialisation(result));
+		Assertions.assertTrue(initialiser.setChild(result, child));
+		Assertions.assertTrue(initialiser.setOperator(result, op));
 		return result;
 	}
 	

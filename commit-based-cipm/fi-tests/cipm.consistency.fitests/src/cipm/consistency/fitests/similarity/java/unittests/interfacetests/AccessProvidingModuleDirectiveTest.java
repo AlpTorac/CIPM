@@ -5,6 +5,7 @@ import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.modules.AccessProvidingModuleDirective;
 import org.emftext.language.java.modules.ModuleReference;
 import org.emftext.language.java.modules.ModulesPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -17,9 +18,9 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest im
 	protected AccessProvidingModuleDirective initElement(IAccessProvidingModuleDirectiveInitialiser init,
 			ModuleReference[] modrefs, Package pac) {
 		AccessProvidingModuleDirective result = init.instantiate();
-		init.minimalInitialisation(result);
-		init.addModules(result, modrefs);
-		init.setAccessablePackage(result, pac);
+		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.addModules(result, modrefs));
+		Assertions.assertTrue(init.setAccessablePackage(result, pac));
 		return result;
 	}
 	

@@ -5,6 +5,7 @@ import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.ModifiersPackage;
 import org.emftext.language.java.modifiers.Modifier;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -23,10 +24,10 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 			InitialiserVisibilityModifier visibility) {
 		
 		AnnotableAndModifiable result = initialiser.instantiate();
-		initialiser.minimalInitialisation(result);
-		initialiser.addModifiers(result, mods);
-		initialiser.addAnnotationInstances(result, ais);
-		initialiser.setVisibility(result, visibility);
+		Assertions.assertTrue(initialiser.minimalInitialisation(result));
+		Assertions.assertTrue(initialiser.addModifiers(result, mods));
+		Assertions.assertTrue(initialiser.addAnnotationInstances(result, ais));
+		Assertions.assertTrue(initialiser.setVisibility(result, visibility));
 		return result;
 	}
 	

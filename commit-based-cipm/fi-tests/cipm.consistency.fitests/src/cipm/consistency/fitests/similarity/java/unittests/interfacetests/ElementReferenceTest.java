@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 import org.emftext.language.java.references.ElementReference;
 import org.emftext.language.java.references.ReferenceableElement;
 import org.emftext.language.java.references.ReferencesPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -18,13 +19,13 @@ UsesAnnotationInstances, UsesAnnotationParameters {
 	protected ElementReference initElement(IElementReferenceInitialiser init,
 			ReferenceableElement target, ReferenceableElement cTarget) {
 		ElementReference result = init.instantiate();
-		init.minimalInitialisation(result);
-		init.setTarget(result, target);
-		init.setContainedTarget(result, cTarget);
+		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.setTarget(result, target));
+		Assertions.assertTrue(init.setContainedTarget(result, cTarget));
 		
 		var aiInit = new AnnotationInstanceInitialiser();
 		var ai = this.createMinimalAI(new String[] {"nsai"}, "an");
-		aiInit.setAnnotationParameter(ai, this.createSingleAnnoParam(result));
+		Assertions.assertTrue(aiInit.setAnnotationParameter(ai, this.createSingleAnnoParam(result)));
 		
 		return result;
 	}

@@ -5,6 +5,7 @@ import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.imports.ImportsPackage;
 import org.emftext.language.java.imports.PackageImport;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -23,8 +24,8 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 			Import[] imps, PackageImport[] pImps) {
 		Classifier result = initialiser.instantiate();
 		initialiser.minimalInitialisationWithContainer(result);
-		initialiser.addImports(result, imps);
-		initialiser.addPackageImports(result, pImps);
+		Assertions.assertTrue(initialiser.addImports(result, imps));
+		Assertions.assertTrue(initialiser.addPackageImports(result, pImps));
 		return result;
 	}
 	

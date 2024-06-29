@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 import org.emftext.language.java.imports.ImportsPackage;
 import org.emftext.language.java.imports.StaticImport;
 import org.emftext.language.java.modifiers.Static;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
@@ -14,8 +15,8 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesImports;
 public class StaticImportTest extends EObjectSimilarityTest implements UsesImports {
 	protected StaticImport initElement(IStaticImportInitialiser init, Static st) {
 		StaticImport result = init.instantiate();
-		init.minimalInitialisation(result);
-		init.setStatic(result, st);
+		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.setStatic(result, st));
 		return result;
 	}
 	
