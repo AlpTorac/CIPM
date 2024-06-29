@@ -17,9 +17,6 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesStatements;
  * @author atora
  */
 public class StatementListContainerTest extends EObjectSimilarityTest implements UsesStatements {
-	
-	// FIXME: Implement missing impltests (statements work differently for each one)
-	
 	protected StatementListContainer initElement(IStatementListContainerInitialiser initialiser,
 			Statement[] sts) {
 		StatementListContainer result = initialiser.instantiate();
@@ -28,8 +25,6 @@ public class StatementListContainerTest extends EObjectSimilarityTest implements
 		return result;
 	}
 
-	// TODO: Clean up if useless
-	
 	@ParameterizedTest
 	@ArgumentsSource(StatementListContainerTestParams.class)
 	public void testStatements(IStatementListContainerInitialiser initialiser) {
