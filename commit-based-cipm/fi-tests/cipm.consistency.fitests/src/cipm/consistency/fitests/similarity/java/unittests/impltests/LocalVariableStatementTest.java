@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.StatementsPackage;
 import org.emftext.language.java.variables.LocalVariable;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class LocalVariableStatementTest extends EObjectSimilarityTest implements
 	protected LocalVariableStatement initElement(LocalVariable lv) {
 		var lvsInit = new LocalVariableStatementInitialiser();
 		var lvs = lvsInit.instantiate();
-		lvsInit.minimalInitialisation(lvs);
-		lvsInit.setVariable(lvs, lv);
+		Assertions.assertTrue(lvsInit.minimalInitialisation(lvs));
+		Assertions.assertTrue(lvsInit.setVariable(lvs, lv));
 		return lvs;
 	}
 	

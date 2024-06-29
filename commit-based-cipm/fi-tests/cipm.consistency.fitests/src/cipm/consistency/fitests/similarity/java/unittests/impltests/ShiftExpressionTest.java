@@ -4,6 +4,7 @@ import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.expressions.ShiftExpression;
 import org.emftext.language.java.expressions.ShiftExpressionChild;
 import org.emftext.language.java.operators.ShiftOperator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -14,8 +15,8 @@ public class ShiftExpressionTest extends EObjectSimilarityTest implements UsesEx
 	protected ShiftExpression initElement(ShiftExpressionChild[] children, ShiftOperator[] ops) {
 		var seInit = new ShiftExpressionInitialiser();
 		var se = seInit.instantiate();
-		seInit.addChildren(se, children);
-		seInit.addShiftOperators(se, ops);
+		Assertions.assertTrue(seInit.addChildren(se, children));
+		Assertions.assertTrue(seInit.addShiftOperators(se, ops));
 		return se;
 	}
 	

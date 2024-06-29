@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.NormalSwitchRule;
 import org.emftext.language.java.statements.StatementsPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class NormalSwitchRuleTest extends EObjectSimilarityTest implements UsesE
 	protected NormalSwitchRule initElement(Expression[] exprs) {
 		var nsrInit = new NormalSwitchRuleInitialiser();
 		var nsr = nsrInit.instantiate();
-		nsrInit.minimalInitialisation(nsr);
-		nsrInit.addAdditionalConditions(nsr, exprs);
+		Assertions.assertTrue(nsrInit.minimalInitialisation(nsr));
+		Assertions.assertTrue(nsrInit.addAdditionalConditions(nsr, exprs));
 		return nsr;
 	}
 	

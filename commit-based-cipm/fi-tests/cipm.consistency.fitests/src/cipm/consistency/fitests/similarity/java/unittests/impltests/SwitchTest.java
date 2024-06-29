@@ -4,6 +4,7 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.StatementsPackage;
 import org.emftext.language.java.statements.Switch;
 import org.emftext.language.java.statements.SwitchCase;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -14,9 +15,9 @@ public class SwitchTest extends EObjectSimilarityTest implements UsesSwitchCases
 	protected Switch initElement(SwitchCase[] scs, Expression expr) {
 		var swInit = new SwitchInitialiser();
 		var sw = swInit.instantiate();
-		swInit.minimalInitialisation(sw);
-		swInit.addCases(sw, scs);
-		swInit.setVariable(sw, expr);
+		Assertions.assertTrue(swInit.minimalInitialisation(sw));
+		Assertions.assertTrue(swInit.addCases(sw, scs));
+		Assertions.assertTrue(swInit.setVariable(sw, expr));
 		return sw;
 	}
 	

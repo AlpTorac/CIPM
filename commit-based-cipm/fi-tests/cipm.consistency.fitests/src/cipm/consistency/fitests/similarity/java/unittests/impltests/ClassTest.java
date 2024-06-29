@@ -7,15 +7,16 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesTypeReferences;
 import org.emftext.language.java.classifiers.Class;
 import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.types.TypeReference;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class ClassTest extends EObjectSimilarityTest implements UsesTypeReferences {
 	protected Class initElement(TypeReference defExt, TypeReference ext) {
 		var clsInit = new ClassInitialiser();
 		var cls = clsInit.instantiate();
-		clsInit.minimalInitialisation(cls);
-		clsInit.setDefaultExtends(cls, defExt);
-		clsInit.setExtends(cls, ext);
+		Assertions.assertTrue(clsInit.minimalInitialisation(cls));
+		Assertions.assertTrue(clsInit.setDefaultExtends(cls, defExt));
+		Assertions.assertTrue(clsInit.setExtends(cls, ext));
 		return cls;
 	}
 	

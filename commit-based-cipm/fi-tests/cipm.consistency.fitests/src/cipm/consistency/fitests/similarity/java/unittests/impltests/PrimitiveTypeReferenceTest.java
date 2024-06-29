@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.references.PrimitiveTypeReference;
 import org.emftext.language.java.references.ReferencesPackage;
 import org.emftext.language.java.types.PrimitiveType;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -14,8 +15,8 @@ public class PrimitiveTypeReferenceTest extends EObjectSimilarityTest {
 	protected PrimitiveTypeReference initElement(PrimitiveType ptype) {
 		var ptInit = new PrimitiveTypeReferenceInitialiser();
 		var pt = ptInit.instantiate();
-		ptInit.minimalInitialisation(pt);
-		ptInit.setPrimitiveType(pt, ptype);
+		Assertions.assertTrue(ptInit.minimalInitialisation(pt));
+		Assertions.assertTrue(ptInit.setPrimitiveType(pt, ptype));
 		return pt;
 	}
 	

@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.expressions.AndExpression;
 import org.emftext.language.java.expressions.AndExpressionChild;
 import org.emftext.language.java.expressions.ExpressionsPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,7 +14,7 @@ public class AndExpressionTest extends EObjectSimilarityTest implements UsesExpr
 	protected AndExpression initElement(AndExpressionChild[] children) {
 		var aeInit = new AndExpressionInitialiser();
 		var ae = aeInit.instantiate();
-		aeInit.addChildren(ae, children);
+		Assertions.assertTrue(aeInit.addChildren(ae, children));
 		return ae;
 	}
 	

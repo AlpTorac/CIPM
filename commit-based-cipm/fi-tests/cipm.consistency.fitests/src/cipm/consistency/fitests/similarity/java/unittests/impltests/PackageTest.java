@@ -4,7 +4,7 @@ import org.emftext.language.java.containers.ContainersPackage;
 import org.emftext.language.java.containers.Module;
 import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -16,10 +16,9 @@ public class PackageTest extends EObjectSimilarityTest implements UsesModules, U
 	protected Package initElement(Module mod, ConcreteClassifier[] clss) {
 		var initialiser = new PackageInitialiser();
 		Package pac = initialiser.instantiate();
-		initialiser.minimalInitialisation(pac);
-		
-		initialiser.initialiseModuleField(pac, mod);
-		initialiser.addClassifiers(pac, clss);
+		Assertions.assertTrue(initialiser.minimalInitialisation(pac));
+		Assertions.assertTrue(initialiser.initialiseModuleField(pac, mod));
+		Assertions.assertTrue(initialiser.addClassifiers(pac, clss));
 		
 		return pac;
 	}

@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.TypesPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class NamespaceClassifierReferenceTest extends EObjectSimilarityTest impl
 	protected NamespaceClassifierReference initElement(ClassifierReference[] refs) {
 		var ncrInit = new NamespaceClassifierReferenceInitialiser();
 		var ncr = ncrInit.instantiate();
-		ncrInit.minimalInitialisation(ncr);
-		ncrInit.addClassifierReferences(ncr, refs);
+		Assertions.assertTrue(ncrInit.minimalInitialisation(ncr));
+		Assertions.assertTrue(ncrInit.addClassifierReferences(ncr, refs));
 		return ncr;
 	}
 	

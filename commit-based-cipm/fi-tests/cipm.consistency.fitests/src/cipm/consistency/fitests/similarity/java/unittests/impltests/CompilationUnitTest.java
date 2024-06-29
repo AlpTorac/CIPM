@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.ContainersPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class CompilationUnitTest extends EObjectSimilarityTest implements UsesCo
 	protected CompilationUnit initElement(ConcreteClassifier[] ccs) {
 		var cuInit = new CompilationUnitInitialiser();
 		var cu = cuInit.instantiate();
-		cuInit.minimalInitialisation(cu);
-		cuInit.addClassifiers(cu, ccs);
+		Assertions.assertTrue(cuInit.minimalInitialisation(cu));
+		Assertions.assertTrue(cuInit.addClassifiers(cu, ccs));
 		return cu;
 	}
 	

@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.members.AdditionalField;
 import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.MembersPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class FieldTest extends EObjectSimilarityTest implements UsesAdditionalFi
 	protected Field initElement(AdditionalField[] afs) {
 		var fieldInit = new FieldInitialiser();
 		var field = fieldInit.instantiate();
-		fieldInit.minimalInitialisation(field);
-		fieldInit.addAdditionalFields(field, afs);
+		Assertions.assertTrue(fieldInit.minimalInitialisation(field));
+		Assertions.assertTrue(fieldInit.addAdditionalFields(field, afs));
 		return field;
 	}
 	

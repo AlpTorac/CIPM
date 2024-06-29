@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.parameters.CatchParameter;
 import org.emftext.language.java.parameters.ParametersPackage;
 import org.emftext.language.java.types.TypeReference;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class CatchParameterTest extends EObjectSimilarityTest implements UsesTyp
 	protected CatchParameter initElement(TypeReference[] trefs) {
 		var cpInit = new CatchParameterInitialiser();
 		var cp = cpInit.instantiate();
-		cpInit.minimalInitialisation(cp);
-		cpInit.addTypeReferences(cp, trefs);
+		Assertions.assertTrue(cpInit.minimalInitialisation(cp));
+		Assertions.assertTrue(cpInit.addTypeReferences(cp, trefs));
 		return cp;
 	}
 	

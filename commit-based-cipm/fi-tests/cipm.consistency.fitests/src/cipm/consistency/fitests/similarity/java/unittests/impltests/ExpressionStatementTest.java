@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.StatementsPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class ExpressionStatementTest extends EObjectSimilarityTest implements Us
 	protected ExpressionStatement initElement(Expression expr) {
 		var esInit = new ExpressionStatementInitialiser();
 		var es = esInit.instantiate();
-		esInit.minimalInitialisation(es);
-		esInit.setExpression(es, expr);
+		Assertions.assertTrue(esInit.minimalInitialisation(es));
+		Assertions.assertTrue(esInit.setExpression(es, expr));
 		return es;
 	}
 	

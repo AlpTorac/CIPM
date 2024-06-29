@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.StatementsPackage;
 import org.emftext.language.java.statements.YieldStatement;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class YieldStatementTest extends EObjectSimilarityTest implements UsesExp
 	protected YieldStatement initElement(Expression expr) {
 		var ysInit = new YieldStatementInitialiser();
 		var ys = ysInit.instantiate();
-		ysInit.minimalInitialisation(ys);
-		ysInit.setYieldExpression(ys, expr);
+		Assertions.assertTrue(ysInit.minimalInitialisation(ys));
+		Assertions.assertTrue(ysInit.setYieldExpression(ys, expr));
 		return ys;
 	}
 	

@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.generics.ExtendsTypeArgument;
 import org.emftext.language.java.generics.GenericsPackage;
 import org.emftext.language.java.types.TypeReference;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class ExtendsTypeArgumentTest extends EObjectSimilarityTest implements Us
 	protected ExtendsTypeArgument initElement(TypeReference tref) {
 		var etaInit = new ExtendsTypeArgumentInitialiser();
 		var eta = etaInit.instantiate();
-		etaInit.minimalInitialisation(eta);
-		etaInit.setExtendType(eta, tref);
+		Assertions.assertTrue(etaInit.minimalInitialisation(eta));
+		Assertions.assertTrue(etaInit.setExtendType(eta, tref));
 		return eta;
 	}
 	

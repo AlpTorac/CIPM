@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.classifiers.AnonymousClass;
 import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.emftext.language.java.instantiations.InstantiationsPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class NewConstructorCallTest extends EObjectSimilarityTest implements Use
 	protected NewConstructorCall initElement(AnonymousClass ac) {
 		var nccInit = new NewConstructorCallInitialiser();
 		var ncc = nccInit.instantiate();
-		nccInit.minimalInitialisation(ncc);
-		nccInit.setAnonymousClass(ncc, ac);
+		Assertions.assertTrue(nccInit.minimalInitialisation(ncc));
+		Assertions.assertTrue(nccInit.setAnonymousClass(ncc, ac));
 		return ncc;
 	}
 	

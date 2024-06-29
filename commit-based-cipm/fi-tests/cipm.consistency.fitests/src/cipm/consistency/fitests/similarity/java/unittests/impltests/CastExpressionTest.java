@@ -5,6 +5,7 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.expressions.MultiplicativeExpressionChild;
 import org.emftext.language.java.types.TypeReference;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -23,13 +24,10 @@ public class CastExpressionTest extends EObjectSimilarityTest implements UsesExp
 			Expression gChild) {
 		var ceInit = new CastExpressionInitialiser();
 		var ce = ceInit.instantiate();
-		ceInit.minimalInitialisation(ce);
-		ceInit.addAdditionalBounds(ce, trefs);
-		ceInit.setChild(ce, child);
-		ceInit.setGeneralChild(ce, gChild);
-		
-		this.getLogger().info("Child and general child are the same: " + (ce.getChild() == ce.getGeneralChild()));
-		
+		Assertions.assertTrue(ceInit.minimalInitialisation(ce));
+		Assertions.assertTrue(ceInit.addAdditionalBounds(ce, trefs));
+		Assertions.assertTrue(ceInit.setChild(ce, child));
+		Assertions.assertTrue(ceInit.setGeneralChild(ce, gChild));
 		return ce;
 	}
 	

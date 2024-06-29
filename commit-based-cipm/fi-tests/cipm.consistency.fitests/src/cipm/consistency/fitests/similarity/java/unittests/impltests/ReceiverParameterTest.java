@@ -4,6 +4,7 @@ import org.emftext.language.java.parameters.ReceiverParameter;
 import org.emftext.language.java.literals.This;
 import org.emftext.language.java.parameters.ParametersPackage;
 import org.emftext.language.java.types.TypeReference;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -16,9 +17,9 @@ UsesLiterals{
 	protected ReceiverParameter initElement(This th, TypeReference otRef) {
 		var rpInit = new ReceiverParameterInitialiser();
 		var rp = rpInit.instantiate();
-		rpInit.minimalInitialisation(rp);
-		rpInit.setThisReference(rp, th);
-		rpInit.setOuterTypeReference(rp, otRef);
+		Assertions.assertTrue(rpInit.minimalInitialisation(rp));
+		Assertions.assertTrue(rpInit.setThisReference(rp, th));
+		Assertions.assertTrue(rpInit.setOuterTypeReference(rp, otRef));
 		return rp;
 	}
 	

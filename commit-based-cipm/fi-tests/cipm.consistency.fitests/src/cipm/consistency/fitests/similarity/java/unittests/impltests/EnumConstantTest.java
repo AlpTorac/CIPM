@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.classifiers.AnonymousClass;
 import org.emftext.language.java.members.EnumConstant;
 import org.emftext.language.java.members.MembersPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class EnumConstantTest extends EObjectSimilarityTest implements UsesAnony
 	protected EnumConstant initElement(AnonymousClass cls) {
 		var ecInit = new EnumConstantInitialiser();
 		var ec = ecInit.instantiate();
-		ecInit.minimalInitialisation(ec);
-		ecInit.setAnonymousClass(ec, cls);
+		Assertions.assertTrue(ecInit.minimalInitialisation(ec));
+		Assertions.assertTrue(ecInit.setAnonymousClass(ec, cls));
 		return ec;
 	}
 	

@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.arrays.ArrayInitializationValue;
 import org.emftext.language.java.arrays.ArraysPackage;
 import org.emftext.language.java.arrays.ArrayInitializer;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class ArrayInitializerTest extends EObjectSimilarityTest implements UsesE
 	protected ArrayInitializer initElement(ArrayInitializationValue[] aivs) {
 		var aiInit = new ArrayInitializerInitialiser();
 		var ai = aiInit.instantiate();
-		aiInit.minimalInitialisation(ai);
-		aiInit.addInitialValues(ai, aivs);
+		Assertions.assertTrue(aiInit.minimalInitialisation(ai));
+		Assertions.assertTrue(aiInit.addInitialValues(ai, aivs));
 		return ai;
 	}
 	

@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.members.InterfaceMethod;
 import org.emftext.language.java.members.MembersPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class InterfaceMethodTest extends EObjectSimilarityTest implements UsesAn
 	protected InterfaceMethod initElement(AnnotationValue av) {
 		var imInit = new InterfaceMethodInitialiser();
 		var im = imInit.instantiate();
-		imInit.minimalInitialisation(im);
-		imInit.setDefaultValue(im, av);
+		Assertions.assertTrue(imInit.minimalInitialisation(im));
+		Assertions.assertTrue(imInit.setDefaultValue(im, av));
 		return im;
 	}
 	

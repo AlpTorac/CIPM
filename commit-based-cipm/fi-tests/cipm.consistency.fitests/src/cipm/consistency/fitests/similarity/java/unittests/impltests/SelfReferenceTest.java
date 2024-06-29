@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.literals.Self;
 import org.emftext.language.java.references.SelfReference;
 import org.emftext.language.java.references.ReferencesPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class SelfReferenceTest extends EObjectSimilarityTest implements UsesLite
 	protected SelfReference initElement(Self self) {
 		var srInit = new SelfReferenceInitialiser();
 		var sr = srInit.instantiate();
-		srInit.minimalInitialisation(sr);
-		srInit.setSelf(sr, self);
+		Assertions.assertTrue(srInit.minimalInitialisation(sr));
+		Assertions.assertTrue(srInit.setSelf(sr, self));
 		return sr;
 	}
 	

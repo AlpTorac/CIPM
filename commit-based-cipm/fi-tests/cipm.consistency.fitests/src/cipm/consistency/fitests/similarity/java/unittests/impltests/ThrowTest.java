@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.StatementsPackage;
 import org.emftext.language.java.statements.Throw;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class ThrowTest extends EObjectSimilarityTest implements UsesExpressions 
 	protected Throw initElement(Expression expr) {
 		var thInit = new ThrowInitialiser();
 		var th = thInit.instantiate();
-		thInit.minimalInitialisation(th);
-		thInit.setThrowable(th, expr);
+		Assertions.assertTrue(thInit.minimalInitialisation(th));
+		Assertions.assertTrue(thInit.setThrowable(th, expr));
 		return th;
 	}
 	

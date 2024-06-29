@@ -4,6 +4,7 @@ import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.expressions.MultiplicativeExpression;
 import org.emftext.language.java.expressions.MultiplicativeExpressionChild;
 import org.emftext.language.java.operators.MultiplicativeOperator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -14,8 +15,8 @@ public class MultiplicativeExpressionTest extends EObjectSimilarityTest implemen
 	protected MultiplicativeExpression initElement(MultiplicativeExpressionChild[] children, MultiplicativeOperator[] ops) {
 		var meInit = new MultiplicativeExpressionInitialiser();
 		var me = meInit.instantiate();
-		meInit.addChildren(me, children);
-		meInit.addMultiplicativeOperators(me, ops);
+		Assertions.assertTrue(meInit.addChildren(me, children));
+		Assertions.assertTrue(meInit.addMultiplicativeOperators(me, ops));
 		return me;
 	}
 	

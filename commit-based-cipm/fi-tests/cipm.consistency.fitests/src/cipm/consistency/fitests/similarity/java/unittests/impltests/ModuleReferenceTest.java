@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.unittests.impltests;
 import org.emftext.language.java.containers.Module;
 import org.emftext.language.java.modules.ModuleReference;
 import org.emftext.language.java.modules.ModulesPackage;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -13,8 +14,8 @@ public class ModuleReferenceTest extends EObjectSimilarityTest implements UsesMo
 	protected ModuleReference initElement(Module mod) {
 		var mrInit = new ModuleReferenceInitialiser();
 		var mr = mrInit.instantiate();
-		mrInit.minimalInitialisation(mr);
-		mrInit.setTarget(mr, mod);
+		Assertions.assertTrue(mrInit.minimalInitialisation(mr));
+		Assertions.assertTrue(mrInit.setTarget(mr, mod));
 		return mr;
 	}
 	

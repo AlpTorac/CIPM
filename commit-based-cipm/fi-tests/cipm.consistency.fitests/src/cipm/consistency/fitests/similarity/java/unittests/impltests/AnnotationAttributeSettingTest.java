@@ -4,6 +4,7 @@ import org.emftext.language.java.annotations.AnnotationAttributeSetting;
 import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.annotations.AnnotationsPackage;
 import org.emftext.language.java.members.InterfaceMethod;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -16,9 +17,9 @@ public class AnnotationAttributeSettingTest extends EObjectSimilarityTest
 	protected AnnotationAttributeSetting initElement(InterfaceMethod attr, AnnotationValue val) {
 		var initialiser = new AnnotationAttributeSettingInitialiser();
 		AnnotationAttributeSetting result = initialiser.instantiate();
-		initialiser.minimalInitialisation(result);
-		initialiser.setAttribute(result, attr);
-		initialiser.setValue(result, val);
+		Assertions.assertTrue(initialiser.minimalInitialisation(result));
+		Assertions.assertTrue(initialiser.setAttribute(result, attr));
+		Assertions.assertTrue(initialiser.setValue(result, val));
 		
 		return result;
 	}

@@ -4,6 +4,7 @@ import org.emftext.language.java.expressions.AdditiveExpression;
 import org.emftext.language.java.expressions.AdditiveExpressionChild;
 import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.operators.AdditiveOperator;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
@@ -14,8 +15,8 @@ public class AdditiveExpressionTest extends EObjectSimilarityTest implements Use
 	protected AdditiveExpression initElement(AdditiveExpressionChild[] children, AdditiveOperator[] ops) {
 		var aeInit = new AdditiveExpressionInitialiser();
 		var ae = aeInit.instantiate();
-		aeInit.addChildren(ae, children);
-		aeInit.addAdditiveOperators(ae, ops);
+		Assertions.assertTrue(aeInit.addChildren(ae, children));
+		Assertions.assertTrue(aeInit.addAdditiveOperators(ae, ops));
 		return ae;
 	}
 	
