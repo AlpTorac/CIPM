@@ -5,14 +5,15 @@ import org.emftext.language.java.references.ReferenceableElement;
 
 public interface IStaticMemberImportInitialiser extends
 	IStaticImportInitialiser {
-	public default void addStaticMember(StaticMemberImport smi, ReferenceableElement re) {
+	public default boolean addStaticMember(StaticMemberImport smi, ReferenceableElement re) {
 		if (re != null) {
 			smi.getStaticMembers().add(re);
-			assert smi.getStaticMembers().contains(re);
+			return smi.getStaticMembers().contains(re);
 		}
+		return false;
 	}
 	
-	public default void addStaticMembers(StaticMemberImport smi, ReferenceableElement[] res) {
-		this.addXs(smi, res, this::addStaticMember);
+	public default boolean addStaticMembers(StaticMemberImport smi, ReferenceableElement[] res) {
+		return this.addXs(smi, res, this::addStaticMember);
 	}
 }

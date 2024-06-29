@@ -7,10 +7,11 @@ public interface IConditionInitialiser extends IConditionalInitialiser,
 	IStatementInitialiser,
 	IStatementContainerInitialiser {
 	
-	public default void setElseStatement(Condition cond, Statement st) {
+	public default boolean setElseStatement(Condition cond, Statement st) {
 		if (st != null) {
 			cond.setElseStatement(st);
-			assert cond.getElseStatement().equals(st);
+			return cond.getElseStatement().equals(st);
 		}
+		return false;
 	}
 }

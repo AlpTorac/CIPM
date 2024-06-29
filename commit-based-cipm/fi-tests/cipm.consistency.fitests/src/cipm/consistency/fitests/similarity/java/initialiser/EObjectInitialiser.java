@@ -1,9 +1,15 @@
 package cipm.consistency.fitests.similarity.java.initialiser;
 
-import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+
+/*
+ * TODO: Add remove and/or clear methods to initialisers with
+ * addSoemthing() methods to allow modifications that may be
+ * necessary in advanced tests.
+ */
 
 public interface EObjectInitialiser extends IInitialiser {
 	/**
@@ -34,7 +40,7 @@ public interface EObjectInitialiser extends IInitialiser {
 	 * which do not require a container. If it needs a container to function,
 	 * it may still be faulty.</b>
 	 */
-	public default void minimalInitialisation(EObject obj) {}
+	public default boolean minimalInitialisation(EObject obj) {return true;}
 	
 	/**
 	 * Instantiates the {@link EObject} sub-class denoted by the generic parameter and
@@ -59,20 +65,16 @@ public interface EObjectInitialiser extends IInitialiser {
 		this.minimalInitialisation(obj);
 		return obj;
 	}
-	
-	public default <T extends EObject, X extends Object> void addXs(T obj, Iterable<X> xs, BiConsumer<T, X> addFunction) {
+
+	public default <T extends EObject, X extends Object> boolean addXs(T obj, X[] xs, BiFunction<T, X, Boolean> addFunction) {
+		boolean result = true;
+		
 		if (xs != null) {
 			for (var x : xs) {
-				addFunction.accept(obj, x);
+				result = result && addFunction.apply(obj, x);
 			}
 		}
-	}
-	
-	public default <T extends EObject, X extends Object> void addXs(T obj, X[] xs, BiConsumer<T, X> addFunction) {
-		if (xs != null) {
-			for (var x : xs) {
-				addFunction.accept(obj, x);
-			}
-		}
+		
+		return result;
 	}
 }

@@ -8,21 +8,23 @@ public interface IForLoopInitialiser extends IConditionalInitialiser,
 	IStatementInitialiser,
 	IStatementContainerInitialiser {
 
-	public default void setInit(ForLoop fl, ForLoopInitializer fli) {
+	public default boolean setInit(ForLoop fl, ForLoopInitializer fli) {
 		if (fli != null) {
 			fl.setInit(fli);
-			assert fl.getInit().equals(fli);
+			return fl.getInit().equals(fli);
 		}
+		return false;
 	}
 	
-	public default void addUpdate(ForLoop fl, Expression expr) {
+	public default boolean addUpdate(ForLoop fl, Expression expr) {
 		if (expr != null) {
 			fl.getUpdates().add(expr);
-			assert fl.getUpdates().contains(expr);
+			return fl.getUpdates().contains(expr);
 		}
+		return false;
 	}
 	
-	public default void addUpdates(ForLoop fl, Expression[] exprs) {
-		this.addXs(fl, exprs, this::addUpdate);
+	public default boolean addUpdates(ForLoop fl, Expression[] exprs) {
+		return this.addXs(fl, exprs, this::addUpdate);
 	}
 }

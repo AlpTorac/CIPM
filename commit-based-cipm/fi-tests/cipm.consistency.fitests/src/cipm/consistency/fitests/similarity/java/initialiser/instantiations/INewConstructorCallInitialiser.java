@@ -14,28 +14,32 @@ public interface INewConstructorCallInitialiser extends
 	IInstantiationInitialiser,
 	ITypedElementInitialiser {
 
-	public default void setAnonymousClass(NewConstructorCall ncc, AnonymousClass ac) {
+	public default boolean setAnonymousClass(NewConstructorCall ncc, AnonymousClass ac) {
 		if (ac != null) {
 			ncc.setAnonymousClass(ac);
-			assert ncc.getAnonymousClass().equals(ac);
+			return ncc.getAnonymousClass().equals(ac);
 		}
+		return false;
 	}
 	
-	// TODO: Move to a helper interface
 	@Override
-	public default void minimalInitialisation(EObject obj) {
+	public default boolean minimalInitialisation(EObject obj) {
 		var castedO = (NewConstructorCall) obj;
 		
-		var trefInit = new ClassifierReferenceInitialiser();
-		var clsInit = new ClassInitialiser();
-		
-		ConcreteClassifier cls = clsInit.instantiate();
-		clsInit.minimalInitialisation(cls);
-		
-		TypeReference tref = trefInit.instantiate();
-		trefInit.minimalInitialisation(tref);
-		trefInit.setTarget(tref, cls);
-		
-		this.setTypeReference(castedO, tref);
+		if (castedO.getTypeReference() == null) {
+			var trefInit = new ClassifierReferenceInitialiser();
+			var clsInit = new ClassInitialiser();
+			
+			ConcreteClassifier cls = clsInit.instantiate();
+			clsInit.minimalInitialisation(cls);
+			
+			TypeReference tref = trefInit.instantiate();
+			trefInit.minimalInitialisation(tref);
+			trefInit.setTarget(tref, cls);
+			
+			this.setTypeReference(castedO, tref);
+			return castedO.getTypeReference().equals(tref);
+		}
+		return false;
 	}
 }

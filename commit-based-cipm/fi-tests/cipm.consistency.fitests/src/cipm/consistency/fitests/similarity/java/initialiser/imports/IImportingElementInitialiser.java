@@ -6,14 +6,15 @@ import org.emftext.language.java.imports.ImportingElement;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface IImportingElementInitialiser extends ICommentableInitialiser {
-	public default void addImport(ImportingElement ie, Import imp) {
+	public default boolean addImport(ImportingElement ie, Import imp) {
 		if (imp != null) {
 			ie.getImports().add(imp);
-			assert ie.getImports().contains(imp);
+			return ie.getImports().contains(imp);
 		}
+		return false;
 	}
 	
-	public default void addImports(ImportingElement ie, Import[] imps) {
-		this.addXs(ie, imps, (o,i)->this.addImport(o, i));
+	public default boolean addImports(ImportingElement ie, Import[] imps) {
+		return this.addXs(ie, imps, this::addImport);
 	}
 }

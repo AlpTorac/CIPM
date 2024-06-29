@@ -9,45 +9,49 @@ public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
 	IStatementInitialiser,
 	IStatementListContainerInitialiser {
 
-	public default void setFinallyBlock(TryBlock tb, Block block) {
+	public default boolean setFinallyBlock(TryBlock tb, Block block) {
 		if (block != null) {
 			tb.setFinallyBlock(block);
-			assert tb.getFinallyBlock().equals(block);
+			return tb.getFinallyBlock().equals(block);
 		}
+		return false;
 	}
 	
-	public default void addCatchBlock(TryBlock tb, CatchBlock cb) {
+	public default boolean addCatchBlock(TryBlock tb, CatchBlock cb) {
 		if (cb != null) {
 			// TODO: Clarify why there are 2 methods: getCatchBlocks() and getCatcheBlocks()
 			tb.getCatchBlocks().add(cb);
-			assert tb.getCatchBlocks().contains(cb);
+			return tb.getCatchBlocks().contains(cb);
 		}
+		return false;
 	}
 	
-	public default void addCatchBlocks(TryBlock tb, CatchBlock[] cbs) {
-		this.addXs(tb, cbs, this::addCatchBlock);
+	public default boolean addCatchBlocks(TryBlock tb, CatchBlock[] cbs) {
+		return this.addXs(tb, cbs, this::addCatchBlock);
 	}
 	
-	public default void addCatcheBlock(TryBlock tb, CatchBlock cb) {
+	public default boolean addCatcheBlock(TryBlock tb, CatchBlock cb) {
 		if (cb != null) {
 			// TODO: Clarify why there are 2 methods: getCatchBlocks() and getCatcheBlocks()
 			tb.getCatcheBlocks().add(cb);
-			assert tb.getCatcheBlocks().contains(cb);
+			return tb.getCatcheBlocks().contains(cb);
 		}
+		return false;
 	}
 	
-	public default void addCatcheBlocks(TryBlock tb, CatchBlock[] cbs) {
-		this.addXs(tb, cbs, this::addCatcheBlock);
+	public default boolean addCatcheBlocks(TryBlock tb, CatchBlock[] cbs) {
+		return this.addXs(tb, cbs, this::addCatcheBlock);
 	}
 	
-	public default void addResource(TryBlock tb, Resource res) {
+	public default boolean addResource(TryBlock tb, Resource res) {
 		if (res != null) {
 			tb.getResources().add(res);
-			assert tb.getResources().contains(res);
+			return tb.getResources().contains(res);
 		}
+		return false;
 	}
 	
-	public default void addResources(TryBlock tb, Resource[] ress) {
-		this.addXs(tb, ress, this::addResource);
+	public default boolean addResources(TryBlock tb, Resource[] ress) {
+		return this.addXs(tb, ress, this::addResource);
 	}
 }

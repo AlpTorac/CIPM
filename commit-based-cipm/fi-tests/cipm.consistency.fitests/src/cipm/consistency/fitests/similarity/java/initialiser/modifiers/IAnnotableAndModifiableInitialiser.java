@@ -8,60 +8,63 @@ import cipm.consistency.fitests.similarity.java.initialiser.InitialiserVisibilit
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface IAnnotableAndModifiableInitialiser extends ICommentableInitialiser {
-	public default void addModifier(AnnotableAndModifiable aam, Modifier modif) {
+	public default boolean addModifier(AnnotableAndModifiable aam, Modifier modif) {
 		if (modif != null) {
 			aam.addModifier(modif);
-			assert aam.getAnnotationsAndModifiers().contains(modif);
-			assert aam.hasModifier(modif.getClass());
-			assert aam.getModifiers().contains(modif);
+			return aam.getAnnotationsAndModifiers().contains(modif) &&
+					aam.hasModifier(modif.getClass()) &&
+					aam.getModifiers().contains(modif);
 		}
+		return false;
 	}
 	
-	public default void addModifiers(AnnotableAndModifiable aam, Modifier[] modifs) {
-		this.addXs(aam, modifs, this::addModifier);
+	public default boolean addModifiers(AnnotableAndModifiable aam, Modifier[] modifs) {
+		return this.addXs(aam, modifs, this::addModifier);
 	}
 	
-	public default void addAnnotationInstance(AnnotableAndModifiable aam, AnnotationInstance ai) {
+	public default boolean addAnnotationInstance(AnnotableAndModifiable aam, AnnotationInstance ai) {
 		if (aam != null) {
 			aam.getAnnotationsAndModifiers().add(ai);
-			assert aam.getAnnotationsAndModifiers().contains(ai);
-			assert aam.getAnnotationInstances().contains(ai);
+			return aam.getAnnotationsAndModifiers().contains(ai) &&
+					aam.getAnnotationInstances().contains(ai);
 		}
+		return false;
 	}
 	
-	public default void addAnnotationInstances(AnnotableAndModifiable aam, AnnotationInstance[] ais) {
-		this.addXs(aam, ais, this::addAnnotationInstance);
+	public default boolean addAnnotationInstances(AnnotableAndModifiable aam, AnnotationInstance[] ais) {
+		return this.addXs(aam, ais, this::addAnnotationInstance);
 	}
 	
-	public default void setVisibility(AnnotableAndModifiable aam, InitialiserVisibilityModifier modifier) {
+	public default boolean setVisibility(AnnotableAndModifiable aam, InitialiserVisibilityModifier modifier) {
 		if (modifier != null) {
 			switch (modifier) {
 				case PRIVATE: 
 					this.makePrivate(aam);
-					assert aam.isPrivate();
-					break;
+					return aam.isPrivate();
 				case PROTECTED: 
 					this.makeProtected(aam); 
-					assert aam.isProtected();
-					break;
+					return aam.isProtected();
 				case PUBLIC: 
 					this.makePublic(aam); 
-					assert aam.isPublic();
-					break;
+					return aam.isPublic();
 				default: throw new IllegalArgumentException("Invalid InitialiserVisibilityModifier");
 			}
 		}
+		return false;
 	}
 	
-	public default void makePrivate(AnnotableAndModifiable aam) {
+	public default boolean makePrivate(AnnotableAndModifiable aam) {
 		aam.makePrivate();
+		return aam.isPrivate();
 	}
 	
-	public default void makeProtected(AnnotableAndModifiable aam) {
+	public default boolean makeProtected(AnnotableAndModifiable aam) {
 		aam.makeProtected();
+		return aam.isProtected();
 	}
 	
-	public default void makePublic(AnnotableAndModifiable aam) {
+	public default boolean makePublic(AnnotableAndModifiable aam) {
 		aam.makePublic();
+		return aam.isPublic();
 	}
 }

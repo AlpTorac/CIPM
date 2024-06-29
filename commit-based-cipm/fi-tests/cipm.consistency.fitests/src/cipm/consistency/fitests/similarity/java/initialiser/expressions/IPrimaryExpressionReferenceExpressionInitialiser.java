@@ -10,17 +10,19 @@ public interface IPrimaryExpressionReferenceExpressionInitialiser extends
 	ICallTypeArgumentableInitialiser,
 	IMethodReferenceExpressionInitialiser {
 
-	public default void setChild(PrimaryExpressionReferenceExpression pere, MethodReferenceExpressionChild mrec) {
+	public default boolean setChild(PrimaryExpressionReferenceExpression pere, MethodReferenceExpressionChild mrec) {
 		if (mrec != null) {
 			pere.setChild(mrec);
-			assert pere.getChild().equals(mrec);
+			return pere.getChild().equals(mrec);
 		}
+		return false;
 	}
 	
-	public default void setMethodReference(PrimaryExpressionReferenceExpression pere, Reference ref) {
+	public default boolean setMethodReference(PrimaryExpressionReferenceExpression pere, Reference ref) {
 		if (ref != null) {
 			pere.setMethodReference(ref);
-			assert pere.getMethodReference().equals(ref);
+			return pere.getMethodReference().equals(ref);
 		}
+		return false;
 	}
 }

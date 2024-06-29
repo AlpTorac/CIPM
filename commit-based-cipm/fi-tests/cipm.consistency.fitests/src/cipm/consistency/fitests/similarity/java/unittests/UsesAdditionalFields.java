@@ -9,7 +9,7 @@ public interface UsesAdditionalFields {
 		var afInit = new AdditionalFieldInitialiser();
 		var af = afInit.instantiate();
 		afInit.minimalInitialisation(af);
-		afInit.initialiseName(af, afName);
+		afInit.setName(af, afName);
 		return af;
 	}
 }

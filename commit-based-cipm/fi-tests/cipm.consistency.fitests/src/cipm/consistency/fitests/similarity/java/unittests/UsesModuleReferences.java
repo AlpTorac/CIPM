@@ -16,7 +16,7 @@ public interface UsesModuleReferences extends UsesModules {
 	public default ModuleReference createMinimalMR(String modName, String[] modRefNss) {
 		var mr = this.createMinimalMR(modName);
 		var mrInit = new ModuleReferenceInitialiser();
-		mrInit.initialiseNamespaces(mr, modRefNss);
+		mrInit.addNamespaces(mr, modRefNss);
 		return mr;
 	}
 }

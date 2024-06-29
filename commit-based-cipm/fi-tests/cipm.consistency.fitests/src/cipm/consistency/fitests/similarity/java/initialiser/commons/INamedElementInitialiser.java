@@ -13,18 +13,21 @@ public interface INamedElementInitialiser extends ICommentableInitialiser {
 	 * name.
 	 */
 	@Override
-	public default void minimalInitialisation(EObject obj) {
+	public default boolean minimalInitialisation(EObject obj) {
 		NamedElement castedO = (NamedElement) obj;
 		
 		if (castedO.getName() == null) {
-			this.initialiseName(castedO, this.getDefaultName());
+			return this.setName(castedO, this.getDefaultName());
 		}
+		
+		return false;
 	}
 	
-	public default void initialiseName(NamedElement ne, String name) {
+	public default boolean setName(NamedElement ne, String name) {
 		if (name != null) {
 			ne.setName(name);
-			assert ne.getName().equals(name);
+			return ne.getName().equals(name);
 		}
+		return false;
 	}
 }

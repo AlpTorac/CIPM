@@ -9,7 +9,7 @@ public interface UsesAnnotations {
 		var ai = new AnnotationInitialiser();
 		Annotation result = ai.instantiate();
 		ai.minimalInitialisation(result);
-		ai.initialiseName(result, annotationName);
+		ai.setName(result, annotationName);
 		return result;
 	}
 }

@@ -5,21 +5,23 @@ import org.emftext.language.java.expressions.UnaryExpressionChild;
 import org.emftext.language.java.operators.UnaryOperator;
 
 public interface IUnaryExpressionInitialiser extends IMultiplicativeExpressionChildInitialiser {
-	public default void addOperator(UnaryExpression ue, UnaryOperator op) {
+	public default boolean addOperator(UnaryExpression ue, UnaryOperator op) {
 		if (op != null) {
 			ue.getOperators().add(op);
-			assert ue.getOperators().contains(op);
+			return ue.getOperators().contains(op);
 		}
+		return false;
 	}
 	
-	public default void addOperators(UnaryExpression ue, UnaryOperator[] ops) {
-		this.addXs(ue, ops, this::addOperator);
+	public default boolean addOperators(UnaryExpression ue, UnaryOperator[] ops) {
+		return this.addXs(ue, ops, this::addOperator);
 	}
 	
-	public default void setChild(UnaryExpression ue, UnaryExpressionChild child) {
+	public default boolean setChild(UnaryExpression ue, UnaryExpressionChild child) {
 		if (child != null) {
 			ue.setChild(child);
-			assert ue.getChild().equals(child);
+			return ue.getChild().equals(child);
 		}
+		return false;
 	}
 }

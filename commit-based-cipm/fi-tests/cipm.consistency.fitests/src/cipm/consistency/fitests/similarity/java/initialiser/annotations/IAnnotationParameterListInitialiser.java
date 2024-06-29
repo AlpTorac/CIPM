@@ -4,14 +4,15 @@ import org.emftext.language.java.annotations.AnnotationAttributeSetting;
 import org.emftext.language.java.annotations.AnnotationParameterList;
 
 public interface IAnnotationParameterListInitialiser extends IAnnotationParameterInitialiser {
-	public default void addSetting(AnnotationParameterList apl, AnnotationAttributeSetting aas) {
+	public default boolean addSetting(AnnotationParameterList apl, AnnotationAttributeSetting aas) {
 		if (aas != null) {
 			apl.getSettings().add(aas);
-			assert apl.getSettings().contains(aas);
+			return apl.getSettings().contains(aas);
 		}
+		return false;
 	}
 	
-	public default void addSettings(AnnotationParameterList apl, AnnotationAttributeSetting[] aass) {
-		this.addXs(apl, aass, this::addSetting);
+	public default boolean addSettings(AnnotationParameterList apl, AnnotationAttributeSetting[] aass) {
+		return this.addXs(apl, aass, this::addSetting);
 	}
 }

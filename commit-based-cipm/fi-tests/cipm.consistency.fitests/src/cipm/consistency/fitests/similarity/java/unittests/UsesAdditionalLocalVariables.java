@@ -9,7 +9,7 @@ public interface UsesAdditionalLocalVariables {
 		var alvInit = new AdditionalLocalVariableInitialiser();
 		var alv = alvInit.instantiate();
 		alvInit.minimalInitialisation(alv);
-		alvInit.initialiseName(alv, alvName);
+		alvInit.setName(alv, alvName);
 		return alv;
 	}
 }

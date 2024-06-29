@@ -9,14 +9,15 @@ public interface IStatementListContainerInitialiser extends ICommentableInitiali
 	
 	// TODO: Remove the statement methods here after implementing the missing impltests. They most likely do not modify the instance.
 	
-	public default void addStatement(StatementListContainer slc, Statement s) {
+	public default boolean addStatement(StatementListContainer slc, Statement s) {
 		if (s != null) {
 			slc.getStatements().add(s);
-			assert slc.getStatements().contains(s);
+			return slc.getStatements().contains(s);
 		}
+		return false;
 	}
 	
-	public default void addStatements(StatementListContainer slc, Statement[] ss) {
-		this.addXs(slc, ss, this::addStatement);
+	public default boolean addStatements(StatementListContainer slc, Statement[] ss) {
+		return this.addXs(slc, ss, this::addStatement);
 	}
 }

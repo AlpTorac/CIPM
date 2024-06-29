@@ -7,10 +7,11 @@ public interface ISynchronizedBlockInitialiser extends IBlockContainerInitialise
 	IStatementInitialiser,
 	IStatementListContainerInitialiser {
 	
-	public default void setLockProvider(SynchronizedBlock sb, Expression expr) {
+	public default boolean setLockProvider(SynchronizedBlock sb, Expression expr) {
 		if (expr != null) {
 			sb.setLockProvider(expr);
-			assert sb.getLockProvider().equals(expr);
+			return sb.getLockProvider().equals(expr);
 		}
+		return false;
 	}
 }

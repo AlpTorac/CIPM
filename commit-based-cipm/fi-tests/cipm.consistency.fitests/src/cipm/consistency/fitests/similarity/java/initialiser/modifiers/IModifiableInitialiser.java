@@ -6,14 +6,15 @@ import org.emftext.language.java.modifiers.Modifier;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface IModifiableInitialiser extends ICommentableInitialiser {
-	public default void addModifier(Modifiable modifiable, Modifier modifier) {
+	public default boolean addModifier(Modifiable modifiable, Modifier modifier) {
 		if (modifier != null) {
 			modifiable.getModifiers().add(modifier);
-			assert modifiable.getModifiers().contains(modifier);
+			return modifiable.getModifiers().contains(modifier);
 		}
+		return false;
 	}
 	
-	public default void addModifiers(Modifiable modifiable, Modifier[] modifiers) {
-		this.addXs(modifiable, modifiers, this::addModifier);
+	public default boolean addModifiers(Modifiable modifiable, Modifier[] modifiers) {
+		return this.addXs(modifiable, modifiers, this::addModifier);
 	}
  }

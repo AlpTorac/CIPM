@@ -10,7 +10,7 @@ public interface UsesPackages {
 		
 		Package result = pacInit.instantiate();
 		pacInit.minimalInitialisation(result);
-		pacInit.initialiseNamespaces(result, nss);
+		pacInit.addNamespaces(result, nss);
 		
 		return result;
 	}

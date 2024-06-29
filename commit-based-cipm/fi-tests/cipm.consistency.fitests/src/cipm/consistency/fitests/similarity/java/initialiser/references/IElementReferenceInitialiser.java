@@ -4,17 +4,19 @@ import org.emftext.language.java.references.ElementReference;
 import org.emftext.language.java.references.ReferenceableElement;
 
 public interface IElementReferenceInitialiser extends IReferenceInitialiser {
-	public default void setContainedTarget(ElementReference eref, ReferenceableElement re) {
+	public default boolean setContainedTarget(ElementReference eref, ReferenceableElement re) {
 		if (re != null) {
 			eref.setContainedTarget(re);
-			assert eref.getContainedTarget().equals(re);
+			return eref.getContainedTarget().equals(re);
 		}
+		return false;
 	}
 	
-	public default void setTarget(ElementReference eref, ReferenceableElement re) {
+	public default boolean setTarget(ElementReference eref, ReferenceableElement re) {
 		if (re != null) {
 			eref.setTarget(re);
-			assert eref.getTarget().equals(re);
+			return eref.getTarget().equals(re);
 		}
+		return false;
 	}
 }

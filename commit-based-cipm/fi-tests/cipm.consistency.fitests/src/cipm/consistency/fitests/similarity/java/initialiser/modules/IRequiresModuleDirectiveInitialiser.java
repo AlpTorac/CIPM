@@ -5,17 +5,19 @@ import org.emftext.language.java.modules.ModuleReference;
 import org.emftext.language.java.modules.RequiresModuleDirective;
 
 public interface IRequiresModuleDirectiveInitialiser extends IModuleDirectiveInitialiser {
-	public default void setModifier(RequiresModuleDirective rmd, ModuleRequiresModifier mrm) {
+	public default boolean setModifier(RequiresModuleDirective rmd, ModuleRequiresModifier mrm) {
 		if (mrm != null) {
 			rmd.setModifier(mrm);
-			assert rmd.getModifier().equals(mrm);
+			return rmd.getModifier().equals(mrm);
 		}
+		return false;
 	}
 	
-	public default void setRequiredModule(RequiresModuleDirective rmd, ModuleReference mref) {
+	public default boolean setRequiredModule(RequiresModuleDirective rmd, ModuleReference mref) {
 		if (mref != null) {
 			rmd.setRequiredModule(mref);
-			assert rmd.getRequiredModule().equals(mref);
+			return rmd.getRequiredModule().equals(mref);
 		}
+		return false;
 	}
 }

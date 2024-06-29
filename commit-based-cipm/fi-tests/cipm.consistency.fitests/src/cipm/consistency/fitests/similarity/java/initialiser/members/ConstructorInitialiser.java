@@ -13,8 +13,8 @@ public class ConstructorInitialiser implements IConstructorInitialiser, IBlockCo
 	private IBlockInitialiser bInit;
 	
 	@Override
-	public void minimalInitialisation(EObject obj) {
-		IConstructorInitialiser.super.minimalInitialisation(obj);
+	public boolean minimalInitialisation(EObject obj) {
+		return IConstructorInitialiser.super.minimalInitialisation(obj) &&
 		IBlockContainerHelperInitialiser.super.minimalInitialisation(obj);
 	}
 	

@@ -17,12 +17,13 @@ public interface IConcreteClassifierInitialiser extends
 	IClassifierInitialiser,
 	ITypeParametrizableInitialiser {
 	
-	public default void setPackage(ConcreteClassifier cls, Package pac) {
+	public default boolean setPackage(ConcreteClassifier cls, Package pac) {
 		if (pac != null) {
 			cls.setPackage(pac);
-			assert cls.getPackage().equals(pac);
-			assert pac.getClassifiers().contains(cls);
-			assert pac.getClassifiersInSamePackage().contains(cls);
+			return cls.getPackage().equals(pac) &&
+					pac.getClassifiers().contains(cls) &&
+					pac.getClassifiersInSamePackage().contains(cls);
 		}
+		return false;
 	}
 }

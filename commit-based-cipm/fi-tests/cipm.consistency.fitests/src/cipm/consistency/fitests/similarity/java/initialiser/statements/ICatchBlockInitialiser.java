@@ -6,10 +6,11 @@ import org.emftext.language.java.statements.CatchBlock;
 public interface ICatchBlockInitialiser extends IBlockContainerInitialiser,
 	IStatementListContainerInitialiser {
 	
-	public default void setParameter(CatchBlock cb, OrdinaryParameter oParam) {
+	public default boolean setParameter(CatchBlock cb, OrdinaryParameter oParam) {
 		if (oParam != null) {
 			cb.setParameter(oParam);
-			assert cb.getParameter().equals(oParam);
+			return cb.getParameter().equals(oParam);
 		}
+		return false;
 	}
 }

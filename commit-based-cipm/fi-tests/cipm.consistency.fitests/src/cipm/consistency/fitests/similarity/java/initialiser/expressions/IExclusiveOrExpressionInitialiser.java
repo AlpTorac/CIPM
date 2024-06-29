@@ -4,14 +4,15 @@ import org.emftext.language.java.expressions.ExclusiveOrExpression;
 import org.emftext.language.java.expressions.ExclusiveOrExpressionChild;
 
 public interface IExclusiveOrExpressionInitialiser extends IInclusiveOrExpressionChildInitialiser {
-	public default void addChild(ExclusiveOrExpression eoe, ExclusiveOrExpressionChild child) {
+	public default boolean addChild(ExclusiveOrExpression eoe, ExclusiveOrExpressionChild child) {
 		if (child != null) {
 			eoe.getChildren().add(child);
-			assert eoe.getChildren().contains(child);
+			return eoe.getChildren().contains(child);
 		}
+		return false;
 	}
 	
-	public default void addChildren(ExclusiveOrExpression eoe, ExclusiveOrExpressionChild[] children) {
-		this.addXs(eoe, children, this::addChild);
+	public default boolean addChildren(ExclusiveOrExpression eoe, ExclusiveOrExpressionChild[] children) {
+		return this.addXs(eoe, children, this::addChild);
 	}
 }
