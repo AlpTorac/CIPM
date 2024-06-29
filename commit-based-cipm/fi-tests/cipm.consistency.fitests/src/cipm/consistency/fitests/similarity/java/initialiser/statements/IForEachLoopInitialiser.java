@@ -7,17 +7,19 @@ import org.emftext.language.java.statements.ForEachLoop;
 public interface IForEachLoopInitialiser extends IStatementInitialiser,
 	IStatementContainerInitialiser {
 
-	public default void setCollection(ForEachLoop fel, Expression expr) {
+	public default boolean setCollection(ForEachLoop fel, Expression expr) {
 		if (expr != null) {
 			fel.setCollection(expr);
-			assert fel.getCollection().equals(expr);
+			return fel.getCollection().equals(expr);
 		}
+		return false;
 	}
 	
-	public default void setNext(ForEachLoop fel, OrdinaryParameter op) {
+	public default boolean setNext(ForEachLoop fel, OrdinaryParameter op) {
 		if (op != null) {
 			fel.setNext(op);
-			assert fel.getNext().equals(op);
+			return fel.getNext().equals(op);
 		}
+		return false;
 	}
 }

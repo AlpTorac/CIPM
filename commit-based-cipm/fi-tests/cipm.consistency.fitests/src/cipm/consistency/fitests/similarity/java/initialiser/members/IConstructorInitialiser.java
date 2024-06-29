@@ -17,7 +17,7 @@ public interface IConstructorInitialiser extends IAnnotableAndModifiableInitiali
 	ITypeParametrizableInitialiser {
 	
 	@Override
-	public default void minimalInitialisation(EObject obj) {
-		IMemberInitialiser.super.minimalInitialisation(obj);
+	public default boolean minimalInitialisation(EObject obj) {
+		return IMemberInitialiser.super.minimalInitialisation(obj);
 	}
 }

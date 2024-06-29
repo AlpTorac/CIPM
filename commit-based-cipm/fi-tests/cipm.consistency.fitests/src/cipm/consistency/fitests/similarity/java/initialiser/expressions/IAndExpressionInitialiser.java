@@ -4,14 +4,15 @@ import org.emftext.language.java.expressions.AndExpression;
 import org.emftext.language.java.expressions.AndExpressionChild;
 
 public interface IAndExpressionInitialiser extends IExclusiveOrExpressionChildInitialiser {
-	public default void addChild(AndExpression ae, AndExpressionChild child) {
+	public default boolean addChild(AndExpression ae, AndExpressionChild child) {
 		if (child != null) {
 			ae.getChildren().add(child);
-			assert ae.getChildren().contains(child);
+			return ae.getChildren().contains(child);
 		}
+		return false;
 	}
 	
-	public default void addChildren(AndExpression ae, AndExpressionChild[] children) {
-		this.addXs(ae, children, this::addChild);
+	public default boolean addChildren(AndExpression ae, AndExpressionChild[] children) {
+		return this.addXs(ae, children, this::addChild);
 	}
 }

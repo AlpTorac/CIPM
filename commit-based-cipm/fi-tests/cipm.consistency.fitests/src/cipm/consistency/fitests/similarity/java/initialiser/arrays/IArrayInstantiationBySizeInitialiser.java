@@ -9,14 +9,15 @@ public interface IArrayInstantiationBySizeInitialiser extends
 	IArrayInstantiationInitialiser,
 	ITypedElementInitialiser {
 
-	public default void addSize(ArrayInstantiationBySize arrIns, Expression expr) {
+	public default boolean addSize(ArrayInstantiationBySize arrIns, Expression expr) {
 		if (expr != null) {
 			arrIns.getSizes().add(expr);
-			assert arrIns.getSizes().contains(expr);
+			return arrIns.getSizes().contains(expr);
 		}
+		return false;
 	}
 	
-	public default void addSizes(ArrayInstantiationBySize arrIns, Expression[] exprs) {
-		this.addXs(arrIns, exprs, this::addSize);
+	public default boolean addSizes(ArrayInstantiationBySize arrIns, Expression[] exprs) {
+		return this.addXs(arrIns, exprs, this::addSize);
 	}
 }

@@ -1,41 +1,40 @@
 package cipm.consistency.fitests.similarity.java.initialiser.containers;
 
-import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.containers.JavaRoot;
 import org.emftext.language.java.containers.Module;
-import org.emftext.language.java.containers.Origin;
 import org.emftext.language.java.containers.Package;
-import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.modifiers.Open;
 import org.emftext.language.java.modules.ModuleDirective;
 
 public interface IModuleInitialiser extends IJavaRootInitialiser {
-	public default void initialiseOpen(Module mod, Open open) {
+	public default boolean setOpen(Module mod, Open open) {
 		if (open != null) {
 			mod.setOpen(open);
-			assert mod.getOpen().equals(open);
+			return mod.getOpen().equals(open);
 		}
+		return false;
 	}
 	
-	public default void addTarget(Module mod, ModuleDirective md) {
+	public default boolean addTarget(Module mod, ModuleDirective md) {
 		if (md != null) {
 			mod.getTarget().add(md);
-			assert mod.getTarget().contains(md);
+			return mod.getTarget().contains(md);
 		}
+		return false;
 	}
 	
-	public default void addTargets(Module mod, ModuleDirective[] mds) {
-		this.addXs(mod, mds, this::addTarget);
+	public default boolean addTargets(Module mod, ModuleDirective[] mds) {
+		return this.addXs(mod, mds, this::addTarget);
 	}
 	
-	public default void addPackage(Module mod, Package pac) {
+	public default boolean addPackage(Module mod, Package pac) {
 		if (pac != null) {
 			mod.getPackages().add(pac);
-			assert mod.getPackages().contains(pac);
+			return mod.getPackages().contains(pac);
 		}
+		return false;
 	}
 	
-	public default void addPackages(Module mod, Package[] pacs) {
-		this.addXs(mod, pacs, this::addPackage);
+	public default boolean addPackages(Module mod, Package[] pacs) {
+		return this.addXs(mod, pacs, this::addPackage);
 	}
 }

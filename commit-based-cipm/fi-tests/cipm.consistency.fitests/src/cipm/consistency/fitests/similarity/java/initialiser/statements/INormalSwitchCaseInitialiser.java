@@ -6,14 +6,15 @@ import org.emftext.language.java.statements.NormalSwitchCase;
 public interface INormalSwitchCaseInitialiser extends IConditionalInitialiser,
 	ISwitchCaseInitialiser {
 	
-	public default void addAdditionalCondition(NormalSwitchCase nsc, Expression expr) {
+	public default boolean addAdditionalCondition(NormalSwitchCase nsc, Expression expr) {
 		if (expr != null) {
 			nsc.getAdditionalConditions().add(expr);
-			assert nsc.getAdditionalConditions().contains(expr);
+			return nsc.getAdditionalConditions().contains(expr);
 		}
+		return false;
 	}
 	
-	public default void addAdditionalConditions(NormalSwitchCase nsc, Expression[] exprs) {
-		this.addXs(nsc, exprs, this::addAdditionalCondition);
+	public default boolean addAdditionalConditions(NormalSwitchCase nsc, Expression[] exprs) {
+		return this.addXs(nsc, exprs, this::addAdditionalCondition);
 	}
 }

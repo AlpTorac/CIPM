@@ -6,31 +6,35 @@ import org.emftext.language.java.expressions.ConditionalExpressionChild;
 import org.emftext.language.java.expressions.Expression;
 
 public interface IConditionalExpressionInitialiser extends IAssignmentExpressionChildInitialiser {
-	public default void setChild(ConditionalExpression ce, ConditionalExpressionChild child) {
+	public default boolean setChild(ConditionalExpression ce, ConditionalExpressionChild child) {
 		if (child != null) {
 			ce.setChild(child);
-			assert ce.getChild().equals(child);
+			return ce.getChild().equals(child);
 		}
+		return false;
 	}
 	
-	public default void setExpressionChild(ConditionalExpression ce, AssignmentExpressionChild child) {
+	public default boolean setExpressionChild(ConditionalExpression ce, AssignmentExpressionChild child) {
 		if (child != null) {
 			ce.setExpressionChild(child);
-			assert ce.getExpressionElse().equals(child);
+			return ce.getExpressionElse().equals(child);
 		}
+		return false;
 	}
 	
-	public default void setExpressionIf(ConditionalExpression ce, Expression expr) {
+	public default boolean setExpressionIf(ConditionalExpression ce, Expression expr) {
 		if (expr != null) {
 			ce.setExpressionIf(expr);
-			assert ce.getExpressionIf().equals(expr);
+			return ce.getExpressionIf().equals(expr);
 		}
+		return false;
 	}
 	
-	public default void setGeneralExpressionElse(ConditionalExpression ce, Expression expr) {
+	public default boolean setGeneralExpressionElse(ConditionalExpression ce, Expression expr) {
 		if (expr != null) {
 			ce.setGeneralExpressionElse(expr);
-			assert ce.getGeneralExpressionElse().equals(expr);
+			return ce.getGeneralExpressionElse().equals(expr);
 		}
+		return false;
 	}
 }

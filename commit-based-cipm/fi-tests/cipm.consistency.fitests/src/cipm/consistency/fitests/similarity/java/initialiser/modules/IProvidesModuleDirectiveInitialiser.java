@@ -9,14 +9,15 @@ public interface IProvidesModuleDirectiveInitialiser extends
 	IModuleDirectiveInitialiser,
 	ITypedElementInitialiser {
 	
-	public default void addServiceProvider(ProvidesModuleDirective pmd, TypeReference tref) {
+	public default boolean addServiceProvider(ProvidesModuleDirective pmd, TypeReference tref) {
 		if (tref != null) {
 			pmd.getServiceProviders().add(tref);
-			assert pmd.getServiceProviders().contains(tref);
+			return pmd.getServiceProviders().contains(tref);
 		}
+		return false;
 	}
 	
-	public default void addServiceProviders(ProvidesModuleDirective pmd, TypeReference[] trefs) {
-		this.addXs(pmd, trefs, this::addServiceProvider);
+	public default boolean addServiceProviders(ProvidesModuleDirective pmd, TypeReference[] trefs) {
+		return this.addXs(pmd, trefs, this::addServiceProvider);
 	}
 }

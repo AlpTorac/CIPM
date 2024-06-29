@@ -8,10 +8,11 @@ import cipm.consistency.fitests.similarity.java.initialiser.references.IArgument
 import cipm.consistency.fitests.similarity.java.initialiser.references.IReferenceableElementInitialiser;
 
 public interface IEnumConstantInitialiser extends IArgumentableInitialiser, IAnnotableInitialiser, IReferenceableElementInitialiser {
-	public default void setAnonymousClass(EnumConstant ec, AnonymousClass cls) {
+	public default boolean setAnonymousClass(EnumConstant ec, AnonymousClass cls) {
 		if (cls != null) {
 			ec.setAnonymousClass(cls);
-			assert ec.getAnonymousClass().equals(cls);
+			return ec.getAnonymousClass().equals(cls);
 		}
+		return false;
 	}
 }

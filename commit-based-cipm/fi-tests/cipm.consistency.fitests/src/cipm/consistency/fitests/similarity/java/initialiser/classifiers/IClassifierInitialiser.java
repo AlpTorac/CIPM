@@ -14,27 +14,29 @@ import cipm.consistency.fitests.similarity.java.initialiser.types.ITypeInitialis
  */
 public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceableElementInitialiser {
 	
-	public default void addImport(Classifier cls, Import imp) {
+	public default boolean addImport(Classifier cls, Import imp) {
 		if (imp != null) {
 			cls.getContainingCompilationUnit().getImports().add(imp);
-			assert cls.getContainingCompilationUnit().getImports().stream()
+			return cls.getContainingCompilationUnit().getImports().stream()
 			.anyMatch((i) -> i.equals(imp));
 		}
+		return false;
 	}
 	
-	public default void addImports(Classifier cls, Import[] imps) {
-		this.addXs(cls, imps, this::addImport);
+	public default boolean addImports(Classifier cls, Import[] imps) {
+		return this.addXs(cls, imps, this::addImport);
 	}
 	
-	public default void addPackageImport(Classifier cls, Import imp) {
+	public default boolean addPackageImport(Classifier cls, Import imp) {
 		if (imp != null) {
 			cls.getContainingCompilationUnit().getImports().add(imp);
-			assert cls.getContainingCompilationUnit().getImports().stream()
+			return cls.getContainingCompilationUnit().getImports().stream()
 			.anyMatch((i) -> i.equals(imp));
 		}
+		return false;
 	}
 	
-	public default void addPackageImports(Classifier cls, Import[] imps) {
-		this.addXs(cls, imps, this::addPackageImport);
+	public default boolean addPackageImports(Classifier cls, Import[] imps) {
+		return this.addXs(cls, imps, this::addPackageImport);
 	}
 }

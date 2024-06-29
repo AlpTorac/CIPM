@@ -9,10 +9,11 @@ public interface IInstanceOfExpressionInitialiser extends
 	IEqualityExpressionChildInitialiser,
 	ITypedElementInitialiser {
 	
-	public default void setChild(InstanceOfExpression ioe, InstanceOfExpressionChild child) {
+	public default boolean setChild(InstanceOfExpression ioe, InstanceOfExpressionChild child) {
 		if (child != null) {
 			ioe.setChild(child);
-			assert ioe.getChild().equals(child);
+			return ioe.getChild().equals(child);
 		}
+		return false;
 	}
 }

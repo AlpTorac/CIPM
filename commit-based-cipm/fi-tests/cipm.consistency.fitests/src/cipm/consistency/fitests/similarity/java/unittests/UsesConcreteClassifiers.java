@@ -22,21 +22,21 @@ public interface UsesConcreteClassifiers extends UsesPackages {
 	public default ConcreteClassifier createMinimalClassifier(IConcreteClassifierInitialiser init, String name) {
 		ConcreteClassifier result = init.instantiate();
 		init.minimalInitialisation(result);
-		init.initialiseName(result, name);
+		init.setName(result, name);
 		return result;
 	}
 	
 	public default ConcreteClassifier createMinimalClassifierWithCU(IConcreteClassifierInitialiser init, String name) {
 		ConcreteClassifier result = init.instantiate();
 		init.minimalInitialisationWithContainer(result);
-		init.initialiseName(result, name);
+		init.setName(result, name);
 		return result;
 	}
 	
 	public default ConcreteClassifier createMinimalClassifierWithPac(IConcreteClassifierInitialiser init, String clsName, String[] pacNss) {
 		ConcreteClassifier result = init.instantiate();
 		init.minimalInitialisation(result);
-		init.initialiseName(result, clsName);
+		init.setName(result, clsName);
 		init.setPackage(result, this.createMinimalPackage(pacNss));
 		return result;
 	}

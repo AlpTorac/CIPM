@@ -6,10 +6,11 @@ import org.emftext.language.java.statements.Assert;
 public interface IAssertInitialiser extends IConditionalInitialiser,
 	IStatementInitialiser {
 	
-	public default void setErrorMessage(Assert asrt, Expression expr) {
+	public default boolean setErrorMessage(Assert asrt, Expression expr) {
 		if (expr != null) {
 			asrt.setErrorMessage(expr);
-			assert asrt.getErrorMessage().equals(expr);
+			return asrt.getErrorMessage().equals(expr);
 		}
+		return false;
 	}
 }

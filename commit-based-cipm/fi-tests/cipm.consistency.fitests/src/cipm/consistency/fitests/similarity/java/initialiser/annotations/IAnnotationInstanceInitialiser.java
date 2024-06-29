@@ -7,17 +7,19 @@ import org.emftext.language.java.classifiers.Classifier;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.INamespaceAwareElementInitialiser;
 
 public interface IAnnotationInstanceInitialiser extends INamespaceAwareElementInitialiser {
-	public default void setAnnotation(AnnotationInstance ai, Classifier cls) {
+	public default boolean setAnnotation(AnnotationInstance ai, Classifier cls) {
 		if (cls != null) {
 			ai.setAnnotation(cls);
-			assert ai.getAnnotation().equals(cls);
+			return ai.getAnnotation().equals(cls);
 		}
+		return false;
 	}
 	
-	public default void setAnnotationParameter(AnnotationInstance ai, AnnotationParameter param) {
+	public default boolean setAnnotationParameter(AnnotationInstance ai, AnnotationParameter param) {
 		if (param != null) {
 			ai.setParameter(param);
-			assert ai.getParameter().equals(param);
+			return ai.getParameter().equals(param);
 		}
+		return false;
 	}
 }

@@ -181,22 +181,22 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 		var modMismatch3Name = "mod6";
 
 		var mod1 = modInit.instantiate();
-		modInit.initialiseName(mod1, modName1);
+		modInit.setName(mod1, modName1);
 
 		var mod2 = modInit.instantiate();
-		modInit.initialiseName(mod2, modName2);
+		modInit.setName(mod2, modName2);
 
 		var mod3 = modInit.instantiate();
-		modInit.initialiseName(mod3, modName3);
+		modInit.setName(mod3, modName3);
 
 		var modMismatch1 = modInit.instantiate();
-		modInit.initialiseName(modMismatch1, modMismatch1Name);
+		modInit.setName(modMismatch1, modMismatch1Name);
 
 		var modMismatch2 = modInit.instantiate();
-		modInit.initialiseName(modMismatch2, modMismatch2Name);
+		modInit.setName(modMismatch2, modMismatch2Name);
 
 		var modMismatch3 = modInit.instantiate();
-		modInit.initialiseName(modMismatch3, modMismatch3Name);
+		modInit.setName(modMismatch3, modMismatch3Name);
 
 		var mods = new Module[] { mod1, mod2, mod3 };
 		var mismatchMods = new Module[] { modMismatch1, modMismatch2, modMismatch3 };
@@ -265,10 +265,10 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 		var modName2 = "mod2";
 
 		var mod1 = modInit.instantiate();
-		modInit.initialiseName(mod1, modName1);
+		modInit.setName(mod1, modName1);
 
 		var mod2 = modInit.instantiate();
-		modInit.initialiseName(mod2, modName2);
+		modInit.setName(mod2, modName2);
 
 		var modCopy1 = modInit.clone(mod1);
 		var modCopy2 = modInit.clone(mod2);
@@ -299,10 +299,10 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 		var modName2 = "mod2";
 
 		var mod1 = modInit.instantiate();
-		modInit.initialiseName(mod1, modName1);
+		modInit.setName(mod1, modName1);
 
 		var mod2 = modInit.instantiate();
-		modInit.initialiseName(mod2, modName2);
+		modInit.setName(mod2, modName2);
 
 		var modCopy1 = modInit.clone(mod1);
 		var modCopy2 = modInit.clone(mod2);

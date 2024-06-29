@@ -12,14 +12,15 @@ import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentable
  * @author atora
  */
 public interface IArgumentableInitialiser extends ICommentableInitialiser {
-	public default void addArgument(Argumentable argable, Expression expr) {
+	public default boolean addArgument(Argumentable argable, Expression expr) {
 		if (expr != null) {
 			argable.getArguments().add(expr);
-			assert argable.getArguments().contains(expr);
+			return argable.getArguments().contains(expr);
 		}
+		return false;
 	}
 	
-	public default void addArguments(Argumentable argable, Expression[] exprs) {
-		this.addXs(argable, exprs, this::addArgument);
+	public default boolean addArguments(Argumentable argable, Expression[] exprs) {
+		return this.addXs(argable, exprs, this::addArgument);
 	}
 }

@@ -9,7 +9,7 @@ public interface UsesEnumConstants {
 		var ecInit = new EnumConstantInitialiser();
 		var ec = ecInit.instantiate();
 		ecInit.minimalInitialisation(ec);
-		ecInit.initialiseName(ec, ecName);
+		ecInit.setName(ec, ecName);
 		return ec;
 	}
 }

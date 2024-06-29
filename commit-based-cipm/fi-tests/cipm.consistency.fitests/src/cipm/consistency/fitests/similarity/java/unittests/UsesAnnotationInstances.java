@@ -10,7 +10,7 @@ public interface UsesAnnotationInstances extends UsesAnnotations {
 		var aii = new AnnotationInstanceInitialiser();
 		AnnotationInstance result = aii.instantiate();
 		aii.minimalInitialisation(result);
-		aii.initialiseNamespaces(result, nss);
+		aii.addNamespaces(result, nss);
 		aii.setAnnotation(result, annotation);
 		return result;
 	}
@@ -19,7 +19,7 @@ public interface UsesAnnotationInstances extends UsesAnnotations {
 		var aii = new AnnotationInstanceInitialiser();
 		AnnotationInstance result = aii.instantiate();
 		aii.minimalInitialisation(result);
-		aii.initialiseNamespaces(result, nss);
+		aii.addNamespaces(result, nss);
 		aii.setAnnotation(result, this.createMinimalAnnotation(annotationName));
 		return result;
 	}

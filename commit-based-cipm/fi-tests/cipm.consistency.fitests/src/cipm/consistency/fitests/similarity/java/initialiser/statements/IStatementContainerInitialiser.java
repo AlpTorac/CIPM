@@ -6,10 +6,11 @@ import org.emftext.language.java.statements.StatementContainer;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface IStatementContainerInitialiser extends ICommentableInitialiser {
-	public default void setStatement(StatementContainer sc, Statement s) {
+	public default boolean setStatement(StatementContainer sc, Statement s) {
 		if (s != null) {
 			sc.setStatement(s);
-			assert sc.getStatement().equals(s);
+			return sc.getStatement().equals(s);
 		}
+		return false;
 	}
 }

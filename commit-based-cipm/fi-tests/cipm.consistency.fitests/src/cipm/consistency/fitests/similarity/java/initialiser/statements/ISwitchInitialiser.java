@@ -9,21 +9,23 @@ import cipm.consistency.fitests.similarity.java.initialiser.expressions.IUnaryMo
 public interface ISwitchInitialiser extends IStatementInitialiser,
 	IUnaryModificationExpressionChildInitialiser {
 	
-	public default void addCase(Switch sw, SwitchCase sc) {
+	public default boolean addCase(Switch sw, SwitchCase sc) {
 		if (sc != null) {
 			sw.getCases().add(sc);
-			assert sw.getCases().contains(sc);
+			return sw.getCases().contains(sc);
 		}
+		return false;
 	}
 	
-	public default void addCases(Switch sw, SwitchCase[] scs) {
-		this.addXs(sw, scs, this::addCase);
+	public default boolean addCases(Switch sw, SwitchCase[] scs) {
+		return this.addXs(sw, scs, this::addCase);
 	}
 	
-	public default void setVariable(Switch sw, Expression expr) {
+	public default boolean setVariable(Switch sw, Expression expr) {
 		if (expr != null) {
 			sw.setVariable(expr);
-			assert sw.getVariable().equals(expr);
+			return sw.getVariable().equals(expr);
 		}
+		return false;
 	}
 }

@@ -9,14 +9,14 @@ public interface UsesModules {
 		var modInit = new ModuleInitialiser();
 		Module result = modInit.instantiate();
 		modInit.minimalInitialisation(result);
-		modInit.initialiseName(result, name);
+		modInit.setName(result, name);
 		return result;
 	}
 	
 	public default Module createMinimalModule(String name, String[] nss) {
 		var mod = this.createMinimalModule(name);
 		var modInit = new ModuleInitialiser();
-		modInit.initialiseNamespaces(mod, nss);
+		modInit.addNamespaces(mod, nss);
 		return mod;
 	}
 }

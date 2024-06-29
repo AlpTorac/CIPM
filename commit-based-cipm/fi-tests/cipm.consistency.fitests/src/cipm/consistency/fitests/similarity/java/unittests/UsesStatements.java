@@ -53,14 +53,14 @@ public interface UsesStatements {
 	public default JumpLabel createMinimalJLToNullReturn(String jlName) {
 		var jl = this.createMinimalJL(this.createMinimalNullReturn());
 		var init = new JumpLabelInitialiser();
-		init.initialiseName(jl, jlName);
+		init.setName(jl, jlName);
 		return jl;
 	}
 	
 	public default JumpLabel createMinimalJLToTrivialAssert(String jlName) {
 		var jl = this.createMinimalJL(this.createMinimalTrivialAssert());
 		var init = new JumpLabelInitialiser();
-		init.initialiseName(jl, jlName);
+		init.setName(jl, jlName);
 		return jl;
 	}
 	

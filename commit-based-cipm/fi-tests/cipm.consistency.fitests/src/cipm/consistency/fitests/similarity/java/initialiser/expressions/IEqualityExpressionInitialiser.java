@@ -5,21 +5,23 @@ import org.emftext.language.java.expressions.EqualityExpressionChild;
 import org.emftext.language.java.operators.EqualityOperator;
 
 public interface IEqualityExpressionInitialiser extends IAndExpressionChildInitialiser {
-	public default void addEqualityOperator(EqualityExpression eqEx, EqualityOperator op) {
+	public default boolean addEqualityOperator(EqualityExpression eqEx, EqualityOperator op) {
 		if (op != null) {
 			eqEx.getEqualityOperators().add(op);
-			assert eqEx.getEqualityOperators().contains(op);
+			return eqEx.getEqualityOperators().contains(op);
 		}
+		return false;
 	}
 	
-	public default void addChild(EqualityExpression eqEx, EqualityExpressionChild child) {
+	public default boolean addChild(EqualityExpression eqEx, EqualityExpressionChild child) {
 		if (child != null) {
 			eqEx.getChildren().add(child);
-			assert eqEx.getChildren().contains(child);
+			return eqEx.getChildren().contains(child);
 		}
+		return false;
 	}
 	
-	public default void addChildren(EqualityExpression eqEx, EqualityExpressionChild[] children) {
-		this.addXs(eqEx, children, this::addChild);
+	public default boolean addChildren(EqualityExpression eqEx, EqualityExpressionChild[] children) {
+		return this.addXs(eqEx, children, this::addChild);
 	}
 }

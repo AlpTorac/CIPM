@@ -6,25 +6,27 @@ import org.emftext.language.java.members.MemberContainer;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface IMemberContainerInitialiser extends ICommentableInitialiser {
-	public default void addMember(MemberContainer mc, Member mbr) {
+	public default boolean addMember(MemberContainer mc, Member mbr) {
 		if (mbr != null) {
 			mc.getMembers().add(mbr);
-			assert mc.getMembers().contains(mbr);
+			return mc.getMembers().contains(mbr);
 		}
+		return false;
 	}
 	
-	public default void addMembers(MemberContainer mc, Member[] mbrs) {
-		this.addXs(mc, mbrs, this::addMember);
+	public default boolean addMembers(MemberContainer mc, Member[] mbrs) {
+		return this.addXs(mc, mbrs, this::addMember);
 	}
 	
-	public default void addDefaultMember(MemberContainer mc, Member mbr) {
+	public default boolean addDefaultMember(MemberContainer mc, Member mbr) {
 		if (mbr != null) {
 			mc.getDefaultMembers().add(mbr);
-			assert mc.getDefaultMembers().contains(mbr);
+			return mc.getDefaultMembers().contains(mbr);
 		}
+		return false;
 	}
 	
-	public default void addDefaultMembers(MemberContainer mc, Member[] mbrs) {
-		this.addXs(mc, mbrs, this::addDefaultMember);
+	public default boolean addDefaultMembers(MemberContainer mc, Member[] mbrs) {
+		return this.addXs(mc, mbrs, this::addDefaultMember);
 	}
 }

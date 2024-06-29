@@ -4,14 +4,15 @@ import org.emftext.language.java.parameters.CatchParameter;
 import org.emftext.language.java.types.TypeReference;
 
 public interface ICatchParameterInitialiser extends IOrdinaryParameterInitialiser {
-	public default void addTypeReference(CatchParameter cp, TypeReference tref) {
+	public default boolean addTypeReference(CatchParameter cp, TypeReference tref) {
 		if (tref != null) {
 			cp.getTypeReferences().add(tref);
-			assert cp.getTypeReferences().contains(tref);
+			return cp.getTypeReferences().contains(tref);
 		}
+		return false;
 	}
 	
-	public default void addTypeReferences(CatchParameter cp, TypeReference[] trefs) {
-		this.addXs(cp, trefs, this::addTypeReference);
+	public default boolean addTypeReferences(CatchParameter cp, TypeReference[] trefs) {
+		return this.addXs(cp, trefs, this::addTypeReference);
 	}
 }

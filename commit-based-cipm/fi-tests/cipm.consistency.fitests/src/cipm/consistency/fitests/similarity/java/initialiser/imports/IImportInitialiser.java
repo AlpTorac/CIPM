@@ -6,10 +6,11 @@ import org.emftext.language.java.imports.Import;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.INamespaceAwareElementInitialiser;
 
 public interface IImportInitialiser extends INamespaceAwareElementInitialiser {
-	public default void setClassifier(Import imp, ConcreteClassifier cls) {
+	public default boolean setClassifier(Import imp, ConcreteClassifier cls) {
 		if (cls != null) {
 			imp.setClassifier(cls);
-			assert imp.getClassifier().equals(cls);
+			return imp.getClassifier().equals(cls);
 		}
+		return false;
 	}
 }

@@ -10,7 +10,7 @@ public interface UsesFields {
 		Field result = init.instantiate();
 		
 		init.minimalInitialisation(result);
-		init.initialiseName(result, fieldName);
+		init.setName(result, fieldName);
 		
 		return result;
 	}

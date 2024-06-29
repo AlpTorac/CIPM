@@ -9,9 +9,11 @@ public interface ITypeReferenceInitialiser extends IArrayTypeableInitialiser {
 	/**
 	 * Does not change tref, unless it is an instance of {@link NamespaceClassifierReference}.
 	 */
-	public default void setTarget(TypeReference tref, Classifier cls) {
+	public default boolean setTarget(TypeReference tref, Classifier cls) {
 		if (cls != null) {
 			tref.setTarget(cls);
+			return tref.getTarget().equals(cls);
 		}
+		return false;
 	}
 }

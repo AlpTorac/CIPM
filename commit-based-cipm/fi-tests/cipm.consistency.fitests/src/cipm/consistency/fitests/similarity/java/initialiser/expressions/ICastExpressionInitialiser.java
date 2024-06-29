@@ -10,28 +10,31 @@ import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementI
 public interface ICastExpressionInitialiser extends ITypedElementInitialiser,
 	IUnaryModificationExpressionChildInitialiser {
 	
-	public default void addAdditionalBound(CastExpression ce, TypeReference tref) {
+	public default boolean addAdditionalBound(CastExpression ce, TypeReference tref) {
 		if (tref != null) {
 			ce.getAdditionalBounds().add(tref);
-			assert ce.getAdditionalBounds().contains(tref);
+			return ce.getAdditionalBounds().contains(tref);
 		}
+		return false;
 	}
 	
-	public default void addAdditionalBounds(CastExpression ce, TypeReference[] trefs) {
-		this.addXs(ce, trefs, this::addAdditionalBound);
+	public default boolean addAdditionalBounds(CastExpression ce, TypeReference[] trefs) {
+		return this.addXs(ce, trefs, this::addAdditionalBound);
 	}
 	
-	public default void setChild(CastExpression ce, MultiplicativeExpressionChild child) {
+	public default boolean setChild(CastExpression ce, MultiplicativeExpressionChild child) {
 		if (child != null) {
 			ce.setChild(child);
-			assert ce.getChild().equals(child);
+			return ce.getChild().equals(child);
 		}
+		return false;
 	}
 	
-	public default void setGeneralChild(CastExpression ce, Expression expr) {
+	public default boolean setGeneralChild(CastExpression ce, Expression expr) {
 		if (expr != null) {
 			ce.setGeneralChild(expr);
-			assert ce.getGeneralChild().equals(expr);
+			return ce.getGeneralChild().equals(expr);
 		}
+		return false;
 	}
 }

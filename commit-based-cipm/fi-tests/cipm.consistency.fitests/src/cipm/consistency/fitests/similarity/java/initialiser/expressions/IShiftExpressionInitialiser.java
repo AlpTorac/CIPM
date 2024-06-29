@@ -5,25 +5,27 @@ import org.emftext.language.java.expressions.ShiftExpressionChild;
 import org.emftext.language.java.operators.ShiftOperator;
 
 public interface IShiftExpressionInitialiser extends IRelationExpressionChildInitialiser {
-	public default void addShiftOperator(ShiftExpression se, ShiftOperator op) {
+	public default boolean addShiftOperator(ShiftExpression se, ShiftOperator op) {
 		if (op != null) {
 			se.getShiftOperators().add(op);
-			assert se.getShiftOperators().contains(op);
+			return se.getShiftOperators().contains(op);
 		}
+		return false;
 	}
 	
-	public default void addShiftOperators(ShiftExpression se, ShiftOperator[] ops) {
-		this.addXs(se, ops, this::addShiftOperator);
+	public default boolean addShiftOperators(ShiftExpression se, ShiftOperator[] ops) {
+		return this.addXs(se, ops, this::addShiftOperator);
 	}
 	
-	public default void addChild(ShiftExpression se, ShiftExpressionChild child) {
+	public default boolean addChild(ShiftExpression se, ShiftExpressionChild child) {
 		if (child != null) {
 			se.getChildren().add(child);
-			assert se.getChildren().contains(child);
+			return se.getChildren().contains(child);
 		}
+		return false;
 	}
 	
-	public default void addChildren(ShiftExpression se, ShiftExpressionChild[] children) {
-		this.addXs(se, children, this::addChild);
+	public default boolean addChildren(ShiftExpression se, ShiftExpressionChild[] children) {
+		return this.addXs(se, children, this::addChild);
 	}
 }

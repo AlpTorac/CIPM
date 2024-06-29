@@ -7,17 +7,19 @@ import org.emftext.language.java.members.InterfaceMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface IAnnotationAttributeSettingInitialiser extends ICommentableInitialiser {
-	public default void setAttribute(AnnotationAttributeSetting aas, InterfaceMethod im) {
+	public default boolean setAttribute(AnnotationAttributeSetting aas, InterfaceMethod im) {
 		if (im != null) {
 			aas.setAttribute(im);
-			assert aas.getAttribute().equals(im);
+			return aas.getAttribute().equals(im);
 		}
+		return false;
 	}
 	
-	public default void setValue(AnnotationAttributeSetting aas, AnnotationValue val) {
+	public default boolean setValue(AnnotationAttributeSetting aas, AnnotationValue val) {
 		if (val != null) {
 			aas.setValue(val);
-			assert aas.getValue().equals(val);
+			return aas.getValue().equals(val);
 		}
+		return false;
 	}
 }

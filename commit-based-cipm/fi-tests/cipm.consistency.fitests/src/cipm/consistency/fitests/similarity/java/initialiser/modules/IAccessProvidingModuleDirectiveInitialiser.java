@@ -10,21 +10,23 @@ public interface IAccessProvidingModuleDirectiveInitialiser extends
 	IModuleDirectiveInitialiser,
 	INamespaceAwareElementInitialiser {
 	
-	public default void setAccessablePackage(AccessProvidingModuleDirective apmd, Package pac) {
+	public default boolean setAccessablePackage(AccessProvidingModuleDirective apmd, Package pac) {
 		if (pac != null) {
 			apmd.setAccessablePackage(pac);
-			assert apmd.getAccessablePackage().equals(pac);
+			return apmd.getAccessablePackage().equals(pac);
 		}
+		return false;
 	}
 	
-	public default void addModule(AccessProvidingModuleDirective apmd, ModuleReference modref) {
+	public default boolean addModule(AccessProvidingModuleDirective apmd, ModuleReference modref) {
 		if (modref != null) {
 			apmd.getModules().add(modref);
-			assert apmd.getModules().contains(modref);
+			return apmd.getModules().contains(modref);
 		}
+		return false;
 	}
 	
-	public default void addModules(AccessProvidingModuleDirective apmd, ModuleReference[] modrefs) {
-		this.addXs(apmd, modrefs, this::addModule);
+	public default boolean addModules(AccessProvidingModuleDirective apmd, ModuleReference[] modrefs) {
+		return this.addXs(apmd, modrefs, this::addModule);
 	}
 }

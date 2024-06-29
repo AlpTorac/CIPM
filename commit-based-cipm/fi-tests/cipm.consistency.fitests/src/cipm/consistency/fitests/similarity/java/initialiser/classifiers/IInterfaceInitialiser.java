@@ -4,25 +4,27 @@ import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.types.TypeReference;
 
 public interface IInterfaceInitialiser extends IConcreteClassifierInitialiser {
-	public default void addDefaultExtends(Interface intfc, TypeReference tref) {
+	public default boolean addDefaultExtends(Interface intfc, TypeReference tref) {
 		if (tref != null) {
 			intfc.getDefaultExtends().add(tref);
-			assert intfc.getDefaultExtends().contains(tref);
+			return intfc.getDefaultExtends().contains(tref);
 		}
+		return false;
 	}
 	
-	public default void addDefaultExtends(Interface intfc, TypeReference[] trefs) {
-		this.addXs(intfc, trefs, this::addDefaultExtends);
+	public default boolean addDefaultExtends(Interface intfc, TypeReference[] trefs) {
+		return this.addXs(intfc, trefs, this::addDefaultExtends);
 	}
 	
-	public default void addExtends(Interface intfc, TypeReference tref) {
+	public default boolean addExtends(Interface intfc, TypeReference tref) {
 		if (tref != null) {
 			intfc.getExtends().add(tref);
-			assert intfc.getExtends().contains(tref);
+			return intfc.getExtends().contains(tref);
 		}
+		return false;
 	}
 	
-	public default void addExtends(Interface intfc, TypeReference[] trefs) {
-		this.addXs(intfc, trefs, this::addExtends);
+	public default boolean addExtends(Interface intfc, TypeReference[] trefs) {
+		return this.addXs(intfc, trefs, this::addExtends);
 	}
 }

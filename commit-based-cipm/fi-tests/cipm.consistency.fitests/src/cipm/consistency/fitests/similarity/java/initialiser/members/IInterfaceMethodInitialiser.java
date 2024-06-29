@@ -4,10 +4,11 @@ import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.members.InterfaceMethod;
 
 public interface IInterfaceMethodInitialiser extends IMethodInitialiser {
-	public default void setDefaultValue(InterfaceMethod im, AnnotationValue av) {
+	public default boolean setDefaultValue(InterfaceMethod im, AnnotationValue av) {
 		if (av != null) {
 			im.setDefaultValue(av);
-			assert im.getDefaultValue().equals(av);
+			return im.getDefaultValue().equals(av);
 		}
+		return false;
 	}
 }

@@ -11,7 +11,7 @@ public interface UsesMethods extends UsesStatements {
 	public default ClassMethod createMinimalClsMethod(String methodName) {
 		var init = new ClassMethodInitialiser();
 		ClassMethod result = this.createMinimalClsMethod();
-		init.initialiseName(result, methodName);
+		init.setName(result, methodName);
 		return result;
 	}
 	
@@ -26,7 +26,7 @@ public interface UsesMethods extends UsesStatements {
 	public default InterfaceMethod createMinimalInterfaceMethod(String methodName) {
 		var init = new InterfaceMethodInitialiser();
 		InterfaceMethod result = this.createMinimalInterfaceMethod();
-		init.initialiseName(result, methodName);
+		init.setName(result, methodName);
 		return result;
 	}
 

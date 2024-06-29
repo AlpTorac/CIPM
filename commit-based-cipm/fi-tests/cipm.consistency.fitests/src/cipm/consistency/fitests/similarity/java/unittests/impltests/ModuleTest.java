@@ -22,7 +22,7 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 		initialiser.addTargets(result, targets);
 		
 		if (isOpen) {
-			initialiser.initialiseOpen(result,
+			initialiser.setOpen(result,
 					new OpenInitialiser().instantiate());
 		}
 		

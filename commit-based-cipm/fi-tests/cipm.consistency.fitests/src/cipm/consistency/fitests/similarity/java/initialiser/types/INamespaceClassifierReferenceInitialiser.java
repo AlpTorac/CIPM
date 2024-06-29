@@ -12,8 +12,8 @@ public interface INamespaceClassifierReferenceInitialiser extends
 	ITypeReferenceInitialiser {
 
 	@Override
-	public default void setTarget(TypeReference tref, Classifier cls) {
-		ITypeReferenceInitialiser.super.setTarget(tref, cls);
+	public default boolean setTarget(TypeReference tref, Classifier cls) {
+		boolean result = ITypeReferenceInitialiser.super.setTarget(tref, cls);
 		
 		if (cls != null) {
 			var castedTref = (NamespaceClassifierReference) tref;
@@ -22,22 +22,25 @@ public interface INamespaceClassifierReferenceInitialiser extends
 			 * Assertions for the implementation at
 			 * https://github.com/DevBoost/JaMoPP/blob/master/Core/org.emftext.language.java/src/org/emftext/language/java/extensions/types/TypeReferenceExtension.java
 			 */
-			assert castedTref.getNamespaces().size() == cls.getContainingContainerName().size();
-			assert castedTref.getNamespaces().containsAll(cls.getContainingContainerName());
-			assert castedTref.getClassifierReferences().size() == 1;
-			assert castedTref.getClassifierReferences().stream()
+			return result &&
+				castedTref.getNamespaces().size() == cls.getContainingContainerName().size() &&
+				 castedTref.getNamespaces().containsAll(cls.getContainingContainerName()) &&
+				 castedTref.getClassifierReferences().size() == 1 &&
+				 castedTref.getClassifierReferences().stream()
 				.anyMatch((cr) -> cr.getTarget().equals(cls));
 		}
+		return false;
 	}
 	
-	public default void addClassifierReference(NamespaceClassifierReference ncr, ClassifierReference cref) {
+	public default boolean addClassifierReference(NamespaceClassifierReference ncr, ClassifierReference cref) {
 		if (cref != null) {
 			ncr.getClassifierReferences().add(cref);
-			assert ncr.getClassifierReferences().contains(cref);
+			return ncr.getClassifierReferences().contains(cref);
 		}
+		return false;
 	}
 	
-	public default void addClassifierReferences(NamespaceClassifierReference ncr, ClassifierReference[] crefs) {
-		this.addXs(ncr, crefs, this::addClassifierReference);
+	public default boolean addClassifierReferences(NamespaceClassifierReference ncr, ClassifierReference[] crefs) {
+		return this.addXs(ncr, crefs, this::addClassifierReference);
 	}
 }

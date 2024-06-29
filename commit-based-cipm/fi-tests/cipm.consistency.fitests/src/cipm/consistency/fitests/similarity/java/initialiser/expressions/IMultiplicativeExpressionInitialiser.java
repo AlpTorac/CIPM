@@ -5,25 +5,27 @@ import org.emftext.language.java.expressions.MultiplicativeExpressionChild;
 import org.emftext.language.java.operators.MultiplicativeOperator;
 
 public interface IMultiplicativeExpressionInitialiser extends IMultiplicativeExpressionChildInitialiser {
-	public default void addMultiplicativeOperator(MultiplicativeExpression ae, MultiplicativeOperator op) {
+	public default boolean addMultiplicativeOperator(MultiplicativeExpression ae, MultiplicativeOperator op) {
 		if (op != null) {
 			ae.getMultiplicativeOperators().add(op);
-			assert ae.getMultiplicativeOperators().contains(op);
+			return ae.getMultiplicativeOperators().contains(op);
 		}
+		return false;
 	}
 	
-	public default void addMultiplicativeOperators(MultiplicativeExpression ae, MultiplicativeOperator[] ops) {
-		this.addXs(ae, ops, this::addMultiplicativeOperator);
+	public default boolean addMultiplicativeOperators(MultiplicativeExpression ae, MultiplicativeOperator[] ops) {
+		return this.addXs(ae, ops, this::addMultiplicativeOperator);
 	}
 	
-	public default void addChild(MultiplicativeExpression ae, MultiplicativeExpressionChild child) {
+	public default boolean addChild(MultiplicativeExpression ae, MultiplicativeExpressionChild child) {
 		if (child != null) {
 			ae.getChildren().add(child);
-			assert ae.getChildren().contains(child);
+			return ae.getChildren().contains(child);
 		}
+		return false;
 	}
 	
-	public default void addChildren(MultiplicativeExpression ae, MultiplicativeExpressionChild[] children) {
-		this.addXs(ae, children, this::addChild);
+	public default boolean addChildren(MultiplicativeExpression ae, MultiplicativeExpressionChild[] children) {
+		return this.addXs(ae, children, this::addChild);
 	}
 }

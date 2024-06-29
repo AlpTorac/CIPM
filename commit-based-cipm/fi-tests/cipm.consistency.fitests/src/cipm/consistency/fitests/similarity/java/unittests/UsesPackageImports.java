@@ -10,7 +10,7 @@ public interface UsesPackageImports {
 		PackageImport result = initialiser.instantiate();
 		
 		initialiser.minimalInitialisation(result);
-		initialiser.initialiseNamespaces(result, nss);
+		initialiser.addNamespaces(result, nss);
 		
 		return result;
 	}

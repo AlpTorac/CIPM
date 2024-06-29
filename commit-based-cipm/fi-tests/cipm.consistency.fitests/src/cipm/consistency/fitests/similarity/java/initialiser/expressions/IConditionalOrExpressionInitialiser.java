@@ -4,14 +4,15 @@ import org.emftext.language.java.expressions.ConditionalOrExpression;
 import org.emftext.language.java.expressions.ConditionalOrExpressionChild;
 
 public interface IConditionalOrExpressionInitialiser extends IConditionalExpressionChildInitialiser {
-	public default void addChild(ConditionalOrExpression coe, ConditionalOrExpressionChild child) {
+	public default boolean addChild(ConditionalOrExpression coe, ConditionalOrExpressionChild child) {
 		if (child != null) {
 			coe.getChildren().add(child);
-			assert coe.getChildren().contains(child);
+			return coe.getChildren().contains(child);
 		}
+		return false;
 	}
 	
-	public default void addChildren(ConditionalOrExpression coe, ConditionalOrExpressionChild[] children) {
-		this.addXs(coe, children, this::addChild);
+	public default boolean addChildren(ConditionalOrExpression coe, ConditionalOrExpressionChild[] children) {
+		return this.addXs(coe, children, this::addChild);
 	}
 }

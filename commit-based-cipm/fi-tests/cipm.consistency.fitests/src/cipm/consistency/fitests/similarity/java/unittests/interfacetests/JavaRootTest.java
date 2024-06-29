@@ -13,7 +13,7 @@ public class JavaRootTest extends EObjectSimilarityTest {
 	protected JavaRoot initElement(IJavaRootInitialiser initialiser, Origin origin) {
 		JavaRoot result = initialiser.instantiate();
 		initialiser.minimalInitialisation(result);
-		initialiser.initialiseOrigin(result, origin);
+		initialiser.setOrigin(result, origin);
 		return result;
 	}
 	
