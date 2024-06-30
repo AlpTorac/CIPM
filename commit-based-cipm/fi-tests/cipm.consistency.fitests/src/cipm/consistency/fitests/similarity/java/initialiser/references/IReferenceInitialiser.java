@@ -19,6 +19,10 @@ public interface IReferenceInitialiser extends IPrimaryExpressionInitialiser,
 		return true;
 	}
 	
+	public default boolean addArraySelectors(Reference ref, ArraySelector[] asArr) {
+		return this.addXs(ref, asArr, this::addArraySelector);
+	}
+	
 	public default boolean setNext(Reference ref, Reference next) {
 		if (next != null) {
 			ref.setNext(next);

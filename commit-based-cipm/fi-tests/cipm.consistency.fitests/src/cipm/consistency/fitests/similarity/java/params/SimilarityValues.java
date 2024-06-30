@@ -1,6 +1,7 @@
 package cipm.consistency.fitests.similarity.java.params;
 
 import org.emftext.language.java.annotations.AnnotationsPackage;
+import org.emftext.language.java.arrays.ArrayInstantiation;
 import org.emftext.language.java.arrays.ArraysPackage;
 import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.commons.CommonsPackage;
@@ -12,6 +13,7 @@ import org.emftext.language.java.expressions.ExplicitlyTypedLambdaParameters;
 import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.expressions.ImplicitlyTypedLambdaParameters;
 import org.emftext.language.java.expressions.InstanceOfExpression;
+import org.emftext.language.java.expressions.NestedExpression;
 import org.emftext.language.java.expressions.SingleImplicitLambdaParameter;
 import org.emftext.language.java.generics.GenericsPackage;
 import org.emftext.language.java.generics.QualifiedTypeArgument;
@@ -19,6 +21,7 @@ import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.ImportsPackage;
 import org.emftext.language.java.imports.PackageImport;
 import org.emftext.language.java.imports.StaticClassifierImport;
+import org.emftext.language.java.instantiations.Instantiation;
 import org.emftext.language.java.instantiations.InstantiationsPackage;
 import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.emftext.language.java.instantiations.NewConstructorCallWithInferredTypeArguments;
@@ -30,8 +33,14 @@ import org.emftext.language.java.modules.ModulesPackage;
 import org.emftext.language.java.modules.ProvidesModuleDirective;
 import org.emftext.language.java.modules.UsesModuleDirective;
 import org.emftext.language.java.parameters.ParametersPackage;
+import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.PackageReference;
+import org.emftext.language.java.references.PrimitiveTypeReference;
 import org.emftext.language.java.references.ReferencesPackage;
+import org.emftext.language.java.references.ReflectiveClassReference;
+import org.emftext.language.java.references.SelfReference;
+import org.emftext.language.java.references.StringReference;
+import org.emftext.language.java.references.TextBlockReference;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.StatementsPackage;
@@ -219,7 +228,24 @@ public class SimilarityValues extends AbstractSimilarityValues {
 		this.addSimilarityEntry(ReferencesPackage.Literals.SELF_REFERENCE__SELF, Boolean.TRUE);
 		this.addSimilarityEntry(ReferencesPackage.Literals.TEXT_BLOCK_REFERENCE__VALUE, Boolean.TRUE);
 		this.addSimilarityEntry(ReferencesPackage.Literals.ELEMENT_REFERENCE__CONTAINED_TARGET, Boolean.TRUE);
-
+		this.addSimilarityEntry(ArrayInstantiation.class, ReferencesPackage.Literals.REFERENCE__NEXT, Boolean.TRUE);
+		this.addSimilarityEntry(ArrayInstantiation.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
+		this.addSimilarityEntry(NestedExpression.class, ReferencesPackage.Literals.REFERENCE__NEXT, Boolean.TRUE);
+		this.addSimilarityEntry(NestedExpression.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
+		this.addSimilarityEntry(Instantiation.class, ReferencesPackage.Literals.REFERENCE__NEXT, Boolean.TRUE);
+		this.addSimilarityEntry(Instantiation.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
+		this.addSimilarityEntry(MethodCall.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
+		this.addSimilarityEntry(PrimitiveTypeReference.class, ReferencesPackage.Literals.REFERENCE__NEXT, Boolean.TRUE);
+		this.addSimilarityEntry(PrimitiveTypeReference.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
+		this.addSimilarityEntry(ReflectiveClassReference.class, ReferencesPackage.Literals.REFERENCE__NEXT, Boolean.TRUE);
+		this.addSimilarityEntry(ReflectiveClassReference.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
+		this.addSimilarityEntry(SelfReference.class, ReferencesPackage.Literals.REFERENCE__NEXT, Boolean.TRUE);
+		this.addSimilarityEntry(SelfReference.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
+		this.addSimilarityEntry(StringReference.class, ReferencesPackage.Literals.REFERENCE__NEXT, Boolean.TRUE);
+		this.addSimilarityEntry(StringReference.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
+		this.addSimilarityEntry(TextBlockReference.class, ReferencesPackage.Literals.REFERENCE__NEXT, Boolean.TRUE);
+		this.addSimilarityEntry(TextBlockReference.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
+		
 		/*
 		 * FIXME: There might be issues with TYPED_ELEMENT__TYPE_REFERENCE
 		 */
