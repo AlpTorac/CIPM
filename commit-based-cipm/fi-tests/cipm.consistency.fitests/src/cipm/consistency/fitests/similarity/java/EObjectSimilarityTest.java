@@ -66,12 +66,53 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	}
 
 	/**
-	 * Creates a clone copy of the given obj.
+	 * Creates a clone copy of the given obj and its contents.
+	 * <br><br>
+	 * <b>Note: DOES NOT clone the container {@code obj.eContainer()}
+	 * of this object. Only copies the given object and the contents
+	 * nested in it.</b>
 	 * 
+	 * @return A clone of obj without its container and clones of its contents.
 	 * @see {@link EcoreUtil#copy(EObject)}
 	 */
 	public <T extends EObject> T cloneEObj(T obj) {
 		return EcoreUtil.copy(obj);
+	}
+	
+	/**
+	 * Finds the topmost EObject (objTop) that can be reached from obj, 
+	 * clones objTop, finds the clone of obj among the contents of
+	 * objTop and returns that clone.
+	 * 
+	 * @return A clone of obj, which preserves obj's place in its hierarchy.
+	 * The returned clone contains clones of obj's contents and is contained
+	 * by clones of all containers of obj.
+	 * @see {@link EcoreUtil#copy(EObject)}
+	 */
+	@SuppressWarnings("unchecked")
+	public <T extends EObject> T cloneEObjWithContainers(T obj) {
+		if (obj.eContainer() == null) {
+			return this.cloneEObj(obj);
+		}
+		
+		EObject cObj = obj;
+		
+		while (cObj.eContainer() != null) {
+			cObj = cObj.eContainer();
+		}
+		
+		EObject clone = this.cloneEObj(cObj);
+		var contents = clone.eAllContents();
+		
+		while (contents.hasNext()) {
+			var cCloneObj = contents.next();
+			if (this.getActualEquality(obj, cCloneObj)) {
+				return (T) cCloneObj;
+			}
+		}
+		
+		Assertions.fail("Cloning unsuccessful");
+		return null;
 	}
 
 	/**
@@ -128,8 +169,8 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 					+ this.getResourceFileTestIdentifier() + " but are similar according to EcoreUtil");
 		}
 
-		var objOne = this.cloneEObj(elem1);
-		var objTwo = this.cloneEObj(elem2);
+		var objOne = this.cloneEObjWithContainers(elem1);
+		var objTwo = this.cloneEObjWithContainers(elem2);
 
 		var resOne = this.createResource(List.of(objOne));
 		var resTwo = this.createResource(List.of(objTwo));
