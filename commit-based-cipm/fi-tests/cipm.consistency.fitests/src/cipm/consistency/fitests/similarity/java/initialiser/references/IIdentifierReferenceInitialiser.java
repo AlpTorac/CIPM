@@ -6,6 +6,8 @@ import org.emftext.language.java.references.IdentifierReference;
 import cipm.consistency.fitests.similarity.java.initialiser.annotations.IAnnotableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.arrays.IArrayTypeableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.instantiations.ExplicitConstructorCallInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.statements.BlockInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.statements.ExpressionStatementInitialiser;
 
 public interface IIdentifierReferenceInitialiser extends IAnnotableInitialiser,
 	IArrayTypeableInitialiser,
@@ -22,7 +24,16 @@ public interface IIdentifierReferenceInitialiser extends IAnnotableInitialiser,
 			var ecc = insInit.instantiate();
 			insInit.minimalInitialisation(ecc);
 			insInit.addArgument(ecc, castedO);
-			castedO.eContainer().equals(ecc);
+			
+			var esInit = new ExpressionStatementInitialiser();
+			var es = esInit.instantiate();
+			esInit.setExpression(es, ecc);
+			
+			var bInit = new BlockInitialiser();
+			var block = bInit.instantiate();
+			bInit.addStatement(block, es);
+			
+			return block;
 		}
 		
 		return castedO.eContainer();
