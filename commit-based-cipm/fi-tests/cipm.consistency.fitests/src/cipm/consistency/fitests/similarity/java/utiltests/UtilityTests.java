@@ -46,6 +46,7 @@ import cipm.consistency.fitests.similarity.java.AbstractSimilarityTest;
  */
 public class UtilityTests extends AbstractSimilarityTest {
 	
+	// FIXME: Find a better way to determine, if there are initialiser methods that can be used in tests. Maybe something like SimilarityValues.
 	// TODO: Comment better, rename unintuitive parameters and methods.
 	
 	/**
@@ -145,6 +146,7 @@ public class UtilityTests extends AbstractSimilarityTest {
 	 * @return An instance of each concrete Java-Model-Element class.
 	 */
 	public Collection<EObject> getAllPossibleModelElements() {
+		// TODO: Extract this method to another class (?)
 		return new ArrayList<EObject>() {{
 			// Annotations
 			add(AnnotationsFactory.eINSTANCE.createAnnotationAttributeSetting());

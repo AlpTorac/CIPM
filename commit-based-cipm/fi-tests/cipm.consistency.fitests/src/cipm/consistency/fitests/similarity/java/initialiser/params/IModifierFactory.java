@@ -14,6 +14,8 @@ import org.emftext.language.java.modifiers.Synchronized;
 import org.emftext.language.java.modifiers.Transient;
 import org.emftext.language.java.modifiers.Volatile;
 
+// TODO: Move these methods to UsesModifiers and remove this interface and its implementors
+
 public interface IModifierFactory {
 	public ModifiersFactory getFactory();
 	
