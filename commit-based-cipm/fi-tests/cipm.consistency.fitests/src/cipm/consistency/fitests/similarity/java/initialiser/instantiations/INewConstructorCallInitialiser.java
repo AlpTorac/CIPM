@@ -24,22 +24,23 @@ public interface INewConstructorCallInitialiser extends
 	
 	@Override
 	public default boolean minimalInitialisation(EObject obj) {
+		// FIXME: See if this can go to a helper interface
 		var castedO = (NewConstructorCall) obj;
+		boolean result = true;
 		
 		if (castedO.getTypeReference() == null) {
 			var trefInit = new ClassifierReferenceInitialiser();
 			var clsInit = new ClassInitialiser();
 			
 			ConcreteClassifier cls = clsInit.instantiate();
-			clsInit.minimalInitialisation(cls);
+			result = result && clsInit.minimalInitialisation(cls);
 			
 			TypeReference tref = trefInit.instantiate();
-			trefInit.minimalInitialisation(tref);
-			trefInit.setTarget(tref, cls);
-			
-			this.setTypeReference(castedO, tref);
-			return castedO.getTypeReference().equals(tref);
+			result = result && trefInit.minimalInitialisation(tref)
+					&& trefInit.setTarget(tref, cls)
+					&& this.setTypeReference(castedO, tref)
+					&& castedO.getTypeReference().equals(tref);
 		}
-		return true;
+		return result && castedO.getTypeReference() != null;
 	}
 }
