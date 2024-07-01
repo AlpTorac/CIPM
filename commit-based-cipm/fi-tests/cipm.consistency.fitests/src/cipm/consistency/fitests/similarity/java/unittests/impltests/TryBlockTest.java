@@ -49,15 +49,15 @@ UsesStatements, UsesLocalVariables {
 	
 	// TODO: Clarify if this is necessary
 	
-//	@Test
-//	public void testCatcheBlock() {
-//		this.setResourceFileTestIdentifier("testCatcheBlock");
-//		
-//		var objOne = this.initElement(null, null, new CatchBlock[] {this.createMinimalCB("p1", "t1")}, null);
-//		var objTwo = this.initElement(null, null, new CatchBlock[] {this.createMinimalCB("p2", "t2")}, null);
-//		
-//		this.testX(objOne, objTwo, false);
-//	}
+	@Test
+	public void testCatcheBlock() {
+		this.setResourceFileTestIdentifier("testCatcheBlock");
+		
+		var objOne = this.initElement(null, null, new CatchBlock[] {this.createMinimalCB("p1", "t1")}, null);
+		var objTwo = this.initElement(null, null, new CatchBlock[] {this.createMinimalCB("p2", "t2")}, null);
+		
+		this.testX(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__CATCH_BLOCKS);
+	}
 	
 	@Test
 	public void testFinallyBlock() {
