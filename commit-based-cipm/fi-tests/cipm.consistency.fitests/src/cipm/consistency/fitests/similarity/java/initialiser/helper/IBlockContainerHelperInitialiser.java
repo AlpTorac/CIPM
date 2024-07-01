@@ -19,7 +19,7 @@ public interface IBlockContainerHelperInitialiser extends IBlockContainerInitial
 	@Override
 	public default boolean minimalInitialisation(EObject obj) {
 		var castedO = (BlockContainer) obj;
-				
+		// TODO: Fix the return value
 		if (castedO.getBlock() == null) {
 			var bInit = this.getBInit();
 			if (bInit == null) {
