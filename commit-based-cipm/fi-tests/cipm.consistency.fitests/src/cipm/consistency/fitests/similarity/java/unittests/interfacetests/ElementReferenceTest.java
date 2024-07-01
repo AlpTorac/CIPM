@@ -9,19 +9,24 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.references.IElementReferenceInitialiser;
-import cipm.consistency.fitests.similarity.java.unittests.UsesAnnotationInstances;
-import cipm.consistency.fitests.similarity.java.unittests.UsesAnnotationParameters;
 import cipm.consistency.fitests.similarity.java.unittests.UsesConcreteClassifiers;
 
-public class ElementReferenceTest extends EObjectSimilarityTest implements UsesConcreteClassifiers,
-UsesAnnotationInstances, UsesAnnotationParameters {
+public class ElementReferenceTest extends EObjectSimilarityTest implements UsesConcreteClassifiers {
 	protected ElementReference initElement(IElementReferenceInitialiser init,
+			ReferenceableElement target, ReferenceableElement cTarget) {
+		ElementReference result = init.instantiate();
+		init.minimalInitialisationWithContainer(result);
+		Assertions.assertTrue(init.setTarget(result, target));
+		Assertions.assertTrue(init.setContainedTarget(result, cTarget));
+		return result;
+	}
+	
+	protected ElementReference initElementWithoutContainer(IElementReferenceInitialiser init,
 			ReferenceableElement target, ReferenceableElement cTarget) {
 		ElementReference result = init.instantiate();
 		Assertions.assertTrue(init.minimalInitialisation(result));
 		Assertions.assertTrue(init.setTarget(result, target));
 		Assertions.assertTrue(init.setContainedTarget(result, cTarget));
-		
 		return result;
 	}
 	
@@ -34,6 +39,23 @@ UsesAnnotationInstances, UsesAnnotationParameters {
 		var objTwo = this.initElement(init, this.createMinimalClass("cls2"), null);
 		
 		this.testX(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__TARGET);
+	}
+	
+	/**
+	 * Makes sure that not providing a container for the created element
+	 * does not result in an exception.
+	 */
+	@ParameterizedTest
+	@ArgumentsSource(ElementReferenceTestParams.class)
+	public void testTargetNoException(IElementReferenceInitialiser init) {
+		this.setResourceFileTestIdentifier("testTarget");
+		
+		var objOne = this.initElementWithoutContainer(init, this.createMinimalClass("cls1"), null);
+		var objTwo = this.initElementWithoutContainer(init, this.createMinimalClass("cls2"), null);
+		
+		Assertions.assertDoesNotThrow(
+				()->this.testX(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__TARGET)
+				);
 	}
 	
 	@ParameterizedTest
