@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.annotations.AnnotationsFactory;
+import org.emftext.language.java.annotations.AnnotationsPackage;
 import org.emftext.language.java.arrays.ArraysFactory;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.Commentable;
@@ -147,13 +148,18 @@ public class UtilityTests extends AbstractSimilarityTest {
 	 */
 	public Collection<EObject> getAllPossibleModelElements() {
 		// TODO: Extract this method to another class (?)
+		
+		/*
+		 * TODO: Try to use AnnotationsPackage.Literals.ANNOTABLE.getEPackage() and .subpackages()
+		 * iterate over them and see if all types come out.
+		 */
+		
 		return new ArrayList<EObject>() {{
 			// Annotations
 			add(AnnotationsFactory.eINSTANCE.createAnnotationAttributeSetting());
 			add(AnnotationsFactory.eINSTANCE.createAnnotationInstance());
 			add(AnnotationsFactory.eINSTANCE.createAnnotationParameterList());
 			add(AnnotationsFactory.eINSTANCE.createSingleAnnotationParameter());
-			
 			// Arrays
 			add(ArraysFactory.eINSTANCE.createArrayDimension());
 			add(ArraysFactory.eINSTANCE.createArrayInitializer());
