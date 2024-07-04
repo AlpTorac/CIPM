@@ -7,6 +7,8 @@ import org.emftext.language.java.classifiers.Classifier;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.INamespaceAwareElementInitialiser;
 
 public interface IAnnotationInstanceInitialiser extends INamespaceAwareElementInitialiser {
+    @Override
+    public AnnotationInstance instantiate();
 	public default boolean setAnnotation(AnnotationInstance ai, Classifier cls) {
 		if (cls != null) {
 			ai.setAnnotation(cls);

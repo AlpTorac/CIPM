@@ -6,6 +6,8 @@ import org.emftext.language.java.generics.TypeArgument;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface ICallTypeArgumentableInitialiser extends ICommentableInitialiser {
+    @Override
+    public CallTypeArgumentable instantiate();
 	public default boolean addCallTypeArgument(CallTypeArgumentable cta, TypeArgument ta) {
 		if (ta != null) {
 			cta.getCallTypeArguments().add(ta);

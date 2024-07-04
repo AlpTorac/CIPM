@@ -5,6 +5,8 @@ import org.emftext.language.java.expressions.ShiftExpressionChild;
 import org.emftext.language.java.operators.ShiftOperator;
 
 public interface IShiftExpressionInitialiser extends IRelationExpressionChildInitialiser {
+    @Override
+    public ShiftExpression instantiate();
 	public default boolean addShiftOperator(ShiftExpression se, ShiftOperator op) {
 		if (op != null) {
 			se.getShiftOperators().add(op);

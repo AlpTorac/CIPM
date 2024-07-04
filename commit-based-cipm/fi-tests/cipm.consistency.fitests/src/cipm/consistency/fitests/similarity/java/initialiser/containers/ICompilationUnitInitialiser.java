@@ -4,6 +4,8 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 
 public interface ICompilationUnitInitialiser extends IJavaRootInitialiser {
+    @Override
+    public CompilationUnit instantiate();
 	public default boolean addClassifier(CompilationUnit cu, ConcreteClassifier cc) {
 		if (cc != null) {
 			cu.getClassifiers().add(cc);

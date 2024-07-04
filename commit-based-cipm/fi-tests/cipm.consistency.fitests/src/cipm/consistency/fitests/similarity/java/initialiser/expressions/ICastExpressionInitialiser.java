@@ -9,6 +9,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementI
 
 public interface ICastExpressionInitialiser extends ITypedElementInitialiser,
 	IUnaryModificationExpressionChildInitialiser {
+	@Override
+	public CastExpression instantiate();
 	
 	public default boolean addAdditionalBound(CastExpression ce, TypeReference tref) {
 		if (tref != null) {

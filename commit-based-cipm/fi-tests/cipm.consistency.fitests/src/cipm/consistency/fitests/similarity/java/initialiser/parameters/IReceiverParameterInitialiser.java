@@ -7,6 +7,8 @@ import org.emftext.language.java.types.TypeReference;
 import cipm.consistency.fitests.similarity.java.initialiser.annotations.IAnnotableInitialiser;
 
 public interface IReceiverParameterInitialiser extends IAnnotableInitialiser, IParameterInitialiser {
+    @Override
+    public ReceiverParameter instantiate();
 	public default boolean setOuterTypeReference(ReceiverParameter rp, TypeReference tref) {
 		if (tref != null) {
 			rp.setOuterTypeReference(tref);

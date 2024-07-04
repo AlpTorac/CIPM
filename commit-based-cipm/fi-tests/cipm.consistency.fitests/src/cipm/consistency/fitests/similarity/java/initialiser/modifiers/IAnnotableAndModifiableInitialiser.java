@@ -8,6 +8,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.InitialiserVisibilit
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface IAnnotableAndModifiableInitialiser extends ICommentableInitialiser {
+    @Override
+    public AnnotableAndModifiable instantiate();
 	public default boolean addModifier(AnnotableAndModifiable aam, Modifier modif) {
 		if (modif != null) {
 			aam.addModifier(modif);

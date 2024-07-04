@@ -13,6 +13,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.types.ITypeInitialis
  * @author atora
  */
 public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceableElementInitialiser {
+    @Override
+    public Classifier instantiate();
 	
 	public default boolean addImport(Classifier cls, Import imp) {
 		if (imp != null) {

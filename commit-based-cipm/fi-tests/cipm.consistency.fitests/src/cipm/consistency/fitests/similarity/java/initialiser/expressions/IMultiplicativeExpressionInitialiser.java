@@ -4,7 +4,9 @@ import org.emftext.language.java.expressions.MultiplicativeExpression;
 import org.emftext.language.java.expressions.MultiplicativeExpressionChild;
 import org.emftext.language.java.operators.MultiplicativeOperator;
 
-public interface IMultiplicativeExpressionInitialiser extends IMultiplicativeExpressionChildInitialiser {
+public interface IMultiplicativeExpressionInitialiser extends IAdditiveExpressionChildInitialiser {
+    @Override
+    public MultiplicativeExpression instantiate();
 	public default boolean addMultiplicativeOperator(MultiplicativeExpression ae, MultiplicativeOperator op) {
 		if (op != null) {
 			ae.getMultiplicativeOperators().add(op);

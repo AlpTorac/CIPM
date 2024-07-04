@@ -1,22 +1,22 @@
 package cipm.consistency.fitests.similarity.java.params;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 
 public interface IInitialiserParameters {
-	public List<EObjectInitialiser> getAllInitialisers();
+	public Collection<EObjectInitialiser> getAllInitialisers();
 	
-	public default List<EObjectInitialiser> getInitialisersBy(Predicate<EObjectInitialiser> pred) {
+	public default Collection<EObjectInitialiser> getInitialisersBy(Predicate<EObjectInitialiser> pred) {
 		var result = new ArrayList<EObjectInitialiser>();
 		this.getAllInitialisers().stream().filter(pred).forEach((i) -> result.add(i));
 		return result;
 	}
 	
-	public default List<EObjectInitialiser> getInitialisersBySuper(Stream<Class<? extends EObjectInitialiser>> clss) {
+	public default Collection<EObjectInitialiser> getInitialisersBySuper(Stream<Class<? extends EObjectInitialiser>> clss) {
 		return this.getInitialisersBy(
 					(i) -> clss.anyMatch((cls) -> cls.isInstance(i))
 				);
@@ -29,7 +29,7 @@ public interface IInitialiserParameters {
 				.orElseGet(null);
 	}
 	
-	public default List<EObjectInitialiser> getInitialisersBySuper(Class<? extends EObjectInitialiser> cls) {
+	public default Collection<EObjectInitialiser> getInitialisersBySuper(Class<? extends EObjectInitialiser> cls) {
 		return this.getInitialisersBy(
 				(i) -> cls.isInstance(i)
 				);

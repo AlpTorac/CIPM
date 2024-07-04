@@ -9,6 +9,9 @@ public interface IArrayInstantiationBySizeInitialiser extends
 	IArrayInstantiationInitialiser,
 	ITypedElementInitialiser {
 
+	@Override
+	public ArrayInstantiationBySize instantiate();
+	
 	public default boolean addSize(ArrayInstantiationBySize arrIns, Expression expr) {
 		if (expr != null) {
 			arrIns.getSizes().add(expr);

@@ -12,6 +12,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.emftext.language.java.containers.Module;
 
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.ModuleInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageInitialiser;
 

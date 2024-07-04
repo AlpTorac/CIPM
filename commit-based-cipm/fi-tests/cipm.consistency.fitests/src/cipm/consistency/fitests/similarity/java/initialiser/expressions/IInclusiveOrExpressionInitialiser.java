@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.expressions;
 import org.emftext.language.java.expressions.InclusiveOrExpression;
 import org.emftext.language.java.expressions.InclusiveOrExpressionChild;
 
-public interface IInclusiveOrExpressionInitialiser extends IInclusiveOrExpressionChildInitialiser {
+public interface IInclusiveOrExpressionInitialiser extends IConditionalAndExpressionChildInitialiser {
+    @Override
+    public InclusiveOrExpression instantiate();
 	public default boolean addChild(InclusiveOrExpression ioe, InclusiveOrExpressionChild child) {
 		if (child != null) {
 			ioe.getChildren().add(child);

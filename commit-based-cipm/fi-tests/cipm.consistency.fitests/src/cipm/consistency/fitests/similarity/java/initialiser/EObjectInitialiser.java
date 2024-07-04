@@ -11,9 +11,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * necessary in advanced tests.
  */
 
-public interface EObjectInitialiser extends IInitialiser {
+public interface EObjectInitialiser {
 	/**
-	 * {@code EcoreUtil.copy(obj)}
+	 * Clones the given {@link EObject} and its contents.
+	 * <br><br>
+	 * <b>Note: DOES NOT clone its container. The created
+	 * clone will have no container.</b>
+	 * 
 	 * @see {@link EcoreUtil#copy(EObject)}
 	 */
 	public default <T extends EObject> T clone(T obj) {
@@ -21,7 +25,6 @@ public interface EObjectInitialiser extends IInitialiser {
 		assert EcoreUtil.equals(obj, clone);
 		return clone;
 	}
-//	public <T extends EObjectInitialiser> T newInitialiser(T initialiser);
 	
 	/**
 	 * Returns a fresh instance of the passed initialiser. Passing the
@@ -30,7 +33,7 @@ public interface EObjectInitialiser extends IInitialiser {
 	 * 
 	 * @return A fresh instance of the passed initialiser
 	 */
-	public <T extends EObjectInitialiser> T newInitialiser();
+	public EObjectInitialiser newInitialiser();
 	
 	/**
 	 * Initialises the given EObject minimally with default values
@@ -77,4 +80,13 @@ public interface EObjectInitialiser extends IInitialiser {
 		
 		return xs == null || result;
 	}
+
+	/**
+	 * Attempts to instantiate the {@link EObject} sub-class.
+	 * <br><br>
+	 * <b>Note: The created instance may not be "valid" due to certain attributes not being set.
+	 * {@link #minimalInitialisation(EObject)} can be used to initialise the freshly
+	 * created instance, so that it becomes "valid".</b>
+	 */
+	public EObject instantiate();
 }

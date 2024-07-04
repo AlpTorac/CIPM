@@ -6,8 +6,12 @@ import org.emftext.language.java.statements.SwitchCase;
 
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.IUnaryModificationExpressionChildInitialiser;
 
+import org.emftext.language.java.statements.Switch;
+
 public interface ISwitchInitialiser extends IStatementInitialiser,
 	IUnaryModificationExpressionChildInitialiser {
+	@Override
+	public Switch instantiate();
 	
 	public default boolean addCase(Switch sw, SwitchCase sc) {
 		if (sc != null) {

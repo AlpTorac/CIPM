@@ -17,6 +17,9 @@ public interface IConcreteClassifierInitialiser extends
 	IClassifierInitialiser,
 	ITypeParametrizableInitialiser {
 	
+	@Override
+	public ConcreteClassifier instantiate();
+	
 	/**
 	 * Sets the package of cls as pac.
 	 * <br><br>

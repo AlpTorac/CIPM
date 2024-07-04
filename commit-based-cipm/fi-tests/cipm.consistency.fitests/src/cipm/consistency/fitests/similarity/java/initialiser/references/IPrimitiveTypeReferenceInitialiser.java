@@ -7,6 +7,9 @@ import cipm.consistency.fitests.similarity.java.initialiser.arrays.IArrayTypeabl
 
 public interface IPrimitiveTypeReferenceInitialiser extends IArrayTypeableInitialiser,
 	IReferenceInitialiser {
+	@Override
+	public PrimitiveTypeReference instantiate();
+	
 	public default boolean setPrimitiveType(PrimitiveTypeReference ptr, PrimitiveType pt) {
 		if (pt != null) {
 			ptr.setPrimitiveType(pt);

@@ -6,6 +6,8 @@ import org.emftext.language.java.generics.TypeArgumentable;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface ITypeArgumentableInitialiser extends ICommentableInitialiser {
+    @Override
+    public TypeArgumentable instantiate();
 	public default boolean addTypeArgument(TypeArgumentable ta, TypeArgument targ) {
 		if (targ != null) {
 			ta.getTypeArguments().add(targ);

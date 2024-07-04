@@ -5,6 +5,8 @@ import org.emftext.language.java.expressions.EqualityExpressionChild;
 import org.emftext.language.java.operators.EqualityOperator;
 
 public interface IEqualityExpressionInitialiser extends IAndExpressionChildInitialiser {
+    @Override
+    public EqualityExpression instantiate();
 	public default boolean addEqualityOperator(EqualityExpression eqEx, EqualityOperator op) {
 		if (op != null) {
 			eqEx.getEqualityOperators().add(op);

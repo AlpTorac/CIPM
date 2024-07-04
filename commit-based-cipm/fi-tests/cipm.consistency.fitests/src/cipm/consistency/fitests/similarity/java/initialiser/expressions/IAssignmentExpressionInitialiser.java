@@ -6,6 +6,8 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.operators.AssignmentOperator;
 
 public interface IAssignmentExpressionInitialiser extends IExpressionInitialiser {
+    @Override
+    public AssignmentExpression instantiate();
 	public default boolean setAssignmentOperator(AssignmentExpression ae, AssignmentOperator op) {
 		if (op != null) {
 			ae.setAssignmentOperator(op);

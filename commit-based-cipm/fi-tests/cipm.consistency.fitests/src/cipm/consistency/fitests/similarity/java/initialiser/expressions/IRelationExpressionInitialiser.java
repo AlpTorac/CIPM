@@ -5,6 +5,8 @@ import org.emftext.language.java.expressions.RelationExpressionChild;
 import org.emftext.language.java.operators.RelationOperator;
 
 public interface IRelationExpressionInitialiser extends IInstanceOfExpressionChildInitialiser {
+    @Override
+    public RelationExpression instantiate();
 	public default boolean addRelationOperator(RelationExpression re, RelationOperator op) {
 		if (op != null) {
 			re.getRelationOperators().add(op);

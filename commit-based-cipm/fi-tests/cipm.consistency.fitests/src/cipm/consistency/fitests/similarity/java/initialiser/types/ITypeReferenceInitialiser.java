@@ -5,7 +5,11 @@ import org.emftext.language.java.types.TypeReference;
 
 import cipm.consistency.fitests.similarity.java.initialiser.arrays.IArrayTypeableInitialiser;
 
+import org.emftext.language.java.types.TypeReference;
+
 public interface ITypeReferenceInitialiser extends IArrayTypeableInitialiser {
+    @Override
+    public TypeReference instantiate();
 	/**
 	 * Does not change tref, unless it is an instance of {@link NamespaceClassifierReference}.
 	 */

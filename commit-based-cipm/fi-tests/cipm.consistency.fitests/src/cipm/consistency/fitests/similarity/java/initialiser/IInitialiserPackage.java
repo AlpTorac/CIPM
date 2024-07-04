@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public interface IInitialiserPackage {
-	public default Collection<IInitialiser> getInitialisers() {
+	public default Collection<EObjectInitialiser> getInitialisers() {
 		return this.initCol();
 	}
 
@@ -36,7 +36,7 @@ public interface IInitialiserPackage {
 		return result;
 	}
 	
-	public default Collection<IInitialiser> getAllInitialisers() {
+	public default Collection<EObjectInitialiser> getAllInitialisers() {
 		var result = this.getInitialisers();
 		
 		for (var pac : this.getAllSubPackages()) {

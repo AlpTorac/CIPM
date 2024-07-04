@@ -5,7 +5,13 @@ import org.emftext.language.java.statements.StatementListContainer;
 
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
+import org.emftext.language.java.statements.StatementListContainer;
+
+import org.emftext.language.java.statements.StatementListContainer;
+
 public interface IStatementListContainerInitialiser extends ICommentableInitialiser {
+    @Override
+    public StatementListContainer instantiate();
 	
 	// TODO: Remove the statement methods here after implementing the missing impltests. They most likely do not modify the instance.
 	

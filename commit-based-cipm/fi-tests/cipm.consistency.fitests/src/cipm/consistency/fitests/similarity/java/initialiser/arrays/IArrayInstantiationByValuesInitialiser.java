@@ -6,6 +6,9 @@ import org.emftext.language.java.arrays.ArrayInstantiationByValues;
 public interface IArrayInstantiationByValuesInitialiser extends
 	IArrayInstantiationInitialiser {
 
+	@Override
+	public ArrayInstantiationByValues instantiate();
+	
 	public default boolean setArrayInitializer(ArrayInstantiationByValues arrIns, ArrayInitializer init) {
 		if (init != null) {
 			arrIns.setArrayInitializer(init);

@@ -9,7 +9,9 @@ import cipm.consistency.fitests.similarity.java.initialiser.generics.ICallTypeAr
 public interface IPrimaryExpressionReferenceExpressionInitialiser extends
 	ICallTypeArgumentableInitialiser,
 	IMethodReferenceExpressionInitialiser {
-
+	@Override
+	public PrimaryExpressionReferenceExpression instantiate();
+	
 	public default boolean setChild(PrimaryExpressionReferenceExpression pere, MethodReferenceExpressionChild mrec) {
 		if (mrec != null) {
 			pere.setChild(mrec);

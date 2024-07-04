@@ -12,6 +12,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentable
  * @author atora
  */
 public interface IArgumentableInitialiser extends ICommentableInitialiser {
+    @Override
+    public Argumentable instantiate();
 	public default boolean addArgument(Argumentable argable, Expression expr) {
 		if (expr != null) {
 			argable.getArguments().add(expr);

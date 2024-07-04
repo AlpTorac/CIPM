@@ -4,9 +4,13 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.parameters.OrdinaryParameter;
 import org.emftext.language.java.statements.ForEachLoop;
 
+import org.emftext.language.java.statements.ForEachLoop;
+
 public interface IForEachLoopInitialiser extends IStatementInitialiser,
 	IStatementContainerInitialiser {
-
+	@Override
+	public ForEachLoop instantiate();
+	
 	public default boolean setCollection(ForEachLoop fel, Expression expr) {
 		if (expr != null) {
 			fel.setCollection(expr);
