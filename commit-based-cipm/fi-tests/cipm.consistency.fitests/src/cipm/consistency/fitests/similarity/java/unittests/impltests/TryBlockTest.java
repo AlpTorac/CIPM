@@ -16,13 +16,12 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesStatements;
 
 public class TryBlockTest extends EObjectSimilarityTest implements UsesCatchBlocks,
 UsesStatements, UsesLocalVariables {
-	protected TryBlock initElement(Resource[] ress, CatchBlock[] catchBlocks, CatchBlock[] catcheBlocks, Block block) {
+	protected TryBlock initElement(Resource[] ress, CatchBlock[] catchBlocks, Block block) {
 		var tbInit = new TryBlockInitialiser();
 		var tb = tbInit.instantiate();
 		Assertions.assertTrue(tbInit.minimalInitialisation(tb));
 		Assertions.assertTrue(tbInit.addResources(tb, ress));
 		Assertions.assertTrue(tbInit.addCatchBlocks(tb, catchBlocks));
-		Assertions.assertTrue(tbInit.addCatcheBlocks(tb, catcheBlocks));
 		Assertions.assertTrue(tbInit.setFinallyBlock(tb, block));
 		return tb;
 	}
@@ -31,8 +30,8 @@ UsesStatements, UsesLocalVariables {
 	public void testResource() {
 		this.setResourceFileTestIdentifier("testResource");
 		
-		var objOne = this.initElement(new Resource[] {this.createMinimalLV("lv1")}, null, null, null);
-		var objTwo = this.initElement(new Resource[] {this.createMinimalLV("lv2")}, null, null, null);
+		var objOne = this.initElement(new Resource[] {this.createMinimalLV("lv1")}, null, null);
+		var objTwo = this.initElement(new Resource[] {this.createMinimalLV("lv2")}, null, null);
 		
 		this.testX(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__RESOURCES);
 	}
@@ -41,20 +40,8 @@ UsesStatements, UsesLocalVariables {
 	public void testCatchBlock() {
 		this.setResourceFileTestIdentifier("testCatchBlock");
 		
-		var objOne = this.initElement(null, new CatchBlock[] {this.createMinimalCB("p1", "t1")}, null, null);
-		var objTwo = this.initElement(null, new CatchBlock[] {this.createMinimalCB("p2", "t2")}, null, null);
-		
-		this.testX(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__CATCH_BLOCKS);
-	}
-	
-	// TODO: Clarify if this is necessary
-	
-	@Test
-	public void testCatcheBlock() {
-		this.setResourceFileTestIdentifier("testCatcheBlock");
-		
-		var objOne = this.initElement(null, null, new CatchBlock[] {this.createMinimalCB("p1", "t1")}, null);
-		var objTwo = this.initElement(null, null, new CatchBlock[] {this.createMinimalCB("p2", "t2")}, null);
+		var objOne = this.initElement(null, new CatchBlock[] {this.createMinimalCB("p1", "t1")}, null);
+		var objTwo = this.initElement(null, new CatchBlock[] {this.createMinimalCB("p2", "t2")}, null);
 		
 		this.testX(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__CATCH_BLOCKS);
 	}
@@ -63,8 +50,8 @@ UsesStatements, UsesLocalVariables {
 	public void testFinallyBlock() {
 		this.setResourceFileTestIdentifier("testFinallyBlock");
 		
-		var objOne = this.initElement(null, null, null, this.createMinimalBlockWithNullReturn());
-		var objTwo = this.initElement(null, null, null, this.createMinimalBlockWithTrivialAssert());
+		var objOne = this.initElement(null, null, this.createMinimalBlockWithNullReturn());
+		var objTwo = this.initElement(null, null, this.createMinimalBlockWithTrivialAssert());
 		
 		this.testX(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__FINALLY_BLOCK);
 	}
