@@ -9,28 +9,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.emftext.language.java.annotations.AnnotationsFactory;
-import org.emftext.language.java.annotations.AnnotationsPackage;
-import org.emftext.language.java.arrays.ArraysFactory;
-import org.emftext.language.java.classifiers.ClassifiersFactory;
+import org.eclipse.emf.ecore.EPackage;
+import org.emftext.language.java.JavaPackage;
 import org.emftext.language.java.commons.Commentable;
-import org.emftext.language.java.commons.CommonsFactory;
-import org.emftext.language.java.containers.ContainersFactory;
-import org.emftext.language.java.expressions.ExpressionsFactory;
-import org.emftext.language.java.generics.GenericsFactory;
-import org.emftext.language.java.imports.ImportsFactory;
-import org.emftext.language.java.instantiations.InstantiationsFactory;
-import org.emftext.language.java.literals.LiteralsFactory;
-import org.emftext.language.java.members.MembersFactory;
-import org.emftext.language.java.modifiers.ModifiersFactory;
-import org.emftext.language.java.modules.ModulesFactory;
-import org.emftext.language.java.operators.OperatorsFactory;
-import org.emftext.language.java.parameters.ParametersFactory;
-import org.emftext.language.java.references.ReferencesFactory;
-import org.emftext.language.java.statements.StatementsFactory;
-import org.emftext.language.java.types.TypesFactory;
-import org.emftext.language.java.variables.VariablesFactory;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -59,6 +42,18 @@ public class UtilityTests extends AbstractSimilarityTest {
 	 * The suffix used in the concrete implementation of {@link EObject} classes.
 	 */
 	private static final String implSuffix = "Impl";
+	/**
+	 * The prefix used in initialiser interfaces.
+	 */
+	private static final String initialiserInterfacePrefix = "I";
+	/**
+	 * The suffix used in initialisers.
+	 */
+	private static final String initialiserSuffix = "Initialiser";
+	/**
+	 * The suffix used in tests.
+	 */
+	private static final String testSuffix = "Test";
 	
 	/**
 	 * Pattern for testable initialiser method names (without whitespace):
@@ -84,59 +79,6 @@ public class UtilityTests extends AbstractSimilarityTest {
 	}
 	
 	/**
-	 * @return Names of all interfaces directly or indirectly
-	 * implemented by cls.
-	 */
-	public Set<String> getClassNamesInHierarchy(Class<?> cls) {
-		return Set.of(this.getClassesInHierarchy(cls).stream()
-				.map((c)->c.getSimpleName()).toArray(String[]::new));
-	}
-	
-	/**
-	 * @return Names of all interfaces directly or indirectly
-	 * implemented by classes in clss.
-	 */
-	public Set<String> getClassNamesInHierarchy(Collection<Class<?>> clss) {
-		var result = new HashSet<String>();
-		
-		for (var cls : clss) {
-			result.addAll(this.getClassNamesInHierarchy(cls));
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return All interfaces directly or indirectly
-	 * implemented by cls.
-	 */
-	public Set<Class<?>> getClassesInHierarchy(Class<?> cls) {
-		var result = new HashSet<Class<?>>();
-		result.add(cls);
-		
-		var intfcs = cls.getInterfaces();
-		for (var intfc : intfcs) {
-			result.addAll(this.getClassesInHierarchy(intfc));
-		}
-		
-		return result;
-	}
-	
-	/**
-	 * @return All interfaces directly or indirectly
-	 * implemented by classes in clss.
-	 */
-	public Set<Class<?>> getClassesInHierarchy(Collection<Class<?>> clss) {
-		var result = new HashSet<Class<?>>();
-		
-		for (var cls : clss) {
-			result.addAll(this.getClassesInHierarchy(cls));
-		}
-		
-		return result;
-	}
-	
-	/**
 	 * @return The given text without whitespaces (includes line breaks).
 	 */
 	public String removeWhitespaces(String text) {
@@ -144,242 +86,73 @@ public class UtilityTests extends AbstractSimilarityTest {
 	}
 	
 	/**
-	 * @return An instance of each concrete Java-Model-Element class.
+	 * @return Classes of concrete implementations and interfaces of all Java-Model elements.
 	 */
-	public Collection<EObject> getAllPossibleModelElements() {
-		// TODO: Extract this method to another class (?)
-		
-		/*
-		 * TODO: Try to use AnnotationsPackage.Literals.ANNOTABLE.getEPackage() and .subpackages()
-		 * iterate over them and see if all types come out.
-		 */
-		
-		return new ArrayList<EObject>() {{
-			// Annotations
-			add(AnnotationsFactory.eINSTANCE.createAnnotationAttributeSetting());
-			add(AnnotationsFactory.eINSTANCE.createAnnotationInstance());
-			add(AnnotationsFactory.eINSTANCE.createAnnotationParameterList());
-			add(AnnotationsFactory.eINSTANCE.createSingleAnnotationParameter());
-			// Arrays
-			add(ArraysFactory.eINSTANCE.createArrayDimension());
-			add(ArraysFactory.eINSTANCE.createArrayInitializer());
-			add(ArraysFactory.eINSTANCE.createArrayInstantiationBySize());
-			add(ArraysFactory.eINSTANCE.createArrayInstantiationByValuesTyped());
-			add(ArraysFactory.eINSTANCE.createArrayInstantiationByValuesUntyped());
-			add(ArraysFactory.eINSTANCE.createArraySelector());
-			
-			// Classifiers
-			add(ClassifiersFactory.eINSTANCE.createAnnotation());
-			add(ClassifiersFactory.eINSTANCE.createAnonymousClass());
-			add(ClassifiersFactory.eINSTANCE.createClass());
-			add(ClassifiersFactory.eINSTANCE.createEnumeration());
-			add(ClassifiersFactory.eINSTANCE.createInterface());
-			
-			// Commons
-			
-			// Containers
-			add(ContainersFactory.eINSTANCE.createCompilationUnit());
-			add(ContainersFactory.eINSTANCE.createEmptyModel());
-			add(ContainersFactory.eINSTANCE.createModule());
-			add(ContainersFactory.eINSTANCE.createPackage());
-			
-			// Expressions
-			add(ExpressionsFactory.eINSTANCE.createAdditiveExpression());
-			add(ExpressionsFactory.eINSTANCE.createAndExpression());
-			add(ExpressionsFactory.eINSTANCE.createArrayConstructorReferenceExpression());
-			add(ExpressionsFactory.eINSTANCE.createAssignmentExpression());
-			add(ExpressionsFactory.eINSTANCE.createCastExpression());
-			add(ExpressionsFactory.eINSTANCE.createClassTypeConstructorReferenceExpression());
-			add(ExpressionsFactory.eINSTANCE.createConditionalAndExpression());
-			add(ExpressionsFactory.eINSTANCE.createConditionalExpression());
-			add(ExpressionsFactory.eINSTANCE.createConditionalOrExpression());
-			add(ExpressionsFactory.eINSTANCE.createEqualityExpression());
-			add(ExpressionsFactory.eINSTANCE.createExclusiveOrExpression());
-			add(ExpressionsFactory.eINSTANCE.createExplicitlyTypedLambdaParameters());
-			add(ExpressionsFactory.eINSTANCE.createExpressionList());
-			add(ExpressionsFactory.eINSTANCE.createImplicitlyTypedLambdaParameters());
-			add(ExpressionsFactory.eINSTANCE.createInclusiveOrExpression());
-			add(ExpressionsFactory.eINSTANCE.createInstanceOfExpression());
-			add(ExpressionsFactory.eINSTANCE.createLambdaExpression());
-			add(ExpressionsFactory.eINSTANCE.createMultiplicativeExpression());
-			add(ExpressionsFactory.eINSTANCE.createNestedExpression());
-			add(ExpressionsFactory.eINSTANCE.createPrefixUnaryModificationExpression());
-			add(ExpressionsFactory.eINSTANCE.createPrimaryExpressionReferenceExpression());
-			add(ExpressionsFactory.eINSTANCE.createRelationExpression());
-			add(ExpressionsFactory.eINSTANCE.createShiftExpression());
-			add(ExpressionsFactory.eINSTANCE.createSingleImplicitLambdaParameter());
-			add(ExpressionsFactory.eINSTANCE.createSuffixUnaryModificationExpression());
-			add(ExpressionsFactory.eINSTANCE.createUnaryExpression());
-			
-			// Generics
-			add(GenericsFactory.eINSTANCE.createExtendsTypeArgument());
-			add(GenericsFactory.eINSTANCE.createQualifiedTypeArgument());
-			add(GenericsFactory.eINSTANCE.createSuperTypeArgument());
-			add(GenericsFactory.eINSTANCE.createTypeParameter());
-			add(GenericsFactory.eINSTANCE.createUnknownTypeArgument());
-			
-			// ImportsFactory
-			add(ImportsFactory.eINSTANCE.createClassifierImport());
-			add(ImportsFactory.eINSTANCE.createPackageImport());
-			add(ImportsFactory.eINSTANCE.createStaticClassifierImport());
-			add(ImportsFactory.eINSTANCE.createStaticMemberImport());
-			
-			// Instantiations
-			add(InstantiationsFactory.eINSTANCE.createExplicitConstructorCall());
-			add(InstantiationsFactory.eINSTANCE.createNewConstructorCall());
-			add(InstantiationsFactory.eINSTANCE.createNewConstructorCallWithInferredTypeArguments());
-			
-			// Literals
-			add(LiteralsFactory.eINSTANCE.createBinaryIntegerLiteral());
-			add(LiteralsFactory.eINSTANCE.createBinaryLongLiteral());
-			add(LiteralsFactory.eINSTANCE.createBooleanLiteral());
-			add(LiteralsFactory.eINSTANCE.createCharacterLiteral());
-			add(LiteralsFactory.eINSTANCE.createDecimalDoubleLiteral());
-			add(LiteralsFactory.eINSTANCE.createDecimalFloatLiteral());
-			add(LiteralsFactory.eINSTANCE.createDecimalIntegerLiteral());
-			add(LiteralsFactory.eINSTANCE.createDecimalLongLiteral());
-			add(LiteralsFactory.eINSTANCE.createHexDoubleLiteral());
-			add(LiteralsFactory.eINSTANCE.createHexFloatLiteral());
-			add(LiteralsFactory.eINSTANCE.createHexIntegerLiteral());
-			add(LiteralsFactory.eINSTANCE.createHexLongLiteral());
-			add(LiteralsFactory.eINSTANCE.createNullLiteral());
-			add(LiteralsFactory.eINSTANCE.createOctalIntegerLiteral());
-			add(LiteralsFactory.eINSTANCE.createOctalLongLiteral());
-			add(LiteralsFactory.eINSTANCE.createSuper());
-			add(LiteralsFactory.eINSTANCE.createThis());
-			
-			// Members
-			add(MembersFactory.eINSTANCE.createAdditionalField());
-			add(MembersFactory.eINSTANCE.createClassMethod());
-			add(MembersFactory.eINSTANCE.createConstructor());
-			add(MembersFactory.eINSTANCE.createEmptyMember());
-			add(MembersFactory.eINSTANCE.createEnumConstant());
-			add(MembersFactory.eINSTANCE.createField());
-			add(MembersFactory.eINSTANCE.createInterfaceMethod());
-			
-			// Modifiers
-			add(ModifiersFactory.eINSTANCE.createAbstract());
-			add(ModifiersFactory.eINSTANCE.createDefault());
-			add(ModifiersFactory.eINSTANCE.createFinal());
-			add(ModifiersFactory.eINSTANCE.createNative());
-			add(ModifiersFactory.eINSTANCE.createOpen());
-			add(ModifiersFactory.eINSTANCE.createPrivate());
-			add(ModifiersFactory.eINSTANCE.createProtected());
-			add(ModifiersFactory.eINSTANCE.createPublic());
-			add(ModifiersFactory.eINSTANCE.createStatic());
-			add(ModifiersFactory.eINSTANCE.createStrictfp());
-			add(ModifiersFactory.eINSTANCE.createSynchronized());
-			add(ModifiersFactory.eINSTANCE.createTransient());
-			add(ModifiersFactory.eINSTANCE.createTransitive());
-			add(ModifiersFactory.eINSTANCE.createVolatile());
-			
-			// Modules
-			add(ModulesFactory.eINSTANCE.createExportsModuleDirective());
-			add(ModulesFactory.eINSTANCE.createModuleReference());
-			add(ModulesFactory.eINSTANCE.createOpensModuleDirective());
-			add(ModulesFactory.eINSTANCE.createProvidesModuleDirective());
-			add(ModulesFactory.eINSTANCE.createRequiresModuleDirective());
-			add(ModulesFactory.eINSTANCE.createUsesModuleDirective());
-			
-			// Operators
-			add(OperatorsFactory.eINSTANCE.createAddition());
-			add(OperatorsFactory.eINSTANCE.createAssignment());
-			add(OperatorsFactory.eINSTANCE.createAssignmentAnd());
-			add(OperatorsFactory.eINSTANCE.createAssignmentDivision());
-			add(OperatorsFactory.eINSTANCE.createAssignmentExclusiveOr());
-			add(OperatorsFactory.eINSTANCE.createAssignmentLeftShift());
-			add(OperatorsFactory.eINSTANCE.createAssignmentMinus());
-			add(OperatorsFactory.eINSTANCE.createAssignmentModulo());
-			add(OperatorsFactory.eINSTANCE.createAssignmentMultiplication());
-			add(OperatorsFactory.eINSTANCE.createAssignmentOr());
-			add(OperatorsFactory.eINSTANCE.createAssignmentPlus());
-			add(OperatorsFactory.eINSTANCE.createAssignmentRightShift());
-			add(OperatorsFactory.eINSTANCE.createAssignmentUnsignedRightShift());
-			add(OperatorsFactory.eINSTANCE.createComplement());
-			add(OperatorsFactory.eINSTANCE.createDivision());
-			add(OperatorsFactory.eINSTANCE.createEqual());
-			add(OperatorsFactory.eINSTANCE.createGreaterThan());
-			add(OperatorsFactory.eINSTANCE.createGreaterThanOrEqual());
-			add(OperatorsFactory.eINSTANCE.createLeftShift());
-			add(OperatorsFactory.eINSTANCE.createLessThan());
-			add(OperatorsFactory.eINSTANCE.createLessThanOrEqual());
-			add(OperatorsFactory.eINSTANCE.createMinusMinus());
-			add(OperatorsFactory.eINSTANCE.createMultiplication());
-			add(OperatorsFactory.eINSTANCE.createNegate());
-			add(OperatorsFactory.eINSTANCE.createNotEqual());
-			add(OperatorsFactory.eINSTANCE.createPlusPlus());
-			add(OperatorsFactory.eINSTANCE.createRemainder());
-			add(OperatorsFactory.eINSTANCE.createRightShift());
-			add(OperatorsFactory.eINSTANCE.createSubtraction());
-			add(OperatorsFactory.eINSTANCE.createUnsignedRightShift());
-			
-			// Parameters
-			add(ParametersFactory.eINSTANCE.createCatchParameter());
-			add(ParametersFactory.eINSTANCE.createOrdinaryParameter());
-			add(ParametersFactory.eINSTANCE.createReceiverParameter());
-			add(ParametersFactory.eINSTANCE.createVariableLengthParameter());
-			
-			// References
-			add(ReferencesFactory.eINSTANCE.createIdentifierReference());
-			add(ReferencesFactory.eINSTANCE.createMethodCall());
-			add(ReferencesFactory.eINSTANCE.createPackageReference());
-			add(ReferencesFactory.eINSTANCE.createPrimitiveTypeReference());
-			add(ReferencesFactory.eINSTANCE.createReflectiveClassReference());
-			add(ReferencesFactory.eINSTANCE.createSelfReference());
-			add(ReferencesFactory.eINSTANCE.createStringReference());
-			add(ReferencesFactory.eINSTANCE.createTextBlockReference());
-			
-			// Statements
-			add(StatementsFactory.eINSTANCE.createAssert());
-			add(StatementsFactory.eINSTANCE.createBlock());
-			add(StatementsFactory.eINSTANCE.createBreak());
-			add(StatementsFactory.eINSTANCE.createCatchBlock());
-			add(StatementsFactory.eINSTANCE.createCondition());
-			add(StatementsFactory.eINSTANCE.createContinue());
-			add(StatementsFactory.eINSTANCE.createDefaultSwitchCase());
-			add(StatementsFactory.eINSTANCE.createDefaultSwitchRule());
-			add(StatementsFactory.eINSTANCE.createDoWhileLoop());
-			add(StatementsFactory.eINSTANCE.createEmptyStatement());
-			add(StatementsFactory.eINSTANCE.createExpressionStatement());
-			add(StatementsFactory.eINSTANCE.createForEachLoop());
-			add(StatementsFactory.eINSTANCE.createForLoop());
-			add(StatementsFactory.eINSTANCE.createJumpLabel());
-			add(StatementsFactory.eINSTANCE.createLocalVariableStatement());
-			add(StatementsFactory.eINSTANCE.createNormalSwitchCase());
-			add(StatementsFactory.eINSTANCE.createNormalSwitchRule());
-			add(StatementsFactory.eINSTANCE.createReturn());
-			add(StatementsFactory.eINSTANCE.createSwitch());
-			add(StatementsFactory.eINSTANCE.createSynchronizedBlock());
-			add(StatementsFactory.eINSTANCE.createThrow());
-			add(StatementsFactory.eINSTANCE.createTryBlock());
-			add(StatementsFactory.eINSTANCE.createWhileLoop());
-			add(StatementsFactory.eINSTANCE.createYieldStatement());
-			
-			// Types
-			add(TypesFactory.eINSTANCE.createBoolean());
-			add(TypesFactory.eINSTANCE.createByte());
-			add(TypesFactory.eINSTANCE.createChar());
-			add(TypesFactory.eINSTANCE.createClassifierReference());
-			add(TypesFactory.eINSTANCE.createDouble());
-			add(TypesFactory.eINSTANCE.createFloat());
-			add(TypesFactory.eINSTANCE.createInferableType());
-			add(TypesFactory.eINSTANCE.createInt());
-			add(TypesFactory.eINSTANCE.createLong());
-			add(TypesFactory.eINSTANCE.createNamespaceClassifierReference());
-			add(TypesFactory.eINSTANCE.createShort());
-			add(TypesFactory.eINSTANCE.createVoid());
-			
-			// Variables
-			add(VariablesFactory.eINSTANCE.createAdditionalLocalVariable());
-			add(VariablesFactory.eINSTANCE.createLocalVariable());
-		}};
+	public Set<Class<?>> getAllPossibleClasses() {
+		return this.getAllPossibleClasses(JavaPackage.eINSTANCE.getESubpackages());
 	}
 	
 	/**
-	 * @return Classes of everything returned by {@link #getAllPossibleModelElements()}.
+	 * Recursively discovers sub-packages of cPac (including cPac)
+	 * for {@link EClassifier}s
+	 * contained within, aggregates the classes represented by the EClassifiers
+	 * as a Set and returns the Set.
+	 * 
+	 * @param cPac The package, which is the start point of the discovery.
+	 * @return All classes represented by EClassifiers contained in cPac and
+	 * its sub-packages. Includes types of interfaces as well as concrete implementation
+	 * classes.
 	 */
-	public Collection<Class<?>> getAllPossibleClasses() {
-		return List.of(this.getAllPossibleModelElements().stream().map((obj) -> obj.getClass()).toArray(Class<?>[]::new));
+	protected Set<Class<?>> getAllPossibleClasses(EPackage cPac) {
+		var clss = cPac.getEClassifiers();
+		var subPacs = cPac.getESubpackages();
+		
+		var foundClss = new HashSet<Class<?>>();
+		
+		if (clss != null) {
+			for (var cls : clss) {
+				foundClss.add(cls.getInstanceClass());
+				
+				/*
+				 * Although cls is technically of type EClassifier,
+				 * it also implements EClass
+				 */
+				if (cls instanceof EClass) {
+					var castedCls = (EClass) cls;
+					
+					/*
+					 * Add the concrete implementation class, if
+					 * cls represents a concrete class
+					 */
+					if (!castedCls.isAbstract()) {
+						foundClss.add(cPac.getEFactoryInstance()
+								.create(castedCls).getClass());
+					}
+				}
+			}
+		}
+		
+		if (subPacs != null) {
+			foundClss.addAll(this.getAllPossibleClasses(subPacs));
+		}
+		
+		return foundClss;
+	}
+	
+	/**
+	 * @return All classes represented by EClassifiers contained in pacs and
+	 * their sub-packages. Includes types of interfaces as well as concrete implementation
+	 * classes.
+	 * @see {@link #getAllPossibleClasses(EPackage)}}
+	 */
+	protected Set<Class<?>> getAllPossibleClasses(Collection<EPackage> pacs) {
+		var foundClss = new HashSet<Class<?>>();
+		
+		for (var pac : pacs) {
+			foundClss.addAll(this.getAllPossibleClasses(pac));
+		}
+		
+		return foundClss;
 	}
 	
 	/**
@@ -411,40 +184,24 @@ public class UtilityTests extends AbstractSimilarityTest {
 	}
 	
 	/**
-	 * @return Name of all interfaces that are implemented by at least
-	 * one class from {@link #getAllPossibleClasses}.
-	 */
-	public Set<String> getClassNamesInFullHierarchy() {
-		return this.getClassNamesInHierarchy(this.getAllPossibleClasses());
-	}
-	
-	/**
-	 * @return All interfaces that are implemented by at least
-	 * one class from {@link #getAllPossibleClasses}.
-	 */
-	public Set<Class<?>> getClassesInFullHierarchy() {
-		return this.getClassesInHierarchy(this.getAllPossibleClasses());
-	}
-	
-	/**
 	 * @return The name of the concrete initialiser corresponding to cls.
 	 */
 	public String getConcreteInitialiserName(Class<?> cls) {
-		return cls.getSimpleName() + "Initialiser";
+		return cls.getSimpleName() + initialiserSuffix;
 	}
 	
 	/**
 	 * @return The name of the initialiser interface corresponding to cls.
 	 */
 	public String getInterfaceInitialiserName(Class<?> cls) {
-		return "I" + cls.getSimpleName() + "Initialiser";
+		return initialiserInterfacePrefix + cls.getSimpleName() + initialiserSuffix;
 	}
 	
 	/**
 	 * @return The name of the test corresponding to cls.
 	 */
 	public String getTestName(Class<?> cls) {
-		return cls.getSimpleName()+"Test";
+		return cls.getSimpleName()+testSuffix;
 	}
 	
 	/**
@@ -452,7 +209,7 @@ public class UtilityTests extends AbstractSimilarityTest {
 	 * should have a corresponding initialiser interface.
 	 */
 	public Collection<Class<?>> getAllInitialiserCandidates() {
-		var fullHierarchy = this.getClassesInFullHierarchy();
+		var fullHierarchy = this.getAllPossibleClasses();
 		
 		var intfcs = fullHierarchy.stream()
 				.filter((c) -> Commentable.class.isAssignableFrom(c))
@@ -467,7 +224,7 @@ public class UtilityTests extends AbstractSimilarityTest {
 	 * should have a corresponding concrete initialiser.
 	 */
 	public Collection<Class<?>> getAllConcreteInitialiserCandidates() {
-		var fullHierarchy = this.getClassesInFullHierarchy();
+		var fullHierarchy = this.getAllPossibleClasses();
 		
 		var intfcs = fullHierarchy.stream()
 				.filter((c) -> Commentable.class.isAssignableFrom(c))
@@ -480,13 +237,13 @@ public class UtilityTests extends AbstractSimilarityTest {
 	}
 	
 	/**
-	 * Prints the interfaces between everything from {@link #getAllPossibleModelElements()}
+	 * Prints the interfaces between everything from {@link #getAllPossibleClasses()}
 	 * and {@link Commentable}.
 	 */
 	@Disabled
 	@Test
 	public void printFullHierarchy() {
-		var hSet = this.getClassNamesInHierarchy(this.getAllPossibleClasses());
+		var hSet = this.getAllPossibleClasses();
 		System.out.println(hSet.toString());
 	}
 	
