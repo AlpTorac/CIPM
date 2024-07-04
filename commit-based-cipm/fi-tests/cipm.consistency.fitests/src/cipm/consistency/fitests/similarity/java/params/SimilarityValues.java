@@ -47,6 +47,8 @@ import org.emftext.language.java.statements.StatementsPackage;
 import org.emftext.language.java.types.TypesPackage;
 import org.emftext.language.java.variables.VariablesPackage;
 
+// TODO: Make addSimilarityEntry calls more overseeable
+
 /**
  * Contains expected similarity values for tests, in which a certain
  * attribute is different.
