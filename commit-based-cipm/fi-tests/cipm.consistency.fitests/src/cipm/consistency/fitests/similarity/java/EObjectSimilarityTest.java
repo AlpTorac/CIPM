@@ -16,6 +16,7 @@ import cipm.consistency.fitests.similarity.java.params.InitialiserTestSettingsPr
 import cipm.consistency.fitests.similarity.java.params.SimilarityValues;
 
 // FIXME: Add tests for possible exceptions in impltests and interfacetests
+// TODO: Rename somethingX() methods
 
 /**
  * Extends {@link AbstractSimilarityTest} with similarity checking methods to
