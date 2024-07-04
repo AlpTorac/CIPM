@@ -8,6 +8,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -21,6 +23,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.AbstractSimilarityTest;
+import cipm.consistency.fitests.similarity.java.initialiser.InitialiserPackage;
 
 /**
  * A test class, whose tests can be used to make sure no initialiser interfaces,
@@ -240,11 +243,34 @@ public class UtilityTests extends AbstractSimilarityTest {
 	 * Prints the interfaces between everything from {@link #getAllPossibleClasses()}
 	 * and {@link Commentable}.
 	 */
-	@Disabled
 	@Test
 	public void printFullHierarchy() {
 		var hSet = this.getAllPossibleClasses();
-		System.out.println(hSet.toString());
+		this.getLogger().info(this.clsStreamToString(hSet.stream()));
+	}
+	
+	/**
+	 * Checks if all necessary concrete initialisers are provided
+	 * to tests.
+	 */
+	@Test
+	public void testAllInitialiserPackagesRegistered() {
+		var clss = this.getAllConcreteInitialiserCandidates();
+		var registeredInits = new InitialiserPackage().getAllInitialisers();
+		
+		var matches = List.of(clss.stream()
+				.filter((cls) -> registeredInits.stream()
+						.anyMatch((init) -> init.instantiate().eClass()
+								.getInstanceClass().equals(cls)))
+				.toArray(Class<?>[]::new));
+		
+		this.getLogger().info(matches.size() + " out of " + clss.size() + " concrete initialisers are registered");
+		
+		if (matches.size() != clss.size()) {
+			Assertions.fail("Initialisers not registered: " +
+						this.clsStreamToString(clss.stream()
+							.filter((cls) -> !matches.contains(cls))));
+		}
 	}
 	
 	/**
@@ -256,15 +282,12 @@ public class UtilityTests extends AbstractSimilarityTest {
 		var intfcs = this.getAllInitialiserCandidates();
 		var matches = this.getClassesWithInitialiserInterface();
 		
-		this.getLogger().info(matches.size() + " initialiser interfaces out of "+intfcs.size()+" are present");
+		this.getLogger().info(matches.size() + " out of "+intfcs.size()+" initialiser interfaces are present");
 		
 		if (matches.size() != intfcs.size()) {
 			Assertions.fail("Initialisers missing for: " +
-						intfcs.stream()
-							.filter((e) -> !matches.contains(e))
-							.map((e) -> e.getSimpleName())
-							.reduce("", (s1, s2) -> s1 + ", " + s2)
-					);
+						this.clsStreamToString(intfcs.stream()
+							.filter((e) -> !matches.contains(e))));
 		}
 	}
 	
@@ -293,15 +316,12 @@ public class UtilityTests extends AbstractSimilarityTest {
 		var intfcs = this.getAllConcreteInitialiserCandidates();
 		var matches = this.getClassesWithConcreteInitialiser();
 		
-		this.getLogger().info(matches.size() + " concrete initialisers out of "+intfcs.size()+" are present");
+		this.getLogger().info(matches.size() + " out of "+intfcs.size()+" concrete initialisers are present");
 		
 		if (matches.size() != intfcs.size()) {
 			Assertions.fail("Concrete initialisers missing for: " +
-						intfcs.stream()
-							.filter((e) -> !matches.contains(e))
-							.map((e) -> e.getSimpleName())
-							.reduce("", (s1, s2) -> s1 + ", " + s2)
-					);
+						this.clsStreamToString(intfcs.stream()
+							.filter((e) -> !matches.contains(e))));
 		}
 	}
 	
@@ -371,17 +391,37 @@ public class UtilityTests extends AbstractSimilarityTest {
 		this.getLogger().info(matches.size()+" out of "+intfcs.size()+" interfaces are covered by tests");
 		
 		if (matches.size() != intfcs.size()) {
-			var mismatches = List.of(intfcs.stream()
-					.filter((e) -> !matches.contains(e))
-					.toArray(Class<?>[]::new));
-			
 			Assertions.fail("Tests missing for: " +
-						mismatches.stream()
-							.map((e) -> e.getSimpleName())
-							.reduce("", (s1, s2) -> s1 + ", " + s2)
-							.substring(2)
-					);
+						this.clsStreamToString(intfcs.stream()
+									.filter((e) -> !matches.contains(e))));
 		}
+	}
+	
+	/**
+	 * @return A String representing the given stream. The provided toStringFunc will be
+	 * used to transform stream elements into Strings.
+	 */
+	public <T extends Object> String streamToString(Stream<T> stream, Function<T, String> toStringFunc) {
+		return stream
+				.map((e) -> toStringFunc.apply(e))
+				.reduce("", (s1, s2) -> s1 + ", " + s2)
+				.substring(2);
+	}
+	
+	/**
+	 * Opens a stream on the given list and delegates to {@link #clsStreamToString(Stream)}.
+	 */
+	public String clsListToString(List<? extends Class<?>> list) {
+		return this.clsStreamToString(list.stream());
+	}
+	
+	/**
+	 * A variant of {@link #streamToString(Stream, Function)} for Class streams.
+	 * 
+	 * Maps stream elements (classes) to String by returning their simple name.
+	 */
+	public String clsStreamToString(Stream<? extends Class<?>> list) {
+		return this.streamToString(list, (cls) -> cls.getSimpleName());
 	}
 	
 	/**
