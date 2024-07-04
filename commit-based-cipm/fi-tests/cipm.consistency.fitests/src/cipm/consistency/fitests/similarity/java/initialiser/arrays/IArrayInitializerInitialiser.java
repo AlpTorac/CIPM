@@ -7,6 +7,9 @@ import cipm.consistency.fitests.similarity.java.initialiser.annotations.IAnnotat
 
 public interface IArrayInitializerInitialiser extends IAnnotationValueInitialiser,
 	IArrayInitializationValueInitialiser {
+	@Override
+	public ArrayInitializer instantiate();
+	
 	public default boolean addInitialValue(ArrayInitializer ai, ArrayInitializationValue aiv) {
 		if (aiv != null) {
 			ai.getInitialValues().add(aiv);

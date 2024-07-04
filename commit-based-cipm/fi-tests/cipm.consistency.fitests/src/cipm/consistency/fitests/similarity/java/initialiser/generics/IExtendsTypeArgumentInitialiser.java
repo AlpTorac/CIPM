@@ -7,6 +7,9 @@ import cipm.consistency.fitests.similarity.java.initialiser.annotations.IAnnotab
 
 public interface IExtendsTypeArgumentInitialiser extends IAnnotableInitialiser,
 	ITypeArgumentInitialiser {
+	@Override
+	public ExtendsTypeArgument instantiate();
+	
 	public default boolean setExtendType(ExtendsTypeArgument eta, TypeReference tref) {
 		if (tref != null) {
 			eta.setExtendType(tref);

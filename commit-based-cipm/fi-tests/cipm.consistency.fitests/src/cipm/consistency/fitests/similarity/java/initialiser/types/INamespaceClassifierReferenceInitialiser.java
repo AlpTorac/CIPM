@@ -10,7 +10,9 @@ import cipm.consistency.fitests.similarity.java.initialiser.commons.INamespaceAw
 public interface INamespaceClassifierReferenceInitialiser extends
 	INamespaceAwareElementInitialiser,
 	ITypeReferenceInitialiser {
-
+	@Override
+	public NamespaceClassifierReference instantiate();
+	
 	@Override
 	public default boolean setTarget(TypeReference tref, Classifier cls) {
 		boolean result = ITypeReferenceInitialiser.super.setTarget(tref, cls);

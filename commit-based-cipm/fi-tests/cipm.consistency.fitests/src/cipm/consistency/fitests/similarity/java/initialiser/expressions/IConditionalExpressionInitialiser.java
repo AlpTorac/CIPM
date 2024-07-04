@@ -6,6 +6,8 @@ import org.emftext.language.java.expressions.ConditionalExpressionChild;
 import org.emftext.language.java.expressions.Expression;
 
 public interface IConditionalExpressionInitialiser extends IAssignmentExpressionChildInitialiser {
+    @Override
+    public ConditionalExpression instantiate();
 	public default boolean setChild(ConditionalExpression ce, ConditionalExpressionChild child) {
 		if (child != null) {
 			ce.setChild(child);

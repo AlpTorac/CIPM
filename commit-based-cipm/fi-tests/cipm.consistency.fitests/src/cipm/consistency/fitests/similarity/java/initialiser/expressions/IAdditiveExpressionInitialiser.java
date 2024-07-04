@@ -5,6 +5,8 @@ import org.emftext.language.java.expressions.AdditiveExpressionChild;
 import org.emftext.language.java.operators.AdditiveOperator;
 
 public interface IAdditiveExpressionInitialiser extends IShiftExpressionChildInitialiser {
+    @Override
+    public AdditiveExpression instantiate();
 	public default boolean addAdditiveOperator(AdditiveExpression ae, AdditiveOperator op) {
 		if (op != null) {
 			ae.getAdditiveOperators().add(op);

@@ -1,6 +1,9 @@
 package cipm.consistency.fitests.similarity.java.initialiser.arrays;
 
+import org.emftext.language.java.arrays.ArrayInstantiationByValuesUntyped;
+
 public interface IArrayInstantiationByValuesUntypedInitialiser extends
 	IArrayInstantiationByValuesInitialiser {
-
+	@Override
+	public ArrayInstantiationByValuesUntyped instantiate();
 }

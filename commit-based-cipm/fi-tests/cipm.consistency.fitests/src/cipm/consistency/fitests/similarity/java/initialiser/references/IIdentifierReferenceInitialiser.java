@@ -14,6 +14,9 @@ public interface IIdentifierReferenceInitialiser extends IAnnotableInitialiser,
 	IElementReferenceInitialiser
 {
 	@Override
+	public IdentifierReference instantiate();
+	
+	@Override
 	public default EObject minimalInitialisationWithContainer(EObject obj) {
 		// FIXME: See if this can go to a helper interface
 		var castedO = (IdentifierReference) obj;

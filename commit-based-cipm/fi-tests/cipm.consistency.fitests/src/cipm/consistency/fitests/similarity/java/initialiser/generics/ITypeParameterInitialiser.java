@@ -7,6 +7,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.annotations.IAnnotab
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.IClassifierInitialiser;
 
 public interface ITypeParameterInitialiser extends IClassifierInitialiser, IAnnotableInitialiser {
+    @Override
+    public TypeParameter instantiate();
 	public default boolean addExtendType(TypeParameter tp, TypeReference tref) {
 		if (tref != null) {
 			tp.getExtendTypes().add(tref);

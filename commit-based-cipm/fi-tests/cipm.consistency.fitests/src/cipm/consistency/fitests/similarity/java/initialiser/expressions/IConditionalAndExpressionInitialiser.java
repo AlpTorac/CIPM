@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.expressions;
 import org.emftext.language.java.expressions.ConditionalAndExpression;
 import org.emftext.language.java.expressions.ConditionalAndExpressionChild;
 
-public interface IConditionalAndExpressionInitialiser extends IConditionalAndExpressionChildInitialiser {
+public interface IConditionalAndExpressionInitialiser extends IConditionalOrExpressionChildInitialiser {
+    @Override
+    public ConditionalAndExpression instantiate();
 	public default boolean addChild(ConditionalAndExpression cae, ConditionalAndExpressionChild child) {
 		if (child != null) {
 			cae.getChildren().add(child);

@@ -1,5 +1,7 @@
 package cipm.consistency.fitests.similarity.java.initialiser.members;
 
+import org.emftext.language.java.members.Method;
+
 import cipm.consistency.fitests.similarity.java.initialiser.generics.ITypeParametrizableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.modifiers.IAnnotableAndModifiableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.parameters.IParametrizableInitialiser;
@@ -15,4 +17,6 @@ public interface IMethodInitialiser extends IAnnotableAndModifiableInitialiser,
 	IStatementContainerInitialiser,
 	ITypedElementInitialiser,
 	ITypeParametrizableInitialiser {
+	@Override
+	public Method instantiate();
 }

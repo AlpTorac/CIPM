@@ -5,10 +5,14 @@ import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.TryBlock;
 import org.emftext.language.java.variables.Resource;
 
+import org.emftext.language.java.statements.TryBlock;
+
 public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
 	IStatementInitialiser,
 	IStatementListContainerInitialiser {
-
+	@Override
+	public TryBlock instantiate();
+	
 	public default boolean setFinallyBlock(TryBlock tb, Block block) {
 		if (block != null) {
 			tb.setFinallyBlock(block);
@@ -19,7 +23,6 @@ public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
 	
 	public default boolean addCatchBlock(TryBlock tb, CatchBlock cb) {
 		if (cb != null) {
-			// TODO: Clarify why there are 2 methods: getCatchBlocks() and getCatcheBlocks()
 			tb.getCatchBlocks().add(cb);
 			return tb.getCatchBlocks().contains(cb);
 		}
@@ -28,19 +31,6 @@ public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
 	
 	public default boolean addCatchBlocks(TryBlock tb, CatchBlock[] cbs) {
 		return this.addXs(tb, cbs, this::addCatchBlock);
-	}
-	
-	public default boolean addCatcheBlock(TryBlock tb, CatchBlock cb) {
-		if (cb != null) {
-			// TODO: Clarify why there are 2 methods: getCatchBlocks() and getCatcheBlocks()
-			tb.getCatcheBlocks().add(cb);
-			return tb.getCatcheBlocks().contains(cb);
-		}
-		return true;
-	}
-	
-	public default boolean addCatcheBlocks(TryBlock tb, CatchBlock[] cbs) {
-		return this.addXs(tb, cbs, this::addCatcheBlock);
 	}
 	
 	public default boolean addResource(TryBlock tb, Resource res) {

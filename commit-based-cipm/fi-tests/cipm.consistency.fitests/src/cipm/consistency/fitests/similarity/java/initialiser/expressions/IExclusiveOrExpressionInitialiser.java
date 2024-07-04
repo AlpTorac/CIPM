@@ -4,6 +4,8 @@ import org.emftext.language.java.expressions.ExclusiveOrExpression;
 import org.emftext.language.java.expressions.ExclusiveOrExpressionChild;
 
 public interface IExclusiveOrExpressionInitialiser extends IInclusiveOrExpressionChildInitialiser {
+    @Override
+    public ExclusiveOrExpression instantiate();
 	public default boolean addChild(ExclusiveOrExpression eoe, ExclusiveOrExpressionChild child) {
 		if (child != null) {
 			eoe.getChildren().add(child);

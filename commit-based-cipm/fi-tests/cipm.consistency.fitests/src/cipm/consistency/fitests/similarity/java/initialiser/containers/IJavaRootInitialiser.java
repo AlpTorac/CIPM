@@ -10,6 +10,9 @@ import cipm.consistency.fitests.similarity.java.initialiser.imports.IImportingEl
 
 public interface IJavaRootInitialiser extends INamedElementInitialiser, INamespaceAwareElementInitialiser,
 IAnnotableInitialiser, IImportingElementInitialiser {
+	@Override
+	public JavaRoot instantiate();
+	
 	public default boolean setOrigin(JavaRoot jr, Origin origin) {
 		if (origin != null) {
 			jr.setOrigin(origin);

@@ -8,6 +8,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementI
 public interface IProvidesModuleDirectiveInitialiser extends
 	IModuleDirectiveInitialiser,
 	ITypedElementInitialiser {
+	@Override
+	public ProvidesModuleDirective instantiate();
 	
 	public default boolean addServiceProvider(ProvidesModuleDirective pmd, TypeReference tref) {
 		if (tref != null) {

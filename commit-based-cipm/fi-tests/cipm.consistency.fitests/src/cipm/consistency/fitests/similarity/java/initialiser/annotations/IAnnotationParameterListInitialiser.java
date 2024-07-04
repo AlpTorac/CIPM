@@ -4,6 +4,8 @@ import org.emftext.language.java.annotations.AnnotationAttributeSetting;
 import org.emftext.language.java.annotations.AnnotationParameterList;
 
 public interface IAnnotationParameterListInitialiser extends IAnnotationParameterInitialiser {
+    @Override
+    public AnnotationParameterList instantiate();
 	public default boolean addSetting(AnnotationParameterList apl, AnnotationAttributeSetting aas) {
 		if (aas != null) {
 			apl.getSettings().add(aas);

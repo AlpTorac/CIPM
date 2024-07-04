@@ -11,6 +11,9 @@ public interface IReferenceInitialiser extends IPrimaryExpressionInitialiser,
 	ITypeArgumentableInitialiser,
 	ITypedElementExtensionInitialiser {
 
+	@Override
+	public Reference instantiate();
+	
 	public default boolean addArraySelector(Reference ref, ArraySelector as) {
 		if (as != null) {
 			ref.getArraySelectors().add(as);

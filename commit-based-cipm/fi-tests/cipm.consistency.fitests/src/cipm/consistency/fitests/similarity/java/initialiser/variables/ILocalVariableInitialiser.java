@@ -10,6 +10,9 @@ public interface ILocalVariableInitialiser extends
 	IAnnotableAndModifiableInitialiser,
 	IInitializableInitialiser,
 	IVariableInitialiser {
+	@Override
+	public LocalVariable instantiate();
+	
 	public default boolean addAdditionalLocalVariable(LocalVariable lv, AdditionalLocalVariable alv) {
 		if (alv != null) {
 			lv.getAdditionalLocalVariables().add(alv);

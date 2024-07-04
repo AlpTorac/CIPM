@@ -8,6 +8,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementI
 public interface IInstanceOfExpressionInitialiser extends
 	IEqualityExpressionChildInitialiser,
 	ITypedElementInitialiser {
+	@Override
+	public InstanceOfExpression instantiate();
 	
 	public default boolean setChild(InstanceOfExpression ioe, InstanceOfExpressionChild child) {
 		if (child != null) {

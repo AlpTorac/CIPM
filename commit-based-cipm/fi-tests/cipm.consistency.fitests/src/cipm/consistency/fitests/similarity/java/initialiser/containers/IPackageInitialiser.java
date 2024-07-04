@@ -10,6 +10,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.references.IReferenc
  * Package names (package.getName()) are supposed to always be empty. The names are saved in namespace.
  */
 public interface IPackageInitialiser extends IJavaRootInitialiser, IReferenceableElementInitialiser {
+    @Override
+    public Package instantiate();
 	public default boolean initialiseModuleField(Package pac, Module mod) {
 		if (mod != null) {
 			pac.setModule(mod);

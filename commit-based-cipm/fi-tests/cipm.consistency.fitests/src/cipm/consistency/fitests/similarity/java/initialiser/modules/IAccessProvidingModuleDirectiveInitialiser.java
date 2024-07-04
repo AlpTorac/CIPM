@@ -9,6 +9,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.commons.INamespaceAw
 public interface IAccessProvidingModuleDirectiveInitialiser extends
 	IModuleDirectiveInitialiser,
 	INamespaceAwareElementInitialiser {
+	@Override
+	public AccessProvidingModuleDirective instantiate();
 	
 	public default boolean setAccessablePackage(AccessProvidingModuleDirective apmd, Package pac) {
 		if (pac != null) {

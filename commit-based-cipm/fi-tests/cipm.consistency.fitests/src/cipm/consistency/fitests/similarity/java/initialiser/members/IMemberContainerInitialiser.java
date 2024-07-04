@@ -6,6 +6,8 @@ import org.emftext.language.java.members.MemberContainer;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface IMemberContainerInitialiser extends ICommentableInitialiser {
+    @Override
+    public MemberContainer instantiate();
 	public default boolean addMember(MemberContainer mc, Member mbr) {
 		if (mbr != null) {
 			mc.getMembers().add(mbr);
