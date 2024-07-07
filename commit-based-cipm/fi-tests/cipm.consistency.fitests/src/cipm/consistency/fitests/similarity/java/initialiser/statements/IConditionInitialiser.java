@@ -3,6 +3,8 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 import org.emftext.language.java.statements.Condition;
 import org.emftext.language.java.statements.Statement;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
+
 import org.emftext.language.java.statements.Condition;
 
 public interface IConditionInitialiser extends IConditionalInitialiser,
@@ -11,7 +13,7 @@ public interface IConditionInitialiser extends IConditionalInitialiser,
 	
 	@Override
 	public Condition instantiate();
-	
+	@ModificationMethod
 	public default boolean setElseStatement(Condition cond, Statement st) {
 		if (st != null) {
 			cond.setElseStatement(st);

@@ -4,9 +4,12 @@ import org.emftext.language.java.expressions.ShiftExpression;
 import org.emftext.language.java.expressions.ShiftExpressionChild;
 import org.emftext.language.java.operators.ShiftOperator;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
+
 public interface IShiftExpressionInitialiser extends IRelationExpressionChildInitialiser {
     @Override
     public ShiftExpression instantiate();
+    @ModificationMethod
 	public default boolean addShiftOperator(ShiftExpression se, ShiftOperator op) {
 		if (op != null) {
 			se.getShiftOperators().add(op);
@@ -18,7 +21,7 @@ public interface IShiftExpressionInitialiser extends IRelationExpressionChildIni
 	public default boolean addShiftOperators(ShiftExpression se, ShiftOperator[] ops) {
 		return this.addXs(se, ops, this::addShiftOperator);
 	}
-	
+	@ModificationMethod
 	public default boolean addChild(ShiftExpression se, ShiftExpressionChild child) {
 		if (child != null) {
 			se.getChildren().add(child);

@@ -4,9 +4,12 @@ import org.emftext.language.java.expressions.LambdaBody;
 import org.emftext.language.java.expressions.LambdaExpression;
 import org.emftext.language.java.expressions.LambdaParameters;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
+
 public interface ILambdaExpressionInitialiser extends IExpressionInitialiser {
     @Override
     public LambdaExpression instantiate();
+    @ModificationMethod
 	public default boolean setBody(LambdaExpression le, LambdaBody lb) {
 		if (lb != null) {
 			le.setBody(lb);
@@ -14,7 +17,7 @@ public interface ILambdaExpressionInitialiser extends IExpressionInitialiser {
 		}
 		return true;
 	}
-	
+    @ModificationMethod
 	public default boolean setParameters(LambdaExpression le, LambdaParameters lp) {
 		if (lp != null) {
 			le.setParameters(lp);

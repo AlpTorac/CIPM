@@ -5,11 +5,13 @@ import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.Modifier;
 
 import cipm.consistency.fitests.similarity.java.initialiser.InitialiserVisibilityModifier;
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface IAnnotableAndModifiableInitialiser extends ICommentableInitialiser {
     @Override
     public AnnotableAndModifiable instantiate();
+    @ModificationMethod
 	public default boolean addModifier(AnnotableAndModifiable aam, Modifier modif) {
 		if (modif != null) {
 			aam.addModifier(modif);
@@ -23,7 +25,7 @@ public interface IAnnotableAndModifiableInitialiser extends ICommentableInitiali
 	public default boolean addModifiers(AnnotableAndModifiable aam, Modifier[] modifs) {
 		return this.addXs(aam, modifs, this::addModifier);
 	}
-	
+	@ModificationMethod
 	public default boolean addAnnotationInstance(AnnotableAndModifiable aam, AnnotationInstance ai) {
 		if (aam != null) {
 			aam.getAnnotationsAndModifiers().add(ai);
@@ -36,7 +38,7 @@ public interface IAnnotableAndModifiableInitialiser extends ICommentableInitiali
 	public default boolean addAnnotationInstances(AnnotableAndModifiable aam, AnnotationInstance[] ais) {
 		return this.addXs(aam, ais, this::addAnnotationInstance);
 	}
-	
+	@ModificationMethod
 	public default boolean setVisibility(AnnotableAndModifiable aam, InitialiserVisibilityModifier modifier) {
 		if (modifier != null) {
 			switch (modifier) {
@@ -54,17 +56,17 @@ public interface IAnnotableAndModifiableInitialiser extends ICommentableInitiali
 		}
 		return true;
 	}
-	
+	@ModificationMethod
 	public default boolean makePrivate(AnnotableAndModifiable aam) {
 		aam.makePrivate();
 		return aam.isPrivate();
 	}
-	
+	@ModificationMethod
 	public default boolean makeProtected(AnnotableAndModifiable aam) {
 		aam.makeProtected();
 		return aam.isProtected();
 	}
-	
+	@ModificationMethod
 	public default boolean makePublic(AnnotableAndModifiable aam) {
 		aam.makePublic();
 		return aam.isPublic();

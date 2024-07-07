@@ -5,9 +5,12 @@ import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.modifiers.Open;
 import org.emftext.language.java.modules.ModuleDirective;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
+
 public interface IModuleInitialiser extends IJavaRootInitialiser {
     @Override
     public Module instantiate();
+    @ModificationMethod
 	public default boolean setOpen(Module mod, Open open) {
 		if (open != null) {
 			mod.setOpen(open);
@@ -15,7 +18,7 @@ public interface IModuleInitialiser extends IJavaRootInitialiser {
 		}
 		return true;
 	}
-	
+    @ModificationMethod
 	public default boolean addTarget(Module mod, ModuleDirective md) {
 		if (md != null) {
 			mod.getTarget().add(md);
@@ -27,7 +30,7 @@ public interface IModuleInitialiser extends IJavaRootInitialiser {
 	public default boolean addTargets(Module mod, ModuleDirective[] mds) {
 		return this.addXs(mod, mds, this::addTarget);
 	}
-	
+	@ModificationMethod
 	public default boolean addPackage(Module mod, Package pac) {
 		if (pac != null) {
 			mod.getPackages().add(pac);

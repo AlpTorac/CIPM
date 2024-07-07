@@ -4,11 +4,14 @@ import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationParameter;
 import org.emftext.language.java.classifiers.Classifier;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.INamespaceAwareElementInitialiser;
 
 public interface IAnnotationInstanceInitialiser extends INamespaceAwareElementInitialiser {
     @Override
     public AnnotationInstance instantiate();
+    
+    @ModificationMethod
 	public default boolean setAnnotation(AnnotationInstance ai, Classifier cls) {
 		if (cls != null) {
 			ai.setAnnotation(cls);
@@ -17,6 +20,7 @@ public interface IAnnotationInstanceInitialiser extends INamespaceAwareElementIn
 		return true;
 	}
 	
+    @ModificationMethod
 	public default boolean setAnnotationParameter(AnnotationInstance ai, AnnotationParameter param) {
 		if (param != null) {
 			ai.setParameter(param);

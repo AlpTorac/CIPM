@@ -5,6 +5,7 @@ import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.TypeReference;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.INamespaceAwareElementInitialiser;
 
 public interface INamespaceClassifierReferenceInitialiser extends
@@ -33,7 +34,7 @@ public interface INamespaceClassifierReferenceInitialiser extends
 		}
 		return true;
 	}
-	
+	@ModificationMethod
 	public default boolean addClassifierReference(NamespaceClassifierReference ncr, ClassifierReference cref) {
 		if (cref != null) {
 			ncr.getClassifierReferences().add(cref);

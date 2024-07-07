@@ -4,9 +4,12 @@ import org.emftext.language.java.expressions.UnaryExpression;
 import org.emftext.language.java.expressions.UnaryExpressionChild;
 import org.emftext.language.java.operators.UnaryOperator;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
+
 public interface IUnaryExpressionInitialiser extends IMultiplicativeExpressionChildInitialiser {
     @Override
     public UnaryExpression instantiate();
+    @ModificationMethod
 	public default boolean addOperator(UnaryExpression ue, UnaryOperator op) {
 		if (op != null) {
 			ue.getOperators().add(op);
@@ -18,7 +21,7 @@ public interface IUnaryExpressionInitialiser extends IMultiplicativeExpressionCh
 	public default boolean addOperators(UnaryExpression ue, UnaryOperator[] ops) {
 		return this.addXs(ue, ops, this::addOperator);
 	}
-	
+	@ModificationMethod
 	public default boolean setChild(UnaryExpression ue, UnaryExpressionChild child) {
 		if (child != null) {
 			ue.setChild(child);

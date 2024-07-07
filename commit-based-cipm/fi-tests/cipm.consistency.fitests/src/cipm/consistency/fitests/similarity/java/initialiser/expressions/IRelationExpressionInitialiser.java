@@ -4,9 +4,12 @@ import org.emftext.language.java.expressions.RelationExpression;
 import org.emftext.language.java.expressions.RelationExpressionChild;
 import org.emftext.language.java.operators.RelationOperator;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
+
 public interface IRelationExpressionInitialiser extends IInstanceOfExpressionChildInitialiser {
     @Override
     public RelationExpression instantiate();
+    @ModificationMethod
 	public default boolean addRelationOperator(RelationExpression re, RelationOperator op) {
 		if (op != null) {
 			re.getRelationOperators().add(op);
@@ -18,7 +21,7 @@ public interface IRelationExpressionInitialiser extends IInstanceOfExpressionChi
 	public default boolean addRelationOperators(RelationExpression re, RelationOperator[] ops) {
 		return this.addXs(re, ops, this::addRelationOperator);
 	}
-	
+	@ModificationMethod
 	public default boolean addChild(RelationExpression cae, RelationExpressionChild child) {
 		if (child != null) {
 			cae.getChildren().add(child);

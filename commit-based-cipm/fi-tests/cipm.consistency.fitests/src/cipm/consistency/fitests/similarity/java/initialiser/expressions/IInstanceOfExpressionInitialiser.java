@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.initialiser.expressions;
 import org.emftext.language.java.expressions.InstanceOfExpression;
 import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementInitialiser;
 
 public interface IInstanceOfExpressionInitialiser extends
@@ -11,6 +12,7 @@ public interface IInstanceOfExpressionInitialiser extends
 	@Override
 	public InstanceOfExpression instantiate();
 	
+	@ModificationMethod
 	public default boolean setChild(InstanceOfExpression ioe, InstanceOfExpressionChild child) {
 		if (child != null) {
 			ioe.setChild(child);

@@ -3,6 +3,8 @@ package cipm.consistency.fitests.similarity.java.initialiser.commons;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.commons.NamedElement;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
+
 public interface INamedElementInitialiser extends ICommentableInitialiser {
     @Override
     public NamedElement instantiate();
@@ -25,6 +27,7 @@ public interface INamedElementInitialiser extends ICommentableInitialiser {
 		return true;
 	}
 	
+	@ModificationMethod
 	public default boolean setName(NamedElement ne, String name) {
 		if (name != null) {
 			ne.setName(name);

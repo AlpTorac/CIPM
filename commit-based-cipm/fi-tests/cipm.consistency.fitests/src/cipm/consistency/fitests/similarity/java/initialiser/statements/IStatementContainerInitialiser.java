@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementContainer;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 import org.emftext.language.java.statements.StatementContainer;
@@ -12,6 +13,7 @@ import org.emftext.language.java.statements.StatementContainer;
 public interface IStatementContainerInitialiser extends ICommentableInitialiser {
     @Override
     public StatementContainer instantiate();
+    @ModificationMethod
 	public default boolean setStatement(StatementContainer sc, Statement s) {
 		if (s != null) {
 			sc.setStatement(s);
