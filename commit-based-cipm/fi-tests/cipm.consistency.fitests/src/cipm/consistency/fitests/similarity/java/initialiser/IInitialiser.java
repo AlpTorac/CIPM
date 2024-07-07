@@ -11,12 +11,12 @@ public interface IInitialiser {
 	 */
 	public Object instantiate();
 
-	public static boolean hasModificationMethods(Class<? extends IInitialiser> cls) {
-		if (cls == null) {
+	public static boolean hasModificationMethods(Class<? extends IInitialiser> initCls) {
+		if (initCls == null) {
 			return false;
 		}
 		
-		var methods = cls.getDeclaredMethods();
+		var methods = initCls.getDeclaredMethods();
 		
 		if (methods.length > 0) {
 			for (var met : methods) {
@@ -33,27 +33,27 @@ public interface IInitialiser {
 		return hasModificationMethods(init.getClass());
 	}
 	
-	public static boolean isInitialiserFor(Class<? extends IInitialiser> initCls, Class<?> obj) {
-		if (obj == null) {
+	public static boolean isInitialiserFor(Class<? extends IInitialiser> initCls, Class<?> objClass) {
+		if (objClass == null) {
 			return false;
 		}
 		
 		try {
-			return initCls.getMethod("instantiate").getReturnType().equals(obj);
+			return initCls.getMethod("instantiate").getReturnType().equals(objClass);
 		} catch (NoSuchMethodException | SecurityException e) {
 			return false;
 		}
 	}
 	
-	public static boolean isInitialiserFor(IInitialiser init, Class<?> obj) {
-		return isInitialiserFor(init.getClass(), obj);
+	public static boolean isInitialiserFor(IInitialiser init, Class<?> objClass) {
+		return isInitialiserFor(init.getClass(), objClass);
 	}
 	
 	public default boolean hasModificationMethods() {
 		return hasModificationMethods(this.getClass());
 	}
 	
-	public default boolean isInitialiserFor(Class<?> obj) {
-		return isInitialiserFor(this, obj);
+	public default boolean isInitialiserFor(Class<?> objClass) {
+		return isInitialiserFor(this, objClass);
 	}
  }

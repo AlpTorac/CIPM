@@ -3,11 +3,12 @@ package cipm.consistency.fitests.similarity.java.initialiser.modifiers;
 import java.util.Collection;
 
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserPackage;
 
 public class ModifiersInitialiserPackage implements IInitialiserPackage {
 	@Override
-	public Collection<EObjectInitialiser> getInitialiserInstances() {
+	public Collection<IInitialiser> getInitialiserInstances() {
 		return this.initCol(new EObjectInitialiser[] {
 				new AbstractInitialiser(),
 				new DefaultInitialiser(),
@@ -27,7 +28,7 @@ public class ModifiersInitialiserPackage implements IInitialiserPackage {
 	}
 	
 	@Override
-	public Collection<Class<? extends EObjectInitialiser>> getInitialiserClasses() {
+	public Collection<Class<? extends IInitialiser>> getInitialiserClasses() {
 		return this.initCol(new Class[] {
 				IAbstractInitialiser.class,
 				IAnnotableAndModifiableInitialiser.class,
