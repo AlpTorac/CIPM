@@ -17,7 +17,7 @@ public class PackageTest extends EObjectSimilarityTest implements UsesModules, U
 		var initialiser = new PackageInitialiser();
 		Package pac = initialiser.instantiate();
 		Assertions.assertTrue(initialiser.minimalInitialisation(pac));
-		Assertions.assertTrue(initialiser.initialiseModuleField(pac, mod));
+		Assertions.assertTrue(initialiser.setModule(pac, mod));
 		Assertions.assertTrue(initialiser.addClassifiers(pac, clss));
 		
 		return pac;
