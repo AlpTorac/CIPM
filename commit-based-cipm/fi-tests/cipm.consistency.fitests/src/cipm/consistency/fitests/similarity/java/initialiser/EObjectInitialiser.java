@@ -11,7 +11,15 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * necessary in advanced tests.
  */
 
-public interface EObjectInitialiser {
+/**
+ * An interface for {@link IInitialiser} sub-interfaces, whose purpose
+ * is to create and modify {@link EObject} instances.
+ * <br><br>
+ * <b></b>
+ * 
+ * @author atora
+ */
+public interface EObjectInitialiser extends IInitialiser {	
 	/**
 	 * Clones the given {@link EObject} and its contents.
 	 * <br><br>
@@ -25,15 +33,6 @@ public interface EObjectInitialiser {
 		assert EcoreUtil.equals(obj, clone);
 		return clone;
 	}
-	
-	/**
-	 * Returns a fresh instance of the passed initialiser. Passing the
-	 * initialiser is necessary for sparing type-casting and overriding
-	 * the signature of this method in all implementors.
-	 * 
-	 * @return A fresh instance of the passed initialiser
-	 */
-	public EObjectInitialiser newInitialiser();
 	
 	/**
 	 * Initialises the given EObject minimally with default values
@@ -80,13 +79,17 @@ public interface EObjectInitialiser {
 		
 		return xs == null || result;
 	}
-
+	
 	/**
-	 * Attempts to instantiate the {@link EObject} sub-class.
+	 * {@inheritDoc}
 	 * <br><br>
 	 * <b>Note: The created instance may not be "valid" due to certain attributes not being set.
 	 * {@link #minimalInitialisation(EObject)} can be used to initialise the freshly
 	 * created instance, so that it becomes "valid".</b>
 	 */
+	@Override
 	public EObject instantiate();
+	
+	@Override
+	public EObjectInitialiser newInitialiser();
 }
