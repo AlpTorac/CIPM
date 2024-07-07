@@ -4,6 +4,7 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.Module;
 import org.emftext.language.java.containers.Package;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.references.IReferenceableElementInitialiser;
 
 /*
@@ -12,14 +13,16 @@ import cipm.consistency.fitests.similarity.java.initialiser.references.IReferenc
 public interface IPackageInitialiser extends IJavaRootInitialiser, IReferenceableElementInitialiser {
     @Override
     public Package instantiate();
-	public default boolean initialiseModuleField(Package pac, Module mod) {
+    
+    @ModificationMethod
+	public default boolean setModule(Package pac, Module mod) {
 		if (mod != null) {
 			pac.setModule(mod);
 			return pac.getModule().equals(mod);
 		}
 		return true;
 	}
-	
+    @ModificationMethod
 	public default boolean addClassifier(Package pac, ConcreteClassifier cc) {
 		if (cc != null) {
 			pac.getClassifiers().add(cc);
