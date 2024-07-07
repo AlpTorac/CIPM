@@ -7,7 +7,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserPackage;
 
 public class OperatorsInitialiserPackage implements IInitialiserPackage {
 	@Override
-	public Collection<EObjectInitialiser> getInitialisers() {
+	public Collection<EObjectInitialiser> getInitialiserInstances() {
 		return this.initCol(new EObjectInitialiser[] {
 				new AdditionInitialiser(),
 				new AssignmentAndInitialiser(),
@@ -39,6 +39,51 @@ public class OperatorsInitialiserPackage implements IInitialiserPackage {
 				new RightShiftInitialiser(),
 				new SubtractionInitialiser(),
 				new UnsignedRightShiftInitialiser(),
+		});
+	}
+	
+	@Override
+	public Collection<Class<? extends EObjectInitialiser>> getInitialiserClasses() {
+		return this.initCol(new Class[] {
+				IAdditionInitialiser.class,
+				IAdditiveOperatorInitialiser.class,
+				IAssignmentAndInitialiser.class,
+				IAssignmentDivisionInitialiser.class,
+				IAssignmentExclusiveOrInitialiser.class,
+				IAssignmentInitialiser.class,
+				IAssignmentLeftShiftInitialiser.class,
+				IAssignmentMinusInitialiser.class,
+				IAssignmentModuloInitialiser.class,
+				IAssignmentMultiplicationInitialiser.class,
+				IAssignmentOperatorInitialiser.class,
+				IAssignmentOrInitialiser.class,
+				IAssignmentPlusInitialiser.class,
+				IAssignmentRightShiftInitialiser.class,
+				IAssignmentUnsignedRightShiftInitialiser.class,
+				IComplementInitialiser.class,
+				IDivisionInitialiser.class,
+				IEqualInitialiser.class,
+				IEqualityOperatorInitialiser.class,
+				IGreaterThanInitialiser.class,
+				IGreaterThanOrEqualInitialiser.class,
+				ILeftShiftInitialiser.class,
+				ILessThanInitialiser.class,
+				ILessThanOrEqualInitialiser.class,
+				IMinusMinusInitialiser.class,
+				IMultiplicationInitialiser.class,
+				IMultiplicativeOperatorInitialiser.class,
+				INegateInitialiser.class,
+				INotEqualInitialiser.class,
+				IOperatorInitialiser.class,
+				IPlusPlusInitialiser.class,
+				IRelationOperatorInitialiser.class,
+				IRemainderInitialiser.class,
+				IRightShiftInitialiser.class,
+				IShiftOperatorInitialiser.class,
+				ISubtractionInitialiser.class,
+				IUnaryModificationOperatorInitialiser.class,
+				IUnaryOperatorInitialiser.class,
+				IUnsignedRightShiftInitialiser.class,
 		});
 	}
 }

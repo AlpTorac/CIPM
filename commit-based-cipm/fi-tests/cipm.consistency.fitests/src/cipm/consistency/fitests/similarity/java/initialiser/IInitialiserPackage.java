@@ -4,7 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public interface IInitialiserPackage {
-	public default Collection<EObjectInitialiser> getInitialisers() {
+	public default Collection<EObjectInitialiser> getInitialiserInstances() {
+		return this.initCol();
+	}
+
+	public default Collection<Class<? extends EObjectInitialiser>> getInitialiserClasses() {
 		return this.initCol();
 	}
 
@@ -36,13 +40,47 @@ public interface IInitialiserPackage {
 		return result;
 	}
 	
-	public default Collection<EObjectInitialiser> getAllInitialisers() {
-		var result = this.getInitialisers();
+	public default Collection<EObjectInitialiser> getAllInitialiserInstances() {
+		var result = this.getInitialiserInstances();
 		
 		for (var pac : this.getAllSubPackages()) {
-			result.addAll(pac.getInitialisers());
+			result.addAll(pac.getInitialiserInstances());
 		}
 		
 		return result;
+	}
+	
+	public default Collection<Class<? extends EObjectInitialiser>> getAllInitialiserClasses() {
+		var result = this.getInitialiserClasses();
+		
+		for (var pac : this.getAllSubPackages()) {
+			result.addAll(pac.getInitialiserClasses());
+		}
+		
+		return result;
+	}
+	
+	public default Class<? extends IInitialiser> getInitialiserClsFor(Class<?> cls) {
+		var initClss = this.getAllInitialiserClasses();
+		
+		for (var initCls : initClss) {
+			if (IInitialiser.isInitialiserFor(initCls, cls)) {
+				return initCls;
+			}
+		}
+		
+		return null;
+	}
+	
+	public default IInitialiser getInitialiserInstanceFor(Class<?> cls) {
+		var init = this.getAllInitialiserInstances();
+		
+		for (var i : init) {
+			if (i.isInitialiserFor(cls)) {
+				return i;
+			}
+		}
+		
+		return null;
 	}
 }
