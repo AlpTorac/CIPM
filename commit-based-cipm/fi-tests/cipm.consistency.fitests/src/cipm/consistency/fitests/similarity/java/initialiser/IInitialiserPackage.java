@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public interface IInitialiserPackage {
-	public default Collection<EObjectInitialiser> getInitialiserInstances() {
+	public default Collection<IInitialiser> getInitialiserInstances() {
 		return this.initCol();
 	}
 
-	public default Collection<Class<? extends EObjectInitialiser>> getInitialiserClasses() {
+	public default Collection<Class<? extends IInitialiser>> getInitialiserClasses() {
 		return this.initCol();
 	}
 
@@ -40,7 +40,7 @@ public interface IInitialiserPackage {
 		return result;
 	}
 	
-	public default Collection<EObjectInitialiser> getAllInitialiserInstances() {
+	public default Collection<IInitialiser> getAllInitialiserInstances() {
 		var result = this.getInitialiserInstances();
 		
 		for (var pac : this.getAllSubPackages()) {
@@ -50,7 +50,7 @@ public interface IInitialiserPackage {
 		return result;
 	}
 	
-	public default Collection<Class<? extends EObjectInitialiser>> getAllInitialiserClasses() {
+	public default Collection<Class<? extends IInitialiser>> getAllInitialiserClasses() {
 		var result = this.getInitialiserClasses();
 		
 		for (var pac : this.getAllSubPackages()) {

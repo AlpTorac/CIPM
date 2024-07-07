@@ -3,11 +3,12 @@ package cipm.consistency.fitests.similarity.java.initialiser.literals;
 import java.util.Collection;
 
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserPackage;
 
 public class LiteralsInitialiserPackage implements IInitialiserPackage {
 	@Override
-	public Collection<EObjectInitialiser> getInitialiserInstances() {
+	public Collection<IInitialiser> getInitialiserInstances() {
 		return this.initCol(new EObjectInitialiser[] {
 				new BinaryIntegerLiteralInitialiser(),
 				new BinaryLongLiteralInitialiser(),
@@ -30,7 +31,7 @@ public class LiteralsInitialiserPackage implements IInitialiserPackage {
 	}
 	
 	@Override
-	public Collection<Class<? extends EObjectInitialiser>> getInitialiserClasses() {
+	public Collection<Class<? extends IInitialiser>> getInitialiserClasses() {
 		return this.initCol(new Class[] {
 				IBinaryIntegerLiteralInitialiser.class,
 				IBinaryLongLiteralInitialiser.class,

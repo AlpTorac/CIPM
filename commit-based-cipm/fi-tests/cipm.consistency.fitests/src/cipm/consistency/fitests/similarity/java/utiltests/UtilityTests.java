@@ -21,7 +21,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.AbstractSimilarityTest;
-import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.InitialiserPackage;
 
@@ -146,11 +146,11 @@ public class UtilityTests extends AbstractSimilarityTest {
 		return foundClss;
 	}
 	
-	public Collection<EObjectInitialiser> getAllEObjInitialiserInstances() {
+	public Collection<IInitialiser> getAllEObjInitialiserInstances() {
 		return new InitialiserPackage().getAllInitialiserInstances();
 	}
 	
-	public Collection<Class<? extends EObjectInitialiser>> getAllEObjInitialiserClasses() {
+	public Collection<Class<? extends IInitialiser>> getAllEObjInitialiserClasses() {
 		return new InitialiserPackage().getAllInitialiserClasses();
 	}
 	
@@ -232,8 +232,7 @@ public class UtilityTests extends AbstractSimilarityTest {
 		
 		var matches = List.of(clss.stream()
 				.filter((cls) -> registeredInits.stream()
-						.anyMatch((init) -> init.instantiate().eClass()
-								.getInstanceClass().equals(cls)))
+						.anyMatch((init) -> init.isInitialiserFor(cls)))
 				.toArray(Class<?>[]::new));
 		
 		this.getLogger().info(matches.size() + " out of " + clss.size() + " concrete initialisers are registered");
