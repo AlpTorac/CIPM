@@ -7,7 +7,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserPackage;
 
 public class ArraysInitialiserPackage implements IInitialiserPackage {
 	@Override
-	public Collection<EObjectInitialiser> getInitialisers() {
+	public Collection<EObjectInitialiser> getInitialiserInstances() {
 		return this.initCol(new EObjectInitialiser[] {
 				new ArrayDimensionInitialiser(),
 				new ArrayInitializerInitialiser(),
@@ -15,6 +15,23 @@ public class ArraysInitialiserPackage implements IInitialiserPackage {
 				new ArrayInstantiationByValuesTypedInitialiser(),
 				new ArrayInstantiationByValuesUntypedInitialiser(),
 				new ArraySelectorInitialiser()
+		});
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Collection<Class<? extends EObjectInitialiser>> getInitialiserClasses() {
+		return this.initCol(new Class[] {
+			IArrayDimensionInitialiser.class,
+			IArrayInitializationValueInitialiser.class,
+			IArrayInitializerInitialiser.class,
+			IArrayInstantiationBySizeInitialiser.class,
+			IArrayInstantiationByValuesInitialiser.class,
+			IArrayInstantiationByValuesTypedInitialiser.class,
+			IArrayInstantiationByValuesUntypedInitialiser.class,
+			IArrayInstantiationInitialiser.class,
+			IArraySelectorInitialiser.class,
+			IArrayTypeableInitialiser.class
 		});
 	}
 }

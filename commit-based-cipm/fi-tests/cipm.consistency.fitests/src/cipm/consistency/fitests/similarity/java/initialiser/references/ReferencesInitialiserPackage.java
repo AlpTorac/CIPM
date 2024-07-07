@@ -7,7 +7,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserPackage;
 
 public class ReferencesInitialiserPackage implements IInitialiserPackage {
 	@Override
-	public Collection<EObjectInitialiser> getInitialisers() {
+	public Collection<EObjectInitialiser> getInitialiserInstances() {
 		return this.initCol(new EObjectInitialiser[] {
 				new IdentifierReferenceInitialiser(),
 				new MethodCallInitialiser(),
@@ -17,6 +17,24 @@ public class ReferencesInitialiserPackage implements IInitialiserPackage {
 				new SelfReferenceInitialiser(),
 				new StringReferenceInitialiser(),
 				new TextBlockReferenceInitialiser(),
+		});
+	}
+	
+	@Override
+	public Collection<Class<? extends EObjectInitialiser>> getInitialiserClasses() {
+		return this.initCol(new Class[] {
+				IArgumentableInitialiser.class,
+				IElementReferenceInitialiser.class,
+				IIdentifierReferenceInitialiser.class,
+				IMethodCallInitialiser.class,
+				IPackageReferenceInitialiser.class,
+				IPrimitiveTypeReferenceInitialiser.class,
+				IReferenceableElementInitialiser.class,
+				IReferenceInitialiser.class,
+				IReflectiveClassReferenceInitialiser.class,
+				ISelfReferenceInitialiser.class,
+				IStringReferenceInitialiser.class,
+				ITextBlockReferenceInitialiser.class,
 		});
 	}
 }

@@ -7,13 +7,28 @@ import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserPackage;
 
 public class GenericsInitialiserPackage implements IInitialiserPackage {
 	@Override
-	public Collection<EObjectInitialiser> getInitialisers() {
+	public Collection<EObjectInitialiser> getInitialiserInstances() {
 		return this.initCol(new EObjectInitialiser[] {
 				new ExtendsTypeArgumentInitialiser(),
 				new QualifiedTypeArgumentInitialiser(),
 				new SuperTypeArgumentInitialiser(),
 				new TypeParameterInitialiser(),
 				new UnknownTypeArgumentInitialiser(),
+		});
+	}
+	
+	@Override
+	public Collection<Class<? extends EObjectInitialiser>> getInitialiserClasses() {
+		return this.initCol(new Class[] {
+				ICallTypeArgumentableInitialiser.class,
+				IExtendsTypeArgumentInitialiser.class,
+				IQualifiedTypeArgumentInitialiser.class,
+				ISuperTypeArgumentInitialiser.class,
+				ITypeArgumentableInitialiser.class,
+				ITypeArgumentInitialiser.class,
+				ITypeParameterInitialiser.class,
+				ITypeParametrizableInitialiser.class,
+				IUnknownTypeArgumentInitialiser.class,	
 		});
 	}
 }

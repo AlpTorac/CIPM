@@ -7,7 +7,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserPackage;
 
 public class ExpressionsInitialiserPackage implements IInitialiserPackage {
 	@Override
-	public Collection<EObjectInitialiser> getInitialisers() {
+	public Collection<EObjectInitialiser> getInitialiserInstances() {
 		return this.initCol(new EObjectInitialiser[] {
 				new AdditiveExpressionInitialiser(),
 				new AndExpressionInitialiser(),
@@ -35,6 +35,60 @@ public class ExpressionsInitialiserPackage implements IInitialiserPackage {
 				new SingleImplicitLambdaParameterInitialiser(),
 				new SuffixUnaryModificationExpressionInitialiser(),
 				new UnaryExpressionInitialiser(),
+		});
+	}
+	
+	@Override
+	public Collection<Class<? extends EObjectInitialiser>> getInitialiserClasses() {
+		return this.initCol(new Class[] {
+				IAdditiveExpressionChildInitialiser.class,
+				IAdditiveExpressionInitialiser.class,
+				IAndExpressionChildInitialiser.class,
+				IAndExpressionInitialiser.class,
+				IArrayConstructorReferenceExpressionInitialiser.class,
+				IAssignmentExpressionChildInitialiser.class,
+				IAssignmentExpressionInitialiser.class,
+				ICastExpressionInitialiser.class,
+				IClassTypeConstructorReferenceExpressionInitialiser.class,
+				IConditionalAndExpressionChildInitialiser.class,
+				IConditionalAndExpressionInitialiser.class,
+				IConditionalExpressionChildInitialiser.class,
+				IConditionalExpressionInitialiser.class,
+				IConditionalOrExpressionChildInitialiser.class,
+				IConditionalOrExpressionInitialiser.class,
+				IEqualityExpressionChildInitialiser.class,
+				IEqualityExpressionInitialiser.class,
+				IExclusiveOrExpressionChildInitialiser.class,
+				IExclusiveOrExpressionInitialiser.class,
+				IExplicitlyTypedLambdaParametersInitialiser.class,
+				IExpressionInitialiser.class,
+				IExpressionListInitialiser.class,
+				IImplicitlyTypedLambdaParametersInitialiser.class,
+				IInclusiveOrExpressionChildInitialiser.class,
+				IInclusiveOrExpressionInitialiser.class,
+				IInstanceOfExpressionChildInitialiser.class,
+				IInstanceOfExpressionInitialiser.class,
+				ILambdaBodyInitialiser.class,
+				ILambdaExpressionInitialiser.class,
+				ILambdaParametersInitialiser.class,
+				IMethodReferenceExpressionChildInitialiser.class,
+				IMethodReferenceExpressionInitialiser.class,
+				IMultiplicativeExpressionChildInitialiser.class,
+				IMultiplicativeExpressionInitialiser.class,
+				INestedExpressionInitialiser.class,
+				IPrefixUnaryModificationExpressionInitialiser.class,
+				IPrimaryExpressionInitialiser.class,
+				IPrimaryExpressionReferenceExpressionInitialiser.class,
+				IRelationExpressionChildInitialiser.class,
+				IRelationExpressionInitialiser.class,
+				IShiftExpressionChildInitialiser.class,
+				IShiftExpressionInitialiser.class,
+				ISingleImplicitLambdaParameterInitialiser.class,
+				ISuffixUnaryModificationExpressionInitialiser.class,
+				IUnaryExpressionChildInitialiser.class,
+				IUnaryExpressionInitialiser.class,
+				IUnaryModificationExpressionChildInitialiser.class,
+				IUnaryModificationExpressionInitialiser.class,
 		});
 	}
 }

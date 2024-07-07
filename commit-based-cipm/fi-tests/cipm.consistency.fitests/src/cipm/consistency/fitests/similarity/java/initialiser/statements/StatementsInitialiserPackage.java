@@ -7,7 +7,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserPackage;
 
 public class StatementsInitialiserPackage implements IInitialiserPackage {
 	@Override
-	public Collection<EObjectInitialiser> getInitialisers() {
+	public Collection<EObjectInitialiser> getInitialiserInstances() {
 		return this.initCol(new EObjectInitialiser[] {
 				new AssertInitialiser(),
 				new BlockInitialiser(),
@@ -33,6 +33,45 @@ public class StatementsInitialiserPackage implements IInitialiserPackage {
 				new TryBlockInitialiser(),
 				new WhileLoopInitialiser(),
 				new YieldStatementInitialiser(),
+		});
+	}
+	
+	@Override
+	public Collection<Class<? extends EObjectInitialiser>> getInitialiserClasses() {
+		return this.initCol(new Class[] {
+				IAssertInitialiser.class,
+				IBlockContainerInitialiser.class,
+				IBlockInitialiser.class,
+				IBreakInitialiser.class,
+				ICatchBlockInitialiser.class,
+				IConditionalInitialiser.class,
+				IConditionInitialiser.class,
+				IContinueInitialiser.class,
+				IDefaultSwitchCaseInitialiser.class,
+				IDefaultSwitchRuleInitialiser.class,
+				IDoWhileLoopInitialiser.class,
+				IEmptyStatementInitialiser.class,
+				IExpressionStatementInitialiser.class,
+				IForEachLoopInitialiser.class,
+				IForLoopInitialiser.class,
+				IForLoopInitializerInitialiser.class,
+				IJumpInitialiser.class,
+				IJumpLabelInitialiser.class,
+				ILocalVariableStatementInitialiser.class,
+				INormalSwitchCaseInitialiser.class,
+				INormalSwitchRuleInitialiser.class,
+				IReturnInitialiser.class,
+				IStatementContainerInitialiser.class,
+				IStatementInitialiser.class,
+				IStatementListContainerInitialiser.class,
+				ISwitchCaseInitialiser.class,
+				ISwitchInitialiser.class,
+				ISwitchRuleInitialiser.class,
+				ISynchronizedBlockInitialiser.class,
+				IThrowInitialiser.class,
+				ITryBlockInitialiser.class,
+				IWhileLoopInitialiser.class,
+				IYieldStatementInitialiser.class,
 		});
 	}
 }

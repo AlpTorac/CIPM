@@ -1,14 +1,13 @@
 package cipm.consistency.fitests.similarity.java.utiltests;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EClass;
@@ -19,10 +18,11 @@ import org.emftext.language.java.commons.Commentable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.AbstractSimilarityTest;
+import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.InitialiserPackage;
 
 /**
@@ -35,6 +35,7 @@ public class UtilityTests extends AbstractSimilarityTest {
 	
 	// FIXME: Find a better way to determine, if there are initialiser methods that can be used in tests. Maybe something like SimilarityValues.
 	// TODO: Comment better, rename unintuitive parameters and methods.
+	
 	
 	/**
 	 * Points at the cimp.consistency.fitests.similarity.java package. Used
@@ -57,19 +58,6 @@ public class UtilityTests extends AbstractSimilarityTest {
 	 * The suffix used in tests.
 	 */
 	private static final String testSuffix = "Test";
-	
-	/**
-	 * Pattern for testable initialiser method names (without whitespace):
-	 * 
-	 * preceding text +
-	 * "default" +
-	 * return type +
-	 * "add" or "set" +
-	 * rest of the method name (without "Assertion") +
-	 * parameters +
-	 * proceeding text
-	 */
-	private static final String testableMethodPattern = "(.*)default\\w+(add|set)\\w+(?<!Assertion)\\((.*)";
 	
 	@BeforeEach
 	public void setUp() {
@@ -158,32 +146,12 @@ public class UtilityTests extends AbstractSimilarityTest {
 		return foundClss;
 	}
 	
-	/**
-	 * @return A list of all files under the given path and its sub-directories.
-	 */
-	public Collection<File> getAllFiles(File currentPath) {
-		var result = new ArrayList<File>();
-		
-		if (currentPath.isFile()) {
-			result.add(currentPath);
-		} else {
-			var files = currentPath.listFiles();
-			if (files != null) {
-				for (var f : files) {
-					result.addAll(this.getAllFiles(f));
-				}
-			}
-		}
-		
-		return result;
+	public Collection<EObjectInitialiser> getAllEObjInitialiserInstances() {
+		return new InitialiserPackage().getAllInitialiserInstances();
 	}
 	
-	/**
-	 * @return Whether the given file's name (without extension)
-	 * equals to the given fileName.
-	 */
-	public boolean fileNameEquals(File file, String fileName) {
-		return file != null && file.getName().split("\\.")[0].equals(fileName);
+	public Collection<Class<? extends EObjectInitialiser>> getAllEObjInitialiserClasses() {
+		return new InitialiserPackage().getAllInitialiserClasses();
 	}
 	
 	/**
@@ -239,6 +207,10 @@ public class UtilityTests extends AbstractSimilarityTest {
 		return List.of(intfcs);
 	}
 	
+	public Class<? extends IInitialiser> getInitialiserClsFor(Class<?> objClass) {
+		return new InitialiserPackage().getInitialiserClsFor(objClass);
+	}
+	
 	/**
 	 * Prints the interfaces between everything from {@link #getAllPossibleClasses()}
 	 * and {@link Commentable}.
@@ -256,7 +228,7 @@ public class UtilityTests extends AbstractSimilarityTest {
 	@Test
 	public void testAllInitialiserPackagesRegistered() {
 		var clss = this.getAllConcreteInitialiserCandidates();
-		var registeredInits = new InitialiserPackage().getAllInitialisers();
+		var registeredInits = new InitialiserPackage().getAllInitialiserInstances();
 		
 		var matches = List.of(clss.stream()
 				.filter((cls) -> registeredInits.stream()
@@ -296,13 +268,12 @@ public class UtilityTests extends AbstractSimilarityTest {
 	 * have a corresponding initialiser interface under {@link root}.
 	 */
 	public Collection<Class<?>> getClassesWithInitialiserInterface() {
-		var allFiles = this.getAllFiles(root);
+		var initClss = this.getAllEObjInitialiserClasses();
 		
 		return List.of(
 				this.getAllInitialiserCandidates().stream()
-				.filter((c) -> allFiles.stream()
-						.anyMatch((f) -> this.fileNameEquals(f,
-								this.getInterfaceInitialiserName(c))))
+				.filter((c) -> initClss.stream()
+						.anyMatch((f) -> f.getSimpleName().equals(this.getInterfaceInitialiserName(c))))
 				.toArray(Class<?>[]::new)
 				);
 	}
@@ -313,89 +284,87 @@ public class UtilityTests extends AbstractSimilarityTest {
 	 */
 	@Test
 	public void testAllConcreteInitialisersPresent() {
+		var pac = new InitialiserPackage();
 		var intfcs = this.getAllConcreteInitialiserCandidates();
-		var matches = this.getClassesWithConcreteInitialiser();
+		Predicate<Class<?>> pred = (initCls) -> pac.getInitialiserInstanceFor(initCls) != null;
+		var matches = intfcs.stream().filter(pred);
+		var count = matches.count();
 		
-		this.getLogger().info(matches.size() + " out of "+intfcs.size()+" concrete initialisers are present");
+		this.getLogger().info(count + " out of "+intfcs.size()+" concrete initialisers are present");
 		
-		if (matches.size() != intfcs.size()) {
+		if (count != intfcs.size()) {
 			Assertions.fail("Concrete initialisers missing for: " +
 						this.clsStreamToString(intfcs.stream()
-							.filter((e) -> !matches.contains(e))));
+							.filter(pred.negate())));
 		}
 	}
 	
 	/**
-	 * @return All classes in the need of a concrete initialiser that actually
-	 * have a corresponding concrete initialiser interface under {@link root}.
+	 * @return A list of all files under {@link #root}.
 	 */
-	public Collection<Class<?>> getClassesWithConcreteInitialiser() {
-		var allFiles = this.getAllFiles(root);
-		
-		return List.of(
-				this.getAllConcreteInitialiserCandidates().stream()
-				.filter((c) -> allFiles.stream()
-						.anyMatch((f) -> this.fileNameEquals(f,
-								this.getConcreteInitialiserName(c))))
-				.toArray(Class<?>[]::new)
-				);
+	public Collection<File> getAllFiles() {
+		return this.getAllFiles(root);
 	}
 	
 	/**
-	 * @return Whether the given initialiser file contains any methods
-	 * that can be used in tests.
-	 */
-	public boolean containsTestableMethods(File f) {
-		boolean containsTestableMethods = false;
-		
-		try {
-			var content = Files.readString(f.toPath());
-			content = this.removeWhitespaces(content);
-			containsTestableMethods = content.matches(testableMethodPattern);
-		} catch (IOException e) {
-			return false;
+	* @return A list of all files under the given path and its sub-directories.
+	*/
+	public Collection<File> getAllFiles(File currentPath) {
+		var result = new ArrayList<File>();
+	
+		if (currentPath.isFile()) {
+			result.add(currentPath);
+		} else {
+			var files = currentPath.listFiles();
+			if (files != null) {
+				for (var f : files) {
+					result.addAll(this.getAllFiles(f));
+				}
+			}
 		}
-		
-		return containsTestableMethods;
+	
+		return result;
+	}
+
+	/**
+	 * @return Whether the given file's name (without extension)
+	 * equals to the given fileName.
+	 */
+	public boolean fileNameEquals(File file, String fileName) {
+		return file != null && file.getName().split("\\.")[0].equals(fileName);
+ 	}
+	
+	public IInitialiser getInitialiserInstanceFor(Class<?> objClass) {
+		return new InitialiserPackage().getInitialiserInstanceFor(objClass);
 	}
 	
-	/**
-	 * Checks if all classes in the need of an initialiser, which have their own
-	 * methods that modify them (the ones they do not get from inheritance),
-	 * have corresponding tests.
-	 * 
-	 * Only verifies, if there are corresponding test files. Does not check the
-	 * unit tests they implement.
-	 */
-	@Test
-	public void testAllInterfaceTestsPresent() {
-		var allFiles = this.getAllFiles(root);
-		var intfcs = this.getAllInitialiserCandidates();
-		
-		var matches = List.of(
-				intfcs.stream()
-				.filter((c) -> allFiles.stream()
-						.anyMatch((f) -> {
-							
-							// Check if f is the corresponding initialiser file.
-							if (!this.fileNameEquals(f, this.getInterfaceInitialiserName(c))) {
-								return false;
-							}
-							
-							return !this.containsTestableMethods(f) || allFiles.stream()
-									.anyMatch((tf) -> fileNameEquals(tf, getTestName(c)));
-						}))
-				.toArray(Class<?>[]::new)
-				);
-		
-		this.getLogger().info(matches.size()+" out of "+intfcs.size()+" interfaces are covered by tests");
-		
-		if (matches.size() != intfcs.size()) {
-			Assertions.fail("Tests missing for: " +
-						this.clsStreamToString(intfcs.stream()
-									.filter((e) -> !matches.contains(e))));
-		}
-	}
+ 	/**
+ 	 * Checks if all classes in the need of an initialiser, which have their own
+ 	 * methods that modify them (the ones they do not get from inheritance),
+ 	 * have corresponding tests.
+ 	 * 
+ 	 * Only verifies, if there are corresponding test files. Does not check the
+ 	 * unit tests they implement.
+ 	 */
+ 	@Test
+ 	public void testAllInterfaceTestsPresent() {
+ 		var intfcs = this.getAllInitialiserCandidates();
+ 		var allFiles = this.getAllFiles();
+ 		
+ 		var matches = List.of(
+ 				intfcs.stream()
+				.filter((c) -> !IInitialiser.hasModificationMethods(this.getInitialiserClsFor(c)) ||
+						allFiles.stream().anyMatch((tf) -> fileNameEquals(tf, getTestName(c))))
+ 				.toArray(Class<?>[]::new));
+ 		
+ 		this.getLogger().info(matches.size()+" out of "+intfcs.size()+" interfaces are covered by tests");
+ 		
+ 		if (matches.size() != intfcs.size()) {
+ 			Assertions.fail("Tests missing for: " +
+ 						this.clsStreamToString(intfcs.stream()
+ 									.filter((e) -> !matches.contains(e))));
+ 		}
+ 	}
 	
 	/**
 	 * @return A String representing the given stream. The provided toStringFunc will be
@@ -422,23 +391,5 @@ public class UtilityTests extends AbstractSimilarityTest {
 	 */
 	public String clsStreamToString(Stream<? extends Class<?>> list) {
 		return this.streamToString(list, (cls) -> cls.getSimpleName());
-	}
-	
-	/**
-	 * Checks if {@link #testableMethodPattern} works as intended.
-	 */
-	@Test
-	public void testPattern() {
-		Assertions.assertTrue("defaulttypesetxyz(".matches(testableMethodPattern));
-		Assertions.assertTrue("defaulttypeaddxyz(".matches(testableMethodPattern));
-		Assertions.assertTrue("abcdefaulttypesetxyz(".matches(testableMethodPattern));
-		Assertions.assertTrue("defaulttypeaddxyz(abc".matches(testableMethodPattern));
-		Assertions.assertTrue("abcdefaulttypeaddxyz(cde".matches(testableMethodPattern));
-		
-		Assertions.assertFalse("defaulttypeaddxyzAssertion(".matches(testableMethodPattern));
-		Assertions.assertFalse("defaulttypesetxyzAssertion(".matches(testableMethodPattern));
-		Assertions.assertFalse("abcdefaulttypeaddxyzAssertion(".matches(testableMethodPattern));
-		Assertions.assertFalse("defaulttypesetxyzAssertion(abc".matches(testableMethodPattern));
-		Assertions.assertFalse("abcdefaulttypesetxyzAssertion(cde".matches(testableMethodPattern));
 	}
 }

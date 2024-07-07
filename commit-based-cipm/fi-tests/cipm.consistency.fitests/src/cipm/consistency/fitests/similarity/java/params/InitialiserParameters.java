@@ -12,6 +12,6 @@ import cipm.consistency.fitests.similarity.java.initialiser.InitialiserPackage;
  */
 public class InitialiserParameters implements IInitialiserParameters {
 	public Collection<EObjectInitialiser> getAllInitialisers() {
-		return new InitialiserPackage().getAllInitialisers();
+		return new InitialiserPackage().getAllInitialiserInstances();
 	}
 }
