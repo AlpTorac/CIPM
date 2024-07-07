@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 import org.emftext.language.java.statements.StatementListContainer;
@@ -23,6 +24,7 @@ public interface IStatementListContainerInitialiser extends ICommentableInitiali
 	 * @return True, if the behaviour expected by calling this method was achieved.
 	 * @see {@link #addStatementAssertion(StatementListContainer, Statement)}
 	 */
+    @ModificationMethod
 	public default boolean addStatement(StatementListContainer slc, Statement s) {
 		if (s != null) {
 			slc.getStatements().add(s);

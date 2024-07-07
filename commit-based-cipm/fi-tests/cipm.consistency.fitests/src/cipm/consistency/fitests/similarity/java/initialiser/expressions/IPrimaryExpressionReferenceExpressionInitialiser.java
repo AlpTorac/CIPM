@@ -4,6 +4,7 @@ import org.emftext.language.java.expressions.MethodReferenceExpressionChild;
 import org.emftext.language.java.expressions.PrimaryExpressionReferenceExpression;
 import org.emftext.language.java.references.Reference;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.generics.ICallTypeArgumentableInitialiser;
 
 public interface IPrimaryExpressionReferenceExpressionInitialiser extends
@@ -11,7 +12,7 @@ public interface IPrimaryExpressionReferenceExpressionInitialiser extends
 	IMethodReferenceExpressionInitialiser {
 	@Override
 	public PrimaryExpressionReferenceExpression instantiate();
-	
+	@ModificationMethod
 	public default boolean setChild(PrimaryExpressionReferenceExpression pere, MethodReferenceExpressionChild mrec) {
 		if (mrec != null) {
 			pere.setChild(mrec);
@@ -19,7 +20,7 @@ public interface IPrimaryExpressionReferenceExpressionInitialiser extends
 		}
 		return true;
 	}
-	
+	@ModificationMethod
 	public default boolean setMethodReference(PrimaryExpressionReferenceExpression pere, Reference ref) {
 		if (ref != null) {
 			pere.setMethodReference(ref);

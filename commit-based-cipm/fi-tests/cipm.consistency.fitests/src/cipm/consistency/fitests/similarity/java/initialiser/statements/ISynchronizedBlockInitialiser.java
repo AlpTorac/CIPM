@@ -3,6 +3,8 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.SynchronizedBlock;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
+
 import org.emftext.language.java.statements.SynchronizedBlock;
 
 public interface ISynchronizedBlockInitialiser extends IBlockContainerInitialiser,
@@ -10,7 +12,7 @@ public interface ISynchronizedBlockInitialiser extends IBlockContainerInitialise
 	IStatementListContainerInitialiser {
 	@Override
 	public SynchronizedBlock instantiate();
-	
+	@ModificationMethod
 	public default boolean setLockProvider(SynchronizedBlock sb, Expression expr) {
 		if (expr != null) {
 			sb.setLockProvider(expr);

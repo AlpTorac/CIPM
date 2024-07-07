@@ -4,6 +4,8 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.ForLoop;
 import org.emftext.language.java.statements.ForLoopInitializer;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
+
 import org.emftext.language.java.statements.ForLoop;
 
 public interface IForLoopInitialiser extends IConditionalInitialiser,
@@ -11,7 +13,7 @@ public interface IForLoopInitialiser extends IConditionalInitialiser,
 	IStatementContainerInitialiser {
 	@Override
 	public ForLoop instantiate();
-	
+	@ModificationMethod
 	public default boolean setInit(ForLoop fl, ForLoopInitializer fli) {
 		if (fli != null) {
 			fl.setInit(fli);
@@ -19,7 +21,7 @@ public interface IForLoopInitialiser extends IConditionalInitialiser,
 		}
 		return true;
 	}
-	
+	@ModificationMethod
 	public default boolean addUpdate(ForLoop fl, Expression expr) {
 		if (expr != null) {
 			fl.getUpdates().add(expr);

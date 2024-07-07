@@ -5,6 +5,8 @@ import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.TryBlock;
 import org.emftext.language.java.variables.Resource;
 
+import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
+
 import org.emftext.language.java.statements.TryBlock;
 
 public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
@@ -12,7 +14,7 @@ public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
 	IStatementListContainerInitialiser {
 	@Override
 	public TryBlock instantiate();
-	
+	@ModificationMethod
 	public default boolean setFinallyBlock(TryBlock tb, Block block) {
 		if (block != null) {
 			tb.setFinallyBlock(block);
@@ -20,7 +22,7 @@ public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
 		}
 		return true;
 	}
-	
+	@ModificationMethod
 	public default boolean addCatchBlock(TryBlock tb, CatchBlock cb) {
 		if (cb != null) {
 			tb.getCatchBlocks().add(cb);
@@ -32,7 +34,7 @@ public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
 	public default boolean addCatchBlocks(TryBlock tb, CatchBlock[] cbs) {
 		return this.addXs(tb, cbs, this::addCatchBlock);
 	}
-	
+	@ModificationMethod
 	public default boolean addResource(TryBlock tb, Resource res) {
 		if (res != null) {
 			tb.getResources().add(res);
