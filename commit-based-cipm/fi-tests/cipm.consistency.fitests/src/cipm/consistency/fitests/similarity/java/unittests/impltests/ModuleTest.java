@@ -11,12 +11,14 @@ import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.ModuleInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.modifiers.OpenInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesModuleDirectives;
+import cipm.consistency.fitests.similarity.java.unittests.UsesNames;
 
-public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirectives {
+public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirectives, UsesNames {
 	protected Module initElement(Package[] pacs, ModuleDirective[] targets, boolean isOpen) {
 		var initialiser = new ModuleInitialiser();
 		Module result = initialiser.instantiate();
 		
+		Assertions.assertTrue(initialiser.setName(result, this.getDefaultName()));
 		Assertions.assertTrue(initialiser.addPackages(result, pacs));
 		Assertions.assertTrue(initialiser.addTargets(result, targets));
 		

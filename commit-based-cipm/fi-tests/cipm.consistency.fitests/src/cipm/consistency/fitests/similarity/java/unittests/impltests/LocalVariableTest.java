@@ -9,11 +9,13 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.variables.LocalVariableInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesAdditionalLocalVariables;
+import cipm.consistency.fitests.similarity.java.unittests.UsesNames;
 
-public class LocalVariableTest extends EObjectSimilarityTest implements UsesAdditionalLocalVariables {
+public class LocalVariableTest extends EObjectSimilarityTest implements UsesAdditionalLocalVariables, UsesNames {
 	protected LocalVariable initElement(AdditionalLocalVariable[] alvs) {
 		var lvInit = new LocalVariableInitialiser();
 		var lv = lvInit.instantiate();
+		Assertions.assertTrue(lvInit.setName(lv, this.getDefaultName()));
 		Assertions.assertTrue(lvInit.addAdditionalLocalVariables(lv, alvs));
 		return lv;
 	}

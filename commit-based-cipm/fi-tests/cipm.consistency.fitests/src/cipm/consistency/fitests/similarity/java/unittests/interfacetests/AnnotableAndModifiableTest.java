@@ -2,7 +2,6 @@ package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.annotations.AnnotationInstance;
-import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.ModifiersPackage;
 import org.emftext.language.java.modifiers.Modifier;
 import org.junit.jupiter.api.Assertions;

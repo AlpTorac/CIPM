@@ -18,7 +18,6 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest im
 	protected AccessProvidingModuleDirective initElement(IAccessProvidingModuleDirectiveInitialiser init,
 			ModuleReference[] modrefs, Package pac) {
 		var result = init.instantiate();
-		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.addModules(result, modrefs));
 		Assertions.assertTrue(init.setAccessablePackage(result, pac));
 		return result;

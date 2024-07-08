@@ -1,7 +1,6 @@
 package cipm.consistency.fitests.similarity.java.unittests.interfacetests;
 
 import org.emftext.language.java.classifiers.Classifier;
-import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.imports.ImportsPackage;
@@ -11,12 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.java.initialiser.adapters.CompilationUnitContaineeInitialiserAdapter;
-import cipm.consistency.fitests.similarity.java.initialiser.adapters.NamedElementInitialiserAdapter;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.IClassifierInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.classifiers.IConcreteClassifierInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.containers.CompilationUnitInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.generics.ITypeParameterInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesImports;
 import cipm.consistency.fitests.similarity.java.unittests.UsesPackageImports;
 
@@ -33,11 +27,6 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 		
 		var result = initialiser.instantiate();
 		Assertions.assertTrue(initialiser.initialise(result));
-		
-		if (initialiser instanceof ITypeParameterInitialiser) {
-			return result;
-		}
-		
 		Assertions.assertTrue(initialiser.addImports(result, imps));
 		Assertions.assertTrue(initialiser.addPackageImports(result, pImps));
 		return result;

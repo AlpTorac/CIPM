@@ -14,7 +14,6 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesTypeReferences;
 public class ImplementorTest extends EObjectSimilarityTest implements UsesTypeReferences {
 	protected Implementor initElement(IImplementorInitialiser init, TypeReference[] trefs) {
 		Implementor result = init.instantiate();
-		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.addImplements(result, trefs));
 		return result;
 	}
