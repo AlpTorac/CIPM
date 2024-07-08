@@ -14,7 +14,6 @@ public interface UsesTypeArguments extends UsesTypeReferences {
 		var init = new ExtendsTypeArgumentInitialiser();
 		
 		ExtendsTypeArgument result = init.instantiate();
-		init.initialise(result);
 		init.setExtendType(result, tref);
 		return result;
 	}
@@ -23,7 +22,6 @@ public interface UsesTypeArguments extends UsesTypeReferences {
 		var init = new SuperTypeArgumentInitialiser();
 		
 		SuperTypeArgument result = init.instantiate();
-		init.initialise(result);
 		init.setSuperType(result, tref);
 		return result;
 	}

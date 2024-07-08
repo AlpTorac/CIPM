@@ -7,7 +7,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassIni
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.IConcreteClassifierInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.CompilationUnitInitialiser;
 
-public interface UsesConcreteClassifiers extends UsesPackages {
+public interface UsesConcreteClassifiers extends UsesPackages, UsesNames {
 	public default Class createMinimalClass(String name) {
 		return (Class) this.createMinimalClassifier(new ClassInitialiser(), name);
 	}
@@ -27,12 +27,16 @@ public interface UsesConcreteClassifiers extends UsesPackages {
 	}
 	
 	public default ConcreteClassifier createMinimalClassifierWithCU(IConcreteClassifierInitialiser init, String name) {
+		return this.createMinimalClassifierWithCU(init, name, this.getDefaultName());
+	}
+	
+	public default ConcreteClassifier createMinimalClassifierWithCU(IConcreteClassifierInitialiser init, String clsName, String cuName) {
 		ConcreteClassifier result = init.instantiate();
-		init.setName(result, name);
+		init.setName(result, clsName);
 		
 		var cuInit = new CompilationUnitInitialiser();
 		var cu = cuInit.instantiate();
-		cuInit.initialise(cu);
+		cuInit.setName(cu, cuName);
 		cuInit.addClassifier(cu, result);
 		
 		return result;

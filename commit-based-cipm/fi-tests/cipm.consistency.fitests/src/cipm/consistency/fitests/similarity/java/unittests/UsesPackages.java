@@ -9,7 +9,6 @@ public interface UsesPackages {
 		var pacInit = new PackageInitialiser();
 		
 		Package result = pacInit.instantiate();
-		pacInit.initialise(result);
 		pacInit.addNamespaces(result, nss);
 		
 		return result;

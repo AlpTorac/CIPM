@@ -8,7 +8,6 @@ public interface UsesModuleReferences extends UsesModules {
 	public default ModuleReference createMinimalMR(String modName) {
 		var mrInit = new ModuleReferenceInitialiser();
 		var mr = mrInit.instantiate();
-		mrInit.initialise(mr);
 		mrInit.setTarget(mr, this.createMinimalModule(modName));
 		return mr;
 	}

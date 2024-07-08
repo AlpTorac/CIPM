@@ -8,7 +8,6 @@ public interface UsesLocalVariables {
 	public default LocalVariable createMinimalLV(String lvName) {
 		var lvInit = new LocalVariableInitialiser();
 		var lv = lvInit.instantiate();
-		lvInit.initialise(lvName);
 		lvInit.setName(lv, lvName);
 		return lv;
 	}

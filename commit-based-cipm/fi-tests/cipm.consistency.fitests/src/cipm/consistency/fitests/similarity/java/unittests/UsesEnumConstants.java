@@ -8,7 +8,6 @@ public interface UsesEnumConstants {
 	public default EnumConstant createMinimalEnumConstant(String ecName) {
 		var ecInit = new EnumConstantInitialiser();
 		var ec = ecInit.instantiate();
-		ecInit.initialise(ec);
 		ecInit.setName(ec, ecName);
 		return ec;
 	}

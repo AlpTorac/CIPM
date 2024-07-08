@@ -11,7 +11,6 @@ public interface UsesModuleDirectives extends UsesPackages, UsesModuleReferences
 	public default ExportsModuleDirective createMinimalEMD(Package pac) {
 		var init = new ExportsModuleDirectiveInitialiser();
 		ExportsModuleDirective result = init.instantiate();
-		init.initialise(result);
 		init.setAccessablePackage(result, pac);
 		return result;
 	}
@@ -19,7 +18,6 @@ public interface UsesModuleDirectives extends UsesPackages, UsesModuleReferences
 	public default OpensModuleDirective createMinimalOMD(Package pac) {
 		var init = new OpensModuleDirectiveInitialiser();
 		OpensModuleDirective result = init.instantiate();
-		init.initialise(result);
 		init.setAccessablePackage(result, pac);
 		return result;
 	}

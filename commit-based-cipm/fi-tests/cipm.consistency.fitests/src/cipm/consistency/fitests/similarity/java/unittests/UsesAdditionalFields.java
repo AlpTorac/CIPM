@@ -8,7 +8,6 @@ public interface UsesAdditionalFields {
 	public default AdditionalField createMinimalAF(String afName) {
 		var afInit = new AdditionalFieldInitialiser();
 		var af = afInit.instantiate();
-		afInit.initialise(af);
 		afInit.setName(af, afName);
 		return af;
 	}

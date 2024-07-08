@@ -9,7 +9,6 @@ public interface UsesSwitchCases extends UsesExpressions {
 	public default NormalSwitchCase createMinimalNSC(Expression[] exprs) {
 		var nscInit = new NormalSwitchCaseInitialiser();
 		var nsc = nscInit.instantiate();
-		nscInit.initialise(nsc);
 		nscInit.addAdditionalConditions(nsc, exprs);
 		return nsc;
 	}

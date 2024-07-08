@@ -8,7 +8,6 @@ public interface UsesAnnotations {
 	public default Annotation createMinimalAnnotation(String annotationName) {
 		var ai = new AnnotationInitialiser();
 		Annotation result = ai.instantiate();
-		ai.initialise(result);
 		ai.setName(result, annotationName);
 		return result;
 	}

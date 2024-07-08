@@ -49,7 +49,6 @@ public interface UsesExpressions extends UsesOperators, UsesLiterals, UsesString
 		var eqInit = new EqualityExpressionInitialiser();
 		
 		EqualityExpression result = eqInit.instantiate();
-		eqInit.initialise(result);
 		eqInit.addEqualityOperator(result, this.createEqualityOperator());
 		eqInit.addChild(result, lhs);
 		eqInit.addChild(result, rhs);
@@ -83,7 +82,6 @@ public interface UsesExpressions extends UsesOperators, UsesLiterals, UsesString
 		var eqInit = new EqualityExpressionInitialiser();
 		
 		EqualityExpression result = eqInit.instantiate();
-		eqInit.initialise(result);
 		eqInit.addEqualityOperator(result, this.createNotEqualOperator());
 		eqInit.addChild(result, lhs);
 		eqInit.addChild(result, rhs);
