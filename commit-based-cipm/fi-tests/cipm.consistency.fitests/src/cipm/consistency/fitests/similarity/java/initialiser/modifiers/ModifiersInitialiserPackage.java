@@ -27,6 +27,7 @@ public class ModifiersInitialiserPackage implements IInitialiserPackage {
 		});
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Class<? extends IInitialiser>> getInitialiserClasses() {
 		return this.initCol(new Class[] {

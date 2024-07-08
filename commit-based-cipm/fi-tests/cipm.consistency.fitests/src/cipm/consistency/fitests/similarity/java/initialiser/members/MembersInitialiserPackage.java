@@ -6,8 +6,6 @@ import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserPackage;
 
-import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
-
 public class MembersInitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiser> getInitialiserInstances() {
@@ -22,6 +20,7 @@ public class MembersInitialiserPackage implements IInitialiserPackage {
 		});
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Class<? extends IInitialiser>> getInitialiserClasses() {
 		return this.initCol(new Class[] {
