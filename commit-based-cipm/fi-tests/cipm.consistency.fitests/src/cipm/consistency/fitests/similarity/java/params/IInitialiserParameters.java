@@ -6,8 +6,20 @@ import java.util.function.Predicate;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserBase;
+import cipm.consistency.fitests.similarity.java.initialiser.adapters.BlockContainerInitialiserAdapter;
+import cipm.consistency.fitests.similarity.java.initialiser.adapters.ConcreteClassifierInitialiserAdapter;
+import cipm.consistency.fitests.similarity.java.initialiser.adapters.MemberInitialiserAdapter;
 import cipm.consistency.fitests.similarity.java.initialiser.adapters.NamedElementInitialiserAdapter;
+import cipm.consistency.fitests.similarity.java.initialiser.adapters.NewConstructorCallInitialiserAdapter;
+import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.classifiers.IConcreteClassifierInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.INamedElementInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.containers.CompilationUnitInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.instantiations.INewConstructorCallInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.members.IMemberInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.statements.BlockInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.statements.IBlockContainerInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.types.ClassifierReferenceInitialiser;
 
 public interface IInitialiserParameters {
 	public Collection<IInitialiser> getAllInitialisers();
@@ -40,6 +52,23 @@ public interface IInitialiserParameters {
 		.forEach((i) -> {
 			if (INamedElementInitialiser.class.isAssignableFrom(i.getClass())) {
 				i.addAdaptingInitialiser(new NamedElementInitialiserAdapter());
+			}
+			if (IBlockContainerInitialiser.class.isAssignableFrom(i.getClass())) {
+				i.addAdaptingInitialiser(new BlockContainerInitialiserAdapter(
+						new BlockInitialiser()));
+			}
+			if (IMemberInitialiser.class.isAssignableFrom(i.getClass())) {
+				i.addAdaptingInitialiser(new MemberInitialiserAdapter(
+						new ClassInitialiser()));
+			}
+			if (IConcreteClassifierInitialiser.class.isAssignableFrom(i.getClass())) {
+				i.addAdaptingInitialiser(new ConcreteClassifierInitialiserAdapter(
+						new CompilationUnitInitialiser()));
+			}
+			if (INewConstructorCallInitialiser.class.isAssignableFrom(i.getClass())) {
+				i.addAdaptingInitialiser(new NewConstructorCallInitialiserAdapter(
+						new ClassifierReferenceInitialiser(),
+						new ClassInitialiser()));
 			}
 		});
 	}
