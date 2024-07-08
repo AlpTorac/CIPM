@@ -20,7 +20,7 @@ public class TypedElementExtensionTest extends EObjectSimilarityTest implements 
 	}
 	
 	@ParameterizedTest
-	@ArgumentsSource(TypedElementExtensionTestParam.class)
+	@ArgumentsSource(TypedElementExtensionTestParams.class)
 	public void testActualTarget(ITypedElementExtensionInitialiser init) {
 		this.setResourceFileTestIdentifier("testActualTarget");
 		
