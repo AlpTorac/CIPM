@@ -5,8 +5,6 @@ import org.emftext.language.java.statements.SynchronizedBlock;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 
-import org.emftext.language.java.statements.SynchronizedBlock;
-
 public interface ISynchronizedBlockInitialiser extends IBlockContainerInitialiser,
 	IStatementInitialiser,
 	IStatementListContainerInitialiser {

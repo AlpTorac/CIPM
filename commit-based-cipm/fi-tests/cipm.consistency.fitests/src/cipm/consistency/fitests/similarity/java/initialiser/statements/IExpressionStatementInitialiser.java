@@ -5,10 +5,6 @@ import org.emftext.language.java.statements.ExpressionStatement;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 
-import org.emftext.language.java.statements.ExpressionStatement;
-
-import org.emftext.language.java.statements.ExpressionStatement;
-
 public interface IExpressionStatementInitialiser extends IStatementInitialiser {
     @Override
     public ExpressionStatement instantiate();

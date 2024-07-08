@@ -5,8 +5,6 @@ import org.emftext.language.java.statements.NormalSwitchRule;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 
-import org.emftext.language.java.statements.NormalSwitchRule;
-
 public interface INormalSwitchRuleInitialiser extends IConditionalInitialiser,
 	ISwitchRuleInitialiser {
 	@Override

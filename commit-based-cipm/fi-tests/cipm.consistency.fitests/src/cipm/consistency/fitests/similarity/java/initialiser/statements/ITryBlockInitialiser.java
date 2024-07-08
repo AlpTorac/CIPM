@@ -7,8 +7,6 @@ import org.emftext.language.java.variables.Resource;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 
-import org.emftext.language.java.statements.TryBlock;
-
 public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
 	IStatementInitialiser,
 	IStatementListContainerInitialiser {

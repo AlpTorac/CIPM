@@ -6,8 +6,6 @@ import org.emftext.language.java.types.TypedElementExtension;
 import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
-import org.emftext.language.java.types.TypedElementExtension;
-
 public interface ITypedElementExtensionInitialiser extends ICommentableInitialiser {
     @Override
     public TypedElementExtension instantiate();

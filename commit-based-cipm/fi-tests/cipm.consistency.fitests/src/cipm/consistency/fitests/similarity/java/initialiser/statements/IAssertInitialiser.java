@@ -5,8 +5,6 @@ import org.emftext.language.java.statements.Assert;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 
-import org.emftext.language.java.statements.Assert;
-
 public interface IAssertInitialiser extends IConditionalInitialiser,
 	IStatementInitialiser {
 	@Override
