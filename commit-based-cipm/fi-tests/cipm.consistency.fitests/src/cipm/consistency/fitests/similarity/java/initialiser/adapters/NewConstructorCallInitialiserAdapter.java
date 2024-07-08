@@ -38,7 +38,9 @@ public class NewConstructorCallInitialiserAdapter
 			
 			var tref = this.gettRefInit().instantiate();
 			
-			return this.gettRefInit().setTarget(tref, cls) &&
+			return this.getClsInit().initialise(cls) &&
+					this.gettRefInit().initialise(tref) &&
+					this.gettRefInit().setTarget(tref, cls) &&
 					castedInit.setTypeReference(castedO, tref) &&
 					castedO.getTypeReference().equals(tref);
 		}

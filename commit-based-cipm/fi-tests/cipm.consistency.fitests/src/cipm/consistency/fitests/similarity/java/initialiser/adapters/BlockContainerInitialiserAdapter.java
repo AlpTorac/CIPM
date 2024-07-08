@@ -27,14 +27,18 @@ public class BlockContainerInitialiserAdapter implements
 	
 	@Override
 	public boolean apply(IInitialiser init, Object obj) {
-		// FIXME: Only modify, if necessary
 		var castedInit = (IBlockContainerInitialiser) init;
 		var castedO = (BlockContainer) obj;
 		
-		var bInit = this.getBInit();
+		if (castedO.getBlock() == null) {
+			var bInit = this.getBInit();
+			
+			var block = bInit.instantiate();
+			return bInit.initialise(block) &&
+					castedInit.setBlock(castedO, block);
+		}
 		
-		var block = bInit.instantiate();
-		return castedInit.setBlock(castedO, block);
+		return true;
 	}
 	
 	@Override

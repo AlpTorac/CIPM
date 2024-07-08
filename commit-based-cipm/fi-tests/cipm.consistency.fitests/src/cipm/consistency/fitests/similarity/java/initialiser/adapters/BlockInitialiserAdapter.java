@@ -18,10 +18,15 @@ public class BlockInitialiserAdapter implements
 	public boolean apply(IInitialiser init, Object obj) {
 		var castedO = (Block) obj;
 		
-		var bcInit = this.getBCInit();
+		if (castedO.eContainer() == null) {
+			var bcInit = this.getBCInit();
+			
+			var bc = bcInit.instantiate();
+			return bcInit.initialise(bc) &&
+					bcInit.setBlock(bc, castedO);
+		}
 		
-		var bc = bcInit.instantiate();
-		return bcInit.setBlock(bc, castedO);
+		return true;
 	}
 
 	@Override

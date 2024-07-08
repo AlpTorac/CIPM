@@ -7,11 +7,11 @@ import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserAdapterStrategy;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.ICompilationUnitInitialiser;
 
-public class CompilationUnitContaineeInitialiserAdapter implements
+public class ConcreteClassifierInitialiserAdapter implements
 	IInitialiserAdapterStrategy {
 	private ICompilationUnitInitialiser cuInit;
 	
-	public CompilationUnitContaineeInitialiserAdapter(ICompilationUnitInitialiser cuInit) {
+	public ConcreteClassifierInitialiserAdapter(ICompilationUnitInitialiser cuInit) {
 		this.cuInit = cuInit;
 	}
 	
@@ -19,7 +19,7 @@ public class CompilationUnitContaineeInitialiserAdapter implements
 		return this.cuInit;
 	}
 	
-	public CompilationUnitContaineeInitialiserAdapter withCUInit(ICompilationUnitInitialiser cuInit) {
+	public ConcreteClassifierInitialiserAdapter withCUInit(ICompilationUnitInitialiser cuInit) {
 		this.cuInit = cuInit;
 		return this;
 	}
@@ -28,15 +28,20 @@ public class CompilationUnitContaineeInitialiserAdapter implements
 	public boolean apply(IInitialiser init, Object obj) {
 		var castedO = (ConcreteClassifier) obj;
 		
-		var cuInit = this.getCUInit();
+		if (castedO.getContainingCompilationUnit() == null) {
+			var cuInit = this.getCUInit();
+			
+			CompilationUnit unit = cuInit.instantiate();
+			return cuInit.initialise(unit) &&
+					cuInit.addClassifier(unit, castedO);
+		}
 		
-		CompilationUnit unit = cuInit.instantiate();
-		return cuInit.addClassifier(unit, castedO);
+		return true;
 	}
 
 	@Override
-	public CompilationUnitContaineeInitialiserAdapter newStrategy() {
-		return new CompilationUnitContaineeInitialiserAdapter(
+	public ConcreteClassifierInitialiserAdapter newStrategy() {
+		return new ConcreteClassifierInitialiserAdapter(
 				(ICompilationUnitInitialiser) this.getCUInit().newInitialiser());
 	}
 }
