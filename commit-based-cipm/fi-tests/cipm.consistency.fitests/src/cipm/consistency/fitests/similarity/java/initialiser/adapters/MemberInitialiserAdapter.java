@@ -27,10 +27,16 @@ public class MemberInitialiserAdapter implements
 	@Override
 	public boolean apply(IInitialiser init, Object obj) {
 		var castedO = (Member) obj;
-		var mcInit = this.getMCInit();
+
+		if (castedO.eContainer() == null) {
+			var mcInit = this.getMCInit();
+			
+			MemberContainer mc = mcInit.instantiate();
+			return mcInit.initialise(mc) &&
+					mcInit.addMember(mc, castedO);
+		}
 		
-		MemberContainer mc = mcInit.instantiate();
-		return mcInit.addMember(mc, castedO);
+		return true;
 	}
 
 	@Override
