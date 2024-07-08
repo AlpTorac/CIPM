@@ -14,7 +14,6 @@ public class SynchronizedBlockTest extends EObjectSimilarityTest implements Uses
 	protected SynchronizedBlock initElement(Expression expr) {
 		var sbInit = new SynchronizedBlockInitialiser();
 		var sb = sbInit.instantiate();
-		Assertions.assertTrue(sbInit.minimalInitialisation(sb));
 		Assertions.assertTrue(sbInit.setLockProvider(sb, expr));
 		return sb;
 	}

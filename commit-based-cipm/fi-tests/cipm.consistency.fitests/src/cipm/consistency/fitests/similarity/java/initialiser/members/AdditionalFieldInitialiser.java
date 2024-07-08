@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.members;
 import org.emftext.language.java.members.MembersFactory;
 import org.emftext.language.java.members.AdditionalField;
 
-public class AdditionalFieldInitialiser implements IAdditionalFieldInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class AdditionalFieldInitialiser extends AbstractInitialiserBase implements IAdditionalFieldInitialiser {
 	@Override
 	public IAdditionalFieldInitialiser newInitialiser() {
 		return new AdditionalFieldInitialiser();

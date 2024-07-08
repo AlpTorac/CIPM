@@ -14,7 +14,7 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesParameters;
 public class ParametrizableTest extends EObjectSimilarityTest implements UsesParameters {
 	protected Parametrizable initElement(IParametrizableInitialiser init, Parameter[] params) {
 		Parametrizable result = init.instantiate();
-		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.addParameters(result, params));
 		return result;
 	}

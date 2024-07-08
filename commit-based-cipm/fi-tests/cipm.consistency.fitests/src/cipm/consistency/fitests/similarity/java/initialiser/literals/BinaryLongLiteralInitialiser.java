@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.literals;
 import org.emftext.language.java.literals.BinaryLongLiteral;
 import org.emftext.language.java.literals.LiteralsFactory;
 
-public class BinaryLongLiteralInitialiser implements IBinaryLongLiteralInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class BinaryLongLiteralInitialiser extends AbstractInitialiserBase implements IBinaryLongLiteralInitialiser {
 	@Override
 	public IBinaryLongLiteralInitialiser newInitialiser() {
 		return new BinaryLongLiteralInitialiser();

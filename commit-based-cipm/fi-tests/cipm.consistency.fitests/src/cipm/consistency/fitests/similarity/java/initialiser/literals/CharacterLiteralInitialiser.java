@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.literals;
 import org.emftext.language.java.literals.CharacterLiteral;
 import org.emftext.language.java.literals.LiteralsFactory;
 
-public class CharacterLiteralInitialiser implements ICharacterLiteralInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class CharacterLiteralInitialiser extends AbstractInitialiserBase implements ICharacterLiteralInitialiser {
 	@Override
 	public ICharacterLiteralInitialiser newInitialiser() {
 		return new CharacterLiteralInitialiser();

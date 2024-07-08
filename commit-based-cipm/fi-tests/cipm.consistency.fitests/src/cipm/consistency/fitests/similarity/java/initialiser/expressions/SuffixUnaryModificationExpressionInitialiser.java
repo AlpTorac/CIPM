@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.expressions;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.expressions.SuffixUnaryModificationExpression;
 
-public class SuffixUnaryModificationExpressionInitialiser implements ISuffixUnaryModificationExpressionInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class SuffixUnaryModificationExpressionInitialiser extends AbstractInitialiserBase implements ISuffixUnaryModificationExpressionInitialiser {
 	@Override
 	public ISuffixUnaryModificationExpressionInitialiser newInitialiser() {
 		return new SuffixUnaryModificationExpressionInitialiser();

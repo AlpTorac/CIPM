@@ -14,7 +14,6 @@ public class ReturnTest extends EObjectSimilarityTest implements UsesExpressions
 	protected Return initElement(Expression expr) {
 		var retInit = new ReturnInitialiser();
 		var ret = retInit.instantiate();
-		Assertions.assertTrue(retInit.minimalInitialisation(ret));
 		Assertions.assertTrue(retInit.setReturnValue(ret, expr));
 		return ret;
 	}

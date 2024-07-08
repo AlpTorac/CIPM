@@ -4,7 +4,9 @@ import org.emftext.language.java.annotations.AnnotationsFactory;
 
 import org.emftext.language.java.annotations.AnnotationInstance;
 
-public class AnnotationInstanceInitialiser implements IAnnotationInstanceInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class AnnotationInstanceInitialiser extends AbstractInitialiserBase implements IAnnotationInstanceInitialiser {
 	@Override
 	public AnnotationInstance instantiate() {
 		var fac = AnnotationsFactory.eINSTANCE;

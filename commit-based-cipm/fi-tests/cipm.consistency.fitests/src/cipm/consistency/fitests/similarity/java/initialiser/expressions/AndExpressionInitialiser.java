@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.expressions;
 import org.emftext.language.java.expressions.AndExpression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 
-public class AndExpressionInitialiser implements IAndExpressionInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class AndExpressionInitialiser extends AbstractInitialiserBase implements IAndExpressionInitialiser {
 	@Override
 	public IAndExpressionInitialiser newInitialiser() {
 		return new AndExpressionInitialiser();

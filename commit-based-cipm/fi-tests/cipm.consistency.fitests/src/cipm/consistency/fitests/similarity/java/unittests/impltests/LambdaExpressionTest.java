@@ -17,7 +17,6 @@ public class LambdaExpressionTest extends EObjectSimilarityTest
 	protected LambdaExpression initElement(LambdaBody body, LambdaParameters param) {
 		var init = new LambdaExpressionInitialiser();
 		LambdaExpression result = init.instantiate();
-		Assertions.assertTrue(init.minimalInitialisation(result));
 		Assertions.assertTrue(init.setBody(result, body));
 		Assertions.assertTrue(init.setParameters(result, param));
 		return result;

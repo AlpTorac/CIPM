@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 import org.emftext.language.java.statements.EmptyStatement;
 import org.emftext.language.java.statements.StatementsFactory;
 
-public class EmptyStatementInitialiser implements IEmptyStatementInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class EmptyStatementInitialiser extends AbstractInitialiserBase implements IEmptyStatementInitialiser {
 	@Override
 	public IEmptyStatementInitialiser newInitialiser() {
 		return new EmptyStatementInitialiser();

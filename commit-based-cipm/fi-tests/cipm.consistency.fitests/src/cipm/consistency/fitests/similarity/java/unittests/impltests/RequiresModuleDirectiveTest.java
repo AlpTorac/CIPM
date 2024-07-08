@@ -17,7 +17,6 @@ UsesModuleReferences {
 	protected RequiresModuleDirective initElement(ModuleRequiresModifier mrm, ModuleReference mref) {
 		var rmdInit = new RequiresModuleDirectiveInitialiser();
 		var rmd = rmdInit.instantiate();
-		Assertions.assertTrue(rmdInit.minimalInitialisation(rmd));
 		Assertions.assertTrue(rmdInit.setModifier(rmd, mrm));
 		Assertions.assertTrue(rmdInit.setRequiredModule(rmd, mref));
 		return rmd;

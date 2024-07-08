@@ -14,7 +14,6 @@ public class ModuleReferenceTest extends EObjectSimilarityTest implements UsesMo
 	protected ModuleReference initElement(Module mod) {
 		var mrInit = new ModuleReferenceInitialiser();
 		var mr = mrInit.instantiate();
-		Assertions.assertTrue(mrInit.minimalInitialisation(mr));
 		Assertions.assertTrue(mrInit.setTarget(mr, mod));
 		return mr;
 	}

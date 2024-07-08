@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.imports;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.ImportsFactory;
 
-public class ClassifierImportInitialiser implements IClassifierImportInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class ClassifierImportInitialiser extends AbstractInitialiserBase implements IClassifierImportInitialiser {
 	@Override
 	public IClassifierImportInitialiser newInitialiser() {
 		return new ClassifierImportInitialiser();

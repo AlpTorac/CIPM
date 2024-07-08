@@ -14,7 +14,6 @@ public class YieldStatementTest extends EObjectSimilarityTest implements UsesExp
 	protected YieldStatement initElement(Expression expr) {
 		var ysInit = new YieldStatementInitialiser();
 		var ys = ysInit.instantiate();
-		Assertions.assertTrue(ysInit.minimalInitialisation(ys));
 		Assertions.assertTrue(ysInit.setYieldExpression(ys, expr));
 		return ys;
 	}

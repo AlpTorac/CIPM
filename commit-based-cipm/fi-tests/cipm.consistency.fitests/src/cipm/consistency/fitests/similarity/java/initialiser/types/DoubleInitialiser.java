@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.types;
 import org.emftext.language.java.types.Double;
 import org.emftext.language.java.types.TypesFactory;
 
-public class DoubleInitialiser implements IDoubleInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class DoubleInitialiser extends AbstractInitialiserBase implements IDoubleInitialiser {
 	@Override
 	public IDoubleInitialiser newInitialiser() {
 		return new DoubleInitialiser();

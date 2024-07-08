@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.emftext.language.java.statements.Assert;
 
-public class AssertInitialiser implements IAssertInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class AssertInitialiser extends AbstractInitialiserBase implements IAssertInitialiser {
 	@Override
 	public IAssertInitialiser newInitialiser() {
 		return new AssertInitialiser();

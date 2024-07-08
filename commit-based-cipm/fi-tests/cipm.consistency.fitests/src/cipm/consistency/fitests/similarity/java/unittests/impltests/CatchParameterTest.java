@@ -14,7 +14,6 @@ public class CatchParameterTest extends EObjectSimilarityTest implements UsesTyp
 	protected CatchParameter initElement(TypeReference[] trefs) {
 		var cpInit = new CatchParameterInitialiser();
 		var cp = cpInit.instantiate();
-		Assertions.assertTrue(cpInit.minimalInitialisation(cp));
 		Assertions.assertTrue(cpInit.addTypeReferences(cp, trefs));
 		return cp;
 	}

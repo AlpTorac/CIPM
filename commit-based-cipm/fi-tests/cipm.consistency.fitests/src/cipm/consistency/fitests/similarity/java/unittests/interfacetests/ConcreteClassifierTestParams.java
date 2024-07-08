@@ -14,7 +14,7 @@ public class ConcreteClassifierTestParams implements ArgumentsProvider {
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
 		return new InitialiserParameters()
-				.getInitialisersBySuper(IConcreteClassifierInitialiser.class)
+				.getAdaptedInitialisersBySuper(IConcreteClassifierInitialiser.class)
 				.stream()
 				.map((i) -> Arguments.of(i));
 	}

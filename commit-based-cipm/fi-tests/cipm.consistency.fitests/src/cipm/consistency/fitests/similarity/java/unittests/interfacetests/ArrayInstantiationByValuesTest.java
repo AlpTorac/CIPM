@@ -18,7 +18,7 @@ public class ArrayInstantiationByValuesTest extends EObjectSimilarityTest implem
 	protected ArrayInstantiationByValues initElement(IArrayInstantiationByValuesInitialiser init,
 			ArrayInitializer ai) {
 		ArrayInstantiationByValues result = init.instantiate();
-		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.setArrayInitializer(result, ai));
 		return result;
 	}

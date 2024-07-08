@@ -15,7 +15,7 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesImports;
 public class StaticImportTest extends EObjectSimilarityTest implements UsesImports {
 	protected StaticImport initElement(IStaticImportInitialiser init, Static st) {
 		StaticImport result = init.instantiate();
-		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.setStatic(result, st));
 		return result;
 	}

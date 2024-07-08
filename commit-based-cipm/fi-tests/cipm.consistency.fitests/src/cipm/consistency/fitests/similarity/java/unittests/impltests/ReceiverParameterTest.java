@@ -17,7 +17,6 @@ UsesLiterals{
 	protected ReceiverParameter initElement(This th, TypeReference otRef) {
 		var rpInit = new ReceiverParameterInitialiser();
 		var rp = rpInit.instantiate();
-		Assertions.assertTrue(rpInit.minimalInitialisation(rp));
 		Assertions.assertTrue(rpInit.setThisReference(rp, th));
 		Assertions.assertTrue(rpInit.setOuterTypeReference(rp, otRef));
 		return rp;

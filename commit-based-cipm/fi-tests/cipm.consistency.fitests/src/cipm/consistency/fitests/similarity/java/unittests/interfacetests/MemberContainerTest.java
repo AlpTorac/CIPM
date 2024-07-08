@@ -18,7 +18,7 @@ public class MemberContainerTest extends EObjectSimilarityTest implements
 	protected MemberContainer initElement(IMemberContainerInitialiser init,
 			Member[] members, Member[] defMembers) {
 		MemberContainer result = init.instantiate();
-		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.addMembers(result, members));
 		Assertions.assertTrue(init.addDefaultMembers(result, defMembers));
 		return result;

@@ -2,22 +2,11 @@ package cipm.consistency.fitests.similarity.java.initialiser.members;
 
 import org.emftext.language.java.members.MembersFactory;
 
-import cipm.consistency.fitests.similarity.java.initialiser.helper.IMemberHelperInitialiser;
-
 import org.emftext.language.java.members.InterfaceMethod;
 
-public class InterfaceMethodInitialiser implements IInterfaceMethodInitialiser, IMemberHelperInitialiser {
-	private IMemberContainerInitialiser mcInit;
-	
-	public InterfaceMethodInitialiser withMCInit(IMemberContainerInitialiser mcInit) {
-		this.mcInit = mcInit;
-		return this;
-	}
-	
-	public IMemberContainerInitialiser getMCInit() {
-		return this.mcInit;
-	}
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
 
+public class InterfaceMethodInitialiser extends AbstractInitialiserBase implements IInterfaceMethodInitialiser {
 	@Override
 	public InterfaceMethod instantiate() {
 		return MembersFactory.eINSTANCE.createInterfaceMethod();

@@ -16,7 +16,6 @@ public class ForEachLoopTest extends EObjectSimilarityTest implements UsesExpres
 	protected ForEachLoop initElement(Expression expr, OrdinaryParameter op) {
 		var felInit = new ForEachLoopInitialiser();
 		var fel = felInit.instantiate();
-		Assertions.assertTrue(felInit.minimalInitialisation(fel));
 		Assertions.assertTrue(felInit.setCollection(fel, expr));
 		Assertions.assertTrue(felInit.setNext(fel, op));
 		return fel;

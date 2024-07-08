@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.members;
 import org.emftext.language.java.members.EmptyMember;
 import org.emftext.language.java.members.MembersFactory;
 
-public class EmptyMemberInitialiser implements IEmptyMemberInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class EmptyMemberInitialiser extends AbstractInitialiserBase implements IEmptyMemberInitialiser {
 	@Override
 	public IEmptyMemberInitialiser newInitialiser() {
 		return new EmptyMemberInitialiser();

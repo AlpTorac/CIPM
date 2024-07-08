@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.references;
 import org.emftext.language.java.references.MethodCall;
 import org.emftext.language.java.references.ReferencesFactory;
 
-public class MethodCallInitialiser implements IMethodCallInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class MethodCallInitialiser extends AbstractInitialiserBase implements IMethodCallInitialiser {
 	@Override
 	public IMethodCallInitialiser newInitialiser() {
 		return new MethodCallInitialiser();

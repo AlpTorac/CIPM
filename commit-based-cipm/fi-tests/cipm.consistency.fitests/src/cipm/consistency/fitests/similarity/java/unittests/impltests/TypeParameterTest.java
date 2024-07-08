@@ -14,7 +14,6 @@ public class TypeParameterTest extends EObjectSimilarityTest implements UsesType
 	protected TypeParameter initElement(TypeReference[] exts) {
 		var tpInit = new TypeParameterInitialiser();
 		var tp = tpInit.instantiate();
-		Assertions.assertTrue(tpInit.minimalInitialisation(tp));
 		Assertions.assertTrue(tpInit.addExtendTypes(tp, exts));
 		return tp;
 	}

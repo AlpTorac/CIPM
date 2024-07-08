@@ -8,7 +8,7 @@ public interface UsesModules {
 	public default Module createMinimalModule(String name) {
 		var modInit = new ModuleInitialiser();
 		Module result = modInit.instantiate();
-		modInit.minimalInitialisation(result);
+		modInit.initialise(result);
 		modInit.setName(result, name);
 		return result;
 	}

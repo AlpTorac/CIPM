@@ -14,7 +14,6 @@ public class NewConstructorCallTest extends EObjectSimilarityTest implements Use
 	protected NewConstructorCall initElement(AnonymousClass ac) {
 		var nccInit = new NewConstructorCallInitialiser();
 		var ncc = nccInit.instantiate();
-		Assertions.assertTrue(nccInit.minimalInitialisation(ncc));
 		Assertions.assertTrue(nccInit.setAnonymousClass(ncc, ac));
 		return ncc;
 	}

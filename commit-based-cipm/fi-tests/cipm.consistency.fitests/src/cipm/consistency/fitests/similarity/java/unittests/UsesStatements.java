@@ -21,7 +21,7 @@ public interface UsesStatements {
 	public default Return createMinimalReturn(Expression returnExpr) {
 		var init = new ReturnInitialiser();
 		Return result = init.instantiate();
-		init.minimalInitialisation(result);
+		init.initialise(result);
 		init.setReturnValue(result, returnExpr);
 		return result;
 	}
@@ -29,7 +29,7 @@ public interface UsesStatements {
 	public default Assert createMinimalTrivialAssert() {
 		var init = new AssertInitialiser();
 		Assert result = init.instantiate();
-		init.minimalInitialisation(result);
+		init.initialise(result);
 		init.setCondition(result, new LiteralFactory().createBooleanLiteral(true));
 		return result;
 	}
@@ -37,7 +37,7 @@ public interface UsesStatements {
 	public default JumpLabel createMinimalJL(Statement target) {
 		var init = new JumpLabelInitialiser();
 		JumpLabel result = init.instantiate();
-		init.minimalInitialisation(result);
+		init.initialise(result);
 		init.setStatement(result, target);
 		return result;
 	}
@@ -67,7 +67,7 @@ public interface UsesStatements {
 	public default Block createMinimalBlock(Statement[] sts) {
 		var init = new BlockInitialiser();
 		Block result = init.instantiate();
-		init.minimalInitialisation(result);
+		init.initialise(result);
 		init.addStatements(result, sts);
 		return result;
 	}

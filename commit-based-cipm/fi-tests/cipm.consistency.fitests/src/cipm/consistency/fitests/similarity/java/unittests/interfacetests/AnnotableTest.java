@@ -14,7 +14,7 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesAnnotationInstance
 public class AnnotableTest extends EObjectSimilarityTest implements UsesAnnotationInstances {
 	protected Annotable initElement(IAnnotableInitialiser initialiser, AnnotationInstance... annotations) {
 		Annotable result = initialiser.instantiate();
-		Assertions.assertTrue(initialiser.minimalInitialisation(result));
+		Assertions.assertTrue(initialiser.initialise(result));
 		Assertions.assertTrue(initialiser.addAnnotations(result, annotations));
 		return result;
 	}

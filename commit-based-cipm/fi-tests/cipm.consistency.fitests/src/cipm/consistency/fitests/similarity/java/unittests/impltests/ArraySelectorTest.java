@@ -14,7 +14,6 @@ public class ArraySelectorTest extends EObjectSimilarityTest implements UsesExpr
 	protected ArraySelector initElement(Expression pos) {
 		var asInit = new ArraySelectorInitialiser();
 		var as = asInit.instantiate();
-		Assertions.assertTrue(asInit.minimalInitialisation(as));
 		Assertions.assertTrue(asInit.setPosition(as, pos));
 		return as;
 	}

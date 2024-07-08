@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.members;
 import org.emftext.language.java.members.MembersFactory;
 import org.emftext.language.java.members.ClassMethod;
 
-public class ClassMethodInitialiser implements IClassMethodInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class ClassMethodInitialiser extends AbstractInitialiserBase implements IClassMethodInitialiser {
 	private IMemberContainerInitialiser mcInit;
 	
 	@Override

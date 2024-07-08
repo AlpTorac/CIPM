@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.arrays;
 import org.emftext.language.java.arrays.ArraysFactory;
 import org.emftext.language.java.arrays.ArrayInitializer;
 
-public class ArrayInitializerInitialiser implements IArrayInitializerInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class ArrayInitializerInitialiser extends AbstractInitialiserBase implements IArrayInitializerInitialiser {
 	@Override
 	public IArrayInitializerInitialiser newInitialiser() {
 		return new ArrayInitializerInitialiser();

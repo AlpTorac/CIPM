@@ -22,7 +22,7 @@ public interface UsesTypeReferences extends UsesConcreteClassifiers {
 	
 	public default TypeReference createMinimalTypeReference(ITypeReferenceInitialiser init, Classifier cls) {
 		TypeReference result = init.instantiate();
-		init.minimalInitialisation(result);
+		init.initialise(result);
 		init.setTarget(result, cls);
 		return result;
 	}
@@ -30,7 +30,7 @@ public interface UsesTypeReferences extends UsesConcreteClassifiers {
 	public default NamespaceClassifierReference createMinimalCNR(String clsName) {
 		var init = new NamespaceClassifierReferenceInitialiser();
 		NamespaceClassifierReference result = init.instantiate();
-		init.minimalInitialisation(result);
+		init.initialise(result);
 		init.addClassifierReference(result, this.createMinimalClsRef(clsName));
 		return result;
 	}

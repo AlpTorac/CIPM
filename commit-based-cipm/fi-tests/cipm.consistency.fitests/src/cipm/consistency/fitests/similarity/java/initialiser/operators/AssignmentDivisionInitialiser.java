@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.operators;
 import org.emftext.language.java.operators.AssignmentDivision;
 import org.emftext.language.java.operators.OperatorsFactory;
 
-public class AssignmentDivisionInitialiser implements IAssignmentDivisionInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class AssignmentDivisionInitialiser extends AbstractInitialiserBase implements IAssignmentDivisionInitialiser {
 	@Override
 	public IAssignmentDivisionInitialiser newInitialiser() {
 		return new AssignmentDivisionInitialiser();

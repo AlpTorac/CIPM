@@ -14,7 +14,6 @@ public class SelfReferenceTest extends EObjectSimilarityTest implements UsesLite
 	protected SelfReference initElement(Self self) {
 		var srInit = new SelfReferenceInitialiser();
 		var sr = srInit.instantiate();
-		Assertions.assertTrue(srInit.minimalInitialisation(sr));
 		Assertions.assertTrue(srInit.setSelf(sr, self));
 		return sr;
 	}

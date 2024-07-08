@@ -8,8 +8,7 @@ public interface UsesPackageImports {
 	public default PackageImport createMinimalPackageImport(String[] nss) {
 		var initialiser = new PackageImportInitialiser();
 		PackageImport result = initialiser.instantiate();
-		
-		initialiser.minimalInitialisation(result);
+		initialiser.initialise(result);
 		initialiser.addNamespaces(result, nss);
 		
 		return result;

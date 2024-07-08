@@ -16,7 +16,7 @@ public class UnaryModificationExpressionTest extends EObjectSimilarityTest imple
 	protected UnaryModificationExpression initElement(IUnaryModificationExpressionInitialiser initialiser,
 			UnaryModificationExpressionChild child, UnaryModificationOperator op) {
 		UnaryModificationExpression result = initialiser.instantiate();
-		Assertions.assertTrue(initialiser.minimalInitialisation(result));
+		Assertions.assertTrue(initialiser.initialise(result));
 		Assertions.assertTrue(initialiser.setChild(result, child));
 		Assertions.assertTrue(initialiser.setOperator(result, op));
 		return result;

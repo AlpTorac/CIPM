@@ -14,7 +14,6 @@ public class ProvidesModuleDirectiveTest extends EObjectSimilarityTest implement
 	protected ProvidesModuleDirective initElement(TypeReference[] trefs) {
 		var pmdInit = new ProvidesModuleDirectiveInitialiser();
 		var pmd = pmdInit.instantiate();
-		Assertions.assertTrue(pmdInit.minimalInitialisation(pmd));
 		Assertions.assertTrue(pmdInit.addServiceProviders(pmd, trefs));
 		return pmd;
 	}

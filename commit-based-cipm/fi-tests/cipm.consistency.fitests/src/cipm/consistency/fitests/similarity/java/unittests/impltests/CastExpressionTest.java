@@ -24,7 +24,6 @@ public class CastExpressionTest extends EObjectSimilarityTest implements UsesExp
 			Expression gChild) {
 		var ceInit = new CastExpressionInitialiser();
 		var ce = ceInit.instantiate();
-		Assertions.assertTrue(ceInit.minimalInitialisation(ce));
 		Assertions.assertTrue(ceInit.addAdditionalBounds(ce, trefs));
 		Assertions.assertTrue(ceInit.setChild(ce, child));
 		Assertions.assertTrue(ceInit.setGeneralChild(ce, gChild));

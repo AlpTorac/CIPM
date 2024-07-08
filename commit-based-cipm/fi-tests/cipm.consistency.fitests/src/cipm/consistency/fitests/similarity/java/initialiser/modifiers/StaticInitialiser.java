@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.modifiers;
 import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.emftext.language.java.modifiers.Static;
 
-public class StaticInitialiser implements IStaticInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class StaticInitialiser extends AbstractInitialiserBase implements IStaticInitialiser {
 	@Override
 	public IStaticInitialiser newInitialiser() {
 		return new StaticInitialiser();

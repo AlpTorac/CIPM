@@ -14,7 +14,6 @@ public class ClassTest extends EObjectSimilarityTest implements UsesTypeReferenc
 	protected Class initElement(TypeReference defExt, TypeReference ext) {
 		var clsInit = new ClassInitialiser();
 		var cls = clsInit.instantiate();
-		Assertions.assertTrue(clsInit.minimalInitialisation(cls));
 		Assertions.assertTrue(clsInit.setDefaultExtends(cls, defExt));
 		Assertions.assertTrue(clsInit.setExtends(cls, ext));
 		return cls;

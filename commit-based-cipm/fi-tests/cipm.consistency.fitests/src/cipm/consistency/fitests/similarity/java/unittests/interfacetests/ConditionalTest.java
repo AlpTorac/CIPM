@@ -14,7 +14,7 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 public class ConditionalTest extends EObjectSimilarityTest implements UsesExpressions {
 	protected Conditional initElement(IConditionalInitialiser init, Expression expr) {
 		Conditional result = init.instantiate();
-		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.setCondition(result, expr));
 		return result;
 	}

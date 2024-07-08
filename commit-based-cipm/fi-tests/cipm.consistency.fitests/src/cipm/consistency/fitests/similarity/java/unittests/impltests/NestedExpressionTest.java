@@ -15,7 +15,6 @@ public class NestedExpressionTest extends EObjectSimilarityTest
 	protected NestedExpression initElement(Expression expr) {
 		var init = new NestedExpressionInitialiser();
 		var result = init.instantiate();
-		Assertions.assertTrue(init.minimalInitialisation(result));
 		Assertions.assertTrue(init.setExpression(result, expr));
 		return result;
 	}

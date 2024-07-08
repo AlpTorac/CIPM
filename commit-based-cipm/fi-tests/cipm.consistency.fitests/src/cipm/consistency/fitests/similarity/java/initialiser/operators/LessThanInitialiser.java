@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.operators;
 import org.emftext.language.java.operators.LessThan;
 import org.emftext.language.java.operators.OperatorsFactory;
 
-public class LessThanInitialiser implements ILessThanInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class LessThanInitialiser extends AbstractInitialiserBase implements ILessThanInitialiser {
 	@Override
 	public ILessThanInitialiser newInitialiser() {
 		return new LessThanInitialiser();

@@ -8,7 +8,7 @@ public interface UsesStringReferences {
 	public default StringReference createMinimalSR(String val) {
 		var init = new StringReferenceInitialiser();
 		StringReference result = init.instantiate();
-		init.minimalInitialisation(result);
+		init.initialise(result);
 		init.setValue(result, val);
 		return result;
 	}

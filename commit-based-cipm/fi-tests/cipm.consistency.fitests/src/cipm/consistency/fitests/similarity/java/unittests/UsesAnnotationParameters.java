@@ -9,7 +9,7 @@ public interface UsesAnnotationParameters extends UsesAnnotationValues {
 	public default SingleAnnotationParameter createSingleAnnoParam(AnnotationValue val) {
 		var init = new SingleAnnotationParameterInitialiser();
 		SingleAnnotationParameter result = init.instantiate();
-		init.minimalInitialisation(result);
+		init.initialise(result);
 		init.setValue(result, val);
 		return result;
 	}

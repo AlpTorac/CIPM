@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.expressions;
 import org.emftext.language.java.expressions.ConditionalOrExpression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 
-public class ConditionalOrExpressionInitialiser implements IConditionalOrExpressionInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class ConditionalOrExpressionInitialiser extends AbstractInitialiserBase implements IConditionalOrExpressionInitialiser {
 	@Override
 	public IConditionalOrExpressionInitialiser newInitialiser() {
 		return new ConditionalOrExpressionInitialiser();

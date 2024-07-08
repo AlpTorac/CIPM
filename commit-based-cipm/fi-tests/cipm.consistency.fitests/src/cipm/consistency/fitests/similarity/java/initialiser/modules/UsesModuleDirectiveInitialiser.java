@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.modules;
 import org.emftext.language.java.modules.ModulesFactory;
 import org.emftext.language.java.modules.UsesModuleDirective;
 
-public class UsesModuleDirectiveInitialiser implements IUsesModuleDirectiveInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class UsesModuleDirectiveInitialiser extends AbstractInitialiserBase implements IUsesModuleDirectiveInitialiser {
 	@Override
 	public IUsesModuleDirectiveInitialiser newInitialiser() {
 		return new UsesModuleDirectiveInitialiser();

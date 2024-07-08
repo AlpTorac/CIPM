@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.types;
 import org.emftext.language.java.types.InferableType;
 import org.emftext.language.java.types.TypesFactory;
 
-public class InferableTypeInitialiser implements IInferableTypeInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class InferableTypeInitialiser extends AbstractInitialiserBase implements IInferableTypeInitialiser {
 	@Override
 	public IInferableTypeInitialiser newInitialiser() {
 		return new InferableTypeInitialiser();

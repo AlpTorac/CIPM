@@ -5,6 +5,7 @@ import org.emftext.language.java.classifiers.Class;
 
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.IConcreteClassifierInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.containers.CompilationUnitInitialiser;
 
 public interface UsesConcreteClassifiers extends UsesPackages {
 	public default Class createMinimalClass(String name) {
@@ -21,21 +22,24 @@ public interface UsesConcreteClassifiers extends UsesPackages {
 	
 	public default ConcreteClassifier createMinimalClassifier(IConcreteClassifierInitialiser init, String name) {
 		ConcreteClassifier result = init.instantiate();
-		init.minimalInitialisation(result);
 		init.setName(result, name);
 		return result;
 	}
 	
 	public default ConcreteClassifier createMinimalClassifierWithCU(IConcreteClassifierInitialiser init, String name) {
 		ConcreteClassifier result = init.instantiate();
-		init.minimalInitialisationWithContainer(result);
 		init.setName(result, name);
+		
+		var cuInit = new CompilationUnitInitialiser();
+		var cu = cuInit.instantiate();
+		cuInit.initialise(cu);
+		cuInit.addClassifier(cu, result);
+		
 		return result;
 	}
 	
 	public default ConcreteClassifier createMinimalClassifierWithPac(IConcreteClassifierInitialiser init, String clsName, String[] pacNss) {
 		ConcreteClassifier result = init.instantiate();
-		init.minimalInitialisation(result);
 		init.setName(result, clsName);
 		init.setPackage(result, this.createMinimalPackage(pacNss));
 		return result;

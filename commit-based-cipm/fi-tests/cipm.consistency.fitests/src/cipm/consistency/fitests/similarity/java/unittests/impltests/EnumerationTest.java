@@ -14,7 +14,6 @@ public class EnumerationTest extends EObjectSimilarityTest implements UsesEnumCo
 	protected Enumeration initElement(EnumConstant[] csts) {
 		var enmInit = new EnumerationInitialiser();
 		var enm = enmInit.instantiate();
-		Assertions.assertTrue(enmInit.minimalInitialisation(enm));
 		Assertions.assertTrue(enmInit.addConstants(enm, csts));
 		return enm;
 	}

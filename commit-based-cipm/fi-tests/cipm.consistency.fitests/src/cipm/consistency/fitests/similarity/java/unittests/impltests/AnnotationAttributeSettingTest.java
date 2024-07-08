@@ -17,7 +17,6 @@ public class AnnotationAttributeSettingTest extends EObjectSimilarityTest
 	protected AnnotationAttributeSetting initElement(InterfaceMethod attr, AnnotationValue val) {
 		var initialiser = new AnnotationAttributeSettingInitialiser();
 		AnnotationAttributeSetting result = initialiser.instantiate();
-		Assertions.assertTrue(initialiser.minimalInitialisation(result));
 		Assertions.assertTrue(initialiser.setAttribute(result, attr));
 		Assertions.assertTrue(initialiser.setValue(result, val));
 		

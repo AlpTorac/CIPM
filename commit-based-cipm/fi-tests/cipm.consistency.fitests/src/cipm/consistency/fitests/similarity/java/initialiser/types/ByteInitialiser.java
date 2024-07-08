@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.types;
 import org.emftext.language.java.types.Byte;
 import org.emftext.language.java.types.TypesFactory;
 
-public class ByteInitialiser implements IByteInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class ByteInitialiser extends AbstractInitialiserBase implements IByteInitialiser {
 	@Override
 	public IByteInitialiser newInitialiser() {
 		return new ByteInitialiser();

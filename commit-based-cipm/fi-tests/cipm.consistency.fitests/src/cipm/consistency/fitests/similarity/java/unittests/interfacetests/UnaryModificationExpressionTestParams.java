@@ -14,7 +14,7 @@ public class UnaryModificationExpressionTestParams implements ArgumentsProvider 
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
 		return new InitialiserParameters()
-				.getInitialisersBySuper(IUnaryModificationExpressionInitialiser.class)
+				.getAdaptedInitialisersBySuper(IUnaryModificationExpressionInitialiser.class)
 				.stream()
 				.map((i) -> Arguments.of(i));
 	}

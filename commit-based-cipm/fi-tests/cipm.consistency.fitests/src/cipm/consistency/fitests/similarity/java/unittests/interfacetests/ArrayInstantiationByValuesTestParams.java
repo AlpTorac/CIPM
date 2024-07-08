@@ -14,7 +14,7 @@ public class ArrayInstantiationByValuesTestParams implements ArgumentsProvider {
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
 		return new InitialiserParameters()
-				.getInitialisersBySuper(IArrayInstantiationByValuesInitialiser.class)
+				.getAdaptedInitialisersBySuper(IArrayInstantiationByValuesInitialiser.class)
 				.stream()
 				.map((i)->Arguments.of(i));
 	}

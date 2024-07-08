@@ -14,7 +14,6 @@ public class NamespaceClassifierReferenceTest extends EObjectSimilarityTest impl
 	protected NamespaceClassifierReference initElement(ClassifierReference[] refs) {
 		var ncrInit = new NamespaceClassifierReferenceInitialiser();
 		var ncr = ncrInit.instantiate();
-		Assertions.assertTrue(ncrInit.minimalInitialisation(ncr));
 		Assertions.assertTrue(ncrInit.addClassifierReferences(ncr, refs));
 		return ncr;
 	}

@@ -19,9 +19,4 @@ public interface IConstructorInitialiser extends IAnnotableAndModifiableInitiali
 	
 	@Override
 	public Constructor instantiate();
-	
-	@Override
-	public default boolean minimalInitialisation(EObject obj) {
-		return IMemberInitialiser.super.minimalInitialisation(obj);
-	}
 }

@@ -14,7 +14,6 @@ public class ThrowTest extends EObjectSimilarityTest implements UsesExpressions 
 	protected Throw initElement(Expression expr) {
 		var thInit = new ThrowInitialiser();
 		var th = thInit.instantiate();
-		Assertions.assertTrue(thInit.minimalInitialisation(th));
 		Assertions.assertTrue(thInit.setThrowable(th, expr));
 		return th;
 	}

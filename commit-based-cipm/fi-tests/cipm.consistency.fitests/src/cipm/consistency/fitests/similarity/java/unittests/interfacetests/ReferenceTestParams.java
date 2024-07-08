@@ -13,7 +13,7 @@ public class ReferenceTestParams implements ArgumentsProvider {
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
 		return new InitialiserParameters()
-				.getInitialisersBySuper(IReferenceInitialiser.class)
+				.getAdaptedInitialisersBySuper(IReferenceInitialiser.class)
 				.stream()
 				.map((i) -> Arguments.of(i));
 	}

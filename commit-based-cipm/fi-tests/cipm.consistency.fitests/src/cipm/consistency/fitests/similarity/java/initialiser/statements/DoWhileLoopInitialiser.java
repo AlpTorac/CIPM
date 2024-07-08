@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 import org.emftext.language.java.statements.DoWhileLoop;
 import org.emftext.language.java.statements.StatementsFactory;
 
-public class DoWhileLoopInitialiser implements IDoWhileLoopInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class DoWhileLoopInitialiser extends AbstractInitialiserBase implements IDoWhileLoopInitialiser {
 	@Override
 	public IDoWhileLoopInitialiser newInitialiser() {
 		return new DoWhileLoopInitialiser();

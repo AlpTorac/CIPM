@@ -13,7 +13,7 @@ public class StaticImportTestParams implements ArgumentsProvider {
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
 		return new InitialiserParameters()
-				.getInitialisersBySuper(IStaticImportInitialiser.class)
+				.getAdaptedInitialisersBySuper(IStaticImportInitialiser.class)
 				.stream()
 				.map((i)->Arguments.of(i));
 	}

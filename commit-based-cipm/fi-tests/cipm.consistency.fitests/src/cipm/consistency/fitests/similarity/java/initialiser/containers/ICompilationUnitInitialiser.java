@@ -14,6 +14,7 @@ public interface ICompilationUnitInitialiser extends IJavaRootInitialiser {
 		if (cc != null) {
 			cu.getClassifiers().add(cc);
 			return cu.getClassifiers().contains(cc) &&
+					cu.getContainedClassifier(cc.getQualifiedName()) != null &&
 					cu.getContainedClassifier(cc.getQualifiedName()).equals(cc);
 		}
 		return true;

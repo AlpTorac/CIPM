@@ -14,7 +14,6 @@ public class ExplicitConstructorCallTest extends EObjectSimilarityTest implement
 	protected ExplicitConstructorCall initElement(Self self) {
 		var eccInit = new ExplicitConstructorCallInitialiser();
 		var ecc = eccInit.instantiate();
-		Assertions.assertTrue(eccInit.minimalInitialisation(ecc));
 		Assertions.assertTrue(eccInit.setCallTarget(ecc, self));
 		return ecc;
 	}

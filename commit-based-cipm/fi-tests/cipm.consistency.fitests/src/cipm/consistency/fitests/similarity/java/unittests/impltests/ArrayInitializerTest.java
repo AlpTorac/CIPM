@@ -14,7 +14,6 @@ public class ArrayInitializerTest extends EObjectSimilarityTest implements UsesE
 	protected ArrayInitializer initElement(ArrayInitializationValue[] aivs) {
 		var aiInit = new ArrayInitializerInitialiser();
 		var ai = aiInit.instantiate();
-		Assertions.assertTrue(aiInit.minimalInitialisation(ai));
 		Assertions.assertTrue(aiInit.addInitialValues(ai, aivs));
 		return ai;
 	}

@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.types;
 import org.emftext.language.java.types.Int;
 import org.emftext.language.java.types.TypesFactory;
 
-public class IntInitialiser implements IIntInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class IntInitialiser extends AbstractInitialiserBase implements IIntInitialiser {
 	@Override
 	public IIntInitialiser newInitialiser() {
 		return new IntInitialiser();

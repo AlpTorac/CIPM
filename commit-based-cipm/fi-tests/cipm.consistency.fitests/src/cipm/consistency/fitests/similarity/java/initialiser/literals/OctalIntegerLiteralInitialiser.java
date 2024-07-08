@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.literals;
 import org.emftext.language.java.literals.LiteralsFactory;
 import org.emftext.language.java.literals.OctalIntegerLiteral;
 
-public class OctalIntegerLiteralInitialiser implements IOctalIntegerLiteralInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class OctalIntegerLiteralInitialiser extends AbstractInitialiserBase implements IOctalIntegerLiteralInitialiser {
 	@Override
 	public IOctalIntegerLiteralInitialiser newInitialiser() {
 		return new OctalIntegerLiteralInitialiser();

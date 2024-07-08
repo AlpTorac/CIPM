@@ -18,8 +18,7 @@ public interface UsesImports extends UsesConcreteClassifiers {
 	
 	public default Import createMinimalImport(IImportInitialiser initialiser, ConcreteClassifier cls) {
 		Import result = initialiser.instantiate();
-		
-		initialiser.minimalInitialisation(result);
+		initialiser.initialise(result);
 		initialiser.setClassifier(result, cls);
 		
 		return result;

@@ -14,7 +14,6 @@ public class CompilationUnitTest extends EObjectSimilarityTest implements UsesCo
 	protected CompilationUnit initElement(ConcreteClassifier[] ccs) {
 		var cuInit = new CompilationUnitInitialiser();
 		var cu = cuInit.instantiate();
-		Assertions.assertTrue(cuInit.minimalInitialisation(cu));
 		Assertions.assertTrue(cuInit.addClassifiers(cu, ccs));
 		return cu;
 	}

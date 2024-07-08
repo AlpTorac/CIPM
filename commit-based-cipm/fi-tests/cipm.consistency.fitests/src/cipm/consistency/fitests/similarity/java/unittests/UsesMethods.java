@@ -18,7 +18,7 @@ public interface UsesMethods extends UsesStatements {
 	public default ClassMethod createMinimalClsMethod() {
 		var init = new ClassMethodInitialiser();
 		ClassMethod result = init.instantiate();
-		init.minimalInitialisation(result);
+		init.initialise(result);
 		init.addStatement(result, this.createMinimalNullReturn());
 		return result;
 	}
@@ -33,7 +33,7 @@ public interface UsesMethods extends UsesStatements {
 	public default InterfaceMethod createMinimalInterfaceMethod() {
 		var init = new InterfaceMethodInitialiser();
 		InterfaceMethod result = init.instantiate();
-		init.minimalInitialisation(result);
+		init.initialise(result);
 		init.setDefaultValue(result, new LiteralFactory().createNullLiteral());
 		return result;
 	}

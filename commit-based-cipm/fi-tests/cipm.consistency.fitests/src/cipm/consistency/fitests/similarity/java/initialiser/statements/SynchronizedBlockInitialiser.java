@@ -3,22 +3,11 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.emftext.language.java.statements.SynchronizedBlock;
 
-import cipm.consistency.fitests.similarity.java.initialiser.helper.IBlockContainerHelperInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.members.IMemberContainerInitialiser;
 
-public class SynchronizedBlockInitialiser implements ISynchronizedBlockInitialiser, IBlockContainerHelperInitialiser {
-	private IMemberContainerInitialiser mcInit;
-	private IBlockInitialiser bInit;
-	
-	public SynchronizedBlockInitialiser withMCInit(IMemberContainerInitialiser mcInit) {
-		this.mcInit = mcInit;
-		return this;
-	}
-	
-	public IMemberContainerInitialiser getMCInit() {
-		return this.mcInit;
-	}
-	
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class SynchronizedBlockInitialiser extends AbstractInitialiserBase implements ISynchronizedBlockInitialiser {
 	@Override
 	public SynchronizedBlock instantiate() {
 		return StatementsFactory.eINSTANCE.createSynchronizedBlock();
@@ -28,16 +17,5 @@ public class SynchronizedBlockInitialiser implements ISynchronizedBlockInitialis
 	@Override
 	public SynchronizedBlockInitialiser newInitialiser() {
 		return new SynchronizedBlockInitialiser();
-	}
-
-	@Override
-	public SynchronizedBlockInitialiser withBInit(IBlockInitialiser bInit) {
-		this.bInit = bInit;
-		return this;
-	}
-
-	@Override
-	public IBlockInitialiser getBInit() {
-		return this.bInit;
 	}
 }

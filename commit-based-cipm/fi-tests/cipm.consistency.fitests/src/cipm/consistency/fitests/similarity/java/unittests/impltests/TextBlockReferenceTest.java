@@ -12,7 +12,6 @@ public class TextBlockReferenceTest extends EObjectSimilarityTest {
 	protected TextBlockReference initElement(String val) {
 		var tbrInit = new TextBlockReferenceInitialiser();
 		var tbr = tbrInit.instantiate();
-		Assertions.assertTrue(tbrInit.minimalInitialisation(tbr));
 		Assertions.assertTrue(tbrInit.setValue(tbr, val));
 		return tbr;
 	}

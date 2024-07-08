@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.expressions;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.expressions.NestedExpression;
 
-public class NestedExpressionInitialiser implements INestedExpressionInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class NestedExpressionInitialiser extends AbstractInitialiserBase implements INestedExpressionInitialiser {
 	@Override
 	public INestedExpressionInitialiser newInitialiser() {
 		return new NestedExpressionInitialiser();

@@ -14,7 +14,6 @@ public class LocalVariableStatementTest extends EObjectSimilarityTest implements
 	protected LocalVariableStatement initElement(LocalVariable lv) {
 		var lvsInit = new LocalVariableStatementInitialiser();
 		var lvs = lvsInit.instantiate();
-		Assertions.assertTrue(lvsInit.minimalInitialisation(lvs));
 		Assertions.assertTrue(lvsInit.setVariable(lvs, lv));
 		return lvs;
 	}

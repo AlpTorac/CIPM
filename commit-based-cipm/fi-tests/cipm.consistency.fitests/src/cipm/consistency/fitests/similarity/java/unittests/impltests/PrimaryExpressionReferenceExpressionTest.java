@@ -15,7 +15,6 @@ public class PrimaryExpressionReferenceExpressionTest extends EObjectSimilarityT
 	protected PrimaryExpressionReferenceExpression initElement(MethodReferenceExpressionChild child, Reference metRef) {
 		var pereInit = new PrimaryExpressionReferenceExpressionInitialiser();
 		var pere = pereInit.instantiate();
-		Assertions.assertTrue(pereInit.minimalInitialisation(pere));
 		Assertions.assertTrue(pereInit.setChild(pere, child));
 		Assertions.assertTrue(pereInit.setMethodReference(pere, metRef));
 		return pere;

@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.expressions;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.expressions.ShiftExpression;
 
-public class ShiftExpressionInitialiser implements IShiftExpressionInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class ShiftExpressionInitialiser extends AbstractInitialiserBase implements IShiftExpressionInitialiser {
 	@Override
 	public IShiftExpressionInitialiser newInitialiser() {
 		return new ShiftExpressionInitialiser();

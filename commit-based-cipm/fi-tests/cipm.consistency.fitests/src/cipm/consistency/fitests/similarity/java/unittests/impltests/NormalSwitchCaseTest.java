@@ -14,7 +14,6 @@ public class NormalSwitchCaseTest extends EObjectSimilarityTest implements UsesE
 	protected NormalSwitchCase initElement(Expression[] exprs) {
 		var nscInit = new NormalSwitchCaseInitialiser();
 		var nsc = nscInit.instantiate();
-		Assertions.assertTrue(nscInit.minimalInitialisation(nsc));
 		Assertions.assertTrue(nscInit.addAdditionalConditions(nsc, exprs));
 		return nsc;
 	}

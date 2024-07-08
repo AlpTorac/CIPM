@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.expressions;
 import org.emftext.language.java.expressions.CastExpression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 
-public class CastExpressionInitialiser implements ICastExpressionInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class CastExpressionInitialiser extends AbstractInitialiserBase implements ICastExpressionInitialiser {
 	@Override
 	public ICastExpressionInitialiser newInitialiser() {
 		return new CastExpressionInitialiser();

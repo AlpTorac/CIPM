@@ -14,7 +14,7 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesStatements;
 public class JumpTest extends EObjectSimilarityTest implements UsesStatements {
 	protected Jump initElement(IJumpInitialiser init, JumpLabel jl) {
 		Jump result = init.instantiate();
-		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.setTarget(result, jl));
 		return result;
 	}
