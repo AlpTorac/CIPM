@@ -10,7 +10,6 @@ public interface UsesLambdaParameters extends UsesParameters {
 		var init = new ExplicitlyTypedLambdaParametersInitialiser();
 		
 		var result = init.instantiate();
-		init.initialise(result);
 		init.addParameters(result, params);
 		
 		return result;

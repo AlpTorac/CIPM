@@ -8,7 +8,6 @@ public interface UsesFields {
 	public default Field createMinimalField(String fieldName) {
 		var init = new FieldInitialiser();
 		Field result = init.instantiate();
-		init.initialise(result);
 		init.setName(result, fieldName);
 		
 		return result;

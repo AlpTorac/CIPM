@@ -9,7 +9,6 @@ public interface UsesAnnotationInstances extends UsesAnnotations {
 	public default AnnotationInstance createMinimalAI(String[] nss, Classifier annotation) {
 		var aii = new AnnotationInstanceInitialiser();
 		AnnotationInstance result = aii.instantiate();
-		aii.initialise(result);
 		aii.addNamespaces(result, nss);
 		aii.setAnnotation(result, annotation);
 		return result;

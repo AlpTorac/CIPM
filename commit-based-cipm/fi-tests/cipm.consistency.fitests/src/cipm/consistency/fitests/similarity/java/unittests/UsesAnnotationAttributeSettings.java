@@ -10,7 +10,6 @@ public interface UsesAnnotationAttributeSettings extends UsesAnnotationValues {
 	public default AnnotationAttributeSetting createAAS(InterfaceMethod im, AnnotationValue val) {
 		var aasInit = new AnnotationAttributeSettingInitialiser();
 		var aas = aasInit.instantiate();
-		aasInit.initialise(aas);
 		aasInit.setAttribute(aas, im);
 		aasInit.setValue(aas, val);
 		return aas;

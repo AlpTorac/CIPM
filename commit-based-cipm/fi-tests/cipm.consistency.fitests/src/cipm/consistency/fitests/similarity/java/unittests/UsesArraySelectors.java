@@ -9,7 +9,6 @@ public interface UsesArraySelectors extends UsesExpressions {
 	public default ArraySelector createAS(Expression pos) {
 		var init = new ArraySelectorInitialiser();
 		var as = init.instantiate();
-		init.initialise(as);
 		init.setPosition(as, pos);
 		return as;
 	}
