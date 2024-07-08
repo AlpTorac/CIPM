@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementExtensionInitialiser;
 import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
 
-public class TypedElementExtensionTestParam implements ArgumentsProvider {
+public class TypedElementExtensionTestParams implements ArgumentsProvider {
 
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
