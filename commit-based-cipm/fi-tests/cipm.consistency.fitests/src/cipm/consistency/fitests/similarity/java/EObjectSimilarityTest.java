@@ -35,8 +35,8 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	public void setUp() {
 		super.setUp();
 
-		InitialiserTestSettingsProvider.setParameters(new InitialiserParameters());
-		InitialiserTestSettingsProvider.setSimilarityValues(new SimilarityValues());
+		InitialiserTestSettingsProvider.getInstance().setParameters(new InitialiserParameters());
+		InitialiserTestSettingsProvider.getInstance().setSimilarityValues(new SimilarityValues());
 	}
 
 	@AfterEach
@@ -44,7 +44,7 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	public void tearDown() {
 		super.tearDown();
 
-		InitialiserTestSettingsProvider.reset();
+		InitialiserTestSettingsProvider.getInstance().reset();
 	}
 
 	/**
@@ -53,7 +53,7 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	 * interface, which introduces attrKey to the {@link EObject} hierarchy first.
 	 */
 	public Boolean getExpectedSimilarityResult(EStructuralFeature attrKey) {
-		return InitialiserTestSettingsProvider.getSimilarityValues().getExpectedSimilarityResult(attrKey);
+		return InitialiserTestSettingsProvider.getInstance().getSimilarityValues().getExpectedSimilarityResult(attrKey);
 	}
 
 	/**
@@ -63,7 +63,7 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	 *         are compared, whose attribute (attrKey) is different.
 	 */
 	public Boolean getExpectedSimilarityResult(Class<? extends EObject> objCls, EStructuralFeature attrKey) {
-		return InitialiserTestSettingsProvider.getSimilarityValues().getExpectedSimilarityResult(objCls, attrKey);
+		return InitialiserTestSettingsProvider.getInstance().getSimilarityValues().getExpectedSimilarityResult(objCls, attrKey);
 	}
 
 	/**

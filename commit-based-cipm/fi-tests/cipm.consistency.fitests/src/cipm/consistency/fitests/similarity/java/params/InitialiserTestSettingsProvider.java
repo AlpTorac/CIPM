@@ -13,26 +13,27 @@ public class InitialiserTestSettingsProvider {
 	}
 	
 	public static InitialiserTestSettingsProvider getInstance() {
+		initialise();
 		return instance;
 	}
 	
-	public static ISimilarityValues getSimilarityValues() {
+	public ISimilarityValues getSimilarityValues() {
 		return simVals;
 	}
 	
-	public static void setSimilarityValues(ISimilarityValues similarityValues) {
+	public void setSimilarityValues(ISimilarityValues similarityValues) {
 		simVals = similarityValues;
 	}
 	
-	public static IInitialiserParameters getParameters() {
+	public IInitialiserParameters getParameters() {
 		return params;
 	}
 	
-	public static void setParameters(IInitialiserParameters prms) {
+	public void setParameters(IInitialiserParameters prms) {
 		params = prms;
 	}
 	
-	public static void reset() {
+	public void reset() {
 		params = null;
 		simVals = null;
 	}
