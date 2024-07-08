@@ -3,8 +3,6 @@ package cipm.consistency.fitests.similarity.java.initialiser.classifiers;
 import org.emftext.language.java.classifiers.Annotation;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 
-import cipm.consistency.fitests.similarity.java.initialiser.containers.ICompilationUnitInitialiser;
-
 import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
 
 public class AnnotationInitialiser extends AbstractInitialiserBase implements IAnnotationInitialiser {

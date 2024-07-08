@@ -5,10 +5,6 @@ import org.emftext.language.java.statements.Throw;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 
-import org.emftext.language.java.statements.Throw;
-
-import org.emftext.language.java.statements.Throw;
-
 public interface IThrowInitialiser extends IStatementInitialiser {
     @Override
     public Throw instantiate();

@@ -5,10 +5,6 @@ import org.emftext.language.java.statements.JumpLabel;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 
-import org.emftext.language.java.statements.Jump;
-
-import org.emftext.language.java.statements.Jump;
-
 public interface IJumpInitialiser extends IStatementInitialiser {
     @Override
     public Jump instantiate();

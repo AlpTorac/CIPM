@@ -7,8 +7,6 @@ import org.emftext.language.java.statements.SwitchCase;
 import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.IUnaryModificationExpressionChildInitialiser;
 
-import org.emftext.language.java.statements.Switch;
-
 public interface ISwitchInitialiser extends IStatementInitialiser,
 	IUnaryModificationExpressionChildInitialiser {
 	@Override

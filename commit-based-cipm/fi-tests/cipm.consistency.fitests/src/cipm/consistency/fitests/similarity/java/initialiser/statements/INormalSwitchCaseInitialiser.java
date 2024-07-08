@@ -5,8 +5,6 @@ import org.emftext.language.java.statements.NormalSwitchCase;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 
-import org.emftext.language.java.statements.NormalSwitchCase;
-
 public interface INormalSwitchCaseInitialiser extends IConditionalInitialiser,
 	ISwitchCaseInitialiser {
 	@Override

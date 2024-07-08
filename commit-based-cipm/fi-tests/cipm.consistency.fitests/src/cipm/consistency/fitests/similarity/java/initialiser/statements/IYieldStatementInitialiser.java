@@ -5,10 +5,6 @@ import org.emftext.language.java.statements.YieldStatement;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 
-import org.emftext.language.java.statements.YieldStatement;
-
-import org.emftext.language.java.statements.YieldStatement;
-
 public interface IYieldStatementInitialiser extends IStatementInitialiser {
     @Override
     public YieldStatement instantiate();

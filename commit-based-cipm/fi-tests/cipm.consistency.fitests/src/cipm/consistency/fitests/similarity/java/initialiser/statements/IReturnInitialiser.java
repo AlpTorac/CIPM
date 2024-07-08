@@ -5,10 +5,6 @@ import org.emftext.language.java.statements.Return;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 
-import org.emftext.language.java.statements.Return;
-
-import org.emftext.language.java.statements.Return;
-
 public interface IReturnInitialiser extends IStatementInitialiser {
     @Override
     public Return instantiate();

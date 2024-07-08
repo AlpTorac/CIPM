@@ -3,8 +3,6 @@ package cipm.consistency.fitests.similarity.java.initialiser.classifiers;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.classifiers.Enumeration;
 
-import cipm.consistency.fitests.similarity.java.initialiser.containers.ICompilationUnitInitialiser;
-
 import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
 
 public class EnumerationInitialiser extends AbstractInitialiserBase implements IEnumerationInitialiser {

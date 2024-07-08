@@ -6,10 +6,6 @@ import org.emftext.language.java.statements.StatementListContainer;
 import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
-import org.emftext.language.java.statements.StatementListContainer;
-
-import org.emftext.language.java.statements.StatementListContainer;
-
 public interface IStatementListContainerInitialiser extends ICommentableInitialiser {
     @Override
     public StatementListContainer instantiate();

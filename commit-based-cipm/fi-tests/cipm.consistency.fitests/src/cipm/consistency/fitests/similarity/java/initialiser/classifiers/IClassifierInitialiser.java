@@ -26,7 +26,7 @@ public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceable
 		}
 		return true;
 	}
-	
+    
 	public default boolean addImports(Classifier cls, Import[] imps) {
 		return this.addXs(cls, imps, this::addImport);
 	}

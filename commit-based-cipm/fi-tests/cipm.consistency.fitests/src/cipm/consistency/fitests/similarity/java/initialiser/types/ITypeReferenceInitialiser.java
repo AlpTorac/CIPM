@@ -6,8 +6,6 @@ import org.emftext.language.java.types.TypeReference;
 import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.arrays.IArrayTypeableInitialiser;
 
-import org.emftext.language.java.types.TypeReference;
-
 public interface ITypeReferenceInitialiser extends IArrayTypeableInitialiser {
     @Override
     public TypeReference instantiate();

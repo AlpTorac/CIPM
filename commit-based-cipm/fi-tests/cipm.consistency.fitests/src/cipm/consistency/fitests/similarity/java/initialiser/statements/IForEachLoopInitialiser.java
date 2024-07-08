@@ -6,8 +6,6 @@ import org.emftext.language.java.statements.ForEachLoop;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 
-import org.emftext.language.java.statements.ForEachLoop;
-
 public interface IForEachLoopInitialiser extends IStatementInitialiser,
 	IStatementContainerInitialiser {
 	@Override

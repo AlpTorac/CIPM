@@ -22,7 +22,6 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.AbstractSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.InitialiserPackage;
 
 /**

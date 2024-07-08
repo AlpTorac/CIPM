@@ -2,8 +2,6 @@ package cipm.consistency.fitests.similarity.java.initialiser.classifiers;
 
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 
-import cipm.consistency.fitests.similarity.java.initialiser.containers.ICompilationUnitInitialiser;
-
 import org.emftext.language.java.classifiers.Class;
 
 import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;

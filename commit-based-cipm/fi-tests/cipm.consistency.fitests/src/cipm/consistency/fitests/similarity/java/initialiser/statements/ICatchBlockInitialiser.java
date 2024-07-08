@@ -5,8 +5,6 @@ import org.emftext.language.java.statements.CatchBlock;
 
 import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 
-import org.emftext.language.java.statements.CatchBlock;
-
 public interface ICatchBlockInitialiser extends IBlockContainerInitialiser,
 	IStatementListContainerInitialiser {
 	
