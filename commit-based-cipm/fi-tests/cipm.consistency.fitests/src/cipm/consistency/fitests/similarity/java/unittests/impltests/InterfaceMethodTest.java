@@ -9,11 +9,13 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.members.InterfaceMethodInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesAnnotationValues;
+import cipm.consistency.fitests.similarity.java.unittests.UsesNames;
 
-public class InterfaceMethodTest extends EObjectSimilarityTest implements UsesAnnotationValues {
+public class InterfaceMethodTest extends EObjectSimilarityTest implements UsesAnnotationValues, UsesNames {
 	protected InterfaceMethod initElement(AnnotationValue av) {
 		var imInit = new InterfaceMethodInitialiser();
 		var im = imInit.instantiate();
+		Assertions.assertTrue(imInit.setName(im, this.getDefaultName()));
 		Assertions.assertTrue(imInit.setDefaultValue(im, av));
 		return im;
 	}

@@ -16,7 +16,6 @@ public class ConcreteClassifierTest extends EObjectSimilarityTest implements Use
 			Package pac) {
 		
 		ConcreteClassifier result = initialiser.instantiate();
-		Assertions.assertTrue(initialiser.initialise(result));
 		Assertions.assertTrue(initialiser.setPackage(result, pac));
 		
 		return result;

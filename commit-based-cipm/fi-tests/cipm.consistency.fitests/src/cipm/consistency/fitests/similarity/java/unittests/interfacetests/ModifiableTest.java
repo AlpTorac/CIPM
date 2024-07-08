@@ -14,7 +14,6 @@ import cipm.consistency.fitests.similarity.java.initialiser.params.ModifierFacto
 public class ModifiableTest extends EObjectSimilarityTest {
 	protected Modifiable initElement(IModifiableInitialiser init, Modifier[] modifs) {
 		Modifiable result = init.instantiate();
-		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.addModifiers(result, modifs));
 		return result;
 	}

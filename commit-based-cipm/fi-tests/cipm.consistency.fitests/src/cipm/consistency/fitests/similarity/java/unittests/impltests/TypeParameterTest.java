@@ -8,12 +8,14 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.generics.TypeParameterInitialiser;
+import cipm.consistency.fitests.similarity.java.unittests.UsesNames;
 import cipm.consistency.fitests.similarity.java.unittests.UsesTypeReferences;
 
-public class TypeParameterTest extends EObjectSimilarityTest implements UsesTypeReferences {
+public class TypeParameterTest extends EObjectSimilarityTest implements UsesTypeReferences, UsesNames {
 	protected TypeParameter initElement(TypeReference[] exts) {
 		var tpInit = new TypeParameterInitialiser();
 		var tp = tpInit.instantiate();
+		Assertions.assertTrue(tpInit.setName(tp, this.getDefaultName()));
 		Assertions.assertTrue(tpInit.addExtendTypes(tp, exts));
 		return tp;
 	}

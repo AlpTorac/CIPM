@@ -7,13 +7,24 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.instantiations.NewConstructorCallInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.types.ClassifierReferenceInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesAnonymousClasses;
 
 public class NewConstructorCallTest extends EObjectSimilarityTest implements UsesAnonymousClasses {
 	protected NewConstructorCall initElement(AnonymousClass ac) {
 		var nccInit = new NewConstructorCallInitialiser();
 		var ncc = nccInit.instantiate();
+
+		var clsInit = new ClassInitialiser();
+		var cls = clsInit.instantiate();
+		
+		var trefInit = new ClassifierReferenceInitialiser();
+		var tref = trefInit.instantiate();
+		
+		Assertions.assertTrue(trefInit.setTarget(tref, cls));
+		Assertions.assertTrue(nccInit.setTypeReference(ncc, tref));
 		Assertions.assertTrue(nccInit.setAnonymousClass(ncc, ac));
 		return ncc;
 	}

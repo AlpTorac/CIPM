@@ -8,25 +8,34 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.java.initialiser.instantiations.ExplicitConstructorCallInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.references.IElementReferenceInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.statements.BlockInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.statements.ExpressionStatementInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesConcreteClassifiers;
 
 public class ElementReferenceTest extends EObjectSimilarityTest implements UsesConcreteClassifiers {
 	protected ElementReference initElement(IElementReferenceInitialiser init,
 			ReferenceableElement target, ReferenceableElement cTarget) {
-		ElementReference result = init.instantiate();
-		Assertions.assertTrue(init.initialise(result));
-		Assertions.assertTrue(init.setTarget(result, target));
-		Assertions.assertTrue(init.setContainedTarget(result, cTarget));
+		ElementReference result = this.initElementWithoutContainer(init, target, cTarget);
+		
+		var insInit = new ExplicitConstructorCallInitialiser();
+		var ecc = insInit.instantiate();
+		Assertions.assertTrue(insInit.addArgument(ecc, result));
+					
+		var esInit = new ExpressionStatementInitialiser();
+		var es = esInit.instantiate();
+		Assertions.assertTrue(esInit.setExpression(es, ecc));
+					
+		var bInit = new BlockInitialiser();
+		var block = bInit.instantiate();
+		Assertions.assertTrue(bInit.addStatement(block, es));
 		return result;
 	}
-	
-	// FIXME: init.initialise() may include a container, fix after refactoring
 	
 	protected ElementReference initElementWithoutContainer(IElementReferenceInitialiser init,
 			ReferenceableElement target, ReferenceableElement cTarget) {
 		ElementReference result = init.instantiate();
-		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.setTarget(result, target));
 		Assertions.assertTrue(init.setContainedTarget(result, cTarget));
 		return result;
