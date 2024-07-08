@@ -15,16 +15,18 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 	protected ElementReference initElement(IElementReferenceInitialiser init,
 			ReferenceableElement target, ReferenceableElement cTarget) {
 		ElementReference result = init.instantiate();
-		init.minimalInitialisationWithContainer(result);
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.setTarget(result, target));
 		Assertions.assertTrue(init.setContainedTarget(result, cTarget));
 		return result;
 	}
 	
+	// FIXME: init.initialise() may include a container, fix after refactoring
+	
 	protected ElementReference initElementWithoutContainer(IElementReferenceInitialiser init,
 			ReferenceableElement target, ReferenceableElement cTarget) {
 		ElementReference result = init.instantiate();
-		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.setTarget(result, target));
 		Assertions.assertTrue(init.setContainedTarget(result, cTarget));
 		return result;

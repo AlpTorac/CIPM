@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.references;
 import org.emftext.language.java.references.PackageReference;
 import org.emftext.language.java.references.ReferencesFactory;
 
-public class PackageReferenceInitialiser implements IPackageReferenceInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class PackageReferenceInitialiser extends AbstractInitialiserBase implements IPackageReferenceInitialiser {
 	@Override
 	public IPackageReferenceInitialiser newInitialiser() {
 		return new PackageReferenceInitialiser();

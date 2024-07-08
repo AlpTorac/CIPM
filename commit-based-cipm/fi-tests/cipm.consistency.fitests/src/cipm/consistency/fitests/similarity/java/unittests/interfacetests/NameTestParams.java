@@ -13,7 +13,7 @@ public class NameTestParams implements ArgumentsProvider {
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
 		return new InitialiserParameters()
-				.getInitialisersBySuper(INamedElementInitialiser.class)
+				.getAdaptedInitialisersBySuper(INamedElementInitialiser.class)
 				.stream()
 				.map((i) -> Arguments.of(i));
 	}

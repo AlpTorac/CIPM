@@ -13,7 +13,7 @@ public class JumpTestParams implements ArgumentsProvider {
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
 		return new InitialiserParameters()
-				.getInitialisersBySuper(IJumpInitialiser.class)
+				.getAdaptedInitialisersBySuper(IJumpInitialiser.class)
 				.stream()
 				.map((i)->Arguments.of(i));
 	}

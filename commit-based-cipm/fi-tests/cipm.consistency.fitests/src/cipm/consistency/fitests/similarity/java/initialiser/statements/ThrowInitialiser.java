@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.emftext.language.java.statements.Throw;
 
-public class ThrowInitialiser implements IThrowInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class ThrowInitialiser extends AbstractInitialiserBase implements IThrowInitialiser {
 	@Override
 	public IThrowInitialiser newInitialiser() {
 		return new ThrowInitialiser();

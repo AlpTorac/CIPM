@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.expressions;
 import org.emftext.language.java.expressions.ExplicitlyTypedLambdaParameters;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 
-public class ExplicitlyTypedLambdaParametersInitialiser implements IExplicitlyTypedLambdaParametersInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class ExplicitlyTypedLambdaParametersInitialiser extends AbstractInitialiserBase implements IExplicitlyTypedLambdaParametersInitialiser {
 	@Override
 	public IExplicitlyTypedLambdaParametersInitialiser newInitialiser() {
 		return new ExplicitlyTypedLambdaParametersInitialiser();

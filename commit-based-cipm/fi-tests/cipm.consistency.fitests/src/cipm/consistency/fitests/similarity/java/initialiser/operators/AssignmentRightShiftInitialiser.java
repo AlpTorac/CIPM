@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.operators;
 import org.emftext.language.java.operators.AssignmentRightShift;
 import org.emftext.language.java.operators.OperatorsFactory;
 
-public class AssignmentRightShiftInitialiser implements IAssignmentRightShiftInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class AssignmentRightShiftInitialiser extends AbstractInitialiserBase implements IAssignmentRightShiftInitialiser {
 	@Override
 	public IAssignmentRightShiftInitialiser newInitialiser() {
 		return new AssignmentRightShiftInitialiser();

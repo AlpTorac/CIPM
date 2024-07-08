@@ -15,7 +15,6 @@ public class ForLoopTest extends EObjectSimilarityTest implements UsesExpression
 	protected ForLoop initElement(ForLoopInitializer fli, Expression[] exprs) {
 		var flInit = new ForLoopInitialiser();
 		var fl = flInit.instantiate();
-		Assertions.assertTrue(flInit.minimalInitialisation(fl));
 		Assertions.assertTrue(flInit.setInit(fl, fli));
 		Assertions.assertTrue(flInit.addUpdates(fl, exprs));
 		return fl;

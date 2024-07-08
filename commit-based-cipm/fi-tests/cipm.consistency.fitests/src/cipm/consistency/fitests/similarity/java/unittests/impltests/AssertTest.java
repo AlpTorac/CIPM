@@ -15,7 +15,6 @@ public class AssertTest extends EObjectSimilarityTest implements UsesExpressions
 	protected Assert initElement(Expression expr) {
 		var asrtInit = new AssertInitialiser();
 		var asrt = asrtInit.instantiate();
-		Assertions.assertTrue(asrtInit.minimalInitialisation(asrt));
 		Assertions.assertTrue(asrtInit.setErrorMessage(asrt, expr));
 		return asrt;
 	}

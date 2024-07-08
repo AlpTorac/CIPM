@@ -15,7 +15,6 @@ public class PrimitiveTypeReferenceTest extends EObjectSimilarityTest {
 	protected PrimitiveTypeReference initElement(PrimitiveType ptype) {
 		var ptInit = new PrimitiveTypeReferenceInitialiser();
 		var pt = ptInit.instantiate();
-		Assertions.assertTrue(ptInit.minimalInitialisation(pt));
 		Assertions.assertTrue(ptInit.setPrimitiveType(pt, ptype));
 		return pt;
 	}

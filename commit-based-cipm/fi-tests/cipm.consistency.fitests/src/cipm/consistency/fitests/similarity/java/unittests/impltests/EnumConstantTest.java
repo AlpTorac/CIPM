@@ -14,7 +14,6 @@ public class EnumConstantTest extends EObjectSimilarityTest implements UsesAnony
 	protected EnumConstant initElement(AnonymousClass cls) {
 		var ecInit = new EnumConstantInitialiser();
 		var ec = ecInit.instantiate();
-		Assertions.assertTrue(ecInit.minimalInitialisation(ec));
 		Assertions.assertTrue(ecInit.setAnonymousClass(ec, cls));
 		return ec;
 	}

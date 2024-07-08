@@ -14,7 +14,6 @@ public class FieldTest extends EObjectSimilarityTest implements UsesAdditionalFi
 	protected Field initElement(AdditionalField[] afs) {
 		var fieldInit = new FieldInitialiser();
 		var field = fieldInit.instantiate();
-		Assertions.assertTrue(fieldInit.minimalInitialisation(field));
 		Assertions.assertTrue(fieldInit.addAdditionalFields(field, afs));
 		return field;
 	}

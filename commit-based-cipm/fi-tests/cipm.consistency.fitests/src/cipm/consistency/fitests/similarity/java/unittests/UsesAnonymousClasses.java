@@ -8,7 +8,7 @@ public interface UsesAnonymousClasses extends UsesMethods {
 	public default AnonymousClass createMinimalAnonymousClass() {
 		var acInit = new AnonymousClassInitialiser();
 		var ac = acInit.instantiate();
-		acInit.minimalInitialisation(ac);
+		acInit.initialise(ac);
 		return ac;
 	}
 	

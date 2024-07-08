@@ -17,7 +17,6 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 			AssignmentExpressionChild child, Expression expr) {
 		var aeInit = new AssignmentExpressionInitialiser();
 		var ae = aeInit.instantiate();
-		Assertions.assertTrue(aeInit.minimalInitialisation(ae));
 		Assertions.assertTrue(aeInit.setAssignmentOperator(ae, op));
 		Assertions.assertTrue(aeInit.setChild(ae, child));
 		Assertions.assertTrue(aeInit.setValue(ae, expr));

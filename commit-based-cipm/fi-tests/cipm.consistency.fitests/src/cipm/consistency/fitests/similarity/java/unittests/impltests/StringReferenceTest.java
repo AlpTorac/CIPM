@@ -12,7 +12,6 @@ public class StringReferenceTest extends EObjectSimilarityTest {
 	protected StringReference initElement(String val) {
 		var srInit = new StringReferenceInitialiser();
 		var sr = srInit.instantiate();
-		Assertions.assertTrue(srInit.minimalInitialisation(sr));
 		Assertions.assertTrue(srInit.setValue(sr, val));
 		return sr;
 	}

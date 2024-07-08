@@ -17,8 +17,8 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class ArgumentableTest extends EObjectSimilarityTest implements UsesConcreteClassifiers, UsesExpressions {
 	protected Argumentable initElement(IArgumentableInitialiser init, Expression[] args) {
-		Argumentable result = init.instantiate();
-		Assertions.assertTrue(init.minimalInitialisation(result));
+		var result = init.instantiate();
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.addArguments(result, args));
 		return result;
 	}

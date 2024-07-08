@@ -19,7 +19,6 @@ UsesStatements, UsesLocalVariables {
 	protected TryBlock initElement(Resource[] ress, CatchBlock[] catchBlocks, Block block) {
 		var tbInit = new TryBlockInitialiser();
 		var tb = tbInit.instantiate();
-		Assertions.assertTrue(tbInit.minimalInitialisation(tb));
 		Assertions.assertTrue(tbInit.addResources(tb, ress));
 		Assertions.assertTrue(tbInit.addCatchBlocks(tb, catchBlocks));
 		Assertions.assertTrue(tbInit.setFinallyBlock(tb, block));

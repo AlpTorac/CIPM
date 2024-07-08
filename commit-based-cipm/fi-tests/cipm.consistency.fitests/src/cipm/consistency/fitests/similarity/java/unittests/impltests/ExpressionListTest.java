@@ -14,7 +14,6 @@ public class ExpressionListTest extends EObjectSimilarityTest implements UsesExp
 	protected ExpressionList initElement(Expression[] exprs) {
 		var elInit = new ExpressionListInitialiser();
 		var el = elInit.instantiate();
-		Assertions.assertTrue(elInit.minimalInitialisation(el));
 		Assertions.assertTrue(elInit.addExpressions(el, exprs));
 		return el;
 	}

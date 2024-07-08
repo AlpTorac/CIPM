@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.operators;
 import org.emftext.language.java.operators.GreaterThanOrEqual;
 import org.emftext.language.java.operators.OperatorsFactory;
 
-public class GreaterThanOrEqualInitialiser implements IGreaterThanOrEqualInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class GreaterThanOrEqualInitialiser extends AbstractInitialiserBase implements IGreaterThanOrEqualInitialiser {
 	@Override
 	public IGreaterThanOrEqualInitialiser newInitialiser() {
 		return new GreaterThanOrEqualInitialiser();

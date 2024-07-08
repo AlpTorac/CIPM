@@ -14,7 +14,7 @@ public class TypeParametrizableTestParams implements ArgumentsProvider {
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
 		return new InitialiserParameters()
-				.getInitialisersBySuper(ITypeParametrizableInitialiser.class)
+				.getAdaptedInitialisersBySuper(ITypeParametrizableInitialiser.class)
 				.stream()
 				.map((i)->Arguments.of(i));
 	}

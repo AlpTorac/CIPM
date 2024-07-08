@@ -14,7 +14,6 @@ public class StaticMemberImportTest extends EObjectSimilarityTest implements Use
 	protected StaticMemberImport initElement(ReferenceableElement[] res) {
 		var smiInit = new StaticMemberImportInitialiser();
 		var smi = smiInit.instantiate();
-		Assertions.assertTrue(smiInit.minimalInitialisation(smi));
 		Assertions.assertTrue(smiInit.addStaticMembers(smi, res));
 		return smi;
 	}

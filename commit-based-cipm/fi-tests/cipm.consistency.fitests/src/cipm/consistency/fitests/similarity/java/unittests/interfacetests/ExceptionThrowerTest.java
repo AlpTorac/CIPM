@@ -14,7 +14,7 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesTypeReferences;
 public class ExceptionThrowerTest extends EObjectSimilarityTest implements UsesTypeReferences {
 	protected ExceptionThrower initElement(IExceptionThrowerInitialiser init, NamespaceClassifierReference[] refs) {
 		ExceptionThrower result = init.instantiate();
-		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.addExceptions(result, refs));
 		return result;
 	}

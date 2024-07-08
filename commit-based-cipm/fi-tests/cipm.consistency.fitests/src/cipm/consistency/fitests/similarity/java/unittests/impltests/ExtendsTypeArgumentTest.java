@@ -14,7 +14,6 @@ public class ExtendsTypeArgumentTest extends EObjectSimilarityTest implements Us
 	protected ExtendsTypeArgument initElement(TypeReference tref) {
 		var etaInit = new ExtendsTypeArgumentInitialiser();
 		var eta = etaInit.instantiate();
-		Assertions.assertTrue(etaInit.minimalInitialisation(eta));
 		Assertions.assertTrue(etaInit.setExtendType(eta, tref));
 		return eta;
 	}

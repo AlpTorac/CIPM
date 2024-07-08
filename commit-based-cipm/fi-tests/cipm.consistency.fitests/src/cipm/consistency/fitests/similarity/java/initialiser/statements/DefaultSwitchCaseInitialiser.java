@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 import org.emftext.language.java.statements.DefaultSwitchCase;
 import org.emftext.language.java.statements.StatementsFactory;
 
-public class DefaultSwitchCaseInitialiser implements IDefaultSwitchCaseInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class DefaultSwitchCaseInitialiser extends AbstractInitialiserBase implements IDefaultSwitchCaseInitialiser {
 	@Override
 	public IDefaultSwitchCaseInitialiser newInitialiser() {
 		return new DefaultSwitchCaseInitialiser();

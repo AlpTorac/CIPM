@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 import org.emftext.language.java.statements.StatementsFactory;
 import org.emftext.language.java.statements.WhileLoop;
 
-public class WhileLoopInitialiser implements IWhileLoopInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class WhileLoopInitialiser extends AbstractInitialiserBase implements IWhileLoopInitialiser {
 	@Override
 	public IWhileLoopInitialiser newInitialiser() {
 		return new WhileLoopInitialiser();

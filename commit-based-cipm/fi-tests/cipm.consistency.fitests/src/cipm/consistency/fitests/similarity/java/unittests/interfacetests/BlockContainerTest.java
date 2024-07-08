@@ -14,7 +14,7 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesStatements;
 public class BlockContainerTest extends EObjectSimilarityTest implements UsesStatements{
 	protected BlockContainer initElement(IBlockContainerInitialiser init, Block bl) {
 		BlockContainer result = init.instantiate();
-		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.setBlock(result, bl));
 		return result;
 	}

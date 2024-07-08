@@ -10,7 +10,7 @@ public interface UsesArrayInitializers {
 	public default ArrayInitializer createMinimalArrayInitializer(ArrayInitializationValue[] aivs) {
 		var init = new ArrayInitializerInitialiser();
 		ArrayInitializer result = init.instantiate();
-		init.minimalInitialisation(result);
+		init.initialise(result);
 		init.addInitialValues(result, aivs);
 		return result;
 	}

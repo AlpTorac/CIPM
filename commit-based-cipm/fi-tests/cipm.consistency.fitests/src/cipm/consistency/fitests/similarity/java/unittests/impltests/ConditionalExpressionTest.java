@@ -19,7 +19,6 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 			Expression geeExpr) {
 		var ceInit = new ConditionalExpressionInitialiser();
 		var ce = ceInit.instantiate();
-		Assertions.assertTrue(ceInit.minimalInitialisation(ce));
 		Assertions.assertTrue(ceInit.setChild(ce, child));
 		Assertions.assertTrue(ceInit.setExpressionChild(ce, exprChild));
 		Assertions.assertTrue(ceInit.setExpressionIf(ce, exprIf));

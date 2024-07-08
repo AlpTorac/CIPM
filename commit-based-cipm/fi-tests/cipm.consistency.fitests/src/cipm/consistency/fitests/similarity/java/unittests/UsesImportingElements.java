@@ -12,8 +12,7 @@ public interface UsesImportingElements extends UsesImports {
 	
 	public default ImportingElement createMinimalImportingElement(IImportingElementInitialiser init, Import imp) {
 		ImportingElement result = init.instantiate();
-		
-		init.minimalInitialisation(result);
+		init.initialise(result);
 		init.addImport(result, imp);
 		
 		return result;

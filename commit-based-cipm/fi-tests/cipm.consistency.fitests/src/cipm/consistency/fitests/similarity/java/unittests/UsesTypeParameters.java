@@ -24,7 +24,7 @@ public interface UsesTypeParameters extends UsesTypeReferences {
 	
 	public default TypeParameter createMinimalTypeParam(ITypeParameterInitialiser init, TypeReference[] trefs) {
 		TypeParameter result = init.instantiate();
-		init.minimalInitialisation(result);
+		init.initialise(result);
 		init.addExtendTypes(result, trefs);
 		return result;
 	}

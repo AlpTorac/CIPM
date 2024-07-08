@@ -14,7 +14,7 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesTypeArguments;
 public class CallTypeArgumentableTest extends EObjectSimilarityTest implements UsesTypeArguments {
 	protected CallTypeArgumentable initElement(ICallTypeArgumentableInitialiser init, TypeArgument[] tas) {
 		CallTypeArgumentable result = init.instantiate();
-		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.addCallTypeArguments(result, tas));
 		return result;
 	}

@@ -14,7 +14,6 @@ public class SingleAnnotationParameterTest extends EObjectSimilarityTest impleme
 	protected SingleAnnotationParameter initElement(AnnotationValue val) {
 		var sapInit = new SingleAnnotationParameterInitialiser();
 		var sap = sapInit.instantiate();
-		Assertions.assertTrue(sapInit.minimalInitialisation(sap));
 		Assertions.assertTrue(sapInit.setValue(sap, val));
 		return sap;
 	}

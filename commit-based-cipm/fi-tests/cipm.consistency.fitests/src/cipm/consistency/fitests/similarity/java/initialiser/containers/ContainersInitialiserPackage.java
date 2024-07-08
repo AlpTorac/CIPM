@@ -7,6 +7,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserPackage;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.IClassInitialiser;
 
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
 public class ContainersInitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiser> getInitialiserInstances() {

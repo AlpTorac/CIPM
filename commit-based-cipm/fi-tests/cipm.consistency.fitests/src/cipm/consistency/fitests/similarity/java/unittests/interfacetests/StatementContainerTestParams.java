@@ -13,7 +13,7 @@ public class StatementContainerTestParams implements ArgumentsProvider {
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
 		return new InitialiserParameters()
-				.getInitialisersBySuper(IStatementContainerInitialiser.class)
+				.getAdaptedInitialisersBySuper(IStatementContainerInitialiser.class)
 				.stream()
 				.map((i) -> Arguments.of(i));
 	}

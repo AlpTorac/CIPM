@@ -16,7 +16,7 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 	UsesArraySelectors {
 	protected Reference initElement(IReferenceInitialiser init, Reference next, ArraySelector[] asArr) {
 		Reference ref = init.instantiate();
-		Assertions.assertTrue(init.minimalInitialisation(ref));
+		Assertions.assertTrue(init.initialise(ref));
 		Assertions.assertTrue(init.setNext(ref, next));
 		Assertions.assertTrue(init.addArraySelectors(ref, asArr));
 		return ref;

@@ -14,7 +14,6 @@ public class NormalSwitchRuleTest extends EObjectSimilarityTest implements UsesE
 	protected NormalSwitchRule initElement(Expression[] exprs) {
 		var nsrInit = new NormalSwitchRuleInitialiser();
 		var nsr = nsrInit.instantiate();
-		Assertions.assertTrue(nsrInit.minimalInitialisation(nsr));
 		Assertions.assertTrue(nsrInit.addAdditionalConditions(nsr, exprs));
 		return nsr;
 	}

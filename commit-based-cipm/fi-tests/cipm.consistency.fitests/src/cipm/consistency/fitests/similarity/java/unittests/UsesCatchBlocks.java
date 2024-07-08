@@ -9,7 +9,7 @@ public interface UsesCatchBlocks extends UsesParameters {
 	public default CatchBlock createMinimalCB(OrdinaryParameter op) {
 		var cbInit = new CatchBlockInitialiser();
 		var cb = cbInit.instantiate();
-		cbInit.minimalInitialisation(cb);
+		cbInit.initialise(cb);
 		cbInit.setParameter(cb, op);
 		return cb;
 	}

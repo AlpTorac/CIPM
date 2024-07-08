@@ -15,7 +15,6 @@ public class SwitchTest extends EObjectSimilarityTest implements UsesSwitchCases
 	protected Switch initElement(SwitchCase[] scs, Expression expr) {
 		var swInit = new SwitchInitialiser();
 		var sw = swInit.instantiate();
-		Assertions.assertTrue(swInit.minimalInitialisation(sw));
 		Assertions.assertTrue(swInit.addCases(sw, scs));
 		Assertions.assertTrue(swInit.setVariable(sw, expr));
 		return sw;

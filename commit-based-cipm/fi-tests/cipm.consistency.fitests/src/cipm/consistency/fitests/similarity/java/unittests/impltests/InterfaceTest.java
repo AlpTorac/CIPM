@@ -14,7 +14,6 @@ public class InterfaceTest extends EObjectSimilarityTest implements UsesTypeRefe
 	protected Interface initElement(TypeReference[] defExts, TypeReference[] exts) {
 		var intfcInit = new InterfaceInitialiser();
 		var intfc = intfcInit.instantiate();
-		Assertions.assertTrue(intfcInit.minimalInitialisation(intfc));
 		Assertions.assertTrue(intfcInit.addDefaultExtends(intfc, defExts));
 		Assertions.assertTrue(intfcInit.addExtends(intfc, exts));
 		return intfc;

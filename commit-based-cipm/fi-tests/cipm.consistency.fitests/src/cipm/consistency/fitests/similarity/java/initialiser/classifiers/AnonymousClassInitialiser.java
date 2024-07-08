@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.classifiers;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.classifiers.AnonymousClass;
 
-public class AnonymousClassInitialiser implements IAnonymousClassInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class AnonymousClassInitialiser extends AbstractInitialiserBase implements IAnonymousClassInitialiser {
 	@Override
 	public IAnonymousClassInitialiser newInitialiser() {
 		return new AnonymousClassInitialiser();

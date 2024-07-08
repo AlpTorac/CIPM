@@ -8,7 +8,7 @@ public interface UsesAdditionalLocalVariables {
 	public default AdditionalLocalVariable createMinimalALV(String alvName) {
 		var alvInit = new AdditionalLocalVariableInitialiser();
 		var alv = alvInit.instantiate();
-		alvInit.minimalInitialisation(alv);
+		alvInit.initialise(alv);
 		alvInit.setName(alv, alvName);
 		return alv;
 	}

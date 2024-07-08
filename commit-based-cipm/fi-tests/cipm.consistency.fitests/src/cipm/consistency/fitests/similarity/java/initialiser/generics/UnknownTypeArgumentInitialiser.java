@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.generics;
 import org.emftext.language.java.generics.GenericsFactory;
 import org.emftext.language.java.generics.UnknownTypeArgument;
 
-public class UnknownTypeArgumentInitialiser implements IUnknownTypeArgumentInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class UnknownTypeArgumentInitialiser extends AbstractInitialiserBase implements IUnknownTypeArgumentInitialiser {
 	@Override
 	public IUnknownTypeArgumentInitialiser newInitialiser() {
 		return new UnknownTypeArgumentInitialiser();

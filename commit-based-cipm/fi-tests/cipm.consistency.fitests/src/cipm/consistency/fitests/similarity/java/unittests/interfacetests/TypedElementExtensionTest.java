@@ -14,7 +14,7 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesTypeReferences;
 public class TypedElementExtensionTest extends EObjectSimilarityTest implements UsesTypeReferences {
 	protected TypedElementExtension initElement(ITypedElementExtensionInitialiser init, TypeReference tref) {
 		TypedElementExtension result = init.instantiate();
-		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.addActualTarget(result, tref));	
 		return result;
 	}

@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.modifiers;
 import org.emftext.language.java.modifiers.ModifiersFactory;
 import org.emftext.language.java.modifiers.Synchronized;
 
-public class SynchronizedInitialiser implements ISynchronizedInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class SynchronizedInitialiser extends AbstractInitialiserBase implements ISynchronizedInitialiser {
 	@Override
 	public ISynchronizedInitialiser newInitialiser() {
 		return new SynchronizedInitialiser();

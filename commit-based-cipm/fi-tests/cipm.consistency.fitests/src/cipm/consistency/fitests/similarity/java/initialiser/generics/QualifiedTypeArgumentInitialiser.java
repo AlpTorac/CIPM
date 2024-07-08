@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.generics;
 import org.emftext.language.java.generics.GenericsFactory;
 import org.emftext.language.java.generics.QualifiedTypeArgument;
 
-public class QualifiedTypeArgumentInitialiser implements IQualifiedTypeArgumentInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class QualifiedTypeArgumentInitialiser extends AbstractInitialiserBase implements IQualifiedTypeArgumentInitialiser {
 	@Override
 	public IQualifiedTypeArgumentInitialiser newInitialiser() {
 		return new QualifiedTypeArgumentInitialiser();

@@ -14,7 +14,6 @@ public class InterfaceMethodTest extends EObjectSimilarityTest implements UsesAn
 	protected InterfaceMethod initElement(AnnotationValue av) {
 		var imInit = new InterfaceMethodInitialiser();
 		var im = imInit.instantiate();
-		Assertions.assertTrue(imInit.minimalInitialisation(im));
 		Assertions.assertTrue(imInit.setDefaultValue(im, av));
 		return im;
 	}

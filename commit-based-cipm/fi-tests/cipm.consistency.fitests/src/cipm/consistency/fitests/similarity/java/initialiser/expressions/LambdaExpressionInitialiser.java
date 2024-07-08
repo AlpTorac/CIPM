@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.expressions;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 import org.emftext.language.java.expressions.LambdaExpression;
 
-public class LambdaExpressionInitialiser implements ILambdaExpressionInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class LambdaExpressionInitialiser extends AbstractInitialiserBase implements ILambdaExpressionInitialiser {
 
 	@Override
 	public ILambdaExpressionInitialiser newInitialiser() {

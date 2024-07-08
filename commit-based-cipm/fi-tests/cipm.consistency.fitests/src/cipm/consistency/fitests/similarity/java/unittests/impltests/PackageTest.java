@@ -16,7 +16,6 @@ public class PackageTest extends EObjectSimilarityTest implements UsesModules, U
 	protected Package initElement(Module mod, ConcreteClassifier[] clss) {
 		var initialiser = new PackageInitialiser();
 		Package pac = initialiser.instantiate();
-		Assertions.assertTrue(initialiser.minimalInitialisation(pac));
 		Assertions.assertTrue(initialiser.setModule(pac, mod));
 		Assertions.assertTrue(initialiser.addClassifiers(pac, clss));
 		

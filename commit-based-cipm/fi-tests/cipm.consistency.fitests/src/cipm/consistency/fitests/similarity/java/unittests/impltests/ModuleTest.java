@@ -16,7 +16,6 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 	protected Module initElement(Package[] pacs, ModuleDirective[] targets, boolean isOpen) {
 		var initialiser = new ModuleInitialiser();
 		Module result = initialiser.instantiate();
-		Assertions.assertTrue(initialiser.minimalInitialisation(result));
 		
 		Assertions.assertTrue(initialiser.addPackages(result, pacs));
 		Assertions.assertTrue(initialiser.addTargets(result, targets));

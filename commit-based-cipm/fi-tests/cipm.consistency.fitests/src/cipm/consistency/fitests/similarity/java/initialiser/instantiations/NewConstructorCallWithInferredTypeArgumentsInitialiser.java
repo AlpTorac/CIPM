@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.instantiations;
 import org.emftext.language.java.instantiations.InstantiationsFactory;
 import org.emftext.language.java.instantiations.NewConstructorCallWithInferredTypeArguments;
 
-public class NewConstructorCallWithInferredTypeArgumentsInitialiser implements INewConstructorCallWithInferredTypeArgumentsInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class NewConstructorCallWithInferredTypeArgumentsInitialiser extends AbstractInitialiserBase implements INewConstructorCallWithInferredTypeArgumentsInitialiser {
 	@Override
 	public INewConstructorCallWithInferredTypeArgumentsInitialiser newInitialiser() {
 		return new NewConstructorCallWithInferredTypeArgumentsInitialiser();

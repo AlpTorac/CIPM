@@ -14,7 +14,6 @@ public class ExpressionStatementTest extends EObjectSimilarityTest implements Us
 	protected ExpressionStatement initElement(Expression expr) {
 		var esInit = new ExpressionStatementInitialiser();
 		var es = esInit.instantiate();
-		Assertions.assertTrue(esInit.minimalInitialisation(es));
 		Assertions.assertTrue(esInit.setExpression(es, expr));
 		return es;
 	}

@@ -14,7 +14,6 @@ public class CatchBlockTest extends EObjectSimilarityTest implements UsesParamet
 	protected CatchBlock initElement(OrdinaryParameter oParam) {
 		var cbInit = new CatchBlockInitialiser();
 		var cb = cbInit.instantiate();
-		Assertions.assertTrue(cbInit.minimalInitialisation(cb));
 		Assertions.assertTrue(cbInit.setParameter(cb, oParam));
 		return cb;
 	}

@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.literals;
 import org.emftext.language.java.literals.DecimalIntegerLiteral;
 import org.emftext.language.java.literals.LiteralsFactory;
 
-public class DecimalIntegerLiteralInitialiser implements IDecimalIntegerLiteralInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class DecimalIntegerLiteralInitialiser extends AbstractInitialiserBase implements IDecimalIntegerLiteralInitialiser {
 	@Override
 	public IDecimalIntegerLiteralInitialiser newInitialiser() {
 		return new DecimalIntegerLiteralInitialiser();

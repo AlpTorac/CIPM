@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.expressions;
 import org.emftext.language.java.expressions.ExclusiveOrExpression;
 import org.emftext.language.java.expressions.ExpressionsFactory;
 
-public class ExclusiveOrExpressionInitialiser implements IExclusiveOrExpressionInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class ExclusiveOrExpressionInitialiser extends AbstractInitialiserBase implements IExclusiveOrExpressionInitialiser {
 	@Override
 	public IExclusiveOrExpressionInitialiser newInitialiser() {
 		return new ExclusiveOrExpressionInitialiser();

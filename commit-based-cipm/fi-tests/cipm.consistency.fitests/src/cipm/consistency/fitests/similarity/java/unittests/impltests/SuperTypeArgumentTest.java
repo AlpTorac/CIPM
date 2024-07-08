@@ -14,7 +14,6 @@ public class SuperTypeArgumentTest extends EObjectSimilarityTest implements Uses
 	protected SuperTypeArgument initElement(TypeReference tref) {
 		var staInit = new SuperTypeArgumentInitialiser();
 		var sta = staInit.instantiate();
-		Assertions.assertTrue(staInit.minimalInitialisation(sta));
 		Assertions.assertTrue(staInit.setSuperType(sta, tref));
 		return sta;
 	}

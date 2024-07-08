@@ -23,7 +23,7 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	
 	protected NamespaceAwareElement initElement(INamespaceAwareElementInitialiser initialiser, String[] nss) {
 		NamespaceAwareElement result = initialiser.instantiate();
-		Assertions.assertTrue(initialiser.minimalInitialisation(result));
+		Assertions.assertTrue(initialiser.initialise(result));
 		Assertions.assertTrue(initialiser.addNamespaces(result, nss));
 		return result;
 	}

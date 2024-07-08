@@ -5,6 +5,8 @@ import java.util.Collection;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserPackage;
 
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
 public class CommonsInitialiserPackage implements IInitialiserPackage {
 	@SuppressWarnings("unchecked")
 	@Override

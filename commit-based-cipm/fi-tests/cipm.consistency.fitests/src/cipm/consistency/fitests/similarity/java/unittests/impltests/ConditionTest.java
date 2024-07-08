@@ -14,7 +14,6 @@ public class ConditionTest extends EObjectSimilarityTest implements UsesStatemen
 	protected Condition initElement(Statement st) {
 		var conInit = new ConditionInitialiser();
 		var con = conInit.instantiate();
-		Assertions.assertTrue(conInit.minimalInitialisation(con));
 		Assertions.assertTrue(conInit.setElseStatement(con, st));
 		return con;
 	}

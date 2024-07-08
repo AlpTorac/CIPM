@@ -18,7 +18,6 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest
 	protected AnnotationInstance initElement(Classifier cls, AnnotationParameter param) {
 		var initialiser = new AnnotationInstanceInitialiser();
 		AnnotationInstance ai = initialiser.instantiate();
-		Assertions.assertTrue(initialiser.minimalInitialisation(ai));
 		Assertions.assertTrue(initialiser.setAnnotation(ai, cls));
 		Assertions.assertTrue(initialiser.setAnnotationParameter(ai, param));
 		return ai;

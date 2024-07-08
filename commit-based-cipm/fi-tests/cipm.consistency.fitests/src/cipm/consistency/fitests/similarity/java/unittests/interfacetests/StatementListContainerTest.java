@@ -19,8 +19,9 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesStatements;
 public class StatementListContainerTest extends EObjectSimilarityTest implements UsesStatements {
 	protected StatementListContainer initElement(IStatementListContainerInitialiser initialiser,
 			Statement[] sts) {
+		
 		StatementListContainer result = initialiser.instantiate();
-		initialiser.minimalInitialisationWithContainer(result);
+		Assertions.assertTrue(initialiser.initialise(result));
 		Assertions.assertTrue(initialiser.addStatements(result, sts));
 		return result;
 	}

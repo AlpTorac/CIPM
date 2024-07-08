@@ -16,7 +16,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.params.LiteralFactor
 public class InitializableTest extends EObjectSimilarityTest {
 	protected Initializable initElement(IInitializableInitialiser init, Expression initVal) {
 		Initializable result = init.instantiate();
-		Assertions.assertTrue(init.minimalInitialisation(result));
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.setInitialValue(result, initVal));
 		return result;
 	}

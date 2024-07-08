@@ -8,8 +8,14 @@ public interface IInitialiser {
 
 	/**
 	 * Attempts to instantiate the class denoted by this {@link IInitialiser}'s name.
+	 * Depending on the return type, additional setup may be necessary.
 	 */
 	public Object instantiate();
+	
+	/**
+	 * Attempts to initialise obj, so that it is "valid".
+	 */
+	public boolean initialise(Object obj);
 
 	public static boolean hasModificationMethods(Class<? extends IInitialiser> initCls) {
 		if (initCls == null) {

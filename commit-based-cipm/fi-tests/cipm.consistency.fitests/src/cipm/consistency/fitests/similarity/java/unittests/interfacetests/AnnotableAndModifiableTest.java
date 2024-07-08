@@ -23,8 +23,8 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 			AnnotationInstance[] ais,
 			InitialiserVisibilityModifier visibility) {
 		
-		AnnotableAndModifiable result = initialiser.instantiate();
-		Assertions.assertTrue(initialiser.minimalInitialisation(result));
+		var result = initialiser.instantiate();
+		Assertions.assertTrue(initialiser.initialise(result));
 		Assertions.assertTrue(initialiser.addModifiers(result, mods));
 		Assertions.assertTrue(initialiser.addAnnotationInstances(result, ais));
 		Assertions.assertTrue(initialiser.setVisibility(result, visibility));

@@ -3,7 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.operators;
 import org.emftext.language.java.operators.AssignmentExclusiveOr;
 import org.emftext.language.java.operators.OperatorsFactory;
 
-public class AssignmentExclusiveOrInitialiser implements IAssignmentExclusiveOrInitialiser {
+import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
+
+public class AssignmentExclusiveOrInitialiser extends AbstractInitialiserBase implements IAssignmentExclusiveOrInitialiser {
 	@Override
 	public IAssignmentExclusiveOrInitialiser newInitialiser() {
 		return new AssignmentExclusiveOrInitialiser();
