@@ -12,8 +12,6 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.emftext.language.java.containers.Module;
 
 import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.adapters.NamedElementInitialiserAdapter;
-import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.ModuleInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageInitialiser;
 
@@ -326,9 +324,9 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 		this.setResourceFileTestIdentifier("testIsSimilarEqual");
 
 		var initialiser = new ModuleInitialiser();
-		initialiser.addAdaptingInitialiser(new NamedElementInitialiserAdapter());
 
 		var obj11 = initialiser.instantiate();
+		Assertions.assertTrue(initialiser.setName(obj11, "mod1"));
 
 		var obj11Copy = initialiser.clone(obj11);
 
@@ -344,9 +342,9 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 		this.setResourceFileTestIdentifier("testAreSimilarEqual");
 
 		var initialiser = new ModuleInitialiser();
-		initialiser.addAdaptingInitialiser(new NamedElementInitialiserAdapter());
 		
 		var obj11 = initialiser.instantiate();
+		Assertions.assertTrue(initialiser.setName(obj11, "mod2"));
 
 		var obj11Copy = initialiser.clone(obj11);
 
