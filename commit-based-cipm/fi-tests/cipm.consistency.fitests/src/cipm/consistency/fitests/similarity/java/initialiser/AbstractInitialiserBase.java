@@ -17,7 +17,6 @@ public abstract class AbstractInitialiserBase implements IInitialiserBase {
 			this.addAdaptingInitialisers(adaptingInits);
 		}
 	}
-	
 	protected Collection<IInitialiserAdapterStrategy> createAICol() {
 		return new ArrayList<IInitialiserAdapterStrategy>();
 	}

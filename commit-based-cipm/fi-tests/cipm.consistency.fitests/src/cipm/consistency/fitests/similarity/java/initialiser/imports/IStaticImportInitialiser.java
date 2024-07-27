@@ -3,12 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.imports;
 import org.emftext.language.java.imports.StaticImport;
 import org.emftext.language.java.modifiers.Static;
 
-import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
-
 public interface IStaticImportInitialiser extends IImportInitialiser {
     @Override
     public StaticImport instantiate();
-    @ModificationMethod
 	public default boolean setStatic(StaticImport sImp, Static st) {
 		if (st != null) {
 			sImp.setStatic(st);

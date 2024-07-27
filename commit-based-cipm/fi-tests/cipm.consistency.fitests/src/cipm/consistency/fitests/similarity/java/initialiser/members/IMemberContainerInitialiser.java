@@ -3,13 +3,11 @@ package cipm.consistency.fitests.similarity.java.initialiser.members;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MemberContainer;
 
-import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface IMemberContainerInitialiser extends ICommentableInitialiser {
     @Override
     public MemberContainer instantiate();
-    @ModificationMethod
 	public default boolean addMember(MemberContainer mc, Member mbr) {
 		if (mbr != null) {
 			mc.getMembers().add(mbr);
@@ -21,7 +19,6 @@ public interface IMemberContainerInitialiser extends ICommentableInitialiser {
 	public default boolean addMembers(MemberContainer mc, Member[] mbrs) {
 		return this.addXs(mc, mbrs, this::addMember);
 	}
-	@ModificationMethod
 	public default boolean addDefaultMember(MemberContainer mc, Member mbr) {
 		if (mbr != null) {
 			mc.getDefaultMembers().add(mbr);

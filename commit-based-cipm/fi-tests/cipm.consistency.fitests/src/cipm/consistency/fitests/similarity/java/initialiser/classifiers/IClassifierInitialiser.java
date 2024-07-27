@@ -3,7 +3,6 @@ package cipm.consistency.fitests.similarity.java.initialiser.classifiers;
 import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.imports.Import;
 
-import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.references.IReferenceableElementInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.types.ITypeInitialiser;
 
@@ -13,11 +12,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.types.ITypeInitialis
  * 
  * @author atora
  */
+
 public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceableElementInitialiser {
     @Override
     public Classifier instantiate();
-	
-    @ModificationMethod
 	public default boolean addImport(Classifier cls, Import imp) {
 		if (imp != null) {
 			cls.getContainingCompilationUnit().getImports().add(imp);
@@ -30,8 +28,6 @@ public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceable
 	public default boolean addImports(Classifier cls, Import[] imps) {
 		return this.addXs(cls, imps, this::addImport);
 	}
-	
-	@ModificationMethod
 	public default boolean addPackageImport(Classifier cls, Import imp) {
 		if (imp != null) {
 			cls.getContainingCompilationUnit().getImports().add(imp);

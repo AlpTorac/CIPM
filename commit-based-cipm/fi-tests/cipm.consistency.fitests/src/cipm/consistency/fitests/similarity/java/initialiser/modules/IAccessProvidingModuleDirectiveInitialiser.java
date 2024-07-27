@@ -4,7 +4,6 @@ import org.emftext.language.java.containers.Package;
 import org.emftext.language.java.modules.AccessProvidingModuleDirective;
 import org.emftext.language.java.modules.ModuleReference;
 
-import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.INamespaceAwareElementInitialiser;
 
 public interface IAccessProvidingModuleDirectiveInitialiser extends
@@ -12,7 +11,6 @@ public interface IAccessProvidingModuleDirectiveInitialiser extends
 	INamespaceAwareElementInitialiser {
 	@Override
 	public AccessProvidingModuleDirective instantiate();
-	@ModificationMethod
 	public default boolean setAccessablePackage(AccessProvidingModuleDirective apmd, Package pac) {
 		if (pac != null) {
 			apmd.setAccessablePackage(pac);
@@ -20,7 +18,6 @@ public interface IAccessProvidingModuleDirectiveInitialiser extends
 		}
 		return true;
 	}
-	@ModificationMethod
 	public default boolean addModule(AccessProvidingModuleDirective apmd, ModuleReference modref) {
 		if (modref != null) {
 			apmd.getModules().add(modref);

@@ -2,13 +2,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.commons;
 
 import org.emftext.language.java.commons.NamedElement;
 
-import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
-
 public interface INamedElementInitialiser extends ICommentableInitialiser {
     @Override
     public NamedElement instantiate();
-	
-	@ModificationMethod
 	public default boolean setName(NamedElement ne, String name) {
 		if (name != null) {
 			ne.setName(name);

@@ -5,12 +5,9 @@ import org.emftext.language.java.expressions.ConditionalExpression;
 import org.emftext.language.java.expressions.ConditionalExpressionChild;
 import org.emftext.language.java.expressions.Expression;
 
-import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
-
 public interface IConditionalExpressionInitialiser extends IAssignmentExpressionChildInitialiser {
     @Override
     public ConditionalExpression instantiate();
-    @ModificationMethod
 	public default boolean setChild(ConditionalExpression ce, ConditionalExpressionChild child) {
 		if (child != null) {
 			ce.setChild(child);
@@ -18,7 +15,6 @@ public interface IConditionalExpressionInitialiser extends IAssignmentExpression
 		}
 		return true;
 	}
-    @ModificationMethod
 	public default boolean setExpressionChild(ConditionalExpression ce, AssignmentExpressionChild child) {
 		if (child != null) {
 			ce.setExpressionChild(child);
@@ -26,7 +22,6 @@ public interface IConditionalExpressionInitialiser extends IAssignmentExpression
 		}
 		return true;
 	}
-    @ModificationMethod
 	public default boolean setExpressionIf(ConditionalExpression ce, Expression expr) {
 		if (expr != null) {
 			ce.setExpressionIf(expr);
@@ -34,7 +29,6 @@ public interface IConditionalExpressionInitialiser extends IAssignmentExpression
 		}
 		return true;
 	}
-    @ModificationMethod
 	public default boolean setGeneralExpressionElse(ConditionalExpression ce, Expression expr) {
 		if (expr != null) {
 			ce.setGeneralExpressionElse(expr);
