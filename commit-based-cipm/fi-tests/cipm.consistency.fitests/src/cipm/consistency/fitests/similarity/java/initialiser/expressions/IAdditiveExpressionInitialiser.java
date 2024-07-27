@@ -4,13 +4,9 @@ import org.emftext.language.java.expressions.AdditiveExpression;
 import org.emftext.language.java.expressions.AdditiveExpressionChild;
 import org.emftext.language.java.operators.AdditiveOperator;
 
-import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
-
 public interface IAdditiveExpressionInitialiser extends IShiftExpressionChildInitialiser {
     @Override
     public AdditiveExpression instantiate();
-    
-    @ModificationMethod
 	public default boolean addAdditiveOperator(AdditiveExpression ae, AdditiveOperator op) {
 		if (op != null) {
 			ae.getAdditiveOperators().add(op);
@@ -22,8 +18,6 @@ public interface IAdditiveExpressionInitialiser extends IShiftExpressionChildIni
 	public default boolean addAdditiveOperators(AdditiveExpression ae, AdditiveOperator[] ops) {
 		return this.addXs(ae, ops, this::addAdditiveOperator);
 	}
-	
-	@ModificationMethod
 	public default boolean addChild(AdditiveExpression ae, AdditiveExpressionChild child) {
 		if (child != null) {
 			ae.getChildren().add(child);

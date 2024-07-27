@@ -3,13 +3,9 @@ package cipm.consistency.fitests.similarity.java.initialiser.containers;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 
-import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
-
 public interface ICompilationUnitInitialiser extends IJavaRootInitialiser {
     @Override
     public CompilationUnit instantiate();
-    
-    @ModificationMethod
 	public default boolean addClassifier(CompilationUnit cu, ConcreteClassifier cc) {
 		if (cc != null) {
 			cu.getClassifiers().add(cc);

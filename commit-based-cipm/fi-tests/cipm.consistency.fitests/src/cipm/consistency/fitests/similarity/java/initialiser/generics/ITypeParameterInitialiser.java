@@ -5,14 +5,12 @@ import org.emftext.language.java.generics.TypeParameter;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.types.TypeReference;
 
-import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.annotations.IAnnotableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.IClassifierInitialiser;
 
 public interface ITypeParameterInitialiser extends IClassifierInitialiser, IAnnotableInitialiser {
     @Override
     public TypeParameter instantiate();
-    @ModificationMethod
 	public default boolean addExtendType(TypeParameter tp, TypeReference tref) {
 		if (tref != null) {
 			tp.getExtendTypes().add(tref);

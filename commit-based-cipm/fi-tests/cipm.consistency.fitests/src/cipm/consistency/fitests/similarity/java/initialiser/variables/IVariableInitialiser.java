@@ -11,6 +11,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementI
  * 
  * @author atora
  */
+
 public interface IVariableInitialiser extends IReferenceableElementInitialiser,
 	ITypeArgumentableInitialiser, ITypedElementInitialiser {
 	@Override

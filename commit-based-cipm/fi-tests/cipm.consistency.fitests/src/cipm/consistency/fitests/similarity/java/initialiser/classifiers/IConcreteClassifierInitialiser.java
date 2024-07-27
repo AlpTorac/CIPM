@@ -3,7 +3,6 @@ package cipm.consistency.fitests.similarity.java.initialiser.classifiers;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.Package;
 
-import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.generics.ITypeParametrizableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.members.IMemberContainerInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.members.IMemberInitialiser;
@@ -26,7 +25,6 @@ public interface IConcreteClassifierInitialiser extends
 	 * <br><br>
 	 * <b>Note: DOES NOT modify the classifiers contained by pac.</b>
 	 */
-	@ModificationMethod
 	public default boolean setPackage(ConcreteClassifier cls, Package pac) {
 		if (pac != null) {
 			cls.setPackage(pac);

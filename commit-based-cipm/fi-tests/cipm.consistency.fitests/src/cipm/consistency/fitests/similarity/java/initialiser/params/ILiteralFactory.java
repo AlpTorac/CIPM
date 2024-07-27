@@ -22,6 +22,7 @@ import org.emftext.language.java.literals.This;
 
 // TODO: Move these methods to UsesLiterals and remove this interface and its concrete implementors
 
+
 public interface ILiteralFactory {
 	public BooleanLiteral createBooleanLiteral(boolean val);
 	public CharacterLiteral createCharacterLiteral(String val);

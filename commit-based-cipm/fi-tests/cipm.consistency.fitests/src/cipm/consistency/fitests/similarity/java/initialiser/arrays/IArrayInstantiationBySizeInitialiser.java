@@ -3,7 +3,6 @@ package cipm.consistency.fitests.similarity.java.initialiser.arrays;
 import org.emftext.language.java.arrays.ArrayInstantiationBySize;
 import org.emftext.language.java.expressions.Expression;
 
-import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementInitialiser;
 
 public interface IArrayInstantiationBySizeInitialiser extends 
@@ -12,8 +11,6 @@ public interface IArrayInstantiationBySizeInitialiser extends
 
 	@Override
 	public ArrayInstantiationBySize instantiate();
-	
-	@ModificationMethod
 	public default boolean addSize(ArrayInstantiationBySize arrIns, Expression expr) {
 		if (expr != null) {
 			arrIns.getSizes().add(expr);

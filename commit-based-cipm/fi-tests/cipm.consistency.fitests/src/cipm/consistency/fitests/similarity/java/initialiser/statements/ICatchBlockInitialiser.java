@@ -3,14 +3,11 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 import org.emftext.language.java.parameters.OrdinaryParameter;
 import org.emftext.language.java.statements.CatchBlock;
 
-import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
-
 public interface ICatchBlockInitialiser extends IBlockContainerInitialiser,
 	IStatementListContainerInitialiser {
 	
 	@Override
 	public CatchBlock instantiate();
-	@ModificationMethod
 	public default boolean setParameter(CatchBlock cb, OrdinaryParameter oParam) {
 		if (oParam != null) {
 			cb.setParameter(oParam);

@@ -3,7 +3,6 @@ package cipm.consistency.fitests.similarity.java.initialiser.modules;
 import org.emftext.language.java.modules.ProvidesModuleDirective;
 import org.emftext.language.java.types.TypeReference;
 
-import cipm.consistency.fitests.similarity.java.initialiser.ModificationMethod;
 import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementInitialiser;
 
 public interface IProvidesModuleDirectiveInitialiser extends
@@ -11,7 +10,6 @@ public interface IProvidesModuleDirectiveInitialiser extends
 	ITypedElementInitialiser {
 	@Override
 	public ProvidesModuleDirective instantiate();
-	@ModificationMethod
 	public default boolean addServiceProvider(ProvidesModuleDirective pmd, TypeReference tref) {
 		if (tref != null) {
 			pmd.getServiceProviders().add(tref);
