@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.java.params;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.emftext.language.java.annotations.AnnotationsPackage;
 import org.emftext.language.java.arrays.ArrayInstantiation;
 import org.emftext.language.java.arrays.ArraysPackage;
@@ -50,21 +51,23 @@ import org.emftext.language.java.variables.VariablesPackage;
 // TODO: Make addSimilarityEntry calls more overseeable
 
 /**
- * Contains expected similarity values for tests, in which a certain
- * attribute is different.
- * <br><br>
- * Entries for sub-interfaces will take precedence
- * over their parent interfaces. If the behaviour of a certain sub-interface
- * differs from its parents' and/or sibling interfaces, an entry can
- * be created to account for it. This spares having to create explicit entries for
- * everything in a part of the hierarchy, if there are small deviations.
- * <br><br>
- * To spare creating entries for every possibility, a default similarity value can be defined
- * by using {@link #setDefaultSimilarityResult(Boolean)}. If there are no entries for a specific
- * attribute, the default similarity value will be assumed. The default value is null, if
- * not explicitly defined.
+ * Contains expected similarity values for tests, in which a certain attribute
+ * is different. <br>
+ * <br>
+ * Entries for sub-interfaces will take precedence over their parent interfaces.
+ * If the behaviour of a certain sub-interface differs from its parents' and/or
+ * sibling interfaces, an entry can be created to account for it. This spares
+ * having to create explicit entries for everything in a part of the hierarchy,
+ * if there are small deviations. <br>
+ * <br>
+ * To spare creating entries for every possibility, a default similarity value
+ * can be defined by using {@link #setDefaultSimilarityResult(Boolean)}. If
+ * there are no entries for a specific attribute, the default similarity value
+ * will be assumed. The default value is null, if not explicitly defined.
  * 
- * @see {@link ISimilarityValues}, {@link AbstractSimilarityValues}
+ * @see {@link ISimilarityValues} for more information on the methods used
+ *      below.
+ * @see {@link AbstractSimilarityValues}
  */
 public class SimilarityValues extends AbstractSimilarityValues {
 	public SimilarityValues() {
@@ -73,16 +76,16 @@ public class SimilarityValues extends AbstractSimilarityValues {
 		 * below for a certain attribute, the similarity value will be val.
 		 * 
 		 * addSimilarityEntry(attr, val): If two EObject instances eo1 and eo2 are
-		 * compared where attr in eo1 and eo2 is different, the similarity value
-		 * should be val.
+		 * compared where attr in eo1 and eo2 is different, the similarity value should
+		 * be val.
 		 * 
-		 * addSimilarityEntry(ifc, attr, val): Same as addSimilarityEntry(attr, val), but
-		 * takes precedence over attr.getContainerClass(), if both EObject
-		 * instances implement the interface ifc. If there are multiple such entries for
-		 * the same hierarchy, the entry with the most specific ifc will be used to
-		 * determine the similarity value.
+		 * addSimilarityEntry(ifc, attr, val): Same as addSimilarityEntry(attr, val),
+		 * but takes precedence over attr.getContainerClass(), if both EObject instances
+		 * implement the interface ifc. If there are multiple such entries for the same
+		 * hierarchy, the entry with the most specific ifc will be used to determine the
+		 * similarity value.
 		 */
-		
+
 		this.setDefaultSimilarityResult(Boolean.FALSE);
 
 		// Annotations
@@ -109,21 +112,14 @@ public class SimilarityValues extends AbstractSimilarityValues {
 		this.addSimilarityEntry(ContainersPackage.Literals.JAVA_ROOT__ORIGIN, Boolean.TRUE);
 
 		// Commons
-		this.addSimilarityEntry(EmptyModel.class, CommonsPackage.Literals.NAMED_ELEMENT__NAME, Boolean.TRUE);
-		this.addSimilarityEntry(AdditionalField.class, CommonsPackage.Literals.NAMED_ELEMENT__NAME, Boolean.TRUE);
-		this.addSimilarityEntry(Package.class, CommonsPackage.Literals.NAMED_ELEMENT__NAME, Boolean.TRUE);
-		this.addSimilarityEntry(PackageReference.class, CommonsPackage.Literals.NAMED_ELEMENT__NAME, Boolean.TRUE);
-		this.addSimilarityEntry(Block.class, CommonsPackage.Literals.NAMED_ELEMENT__NAME, Boolean.TRUE);
-		this.addSimilarityEntry(EmptyModel.class, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES,
-				Boolean.TRUE);
-		this.addSimilarityEntry(PackageImport.class, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES,
-				Boolean.TRUE);
-		this.addSimilarityEntry(StaticClassifierImport.class,
+		this.addSimilarityEntry(new Class[] { AdditionalField.class, Package.class, Block.class },
+				CommonsPackage.Literals.NAMED_ELEMENT__NAME, Boolean.TRUE);
+		this.addSimilarityEntry(new Class[] { PackageImport.class, StaticClassifierImport.class, Module.class },
 				CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, Boolean.TRUE);
-		this.addSimilarityEntry(PackageReference.class, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES,
-				Boolean.TRUE);
-		this.addSimilarityEntry(Module.class, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES,
-				Boolean.TRUE);
+		this.addSimilarityEntry(new Class[] { EmptyModel.class, PackageReference.class },
+				new EStructuralFeature[] { CommonsPackage.Literals.NAMED_ELEMENT__NAME,
+						CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES },
+				new Boolean[] { Boolean.TRUE, Boolean.TRUE });
 
 		// Classifiers
 		this.addSimilarityEntry(ClassifiersPackage.Literals.CLASS__DEFAULT_EXTENDS, Boolean.TRUE);
@@ -157,7 +153,7 @@ public class SimilarityValues extends AbstractSimilarityValues {
 		this.addSimilarityEntry(ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__OPERATOR, Boolean.TRUE);
 		this.addSimilarityEntry(ExpressionsPackage.Literals.LAMBDA_EXPRESSION__BODY, Boolean.TRUE);
 		this.addSimilarityEntry(ExpressionsPackage.Literals.LAMBDA_EXPRESSION__PARAMETERS, Boolean.TRUE);
-		
+
 		// Generics
 		this.addSimilarityEntry(GenericsPackage.Literals.CALL_TYPE_ARGUMENTABLE__CALL_TYPE_ARGUMENTS, Boolean.TRUE);
 		this.addSimilarityEntry(GenericsPackage.Literals.TYPE_ARGUMENTABLE__TYPE_ARGUMENTS, Boolean.TRUE);
@@ -211,61 +207,44 @@ public class SimilarityValues extends AbstractSimilarityValues {
 		this.addSimilarityEntry(StatementsPackage.Literals.YIELD_STATEMENT__YIELD_EXPRESSION, Boolean.TRUE);
 		this.addSimilarityEntry(StatementsPackage.Literals.BLOCK_CONTAINER__BLOCK, Boolean.TRUE);
 		this.addSimilarityEntry(StatementsPackage.Literals.STATEMENT_CONTAINER__STATEMENT, Boolean.TRUE);
-		this.addSimilarityEntry(StatementListContainer.class, StatementsPackage.Literals.BLOCK__STATEMENTS, Boolean.TRUE);
-		
+		this.addSimilarityEntry(StatementListContainer.class, StatementsPackage.Literals.BLOCK__STATEMENTS,
+				Boolean.TRUE);
+
 		// Parameters
 		this.addSimilarityEntry(ParametersPackage.Literals.CATCH_PARAMETER__TYPE_REFERENCES, Boolean.TRUE);
 		this.addSimilarityEntry(ParametersPackage.Literals.RECEIVER_PARAMETER__THIS_REFERENCE, Boolean.TRUE);
 		this.addSimilarityEntry(ParametersPackage.Literals.RECEIVER_PARAMETER__OUTER_TYPE_REFERENCE, Boolean.TRUE);
-		this.addSimilarityEntry(ExplicitlyTypedLambdaParameters.class,
-				ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS, Boolean.TRUE);
-		this.addSimilarityEntry(ImplicitlyTypedLambdaParameters.class,
-				ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS, Boolean.TRUE);
-		this.addSimilarityEntry(SingleImplicitLambdaParameter.class,
+		this.addSimilarityEntry(
+				new Class[] { ExplicitlyTypedLambdaParameters.class, ImplicitlyTypedLambdaParameters.class,
+						SingleImplicitLambdaParameter.class },
 				ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS, Boolean.TRUE);
 
 		// References
-		this.addSimilarityEntry(EnumConstant.class, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS, Boolean.TRUE);
 		this.addSimilarityEntry(ReferencesPackage.Literals.PRIMITIVE_TYPE_REFERENCE__PRIMITIVE_TYPE, Boolean.TRUE);
 		this.addSimilarityEntry(ReferencesPackage.Literals.SELF_REFERENCE__SELF, Boolean.TRUE);
 		this.addSimilarityEntry(ReferencesPackage.Literals.TEXT_BLOCK_REFERENCE__VALUE, Boolean.TRUE);
 		this.addSimilarityEntry(ReferencesPackage.Literals.ELEMENT_REFERENCE__CONTAINED_TARGET, Boolean.TRUE);
-		this.addSimilarityEntry(ArrayInstantiation.class, ReferencesPackage.Literals.REFERENCE__NEXT, Boolean.TRUE);
-		this.addSimilarityEntry(ArrayInstantiation.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
-		this.addSimilarityEntry(NestedExpression.class, ReferencesPackage.Literals.REFERENCE__NEXT, Boolean.TRUE);
-		this.addSimilarityEntry(NestedExpression.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
-		this.addSimilarityEntry(Instantiation.class, ReferencesPackage.Literals.REFERENCE__NEXT, Boolean.TRUE);
-		this.addSimilarityEntry(Instantiation.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
+		this.addSimilarityEntry(EnumConstant.class, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS, Boolean.TRUE);
 		this.addSimilarityEntry(MethodCall.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
-		this.addSimilarityEntry(PrimitiveTypeReference.class, ReferencesPackage.Literals.REFERENCE__NEXT, Boolean.TRUE);
-		this.addSimilarityEntry(PrimitiveTypeReference.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
-		this.addSimilarityEntry(ReflectiveClassReference.class, ReferencesPackage.Literals.REFERENCE__NEXT, Boolean.TRUE);
-		this.addSimilarityEntry(ReflectiveClassReference.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
-		this.addSimilarityEntry(SelfReference.class, ReferencesPackage.Literals.REFERENCE__NEXT, Boolean.TRUE);
-		this.addSimilarityEntry(SelfReference.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
-		this.addSimilarityEntry(StringReference.class, ReferencesPackage.Literals.REFERENCE__NEXT, Boolean.TRUE);
-		this.addSimilarityEntry(StringReference.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
-		this.addSimilarityEntry(TextBlockReference.class, ReferencesPackage.Literals.REFERENCE__NEXT, Boolean.TRUE);
-		this.addSimilarityEntry(TextBlockReference.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
-		
+		this.addSimilarityEntry(
+				new Class[] { ArrayInstantiation.class, NestedExpression.class, Instantiation.class,
+						PrimitiveTypeReference.class, ReflectiveClassReference.class, SelfReference.class,
+						StringReference.class, TextBlockReference.class },
+				new EStructuralFeature[] { ReferencesPackage.Literals.REFERENCE__NEXT,
+						ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS },
+				new Boolean[] { Boolean.TRUE, Boolean.TRUE });
+
 		/*
 		 * FIXME: There might be issues with TYPED_ELEMENT__TYPE_REFERENCE
 		 */
 		// Types
 		this.addSimilarityEntry(TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS, Boolean.TRUE);
 		this.addSimilarityEntry(TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE, Boolean.TRUE);
-		this.addSimilarityEntry(InstanceOfExpression.class, TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE,
-				Boolean.FALSE);
-		this.addSimilarityEntry(QualifiedTypeArgument.class, TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE,
-				Boolean.FALSE);
-		this.addSimilarityEntry(NewConstructorCall.class, TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE,
-				Boolean.FALSE);
-		this.addSimilarityEntry(NewConstructorCallWithInferredTypeArguments.class,
+		this.addSimilarityEntry(
+				new Class[] { InstanceOfExpression.class, QualifiedTypeArgument.class, NewConstructorCall.class,
+						NewConstructorCallWithInferredTypeArguments.class, ProvidesModuleDirective.class,
+						UsesModuleDirective.class },
 				TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE, Boolean.FALSE);
-		this.addSimilarityEntry(ProvidesModuleDirective.class, TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE,
-				Boolean.FALSE);
-		this.addSimilarityEntry(UsesModuleDirective.class, TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE,
-				Boolean.FALSE);
 
 		// Variables
 		this.addSimilarityEntry(VariablesPackage.Literals.LOCAL_VARIABLE__ADDITIONAL_LOCAL_VARIABLES, Boolean.TRUE);
