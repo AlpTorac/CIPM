@@ -16,7 +16,7 @@ public interface IBinaryLongLiteralInitialiser extends ILongLiteralInitialiser {
     	return true;
     }
     
-    public default boolean setBinaryValue(BinaryLongLiteral bil, int val) {
+    public default boolean setBinaryValue(BinaryLongLiteral bil, long val) {
     	return this.setBinaryValue(bil, BigInteger.valueOf(val));
     }
 }
