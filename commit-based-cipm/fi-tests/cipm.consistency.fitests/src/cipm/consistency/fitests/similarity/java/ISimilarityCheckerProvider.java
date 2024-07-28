@@ -9,5 +9,8 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
  * @author atora
  */
 public interface ISimilarityCheckerProvider {
+	/**
+	 * Constructs and returns an {@link ISimilarityChecker} instance.
+	 */
 	public ISimilarityChecker createSC();
 }

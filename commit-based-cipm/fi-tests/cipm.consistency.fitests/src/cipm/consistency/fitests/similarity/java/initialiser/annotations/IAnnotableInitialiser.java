@@ -18,6 +18,6 @@ public interface IAnnotableInitialiser extends ICommentableInitialiser {
 	}
 	
 	public default boolean addAnnotations(Annotable aObj, AnnotationInstance[] ais) {
-		return this.addXs(aObj, ais, this::addAnnotation);
+		return this.doMultipleModifications(aObj, ais, this::addAnnotation);
 	}
 }

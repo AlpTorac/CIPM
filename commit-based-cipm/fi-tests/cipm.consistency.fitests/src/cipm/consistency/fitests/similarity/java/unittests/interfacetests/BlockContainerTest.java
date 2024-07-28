@@ -27,6 +27,6 @@ public class BlockContainerTest extends EObjectSimilarityTest implements UsesSta
 		var objOne = this.initElement(init, this.createMinimalBlockWithNullReturn());
 		var objTwo = this.initElement(init, this.createMinimalBlockWithTrivialAssert());
 		
-		this.testX(objOne, objTwo, StatementsPackage.Literals.BLOCK_CONTAINER__BLOCK);
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.BLOCK_CONTAINER__BLOCK);
 	}
 }

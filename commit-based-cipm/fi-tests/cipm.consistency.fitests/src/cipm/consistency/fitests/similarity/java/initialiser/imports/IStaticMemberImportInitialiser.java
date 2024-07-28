@@ -14,6 +14,6 @@ public interface IStaticMemberImportInitialiser extends
 	}
 	
 	public default boolean addStaticMembers(StaticMemberImport smi, ReferenceableElement[] res) {
-		return this.addXs(smi, res, this::addStaticMember);
+		return this.doMultipleModifications(smi, res, this::addStaticMember);
 	}
 }

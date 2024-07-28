@@ -17,6 +17,6 @@ public interface ICompilationUnitInitialiser extends IJavaRootInitialiser {
 	}
 	
 	public default boolean addClassifiers(CompilationUnit cu, ConcreteClassifier[] ccs) {
-		return this.addXs(cu, ccs, this::addClassifier);
+		return this.doMultipleModifications(cu, ccs, this::addClassifier);
 	}
 }

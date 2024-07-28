@@ -36,6 +36,6 @@ public class NewConstructorCallTest extends EObjectSimilarityTest implements Use
 		var objOne = this.initElement(this.createMinimalAnonymousClassWithMethod("met1"));
 		var objTwo = this.initElement(this.createMinimalAnonymousClassWithMethod("met2"));
 		
-		this.testX(objOne, objTwo, InstantiationsPackage.Literals.NEW_CONSTRUCTOR_CALL__ANONYMOUS_CLASS);
+		this.testSimilarity(objOne, objTwo, InstantiationsPackage.Literals.NEW_CONSTRUCTOR_CALL__ANONYMOUS_CLASS);
 	}
 }

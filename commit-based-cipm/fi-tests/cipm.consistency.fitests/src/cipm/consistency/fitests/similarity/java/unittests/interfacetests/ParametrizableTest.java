@@ -27,6 +27,6 @@ public class ParametrizableTest extends EObjectSimilarityTest implements UsesPar
 		var objOne = this.initElement(init, new Parameter[] {this.createMinimalParamWithClsTarget("p1", "t1")});
 		var objTwo = this.initElement(init, new Parameter[] {this.createMinimalParamWithClsTarget("p2", "t2"), this.createMinimalParamWithClsTarget("p3", "t3")});
 		
-		this.testX(objOne, objTwo, ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS);
+		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS);
 	}
 }

@@ -35,6 +35,6 @@ public class ArgumentableTest extends EObjectSimilarityTest implements UsesConcr
 				new LiteralFactory().createDecIntegerLiteral(BigInteger.ZERO)
 		});
 		
-		this.testX(objOne, objTwo, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS);
+		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS);
 	}
 }

@@ -17,6 +17,6 @@ public interface IExpressionListInitialiser extends IForLoopInitializerInitialis
 	}
 	
 	public default boolean addExpressions(ExpressionList exprList, Expression[] exprs) {
-		return this.addXs(exprList, exprs, this::addExpression);
+		return this.doMultipleModifications(exprList, exprs, this::addExpression);
 	}
 }

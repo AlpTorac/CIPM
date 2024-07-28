@@ -22,7 +22,7 @@ public class ConditionalOrExpressionTest extends EObjectSimilarityTest implement
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(new ConditionalOrExpressionChild[] {this.createInteger(1)}),
 				this.initElement(new ConditionalOrExpressionChild[] {this.createInteger(2)}),
 				ExpressionsPackage.Literals.CONDITIONAL_OR_EXPRESSION__CHILDREN);

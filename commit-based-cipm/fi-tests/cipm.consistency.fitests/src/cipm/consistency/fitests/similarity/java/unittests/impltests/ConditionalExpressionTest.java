@@ -30,7 +30,7 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(this.createInteger(1), null, null, null),
 				this.initElement(this.createInteger(2), null, null, null),
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__CHILD);
@@ -40,7 +40,7 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 	public void testExpressionChild() {
 		this.setResourceFileTestIdentifier("testExpressionChild");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(null, this.createInteger(1), null, null),
 				this.initElement(null, this.createInteger(2), null, null),
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__CHILD);
@@ -50,7 +50,7 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 	public void testExpressionIf() {
 		this.setResourceFileTestIdentifier("testExpressionIf");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(null, null, this.createInteger(1), null),
 				this.initElement(null, null, this.createInteger(2), null),
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__EXPRESSION_IF);
@@ -60,7 +60,7 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 	public void testGeneralExpressionElse() {
 		this.setResourceFileTestIdentifier("testGeneralExpressionElse");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(null, null, null, this.createInteger(1)),
 				this.initElement(null, null, null, this.createInteger(2)),
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__GENERAL_EXPRESSION_ELSE);

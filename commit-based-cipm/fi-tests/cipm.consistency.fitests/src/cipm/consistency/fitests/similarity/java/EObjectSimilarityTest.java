@@ -16,7 +16,6 @@ import cipm.consistency.fitests.similarity.java.params.InitialiserTestSettingsPr
 import cipm.consistency.fitests.similarity.java.params.SimilarityValues;
 
 // FIXME: Add tests for possible exceptions in impltests and interfacetests
-// TODO: Rename somethingX() methods
 
 /**
  * Extends {@link AbstractSimilarityTest} with similarity checking methods to
@@ -154,15 +153,15 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	/**
 	 * Clones elem and compares it with its clone. They are expected to be similar.
 	 */
-	public void sameX(EObject elem) {
-		this.compareX(elem, elem, Boolean.TRUE);
+	public void assertSimilar(EObject elem) {
+		this.assertSimilarityResult(elem, elem, Boolean.TRUE);
 	}
 
 	/**
 	 * Compares elem1 with elem2, expects the similarity result to be the same with
 	 * the given expected value.
 	 */
-	public void compareX(EObject elem1, EObject elem2, Boolean expectedSimilarityResult) {
+	public void assertSimilarityResult(EObject elem1, EObject elem2, Boolean expectedSimilarityResult) {
 		if (expectedSimilarityResult == null) {
 			this.getLogger().debug("No expected similarity result present");
 		} else if ((!expectedSimilarityResult.booleanValue() && this.getActualEquality(elem1, elem2))) {
@@ -200,23 +199,23 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	 *                the expected result of the similarity comparing. Otherwise,
 	 *                its type is assumed to be {@link EStructuralFeature}.
 	 */
-	public void testX(EObject elem1, EObject elem2, Class<? extends EObject> objCls, Object attrKey) {
-		this.sameX(elem1);
-		this.sameX(elem2);
+	public void testSimilarity(EObject elem1, EObject elem2, Class<? extends EObject> objCls, Object attrKey) {
+		this.assertSimilar(elem1);
+		this.assertSimilar(elem2);
 
 		var key = attrKey.getClass().equals(Boolean.class) ? (Boolean) attrKey
 				: this.getExpectedSimilarityResult(objCls, (EStructuralFeature) attrKey);
 
-		this.compareX(elem1, elem2, key);
-		this.compareX(elem2, elem1, key);
+		this.assertSimilarityResult(elem1, elem2, key);
+		this.assertSimilarityResult(elem2, elem1, key);
 	}
 
 	/**
-	 * The variant of {@link #testX(EObject, EObject, Class, Object)} that uses the
+	 * The variant of {@link #testSimilarity(EObject, EObject, Class, Object)} that uses the
 	 * same class as the given elems.
 	 */
 	@SuppressWarnings("unchecked")
-	public void testX(EObject elem1, EObject elem2, Object attrKey) {
-		this.testX(elem1, elem2, (Class<? extends EObject>) elem1.eClass().getInstanceClass(), attrKey);
+	public void testSimilarity(EObject elem1, EObject elem2, Object attrKey) {
+		this.testSimilarity(elem1, elem2, (Class<? extends EObject>) elem1.eClass().getInstanceClass(), attrKey);
 	}
 }

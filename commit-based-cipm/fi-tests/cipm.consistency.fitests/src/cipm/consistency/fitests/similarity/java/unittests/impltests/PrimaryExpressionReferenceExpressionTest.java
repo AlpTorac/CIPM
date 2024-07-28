@@ -24,7 +24,7 @@ public class PrimaryExpressionReferenceExpressionTest extends EObjectSimilarityT
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(this.createInteger(1), null),
 				this.initElement(this.createInteger(2), null),
 				ExpressionsPackage.Literals.PRIMARY_EXPRESSION_REFERENCE_EXPRESSION__CHILD);
@@ -34,7 +34,7 @@ public class PrimaryExpressionReferenceExpressionTest extends EObjectSimilarityT
 	public void testMethodReference() {
 		this.setResourceFileTestIdentifier("testMethodReference");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(null, this.createMinimalSR("str1")),
 				this.initElement(null, this.createMinimalSR("str2")),
 				ExpressionsPackage.Literals.PRIMARY_EXPRESSION_REFERENCE_EXPRESSION__METHOD_REFERENCE);

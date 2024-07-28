@@ -26,7 +26,7 @@ public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceable
 	}
     
 	public default boolean addImports(Classifier cls, Import[] imps) {
-		return this.addXs(cls, imps, this::addImport);
+		return this.doMultipleModifications(cls, imps, this::addImport);
 	}
 	public default boolean addPackageImport(Classifier cls, Import imp) {
 		if (imp != null) {
@@ -38,6 +38,6 @@ public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceable
 	}
 	
 	public default boolean addPackageImports(Classifier cls, Import[] imps) {
-		return this.addXs(cls, imps, this::addPackageImport);
+		return this.doMultipleModifications(cls, imps, this::addPackageImport);
 	}
 }

@@ -30,7 +30,7 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest
 		var objOne = this.initElement(this.createMinimalClass("cls1"), null);
 		var objTwo = this.initElement(this.createMinimalClass("cls2"), null);
 		
-		this.testX(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_INSTANCE__ANNOTATION);
+		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_INSTANCE__ANNOTATION);
 	}
 	
 	@Test
@@ -40,6 +40,6 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest
 		var objOne = this.initElement(null, this.createSingleNullAnnoParam());
 		var objTwo = this.initElement(null, this.createSingleStrAnnoParam("val"));
 		
-		this.testX(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_INSTANCE__PARAMETER);
+		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_INSTANCE__PARAMETER);
 	}
 }

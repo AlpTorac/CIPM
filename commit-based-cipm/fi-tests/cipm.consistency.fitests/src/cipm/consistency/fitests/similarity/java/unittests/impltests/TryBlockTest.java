@@ -32,7 +32,7 @@ UsesStatements, UsesLocalVariables {
 		var objOne = this.initElement(new Resource[] {this.createMinimalLV("lv1")}, null, null);
 		var objTwo = this.initElement(new Resource[] {this.createMinimalLV("lv2")}, null, null);
 		
-		this.testX(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__RESOURCES);
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__RESOURCES);
 	}
 	
 	@Test
@@ -42,7 +42,7 @@ UsesStatements, UsesLocalVariables {
 		var objOne = this.initElement(null, new CatchBlock[] {this.createMinimalCB("p1", "t1")}, null);
 		var objTwo = this.initElement(null, new CatchBlock[] {this.createMinimalCB("p2", "t2")}, null);
 		
-		this.testX(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__CATCH_BLOCKS);
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__CATCH_BLOCKS);
 	}
 	
 	@Test
@@ -52,6 +52,6 @@ UsesStatements, UsesLocalVariables {
 		var objOne = this.initElement(null, null, this.createMinimalBlockWithNullReturn());
 		var objTwo = this.initElement(null, null, this.createMinimalBlockWithTrivialAssert());
 		
-		this.testX(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__FINALLY_BLOCK);
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__FINALLY_BLOCK);
 	}
 }

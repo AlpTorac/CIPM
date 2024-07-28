@@ -25,6 +25,6 @@ public class ArraySelectorTest extends EObjectSimilarityTest implements UsesExpr
 		var objOne = this.initElement(this.createInteger(1));
 		var objTwo = this.initElement(this.createInteger(2));
 		
-		this.testX(objOne, objTwo, ArraysPackage.Literals.ARRAY_SELECTOR__POSITION);
+		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_SELECTOR__POSITION);
 	}
 }

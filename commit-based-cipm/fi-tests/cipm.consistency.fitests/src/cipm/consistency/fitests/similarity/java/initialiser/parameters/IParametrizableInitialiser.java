@@ -17,6 +17,6 @@ public interface IParametrizableInitialiser extends ICommentableInitialiser {
 	}
 	
 	public default boolean addParameters(Parametrizable parametrizable, Parameter[] params) {
-		return this.addXs(parametrizable, params, this::addParameter);
+		return this.doMultipleModifications(parametrizable, params, this::addParameter);
 	}
 }

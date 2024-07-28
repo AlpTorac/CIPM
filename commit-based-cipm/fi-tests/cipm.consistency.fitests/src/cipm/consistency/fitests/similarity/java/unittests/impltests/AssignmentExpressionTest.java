@@ -27,7 +27,7 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 	public void testAssignmentOperator() {
 		this.setResourceFileTestIdentifier("testAssignmentOperator");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(this.createAssignmentOperator(), null, null),
 				this.initElement(this.createAssignmentOrOperator(), null, null),
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__ASSIGNMENT_OPERATOR);
@@ -37,7 +37,7 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(null, this.createInteger(1), null),
 				this.initElement(null, this.createInteger(2), null),
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__CHILD);
@@ -47,7 +47,7 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 	public void testValue() {
 		this.setResourceFileTestIdentifier("testValue");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(null, null, this.createInteger(1)),
 				this.initElement(null, null, this.createInteger(2)),
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__VALUE);

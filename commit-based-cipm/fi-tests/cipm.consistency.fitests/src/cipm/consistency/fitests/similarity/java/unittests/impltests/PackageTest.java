@@ -29,7 +29,7 @@ public class PackageTest extends EObjectSimilarityTest implements UsesModules, U
 		var objOne = this.initElement(this.createMinimalModule("mod1"), null);
 		var objTwo = this.initElement(this.createMinimalModule("mod2"), null);
 		
-		this.testX(objOne, objTwo, ContainersPackage.Literals.PACKAGE__MODULE);
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.PACKAGE__MODULE);
 	}
 	
 	@Test
@@ -43,6 +43,6 @@ public class PackageTest extends EObjectSimilarityTest implements UsesModules, U
 				this.createMinimalClass("cls2")
 		});
 		
-		this.testX(objOne, objTwo, ContainersPackage.Literals.PACKAGE__CLASSIFIERS);
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.PACKAGE__CLASSIFIERS);
 	}
 }

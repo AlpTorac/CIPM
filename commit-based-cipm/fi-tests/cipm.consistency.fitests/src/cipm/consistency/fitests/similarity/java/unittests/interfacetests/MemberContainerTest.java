@@ -35,7 +35,7 @@ public class MemberContainerTest extends EObjectSimilarityTest implements
 				this.createMinimalClass("cls2")
 		}, null);
 		
-		this.testX(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
+		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
 	}
 	
 	@ParameterizedTest
@@ -50,6 +50,6 @@ public class MemberContainerTest extends EObjectSimilarityTest implements
 				this.createMinimalClass("cls2")
 		});
 		
-		this.testX(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
+		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
 	}
 }

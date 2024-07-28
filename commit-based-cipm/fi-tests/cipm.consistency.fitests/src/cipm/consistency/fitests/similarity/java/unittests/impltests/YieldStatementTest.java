@@ -25,6 +25,6 @@ public class YieldStatementTest extends EObjectSimilarityTest implements UsesExp
 		var objOne = this.initElement(this.createInteger(1));
 		var objTwo = this.initElement(this.createInteger(2));
 		
-		this.testX(objOne, objTwo, StatementsPackage.Literals.YIELD_STATEMENT__YIELD_EXPRESSION);
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.YIELD_STATEMENT__YIELD_EXPRESSION);
 	}
 }

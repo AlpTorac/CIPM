@@ -25,6 +25,6 @@ public class ExtendsTypeArgumentTest extends EObjectSimilarityTest implements Us
 		var objOne = this.initElement(this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(this.createMinimalClsRef("cls2"));
 		
-		this.testX(objOne, objTwo, GenericsPackage.Literals.EXTENDS_TYPE_ARGUMENT__EXTEND_TYPE);
+		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.EXTENDS_TYPE_ARGUMENT__EXTEND_TYPE);
 	}
 }

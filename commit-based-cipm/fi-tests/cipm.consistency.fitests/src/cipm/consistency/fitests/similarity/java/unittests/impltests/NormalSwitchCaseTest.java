@@ -25,6 +25,6 @@ public class NormalSwitchCaseTest extends EObjectSimilarityTest implements UsesE
 		var objOne = this.initElement(new Expression[] {this.createMinimalFalseEE()});
 		var objTwo = this.initElement(new Expression[] {this.createMinimalTrueNEE()});
 		
-		this.testX(objOne, objTwo, StatementsPackage.Literals.NORMAL_SWITCH_CASE__ADDITIONAL_CONDITIONS);
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.NORMAL_SWITCH_CASE__ADDITIONAL_CONDITIONS);
 	}
 }

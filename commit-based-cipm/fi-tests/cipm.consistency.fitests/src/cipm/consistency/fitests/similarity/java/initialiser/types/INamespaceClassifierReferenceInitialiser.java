@@ -42,6 +42,6 @@ public interface INamespaceClassifierReferenceInitialiser extends
 	}
 	
 	public default boolean addClassifierReferences(NamespaceClassifierReference ncr, ClassifierReference[] crefs) {
-		return this.addXs(ncr, crefs, this::addClassifierReference);
+		return this.doMultipleModifications(ncr, crefs, this::addClassifierReference);
 	}
 }

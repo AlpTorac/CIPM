@@ -24,6 +24,6 @@ public class NamedElementTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(initialiser, "name11");
 		var objTwo = this.initElement(initialiser, "name22");
 		
-		this.testX(objOne, objTwo, CommonsPackage.Literals.NAMED_ELEMENT__NAME);
+		this.testSimilarity(objOne, objTwo, CommonsPackage.Literals.NAMED_ELEMENT__NAME);
 	}
 }

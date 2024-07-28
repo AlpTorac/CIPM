@@ -18,6 +18,6 @@ public interface IArrayInitializerInitialiser extends IAnnotationValueInitialise
 	}
 	
 	public default boolean addInitialValues(ArrayInitializer ai, ArrayInitializationValue[] aivs) {
-		return this.addXs(ai, aivs, this::addInitialValue);
+		return this.doMultipleModifications(ai, aivs, this::addInitialValue);
 	}
 }

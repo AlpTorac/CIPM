@@ -25,6 +25,6 @@ public class SuperTypeArgumentTest extends EObjectSimilarityTest implements Uses
 		var objOne = this.initElement(this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(this.createMinimalClsRef("cls2"));
 		
-		this.testX(objOne, objTwo, GenericsPackage.Literals.SUPER_TYPE_ARGUMENT__SUPER_TYPE);
+		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.SUPER_TYPE_ARGUMENT__SUPER_TYPE);
 	}
 }

@@ -25,6 +25,6 @@ public class LocalVariableStatementTest extends EObjectSimilarityTest implements
 		var objOne = this.initElement(this.createMinimalLV("lv1"));
 		var objTwo = this.initElement(this.createMinimalLV("lv2"));
 		
-		this.testX(objOne, objTwo, StatementsPackage.Literals.LOCAL_VARIABLE_STATEMENT__VARIABLE);
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.LOCAL_VARIABLE_STATEMENT__VARIABLE);
 	}
 }

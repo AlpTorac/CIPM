@@ -15,7 +15,7 @@ public interface IInterfaceInitialiser extends IConcreteClassifierInitialiser {
 	}
 	
 	public default boolean addDefaultExtends(Interface intfc, TypeReference[] trefs) {
-		return this.addXs(intfc, trefs, this::addDefaultExtends);
+		return this.doMultipleModifications(intfc, trefs, this::addDefaultExtends);
 	}
 	public default boolean addExtends(Interface intfc, TypeReference tref) {
 		if (tref != null) {
@@ -26,6 +26,6 @@ public interface IInterfaceInitialiser extends IConcreteClassifierInitialiser {
 	}
 	
 	public default boolean addExtends(Interface intfc, TypeReference[] trefs) {
-		return this.addXs(intfc, trefs, this::addExtends);
+		return this.doMultipleModifications(intfc, trefs, this::addExtends);
 	}
 }

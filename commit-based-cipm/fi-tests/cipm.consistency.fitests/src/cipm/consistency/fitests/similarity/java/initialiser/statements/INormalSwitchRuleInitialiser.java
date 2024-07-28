@@ -16,6 +16,6 @@ public interface INormalSwitchRuleInitialiser extends IConditionalInitialiser,
 	}
 	
 	public default boolean addAdditionalConditions(NormalSwitchRule nsr, Expression[] exprs) {
-		return this.addXs(nsr, exprs, this::addAdditionalCondition);
+		return this.doMultipleModifications(nsr, exprs, this::addAdditionalCondition);
 	}
 }

@@ -14,6 +14,6 @@ public interface IAnnotationParameterListInitialiser extends IAnnotationParamete
 		return true;
 	}
 	public default boolean addSettings(AnnotationParameterList apl, AnnotationAttributeSetting[] aass) {
-		return this.addXs(apl, aass, this::addSetting);
+		return this.doMultipleModifications(apl, aass, this::addSetting);
 	}
 }

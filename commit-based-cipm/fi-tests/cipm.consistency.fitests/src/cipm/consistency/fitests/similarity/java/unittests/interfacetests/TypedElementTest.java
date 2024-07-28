@@ -27,6 +27,6 @@ public class TypedElementTest extends EObjectSimilarityTest implements UsesTypeR
 		var objOne = this.initElement(init, this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(init, this.createMinimalClsRef("cls2"));
 		
-		this.testX(objOne, objTwo, TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE);
+		this.testSimilarity(objOne, objTwo, TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE);
 	}
 }

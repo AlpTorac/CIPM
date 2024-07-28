@@ -7,7 +7,7 @@ import org.splevo.jamopp.diffing.similarity.base.MapSimilarityToolboxFactory;
 
 /**
  * A concrete implementation of {@link ISimilarityCheckerProvider} that creates
- * a {@link JavaSimilarityChecker}.
+ * {@link JavaSimilarityChecker} instances.
  * 
  * @author atora
  */

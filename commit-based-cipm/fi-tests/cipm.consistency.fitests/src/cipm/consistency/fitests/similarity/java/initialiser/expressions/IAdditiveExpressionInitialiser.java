@@ -16,7 +16,7 @@ public interface IAdditiveExpressionInitialiser extends IShiftExpressionChildIni
 	}
 	
 	public default boolean addAdditiveOperators(AdditiveExpression ae, AdditiveOperator[] ops) {
-		return this.addXs(ae, ops, this::addAdditiveOperator);
+		return this.doMultipleModifications(ae, ops, this::addAdditiveOperator);
 	}
 	public default boolean addChild(AdditiveExpression ae, AdditiveExpressionChild child) {
 		if (child != null) {
@@ -27,6 +27,6 @@ public interface IAdditiveExpressionInitialiser extends IShiftExpressionChildIni
 	}
 	
 	public default boolean addChildren(AdditiveExpression ae, AdditiveExpressionChild[] children) {
-		return this.addXs(ae, children, this::addChild);
+		return this.doMultipleModifications(ae, children, this::addChild);
 	}
 }

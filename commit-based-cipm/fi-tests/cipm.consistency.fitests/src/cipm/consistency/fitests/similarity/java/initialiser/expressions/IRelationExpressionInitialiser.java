@@ -16,7 +16,7 @@ public interface IRelationExpressionInitialiser extends IInstanceOfExpressionChi
 	}
 	
 	public default boolean addRelationOperators(RelationExpression re, RelationOperator[] ops) {
-		return this.addXs(re, ops, this::addRelationOperator);
+		return this.doMultipleModifications(re, ops, this::addRelationOperator);
 	}
 	public default boolean addChild(RelationExpression cae, RelationExpressionChild child) {
 		if (child != null) {
@@ -27,6 +27,6 @@ public interface IRelationExpressionInitialiser extends IInstanceOfExpressionChi
 	}
 	
 	public default boolean addChildren(RelationExpression cae, RelationExpressionChild[] children) {
-		return this.addXs(cae, children, this::addChild);
+		return this.doMultipleModifications(cae, children, this::addChild);
 	}
 }

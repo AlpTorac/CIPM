@@ -24,7 +24,7 @@ public class RelationExpressionTest extends EObjectSimilarityTest implements Use
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(new RelationExpressionChild[] {this.createInteger(1)}, null),
 				this.initElement(new RelationExpressionChild[] {this.createInteger(2)}, null),
 				ExpressionsPackage.Literals.RELATION_EXPRESSION__CHILDREN);
@@ -34,7 +34,7 @@ public class RelationExpressionTest extends EObjectSimilarityTest implements Use
 	public void testRelationOperator() {
 		this.setResourceFileTestIdentifier("testRelationOperator");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(null, new RelationOperator[] {this.createGreaterThanOperator()}),
 				this.initElement(null, new RelationOperator[] {this.createLessThanOperator()}),
 				ExpressionsPackage.Literals.RELATION_EXPRESSION__RELATION_OPERATORS);

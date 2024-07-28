@@ -25,6 +25,6 @@ public class CatchParameterTest extends EObjectSimilarityTest implements UsesTyp
 		var objOne = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls1")});
 		var objTwo = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls2")});
 		
-		this.testX(objOne, objTwo, ParametersPackage.Literals.CATCH_PARAMETER__TYPE_REFERENCES);
+		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.CATCH_PARAMETER__TYPE_REFERENCES);
 	}
 }

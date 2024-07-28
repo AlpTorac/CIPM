@@ -25,6 +25,6 @@ public class ArrayInstantiationBySizeTest extends EObjectSimilarityTest implemen
 		var objOne = this.initElement(new Expression[] {this.createInteger(1)});
 		var objTwo = this.initElement(new Expression[] {this.createInteger(2)});
 		
-		this.testX(objOne, objTwo, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_SIZE__SIZES);
+		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_SIZE__SIZES);
 	}
 }

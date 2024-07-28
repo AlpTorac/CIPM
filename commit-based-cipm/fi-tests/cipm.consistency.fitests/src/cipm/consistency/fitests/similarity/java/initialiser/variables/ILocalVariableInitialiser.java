@@ -21,6 +21,6 @@ public interface ILocalVariableInitialiser extends
 	}
 	
 	public default boolean addAdditionalLocalVariables(LocalVariable lv, AdditionalLocalVariable[] alvs) {
-		return this.addXs(lv, alvs, this::addAdditionalLocalVariable);
+		return this.doMultipleModifications(lv, alvs, this::addAdditionalLocalVariable);
 	}
 }

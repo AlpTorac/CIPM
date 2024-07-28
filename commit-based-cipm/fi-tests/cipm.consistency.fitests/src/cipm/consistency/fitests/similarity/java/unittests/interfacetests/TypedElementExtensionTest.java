@@ -27,6 +27,6 @@ public class TypedElementExtensionTest extends EObjectSimilarityTest implements 
 		var objOne = this.initElement(init, this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(init, this.createMinimalClsRef("cls2"));
 		
-		this.testX(objOne, objTwo, TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
+		this.testSimilarity(objOne, objTwo, TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
 	}
 }

@@ -15,6 +15,6 @@ public interface IConditionalOrExpressionInitialiser extends IConditionalExpress
 	}
 	
 	public default boolean addChildren(ConditionalOrExpression coe, ConditionalOrExpressionChild[] children) {
-		return this.addXs(coe, children, this::addChild);
+		return this.doMultipleModifications(coe, children, this::addChild);
 	}
 }

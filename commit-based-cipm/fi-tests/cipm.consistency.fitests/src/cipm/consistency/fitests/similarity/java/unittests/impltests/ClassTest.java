@@ -26,7 +26,7 @@ public class ClassTest extends EObjectSimilarityTest implements UsesTypeReferenc
 		var objOne = this.initElement(this.createMinimalClsRef("cls1"), null);
 		var objTwo = this.initElement(this.createMinimalClsRef("cls2"), null);
 		
-		this.testX(objOne, objTwo, ClassifiersPackage.Literals.CLASS__DEFAULT_EXTENDS);
+		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.CLASS__DEFAULT_EXTENDS);
 	}
 	
 	@Test
@@ -36,6 +36,6 @@ public class ClassTest extends EObjectSimilarityTest implements UsesTypeReferenc
 		var objOne = this.initElement(null, this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(null, this.createMinimalClsRef("cls2"));
 		
-		this.testX(objOne, objTwo, ClassifiersPackage.Literals.CLASS__EXTENDS);
+		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.CLASS__EXTENDS);
 	}
 }

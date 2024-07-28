@@ -27,6 +27,6 @@ public class StatementContainerTest extends EObjectSimilarityTest implements Use
 		var objOne = this.initElement(init, this.createMinimalNullReturn());
 		var objTwo = this.initElement(init, this.createMinimalTrivialAssert());
 		
-		this.testX(objOne, objTwo, StatementsPackage.Literals.STATEMENT_CONTAINER__STATEMENT);
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.STATEMENT_CONTAINER__STATEMENT);
 	}
 }

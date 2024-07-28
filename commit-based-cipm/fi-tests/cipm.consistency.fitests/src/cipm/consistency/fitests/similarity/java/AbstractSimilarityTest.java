@@ -93,12 +93,12 @@ public abstract class AbstractSimilarityTest {
 	}
 
 	/**
-	 * Creates and returns a {@link Resource} instance, whose uri will be the given
+	 * Creates and returns a {@link Resource} instance, whose URI will be the given
 	 * one.
 	 */
-	private Resource initResource(URI uri) {
+	private Resource initResource(URI resUri) {
 		ResourceSet rSet = new ResourceSetImpl();
-		return rSet.createResource(uri);
+		return rSet.createResource(resUri);
 	}
 
 	/**
@@ -245,9 +245,9 @@ public abstract class AbstractSimilarityTest {
 	 * file extension into {@link Resource.Factory.Registry}. Duplicates the entry
 	 * and adds it to {@link #registryMappings} as well.
 	 */
-	public void setResourceRegistry(String extension) {
-		this.registryMappings.put(extension, new XMIResourceFactoryImpl());
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(extension, new XMIResourceFactoryImpl());
+	public void setResourceRegistry(String resFileExtension) {
+		this.registryMappings.put(resFileExtension, new XMIResourceFactoryImpl());
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(resFileExtension, new XMIResourceFactoryImpl());
 	}
 
 	/**

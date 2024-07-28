@@ -17,7 +17,7 @@ public interface IMemberContainerInitialiser extends ICommentableInitialiser {
 	}
 	
 	public default boolean addMembers(MemberContainer mc, Member[] mbrs) {
-		return this.addXs(mc, mbrs, this::addMember);
+		return this.doMultipleModifications(mc, mbrs, this::addMember);
 	}
 	public default boolean addDefaultMember(MemberContainer mc, Member mbr) {
 		if (mbr != null) {
@@ -28,6 +28,6 @@ public interface IMemberContainerInitialiser extends ICommentableInitialiser {
 	}
 	
 	public default boolean addDefaultMembers(MemberContainer mc, Member[] mbrs) {
-		return this.addXs(mc, mbrs, this::addDefaultMember);
+		return this.doMultipleModifications(mc, mbrs, this::addDefaultMember);
 	}
 }

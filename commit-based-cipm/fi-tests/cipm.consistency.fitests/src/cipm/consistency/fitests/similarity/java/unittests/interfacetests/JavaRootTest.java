@@ -26,6 +26,6 @@ public class JavaRootTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(initialiser, Origin.BINDING);
 		var objTwo = this.initElement(initialiser, Origin.CLASS);
 		
-		this.testX(objOne, objTwo, ContainersPackage.Literals.JAVA_ROOT__ORIGIN);
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.JAVA_ROOT__ORIGIN);
 	}
 }

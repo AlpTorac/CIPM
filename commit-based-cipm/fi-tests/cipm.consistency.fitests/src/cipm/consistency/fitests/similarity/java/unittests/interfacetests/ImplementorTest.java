@@ -30,6 +30,6 @@ public class ImplementorTest extends EObjectSimilarityTest implements UsesTypeRe
 				this.createMinimalClsRef("cls2")
 		});
 		
-		this.testX(objOne, objTwo, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
+		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
 	}
 }

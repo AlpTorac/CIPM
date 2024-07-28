@@ -24,7 +24,7 @@ public class MultiplicativeExpressionTest extends EObjectSimilarityTest implemen
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(new MultiplicativeExpressionChild[] {this.createInteger(1)}, null),
 				this.initElement(new MultiplicativeExpressionChild[] {this.createInteger(2)}, null),
 				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__CHILDREN);
@@ -34,7 +34,7 @@ public class MultiplicativeExpressionTest extends EObjectSimilarityTest implemen
 	public void testMultiplicativeOperator() {
 		this.setResourceFileTestIdentifier("testMultiplicativeOperator");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(null, new MultiplicativeOperator[] {this.createDivisionOperator()}),
 				this.initElement(null, new MultiplicativeOperator[] {this.createMultiplicationOperator()}),
 				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__MULTIPLICATIVE_OPERATORS);

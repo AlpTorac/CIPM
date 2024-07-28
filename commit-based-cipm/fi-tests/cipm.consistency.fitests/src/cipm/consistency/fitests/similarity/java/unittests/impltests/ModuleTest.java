@@ -36,7 +36,7 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 		var objOne = this.initElement(null, null, true);
 		var objTwo = this.initElement(null, null, false);
 		
-		this.testX(objOne, objTwo, ContainersPackage.Literals.MODULE__OPEN);
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__OPEN);
 	}
 	
 	@Test
@@ -50,7 +50,7 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 				this.createMinimalPackage(new String[] {"ns2"})
 		}, null, false);
 		
-		this.testX(objOne, objTwo, ContainersPackage.Literals.MODULE__PACKAGES);
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__PACKAGES);
 	}
 
 	public void testTargets() {
@@ -63,6 +63,6 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 				this.createMinimalOMD(new String[] {"ns1"})
 		}, false);
 		
-		this.testX(objOne, objTwo, ContainersPackage.Literals.MODULE__TARGET);
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__TARGET);
 	}
 }

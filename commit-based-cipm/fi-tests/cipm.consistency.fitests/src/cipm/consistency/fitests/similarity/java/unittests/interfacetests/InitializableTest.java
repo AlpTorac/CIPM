@@ -29,6 +29,6 @@ public class InitializableTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(init, new LiteralFactory().createDecIntegerLiteral(BigInteger.valueOf(5)));
 		var objTwo = this.initElement(init, new LiteralFactory().createBooleanLiteral(false));
 		
-		this.testX(objOne, objTwo, InstantiationsPackage.Literals.INITIALIZABLE__INITIAL_VALUE);
+		this.testSimilarity(objOne, objTwo, InstantiationsPackage.Literals.INITIALIZABLE__INITIAL_VALUE);
 	}
 }

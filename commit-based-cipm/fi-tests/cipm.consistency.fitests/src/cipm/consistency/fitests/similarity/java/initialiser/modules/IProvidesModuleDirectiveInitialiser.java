@@ -19,6 +19,6 @@ public interface IProvidesModuleDirectiveInitialiser extends
 	}
 	
 	public default boolean addServiceProviders(ProvidesModuleDirective pmd, TypeReference[] trefs) {
-		return this.addXs(pmd, trefs, this::addServiceProvider);
+		return this.doMultipleModifications(pmd, trefs, this::addServiceProvider);
 	}
 }

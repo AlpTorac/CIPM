@@ -30,7 +30,7 @@ public class AnnotationAttributeSettingTest extends EObjectSimilarityTest
 		var objOne = this.initElement(this.createMinimalInterfaceMethod("im1Name"), null);
 		var objTwo = this.initElement(this.createMinimalInterfaceMethod("im2Name"), null);
 		
-		this.testX(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__ATTRIBUTE);
+		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__ATTRIBUTE);
 	}
 	
 	@Test
@@ -40,6 +40,6 @@ public class AnnotationAttributeSettingTest extends EObjectSimilarityTest
 		var objOne = this.initElement(null, this.createNullVal());
 		var objTwo = this.initElement(null, this.createStringRefVal("val"));
 		
-		this.testX(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__VALUE);
+		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__VALUE);
 	}
 }

@@ -27,6 +27,6 @@ public class TypeArgumentableTest extends EObjectSimilarityTest implements UsesT
 		var objOne = this.initElement(init, this.createMinimalExtendsTAWithCls("cls1"));
 		var objTwo = this.initElement(init, this.createMinimalSuperTAWithCls("cls2"));
 		
-		this.testX(objOne, objTwo, GenericsPackage.Literals.TYPE_ARGUMENTABLE__TYPE_ARGUMENTS);
+		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.TYPE_ARGUMENTABLE__TYPE_ARGUMENTS);
 	}
 }

@@ -27,6 +27,6 @@ public class LocalVariableTest extends EObjectSimilarityTest implements UsesAddi
 		var objOne = this.initElement(new AdditionalLocalVariable[] {this.createMinimalALV("alv1")});
 		var objTwo = this.initElement(new AdditionalLocalVariable[] {this.createMinimalALV("alv2")});
 		
-		this.testX(objOne, objTwo, VariablesPackage.Literals.LOCAL_VARIABLE__ADDITIONAL_LOCAL_VARIABLES);
+		this.testSimilarity(objOne, objTwo, VariablesPackage.Literals.LOCAL_VARIABLE__ADDITIONAL_LOCAL_VARIABLES);
 	}
 }

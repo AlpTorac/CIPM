@@ -25,6 +25,6 @@ public class SynchronizedBlockTest extends EObjectSimilarityTest implements Uses
 		var objOne = this.initElement(this.createInteger(1));
 		var objTwo = this.initElement(this.createInteger(2));
 		
-		this.testX(objOne, objTwo, StatementsPackage.Literals.SYNCHRONIZED_BLOCK__LOCK_PROVIDER);
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SYNCHRONIZED_BLOCK__LOCK_PROVIDER);
 	}
 }

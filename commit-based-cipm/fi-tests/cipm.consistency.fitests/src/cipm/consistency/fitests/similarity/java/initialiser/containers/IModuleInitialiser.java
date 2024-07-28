@@ -24,7 +24,7 @@ public interface IModuleInitialiser extends IJavaRootInitialiser {
 	}
 	
 	public default boolean addTargets(Module mod, ModuleDirective[] mds) {
-		return this.addXs(mod, mds, this::addTarget);
+		return this.doMultipleModifications(mod, mds, this::addTarget);
 	}
 	public default boolean addPackage(Module mod, Package pac) {
 		if (pac != null) {
@@ -35,6 +35,6 @@ public interface IModuleInitialiser extends IJavaRootInitialiser {
 	}
 	
 	public default boolean addPackages(Module mod, Package[] pacs) {
-		return this.addXs(mod, pacs, this::addPackage);
+		return this.doMultipleModifications(mod, pacs, this::addPackage);
 	}
 }

@@ -2,6 +2,30 @@ package cipm.consistency.fitests.similarity.java.initialiser;
 
 import org.eclipse.emf.ecore.EObject;
 
+/**
+ * An interface to be implemented by initialisers. Initialisers are interfaces
+ * or classes, which are meant to instantiate objects. For intuition, their
+ * names can be used to denote what they instantiate. <br>
+ * <br>
+ * Initialisers can also implement (default) methods that modify the objects
+ * they initialise. It is suggested to declare the return types of such
+ * modification methods as "boolean". This enables returning true or false to
+ * ensure that the method actually worked as intended and make the modifications
+ * it was meant to do. It is also possible to extract this behaviour into
+ * additional assertion methods. <br>
+ * <br>
+ * It is recommended to separate instantiation and initialisation (modification)
+ * methods, as doing so will allow using the individual methods in
+ * sub-interfaces and sub-classes. <br>
+ * <br>
+ * Implementing initialisers similar to the way the objects are implemented,
+ * which they will instantiate, may make initialisers more flexible and ease
+ * implementing them. <br>
+ * <br>
+ * This interface also contains some static utility methods.
+ * 
+ * @author atora
+ */
 public interface IInitialiser {
 	/**
 	 * @return A fresh instance of this initialiser's class.
@@ -20,10 +44,10 @@ public interface IInitialiser {
 	public boolean initialise(Object obj);
 
 	/**
-	 * Checks whether a given {@link IInitialiser} class has any methods that modify
-	 * given {@link EObject} instances.
+	 * Checks whether a given {@link IInitialiser} class directly declares any
+	 * methods that modify given {@link EObject} instances.
 	 */
-	public static boolean hasModificationMethods(Class<? extends IInitialiser> initCls) {
+	public static boolean declaresModificationMethods(Class<? extends IInitialiser> initCls) {
 		if (initCls == null) {
 			return false;
 		}
@@ -50,29 +74,34 @@ public interface IInitialiser {
 	}
 
 	/**
-	 * A variant of {@link #hasModificationMethods(Class)} for {@link EObject}
+	 * A variant of {@link #declaresModificationMethods(Class)} for {@link EObject}
 	 * instances. <br>
 	 * <br>
 	 * Extracts {@link EObject} class object from init.
 	 */
-	public static boolean hasModificationMethods(IInitialiser init) {
-		return hasModificationMethods(init.getClass());
+	public static boolean declaresModificationMethods(IInitialiser init) {
+		return declaresModificationMethods(init.getClass());
 	}
 
 	/**
 	 * @return True, if initCls is an initaliser class, which is meant to
 	 *         instantiate objects of class objClass. An initialiser class is
-	 *         assumed to be able to instantiate the class objClass, if it declares
-	 *         a method, whose return type is objClass and which has no parameters.
-	 *         For the result to be true, initCls has to be able to instantiate
-	 *         exactly objClass.
+	 *         assumed to be able to instantiate the class objClass, if it has a
+	 *         method, whose return type is objClass and which has no parameters.
+	 *         The instantiation method can be inherited. For the result to be true,
+	 *         initCls has to be able to instantiate exactly objClass.
 	 */
 	public static boolean isInitialiserFor(Class<? extends IInitialiser> initCls, Class<?> objClass) {
 		if (objClass == null) {
 			return false;
 		}
 
-		var methods = initCls.getDeclaredMethods();
+		/*
+		 * Count inherited methods as well, in order to allow initialisers to be
+		 * extended without having to explicitly declare/override their instantiation
+		 * method.
+		 */
+		var methods = initCls.getMethods();
 
 		for (var m : methods) {
 			/*
@@ -84,8 +113,8 @@ public interface IInitialiser {
 			 * filtered out, if initCls is an interface.
 			 * 
 			 * Also, make sure that the inspected methods are not generated internally by
-			 * Java. This DOES NOT filter the methods in interfaces as desired, because of
-			 * the way extending interfaces works in Java.
+			 * Java. This DOES NOT filter methods in interfaces as desired, because of the
+			 * way extending interfaces works in Java.
 			 */
 			if (!m.isBridge() && !m.isSynthetic() && m.getReturnType().getSimpleName().equals(objClass.getSimpleName())
 					&& m.getParameters().length == 0) {
@@ -121,12 +150,12 @@ public interface IInitialiser {
 	}
 
 	/**
-	 * The dynamic variant of {@link #hasModificationMethods(Class)}. <br>
+	 * The dynamic variant of {@link #declaresModificationMethods(Class)}. <br>
 	 * <br>
 	 * Uses the class of this instance.
 	 */
-	public default boolean hasModificationMethods() {
-		return hasModificationMethods(this.getClass());
+	public default boolean declaresModificationMethods() {
+		return declaresModificationMethods(this.getClass());
 	}
 
 	/**

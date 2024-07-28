@@ -15,6 +15,6 @@ public interface IInclusiveOrExpressionInitialiser extends IConditionalAndExpres
 	}
 	
 	public default boolean addChildren(InclusiveOrExpression ioe, InclusiveOrExpressionChild[] children) {
-		return this.addXs(ioe, children, this::addChild);
+		return this.doMultipleModifications(ioe, children, this::addChild);
 	}
 }

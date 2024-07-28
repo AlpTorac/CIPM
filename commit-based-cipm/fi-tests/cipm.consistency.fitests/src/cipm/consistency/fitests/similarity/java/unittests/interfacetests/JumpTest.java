@@ -26,6 +26,6 @@ public class JumpTest extends EObjectSimilarityTest implements UsesStatements {
 		var objOne = this.initElement(init, this.createMinimalJLToNullReturn("jl1"));
 		var objTwo = this.initElement(init, this.createMinimalJLToTrivialAssert("jl2"));
 		
-		this.testX(objOne, objTwo, StatementsPackage.Literals.JUMP__TARGET);
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.JUMP__TARGET);
 	}
 }

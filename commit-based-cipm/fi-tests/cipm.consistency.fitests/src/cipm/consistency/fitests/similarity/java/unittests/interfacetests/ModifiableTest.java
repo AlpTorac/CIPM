@@ -26,6 +26,6 @@ public class ModifiableTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(init, new Modifier[] {new ModifierFactory().createFinal()});
 		var objTwo = this.initElement(init, null);
 		
-		this.testX(objOne, objTwo, ModifiersPackage.Literals.MODIFIABLE__MODIFIERS);
+		this.testSimilarity(objOne, objTwo, ModifiersPackage.Literals.MODIFIABLE__MODIFIERS);
 	}
 }

@@ -22,6 +22,13 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.Statement
 import cipm.consistency.fitests.similarity.java.initialiser.types.TypesInitialiserPackage;
 import cipm.consistency.fitests.similarity.java.initialiser.variables.VariablesInitialiserPackage;
 
+/**
+ * The topmost implementor of {@link IInitialiserPackage}.
+ * <br><br>
+ * Includes all implemented initialisers.
+ * 
+ * @author atora
+ */
 public class InitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiserPackage> getSubPackages() {

@@ -44,6 +44,6 @@ public interface ITypeParameterInitialiser extends IClassifierInitialiser, IAnno
     }
     
 	public default boolean addExtendTypes(TypeParameter tp, TypeReference[] trefs) {
-		return this.addXs(tp, trefs, this::addExtendType);
+		return this.doMultipleModifications(tp, trefs, this::addExtendType);
 	}
 }

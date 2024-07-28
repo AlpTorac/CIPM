@@ -22,7 +22,7 @@ public class AndExpressionTest extends EObjectSimilarityTest implements UsesExpr
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(new AndExpressionChild[] {this.createInteger(1)}),
 				this.initElement(new AndExpressionChild[] {this.createInteger(2)}),
 				ExpressionsPackage.Literals.AND_EXPRESSION__CHILDREN);

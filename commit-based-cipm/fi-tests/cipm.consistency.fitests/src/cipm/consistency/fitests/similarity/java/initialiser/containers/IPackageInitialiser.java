@@ -29,6 +29,6 @@ public interface IPackageInitialiser extends IJavaRootInitialiser, IReferenceabl
 	}
 	
 	public default boolean addClassifiers(Package pac, ConcreteClassifier[] ccs) {
-		return this.addXs(pac, ccs, this::addClassifier);
+		return this.doMultipleModifications(pac, ccs, this::addClassifier);
 	}
 }

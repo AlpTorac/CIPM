@@ -27,6 +27,6 @@ public interface IAccessProvidingModuleDirectiveInitialiser extends
 	}
 	
 	public default boolean addModules(AccessProvidingModuleDirective apmd, ModuleReference[] modrefs) {
-		return this.addXs(apmd, modrefs, this::addModule);
+		return this.doMultipleModifications(apmd, modrefs, this::addModule);
 	}
 }

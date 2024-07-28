@@ -26,7 +26,7 @@ public class InterfaceTest extends EObjectSimilarityTest implements UsesTypeRefe
 		var objOne = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls1")}, null);
 		var objTwo = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls2")}, null);
 		
-		this.testX(objOne, objTwo, ClassifiersPackage.Literals.INTERFACE__DEFAULT_EXTENDS);
+		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.INTERFACE__DEFAULT_EXTENDS);
 	}
 	
 	@Test
@@ -36,6 +36,6 @@ public class InterfaceTest extends EObjectSimilarityTest implements UsesTypeRefe
 		var objOne = this.initElement(null, new TypeReference[] {this.createMinimalClsRef("cls1")});
 		var objTwo = this.initElement(null, new TypeReference[] {this.createMinimalClsRef("cls2")});
 		
-		this.testX(objOne, objTwo, ClassifiersPackage.Literals.INTERFACE__EXTENDS);
+		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.INTERFACE__EXTENDS);
 	}
 }

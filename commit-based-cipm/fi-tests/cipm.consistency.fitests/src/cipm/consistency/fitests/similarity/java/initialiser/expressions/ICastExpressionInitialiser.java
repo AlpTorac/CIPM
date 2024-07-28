@@ -20,7 +20,7 @@ public interface ICastExpressionInitialiser extends ITypedElementInitialiser,
 	}
 	
 	public default boolean addAdditionalBounds(CastExpression ce, TypeReference[] trefs) {
-		return this.addXs(ce, trefs, this::addAdditionalBound);
+		return this.doMultipleModifications(ce, trefs, this::addAdditionalBound);
 	}
 	public default boolean setChild(CastExpression ce, MultiplicativeExpressionChild child) {
 		if (child != null) {
