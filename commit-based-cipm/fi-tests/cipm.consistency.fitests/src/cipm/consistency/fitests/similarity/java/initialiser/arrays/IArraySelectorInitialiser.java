@@ -8,6 +8,9 @@ import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentable
 
 public interface IArraySelectorInitialiser extends IAnnotableInitialiser,
 	ICommentableInitialiser {
+	@Override
+	public ArraySelector instantiate();
+	
 	public default boolean setPosition(ArraySelector as, Expression expr) {
 		if (expr != null) {
 			as.setPosition(expr);

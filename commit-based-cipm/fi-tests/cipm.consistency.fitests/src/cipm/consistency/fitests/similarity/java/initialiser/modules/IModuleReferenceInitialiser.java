@@ -7,6 +7,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.commons.INamespaceAw
 
 public interface IModuleReferenceInitialiser extends
 	INamespaceAwareElementInitialiser {
+	@Override
+	public ModuleReference instantiate();
 	public default boolean setTarget(ModuleReference mref, Module mod) {
 		if (mod != null) {
 			mref.setTarget(mod);
