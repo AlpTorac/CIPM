@@ -6,15 +6,18 @@ import org.emftext.language.java.references.Argumentable;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 /**
- * 
- * getArgumentTypes() does not modify an attribute
+ * An interface meant for {@link IInitialiser} implementors that are supposed to
+ * create {@link Argumentable} instances. <br>
+ * <br>
+ * <b>{@code argumentable.getArgumentTypes()} cannot be used to modify an
+ * attribute</b>
  * 
  * @author atora
  */
-
 public interface IArgumentableInitialiser extends ICommentableInitialiser {
-    @Override
-    public Argumentable instantiate();
+	@Override
+	public Argumentable instantiate();
+
 	public default boolean addArgument(Argumentable argable, Expression expr) {
 		if (expr != null) {
 			argable.getArguments().add(expr);
@@ -22,7 +25,7 @@ public interface IArgumentableInitialiser extends ICommentableInitialiser {
 		}
 		return true;
 	}
-	
+
 	public default boolean addArguments(Argumentable argable, Expression[] exprs) {
 		return this.doMultipleModifications(argable, exprs, this::addArgument);
 	}
