@@ -11,7 +11,7 @@ public interface IDecimalIntegerLiteralInitialiser extends IIntegerLiteralInitia
     public default boolean setDecimalValue(DecimalIntegerLiteral dil, BigInteger val) {
     	if (val != null) {
     		dil.setDecimalValue(val);
-        	return dil.getDecimalValue() == val;
+        	return dil.getDecimalValue().equals(val);
     	}
     	return true;
     }

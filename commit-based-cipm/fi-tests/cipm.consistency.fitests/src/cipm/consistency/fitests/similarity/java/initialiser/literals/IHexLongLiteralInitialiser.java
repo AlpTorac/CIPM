@@ -16,7 +16,7 @@ public interface IHexLongLiteralInitialiser extends ILongLiteralInitialiser {
     	return true;
     }
     
-    public default boolean setHexValue(HexLongLiteral hll, int val) {
+    public default boolean setHexValue(HexLongLiteral hll, long val) {
     	return this.setHexValue(hll, BigInteger.valueOf(val));
     }
 }

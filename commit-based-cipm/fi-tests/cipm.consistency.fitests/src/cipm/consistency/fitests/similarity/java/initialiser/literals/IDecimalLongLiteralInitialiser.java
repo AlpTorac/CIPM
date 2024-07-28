@@ -11,12 +11,12 @@ public interface IDecimalLongLiteralInitialiser extends ILongLiteralInitialiser 
     public default boolean setDecimalValue(DecimalLongLiteral dll, BigInteger val) {
     	if (val != null) {
     		dll.setDecimalValue(val);
-        	return dll.getDecimalValue() == val;
+        	return dll.getDecimalValue().equals(val);
     	}
     	return true;
     }
     
-    public default boolean setDecimalValue(DecimalLongLiteral dll, int val) {
+    public default boolean setDecimalValue(DecimalLongLiteral dll, long val) {
     	return this.setDecimalValue(dll, BigInteger.valueOf(val));
     }
 }

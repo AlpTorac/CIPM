@@ -16,7 +16,7 @@ public interface IOctalLongLiteralInitialiser extends ILongLiteralInitialiser {
     	return true;
     }
     
-    public default boolean setOctalValue(OctalLongLiteral oll, int val) {
+    public default boolean setOctalValue(OctalLongLiteral oll, long val) {
     	return this.setOctalValue(oll, BigInteger.valueOf(val));
     }
 }
