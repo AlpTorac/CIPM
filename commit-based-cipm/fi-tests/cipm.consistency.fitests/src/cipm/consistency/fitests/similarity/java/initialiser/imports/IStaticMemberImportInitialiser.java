@@ -5,6 +5,9 @@ import org.emftext.language.java.references.ReferenceableElement;
 
 public interface IStaticMemberImportInitialiser extends
 	IStaticImportInitialiser {
+	@Override
+	public StaticMemberImport instantiate();
+	
 	public default boolean addStaticMember(StaticMemberImport smi, ReferenceableElement re) {
 		if (re != null) {
 			smi.getStaticMembers().add(re);
