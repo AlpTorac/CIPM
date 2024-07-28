@@ -5,7 +5,6 @@ import org.emftext.language.java.members.InterfaceMethod;
 
 import cipm.consistency.fitests.similarity.java.initialiser.members.ClassMethodInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.members.InterfaceMethodInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.params.LiteralFactory;
 
 public interface UsesMethods extends UsesStatements {
 	public default ClassMethod createMinimalClsMethod(String methodName) {
@@ -32,7 +31,7 @@ public interface UsesMethods extends UsesStatements {
 	public default InterfaceMethod createMinimalInterfaceMethod() {
 		var init = new InterfaceMethodInitialiser();
 		InterfaceMethod result = init.instantiate();
-		init.setDefaultValue(result, new LiteralFactory().createNullLiteral());
+		init.setDefaultValue(result, this.createNullLiteral());
 		return result;
 	}
 	

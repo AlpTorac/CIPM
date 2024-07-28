@@ -22,8 +22,8 @@ public class YieldStatementTest extends EObjectSimilarityTest implements UsesExp
 	public void testYieldExpression() {
 		this.setResourceFileTestIdentifier("testYieldExpression");
 		
-		var objOne = this.initElement(this.createInteger(1));
-		var objTwo = this.initElement(this.createInteger(2));
+		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
+		var objTwo = this.initElement(this.createDecimalIntegerLiteral(2));
 		
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.YIELD_STATEMENT__YIELD_EXPRESSION);
 	}

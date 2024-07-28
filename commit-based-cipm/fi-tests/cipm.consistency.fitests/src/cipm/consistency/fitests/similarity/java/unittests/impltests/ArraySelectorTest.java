@@ -22,8 +22,8 @@ public class ArraySelectorTest extends EObjectSimilarityTest implements UsesExpr
 	public void testPosition() {
 		this.setResourceFileTestIdentifier("testPosition");
 		
-		var objOne = this.initElement(this.createInteger(1));
-		var objTwo = this.initElement(this.createInteger(2));
+		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
+		var objTwo = this.initElement(this.createDecimalIntegerLiteral(2));
 		
 		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_SELECTOR__POSITION);
 	}

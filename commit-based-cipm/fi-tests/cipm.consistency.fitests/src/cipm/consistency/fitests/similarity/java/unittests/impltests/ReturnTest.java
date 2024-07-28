@@ -22,7 +22,7 @@ public class ReturnTest extends EObjectSimilarityTest implements UsesExpressions
 	public void testReturnValue() {
 		this.setResourceFileTestIdentifier("testReturnValue");
 		
-		var objOne = this.initElement(this.createInteger(1));
+		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
 		var objTwo = this.initElement(this.createMinimalFalseEE());
 		
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.RETURN__RETURN_VALUE);

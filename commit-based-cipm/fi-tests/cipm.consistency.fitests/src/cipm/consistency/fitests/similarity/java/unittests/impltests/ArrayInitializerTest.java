@@ -22,8 +22,8 @@ public class ArrayInitializerTest extends EObjectSimilarityTest implements UsesE
 	public void testInitialValues() {
 		this.setResourceFileTestIdentifier("testInitialValues");
 		
-		var objOne = this.initElement(new ArrayInitializationValue[] {this.createInteger(1)});
-		var objTwo = this.initElement(new ArrayInitializationValue[] {this.createInteger(2)});
+		var objOne = this.initElement(new ArrayInitializationValue[] {this.createDecimalIntegerLiteral(1)});
+		var objTwo = this.initElement(new ArrayInitializationValue[] {this.createDecimalIntegerLiteral(2)});
 		
 		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_INITIALIZER__INITIAL_VALUES);
 	}

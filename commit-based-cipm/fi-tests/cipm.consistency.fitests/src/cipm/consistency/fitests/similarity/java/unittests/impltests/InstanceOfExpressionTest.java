@@ -23,8 +23,8 @@ public class InstanceOfExpressionTest extends EObjectSimilarityTest implements U
 		this.setResourceFileTestIdentifier("testChild");
 		
 		this.testSimilarity(
-				this.initElement(this.createInteger(1)),
-				this.initElement(this.createInteger(2)),
+				this.initElement(this.createDecimalIntegerLiteral(1)),
+				this.initElement(this.createDecimalIntegerLiteral(2)),
 				ExpressionsPackage.Literals.INSTANCE_OF_EXPRESSION__CHILD);
 	}
 }

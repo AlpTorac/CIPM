@@ -35,8 +35,8 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	public void testModifier(IAnnotableAndModifiableInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testModifier");
 		
-		var objOne = this.initElement(initialiser, new Modifier[] {this.createAbstractModifier(), this.createSynchronizedModifier()}, null, null);
-		var objTwo = this.initElement(initialiser, new Modifier[] {this.createVolatileModifier(), this.createProtectedModifier()}, null, null);
+		var objOne = this.initElement(initialiser, new Modifier[] {this.createAbstract(), this.createSynchronized()}, null, null);
+		var objTwo = this.initElement(initialiser, new Modifier[] {this.createVolatile(), this.createProtected()}, null, null);
 		
 		this.testSimilarity(objOne, objTwo, ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}

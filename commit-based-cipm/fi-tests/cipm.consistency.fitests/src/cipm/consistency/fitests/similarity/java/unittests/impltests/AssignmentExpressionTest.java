@@ -38,8 +38,8 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 		this.setResourceFileTestIdentifier("testChild");
 		
 		this.testSimilarity(
-				this.initElement(null, this.createInteger(1), null),
-				this.initElement(null, this.createInteger(2), null),
+				this.initElement(null, this.createDecimalIntegerLiteral(1), null),
+				this.initElement(null, this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__CHILD);
 	}
 	
@@ -48,8 +48,8 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 		this.setResourceFileTestIdentifier("testValue");
 		
 		this.testSimilarity(
-				this.initElement(null, null, this.createInteger(1)),
-				this.initElement(null, null, this.createInteger(2)),
+				this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
+				this.initElement(null, null, this.createDecimalIntegerLiteral(2)),
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__VALUE);
 	}
 }

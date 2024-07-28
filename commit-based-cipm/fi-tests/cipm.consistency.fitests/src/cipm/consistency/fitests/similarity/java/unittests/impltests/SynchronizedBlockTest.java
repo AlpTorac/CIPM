@@ -22,8 +22,8 @@ public class SynchronizedBlockTest extends EObjectSimilarityTest implements Uses
 	public void testLockProvider() {
 		this.setResourceFileTestIdentifier("testLockProvider");
 		
-		var objOne = this.initElement(this.createInteger(1));
-		var objTwo = this.initElement(this.createInteger(2));
+		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
+		var objTwo = this.initElement(this.createDecimalIntegerLiteral(2));
 		
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SYNCHRONIZED_BLOCK__LOCK_PROVIDER);
 	}

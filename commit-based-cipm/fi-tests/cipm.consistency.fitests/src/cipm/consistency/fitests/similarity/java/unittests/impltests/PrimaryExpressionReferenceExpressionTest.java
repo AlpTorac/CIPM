@@ -25,8 +25,8 @@ public class PrimaryExpressionReferenceExpressionTest extends EObjectSimilarityT
 		this.setResourceFileTestIdentifier("testChild");
 		
 		this.testSimilarity(
-				this.initElement(this.createInteger(1), null),
-				this.initElement(this.createInteger(2), null),
+				this.initElement(this.createDecimalIntegerLiteral(1), null),
+				this.initElement(this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.PRIMARY_EXPRESSION_REFERENCE_EXPRESSION__CHILD);
 	}
 	

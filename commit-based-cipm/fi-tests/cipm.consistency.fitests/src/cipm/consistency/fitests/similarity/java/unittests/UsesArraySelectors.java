@@ -14,6 +14,6 @@ public interface UsesArraySelectors extends UsesExpressions {
 	}
 	
 	public default ArraySelector createMinimalAS(int idx) {
-		return this.createAS(this.createInteger(idx));
+		return this.createAS(this.createDecimalIntegerLiteral(idx));
 	}
 }

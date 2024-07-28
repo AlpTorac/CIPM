@@ -45,8 +45,8 @@ public class CastExpressionTest extends EObjectSimilarityTest implements UsesExp
 		this.setResourceFileTestIdentifier("testGeneralChild");
 		
 		this.testSimilarity(
-				this.initElement(null, null, this.createInteger(1)),
-				this.initElement(null, null, this.createInteger(2)),
+				this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
+				this.initElement(null, null, this.createDecimalIntegerLiteral(2)),
 				ExpressionsPackage.Literals.CAST_EXPRESSION__GENERAL_CHILD);
 	}
 }

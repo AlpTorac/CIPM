@@ -25,8 +25,8 @@ public class RelationExpressionTest extends EObjectSimilarityTest implements Use
 		this.setResourceFileTestIdentifier("testChild");
 		
 		this.testSimilarity(
-				this.initElement(new RelationExpressionChild[] {this.createInteger(1)}, null),
-				this.initElement(new RelationExpressionChild[] {this.createInteger(2)}, null),
+				this.initElement(new RelationExpressionChild[] {this.createDecimalIntegerLiteral(1)}, null),
+				this.initElement(new RelationExpressionChild[] {this.createDecimalIntegerLiteral(2)}, null),
 				ExpressionsPackage.Literals.RELATION_EXPRESSION__CHILDREN);
 	}
 	
