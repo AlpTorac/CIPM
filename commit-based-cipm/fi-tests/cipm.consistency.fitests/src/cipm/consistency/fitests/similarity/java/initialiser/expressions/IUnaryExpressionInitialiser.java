@@ -16,7 +16,7 @@ public interface IUnaryExpressionInitialiser extends IMultiplicativeExpressionCh
 	}
 	
 	public default boolean addOperators(UnaryExpression ue, UnaryOperator[] ops) {
-		return this.addXs(ue, ops, this::addOperator);
+		return this.doMultipleModifications(ue, ops, this::addOperator);
 	}
 	public default boolean setChild(UnaryExpression ue, UnaryExpressionChild child) {
 		if (child != null) {

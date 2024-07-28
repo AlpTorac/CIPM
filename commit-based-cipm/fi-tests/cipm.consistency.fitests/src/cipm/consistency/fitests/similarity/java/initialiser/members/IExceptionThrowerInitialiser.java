@@ -16,6 +16,6 @@ public interface IExceptionThrowerInitialiser extends ICommentableInitialiser {
 		return true;
 	}
 	public default boolean addExceptions(ExceptionThrower extt, NamespaceClassifierReference[] ncrefs) {
-		return this.addXs(extt, ncrefs, this::addException);
+		return this.doMultipleModifications(extt, ncrefs, this::addException);
 	}
 }

@@ -32,6 +32,6 @@ public class ArrayInstantiationByValuesTest extends EObjectSimilarityTest implem
 		var objTwo = this.initElement(init, this.createMinimalArrayInitializer(
 				new LiteralFactory().createDecIntegerLiteral(BigInteger.ONE)));
 		
-		this.testX(objOne, objTwo, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER);
+		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER);
 	}
 }

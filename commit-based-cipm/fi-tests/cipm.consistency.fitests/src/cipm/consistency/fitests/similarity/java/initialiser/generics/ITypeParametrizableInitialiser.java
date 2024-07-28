@@ -17,6 +17,6 @@ public interface ITypeParametrizableInitialiser extends ICommentableInitialiser 
 	}
 	
 	public default boolean addTypeParameters(TypeParametrizable tp, TypeParameter[] params) {
-		return this.addXs(tp, params, this::addTypeParameter);
+		return this.doMultipleModifications(tp, params, this::addTypeParameter);
 	}
 }

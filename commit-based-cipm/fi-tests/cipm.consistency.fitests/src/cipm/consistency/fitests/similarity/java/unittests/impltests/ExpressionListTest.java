@@ -25,6 +25,6 @@ public class ExpressionListTest extends EObjectSimilarityTest implements UsesExp
 		var objOne = this.initElement(new Expression[] {this.createMinimalFalseEE()});
 		var objTwo = this.initElement(new Expression[] {this.createMinimalTrueNEE()});
 		
-		this.testX(objOne, objTwo, ExpressionsPackage.Literals.EXPRESSION_LIST__EXPRESSIONS);
+		this.testSimilarity(objOne, objTwo, ExpressionsPackage.Literals.EXPRESSION_LIST__EXPRESSIONS);
 	}
 }

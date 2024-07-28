@@ -6,7 +6,7 @@ public interface INamespaceAwareElementInitialiser extends ICommentableInitialis
     @Override
     public NamespaceAwareElement instantiate();
 	public default boolean addNamespaces(NamespaceAwareElement nae, String[] namespaces) {
-		return this.addXs(nae, namespaces, this::addNamespace);
+		return this.doMultipleModifications(nae, namespaces, this::addNamespace);
 	}
 	public default boolean addNamespace(NamespaceAwareElement nae, String namespace) {
 		if (namespace != null) {

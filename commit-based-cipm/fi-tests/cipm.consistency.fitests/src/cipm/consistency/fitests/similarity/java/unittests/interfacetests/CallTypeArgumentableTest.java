@@ -31,6 +31,6 @@ public class CallTypeArgumentableTest extends EObjectSimilarityTest implements U
 				this.createMinimalSuperTAWithCls("cls2")
 		});
 		
-		this.testX(objOne, objTwo, GenericsPackage.Literals.CALL_TYPE_ARGUMENTABLE__CALL_TYPE_ARGUMENTS);
+		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.CALL_TYPE_ARGUMENTABLE__CALL_TYPE_ARGUMENTS);
 	}
 }

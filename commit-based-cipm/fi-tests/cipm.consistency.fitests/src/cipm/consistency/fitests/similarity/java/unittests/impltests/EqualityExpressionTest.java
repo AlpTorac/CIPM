@@ -24,7 +24,7 @@ public class EqualityExpressionTest extends EObjectSimilarityTest implements Use
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(new EqualityExpressionChild[] {this.createInteger(1)}, null),
 				this.initElement(new EqualityExpressionChild[] {this.createInteger(2)}, null),
 				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__CHILDREN);
@@ -34,7 +34,7 @@ public class EqualityExpressionTest extends EObjectSimilarityTest implements Use
 	public void testEqualityOperator() {
 		this.setResourceFileTestIdentifier("testEqualityOperator");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(null, this.createEqualityOperator()),
 				this.initElement(null, this.createNotEqualOperator()),
 				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__EQUALITY_OPERATORS);

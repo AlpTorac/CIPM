@@ -25,6 +25,6 @@ public interface IForLoopInitialiser extends IConditionalInitialiser,
 	}
 	
 	public default boolean addUpdates(ForLoop fl, Expression[] exprs) {
-		return this.addXs(fl, exprs, this::addUpdate);
+		return this.doMultipleModifications(fl, exprs, this::addUpdate);
 	}
 }

@@ -26,7 +26,7 @@ public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
 	}
 	
 	public default boolean addCatchBlocks(TryBlock tb, CatchBlock[] cbs) {
-		return this.addXs(tb, cbs, this::addCatchBlock);
+		return this.doMultipleModifications(tb, cbs, this::addCatchBlock);
 	}
 	public default boolean addResource(TryBlock tb, Resource res) {
 		if (res != null) {
@@ -37,6 +37,6 @@ public interface ITryBlockInitialiser extends IBlockContainerInitialiser,
 	}
 	
 	public default boolean addResources(TryBlock tb, Resource[] ress) {
-		return this.addXs(tb, ress, this::addResource);
+		return this.doMultipleModifications(tb, ress, this::addResource);
 	}
 }

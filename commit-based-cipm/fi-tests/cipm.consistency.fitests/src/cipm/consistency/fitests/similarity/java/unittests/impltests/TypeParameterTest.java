@@ -27,6 +27,6 @@ public class TypeParameterTest extends EObjectSimilarityTest implements UsesType
 		var objOne = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls1")});
 		var objTwo = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls2")});
 		
-		this.testX(objOne, objTwo, GenericsPackage.Literals.TYPE_PARAMETER__EXTEND_TYPES);
+		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.TYPE_PARAMETER__EXTEND_TYPES);
 	}
 }

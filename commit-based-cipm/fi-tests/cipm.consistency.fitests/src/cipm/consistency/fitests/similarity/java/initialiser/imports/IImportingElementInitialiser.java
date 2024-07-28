@@ -17,6 +17,6 @@ public interface IImportingElementInitialiser extends ICommentableInitialiser {
 	}
 	
 	public default boolean addImports(ImportingElement ie, Import[] imps) {
-		return this.addXs(ie, imps, this::addImport);
+		return this.doMultipleModifications(ie, imps, this::addImport);
 	}
 }

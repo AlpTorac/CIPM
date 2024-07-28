@@ -27,6 +27,6 @@ UsesAnnotationParameters, UsesAnnotationAttributeSettings {
 		var objOne = this.initElement(new AnnotationAttributeSetting[] {this.createEmptyAAS()});
 		var objTwo = this.initElement(new AnnotationAttributeSetting[] {this.createNullAAS()});
 		
-		this.testX(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_PARAMETER_LIST__SETTINGS);
+		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_PARAMETER_LIST__SETTINGS);
 	}
 }

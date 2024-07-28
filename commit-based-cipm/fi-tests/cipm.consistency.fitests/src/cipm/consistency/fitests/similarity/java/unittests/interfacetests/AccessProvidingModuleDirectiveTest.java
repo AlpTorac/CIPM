@@ -35,7 +35,7 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest im
 				this.createMinimalMR("mod2")
 		}, null);
 		
-		this.testX(objOne, objTwo, ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__MODULES);
+		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__MODULES);
 	}
 	
 	@ParameterizedTest
@@ -46,6 +46,6 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest im
 		var objOne = this.initElement(init, null, this.createMinimalPackage(new String[] {"ns1", "ns2"}));
 		var objTwo = this.initElement(init, null, this.createMinimalPackage(new String[] {"ns3", "ns4"}));
 		
-		this.testX(objOne, objTwo, ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__ACCESSABLE_PACKAGE);
+		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__ACCESSABLE_PACKAGE);
 	}
 }

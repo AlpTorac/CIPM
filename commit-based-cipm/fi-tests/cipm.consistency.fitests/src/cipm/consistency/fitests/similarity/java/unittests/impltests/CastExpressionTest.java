@@ -34,7 +34,7 @@ public class CastExpressionTest extends EObjectSimilarityTest implements UsesExp
 	public void testAdditionalBould() {
 		this.setResourceFileTestIdentifier("testAdditionalBould");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(new TypeReference[] {this.createMinimalClsRef("cls1")}, null, null),
 				this.initElement(new TypeReference[] {this.createMinimalClsRef("cls2")}, null, null),
 				ExpressionsPackage.Literals.CAST_EXPRESSION__ADDITIONAL_BOUNDS);
@@ -44,7 +44,7 @@ public class CastExpressionTest extends EObjectSimilarityTest implements UsesExp
 	public void testGeneralChild() {
 		this.setResourceFileTestIdentifier("testGeneralChild");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(null, null, this.createInteger(1)),
 				this.initElement(null, null, this.createInteger(2)),
 				ExpressionsPackage.Literals.CAST_EXPRESSION__GENERAL_CHILD);

@@ -21,7 +21,7 @@ public interface IAnnotableAndModifiableInitialiser extends ICommentableInitiali
 	}
 	
 	public default boolean addModifiers(AnnotableAndModifiable aam, Modifier[] modifs) {
-		return this.addXs(aam, modifs, this::addModifier);
+		return this.doMultipleModifications(aam, modifs, this::addModifier);
 	}
 	public default boolean addAnnotationInstance(AnnotableAndModifiable aam, AnnotationInstance ai) {
 		if (aam != null) {
@@ -33,7 +33,7 @@ public interface IAnnotableAndModifiableInitialiser extends ICommentableInitiali
 	}
 	
 	public default boolean addAnnotationInstances(AnnotableAndModifiable aam, AnnotationInstance[] ais) {
-		return this.addXs(aam, ais, this::addAnnotationInstance);
+		return this.doMultipleModifications(aam, ais, this::addAnnotationInstance);
 	}
 	public default boolean setVisibility(AnnotableAndModifiable aam, InitialiserVisibilityModifier modifier) {
 		if (modifier != null) {

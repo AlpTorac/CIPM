@@ -30,7 +30,7 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 		var objOne = this.initElement(init, this.createMinimalSR("str1"), null);
 		var objTwo = this.initElement(init, this.createMinimalSR("str2"), null);
 		
-		this.testX(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__NEXT);
+		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__NEXT);
 	}
 	
 	@ParameterizedTest
@@ -41,6 +41,6 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 		var objOne = this.initElement(init, null, new ArraySelector[] {this.createMinimalAS(0)});
 		var objTwo = this.initElement(init, null, new ArraySelector[] {this.createMinimalAS(1)});
 		
-		this.testX(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
+		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
 	}
 }

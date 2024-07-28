@@ -20,6 +20,6 @@ public interface IFieldInitialiser extends IAnnotableAndModifiableInitialiser,
 	}
 	
 	public default boolean addAdditionalFields(Field field, AdditionalField[] adFields) {
-		return this.addXs(field, adFields, this::addAdditionalField);
+		return this.doMultipleModifications(field, adFields, this::addAdditionalField);
 	}
 }

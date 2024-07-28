@@ -49,7 +49,7 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 		var objOne = this.initElement(init, this.createMinimalClass("cls1"), null);
 		var objTwo = this.initElement(init, this.createMinimalClass("cls2"), null);
 		
-		this.testX(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__TARGET);
+		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__TARGET);
 	}
 	
 	/**
@@ -65,7 +65,7 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 		var objTwo = this.initElementWithoutContainer(init, this.createMinimalClass("cls2"), null);
 		
 		Assertions.assertDoesNotThrow(
-				()->this.testX(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__TARGET)
+				()->this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__TARGET)
 				);
 	}
 	
@@ -77,6 +77,6 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 		var objOne = this.initElement(init, null, this.createMinimalClass("cls1"));
 		var objTwo = this.initElement(init, null, this.createMinimalClass("cls2"));
 		
-		this.testX(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__CONTAINED_TARGET);
+		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__CONTAINED_TARGET);
 	}
 }

@@ -17,6 +17,6 @@ public interface IModifiableInitialiser extends ICommentableInitialiser {
 	}
 	
 	public default boolean addModifiers(Modifiable modifiable, Modifier[] modifiers) {
-		return this.addXs(modifiable, modifiers, this::addModifier);
+		return this.doMultipleModifications(modifiable, modifiers, this::addModifier);
 	}
  }

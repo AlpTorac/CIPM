@@ -23,6 +23,6 @@ public interface IEqualityExpressionInitialiser extends IAndExpressionChildIniti
 	}
 	
 	public default boolean addChildren(EqualityExpression eqEx, EqualityExpressionChild[] children) {
-		return this.addXs(eqEx, children, this::addChild);
+		return this.doMultipleModifications(eqEx, children, this::addChild);
 	}
 }

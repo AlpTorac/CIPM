@@ -38,6 +38,6 @@ public class StatementListContainerTest extends EObjectSimilarityTest implements
 				this.createMinimalTrivialAssert()
 		});
 		
-		this.testX(objOne, objTwo, StatementsPackage.Literals.BLOCK__STATEMENTS);
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.BLOCK__STATEMENTS);
 	}
 }

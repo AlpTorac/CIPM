@@ -29,7 +29,7 @@ public class LambdaExpressionTest extends EObjectSimilarityTest
 		var objOne = this.initElement(this.createMinimalBlockWithNullReturn(), null);
 		var objTwo = this.initElement(this.createMinimalBlockWithTrivialAssert(), null);
 		
-		this.testX(objOne, objTwo, ExpressionsPackage.Literals.LAMBDA_EXPRESSION__BODY);
+		this.testSimilarity(objOne, objTwo, ExpressionsPackage.Literals.LAMBDA_EXPRESSION__BODY);
 	}
 	
 	@Test
@@ -39,6 +39,6 @@ public class LambdaExpressionTest extends EObjectSimilarityTest
 		var objOne = this.initElement(null, this.createMinimalETLP("p1", "c1"));
 		var objTwo = this.initElement(null, this.createMinimalETLP("p2", "c2"));
 		
-		this.testX(objOne, objTwo, ExpressionsPackage.Literals.LAMBDA_EXPRESSION__PARAMETERS);
+		this.testSimilarity(objOne, objTwo, ExpressionsPackage.Literals.LAMBDA_EXPRESSION__PARAMETERS);
 	}
 }

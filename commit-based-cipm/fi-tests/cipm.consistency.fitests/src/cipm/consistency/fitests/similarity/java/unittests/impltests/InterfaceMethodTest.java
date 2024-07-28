@@ -27,6 +27,6 @@ public class InterfaceMethodTest extends EObjectSimilarityTest implements UsesAn
 		var objOne = this.initElement(this.createNullVal());
 		var objTwo = this.initElement(this.createStringRefVal("strval"));
 		
-		this.testX(objOne, objTwo, MembersPackage.Literals.INTERFACE_METHOD__DEFAULT_VALUE);
+		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.INTERFACE_METHOD__DEFAULT_VALUE);
 	}
 }

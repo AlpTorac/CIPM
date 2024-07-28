@@ -15,6 +15,6 @@ public interface IConditionalAndExpressionInitialiser extends IConditionalOrExpr
 	}
 	
 	public default boolean addChildren(ConditionalAndExpression cae, ConditionalAndExpressionChild[] children) {
-		return this.addXs(cae, children, this::addChild);
+		return this.doMultipleModifications(cae, children, this::addChild);
 	}
 }

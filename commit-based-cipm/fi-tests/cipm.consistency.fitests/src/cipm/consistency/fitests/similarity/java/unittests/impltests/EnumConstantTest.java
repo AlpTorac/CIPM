@@ -25,6 +25,6 @@ public class EnumConstantTest extends EObjectSimilarityTest implements UsesAnony
 		var objOne = this.initElement(this.createMinimalAnonymousClassWithMethod("met1"));
 		var objTwo = this.initElement(this.createMinimalAnonymousClassWithMethod("met2"));
 		
-		this.testX(objOne, objTwo, MembersPackage.Literals.ENUM_CONSTANT__ANONYMOUS_CLASS);
+		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.ENUM_CONSTANT__ANONYMOUS_CLASS);
 	}
 }

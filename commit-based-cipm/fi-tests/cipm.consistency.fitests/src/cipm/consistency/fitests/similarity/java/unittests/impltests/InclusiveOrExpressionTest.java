@@ -22,7 +22,7 @@ public class InclusiveOrExpressionTest extends EObjectSimilarityTest implements 
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(new InclusiveOrExpressionChild[] {this.createInteger(1)}),
 				this.initElement(new InclusiveOrExpressionChild[] {this.createInteger(2)}),
 				ExpressionsPackage.Literals.INCLUSIVE_OR_EXPRESSION__CHILDREN);

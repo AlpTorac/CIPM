@@ -26,6 +26,6 @@ public class NestedExpressionTest extends EObjectSimilarityTest
 		var objOne = this.initElement(this.createMinimalFalseEE());
 		var objTwo = this.initElement(this.createMinimalTrueEE());
 		
-		this.testX(objOne, objTwo, ExpressionsPackage.Literals.NESTED_EXPRESSION__EXPRESSION);
+		this.testSimilarity(objOne, objTwo, ExpressionsPackage.Literals.NESTED_EXPRESSION__EXPRESSION);
 	}
 }

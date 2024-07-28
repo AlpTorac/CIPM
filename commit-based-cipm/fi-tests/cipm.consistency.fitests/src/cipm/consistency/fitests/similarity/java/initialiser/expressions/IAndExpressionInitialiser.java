@@ -15,6 +15,6 @@ public interface IAndExpressionInitialiser extends IExclusiveOrExpressionChildIn
 	}
 	
 	public default boolean addChildren(AndExpression ae, AndExpressionChild[] children) {
-		return this.addXs(ae, children, this::addChild);
+		return this.doMultipleModifications(ae, children, this::addChild);
 	}
 }

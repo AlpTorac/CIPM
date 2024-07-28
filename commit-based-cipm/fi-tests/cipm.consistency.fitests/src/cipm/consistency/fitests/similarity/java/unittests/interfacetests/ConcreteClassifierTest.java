@@ -29,6 +29,6 @@ public class ConcreteClassifierTest extends EObjectSimilarityTest implements Use
 		var objOne = this.initElement(initialiser, this.createMinimalPackage("pOneNS", 2));
 		var objTwo = this.initElement(initialiser, this.createMinimalPackage("pTwoNS", 2));
 		
-		this.testX(objOne, objTwo, ClassifiersPackage.Literals.CONCRETE_CLASSIFIER__PACKAGE);
+		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.CONCRETE_CLASSIFIER__PACKAGE);
 	}
 }

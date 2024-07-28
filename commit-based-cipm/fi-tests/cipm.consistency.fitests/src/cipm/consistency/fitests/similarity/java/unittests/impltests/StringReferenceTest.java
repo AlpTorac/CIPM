@@ -23,6 +23,6 @@ public class StringReferenceTest extends EObjectSimilarityTest {
 		var objOne = this.initElement("val1");
 		var objTwo = this.initElement("val2");
 		
-		this.testX(objOne, objTwo, ReferencesPackage.Literals.STRING_REFERENCE__VALUE);
+		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.STRING_REFERENCE__VALUE);
 	}
 }

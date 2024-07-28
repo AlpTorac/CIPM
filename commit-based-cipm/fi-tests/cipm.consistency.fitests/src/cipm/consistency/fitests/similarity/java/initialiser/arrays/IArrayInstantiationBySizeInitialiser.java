@@ -20,6 +20,6 @@ public interface IArrayInstantiationBySizeInitialiser extends
 	}
 	
 	public default boolean addSizes(ArrayInstantiationBySize arrIns, Expression[] exprs) {
-		return this.addXs(arrIns, exprs, this::addSize);
+		return this.doMultipleModifications(arrIns, exprs, this::addSize);
 	}
 }

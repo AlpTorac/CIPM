@@ -25,6 +25,6 @@ public class ArrayInitializerTest extends EObjectSimilarityTest implements UsesE
 		var objOne = this.initElement(new ArrayInitializationValue[] {this.createInteger(1)});
 		var objTwo = this.initElement(new ArrayInitializationValue[] {this.createInteger(2)});
 		
-		this.testX(objOne, objTwo, ArraysPackage.Literals.ARRAY_INITIALIZER__INITIAL_VALUES);
+		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_INITIALIZER__INITIAL_VALUES);
 	}
 }

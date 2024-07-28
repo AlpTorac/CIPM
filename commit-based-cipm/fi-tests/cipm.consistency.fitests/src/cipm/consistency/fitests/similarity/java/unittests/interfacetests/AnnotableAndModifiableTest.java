@@ -38,7 +38,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 		var objOne = this.initElement(initialiser, new Modifier[] {this.createAbstractModifier(), this.createSynchronizedModifier()}, null, null);
 		var objTwo = this.initElement(initialiser, new Modifier[] {this.createVolatileModifier(), this.createProtectedModifier()}, null, null);
 		
-		this.testX(objOne, objTwo, ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
+		this.testSimilarity(objOne, objTwo, ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 	
 	@ParameterizedTest()
@@ -51,7 +51,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 		var objTwo = this.initElement(initialiser, null, new AnnotationInstance[] {
 				this.createMinimalAI(new String[] {"ns2"}, "anno2")}, null);
 		
-		this.testX(objOne, objTwo, ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
+		this.testSimilarity(objOne, objTwo, ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 	
 	@ParameterizedTest()
@@ -62,6 +62,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 		var objOne = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PRIVATE);
 		var objTwo = this.initElement(initialiser, null, null, InitialiserVisibilityModifier.PUBLIC);
 		
-		this.testX(objOne, objTwo, ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
+		this.testSimilarity(objOne, objTwo, ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 }

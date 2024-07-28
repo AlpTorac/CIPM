@@ -16,7 +16,7 @@ public interface IMultiplicativeExpressionInitialiser extends IAdditiveExpressio
 	}
 	
 	public default boolean addMultiplicativeOperators(MultiplicativeExpression ae, MultiplicativeOperator[] ops) {
-		return this.addXs(ae, ops, this::addMultiplicativeOperator);
+		return this.doMultipleModifications(ae, ops, this::addMultiplicativeOperator);
 	}
 	public default boolean addChild(MultiplicativeExpression ae, MultiplicativeExpressionChild child) {
 		if (child != null) {
@@ -27,6 +27,6 @@ public interface IMultiplicativeExpressionInitialiser extends IAdditiveExpressio
 	}
 	
 	public default boolean addChildren(MultiplicativeExpression ae, MultiplicativeExpressionChild[] children) {
-		return this.addXs(ae, children, this::addChild);
+		return this.doMultipleModifications(ae, children, this::addChild);
 	}
 }

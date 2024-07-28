@@ -26,6 +26,6 @@ public class ConditionalTest extends EObjectSimilarityTest implements UsesExpres
 		var objOne = this.initElement(init, this.createMinimalTrueEE());
 		var objTwo = this.initElement(init, this.createMinimalTrueNEE());
 		
-		this.testX(objOne, objTwo, StatementsPackage.Literals.CONDITIONAL__CONDITION);
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.CONDITIONAL__CONDITION);
 	}
 }

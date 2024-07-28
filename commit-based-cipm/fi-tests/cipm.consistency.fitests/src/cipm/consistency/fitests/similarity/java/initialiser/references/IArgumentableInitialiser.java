@@ -24,6 +24,6 @@ public interface IArgumentableInitialiser extends ICommentableInitialiser {
 	}
 	
 	public default boolean addArguments(Argumentable argable, Expression[] exprs) {
-		return this.addXs(argable, exprs, this::addArgument);
+		return this.doMultipleModifications(argable, exprs, this::addArgument);
 	}
 }

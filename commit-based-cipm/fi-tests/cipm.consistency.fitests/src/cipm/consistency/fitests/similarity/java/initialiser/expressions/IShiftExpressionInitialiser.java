@@ -16,7 +16,7 @@ public interface IShiftExpressionInitialiser extends IRelationExpressionChildIni
 	}
 	
 	public default boolean addShiftOperators(ShiftExpression se, ShiftOperator[] ops) {
-		return this.addXs(se, ops, this::addShiftOperator);
+		return this.doMultipleModifications(se, ops, this::addShiftOperator);
 	}
 	public default boolean addChild(ShiftExpression se, ShiftExpressionChild child) {
 		if (child != null) {
@@ -27,6 +27,6 @@ public interface IShiftExpressionInitialiser extends IRelationExpressionChildIni
 	}
 	
 	public default boolean addChildren(ShiftExpression se, ShiftExpressionChild[] children) {
-		return this.addXs(se, children, this::addChild);
+		return this.doMultipleModifications(se, children, this::addChild);
 	}
 }

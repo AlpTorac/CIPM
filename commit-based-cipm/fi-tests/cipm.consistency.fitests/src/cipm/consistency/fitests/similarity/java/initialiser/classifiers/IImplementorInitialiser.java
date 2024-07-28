@@ -17,6 +17,6 @@ public interface IImplementorInitialiser extends ICommentableInitialiser {
 	}
 	
 	public default boolean addImplements(Implementor implementor, TypeReference[] trefs) {
-		return this.addXs(implementor, trefs, this::addImplements);
+		return this.doMultipleModifications(implementor, trefs, this::addImplements);
 	}
 }

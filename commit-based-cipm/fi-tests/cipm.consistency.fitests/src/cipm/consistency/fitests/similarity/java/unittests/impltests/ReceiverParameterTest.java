@@ -29,7 +29,7 @@ UsesLiterals{
 		var objOne = this.initElement(this.createThis(), null);
 		var objTwo = this.initElement(null, null);
 		
-		this.testX(objOne, objTwo, ParametersPackage.Literals.RECEIVER_PARAMETER__THIS_REFERENCE);
+		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.RECEIVER_PARAMETER__THIS_REFERENCE);
 	}
 	
 	@Test
@@ -39,6 +39,6 @@ UsesLiterals{
 		var objOne = this.initElement(null, this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(null, this.createMinimalClsRef("cls2"));
 		
-		this.testX(objOne, objTwo, ParametersPackage.Literals.RECEIVER_PARAMETER__OUTER_TYPE_REFERENCE);
+		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.RECEIVER_PARAMETER__OUTER_TYPE_REFERENCE);
 	}
 }

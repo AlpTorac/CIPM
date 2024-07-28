@@ -27,6 +27,6 @@ public class ImportTest extends EObjectSimilarityTest implements UsesImports {
 		var objOne = this.initElement(initialiser, this.createMinimalClass("cls1Name"));
 		var objTwo = this.initElement(initialiser, this.createMinimalClass("cls2Name"));
 		
-		this.testX(objOne, objTwo, ImportsPackage.Literals.IMPORT__CLASSIFIER);
+		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.IMPORT__CLASSIFIER);
 	}
 }

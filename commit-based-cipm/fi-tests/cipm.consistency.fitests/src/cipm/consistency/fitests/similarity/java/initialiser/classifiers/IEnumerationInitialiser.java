@@ -16,6 +16,6 @@ public interface IEnumerationInitialiser extends IConcreteClassifierInitialiser,
 	}
 	
 	public default boolean addConstants(Enumeration enm, EnumConstant[] csts) {
-		return this.addXs(enm, csts, this::addConstant);
+		return this.doMultipleModifications(enm, csts, this::addConstant);
 	}
 }

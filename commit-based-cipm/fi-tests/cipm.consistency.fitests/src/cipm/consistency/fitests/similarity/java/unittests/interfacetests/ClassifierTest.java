@@ -42,7 +42,7 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 		var objTwo = this.initElement(initialiser,
 				new Import[] {this.createMinimalClsImport("cls2")}, null);
 		
-		this.testX(objOne, objTwo, CompilationUnit.class, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
+		this.testSimilarity(objOne, objTwo, CompilationUnit.class, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
 	}
 	
 	/**
@@ -59,6 +59,6 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 		var objTwo = this.initElement(initialiser,
 				null, new PackageImport[] {this.createMinimalPackageImport(new String[] {"ns3", "ns4"})});
 		
-		this.testX(objOne, objTwo, CompilationUnit.class, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
+		this.testSimilarity(objOne, objTwo, CompilationUnit.class, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
 	}
 }

@@ -25,6 +25,6 @@ public class FieldTest extends EObjectSimilarityTest implements UsesAdditionalFi
 		var objOne = this.initElement(new AdditionalField[] {this.createMinimalAF("af1")});
 		var objTwo = this.initElement(new AdditionalField[] {this.createMinimalAF("af2")});
 		
-		this.testX(objOne, objTwo, MembersPackage.Literals.FIELD__ADDITIONAL_FIELDS);
+		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.FIELD__ADDITIONAL_FIELDS);
 	}
 }

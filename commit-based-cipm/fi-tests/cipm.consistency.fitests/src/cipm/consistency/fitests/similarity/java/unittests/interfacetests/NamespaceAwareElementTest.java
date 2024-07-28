@@ -36,7 +36,7 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 		var objOne = this.initElement(initialiser, nss1);
 		var objTwo = this.initElement(initialiser, nss2);
 		
-		this.testX(objOne, objTwo, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);	
+		this.testSimilarity(objOne, objTwo, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);	
 	}
 	
 	/**
@@ -57,7 +57,7 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 			var objOne = this.initElement(initialiser, newNss);
 			var objTwo = this.initElement(initialiser, nss1);
 			
-			this.testX(objOne, objTwo, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
+			this.testSimilarity(objOne, objTwo, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
 		}
 	}
 }

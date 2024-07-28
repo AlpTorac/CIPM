@@ -15,6 +15,6 @@ public interface IExclusiveOrExpressionInitialiser extends IInclusiveOrExpressio
 	}
 	
 	public default boolean addChildren(ExclusiveOrExpression eoe, ExclusiveOrExpressionChild[] children) {
-		return this.addXs(eoe, children, this::addChild);
+		return this.doMultipleModifications(eoe, children, this::addChild);
 	}
 }

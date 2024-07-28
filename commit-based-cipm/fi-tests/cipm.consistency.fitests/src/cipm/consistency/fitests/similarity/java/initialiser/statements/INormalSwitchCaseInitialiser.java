@@ -16,6 +16,6 @@ public interface INormalSwitchCaseInitialiser extends IConditionalInitialiser,
 	}
 	
 	public default boolean addAdditionalConditions(NormalSwitchCase nsc, Expression[] exprs) {
-		return this.addXs(nsc, exprs, this::addAdditionalCondition);
+		return this.doMultipleModifications(nsc, exprs, this::addAdditionalCondition);
 	}
 }

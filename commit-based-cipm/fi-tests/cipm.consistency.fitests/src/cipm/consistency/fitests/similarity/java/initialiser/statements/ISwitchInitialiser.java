@@ -19,7 +19,7 @@ public interface ISwitchInitialiser extends IStatementInitialiser,
 	}
 	
 	public default boolean addCases(Switch sw, SwitchCase[] scs) {
-		return this.addXs(sw, scs, this::addCase);
+		return this.doMultipleModifications(sw, scs, this::addCase);
 	}
 	public default boolean setVariable(Switch sw, Expression expr) {
 		if (expr != null) {

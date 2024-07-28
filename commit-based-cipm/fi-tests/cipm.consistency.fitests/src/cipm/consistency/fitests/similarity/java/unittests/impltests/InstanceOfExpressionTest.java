@@ -22,7 +22,7 @@ public class InstanceOfExpressionTest extends EObjectSimilarityTest implements U
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
 		
-		this.testX(
+		this.testSimilarity(
 				this.initElement(this.createInteger(1)),
 				this.initElement(this.createInteger(2)),
 				ExpressionsPackage.Literals.INSTANCE_OF_EXPRESSION__CHILD);

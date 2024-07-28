@@ -31,6 +31,6 @@ public class ExceptionThrowerTest extends EObjectSimilarityTest implements UsesT
 				this.createMinimalCNR("cls2")	
 		});
 		
-		this.testX(objOne, objTwo, MembersPackage.Literals.EXCEPTION_THROWER__EXCEPTIONS);
+		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.EXCEPTION_THROWER__EXCEPTIONS);
 	}
 }

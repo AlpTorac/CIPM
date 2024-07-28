@@ -15,6 +15,6 @@ public interface ICatchParameterInitialiser extends IOrdinaryParameterInitialise
 	}
 	
 	public default boolean addTypeReferences(CatchParameter cp, TypeReference[] trefs) {
-		return this.addXs(cp, trefs, this::addTypeReference);
+		return this.doMultipleModifications(cp, trefs, this::addTypeReference);
 	}
 }

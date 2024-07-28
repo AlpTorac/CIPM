@@ -44,6 +44,6 @@ public interface IStatementListContainerInitialiser extends ICommentableInitiali
 	}
 	
 	public default boolean addStatements(StatementListContainer slc, Statement[] ss) {
-		return this.addXs(slc, ss, this::addStatement);
+		return this.doMultipleModifications(slc, ss, this::addStatement);
 	}
 }
