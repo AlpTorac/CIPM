@@ -7,13 +7,16 @@ import cipm.consistency.fitests.similarity.java.initialiser.references.IReferenc
 import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementInitialiser;
 
 /**
- * createMethodCall methods in {@link Variable} do not modify Variable instances.
+ * An interface meant for {@link IInitialiser} implementors that are supposed to
+ * create {@link Variable} instances. <br>
+ * <br>
+ * <b>Note: "createMethodCall..." methods in {@link Variable} do not modify
+ * {@link Variable} instances.</b>
  * 
  * @author atora
  */
-
-public interface IVariableInitialiser extends IReferenceableElementInitialiser,
-	ITypeArgumentableInitialiser, ITypedElementInitialiser {
+public interface IVariableInitialiser
+		extends IReferenceableElementInitialiser, ITypeArgumentableInitialiser, ITypedElementInitialiser {
 	@Override
 	public Variable instantiate();
 }

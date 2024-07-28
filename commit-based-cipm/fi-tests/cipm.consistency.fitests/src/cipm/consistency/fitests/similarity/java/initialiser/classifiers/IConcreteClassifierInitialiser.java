@@ -9,20 +9,25 @@ import cipm.consistency.fitests.similarity.java.initialiser.members.IMemberIniti
 import cipm.consistency.fitests.similarity.java.initialiser.modifiers.IAnnotableAndModifiableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.IStatementInitialiser;
 
-public interface IConcreteClassifierInitialiser extends
-	IAnnotableAndModifiableInitialiser,
-	IMemberContainerInitialiser,
-	IMemberInitialiser,
-	IStatementInitialiser,
-	IClassifierInitialiser,
-	ITypeParametrizableInitialiser {
-	
+/**
+ * An interface meant for {@link IInitialiser} implementors that are supposed to
+ * create {@link ConcreteClassifier} instances. <br>
+ * <br>
+ * <b>Note: {@link #setPackage(ConcreteClassifier, Package)} does not add the
+ * given {@link ConcreteClassifier} to the given {@link Package}.</b>
+ * 
+ * @author atora
+ *
+ */
+public interface IConcreteClassifierInitialiser extends IAnnotableAndModifiableInitialiser, IMemberContainerInitialiser,
+		IMemberInitialiser, IStatementInitialiser, IClassifierInitialiser, ITypeParametrizableInitialiser {
+
 	@Override
 	public ConcreteClassifier instantiate();
-	
+
 	/**
-	 * Sets the package of cls as pac.
-	 * <br><br>
+	 * Sets the package of cls as pac. <br>
+	 * <br>
 	 * <b>Note: DOES NOT modify the classifiers contained by pac.</b>
 	 */
 	public default boolean setPackage(ConcreteClassifier cls, Package pac) {
