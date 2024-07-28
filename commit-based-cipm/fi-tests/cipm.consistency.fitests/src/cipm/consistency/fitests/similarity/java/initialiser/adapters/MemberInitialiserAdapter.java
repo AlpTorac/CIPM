@@ -7,19 +7,37 @@ import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserAdapterStrategy;
 import cipm.consistency.fitests.similarity.java.initialiser.members.IMemberContainerInitialiser;
 
+/**
+ * An {@link IInitialiserAdapterStrategy} implementation that can be used with
+ * {@link IInitialiserBase} implementors that instantiate
+ * {@link Member}. <br>
+ * <br>
+ * Adds the created {@link Member} to a {@link MemberContainer}. Does not modify
+ * the {@link Member} instance, if it is already in a {@link MemberContainer}. This way,
+ * similarity checking 2 {@link Member} instances does not throw an exception, due to them
+ * not being contained by a {@link MemberContainer}.
+ * 
+ * @author atora
+ *
+ */
 public class MemberInitialiserAdapter implements
 	IInitialiserAdapterStrategy {
+	/**
+	 * The initialiser responsible for creating {@link MemberContainer}s to
+	 * fulfil this instance's functionality.
+	 */
 	private IMemberContainerInitialiser mcInit;
 	
+	/**
+	 * Constructs an instance with the given {@link IMemberContainerInitialiser}.
+	 */
 	public MemberInitialiserAdapter(IMemberContainerInitialiser mcInit) {
 		this.mcInit = mcInit;
 	}
 	
-	public MemberInitialiserAdapter withMCInit(IMemberContainerInitialiser mcInit) {
-		this.mcInit = mcInit;
-		return this;
-	}
-	
+	/**
+	 * @return The initialiser in this instance that creates {@link MemberContainer}s.
+	 */
 	public IMemberContainerInitialiser getMCInit() {
 		return this.mcInit;
 	}
