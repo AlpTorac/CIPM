@@ -25,8 +25,8 @@ public class ShiftExpressionTest extends EObjectSimilarityTest implements UsesEx
 		this.setResourceFileTestIdentifier("testChild");
 		
 		this.testSimilarity(
-				this.initElement(new ShiftExpressionChild[] {this.createInteger(1)}, null),
-				this.initElement(new ShiftExpressionChild[] {this.createInteger(2)}, null),
+				this.initElement(new ShiftExpressionChild[] {this.createDecimalIntegerLiteral(1)}, null),
+				this.initElement(new ShiftExpressionChild[] {this.createDecimalIntegerLiteral(2)}, null),
 				ExpressionsPackage.Literals.SHIFT_EXPRESSION__CHILDREN);
 	}
 	

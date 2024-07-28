@@ -23,8 +23,8 @@ public class ConditionalAndExpressionTest extends EObjectSimilarityTest implemen
 		this.setResourceFileTestIdentifier("testChild");
 		
 		this.testSimilarity(
-				this.initElement(new ConditionalAndExpressionChild[] {this.createInteger(1)}),
-				this.initElement(new ConditionalAndExpressionChild[] {this.createInteger(2)}),
+				this.initElement(new ConditionalAndExpressionChild[] {this.createDecimalIntegerLiteral(1)}),
+				this.initElement(new ConditionalAndExpressionChild[] {this.createDecimalIntegerLiteral(2)}),
 				ExpressionsPackage.Literals.CONDITIONAL_AND_EXPRESSION__CHILDREN);
 	}
 }

@@ -27,8 +27,8 @@ public class UnaryModificationExpressionTest extends EObjectSimilarityTest imple
 		this.setResourceFileTestIdentifier("testChild");
 		
 		this.testSimilarity(
-				this.initElement(initialiser, this.createInteger(1), null),
-				this.initElement(initialiser, this.createInteger(2), null),
+				this.initElement(initialiser, this.createDecimalIntegerLiteral(1), null),
+				this.initElement(initialiser, this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__CHILD);
 	}
 	

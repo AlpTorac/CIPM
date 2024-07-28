@@ -7,15 +7,14 @@ import org.emftext.language.java.statements.JumpLabel;
 import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.statements.Statement;
 
-import cipm.consistency.fitests.similarity.java.initialiser.params.LiteralFactory;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.AssertInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.BlockInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.JumpLabelInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.ReturnInitialiser;
 
-public interface UsesStatements {
+public interface UsesStatements extends UsesLiterals {
 	public default Return createMinimalNullReturn() {
-		return this.createMinimalReturn(new LiteralFactory().createNullLiteral());
+		return this.createMinimalReturn(this.createNullLiteral());
 	}
 	
 	public default Return createMinimalReturn(Expression returnExpr) {
@@ -28,7 +27,7 @@ public interface UsesStatements {
 	public default Assert createMinimalTrivialAssert() {
 		var init = new AssertInitialiser();
 		Assert result = init.instantiate();
-		init.setCondition(result, new LiteralFactory().createBooleanLiteral(true));
+		init.setCondition(result, this.createBooleanLiteral(true));
 		return result;
 	}
 	

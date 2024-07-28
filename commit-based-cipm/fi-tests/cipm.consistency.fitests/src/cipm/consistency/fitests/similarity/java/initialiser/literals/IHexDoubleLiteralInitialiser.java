@@ -6,4 +6,8 @@ public interface IHexDoubleLiteralInitialiser extends IDoubleLiteralInitialiser 
     @Override
     public HexDoubleLiteral instantiate();
 
+    public default boolean setHexValue(HexDoubleLiteral hdl, double val) {
+    	hdl.setHexValue(val);
+    	return hdl.getHexValue() == val;
+    }
 }

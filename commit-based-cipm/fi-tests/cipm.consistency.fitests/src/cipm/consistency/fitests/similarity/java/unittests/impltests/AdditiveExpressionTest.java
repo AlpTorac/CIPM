@@ -25,8 +25,8 @@ public class AdditiveExpressionTest extends EObjectSimilarityTest implements Use
 		this.setResourceFileTestIdentifier("testChild");
 		
 		this.testSimilarity(
-				this.initElement(new AdditiveExpressionChild[] {this.createInteger(1)}, null),
-				this.initElement(new AdditiveExpressionChild[] {this.createInteger(2)}, null),
+				this.initElement(new AdditiveExpressionChild[] {this.createDecimalIntegerLiteral(1)}, null),
+				this.initElement(new AdditiveExpressionChild[] {this.createDecimalIntegerLiteral(2)}, null),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__CHILDREN);
 	}
 	

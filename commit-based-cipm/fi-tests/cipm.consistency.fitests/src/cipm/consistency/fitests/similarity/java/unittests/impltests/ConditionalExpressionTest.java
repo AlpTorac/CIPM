@@ -31,8 +31,8 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 		this.setResourceFileTestIdentifier("testChild");
 		
 		this.testSimilarity(
-				this.initElement(this.createInteger(1), null, null, null),
-				this.initElement(this.createInteger(2), null, null, null),
+				this.initElement(this.createDecimalIntegerLiteral(1), null, null, null),
+				this.initElement(this.createDecimalIntegerLiteral(2), null, null, null),
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__CHILD);
 	}
 	
@@ -41,8 +41,8 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 		this.setResourceFileTestIdentifier("testExpressionChild");
 		
 		this.testSimilarity(
-				this.initElement(null, this.createInteger(1), null, null),
-				this.initElement(null, this.createInteger(2), null, null),
+				this.initElement(null, this.createDecimalIntegerLiteral(1), null, null),
+				this.initElement(null, this.createDecimalIntegerLiteral(2), null, null),
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__CHILD);
 	}
 	
@@ -51,8 +51,8 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 		this.setResourceFileTestIdentifier("testExpressionIf");
 		
 		this.testSimilarity(
-				this.initElement(null, null, this.createInteger(1), null),
-				this.initElement(null, null, this.createInteger(2), null),
+				this.initElement(null, null, this.createDecimalIntegerLiteral(1), null),
+				this.initElement(null, null, this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__EXPRESSION_IF);
 	}
 	
@@ -61,8 +61,8 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 		this.setResourceFileTestIdentifier("testGeneralExpressionElse");
 		
 		this.testSimilarity(
-				this.initElement(null, null, null, this.createInteger(1)),
-				this.initElement(null, null, null, this.createInteger(2)),
+				this.initElement(null, null, null, this.createDecimalIntegerLiteral(1)),
+				this.initElement(null, null, null, this.createDecimalIntegerLiteral(2)),
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__GENERAL_EXPRESSION_ELSE);
 	}
 }

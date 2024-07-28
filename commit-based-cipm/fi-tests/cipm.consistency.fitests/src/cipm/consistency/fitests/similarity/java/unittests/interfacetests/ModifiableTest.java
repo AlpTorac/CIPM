@@ -9,9 +9,9 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.modifiers.IModifiableInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.params.ModifierFactory;
+import cipm.consistency.fitests.similarity.java.unittests.UsesModifiers;
 
-public class ModifiableTest extends EObjectSimilarityTest {
+public class ModifiableTest extends EObjectSimilarityTest implements UsesModifiers {
 	protected Modifiable initElement(IModifiableInitialiser init, Modifier[] modifs) {
 		Modifiable result = init.instantiate();
 		Assertions.assertTrue(init.addModifiers(result, modifs));
@@ -23,7 +23,7 @@ public class ModifiableTest extends EObjectSimilarityTest {
 	public void testModifier(IModifiableInitialiser init) {
 		this.setResourceFileTestIdentifier("testModifier");
 		
-		var objOne = this.initElement(init, new Modifier[] {new ModifierFactory().createFinal()});
+		var objOne = this.initElement(init, new Modifier[] {this.createFinal()});
 		var objTwo = this.initElement(init, null);
 		
 		this.testSimilarity(objOne, objTwo, ModifiersPackage.Literals.MODIFIABLE__MODIFIERS);

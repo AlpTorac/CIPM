@@ -25,8 +25,8 @@ public class EqualityExpressionTest extends EObjectSimilarityTest implements Use
 		this.setResourceFileTestIdentifier("testChild");
 		
 		this.testSimilarity(
-				this.initElement(new EqualityExpressionChild[] {this.createInteger(1)}, null),
-				this.initElement(new EqualityExpressionChild[] {this.createInteger(2)}, null),
+				this.initElement(new EqualityExpressionChild[] {this.createDecimalIntegerLiteral(1)}, null),
+				this.initElement(new EqualityExpressionChild[] {this.createDecimalIntegerLiteral(2)}, null),
 				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__CHILDREN);
 	}
 	

@@ -25,8 +25,8 @@ public class UnaryExpressionTest extends EObjectSimilarityTest implements UsesEx
 		this.setResourceFileTestIdentifier("testChild");
 		
 		this.testSimilarity(
-				this.initElement(this.createInteger(1), null),
-				this.initElement(this.createInteger(2), null),
+				this.initElement(this.createDecimalIntegerLiteral(1), null),
+				this.initElement(this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.UNARY_EXPRESSION__CHILD);
 	}
 	

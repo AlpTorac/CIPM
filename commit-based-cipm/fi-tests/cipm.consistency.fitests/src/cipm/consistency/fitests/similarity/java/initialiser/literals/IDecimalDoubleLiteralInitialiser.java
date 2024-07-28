@@ -6,4 +6,8 @@ public interface IDecimalDoubleLiteralInitialiser extends IDoubleLiteralInitiali
     @Override
     public DecimalDoubleLiteral instantiate();
 
+    public default boolean setDecimalValue(DecimalDoubleLiteral ddl, double val) {
+    	ddl.setDecimalValue(val);
+    	return ddl.getDecimalValue() == val;
+    }
 }
