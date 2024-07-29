@@ -27,8 +27,8 @@ public class AnnotationAttributeSettingTest extends EObjectSimilarityTest
 	public void testAttribute() {
 		this.setResourceFileTestIdentifier("testAttribute");
 		
-		var objOne = this.initElement(this.createMinimalInterfaceMethod("im1Name"), null);
-		var objTwo = this.initElement(this.createMinimalInterfaceMethod("im2Name"), null);
+		var objOne = this.initElement(this.createMinimalInterfaceMethodWithNullReturn("im1Name"), null);
+		var objTwo = this.initElement(this.createMinimalInterfaceMethodWithNullReturn("im2Name"), null);
 		
 		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__ATTRIBUTE);
 	}
@@ -37,8 +37,8 @@ public class AnnotationAttributeSettingTest extends EObjectSimilarityTest
 	public void testValue() {
 		this.setResourceFileTestIdentifier("testValue");
 		
-		var objOne = this.initElement(null, this.createNullVal());
-		var objTwo = this.initElement(null, this.createStringRefVal("val"));
+		var objOne = this.initElement(null, this.createNullLiteral());
+		var objTwo = this.initElement(null, this.createMinimalSR("val"));
 		
 		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__VALUE);
 	}
