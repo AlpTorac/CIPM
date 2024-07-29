@@ -42,6 +42,14 @@ import cipm.consistency.fitests.similarity.java.initialiser.literals.ThisInitial
 import cipm.consistency.fitests.similarity.java.initialiser.modifiers.StaticInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.modifiers.TransitiveInitialiser;
 
+/**
+ * An interface that can be implemented by tests, which work with
+ * {@link Literal} instances. <br>
+ * <br>
+ * Contains methods that can be used to create {@link Literal} instances. The
+ * methods wrap the value provided to them with the corresponding
+ * {@link Literal} implementations.
+ */
 public interface UsesLiterals {
 	public default CharacterLiteral createCharacterLiteral(String val) {
 		var init = new CharacterLiteralInitialiser();
@@ -49,146 +57,146 @@ public interface UsesLiterals {
 		init.setValue(lit, val);
 		return lit;
 	}
-	
+
 	public default BooleanLiteral createBooleanLiteral(boolean val) {
 		var init = new BooleanLiteralInitialiser();
 		var lit = init.instantiate();
 		init.setValue(lit, val);
 		return lit;
 	}
-	
+
 	public default HexFloatLiteral createHexFloatLiteral(float val) {
 		var init = new HexFloatLiteralInitialiser();
 		var lit = init.instantiate();
 		init.setHexValue(lit, val);
 		return lit;
 	}
-	
+
 	public default DecimalFloatLiteral createDecimalFloatLiteral(float val) {
 		var init = new DecimalFloatLiteralInitialiser();
 		var lit = init.instantiate();
 		init.setDecimalValue(lit, val);
 		return lit;
 	}
-	
+
 	public default HexDoubleLiteral createHexDoubleLiteral(double val) {
 		var init = new HexDoubleLiteralInitialiser();
 		var lit = init.instantiate();
 		init.setHexValue(lit, val);
 		return lit;
 	}
-	
+
 	public default DecimalDoubleLiteral createDecimalDoubleLiteral(double val) {
 		var init = new DecimalDoubleLiteralInitialiser();
 		var lit = init.instantiate();
 		init.setDecimalValue(lit, val);
 		return lit;
 	}
-	
+
 	public default BinaryIntegerLiteral createBinaryIntegerLiteral(BigInteger val) {
 		var init = new BinaryIntegerLiteralInitialiser();
 		var lit = init.instantiate();
 		init.setBinaryValue(lit, val);
 		return lit;
 	}
-	
+
 	public default BinaryIntegerLiteral createBinaryIntegerLiteral(int val) {
 		return this.createBinaryIntegerLiteral(BigInteger.valueOf(val));
 	}
-	
+
 	public default DecimalIntegerLiteral createDecimalIntegerLiteral(BigInteger val) {
 		var init = new DecimalIntegerLiteralInitialiser();
 		var lit = init.instantiate();
 		init.setDecimalValue(lit, val);
 		return lit;
 	}
-	
+
 	public default DecimalIntegerLiteral createDecimalIntegerLiteral(int val) {
 		return this.createDecimalIntegerLiteral(BigInteger.valueOf(val));
 	}
-	
+
 	public default HexIntegerLiteral createHexIntegerLiteral(BigInteger val) {
 		var init = new HexIntegerLiteralInitialiser();
 		var lit = init.instantiate();
 		init.setHexValue(lit, val);
 		return lit;
 	}
-	
+
 	public default HexIntegerLiteral createHexIntegerLiteral(int val) {
 		return this.createHexIntegerLiteral(BigInteger.valueOf(val));
 	}
-	
+
 	public default OctalIntegerLiteral createOctalIntegerLiteral(BigInteger val) {
 		var init = new OctalIntegerLiteralInitialiser();
 		var lit = init.instantiate();
 		init.setOctalValue(lit, val);
 		return lit;
 	}
-	
+
 	public default OctalIntegerLiteral createOctalIntegerLiteral(int val) {
 		return this.createOctalIntegerLiteral(BigInteger.valueOf(val));
 	}
-	
+
 	public default BinaryLongLiteral createBinaryLongLiteral(BigInteger val) {
 		var init = new BinaryLongLiteralInitialiser();
 		var lit = init.instantiate();
 		init.setBinaryValue(lit, val);
 		return lit;
 	}
-	
+
 	public default BinaryLongLiteral createBinaryLongLiteral(int val) {
 		return this.createBinaryLongLiteral(BigInteger.valueOf(val));
 	}
-	
+
 	public default DecimalLongLiteral createDecimalLongLiteral(BigInteger val) {
 		var init = new DecimalLongLiteralInitialiser();
 		var lit = init.instantiate();
 		init.setDecimalValue(lit, val);
 		return lit;
 	}
-	
+
 	public default DecimalLongLiteral createDecimalLongLiteral(int val) {
 		return this.createDecimalLongLiteral(BigInteger.valueOf(val));
 	}
-	
+
 	public default HexLongLiteral createHexLongLiteral(BigInteger val) {
 		var init = new HexLongLiteralInitialiser();
 		var lit = init.instantiate();
 		init.setHexValue(lit, val);
 		return lit;
 	}
-	
+
 	public default HexLongLiteral createHexLongLiteral(int val) {
 		return this.createHexLongLiteral(BigInteger.valueOf(val));
 	}
-	
+
 	public default OctalLongLiteral createOctalLongLiteral(BigInteger val) {
 		var init = new OctalLongLiteralInitialiser();
 		var lit = init.instantiate();
 		init.setOctalValue(lit, val);
 		return lit;
 	}
-	
+
 	public default OctalLongLiteral createOctalLongLiteral(int val) {
 		return this.createOctalLongLiteral(BigInteger.valueOf(val));
 	}
-	
+
 	public default NullLiteral createNullLiteral() {
 		return new NullLiteralInitialiser().instantiate();
 	}
-	
+
 	public default This createThis() {
 		return new ThisInitialiser().instantiate();
 	}
-	
+
 	public default Super createSuper() {
 		return new SuperInitialiser().instantiate();
 	}
-	
+
 	public default Static createStatic() {
 		return new StaticInitialiser().instantiate();
 	}
-	
+
 	public default Transitive createTransitive() {
 		return new TransitiveInitialiser().instantiate();
 	}

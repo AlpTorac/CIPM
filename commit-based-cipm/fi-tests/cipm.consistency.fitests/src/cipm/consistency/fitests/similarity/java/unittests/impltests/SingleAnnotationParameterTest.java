@@ -22,8 +22,8 @@ public class SingleAnnotationParameterTest extends EObjectSimilarityTest impleme
 	public void testValue() {
 		this.setResourceFileTestIdentifier("testValue");
 		
-		var objOne = this.initElement(this.createNullVal());
-		var objTwo = this.initElement(this.createStringRefVal("strVal"));
+		var objOne = this.initElement(this.createNullLiteral());
+		var objTwo = this.initElement(this.createMinimalSR("strVal"));
 		
 		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.SINGLE_ANNOTATION_PARAMETER__VALUE);
 	}

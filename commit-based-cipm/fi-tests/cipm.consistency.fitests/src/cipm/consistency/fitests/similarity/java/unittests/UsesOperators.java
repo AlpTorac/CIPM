@@ -30,6 +30,12 @@ import cipm.consistency.fitests.similarity.java.initialiser.operators.PlusPlusIn
 import cipm.consistency.fitests.similarity.java.initialiser.operators.RightShiftInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.operators.SubtractionInitialiser;
 
+/**
+ * An interface that can be implemented by tests, which work with
+ * {@link Operator} instances. <br>
+ * <br>
+ * Contains methods that can be used to create {@link Operator} instances.
+ */
 public interface UsesOperators {
 	public default AssignmentOperator createAssignmentOperator() {
 		return new AssignmentInitialiser().instantiate();

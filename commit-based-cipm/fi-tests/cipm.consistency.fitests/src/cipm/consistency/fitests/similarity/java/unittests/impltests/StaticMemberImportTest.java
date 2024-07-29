@@ -22,8 +22,8 @@ public class StaticMemberImportTest extends EObjectSimilarityTest implements Use
 	public void testStaticMember() {
 		this.setResourceFileTestIdentifier("testStaticMember");
 		
-		var objOne = this.initElement(new ReferenceableElement[] {this.createMinimalClsMethod("met1")});
-		var objTwo = this.initElement(new ReferenceableElement[] {this.createMinimalClsMethod("met2")});
+		var objOne = this.initElement(new ReferenceableElement[] {this.createMinimalClsMethodWithNullReturn("met1")});
+		var objTwo = this.initElement(new ReferenceableElement[] {this.createMinimalClsMethodWithNullReturn("met2")});
 		
 		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.STATIC_MEMBER_IMPORT__STATIC_MEMBERS);
 	}

@@ -26,40 +26,57 @@ import cipm.consistency.fitests.similarity.java.initialiser.modifiers.Synchroniz
 import cipm.consistency.fitests.similarity.java.initialiser.modifiers.TransientInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.modifiers.VolatileInitialiser;
 
+/**
+ * An interface that can be implemented by tests, which work with
+ * {@link Modifier} instances. <br>
+ * <br>
+ * Contains methods that can be used to create {@link Modifier} instances.
+ */
 public interface UsesModifiers {
 	public default Default createDefault() {
 		return new DefaultInitialiser().instantiate();
 	}
+
 	public default Final createFinal() {
 		return new FinalInitialiser().instantiate();
 	}
+
 	public default Native createNative() {
 		return new NativeInitialiser().instantiate();
 	}
+
 	public default Private createPrivate() {
 		return new PrivateInitialiser().instantiate();
 	}
+
 	public default Public createPublic() {
 		return new PublicInitialiser().instantiate();
 	}
+
 	public default Static createStatic() {
 		return new StaticInitialiser().instantiate();
 	}
+
 	public default Strictfp createStrictfp() {
 		return new StrictfpInitialiser().instantiate();
 	}
+
 	public default Transient createTransient() {
 		return new TransientInitialiser().instantiate();
 	}
+
 	public default Abstract createAbstract() {
 		return new AbstractInitialiser().instantiate();
 	}
+
 	public default Synchronized createSynchronized() {
 		return new SynchronizedInitialiser().instantiate();
 	}
+
 	public default Volatile createVolatile() {
 		return new VolatileInitialiser().instantiate();
 	}
+
 	public default Protected createProtected() {
 		return new ProtectedInitialiser().instantiate();
 	}

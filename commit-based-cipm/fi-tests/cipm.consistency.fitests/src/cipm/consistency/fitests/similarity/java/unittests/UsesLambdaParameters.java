@@ -5,19 +5,39 @@ import org.emftext.language.java.parameters.Parameter;
 
 import cipm.consistency.fitests.similarity.java.initialiser.expressions.ExplicitlyTypedLambdaParametersInitialiser;
 
+/**
+ * An interface that can be implemented by tests, which work with
+ * {@link LambdaParameters} instances. <br>
+ * <br>
+ * Contains methods that can be used to create {@link LambdaParameters}
+ * instances.
+ */
 public interface UsesLambdaParameters extends UsesParameters {
+	/**
+	 * @param params The parameters that will be added to the constructed instance
+	 * @return An {@link ExplicitlyTypedLambdaParameters} instance with the given
+	 *         parameters
+	 */
 	public default ExplicitlyTypedLambdaParameters createETLP(Parameter[] params) {
 		var init = new ExplicitlyTypedLambdaParametersInitialiser();
-		
+
 		var result = init.instantiate();
 		init.addParameters(result, params);
-		
+
 		return result;
 	}
-	
+
+	/**
+	 * A variant of {@link #createETLP(Parameter[])}, where a single
+	 * {@link Parameter} instance is constructed and used.
+	 * 
+	 * @param paramName  The name of the {@link Parameter} that will be used
+	 * @param targetName The name of the entity that the type reference of the
+	 *                   {@link Parameter} will point at
+	 * 
+	 * @see {@link #createMinimalParamWithClsTarget(String, String)}
+	 */
 	public default ExplicitlyTypedLambdaParameters createMinimalETLP(String paramName, String targetName) {
-		return this.createETLP(new Parameter[] {
-				this.createMinimalParamWithClsTarget(paramName, targetName)
-		});
+		return this.createETLP(new Parameter[] { this.createMinimalParamWithClsTarget(paramName, targetName) });
 	}
 }
