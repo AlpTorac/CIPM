@@ -14,4 +14,9 @@ public class InitialiserParameters implements IInitialiserParameters {
 	public Collection<IInitialiser> getAllInitialisers() {
 		return new InitialiserPackage().getAllInitialiserInstances();
 	}
+
+	@Override
+	public IInitialiserParameterAdaptationStrategy getAdaptationStrategy() {
+		return new InitialiserParameterAdaptationStrategy();
+	}
 }

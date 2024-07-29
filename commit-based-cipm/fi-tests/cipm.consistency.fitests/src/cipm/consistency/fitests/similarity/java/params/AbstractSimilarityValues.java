@@ -33,6 +33,15 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	 */
 	private Map<SimilarityEntry, Boolean> similarityValues;
 
+	/**
+	 * Constructs an instance and initialises the internal data structure that
+	 * stores expected similarity checking results.
+	 * 
+	 * @see {@link #addSimilarityEntry(Class, EStructuralFeature, Boolean)} for more
+	 *      information on adding entries.
+	 * @see {@link #getExpectedSimilarityResult(Class, EStructuralFeature)} for more
+	 *      information on expected similarity checking results.
+	 */
 	public AbstractSimilarityValues() {
 		this.similarityValues = this.initSimilarityValues();
 	}
@@ -170,7 +179,7 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	}
 
 	/**
-	 * Contains a class object from an {@link EObject} instance and a
+	 * Contains a class object from an {@link EObject} instance and an
 	 * {@link EStructuralFeature} of the said instance.
 	 * 
 	 * @author atora
