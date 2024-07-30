@@ -28,10 +28,9 @@ public interface UsesArrayInitializers {
 	/**
 	 * A variant of
 	 * {@link #createMinimalArrayInitializer(ArrayInitializationValue[])}, where the
-	 * parameter is an array containing of only the given expr as an
-	 * {@link ArrayInitializationValue}.
+	 * parameter is an array containing only one {@link ArrayInitializationValue}.
 	 */
-	public default ArrayInitializer createMinimalArrayInitializer(Expression expr) {
-		return this.createMinimalArrayInitializer(new ArrayInitializationValue[] { expr });
+	public default ArrayInitializer createMinimalArrayInitializer(Expression aiv) {
+		return this.createMinimalArrayInitializer(new ArrayInitializationValue[] { aiv });
 	}
 }

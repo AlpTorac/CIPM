@@ -20,32 +20,45 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.ReturnIni
  */
 public interface UsesStatements extends UsesLiterals {
 	/**
-	 * A variant of {@link #createMinimalReturn(Expression)} with a
-	 * {@link NullLiteral} as its return value.
-	 * 
-	 * @see {@link #createNullLiteral()}
-	 */
-	public default Return createMinimalNullReturn() {
-		return this.createMinimalReturn(this.createNullLiteral());
-	}
-
-	/**
-	 * @param returnExpr The return value of the instance to be constructed
+	 * @param returnVal The return value of the instance to be constructed
 	 * @return A {@link Return} instance with the given {@link Expression} as its
 	 *         return value.
 	 */
-	public default Return createMinimalReturn(Expression returnExpr) {
+	public default Return createMinimalReturn(Expression returnVal) {
 		var init = new ReturnInitialiser();
 		Return result = init.instantiate();
-		init.setReturnValue(result, returnExpr);
+		init.setReturnValue(result, returnVal);
 		return result;
 	}
 
 	/**
-	 * @return An {@link Assert} instance, whose condition is a
-	 *         {@link BooleanLiteral} with the value true.
-	 * 
-	 * @see {@link #createBooleanLiteral(boolean)}
+	 * @param jlName   The name of the instance to be constructed
+	 * @param targetSt The target statement of the instance to be constructed
+	 * @return A {@link JumpLabel} instance with the given parameter
+	 */
+	public default JumpLabel createMinimalJL(String jlName, Statement targetSt) {
+		var init = new JumpLabelInitialiser();
+		var jl = init.instantiate();
+		init.setName(jl, jlName);
+		init.setStatement(jl, targetSt);
+		return jl;
+	}
+
+	/**
+	 * @param sts The statements that will be added to the instance to be
+	 *            constructed
+	 * @return A {@link Block} instance with the given parameters
+	 */
+	public default Block createMinimalBlock(Statement[] sts) {
+		var init = new BlockInitialiser();
+		Block result = init.instantiate();
+		init.addStatements(result, sts);
+		return result;
+	}
+
+	/**
+	 * @return An {@link Assert} instance, whose {@link Condition} is constructed
+	 *         with {@link #createBooleanLiteral(boolean)} using the value true.
 	 */
 	public default Assert createMinimalTrivialAssert() {
 		var init = new AssertInitialiser();
@@ -55,16 +68,13 @@ public interface UsesStatements extends UsesLiterals {
 	}
 
 	/**
-	 * @param jlName The name of the instance to be constructed
-	 * @param target The target statement of the instance to be constructed
-	 * @return A {@link JumpLabel} instance with the given parameter
+	 * A variant of {@link #createMinimalReturn(Expression)}, where the parameter is
+	 * constructed with {@link #createNullLiteral()}.
+	 * 
+	 * @see {@link #createNullLiteral()}
 	 */
-	public default JumpLabel createMinimalJL(String jlName, Statement target) {
-		var init = new JumpLabelInitialiser();
-		var jl = init.instantiate();
-		init.setName(jl, jlName);
-		init.setStatement(jl, target);
-		return jl;
+	public default Return createMinimalNullReturn() {
+		return this.createMinimalReturn(this.createNullLiteral());
 	}
 
 	/**
@@ -97,18 +107,6 @@ public interface UsesStatements extends UsesLiterals {
 	 */
 	public default JumpLabel createMinimalJLToTrivialAssert(String jlName) {
 		return this.createMinimalJL(jlName, this.createMinimalTrivialAssert());
-	}
-
-	/**
-	 * @param sts The statements that will be added to the instance to be
-	 *            constructed
-	 * @return A {@link Block} instance with the given parameters
-	 */
-	public default Block createMinimalBlock(Statement[] sts) {
-		var init = new BlockInitialiser();
-		Block result = init.instantiate();
-		init.addStatements(result, sts);
-		return result;
 	}
 
 	/**

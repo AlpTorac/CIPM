@@ -15,30 +15,6 @@ import cipm.consistency.fitests.similarity.java.initialiser.imports.IImportIniti
  */
 public interface UsesImports extends UsesConcreteClassifiers {
 	/**
-	 * A variant of
-	 * {@link #createMinimalImport(IImportInitialiser, ConcreteClassifier)}, where
-	 * the constructed instance is of type {@link ClassifierImport}.
-	 */
-	public default ClassifierImport createMinimalClsImport(ConcreteClassifier cls) {
-		return (ClassifierImport) this.createMinimalImport(new ClassifierImportInitialiser(), cls);
-	}
-
-	/**
-	 * A variant of
-	 * {@link #createMinimalImport(IImportInitialiser, ConcreteClassifier)}, where
-	 * the constructed instance is of type {@link ClassifierImport}.
-	 * 
-	 * @param clsName The name of the {@link Class}, to which the constructed
-	 *                instance will point at
-	 * 
-	 * @see {@link #createMinimalClassWithCU(String)}
-	 */
-	public default ClassifierImport createMinimalClsImport(String clsName) {
-		return (ClassifierImport) this.createMinimalImport(new ClassifierImportInitialiser(),
-				this.createMinimalClassWithCU(clsName));
-	}
-
-	/**
 	 * @param initialiser The initialiser that will be used to construct the
 	 *                    instance
 	 * @param cls         The classifier of the instance to be constructed (what it
@@ -50,5 +26,27 @@ public interface UsesImports extends UsesConcreteClassifiers {
 		initialiser.setClassifier(result, cls);
 
 		return result;
+	}
+
+	/**
+	 * A variant of
+	 * {@link #createMinimalImport(IImportInitialiser, ConcreteClassifier)}, where
+	 * the constructed instance is of type {@link ClassifierImport}.
+	 */
+	public default ClassifierImport createMinimalClsImport(ConcreteClassifier cls) {
+		return (ClassifierImport) this.createMinimalImport(new ClassifierImportInitialiser(), cls);
+	}
+
+	/**
+	 * A variant of
+	 * {@link #createMinimalImport(IImportInitialiser, ConcreteClassifier)}, where
+	 * the constructed instance is of type {@link ClassifierImport} that points at a
+	 * {@link Classifier} constructed with
+	 * {@link #createMinimalClassWithCU(String)}.
+	 * 
+	 * @param clsName See {@link #createMinimalClassWithCU(String)}
+	 */
+	public default ClassifierImport createMinimalClsImport(String clsName) {
+		return this.createMinimalClsImport(this.createMinimalClassWithCU(clsName));
 	}
 }

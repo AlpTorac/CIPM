@@ -12,13 +12,13 @@ import cipm.consistency.fitests.similarity.java.initialiser.imports.PackageImpor
  */
 public interface UsesPackageImports {
 	/**
-	 * @param nss The namespaces of the instance to be constructed
+	 * @param piNss The namespaces of the instance to be constructed
 	 * @return A {@link PackageImport} instance with the given parameters
 	 */
-	public default PackageImport createMinimalPackageImport(String[] nss) {
+	public default PackageImport createMinimalPackageImport(String[] piNss) {
 		var initialiser = new PackageImportInitialiser();
 		var result = initialiser.instantiate();
-		initialiser.addNamespaces(result, nss);
+		initialiser.addNamespaces(result, piNss);
 
 		return result;
 	}

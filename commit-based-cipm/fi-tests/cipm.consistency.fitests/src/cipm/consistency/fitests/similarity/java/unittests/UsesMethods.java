@@ -27,9 +27,8 @@ public interface UsesMethods extends UsesStatements {
 	}
 
 	/**
-	 * @return A {@link ClassMethod} instance that returns null.
-	 * 
-	 * @see {@link #createMinimalNullReturn()}
+	 * @return A {@link ClassMethod} instance with only one {@link Statement}
+	 *         constructed by {@link #createMinimalNullReturn()}.
 	 */
 	public default ClassMethod createMinimalClsMethodWithNullReturn() {
 		var init = new ClassMethodInitialiser();
@@ -52,9 +51,8 @@ public interface UsesMethods extends UsesStatements {
 	}
 
 	/**
-	 * @return A {@link InterfaceMethod} instance that returns null.
-	 * 
-	 * @see {@link #createNullLiteral()}
+	 * @return A {@link InterfaceMethod} instance with only one {@link Statement}
+	 *         constructed by {@link #createNullLiteral()}.
 	 */
 	public default InterfaceMethod createMinimalInterfaceMethodWithNullReturn() {
 		var init = new InterfaceMethodInitialiser();

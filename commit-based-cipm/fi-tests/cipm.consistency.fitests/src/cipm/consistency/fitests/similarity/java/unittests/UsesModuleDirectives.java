@@ -49,28 +49,22 @@ public interface UsesModuleDirectives extends UsesPackages, UsesModuleReferences
 	}
 
 	/**
-	 * A variant of {@link #createMinimalEMD(Package)}, where a minimal
-	 * {@link Package} instance is constructed and used.
+	 * A variant of {@link #createMinimalEMD(Package)}, where
+	 * {@link #createMinimalPackage(String[])} is used to construct the parameter.
 	 * 
-	 * @param nss The namespaces of the {@link Package} to be constructed in the
-	 *            process
-	 * 
-	 * @see {@link #createMinimalPackage(String[])}
+	 * @param pacNss See {@link #createMinimalPackage(String[])}
 	 */
-	public default ExportsModuleDirective createMinimalEMD(String[] nss) {
-		return this.createMinimalEMD(this.createMinimalPackage(nss));
+	public default ExportsModuleDirective createMinimalEMD(String[] pacNss) {
+		return this.createMinimalEMD(this.createMinimalPackage(pacNss));
 	}
 
 	/**
-	 * A variant of {@link #createMinimalOMD(Package)}, where a minimal
-	 * {@link Package} instance is constructed and used.
+	 * A variant of {@link #createMinimalOMD(Package)}, where
+	 * {@link #createMinimalPackage(String[])} is used to construct the parameter.
 	 * 
-	 * @param nss The namespaces of the {@link Package} to be constructed in the
-	 *            process
-	 * 
-	 * @see {@link #createMinimalPackage(String[])}
+	 * @param pacNss See {@link #createMinimalPackage(String[])}
 	 */
-	public default OpensModuleDirective createMinimalOMD(String[] nss) {
-		return this.createMinimalOMD(this.createMinimalPackage(nss));
+	public default OpensModuleDirective createMinimalOMD(String[] pacNss) {
+		return this.createMinimalOMD(this.createMinimalPackage(pacNss));
 	}
 }

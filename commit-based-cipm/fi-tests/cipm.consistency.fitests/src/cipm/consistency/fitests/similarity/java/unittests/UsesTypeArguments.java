@@ -7,29 +7,51 @@ import org.emftext.language.java.types.TypeReference;
 import cipm.consistency.fitests.similarity.java.initialiser.generics.ExtendsTypeArgumentInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.generics.SuperTypeArgumentInitialiser;
 
+/**
+ * An interface that can be implemented by tests, which work with
+ * {@link TypeArgument} instances. <br>
+ * <br>
+ * Contains methods that can be used to create {@link TypeArgument} instances.
+ */
 public interface UsesTypeArguments extends UsesTypeReferences {
-	// TODO: Decide whether Qualified and Unknown type arguments are needed here
-	
-	public default ExtendsTypeArgument createMinimalExtendsTA(TypeReference tref) {
+	/**
+	 * @param extType The extend type of the instance to be constructed
+	 * @return An {@link ExtendsTypeArgument} instance with the given parameter
+	 */
+	public default ExtendsTypeArgument createMinimalExtendsTA(TypeReference extType) {
 		var init = new ExtendsTypeArgumentInitialiser();
-		
 		ExtendsTypeArgument result = init.instantiate();
-		init.setExtendType(result, tref);
+		init.setExtendType(result, extType);
 		return result;
 	}
-	
-	public default SuperTypeArgument createMinimalSuperTA(TypeReference tref) {
+
+	/**
+	 * @param supType The super type of the instance to be constructed
+	 * @return An {@link SuperTypeArgument} instance with the given parameter
+	 */
+	public default SuperTypeArgument createMinimalSuperTA(TypeReference supType) {
 		var init = new SuperTypeArgumentInitialiser();
-		
 		SuperTypeArgument result = init.instantiate();
-		init.setSuperType(result, tref);
+		init.setSuperType(result, supType);
 		return result;
 	}
-	
+
+	/**
+	 * A variant of {@link #createMinimalExtendsTA(TypeReference)}, where the
+	 * parameter is constructed with {@link #createMinimalClsRef(String)}.
+	 * 
+	 * @param clsName See {@link #createMinimalClsRef(String)}
+	 */
 	public default ExtendsTypeArgument createMinimalExtendsTAWithCls(String clsName) {
 		return this.createMinimalExtendsTA(this.createMinimalClsRef(clsName));
 	}
-	
+
+	/**
+	 * A variant of {@link #createMinimalSuperTA(TypeReference)}, where the
+	 * parameter is constructed with {@link #createMinimalClsRef(String)}.
+	 * 
+	 * @param clsName See {@link #createMinimalClsRef(String)}
+	 */
 	public default SuperTypeArgument createMinimalSuperTAWithCls(String clsName) {
 		return this.createMinimalSuperTA(this.createMinimalClsRef(clsName));
 	}

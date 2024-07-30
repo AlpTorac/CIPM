@@ -16,54 +16,15 @@ import cipm.consistency.fitests.similarity.java.initialiser.containers.Compilati
  */
 public interface UsesConcreteClassifiers extends UsesPackages, UsesNames {
 	/**
-	 * A variant of
-	 * {@link #createMinimalClassifier(IConcreteClassifierInitialiser, String)},
-	 * where a {@link Class} instance with the given parameter is created.
-	 */
-	public default Class createMinimalClass(String name) {
-		return (Class) this.createMinimalClassifier(new ClassInitialiser(), name);
-	}
-
-	/**
-	 * A variant of
-	 * {@link #createMinimalClassifierWithCU(IConcreteClassifierInitialiser, String)},
-	 * where the constructed instance is of type {@link Class} with the given
-	 * parameter.
-	 */
-	public default Class createMinimalClassWithCU(String clsName) {
-		return (Class) this.createMinimalClassifierWithCU(new ClassInitialiser(), clsName);
-	}
-
-	/**
-	 * A variant of
-	 * {@link #createMinimalClassifierWithPac(IConcreteClassifierInitialiser, String, String[])},
-	 * where the constructed instance is of type {@link Class}.
-	 */
-	public default Class createMinimalClassWithPac(String clsName, String[] pacNss) {
-		return (Class) this.createMinimalClassifierWithPac(new ClassInitialiser(), clsName, pacNss);
-	}
-
-	/**
-	 * @param init The initialiser that will be used to create the instance
-	 * @param name The name of the instance to be constructed
+	 * @param init    The initialiser that will be used to create the instance
+	 * @param clsName The name of the instance to be constructed
 	 * @return A {@link ConcreteClassifier} instance with the given name. The
 	 *         concrete type of the instance depends on init.
 	 */
-	public default ConcreteClassifier createMinimalClassifier(IConcreteClassifierInitialiser init, String name) {
+	public default ConcreteClassifier createMinimalClassifier(IConcreteClassifierInitialiser init, String clsName) {
 		ConcreteClassifier result = init.instantiate();
-		init.setName(result, name);
+		init.setName(result, clsName);
 		return result;
-	}
-
-	/**
-	 * A variant of
-	 * {@link #createMinimalClassifierWithCU(IConcreteClassifierInitialiser, String, String)},
-	 * where the name of the constructed {@link CompilationUnit} is
-	 * {@link #getDefaultName()}.
-	 */
-	public default ConcreteClassifier createMinimalClassifierWithCU(IConcreteClassifierInitialiser init,
-			String clsName) {
-		return this.createMinimalClassifierWithCU(init, clsName, this.getDefaultName());
 	}
 
 	/**
@@ -91,13 +52,9 @@ public interface UsesConcreteClassifiers extends UsesPackages, UsesNames {
 	/**
 	 * @param init    The initialiser that will be used to create the instance
 	 * @param clsName The name of the instance to be constructed
-	 * @param pacNss  The namespaces of the {@link Package} that will contain the
-	 *                constructed instance
+	 * @param pacNss  See {@link #createMinimalPackage(String[])}
 	 * @return A {@link ConcreteClassifier} instance that will be contained by a
-	 *         {@link Package}. The given parameters are used in both of their
-	 *         construction.
-	 * 
-	 * @see {@link #createMinimalPackage(String[])}
+	 *         {@link Package} constructed by {@link #createMinimalPackage(String[])}.
 	 */
 	public default ConcreteClassifier createMinimalClassifierWithPac(IConcreteClassifierInitialiser init,
 			String clsName, String[] pacNss) {
@@ -105,5 +62,44 @@ public interface UsesConcreteClassifiers extends UsesPackages, UsesNames {
 		init.setName(result, clsName);
 		init.setPackage(result, this.createMinimalPackage(pacNss));
 		return result;
+	}
+
+	/**
+	 * A variant of
+	 * {@link #createMinimalClassifierWithPac(IConcreteClassifierInitialiser, String, String[])},
+	 * where the constructed instance is of type {@link Class}.
+	 */
+	public default Class createMinimalClassWithPac(String clsName, String[] pacNss) {
+		return (Class) this.createMinimalClassifierWithPac(new ClassInitialiser(), clsName, pacNss);
+	}
+
+	/**
+	 * A variant of
+	 * {@link #createMinimalClassifierWithCU(IConcreteClassifierInitialiser, String, String)},
+	 * where the name of the constructed {@link CompilationUnit} is
+	 * {@link #getDefaultName()}.
+	 */
+	public default ConcreteClassifier createMinimalClassifierWithCU(IConcreteClassifierInitialiser init,
+			String clsName) {
+		return this.createMinimalClassifierWithCU(init, clsName, this.getDefaultName());
+	}
+
+	/**
+	 * A variant of
+	 * {@link #createMinimalClassifier(IConcreteClassifierInitialiser, String)},
+	 * where a {@link Class} instance with the given parameter is created.
+	 */
+	public default Class createMinimalClass(String clsName) {
+		return (Class) this.createMinimalClassifier(new ClassInitialiser(), clsName);
+	}
+
+	/**
+	 * A variant of
+	 * {@link #createMinimalClassifierWithCU(IConcreteClassifierInitialiser, String)},
+	 * where the constructed instance is of type {@link Class} with the given
+	 * parameter.
+	 */
+	public default Class createMinimalClassWithCU(String clsName) {
+		return (Class) this.createMinimalClassifierWithCU(new ClassInitialiser(), clsName);
 	}
 }
