@@ -27,6 +27,16 @@ public interface UsesAnnotationParameters extends UsesAnnotationValues {
 
 	/**
 	 * A variant of {@link #createSingleAnnoParam(AnnotationValue)}, where the
+	 * parameter is constructed using {@link #createMinimalSR(String)}.
+	 * 
+	 * @param val See {@link #createMinimalSR(String)}
+	 */
+	public default SingleAnnotationParameter createSingleStrAnnoParam(String val) {
+		return this.createSingleAnnoParam(this.createMinimalSR(val));
+	}
+
+	/**
+	 * A variant of {@link #createSingleAnnoParam(AnnotationValue)}, where the
 	 * parameter is a {@link NullLiteral}.
 	 * 
 	 * @see {@link #createNullLiteral()}
@@ -35,13 +45,4 @@ public interface UsesAnnotationParameters extends UsesAnnotationValues {
 		return this.createSingleAnnoParam(this.createNullLiteral());
 	}
 
-	/**
-	 * A variant of {@link #createSingleAnnoParam(AnnotationValue)}, where the
-	 * parameter is a {@link StringReference} with the given value.
-	 * 
-	 * @see {@link #createMinimalSR(String)}
-	 */
-	public default SingleAnnotationParameter createSingleStrAnnoParam(String val) {
-		return this.createSingleAnnoParam(this.createMinimalSR(val));
-	}
 }

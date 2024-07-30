@@ -14,26 +14,26 @@ import cipm.consistency.fitests.similarity.java.initialiser.annotations.Annotati
  */
 public interface UsesAnnotationInstances extends UsesAnnotations {
 	/**
-	 * @param nss        The namespaces of the instance to be constructed.
-	 * @param annotation The annotation of the instance to be constructed.
+	 * @param aiNss        The namespaces of the instance to be constructed.
+	 * @param aiAnnotation The annotation of the instance to be constructed.
 	 * @return An {@link AnnotationInstance} with the given parameters.
 	 */
-	public default AnnotationInstance createMinimalAI(String[] nss, Classifier annotation) {
+	public default AnnotationInstance createMinimalAI(String[] aiNss, Classifier aiAnnotation) {
 		var aii = new AnnotationInstanceInitialiser();
-		AnnotationInstance result = aii.instantiate();
-		aii.addNamespaces(result, nss);
-		aii.setAnnotation(result, annotation);
-		return result;
+		AnnotationInstance ai = aii.instantiate();
+		aii.addNamespaces(ai, aiNss);
+		aii.setAnnotation(ai, aiAnnotation);
+		return ai;
 	}
 
 	/**
-	 * A variant of {@link #createMinimalAI(String[], Classifier)}, where a minimal
-	 * {@link Annotation} with the given name is constructed used as the second
-	 * parameter.
+	 * A variant of {@link #createMinimalAI(String[], Classifier)}, where
+	 * {@link #createMinimalAnnotation(String)} is used to construct
+	 * {@link Classifier} parameter.
 	 * 
-	 * @see {@link #createMinimalAnnotation(String)}
+	 * @param annotationName See {@link #createMinimalAnnotation(String)}
 	 */
-	public default AnnotationInstance createMinimalAI(String[] nss, String annotationName) {
-		return this.createMinimalAI(nss, this.createMinimalAnnotation(annotationName));
+	public default AnnotationInstance createMinimalAI(String[] aiNss, String annotationName) {
+		return this.createMinimalAI(aiNss, this.createMinimalAnnotation(annotationName));
 	}
 }

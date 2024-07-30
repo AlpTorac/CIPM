@@ -31,11 +31,10 @@ public interface UsesLambdaParameters extends UsesParameters {
 	 * A variant of {@link #createETLP(Parameter[])}, where a single
 	 * {@link Parameter} instance is constructed and used.
 	 * 
-	 * @param paramName  The name of the {@link Parameter} that will be used
-	 * @param targetName The name of the entity that the type reference of the
-	 *                   {@link Parameter} will point at
-	 * 
-	 * @see {@link #createMinimalOrdParamWithClsTarget(String, String)}
+	 * @param paramName  See
+	 *                   {@link #createMinimalOrdParamWithClsTarget(String, String)}
+	 * @param targetName See
+	 *                   {@link #createMinimalOrdParamWithClsTarget(String, String)}
 	 */
 	public default ExplicitlyTypedLambdaParameters createMinimalETLP(String paramName, String targetName) {
 		return this.createETLP(new Parameter[] { this.createMinimalOrdParamWithClsTarget(paramName, targetName) });

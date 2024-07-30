@@ -15,33 +15,6 @@ import cipm.consistency.fitests.similarity.java.initialiser.parameters.OrdinaryP
  */
 public interface UsesParameters extends UsesTypeReferences {
 	/**
-	 * A variant of
-	 * {@link #createMinimalParamWithClsTarget(IParameterInitialiser, String, String)}
-	 * that returns a {@link OrdinaryParameter} instance.
-	 */
-	public default OrdinaryParameter createMinimalOrdParamWithClsTarget(String paramName, String targetName) {
-		return (OrdinaryParameter) this.createMinimalParamWithClsTarget(new OrdinaryParameterInitialiser(), paramName,
-				targetName);
-	}
-
-	/**
-	 * A variant of
-	 * {@link #createMinimalParameter(IParameterInitialiser, String, TypeReference)}
-	 * that constructs a {@link ClassifierReference} pointing at a {@link Class}
-	 * with the given targetName.
-	 * 
-	 * @param targetName The name of the {@link Classifier} the
-	 *                   {@link TypeReference} of the constructed instance will
-	 *                   point at
-	 * 
-	 * @see {@link #createMinimalClsRef(String)}
-	 */
-	public default Parameter createMinimalParamWithClsTarget(IParameterInitialiser init, String paramName,
-			String targetName) {
-		return this.createMinimalParameter(init, paramName, this.createMinimalClsRef(targetName));
-	}
-
-	/**
 	 * @param init      The initialiser that will be used to construct the instance
 	 * @param paramName The name of the instance to be constructed
 	 * @param tref      The type reference of the instance to be constructed
@@ -52,5 +25,28 @@ public interface UsesParameters extends UsesTypeReferences {
 		init.setName(result, paramName);
 		init.setTypeReference(result, tref);
 		return result;
+	}
+
+	/**
+	 * A variant of
+	 * {@link #createMinimalParameter(IParameterInitialiser, String, TypeReference)},
+	 * where the {@link TypeReference} parameter is constructed using
+	 * {@link #createMinimalClsRef(String)}.
+	 * 
+	 * @param targetName See {@link #createMinimalClsRef(String)}
+	 */
+	public default Parameter createMinimalParamWithClsTarget(IParameterInitialiser init, String paramName,
+			String targetName) {
+		return this.createMinimalParameter(init, paramName, this.createMinimalClsRef(targetName));
+	}
+
+	/**
+	 * A variant of
+	 * {@link #createMinimalParamWithClsTarget(IParameterInitialiser, String, String)}
+	 * that returns an {@link OrdinaryParameter} instance.
+	 */
+	public default OrdinaryParameter createMinimalOrdParamWithClsTarget(String paramName, String targetName) {
+		return (OrdinaryParameter) this.createMinimalParamWithClsTarget(new OrdinaryParameterInitialiser(), paramName,
+				targetName);
 	}
 }

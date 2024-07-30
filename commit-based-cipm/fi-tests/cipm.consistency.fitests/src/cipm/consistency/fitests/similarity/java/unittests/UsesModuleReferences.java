@@ -12,6 +12,20 @@ import cipm.consistency.fitests.similarity.java.initialiser.modules.ModuleRefere
  * instances.
  */
 public interface UsesModuleReferences extends UsesModules {
+	/**
+	 * @param modName   See {@link #createMinimalModule(String)}
+	 * @param modRefNss The namespaces of the {@link Module}, at which the
+	 *                  constructed instance will point
+	 * @return A {@link ModuleReference} instance that points at a {@link Module}
+	 *         constructed with {@link #createMinimalModule(String)}.
+	 */
+	public default ModuleReference createMinimalMR(String modName, String[] modRefNss) {
+		var mrInit = new ModuleReferenceInitialiser();
+		var mr = mrInit.instantiate();
+		mrInit.setTarget(mr, this.createMinimalModule(modName));
+		mrInit.addNamespaces(mr, modRefNss);
+		return mr;
+	}
 
 	/**
 	 * A variant of {@link #createMinimalModule(String, String[])}, where the
@@ -22,21 +36,4 @@ public interface UsesModuleReferences extends UsesModules {
 		return this.createMinimalMR(modName, null);
 	}
 
-	/**
-	 * @param modName   The name of the {@link Module}, at which the constructed
-	 *                  instance will point
-	 * @param modRefNss The namespaces of the {@link Module}, at which the
-	 *                  constructed instance will point
-	 * @return A {@link ModuleReference} instance that points at a constructed
-	 *         {@link Module} with the given parameters
-	 * 
-	 * @see {@link #createMinimalModule(String)}
-	 */
-	public default ModuleReference createMinimalMR(String modName, String[] modRefNss) {
-		var mrInit = new ModuleReferenceInitialiser();
-		var mr = mrInit.instantiate();
-		mrInit.setTarget(mr, this.createMinimalModule(modName));
-		mrInit.addNamespaces(mr, modRefNss);
-		return mr;
-	}
 }

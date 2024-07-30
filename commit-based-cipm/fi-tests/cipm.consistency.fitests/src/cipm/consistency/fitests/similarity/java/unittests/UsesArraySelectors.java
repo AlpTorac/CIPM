@@ -13,25 +13,21 @@ import cipm.consistency.fitests.similarity.java.initialiser.arrays.ArraySelector
  */
 public interface UsesArraySelectors extends UsesExpressions {
 	/**
-	 * @param pos The position of the instance to be constructed
+	 * @param asPos The position of the instance to be constructed
 	 * @return An {@link ArraySelector} instance with the given parameter.
 	 */
-	public default ArraySelector createAS(Expression pos) {
+	public default ArraySelector createAS(Expression asPos) {
 		var init = new ArraySelectorInitialiser();
 		var as = init.instantiate();
-		init.setPosition(as, pos);
+		init.setPosition(as, asPos);
 		return as;
 	}
 
 	/**
-	 * A variant of {@link #createAS(Expression)}, where the given parameter is
-	 * wrapped by an {@link IntegerLiteral}.
-	 * 
-	 * @param idx The position of the instance to be constructed
-	 * 
-	 * @see {@link #createDecimalIntegerLiteral(int)}
+	 * A variant of {@link #createAS(Expression)}, where the parameter is wrapped
+	 * using {@link #createDecimalIntegerLiteral(int)}.
 	 */
-	public default ArraySelector createMinimalAS(int idx) {
-		return this.createAS(this.createDecimalIntegerLiteral(idx));
+	public default ArraySelector createMinimalAS(int asPos) {
+		return this.createAS(this.createDecimalIntegerLiteral(asPos));
 	}
 }

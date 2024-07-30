@@ -13,26 +13,23 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.CatchBloc
  */
 public interface UsesCatchBlocks extends UsesParameters {
 	/**
-	 * @param op The parameter of the instance to be constructed
+	 * @param cbParam The parameter of the instance to be constructed
 	 * @return A {@link CatchBlock} instance with the given parameter
 	 */
-	public default CatchBlock createMinimalCB(OrdinaryParameter op) {
+	public default CatchBlock createMinimalCB(OrdinaryParameter cbParam) {
 		var cbInit = new CatchBlockInitialiser();
 		var cb = cbInit.instantiate();
-		cbInit.setParameter(cb, op);
+		cbInit.setParameter(cb, cbParam);
 		return cb;
 	}
 
 	/**
-	 * A variant of {@link #createMinimalCB(OrdinaryParameter)}, where an
-	 * {@link OrdinaryParameter} instance is constructed and used.
+	 * A variant of {@link #createMinimalCB(OrdinaryParameter)}, where the parameter
+	 * is constructed using
+	 * {@link #createMinimalOrdParamWithClsTarget(String, String)}.
 	 * 
-	 * @param paramName  The name of the {@link OrdinaryParameter} instance that
-	 *                   will be constructed
-	 * @param targetName The name of the entity that the type reference of the
-	 *                   {@link OrdinaryParameter} will point at
-	 * 
-	 * @see {@link #createMinimalOrdParamWithClsTarget(String, String)}
+	 * @param paramName See {@link #createMinimalOrdParamWithClsTarget(String, String)}
+	 * @param targetName See {@link #createMinimalOrdParamWithClsTarget(String, String)}
 	 */
 	public default CatchBlock createMinimalCB(String paramName, String targetName) {
 		return this.createMinimalCB(this.createMinimalOrdParamWithClsTarget(paramName, targetName));

@@ -12,14 +12,14 @@ import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageIn
  */
 public interface UsesPackages {
 	/**
-	 * @param nss The namespaces of the instance to be constructed
+	 * @param pacNss The namespaces of the instance to be constructed
 	 * @return A {@link Package} instance with the given parameters
 	 */
-	public default Package createMinimalPackage(String[] nss) {
+	public default Package createMinimalPackage(String[] pacNss) {
 		var pacInit = new PackageInitialiser();
 
 		Package result = pacInit.instantiate();
-		pacInit.addNamespaces(result, nss);
+		pacInit.addNamespaces(result, pacNss);
 
 		return result;
 	}
@@ -28,21 +28,21 @@ public interface UsesPackages {
 	 * A variant of {@link #createMinimalPackage(String[])}, where namespaces are
 	 * generated using the given parameters. <br>
 	 * <br>
-	 * The generated namespaces will each have the given prefix. As suffix, the
-	 * namespaces will have a number between 0 (including) and the given count
-	 * (excluding). <br>
+	 * The generated namespaces will each consist of the given prefix and a suffix.
+	 * As suffix, the namespaces will have a number between 0 (including) and the
+	 * given count (excluding). <br>
 	 * <br>
 	 * Example: {@code nsPrefix = "ns", nsCount = 3} constructs a {@link Package}
 	 * instance with namespaces "ns0", "ns1", "ns2".
 	 * 
-	 * @param nsPrefix The prefix of the namespaces to be generated
-	 * @param nsCount  The count of the namespaces to be generated
+	 * @param pacNsPrefix The prefix of the namespaces to be generated
+	 * @param pacNsCount  The count of the namespaces to be generated
 	 */
-	public default Package createMinimalPackage(String nsPrefix, int nsCount) {
-		var nss = new String[nsCount];
+	public default Package createMinimalPackage(String pacNsPrefix, int pacNsCount) {
+		var nss = new String[pacNsCount];
 
-		for (int i = 0; i < nsCount; i++)
-			nss[i] = nsPrefix + i;
+		for (int i = 0; i < pacNsCount; i++)
+			nss[i] = pacNsPrefix + i;
 
 		return this.createMinimalPackage(nss);
 	}

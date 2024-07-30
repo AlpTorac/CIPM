@@ -12,6 +12,20 @@ import cipm.consistency.fitests.similarity.java.initialiser.classifiers.Anonymou
  */
 public interface UsesAnonymousClasses extends UsesMethods {
 	/**
+	 * @param methodName See {@link #createMinimalClsMethodWithNullReturn(String)}
+	 * 
+	 * @return An {@link AnonymousClass} instance with a {@link Member} constructed
+	 *         using {@link #createMinimalClsMethodWithNullReturn(String)}.
+	 * 
+	 */
+	public default AnonymousClass createMinimalAnonymousClassWithMethod(String methodName) {
+		var acInit = new AnonymousClassInitialiser();
+		var ac = this.createMinimalAnonymousClass();
+		acInit.addMember(ac, this.createMinimalClsMethodWithNullReturn(methodName));
+		return ac;
+	}
+
+	/**
 	 * @return A minimal {@link AnonymousClass} instance.
 	 */
 	public default AnonymousClass createMinimalAnonymousClass() {
@@ -20,18 +34,4 @@ public interface UsesAnonymousClasses extends UsesMethods {
 		return ac;
 	}
 
-	/**
-	 * @param methodName The name of the {@link ClassMethod} that will be added to
-	 *                   the constructed instance
-	 * @return An {@link AnonymousClass} instance with a {@link ClassMethod} with
-	 *         the given name.
-	 * 
-	 * @see {@link #createMinimalClsMethodWithNullReturn(String)}
-	 */
-	public default AnonymousClass createMinimalAnonymousClassWithMethod(String methodName) {
-		var acInit = new AnonymousClassInitialiser();
-		var ac = this.createMinimalAnonymousClass();
-		acInit.addMember(ac, this.createMinimalClsMethodWithNullReturn(methodName));
-		return ac;
-	}
 }

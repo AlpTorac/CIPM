@@ -14,23 +14,6 @@ import cipm.consistency.fitests.similarity.java.initialiser.imports.IImportingEl
  */
 public interface UsesImportingElements extends UsesImports {
 	/**
-	 * A variant of
-	 * {@link #createMinimalImportingElement(IImportingElementInitialiser, Import)},
-	 * where a {@link ClassifierImport} instance that points at a {@link Class}
-	 * instance with clsName will be constructed. The said {@link Class} instance
-	 * will also be constructed in the process.
-	 * 
-	 * @param clsName The name of the {@link Class} instance, to which the
-	 *                {@link Import} will point at (that import will be added to the
-	 *                constructed {@link ImportingElement} instance)
-	 * 
-	 * @see {@link #createMinimalClsImport(String)}
-	 */
-	public default ImportingElement createMinimalImportingElement(IImportingElementInitialiser init, String clsName) {
-		return this.createMinimalImportingElement(init, this.createMinimalClsImport(clsName));
-	}
-
-	/**
 	 * @param init The initialiser that will be used to construct the instance
 	 * @param imp  The {@link Import} that will be added to the constructed instance
 	 * @return An {@link ImportingElement} instance with the given parameters
@@ -40,5 +23,17 @@ public interface UsesImportingElements extends UsesImports {
 		init.addImport(result, imp);
 
 		return result;
+	}
+
+	/**
+	 * A variant of
+	 * {@link #createMinimalImportingElement(IImportingElementInitialiser, Import)},
+	 * where the {@link Import} parameter is constructed using
+	 * {@link #createMinimalClsImport(String)}.
+	 * 
+	 * @param clsName See {@link #createMinimalClsImport(String)}
+	 */
+	public default ImportingElement createMinimalImportingElement(IImportingElementInitialiser init, String clsName) {
+		return this.createMinimalImportingElement(init, this.createMinimalClsImport(clsName));
 	}
 }

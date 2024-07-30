@@ -30,6 +30,17 @@ public interface UsesAnnotationAttributeSettings extends UsesAnnotationValues {
 	}
 
 	/**
+	 * A variant of {@link #createAAS(InterfaceMethod, AnnotationValue)}, where the
+	 * first parameter is null and the second parameter constructed using
+	 * {@link #createMinimalSR(String)}.
+	 * 
+	 * @param val See {@link #createMinimalSR(String)}
+	 */
+	public default AnnotationAttributeSetting createStringAAS(String val) {
+		return this.createAAS(null, this.createMinimalSR(val));
+	}
+
+	/**
 	 * A variant of {@link #createAAS(InterfaceMethod, AnnotationValue)} where both
 	 * parameters are null.
 	 */
@@ -39,23 +50,10 @@ public interface UsesAnnotationAttributeSettings extends UsesAnnotationValues {
 
 	/**
 	 * A variant of {@link #createAAS(InterfaceMethod, AnnotationValue)}, where the
-	 * first parameter is null and the second parameter is a {@link NullLiteral}
-	 * instance.
-	 * 
-	 * @see {@link #createNullLiteral()}
+	 * first parameter is null and the second parameter is constructed using
+	 * {@link #createNullLiteral()}.
 	 */
 	public default AnnotationAttributeSetting createNullAAS() {
 		return this.createAAS(null, this.createNullLiteral());
-	}
-
-	/**
-	 * A variant of {@link #createAAS(InterfaceMethod, AnnotationValue)}, where the
-	 * first parameter is null and the second parameter is a {@link StringReference}
-	 * instance with the given value.
-	 * 
-	 * @see {@link #createMinimalSR(String)}
-	 */
-	public default AnnotationAttributeSetting createStringAAS(String val) {
-		return this.createAAS(null, this.createMinimalSR(val));
 	}
 }
