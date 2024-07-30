@@ -40,6 +40,12 @@ public interface IInitialiserBase extends IInitialiser {
 		}
 	}
 
+	/**
+	 * <b>For the sake of clarity, only use this method, if adapters are meant to be
+	 * used.</b> <br>
+	 * <br>
+	 * {@inheritDoc}
+	 */
 	@Override
 	public default boolean initialise(Object obj) {
 		boolean result = true;

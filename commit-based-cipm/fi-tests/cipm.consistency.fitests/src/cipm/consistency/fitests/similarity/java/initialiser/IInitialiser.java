@@ -4,11 +4,11 @@ import org.eclipse.emf.ecore.EObject;
 
 /**
  * An interface to be implemented by initialisers. Initialisers are interfaces
- * or classes, which are meant to instantiate objects. For intuition, their
- * names can be used to denote what they instantiate. <br>
+ * or classes, which are meant to instantiate objects ({@link #instantiate()}).
+ * For intuition, their names can be used to denote what they instantiate. <br>
  * <br>
- * Initialisers can also implement (default) methods that modify the objects
- * they initialise. It is suggested to declare the return types of such
+ * Initialisers can also implement (default) methods that modify their
+ * designated objects. It is suggested to declare the return types of such
  * modification methods as "boolean". This enables returning true or false to
  * ensure that the method actually worked as intended and make the modifications
  * it was meant to do. It is also possible to extract this behaviour into
@@ -16,11 +16,9 @@ import org.eclipse.emf.ecore.EObject;
  * <br>
  * It is recommended to separate instantiation and initialisation (modification)
  * methods, as doing so will allow using the individual methods in
- * sub-interfaces and sub-classes. <br>
- * <br>
- * Implementing initialisers similar to the way the objects are implemented,
- * which they will instantiate, may make initialisers more flexible and ease
- * implementing them. <br>
+ * sub-interfaces and sub-classes. Implementing initialisers similar to the way
+ * the objects are implemented, which they will instantiate, may make
+ * initialisers more flexible and ease implementing them. <br>
  * <br>
  * This interface also contains some static utility methods.
  * 
@@ -39,7 +37,12 @@ public interface IInitialiser {
 	public Object instantiate();
 
 	/**
-	 * Attempts to initialise obj, so that it is "valid".
+	 * Attempts to initialise obj, so that it is "valid". <br>
+	 * <br>
+	 * <b>It is recommended to only use this method where necessary, as it may
+	 * introduce additional modifications that are not obvious from outside.</b>
+	 * 
+	 * @param obj The object that will be made valid
 	 */
 	public boolean initialise(Object obj);
 
