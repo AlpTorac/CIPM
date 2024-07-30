@@ -19,8 +19,6 @@ public interface UsesConcreteClassifiers extends UsesPackages, UsesNames {
 	 * A variant of
 	 * {@link #createMinimalClassifier(IConcreteClassifierInitialiser, String)},
 	 * where a {@link Class} instance with the given parameter is created.
-	 * 
-	 * @param name The name of the instance to be constructed
 	 */
 	public default Class createMinimalClass(String name) {
 		return (Class) this.createMinimalClassifier(new ClassInitialiser(), name);
@@ -31,24 +29,18 @@ public interface UsesConcreteClassifiers extends UsesPackages, UsesNames {
 	 * {@link #createMinimalClassifierWithCU(IConcreteClassifierInitialiser, String)},
 	 * where the constructed instance is of type {@link Class} with the given
 	 * parameter.
-	 * 
-	 * @param name The name of the instance to be constructed
 	 */
-	public default Class createMinimalClassWithCU(String name) {
-		return (Class) this.createMinimalClassifierWithCU(new ClassInitialiser(), name);
+	public default Class createMinimalClassWithCU(String clsName) {
+		return (Class) this.createMinimalClassifierWithCU(new ClassInitialiser(), clsName);
 	}
 
 	/**
 	 * A variant of
 	 * {@link #createMinimalClassifierWithPac(IConcreteClassifierInitialiser, String, String[])},
 	 * where the constructed instance is of type {@link Class}.
-	 * 
-	 * @param name The name of the instance to be constructed
-	 * @param nss  The namespaces of the {@link Package} that will contain the
-	 *             constructed instance
 	 */
-	public default Class createMinimalClassWithPac(String name, String[] nss) {
-		return (Class) this.createMinimalClassifierWithPac(new ClassInitialiser(), name, nss);
+	public default Class createMinimalClassWithPac(String clsName, String[] pacNss) {
+		return (Class) this.createMinimalClassifierWithPac(new ClassInitialiser(), clsName, pacNss);
 	}
 
 	/**
@@ -68,12 +60,10 @@ public interface UsesConcreteClassifiers extends UsesPackages, UsesNames {
 	 * {@link #createMinimalClassifierWithCU(IConcreteClassifierInitialiser, String, String)},
 	 * where the name of the constructed {@link CompilationUnit} is
 	 * {@link #getDefaultName()}.
-	 * 
-	 * @param init The initialiser that will be used to create the instance
-	 * @param name The name of the instance to be constructed
 	 */
-	public default ConcreteClassifier createMinimalClassifierWithCU(IConcreteClassifierInitialiser init, String name) {
-		return this.createMinimalClassifierWithCU(init, name, this.getDefaultName());
+	public default ConcreteClassifier createMinimalClassifierWithCU(IConcreteClassifierInitialiser init,
+			String clsName) {
+		return this.createMinimalClassifierWithCU(init, clsName, this.getDefaultName());
 	}
 
 	/**

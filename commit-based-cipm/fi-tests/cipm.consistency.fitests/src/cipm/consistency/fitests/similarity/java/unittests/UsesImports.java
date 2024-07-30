@@ -18,9 +18,6 @@ public interface UsesImports extends UsesConcreteClassifiers {
 	 * A variant of
 	 * {@link #createMinimalImport(IImportInitialiser, ConcreteClassifier)}, where
 	 * the constructed instance is of type {@link ClassifierImport}.
-	 * 
-	 * @param cls The classifier of the instance to be constructed (what it will
-	 *            point at)
 	 */
 	public default ClassifierImport createMinimalClsImport(ConcreteClassifier cls) {
 		return (ClassifierImport) this.createMinimalImport(new ClassifierImportInitialiser(), cls);

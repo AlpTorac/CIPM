@@ -15,10 +15,8 @@ public interface UsesModuleReferences extends UsesModules {
 
 	/**
 	 * A variant of {@link #createMinimalModule(String, String[])}, where the
-	 * {@link Module} constructed in the process has no namespaces.
-	 * 
-	 * @param modName The name of the {@link Module}, at which the constructed
-	 *                instance will point
+	 * {@link Module} constructed in the process has no namespaces (second parameter
+	 * is null).
 	 */
 	public default ModuleReference createMinimalMR(String modName) {
 		return this.createMinimalMR(modName, null);

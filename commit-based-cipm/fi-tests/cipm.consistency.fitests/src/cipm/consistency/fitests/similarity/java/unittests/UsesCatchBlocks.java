@@ -32,9 +32,9 @@ public interface UsesCatchBlocks extends UsesParameters {
 	 * @param targetName The name of the entity that the type reference of the
 	 *                   {@link OrdinaryParameter} will point at
 	 * 
-	 * @see {@link #createMinimalOrdParam(String, String)}
+	 * @see {@link #createMinimalOrdParamWithClsTarget(String, String)}
 	 */
 	public default CatchBlock createMinimalCB(String paramName, String targetName) {
-		return this.createMinimalCB(this.createMinimalOrdParam(paramName, targetName));
+		return this.createMinimalCB(this.createMinimalOrdParamWithClsTarget(paramName, targetName));
 	}
 }

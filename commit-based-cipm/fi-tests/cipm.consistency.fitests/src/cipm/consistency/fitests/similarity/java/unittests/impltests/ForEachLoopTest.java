@@ -35,8 +35,8 @@ public class ForEachLoopTest extends EObjectSimilarityTest implements UsesExpres
 	public void testNext() {
 		this.setResourceFileTestIdentifier("testNext");
 		
-		var objOne = this.initElement(null, this.createMinimalOrdParam("param1", "cls1"));
-		var objTwo = this.initElement(null, this.createMinimalOrdParam("param2", "cls2"));
+		var objOne = this.initElement(null, this.createMinimalOrdParamWithClsTarget("param1", "cls1"));
+		var objTwo = this.initElement(null, this.createMinimalOrdParamWithClsTarget("param2", "cls2"));
 		
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.FOR_EACH_LOOP__NEXT);
 	}
