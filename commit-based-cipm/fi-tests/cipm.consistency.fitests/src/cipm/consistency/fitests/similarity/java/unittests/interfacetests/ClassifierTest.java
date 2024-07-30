@@ -23,8 +23,6 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 	protected Classifier initElement(IClassifierInitialiser initialiser,
 			Import[] imps, PackageImport[] pImps) {
 		
-		// FIXME: Move adaptation to test params
-		
 		var result = initialiser.instantiate();
 		Assertions.assertTrue(initialiser.initialise(result));
 		Assertions.assertTrue(initialiser.addImports(result, imps));
