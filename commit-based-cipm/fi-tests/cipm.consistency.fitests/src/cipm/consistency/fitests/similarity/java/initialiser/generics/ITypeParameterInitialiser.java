@@ -30,8 +30,6 @@ public interface ITypeParameterInitialiser extends IClassifierInitialiser, IAnno
 		return true;
 	}
 
-	// FIXME: Find out if imports can somehow be added to TypeParameter
-
 	/**
 	 * {@link TypeParameter} cannot add imports to its container, so attempting to
 	 * add imports to it has no effect.
