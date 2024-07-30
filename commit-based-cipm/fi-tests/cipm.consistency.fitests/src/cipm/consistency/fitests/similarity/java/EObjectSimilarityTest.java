@@ -62,15 +62,15 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	 *         are compared, whose attribute (attrKey) is different.
 	 */
 	public Boolean getExpectedSimilarityResult(Class<? extends EObject> objCls, EStructuralFeature attrKey) {
-		return InitialiserTestSettingsProvider.getInstance().getSimilarityValues().getExpectedSimilarityResult(objCls, attrKey);
+		return InitialiserTestSettingsProvider.getInstance().getSimilarityValues().getExpectedSimilarityResult(objCls,
+				attrKey);
 	}
 
 	/**
-	 * Creates a clone copy of the given obj and its contents.
-	 * <br><br>
-	 * <b>Note: DOES NOT clone the container {@code obj.eContainer()}
-	 * of this object. Only copies the given object and the contents
-	 * nested in it.</b>
+	 * Creates a clone copy of the given obj and its contents. <br>
+	 * <br>
+	 * <b>Note: DOES NOT clone the container {@code obj.eContainer()} of this
+	 * object. Only copies the given object and the contents nested in it.</b>
 	 * 
 	 * @return A clone of obj without its container and clones of its contents.
 	 * @see {@link EcoreUtil#copy(EObject)}
@@ -78,15 +78,15 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	public <T extends EObject> T cloneEObj(T obj) {
 		return EcoreUtil.copy(obj);
 	}
-	
+
 	/**
-	 * Finds the topmost EObject (objTop) that can be reached from obj, 
-	 * clones objTop, finds the clone of obj among the contents of
-	 * objTop and returns that clone.
+	 * Finds the topmost EObject (objTop) that can be reached from obj, clones
+	 * objTop, finds the clone of obj among the contents of objTop and returns that
+	 * clone.
 	 * 
-	 * @return A clone of obj, which preserves obj's place in its hierarchy.
-	 * The returned clone contains clones of obj's contents and is contained
-	 * by clones of all containers of obj.
+	 * @return A clone of obj, which preserves obj's place in its hierarchy. The
+	 *         returned clone contains clones of obj's contents and is contained by
+	 *         clones of all containers of obj.
 	 * @see {@link EcoreUtil#copy(EObject)}
 	 */
 	@SuppressWarnings("unchecked")
@@ -94,23 +94,23 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 		if (obj.eContainer() == null) {
 			return this.cloneEObj(obj);
 		}
-		
+
 		EObject cObj = obj;
-		
+
 		while (cObj.eContainer() != null) {
 			cObj = cObj.eContainer();
 		}
-		
+
 		EObject clone = this.cloneEObj(cObj);
 		var contents = clone.eAllContents();
-		
+
 		while (contents.hasNext()) {
 			var cCloneObj = contents.next();
 			if (this.getActualEquality(obj, cCloneObj)) {
 				return (T) cCloneObj;
 			}
 		}
-		
+
 		Assertions.fail("Cloning unsuccessful");
 		return null;
 	}
@@ -211,8 +211,8 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	}
 
 	/**
-	 * The variant of {@link #testSimilarity(EObject, EObject, Class, Object)} that uses the
-	 * same class as the given elems.
+	 * The variant of {@link #testSimilarity(EObject, EObject, Class, Object)} that
+	 * uses the same class as the given elems.
 	 */
 	@SuppressWarnings("unchecked")
 	public void testSimilarity(EObject elem1, EObject elem2, Object attrKey) {

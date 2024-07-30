@@ -10,7 +10,7 @@ public class FloatInitialiser extends AbstractInitialiserBase implements IFloatI
 	public IFloatInitialiser newInitialiser() {
 		return new FloatInitialiser();
 	}
-	
+
 	@Override
 	public Float instantiate() {
 		return TypesFactory.eINSTANCE.createFloat();

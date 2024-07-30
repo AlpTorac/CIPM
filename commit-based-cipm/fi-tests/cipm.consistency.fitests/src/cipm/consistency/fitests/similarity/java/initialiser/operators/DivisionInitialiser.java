@@ -10,7 +10,7 @@ public class DivisionInitialiser extends AbstractInitialiserBase implements IDiv
 	public IDivisionInitialiser newInitialiser() {
 		return new DivisionInitialiser();
 	}
-	
+
 	@Override
 	public Division instantiate() {
 		return OperatorsFactory.eINSTANCE.createDivision();

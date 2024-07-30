@@ -15,13 +15,12 @@ public class DecimalDoubleLiteralTest extends EObjectSimilarityTest {
 		Assertions.assertTrue(init.setDecimalValue(lit, val));
 		return lit;
 	}
-	
+
 	@Test
 	public void testDecimalValue() {
 		this.setResourceFileTestIdentifier("testDecimalValue");
-		
-		this.testSimilarity(this.initElement(1.5d),
-				this.initElement(2.5d),
+
+		this.testSimilarity(this.initElement(1.5d), this.initElement(2.5d),
 				LiteralsPackage.Literals.DECIMAL_DOUBLE_LITERAL__DECIMAL_VALUE);
 	}
 }

@@ -18,24 +18,24 @@ public class InterfaceTest extends EObjectSimilarityTest implements UsesTypeRefe
 		Assertions.assertTrue(intfcInit.addExtends(intfc, exts));
 		return intfc;
 	}
-	
+
 	@Test
 	public void testDefaultExtends() {
 		this.setResourceFileTestIdentifier("testDefaultExtends");
-		
-		var objOne = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls1")}, null);
-		var objTwo = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls2")}, null);
-		
+
+		var objOne = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null);
+		var objTwo = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls2") }, null);
+
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.INTERFACE__DEFAULT_EXTENDS);
 	}
-	
+
 	@Test
 	public void testExtends() {
 		this.setResourceFileTestIdentifier("testExtends");
-		
-		var objOne = this.initElement(null, new TypeReference[] {this.createMinimalClsRef("cls1")});
-		var objTwo = this.initElement(null, new TypeReference[] {this.createMinimalClsRef("cls2")});
-		
+
+		var objOne = this.initElement(null, new TypeReference[] { this.createMinimalClsRef("cls1") });
+		var objTwo = this.initElement(null, new TypeReference[] { this.createMinimalClsRef("cls2") });
+
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.INTERFACE__EXTENDS);
 	}
 }

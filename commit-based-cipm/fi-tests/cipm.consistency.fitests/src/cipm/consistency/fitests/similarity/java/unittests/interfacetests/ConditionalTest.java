@@ -17,15 +17,15 @@ public class ConditionalTest extends EObjectSimilarityTest implements UsesExpres
 		Assertions.assertTrue(init.setCondition(result, expr));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ConditionalTestParams.class)
 	public void testCondition(IConditionalInitialiser init) {
 		this.setResourceFileTestIdentifier("testConditional");
-		
+
 		var objOne = this.initElement(init, this.createMinimalTrueEE());
 		var objTwo = this.initElement(init, this.createMinimalTrueNEE());
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.CONDITIONAL__CONDITION);
 	}
 }

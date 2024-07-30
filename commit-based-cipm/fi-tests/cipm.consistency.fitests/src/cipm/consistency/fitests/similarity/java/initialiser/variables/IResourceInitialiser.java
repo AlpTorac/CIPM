@@ -5,7 +5,7 @@ import org.emftext.language.java.variables.Resource;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface IResourceInitialiser extends ICommentableInitialiser {
-    @Override
-    public Resource instantiate();
+	@Override
+	public Resource instantiate();
 
 }

@@ -19,24 +19,24 @@ public class SwitchTest extends EObjectSimilarityTest implements UsesSwitchCases
 		Assertions.assertTrue(swInit.setVariable(sw, expr));
 		return sw;
 	}
-	
+
 	@Test
 	public void testCase() {
 		this.setResourceFileTestIdentifier("testCase");
-		
-		var objOne = this.initElement(new SwitchCase[] {this.createEmptyNSC()}, null);
-		var objTwo = this.initElement(new SwitchCase[] {this.createMinimalNSC()}, null);
-		
+
+		var objOne = this.initElement(new SwitchCase[] { this.createEmptyNSC() }, null);
+		var objTwo = this.initElement(new SwitchCase[] { this.createMinimalNSC() }, null);
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SWITCH__CASES);
 	}
-	
+
 	@Test
 	public void testVariable() {
 		this.setResourceFileTestIdentifier("testVariable");
-		
+
 		var objOne = this.initElement(null, this.createMinimalSR("str1"));
 		var objTwo = this.initElement(null, this.createMinimalSR("str2"));
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SWITCH__VARIABLE);
 	}
 }

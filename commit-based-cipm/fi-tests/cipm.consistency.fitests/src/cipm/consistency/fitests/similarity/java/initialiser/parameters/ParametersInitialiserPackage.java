@@ -9,24 +9,16 @@ import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserPackage;
 public class ParametersInitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiser> getInitialiserInstances() {
-		return this.initCol(new EObjectInitialiser[] {
-				new CatchParameterInitialiser(),
-				new OrdinaryParameterInitialiser(),
-				new ReceiverParameterInitialiser(),
-				new VariableLengthParameterInitialiser(),
-		});
+		return this
+				.initCol(new EObjectInitialiser[] { new CatchParameterInitialiser(), new OrdinaryParameterInitialiser(),
+						new ReceiverParameterInitialiser(), new VariableLengthParameterInitialiser(), });
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Class<? extends IInitialiser>> getInitialiserClasses() {
-		return this.initCol(new Class[] {
-				ICatchParameterInitialiser.class,
-				IOrdinaryParameterInitialiser.class,
-				IParameterInitialiser.class,
-				IParametrizableInitialiser.class,
-				IReceiverParameterInitialiser.class,
-				IVariableLengthParameterInitialiser.class,
-		});
+		return this.initCol(new Class[] { ICatchParameterInitialiser.class, IOrdinaryParameterInitialiser.class,
+				IParameterInitialiser.class, IParametrizableInitialiser.class, IReceiverParameterInitialiser.class,
+				IVariableLengthParameterInitialiser.class, });
 	}
 }

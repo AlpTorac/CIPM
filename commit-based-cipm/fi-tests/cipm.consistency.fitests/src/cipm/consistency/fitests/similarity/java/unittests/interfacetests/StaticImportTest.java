@@ -12,22 +12,21 @@ import cipm.consistency.fitests.similarity.java.initialiser.imports.IStaticImpor
 import cipm.consistency.fitests.similarity.java.unittests.UsesImports;
 import cipm.consistency.fitests.similarity.java.unittests.UsesModifiers;
 
-public class StaticImportTest extends EObjectSimilarityTest implements UsesImports,
-	UsesModifiers {
+public class StaticImportTest extends EObjectSimilarityTest implements UsesImports, UsesModifiers {
 	protected StaticImport initElement(IStaticImportInitialiser init, Static st) {
 		StaticImport result = init.instantiate();
 		Assertions.assertTrue(init.setStatic(result, st));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(StaticImportTestParams.class)
 	public void testStatic(IStaticImportInitialiser init) {
 		this.setResourceFileTestIdentifier("testStatic");
-		
+
 		var objOne = this.initElement(init, this.createStatic());
 		var objTwo = this.initElement(init, null);
-		
+
 		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.STATIC_IMPORT__STATIC);
 	}
 }

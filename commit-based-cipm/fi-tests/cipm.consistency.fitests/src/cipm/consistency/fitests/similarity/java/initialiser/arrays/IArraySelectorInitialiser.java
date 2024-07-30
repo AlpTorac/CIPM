@@ -6,11 +6,10 @@ import org.emftext.language.java.expressions.Expression;
 import cipm.consistency.fitests.similarity.java.initialiser.annotations.IAnnotableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
-public interface IArraySelectorInitialiser extends IAnnotableInitialiser,
-	ICommentableInitialiser {
+public interface IArraySelectorInitialiser extends IAnnotableInitialiser, ICommentableInitialiser {
 	@Override
 	public ArraySelector instantiate();
-	
+
 	public default boolean setPosition(ArraySelector as, Expression expr) {
 		if (expr != null) {
 			as.setPosition(expr);

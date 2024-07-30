@@ -5,7 +5,8 @@ import org.emftext.language.java.arrays.ArraysFactory;
 
 import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
 
-public class ArrayInstantiationBySizeInitialiser extends AbstractInitialiserBase implements IArrayInstantiationBySizeInitialiser {
+public class ArrayInstantiationBySizeInitialiser extends AbstractInitialiserBase
+		implements IArrayInstantiationBySizeInitialiser {
 	@Override
 	public IArrayInstantiationBySizeInitialiser newInitialiser() {
 		return new ArrayInstantiationBySizeInitialiser();

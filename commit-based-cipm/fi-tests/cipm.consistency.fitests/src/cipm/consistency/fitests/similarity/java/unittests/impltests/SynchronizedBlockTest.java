@@ -17,14 +17,14 @@ public class SynchronizedBlockTest extends EObjectSimilarityTest implements Uses
 		Assertions.assertTrue(sbInit.setLockProvider(sb, expr));
 		return sb;
 	}
-	
+
 	@Test
 	public void testLockProvider() {
 		this.setResourceFileTestIdentifier("testLockProvider");
-		
+
 		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
 		var objTwo = this.initElement(this.createDecimalIntegerLiteral(2));
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SYNCHRONIZED_BLOCK__LOCK_PROVIDER);
 	}
 }

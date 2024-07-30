@@ -17,14 +17,14 @@ public class ExtendsTypeArgumentTest extends EObjectSimilarityTest implements Us
 		Assertions.assertTrue(etaInit.setExtendType(eta, tref));
 		return eta;
 	}
-	
+
 	@Test
 	public void testExtendType() {
 		this.setResourceFileTestIdentifier("testExtendType");
-		
+
 		var objOne = this.initElement(this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(this.createMinimalClsRef("cls2"));
-		
+
 		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.EXTENDS_TYPE_ARGUMENT__EXTEND_TYPE);
 	}
 }

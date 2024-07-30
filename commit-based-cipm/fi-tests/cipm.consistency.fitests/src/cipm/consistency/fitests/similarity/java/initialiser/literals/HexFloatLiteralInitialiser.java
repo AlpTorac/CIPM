@@ -10,7 +10,7 @@ public class HexFloatLiteralInitialiser extends AbstractInitialiserBase implemen
 	public IHexFloatLiteralInitialiser newInitialiser() {
 		return new HexFloatLiteralInitialiser();
 	}
-	
+
 	@Override
 	public HexFloatLiteral instantiate() {
 		return LiteralsFactory.eINSTANCE.createHexFloatLiteral();

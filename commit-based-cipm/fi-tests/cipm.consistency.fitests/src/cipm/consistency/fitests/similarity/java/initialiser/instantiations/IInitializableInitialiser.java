@@ -6,8 +6,9 @@ import org.emftext.language.java.instantiations.Initializable;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface IInitializableInitialiser extends ICommentableInitialiser {
-    @Override
-    public Initializable instantiate();
+	@Override
+	public Initializable instantiate();
+
 	public default boolean setInitialValue(Initializable initializable, Expression initVal) {
 		if (initVal != null) {
 			initializable.setInitialValue(initVal);

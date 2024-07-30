@@ -11,22 +11,22 @@ import cipm.consistency.fitests.similarity.java.initialiser.annotations.Annotati
 import cipm.consistency.fitests.similarity.java.unittests.UsesAnnotationAttributeSettings;
 import cipm.consistency.fitests.similarity.java.unittests.UsesAnnotationParameters;
 
-public class AnnotationParameterListTest extends EObjectSimilarityTest implements
-UsesAnnotationParameters, UsesAnnotationAttributeSettings {
+public class AnnotationParameterListTest extends EObjectSimilarityTest
+		implements UsesAnnotationParameters, UsesAnnotationAttributeSettings {
 	protected AnnotationParameterList initElement(AnnotationAttributeSetting[] aass) {
 		var aplInit = new AnnotationParameterListInitialiser();
 		var apl = aplInit.instantiate();
 		Assertions.assertTrue(aplInit.addSettings(apl, aass));
 		return apl;
 	}
-	
+
 	@Test
 	public void testSetting() {
 		this.setResourceFileTestIdentifier("testSetting");
-		
-		var objOne = this.initElement(new AnnotationAttributeSetting[] {this.createEmptyAAS()});
-		var objTwo = this.initElement(new AnnotationAttributeSetting[] {this.createNullAAS()});
-		
+
+		var objOne = this.initElement(new AnnotationAttributeSetting[] { this.createEmptyAAS() });
+		var objTwo = this.initElement(new AnnotationAttributeSetting[] { this.createNullAAS() });
+
 		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_PARAMETER_LIST__SETTINGS);
 	}
 }

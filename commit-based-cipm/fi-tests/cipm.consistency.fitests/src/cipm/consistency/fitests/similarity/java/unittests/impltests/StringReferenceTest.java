@@ -15,14 +15,14 @@ public class StringReferenceTest extends EObjectSimilarityTest {
 		Assertions.assertTrue(srInit.setValue(sr, val));
 		return sr;
 	}
-	
+
 	@Test
 	public void testValue() {
 		this.setResourceFileTestIdentifier("testValue");
-		
+
 		var objOne = this.initElement("val1");
 		var objTwo = this.initElement("val2");
-		
+
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.STRING_REFERENCE__VALUE);
 	}
 }

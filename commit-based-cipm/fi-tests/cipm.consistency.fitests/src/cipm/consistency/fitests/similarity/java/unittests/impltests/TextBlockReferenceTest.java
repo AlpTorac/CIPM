@@ -15,14 +15,14 @@ public class TextBlockReferenceTest extends EObjectSimilarityTest {
 		Assertions.assertTrue(tbrInit.setValue(tbr, val));
 		return tbr;
 	}
-	
+
 	@Test
 	public void testValue() {
 		this.setResourceFileTestIdentifier("testValue");
-		
+
 		var objOne = this.initElement("val1");
 		var objTwo = this.initElement("val2");
-		
+
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.TEXT_BLOCK_REFERENCE__VALUE);
 	}
 }

@@ -12,25 +12,22 @@ import cipm.consistency.fitests.similarity.java.initialiser.arrays.IArrayInstant
 import cipm.consistency.fitests.similarity.java.unittests.UsesArrayInitializers;
 import cipm.consistency.fitests.similarity.java.unittests.UsesLiterals;
 
-public class ArrayInstantiationByValuesTest extends EObjectSimilarityTest implements UsesArrayInitializers,
-	UsesLiterals {
-	protected ArrayInstantiationByValues initElement(IArrayInstantiationByValuesInitialiser init,
-			ArrayInitializer ai) {
+public class ArrayInstantiationByValuesTest extends EObjectSimilarityTest
+		implements UsesArrayInitializers, UsesLiterals {
+	protected ArrayInstantiationByValues initElement(IArrayInstantiationByValuesInitialiser init, ArrayInitializer ai) {
 		ArrayInstantiationByValues result = init.instantiate();
 		Assertions.assertTrue(init.setArrayInitializer(result, ai));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ArrayInstantiationByValuesTestParams.class)
 	public void testArrayInitialiser(IArrayInstantiationByValuesInitialiser init) {
 		this.setResourceFileTestIdentifier("testArrayInitialiser");
-		
-		var objOne = this.initElement(init, this.createMinimalArrayInitializer(
-				this.createDecimalIntegerLiteral(0)));
-		var objTwo = this.initElement(init, this.createMinimalArrayInitializer(
-				this.createDecimalIntegerLiteral(1)));
-		
+
+		var objOne = this.initElement(init, this.createMinimalArrayInitializer(this.createDecimalIntegerLiteral(0)));
+		var objTwo = this.initElement(init, this.createMinimalArrayInitializer(this.createDecimalIntegerLiteral(1)));
+
 		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER);
 	}
 }

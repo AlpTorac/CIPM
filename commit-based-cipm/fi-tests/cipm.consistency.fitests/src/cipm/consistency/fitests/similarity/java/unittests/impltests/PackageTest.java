@@ -18,31 +18,27 @@ public class PackageTest extends EObjectSimilarityTest implements UsesModules, U
 		Package pac = initialiser.instantiate();
 		Assertions.assertTrue(initialiser.setModule(pac, mod));
 		Assertions.assertTrue(initialiser.addClassifiers(pac, clss));
-		
+
 		return pac;
 	}
-	
+
 	@Test
 	public void testModule() {
 		this.setResourceFileTestIdentifier("testModule");
-		
+
 		var objOne = this.initElement(this.createMinimalModule("mod1"), null);
 		var objTwo = this.initElement(this.createMinimalModule("mod2"), null);
-		
+
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.PACKAGE__MODULE);
 	}
-	
+
 	@Test
 	public void testClassifiers() {
 		this.setResourceFileTestIdentifier("testClassifiers");
-		
-		var objOne = this.initElement(null, new ConcreteClassifier[] {
-				this.createMinimalClass("cls1")
-		});
-		var objTwo = this.initElement(null, new ConcreteClassifier[] {
-				this.createMinimalClass("cls2")
-		});
-		
+
+		var objOne = this.initElement(null, new ConcreteClassifier[] { this.createMinimalClass("cls1") });
+		var objTwo = this.initElement(null, new ConcreteClassifier[] { this.createMinimalClass("cls2") });
+
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.PACKAGE__CLASSIFIERS);
 	}
 }

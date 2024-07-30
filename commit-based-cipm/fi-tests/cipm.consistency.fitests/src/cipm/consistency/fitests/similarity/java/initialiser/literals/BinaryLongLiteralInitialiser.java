@@ -10,7 +10,7 @@ public class BinaryLongLiteralInitialiser extends AbstractInitialiserBase implem
 	public IBinaryLongLiteralInitialiser newInitialiser() {
 		return new BinaryLongLiteralInitialiser();
 	}
-	
+
 	@Override
 	public BinaryLongLiteral instantiate() {
 		return LiteralsFactory.eINSTANCE.createBinaryLongLiteral();

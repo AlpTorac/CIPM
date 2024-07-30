@@ -6,8 +6,9 @@ import org.emftext.language.java.expressions.ConditionalExpressionChild;
 import org.emftext.language.java.expressions.Expression;
 
 public interface IConditionalExpressionInitialiser extends IAssignmentExpressionChildInitialiser {
-    @Override
-    public ConditionalExpression instantiate();
+	@Override
+	public ConditionalExpression instantiate();
+
 	public default boolean setChild(ConditionalExpression ce, ConditionalExpressionChild child) {
 		if (child != null) {
 			ce.setChild(child);
@@ -15,6 +16,7 @@ public interface IConditionalExpressionInitialiser extends IAssignmentExpression
 		}
 		return true;
 	}
+
 	public default boolean setExpressionChild(ConditionalExpression ce, AssignmentExpressionChild child) {
 		if (child != null) {
 			ce.setExpressionChild(child);
@@ -22,6 +24,7 @@ public interface IConditionalExpressionInitialiser extends IAssignmentExpression
 		}
 		return true;
 	}
+
 	public default boolean setExpressionIf(ConditionalExpression ce, Expression expr) {
 		if (expr != null) {
 			ce.setExpressionIf(expr);
@@ -29,6 +32,7 @@ public interface IConditionalExpressionInitialiser extends IAssignmentExpression
 		}
 		return true;
 	}
+
 	public default boolean setGeneralExpressionElse(ConditionalExpression ce, Expression expr) {
 		if (expr != null) {
 			ce.setGeneralExpressionElse(expr);

@@ -8,8 +8,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.variables.LocalVaria
  * An interface that can be implemented by tests, which work with
  * {@link LocalVariable} instances. <br>
  * <br>
- * Contains methods that can be used to create {@link LocalVariable}
- * instances.
+ * Contains methods that can be used to create {@link LocalVariable} instances.
  */
 public interface UsesLocalVariables {
 	/**

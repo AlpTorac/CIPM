@@ -20,25 +20,23 @@ public class UnaryModificationExpressionTest extends EObjectSimilarityTest imple
 		Assertions.assertTrue(initialiser.setOperator(result, op));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(UnaryModificationExpressionTestParams.class)
 	public void testChild(IUnaryModificationExpressionInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testChild");
-		
-		this.testSimilarity(
-				this.initElement(initialiser, this.createDecimalIntegerLiteral(1), null),
+
+		this.testSimilarity(this.initElement(initialiser, this.createDecimalIntegerLiteral(1), null),
 				this.initElement(initialiser, this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__CHILD);
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(UnaryModificationExpressionTestParams.class)
 	public void testOperator(IUnaryModificationExpressionInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testOperator");
-		
-		this.testSimilarity(
-				this.initElement(initialiser, null, this.createPlusPlusOperator()),
+
+		this.testSimilarity(this.initElement(initialiser, null, this.createPlusPlusOperator()),
 				this.initElement(initialiser, null, this.createMinusMinusOperator()),
 				ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__OPERATOR);
 	}

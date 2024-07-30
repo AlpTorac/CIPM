@@ -18,14 +18,14 @@ public class CompilationUnitTest extends EObjectSimilarityTest implements UsesCo
 		Assertions.assertTrue(cuInit.addClassifiers(cu, ccs));
 		return cu;
 	}
-	
+
 	@Test
 	public void testClassifier() {
 		this.setResourceFileTestIdentifier("testClassifier");
-		
-		var objOne = this.initElement(new ConcreteClassifier[] {this.createMinimalClass("cls1")});
-		var objTwo = this.initElement(new ConcreteClassifier[] {this.createMinimalClass("cls2")});
-		
+
+		var objOne = this.initElement(new ConcreteClassifier[] { this.createMinimalClass("cls1") });
+		var objTwo = this.initElement(new ConcreteClassifier[] { this.createMinimalClass("cls2") });
+
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.COMPILATION_UNIT__CLASSIFIERS);
 	}
 }

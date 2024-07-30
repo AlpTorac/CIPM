@@ -10,7 +10,7 @@ public class GreaterThanInitialiser extends AbstractInitialiserBase implements I
 	public IGreaterThanInitialiser newInitialiser() {
 		return new GreaterThanInitialiser();
 	}
-	
+
 	@Override
 	public GreaterThan instantiate() {
 		return OperatorsFactory.eINSTANCE.createGreaterThan();

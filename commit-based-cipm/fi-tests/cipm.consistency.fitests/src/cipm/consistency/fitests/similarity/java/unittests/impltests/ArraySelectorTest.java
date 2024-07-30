@@ -17,14 +17,14 @@ public class ArraySelectorTest extends EObjectSimilarityTest implements UsesExpr
 		Assertions.assertTrue(asInit.setPosition(as, pos));
 		return as;
 	}
-	
+
 	@Test
 	public void testPosition() {
 		this.setResourceFileTestIdentifier("testPosition");
-		
+
 		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
 		var objTwo = this.initElement(this.createDecimalIntegerLiteral(2));
-		
+
 		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_SELECTOR__POSITION);
 	}
 }

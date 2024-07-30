@@ -10,7 +10,7 @@ public class EqualInitialiser extends AbstractInitialiserBase implements IEqualI
 	public IEqualInitialiser newInitialiser() {
 		return new EqualInitialiser();
 	}
-	
+
 	@Override
 	public Equal instantiate() {
 		return OperatorsFactory.eINSTANCE.createEqual();

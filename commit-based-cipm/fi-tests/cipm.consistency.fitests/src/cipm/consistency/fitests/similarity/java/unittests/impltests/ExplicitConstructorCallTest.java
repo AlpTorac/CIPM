@@ -17,14 +17,14 @@ public class ExplicitConstructorCallTest extends EObjectSimilarityTest implement
 		Assertions.assertTrue(eccInit.setCallTarget(ecc, self));
 		return ecc;
 	}
-	
+
 	@Test
 	public void testCallTarget() {
 		this.setResourceFileTestIdentifier("testCallTarget");
-		
+
 		var objOne = this.initElement(this.createThis());
 		var objTwo = this.initElement(this.createSuper());
-		
+
 		this.testSimilarity(objOne, objTwo, InstantiationsPackage.Literals.EXPLICIT_CONSTRUCTOR_CALL__CALL_TARGET);
 	}
 }

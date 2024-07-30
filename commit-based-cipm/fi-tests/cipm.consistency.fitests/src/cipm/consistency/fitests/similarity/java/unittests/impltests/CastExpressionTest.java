@@ -29,23 +29,21 @@ public class CastExpressionTest extends EObjectSimilarityTest implements UsesExp
 		Assertions.assertTrue(ceInit.setGeneralChild(ce, gChild));
 		return ce;
 	}
-	
+
 	@Test
 	public void testAdditionalBould() {
 		this.setResourceFileTestIdentifier("testAdditionalBould");
-		
-		this.testSimilarity(
-				this.initElement(new TypeReference[] {this.createMinimalClsRef("cls1")}, null, null),
-				this.initElement(new TypeReference[] {this.createMinimalClsRef("cls2")}, null, null),
+
+		this.testSimilarity(this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null, null),
+				this.initElement(new TypeReference[] { this.createMinimalClsRef("cls2") }, null, null),
 				ExpressionsPackage.Literals.CAST_EXPRESSION__ADDITIONAL_BOUNDS);
 	}
-	
+
 	@Test
 	public void testGeneralChild() {
 		this.setResourceFileTestIdentifier("testGeneralChild");
-		
-		this.testSimilarity(
-				this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
+
+		this.testSimilarity(this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
 				this.initElement(null, null, this.createDecimalIntegerLiteral(2)),
 				ExpressionsPackage.Literals.CAST_EXPRESSION__GENERAL_CHILD);
 	}

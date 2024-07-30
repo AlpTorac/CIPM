@@ -10,7 +10,7 @@ public class DecimalLongLiteralInitialiser extends AbstractInitialiserBase imple
 	public IDecimalLongLiteralInitialiser newInitialiser() {
 		return new DecimalLongLiteralInitialiser();
 	}
-	
+
 	@Override
 	public DecimalLongLiteral instantiate() {
 		return LiteralsFactory.eINSTANCE.createDecimalLongLiteral();

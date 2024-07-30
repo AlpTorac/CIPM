@@ -18,15 +18,15 @@ public class TypeArgumentableTest extends EObjectSimilarityTest implements UsesT
 		Assertions.assertTrue(init.addTypeArgument(result, arg));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(TypeArgumentableTestParams.class)
 	public void testTypeArgument(ITypeArgumentableInitialiser init) {
 		this.setResourceFileTestIdentifier("testTypeArgument");
-		
+
 		var objOne = this.initElement(init, this.createMinimalExtendsTAWithCls("cls1"));
 		var objTwo = this.initElement(init, this.createMinimalSuperTAWithCls("cls2"));
-		
+
 		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.TYPE_ARGUMENTABLE__TYPE_ARGUMENTS);
 	}
 }

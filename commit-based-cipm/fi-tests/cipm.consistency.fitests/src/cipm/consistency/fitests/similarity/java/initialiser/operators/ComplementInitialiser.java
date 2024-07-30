@@ -10,7 +10,7 @@ public class ComplementInitialiser extends AbstractInitialiserBase implements IC
 	public IComplementInitialiser newInitialiser() {
 		return new ComplementInitialiser();
 	}
-	
+
 	@Override
 	public Complement instantiate() {
 		return OperatorsFactory.eINSTANCE.createComplement();

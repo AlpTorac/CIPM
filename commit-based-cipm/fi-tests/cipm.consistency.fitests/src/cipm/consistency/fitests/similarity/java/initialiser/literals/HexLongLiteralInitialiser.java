@@ -10,7 +10,7 @@ public class HexLongLiteralInitialiser extends AbstractInitialiserBase implement
 	public IHexLongLiteralInitialiser newInitialiser() {
 		return new HexLongLiteralInitialiser();
 	}
-	
+
 	@Override
 	public HexLongLiteral instantiate() {
 		return LiteralsFactory.eINSTANCE.createHexLongLiteral();

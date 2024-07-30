@@ -12,7 +12,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.ForEachLo
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 import cipm.consistency.fitests.similarity.java.unittests.UsesParameters;
 
-public class ForEachLoopTest extends EObjectSimilarityTest implements UsesExpressions, UsesParameters{
+public class ForEachLoopTest extends EObjectSimilarityTest implements UsesExpressions, UsesParameters {
 	protected ForEachLoop initElement(Expression expr, OrdinaryParameter op) {
 		var felInit = new ForEachLoopInitialiser();
 		var fel = felInit.instantiate();
@@ -20,24 +20,24 @@ public class ForEachLoopTest extends EObjectSimilarityTest implements UsesExpres
 		Assertions.assertTrue(felInit.setNext(fel, op));
 		return fel;
 	}
-	
+
 	@Test
 	public void testCollection() {
 		this.setResourceFileTestIdentifier("testCollection");
-		
+
 		var objOne = this.initElement(this.createMinimalFalseEE(), null);
 		var objTwo = this.initElement(this.createMinimalTrueNEE(), null);
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.FOR_EACH_LOOP__COLLECTION);
 	}
-	
+
 	@Test
 	public void testNext() {
 		this.setResourceFileTestIdentifier("testNext");
-		
+
 		var objOne = this.initElement(null, this.createMinimalOrdParamWithClsTarget("param1", "cls1"));
 		var objTwo = this.initElement(null, this.createMinimalOrdParamWithClsTarget("param2", "cls2"));
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.FOR_EACH_LOOP__NEXT);
 	}
 }

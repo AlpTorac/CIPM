@@ -17,14 +17,14 @@ public class ConditionalOrExpressionTest extends EObjectSimilarityTest implement
 		Assertions.assertTrue(coeInit.addChildren(coe, children));
 		return coe;
 	}
-	
+
 	@Test
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
-		
+
 		this.testSimilarity(
-				this.initElement(new ConditionalOrExpressionChild[] {this.createDecimalIntegerLiteral(1)}),
-				this.initElement(new ConditionalOrExpressionChild[] {this.createDecimalIntegerLiteral(2)}),
+				this.initElement(new ConditionalOrExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
+				this.initElement(new ConditionalOrExpressionChild[] { this.createDecimalIntegerLiteral(2) }),
 				ExpressionsPackage.Literals.CONDITIONAL_OR_EXPRESSION__CHILDREN);
 	}
 }

@@ -9,9 +9,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.commons.INamespaceAw
 import cipm.consistency.fitests.similarity.java.initialiser.imports.IImportingElementInitialiser;
 
 public interface IJavaRootInitialiser extends INamedElementInitialiser, INamespaceAwareElementInitialiser,
-IAnnotableInitialiser, IImportingElementInitialiser {
+		IAnnotableInitialiser, IImportingElementInitialiser {
 	@Override
 	public JavaRoot instantiate();
+
 	public default boolean setOrigin(JavaRoot jr, Origin origin) {
 		if (origin != null) {
 			jr.setOrigin(origin);

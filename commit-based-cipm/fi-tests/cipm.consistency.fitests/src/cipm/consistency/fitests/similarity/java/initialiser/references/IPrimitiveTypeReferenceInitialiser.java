@@ -5,10 +5,10 @@ import org.emftext.language.java.types.PrimitiveType;
 
 import cipm.consistency.fitests.similarity.java.initialiser.arrays.IArrayTypeableInitialiser;
 
-public interface IPrimitiveTypeReferenceInitialiser extends IArrayTypeableInitialiser,
-	IReferenceInitialiser {
+public interface IPrimitiveTypeReferenceInitialiser extends IArrayTypeableInitialiser, IReferenceInitialiser {
 	@Override
 	public PrimitiveTypeReference instantiate();
+
 	public default boolean setPrimitiveType(PrimitiveTypeReference ptr, PrimitiveType pt) {
 		if (pt != null) {
 			ptr.setPrimitiveType(pt);

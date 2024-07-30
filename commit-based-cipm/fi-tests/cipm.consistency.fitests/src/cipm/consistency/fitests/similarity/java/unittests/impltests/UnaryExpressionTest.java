@@ -19,24 +19,22 @@ public class UnaryExpressionTest extends EObjectSimilarityTest implements UsesEx
 		Assertions.assertTrue(ueInit.addOperators(ue, ops));
 		return ue;
 	}
-	
+
 	@Test
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
-		
-		this.testSimilarity(
-				this.initElement(this.createDecimalIntegerLiteral(1), null),
+
+		this.testSimilarity(this.initElement(this.createDecimalIntegerLiteral(1), null),
 				this.initElement(this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.UNARY_EXPRESSION__CHILD);
 	}
-	
+
 	@Test
 	public void testOperator() {
 		this.setResourceFileTestIdentifier("testOperator");
-		
-		this.testSimilarity(
-				this.initElement(null, new UnaryOperator[] {this.createAdditionOperator()}),
-				this.initElement(null, new UnaryOperator[] {this.createSubtractionOperator()}),
+
+		this.testSimilarity(this.initElement(null, new UnaryOperator[] { this.createAdditionOperator() }),
+				this.initElement(null, new UnaryOperator[] { this.createSubtractionOperator() }),
 				ExpressionsPackage.Literals.UNARY_EXPRESSION__OPERATORS);
 	}
 }

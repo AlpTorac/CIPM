@@ -10,7 +10,7 @@ public class AssignmentModuloInitialiser extends AbstractInitialiserBase impleme
 	public IAssignmentModuloInitialiser newInitialiser() {
 		return new AssignmentModuloInitialiser();
 	}
-	
+
 	@Override
 	public AssignmentModulo instantiate() {
 		return OperatorsFactory.eINSTANCE.createAssignmentModulo();

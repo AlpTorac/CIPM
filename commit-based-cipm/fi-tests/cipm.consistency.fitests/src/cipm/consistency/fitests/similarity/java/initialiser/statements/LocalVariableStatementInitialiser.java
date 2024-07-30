@@ -5,7 +5,8 @@ import org.emftext.language.java.statements.StatementsFactory;
 
 import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
 
-public class LocalVariableStatementInitialiser extends AbstractInitialiserBase implements ILocalVariableStatementInitialiser {
+public class LocalVariableStatementInitialiser extends AbstractInitialiserBase
+		implements ILocalVariableStatementInitialiser {
 	@Override
 	public ILocalVariableStatementInitialiser newInitialiser() {
 		return new LocalVariableStatementInitialiser();

@@ -11,7 +11,7 @@ public class InterfaceInitialiser extends AbstractInitialiserBase implements IIn
 		var fac = ClassifiersFactory.eINSTANCE;
 		return fac.createInterface();
 	}
-	
+
 	@Override
 	public InterfaceInitialiser newInitialiser() {
 		return new InterfaceInitialiser();

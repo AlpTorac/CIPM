@@ -5,8 +5,9 @@ import org.emftext.language.java.expressions.EqualityExpressionChild;
 import org.emftext.language.java.operators.EqualityOperator;
 
 public interface IEqualityExpressionInitialiser extends IAndExpressionChildInitialiser {
-    @Override
-    public EqualityExpression instantiate();
+	@Override
+	public EqualityExpression instantiate();
+
 	public default boolean addEqualityOperator(EqualityExpression eqEx, EqualityOperator op) {
 		if (op != null) {
 			eqEx.getEqualityOperators().add(op);
@@ -14,6 +15,7 @@ public interface IEqualityExpressionInitialiser extends IAndExpressionChildIniti
 		}
 		return true;
 	}
+
 	public default boolean addChild(EqualityExpression eqEx, EqualityExpressionChild child) {
 		if (child != null) {
 			eqEx.getChildren().add(child);
@@ -21,7 +23,7 @@ public interface IEqualityExpressionInitialiser extends IAndExpressionChildIniti
 		}
 		return true;
 	}
-	
+
 	public default boolean addChildren(EqualityExpression eqEx, EqualityExpressionChild[] children) {
 		return this.doMultipleModifications(eqEx, children, this::addChild);
 	}

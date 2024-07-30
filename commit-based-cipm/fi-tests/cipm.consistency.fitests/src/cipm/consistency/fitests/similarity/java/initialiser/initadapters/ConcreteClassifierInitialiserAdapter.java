@@ -22,8 +22,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.containers.ICompilat
  */
 public class ConcreteClassifierInitialiserAdapter implements IInitialiserAdapterStrategy {
 	/**
-	 * The initialiser responsible for creating {@link CompilationUnit}s to
-	 * fulfil this instance's functionality.
+	 * The initialiser responsible for creating {@link CompilationUnit}s to fulfil
+	 * this instance's functionality.
 	 */
 	private ICompilationUnitInitialiser cuInit;
 
@@ -35,8 +35,7 @@ public class ConcreteClassifierInitialiserAdapter implements IInitialiserAdapter
 	}
 
 	/**
-	 * @return The initialiser responsible for creating
-	 *         {@link CompilationUnit}s.
+	 * @return The initialiser responsible for creating {@link CompilationUnit}s.
 	 */
 	public ICompilationUnitInitialiser getCUInit() {
 		return this.cuInit;

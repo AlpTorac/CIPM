@@ -10,7 +10,7 @@ public class AssignmentDivisionInitialiser extends AbstractInitialiserBase imple
 	public IAssignmentDivisionInitialiser newInitialiser() {
 		return new AssignmentDivisionInitialiser();
 	}
-	
+
 	@Override
 	public AssignmentDivision instantiate() {
 		return OperatorsFactory.eINSTANCE.createAssignmentDivision();

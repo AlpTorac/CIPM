@@ -12,9 +12,7 @@ import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
 public class StatementContainerTestParams implements ArgumentsProvider {
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
-		return new InitialiserParameters()
-				.getAdaptedInitialisersBySuper(IStatementContainerInitialiser.class)
-				.stream()
+		return new InitialiserParameters().getAdaptedInitialisersBySuper(IStatementContainerInitialiser.class).stream()
 				.map((i) -> Arguments.of(i));
 	}
 }

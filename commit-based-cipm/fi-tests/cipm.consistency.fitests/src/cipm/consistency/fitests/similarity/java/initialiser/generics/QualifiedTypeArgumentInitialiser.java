@@ -5,7 +5,8 @@ import org.emftext.language.java.generics.QualifiedTypeArgument;
 
 import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
 
-public class QualifiedTypeArgumentInitialiser extends AbstractInitialiserBase implements IQualifiedTypeArgumentInitialiser {
+public class QualifiedTypeArgumentInitialiser extends AbstractInitialiserBase
+		implements IQualifiedTypeArgumentInitialiser {
 	@Override
 	public IQualifiedTypeArgumentInitialiser newInitialiser() {
 		return new QualifiedTypeArgumentInitialiser();

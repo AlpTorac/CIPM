@@ -5,11 +5,10 @@ import org.emftext.language.java.types.TypeReference;
 
 import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementInitialiser;
 
-public interface IProvidesModuleDirectiveInitialiser extends
-	IModuleDirectiveInitialiser,
-	ITypedElementInitialiser {
+public interface IProvidesModuleDirectiveInitialiser extends IModuleDirectiveInitialiser, ITypedElementInitialiser {
 	@Override
 	public ProvidesModuleDirective instantiate();
+
 	public default boolean addServiceProvider(ProvidesModuleDirective pmd, TypeReference tref) {
 		if (tref != null) {
 			pmd.getServiceProviders().add(tref);
@@ -17,7 +16,7 @@ public interface IProvidesModuleDirectiveInitialiser extends
 		}
 		return true;
 	}
-	
+
 	public default boolean addServiceProviders(ProvidesModuleDirective pmd, TypeReference[] trefs) {
 		return this.doMultipleModifications(pmd, trefs, this::addServiceProvider);
 	}

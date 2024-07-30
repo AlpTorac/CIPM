@@ -12,22 +12,21 @@ import cipm.consistency.fitests.similarity.java.initialiser.imports.IImportingEl
 import cipm.consistency.fitests.similarity.java.unittests.UsesImportingElements;
 
 public class ImportingElementTest extends EObjectSimilarityTest implements UsesImportingElements {
-	protected ImportingElement initElement(IImportingElementInitialiser init,
-			Import[] imps) {
+	protected ImportingElement initElement(IImportingElementInitialiser init, Import[] imps) {
 		ImportingElement result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.addImports(result, imps));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ImportingElementTestParams.class)
 	public void testImports(IImportingElementInitialiser init) {
 		this.setResourceFileTestIdentifier("testImports");
-		
-		var objOne = this.initElement(init, new Import[] {this.createMinimalClsImport("cls1")});
-		var objTwo = this.initElement(init, new Import[] {this.createMinimalClsImport("cls2")});
-		
+
+		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") });
+		var objTwo = this.initElement(init, new Import[] { this.createMinimalClsImport("cls2") });
+
 		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
 	}
 }

@@ -5,7 +5,8 @@ import org.emftext.language.java.expressions.SingleImplicitLambdaParameter;
 
 import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
 
-public class SingleImplicitLambdaParameterInitialiser extends AbstractInitialiserBase implements ISingleImplicitLambdaParameterInitialiser {
+public class SingleImplicitLambdaParameterInitialiser extends AbstractInitialiserBase
+		implements ISingleImplicitLambdaParameterInitialiser {
 	@Override
 	public ISingleImplicitLambdaParameterInitialiser newInitialiser() {
 		return new SingleImplicitLambdaParameterInitialiser();

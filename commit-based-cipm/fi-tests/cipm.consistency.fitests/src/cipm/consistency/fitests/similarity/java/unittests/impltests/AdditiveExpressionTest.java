@@ -19,24 +19,23 @@ public class AdditiveExpressionTest extends EObjectSimilarityTest implements Use
 		Assertions.assertTrue(aeInit.addAdditiveOperators(ae, ops));
 		return ae;
 	}
-	
+
 	@Test
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
-		
+
 		this.testSimilarity(
-				this.initElement(new AdditiveExpressionChild[] {this.createDecimalIntegerLiteral(1)}, null),
-				this.initElement(new AdditiveExpressionChild[] {this.createDecimalIntegerLiteral(2)}, null),
+				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
+				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(2) }, null),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__CHILDREN);
 	}
-	
+
 	@Test
 	public void testAdditiveOperator() {
 		this.setResourceFileTestIdentifier("testAdditiveOperator");
-		
-		this.testSimilarity(
-				this.initElement(null, new AdditiveOperator[] {this.createAdditionOperator()}),
-				this.initElement(null, new AdditiveOperator[] {this.createSubtractionOperator()}),
+
+		this.testSimilarity(this.initElement(null, new AdditiveOperator[] { this.createAdditionOperator() }),
+				this.initElement(null, new AdditiveOperator[] { this.createSubtractionOperator() }),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__ADDITIVE_OPERATORS);
 	}
 }

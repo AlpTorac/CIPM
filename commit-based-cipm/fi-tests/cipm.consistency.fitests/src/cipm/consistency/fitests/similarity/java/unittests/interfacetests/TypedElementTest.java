@@ -18,15 +18,15 @@ public class TypedElementTest extends EObjectSimilarityTest implements UsesTypeR
 		Assertions.assertTrue(init.setTypeReference(result, tref));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(TypedElementTestParams.class)
 	public void testTypeReference(ITypedElementInitialiser init) {
 		this.setResourceFileTestIdentifier("testTypeReference");
-		
+
 		var objOne = this.initElement(init, this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(init, this.createMinimalClsRef("cls2"));
-		
+
 		this.testSimilarity(objOne, objTwo, TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE);
 	}
 }

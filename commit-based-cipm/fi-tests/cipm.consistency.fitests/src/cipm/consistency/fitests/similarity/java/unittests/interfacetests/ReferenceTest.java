@@ -12,8 +12,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.references.IReferenc
 import cipm.consistency.fitests.similarity.java.unittests.UsesArraySelectors;
 import cipm.consistency.fitests.similarity.java.unittests.UsesReferences;
 
-public class ReferenceTest extends EObjectSimilarityTest implements UsesReferences,
-	UsesArraySelectors {
+public class ReferenceTest extends EObjectSimilarityTest implements UsesReferences, UsesArraySelectors {
 	protected Reference initElement(IReferenceInitialiser init, Reference next, ArraySelector[] asArr) {
 		Reference ref = init.instantiate();
 		Assertions.assertTrue(init.initialise(ref));
@@ -21,26 +20,26 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 		Assertions.assertTrue(init.addArraySelectors(ref, asArr));
 		return ref;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ReferenceTestParams.class)
 	public void testNext(IReferenceInitialiser init) {
 		this.setResourceFileTestIdentifier("testNext");
-		
+
 		var objOne = this.initElement(init, this.createMinimalSR("str1"), null);
 		var objTwo = this.initElement(init, this.createMinimalSR("str2"), null);
-		
+
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__NEXT);
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ReferenceTestParams.class)
 	public void testArraySelector(IReferenceInitialiser init) {
 		this.setResourceFileTestIdentifier("testArraySelector");
-		
-		var objOne = this.initElement(init, null, new ArraySelector[] {this.createMinimalAS(0)});
-		var objTwo = this.initElement(init, null, new ArraySelector[] {this.createMinimalAS(1)});
-		
+
+		var objOne = this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(0) });
+		var objTwo = this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(1) });
+
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
 	}
 }

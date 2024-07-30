@@ -17,15 +17,15 @@ public class ModifiableTest extends EObjectSimilarityTest implements UsesModifie
 		Assertions.assertTrue(init.addModifiers(result, modifs));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ModifiableTestParams.class)
 	public void testModifier(IModifiableInitialiser init) {
 		this.setResourceFileTestIdentifier("testModifier");
-		
-		var objOne = this.initElement(init, new Modifier[] {this.createFinal()});
+
+		var objOne = this.initElement(init, new Modifier[] { this.createFinal() });
 		var objTwo = this.initElement(init, null);
-		
+
 		this.testSimilarity(objOne, objTwo, ModifiersPackage.Literals.MODIFIABLE__MODIFIERS);
 	}
 }

@@ -5,8 +5,8 @@ import org.emftext.language.java.members.Field;
 import cipm.consistency.fitests.similarity.java.initialiser.members.FieldInitialiser;
 
 /**
- * An interface that can be implemented by tests, which work with
- * {@link Field} instances. <br>
+ * An interface that can be implemented by tests, which work with {@link Field}
+ * instances. <br>
  * <br>
  * Contains methods that can be used to create {@link Field} instances.
  */
@@ -19,7 +19,7 @@ public interface UsesFields {
 		var init = new FieldInitialiser();
 		Field result = init.instantiate();
 		init.setName(result, fieldName);
-		
+
 		return result;
 	}
 }

@@ -6,6 +6,6 @@ import cipm.consistency.fitests.similarity.java.initialiser.modifiers.IAnnotable
 import cipm.consistency.fitests.similarity.java.initialiser.variables.IVariableInitialiser;
 
 public interface IParameterInitialiser extends IAnnotableAndModifiableInitialiser, IVariableInitialiser {
-    @Override
-    public Parameter instantiate();
+	@Override
+	public Parameter instantiate();
 }

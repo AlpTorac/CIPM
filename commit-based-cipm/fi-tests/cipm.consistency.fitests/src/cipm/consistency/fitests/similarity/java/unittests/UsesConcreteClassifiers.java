@@ -54,7 +54,8 @@ public interface UsesConcreteClassifiers extends UsesPackages, UsesNames {
 	 * @param clsName The name of the instance to be constructed
 	 * @param pacNss  See {@link #createMinimalPackage(String[])}
 	 * @return A {@link ConcreteClassifier} instance that will be contained by a
-	 *         {@link Package} constructed by {@link #createMinimalPackage(String[])}.
+	 *         {@link Package} constructed by
+	 *         {@link #createMinimalPackage(String[])}.
 	 */
 	public default ConcreteClassifier createMinimalClassifierWithPac(IConcreteClassifierInitialiser init,
 			String clsName, String[] pacNss) {

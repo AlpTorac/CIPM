@@ -19,24 +19,24 @@ public class ForLoopTest extends EObjectSimilarityTest implements UsesExpression
 		Assertions.assertTrue(flInit.addUpdates(fl, exprs));
 		return fl;
 	}
-	
+
 	@Test
 	public void testInit() {
 		this.setResourceFileTestIdentifier("testInit");
-		
+
 		var objOne = this.initElement(this.createExprList(), null);
 		var objTwo = this.initElement(this.createExprList(this.createMinimalFalseEE()), null);
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.FOR_LOOP__INIT);
 	}
-	
+
 	@Test
 	public void testUpdate() {
 		this.setResourceFileTestIdentifier("testUpdate");
-		
-		var objOne = this.initElement(null, new Expression[] {this.createMinimalFalseEE()});
-		var objTwo = this.initElement(null, new Expression[] {this.createMinimalTrueNEE()});
-		
+
+		var objOne = this.initElement(null, new Expression[] { this.createMinimalFalseEE() });
+		var objTwo = this.initElement(null, new Expression[] { this.createMinimalTrueNEE() });
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.FOR_LOOP__UPDATES);
 	}
 }

@@ -7,17 +7,17 @@ import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserB
 
 public class ClassMethodInitialiser extends AbstractInitialiserBase implements IClassMethodInitialiser {
 	private IMemberContainerInitialiser mcInit;
-	
+
 	@Override
 	public ClassMethod instantiate() {
 		return MembersFactory.eINSTANCE.createClassMethod();
 	}
-	
+
 	public ClassMethodInitialiser withMCInit(IMemberContainerInitialiser mcInit) {
 		this.mcInit = mcInit;
 		return this;
 	}
-	
+
 	public IMemberContainerInitialiser getMCInit() {
 		return this.mcInit;
 	}

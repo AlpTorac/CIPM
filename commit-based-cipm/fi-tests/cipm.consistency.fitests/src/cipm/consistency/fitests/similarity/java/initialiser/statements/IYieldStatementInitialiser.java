@@ -4,8 +4,9 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.YieldStatement;
 
 public interface IYieldStatementInitialiser extends IStatementInitialiser {
-    @Override
-    public YieldStatement instantiate();
+	@Override
+	public YieldStatement instantiate();
+
 	public default boolean setYieldExpression(YieldStatement ys, Expression expr) {
 		if (expr != null) {
 			ys.setYieldExpression(expr);

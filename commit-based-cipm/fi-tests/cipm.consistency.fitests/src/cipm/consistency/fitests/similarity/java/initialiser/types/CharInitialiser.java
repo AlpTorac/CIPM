@@ -10,7 +10,7 @@ public class CharInitialiser extends AbstractInitialiserBase implements ICharIni
 	public ICharInitialiser newInitialiser() {
 		return new CharInitialiser();
 	}
-	
+
 	@Override
 	public Char instantiate() {
 		return TypesFactory.eINSTANCE.createChar();

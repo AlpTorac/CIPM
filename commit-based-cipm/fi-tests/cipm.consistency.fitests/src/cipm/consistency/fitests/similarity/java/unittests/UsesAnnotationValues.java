@@ -10,5 +10,5 @@ import org.emftext.language.java.annotations.AnnotationValue;
  * instances.
  */
 public interface UsesAnnotationValues extends UsesReferences, UsesLiterals {
-	
+
 }

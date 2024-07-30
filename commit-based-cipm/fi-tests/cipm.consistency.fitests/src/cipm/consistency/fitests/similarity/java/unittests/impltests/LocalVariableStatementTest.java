@@ -17,14 +17,14 @@ public class LocalVariableStatementTest extends EObjectSimilarityTest implements
 		Assertions.assertTrue(lvsInit.setVariable(lvs, lv));
 		return lvs;
 	}
-	
+
 	@Test
 	public void testVariable() {
 		this.setResourceFileTestIdentifier("testVariable");
-		
+
 		var objOne = this.initElement(this.createMinimalLV("lv1"));
 		var objTwo = this.initElement(this.createMinimalLV("lv2"));
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.LOCAL_VARIABLE_STATEMENT__VARIABLE);
 	}
 }

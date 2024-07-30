@@ -5,8 +5,9 @@ import org.emftext.language.java.expressions.RelationExpressionChild;
 import org.emftext.language.java.operators.RelationOperator;
 
 public interface IRelationExpressionInitialiser extends IInstanceOfExpressionChildInitialiser {
-    @Override
-    public RelationExpression instantiate();
+	@Override
+	public RelationExpression instantiate();
+
 	public default boolean addRelationOperator(RelationExpression re, RelationOperator op) {
 		if (op != null) {
 			re.getRelationOperators().add(op);
@@ -14,10 +15,11 @@ public interface IRelationExpressionInitialiser extends IInstanceOfExpressionChi
 		}
 		return true;
 	}
-	
+
 	public default boolean addRelationOperators(RelationExpression re, RelationOperator[] ops) {
 		return this.doMultipleModifications(re, ops, this::addRelationOperator);
 	}
+
 	public default boolean addChild(RelationExpression cae, RelationExpressionChild child) {
 		if (child != null) {
 			cae.getChildren().add(child);
@@ -25,7 +27,7 @@ public interface IRelationExpressionInitialiser extends IInstanceOfExpressionChi
 		}
 		return true;
 	}
-	
+
 	public default boolean addChildren(RelationExpression cae, RelationExpressionChild[] children) {
 		return this.doMultipleModifications(cae, children, this::addChild);
 	}

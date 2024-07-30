@@ -5,7 +5,8 @@ import org.emftext.language.java.annotations.SingleAnnotationParameter;
 
 import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
 
-public class SingleAnnotationParameterInitialiser extends AbstractInitialiserBase implements ISingleAnnotationParameterInitialiser {
+public class SingleAnnotationParameterInitialiser extends AbstractInitialiserBase
+		implements ISingleAnnotationParameterInitialiser {
 	@Override
 	public ISingleAnnotationParameterInitialiser newInitialiser() {
 		return new SingleAnnotationParameterInitialiser();

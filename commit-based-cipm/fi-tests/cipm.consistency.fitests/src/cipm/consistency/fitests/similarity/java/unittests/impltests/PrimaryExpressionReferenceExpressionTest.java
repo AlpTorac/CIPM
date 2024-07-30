@@ -19,23 +19,21 @@ public class PrimaryExpressionReferenceExpressionTest extends EObjectSimilarityT
 		Assertions.assertTrue(pereInit.setMethodReference(pere, metRef));
 		return pere;
 	}
-	
+
 	@Test
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
-		
-		this.testSimilarity(
-				this.initElement(this.createDecimalIntegerLiteral(1), null),
+
+		this.testSimilarity(this.initElement(this.createDecimalIntegerLiteral(1), null),
 				this.initElement(this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.PRIMARY_EXPRESSION_REFERENCE_EXPRESSION__CHILD);
 	}
-	
+
 	@Test
 	public void testMethodReference() {
 		this.setResourceFileTestIdentifier("testMethodReference");
-		
-		this.testSimilarity(
-				this.initElement(null, this.createMinimalSR("str1")),
+
+		this.testSimilarity(this.initElement(null, this.createMinimalSR("str1")),
 				this.initElement(null, this.createMinimalSR("str2")),
 				ExpressionsPackage.Literals.PRIMARY_EXPRESSION_REFERENCE_EXPRESSION__METHOD_REFERENCE);
 	}

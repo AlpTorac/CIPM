@@ -15,13 +15,12 @@ public class OctalLongLiteralTest extends EObjectSimilarityTest {
 		Assertions.assertTrue(init.setOctalValue(lit, val));
 		return lit;
 	}
-	
+
 	@Test
 	public void testOctalValue() {
 		this.setResourceFileTestIdentifier("testOctalValue");
-		
-		this.testSimilarity(this.initElement(1),
-				this.initElement(2),
+
+		this.testSimilarity(this.initElement(1), this.initElement(2),
 				LiteralsPackage.Literals.OCTAL_LONG_LITERAL__OCTAL_VALUE);
 	}
 }

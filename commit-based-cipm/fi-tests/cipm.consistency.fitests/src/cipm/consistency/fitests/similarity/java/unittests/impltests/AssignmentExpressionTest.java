@@ -13,8 +13,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.expressions.Assignme
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class AssignmentExpressionTest extends EObjectSimilarityTest implements UsesExpressions {
-	protected AssignmentExpression initElement(AssignmentOperator op,
-			AssignmentExpressionChild child, Expression expr) {
+	protected AssignmentExpression initElement(AssignmentOperator op, AssignmentExpressionChild child,
+			Expression expr) {
 		var aeInit = new AssignmentExpressionInitialiser();
 		var ae = aeInit.instantiate();
 		Assertions.assertTrue(aeInit.setAssignmentOperator(ae, op));
@@ -22,33 +22,30 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 		Assertions.assertTrue(aeInit.setValue(ae, expr));
 		return ae;
 	}
-	
+
 	@Test
 	public void testAssignmentOperator() {
 		this.setResourceFileTestIdentifier("testAssignmentOperator");
-		
-		this.testSimilarity(
-				this.initElement(this.createAssignmentOperator(), null, null),
+
+		this.testSimilarity(this.initElement(this.createAssignmentOperator(), null, null),
 				this.initElement(this.createAssignmentOrOperator(), null, null),
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__ASSIGNMENT_OPERATOR);
 	}
-	
+
 	@Test
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
-		
-		this.testSimilarity(
-				this.initElement(null, this.createDecimalIntegerLiteral(1), null),
+
+		this.testSimilarity(this.initElement(null, this.createDecimalIntegerLiteral(1), null),
 				this.initElement(null, this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__CHILD);
 	}
-	
+
 	@Test
 	public void testValue() {
 		this.setResourceFileTestIdentifier("testValue");
-		
-		this.testSimilarity(
-				this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
+
+		this.testSimilarity(this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
 				this.initElement(null, null, this.createDecimalIntegerLiteral(2)),
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__VALUE);
 	}

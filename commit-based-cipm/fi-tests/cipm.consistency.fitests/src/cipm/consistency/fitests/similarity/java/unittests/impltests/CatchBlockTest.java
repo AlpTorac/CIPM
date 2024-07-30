@@ -17,14 +17,14 @@ public class CatchBlockTest extends EObjectSimilarityTest implements UsesParamet
 		Assertions.assertTrue(cbInit.setParameter(cb, oParam));
 		return cb;
 	}
-	
+
 	@Test
 	public void testParameter() {
 		this.setResourceFileTestIdentifier("testParameter");
-		
+
 		var objOne = this.initElement(this.createMinimalOrdParamWithClsTarget("param1", "cls1"));
 		var objTwo = this.initElement(this.createMinimalOrdParamWithClsTarget("param2", "cls2"));
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.CATCH_BLOCK__PARAMETER);
 	}
 }

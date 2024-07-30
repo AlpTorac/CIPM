@@ -10,7 +10,7 @@ public class NotEqualInitialiser extends AbstractInitialiserBase implements INot
 	public INotEqualInitialiser newInitialiser() {
 		return new NotEqualInitialiser();
 	}
-	
+
 	@Override
 	public NotEqual instantiate() {
 		return OperatorsFactory.eINSTANCE.createNotEqual();

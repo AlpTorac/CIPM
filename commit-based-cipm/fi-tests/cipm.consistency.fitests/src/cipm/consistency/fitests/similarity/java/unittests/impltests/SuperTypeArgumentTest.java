@@ -17,14 +17,14 @@ public class SuperTypeArgumentTest extends EObjectSimilarityTest implements Uses
 		Assertions.assertTrue(staInit.setSuperType(sta, tref));
 		return sta;
 	}
-	
+
 	@Test
 	public void testSuperType() {
 		this.setResourceFileTestIdentifier("testSuperType");
-		
+
 		var objOne = this.initElement(this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(this.createMinimalClsRef("cls2"));
-		
+
 		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.SUPER_TYPE_ARGUMENT__SUPER_TYPE);
 	}
 }

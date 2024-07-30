@@ -18,19 +18,15 @@ public class ExceptionThrowerTest extends EObjectSimilarityTest implements UsesT
 		Assertions.assertTrue(init.addExceptions(result, refs));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ExceptionThrowerTestParams.class)
 	public void testExceptions(IExceptionThrowerInitialiser init) {
 		this.setResourceFileTestIdentifier("testExceptions");
-		
-		var objOne = this.initElement(init, new NamespaceClassifierReference[] {
-				this.createMinimalCNR("cls1")	
-		});
-		var objTwo = this.initElement(init, new NamespaceClassifierReference[] {
-				this.createMinimalCNR("cls2")	
-		});
-		
+
+		var objOne = this.initElement(init, new NamespaceClassifierReference[] { this.createMinimalCNR("cls1") });
+		var objTwo = this.initElement(init, new NamespaceClassifierReference[] { this.createMinimalCNR("cls2") });
+
 		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.EXCEPTION_THROWER__EXCEPTIONS);
 	}
 }

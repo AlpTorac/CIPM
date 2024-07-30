@@ -5,8 +5,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.modifiers.IModifiabl
 
 import org.emftext.language.java.statements.Block;
 
-public interface IBlockInitialiser extends IModifiableInitialiser, IMemberInitialiser,
-	IStatementInitialiser, IStatementListContainerInitialiser {
-    @Override
-    public Block instantiate();
+public interface IBlockInitialiser
+		extends IModifiableInitialiser, IMemberInitialiser, IStatementInitialiser, IStatementListContainerInitialiser {
+	@Override
+	public Block instantiate();
 }

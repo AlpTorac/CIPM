@@ -17,14 +17,14 @@ public class NormalSwitchRuleTest extends EObjectSimilarityTest implements UsesE
 		Assertions.assertTrue(nsrInit.addAdditionalConditions(nsr, exprs));
 		return nsr;
 	}
-	
+
 	@Test
 	public void testAdditionalCondition() {
 		this.setResourceFileTestIdentifier("testAdditionalCondition");
-		
-		var objOne = this.initElement(new Expression[] {this.createMinimalFalseEE()});
-		var objTwo = this.initElement(new Expression[] {this.createMinimalTrueNEE()});
-		
+
+		var objOne = this.initElement(new Expression[] { this.createMinimalFalseEE() });
+		var objTwo = this.initElement(new Expression[] { this.createMinimalTrueNEE() });
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.NORMAL_SWITCH_RULE__ADDITIONAL_CONDITIONS);
 	}
 }

@@ -8,7 +8,8 @@ import cipm.consistency.fitests.similarity.java.params.AbstractSimilarityValues.
 /**
  * An interface for classes that contain expected similarity checking results
  * for {@link EObject} classes and their {@link EStructuralFeature} attributes.
- * <br><br>
+ * <br>
+ * <br>
  * Variations of {@link #addSimilarityEntry(Class, EStructuralFeature, Boolean)}
  * can be used to group entries better, while adding them.
  * 

@@ -5,10 +5,11 @@ import org.emftext.language.java.arrays.ArrayInitializer;
 
 import cipm.consistency.fitests.similarity.java.initialiser.annotations.IAnnotationValueInitialiser;
 
-public interface IArrayInitializerInitialiser extends IAnnotationValueInitialiser,
-	IArrayInitializationValueInitialiser {
+public interface IArrayInitializerInitialiser
+		extends IAnnotationValueInitialiser, IArrayInitializationValueInitialiser {
 	@Override
 	public ArrayInitializer instantiate();
+
 	public default boolean addInitialValue(ArrayInitializer ai, ArrayInitializationValue aiv) {
 		if (aiv != null) {
 			ai.getInitialValues().add(aiv);
@@ -16,7 +17,7 @@ public interface IArrayInitializerInitialiser extends IAnnotationValueInitialise
 		}
 		return true;
 	}
-	
+
 	public default boolean addInitialValues(ArrayInitializer ai, ArrayInitializationValue[] aivs) {
 		return this.doMultipleModifications(ai, aivs, this::addInitialValue);
 	}

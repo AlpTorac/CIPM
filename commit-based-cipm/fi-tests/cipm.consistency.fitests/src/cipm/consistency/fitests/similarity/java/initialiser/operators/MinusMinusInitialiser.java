@@ -10,7 +10,7 @@ public class MinusMinusInitialiser extends AbstractInitialiserBase implements IM
 	public IMinusMinusInitialiser newInitialiser() {
 		return new MinusMinusInitialiser();
 	}
-	
+
 	@Override
 	public MinusMinus instantiate() {
 		return OperatorsFactory.eINSTANCE.createMinusMinus();

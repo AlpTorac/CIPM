@@ -11,7 +11,7 @@ public class InterfaceMethodInitialiser extends AbstractInitialiserBase implemen
 	public InterfaceMethod instantiate() {
 		return MembersFactory.eINSTANCE.createInterfaceMethod();
 	}
-	
+
 	@Override
 	public InterfaceMethodInitialiser newInitialiser() {
 		return new InterfaceMethodInitialiser();

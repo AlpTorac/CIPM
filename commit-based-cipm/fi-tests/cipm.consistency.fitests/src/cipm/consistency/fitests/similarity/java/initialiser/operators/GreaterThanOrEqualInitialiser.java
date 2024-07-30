@@ -10,7 +10,7 @@ public class GreaterThanOrEqualInitialiser extends AbstractInitialiserBase imple
 	public IGreaterThanOrEqualInitialiser newInitialiser() {
 		return new GreaterThanOrEqualInitialiser();
 	}
-	
+
 	@Override
 	public GreaterThanOrEqual instantiate() {
 		return OperatorsFactory.eINSTANCE.createGreaterThanOrEqual();

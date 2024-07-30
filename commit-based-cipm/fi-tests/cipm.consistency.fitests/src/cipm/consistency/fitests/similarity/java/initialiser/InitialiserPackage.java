@@ -23,8 +23,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.types.TypesInitialis
 import cipm.consistency.fitests.similarity.java.initialiser.variables.VariablesInitialiserPackage;
 
 /**
- * The topmost implementor of {@link IInitialiserPackage}.
- * <br><br>
+ * The topmost implementor of {@link IInitialiserPackage}. <br>
+ * <br>
  * Includes all implemented initialisers.
  * 
  * @author atora
@@ -32,26 +32,14 @@ import cipm.consistency.fitests.similarity.java.initialiser.variables.VariablesI
 public class InitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiserPackage> getSubPackages() {
-		return this.initCol(new IInitialiserPackage[] {
-			new AnnotationsInitialiserPackage(),
-			new ArraysInitialiserPackage(),
-			new ClassifierInitialiserPackage(),
-			new CommonsInitialiserPackage(),
-			new ContainersInitialiserPackage(),
-			new ExpressionsInitialiserPackage(),
-			new GenericsInitialiserPackage(),
-			new ImportsInitialiserPackage(),
-			new InstantiationsInitialiserPackage(),
-			new LiteralsInitialiserPackage(),
-			new MembersInitialiserPackage(),
-			new ModifiersInitialiserPackage(),
-			new ModulesInitialiserPackage(),
-			new OperatorsInitialiserPackage(),
-			new ParametersInitialiserPackage(),
-			new ReferencesInitialiserPackage(),
-			new StatementsInitialiserPackage(),
-			new TypesInitialiserPackage(),
-			new VariablesInitialiserPackage()
-		});
+		return this.initCol(new IInitialiserPackage[] { new AnnotationsInitialiserPackage(),
+				new ArraysInitialiserPackage(), new ClassifierInitialiserPackage(), new CommonsInitialiserPackage(),
+				new ContainersInitialiserPackage(), new ExpressionsInitialiserPackage(),
+				new GenericsInitialiserPackage(), new ImportsInitialiserPackage(),
+				new InstantiationsInitialiserPackage(), new LiteralsInitialiserPackage(),
+				new MembersInitialiserPackage(), new ModifiersInitialiserPackage(), new ModulesInitialiserPackage(),
+				new OperatorsInitialiserPackage(), new ParametersInitialiserPackage(),
+				new ReferencesInitialiserPackage(), new StatementsInitialiserPackage(), new TypesInitialiserPackage(),
+				new VariablesInitialiserPackage() });
 	}
 }

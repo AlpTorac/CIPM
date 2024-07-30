@@ -6,9 +6,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.generics.ICallTypeAr
 import cipm.consistency.fitests.similarity.java.initialiser.references.IArgumentableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.references.IReferenceInitialiser;
 
-public interface IInstantiationInitialiser extends IArgumentableInitialiser,
-	IReferenceInitialiser,
-	ICallTypeArgumentableInitialiser {
+public interface IInstantiationInitialiser
+		extends IArgumentableInitialiser, IReferenceInitialiser, ICallTypeArgumentableInitialiser {
 	@Override
 	public Instantiation instantiate();
 }

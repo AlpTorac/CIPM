@@ -5,7 +5,8 @@ import org.emftext.language.java.instantiations.InstantiationsFactory;
 
 import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
 
-public class ExplicitConstructorCallInitialiser extends AbstractInitialiserBase implements IExplicitConstructorCallInitialiser {
+public class ExplicitConstructorCallInitialiser extends AbstractInitialiserBase
+		implements IExplicitConstructorCallInitialiser {
 	@Override
 	public IExplicitConstructorCallInitialiser newInitialiser() {
 		return new ExplicitConstructorCallInitialiser();

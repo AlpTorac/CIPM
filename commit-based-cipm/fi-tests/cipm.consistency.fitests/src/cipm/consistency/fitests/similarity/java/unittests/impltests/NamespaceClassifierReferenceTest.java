@@ -17,14 +17,15 @@ public class NamespaceClassifierReferenceTest extends EObjectSimilarityTest impl
 		Assertions.assertTrue(ncrInit.addClassifierReferences(ncr, refs));
 		return ncr;
 	}
-	
+
 	@Test
 	public void testClassifierReference() {
 		this.setResourceFileTestIdentifier("testClassifierReference");
-		
-		var objOne = this.initElement(new ClassifierReference[] {this.createMinimalClsRef("cls1")});
-		var objTwo = this.initElement(new ClassifierReference[] {this.createMinimalClsRef("cls2")});
-		
-		this.testSimilarity(objOne, objTwo, TypesPackage.Literals.NAMESPACE_CLASSIFIER_REFERENCE__CLASSIFIER_REFERENCES);
+
+		var objOne = this.initElement(new ClassifierReference[] { this.createMinimalClsRef("cls1") });
+		var objTwo = this.initElement(new ClassifierReference[] { this.createMinimalClsRef("cls2") });
+
+		this.testSimilarity(objOne, objTwo,
+				TypesPackage.Literals.NAMESPACE_CLASSIFIER_REFERENCE__CLASSIFIER_REFERENCES);
 	}
 }

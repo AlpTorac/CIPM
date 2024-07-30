@@ -17,14 +17,13 @@ public class ExclusiveOrExpressionTest extends EObjectSimilarityTest implements 
 		Assertions.assertTrue(eoeInit.addChildren(eoe, children));
 		return eoe;
 	}
-	
+
 	@Test
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
-		
-		this.testSimilarity(
-				this.initElement(new ExclusiveOrExpressionChild[] {this.createDecimalIntegerLiteral(1)}),
-				this.initElement(new ExclusiveOrExpressionChild[] {this.createDecimalIntegerLiteral(2)}),
+
+		this.testSimilarity(this.initElement(new ExclusiveOrExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
+				this.initElement(new ExclusiveOrExpressionChild[] { this.createDecimalIntegerLiteral(2) }),
 				ExpressionsPackage.Literals.EXCLUSIVE_OR_EXPRESSION__CHILDREN);
 	}
 }

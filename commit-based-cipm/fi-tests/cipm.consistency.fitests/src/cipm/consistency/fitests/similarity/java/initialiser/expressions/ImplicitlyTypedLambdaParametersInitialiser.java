@@ -5,7 +5,8 @@ import org.emftext.language.java.expressions.ImplicitlyTypedLambdaParameters;
 
 import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
 
-public class ImplicitlyTypedLambdaParametersInitialiser extends AbstractInitialiserBase implements IImplicitlyTypedLambdaParametersInitialiser {
+public class ImplicitlyTypedLambdaParametersInitialiser extends AbstractInitialiserBase
+		implements IImplicitlyTypedLambdaParametersInitialiser {
 	@Override
 	public IImplicitlyTypedLambdaParametersInitialiser newInitialiser() {
 		return new ImplicitlyTypedLambdaParametersInitialiser();

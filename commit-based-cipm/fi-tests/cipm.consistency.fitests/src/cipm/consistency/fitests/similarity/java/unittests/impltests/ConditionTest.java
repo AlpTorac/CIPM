@@ -17,14 +17,14 @@ public class ConditionTest extends EObjectSimilarityTest implements UsesStatemen
 		Assertions.assertTrue(conInit.setElseStatement(con, st));
 		return con;
 	}
-	
+
 	@Test
 	public void testElseStatement() {
 		this.setResourceFileTestIdentifier("testElseStatement");
-		
+
 		var objOne = this.initElement(this.createMinimalTrivialAssert());
 		var objTwo = this.initElement(this.createMinimalNullReturn());
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.CONDITION__ELSE_STATEMENT);
 	}
 }

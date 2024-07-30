@@ -13,43 +13,34 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesConcreteClassifier
 import cipm.consistency.fitests.similarity.java.unittests.UsesFields;
 import cipm.consistency.fitests.similarity.java.unittests.UsesMethods;
 
-public class MemberContainerTest extends EObjectSimilarityTest implements
-	UsesMethods, UsesFields, UsesConcreteClassifiers {
-	protected MemberContainer initElement(IMemberContainerInitialiser init,
-			Member[] members, Member[] defMembers) {
+public class MemberContainerTest extends EObjectSimilarityTest
+		implements UsesMethods, UsesFields, UsesConcreteClassifiers {
+	protected MemberContainer initElement(IMemberContainerInitialiser init, Member[] members, Member[] defMembers) {
 		MemberContainer result = init.instantiate();
 		Assertions.assertTrue(init.addMembers(result, members));
 		Assertions.assertTrue(init.addDefaultMembers(result, defMembers));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(MemberContainerTestParams.class)
 	public void testMember(IMemberContainerInitialiser init) {
 		this.setResourceFileTestIdentifier("testMember");
-		
-		var objOne = this.initElement(init, new Member[] {
-				this.createMinimalClass("cls1")
-		}, null);
-		var objTwo = this.initElement(init, new Member[] {
-				this.createMinimalClass("cls2")
-		}, null);
-		
+
+		var objOne = this.initElement(init, new Member[] { this.createMinimalClass("cls1") }, null);
+		var objTwo = this.initElement(init, new Member[] { this.createMinimalClass("cls2") }, null);
+
 		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(MemberContainerTestParams.class)
 	public void testDefaultMember(IMemberContainerInitialiser init) {
 		this.setResourceFileTestIdentifier("testDefaultMember");
-		
-		var objOne = this.initElement(init, null, new Member[] {
-				this.createMinimalClass("cls1")
-		});
-		var objTwo = this.initElement(init, null, new Member[] {
-				this.createMinimalClass("cls2")
-		});
-		
+
+		var objOne = this.initElement(init, null, new Member[] { this.createMinimalClass("cls1") });
+		var objTwo = this.initElement(init, null, new Member[] { this.createMinimalClass("cls2") });
+
 		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
 	}
 }

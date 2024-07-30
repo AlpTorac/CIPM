@@ -7,16 +7,16 @@ import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserB
 
 public class FieldInitialiser extends AbstractInitialiserBase implements IFieldInitialiser {
 	private IMemberContainerInitialiser mcInit;
-	
+
 	public FieldInitialiser withMCInit(IMemberContainerInitialiser mcInit) {
 		this.mcInit = mcInit;
 		return this;
 	}
-	
+
 	public IMemberContainerInitialiser getMCInit() {
 		return this.mcInit;
 	}
-	
+
 	@Override
 	public Field instantiate() {
 		return MembersFactory.eINSTANCE.createField();

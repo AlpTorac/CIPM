@@ -6,8 +6,9 @@ import org.emftext.language.java.modifiers.Modifier;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface IModifiableInitialiser extends ICommentableInitialiser {
-    @Override
-    public Modifiable instantiate();
+	@Override
+	public Modifiable instantiate();
+
 	public default boolean addModifier(Modifiable modifiable, Modifier modifier) {
 		if (modifier != null) {
 			modifiable.getModifiers().add(modifier);
@@ -15,8 +16,8 @@ public interface IModifiableInitialiser extends ICommentableInitialiser {
 		}
 		return true;
 	}
-	
+
 	public default boolean addModifiers(Modifiable modifiable, Modifier[] modifiers) {
 		return this.doMultipleModifications(modifiable, modifiers, this::addModifier);
 	}
- }
+}

@@ -17,14 +17,14 @@ public class SingleAnnotationParameterTest extends EObjectSimilarityTest impleme
 		Assertions.assertTrue(sapInit.setValue(sap, val));
 		return sap;
 	}
-	
+
 	@Test
 	public void testValue() {
 		this.setResourceFileTestIdentifier("testValue");
-		
+
 		var objOne = this.initElement(this.createNullLiteral());
 		var objTwo = this.initElement(this.createMinimalSR("strVal"));
-		
+
 		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.SINGLE_ANNOTATION_PARAMETER__VALUE);
 	}
 }

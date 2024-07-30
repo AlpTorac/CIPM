@@ -7,9 +7,11 @@ import cipm.consistency.fitests.similarity.java.initialiser.annotations.IAnnotab
 import cipm.consistency.fitests.similarity.java.initialiser.references.IArgumentableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.references.IReferenceableElementInitialiser;
 
-public interface IEnumConstantInitialiser extends IArgumentableInitialiser, IAnnotableInitialiser, IReferenceableElementInitialiser {
-    @Override
-    public EnumConstant instantiate();
+public interface IEnumConstantInitialiser
+		extends IArgumentableInitialiser, IAnnotableInitialiser, IReferenceableElementInitialiser {
+	@Override
+	public EnumConstant instantiate();
+
 	public default boolean setAnonymousClass(EnumConstant ec, AnonymousClass cls) {
 		if (cls != null) {
 			ec.setAnonymousClass(cls);

@@ -6,8 +6,9 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.operators.AssignmentOperator;
 
 public interface IAssignmentExpressionInitialiser extends IExpressionInitialiser {
-    @Override
-    public AssignmentExpression instantiate();
+	@Override
+	public AssignmentExpression instantiate();
+
 	public default boolean setAssignmentOperator(AssignmentExpression ae, AssignmentOperator op) {
 		if (op != null) {
 			ae.setAssignmentOperator(op);
@@ -15,6 +16,7 @@ public interface IAssignmentExpressionInitialiser extends IExpressionInitialiser
 		}
 		return true;
 	}
+
 	public default boolean setChild(AssignmentExpression ae, AssignmentExpressionChild child) {
 		if (child != null) {
 			ae.setChild(child);
@@ -22,6 +24,7 @@ public interface IAssignmentExpressionInitialiser extends IExpressionInitialiser
 		}
 		return true;
 	}
+
 	public default boolean setValue(AssignmentExpression ae, Expression expr) {
 		if (expr != null) {
 			ae.setValue(expr);

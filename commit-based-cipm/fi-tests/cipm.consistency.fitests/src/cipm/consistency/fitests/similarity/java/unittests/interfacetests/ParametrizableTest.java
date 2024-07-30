@@ -18,15 +18,16 @@ public class ParametrizableTest extends EObjectSimilarityTest implements UsesPar
 		Assertions.assertTrue(init.addParameters(result, params));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ParametrizableTestParams.class)
 	public void testParameters(IParametrizableInitialiser init) {
 		this.setResourceFileTestIdentifier("testParameters");
-		
-		var objOne = this.initElement(init, new Parameter[] {this.createMinimalOrdParamWithClsTarget("p1", "t1")});
-		var objTwo = this.initElement(init, new Parameter[] {this.createMinimalOrdParamWithClsTarget("p2", "t2"), this.createMinimalOrdParamWithClsTarget("p3", "t3")});
-		
+
+		var objOne = this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p1", "t1") });
+		var objTwo = this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p2", "t2"),
+				this.createMinimalOrdParamWithClsTarget("p3", "t3") });
+
 		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS);
 	}
 }

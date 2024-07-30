@@ -10,7 +10,7 @@ public class ByteInitialiser extends AbstractInitialiserBase implements IByteIni
 	public IByteInitialiser newInitialiser() {
 		return new ByteInitialiser();
 	}
-	
+
 	@Override
 	public Byte instantiate() {
 		return TypesFactory.eINSTANCE.createByte();

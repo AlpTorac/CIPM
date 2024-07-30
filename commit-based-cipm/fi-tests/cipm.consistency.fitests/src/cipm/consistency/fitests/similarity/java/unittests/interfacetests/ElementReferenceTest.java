@@ -15,24 +15,24 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.Expressio
 import cipm.consistency.fitests.similarity.java.unittests.UsesConcreteClassifiers;
 
 public class ElementReferenceTest extends EObjectSimilarityTest implements UsesConcreteClassifiers {
-	protected ElementReference initElement(IElementReferenceInitialiser init,
-			ReferenceableElement target, ReferenceableElement cTarget) {
+	protected ElementReference initElement(IElementReferenceInitialiser init, ReferenceableElement target,
+			ReferenceableElement cTarget) {
 		ElementReference result = this.initElementWithoutContainer(init, target, cTarget);
-		
+
 		var insInit = new ExplicitConstructorCallInitialiser();
 		var ecc = insInit.instantiate();
 		Assertions.assertTrue(insInit.addArgument(ecc, result));
-					
+
 		var esInit = new ExpressionStatementInitialiser();
 		var es = esInit.instantiate();
 		Assertions.assertTrue(esInit.setExpression(es, ecc));
-					
+
 		var bInit = new BlockInitialiser();
 		var block = bInit.instantiate();
 		Assertions.assertTrue(bInit.addStatement(block, es));
 		return result;
 	}
-	
+
 	protected ElementReference initElementWithoutContainer(IElementReferenceInitialiser init,
 			ReferenceableElement target, ReferenceableElement cTarget) {
 		ElementReference result = init.instantiate();
@@ -40,43 +40,42 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 		Assertions.assertTrue(init.setContainedTarget(result, cTarget));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ElementReferenceTestParams.class)
 	public void testTarget(IElementReferenceInitialiser init) {
 		this.setResourceFileTestIdentifier("testTarget");
-		
+
 		var objOne = this.initElement(init, this.createMinimalClass("cls1"), null);
 		var objTwo = this.initElement(init, this.createMinimalClass("cls2"), null);
-		
+
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__TARGET);
 	}
-	
+
 	/**
-	 * Makes sure that not providing a container for the created element
-	 * does not result in an exception.
+	 * Makes sure that not providing a container for the created element does not
+	 * result in an exception.
 	 */
 	@ParameterizedTest
 	@ArgumentsSource(ElementReferenceTestParams.class)
 	public void testTargetNoException(IElementReferenceInitialiser init) {
 		this.setResourceFileTestIdentifier("testTarget");
-		
+
 		var objOne = this.initElementWithoutContainer(init, this.createMinimalClass("cls1"), null);
 		var objTwo = this.initElementWithoutContainer(init, this.createMinimalClass("cls2"), null);
-		
+
 		Assertions.assertDoesNotThrow(
-				()->this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__TARGET)
-				);
+				() -> this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__TARGET));
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ElementReferenceTestParams.class)
 	public void testContainedTarget(IElementReferenceInitialiser init) {
 		this.setResourceFileTestIdentifier("testContainedTarget");
-		
+
 		var objOne = this.initElement(init, null, this.createMinimalClass("cls1"));
 		var objTwo = this.initElement(init, null, this.createMinimalClass("cls2"));
-		
+
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__CONTAINED_TARGET);
 	}
 }

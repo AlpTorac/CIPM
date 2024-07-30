@@ -10,7 +10,6 @@ public class SynchronizedBlockInitialiser extends AbstractInitialiserBase implem
 	public SynchronizedBlock instantiate() {
 		return StatementsFactory.eINSTANCE.createSynchronizedBlock();
 	}
-	
 
 	@Override
 	public SynchronizedBlockInitialiser newInitialiser() {

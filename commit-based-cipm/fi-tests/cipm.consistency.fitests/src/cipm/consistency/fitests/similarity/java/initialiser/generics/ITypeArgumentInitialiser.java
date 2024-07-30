@@ -5,7 +5,7 @@ import org.emftext.language.java.generics.TypeArgument;
 import cipm.consistency.fitests.similarity.java.initialiser.arrays.IArrayTypeableInitialiser;
 
 public interface ITypeArgumentInitialiser extends IArrayTypeableInitialiser {
-    @Override
-    public TypeArgument instantiate();
+	@Override
+	public TypeArgument instantiate();
 
 }

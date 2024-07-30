@@ -14,8 +14,7 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesCatchBlocks;
 import cipm.consistency.fitests.similarity.java.unittests.UsesLocalVariables;
 import cipm.consistency.fitests.similarity.java.unittests.UsesStatements;
 
-public class TryBlockTest extends EObjectSimilarityTest implements UsesCatchBlocks,
-UsesStatements, UsesLocalVariables {
+public class TryBlockTest extends EObjectSimilarityTest implements UsesCatchBlocks, UsesStatements, UsesLocalVariables {
 	protected TryBlock initElement(Resource[] ress, CatchBlock[] catchBlocks, Block block) {
 		var tbInit = new TryBlockInitialiser();
 		var tb = tbInit.instantiate();
@@ -24,34 +23,34 @@ UsesStatements, UsesLocalVariables {
 		Assertions.assertTrue(tbInit.setFinallyBlock(tb, block));
 		return tb;
 	}
-	
+
 	@Test
 	public void testResource() {
 		this.setResourceFileTestIdentifier("testResource");
-		
-		var objOne = this.initElement(new Resource[] {this.createMinimalLV("lv1")}, null, null);
-		var objTwo = this.initElement(new Resource[] {this.createMinimalLV("lv2")}, null, null);
-		
+
+		var objOne = this.initElement(new Resource[] { this.createMinimalLV("lv1") }, null, null);
+		var objTwo = this.initElement(new Resource[] { this.createMinimalLV("lv2") }, null, null);
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__RESOURCES);
 	}
-	
+
 	@Test
 	public void testCatchBlock() {
 		this.setResourceFileTestIdentifier("testCatchBlock");
-		
-		var objOne = this.initElement(null, new CatchBlock[] {this.createMinimalCB("p1", "t1")}, null);
-		var objTwo = this.initElement(null, new CatchBlock[] {this.createMinimalCB("p2", "t2")}, null);
-		
+
+		var objOne = this.initElement(null, new CatchBlock[] { this.createMinimalCB("p1", "t1") }, null);
+		var objTwo = this.initElement(null, new CatchBlock[] { this.createMinimalCB("p2", "t2") }, null);
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__CATCH_BLOCKS);
 	}
-	
+
 	@Test
 	public void testFinallyBlock() {
 		this.setResourceFileTestIdentifier("testFinallyBlock");
-		
+
 		var objOne = this.initElement(null, null, this.createMinimalBlockWithNullReturn());
 		var objTwo = this.initElement(null, null, this.createMinimalBlockWithTrivialAssert());
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__FINALLY_BLOCK);
 	}
 }

@@ -10,7 +10,7 @@ public class LessThanOrEqualInitialiser extends AbstractInitialiserBase implemen
 	public ILessThanOrEqualInitialiser newInitialiser() {
 		return new LessThanOrEqualInitialiser();
 	}
-	
+
 	@Override
 	public LessThanOrEqual instantiate() {
 		return OperatorsFactory.eINSTANCE.createLessThanOrEqual();

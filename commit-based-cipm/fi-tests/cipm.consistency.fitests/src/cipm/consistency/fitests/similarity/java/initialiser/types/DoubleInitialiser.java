@@ -10,7 +10,7 @@ public class DoubleInitialiser extends AbstractInitialiserBase implements IDoubl
 	public IDoubleInitialiser newInitialiser() {
 		return new DoubleInitialiser();
 	}
-	
+
 	@Override
 	public Double instantiate() {
 		return TypesFactory.eINSTANCE.createDouble();

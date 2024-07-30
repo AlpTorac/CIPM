@@ -9,14 +9,9 @@ import cipm.consistency.fitests.similarity.java.initialiser.references.IReferenc
 import cipm.consistency.fitests.similarity.java.initialiser.statements.IStatementContainerInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementInitialiser;
 
-public interface IMethodInitialiser extends IAnnotableAndModifiableInitialiser,
-	IExceptionThrowerInitialiser,
-	IMemberInitialiser,
-	IReferenceableElementInitialiser,
-	IParametrizableInitialiser,
-	IStatementContainerInitialiser,
-	ITypedElementInitialiser,
-	ITypeParametrizableInitialiser {
+public interface IMethodInitialiser extends IAnnotableAndModifiableInitialiser, IExceptionThrowerInitialiser,
+		IMemberInitialiser, IReferenceableElementInitialiser, IParametrizableInitialiser,
+		IStatementContainerInitialiser, ITypedElementInitialiser, ITypeParametrizableInitialiser {
 	@Override
 	public Method instantiate();
 }

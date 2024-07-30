@@ -7,10 +7,11 @@ import org.emftext.language.java.types.TypeReference;
 
 import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementInitialiser;
 
-public interface ICastExpressionInitialiser extends ITypedElementInitialiser,
-	IUnaryModificationExpressionChildInitialiser {
+public interface ICastExpressionInitialiser
+		extends ITypedElementInitialiser, IUnaryModificationExpressionChildInitialiser {
 	@Override
 	public CastExpression instantiate();
+
 	public default boolean addAdditionalBound(CastExpression ce, TypeReference tref) {
 		if (tref != null) {
 			ce.getAdditionalBounds().add(tref);
@@ -18,10 +19,11 @@ public interface ICastExpressionInitialiser extends ITypedElementInitialiser,
 		}
 		return true;
 	}
-	
+
 	public default boolean addAdditionalBounds(CastExpression ce, TypeReference[] trefs) {
 		return this.doMultipleModifications(ce, trefs, this::addAdditionalBound);
 	}
+
 	public default boolean setChild(CastExpression ce, MultiplicativeExpressionChild child) {
 		if (child != null) {
 			ce.setChild(child);
@@ -29,6 +31,7 @@ public interface ICastExpressionInitialiser extends ITypedElementInitialiser,
 		}
 		return true;
 	}
+
 	public default boolean setGeneralChild(CastExpression ce, Expression expr) {
 		if (expr != null) {
 			ce.setGeneralChild(expr);

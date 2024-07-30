@@ -6,8 +6,9 @@ import org.emftext.language.java.generics.TypeParametrizable;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface ITypeParametrizableInitialiser extends ICommentableInitialiser {
-    @Override
-    public TypeParametrizable instantiate();
+	@Override
+	public TypeParametrizable instantiate();
+
 	public default boolean addTypeParameter(TypeParametrizable tp, TypeParameter param) {
 		if (param != null) {
 			tp.getTypeParameters().add(param);
@@ -15,7 +16,7 @@ public interface ITypeParametrizableInitialiser extends ICommentableInitialiser 
 		}
 		return true;
 	}
-	
+
 	public default boolean addTypeParameters(TypeParametrizable tp, TypeParameter[] params) {
 		return this.doMultipleModifications(tp, params, this::addTypeParameter);
 	}
