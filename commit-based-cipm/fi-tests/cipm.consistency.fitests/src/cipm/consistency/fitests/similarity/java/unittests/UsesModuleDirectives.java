@@ -1,10 +1,12 @@
 package cipm.consistency.fitests.similarity.java.unittests;
 
 import org.emftext.language.java.containers.Package;
+import org.emftext.language.java.modules.AccessProvidingModuleDirective;
 import org.emftext.language.java.modules.ExportsModuleDirective;
 import org.emftext.language.java.modules.OpensModuleDirective;
 
 import cipm.consistency.fitests.similarity.java.initialiser.modules.ExportsModuleDirectiveInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.modules.IAccessProvidingModuleDirectiveInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.modules.OpensModuleDirectiveInitialiser;
 
 /**
@@ -16,25 +18,34 @@ import cipm.consistency.fitests.similarity.java.initialiser.modules.OpensModuleD
  */
 public interface UsesModuleDirectives extends UsesPackages, UsesModuleReferences {
 	/**
-	 * @param pac The accessable package of the instance to be constructed
-	 * @return An {@link ExportsModuleDirective} instance with the given parameter
+	 * @param init The initialiser that will be used to construct the instance
+	 * @param pac  The accessable package of the instance to be constructed
+	 * @return An {@link AccessProvidingModuleDirective} instance with the given
+	 *         parameters
 	 */
-	public default ExportsModuleDirective createMinimalEMD(Package pac) {
-		var init = new ExportsModuleDirectiveInitialiser();
-		ExportsModuleDirective result = init.instantiate();
+	public default AccessProvidingModuleDirective createMinimalAPMD(IAccessProvidingModuleDirectiveInitialiser init,
+			Package pac) {
+		var result = init.instantiate();
 		init.setAccessablePackage(result, pac);
 		return result;
 	}
 
 	/**
-	 * @param pac The accessable package of the instance to be constructed
-	 * @return An {@link OpensModuleDirective} instance with the given parameter
+	 * A variant of
+	 * {@link #createMinimalAPMD(IAccessProvidingModuleDirectiveInitialiser, Package)}
+	 * that constructs a {@link ExportsModuleDirective} instance.
+	 */
+	public default ExportsModuleDirective createMinimalEMD(Package pac) {
+		return (ExportsModuleDirective) this.createMinimalAPMD(new ExportsModuleDirectiveInitialiser(), pac);
+	}
+
+	/**
+	 * A variant of
+	 * {@link #createMinimalAPMD(IAccessProvidingModuleDirectiveInitialiser, Package)}
+	 * that constructs a {@link OpensModuleDirective} instance.
 	 */
 	public default OpensModuleDirective createMinimalOMD(Package pac) {
-		var init = new OpensModuleDirectiveInitialiser();
-		OpensModuleDirective result = init.instantiate();
-		init.setAccessablePackage(result, pac);
-		return result;
+		return (OpensModuleDirective) this.createMinimalAPMD(new OpensModuleDirectiveInitialiser(), pac);
 	}
 
 	/**

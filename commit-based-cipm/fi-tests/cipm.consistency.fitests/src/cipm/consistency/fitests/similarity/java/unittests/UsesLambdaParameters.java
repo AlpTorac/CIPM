@@ -35,9 +35,9 @@ public interface UsesLambdaParameters extends UsesParameters {
 	 * @param targetName The name of the entity that the type reference of the
 	 *                   {@link Parameter} will point at
 	 * 
-	 * @see {@link #createMinimalParamWithClsTarget(String, String)}
+	 * @see {@link #createMinimalOrdParamWithClsTarget(String, String)}
 	 */
 	public default ExplicitlyTypedLambdaParameters createMinimalETLP(String paramName, String targetName) {
-		return this.createETLP(new Parameter[] { this.createMinimalParamWithClsTarget(paramName, targetName) });
+		return this.createETLP(new Parameter[] { this.createMinimalOrdParamWithClsTarget(paramName, targetName) });
 	}
 }

@@ -14,8 +14,6 @@ public interface UsesModules {
 	/**
 	 * A variation of {@link #createMinimalModule(String, String[])}, where the
 	 * constructed instance has no namespaces.
-	 * 
-	 * @param name The name of the instance to be constructed
 	 */
 	public default Module createMinimalModule(String name) {
 		return this.createMinimalModule(name, null);

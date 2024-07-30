@@ -22,8 +22,8 @@ public class CatchBlockTest extends EObjectSimilarityTest implements UsesParamet
 	public void testParameter() {
 		this.setResourceFileTestIdentifier("testParameter");
 		
-		var objOne = this.initElement(this.createMinimalOrdParam("param1", "cls1"));
-		var objTwo = this.initElement(this.createMinimalOrdParam("param2", "cls2"));
+		var objOne = this.initElement(this.createMinimalOrdParamWithClsTarget("param1", "cls1"));
+		var objTwo = this.initElement(this.createMinimalOrdParamWithClsTarget("param2", "cls2"));
 		
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.CATCH_BLOCK__PARAMETER);
 	}

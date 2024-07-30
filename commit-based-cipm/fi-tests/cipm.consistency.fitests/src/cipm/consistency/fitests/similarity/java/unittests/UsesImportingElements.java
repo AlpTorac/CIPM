@@ -20,7 +20,6 @@ public interface UsesImportingElements extends UsesImports {
 	 * instance with clsName will be constructed. The said {@link Class} instance
 	 * will also be constructed in the process.
 	 * 
-	 * @param init    The initialiser that will be used to construct the instance
 	 * @param clsName The name of the {@link Class} instance, to which the
 	 *                {@link Import} will point at (that import will be added to the
 	 *                constructed {@link ImportingElement} instance)
