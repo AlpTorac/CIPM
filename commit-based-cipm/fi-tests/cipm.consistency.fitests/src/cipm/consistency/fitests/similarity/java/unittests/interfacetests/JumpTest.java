@@ -17,15 +17,15 @@ public class JumpTest extends EObjectSimilarityTest implements UsesStatements {
 		Assertions.assertTrue(init.setTarget(result, jl));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(JumpTestParams.class)
 	public void testTarget(IJumpInitialiser init) {
 		this.setResourceFileTestIdentifier("testTarget");
-		
+
 		var objOne = this.initElement(init, this.createMinimalJLToNullReturn("jl1"));
 		var objTwo = this.initElement(init, this.createMinimalJLToTrivialAssert("jl2"));
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.JUMP__TARGET);
 	}
 }

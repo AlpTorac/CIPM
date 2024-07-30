@@ -10,7 +10,7 @@ public class RemainderInitialiser extends AbstractInitialiserBase implements IRe
 	public IRemainderInitialiser newInitialiser() {
 		return new RemainderInitialiser();
 	}
-	
+
 	@Override
 	public Remainder instantiate() {
 		return OperatorsFactory.eINSTANCE.createRemainder();

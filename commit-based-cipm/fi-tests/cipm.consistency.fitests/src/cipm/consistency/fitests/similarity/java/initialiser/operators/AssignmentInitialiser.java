@@ -10,7 +10,7 @@ public class AssignmentInitialiser extends AbstractInitialiserBase implements IA
 	public IAssignmentInitialiser newInitialiser() {
 		return new AssignmentInitialiser();
 	}
-	
+
 	@Override
 	public Assignment instantiate() {
 		return OperatorsFactory.eINSTANCE.createAssignment();

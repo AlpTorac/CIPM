@@ -10,7 +10,7 @@ public class CatchParameterInitialiser extends AbstractInitialiserBase implement
 	public CatchParameter instantiate() {
 		return ParametersFactory.eINSTANCE.createCatchParameter();
 	}
-	
+
 	@Override
 	public ICatchParameterInitialiser newInitialiser() {
 		return new CatchParameterInitialiser();

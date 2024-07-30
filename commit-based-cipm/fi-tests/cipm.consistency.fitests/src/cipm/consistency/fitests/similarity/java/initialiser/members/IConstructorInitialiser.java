@@ -8,14 +8,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.parameters.IParametr
 import cipm.consistency.fitests.similarity.java.initialiser.statements.IBlockContainerInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.IStatementListContainerInitialiser;
 
-public interface IConstructorInitialiser extends IAnnotableAndModifiableInitialiser,
-	IBlockContainerInitialiser,
-	IExceptionThrowerInitialiser,
-	IMemberInitialiser,
-	IParametrizableInitialiser,
-	IStatementListContainerInitialiser,
-	ITypeParametrizableInitialiser {
-	
+public interface IConstructorInitialiser extends IAnnotableAndModifiableInitialiser, IBlockContainerInitialiser,
+		IExceptionThrowerInitialiser, IMemberInitialiser, IParametrizableInitialiser,
+		IStatementListContainerInitialiser, ITypeParametrizableInitialiser {
+
 	@Override
 	public Constructor instantiate();
 }

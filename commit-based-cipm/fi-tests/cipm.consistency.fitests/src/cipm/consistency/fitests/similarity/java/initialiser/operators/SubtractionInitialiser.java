@@ -10,7 +10,7 @@ public class SubtractionInitialiser extends AbstractInitialiserBase implements I
 	public ISubtractionInitialiser newInitialiser() {
 		return new SubtractionInitialiser();
 	}
-	
+
 	@Override
 	public Subtraction instantiate() {
 		return OperatorsFactory.eINSTANCE.createSubtraction();

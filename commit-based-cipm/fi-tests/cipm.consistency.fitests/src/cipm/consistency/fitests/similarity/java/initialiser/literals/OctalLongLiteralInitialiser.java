@@ -10,7 +10,7 @@ public class OctalLongLiteralInitialiser extends AbstractInitialiserBase impleme
 	public IOctalLongLiteralInitialiser newInitialiser() {
 		return new OctalLongLiteralInitialiser();
 	}
-	
+
 	@Override
 	public OctalLongLiteral instantiate() {
 		return LiteralsFactory.eINSTANCE.createOctalLongLiteral();

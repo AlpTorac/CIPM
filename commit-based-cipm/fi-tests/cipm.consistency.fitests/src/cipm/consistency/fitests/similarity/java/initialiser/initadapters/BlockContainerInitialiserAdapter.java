@@ -22,8 +22,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.IBlockIni
  */
 public class BlockContainerInitialiserAdapter implements IInitialiserAdapterStrategy {
 	/**
-	 * The initialiser that creates {@link Block}s to realise the functionality
-	 * of this instance.
+	 * The initialiser that creates {@link Block}s to realise the functionality of
+	 * this instance.
 	 */
 	private IBlockInitialiser bInit;
 

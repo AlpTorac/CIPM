@@ -5,7 +5,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentable
 import org.emftext.language.java.operators.Operator;
 
 public interface IOperatorInitialiser extends ICommentableInitialiser {
-    @Override
-    public Operator instantiate();
+	@Override
+	public Operator instantiate();
 
 }

@@ -10,7 +10,7 @@ public class MultiplicationInitialiser extends AbstractInitialiserBase implement
 	public IMultiplicationInitialiser newInitialiser() {
 		return new MultiplicationInitialiser();
 	}
-	
+
 	@Override
 	public Multiplication instantiate() {
 		return OperatorsFactory.eINSTANCE.createMultiplication();

@@ -17,14 +17,14 @@ public class ExpressionListTest extends EObjectSimilarityTest implements UsesExp
 		Assertions.assertTrue(elInit.addExpressions(el, exprs));
 		return el;
 	}
-	
+
 	@Test
 	public void testExpression() {
 		this.setResourceFileTestIdentifier("testExpression");
-		
-		var objOne = this.initElement(new Expression[] {this.createMinimalFalseEE()});
-		var objTwo = this.initElement(new Expression[] {this.createMinimalTrueNEE()});
-		
+
+		var objOne = this.initElement(new Expression[] { this.createMinimalFalseEE() });
+		var objTwo = this.initElement(new Expression[] { this.createMinimalTrueNEE() });
+
 		this.testSimilarity(objOne, objTwo, ExpressionsPackage.Literals.EXPRESSION_LIST__EXPRESSIONS);
 	}
 }

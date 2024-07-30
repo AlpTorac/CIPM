@@ -12,31 +12,31 @@ import cipm.consistency.fitests.similarity.java.initialiser.expressions.Multipli
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class MultiplicativeExpressionTest extends EObjectSimilarityTest implements UsesExpressions {
-	protected MultiplicativeExpression initElement(MultiplicativeExpressionChild[] children, MultiplicativeOperator[] ops) {
+	protected MultiplicativeExpression initElement(MultiplicativeExpressionChild[] children,
+			MultiplicativeOperator[] ops) {
 		var meInit = new MultiplicativeExpressionInitialiser();
 		var me = meInit.instantiate();
 		Assertions.assertTrue(meInit.addChildren(me, children));
 		Assertions.assertTrue(meInit.addMultiplicativeOperators(me, ops));
 		return me;
 	}
-	
+
 	@Test
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
-		
+
 		this.testSimilarity(
-				this.initElement(new MultiplicativeExpressionChild[] {this.createDecimalIntegerLiteral(1)}, null),
-				this.initElement(new MultiplicativeExpressionChild[] {this.createDecimalIntegerLiteral(2)}, null),
+				this.initElement(new MultiplicativeExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
+				this.initElement(new MultiplicativeExpressionChild[] { this.createDecimalIntegerLiteral(2) }, null),
 				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__CHILDREN);
 	}
-	
+
 	@Test
 	public void testMultiplicativeOperator() {
 		this.setResourceFileTestIdentifier("testMultiplicativeOperator");
-		
-		this.testSimilarity(
-				this.initElement(null, new MultiplicativeOperator[] {this.createDivisionOperator()}),
-				this.initElement(null, new MultiplicativeOperator[] {this.createMultiplicationOperator()}),
+
+		this.testSimilarity(this.initElement(null, new MultiplicativeOperator[] { this.createDivisionOperator() }),
+				this.initElement(null, new MultiplicativeOperator[] { this.createMultiplicationOperator() }),
 				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__MULTIPLICATIVE_OPERATORS);
 	}
 }

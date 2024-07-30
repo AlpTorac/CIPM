@@ -6,8 +6,9 @@ import org.emftext.language.java.members.MemberContainer;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface IMemberContainerInitialiser extends ICommentableInitialiser {
-    @Override
-    public MemberContainer instantiate();
+	@Override
+	public MemberContainer instantiate();
+
 	public default boolean addMember(MemberContainer mc, Member mbr) {
 		if (mbr != null) {
 			mc.getMembers().add(mbr);
@@ -15,10 +16,11 @@ public interface IMemberContainerInitialiser extends ICommentableInitialiser {
 		}
 		return true;
 	}
-	
+
 	public default boolean addMembers(MemberContainer mc, Member[] mbrs) {
 		return this.doMultipleModifications(mc, mbrs, this::addMember);
 	}
+
 	public default boolean addDefaultMember(MemberContainer mc, Member mbr) {
 		if (mbr != null) {
 			mc.getDefaultMembers().add(mbr);
@@ -26,7 +28,7 @@ public interface IMemberContainerInitialiser extends ICommentableInitialiser {
 		}
 		return true;
 	}
-	
+
 	public default boolean addDefaultMembers(MemberContainer mc, Member[] mbrs) {
 		return this.doMultipleModifications(mc, mbrs, this::addDefaultMember);
 	}

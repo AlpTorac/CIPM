@@ -15,15 +15,15 @@ public class NamedElementTest extends EObjectSimilarityTest {
 		Assertions.assertTrue(initialiser.setName(result, name));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(NameTestParams.class)
 	public void testName(INamedElementInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testName");
-		
+
 		var objOne = this.initElement(initialiser, "name11");
 		var objTwo = this.initElement(initialiser, "name22");
-		
+
 		this.testSimilarity(objOne, objTwo, CommonsPackage.Literals.NAMED_ELEMENT__NAME);
 	}
 }

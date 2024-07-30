@@ -4,8 +4,9 @@ import org.emftext.language.java.classifiers.Interface;
 import org.emftext.language.java.types.TypeReference;
 
 public interface IInterfaceInitialiser extends IConcreteClassifierInitialiser {
-    @Override
-    public Interface instantiate();
+	@Override
+	public Interface instantiate();
+
 	public default boolean addDefaultExtends(Interface intfc, TypeReference tref) {
 		if (tref != null) {
 			intfc.getDefaultExtends().add(tref);
@@ -13,10 +14,11 @@ public interface IInterfaceInitialiser extends IConcreteClassifierInitialiser {
 		}
 		return true;
 	}
-	
+
 	public default boolean addDefaultExtends(Interface intfc, TypeReference[] trefs) {
 		return this.doMultipleModifications(intfc, trefs, this::addDefaultExtends);
 	}
+
 	public default boolean addExtends(Interface intfc, TypeReference tref) {
 		if (tref != null) {
 			intfc.getExtends().add(tref);
@@ -24,7 +26,7 @@ public interface IInterfaceInitialiser extends IConcreteClassifierInitialiser {
 		}
 		return true;
 	}
-	
+
 	public default boolean addExtends(Interface intfc, TypeReference[] trefs) {
 		return this.doMultipleModifications(intfc, trefs, this::addExtends);
 	}

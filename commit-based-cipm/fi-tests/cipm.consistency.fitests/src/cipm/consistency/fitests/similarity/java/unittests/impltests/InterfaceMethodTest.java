@@ -19,14 +19,14 @@ public class InterfaceMethodTest extends EObjectSimilarityTest implements UsesAn
 		Assertions.assertTrue(imInit.setDefaultValue(im, av));
 		return im;
 	}
-	
+
 	@Test
 	public void testDefaultValue() {
 		this.setResourceFileTestIdentifier("testDefaultValue");
-		
+
 		var objOne = this.initElement(this.createNullLiteral());
 		var objTwo = this.initElement(this.createMinimalSR("strval"));
-		
+
 		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.INTERFACE_METHOD__DEFAULT_VALUE);
 	}
 }

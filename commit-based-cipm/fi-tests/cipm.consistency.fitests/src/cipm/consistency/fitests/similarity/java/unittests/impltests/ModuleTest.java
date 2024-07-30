@@ -17,52 +17,46 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 	protected Module initElement(Package[] pacs, ModuleDirective[] targets, boolean isOpen) {
 		var initialiser = new ModuleInitialiser();
 		Module result = initialiser.instantiate();
-		
+
 		Assertions.assertTrue(initialiser.setName(result, this.getDefaultName()));
 		Assertions.assertTrue(initialiser.addPackages(result, pacs));
 		Assertions.assertTrue(initialiser.addTargets(result, targets));
-		
+
 		if (isOpen) {
 			Assertions.assertTrue(initialiser.setOpen(result, new OpenInitialiser().instantiate()));
 		}
-		
+
 		return result;
 	}
-	
+
 	@Test
 	public void testOpen() {
 		this.setResourceFileTestIdentifier("testOpen");
-		
+
 		var objOne = this.initElement(null, null, true);
 		var objTwo = this.initElement(null, null, false);
-		
+
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__OPEN);
 	}
-	
+
 	@Test
 	public void testPackages() {
 		this.setResourceFileTestIdentifier("testPackages");
-		
-		var objOne = this.initElement(new Package[] {
-				this.createMinimalPackage(new String[] {"ns1"})
-		}, null, false);
-		var objTwo = this.initElement(new Package[] {
-				this.createMinimalPackage(new String[] {"ns2"})
-		}, null, false);
-		
+
+		var objOne = this.initElement(new Package[] { this.createMinimalPackage(new String[] { "ns1" }) }, null, false);
+		var objTwo = this.initElement(new Package[] { this.createMinimalPackage(new String[] { "ns2" }) }, null, false);
+
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__PACKAGES);
 	}
 
 	public void testTargets() {
 		this.setResourceFileTestIdentifier("testTargets");
-		
-		var objOne = this.initElement(null, new ModuleDirective[] {
-				this.createMinimalEMD(new String[] {"ns1"})
-		}, false);
-		var objTwo = this.initElement(null, new ModuleDirective[] {
-				this.createMinimalOMD(new String[] {"ns1"})
-		}, false);
-		
+
+		var objOne = this.initElement(null, new ModuleDirective[] { this.createMinimalEMD(new String[] { "ns1" }) },
+				false);
+		var objTwo = this.initElement(null, new ModuleDirective[] { this.createMinimalOMD(new String[] { "ns1" }) },
+				false);
+
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__TARGET);
 	}
 }

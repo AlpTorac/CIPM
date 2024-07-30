@@ -17,14 +17,14 @@ public class YieldStatementTest extends EObjectSimilarityTest implements UsesExp
 		Assertions.assertTrue(ysInit.setYieldExpression(ys, expr));
 		return ys;
 	}
-	
+
 	@Test
 	public void testYieldExpression() {
 		this.setResourceFileTestIdentifier("testYieldExpression");
-		
+
 		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
 		var objTwo = this.initElement(this.createDecimalIntegerLiteral(2));
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.YIELD_STATEMENT__YIELD_EXPRESSION);
 	}
 }

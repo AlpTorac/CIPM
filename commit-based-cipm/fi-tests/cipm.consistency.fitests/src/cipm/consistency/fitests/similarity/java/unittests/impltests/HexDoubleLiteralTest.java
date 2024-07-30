@@ -15,13 +15,12 @@ public class HexDoubleLiteralTest extends EObjectSimilarityTest {
 		Assertions.assertTrue(init.setHexValue(lit, val));
 		return lit;
 	}
-	
+
 	@Test
 	public void testHexValue() {
 		this.setResourceFileTestIdentifier("testHexValue");
-		
-		this.testSimilarity(this.initElement(1.5d),
-				this.initElement(2.5d),
+
+		this.testSimilarity(this.initElement(1.5d), this.initElement(2.5d),
 				LiteralsPackage.Literals.HEX_DOUBLE_LITERAL__HEX_VALUE);
 	}
 }

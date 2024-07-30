@@ -10,7 +10,7 @@ public class IntInitialiser extends AbstractInitialiserBase implements IIntIniti
 	public IIntInitialiser newInitialiser() {
 		return new IntInitialiser();
 	}
-	
+
 	@Override
 	public Int instantiate() {
 		return TypesFactory.eINSTANCE.createInt();

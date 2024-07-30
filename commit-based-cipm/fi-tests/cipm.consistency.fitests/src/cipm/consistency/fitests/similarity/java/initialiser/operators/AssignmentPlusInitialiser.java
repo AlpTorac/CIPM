@@ -10,7 +10,7 @@ public class AssignmentPlusInitialiser extends AbstractInitialiserBase implement
 	public IAssignmentPlusInitialiser newInitialiser() {
 		return new AssignmentPlusInitialiser();
 	}
-	
+
 	@Override
 	public AssignmentPlus instantiate() {
 		return OperatorsFactory.eINSTANCE.createAssignmentPlus();

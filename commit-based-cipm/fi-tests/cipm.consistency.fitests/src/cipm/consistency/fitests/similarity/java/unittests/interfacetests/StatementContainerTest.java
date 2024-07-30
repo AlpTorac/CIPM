@@ -18,15 +18,15 @@ public class StatementContainerTest extends EObjectSimilarityTest implements Use
 		Assertions.assertTrue(init.setStatement(result, st));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(StatementContainerTestParams.class)
 	public void testStatement(IStatementContainerInitialiser init) {
 		this.setResourceFileTestIdentifier("testStatement");
-		
+
 		var objOne = this.initElement(init, this.createMinimalNullReturn());
 		var objTwo = this.initElement(init, this.createMinimalTrivialAssert());
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.STATEMENT_CONTAINER__STATEMENT);
 	}
 }

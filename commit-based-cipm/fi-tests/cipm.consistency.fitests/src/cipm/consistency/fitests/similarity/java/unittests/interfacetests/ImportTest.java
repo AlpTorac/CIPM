@@ -11,22 +11,22 @@ import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.imports.IImportInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesImports;
 
-public class ImportTest extends EObjectSimilarityTest implements UsesImports {	
+public class ImportTest extends EObjectSimilarityTest implements UsesImports {
 	protected Import initElement(IImportInitialiser initialiser, ConcreteClassifier cls) {
 		Import result = initialiser.instantiate();
 		Assertions.assertTrue(initialiser.setClassifier(result, cls));
-		
+
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ImportTestParams.class)
 	public void testClassifier(IImportInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testClassifier");
-		
+
 		var objOne = this.initElement(initialiser, this.createMinimalClass("cls1Name"));
 		var objTwo = this.initElement(initialiser, this.createMinimalClass("cls2Name"));
-		
+
 		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.IMPORT__CLASSIFIER);
 	}
 }

@@ -10,7 +10,7 @@ public class RightShiftInitialiser extends AbstractInitialiserBase implements IR
 	public IRightShiftInitialiser newInitialiser() {
 		return new RightShiftInitialiser();
 	}
-	
+
 	@Override
 	public RightShift instantiate() {
 		return OperatorsFactory.eINSTANCE.createRightShift();

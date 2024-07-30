@@ -13,10 +13,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.expressions.Conditio
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class ConditionalExpressionTest extends EObjectSimilarityTest implements UsesExpressions {
-	protected ConditionalExpression initElement(ConditionalExpressionChild child,
-			AssignmentExpressionChild exprChild,
-			Expression exprIf,
-			Expression geeExpr) {
+	protected ConditionalExpression initElement(ConditionalExpressionChild child, AssignmentExpressionChild exprChild,
+			Expression exprIf, Expression geeExpr) {
 		var ceInit = new ConditionalExpressionInitialiser();
 		var ce = ceInit.instantiate();
 		Assertions.assertTrue(ceInit.setChild(ce, child));
@@ -25,43 +23,39 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 		Assertions.assertTrue(ceInit.setGeneralExpressionElse(ce, geeExpr));
 		return ce;
 	}
-	
+
 	@Test
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
-		
-		this.testSimilarity(
-				this.initElement(this.createDecimalIntegerLiteral(1), null, null, null),
+
+		this.testSimilarity(this.initElement(this.createDecimalIntegerLiteral(1), null, null, null),
 				this.initElement(this.createDecimalIntegerLiteral(2), null, null, null),
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__CHILD);
 	}
-	
+
 	@Test
 	public void testExpressionChild() {
 		this.setResourceFileTestIdentifier("testExpressionChild");
-		
-		this.testSimilarity(
-				this.initElement(null, this.createDecimalIntegerLiteral(1), null, null),
+
+		this.testSimilarity(this.initElement(null, this.createDecimalIntegerLiteral(1), null, null),
 				this.initElement(null, this.createDecimalIntegerLiteral(2), null, null),
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__CHILD);
 	}
-	
+
 	@Test
 	public void testExpressionIf() {
 		this.setResourceFileTestIdentifier("testExpressionIf");
-		
-		this.testSimilarity(
-				this.initElement(null, null, this.createDecimalIntegerLiteral(1), null),
+
+		this.testSimilarity(this.initElement(null, null, this.createDecimalIntegerLiteral(1), null),
 				this.initElement(null, null, this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__EXPRESSION_IF);
 	}
-	
+
 	@Test
 	public void testGeneralExpressionElse() {
 		this.setResourceFileTestIdentifier("testGeneralExpressionElse");
-		
-		this.testSimilarity(
-				this.initElement(null, null, null, this.createDecimalIntegerLiteral(1)),
+
+		this.testSimilarity(this.initElement(null, null, null, this.createDecimalIntegerLiteral(1)),
 				this.initElement(null, null, null, this.createDecimalIntegerLiteral(2)),
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__GENERAL_EXPRESSION_ELSE);
 	}

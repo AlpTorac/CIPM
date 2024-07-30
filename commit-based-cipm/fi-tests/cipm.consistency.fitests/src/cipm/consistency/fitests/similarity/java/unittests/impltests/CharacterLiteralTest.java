@@ -15,13 +15,12 @@ public class CharacterLiteralTest extends EObjectSimilarityTest {
 		Assertions.assertTrue(init.setValue(lit, val));
 		return lit;
 	}
-	
+
 	@Test
 	public void testValue() {
 		this.setResourceFileTestIdentifier("testValue");
-		
-		this.testSimilarity(this.initElement("a"),
-				this.initElement("b"),
+
+		this.testSimilarity(this.initElement("a"), this.initElement("b"),
 				LiteralsPackage.Literals.CHARACTER_LITERAL__VALUE);
 	}
 }

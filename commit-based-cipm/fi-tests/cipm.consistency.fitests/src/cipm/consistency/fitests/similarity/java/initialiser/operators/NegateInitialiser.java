@@ -10,7 +10,7 @@ public class NegateInitialiser extends AbstractInitialiserBase implements INegat
 	public INegateInitialiser newInitialiser() {
 		return new NegateInitialiser();
 	}
-	
+
 	@Override
 	public Negate instantiate() {
 		return OperatorsFactory.eINSTANCE.createNegate();

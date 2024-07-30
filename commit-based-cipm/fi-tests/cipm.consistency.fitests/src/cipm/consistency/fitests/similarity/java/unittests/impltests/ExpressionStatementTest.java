@@ -17,14 +17,14 @@ public class ExpressionStatementTest extends EObjectSimilarityTest implements Us
 		Assertions.assertTrue(esInit.setExpression(es, expr));
 		return es;
 	}
-	
+
 	@Test
 	public void testExpression() {
 		this.setResourceFileTestIdentifier("testExpression");
-		
+
 		var objOne = this.initElement(this.createMinimalFalseEE());
 		var objTwo = this.initElement(this.createMinimalTrueNEE());
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.EXPRESSION_STATEMENT__EXPRESSION);
 	}
 }

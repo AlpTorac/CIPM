@@ -17,14 +17,14 @@ public class SelfReferenceTest extends EObjectSimilarityTest implements UsesLite
 		Assertions.assertTrue(srInit.setSelf(sr, self));
 		return sr;
 	}
-	
+
 	@Test
 	public void testSelf() {
 		this.setResourceFileTestIdentifier("testSelf");
-		
+
 		var objOne = this.initElement(this.createThis());
 		var objTwo = this.initElement(this.createSuper());
-		
+
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.SELF_REFERENCE__SELF);
 	}
 }

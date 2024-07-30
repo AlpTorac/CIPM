@@ -10,7 +10,7 @@ public class AssignmentMinusInitialiser extends AbstractInitialiserBase implemen
 	public IAssignmentMinusInitialiser newInitialiser() {
 		return new AssignmentMinusInitialiser();
 	}
-	
+
 	@Override
 	public AssignmentMinus instantiate() {
 		return OperatorsFactory.eINSTANCE.createAssignmentMinus();

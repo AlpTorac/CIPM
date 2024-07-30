@@ -13,27 +13,23 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesConcreteClassifier
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 import cipm.consistency.fitests.similarity.java.unittests.UsesLiterals;
 
-public class ArgumentableTest extends EObjectSimilarityTest implements UsesConcreteClassifiers, UsesExpressions,
-	UsesLiterals {
+public class ArgumentableTest extends EObjectSimilarityTest
+		implements UsesConcreteClassifiers, UsesExpressions, UsesLiterals {
 	protected Argumentable initElement(IArgumentableInitialiser init, Expression[] args) {
 		var result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.addArguments(result, args));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ArgumentableTestParams.class)
 	public void testArguments(IArgumentableInitialiser init) {
 		this.setResourceFileTestIdentifier("testArguments");
-		
-		var objOne = this.initElement(init, new Expression[] {
-				this.createDecimalIntegerLiteral(1)
-		});
-		var objTwo = this.initElement(init, new Expression[] {
-				this.createDecimalIntegerLiteral(0)
-		});
-		
+
+		var objOne = this.initElement(init, new Expression[] { this.createDecimalIntegerLiteral(1) });
+		var objTwo = this.initElement(init, new Expression[] { this.createDecimalIntegerLiteral(0) });
+
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS);
 	}
 }

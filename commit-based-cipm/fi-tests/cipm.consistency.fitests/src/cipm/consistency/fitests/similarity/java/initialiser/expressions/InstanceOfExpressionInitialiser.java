@@ -5,7 +5,8 @@ import org.emftext.language.java.expressions.InstanceOfExpression;
 
 import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
 
-public class InstanceOfExpressionInitialiser extends AbstractInitialiserBase implements IInstanceOfExpressionInitialiser {
+public class InstanceOfExpressionInitialiser extends AbstractInitialiserBase
+		implements IInstanceOfExpressionInitialiser {
 	@Override
 	public IInstanceOfExpressionInitialiser newInitialiser() {
 		return new InstanceOfExpressionInitialiser();

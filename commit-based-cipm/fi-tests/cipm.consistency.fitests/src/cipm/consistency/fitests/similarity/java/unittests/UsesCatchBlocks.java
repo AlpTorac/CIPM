@@ -28,8 +28,10 @@ public interface UsesCatchBlocks extends UsesParameters {
 	 * is constructed using
 	 * {@link #createMinimalOrdParamWithClsTarget(String, String)}.
 	 * 
-	 * @param paramName See {@link #createMinimalOrdParamWithClsTarget(String, String)}
-	 * @param targetName See {@link #createMinimalOrdParamWithClsTarget(String, String)}
+	 * @param paramName  See
+	 *                   {@link #createMinimalOrdParamWithClsTarget(String, String)}
+	 * @param targetName See
+	 *                   {@link #createMinimalOrdParamWithClsTarget(String, String)}
 	 */
 	public default CatchBlock createMinimalCB(String paramName, String targetName) {
 		return this.createMinimalCB(this.createMinimalOrdParamWithClsTarget(paramName, targetName));

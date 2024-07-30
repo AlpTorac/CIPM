@@ -19,14 +19,14 @@ public class TypeParameterTest extends EObjectSimilarityTest implements UsesType
 		Assertions.assertTrue(tpInit.addExtendTypes(tp, exts));
 		return tp;
 	}
-	
+
 	@Test
 	public void testExtendType() {
 		this.setResourceFileTestIdentifier("testExtendType");
-		
-		var objOne = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls1")});
-		var objTwo = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls2")});
-		
+
+		var objOne = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") });
+		var objTwo = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls2") });
+
 		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.TYPE_PARAMETER__EXTEND_TYPES);
 	}
 }

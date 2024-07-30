@@ -6,11 +6,11 @@ import org.emftext.language.java.references.Reference;
 
 import cipm.consistency.fitests.similarity.java.initialiser.generics.ICallTypeArgumentableInitialiser;
 
-public interface IPrimaryExpressionReferenceExpressionInitialiser extends
-	ICallTypeArgumentableInitialiser,
-	IMethodReferenceExpressionInitialiser {
+public interface IPrimaryExpressionReferenceExpressionInitialiser
+		extends ICallTypeArgumentableInitialiser, IMethodReferenceExpressionInitialiser {
 	@Override
 	public PrimaryExpressionReferenceExpression instantiate();
+
 	public default boolean setChild(PrimaryExpressionReferenceExpression pere, MethodReferenceExpressionChild mrec) {
 		if (mrec != null) {
 			pere.setChild(mrec);
@@ -18,6 +18,7 @@ public interface IPrimaryExpressionReferenceExpressionInitialiser extends
 		}
 		return true;
 	}
+
 	public default boolean setMethodReference(PrimaryExpressionReferenceExpression pere, Reference ref) {
 		if (ref != null) {
 			pere.setMethodReference(ref);

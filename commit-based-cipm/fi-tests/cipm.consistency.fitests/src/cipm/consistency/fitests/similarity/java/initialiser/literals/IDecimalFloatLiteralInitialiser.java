@@ -3,11 +3,11 @@ package cipm.consistency.fitests.similarity.java.initialiser.literals;
 import org.emftext.language.java.literals.DecimalFloatLiteral;
 
 public interface IDecimalFloatLiteralInitialiser extends IFloatLiteralInitialiser {
-    @Override
-    public DecimalFloatLiteral instantiate();
-    
-    public default boolean setDecimalValue(DecimalFloatLiteral dfl, float val) {
-    	dfl.setDecimalValue(val);
-    	return dfl.getDecimalValue() == val;
-    }
+	@Override
+	public DecimalFloatLiteral instantiate();
+
+	public default boolean setDecimalValue(DecimalFloatLiteral dfl, float val) {
+		dfl.setDecimalValue(val);
+		return dfl.getDecimalValue() == val;
+	}
 }

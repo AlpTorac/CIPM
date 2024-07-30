@@ -13,10 +13,8 @@ public class TypeArgumentableTestParams implements ArgumentsProvider {
 
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
-		return new InitialiserParameters()
-				.getAdaptedInitialisersBySuper(ITypeArgumentableInitialiser.class)
-				.stream()
-				.map((i)->Arguments.of(i));
+		return new InitialiserParameters().getAdaptedInitialisersBySuper(ITypeArgumentableInitialiser.class).stream()
+				.map((i) -> Arguments.of(i));
 	}
 
 }

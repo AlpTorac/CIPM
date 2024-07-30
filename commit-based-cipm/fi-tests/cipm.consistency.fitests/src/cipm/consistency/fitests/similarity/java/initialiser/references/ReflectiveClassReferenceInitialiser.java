@@ -5,7 +5,8 @@ import org.emftext.language.java.references.ReflectiveClassReference;
 
 import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
 
-public class ReflectiveClassReferenceInitialiser extends AbstractInitialiserBase implements IReflectiveClassReferenceInitialiser {
+public class ReflectiveClassReferenceInitialiser extends AbstractInitialiserBase
+		implements IReflectiveClassReferenceInitialiser {
 	@Override
 	public IReflectiveClassReferenceInitialiser newInitialiser() {
 		return new ReflectiveClassReferenceInitialiser();

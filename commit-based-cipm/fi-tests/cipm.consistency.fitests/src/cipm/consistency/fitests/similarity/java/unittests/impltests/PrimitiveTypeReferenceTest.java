@@ -18,14 +18,14 @@ public class PrimitiveTypeReferenceTest extends EObjectSimilarityTest {
 		Assertions.assertTrue(ptInit.setPrimitiveType(pt, ptype));
 		return pt;
 	}
-	
+
 	@Test
 	public void testPrimitiveType() {
 		this.setResourceFileTestIdentifier("testPrimitiveType");
-		
+
 		var objOne = this.initElement(new BooleanInitialiser().instantiate());
 		var objTwo = this.initElement(new IntInitialiser().instantiate());
-		
+
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.PRIMITIVE_TYPE_REFERENCE__PRIMITIVE_TYPE);
 	}
 }

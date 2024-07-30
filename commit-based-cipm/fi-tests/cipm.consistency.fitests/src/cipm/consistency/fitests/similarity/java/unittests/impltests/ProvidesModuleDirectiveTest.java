@@ -17,14 +17,14 @@ public class ProvidesModuleDirectiveTest extends EObjectSimilarityTest implement
 		Assertions.assertTrue(pmdInit.addServiceProviders(pmd, trefs));
 		return pmd;
 	}
-	
+
 	@Test
 	public void testServiceProvider() {
 		this.setResourceFileTestIdentifier("testServiceProvider");
-		
-		var objOne = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls1")});
-		var objTwo = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls2")});
-		
+
+		var objOne = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") });
+		var objTwo = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls2") });
+
 		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.PROVIDES_MODULE_DIRECTIVE__SERVICE_PROVIDERS);
 	}
 }

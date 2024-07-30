@@ -5,7 +5,8 @@ import org.emftext.language.java.annotations.AnnotationsFactory;
 
 import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
 
-public class AnnotationAttributeSettingInitialiser extends AbstractInitialiserBase implements IAnnotationAttributeSettingInitialiser {
+public class AnnotationAttributeSettingInitialiser extends AbstractInitialiserBase
+		implements IAnnotationAttributeSettingInitialiser {
 	@Override
 	public IAnnotationAttributeSettingInitialiser newInitialiser() {
 		return new AnnotationAttributeSettingInitialiser();

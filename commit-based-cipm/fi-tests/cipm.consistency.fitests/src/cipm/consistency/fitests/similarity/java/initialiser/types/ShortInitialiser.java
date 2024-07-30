@@ -10,7 +10,7 @@ public class ShortInitialiser extends AbstractInitialiserBase implements IShortI
 	public IShortInitialiser newInitialiser() {
 		return new ShortInitialiser();
 	}
-	
+
 	@Override
 	public Short instantiate() {
 		return TypesFactory.eINSTANCE.createShort();

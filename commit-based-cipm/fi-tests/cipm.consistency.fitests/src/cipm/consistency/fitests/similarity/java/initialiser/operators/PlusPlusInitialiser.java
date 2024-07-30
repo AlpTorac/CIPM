@@ -10,7 +10,7 @@ public class PlusPlusInitialiser extends AbstractInitialiserBase implements IPlu
 	public IPlusPlusInitialiser newInitialiser() {
 		return new PlusPlusInitialiser();
 	}
-	
+
 	@Override
 	public PlusPlus instantiate() {
 		return OperatorsFactory.eINSTANCE.createPlusPlus();

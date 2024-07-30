@@ -7,10 +7,11 @@ import cipm.consistency.fitests.similarity.java.initialiser.instantiations.IInit
 import cipm.consistency.fitests.similarity.java.initialiser.modifiers.IAnnotableAndModifiableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.variables.IVariableInitialiser;
 
-public interface IFieldInitialiser extends IAnnotableAndModifiableInitialiser,
-	IInitializableInitialiser, IMemberInitialiser, IVariableInitialiser {
+public interface IFieldInitialiser extends IAnnotableAndModifiableInitialiser, IInitializableInitialiser,
+		IMemberInitialiser, IVariableInitialiser {
 	@Override
 	public Field instantiate();
+
 	public default boolean addAdditionalField(Field field, AdditionalField adField) {
 		if (adField != null) {
 			field.getAdditionalFields().add(adField);
@@ -18,7 +19,7 @@ public interface IFieldInitialiser extends IAnnotableAndModifiableInitialiser,
 		}
 		return true;
 	}
-	
+
 	public default boolean addAdditionalFields(Field field, AdditionalField[] adFields) {
 		return this.doMultipleModifications(field, adFields, this::addAdditionalField);
 	}

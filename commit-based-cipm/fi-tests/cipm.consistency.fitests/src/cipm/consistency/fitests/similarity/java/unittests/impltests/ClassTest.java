@@ -18,24 +18,24 @@ public class ClassTest extends EObjectSimilarityTest implements UsesTypeReferenc
 		Assertions.assertTrue(clsInit.setExtends(cls, ext));
 		return cls;
 	}
-	
+
 	@Test
 	public void testDefaultExtends() {
 		this.setResourceFileTestIdentifier("testDefaultExtends");
-		
+
 		var objOne = this.initElement(this.createMinimalClsRef("cls1"), null);
 		var objTwo = this.initElement(this.createMinimalClsRef("cls2"), null);
-		
+
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.CLASS__DEFAULT_EXTENDS);
 	}
-	
+
 	@Test
 	public void testExtends() {
 		this.setResourceFileTestIdentifier("testExtends");
-		
+
 		var objOne = this.initElement(null, this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(null, this.createMinimalClsRef("cls2"));
-		
+
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.CLASS__EXTENDS);
 	}
 }

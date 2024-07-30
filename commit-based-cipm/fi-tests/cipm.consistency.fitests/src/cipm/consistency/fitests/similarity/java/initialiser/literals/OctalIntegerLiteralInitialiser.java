@@ -10,7 +10,7 @@ public class OctalIntegerLiteralInitialiser extends AbstractInitialiserBase impl
 	public IOctalIntegerLiteralInitialiser newInitialiser() {
 		return new OctalIntegerLiteralInitialiser();
 	}
-	
+
 	@Override
 	public OctalIntegerLiteral instantiate() {
 		return LiteralsFactory.eINSTANCE.createOctalIntegerLiteral();

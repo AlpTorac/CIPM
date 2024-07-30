@@ -10,7 +10,7 @@ public class HexIntegerLiteralInitialiser extends AbstractInitialiserBase implem
 	public IHexIntegerLiteralInitialiser newInitialiser() {
 		return new HexIntegerLiteralInitialiser();
 	}
-	
+
 	@Override
 	public HexIntegerLiteral instantiate() {
 		return LiteralsFactory.eINSTANCE.createHexIntegerLiteral();

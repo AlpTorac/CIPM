@@ -17,14 +17,14 @@ public class ThrowTest extends EObjectSimilarityTest implements UsesExpressions 
 		Assertions.assertTrue(thInit.setThrowable(th, expr));
 		return th;
 	}
-	
+
 	@Test
 	public void testThrowable() {
 		this.setResourceFileTestIdentifier("testThrowable");
-		
+
 		var objOne = this.initElement(this.createMinimalSR("str1"));
 		var objTwo = this.initElement(this.createMinimalSR("str2"));
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.THROW__THROWABLE);
 	}
 }

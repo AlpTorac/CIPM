@@ -5,8 +5,9 @@ import org.emftext.language.java.expressions.LambdaExpression;
 import org.emftext.language.java.expressions.LambdaParameters;
 
 public interface ILambdaExpressionInitialiser extends IExpressionInitialiser {
-    @Override
-    public LambdaExpression instantiate();
+	@Override
+	public LambdaExpression instantiate();
+
 	public default boolean setBody(LambdaExpression le, LambdaBody lb) {
 		if (lb != null) {
 			le.setBody(lb);
@@ -14,6 +15,7 @@ public interface ILambdaExpressionInitialiser extends IExpressionInitialiser {
 		}
 		return true;
 	}
+
 	public default boolean setParameters(LambdaExpression le, LambdaParameters lp) {
 		if (lp != null) {
 			le.setParameters(lp);

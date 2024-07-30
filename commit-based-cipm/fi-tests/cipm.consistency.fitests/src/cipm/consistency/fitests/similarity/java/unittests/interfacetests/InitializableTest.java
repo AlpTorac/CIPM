@@ -18,15 +18,15 @@ public class InitializableTest extends EObjectSimilarityTest implements UsesLite
 		Assertions.assertTrue(init.setInitialValue(result, initVal));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(InitializableTestParams.class)
 	public void testInitialValue(IInitializableInitialiser init) {
 		this.setResourceFileTestIdentifier("testInitialValue");
-		
+
 		var objOne = this.initElement(init, this.createDecimalIntegerLiteral(5));
 		var objTwo = this.initElement(init, this.createBooleanLiteral(false));
-		
+
 		this.testSimilarity(objOne, objTwo, InstantiationsPackage.Literals.INITIALIZABLE__INITIAL_VALUE);
 	}
 }

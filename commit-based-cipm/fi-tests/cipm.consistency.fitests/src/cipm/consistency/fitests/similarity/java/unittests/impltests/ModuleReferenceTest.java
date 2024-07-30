@@ -17,14 +17,14 @@ public class ModuleReferenceTest extends EObjectSimilarityTest implements UsesMo
 		Assertions.assertTrue(mrInit.setTarget(mr, mod));
 		return mr;
 	}
-	
+
 	@Test
 	public void testTarget() {
 		this.setResourceFileTestIdentifier("testTarget");
-		
+
 		var objOne = this.initElement(this.createMinimalModule("mod1"));
 		var objTwo = this.initElement(this.createMinimalModule("mod2"));
-		
+
 		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.MODULE_REFERENCE__TARGET);
 	}
 }

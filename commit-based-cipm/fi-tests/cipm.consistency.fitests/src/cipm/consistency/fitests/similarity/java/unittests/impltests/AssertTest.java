@@ -18,14 +18,14 @@ public class AssertTest extends EObjectSimilarityTest implements UsesExpressions
 		Assertions.assertTrue(asrtInit.setErrorMessage(asrt, expr));
 		return asrt;
 	}
-	
+
 	@Test
 	public void testErrorMessage() {
 		this.setResourceFileTestIdentifier("testErrorMessage");
-		
+
 		var objOne = this.initElement(this.createMinimalSR("val1"));
 		var objTwo = this.initElement(this.createMinimalSR("val2"));
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.ASSERT__ERROR_MESSAGE);
 	}
 }

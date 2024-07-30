@@ -13,8 +13,8 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesAnnotationParamete
 import cipm.consistency.fitests.similarity.java.unittests.UsesConcreteClassifiers;
 
 public class AnnotationInstanceTest extends EObjectSimilarityTest
-	implements UsesConcreteClassifiers, UsesAnnotationParameters {
-	
+		implements UsesConcreteClassifiers, UsesAnnotationParameters {
+
 	protected AnnotationInstance initElement(Classifier cls, AnnotationParameter param) {
 		var initialiser = new AnnotationInstanceInitialiser();
 		AnnotationInstance ai = initialiser.instantiate();
@@ -22,24 +22,24 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest
 		Assertions.assertTrue(initialiser.setAnnotationParameter(ai, param));
 		return ai;
 	}
-	
+
 	@Test
 	public void testAnnotation() {
 		this.setResourceFileTestIdentifier("testAnnotation");
-		
+
 		var objOne = this.initElement(this.createMinimalClass("cls1"), null);
 		var objTwo = this.initElement(this.createMinimalClass("cls2"), null);
-		
+
 		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_INSTANCE__ANNOTATION);
 	}
-	
+
 	@Test
 	public void testParameter() {
 		this.setResourceFileTestIdentifier("testParameter");
-		
+
 		var objOne = this.initElement(null, this.createSingleNullAnnoParam());
 		var objTwo = this.initElement(null, this.createSingleStrAnnoParam("val"));
-		
+
 		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_INSTANCE__PARAMETER);
 	}
 }

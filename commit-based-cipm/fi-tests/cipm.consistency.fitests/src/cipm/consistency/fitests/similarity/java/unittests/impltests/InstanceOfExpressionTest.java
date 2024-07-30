@@ -17,13 +17,12 @@ public class InstanceOfExpressionTest extends EObjectSimilarityTest implements U
 		Assertions.assertTrue(ioeInit.setChild(ioe, child));
 		return ioe;
 	}
-	
+
 	@Test
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
-		
-		this.testSimilarity(
-				this.initElement(this.createDecimalIntegerLiteral(1)),
+
+		this.testSimilarity(this.initElement(this.createDecimalIntegerLiteral(1)),
 				this.initElement(this.createDecimalIntegerLiteral(2)),
 				ExpressionsPackage.Literals.INSTANCE_OF_EXPRESSION__CHILD);
 	}

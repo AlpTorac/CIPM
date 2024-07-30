@@ -10,7 +10,7 @@ public class NullLiteralInitialiser extends AbstractInitialiserBase implements I
 	public INullLiteralInitialiser newInitialiser() {
 		return new NullLiteralInitialiser();
 	}
-	
+
 	@Override
 	public NullLiteral instantiate() {
 		return LiteralsFactory.eINSTANCE.createNullLiteral();

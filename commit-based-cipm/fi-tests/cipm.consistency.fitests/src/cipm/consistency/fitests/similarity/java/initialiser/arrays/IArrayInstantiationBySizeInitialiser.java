@@ -5,12 +5,11 @@ import org.emftext.language.java.expressions.Expression;
 
 import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementInitialiser;
 
-public interface IArrayInstantiationBySizeInitialiser extends 
-	IArrayInstantiationInitialiser,
-	ITypedElementInitialiser {
+public interface IArrayInstantiationBySizeInitialiser extends IArrayInstantiationInitialiser, ITypedElementInitialiser {
 
 	@Override
 	public ArrayInstantiationBySize instantiate();
+
 	public default boolean addSize(ArrayInstantiationBySize arrIns, Expression expr) {
 		if (expr != null) {
 			arrIns.getSizes().add(expr);
@@ -18,7 +17,7 @@ public interface IArrayInstantiationBySizeInitialiser extends
 		}
 		return true;
 	}
-	
+
 	public default boolean addSizes(ArrayInstantiationBySize arrIns, Expression[] exprs) {
 		return this.doMultipleModifications(arrIns, exprs, this::addSize);
 	}

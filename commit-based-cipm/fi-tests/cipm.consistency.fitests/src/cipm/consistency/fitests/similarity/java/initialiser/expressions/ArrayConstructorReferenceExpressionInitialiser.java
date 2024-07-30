@@ -5,7 +5,8 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
 
-public class ArrayConstructorReferenceExpressionInitialiser extends AbstractInitialiserBase implements IArrayConstructorReferenceExpressionInitialiser {
+public class ArrayConstructorReferenceExpressionInitialiser extends AbstractInitialiserBase
+		implements IArrayConstructorReferenceExpressionInitialiser {
 	@Override
 	public IArrayConstructorReferenceExpressionInitialiser newInitialiser() {
 		return new ArrayConstructorReferenceExpressionInitialiser();

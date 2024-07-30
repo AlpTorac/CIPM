@@ -10,7 +10,7 @@ public class UnsignedRightShiftInitialiser extends AbstractInitialiserBase imple
 	public IUnsignedRightShiftInitialiser newInitialiser() {
 		return new UnsignedRightShiftInitialiser();
 	}
-	
+
 	@Override
 	public UnsignedRightShift instantiate() {
 		return OperatorsFactory.eINSTANCE.createUnsignedRightShift();

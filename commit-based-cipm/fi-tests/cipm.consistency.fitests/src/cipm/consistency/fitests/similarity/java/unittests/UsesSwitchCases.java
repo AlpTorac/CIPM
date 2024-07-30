@@ -13,8 +13,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.NormalSwi
  */
 public interface UsesSwitchCases extends UsesExpressions {
 	/**
-	 * @param addConds The additional conditions that will be added to the instance to
-	 *              be constructed
+	 * @param addConds The additional conditions that will be added to the instance
+	 *                 to be constructed
 	 * @return A {@link NormalSwitchCase} with the given parameters
 	 */
 	public default NormalSwitchCase createMinimalNSC(Expression[] addConds) {

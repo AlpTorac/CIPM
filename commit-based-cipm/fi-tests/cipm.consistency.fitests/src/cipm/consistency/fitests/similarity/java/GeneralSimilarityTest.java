@@ -342,7 +342,7 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 		this.setResourceFileTestIdentifier("testAreSimilarEqual");
 
 		var initialiser = new ModuleInitialiser();
-		
+
 		var obj11 = initialiser.instantiate();
 		Assertions.assertTrue(initialiser.setName(obj11, "mod2"));
 

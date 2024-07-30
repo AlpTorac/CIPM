@@ -17,14 +17,14 @@ public class EnumerationTest extends EObjectSimilarityTest implements UsesEnumCo
 		Assertions.assertTrue(enmInit.addConstants(enm, csts));
 		return enm;
 	}
-	
+
 	@Test
 	public void testConstant() {
 		this.setResourceFileTestIdentifier("testConstant");
-		
-		var objOne = this.initElement(new EnumConstant[] {this.createMinimalEnumConstant("cst1")});
-		var objTwo = this.initElement(new EnumConstant[] {this.createMinimalEnumConstant("cst2")});
-		
+
+		var objOne = this.initElement(new EnumConstant[] { this.createMinimalEnumConstant("cst1") });
+		var objTwo = this.initElement(new EnumConstant[] { this.createMinimalEnumConstant("cst2") });
+
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.ENUMERATION__CONSTANTS);
 	}
 }

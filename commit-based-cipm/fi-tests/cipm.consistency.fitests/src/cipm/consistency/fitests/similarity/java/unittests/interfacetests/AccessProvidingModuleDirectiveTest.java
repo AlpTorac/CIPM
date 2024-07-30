@@ -14,7 +14,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.modules.IAccessProvi
 import cipm.consistency.fitests.similarity.java.unittests.UsesModuleReferences;
 import cipm.consistency.fitests.similarity.java.unittests.UsesPackages;
 
-public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest implements UsesModuleReferences, UsesPackages {
+public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest
+		implements UsesModuleReferences, UsesPackages {
 	protected AccessProvidingModuleDirective initElement(IAccessProvidingModuleDirectiveInitialiser init,
 			ModuleReference[] modrefs, Package pac) {
 		var result = init.instantiate();
@@ -22,30 +23,27 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest im
 		Assertions.assertTrue(init.setAccessablePackage(result, pac));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
 	public void testModule(IAccessProvidingModuleDirectiveInitialiser init) {
 		this.setResourceFileTestIdentifier("testModuleReference");
-		
-		var objOne = this.initElement(init, new ModuleReference[] {
-				this.createMinimalMR("mod1")
-		}, null);
-		var objTwo = this.initElement(init, new ModuleReference[] {
-				this.createMinimalMR("mod2")
-		}, null);
-		
+
+		var objOne = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod1") }, null);
+		var objTwo = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod2") }, null);
+
 		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__MODULES);
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
 	public void testAccessablePackage(IAccessProvidingModuleDirectiveInitialiser init) {
 		this.setResourceFileTestIdentifier("testAccessablePackage");
-		
-		var objOne = this.initElement(init, null, this.createMinimalPackage(new String[] {"ns1", "ns2"}));
-		var objTwo = this.initElement(init, null, this.createMinimalPackage(new String[] {"ns3", "ns4"}));
-		
-		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__ACCESSABLE_PACKAGE);
+
+		var objOne = this.initElement(init, null, this.createMinimalPackage(new String[] { "ns1", "ns2" }));
+		var objTwo = this.initElement(init, null, this.createMinimalPackage(new String[] { "ns3", "ns4" }));
+
+		this.testSimilarity(objOne, objTwo,
+				ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__ACCESSABLE_PACKAGE);
 	}
 }

@@ -5,7 +5,8 @@ import org.emftext.language.java.expressions.PrimaryExpressionReferenceExpressio
 
 import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
 
-public class PrimaryExpressionReferenceExpressionInitialiser extends AbstractInitialiserBase implements IPrimaryExpressionReferenceExpressionInitialiser {
+public class PrimaryExpressionReferenceExpressionInitialiser extends AbstractInitialiserBase
+		implements IPrimaryExpressionReferenceExpressionInitialiser {
 	@Override
 	public IPrimaryExpressionReferenceExpressionInitialiser newInitialiser() {
 		return new PrimaryExpressionReferenceExpressionInitialiser();

@@ -13,8 +13,8 @@ package cipm.consistency.fitests.similarity.java.initialiser;
  */
 public interface IInitialiserAdapterStrategy {
 	/**
-	 * Applies the initialisation logic contained in this instance
-	 * to the given object.
+	 * Applies the initialisation logic contained in this instance to the given
+	 * object.
 	 * 
 	 * @return If the method did what it was supposed to do.
 	 */

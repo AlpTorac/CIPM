@@ -10,7 +10,7 @@ public class AssignmentLeftShiftInitialiser extends AbstractInitialiserBase impl
 	public IAssignmentLeftShiftInitialiser newInitialiser() {
 		return new AssignmentLeftShiftInitialiser();
 	}
-	
+
 	@Override
 	public AssignmentLeftShift instantiate() {
 		return OperatorsFactory.eINSTANCE.createAssignmentLeftShift();

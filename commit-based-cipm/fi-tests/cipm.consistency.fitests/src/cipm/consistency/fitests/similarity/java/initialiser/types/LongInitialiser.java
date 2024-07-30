@@ -10,7 +10,7 @@ public class LongInitialiser extends AbstractInitialiserBase implements ILongIni
 	public ILongInitialiser newInitialiser() {
 		return new LongInitialiser();
 	}
-	
+
 	@Override
 	public Long instantiate() {
 		return TypesFactory.eINSTANCE.createLong();

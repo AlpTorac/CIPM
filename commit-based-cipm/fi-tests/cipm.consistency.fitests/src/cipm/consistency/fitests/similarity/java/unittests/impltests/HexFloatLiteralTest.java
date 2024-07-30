@@ -15,13 +15,12 @@ public class HexFloatLiteralTest extends EObjectSimilarityTest {
 		Assertions.assertTrue(init.setHexValue(lit, val));
 		return lit;
 	}
-	
+
 	@Test
 	public void testHexValue() {
 		this.setResourceFileTestIdentifier("testHexValue");
-		
-		this.testSimilarity(this.initElement(1.5f),
-				this.initElement(2.5f),
+
+		this.testSimilarity(this.initElement(1.5f), this.initElement(2.5f),
 				LiteralsPackage.Literals.HEX_FLOAT_LITERAL__HEX_VALUE);
 	}
 }

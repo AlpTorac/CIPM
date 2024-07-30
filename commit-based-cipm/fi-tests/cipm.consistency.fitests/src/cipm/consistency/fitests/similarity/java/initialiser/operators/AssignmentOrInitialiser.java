@@ -10,7 +10,7 @@ public class AssignmentOrInitialiser extends AbstractInitialiserBase implements 
 	public IAssignmentOrInitialiser newInitialiser() {
 		return new AssignmentOrInitialiser();
 	}
-	
+
 	@Override
 	public AssignmentOr instantiate() {
 		return OperatorsFactory.eINSTANCE.createAssignmentOr();

@@ -4,10 +4,9 @@ import cipm.consistency.fitests.similarity.java.initialiser.commons.INamedElemen
 
 import org.emftext.language.java.statements.JumpLabel;
 
-public interface IJumpLabelInitialiser extends INamedElementInitialiser,
-	IStatementInitialiser,
-	IStatementContainerInitialiser {
-    @Override
-    public JumpLabel instantiate();
+public interface IJumpLabelInitialiser
+		extends INamedElementInitialiser, IStatementInitialiser, IStatementContainerInitialiser {
+	@Override
+	public JumpLabel instantiate();
 
 }

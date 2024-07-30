@@ -17,14 +17,14 @@ public class ArrayInstantiationBySizeTest extends EObjectSimilarityTest implemen
 		Assertions.assertTrue(aibsInit.addSizes(aibs, sizes));
 		return aibs;
 	}
-	
+
 	@Test
 	public void testSize() {
 		this.setResourceFileTestIdentifier("testSize");
-		
-		var objOne = this.initElement(new Expression[] {this.createDecimalIntegerLiteral(1)});
-		var objTwo = this.initElement(new Expression[] {this.createDecimalIntegerLiteral(2)});
-		
+
+		var objOne = this.initElement(new Expression[] { this.createDecimalIntegerLiteral(1) });
+		var objTwo = this.initElement(new Expression[] { this.createDecimalIntegerLiteral(2) });
+
 		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_SIZE__SIZES);
 	}
 }

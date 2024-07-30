@@ -10,7 +10,7 @@ public class BooleanInitialiser extends AbstractInitialiserBase implements IBool
 	public IBooleanInitialiser newInitialiser() {
 		return new BooleanInitialiser();
 	}
-	
+
 	@Override
 	public Boolean instantiate() {
 		return TypesFactory.eINSTANCE.createBoolean();

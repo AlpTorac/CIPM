@@ -17,14 +17,13 @@ public class AndExpressionTest extends EObjectSimilarityTest implements UsesExpr
 		Assertions.assertTrue(aeInit.addChildren(ae, children));
 		return ae;
 	}
-	
+
 	@Test
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
-		
-		this.testSimilarity(
-				this.initElement(new AndExpressionChild[] {this.createDecimalIntegerLiteral(1)}),
-				this.initElement(new AndExpressionChild[] {this.createDecimalIntegerLiteral(2)}),
+
+		this.testSimilarity(this.initElement(new AndExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
+				this.initElement(new AndExpressionChild[] { this.createDecimalIntegerLiteral(2) }),
 				ExpressionsPackage.Literals.AND_EXPRESSION__CHILDREN);
 	}
 }

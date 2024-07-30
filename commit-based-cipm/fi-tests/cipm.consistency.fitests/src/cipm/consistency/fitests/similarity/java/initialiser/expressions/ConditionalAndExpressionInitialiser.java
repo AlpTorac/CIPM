@@ -5,7 +5,8 @@ import org.emftext.language.java.expressions.ExpressionsFactory;
 
 import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
 
-public class ConditionalAndExpressionInitialiser extends AbstractInitialiserBase implements IConditionalAndExpressionInitialiser {
+public class ConditionalAndExpressionInitialiser extends AbstractInitialiserBase
+		implements IConditionalAndExpressionInitialiser {
 	@Override
 	public IConditionalAndExpressionInitialiser newInitialiser() {
 		return new ConditionalAndExpressionInitialiser();

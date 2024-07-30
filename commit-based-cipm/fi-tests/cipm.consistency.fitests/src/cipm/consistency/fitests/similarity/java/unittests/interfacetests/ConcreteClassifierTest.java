@@ -12,23 +12,22 @@ import cipm.consistency.fitests.similarity.java.initialiser.classifiers.IConcret
 import cipm.consistency.fitests.similarity.java.unittests.UsesPackages;
 
 public class ConcreteClassifierTest extends EObjectSimilarityTest implements UsesPackages {
-	protected ConcreteClassifier initElement(IConcreteClassifierInitialiser initialiser,
-			Package pac) {
-		
+	protected ConcreteClassifier initElement(IConcreteClassifierInitialiser initialiser, Package pac) {
+
 		ConcreteClassifier result = initialiser.instantiate();
 		Assertions.assertTrue(initialiser.setPackage(result, pac));
-		
+
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ConcreteClassifierTestParams.class)
 	public void testPackage(IConcreteClassifierInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testPackage");
-		
+
 		var objOne = this.initElement(initialiser, this.createMinimalPackage("pOneNS", 2));
 		var objTwo = this.initElement(initialiser, this.createMinimalPackage("pTwoNS", 2));
-		
+
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.CONCRETE_CLASSIFIER__PACKAGE);
 	}
 }

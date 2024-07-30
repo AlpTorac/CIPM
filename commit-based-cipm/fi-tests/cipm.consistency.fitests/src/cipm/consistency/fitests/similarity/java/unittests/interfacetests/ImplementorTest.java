@@ -17,19 +17,15 @@ public class ImplementorTest extends EObjectSimilarityTest implements UsesTypeRe
 		Assertions.assertTrue(init.addImplements(result, trefs));
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ImplementorTestParams.class)
 	public void testImplements(IImplementorInitialiser init) {
 		this.setResourceFileTestIdentifier("testImplements");
-		
-		var objOne = this.initElement(init, new TypeReference[] {
-				this.createMinimalClsRef("cls1")
-		});
-		var objTwo = this.initElement(init, new TypeReference[] {
-				this.createMinimalClsRef("cls2")
-		});
-		
+
+		var objOne = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") });
+		var objTwo = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls2") });
+
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
 	}
 }

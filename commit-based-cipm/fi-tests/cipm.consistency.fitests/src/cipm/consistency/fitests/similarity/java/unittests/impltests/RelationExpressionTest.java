@@ -19,24 +19,23 @@ public class RelationExpressionTest extends EObjectSimilarityTest implements Use
 		Assertions.assertTrue(reInit.addRelationOperators(re, ops));
 		return re;
 	}
-	
+
 	@Test
 	public void testChild() {
 		this.setResourceFileTestIdentifier("testChild");
-		
+
 		this.testSimilarity(
-				this.initElement(new RelationExpressionChild[] {this.createDecimalIntegerLiteral(1)}, null),
-				this.initElement(new RelationExpressionChild[] {this.createDecimalIntegerLiteral(2)}, null),
+				this.initElement(new RelationExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
+				this.initElement(new RelationExpressionChild[] { this.createDecimalIntegerLiteral(2) }, null),
 				ExpressionsPackage.Literals.RELATION_EXPRESSION__CHILDREN);
 	}
-	
+
 	@Test
 	public void testRelationOperator() {
 		this.setResourceFileTestIdentifier("testRelationOperator");
-		
-		this.testSimilarity(
-				this.initElement(null, new RelationOperator[] {this.createGreaterThanOperator()}),
-				this.initElement(null, new RelationOperator[] {this.createLessThanOperator()}),
+
+		this.testSimilarity(this.initElement(null, new RelationOperator[] { this.createGreaterThanOperator() }),
+				this.initElement(null, new RelationOperator[] { this.createLessThanOperator() }),
 				ExpressionsPackage.Literals.RELATION_EXPRESSION__RELATION_OPERATORS);
 	}
 }

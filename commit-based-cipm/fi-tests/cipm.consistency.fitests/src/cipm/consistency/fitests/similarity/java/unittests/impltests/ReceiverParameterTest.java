@@ -12,8 +12,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.parameters.ReceiverP
 import cipm.consistency.fitests.similarity.java.unittests.UsesLiterals;
 import cipm.consistency.fitests.similarity.java.unittests.UsesTypeReferences;
 
-public class ReceiverParameterTest extends EObjectSimilarityTest implements UsesTypeReferences,
-UsesLiterals{
+public class ReceiverParameterTest extends EObjectSimilarityTest implements UsesTypeReferences, UsesLiterals {
 	protected ReceiverParameter initElement(This th, TypeReference otRef) {
 		var rpInit = new ReceiverParameterInitialiser();
 		var rp = rpInit.instantiate();
@@ -21,24 +20,24 @@ UsesLiterals{
 		Assertions.assertTrue(rpInit.setOuterTypeReference(rp, otRef));
 		return rp;
 	}
-	
+
 	@Test
 	public void testThisTypeReference() {
 		this.setResourceFileTestIdentifier("testThisTypeReference");
-		
+
 		var objOne = this.initElement(this.createThis(), null);
 		var objTwo = this.initElement(null, null);
-		
+
 		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.RECEIVER_PARAMETER__THIS_REFERENCE);
 	}
-	
+
 	@Test
 	public void testOuterTypeReference() {
 		this.setResourceFileTestIdentifier("testOuterTypeReference");
-		
+
 		var objOne = this.initElement(null, this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(null, this.createMinimalClsRef("cls2"));
-		
+
 		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.RECEIVER_PARAMETER__OUTER_TYPE_REFERENCE);
 	}
 }

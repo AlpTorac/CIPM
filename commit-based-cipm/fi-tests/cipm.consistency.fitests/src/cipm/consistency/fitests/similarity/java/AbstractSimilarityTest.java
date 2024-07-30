@@ -247,7 +247,8 @@ public abstract class AbstractSimilarityTest {
 	 */
 	public void setResourceRegistry(String resFileExtension) {
 		this.registryMappings.put(resFileExtension, new XMIResourceFactoryImpl());
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(resFileExtension, new XMIResourceFactoryImpl());
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(resFileExtension,
+				new XMIResourceFactoryImpl());
 	}
 
 	/**

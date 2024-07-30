@@ -17,14 +17,14 @@ public class CatchParameterTest extends EObjectSimilarityTest implements UsesTyp
 		Assertions.assertTrue(cpInit.addTypeReferences(cp, trefs));
 		return cp;
 	}
-	
+
 	@Test
 	public void testTypeReference() {
 		this.setResourceFileTestIdentifier("testTypeReference");
-		
-		var objOne = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls1")});
-		var objTwo = this.initElement(new TypeReference[] {this.createMinimalClsRef("cls2")});
-		
+
+		var objOne = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") });
+		var objTwo = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls2") });
+
 		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.CATCH_PARAMETER__TYPE_REFERENCES);
 	}
 }

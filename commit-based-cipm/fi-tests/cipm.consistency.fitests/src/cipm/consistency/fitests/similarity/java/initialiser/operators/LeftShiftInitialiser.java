@@ -10,7 +10,7 @@ public class LeftShiftInitialiser extends AbstractInitialiserBase implements ILe
 	public ILeftShiftInitialiser newInitialiser() {
 		return new LeftShiftInitialiser();
 	}
-	
+
 	@Override
 	public LeftShift instantiate() {
 		return OperatorsFactory.eINSTANCE.createLeftShift();

@@ -10,7 +10,7 @@ public class VoidInitialiser extends AbstractInitialiserBase implements IVoidIni
 	public IVoidInitialiser newInitialiser() {
 		return new VoidInitialiser();
 	}
-	
+
 	@Override
 	public Void instantiate() {
 		return TypesFactory.eINSTANCE.createVoid();

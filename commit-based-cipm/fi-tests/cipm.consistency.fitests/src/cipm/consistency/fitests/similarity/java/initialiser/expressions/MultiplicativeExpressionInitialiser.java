@@ -5,7 +5,8 @@ import org.emftext.language.java.expressions.MultiplicativeExpression;
 
 import cipm.consistency.fitests.similarity.java.initialiser.AbstractInitialiserBase;
 
-public class MultiplicativeExpressionInitialiser extends AbstractInitialiserBase implements IMultiplicativeExpressionInitialiser {
+public class MultiplicativeExpressionInitialiser extends AbstractInitialiserBase
+		implements IMultiplicativeExpressionInitialiser {
 	@Override
 	public IMultiplicativeExpressionInitialiser newInitialiser() {
 		return new MultiplicativeExpressionInitialiser();

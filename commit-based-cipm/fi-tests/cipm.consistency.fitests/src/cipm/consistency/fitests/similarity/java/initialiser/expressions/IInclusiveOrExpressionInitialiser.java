@@ -4,8 +4,9 @@ import org.emftext.language.java.expressions.InclusiveOrExpression;
 import org.emftext.language.java.expressions.InclusiveOrExpressionChild;
 
 public interface IInclusiveOrExpressionInitialiser extends IConditionalAndExpressionChildInitialiser {
-    @Override
-    public InclusiveOrExpression instantiate();
+	@Override
+	public InclusiveOrExpression instantiate();
+
 	public default boolean addChild(InclusiveOrExpression ioe, InclusiveOrExpressionChild child) {
 		if (child != null) {
 			ioe.getChildren().add(child);
@@ -13,7 +14,7 @@ public interface IInclusiveOrExpressionInitialiser extends IConditionalAndExpres
 		}
 		return true;
 	}
-	
+
 	public default boolean addChildren(InclusiveOrExpression ioe, InclusiveOrExpressionChild[] children) {
 		return this.doMultipleModifications(ioe, children, this::addChild);
 	}

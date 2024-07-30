@@ -5,10 +5,10 @@ import org.emftext.language.java.types.TypeReference;
 
 import cipm.consistency.fitests.similarity.java.initialiser.annotations.IAnnotableInitialiser;
 
-public interface ISuperTypeArgumentInitialiser extends IAnnotableInitialiser,
-	ITypeArgumentInitialiser {
+public interface ISuperTypeArgumentInitialiser extends IAnnotableInitialiser, ITypeArgumentInitialiser {
 	@Override
 	public SuperTypeArgument instantiate();
+
 	public default boolean setSuperType(SuperTypeArgument sta, TypeReference tref) {
 		if (tref != null) {
 			sta.setSuperType(tref);

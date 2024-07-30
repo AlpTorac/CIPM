@@ -10,7 +10,7 @@ public class LessThanInitialiser extends AbstractInitialiserBase implements ILes
 	public ILessThanInitialiser newInitialiser() {
 		return new LessThanInitialiser();
 	}
-	
+
 	@Override
 	public LessThan instantiate() {
 		return OperatorsFactory.eINSTANCE.createLessThan();

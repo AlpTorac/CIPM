@@ -12,8 +12,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.modules.RequiresModu
 import cipm.consistency.fitests.similarity.java.unittests.UsesLiterals;
 import cipm.consistency.fitests.similarity.java.unittests.UsesModuleReferences;
 
-public class RequiresModuleDirectiveTest extends EObjectSimilarityTest implements UsesLiterals,
-UsesModuleReferences {
+public class RequiresModuleDirectiveTest extends EObjectSimilarityTest implements UsesLiterals, UsesModuleReferences {
 	protected RequiresModuleDirective initElement(ModuleRequiresModifier mrm, ModuleReference mref) {
 		var rmdInit = new RequiresModuleDirectiveInitialiser();
 		var rmd = rmdInit.instantiate();
@@ -21,24 +20,24 @@ UsesModuleReferences {
 		Assertions.assertTrue(rmdInit.setRequiredModule(rmd, mref));
 		return rmd;
 	}
-	
+
 	@Test
 	public void testModifier() {
 		this.setResourceFileTestIdentifier("testModifier");
-		
+
 		var objOne = this.initElement(this.createStatic(), null);
 		var objTwo = this.initElement(this.createTransitive(), null);
-		
+
 		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.REQUIRES_MODULE_DIRECTIVE__MODIFIER);
 	}
-	
+
 	@Test
 	public void testRequiredModule() {
 		this.setResourceFileTestIdentifier("testRequiredModule");
-		
-		var objOne = this.initElement(null, this.createMinimalMR("mod1", new String[] {"ns1", "ns2"}));
-		var objTwo = this.initElement(null, this.createMinimalMR("mod2", new String[] {"ns3", "ns4"}));
-		
+
+		var objOne = this.initElement(null, this.createMinimalMR("mod1", new String[] { "ns1", "ns2" }));
+		var objTwo = this.initElement(null, this.createMinimalMR("mod2", new String[] { "ns3", "ns4" }));
+
 		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.REQUIRES_MODULE_DIRECTIVE__REQUIRED_MODULE);
 	}
 }

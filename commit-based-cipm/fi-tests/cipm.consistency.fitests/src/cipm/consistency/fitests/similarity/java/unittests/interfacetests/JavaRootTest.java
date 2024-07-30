@@ -17,15 +17,15 @@ public class JavaRootTest extends EObjectSimilarityTest {
 		initialiser.setOrigin(result, origin);
 		return result;
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(JavaRootTestParams.class)
 	public void testOrigin(IJavaRootInitialiser initialiser) {
 		this.setResourceFileTestIdentifier("testOrigin");
-		
+
 		var objOne = this.initElement(initialiser, Origin.BINDING);
 		var objTwo = this.initElement(initialiser, Origin.CLASS);
-		
+
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.JAVA_ROOT__ORIGIN);
 	}
 }

@@ -6,7 +6,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.InitialiserPackage;
 
 /**
- * A class that provides central access to concrete initialiser instances. 
+ * A class that provides central access to concrete initialiser instances.
  * 
  * @author atora
  */

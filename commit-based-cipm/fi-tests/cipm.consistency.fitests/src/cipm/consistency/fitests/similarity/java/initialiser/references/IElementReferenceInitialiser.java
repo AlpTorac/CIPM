@@ -4,8 +4,9 @@ import org.emftext.language.java.references.ElementReference;
 import org.emftext.language.java.references.ReferenceableElement;
 
 public interface IElementReferenceInitialiser extends IReferenceInitialiser {
-    @Override
-    public ElementReference instantiate();
+	@Override
+	public ElementReference instantiate();
+
 	public default boolean setContainedTarget(ElementReference eref, ReferenceableElement re) {
 		if (re != null) {
 			eref.setContainedTarget(re);
@@ -13,6 +14,7 @@ public interface IElementReferenceInitialiser extends IReferenceInitialiser {
 		}
 		return true;
 	}
+
 	public default boolean setTarget(ElementReference eref, ReferenceableElement re) {
 		if (re != null) {
 			eref.setTarget(re);
