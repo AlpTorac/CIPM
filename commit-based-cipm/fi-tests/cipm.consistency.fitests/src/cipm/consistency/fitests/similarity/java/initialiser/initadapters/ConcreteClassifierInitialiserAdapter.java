@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.java.initialiser.adapters;
+package cipm.consistency.fitests.similarity.java.initialiser.initadapters;
 
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
