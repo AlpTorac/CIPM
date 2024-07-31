@@ -6,12 +6,15 @@
  * <br>
  * Since non-terminal elements within the {@link Commentable} type hierarchy can
  * have multiple sub-classes/-interfaces, all tests should be parameterized over
- * initialisers. Those initialisers may have to be adapted, if there are
+ * inits. Those inits may have to be adapted, if there are
  * sub-classes/-interfaces, which require additional setup steps to be "valid".
  * Parameterizing such tests help spare test code, as sub-classes/-interfaces
  * all need their mutual attributes to be tested. <br>
  * <br>
- * In order to supply initialiser parameters to the parameterized tests, XParam
+ * The tests within this package are meant to be minimal and only test the
+ * individual attributes of {@link EObject} instances isolated. <br>
+ * <br>
+ * In order to supply init parameters to the parameterized tests, XParam
  * classes that implement {@link ArgumentsProvider} can be declared and used
  * with the {@link ArgumentsSource} annotation. Elements declared within
  * {@link cipm.consistency.fitests.similarity.java.params} can be used in the
@@ -21,7 +24,7 @@
  * {@link EObject} instances as obvious and visible as possible, as their
  * construction can get complicated and not knowing all the construction steps
  * can lead to tests not fulfilling their goal. Furthermore, it is also
- * important to adapt the initialisers, rather than using instanceof/if-blocks
+ * important to adapt the inits, rather than using instanceof/if-blocks
  * to define type-specific behaviour. Should certain sub-classes/-interfaces
  * diverge from their super type so much that they are incompatible with
  * parameterized tests, it is suggested to instead define special unit tests for
