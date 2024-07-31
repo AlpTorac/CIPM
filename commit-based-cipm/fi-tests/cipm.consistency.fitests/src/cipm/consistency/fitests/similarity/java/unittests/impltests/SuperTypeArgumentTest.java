@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.generics.SuperTypeAr
 import cipm.consistency.fitests.similarity.java.unittests.UsesTypeReferences;
 
 public class SuperTypeArgumentTest extends EObjectSimilarityTest implements UsesTypeReferences {
-	protected SuperTypeArgument initElement(TypeReference tref) {
+	protected SuperTypeArgument initElement(TypeReference superType) {
 		var staInit = new SuperTypeArgumentInitialiser();
 		var sta = staInit.instantiate();
-		Assertions.assertTrue(staInit.setSuperType(sta, tref));
+		Assertions.assertTrue(staInit.setSuperType(sta, superType));
 		return sta;
 	}
 

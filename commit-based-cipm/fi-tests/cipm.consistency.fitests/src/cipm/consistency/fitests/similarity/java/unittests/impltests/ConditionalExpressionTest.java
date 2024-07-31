@@ -14,13 +14,13 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class ConditionalExpressionTest extends EObjectSimilarityTest implements UsesExpressions {
 	protected ConditionalExpression initElement(ConditionalExpressionChild child, AssignmentExpressionChild exprChild,
-			Expression exprIf, Expression geeExpr) {
+			Expression exprIf, Expression generalExprElse) {
 		var ceInit = new ConditionalExpressionInitialiser();
 		var ce = ceInit.instantiate();
 		Assertions.assertTrue(ceInit.setChild(ce, child));
 		Assertions.assertTrue(ceInit.setExpressionChild(ce, exprChild));
 		Assertions.assertTrue(ceInit.setExpressionIf(ce, exprIf));
-		Assertions.assertTrue(ceInit.setGeneralExpressionElse(ce, geeExpr));
+		Assertions.assertTrue(ceInit.setGeneralExpressionElse(ce, generalExprElse));
 		return ce;
 	}
 

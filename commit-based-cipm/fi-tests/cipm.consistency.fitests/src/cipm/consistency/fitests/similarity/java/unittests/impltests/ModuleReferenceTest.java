@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.modules.ModuleRefere
 import cipm.consistency.fitests.similarity.java.unittests.UsesModules;
 
 public class ModuleReferenceTest extends EObjectSimilarityTest implements UsesModules {
-	protected ModuleReference initElement(Module mod) {
+	protected ModuleReference initElement(Module target) {
 		var mrInit = new ModuleReferenceInitialiser();
 		var mr = mrInit.instantiate();
-		Assertions.assertTrue(mrInit.setTarget(mr, mod));
+		Assertions.assertTrue(mrInit.setTarget(mr, target));
 		return mr;
 	}
 

@@ -13,11 +13,11 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesLiterals;
 import cipm.consistency.fitests.similarity.java.unittests.UsesModuleReferences;
 
 public class RequiresModuleDirectiveTest extends EObjectSimilarityTest implements UsesLiterals, UsesModuleReferences {
-	protected RequiresModuleDirective initElement(ModuleRequiresModifier mrm, ModuleReference mref) {
+	protected RequiresModuleDirective initElement(ModuleRequiresModifier modif, ModuleReference reqMod) {
 		var rmdInit = new RequiresModuleDirectiveInitialiser();
 		var rmd = rmdInit.instantiate();
-		Assertions.assertTrue(rmdInit.setModifier(rmd, mrm));
-		Assertions.assertTrue(rmdInit.setRequiredModule(rmd, mref));
+		Assertions.assertTrue(rmdInit.setModifier(rmd, modif));
+		Assertions.assertTrue(rmdInit.setRequiredModule(rmd, reqMod));
 		return rmd;
 	}
 

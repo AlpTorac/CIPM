@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.generics.ExtendsType
 import cipm.consistency.fitests.similarity.java.unittests.UsesTypeReferences;
 
 public class ExtendsTypeArgumentTest extends EObjectSimilarityTest implements UsesTypeReferences {
-	protected ExtendsTypeArgument initElement(TypeReference tref) {
+	protected ExtendsTypeArgument initElement(TypeReference extType) {
 		var etaInit = new ExtendsTypeArgumentInitialiser();
 		var eta = etaInit.instantiate();
-		Assertions.assertTrue(etaInit.setExtendType(eta, tref));
+		Assertions.assertTrue(etaInit.setExtendType(eta, extType));
 		return eta;
 	}
 

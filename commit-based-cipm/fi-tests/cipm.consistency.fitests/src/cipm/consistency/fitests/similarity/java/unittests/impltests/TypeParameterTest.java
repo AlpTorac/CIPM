@@ -12,11 +12,11 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesNames;
 import cipm.consistency.fitests.similarity.java.unittests.UsesTypeReferences;
 
 public class TypeParameterTest extends EObjectSimilarityTest implements UsesTypeReferences, UsesNames {
-	protected TypeParameter initElement(TypeReference[] exts) {
+	protected TypeParameter initElement(TypeReference[] extTypes) {
 		var tpInit = new TypeParameterInitialiser();
 		var tp = tpInit.instantiate();
 		Assertions.assertTrue(tpInit.setName(tp, this.getDefaultName()));
-		Assertions.assertTrue(tpInit.addExtendTypes(tp, exts));
+		Assertions.assertTrue(tpInit.addExtendTypes(tp, extTypes));
 		return tp;
 	}
 

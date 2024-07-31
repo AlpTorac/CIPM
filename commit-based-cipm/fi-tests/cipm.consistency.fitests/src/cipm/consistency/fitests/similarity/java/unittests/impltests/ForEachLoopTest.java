@@ -13,11 +13,11 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 import cipm.consistency.fitests.similarity.java.unittests.UsesParameters;
 
 public class ForEachLoopTest extends EObjectSimilarityTest implements UsesExpressions, UsesParameters {
-	protected ForEachLoop initElement(Expression expr, OrdinaryParameter op) {
+	protected ForEachLoop initElement(Expression col, OrdinaryParameter next) {
 		var felInit = new ForEachLoopInitialiser();
 		var fel = felInit.instantiate();
-		Assertions.assertTrue(felInit.setCollection(fel, expr));
-		Assertions.assertTrue(felInit.setNext(fel, op));
+		Assertions.assertTrue(felInit.setCollection(fel, col));
+		Assertions.assertTrue(felInit.setNext(fel, next));
 		return fel;
 	}
 

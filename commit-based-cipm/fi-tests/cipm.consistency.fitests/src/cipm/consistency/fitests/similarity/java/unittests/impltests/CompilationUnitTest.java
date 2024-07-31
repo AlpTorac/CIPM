@@ -11,11 +11,11 @@ import cipm.consistency.fitests.similarity.java.initialiser.containers.Compilati
 import cipm.consistency.fitests.similarity.java.unittests.UsesConcreteClassifiers;
 
 public class CompilationUnitTest extends EObjectSimilarityTest implements UsesConcreteClassifiers {
-	protected CompilationUnit initElement(ConcreteClassifier[] ccs) {
+	protected CompilationUnit initElement(ConcreteClassifier[] classifiers) {
 		var cuInit = new CompilationUnitInitialiser();
 		var cu = cuInit.instantiate();
 		Assertions.assertTrue(cuInit.setName(cu, this.getDefaultName()));
-		Assertions.assertTrue(cuInit.addClassifiers(cu, ccs));
+		Assertions.assertTrue(cuInit.addClassifiers(cu, classifiers));
 		return cu;
 	}
 

@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.Condition
 import cipm.consistency.fitests.similarity.java.unittests.UsesStatements;
 
 public class ConditionTest extends EObjectSimilarityTest implements UsesStatements {
-	protected Condition initElement(Statement st) {
+	protected Condition initElement(Statement elseSt) {
 		var conInit = new ConditionInitialiser();
 		var con = conInit.instantiate();
-		Assertions.assertTrue(conInit.setElseStatement(con, st));
+		Assertions.assertTrue(conInit.setElseStatement(con, elseSt));
 		return con;
 	}
 

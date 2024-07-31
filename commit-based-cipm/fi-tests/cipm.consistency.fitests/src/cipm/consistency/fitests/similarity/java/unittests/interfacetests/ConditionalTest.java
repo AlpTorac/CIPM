@@ -12,9 +12,9 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.IConditio
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class ConditionalTest extends EObjectSimilarityTest implements UsesExpressions {
-	protected Conditional initElement(IConditionalInitialiser init, Expression expr) {
+	protected Conditional initElement(IConditionalInitialiser init, Expression cond) {
 		Conditional result = init.instantiate();
-		Assertions.assertTrue(init.setCondition(result, expr));
+		Assertions.assertTrue(init.setCondition(result, cond));
 		return result;
 	}
 

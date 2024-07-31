@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.instantiations.Expli
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class ExplicitConstructorCallTest extends EObjectSimilarityTest implements UsesExpressions {
-	protected ExplicitConstructorCall initElement(Self self) {
+	protected ExplicitConstructorCall initElement(Self callTarget) {
 		var eccInit = new ExplicitConstructorCallInitialiser();
 		var ecc = eccInit.instantiate();
-		Assertions.assertTrue(eccInit.setCallTarget(ecc, self));
+		Assertions.assertTrue(eccInit.setCallTarget(ecc, callTarget));
 		return ecc;
 	}
 

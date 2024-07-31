@@ -12,10 +12,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.types.ITypedElementI
 import cipm.consistency.fitests.similarity.java.unittests.UsesTypeReferences;
 
 public class TypedElementTest extends EObjectSimilarityTest implements UsesTypeReferences {
-	protected TypedElement initElement(ITypedElementInitialiser init, TypeReference tref) {
+	protected TypedElement initElement(ITypedElementInitialiser init, TypeReference tRef) {
 		TypedElement result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
-		Assertions.assertTrue(init.setTypeReference(result, tref));
+		Assertions.assertTrue(init.setTypeReference(result, tRef));
 		return result;
 	}
 

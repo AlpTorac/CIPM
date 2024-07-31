@@ -20,13 +20,13 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesTypeReferences;
  * @author atora
  */
 public class CastExpressionTest extends EObjectSimilarityTest implements UsesExpressions, UsesTypeReferences {
-	protected CastExpression initElement(TypeReference[] trefs, MultiplicativeExpressionChild child,
-			Expression gChild) {
+	protected CastExpression initElement(TypeReference[] additionalBoundsArr, MultiplicativeExpressionChild child,
+			Expression generalChild) {
 		var ceInit = new CastExpressionInitialiser();
 		var ce = ceInit.instantiate();
-		Assertions.assertTrue(ceInit.addAdditionalBounds(ce, trefs));
+		Assertions.assertTrue(ceInit.addAdditionalBounds(ce, additionalBoundsArr));
 		Assertions.assertTrue(ceInit.setChild(ce, child));
-		Assertions.assertTrue(ceInit.setGeneralChild(ce, gChild));
+		Assertions.assertTrue(ceInit.setGeneralChild(ce, generalChild));
 		return ce;
 	}
 

@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.arrays.ArrayInitiali
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class ArrayInitializerTest extends EObjectSimilarityTest implements UsesExpressions {
-	protected ArrayInitializer initElement(ArrayInitializationValue[] aivs) {
+	protected ArrayInitializer initElement(ArrayInitializationValue[] initVals) {
 		var aiInit = new ArrayInitializerInitialiser();
 		var ai = aiInit.instantiate();
-		Assertions.assertTrue(aiInit.addInitialValues(ai, aivs));
+		Assertions.assertTrue(aiInit.addInitialValues(ai, initVals));
 		return ai;
 	}
 

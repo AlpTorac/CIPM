@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.members.EnumConstant
 import cipm.consistency.fitests.similarity.java.unittests.UsesAnonymousClasses;
 
 public class EnumConstantTest extends EObjectSimilarityTest implements UsesAnonymousClasses {
-	protected EnumConstant initElement(AnonymousClass cls) {
+	protected EnumConstant initElement(AnonymousClass anonymousCls) {
 		var ecInit = new EnumConstantInitialiser();
 		var ec = ecInit.instantiate();
-		Assertions.assertTrue(ecInit.setAnonymousClass(ec, cls));
+		Assertions.assertTrue(ecInit.setAnonymousClass(ec, anonymousCls));
 		return ec;
 	}
 

@@ -13,13 +13,12 @@ import cipm.consistency.fitests.similarity.java.initialiser.expressions.Assignme
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class AssignmentExpressionTest extends EObjectSimilarityTest implements UsesExpressions {
-	protected AssignmentExpression initElement(AssignmentOperator op, AssignmentExpressionChild child,
-			Expression expr) {
+	protected AssignmentExpression initElement(AssignmentOperator op, AssignmentExpressionChild child, Expression val) {
 		var aeInit = new AssignmentExpressionInitialiser();
 		var ae = aeInit.instantiate();
 		Assertions.assertTrue(aeInit.setAssignmentOperator(ae, op));
 		Assertions.assertTrue(aeInit.setChild(ae, child));
-		Assertions.assertTrue(aeInit.setValue(ae, expr));
+		Assertions.assertTrue(aeInit.setValue(ae, val));
 		return ae;
 	}
 

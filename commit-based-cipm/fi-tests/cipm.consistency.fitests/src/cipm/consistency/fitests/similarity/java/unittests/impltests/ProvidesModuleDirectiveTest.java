@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.modules.ProvidesModu
 import cipm.consistency.fitests.similarity.java.unittests.UsesTypeReferences;
 
 public class ProvidesModuleDirectiveTest extends EObjectSimilarityTest implements UsesTypeReferences {
-	protected ProvidesModuleDirective initElement(TypeReference[] trefs) {
+	protected ProvidesModuleDirective initElement(TypeReference[] serviceProviders) {
 		var pmdInit = new ProvidesModuleDirectiveInitialiser();
 		var pmd = pmdInit.instantiate();
-		Assertions.assertTrue(pmdInit.addServiceProviders(pmd, trefs));
+		Assertions.assertTrue(pmdInit.addServiceProviders(pmd, serviceProviders));
 		return pmd;
 	}
 
