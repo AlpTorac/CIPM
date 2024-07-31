@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.classifiers.Enumerat
 import cipm.consistency.fitests.similarity.java.unittests.UsesEnumConstants;
 
 public class EnumerationTest extends EObjectSimilarityTest implements UsesEnumConstants {
-	protected Enumeration initElement(EnumConstant[] csts) {
+	protected Enumeration initElement(EnumConstant[] consts) {
 		var enmInit = new EnumerationInitialiser();
 		var enm = enmInit.instantiate();
-		Assertions.assertTrue(enmInit.addConstants(enm, csts));
+		Assertions.assertTrue(enmInit.addConstants(enm, consts));
 		return enm;
 	}
 

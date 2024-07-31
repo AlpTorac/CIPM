@@ -13,10 +13,10 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesAnnotationParamete
 
 public class AnnotationParameterListTest extends EObjectSimilarityTest
 		implements UsesAnnotationParameters, UsesAnnotationAttributeSettings {
-	protected AnnotationParameterList initElement(AnnotationAttributeSetting[] aass) {
+	protected AnnotationParameterList initElement(AnnotationAttributeSetting[] annoAttrSettingsArr) {
 		var aplInit = new AnnotationParameterListInitialiser();
 		var apl = aplInit.instantiate();
-		Assertions.assertTrue(aplInit.addSettings(apl, aass));
+		Assertions.assertTrue(aplInit.addSettings(apl, annoAttrSettingsArr));
 		return apl;
 	}
 

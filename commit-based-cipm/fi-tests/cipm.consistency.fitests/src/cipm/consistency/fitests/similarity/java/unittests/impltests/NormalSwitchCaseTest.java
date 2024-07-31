@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.NormalSwi
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class NormalSwitchCaseTest extends EObjectSimilarityTest implements UsesExpressions {
-	protected NormalSwitchCase initElement(Expression[] exprs) {
+	protected NormalSwitchCase initElement(Expression[] additionalConds) {
 		var nscInit = new NormalSwitchCaseInitialiser();
 		var nsc = nscInit.instantiate();
-		Assertions.assertTrue(nscInit.addAdditionalConditions(nsc, exprs));
+		Assertions.assertTrue(nscInit.addAdditionalConditions(nsc, additionalConds));
 		return nsc;
 	}
 

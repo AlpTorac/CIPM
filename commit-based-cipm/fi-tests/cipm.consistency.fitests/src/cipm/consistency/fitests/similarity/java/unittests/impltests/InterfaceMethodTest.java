@@ -12,11 +12,11 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesAnnotationValues;
 import cipm.consistency.fitests.similarity.java.unittests.UsesNames;
 
 public class InterfaceMethodTest extends EObjectSimilarityTest implements UsesAnnotationValues, UsesNames {
-	protected InterfaceMethod initElement(AnnotationValue av) {
+	protected InterfaceMethod initElement(AnnotationValue defVal) {
 		var imInit = new InterfaceMethodInitialiser();
 		var im = imInit.instantiate();
 		Assertions.assertTrue(imInit.setName(im, this.getDefaultName()));
-		Assertions.assertTrue(imInit.setDefaultValue(im, av));
+		Assertions.assertTrue(imInit.setDefaultValue(im, defVal));
 		return im;
 	}
 

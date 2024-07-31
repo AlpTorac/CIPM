@@ -17,10 +17,10 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesPackages;
 public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest
 		implements UsesModuleReferences, UsesPackages {
 	protected AccessProvidingModuleDirective initElement(IAccessProvidingModuleDirectiveInitialiser init,
-			ModuleReference[] modrefs, Package pac) {
+			ModuleReference[] modRefs, Package accessablePac) {
 		var result = init.instantiate();
-		Assertions.assertTrue(init.addModules(result, modrefs));
-		Assertions.assertTrue(init.setAccessablePackage(result, pac));
+		Assertions.assertTrue(init.addModules(result, modRefs));
+		Assertions.assertTrue(init.setAccessablePackage(result, accessablePac));
 		return result;
 	}
 

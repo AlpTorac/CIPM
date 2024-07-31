@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.ThrowInit
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class ThrowTest extends EObjectSimilarityTest implements UsesExpressions {
-	protected Throw initElement(Expression expr) {
+	protected Throw initElement(Expression throwable) {
 		var thInit = new ThrowInitialiser();
 		var th = thInit.instantiate();
-		Assertions.assertTrue(thInit.setThrowable(th, expr));
+		Assertions.assertTrue(thInit.setThrowable(th, throwable));
 		return th;
 	}
 

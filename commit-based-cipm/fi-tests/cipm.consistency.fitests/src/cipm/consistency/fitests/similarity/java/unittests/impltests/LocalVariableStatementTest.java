@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.LocalVari
 import cipm.consistency.fitests.similarity.java.unittests.UsesLocalVariables;
 
 public class LocalVariableStatementTest extends EObjectSimilarityTest implements UsesLocalVariables {
-	protected LocalVariableStatement initElement(LocalVariable lv) {
+	protected LocalVariableStatement initElement(LocalVariable var) {
 		var lvsInit = new LocalVariableStatementInitialiser();
 		var lvs = lvsInit.instantiate();
-		Assertions.assertTrue(lvsInit.setVariable(lvs, lv));
+		Assertions.assertTrue(lvsInit.setVariable(lvs, var));
 		return lvs;
 	}
 

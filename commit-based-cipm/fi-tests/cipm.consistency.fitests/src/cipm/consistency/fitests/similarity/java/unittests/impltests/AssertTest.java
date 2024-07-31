@@ -12,10 +12,10 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 import cipm.consistency.fitests.similarity.java.unittests.UsesStringReferences;
 
 public class AssertTest extends EObjectSimilarityTest implements UsesExpressions, UsesStringReferences {
-	protected Assert initElement(Expression expr) {
+	protected Assert initElement(Expression errMsg) {
 		var asrtInit = new AssertInitialiser();
 		var asrt = asrtInit.instantiate();
-		Assertions.assertTrue(asrtInit.setErrorMessage(asrt, expr));
+		Assertions.assertTrue(asrtInit.setErrorMessage(asrt, errMsg));
 		return asrt;
 	}
 

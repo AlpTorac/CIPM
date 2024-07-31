@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.members.FieldInitial
 import cipm.consistency.fitests.similarity.java.unittests.UsesAdditionalFields;
 
 public class FieldTest extends EObjectSimilarityTest implements UsesAdditionalFields {
-	protected Field initElement(AdditionalField[] afs) {
+	protected Field initElement(AdditionalField[] additionalFields) {
 		var fieldInit = new FieldInitialiser();
 		var field = fieldInit.instantiate();
-		Assertions.assertTrue(fieldInit.addAdditionalFields(field, afs));
+		Assertions.assertTrue(fieldInit.addAdditionalFields(field, additionalFields));
 		return field;
 	}
 

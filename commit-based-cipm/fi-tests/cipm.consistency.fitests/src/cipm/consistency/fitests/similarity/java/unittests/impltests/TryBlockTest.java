@@ -15,12 +15,12 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesLocalVariables;
 import cipm.consistency.fitests.similarity.java.unittests.UsesStatements;
 
 public class TryBlockTest extends EObjectSimilarityTest implements UsesCatchBlocks, UsesStatements, UsesLocalVariables {
-	protected TryBlock initElement(Resource[] ress, CatchBlock[] catchBlocks, Block block) {
+	protected TryBlock initElement(Resource[] ress, CatchBlock[] catchBlocks, Block finallyBlock) {
 		var tbInit = new TryBlockInitialiser();
 		var tb = tbInit.instantiate();
 		Assertions.assertTrue(tbInit.addResources(tb, ress));
 		Assertions.assertTrue(tbInit.addCatchBlocks(tb, catchBlocks));
-		Assertions.assertTrue(tbInit.setFinallyBlock(tb, block));
+		Assertions.assertTrue(tbInit.setFinallyBlock(tb, finallyBlock));
 		return tb;
 	}
 

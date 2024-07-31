@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.imports.StaticMember
 import cipm.consistency.fitests.similarity.java.unittests.UsesMethods;
 
 public class StaticMemberImportTest extends EObjectSimilarityTest implements UsesMethods {
-	protected StaticMemberImport initElement(ReferenceableElement[] res) {
+	protected StaticMemberImport initElement(ReferenceableElement[] staticMems) {
 		var smiInit = new StaticMemberImportInitialiser();
 		var smi = smiInit.instantiate();
-		Assertions.assertTrue(smiInit.addStaticMembers(smi, res));
+		Assertions.assertTrue(smiInit.addStaticMembers(smi, staticMems));
 		return smi;
 	}
 

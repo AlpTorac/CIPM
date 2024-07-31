@@ -15,11 +15,11 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesConcreteClassifier
 public class AnnotationInstanceTest extends EObjectSimilarityTest
 		implements UsesConcreteClassifiers, UsesAnnotationParameters {
 
-	protected AnnotationInstance initElement(Classifier cls, AnnotationParameter param) {
+	protected AnnotationInstance initElement(Classifier annotation, AnnotationParameter annoParam) {
 		var initialiser = new AnnotationInstanceInitialiser();
 		AnnotationInstance ai = initialiser.instantiate();
-		Assertions.assertTrue(initialiser.setAnnotation(ai, cls));
-		Assertions.assertTrue(initialiser.setAnnotationParameter(ai, param));
+		Assertions.assertTrue(initialiser.setAnnotation(ai, annotation));
+		Assertions.assertTrue(initialiser.setAnnotationParameter(ai, annoParam));
 		return ai;
 	}
 

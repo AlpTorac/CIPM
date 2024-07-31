@@ -13,7 +13,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.types.ClassifierRefe
 import cipm.consistency.fitests.similarity.java.unittests.UsesAnonymousClasses;
 
 public class NewConstructorCallTest extends EObjectSimilarityTest implements UsesAnonymousClasses {
-	protected NewConstructorCall initElement(AnonymousClass ac) {
+	protected NewConstructorCall initElement(AnonymousClass anonymousCls) {
 		var nccInit = new NewConstructorCallInitialiser();
 		var ncc = nccInit.instantiate();
 
@@ -25,7 +25,7 @@ public class NewConstructorCallTest extends EObjectSimilarityTest implements Use
 
 		Assertions.assertTrue(trefInit.setTarget(tref, cls));
 		Assertions.assertTrue(nccInit.setTypeReference(ncc, tref));
-		Assertions.assertTrue(nccInit.setAnonymousClass(ncc, ac));
+		Assertions.assertTrue(nccInit.setAnonymousClass(ncc, anonymousCls));
 		return ncc;
 	}
 

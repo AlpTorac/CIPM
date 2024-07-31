@@ -13,11 +13,11 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesArraySelectors;
 import cipm.consistency.fitests.similarity.java.unittests.UsesReferences;
 
 public class ReferenceTest extends EObjectSimilarityTest implements UsesReferences, UsesArraySelectors {
-	protected Reference initElement(IReferenceInitialiser init, Reference next, ArraySelector[] asArr) {
+	protected Reference initElement(IReferenceInitialiser init, Reference next, ArraySelector[] arrSels) {
 		Reference ref = init.instantiate();
 		Assertions.assertTrue(init.initialise(ref));
 		Assertions.assertTrue(init.setNext(ref, next));
-		Assertions.assertTrue(init.addArraySelectors(ref, asArr));
+		Assertions.assertTrue(init.addArraySelectors(ref, arrSels));
 		return ref;
 	}
 

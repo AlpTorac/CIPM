@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.ReturnIni
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class ReturnTest extends EObjectSimilarityTest implements UsesExpressions {
-	protected Return initElement(Expression expr) {
+	protected Return initElement(Expression retVal) {
 		var retInit = new ReturnInitialiser();
 		var ret = retInit.instantiate();
-		Assertions.assertTrue(retInit.setReturnValue(ret, expr));
+		Assertions.assertTrue(retInit.setReturnValue(ret, retVal));
 		return ret;
 	}
 

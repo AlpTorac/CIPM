@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.Synchroni
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class SynchronizedBlockTest extends EObjectSimilarityTest implements UsesExpressions {
-	protected SynchronizedBlock initElement(Expression expr) {
+	protected SynchronizedBlock initElement(Expression lockProvider) {
 		var sbInit = new SynchronizedBlockInitialiser();
 		var sb = sbInit.instantiate();
-		Assertions.assertTrue(sbInit.setLockProvider(sb, expr));
+		Assertions.assertTrue(sbInit.setLockProvider(sb, lockProvider));
 		return sb;
 	}
 

@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.YieldStat
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class YieldStatementTest extends EObjectSimilarityTest implements UsesExpressions {
-	protected YieldStatement initElement(Expression expr) {
+	protected YieldStatement initElement(Expression yieldExpr) {
 		var ysInit = new YieldStatementInitialiser();
 		var ys = ysInit.instantiate();
-		Assertions.assertTrue(ysInit.setYieldExpression(ys, expr));
+		Assertions.assertTrue(ysInit.setYieldExpression(ys, yieldExpr));
 		return ys;
 	}
 

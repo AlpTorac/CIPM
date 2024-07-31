@@ -12,10 +12,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.generics.ITypeArgume
 import cipm.consistency.fitests.similarity.java.unittests.UsesTypeArguments;
 
 public class TypeArgumentableTest extends EObjectSimilarityTest implements UsesTypeArguments {
-	protected TypeArgumentable initElement(ITypeArgumentableInitialiser init, TypeArgument arg) {
+	protected TypeArgumentable initElement(ITypeArgumentableInitialiser init, TypeArgument typeArg) {
 		TypeArgumentable result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
-		Assertions.assertTrue(init.addTypeArgument(result, arg));
+		Assertions.assertTrue(init.addTypeArgument(result, typeArg));
 		return result;
 	}
 

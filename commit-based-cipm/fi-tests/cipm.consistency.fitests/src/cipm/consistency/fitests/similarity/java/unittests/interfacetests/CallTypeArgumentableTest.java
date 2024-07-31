@@ -12,10 +12,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.generics.ICallTypeAr
 import cipm.consistency.fitests.similarity.java.unittests.UsesTypeArguments;
 
 public class CallTypeArgumentableTest extends EObjectSimilarityTest implements UsesTypeArguments {
-	protected CallTypeArgumentable initElement(ICallTypeArgumentableInitialiser init, TypeArgument[] tas) {
+	protected CallTypeArgumentable initElement(ICallTypeArgumentableInitialiser init, TypeArgument[] callTypeArgs) {
 		CallTypeArgumentable result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
-		Assertions.assertTrue(init.addCallTypeArguments(result, tas));
+		Assertions.assertTrue(init.addCallTypeArguments(result, callTypeArgs));
 		return result;
 	}
 

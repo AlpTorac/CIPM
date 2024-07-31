@@ -12,11 +12,11 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.ForLoopIn
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class ForLoopTest extends EObjectSimilarityTest implements UsesExpressions {
-	protected ForLoop initElement(ForLoopInitializer fli, Expression[] exprs) {
-		var flInit = new ForLoopInitialiser();
-		var fl = flInit.instantiate();
-		Assertions.assertTrue(flInit.setInit(fl, fli));
-		Assertions.assertTrue(flInit.addUpdates(fl, exprs));
+	protected ForLoop initElement(ForLoopInitializer flInit, Expression[] updateExprs) {
+		var init = new ForLoopInitialiser();
+		var fl = init.instantiate();
+		Assertions.assertTrue(init.setInit(fl, flInit));
+		Assertions.assertTrue(init.addUpdates(fl, updateExprs));
 		return fl;
 	}
 

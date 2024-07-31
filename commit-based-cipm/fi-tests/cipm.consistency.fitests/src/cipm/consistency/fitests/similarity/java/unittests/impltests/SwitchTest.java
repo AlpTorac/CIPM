@@ -12,11 +12,11 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.SwitchIni
 import cipm.consistency.fitests.similarity.java.unittests.UsesSwitchCases;
 
 public class SwitchTest extends EObjectSimilarityTest implements UsesSwitchCases {
-	protected Switch initElement(SwitchCase[] scs, Expression expr) {
+	protected Switch initElement(SwitchCase[] cases, Expression var) {
 		var swInit = new SwitchInitialiser();
 		var sw = swInit.instantiate();
-		Assertions.assertTrue(swInit.addCases(sw, scs));
-		Assertions.assertTrue(swInit.setVariable(sw, expr));
+		Assertions.assertTrue(swInit.addCases(sw, cases));
+		Assertions.assertTrue(swInit.setVariable(sw, var));
 		return sw;
 	}
 

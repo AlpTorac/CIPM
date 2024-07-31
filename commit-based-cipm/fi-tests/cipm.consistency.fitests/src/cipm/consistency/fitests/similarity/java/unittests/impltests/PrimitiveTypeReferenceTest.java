@@ -12,10 +12,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.types.BooleanInitial
 import cipm.consistency.fitests.similarity.java.initialiser.types.IntInitialiser;
 
 public class PrimitiveTypeReferenceTest extends EObjectSimilarityTest {
-	protected PrimitiveTypeReference initElement(PrimitiveType ptype) {
+	protected PrimitiveTypeReference initElement(PrimitiveType pType) {
 		var ptInit = new PrimitiveTypeReferenceInitialiser();
 		var pt = ptInit.instantiate();
-		Assertions.assertTrue(ptInit.setPrimitiveType(pt, ptype));
+		Assertions.assertTrue(ptInit.setPrimitiveType(pt, pType));
 		return pt;
 	}
 

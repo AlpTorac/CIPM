@@ -14,9 +14,10 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesLiterals;
 
 public class ArrayInstantiationByValuesTest extends EObjectSimilarityTest
 		implements UsesArrayInitializers, UsesLiterals {
-	protected ArrayInstantiationByValues initElement(IArrayInstantiationByValuesInitialiser init, ArrayInitializer ai) {
+	protected ArrayInstantiationByValues initElement(IArrayInstantiationByValuesInitialiser init,
+			ArrayInitializer arrInit) {
 		ArrayInstantiationByValues result = init.instantiate();
-		Assertions.assertTrue(init.setArrayInitializer(result, ai));
+		Assertions.assertTrue(init.setArrayInitializer(result, arrInit));
 		return result;
 	}
 

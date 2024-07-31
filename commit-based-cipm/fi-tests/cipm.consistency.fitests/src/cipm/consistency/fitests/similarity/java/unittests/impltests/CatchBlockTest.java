@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.statements.CatchBloc
 import cipm.consistency.fitests.similarity.java.unittests.UsesParameters;
 
 public class CatchBlockTest extends EObjectSimilarityTest implements UsesParameters {
-	protected CatchBlock initElement(OrdinaryParameter oParam) {
+	protected CatchBlock initElement(OrdinaryParameter param) {
 		var cbInit = new CatchBlockInitialiser();
 		var cb = cbInit.instantiate();
-		Assertions.assertTrue(cbInit.setParameter(cb, oParam));
+		Assertions.assertTrue(cbInit.setParameter(cb, param));
 		return cb;
 	}
 

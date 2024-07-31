@@ -11,10 +11,10 @@ import cipm.consistency.fitests.similarity.java.initialiser.types.NamespaceClass
 import cipm.consistency.fitests.similarity.java.unittests.UsesTypeReferences;
 
 public class NamespaceClassifierReferenceTest extends EObjectSimilarityTest implements UsesTypeReferences {
-	protected NamespaceClassifierReference initElement(ClassifierReference[] refs) {
+	protected NamespaceClassifierReference initElement(ClassifierReference[] clsRefs) {
 		var ncrInit = new NamespaceClassifierReferenceInitialiser();
 		var ncr = ncrInit.instantiate();
-		Assertions.assertTrue(ncrInit.addClassifierReferences(ncr, refs));
+		Assertions.assertTrue(ncrInit.addClassifierReferences(ncr, clsRefs));
 		return ncr;
 	}
 

@@ -13,10 +13,10 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesLiterals;
 import cipm.consistency.fitests.similarity.java.unittests.UsesTypeReferences;
 
 public class ReceiverParameterTest extends EObjectSimilarityTest implements UsesTypeReferences, UsesLiterals {
-	protected ReceiverParameter initElement(This th, TypeReference otRef) {
+	protected ReceiverParameter initElement(This thisRef, TypeReference otRef) {
 		var rpInit = new ReceiverParameterInitialiser();
 		var rp = rpInit.instantiate();
-		Assertions.assertTrue(rpInit.setThisReference(rp, th));
+		Assertions.assertTrue(rpInit.setThisReference(rp, thisRef));
 		Assertions.assertTrue(rpInit.setOuterTypeReference(rp, otRef));
 		return rp;
 	}

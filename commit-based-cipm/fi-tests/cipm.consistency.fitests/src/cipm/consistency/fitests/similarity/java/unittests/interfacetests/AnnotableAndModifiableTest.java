@@ -17,12 +17,12 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesModifiers;
 public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 		implements UsesAnnotationInstances, UsesModifiers {
 
-	protected EObject initElement(IAnnotableAndModifiableInitialiser initialiser, Modifier[] mods,
+	protected EObject initElement(IAnnotableAndModifiableInitialiser initialiser, Modifier[] modifs,
 			AnnotationInstance[] ais, InitialiserVisibilityModifier visibility) {
 
 		var result = initialiser.instantiate();
 		Assertions.assertTrue(initialiser.initialise(result));
-		Assertions.assertTrue(initialiser.addModifiers(result, mods));
+		Assertions.assertTrue(initialiser.addModifiers(result, modifs));
 		Assertions.assertTrue(initialiser.addAnnotationInstances(result, ais));
 		Assertions.assertTrue(initialiser.setVisibility(result, visibility));
 		return result;
