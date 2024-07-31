@@ -4,6 +4,9 @@
  * sub-classes/-interfaces. In the said tests, {@link EObject} instances are
  * constructed programmatically and are checked for similarity. <br>
  * <br>
+ * The tests within this package are meant to be minimal and only test the
+ * individual attributes of {@link EObject} instances isolated. <br>
+ * <br>
  * It is highly recommended to make the construction of the "main"
  * {@link EObject} instances as obvious and visible as possible, as their
  * construction can get complicated and not knowing all the construction steps
