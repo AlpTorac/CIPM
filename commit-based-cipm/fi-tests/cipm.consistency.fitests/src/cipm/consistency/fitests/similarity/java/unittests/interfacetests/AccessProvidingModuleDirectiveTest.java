@@ -27,8 +27,9 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest
 	@ParameterizedTest
 	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
 	public void testModule(IAccessProvidingModuleDirectiveInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testModuleReference");
-
+		
 		var objOne = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod1") }, null);
 		var objTwo = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod2") }, null);
 
@@ -38,6 +39,7 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest
 	@ParameterizedTest
 	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
 	public void testAccessablePackage(IAccessProvidingModuleDirectiveInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testAccessablePackage");
 
 		var objOne = this.initElement(init, null, this.createMinimalPackage(new String[] { "ns1", "ns2" }));

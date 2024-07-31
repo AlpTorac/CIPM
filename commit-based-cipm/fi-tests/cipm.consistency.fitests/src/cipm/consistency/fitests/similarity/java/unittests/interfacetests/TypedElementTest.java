@@ -22,6 +22,7 @@ public class TypedElementTest extends EObjectSimilarityTest implements UsesTypeR
 	@ParameterizedTest
 	@ArgumentsSource(TypedElementTestParams.class)
 	public void testTypeReference(ITypedElementInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testTypeReference");
 
 		var objOne = this.initElement(init, this.createMinimalClsRef("cls1"));

@@ -21,6 +21,7 @@ public class ModifiableTest extends EObjectSimilarityTest implements UsesModifie
 	@ParameterizedTest
 	@ArgumentsSource(ModifiableTestParams.class)
 	public void testModifier(IModifiableInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testModifier");
 
 		var objOne = this.initElement(init, new Modifier[] { this.createFinal() });

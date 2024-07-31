@@ -22,6 +22,7 @@ public class StaticImportTest extends EObjectSimilarityTest implements UsesImpor
 	@ParameterizedTest
 	@ArgumentsSource(StaticImportTestParams.class)
 	public void testStatic(IStaticImportInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testStatic");
 
 		var objOne = this.initElement(init, this.createStatic());

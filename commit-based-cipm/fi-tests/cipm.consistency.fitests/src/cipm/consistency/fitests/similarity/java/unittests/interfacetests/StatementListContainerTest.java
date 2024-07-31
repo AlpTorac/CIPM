@@ -17,21 +17,22 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesStatements;
  * @author atora
  */
 public class StatementListContainerTest extends EObjectSimilarityTest implements UsesStatements {
-	protected StatementListContainer initElement(IStatementListContainerInitialiser initialiser, Statement[] sts) {
+	protected StatementListContainer initElement(IStatementListContainerInitialiser init, Statement[] sts) {
 
-		StatementListContainer result = initialiser.instantiate();
-		Assertions.assertTrue(initialiser.initialise(result));
-		Assertions.assertTrue(initialiser.addStatements(result, sts));
+		StatementListContainer result = init.instantiate();
+		Assertions.assertTrue(init.initialise(result));
+		Assertions.assertTrue(init.addStatements(result, sts));
 		return result;
 	}
 
 	@ParameterizedTest
 	@ArgumentsSource(StatementListContainerTestParams.class)
-	public void testStatements(IStatementListContainerInitialiser initialiser) {
+	public void testStatements(IStatementListContainerInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testStatements");
 
-		var objOne = this.initElement(initialiser, new Statement[] { this.createMinimalNullReturn() });
-		var objTwo = this.initElement(initialiser, new Statement[] { this.createMinimalTrivialAssert() });
+		var objOne = this.initElement(init, new Statement[] { this.createMinimalNullReturn() });
+		var objTwo = this.initElement(init, new Statement[] { this.createMinimalTrivialAssert() });
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.BLOCK__STATEMENTS);
 	}

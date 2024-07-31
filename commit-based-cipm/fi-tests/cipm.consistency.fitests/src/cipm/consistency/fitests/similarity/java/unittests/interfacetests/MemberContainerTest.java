@@ -25,6 +25,7 @@ public class MemberContainerTest extends EObjectSimilarityTest
 	@ParameterizedTest
 	@ArgumentsSource(MemberContainerTestParams.class)
 	public void testMember(IMemberContainerInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testMember");
 
 		var objOne = this.initElement(init, new Member[] { this.createMinimalClass("cls1") }, null);
@@ -36,6 +37,7 @@ public class MemberContainerTest extends EObjectSimilarityTest
 	@ParameterizedTest
 	@ArgumentsSource(MemberContainerTestParams.class)
 	public void testDefaultMember(IMemberContainerInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testDefaultMember");
 
 		var objOne = this.initElement(init, null, new Member[] { this.createMinimalClass("cls1") });

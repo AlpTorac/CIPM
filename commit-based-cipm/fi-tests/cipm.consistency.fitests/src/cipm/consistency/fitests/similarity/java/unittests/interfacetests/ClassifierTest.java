@@ -20,22 +20,23 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesPackageImports;
  * @author atora
  */
 public class ClassifierTest extends EObjectSimilarityTest implements UsesImports, UsesPackageImports {
-	protected Classifier initElement(IClassifierInitialiser initialiser, Import[] imps, PackageImport[] pImps) {
+	protected Classifier initElement(IClassifierInitialiser init, Import[] imps, PackageImport[] pImps) {
 
-		var result = initialiser.instantiate();
-		Assertions.assertTrue(initialiser.initialise(result));
-		Assertions.assertTrue(initialiser.addImports(result, imps));
-		Assertions.assertTrue(initialiser.addPackageImports(result, pImps));
+		var result = init.instantiate();
+		Assertions.assertTrue(init.initialise(result));
+		Assertions.assertTrue(init.addImports(result, imps));
+		Assertions.assertTrue(init.addPackageImports(result, pImps));
 		return result;
 	}
 
 	@ParameterizedTest
 	@ArgumentsSource(ClassifierTestParams.class)
-	public void testImports(IClassifierInitialiser initialiser) {
+	public void testImports(IClassifierInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testImports");
 
-		var objOne = this.initElement(initialiser, new Import[] { this.createMinimalClsImport("cls1") }, null);
-		var objTwo = this.initElement(initialiser, new Import[] { this.createMinimalClsImport("cls2") }, null);
+		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }, null);
+		var objTwo = this.initElement(init, new Import[] { this.createMinimalClsImport("cls2") }, null);
 
 		this.testSimilarity(objOne, objTwo, CompilationUnit.class, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
 	}
@@ -45,12 +46,13 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 	 */
 	@ParameterizedTest
 	@ArgumentsSource(ClassifierTestParams.class)
-	public void testPackageImports(IClassifierInitialiser initialiser) {
+	public void testPackageImports(IClassifierInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testPackageImports");
 
-		var objOne = this.initElement(initialiser, null,
+		var objOne = this.initElement(init, null,
 				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }) });
-		var objTwo = this.initElement(initialiser, null,
+		var objTwo = this.initElement(init, null,
 				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns3", "ns4" }) });
 
 		this.testSimilarity(objOne, objTwo, CompilationUnit.class, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);

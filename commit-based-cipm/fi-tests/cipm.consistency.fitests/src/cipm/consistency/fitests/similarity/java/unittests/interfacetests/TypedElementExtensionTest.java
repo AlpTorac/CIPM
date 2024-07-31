@@ -22,6 +22,7 @@ public class TypedElementExtensionTest extends EObjectSimilarityTest implements 
 	@ParameterizedTest
 	@ArgumentsSource(TypedElementExtensionTestParams.class)
 	public void testActualTarget(ITypedElementExtensionInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testActualTarget");
 
 		var objOne = this.initElement(init, this.createMinimalClsRef("cls1"));

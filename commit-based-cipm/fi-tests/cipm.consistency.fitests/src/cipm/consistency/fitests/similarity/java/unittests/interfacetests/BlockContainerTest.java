@@ -22,6 +22,7 @@ public class BlockContainerTest extends EObjectSimilarityTest implements UsesSta
 	@ParameterizedTest
 	@ArgumentsSource(BlockContainerTestParams.class)
 	public void testBlock(IBlockContainerInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testBlock");
 
 		var objOne = this.initElement(init, this.createMinimalBlockWithNullReturn());
