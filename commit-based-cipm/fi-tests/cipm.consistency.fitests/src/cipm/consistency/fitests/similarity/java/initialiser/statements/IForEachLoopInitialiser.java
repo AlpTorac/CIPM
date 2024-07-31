@@ -8,18 +8,18 @@ public interface IForEachLoopInitialiser extends IStatementInitialiser, IStateme
 	@Override
 	public ForEachLoop instantiate();
 
-	public default boolean setCollection(ForEachLoop fel, Expression expr) {
-		if (expr != null) {
-			fel.setCollection(expr);
-			return fel.getCollection().equals(expr);
+	public default boolean setCollection(ForEachLoop fel, Expression col) {
+		if (col != null) {
+			fel.setCollection(col);
+			return fel.getCollection().equals(col);
 		}
 		return true;
 	}
 
-	public default boolean setNext(ForEachLoop fel, OrdinaryParameter op) {
-		if (op != null) {
-			fel.setNext(op);
-			return fel.getNext().equals(op);
+	public default boolean setNext(ForEachLoop fel, OrdinaryParameter next) {
+		if (next != null) {
+			fel.setNext(next);
+			return fel.getNext().equals(next);
 		}
 		return true;
 	}

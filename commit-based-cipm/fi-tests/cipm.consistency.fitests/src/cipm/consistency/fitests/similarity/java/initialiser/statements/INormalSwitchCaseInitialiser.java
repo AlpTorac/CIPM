@@ -7,15 +7,15 @@ public interface INormalSwitchCaseInitialiser extends IConditionalInitialiser, I
 	@Override
 	public NormalSwitchCase instantiate();
 
-	public default boolean addAdditionalCondition(NormalSwitchCase nsc, Expression expr) {
-		if (expr != null) {
-			nsc.getAdditionalConditions().add(expr);
-			return nsc.getAdditionalConditions().contains(expr);
+	public default boolean addAdditionalCondition(NormalSwitchCase nsc, Expression additionalCond) {
+		if (additionalCond != null) {
+			nsc.getAdditionalConditions().add(additionalCond);
+			return nsc.getAdditionalConditions().contains(additionalCond);
 		}
 		return true;
 	}
 
-	public default boolean addAdditionalConditions(NormalSwitchCase nsc, Expression[] exprs) {
-		return this.doMultipleModifications(nsc, exprs, this::addAdditionalCondition);
+	public default boolean addAdditionalConditions(NormalSwitchCase nsc, Expression[] additionalConds) {
+		return this.doMultipleModifications(nsc, additionalConds, this::addAdditionalCondition);
 	}
 }

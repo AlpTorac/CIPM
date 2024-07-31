@@ -7,16 +7,16 @@ public interface ICompilationUnitInitialiser extends IJavaRootInitialiser {
 	@Override
 	public CompilationUnit instantiate();
 
-	public default boolean addClassifier(CompilationUnit cu, ConcreteClassifier cc) {
-		if (cc != null) {
-			cu.getClassifiers().add(cc);
-			return cu.getClassifiers().contains(cc) && cu.getContainedClassifier(cc.getQualifiedName()) != null
-					&& cu.getContainedClassifier(cc.getQualifiedName()).equals(cc);
+	public default boolean addClassifier(CompilationUnit cu, ConcreteClassifier cls) {
+		if (cls != null) {
+			cu.getClassifiers().add(cls);
+			return cu.getClassifiers().contains(cls) && cu.getContainedClassifier(cls.getQualifiedName()) != null
+					&& cu.getContainedClassifier(cls.getQualifiedName()).equals(cls);
 		}
 		return true;
 	}
 
-	public default boolean addClassifiers(CompilationUnit cu, ConcreteClassifier[] ccs) {
-		return this.doMultipleModifications(cu, ccs, this::addClassifier);
+	public default boolean addClassifiers(CompilationUnit cu, ConcreteClassifier[] clss) {
+		return this.doMultipleModifications(cu, clss, this::addClassifier);
 	}
 }

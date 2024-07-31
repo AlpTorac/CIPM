@@ -9,16 +9,16 @@ public interface IAnnotableInitialiser extends ICommentableInitialiser {
 	@Override
 	public Annotable instantiate();
 
-	public default boolean addAnnotation(Annotable aObj, AnnotationInstance ai) {
-		if (ai != null) {
-			aObj.getAnnotations().add(ai);
-			return aObj.getAnnotations().contains(ai);
+	public default boolean addAnnotation(Annotable aObj, AnnotationInstance anno) {
+		if (anno != null) {
+			aObj.getAnnotations().add(anno);
+			return aObj.getAnnotations().contains(anno);
 		}
 
 		return true;
 	}
 
-	public default boolean addAnnotations(Annotable aObj, AnnotationInstance[] ais) {
-		return this.doMultipleModifications(aObj, ais, this::addAnnotation);
+	public default boolean addAnnotations(Annotable aObj, AnnotationInstance[] annos) {
+		return this.doMultipleModifications(aObj, annos, this::addAnnotation);
 	}
 }

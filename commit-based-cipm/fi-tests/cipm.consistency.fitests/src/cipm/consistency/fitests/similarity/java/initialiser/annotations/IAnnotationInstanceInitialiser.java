@@ -10,10 +10,10 @@ public interface IAnnotationInstanceInitialiser extends INamespaceAwareElementIn
 	@Override
 	public AnnotationInstance instantiate();
 
-	public default boolean setAnnotation(AnnotationInstance ai, Classifier cls) {
-		if (cls != null) {
-			ai.setAnnotation(cls);
-			return ai.getAnnotation().equals(cls);
+	public default boolean setAnnotation(AnnotationInstance ai, Classifier anno) {
+		if (anno != null) {
+			ai.setAnnotation(anno);
+			return ai.getAnnotation().equals(anno);
 		}
 		return true;
 	}

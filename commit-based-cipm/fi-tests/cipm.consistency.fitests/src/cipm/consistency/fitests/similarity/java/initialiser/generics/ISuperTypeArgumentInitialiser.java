@@ -9,10 +9,10 @@ public interface ISuperTypeArgumentInitialiser extends IAnnotableInitialiser, IT
 	@Override
 	public SuperTypeArgument instantiate();
 
-	public default boolean setSuperType(SuperTypeArgument sta, TypeReference tref) {
-		if (tref != null) {
-			sta.setSuperType(tref);
-			return sta.getSuperType().equals(tref);
+	public default boolean setSuperType(SuperTypeArgument sta, TypeReference superType) {
+		if (superType != null) {
+			sta.setSuperType(superType);
+			return sta.getSuperType().equals(superType);
 		}
 		return true;
 	}

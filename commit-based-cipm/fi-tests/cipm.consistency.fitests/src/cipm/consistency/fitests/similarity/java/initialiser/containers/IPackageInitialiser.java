@@ -31,15 +31,15 @@ public interface IPackageInitialiser extends IJavaRootInitialiser, IReferenceabl
 		return true;
 	}
 
-	public default boolean addClassifier(Package pac, ConcreteClassifier cc) {
-		if (cc != null) {
-			pac.getClassifiers().add(cc);
-			return pac.getClassifiers().contains(cc);
+	public default boolean addClassifier(Package pac, ConcreteClassifier cls) {
+		if (cls != null) {
+			pac.getClassifiers().add(cls);
+			return pac.getClassifiers().contains(cls);
 		}
 		return true;
 	}
 
-	public default boolean addClassifiers(Package pac, ConcreteClassifier[] ccs) {
-		return this.doMultipleModifications(pac, ccs, this::addClassifier);
+	public default boolean addClassifiers(Package pac, ConcreteClassifier[] clss) {
+		return this.doMultipleModifications(pac, clss, this::addClassifier);
 	}
 }

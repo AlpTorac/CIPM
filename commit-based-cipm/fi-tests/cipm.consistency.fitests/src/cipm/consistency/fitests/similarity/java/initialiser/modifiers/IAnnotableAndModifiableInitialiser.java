@@ -24,16 +24,17 @@ public interface IAnnotableAndModifiableInitialiser extends ICommentableInitiali
 		return this.doMultipleModifications(aam, modifs, this::addModifier);
 	}
 
-	public default boolean addAnnotationInstance(AnnotableAndModifiable aam, AnnotationInstance ai) {
+	public default boolean addAnnotationInstance(AnnotableAndModifiable aam, AnnotationInstance annoAndModif) {
 		if (aam != null) {
-			aam.getAnnotationsAndModifiers().add(ai);
-			return aam.getAnnotationsAndModifiers().contains(ai) && aam.getAnnotationInstances().contains(ai);
+			aam.getAnnotationsAndModifiers().add(annoAndModif);
+			return aam.getAnnotationsAndModifiers().contains(annoAndModif)
+					&& aam.getAnnotationInstances().contains(annoAndModif);
 		}
 		return true;
 	}
 
-	public default boolean addAnnotationInstances(AnnotableAndModifiable aam, AnnotationInstance[] ais) {
-		return this.doMultipleModifications(aam, ais, this::addAnnotationInstance);
+	public default boolean addAnnotationInstances(AnnotableAndModifiable aam, AnnotationInstance[] annoAndModifArr) {
+		return this.doMultipleModifications(aam, annoAndModifArr, this::addAnnotationInstance);
 	}
 
 	public default boolean setVisibility(AnnotableAndModifiable aam, InitialiserVisibilityModifier modifier) {

@@ -9,10 +9,10 @@ public interface IExtendsTypeArgumentInitialiser extends IAnnotableInitialiser, 
 	@Override
 	public ExtendsTypeArgument instantiate();
 
-	public default boolean setExtendType(ExtendsTypeArgument eta, TypeReference tref) {
-		if (tref != null) {
-			eta.setExtendType(tref);
-			return eta.getExtendType().equals(tref) && eta.getExtendTypes().contains(tref);
+	public default boolean setExtendType(ExtendsTypeArgument eta, TypeReference extType) {
+		if (extType != null) {
+			eta.setExtendType(extType);
+			return eta.getExtendType().equals(extType) && eta.getExtendTypes().contains(extType);
 		}
 		return true;
 	}

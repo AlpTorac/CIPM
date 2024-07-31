@@ -7,10 +7,10 @@ public interface ILocalVariableStatementInitialiser extends IStatementInitialise
 	@Override
 	public LocalVariableStatement instantiate();
 
-	public default boolean setVariable(LocalVariableStatement lvs, LocalVariable lv) {
-		if (lv != null) {
-			lvs.setVariable(lv);
-			return lvs.getVariable().equals(lv);
+	public default boolean setVariable(LocalVariableStatement lvs, LocalVariable var) {
+		if (var != null) {
+			lvs.setVariable(var);
+			return lvs.getVariable().equals(var);
 		}
 		return true;
 	}

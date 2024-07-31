@@ -9,10 +9,10 @@ public interface IConditionInitialiser
 	@Override
 	public Condition instantiate();
 
-	public default boolean setElseStatement(Condition cond, Statement st) {
-		if (st != null) {
-			cond.setElseStatement(st);
-			return cond.getElseStatement().equals(st);
+	public default boolean setElseStatement(Condition cond, Statement elseSt) {
+		if (elseSt != null) {
+			cond.setElseStatement(elseSt);
+			return cond.getElseStatement().equals(elseSt);
 		}
 		return true;
 	}

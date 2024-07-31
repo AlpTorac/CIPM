@@ -22,10 +22,10 @@ public interface ITypeParameterInitialiser extends IClassifierInitialiser, IAnno
 	@Override
 	public TypeParameter instantiate();
 
-	public default boolean addExtendType(TypeParameter tp, TypeReference tref) {
-		if (tref != null) {
-			tp.getExtendTypes().add(tref);
-			return tp.getExtendTypes().contains(tref);
+	public default boolean addExtendType(TypeParameter tp, TypeReference extType) {
+		if (extType != null) {
+			tp.getExtendTypes().add(extType);
+			return tp.getExtendTypes().contains(extType);
 		}
 		return true;
 	}
@@ -48,11 +48,11 @@ public interface ITypeParameterInitialiser extends IClassifierInitialiser, IAnno
 	 * This is caused by the inconsistency in the {@link Classifier} sub-hierarchy.
 	 */
 	@Override
-	public default boolean addPackageImport(Classifier cls, Import imp) {
+	public default boolean addPackageImport(Classifier cls, Import pacImp) {
 		return true;
 	}
 
-	public default boolean addExtendTypes(TypeParameter tp, TypeReference[] trefs) {
-		return this.doMultipleModifications(tp, trefs, this::addExtendType);
+	public default boolean addExtendTypes(TypeParameter tp, TypeReference[] extTypes) {
+		return this.doMultipleModifications(tp, extTypes, this::addExtendType);
 	}
 }

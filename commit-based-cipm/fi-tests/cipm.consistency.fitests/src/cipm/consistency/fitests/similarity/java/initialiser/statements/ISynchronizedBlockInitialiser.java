@@ -8,10 +8,10 @@ public interface ISynchronizedBlockInitialiser
 	@Override
 	public SynchronizedBlock instantiate();
 
-	public default boolean setLockProvider(SynchronizedBlock sb, Expression expr) {
-		if (expr != null) {
-			sb.setLockProvider(expr);
-			return sb.getLockProvider().equals(expr);
+	public default boolean setLockProvider(SynchronizedBlock sb, Expression lockProvider) {
+		if (lockProvider != null) {
+			sb.setLockProvider(lockProvider);
+			return sb.getLockProvider().equals(lockProvider);
 		}
 		return true;
 	}

@@ -25,10 +25,10 @@ public interface IAssignmentExpressionInitialiser extends IExpressionInitialiser
 		return true;
 	}
 
-	public default boolean setValue(AssignmentExpression ae, Expression expr) {
-		if (expr != null) {
-			ae.setValue(expr);
-			return ae.getValue().equals(expr);
+	public default boolean setValue(AssignmentExpression ae, Expression val) {
+		if (val != null) {
+			ae.setValue(val);
+			return ae.getValue().equals(val);
 		}
 		return true;
 	}

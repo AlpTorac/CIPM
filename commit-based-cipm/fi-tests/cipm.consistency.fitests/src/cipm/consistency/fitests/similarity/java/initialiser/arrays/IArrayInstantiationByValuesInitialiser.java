@@ -8,10 +8,10 @@ public interface IArrayInstantiationByValuesInitialiser extends IArrayInstantiat
 	@Override
 	public ArrayInstantiationByValues instantiate();
 
-	public default boolean setArrayInitializer(ArrayInstantiationByValues arrIns, ArrayInitializer init) {
-		if (init != null) {
-			arrIns.setArrayInitializer(init);
-			return arrIns.getArrayInitializer().equals(init);
+	public default boolean setArrayInitializer(ArrayInstantiationByValues arrIns, ArrayInitializer arrInit) {
+		if (arrInit != null) {
+			arrIns.setArrayInitializer(arrInit);
+			return arrIns.getArrayInitializer().equals(arrInit);
 		}
 		return true;
 	}

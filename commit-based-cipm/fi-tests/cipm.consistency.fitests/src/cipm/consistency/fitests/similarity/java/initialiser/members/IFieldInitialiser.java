@@ -12,15 +12,15 @@ public interface IFieldInitialiser extends IAnnotableAndModifiableInitialiser, I
 	@Override
 	public Field instantiate();
 
-	public default boolean addAdditionalField(Field field, AdditionalField adField) {
-		if (adField != null) {
-			field.getAdditionalFields().add(adField);
-			return field.getAdditionalFields().contains(adField);
+	public default boolean addAdditionalField(Field field, AdditionalField additionalField) {
+		if (additionalField != null) {
+			field.getAdditionalFields().add(additionalField);
+			return field.getAdditionalFields().contains(additionalField);
 		}
 		return true;
 	}
 
-	public default boolean addAdditionalFields(Field field, AdditionalField[] adFields) {
-		return this.doMultipleModifications(field, adFields, this::addAdditionalField);
+	public default boolean addAdditionalFields(Field field, AdditionalField[] additionalFields) {
+		return this.doMultipleModifications(field, additionalFields, this::addAdditionalField);
 	}
 }

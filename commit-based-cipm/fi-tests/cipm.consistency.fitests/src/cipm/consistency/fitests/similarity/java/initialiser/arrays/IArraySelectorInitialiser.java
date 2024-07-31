@@ -10,10 +10,10 @@ public interface IArraySelectorInitialiser extends IAnnotableInitialiser, IComme
 	@Override
 	public ArraySelector instantiate();
 
-	public default boolean setPosition(ArraySelector as, Expression expr) {
-		if (expr != null) {
-			as.setPosition(expr);
-			return as.getPosition().equals(expr);
+	public default boolean setPosition(ArraySelector as, Expression pos) {
+		if (pos != null) {
+			as.setPosition(pos);
+			return as.getPosition().equals(pos);
 		}
 		return true;
 	}

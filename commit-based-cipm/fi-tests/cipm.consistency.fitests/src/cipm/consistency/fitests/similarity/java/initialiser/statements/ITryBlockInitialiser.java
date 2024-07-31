@@ -10,10 +10,10 @@ public interface ITryBlockInitialiser
 	@Override
 	public TryBlock instantiate();
 
-	public default boolean setFinallyBlock(TryBlock tb, Block block) {
-		if (block != null) {
-			tb.setFinallyBlock(block);
-			return tb.getFinallyBlock().equals(block);
+	public default boolean setFinallyBlock(TryBlock tb, Block finallyBlock) {
+		if (finallyBlock != null) {
+			tb.setFinallyBlock(finallyBlock);
+			return tb.getFinallyBlock().equals(finallyBlock);
 		}
 		return true;
 	}

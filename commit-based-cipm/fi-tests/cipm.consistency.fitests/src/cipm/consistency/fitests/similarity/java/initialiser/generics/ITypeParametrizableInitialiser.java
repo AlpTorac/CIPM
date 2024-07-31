@@ -9,15 +9,15 @@ public interface ITypeParametrizableInitialiser extends ICommentableInitialiser 
 	@Override
 	public TypeParametrizable instantiate();
 
-	public default boolean addTypeParameter(TypeParametrizable tp, TypeParameter param) {
-		if (param != null) {
-			tp.getTypeParameters().add(param);
-			return tp.getTypeParameters().contains(param);
+	public default boolean addTypeParameter(TypeParametrizable tp, TypeParameter typeParam) {
+		if (typeParam != null) {
+			tp.getTypeParameters().add(typeParam);
+			return tp.getTypeParameters().contains(typeParam);
 		}
 		return true;
 	}
 
-	public default boolean addTypeParameters(TypeParametrizable tp, TypeParameter[] params) {
-		return this.doMultipleModifications(tp, params, this::addTypeParameter);
+	public default boolean addTypeParameters(TypeParametrizable tp, TypeParameter[] typeParams) {
+		return this.doMultipleModifications(tp, typeParams, this::addTypeParameter);
 	}
 }

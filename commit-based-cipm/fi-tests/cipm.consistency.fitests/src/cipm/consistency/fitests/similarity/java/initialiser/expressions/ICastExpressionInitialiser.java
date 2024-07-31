@@ -12,16 +12,16 @@ public interface ICastExpressionInitialiser
 	@Override
 	public CastExpression instantiate();
 
-	public default boolean addAdditionalBound(CastExpression ce, TypeReference tref) {
-		if (tref != null) {
-			ce.getAdditionalBounds().add(tref);
-			return ce.getAdditionalBounds().contains(tref);
+	public default boolean addAdditionalBound(CastExpression ce, TypeReference additionalBounds) {
+		if (additionalBounds != null) {
+			ce.getAdditionalBounds().add(additionalBounds);
+			return ce.getAdditionalBounds().contains(additionalBounds);
 		}
 		return true;
 	}
 
-	public default boolean addAdditionalBounds(CastExpression ce, TypeReference[] trefs) {
-		return this.doMultipleModifications(ce, trefs, this::addAdditionalBound);
+	public default boolean addAdditionalBounds(CastExpression ce, TypeReference[] additionalBoundsArr) {
+		return this.doMultipleModifications(ce, additionalBoundsArr, this::addAdditionalBound);
 	}
 
 	public default boolean setChild(CastExpression ce, MultiplicativeExpressionChild child) {
@@ -32,10 +32,10 @@ public interface ICastExpressionInitialiser
 		return true;
 	}
 
-	public default boolean setGeneralChild(CastExpression ce, Expression expr) {
-		if (expr != null) {
-			ce.setGeneralChild(expr);
-			return ce.getGeneralChild().equals(expr);
+	public default boolean setGeneralChild(CastExpression ce, Expression generalChild) {
+		if (generalChild != null) {
+			ce.setGeneralChild(generalChild);
+			return ce.getGeneralChild().equals(generalChild);
 		}
 		return true;
 	}

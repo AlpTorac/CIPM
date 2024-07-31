@@ -19,10 +19,10 @@ public interface IPrimaryExpressionReferenceExpressionInitialiser
 		return true;
 	}
 
-	public default boolean setMethodReference(PrimaryExpressionReferenceExpression pere, Reference ref) {
-		if (ref != null) {
-			pere.setMethodReference(ref);
-			return pere.getMethodReference().equals(ref);
+	public default boolean setMethodReference(PrimaryExpressionReferenceExpression pere, Reference metRef) {
+		if (metRef != null) {
+			pere.setMethodReference(metRef);
+			return pere.getMethodReference().equals(metRef);
 		}
 		return true;
 	}

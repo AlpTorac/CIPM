@@ -10,22 +10,22 @@ public interface ISwitchInitialiser extends IStatementInitialiser, IUnaryModific
 	@Override
 	public Switch instantiate();
 
-	public default boolean addCase(Switch sw, SwitchCase sc) {
-		if (sc != null) {
-			sw.getCases().add(sc);
-			return sw.getCases().contains(sc);
+	public default boolean addCase(Switch sw, SwitchCase swCase) {
+		if (swCase != null) {
+			sw.getCases().add(swCase);
+			return sw.getCases().contains(swCase);
 		}
 		return true;
 	}
 
-	public default boolean addCases(Switch sw, SwitchCase[] scs) {
-		return this.doMultipleModifications(sw, scs, this::addCase);
+	public default boolean addCases(Switch sw, SwitchCase[] swCases) {
+		return this.doMultipleModifications(sw, swCases, this::addCase);
 	}
 
-	public default boolean setVariable(Switch sw, Expression expr) {
-		if (expr != null) {
-			sw.setVariable(expr);
-			return sw.getVariable().equals(expr);
+	public default boolean setVariable(Switch sw, Expression var) {
+		if (var != null) {
+			sw.setVariable(var);
+			return sw.getVariable().equals(var);
 		}
 		return true;
 	}

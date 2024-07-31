@@ -9,15 +9,15 @@ public interface IImplementorInitialiser extends ICommentableInitialiser {
 	@Override
 	public Implementor instantiate();
 
-	public default boolean addImplements(Implementor implementor, TypeReference tref) {
-		if (tref != null) {
-			implementor.getImplements().add(tref);
-			return implementor.getImplements().contains(tref);
+	public default boolean addImplements(Implementor implementor, TypeReference impls) {
+		if (impls != null) {
+			implementor.getImplements().add(impls);
+			return implementor.getImplements().contains(impls);
 		}
 		return true;
 	}
 
-	public default boolean addImplements(Implementor implementor, TypeReference[] trefs) {
-		return this.doMultipleModifications(implementor, trefs, this::addImplements);
+	public default boolean addImplements(Implementor implementor, TypeReference[] implsArr) {
+		return this.doMultipleModifications(implementor, implsArr, this::addImplements);
 	}
 }

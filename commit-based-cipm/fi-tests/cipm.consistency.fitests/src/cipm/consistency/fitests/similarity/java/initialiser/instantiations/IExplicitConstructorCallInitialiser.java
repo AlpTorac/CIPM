@@ -7,10 +7,10 @@ public interface IExplicitConstructorCallInitialiser extends IInstantiationIniti
 	@Override
 	public ExplicitConstructorCall instantiate();
 
-	public default boolean setCallTarget(ExplicitConstructorCall ecc, Self self) {
-		if (self != null) {
-			ecc.setCallTarget(self);
-			return ecc.getCallTarget().equals(self);
+	public default boolean setCallTarget(ExplicitConstructorCall ecc, Self callTarget) {
+		if (callTarget != null) {
+			ecc.setCallTarget(callTarget);
+			return ecc.getCallTarget().equals(callTarget);
 		}
 		return true;
 	}

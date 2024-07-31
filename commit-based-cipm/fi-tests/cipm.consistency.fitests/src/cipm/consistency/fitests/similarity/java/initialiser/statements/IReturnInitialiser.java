@@ -7,10 +7,10 @@ public interface IReturnInitialiser extends IStatementInitialiser {
 	@Override
 	public Return instantiate();
 
-	public default boolean setReturnValue(Return ret, Expression expr) {
-		if (expr != null) {
-			ret.setReturnValue(expr);
-			return ret.getReturnValue().equals(expr);
+	public default boolean setReturnValue(Return ret, Expression retVal) {
+		if (retVal != null) {
+			ret.setReturnValue(retVal);
+			return ret.getReturnValue().equals(retVal);
 		}
 		return true;
 	}

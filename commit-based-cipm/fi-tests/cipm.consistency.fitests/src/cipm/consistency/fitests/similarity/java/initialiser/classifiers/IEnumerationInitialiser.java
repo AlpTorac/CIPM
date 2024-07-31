@@ -7,15 +7,15 @@ public interface IEnumerationInitialiser extends IConcreteClassifierInitialiser,
 	@Override
 	public Enumeration instantiate();
 
-	public default boolean addConstant(Enumeration enm, EnumConstant cst) {
-		if (cst != null) {
-			enm.getConstants().add(cst);
-			return enm.getConstants().contains(cst) && enm.getContainedConstant(cst.getName()).equals(cst);
+	public default boolean addConstant(Enumeration enm, EnumConstant cnst) {
+		if (cnst != null) {
+			enm.getConstants().add(cnst);
+			return enm.getConstants().contains(cnst) && enm.getContainedConstant(cnst.getName()).equals(cnst);
 		}
 		return true;
 	}
 
-	public default boolean addConstants(Enumeration enm, EnumConstant[] csts) {
-		return this.doMultipleModifications(enm, csts, this::addConstant);
+	public default boolean addConstants(Enumeration enm, EnumConstant[] cnsts) {
+		return this.doMultipleModifications(enm, cnsts, this::addConstant);
 	}
 }

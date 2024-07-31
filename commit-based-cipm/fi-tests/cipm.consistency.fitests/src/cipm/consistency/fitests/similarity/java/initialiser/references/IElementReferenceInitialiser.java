@@ -7,18 +7,18 @@ public interface IElementReferenceInitialiser extends IReferenceInitialiser {
 	@Override
 	public ElementReference instantiate();
 
-	public default boolean setContainedTarget(ElementReference eref, ReferenceableElement re) {
-		if (re != null) {
-			eref.setContainedTarget(re);
-			return eref.getContainedTarget().equals(re);
+	public default boolean setContainedTarget(ElementReference eref, ReferenceableElement conTarget) {
+		if (conTarget != null) {
+			eref.setContainedTarget(conTarget);
+			return eref.getContainedTarget().equals(conTarget);
 		}
 		return true;
 	}
 
-	public default boolean setTarget(ElementReference eref, ReferenceableElement re) {
-		if (re != null) {
-			eref.setTarget(re);
-			return eref.getTarget().equals(re);
+	public default boolean setTarget(ElementReference eref, ReferenceableElement target) {
+		if (target != null) {
+			eref.setTarget(target);
+			return eref.getTarget().equals(target);
 		}
 		return true;
 	}

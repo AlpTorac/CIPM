@@ -9,15 +9,15 @@ public interface IExceptionThrowerInitialiser extends ICommentableInitialiser {
 	@Override
 	public ExceptionThrower instantiate();
 
-	public default boolean addException(ExceptionThrower extt, NamespaceClassifierReference ncref) {
-		if (ncref != null) {
-			extt.getExceptions().add(ncref);
-			return extt.getExceptions().contains(ncref);
+	public default boolean addException(ExceptionThrower extt, NamespaceClassifierReference exception) {
+		if (exception != null) {
+			extt.getExceptions().add(exception);
+			return extt.getExceptions().contains(exception);
 		}
 		return true;
 	}
 
-	public default boolean addExceptions(ExceptionThrower extt, NamespaceClassifierReference[] ncrefs) {
-		return this.doMultipleModifications(extt, ncrefs, this::addException);
+	public default boolean addExceptions(ExceptionThrower extt, NamespaceClassifierReference[] exceptions) {
+		return this.doMultipleModifications(extt, exceptions, this::addException);
 	}
 }

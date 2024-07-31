@@ -9,23 +9,23 @@ public interface IForLoopInitialiser
 	@Override
 	public ForLoop instantiate();
 
-	public default boolean setInit(ForLoop fl, ForLoopInitializer fli) {
-		if (fli != null) {
-			fl.setInit(fli);
-			return fl.getInit().equals(fli);
+	public default boolean setInit(ForLoop fl, ForLoopInitializer init) {
+		if (init != null) {
+			fl.setInit(init);
+			return fl.getInit().equals(init);
 		}
 		return true;
 	}
 
-	public default boolean addUpdate(ForLoop fl, Expression expr) {
-		if (expr != null) {
-			fl.getUpdates().add(expr);
-			return fl.getUpdates().contains(expr);
+	public default boolean addUpdate(ForLoop fl, Expression update) {
+		if (update != null) {
+			fl.getUpdates().add(update);
+			return fl.getUpdates().contains(update);
 		}
 		return true;
 	}
 
-	public default boolean addUpdates(ForLoop fl, Expression[] exprs) {
-		return this.doMultipleModifications(fl, exprs, this::addUpdate);
+	public default boolean addUpdates(ForLoop fl, Expression[] updates) {
+		return this.doMultipleModifications(fl, updates, this::addUpdate);
 	}
 }

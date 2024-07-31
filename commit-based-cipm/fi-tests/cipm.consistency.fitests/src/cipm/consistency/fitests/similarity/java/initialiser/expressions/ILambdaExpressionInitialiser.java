@@ -8,18 +8,18 @@ public interface ILambdaExpressionInitialiser extends IExpressionInitialiser {
 	@Override
 	public LambdaExpression instantiate();
 
-	public default boolean setBody(LambdaExpression le, LambdaBody lb) {
-		if (lb != null) {
-			le.setBody(lb);
-			return le.getBody().equals(lb);
+	public default boolean setBody(LambdaExpression le, LambdaBody body) {
+		if (body != null) {
+			le.setBody(body);
+			return le.getBody().equals(body);
 		}
 		return true;
 	}
 
-	public default boolean setParameters(LambdaExpression le, LambdaParameters lp) {
-		if (lp != null) {
-			le.setParameters(lp);
-			return le.getParameters().equals(lp);
+	public default boolean setParameters(LambdaExpression le, LambdaParameters param) {
+		if (param != null) {
+			le.setParameters(param);
+			return le.getParameters().equals(param);
 		}
 		return true;
 	}

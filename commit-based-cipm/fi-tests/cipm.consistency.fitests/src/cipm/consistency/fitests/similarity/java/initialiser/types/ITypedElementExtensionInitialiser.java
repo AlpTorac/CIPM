@@ -9,10 +9,10 @@ public interface ITypedElementExtensionInitialiser extends ICommentableInitialis
 	@Override
 	public TypedElementExtension instantiate();
 
-	public default boolean addActualTarget(TypedElementExtension tee, TypeReference tref) {
-		if (tref != null) {
-			tee.getActualTargets().add(tref);
-			return tee.getActualTargets().contains(tref);
+	public default boolean addActualTarget(TypedElementExtension tee, TypeReference actualTarget) {
+		if (actualTarget != null) {
+			tee.getActualTargets().add(actualTarget);
+			return tee.getActualTargets().contains(actualTarget);
 		}
 		return true;
 	}
