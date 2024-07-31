@@ -17,16 +17,16 @@ public interface IModuleInitialiser extends IJavaRootInitialiser {
 		return true;
 	}
 
-	public default boolean addTarget(Module mod, ModuleDirective md) {
-		if (md != null) {
-			mod.getTarget().add(md);
-			return mod.getTarget().contains(md);
+	public default boolean addTarget(Module mod, ModuleDirective target) {
+		if (target != null) {
+			mod.getTarget().add(target);
+			return mod.getTarget().contains(target);
 		}
 		return true;
 	}
 
-	public default boolean addTargets(Module mod, ModuleDirective[] mds) {
-		return this.doMultipleModifications(mod, mds, this::addTarget);
+	public default boolean addTargets(Module mod, ModuleDirective[] targets) {
+		return this.doMultipleModifications(mod, targets, this::addTarget);
 	}
 
 	public default boolean addPackage(Module mod, Package pac) {

@@ -10,15 +10,15 @@ public interface IArrayInitializerInitialiser
 	@Override
 	public ArrayInitializer instantiate();
 
-	public default boolean addInitialValue(ArrayInitializer ai, ArrayInitializationValue aiv) {
-		if (aiv != null) {
-			ai.getInitialValues().add(aiv);
-			return ai.getInitialValues().contains(aiv);
+	public default boolean addInitialValue(ArrayInitializer ai, ArrayInitializationValue initVal) {
+		if (initVal != null) {
+			ai.getInitialValues().add(initVal);
+			return ai.getInitialValues().contains(initVal);
 		}
 		return true;
 	}
 
-	public default boolean addInitialValues(ArrayInitializer ai, ArrayInitializationValue[] aivs) {
-		return this.doMultipleModifications(ai, aivs, this::addInitialValue);
+	public default boolean addInitialValues(ArrayInitializer ai, ArrayInitializationValue[] initVals) {
+		return this.doMultipleModifications(ai, initVals, this::addInitialValue);
 	}
 }

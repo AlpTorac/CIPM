@@ -18,15 +18,15 @@ public interface IArgumentableInitialiser extends ICommentableInitialiser {
 	@Override
 	public Argumentable instantiate();
 
-	public default boolean addArgument(Argumentable argable, Expression expr) {
-		if (expr != null) {
-			argable.getArguments().add(expr);
-			return argable.getArguments().contains(expr);
+	public default boolean addArgument(Argumentable argable, Expression arg) {
+		if (arg != null) {
+			argable.getArguments().add(arg);
+			return argable.getArguments().contains(arg);
 		}
 		return true;
 	}
 
-	public default boolean addArguments(Argumentable argable, Expression[] exprs) {
-		return this.doMultipleModifications(argable, exprs, this::addArgument);
+	public default boolean addArguments(Argumentable argable, Expression[] args) {
+		return this.doMultipleModifications(argable, args, this::addArgument);
 	}
 }

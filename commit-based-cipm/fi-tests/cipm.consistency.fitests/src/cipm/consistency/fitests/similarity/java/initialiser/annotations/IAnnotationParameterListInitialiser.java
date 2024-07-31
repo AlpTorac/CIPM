@@ -7,15 +7,15 @@ public interface IAnnotationParameterListInitialiser extends IAnnotationParamete
 	@Override
 	public AnnotationParameterList instantiate();
 
-	public default boolean addSetting(AnnotationParameterList apl, AnnotationAttributeSetting aas) {
-		if (aas != null) {
-			apl.getSettings().add(aas);
-			return apl.getSettings().contains(aas);
+	public default boolean addSetting(AnnotationParameterList apl, AnnotationAttributeSetting setting) {
+		if (setting != null) {
+			apl.getSettings().add(setting);
+			return apl.getSettings().contains(setting);
 		}
 		return true;
 	}
 
-	public default boolean addSettings(AnnotationParameterList apl, AnnotationAttributeSetting[] aass) {
-		return this.doMultipleModifications(apl, aass, this::addSetting);
+	public default boolean addSettings(AnnotationParameterList apl, AnnotationAttributeSetting[] settings) {
+		return this.doMultipleModifications(apl, settings, this::addSetting);
 	}
 }

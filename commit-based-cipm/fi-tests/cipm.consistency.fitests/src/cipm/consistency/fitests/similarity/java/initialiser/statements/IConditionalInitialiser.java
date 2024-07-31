@@ -9,10 +9,10 @@ public interface IConditionalInitialiser extends ICommentableInitialiser {
 	@Override
 	public Conditional instantiate();
 
-	public default boolean setCondition(Conditional cond, Expression expr) {
-		if (expr != null) {
-			cond.setCondition(expr);
-			return cond.getCondition().equals(expr);
+	public default boolean setCondition(Conditional cond, Expression condExpr) {
+		if (condExpr != null) {
+			cond.setCondition(condExpr);
+			return cond.getCondition().equals(condExpr);
 		}
 		return true;
 	}

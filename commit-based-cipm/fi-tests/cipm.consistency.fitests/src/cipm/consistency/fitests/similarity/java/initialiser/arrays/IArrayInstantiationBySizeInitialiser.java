@@ -10,15 +10,15 @@ public interface IArrayInstantiationBySizeInitialiser extends IArrayInstantiatio
 	@Override
 	public ArrayInstantiationBySize instantiate();
 
-	public default boolean addSize(ArrayInstantiationBySize arrIns, Expression expr) {
-		if (expr != null) {
-			arrIns.getSizes().add(expr);
-			return arrIns.getSizes().contains(expr);
+	public default boolean addSize(ArrayInstantiationBySize arrIns, Expression size) {
+		if (size != null) {
+			arrIns.getSizes().add(size);
+			return arrIns.getSizes().contains(size);
 		}
 		return true;
 	}
 
-	public default boolean addSizes(ArrayInstantiationBySize arrIns, Expression[] exprs) {
-		return this.doMultipleModifications(arrIns, exprs, this::addSize);
+	public default boolean addSizes(ArrayInstantiationBySize arrIns, Expression[] sizes) {
+		return this.doMultipleModifications(arrIns, sizes, this::addSize);
 	}
 }

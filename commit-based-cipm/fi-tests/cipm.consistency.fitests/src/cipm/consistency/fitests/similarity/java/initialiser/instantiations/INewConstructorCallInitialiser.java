@@ -10,10 +10,10 @@ public interface INewConstructorCallInitialiser extends IInstantiationInitialise
 	@Override
 	public NewConstructorCall instantiate();
 
-	public default boolean setAnonymousClass(NewConstructorCall ncc, AnonymousClass ac) {
-		if (ac != null) {
-			ncc.setAnonymousClass(ac);
-			return ncc.getAnonymousClass().equals(ac);
+	public default boolean setAnonymousClass(NewConstructorCall ncc, AnonymousClass anonymousCls) {
+		if (anonymousCls != null) {
+			ncc.setAnonymousClass(anonymousCls);
+			return ncc.getAnonymousClass().equals(anonymousCls);
 		}
 		return true;
 	}

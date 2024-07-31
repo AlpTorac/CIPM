@@ -29,7 +29,7 @@ public interface IClassMethodInitialiser extends IMethodInitialiser, IStatementL
 	 *         modified.
 	 */
 	@Override
-	default boolean addStatementAssertion(StatementListContainer slc, Statement s) {
+	default boolean addStatementAssertion(StatementListContainer slc, Statement st) {
 		return true;
 	}
 }

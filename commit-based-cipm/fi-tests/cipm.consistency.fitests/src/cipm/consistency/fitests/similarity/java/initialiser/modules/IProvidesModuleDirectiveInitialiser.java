@@ -9,15 +9,15 @@ public interface IProvidesModuleDirectiveInitialiser extends IModuleDirectiveIni
 	@Override
 	public ProvidesModuleDirective instantiate();
 
-	public default boolean addServiceProvider(ProvidesModuleDirective pmd, TypeReference tref) {
-		if (tref != null) {
-			pmd.getServiceProviders().add(tref);
-			return pmd.getServiceProviders().contains(tref);
+	public default boolean addServiceProvider(ProvidesModuleDirective pmd, TypeReference serviceProvider) {
+		if (serviceProvider != null) {
+			pmd.getServiceProviders().add(serviceProvider);
+			return pmd.getServiceProviders().contains(serviceProvider);
 		}
 		return true;
 	}
 
-	public default boolean addServiceProviders(ProvidesModuleDirective pmd, TypeReference[] trefs) {
-		return this.doMultipleModifications(pmd, trefs, this::addServiceProvider);
+	public default boolean addServiceProviders(ProvidesModuleDirective pmd, TypeReference[] serviceProviders) {
+		return this.doMultipleModifications(pmd, serviceProviders, this::addServiceProvider);
 	}
 }

@@ -11,23 +11,23 @@ public interface IAccessProvidingModuleDirectiveInitialiser
 	@Override
 	public AccessProvidingModuleDirective instantiate();
 
-	public default boolean setAccessablePackage(AccessProvidingModuleDirective apmd, Package pac) {
-		if (pac != null) {
-			apmd.setAccessablePackage(pac);
-			return apmd.getAccessablePackage().equals(pac);
+	public default boolean setAccessablePackage(AccessProvidingModuleDirective apmd, Package accessablePac) {
+		if (accessablePac != null) {
+			apmd.setAccessablePackage(accessablePac);
+			return apmd.getAccessablePackage().equals(accessablePac);
 		}
 		return true;
 	}
 
-	public default boolean addModule(AccessProvidingModuleDirective apmd, ModuleReference modref) {
-		if (modref != null) {
-			apmd.getModules().add(modref);
-			return apmd.getModules().contains(modref);
+	public default boolean addModule(AccessProvidingModuleDirective apmd, ModuleReference mod) {
+		if (mod != null) {
+			apmd.getModules().add(mod);
+			return apmd.getModules().contains(mod);
 		}
 		return true;
 	}
 
-	public default boolean addModules(AccessProvidingModuleDirective apmd, ModuleReference[] modrefs) {
-		return this.doMultipleModifications(apmd, modrefs, this::addModule);
+	public default boolean addModules(AccessProvidingModuleDirective apmd, ModuleReference[] mods) {
+		return this.doMultipleModifications(apmd, mods, this::addModule);
 	}
 }

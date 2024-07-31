@@ -13,16 +13,16 @@ public interface IReferenceInitialiser
 	@Override
 	public Reference instantiate();
 
-	public default boolean addArraySelector(Reference ref, ArraySelector as) {
-		if (as != null) {
-			ref.getArraySelectors().add(as);
-			return ref.getArraySelectors().contains(as);
+	public default boolean addArraySelector(Reference ref, ArraySelector arrSel) {
+		if (arrSel != null) {
+			ref.getArraySelectors().add(arrSel);
+			return ref.getArraySelectors().contains(arrSel);
 		}
 		return true;
 	}
 
-	public default boolean addArraySelectors(Reference ref, ArraySelector[] asArr) {
-		return this.doMultipleModifications(ref, asArr, this::addArraySelector);
+	public default boolean addArraySelectors(Reference ref, ArraySelector[] arrSels) {
+		return this.doMultipleModifications(ref, arrSels, this::addArraySelector);
 	}
 
 	public default boolean setNext(Reference ref, Reference next) {

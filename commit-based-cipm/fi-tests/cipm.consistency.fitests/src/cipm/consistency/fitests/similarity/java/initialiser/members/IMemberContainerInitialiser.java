@@ -9,27 +9,27 @@ public interface IMemberContainerInitialiser extends ICommentableInitialiser {
 	@Override
 	public MemberContainer instantiate();
 
-	public default boolean addMember(MemberContainer mc, Member mbr) {
-		if (mbr != null) {
-			mc.getMembers().add(mbr);
-			return mc.getMembers().contains(mbr);
+	public default boolean addMember(MemberContainer mc, Member mem) {
+		if (mem != null) {
+			mc.getMembers().add(mem);
+			return mc.getMembers().contains(mem);
 		}
 		return true;
 	}
 
-	public default boolean addMembers(MemberContainer mc, Member[] mbrs) {
-		return this.doMultipleModifications(mc, mbrs, this::addMember);
+	public default boolean addMembers(MemberContainer mc, Member[] mems) {
+		return this.doMultipleModifications(mc, mems, this::addMember);
 	}
 
-	public default boolean addDefaultMember(MemberContainer mc, Member mbr) {
-		if (mbr != null) {
-			mc.getDefaultMembers().add(mbr);
-			return mc.getDefaultMembers().contains(mbr);
+	public default boolean addDefaultMember(MemberContainer mc, Member defMem) {
+		if (defMem != null) {
+			mc.getDefaultMembers().add(defMem);
+			return mc.getDefaultMembers().contains(defMem);
 		}
 		return true;
 	}
 
-	public default boolean addDefaultMembers(MemberContainer mc, Member[] mbrs) {
-		return this.doMultipleModifications(mc, mbrs, this::addDefaultMember);
+	public default boolean addDefaultMembers(MemberContainer mc, Member[] defMems) {
+		return this.doMultipleModifications(mc, defMems, this::addDefaultMember);
 	}
 }

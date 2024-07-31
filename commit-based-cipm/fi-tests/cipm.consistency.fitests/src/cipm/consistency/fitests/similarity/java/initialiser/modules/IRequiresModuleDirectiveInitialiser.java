@@ -8,18 +8,18 @@ public interface IRequiresModuleDirectiveInitialiser extends IModuleDirectiveIni
 	@Override
 	public RequiresModuleDirective instantiate();
 
-	public default boolean setModifier(RequiresModuleDirective rmd, ModuleRequiresModifier mrm) {
-		if (mrm != null) {
-			rmd.setModifier(mrm);
-			return rmd.getModifier().equals(mrm);
+	public default boolean setModifier(RequiresModuleDirective rmd, ModuleRequiresModifier modif) {
+		if (modif != null) {
+			rmd.setModifier(modif);
+			return rmd.getModifier().equals(modif);
 		}
 		return true;
 	}
 
-	public default boolean setRequiredModule(RequiresModuleDirective rmd, ModuleReference mref) {
-		if (mref != null) {
-			rmd.setRequiredModule(mref);
-			return rmd.getRequiredModule().equals(mref);
+	public default boolean setRequiredModule(RequiresModuleDirective rmd, ModuleReference reqMod) {
+		if (reqMod != null) {
+			rmd.setRequiredModule(reqMod);
+			return rmd.getRequiredModule().equals(reqMod);
 		}
 		return true;
 	}

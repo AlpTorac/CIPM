@@ -7,10 +7,10 @@ public interface IThrowInitialiser extends IStatementInitialiser {
 	@Override
 	public Throw instantiate();
 
-	public default boolean setThrowable(Throw th, Expression expr) {
-		if (expr != null) {
-			th.setThrowable(expr);
-			return th.getThrowable().equals(expr);
+	public default boolean setThrowable(Throw th, Expression throwable) {
+		if (throwable != null) {
+			th.setThrowable(throwable);
+			return th.getThrowable().equals(throwable);
 		}
 		return true;
 	}

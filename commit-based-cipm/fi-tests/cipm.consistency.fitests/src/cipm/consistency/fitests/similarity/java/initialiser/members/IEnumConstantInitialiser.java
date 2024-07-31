@@ -12,10 +12,10 @@ public interface IEnumConstantInitialiser
 	@Override
 	public EnumConstant instantiate();
 
-	public default boolean setAnonymousClass(EnumConstant ec, AnonymousClass cls) {
-		if (cls != null) {
-			ec.setAnonymousClass(cls);
-			return ec.getAnonymousClass().equals(cls);
+	public default boolean setAnonymousClass(EnumConstant ec, AnonymousClass anonymousCls) {
+		if (anonymousCls != null) {
+			ec.setAnonymousClass(anonymousCls);
+			return ec.getAnonymousClass().equals(anonymousCls);
 		}
 		return true;
 	}

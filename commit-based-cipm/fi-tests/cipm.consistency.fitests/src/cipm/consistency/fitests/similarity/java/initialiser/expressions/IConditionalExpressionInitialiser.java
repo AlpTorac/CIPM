@@ -17,26 +17,26 @@ public interface IConditionalExpressionInitialiser extends IAssignmentExpression
 		return true;
 	}
 
-	public default boolean setExpressionChild(ConditionalExpression ce, AssignmentExpressionChild child) {
-		if (child != null) {
-			ce.setExpressionChild(child);
-			return ce.getExpressionElse().equals(child);
+	public default boolean setExpressionChild(ConditionalExpression ce, AssignmentExpressionChild exprChild) {
+		if (exprChild != null) {
+			ce.setExpressionChild(exprChild);
+			return ce.getExpressionElse().equals(exprChild);
 		}
 		return true;
 	}
 
-	public default boolean setExpressionIf(ConditionalExpression ce, Expression expr) {
-		if (expr != null) {
-			ce.setExpressionIf(expr);
-			return ce.getExpressionIf().equals(expr);
+	public default boolean setExpressionIf(ConditionalExpression ce, Expression exprIf) {
+		if (exprIf != null) {
+			ce.setExpressionIf(exprIf);
+			return ce.getExpressionIf().equals(exprIf);
 		}
 		return true;
 	}
 
-	public default boolean setGeneralExpressionElse(ConditionalExpression ce, Expression expr) {
-		if (expr != null) {
-			ce.setGeneralExpressionElse(expr);
-			return ce.getGeneralExpressionElse().equals(expr);
+	public default boolean setGeneralExpressionElse(ConditionalExpression ce, Expression generalExprElse) {
+		if (generalExprElse != null) {
+			ce.setGeneralExpressionElse(generalExprElse);
+			return ce.getGeneralExpressionElse().equals(generalExprElse);
 		}
 		return true;
 	}

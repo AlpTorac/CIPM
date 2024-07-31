@@ -22,10 +22,10 @@ public interface IStatementListContainerInitialiser extends ICommentableInitiali
 	 * @return True, if the behaviour expected by calling this method was achieved.
 	 * @see {@link #addStatementAssertion(StatementListContainer, Statement)}
 	 */
-	public default boolean addStatement(StatementListContainer slc, Statement s) {
-		if (s != null) {
-			slc.getStatements().add(s);
-			return this.addStatementAssertion(slc, s);
+	public default boolean addStatement(StatementListContainer slc, Statement st) {
+		if (st != null) {
+			slc.getStatements().add(st);
+			return this.addStatementAssertion(slc, st);
 		}
 		return true;
 	}
@@ -45,11 +45,11 @@ public interface IStatementListContainerInitialiser extends ICommentableInitiali
 	 *         {@link #addStatement(StatementListContainer, Statement)} was
 	 *         achieved.
 	 */
-	default boolean addStatementAssertion(StatementListContainer slc, Statement s) {
-		return slc.getStatements().contains(s);
+	default boolean addStatementAssertion(StatementListContainer slc, Statement st) {
+		return slc.getStatements().contains(st);
 	}
 
-	public default boolean addStatements(StatementListContainer slc, Statement[] ss) {
-		return this.doMultipleModifications(slc, ss, this::addStatement);
+	public default boolean addStatements(StatementListContainer slc, Statement[] sts) {
+		return this.doMultipleModifications(slc, sts, this::addStatement);
 	}
 }

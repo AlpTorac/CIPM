@@ -13,10 +13,10 @@ public interface ITypeReferenceInitialiser extends IArrayTypeableInitialiser {
 	 * Does not change tref, unless it is an instance of
 	 * {@link NamespaceClassifierReference}.
 	 */
-	public default boolean setTarget(TypeReference tref, Classifier cls) {
-		if (cls != null) {
-			tref.setTarget(cls);
-			return tref.getTarget().equals(cls);
+	public default boolean setTarget(TypeReference tref, Classifier target) {
+		if (target != null) {
+			tref.setTarget(target);
+			return tref.getTarget().equals(target);
 		}
 		return true;
 	}

@@ -9,15 +9,15 @@ public interface ICallTypeArgumentableInitialiser extends ICommentableInitialise
 	@Override
 	public CallTypeArgumentable instantiate();
 
-	public default boolean addCallTypeArgument(CallTypeArgumentable cta, TypeArgument ta) {
-		if (ta != null) {
-			cta.getCallTypeArguments().add(ta);
-			return cta.getCallTypeArguments().contains(ta);
+	public default boolean addCallTypeArgument(CallTypeArgumentable cta, TypeArgument callTypeArg) {
+		if (callTypeArg != null) {
+			cta.getCallTypeArguments().add(callTypeArg);
+			return cta.getCallTypeArguments().contains(callTypeArg);
 		}
 		return true;
 	}
 
-	public default boolean addCallTypeArguments(CallTypeArgumentable cta, TypeArgument[] tas) {
-		return this.doMultipleModifications(cta, tas, this::addCallTypeArgument);
+	public default boolean addCallTypeArguments(CallTypeArgumentable cta, TypeArgument[] callTypeArgs) {
+		return this.doMultipleModifications(cta, callTypeArgs, this::addCallTypeArgument);
 	}
 }

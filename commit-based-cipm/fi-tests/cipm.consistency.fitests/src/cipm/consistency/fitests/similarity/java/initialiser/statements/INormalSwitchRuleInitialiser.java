@@ -7,15 +7,15 @@ public interface INormalSwitchRuleInitialiser extends IConditionalInitialiser, I
 	@Override
 	public NormalSwitchRule instantiate();
 
-	public default boolean addAdditionalCondition(NormalSwitchRule nsr, Expression expr) {
-		if (expr != null) {
-			nsr.getAdditionalConditions().add(expr);
-			return nsr.getAdditionalConditions().contains(expr);
+	public default boolean addAdditionalCondition(NormalSwitchRule nsr, Expression additionalCond) {
+		if (additionalCond != null) {
+			nsr.getAdditionalConditions().add(additionalCond);
+			return nsr.getAdditionalConditions().contains(additionalCond);
 		}
 		return true;
 	}
 
-	public default boolean addAdditionalConditions(NormalSwitchRule nsr, Expression[] exprs) {
-		return this.doMultipleModifications(nsr, exprs, this::addAdditionalCondition);
+	public default boolean addAdditionalConditions(NormalSwitchRule nsr, Expression[] additionalConds) {
+		return this.doMultipleModifications(nsr, additionalConds, this::addAdditionalCondition);
 	}
 }

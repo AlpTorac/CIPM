@@ -10,10 +10,10 @@ public interface IAnnotationAttributeSettingInitialiser extends ICommentableInit
 	@Override
 	public AnnotationAttributeSetting instantiate();
 
-	public default boolean setAttribute(AnnotationAttributeSetting aas, InterfaceMethod im) {
-		if (im != null) {
-			aas.setAttribute(im);
-			return aas.getAttribute().equals(im);
+	public default boolean setAttribute(AnnotationAttributeSetting aas, InterfaceMethod attr) {
+		if (attr != null) {
+			aas.setAttribute(attr);
+			return aas.getAttribute().equals(attr);
 		}
 		return true;
 	}

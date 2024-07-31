@@ -9,10 +9,10 @@ public interface IModuleReferenceInitialiser extends INamespaceAwareElementIniti
 	@Override
 	public ModuleReference instantiate();
 
-	public default boolean setTarget(ModuleReference mref, Module mod) {
-		if (mod != null) {
-			mref.setTarget(mod);
-			return mref.getTarget().equals(mod);
+	public default boolean setTarget(ModuleReference mref, Module target) {
+		if (target != null) {
+			mref.setTarget(target);
+			return mref.getTarget().equals(target);
 		}
 		return true;
 	}
