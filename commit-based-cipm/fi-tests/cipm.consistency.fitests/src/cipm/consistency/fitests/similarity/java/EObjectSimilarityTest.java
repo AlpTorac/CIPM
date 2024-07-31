@@ -11,11 +11,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
+import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
 import cipm.consistency.fitests.similarity.java.params.InitialiserTestSettingsProvider;
 import cipm.consistency.fitests.similarity.java.params.SimilarityValues;
-
-// FIXME: Add tests for possible exceptions in impltests and interfacetests
 
 /**
  * Extends {@link AbstractSimilarityTest} with similarity checking methods to
@@ -24,6 +23,16 @@ import cipm.consistency.fitests.similarity.java.params.SimilarityValues;
  * @author atora
  */
 public class EObjectSimilarityTest extends AbstractSimilarityTest {
+	/**
+	 * The {@link IInitialiser} instance that is currently being used. <br>
+	 * <br>
+	 * Meant to help log parameterized tests better, since it is hard to match a
+	 * certain initialiser instance to a given piece of log message otherwise.<br>
+	 * <br>
+	 * It is recommended to set it to null after each tests, so that
+	 */
+	private IInitialiser currentInit = null;
+
 	@BeforeAll
 	public static void setUpBeforeClass() {
 		InitialiserTestSettingsProvider.initialise();
@@ -34,8 +43,7 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	public void setUp() {
 		super.setUp();
 
-		InitialiserTestSettingsProvider.getInstance().setParameters(new InitialiserParameters());
-		InitialiserTestSettingsProvider.getInstance().setSimilarityValues(new SimilarityValues());
+		this.setupInitialiserTestSettingsProvider();
 	}
 
 	@AfterEach
@@ -43,7 +51,50 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	public void tearDown() {
 		super.tearDown();
 
+		this.resetInitialiserTestSettingsProvider();
+	}
+
+	/**
+	 * Prepares {@link InitialiserTestSettingsProvider} for individual tests.
+	 */
+	protected void setupInitialiserTestSettingsProvider() {
+		InitialiserTestSettingsProvider.getInstance().setParameters(new InitialiserParameters());
+		InitialiserTestSettingsProvider.getInstance().setSimilarityValues(new SimilarityValues());
+	}
+
+	/**
+	 * Resets {@link InitialiserTestSettingsProvider} after individual tests.
+	 */
+	protected void resetInitialiserTestSettingsProvider() {
 		InitialiserTestSettingsProvider.getInstance().reset();
+	}
+
+	/**
+	 * Logs a message indicating the end of a test case. <br>
+	 * <br>
+	 * The message is of form:
+	 * {@code TestClass.testMethod [with SomethingInitialiser] ran} <br>
+	 * <br>
+	 * The part in square brackets is added only if the current initialiser is set
+	 * via {@link #setCurrentInitialiser(IInitialiser)}.
+	 */
+	@Override
+	protected void logTestEndMessage() {
+		var endMsg = this.getResourceFileTestPrefix() + "." + this.getResourceFileTestIdentifier();
+
+		if (this.currentInit != null) {
+			endMsg += " with " + this.currentInit.getClass().getSimpleName();
+		}
+
+		endMsg += " ran";
+
+		this.getLogger().info(endMsg);
+	}
+
+	@Override
+	protected void resetAfterTest() {
+		super.resetAfterTest();
+		this.currentInit = null;
 	}
 
 	/**
@@ -217,5 +268,15 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	@SuppressWarnings("unchecked")
 	public void testSimilarity(EObject elem1, EObject elem2, Object attrKey) {
 		this.testSimilarity(elem1, elem2, (Class<? extends EObject>) elem1.eClass().getInstanceClass(), attrKey);
+	}
+
+	/**
+	 * Sets the currently used {@link IInitialiser} instance.<br>
+	 * <br>
+	 * Meant to help log parameterized tests better, since it is hard to match a
+	 * certain initialiser instance to a given piece of log message otherwise.
+	 */
+	protected void setCurrentInitialiser(IInitialiser init) {
+		this.currentInit = init;
 	}
 }

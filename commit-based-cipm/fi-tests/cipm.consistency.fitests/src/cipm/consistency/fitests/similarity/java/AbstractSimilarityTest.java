@@ -83,6 +83,17 @@ public abstract class AbstractSimilarityTest {
 		this.cleanRegistry();
 		this.cleanAllResources();
 		this.deleteResourceDir();
+
+		this.logTestEndMessage();
+		this.resetAfterTest();
+	}
+
+	/**
+	 * Resets all stored attributes related to individual tests.
+	 */
+	protected void resetAfterTest() {
+		this.testPrefix = "";
+		this.testIdentifier = "";
 	}
 
 	/**
@@ -348,5 +359,14 @@ public abstract class AbstractSimilarityTest {
 	 */
 	protected void setResourceFileTestIdentifier(String testIdentifier) {
 		this.testIdentifier = testIdentifier;
+	}
+
+	/**
+	 * Logs a message indicating the end of a test case. <br>
+	 * <br>
+	 * The message is of form: {@code TestClass.testMethod ran}
+	 */
+	protected void logTestEndMessage() {
+		this.getLogger().info(this.getResourceFileTestPrefix() + "." + this.getResourceFileTestIdentifier() + " ran");
 	}
 }

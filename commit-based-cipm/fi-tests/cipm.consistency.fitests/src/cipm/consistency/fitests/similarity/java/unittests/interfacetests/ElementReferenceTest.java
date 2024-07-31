@@ -44,6 +44,7 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 	@ParameterizedTest
 	@ArgumentsSource(ElementReferenceTestParams.class)
 	public void testTarget(IElementReferenceInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testTarget");
 
 		var objOne = this.initElement(init, this.createMinimalClass("cls1"), null);
@@ -59,6 +60,7 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 	@ParameterizedTest
 	@ArgumentsSource(ElementReferenceTestParams.class)
 	public void testTargetNoException(IElementReferenceInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testTarget");
 
 		var objOne = this.initElementWithoutContainer(init, this.createMinimalClass("cls1"), null);
@@ -71,6 +73,7 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 	@ParameterizedTest
 	@ArgumentsSource(ElementReferenceTestParams.class)
 	public void testContainedTarget(IElementReferenceInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testContainedTarget");
 
 		var objOne = this.initElement(init, null, this.createMinimalClass("cls1"));

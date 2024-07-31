@@ -23,6 +23,7 @@ public class ExceptionThrowerTest extends EObjectSimilarityTest implements UsesT
 	@ParameterizedTest
 	@ArgumentsSource(ExceptionThrowerTestParams.class)
 	public void testExceptions(IExceptionThrowerInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testExceptions");
 
 		var objOne = this.initElement(init, new NamespaceClassifierReference[] { this.createMinimalCNR("cls1") });

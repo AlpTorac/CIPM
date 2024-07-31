@@ -22,6 +22,7 @@ public class TypeArgumentableTest extends EObjectSimilarityTest implements UsesT
 	@ParameterizedTest
 	@ArgumentsSource(TypeArgumentableTestParams.class)
 	public void testTypeArgument(ITypeArgumentableInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testTypeArgument");
 
 		var objOne = this.initElement(init, this.createMinimalExtendsTAWithCls("cls1"));

@@ -22,6 +22,7 @@ public class InitializableTest extends EObjectSimilarityTest implements UsesLite
 	@ParameterizedTest
 	@ArgumentsSource(InitializableTestParams.class)
 	public void testInitialValue(IInitializableInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testInitialValue");
 
 		var objOne = this.initElement(init, this.createDecimalIntegerLiteral(5));

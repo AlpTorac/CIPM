@@ -22,6 +22,7 @@ public class ImportingElementTest extends EObjectSimilarityTest implements UsesI
 	@ParameterizedTest
 	@ArgumentsSource(ImportingElementTestParams.class)
 	public void testImports(IImportingElementInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testImports");
 
 		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") });

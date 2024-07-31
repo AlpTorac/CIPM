@@ -11,20 +11,21 @@ import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.IJavaRootInitialiser;
 
 public class JavaRootTest extends EObjectSimilarityTest {
-	protected JavaRoot initElement(IJavaRootInitialiser initialiser, Origin origin) {
-		JavaRoot result = initialiser.instantiate();
-		Assertions.assertTrue(initialiser.initialise(result));
-		initialiser.setOrigin(result, origin);
+	protected JavaRoot initElement(IJavaRootInitialiser init, Origin origin) {
+		JavaRoot result = init.instantiate();
+		Assertions.assertTrue(init.initialise(result));
+		init.setOrigin(result, origin);
 		return result;
 	}
 
 	@ParameterizedTest
 	@ArgumentsSource(JavaRootTestParams.class)
-	public void testOrigin(IJavaRootInitialiser initialiser) {
+	public void testOrigin(IJavaRootInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testOrigin");
 
-		var objOne = this.initElement(initialiser, Origin.BINDING);
-		var objTwo = this.initElement(initialiser, Origin.CLASS);
+		var objOne = this.initElement(init, Origin.BINDING);
+		var objTwo = this.initElement(init, Origin.CLASS);
 
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.JAVA_ROOT__ORIGIN);
 	}

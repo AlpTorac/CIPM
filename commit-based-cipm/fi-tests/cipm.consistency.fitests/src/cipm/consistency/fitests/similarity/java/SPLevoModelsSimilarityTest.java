@@ -330,6 +330,8 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 	@ParameterizedTest(name = "{3}")
 	@MethodSource({ "generateReferenceEqualityTestParams" })
 	public void sameResourceSimilarityTest(Resource res1, Resource res2, Boolean areSimilar, String modelDirName) {
+		this.setResourceFileTestIdentifier("sameResourceSimilarityTest");
+
 		this.testSimilarity(res1, res2, areSimilar);
 	}
 
@@ -345,6 +347,8 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 	@ParameterizedTest(name = "{3}")
 	@MethodSource({ "generateEqualityTestParams" })
 	public void sameFileSimilarityTest(Resource res1, Resource res2, Boolean areSimilar, String modelDirName) {
+		this.setResourceFileTestIdentifier("sameFileSimilarityTest");
+
 		this.testSimilarity(res1, res2, areSimilar);
 	}
 
@@ -360,7 +364,8 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 	@ParameterizedTest(name = "{3}")
 	@MethodSource({ "generateUnsimilarityTestParams" })
 	public void differentFileSimilarityTest(Resource res1, Resource res2, Boolean areSimilar, String modelDirName) {
+		this.setResourceFileTestIdentifier("differentFileSimilarityTest");
+
 		this.testSimilarity(res1, res2, areSimilar);
-		LOGGER.info("------------------------------Test Done----------------------------------");
 	}
 }

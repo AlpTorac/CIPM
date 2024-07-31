@@ -13,31 +13,33 @@ import cipm.consistency.fitests.similarity.java.initialiser.expressions.IUnaryMo
 import cipm.consistency.fitests.similarity.java.unittests.UsesExpressions;
 
 public class UnaryModificationExpressionTest extends EObjectSimilarityTest implements UsesExpressions {
-	protected UnaryModificationExpression initElement(IUnaryModificationExpressionInitialiser initialiser,
+	protected UnaryModificationExpression initElement(IUnaryModificationExpressionInitialiser init,
 			UnaryModificationExpressionChild child, UnaryModificationOperator op) {
-		UnaryModificationExpression result = initialiser.instantiate();
-		Assertions.assertTrue(initialiser.setChild(result, child));
-		Assertions.assertTrue(initialiser.setOperator(result, op));
+		UnaryModificationExpression result = init.instantiate();
+		Assertions.assertTrue(init.setChild(result, child));
+		Assertions.assertTrue(init.setOperator(result, op));
 		return result;
 	}
 
 	@ParameterizedTest
 	@ArgumentsSource(UnaryModificationExpressionTestParams.class)
-	public void testChild(IUnaryModificationExpressionInitialiser initialiser) {
+	public void testChild(IUnaryModificationExpressionInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testChild");
 
-		this.testSimilarity(this.initElement(initialiser, this.createDecimalIntegerLiteral(1), null),
-				this.initElement(initialiser, this.createDecimalIntegerLiteral(2), null),
+		this.testSimilarity(this.initElement(init, this.createDecimalIntegerLiteral(1), null),
+				this.initElement(init, this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__CHILD);
 	}
 
 	@ParameterizedTest
 	@ArgumentsSource(UnaryModificationExpressionTestParams.class)
-	public void testOperator(IUnaryModificationExpressionInitialiser initialiser) {
+	public void testOperator(IUnaryModificationExpressionInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testOperator");
 
-		this.testSimilarity(this.initElement(initialiser, null, this.createPlusPlusOperator()),
-				this.initElement(initialiser, null, this.createMinusMinusOperator()),
+		this.testSimilarity(this.initElement(init, null, this.createPlusPlusOperator()),
+				this.initElement(init, null, this.createMinusMinusOperator()),
 				ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__OPERATOR);
 	}
 }

@@ -24,6 +24,7 @@ public class ArrayInstantiationByValuesTest extends EObjectSimilarityTest
 	@ParameterizedTest
 	@ArgumentsSource(ArrayInstantiationByValuesTestParams.class)
 	public void testArrayInitialiser(IArrayInstantiationByValuesInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testArrayInitialiser");
 
 		var objOne = this.initElement(init, this.createMinimalArrayInitializer(this.createDecimalIntegerLiteral(0)));

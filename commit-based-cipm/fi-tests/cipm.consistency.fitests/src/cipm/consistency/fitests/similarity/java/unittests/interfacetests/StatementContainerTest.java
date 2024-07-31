@@ -22,6 +22,7 @@ public class StatementContainerTest extends EObjectSimilarityTest implements Use
 	@ParameterizedTest
 	@ArgumentsSource(StatementContainerTestParams.class)
 	public void testStatement(IStatementContainerInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testStatement");
 
 		var objOne = this.initElement(init, this.createMinimalNullReturn());

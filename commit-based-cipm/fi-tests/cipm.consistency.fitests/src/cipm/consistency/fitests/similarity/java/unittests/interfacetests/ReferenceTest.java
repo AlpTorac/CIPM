@@ -24,6 +24,7 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 	@ParameterizedTest
 	@ArgumentsSource(ReferenceTestParams.class)
 	public void testNext(IReferenceInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testNext");
 
 		var objOne = this.initElement(init, this.createMinimalSR("str1"), null);
@@ -35,6 +36,7 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 	@ParameterizedTest
 	@ArgumentsSource(ReferenceTestParams.class)
 	public void testArraySelector(IReferenceInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testArraySelector");
 
 		var objOne = this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(0) });

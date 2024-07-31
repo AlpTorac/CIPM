@@ -25,6 +25,7 @@ public class ArgumentableTest extends EObjectSimilarityTest
 	@ParameterizedTest
 	@ArgumentsSource(ArgumentableTestParams.class)
 	public void testArguments(IArgumentableInitialiser init) {
+		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testArguments");
 
 		var objOne = this.initElement(init, new Expression[] { this.createDecimalIntegerLiteral(1) });
