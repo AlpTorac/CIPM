@@ -14,7 +14,7 @@ import org.palladiosimulator.pcm.repository.PrimitiveDataType;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.repository.util.RepositorySwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
-import org.splevo.jamopp.diffing.similarity.base.ecore.IComposedSwitchWrapper;
+import org.splevo.jamopp.diffing.similarity.base.ecore.IComposedSwitchAdapter;
 
 import cipm.consistency.commitintegration.diff.util.pcm.IPCMRepositorySimilaritySwitch;
 
@@ -28,7 +28,7 @@ public class SimilarityRepositorySwitch extends RepositorySwitch<Boolean> implem
 	}
 
 	@Override
-	public IComposedSwitchWrapper getContainingSwitch() {
+	public IComposedSwitchAdapter getContainingSwitch() {
 		return this.similaritySwitch;
 	}
 	
