@@ -75,7 +75,7 @@ public abstract class AbstractSimilarityTest {
 
 		this.setUpLogger();
 		this.setResourceRegistry(this.getResourceRootPath());
-		this.sc = this.initSC();
+		this.setSimilarityChecker(this.initSC());
 	}
 
 	@AfterEach
@@ -138,6 +138,13 @@ public abstract class AbstractSimilarityTest {
 	 */
 	protected ISimilarityChecker initSC() {
 		return new JavaSimilarityCheckerProvider().createSC();
+	}
+
+	/**
+	 * Sets the used {@link ISimilarityChecker} to the given one.
+	 */
+	protected void setSimilarityChecker(ISimilarityChecker sc) {
+		this.sc = sc;
 	}
 
 	/**
