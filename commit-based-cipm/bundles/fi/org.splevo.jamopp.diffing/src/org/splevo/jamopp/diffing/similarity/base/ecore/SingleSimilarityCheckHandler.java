@@ -17,7 +17,7 @@ public class SingleSimilarityCheckHandler implements ISimilarityRequestHandler {
 	 * 
 	 * @see {@link ISimilarityChecker}
 	 */
-	public Boolean isSimilar(EObject element1, EObject element2, IComposedSwitchWrapper ss) {
+	public Boolean isSimilar(EObject element1, EObject element2, IComposedSwitchAdapter ss) {
 
 		// check that either both or none of them is null
 		if (element1 == element2) {
@@ -81,7 +81,7 @@ public class SingleSimilarityCheckHandler implements ISimilarityRequestHandler {
 		Object[] params = (Object[]) castedR.getParams();
 		EObject elem1 = (EObject) params[0];
 		EObject elem2 = (EObject) params[1];
-		IComposedSwitchWrapper ss = (IComposedSwitchWrapper) params[2];
+		IComposedSwitchAdapter ss = (IComposedSwitchAdapter) params[2];
 
 		return this.isSimilar(elem1, elem2, ss);
 	}

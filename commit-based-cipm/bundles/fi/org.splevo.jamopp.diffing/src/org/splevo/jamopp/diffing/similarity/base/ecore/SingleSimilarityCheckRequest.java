@@ -12,7 +12,7 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
 public class SingleSimilarityCheckRequest implements ISimilarityRequest {
 	private EObject element1;
 	private EObject element2;
-	private IComposedSwitchWrapper ss;
+	private IComposedSwitchAdapter ss;
 
 	/**
 	 * @param element1 The first element.
@@ -21,7 +21,7 @@ public class SingleSimilarityCheckRequest implements ISimilarityRequest {
 	 * 
 	 * @see {@link ISimilarityChecker}
 	 */
-	public SingleSimilarityCheckRequest(EObject element1, EObject element2, IComposedSwitchWrapper ss) {
+	public SingleSimilarityCheckRequest(EObject element1, EObject element2, IComposedSwitchAdapter ss) {
 		this.element1 = element1;
 		this.element2 = element2;
 		this.ss = ss;

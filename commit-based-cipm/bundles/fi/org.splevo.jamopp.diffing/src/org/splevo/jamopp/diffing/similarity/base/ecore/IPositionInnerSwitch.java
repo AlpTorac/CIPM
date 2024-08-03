@@ -40,11 +40,11 @@ public interface IPositionInnerSwitch extends IInnerSwitch {
 
 	/**
 	 * @return Whether the given lists are pairwise similar, using the given list of
-	 *         {@link IComposedSwitchWrapper}.
+	 *         {@link IComposedSwitchAdapter}.
 	 * @see {@link ISimilarityChecker}
 	 */
 	public default Boolean areSimilar(Collection<? extends EObject> eos1, Collection<? extends EObject> eos2,
-			Collection<? extends IComposedSwitchWrapper> sss) {
+			Collection<? extends IComposedSwitchAdapter> sss) {
 		return (Boolean) this.handleSimilarityRequest(new MultipleSimilarityCheckRequest(eos1, eos2, sss));
 	}
 
@@ -61,9 +61,9 @@ public interface IPositionInnerSwitch extends IInnerSwitch {
 	public default Boolean areSimilar(Collection<? extends EObject> eos1, Collection<? extends EObject> eos2,
 			List<Boolean> csps) {
 
-		Collection<IComposedSwitchWrapper> sss = new ArrayList<IComposedSwitchWrapper>();
+		Collection<IComposedSwitchAdapter> sss = new ArrayList<IComposedSwitchAdapter>();
 
-		csps.forEach((csp) -> sss.add((IComposedSwitchWrapper) this.requestNewSwitch(csp)));
+		csps.forEach((csp) -> sss.add((IComposedSwitchAdapter) this.requestNewSwitch(csp)));
 
 		return this.areSimilar(eos1, eos2, sss);
 	}
@@ -87,5 +87,5 @@ public interface IPositionInnerSwitch extends IInnerSwitch {
 	 * @return A new switch with the given checkStatementPosition.
 	 * @see {@link #shouldCheckStatementPosition()}
 	 */
-	public IComposedSwitchWrapper requestNewSwitch(boolean checkStatementPosition);
+	public IComposedSwitchAdapter requestNewSwitch(boolean checkStatementPosition);
 }

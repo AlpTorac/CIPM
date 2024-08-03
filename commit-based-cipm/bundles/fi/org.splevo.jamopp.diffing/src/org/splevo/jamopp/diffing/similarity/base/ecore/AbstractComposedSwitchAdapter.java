@@ -1,29 +1,27 @@
 package org.splevo.jamopp.diffing.similarity.base.ecore;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.eclipse.emf.ecore.util.Switch;
 
-//TODO: Consider renaming to "AbstractComposedSwitchAdapter"
-//TODO: Re-use ComposedSwitch#ComposedSwitch(Collection)
-
 /**
- * An abstract class that complements {@link IComposedSwitchWrapper} with an
+ * An abstract class that complements {@link IComposedSwitchAdapter} with an
  * attribute to contain the compare element mentioned there. It also provides
- * implementations for the methods from {@link IComposedSwitchWrapper}.
+ * implementations for the methods from {@link IComposedSwitchAdapter}.
  * 
  * @author atora
  */
-public abstract class AbstractComposedSwitchWrapper extends ComposedSwitch<Boolean> implements IComposedSwitchWrapper {
+public abstract class AbstractComposedSwitchAdapter extends ComposedSwitch<Boolean> implements IComposedSwitchAdapter {
 	/** The object to compare the switched element with. */
 	private EObject compareElement = null;
 
 	/**
 	 * @see {@link ComposedSwitch#ComposedSwitch()}
 	 */
-	public AbstractComposedSwitchWrapper() {
+	public AbstractComposedSwitchAdapter() {
 
 	}
 
@@ -32,10 +30,8 @@ public abstract class AbstractComposedSwitchWrapper extends ComposedSwitch<Boole
 	 * <br>
 	 * Meant to be used while testing.
 	 */
-	protected AbstractComposedSwitchWrapper(Collection<Switch<Boolean>> switches) {
-		if (switches != null) {
-			switches.forEach((s) -> this.addSwitch(s));
-		}
+	protected AbstractComposedSwitchAdapter(Collection<Switch<Boolean>> switches) {
+		super(switches);
 	}
 
 	/**
@@ -43,12 +39,8 @@ public abstract class AbstractComposedSwitchWrapper extends ComposedSwitch<Boole
 	 * <br>
 	 * Meant to be used while testing.
 	 */
-	protected AbstractComposedSwitchWrapper(Switch<Boolean>[] switches) {
-		if (switches != null) {
-			for (var s : switches) {
-				this.addSwitch(s);
-			}
-		}
+	protected AbstractComposedSwitchAdapter(Switch<Boolean>[] switches) {
+		this(List.of(switches));
 	}
 
 	/**

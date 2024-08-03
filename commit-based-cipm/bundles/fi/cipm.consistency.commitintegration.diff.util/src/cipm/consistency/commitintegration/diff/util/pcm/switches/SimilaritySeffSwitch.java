@@ -9,7 +9,7 @@ import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.util.SeffSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
-import org.splevo.jamopp.diffing.similarity.base.ecore.IComposedSwitchWrapper;
+import org.splevo.jamopp.diffing.similarity.base.ecore.IComposedSwitchAdapter;
 
 import cipm.consistency.commitintegration.diff.util.pcm.IPCMRepositorySimilaritySwitch;
 
@@ -23,7 +23,7 @@ public class SimilaritySeffSwitch extends SeffSwitch<Boolean> implements IPCMPos
 	}
 
 	@Override
-	public IComposedSwitchWrapper getContainingSwitch() {
+	public IComposedSwitchAdapter getContainingSwitch() {
 		return this.similaritySwitch;
 	}
 	

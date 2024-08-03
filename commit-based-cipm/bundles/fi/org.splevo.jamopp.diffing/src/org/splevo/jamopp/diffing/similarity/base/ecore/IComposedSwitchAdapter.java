@@ -2,8 +2,6 @@ package org.splevo.jamopp.diffing.similarity.base.ecore;
 
 import org.eclipse.emf.ecore.EObject;
 
-// TODO: Consider renaming to "IComposedSwitchAdapter"
-
 /**
  * An interface that is meant to be implemented by classes, which extend
  * {@link org.eclipse.emf.ecore.util.ComposedSwitch}. <br>
@@ -20,7 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  * @see {@link IComposedSimilaritySwitch}
  * @author atora
  */
-public interface IComposedSwitchWrapper {
+public interface IComposedSwitchAdapter {
 	/**
 	 * Returns the current compare element.
 	 */
