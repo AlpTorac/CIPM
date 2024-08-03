@@ -26,4 +26,16 @@ public interface ISimilarityRequestHandler {
 	 * @param req The incoming request.
 	 */
 	public Object handleSimilarityRequest(ISimilarityRequest req);
+
+	/**
+	 * @return Whether the given {@link ISimilarityRequest} instance can be handled.
+	 */
+	public default boolean canHandleSimilarityRequest(ISimilarityRequest req) {
+		return this.canHandleSimilarityRequest(req.getClass());
+	}
+
+	/**
+	 * @return Whether the given {@link ISimilarityRequest} class can be handled.
+	 */
+	public boolean canHandleSimilarityRequest(Class<? extends ISimilarityRequest> reqClass);
 }

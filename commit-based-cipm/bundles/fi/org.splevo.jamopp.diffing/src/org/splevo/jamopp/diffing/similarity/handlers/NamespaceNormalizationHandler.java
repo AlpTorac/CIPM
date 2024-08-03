@@ -19,7 +19,7 @@ public class NamespaceNormalizationHandler implements ISimilarityRequestHandler 
 	 * @see {@link JaMoPPDiffer#initSimilarityChecker(Map)}
 	 */
 	private Map<Pattern, String> packageNormalizations;
-	
+
 	/**
 	 * Constructs an instance with the given parameter.
 	 * 
@@ -28,16 +28,21 @@ public class NamespaceNormalizationHandler implements ISimilarityRequestHandler 
 	public NamespaceNormalizationHandler(Map<Pattern, String> packageNormalizations) {
 		this.packageNormalizations = packageNormalizations;
 	}
-	
+
 	/**
-	 * {@inheritDoc}
-	 * <br><br>
+	 * {@inheritDoc} <br>
+	 * <br>
 	 * Performs the requested normalisation and returns the result.
 	 */
 	@Override
 	public Object handleSimilarityRequest(ISimilarityRequest req) {
 		NamespaceNormalizationRequest castedR = (NamespaceNormalizationRequest) req;
-		
+
 		return NormalizationUtil.normalize((String) castedR.getParams(), this.packageNormalizations);
+	}
+
+	@Override
+	public boolean canHandleSimilarityRequest(Class<? extends ISimilarityRequest> reqClass) {
+		return reqClass.equals(NamespaceNormalizationRequest.class);
 	}
 }

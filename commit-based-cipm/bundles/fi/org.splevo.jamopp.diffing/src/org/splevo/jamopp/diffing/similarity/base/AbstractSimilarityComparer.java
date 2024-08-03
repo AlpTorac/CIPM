@@ -35,8 +35,23 @@ public abstract class AbstractSimilarityComparer implements ISimilarityComparer 
 		return this.st;
 	}
 
+	/**
+	 * {@inheritDoc}<br>
+	 * <br>
+	 * Here, this method is delegated to {@link #getSimilarityToolbox()}.
+	 */
 	@Override
 	public Object handleSimilarityRequest(ISimilarityRequest req) {
 		return this.getSimilarityToolbox().handleSimilarityRequest(req);
+	}
+
+	/**
+	 * {@inheritDoc}<br>
+	 * <br>
+	 * Here, this method is delegated to {@link #getSimilarityToolbox()}.
+	 */
+	@Override
+	public boolean canHandleSimilarityRequest(Class<? extends ISimilarityRequest> reqClass) {
+		return this.getSimilarityToolbox().canHandleSimilarityRequest(reqClass);
 	}
 }

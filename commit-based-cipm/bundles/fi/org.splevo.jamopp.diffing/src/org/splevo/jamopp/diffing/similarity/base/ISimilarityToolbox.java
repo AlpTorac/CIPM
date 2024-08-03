@@ -56,4 +56,10 @@ public interface ISimilarityToolbox extends ISimilarityRequestHandler {
 	 */
 	@Override
 	public Object handleSimilarityRequest(ISimilarityRequest req);
+
+	/**
+	 * @return Whether the given {@link ISimilarityRequest} class can be handled by
+	 *         this {@link ISimilarityToolbox}.
+	 */
+	public boolean canHandleSimilarityRequest(Class<? extends ISimilarityRequest> reqClass);
 }

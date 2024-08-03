@@ -76,4 +76,9 @@ public class MultipleSimilarityCheckHandler implements ISimilarityRequestHandler
 
 		return Boolean.TRUE;
 	}
+
+	@Override
+	public boolean canHandleSimilarityRequest(Class<? extends ISimilarityRequest> reqClass) {
+		return reqClass.equals(MultipleSimilarityCheckRequest.class);
+	}
 }

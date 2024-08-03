@@ -9,7 +9,7 @@ package org.splevo.jamopp.diffing.similarity.base;
  * 
  * @author atora
  */
-public class AbstractSimilarityToolboxBuilder implements ISimilarityToolboxBuilder {
+public abstract class AbstractSimilarityToolboxBuilder implements ISimilarityToolboxBuilder {
 	/**
 	 * The {@link ISimilarityToolboxFactory}, which determines the data structure
 	 * used by the {@link ISimilarityToolbox} instances built using this builder.

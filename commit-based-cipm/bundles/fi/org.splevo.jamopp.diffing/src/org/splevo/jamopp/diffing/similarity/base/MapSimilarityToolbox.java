@@ -59,4 +59,9 @@ public class MapSimilarityToolbox implements ISimilarityToolbox {
 
 		return handler != null ? handler.handleSimilarityRequest(req) : null;
 	}
+
+	@Override
+	public boolean canHandleSimilarityRequest(Class<? extends ISimilarityRequest> reqClass) {
+		return this.rhMap.containsKey(reqClass);
+	}
 }

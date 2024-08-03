@@ -78,4 +78,13 @@ public abstract class AbstractComposedSimilaritySwitch extends AbstractComposedS
 		return this.getSimilarityRequestHandler().handleSimilarityRequest(req);
 	}
 
+	/**
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * Here, this method is delegated to {@link #getSimilarityRequestHandler()}.
+	 */
+	@Override
+	public boolean canHandleSimilarityRequest(Class<? extends ISimilarityRequest> reqClass) {
+		return this.getSimilarityRequestHandler().canHandleSimilarityRequest(reqClass);
+	}
 }
