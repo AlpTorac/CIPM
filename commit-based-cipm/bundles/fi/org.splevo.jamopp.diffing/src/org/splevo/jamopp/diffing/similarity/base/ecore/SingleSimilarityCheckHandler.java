@@ -85,4 +85,9 @@ public class SingleSimilarityCheckHandler implements ISimilarityRequestHandler {
 
 		return this.isSimilar(elem1, elem2, ss);
 	}
+
+	@Override
+	public boolean canHandleSimilarityRequest(Class<? extends ISimilarityRequest> reqClass) {
+		return reqClass.equals(SingleSimilarityCheckRequest.class);
+	}
 }

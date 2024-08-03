@@ -43,4 +43,9 @@ public class NewPCMRepositorySimilaritySwitchHandler implements ISimilarityReque
 		Boolean csp = (Boolean) castedR.getParams();
 		return new PCMRepositorySimilaritySwitch(this.srh, csp);
 	}
+
+	@Override
+	public boolean canHandleSimilarityRequest(Class<? extends ISimilarityRequest> reqClass) {
+		return reqClass.equals(NewPCMRepositorySimilaritySwitchRequest.class);
+	}
 }

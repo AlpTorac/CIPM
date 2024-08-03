@@ -35,4 +35,9 @@ public class NamespaceCheckHandler implements ISimilarityRequestHandler {
 		}
 		return true;
 	}
+
+	@Override
+	public boolean canHandleSimilarityRequest(Class<? extends ISimilarityRequest> reqClass) {
+		return reqClass.equals(NamespaceCheckRequest.class);
+	}
 }

@@ -42,4 +42,14 @@ public interface IInnerSwitch extends ISimilarityRequestHandler {
 	public default Object handleSimilarityRequest(ISimilarityRequest req) {
 		return this.getSimilarityRequestHandler().handleSimilarityRequest(req);
 	}
+
+	/**
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * Here, this method is delegated to {@link #getSimilarityRequestHandler()}.
+	 */
+	@Override
+	public default boolean canHandleSimilarityRequest(Class<? extends ISimilarityRequest> reqClass) {
+		return this.getSimilarityRequestHandler().canHandleSimilarityRequest(reqClass);
+	}
 }
