@@ -28,8 +28,8 @@ public abstract class AbstractComposedSwitchSimilarityChecker extends AbstractSi
 	/**
 	 * Creates and returns a new switch.
 	 */
-	protected IComposedSwitchWrapper createDefaultNewSwitch() {
-		return (IComposedSwitchWrapper) this.handleSimilarityRequest(this.makeDefaultSwitchRequest());
+	protected IComposedSwitchAdapter createDefaultNewSwitch() {
+		return (IComposedSwitchAdapter) this.handleSimilarityRequest(this.makeDefaultSwitchRequest());
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public abstract class AbstractComposedSwitchSimilarityChecker extends AbstractSi
 	@SuppressWarnings("unchecked")
 	@Override
 	public Boolean areSimilar(Collection<Object> elements1, Collection<Object> elements2) {
-		Collection<IComposedSwitchWrapper> sss = new ArrayList<IComposedSwitchWrapper>();
+		Collection<IComposedSwitchAdapter> sss = new ArrayList<IComposedSwitchAdapter>();
 
 		for (int i = 0; i < elements1.size(); i++) {
 			sss.add(this.createDefaultNewSwitch());
@@ -55,7 +55,7 @@ public abstract class AbstractComposedSwitchSimilarityChecker extends AbstractSi
 	 * Used by other methods in this and concrete implementors that create switches.
 	 * This method can be overridden in the concrete implementors to create
 	 * different {@link ISimilarityRequest} instances, which can be used to create
-	 * different switches ({@link IComposedSwitchWrapper} instances).
+	 * different switches ({@link IComposedSwitchAdapter} instances).
 	 * 
 	 * @return A {@link ISimilarityRequest} to create a new switch.
 	 */

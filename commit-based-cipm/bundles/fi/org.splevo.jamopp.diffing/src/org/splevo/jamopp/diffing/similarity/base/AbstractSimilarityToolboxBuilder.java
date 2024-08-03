@@ -1,7 +1,5 @@
 package org.splevo.jamopp.diffing.similarity.base;
 
-//TODO: Make abstract
-
 /**
  * An abstract class for concrete similarity toolbox builders to extend.
  * Complements {@link ISimilarityToolboxBuilder} with the integration of

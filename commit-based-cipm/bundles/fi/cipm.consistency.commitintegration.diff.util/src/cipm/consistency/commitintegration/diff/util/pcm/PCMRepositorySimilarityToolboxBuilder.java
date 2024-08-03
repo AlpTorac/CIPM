@@ -12,8 +12,6 @@ import cipm.consistency.commitintegration.diff.util.pcm.handlers.IDBasedSingleSi
 import cipm.consistency.commitintegration.diff.util.pcm.handlers.NewPCMRepositorySimilaritySwitchHandler;
 import cipm.consistency.commitintegration.diff.util.pcm.requests.NewPCMRepositorySimilaritySwitchRequest;
 
-//TODO: Rename to PCMRepositorySimilarityToolboxBuilder
-
 /**
  * Concrete implementation of {@link AbstractSimilarityToolboxBuilder} for
  * constructing {@link ISimilarityToolbox} instances for computing similarity of
@@ -21,16 +19,16 @@ import cipm.consistency.commitintegration.diff.util.pcm.requests.NewPCMRepositor
  * 
  * @author atora
  */
-public class PCMSimilarityToolboxBuilder extends AbstractSimilarityToolboxBuilder {
+public class PCMRepositorySimilarityToolboxBuilder extends AbstractSimilarityToolboxBuilder {
 	@Override
-	public PCMSimilarityToolboxBuilder instantiate() {
-		return (PCMSimilarityToolboxBuilder) super.instantiate();
+	public PCMRepositorySimilarityToolboxBuilder instantiate() {
+		return (PCMRepositorySimilarityToolboxBuilder) super.instantiate();
 	}
 
 	@Override
-	public PCMSimilarityToolboxBuilder buildRequestHandlerPair(Class<? extends ISimilarityRequest> req,
+	public PCMRepositorySimilarityToolboxBuilder buildRequestHandlerPair(Class<? extends ISimilarityRequest> req,
 			ISimilarityRequestHandler srh) {
-		return (PCMSimilarityToolboxBuilder) super.buildRequestHandlerPair(req, srh);
+		return (PCMRepositorySimilarityToolboxBuilder) super.buildRequestHandlerPair(req, srh);
 	}
 
 	/**
@@ -42,7 +40,7 @@ public class PCMSimilarityToolboxBuilder extends AbstractSimilarityToolboxBuilde
 	 * 
 	 * @return this
 	 */
-	public PCMSimilarityToolboxBuilder buildComparisonPairs() {
+	public PCMRepositorySimilarityToolboxBuilder buildComparisonPairs() {
 		this.buildRequestHandlerPair(SingleSimilarityCheckRequest.class, new SingleSimilarityCheckHandler());
 		this.buildRequestHandlerPair(MultipleSimilarityCheckRequest.class,
 				new MultipleSimilarityCheckHandler(this.getCurrentToolbox()));
@@ -59,7 +57,7 @@ public class PCMSimilarityToolboxBuilder extends AbstractSimilarityToolboxBuilde
 	 * 
 	 * @return this
 	 */
-	public PCMSimilarityToolboxBuilder buildIDBasedComparisonPairs() {
+	public PCMRepositorySimilarityToolboxBuilder buildIDBasedComparisonPairs() {
 		this.buildRequestHandlerPair(SingleSimilarityCheckRequest.class, new IDBasedSingleSimilarityCheckHandler());
 		this.buildRequestHandlerPair(MultipleSimilarityCheckRequest.class,
 				new MultipleSimilarityCheckHandler(this.getCurrentToolbox()));
@@ -74,7 +72,7 @@ public class PCMSimilarityToolboxBuilder extends AbstractSimilarityToolboxBuilde
 	 * @return this
 	 * @see {@link IPCMRepositorySimilaritySwitch}
 	 */
-	public PCMSimilarityToolboxBuilder buildNewPCMRepositorySimilaritySwitch() {
+	public PCMRepositorySimilarityToolboxBuilder buildNewPCMRepositorySimilaritySwitch() {
 		this.buildRequestHandlerPair(NewPCMRepositorySimilaritySwitchRequest.class,
 				new NewPCMRepositorySimilaritySwitchHandler(this.getCurrentToolbox()));
 

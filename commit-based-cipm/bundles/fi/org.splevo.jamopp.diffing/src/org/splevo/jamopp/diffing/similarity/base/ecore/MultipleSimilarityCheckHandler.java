@@ -49,7 +49,7 @@ public class MultipleSimilarityCheckHandler implements ISimilarityRequestHandler
 		Object[] params = (Object[]) castedR.getParams();
 		Collection<? extends EObject> elements1 = (Collection<? extends EObject>) params[0];
 		Collection<? extends EObject> elements2 = (Collection<? extends EObject>) params[1];
-		Collection<? extends IComposedSwitchWrapper> sss = (Collection<? extends IComposedSwitchWrapper>) params[2];
+		Collection<? extends IComposedSwitchAdapter> sss = (Collection<? extends IComposedSwitchAdapter>) params[2];
 
 		int size = elements1.size();
 
@@ -63,7 +63,7 @@ public class MultipleSimilarityCheckHandler implements ISimilarityRequestHandler
 
 		var es1 = elements1.toArray(EObject[]::new);
 		var es2 = elements2.toArray(EObject[]::new);
-		var ssA = sss.toArray(IComposedSwitchWrapper[]::new);
+		var ssA = sss.toArray(IComposedSwitchAdapter[]::new);
 
 		for (int i = 0; i < size; i++) {
 			Boolean childSimilarity = (Boolean) this.srh

@@ -22,11 +22,11 @@ public interface IInnerSwitch extends ISimilarityRequestHandler {
 	/**
 	 * @return The object containing this switch.
 	 */
-	public IComposedSwitchWrapper getContainingSwitch();
+	public IComposedSwitchAdapter getContainingSwitch();
 
 	/**
 	 * @return The current compare element.
-	 * @see {@link IComposedSwitchWrapper}
+	 * @see {@link IComposedSwitchAdapter}
 	 */
 	public default EObject getCompareElement() {
 		return this.getContainingSwitch().getCompareElement();

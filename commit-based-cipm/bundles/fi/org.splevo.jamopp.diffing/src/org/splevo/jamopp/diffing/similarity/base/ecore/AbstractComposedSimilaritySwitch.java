@@ -7,7 +7,7 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 
 /**
- * An abstract class that complements {@link AbstractComposedSwitchWrapper} with
+ * An abstract class that complements {@link AbstractComposedSwitchAdapter} with
  * an attribute to store an {@link ISimilarityRequestHandler} instance. This
  * attribute is then used during similarity checking to delegate
  * {@link ISimilarityRequest} instances to their proper
@@ -15,7 +15,7 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
  * 
  * @author atora
  */
-public abstract class AbstractComposedSimilaritySwitch extends AbstractComposedSwitchWrapper
+public abstract class AbstractComposedSimilaritySwitch extends AbstractComposedSwitchAdapter
 		implements ISimilarityRequestHandler {
 
 	/**
@@ -40,7 +40,7 @@ public abstract class AbstractComposedSimilaritySwitch extends AbstractComposedS
 	 * {@link #AbstractComposedSimilaritySwitch(ISimilarityRequestHandler)} that
 	 * constructs an instance with the given switches.
 	 * 
-	 * @see {@link AbstractComposedSwitchWrapper#AbstractComposedSwitchWrapper(Collection)}
+	 * @see {@link AbstractComposedSwitchAdapter#AbstractComposedSwitchWrapper(Collection)}
 	 */
 	protected AbstractComposedSimilaritySwitch(ISimilarityRequestHandler srh, Collection<Switch<Boolean>> switches) {
 		super(switches);
@@ -52,7 +52,7 @@ public abstract class AbstractComposedSimilaritySwitch extends AbstractComposedS
 	 * {@link #AbstractComposedSimilaritySwitch(ISimilarityRequestHandler)} that
 	 * constructs an instance with the given switches.
 	 * 
-	 * @see {@link AbstractComposedSwitchWrapper#AbstractComposedSwitchWrapper(Switch[])}
+	 * @see {@link AbstractComposedSwitchAdapter#AbstractComposedSwitchWrapper(Switch[])}
 	 */
 	protected AbstractComposedSimilaritySwitch(ISimilarityRequestHandler srh, Switch<Boolean>[] switches) {
 		super(switches);

@@ -14,7 +14,7 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
 public class MultipleSimilarityCheckRequest implements ISimilarityRequest {
 	private Collection<? extends EObject> elements1;
 	private Collection<? extends EObject> elements2;
-	private Collection<? extends IComposedSwitchWrapper> sss;
+	private Collection<? extends IComposedSwitchAdapter> sss;
 
 	/**
 	 * Constructs a request that encapsulates 2 EObject lists and a list of
@@ -27,7 +27,7 @@ public class MultipleSimilarityCheckRequest implements ISimilarityRequest {
 	 * @see {@link MultipleSimilarityCheckHandler#handleSimilarityRequest(ISimilarityRequest)}
 	 */
 	public MultipleSimilarityCheckRequest(Collection<? extends EObject> elements1,
-			Collection<? extends EObject> elements2, Collection<? extends IComposedSwitchWrapper> sss) {
+			Collection<? extends EObject> elements2, Collection<? extends IComposedSwitchAdapter> sss) {
 		this.elements1 = elements1;
 		this.elements2 = elements2;
 		this.sss = sss;

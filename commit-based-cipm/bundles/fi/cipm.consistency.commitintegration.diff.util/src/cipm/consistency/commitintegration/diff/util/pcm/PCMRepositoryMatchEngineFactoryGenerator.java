@@ -22,7 +22,7 @@ public final class PCMRepositoryMatchEngineFactoryGenerator {
 	 * @return the generated factory.
 	 */
 	public static HierarchicalMatchEngineFactory generateMatchEngineFactory() {
-		var builder = new PCMSimilarityToolboxBuilder();
+		var builder = new PCMRepositorySimilarityToolboxBuilder();
 		builder.setSimilarityToolboxFactory(new MapSimilarityToolboxFactory());
 		
 		var toolbox = builder.instantiate()
@@ -40,7 +40,7 @@ public final class PCMRepositoryMatchEngineFactoryGenerator {
 	 * @return the generated factory.
 	 */
 	public static HierarchicalMatchEngineFactory generateIDBasedMatchEngineFactory() {
-		var builder = new PCMSimilarityToolboxBuilder();
+		var builder = new PCMRepositorySimilarityToolboxBuilder();
 		builder.setSimilarityToolboxFactory(new MapSimilarityToolboxFactory());
 		
 		var toolbox = builder.instantiate()
