@@ -1,7 +1,6 @@
 package cipm.consistency.fitests.similarity.java.unittests.concepttests;
 
 import cipm.consistency.fitests.similarity.java.AbstractSimilarityTest;
-import cipm.consistency.fitests.similarity.java.unittests.concepttests.dummy.DummySimilarityChecker;
 import cipm.consistency.fitests.similarity.java.unittests.concepttests.dummy.DummySimilarityToolbox;
 import cipm.consistency.fitests.similarity.java.unittests.concepttests.dummy.DummySimilarityToolboxBuilder;
 import cipm.consistency.fitests.similarity.java.unittests.concepttests.dummy.DummySimilarityToolboxFactory;
@@ -10,21 +9,15 @@ import cipm.consistency.fitests.similarity.java.unittests.concepttests.dummy.Equ
 import cipm.consistency.fitests.similarity.java.unittests.concepttests.dummy.ReferenceCheckRequest;
 import cipm.consistency.fitests.similarity.java.unittests.concepttests.dummy.ReferenceCheckRequestHandler;
 
+/**
+ * An abstract class that contains utility methods for tests that use dummy
+ * implementations of similarity checking elements.
+ * 
+ * @author atora
+ */
 public abstract class AbstractDummySimilarityCheckingTest extends AbstractSimilarityTest {
 	@Override
 	protected void logTestEndMessage() {
-	}
-
-	protected DummySimilarityChecker createSC() {
-		var tbBuilder = new DummySimilarityToolboxBuilder();
-		tbBuilder.setSimilarityToolboxFactory(new DummySimilarityToolboxFactory());
-
-		var tb = tbBuilder.instantiate()
-					.buildEqualsCheckHandler()
-					.buildReferenceCheckHandler()
-					.build();
-		
-		return new DummySimilarityChecker(tb);
 	}
 
 	/**
