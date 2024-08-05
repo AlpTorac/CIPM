@@ -110,6 +110,11 @@ public abstract class AbstractSimilarityTest {
 	protected void setUpLogger() {
 		Logger logger = Logger.getLogger("cipm");
 		logger.setLevel(Level.ALL);
+		
+		// Enable to receive log messages from similarity switches
+		logger = Logger.getLogger("javaswitch");
+		logger.setLevel(Level.ALL);
+		
 //		logger = Logger.getLogger("jamopp");
 //		logger.setLevel(Level.ALL);
 		logger = Logger.getRootLogger();
