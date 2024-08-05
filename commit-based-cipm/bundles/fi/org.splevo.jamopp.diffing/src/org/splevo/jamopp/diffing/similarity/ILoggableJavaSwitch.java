@@ -19,7 +19,26 @@ public interface ILoggableJavaSwitch {
 	 * @return A logger with the name {@code cimp.class_of_this}.
 	 */
 	public default Logger getLogger() {
-		return Logger.getLogger("cipm." + this.getClass().getSimpleName());
+		return Logger.getLogger(this.getLoggerName());
+	}
+
+	/**
+	 * Can be overridden in implementors to group log messages better.
+	 * 
+	 * @return The logger's name, which can be accessed by {@link #getLogger()}.
+	 */
+	public default String getLoggerName() {
+		return this.getLoggerPrefix() + this.getClass().getSimpleName();
+	}
+
+	/**
+	 * Can be overridden in implementors to group log messages better.
+	 * 
+	 * @return The prefix of the logger's name, which can be accessed by
+	 *         {@link #getLogger()}.
+	 */
+	public default String getLoggerPrefix() {
+		return "javaswitch.";
 	}
 
 	/**
