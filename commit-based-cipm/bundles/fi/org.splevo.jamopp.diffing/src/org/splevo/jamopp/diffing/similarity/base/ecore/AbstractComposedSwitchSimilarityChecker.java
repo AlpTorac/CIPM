@@ -52,10 +52,10 @@ public abstract class AbstractComposedSwitchSimilarityChecker extends AbstractSi
 	}
 
 	/**
-	 * Used by other methods in this and concrete implementors that create switches.
-	 * This method can be overridden in the concrete implementors to create
-	 * different {@link ISimilarityRequest} instances, which can be used to create
-	 * different switches ({@link IComposedSwitchAdapter} instances).
+	 * Used by other methods in this instance and concrete implementors that create
+	 * switches. This method can be overridden in the concrete implementors to
+	 * create different {@link ISimilarityRequest} instances, which can be used to
+	 * create different switches ({@link IComposedSwitchAdapter} instances).
 	 * 
 	 * @return A {@link ISimilarityRequest} to create a new switch.
 	 */

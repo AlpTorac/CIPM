@@ -9,19 +9,20 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * An interface that extends {@link IInnerSwitch} with methods, which are mutual
  * among the implementors of {@link IInnerSwitch} that additionally use a flag
- * to check statement positions in EObject instances they compare.
+ * to check statement positions in {@link EObject} instances they compare.
  * 
  * @author atora
  */
 public interface IPositionInnerSwitch extends IInnerSwitch {
 	/**
-	 * @return Whether this switch should take statement positions in EObjects it
-	 *         compares into account, while comparing them.
+	 * @return Whether this switch should take statement positions in
+	 *         {@link EObject} instances it compares into account, while comparing
+	 *         them.
 	 */
 	public boolean shouldCheckStatementPosition();
 
 	/**
-	 * @return Whether the EObject instances are similar.
+	 * @return Whether the {@link EObject} instances are similar.
 	 * @see {@link ISimilarityChecker}
 	 */
 	public default Boolean isSimilar(EObject eo1, EObject eo2) {
@@ -29,9 +30,10 @@ public interface IPositionInnerSwitch extends IInnerSwitch {
 	}
 
 	/**
-	 * @return Whether the EObject instances are similar, given the
+	 * @param checkStatementPosition See {@link #shouldCheckStatementPosition()}
+	 * @return Whether the {@link EObject} instances are similar, given the
 	 *         checkStatementPosition flag.
-	 * @see {@link #shouldCheckStatementPosition()}, {@link ISimilarityChecker}
+	 * @see {@link ISimilarityChecker}
 	 */
 	public default Boolean isSimilar(EObject eo1, EObject eo2, boolean checkStatementPosition) {
 		return (Boolean) this.handleSimilarityRequest(
@@ -49,14 +51,17 @@ public interface IPositionInnerSwitch extends IInnerSwitch {
 	}
 
 	/**
-	 * A version of {@link #areSimilar(Collection, Collection)}
+	 * A version of {@link #areSimilar(Collection, Collection, Collection)} that
+	 * first constructs new switches with the given csps.
 	 * 
-	 * @return Whether the given lists are pairwise similar, using the given list of
-	 *         checkStatementPosition flags.
+	 * @param csps A collection of checkStatementPosition flags (see
+	 *             {@link #isSimilar(EObject, EObject, boolean)}). i-th flag in the
+	 *             collection meant to be used for similarity checking i-th elements
+	 *             of the given {@link EObject} collections.
+	 * @return Whether the given collections are pairwise similar, using the given
+	 *         collection of checkStatementPosition flags.
 	 * 
-	 * @see {@link #shouldCheckStatementPosition()},
-	 *      {@link #isSimilar(EObject, EObject, boolean)},
-	 *      {@link ISimilarityChecker}
+	 * @see {@link ISimilarityChecker}
 	 */
 	public default Boolean areSimilar(Collection<? extends EObject> eos1, Collection<? extends EObject> eos2,
 			List<Boolean> csps) {
@@ -69,7 +74,7 @@ public interface IPositionInnerSwitch extends IInnerSwitch {
 	}
 
 	/**
-	 * @return Whether the given lists are pairwise similar.
+	 * @return Whether the given collections are pairwise similar.
 	 * @see {@link ISimilarityChecker}
 	 */
 	public default Boolean areSimilar(Collection<? extends EObject> eos1, Collection<? extends EObject> eos2) {
@@ -85,7 +90,7 @@ public interface IPositionInnerSwitch extends IInnerSwitch {
 
 	/**
 	 * @return A new switch with the given checkStatementPosition.
-	 * @see {@link #shouldCheckStatementPosition()}
+	 * @see {@link #shouldCheckStatementPosition()} for checkStatementPosition
 	 */
 	public IComposedSwitchAdapter requestNewSwitch(boolean checkStatementPosition);
 }

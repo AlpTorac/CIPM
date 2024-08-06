@@ -13,8 +13,10 @@ import java.util.Collection;
  * {@link AbstractSimilarityChecker} contains further useful methods for
  * similarity checkers. It is therefore recommended to extend
  * {@link AbstractSimilarityChecker} for similarity checker classes rather than
- * implementing this interface alone, unless they will not use
- * {@link ISimilarityComparer} and {@link ISimilarityToolbox}.
+ * implementing this interface alone.
+ * <br><br>
+ * If the structure defined in {@link AbstractSimilarityChecker} is not to be used,
+ * this interface can be directly implemented.
  * 
  * @see {@link AbstractSimilarityChecker}, {@link ISimilarityComparer},
  *      {@link ISimilarityToolbox}

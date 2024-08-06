@@ -8,7 +8,8 @@ package org.splevo.jamopp.diffing.similarity.base;
  * Does not implement {@link ISimilarityRequestHandler}, because its concrete
  * implementors are thought to serve as facades to the outside. They are thus
  * not intended to be used during the similarity checking process, other than a
- * call to the {@link #isSimilar(Object, Object)} method at the start.
+ * call to similarity checking methods, such as
+ * {@link #isSimilar(Object, Object)}, at the start.
  * 
  * @author atora
  */
@@ -20,7 +21,7 @@ public abstract class AbstractSimilarityChecker implements ISimilarityChecker {
 	private ISimilarityComparer sc;
 
 	/**
-	 * Constructs an {@link AbstractSimilarityChecker} instance with a
+	 * Constructs an {@link AbstractSimilarityChecker} instance with an
 	 * {@link ISimilarityComparer}, which delegates all incoming
 	 * {@link ISimilarityRequest} to the given parameter.
 	 * 
@@ -32,7 +33,8 @@ public abstract class AbstractSimilarityChecker implements ISimilarityChecker {
 	}
 
 	/**
-	 * Declared as protected only to allow access from concrete implementors.
+	 * Declared as protected only to allow access to the underlying
+	 * {@link ISimilarityComparer} from concrete implementors.
 	 * 
 	 * @return {@link ISimilarityToolbox} to which all incoming
 	 *         {@link ISimilarityRequest} instances will be delegated to.
@@ -45,8 +47,12 @@ public abstract class AbstractSimilarityChecker implements ISimilarityChecker {
 	 * Delegates the incoming {@link ISimilarityRequest} to the underlying
 	 * {@link ISimilarityComparer}. <br>
 	 * <br>
-	 * Declared as protected only to allow access from concrete implementors. This
-	 * is necessary, because creating further internal constructs may involve using
+	 * Declared as protected only to let concrete implementors delegate incoming
+	 * {@link ISimilarityRequest} instances. To their {@link ISimilarityComparer}.
+	 * <br>
+	 * <br>
+	 * This is necessary, because creating further internal constructs that contain
+	 * similarity checking logic, such as similarity switches, may involve using
 	 * {@link ISimilarityRequestHandler} instances and that in return requires
 	 * {@link ISimilarityRequest} instances.
 	 */
@@ -58,8 +64,8 @@ public abstract class AbstractSimilarityChecker implements ISimilarityChecker {
 	 * Creates an {@link ISimilarityComparer} with the given
 	 * {@link ISimilarityToolbox}.
 	 * 
-	 * @param st The toolbox that the constructed {@link ISimilarityComparer} will
-	 *           use.
+	 * @param st The {@link ISimilarityToolbox} that the constructed
+	 *           {@link ISimilarityComparer} will use.
 	 */
 	protected abstract ISimilarityComparer createSimilarityComparer(ISimilarityToolbox st);
 }

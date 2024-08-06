@@ -18,8 +18,8 @@ package org.splevo.jamopp.diffing.similarity.base;
  * Concrete implementors may provide additional building methods, such as those
  * that summarise multiple
  * {@link #buildRequestHandlerPair(Class, ISimilarityRequestHandler)} calls into
- * one method. In those cases, it is recommended to use those methods instead,
- * in order to keep the building process tidier.
+ * one method. In such cases, it is recommended to use those methods instead, in
+ * order to keep the building process tidier.
  * 
  * @author atora
  */
@@ -32,7 +32,9 @@ public interface ISimilarityToolboxBuilder {
 	 * <br>
 	 * <b>Note that changing the {@link ISimilarityToolboxFactory} after calling
 	 * {@link #instantiate()} has no effect on the {@link ISimilarityToolbox} that
-	 * is currently being built. </b>
+	 * is currently being built. For this change to take effect,
+	 * {@link #instantiate()} can be called to start the building process anew with
+	 * the new {@link ISimilarityToolboxFactory}. </b>
 	 */
 	public void setSimilarityToolboxFactory(ISimilarityToolboxFactory stf);
 
@@ -43,6 +45,10 @@ public interface ISimilarityToolboxBuilder {
 
 	/**
 	 * Returns the current version of the {@link ISimilarityToolbox} being built.
+	 * <br>
+	 * <br>
+	 * Depending on the concrete implementation, calling this method may set the
+	 * current version of the {@link ISimilarityToolbox} to null after returning.
 	 * 
 	 * @return The resulting {@link ISimilarityToolbox}.
 	 */
@@ -58,17 +64,17 @@ public interface ISimilarityToolboxBuilder {
 	public ISimilarityToolboxBuilder instantiate();
 
 	/**
-	 * Adds the given pair ({@link ISimilarityRequest},
-	 * {@link ISimilarityRequestHandler}) to the {@link ISimilarityToolbox}.
+	 * Adds the given pair (reqClass, srh) to the {@link ISimilarityToolbox}.
 	 * 
-	 * @param req The class of the {@link ISimilarityRequest} instances, which
-	 *            should be processed using the given request handler.
-	 * @param srh The {@link ISimilarityRequestHandler} instance, which should be
-	 *            used to process the {@link ISimilarityRequest} instances of the
-	 *            given class.
+	 * @param reqClass The class of the {@link ISimilarityRequest} instances, which
+	 *                 should be processed using the given
+	 *                 {@link ISimilarityRequestHandler} instance.
+	 * @param srh      The {@link ISimilarityRequestHandler} instance, which should
+	 *                 be used to process the {@link ISimilarityRequest} instances
+	 *                 of the given class.
 	 * 
 	 * @return this
 	 */
-	public ISimilarityToolboxBuilder buildRequestHandlerPair(Class<? extends ISimilarityRequest> req,
+	public ISimilarityToolboxBuilder buildRequestHandlerPair(Class<? extends ISimilarityRequest> reqClass,
 			ISimilarityRequestHandler srh);
 }

@@ -1,10 +1,8 @@
 package org.splevo.jamopp.diffing.similarity.base;
 
 /**
- * A factory that creates {@link ISimilarityToolbox} instances, which internally
- * use a {@link Map}.
+ * A factory that creates {@link MapSimilarityToolbox} instances.
  * 
- * @see {@link MapSimilarityToolbox}
  * @author atora
  */
 public class MapSimilarityToolboxFactory implements ISimilarityToolboxFactory {
