@@ -16,7 +16,7 @@ import com.google.common.base.Strings;
  */
 public interface ILoggableJavaSwitch {
 	/**
-	 * @return A logger with the name {@code cimp.class_of_this}.
+	 * @return The logger associated with the concrete implementor.
 	 */
 	public default Logger getLogger() {
 		return Logger.getLogger(this.getLoggerName());
