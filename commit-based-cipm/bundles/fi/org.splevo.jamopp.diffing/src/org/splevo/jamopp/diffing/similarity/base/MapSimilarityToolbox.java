@@ -9,10 +9,11 @@ import java.util.Map;
  * {@link ISimilarityToolbox}). <br>
  * <br>
  * <b>This means that only one {@link ISimilarityRequestHandler} stored in this
- * instance will process incoming {@link ISimilarityRequest}.</b> Therefore, if
- * a request is to be handled by further handlers, either the delegation to
- * those handlers must be implemented in the initial handler or another
- * {@link ISimilarityToolbox} implementation should be used.
+ * instance will process incoming {@link ISimilarityRequest}.</b><br>
+ * <br>
+ * Therefore, if a request is to be handled by further handlers, either the
+ * delegation to those handlers must be implemented in the initial handler or
+ * another concrete {@link ISimilarityToolbox} implementation should be used.
  * 
  * @author atora
  */
@@ -31,9 +32,10 @@ public class MapSimilarityToolbox implements ISimilarityToolbox {
 	}
 
 	/**
-	 * {@inheritDoc}
-	 * 
-	 * If there is already a request-handler pair for reqClass,
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * If there is already a request-handler pair for reqClass, it will be replaced
+	 * by the given pair (reqClass, srh).
 	 */
 	@Override
 	public void addRequestHandlerPair(Class<? extends ISimilarityRequest> reqClass, ISimilarityRequestHandler srh) {

@@ -5,21 +5,19 @@ import java.util.Collection;
 /**
  * An interface for classes that contain the means to compare elements and
  * compute their similarity. The classes implementing this interface, the
- * similarity checkers, serve as facades to outside and delegate the similarity
- * computing to their {@link ISimilarityComparer}. Doing so distributes
- * different concerns and responsibilities between multiple classes and helps
- * circumvent the similarity checkers becoming god-classes. <br>
+ * similarity checkers, are meant to serve as facades to outside. <br>
  * <br>
  * {@link AbstractSimilarityChecker} contains further useful methods for
  * similarity checkers. It is therefore recommended to extend
  * {@link AbstractSimilarityChecker} for similarity checker classes rather than
- * implementing this interface alone.
- * <br><br>
- * If the structure defined in {@link AbstractSimilarityChecker} is not to be used,
- * this interface can be directly implemented.
+ * implementing this interface alone. {@link AbstractSimilarityChecker} also
+ * makes use of {@link ISimilarityComparer}, which can be used to free the
+ * implementors of {@link ISimilarityChecker} of internal details. <br>
+ * <br>
+ * If the structure defined in {@link AbstractSimilarityChecker} is not to be
+ * used, this interface can be directly implemented.
  * 
- * @see {@link AbstractSimilarityChecker}, {@link ISimilarityComparer},
- *      {@link ISimilarityToolbox}
+ * @see {@link AbstractSimilarityChecker}, {@link ISimilarityComparer}
  * @author atora
  */
 public interface ISimilarityChecker {

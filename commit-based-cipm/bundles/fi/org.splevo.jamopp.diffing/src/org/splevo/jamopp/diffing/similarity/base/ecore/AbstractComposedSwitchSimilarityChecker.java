@@ -26,7 +26,7 @@ public abstract class AbstractComposedSwitchSimilarityChecker extends AbstractSi
 	}
 
 	/**
-	 * Creates and returns a new switch.
+	 * Creates and returns a new {@link IComposedSwitchAdapter}.
 	 */
 	protected IComposedSwitchAdapter createDefaultNewSwitch() {
 		return (IComposedSwitchAdapter) this.handleSimilarityRequest(this.makeDefaultSwitchRequest());

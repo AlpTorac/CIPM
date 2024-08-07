@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
 
 /**
- * An {@link ISimilarityRequest} for checking the similarity of 2 lists of
+ * An {@link ISimilarityRequest} for checking the similarity of 2 collections of
  * {@link EObject} instances.
  * 
  * @author atora
@@ -17,12 +17,15 @@ public class MultipleSimilarityCheckRequest implements ISimilarityRequest {
 	private Collection<? extends IComposedSwitchAdapter> sss;
 
 	/**
-	 * Constructs a request that encapsulates 2 EObject lists and a list of
-	 * switches.
+	 * Constructs a request that encapsulates 2 {@link EObject} collections and a
+	 * collection of switches.
 	 * 
-	 * @param elements1 The first element list.
-	 * @param elements2 The second element list.
-	 * @param sss       Switches that will be used for comparing the elements.
+	 * @param elements1 The first element collection.
+	 * @param elements2 The second element collection.
+	 * @param sss       Collection of switches that will be used for comparing the
+	 *                  elements. i-th switch in the collection will be used in the
+	 *                  similarity checking of i-th elements from respective
+	 *                  collections.
 	 * 
 	 * @see {@link MultipleSimilarityCheckHandler#handleSimilarityRequest(ISimilarityRequest)}
 	 */
@@ -33,13 +36,6 @@ public class MultipleSimilarityCheckRequest implements ISimilarityRequest {
 		this.sss = sss;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @return { The first element list, The second element list, Switches that will
-	 *         be used for comparing the elements }
-	 * @see {@link #MultipleSimilarityCheckRequest(Collection, Collection, Collection)}
-	 */
 	@Override
 	public Object getParams() {
 		return new Object[] { this.elements1, this.elements2, this.sss };

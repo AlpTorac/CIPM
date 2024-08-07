@@ -20,7 +20,7 @@ public interface IInnerSwitch extends ISimilarityRequestHandler {
 	public ISimilarityRequestHandler getSimilarityRequestHandler();
 
 	/**
-	 * @return The object containing this switch.
+	 * @return The {@link IComposedSwitchAdapter} containing this switch
 	 */
 	public IComposedSwitchAdapter getContainingSwitch();
 

@@ -1,13 +1,15 @@
 package org.splevo.jamopp.diffing.similarity.base;
 
 /**
- * An interface for similarity comparers, which serve as a layer of indirection
- * between {@link ISimilarityChecker} and {@link ISimilarityToolbox}. This
- * allows to integrate additional similarity checking related constructs without
- * bloating the implementors of {@link ISimilarityChecker}. <br>
+ * An interface for similarity comparers, which can be used as a layer of
+ * indirection between {@link ISimilarityChecker} and
+ * {@link ISimilarityToolbox}. This allows to integrate additional similarity
+ * checking related constructs without bloating the implementors of
+ * {@link ISimilarityChecker}. <br>
  * <br>
  * {@link AbstractSimilarityComparer} contains further useful methods for
- * similarity comparers. It is therefore recommended to extend
+ * similarity comparers. It also integrates {@link ISimilarityToolbox} with
+ * {@link ISimilarityComparer}. It is therefore recommended to extend
  * {@link AbstractSimilarityComparer} for similarity comparer classes rather
  * than implementing this interface alone. <br>
  * <br>

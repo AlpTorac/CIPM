@@ -17,17 +17,12 @@ public class ClassifierNormalizationRequest implements ISimilarityRequest {
 	/**
 	 * Constructs an instance.
 	 * 
-	 * @param toBeNormalized The qualified name of the {@link ConcreteClassifier}
+	 * @param toBeNormalized The qualified name of the {@link ConcreteClassifier} ({@code conCls.getQualifiedName()})
 	 */
 	public ClassifierNormalizationRequest(String toBeNormalized) {
 		this.toBeNormalized = toBeNormalized;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @return The qualified name of the {@link ConcreteClassifier}
-	 */
 	@Override
 	public Object getParams() {
 		return this.toBeNormalized;

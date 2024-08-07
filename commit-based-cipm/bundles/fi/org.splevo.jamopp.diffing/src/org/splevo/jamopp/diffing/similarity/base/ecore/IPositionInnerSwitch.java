@@ -16,7 +16,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface IPositionInnerSwitch extends IInnerSwitch {
 	/**
 	 * @return Whether this switch should take statement positions in
-	 *         {@link EObject} instances it compares into account, while comparing
+	 *         {@link EObject} instances it compares into account while comparing
 	 *         them.
 	 */
 	public boolean shouldCheckStatementPosition();
@@ -74,7 +74,8 @@ public interface IPositionInnerSwitch extends IInnerSwitch {
 	}
 
 	/**
-	 * @return Whether the given collections are pairwise similar.
+	 * @return Whether the given collections are pairwise similar, so whether i-th
+	 *         element of both collections are similar for {@code i = 0, 1, ...}
 	 * @see {@link ISimilarityChecker}
 	 */
 	public default Boolean areSimilar(Collection<? extends EObject> eos1, Collection<? extends EObject> eos2) {
@@ -89,8 +90,8 @@ public interface IPositionInnerSwitch extends IInnerSwitch {
 	}
 
 	/**
-	 * @return A new switch with the given checkStatementPosition.
-	 * @see {@link #shouldCheckStatementPosition()} for checkStatementPosition
+	 * @param checkStatementPosition See {@link #shouldCheckStatementPosition()}
+	 * @return A new switch with the given checkStatementPosition flag.
 	 */
 	public IComposedSwitchAdapter requestNewSwitch(boolean checkStatementPosition);
 }

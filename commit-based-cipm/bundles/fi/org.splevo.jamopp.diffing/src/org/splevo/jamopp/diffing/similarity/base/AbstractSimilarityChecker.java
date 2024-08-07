@@ -48,13 +48,13 @@ public abstract class AbstractSimilarityChecker implements ISimilarityChecker {
 	 * {@link ISimilarityComparer}. <br>
 	 * <br>
 	 * Declared as protected only to let concrete implementors delegate incoming
-	 * {@link ISimilarityRequest} instances. To their {@link ISimilarityComparer}.
+	 * {@link ISimilarityRequest} instances to their {@link ISimilarityComparer}.
 	 * <br>
 	 * <br>
 	 * This is necessary, because creating further internal constructs that contain
 	 * similarity checking logic, such as similarity switches, may involve using
 	 * {@link ISimilarityRequestHandler} instances and that in return requires
-	 * {@link ISimilarityRequest} instances.
+	 * delegating {@link ISimilarityRequest} instances.
 	 */
 	protected Object handleSimilarityRequest(ISimilarityRequest req) {
 		return this.getSimilarityComparer().handleSimilarityRequest(req);

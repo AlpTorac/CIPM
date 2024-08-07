@@ -14,7 +14,7 @@ import org.splevo.jamopp.diffing.similarity.requests.NewSimilaritySwitchRequest;
 public class NewSimilaritySwitchHandler implements ISimilarityRequestHandler {
 	/**
 	 * The {@link ISimilarityRequestHandler}, which will be passed onto the
-	 * similarity switches created in
+	 * similarity switch created in
 	 * {@link #handleSimilarityRequest(ISimilarityRequest)}.
 	 */
 	private ISimilarityRequestHandler srh;
@@ -23,7 +23,7 @@ public class NewSimilaritySwitchHandler implements ISimilarityRequestHandler {
 	 * Constructs an instance with the given {@link ISimilarityRequestHandler}.
 	 * 
 	 * @param srh The {@link ISimilarityRequestHandler}, which will be passed onto
-	 *            the similarity switches created in
+	 *            the similarity switch created in
 	 *            {@link #handleSimilarityRequest(ISimilarityRequest)}.
 	 */
 	public NewSimilaritySwitchHandler(ISimilarityRequestHandler srh) {

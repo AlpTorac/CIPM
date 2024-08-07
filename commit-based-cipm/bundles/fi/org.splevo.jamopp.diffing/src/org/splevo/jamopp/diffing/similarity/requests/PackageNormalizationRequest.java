@@ -28,12 +28,6 @@ public class PackageNormalizationRequest implements ISimilarityRequest {
 		this.toBeNormalized = toBeNormalized;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @return The name of the {@link CompilationUnit} instance normalised via
-	 *         {@link CompilationUnitNormalizationRequest} first.
-	 */
 	@Override
 	public Object getParams() {
 		return this.toBeNormalized;

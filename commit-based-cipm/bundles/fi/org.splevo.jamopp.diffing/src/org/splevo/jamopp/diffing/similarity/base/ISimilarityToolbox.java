@@ -14,11 +14,13 @@ package org.splevo.jamopp.diffing.similarity.base;
  * Implementors of this interface allow adding and removing the said pairs
  * dynamically. In doing so, they make dynamic changes to similarity checking
  * possible. Additionally, new similarity operations can be integrated without
- * modifying the implementors themselves but by calling the
+ * modifying the implementors themselves by calling the
  * {@link #addRequestHandlerPair(Class, ISimilarityRequestHandler)} method. <br>
  * <br>
  * This interface makes no assumptions on the data structure used in its
- * concrete implementors to store request-handler pairs.
+ * concrete implementors to store request-handler pairs. Neither does it
+ * explicitly specify how incoming {@link ISimilarityRequest} instances are
+ * internally handled.
  * 
  * @see {@link ISimilarityToolboxBuilder}, {@link ISimilarityToolboxFactory}
  * @author atora
@@ -60,9 +62,10 @@ public interface ISimilarityToolbox extends ISimilarityRequestHandler {
 	/**
 	 * {@inheritDoc} <br>
 	 * <br>
-	 * The data structure used in the {@link ISimilarityToolbox} implementation can
-	 * influence the way {@code req} is handled. For example, in cases where there
-	 * is no corresponding handler or if there are multiple corresponding handlers.
+	 * The data structure used in the {@link ISimilarityToolbox} implementation to
+	 * store request-handler pairs can influence the way {@code req} is handled. For
+	 * example, in cases where there is no corresponding handler or if there are
+	 * multiple corresponding handlers.
 	 */
 	@Override
 	public Object handleSimilarityRequest(ISimilarityRequest req);

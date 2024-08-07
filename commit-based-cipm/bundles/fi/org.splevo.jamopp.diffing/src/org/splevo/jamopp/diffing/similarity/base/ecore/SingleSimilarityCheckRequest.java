@@ -27,12 +27,6 @@ public class SingleSimilarityCheckRequest implements ISimilarityRequest {
 		this.ss = ss;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @return {The first element, The second element, The switch that will be used
-	 *         to compare the elements}
-	 */
 	@Override
 	public Object getParams() {
 		return new Object[] { this.element1, this.element2, this.ss };

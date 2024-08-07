@@ -20,7 +20,8 @@ public class MultipleSimilarityCheckHandler implements ISimilarityRequestHandler
 	private ISimilarityRequestHandler srh;
 
 	/**
-	 * Constructs an instance with the given {@link ISimilarityRequestHandler}.
+	 * Constructs an instance with the given {@link ISimilarityRequestHandler},
+	 * which is able to handle {@link SingleSimilarityCheckRequest} instances.
 	 * 
 	 * @param srh The {@link ISimilarityRequestHandler}, to which
 	 *            {@link SingleSimilarityCheckRequest} instances will be delegated.
@@ -36,9 +37,16 @@ public class MultipleSimilarityCheckHandler implements ISimilarityRequestHandler
 	 * request pairwise. To do so, it uses the switch at index i to compare elements
 	 * at the index i in their respective lists.
 	 * 
-	 * @return TRUE, if they are all similar; FALSE if a different number of
-	 *         elements is submitted or at least one pair of elements is not similar
-	 *         to each other. The return type is {@link Boolean}.
+	 * @return
+	 *         <ul>
+	 *         <li>True (as Boolean), if they are all similar
+	 *         <li>False (as Boolean), if a different number of elements is
+	 *         submitted or at least one pair of elements is not similar to each
+	 *         other
+	 *         <li>Null, if sizes of both collections of {@link EObjects} match but
+	 *         the amount of provided similarity switches in {@code req} does not
+	 *         match their size
+	 *         </ul>
 	 * @see {@link ISimilarityChecker}
 	 */
 	@SuppressWarnings("unchecked")

@@ -18,17 +18,12 @@ public class CompilationUnitNormalizationRequest implements ISimilarityRequest {
 	/**
 	 * Constructs an instance.
 	 * 
-	 * @param toBeNormalized The name of the {@link CompilationUnit}.
+	 * @param toBeNormalized The name of the {@link CompilationUnit} ({@code compUnit.name()}).
 	 */
 	public CompilationUnitNormalizationRequest(String toBeNormalized) {
 		this.toBeNormalized = toBeNormalized;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @return The name of the {@link CompilationUnit}.
-	 */
 	@Override
 	public Object getParams() {
 		return this.toBeNormalized;

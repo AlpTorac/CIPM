@@ -28,12 +28,6 @@ public class NewPCMRepositorySimilaritySwitchRequest implements ISimilarityReque
 		this.checkStatementPosition = checkStatementPosition;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @return The flag that denotes, whether the resulting new similarity switch
-	 *         should care about positions of statements while computing similarity.
-	 */
 	@Override
 	public Object getParams() {
 		return this.checkStatementPosition;

@@ -4,7 +4,7 @@ package org.splevo.jamopp.diffing.similarity.base;
  * An interface for encapsulating similarity operations, whose implementors take
  * {@link ISimilarityRequest} instances and process them. Implementors of this
  * interface are meant to be used to extract such operations from other
- * classes/interfaces, as well as their relevant parameters if plausible. Doing
+ * classes/interfaces, as well as their relevant parameters, if plausible. Doing
  * so keeps other classes/interfaces clear of functionality that does not
  * concern them. <br>
  * <br>
@@ -27,7 +27,9 @@ public interface ISimilarityRequestHandler {
 	public Object handleSimilarityRequest(ISimilarityRequest req);
 
 	/**
-	 * @return Whether the given {@link ISimilarityRequest} instance can be handled.
+	 * @param req A given {@link ISimilarityRequest} instance
+	 * 
+	 * @return Whether {@code req} can be handled.
 	 */
 	public default boolean canHandleSimilarityRequest(ISimilarityRequest req) {
 		return this.canHandleSimilarityRequest(req.getClass());
@@ -36,7 +38,7 @@ public interface ISimilarityRequestHandler {
 	/**
 	 * @param reqClass The class of the {@link ISimilarityRequest} instance
 	 * 
-	 * @return Whether the given {@link ISimilarityRequest} class can be handled.
+	 * @return Whether instances of {@code reqClass} can be handled.
 	 */
 	public boolean canHandleSimilarityRequest(Class<? extends ISimilarityRequest> reqClass);
 }

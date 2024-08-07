@@ -5,11 +5,12 @@ package org.splevo.jamopp.diffing.similarity.base;
  * <br>
  * The purpose of the implementors of this interface is to set the data
  * structure that will be used in the {@link ISimilarityToolbox} to contain the
- * pairs added to them. <br>
+ * request-handler pairs added to them. <br>
  * <br>
  * It is recommended to use {@link ISimilarityToolboxBuilder} and its
  * implementors to build {@link ISimilarityToolbox} instances.
  * 
+ * @see {@link ISimilarityToolbox}, {@link ISimilarityToolboxBuilder}
  * @author atora
  */
 public interface ISimilarityToolboxFactory {

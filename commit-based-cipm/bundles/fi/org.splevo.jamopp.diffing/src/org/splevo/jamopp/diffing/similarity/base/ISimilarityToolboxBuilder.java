@@ -8,9 +8,10 @@ package org.splevo.jamopp.diffing.similarity.base;
  * To build a {@link ISimilarityToolbox}:
  * <ol>
  * <li>Set the {@link ISimilarityToolboxFactory} to specify the internal data
- * structure of the end product using
- * {@link #setSimilarityToolboxFactory(ISimilarityToolboxFactory)}.
- * <li>Instantiate the {@link ISimilarityToolbox} using {@link #instantiate()}.
+ * structure that will be used in the end product to store request-handler pairs
+ * using {@link #setSimilarityToolboxFactory(ISimilarityToolboxFactory)}.
+ * <li>Instantiate a {@link ISimilarityToolbox} within the
+ * {@link ISimilarityToolboxBuilder} using {@link #instantiate()}.
  * <li>Use the provided building methods, such as
  * {@link #buildRequestHandlerPair(Class, ISimilarityRequestHandler)}.
  * <li>Return the end product by calling {@link #build()}.
@@ -26,15 +27,18 @@ package org.splevo.jamopp.diffing.similarity.base;
 public interface ISimilarityToolboxBuilder {
 	/**
 	 * Sets the {@link ISimilarityToolboxFactory}, which specifies the internal data
-	 * structure of the end product. Currently used
-	 * {@link ISimilarityToolboxFactory} can be changed by using this method as
-	 * well. <br>
+	 * structure that will be used in the end product to store request-handler
+	 * pairs. Currently used {@link ISimilarityToolboxFactory} can be changed by
+	 * using this method as well. <br>
 	 * <br>
 	 * <b>Note that changing the {@link ISimilarityToolboxFactory} after calling
 	 * {@link #instantiate()} has no effect on the {@link ISimilarityToolbox} that
 	 * is currently being built. For this change to take effect,
 	 * {@link #instantiate()} can be called to start the building process anew with
 	 * the new {@link ISimilarityToolboxFactory}. </b>
+	 * 
+	 * @param stf The new {@link ISimilarityToolboxFactory} that this builder will
+	 *            use
 	 */
 	public void setSimilarityToolboxFactory(ISimilarityToolboxFactory stf);
 
@@ -47,8 +51,9 @@ public interface ISimilarityToolboxBuilder {
 	 * Returns the current version of the {@link ISimilarityToolbox} being built.
 	 * <br>
 	 * <br>
-	 * Depending on the concrete implementation, calling this method may set the
-	 * current version of the {@link ISimilarityToolbox} to null after returning.
+	 * <b>Depending on the concrete implementation, calling this method may set the
+	 * current version of the {@link ISimilarityToolbox} to null after
+	 * returning.</b>
 	 * 
 	 * @return The resulting {@link ISimilarityToolbox}.
 	 */
@@ -56,15 +61,16 @@ public interface ISimilarityToolboxBuilder {
 
 	/**
 	 * Creates a {@link ISimilarityToolbox} using the current
-	 * {@link ISimilarityToolboxFactory}. Can also be used to reset the current
-	 * version of the {@link ISimilarityToolbox}.
+	 * {@link ISimilarityToolboxFactory} within this builder. Can also be used to
+	 * reset the current version of the {@link ISimilarityToolbox}.
 	 * 
 	 * @return this
 	 */
 	public ISimilarityToolboxBuilder instantiate();
 
 	/**
-	 * Adds the given pair (reqClass, srh) to the {@link ISimilarityToolbox}.
+	 * Adds the given request-handler pair (reqClass, srh) to the
+	 * {@link ISimilarityToolbox}.
 	 * 
 	 * @param reqClass The class of the {@link ISimilarityRequest} instances, which
 	 *                 should be processed using the given

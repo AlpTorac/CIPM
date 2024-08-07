@@ -5,8 +5,8 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolbox;
 
 /**
- * An abstract class provided for integrating future constructs that may
- * complement {@link AbstractSimilarityComparer}.
+ * An abstract class provided for integrating future {@link EObject} constructs
+ * that may complement {@link AbstractSimilarityComparer}.
  * 
  * @author atora
  */

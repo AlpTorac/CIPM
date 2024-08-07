@@ -3,9 +3,9 @@ package org.splevo.jamopp.diffing.similarity.requests;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
 
 /**
- * An {@link ISimilarityRequest}, which contains a flag that denotes, whether
- * the new similarity switch created by processing this request should care
- * about positions of statements while computing similarity.
+ * An {@link ISimilarityRequest}, which contains a flag (checkStatementPosition)
+ * that denotes, whether the new similarity switch created by processing this
+ * request should care about positions of statements while computing similarity.
  * 
  * @author atora
  */
@@ -28,12 +28,6 @@ public class NewSimilaritySwitchRequest implements ISimilarityRequest {
 		this.checkStatementPosition = checkStatementPosition;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * 
-	 * @return The flag that denotes, whether the resulting new similarity switch
-	 *         should care about positions of statements while computing similarity.
-	 */
 	@Override
 	public Object getParams() {
 		return this.checkStatementPosition;

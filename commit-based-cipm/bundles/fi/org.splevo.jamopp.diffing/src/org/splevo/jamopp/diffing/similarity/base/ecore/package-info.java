@@ -10,9 +10,8 @@
  * {@link ISimilarityToolbox} instead provides the means to compute certain
  * operations during similarity checking. The use of {@link ISimilarityToolbox}
  * (as well as {@link ISimilarityRequest} and {@link ISimilarityRequestHandler})
- * makes extracting parameters regarding normalisation possible. It also eases
- * integrating future operations and their parameters without having to modify
- * the said switches. <br>
+ * makes extracting parameters regarding normalisation possible, for instance.
+ * <br>
  * <br>
  * {@link AbstractComposedSwitchSimilarityChecker} and
  * {@link AbstractComposedSimilaritySwitchComparer} extend their correspondent
@@ -30,8 +29,8 @@
  * helps integrate {@link ISimilarityRequestHandler} into switches, which allows
  * them to delegate certain similarity checking operations to
  * {@link ISimilarityRequestHandler} (such as an {@link ISimilarityToolbox}).
- * Additionally, it provide the switches with some default methods to spare them
- * from declaring the same methods. {@link IPositionInnerSwitch} extends
+ * Additionally, it provides the switches with some default methods to spare
+ * them from declaring the same methods. {@link IPositionInnerSwitch} extends
  * {@link IInnerSwitch} with further methods that can be used by switches, which
  * may need to compare nested {@link EObject} instances and/or account for the
  * positions of statements (in form of {@link EObject} instances). <br>

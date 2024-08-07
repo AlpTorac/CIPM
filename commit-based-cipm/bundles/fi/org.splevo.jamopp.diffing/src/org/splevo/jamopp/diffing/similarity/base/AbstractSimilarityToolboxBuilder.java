@@ -10,7 +10,8 @@ package org.splevo.jamopp.diffing.similarity.base;
 public abstract class AbstractSimilarityToolboxBuilder implements ISimilarityToolboxBuilder {
 	/**
 	 * The {@link ISimilarityToolboxFactory}, which determines the data structure
-	 * used by the {@link ISimilarityToolbox} instances built using this builder.
+	 * used to store request-handler pairs within the {@link ISimilarityToolbox}
+	 * instances built using this builder.
 	 */
 	private ISimilarityToolboxFactory stf;
 
@@ -33,8 +34,8 @@ public abstract class AbstractSimilarityToolboxBuilder implements ISimilarityToo
 
 	/**
 	 * @return The {@link ISimilarityToolboxFactory}, which determines the data
-	 *         structure used by the {@link ISimilarityToolbox} instances built
-	 *         using this builder.
+	 *         structure used to store request-handler pairs within the
+	 *         {@link ISimilarityToolbox} instances built using this builder.
 	 */
 	@Override
 	public ISimilarityToolboxFactory getToolboxFactory() {
@@ -42,6 +43,9 @@ public abstract class AbstractSimilarityToolboxBuilder implements ISimilarityToo
 	}
 
 	/**
+	 * Meant to allow concrete implementors the access to the current version of the
+	 * {@link ISimilarityToolbox} under construction.
+	 * 
 	 * @return The current version of the {@link ISimilarityToolbox} instance being
 	 *         built.
 	 */

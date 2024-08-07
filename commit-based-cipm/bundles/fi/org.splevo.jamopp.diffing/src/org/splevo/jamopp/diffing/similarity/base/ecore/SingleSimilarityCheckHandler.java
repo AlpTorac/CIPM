@@ -15,7 +15,10 @@ public class SingleSimilarityCheckHandler implements ISimilarityRequestHandler {
 	/**
 	 * Uses the given switch to compute the similarity of the given elements.
 	 * 
-	 * @see {@link ISimilarityChecker}
+	 * @param element1 The first element to check.
+	 * @param element2 The second element to check.
+	 * @param ss       The switch that will be used during the similarity checking
+	 * @return TRUE, if they are similar; FALSE if not, NULL if it can't be decided.
 	 */
 	public Boolean isSimilar(EObject element1, EObject element2, IComposedSwitchAdapter ss) {
 
