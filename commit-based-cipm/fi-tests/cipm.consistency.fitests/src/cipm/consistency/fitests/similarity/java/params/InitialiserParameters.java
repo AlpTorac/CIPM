@@ -11,7 +11,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.InitialiserPackage;
  * @author atora
  */
 public class InitialiserParameters implements IInitialiserParameters {
-	public Collection<IInitialiser> getAllInitialisers() {
+	public Collection<IInitialiser> getAllNonAdaptedInitialisers() {
 		return new InitialiserPackage().getAllInitialiserInstances();
 	}
 
