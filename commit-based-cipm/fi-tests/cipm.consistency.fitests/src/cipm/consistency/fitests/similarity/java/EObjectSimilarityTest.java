@@ -254,7 +254,7 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 		this.assertSimilar(elem1);
 		this.assertSimilar(elem2);
 
-		var key = attrKey.getClass().equals(Boolean.class) ? (Boolean) attrKey
+		var key = attrKey instanceof Boolean ? (Boolean) attrKey
 				: this.getExpectedSimilarityResult(objCls, (EStructuralFeature) attrKey);
 
 		this.assertSimilarityResult(elem1, elem2, key);
