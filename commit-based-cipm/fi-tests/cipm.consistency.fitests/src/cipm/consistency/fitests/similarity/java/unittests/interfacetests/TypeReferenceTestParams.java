@@ -12,7 +12,7 @@ import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
 public class TypeReferenceTestParams implements ArgumentsProvider {
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
-		return new InitialiserParameters().getAdaptedInitialisersBySuper(ITypeReferenceInitialiser.class).stream()
+		return new InitialiserParameters().getAllInitialisersBySuper(ITypeReferenceInitialiser.class).stream()
 				.map((i) -> Arguments.of(i));
 	}
 }

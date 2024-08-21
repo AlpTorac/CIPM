@@ -13,7 +13,7 @@ public class JavaRootTestParams implements ArgumentsProvider {
 
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
-		return new InitialiserParameters().getAdaptedInitialisersBySuper(IJavaRootInitialiser.class).stream()
+		return new InitialiserParameters().getAllInitialisersBySuper(IJavaRootInitialiser.class).stream()
 				.map((i) -> Arguments.of(i));
 	}
 }

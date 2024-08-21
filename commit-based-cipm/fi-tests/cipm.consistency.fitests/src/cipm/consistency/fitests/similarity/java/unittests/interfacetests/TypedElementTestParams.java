@@ -13,7 +13,7 @@ public class TypedElementTestParams implements ArgumentsProvider {
 
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
-		return new InitialiserParameters().getAdaptedInitialisersBySuper(ITypedElementInitialiser.class).stream()
+		return new InitialiserParameters().getAllInitialisersBySuper(ITypedElementInitialiser.class).stream()
 				.map((i) -> Arguments.of(i));
 	}
 

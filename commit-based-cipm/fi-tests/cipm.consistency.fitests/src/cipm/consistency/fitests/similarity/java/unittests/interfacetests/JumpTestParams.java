@@ -12,7 +12,7 @@ import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
 public class JumpTestParams implements ArgumentsProvider {
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
-		return new InitialiserParameters().getAdaptedInitialisersBySuper(IJumpInitialiser.class).stream()
+		return new InitialiserParameters().getAllInitialisersBySuper(IJumpInitialiser.class).stream()
 				.map((i) -> Arguments.of(i));
 	}
 }

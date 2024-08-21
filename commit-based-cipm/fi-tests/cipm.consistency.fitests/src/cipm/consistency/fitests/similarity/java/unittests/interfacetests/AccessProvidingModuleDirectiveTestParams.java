@@ -14,7 +14,7 @@ public class AccessProvidingModuleDirectiveTestParams implements ArgumentsProvid
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
 		return new InitialiserParameters()
-				.getAdaptedInitialisersBySuper(IAccessProvidingModuleDirectiveInitialiser.class).stream()
+				.getAllInitialisersBySuper(IAccessProvidingModuleDirectiveInitialiser.class).stream()
 				.map((i) -> Arguments.of(i));
 	}
 

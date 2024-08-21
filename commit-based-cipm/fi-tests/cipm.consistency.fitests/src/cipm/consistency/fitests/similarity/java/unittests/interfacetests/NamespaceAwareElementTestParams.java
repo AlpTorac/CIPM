@@ -12,7 +12,7 @@ import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
 public class NamespaceAwareElementTestParams implements ArgumentsProvider {
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
-		return new InitialiserParameters().getAdaptedInitialisersBySuper(INamespaceAwareElementInitialiser.class)
+		return new InitialiserParameters().getAllInitialisersBySuper(INamespaceAwareElementInitialiser.class)
 				.stream().map((i) -> Arguments.of(i));
 	}
 }
