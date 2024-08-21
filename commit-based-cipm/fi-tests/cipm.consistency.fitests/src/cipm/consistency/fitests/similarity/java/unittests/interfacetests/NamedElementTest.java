@@ -12,7 +12,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.commons.INamedElemen
 public class NamedElementTest extends EObjectSimilarityTest {
 	protected NamedElement initElement(INamedElementInitialiser init, String name) {
 		NamedElement result = init.instantiate();
-		Assertions.assertTrue(init.setName(result, name));
+		Assertions.assertEquals(init.canSetName(result), init.setName(result, name));
 		return result;
 	}
 

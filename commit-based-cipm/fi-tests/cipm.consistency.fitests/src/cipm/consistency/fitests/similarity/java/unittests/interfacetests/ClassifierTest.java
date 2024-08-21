@@ -24,8 +24,13 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 
 		var result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
-		Assertions.assertTrue(init.addImports(result, imps));
-		Assertions.assertTrue(init.addPackageImports(result, pImps));
+
+		var addImportsRes = init.addImports(result, imps);
+		var addPackageImportsRes = init.addPackageImports(result, pImps);
+
+		Assertions.assertEquals(init.canAddImports(result) || imps == null, addImportsRes);
+		Assertions.assertEquals(init.canAddPackageImports(result) || pImps == null, addPackageImportsRes);
+
 		return result;
 	}
 
@@ -38,7 +43,9 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }, null);
 		var objTwo = this.initElement(init, new Import[] { this.createMinimalClsImport("cls2") }, null);
 
-		this.testSimilarity(objOne, objTwo, CompilationUnit.class, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
+		this.testSimilarity(objOne, objTwo, CompilationUnit.class,
+				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
+						|| (!init.canAddImports(objOne) && !init.canAddImports(objTwo)));
 	}
 
 	/**
@@ -55,6 +62,8 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 		var objTwo = this.initElement(init, null,
 				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns3", "ns4" }) });
 
-		this.testSimilarity(objOne, objTwo, CompilationUnit.class, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
+		this.testSimilarity(objOne, objTwo, CompilationUnit.class,
+				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
+						|| (!init.canAddImports(objOne) && !init.canAddImports(objTwo)));
 	}
 }

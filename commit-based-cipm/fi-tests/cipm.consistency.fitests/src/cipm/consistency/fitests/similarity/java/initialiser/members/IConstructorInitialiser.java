@@ -1,6 +1,7 @@
 package cipm.consistency.fitests.similarity.java.initialiser.members;
 
 import org.emftext.language.java.members.Constructor;
+import org.emftext.language.java.statements.StatementListContainer;
 
 import cipm.consistency.fitests.similarity.java.initialiser.generics.ITypeParametrizableInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.modifiers.IAnnotableAndModifiableInitialiser;
@@ -14,4 +15,9 @@ public interface IConstructorInitialiser extends IAnnotableAndModifiableInitiali
 
 	@Override
 	public Constructor instantiate();
+
+	@Override
+	public default boolean canContainStatements(StatementListContainer slc) {
+		return ((Constructor) slc).getBlock() != null;
+	}
 }

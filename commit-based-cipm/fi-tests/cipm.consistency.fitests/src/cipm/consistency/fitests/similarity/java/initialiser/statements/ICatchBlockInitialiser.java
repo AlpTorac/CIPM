@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 
 import org.emftext.language.java.parameters.OrdinaryParameter;
 import org.emftext.language.java.statements.CatchBlock;
+import org.emftext.language.java.statements.StatementListContainer;
 
 public interface ICatchBlockInitialiser extends IBlockContainerInitialiser, IStatementListContainerInitialiser {
 
@@ -14,5 +15,10 @@ public interface ICatchBlockInitialiser extends IBlockContainerInitialiser, ISta
 			return cb.getParameter().equals(param);
 		}
 		return true;
+	}
+
+	@Override
+	public default boolean canContainStatements(StatementListContainer slc) {
+		return ((CatchBlock) slc).getBlock() != null;
 	}
 }

@@ -21,7 +21,10 @@ public class StatementListContainerTest extends EObjectSimilarityTest implements
 
 		StatementListContainer result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
-		Assertions.assertTrue(init.addStatements(result, sts));
+
+		var addStatementsRes = init.addStatements(result, sts);
+		Assertions.assertEquals(init.canContainStatements(result), addStatementsRes);
+
 		return result;
 	}
 
@@ -34,6 +37,8 @@ public class StatementListContainerTest extends EObjectSimilarityTest implements
 		var objOne = this.initElement(init, new Statement[] { this.createMinimalNullReturn() });
 		var objTwo = this.initElement(init, new Statement[] { this.createMinimalTrivialAssert() });
 
-		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.BLOCK__STATEMENTS);
+		this.testSimilarity(objOne, objTwo,
+				this.getExpectedSimilarityResult(StatementsPackage.Literals.BLOCK__STATEMENTS).booleanValue()
+						|| (!init.canContainStatements(objOne) && !init.canContainStatements(objTwo)));
 	}
 }

@@ -19,13 +19,16 @@ public interface IStatementListContainerInitialiser extends ICommentableInitiali
 	 * <b>Note: Not all implementors of {@link StatementListContainer} allow adding
 	 * statements via this method.</b>
 	 * 
-	 * @return True, if the behaviour expected by calling this method was achieved.
+	 * @return True, if the given {@link Statement} was added successfully.
 	 * @see {@link #addStatementAssertion(StatementListContainer, Statement)}
 	 */
 	public default boolean addStatement(StatementListContainer slc, Statement st) {
+		if (!this.canContainStatements(slc)) {
+			return false;
+		}
 		if (st != null) {
 			slc.getStatements().add(st);
-			return this.addStatementAssertion(slc, st);
+			return slc.getStatements().contains(st);
 		}
 		return true;
 	}
@@ -33,21 +36,16 @@ public interface IStatementListContainerInitialiser extends ICommentableInitiali
 	/**
 	 * Extracted from {@link #addStatement(StatementListContainer, Statement)}
 	 * because there are some implementors of {@link StatementListContainer}, which
-	 * are not modified via: <br>
-	 * <br>
-	 * {@code slc.getStatements().add(statement)} <br>
-	 * <br>
-	 * This allows overriding the expectations from
-	 * {@link #addStatement(StatementListContainer, Statement)} in sub-interfaces
-	 * with deviating behaviour.
+	 * throw {@link NullPointerException} if {@code slc.getStatements()} is called
+	 * without proper initialisation. Extracting this method allows such
+	 * implementors to indicate, whether {@link Statement}s can be added to them
+	 * without issues.
 	 * 
-	 * @return True, if the behaviour expected by calling
-	 *         {@link #addStatement(StatementListContainer, Statement)} was
-	 *         achieved.
+	 * @return Whether {@link Statement}s can be added to the given
+	 *         {@link StatementListContainer} via
+	 *         {@link #addStatement(StatementListContainer, Statement)}.
 	 */
-	default boolean addStatementAssertion(StatementListContainer slc, Statement st) {
-		return slc.getStatements().contains(st);
-	}
+	public boolean canContainStatements(StatementListContainer slc);
 
 	public default boolean addStatements(StatementListContainer slc, Statement[] sts) {
 		return this.doMultipleModifications(slc, sts, this::addStatement);

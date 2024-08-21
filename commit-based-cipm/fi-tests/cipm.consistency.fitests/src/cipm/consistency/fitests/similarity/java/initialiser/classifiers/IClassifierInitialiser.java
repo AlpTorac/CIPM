@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.initialiser.classifiers;
 
 import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.imports.Import;
+import org.emftext.language.java.imports.PackageImport;
 
 import cipm.consistency.fitests.similarity.java.initialiser.references.IReferenceableElementInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.types.ITypeInitialiser;
@@ -24,11 +25,17 @@ public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceable
 	/**
 	 * Adds the given {@link Import} to the {@link CompilationUnit} containing the
 	 * given {@link Classifier}.
+	 * 
+	 * @see {@link IClassifierInitialiser}
 	 */
 	public default boolean addImport(Classifier cls, Import imp) {
+		if (!this.canAddImports(cls)) {
+			return false;
+		}
 		if (imp != null) {
-			cls.getContainingCompilationUnit().getImports().add(imp);
-			return cls.getContainingCompilationUnit().getImports().stream().anyMatch((i) -> i.equals(imp));
+			var cu = cls.getContainingCompilationUnit();
+			cu.getImports().add(imp);
+			return cu.getImports().stream().anyMatch((i) -> i.equals(imp));
 		}
 		return true;
 	}
@@ -38,18 +45,40 @@ public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceable
 	}
 
 	/**
-	 * Adds the given {@link Import} to the {@link CompilationUnit} containing the
-	 * given {@link Classifier}.
+	 * @return Whether {@link Import}s can be added via
+	 *         {@link #addImport(Classifier, Import)}
 	 */
-	public default boolean addPackageImport(Classifier cls, Import imp) {
+	public default boolean canAddImports(Classifier cls) {
+		return cls.getContainingCompilationUnit() != null;
+	}
+
+	/**
+	 * @return Whether {@link PackageImport}s can be added via
+	 *         {@link #addPackageImport(Classifier, PackageImport)}
+	 */
+	public default boolean canAddPackageImports(Classifier cls) {
+		return cls.getContainingCompilationUnit() != null;
+	}
+
+	/**
+	 * Adds the given {@link PackageImport} to the {@link CompilationUnit}
+	 * containing the given {@link Classifier}.
+	 * 
+	 * @see {@link IClassifierInitialiser}
+	 */
+	public default boolean addPackageImport(Classifier cls, PackageImport imp) {
+		if (!this.canAddPackageImports(cls)) {
+			return false;
+		}
 		if (imp != null) {
-			cls.getContainingCompilationUnit().getImports().add(imp);
-			return cls.getContainingCompilationUnit().getImports().stream().anyMatch((i) -> i.equals(imp));
+			var cu = cls.getContainingCompilationUnit();
+			cu.getImports().add(imp);
+			return cu.getImports().stream().anyMatch((i) -> i.equals(imp));
 		}
 		return true;
 	}
 
-	public default boolean addPackageImports(Classifier cls, Import[] imps) {
+	public default boolean addPackageImports(Classifier cls, PackageImport[] imps) {
 		return this.doMultipleModifications(cls, imps, this::addPackageImport);
 	}
 }

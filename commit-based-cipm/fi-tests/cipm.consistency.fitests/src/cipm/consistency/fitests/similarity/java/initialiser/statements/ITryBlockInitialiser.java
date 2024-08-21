@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.CatchBlock;
+import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.TryBlock;
 import org.emftext.language.java.variables.Resource;
 
@@ -40,5 +41,10 @@ public interface ITryBlockInitialiser
 
 	public default boolean addResources(TryBlock tb, Resource[] ress) {
 		return this.doMultipleModifications(tb, ress, this::addResource);
+	}
+
+	@Override
+	public default boolean canContainStatements(StatementListContainer slc) {
+		return ((TryBlock) slc).getBlock() != null;
 	}
 }

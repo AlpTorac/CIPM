@@ -32,7 +32,7 @@ public class NamedElementInitialiserAdapter implements IInitialiserAdapterStrate
 		var castedInit = (INamedElementInitialiser) init;
 		var castedO = (NamedElement) obj;
 
-		if (castedO.getName() == null) {
+		if (castedInit.canSetName(castedO) && castedO.getName() == null) {
 			return castedInit.setName(castedO, this.getDefaultName());
 		}
 

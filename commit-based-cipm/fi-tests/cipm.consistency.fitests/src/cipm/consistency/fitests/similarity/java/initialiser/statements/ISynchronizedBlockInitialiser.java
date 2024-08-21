@@ -1,6 +1,7 @@
 package cipm.consistency.fitests.similarity.java.initialiser.statements;
 
 import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.SynchronizedBlock;
 
 public interface ISynchronizedBlockInitialiser
@@ -14,5 +15,10 @@ public interface ISynchronizedBlockInitialiser
 			return sb.getLockProvider().equals(lockProvider);
 		}
 		return true;
+	}
+
+	@Override
+	public default boolean canContainStatements(StatementListContainer slc) {
+		return ((SynchronizedBlock) slc).getBlock() != null;
 	}
 }

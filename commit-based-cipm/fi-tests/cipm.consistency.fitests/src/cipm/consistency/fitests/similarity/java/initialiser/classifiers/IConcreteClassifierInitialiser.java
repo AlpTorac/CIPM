@@ -29,6 +29,8 @@ public interface IConcreteClassifierInitialiser extends IAnnotableAndModifiableI
 	 * Sets the package of cls as pac. <br>
 	 * <br>
 	 * <b>Note: DOES NOT modify the classifiers contained by pac.</b>
+	 * 
+	 * @see {@link IConcreteClassifierInitialiser}
 	 */
 	public default boolean setPackage(ConcreteClassifier cls, Package pac) {
 		if (pac != null) {

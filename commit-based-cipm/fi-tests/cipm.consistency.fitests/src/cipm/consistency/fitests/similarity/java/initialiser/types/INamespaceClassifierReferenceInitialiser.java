@@ -24,8 +24,10 @@ public interface INamespaceClassifierReferenceInitialiser
 			 * https://github.com/DevBoost/JaMoPP/blob/master/Core/org.emftext.language.java
 			 * /src/org/emftext/language/java/extensions/types/TypeReferenceExtension.java
 			 */
-			return result && castedTref.getNamespaces().size() == target.getContainingContainerName().size()
+			return result && castedTref.getNamespaces() != null
+					&& castedTref.getNamespaces().size() == target.getContainingContainerName().size()
 					&& castedTref.getNamespaces().containsAll(target.getContainingContainerName())
+					&& castedTref.getClassifierReferences() != null
 					&& castedTref.getClassifierReferences().size() == 1
 					&& castedTref.getClassifierReferences().stream().anyMatch((cr) -> cr.getTarget().equals(target));
 		}

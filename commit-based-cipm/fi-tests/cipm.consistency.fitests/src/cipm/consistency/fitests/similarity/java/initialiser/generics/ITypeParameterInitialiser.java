@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.java.initialiser.generics;
 import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.generics.TypeParameter;
 import org.emftext.language.java.imports.Import;
+import org.emftext.language.java.imports.PackageImport;
 import org.emftext.language.java.types.TypeReference;
 
 import cipm.consistency.fitests.similarity.java.initialiser.annotations.IAnnotableInitialiser;
@@ -32,24 +33,24 @@ public interface ITypeParameterInitialiser extends IClassifierInitialiser, IAnno
 
 	/**
 	 * {@link TypeParameter} cannot add imports to its container, so attempting to
-	 * add imports to it has no effect.
-	 * 
+	 * add imports to it has no effect. <br>
+	 * <br>
 	 * This is caused by the inconsistency in the {@link Classifier} sub-hierarchy.
 	 */
 	@Override
 	public default boolean addImport(Classifier cls, Import imp) {
-		return true;
+		return false;
 	}
 
 	/**
 	 * {@link TypeParameter} cannot add imports to its container, so attempting to
-	 * add imports to it has no effect.
-	 * 
+	 * add imports to it has no effect. <br>
+	 * <br>
 	 * This is caused by the inconsistency in the {@link Classifier} sub-hierarchy.
 	 */
 	@Override
-	public default boolean addPackageImport(Classifier cls, Import pacImp) {
-		return true;
+	public default boolean addPackageImport(Classifier cls, PackageImport pacImp) {
+		return false;
 	}
 
 	public default boolean addExtendTypes(TypeParameter tp, TypeReference[] extTypes) {

@@ -1,6 +1,7 @@
 package cipm.consistency.fitests.similarity.java.initialiser.containers;
 
 import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.commons.NamedElement;
 import org.emftext.language.java.containers.Module;
 import org.emftext.language.java.containers.Package;
 
@@ -22,6 +23,17 @@ import cipm.consistency.fitests.similarity.java.initialiser.references.IReferenc
 public interface IPackageInitialiser extends IJavaRootInitialiser, IReferenceableElementInitialiser {
 	@Override
 	public Package instantiate();
+
+	/**
+	 * @return False, because the return value of {@code package.getName()} is
+	 *         determined by the namespaces of the package instead.
+	 * 
+	 * @see {@link IPackageInitialiser}
+	 */
+	@Override
+	public default boolean canSetName(NamedElement ne) {
+		return false;
+	}
 
 	public default boolean setModule(Package pac, Module mod) {
 		if (mod != null) {
