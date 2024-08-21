@@ -409,6 +409,11 @@ public final class JaMoPPElementUtil {
 
         if (statement.eContainer() instanceof StatementListContainer) {
             StatementListContainer container = (StatementListContainer) statement.eContainer();
+            
+            /*
+             * FIXME: Can throw NullPointerException, if container.getStatements() is null
+             */
+            
             return container.getStatements().indexOf(statement);
         }
 

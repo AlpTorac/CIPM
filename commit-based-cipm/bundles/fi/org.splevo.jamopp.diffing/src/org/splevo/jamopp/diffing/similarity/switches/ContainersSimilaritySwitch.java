@@ -97,6 +97,12 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean> implem
         Package package2 = (Package) this.getCompareElement();
         this.logComparison(package1, package2, Package.class.getSimpleName());
         
+        /*
+         * FIXME: JaMoPPModelUtil.buildNamespacePath(...) can throw NullPointerException,
+         * if package.getNamespacesAsString() is null.
+         * 
+         * FIXME: packagePath variables can be null
+         */
         String packagePath1 = JaMoPPModelUtil.buildNamespacePath(package1);
         packagePath1 = this.normalizeNamespace(packagePath1);
         String packagePath2 = JaMoPPModelUtil.buildNamespacePath(package2);
@@ -127,6 +133,10 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean> implem
     	
     	org.emftext.language.java.containers.Module module2 =
     			(org.emftext.language.java.containers.Module) this.getCompareElement();
+    	
+    	/*
+    	 * FIXME: Can throw NullPointerException, if module.getName() is null
+    	 */
     	
     	this.logResult(module1.getName().equals(module2.getName()), org.emftext.language.java.containers.Module.class.getSimpleName());
     	if (!module1.getName().equals(module2.getName())) {

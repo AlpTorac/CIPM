@@ -74,6 +74,10 @@ public class GenericsSimilaritySwitch extends GenericsSwitch<Boolean> implements
     	
     	TypeParameter param2 = (TypeParameter) this.getCompareElement();
     	
+    	/*
+    	 * FIXME: Can throw NullPointerException, if param.getName() is null
+    	 */
+    	
     	if (!param1.getName().equals(param2.getName())) {
     		return Boolean.FALSE;
     	}

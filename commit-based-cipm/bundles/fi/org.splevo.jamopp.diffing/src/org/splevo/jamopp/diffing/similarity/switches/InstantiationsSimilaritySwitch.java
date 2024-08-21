@@ -63,6 +63,10 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
             return Boolean.FALSE;
         }
 
+        /*
+         * FIXME: Can throw NullPointerException, if call.getArguments() is null
+         */
+        
         // check number of type arguments
         EList<Expression> cic1Args = call1.getArguments();
         EList<Expression> cic2Args = call2.getArguments();
@@ -87,6 +91,12 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
     	
         NewConstructorCall call2 = (NewConstructorCall) this.getCompareElement();
 
+        /*
+         * FIXME: Can throw NullPointerException, if call.getTypeReference() is null
+         * 
+         * FIXME: Can throw NullPointerException, if call.getArguments() is null
+         */
+        
         Type type1 = call1.getTypeReference().getTarget();
         Type type2 = call2.getTypeReference().getTarget();
         Boolean typeSimilarity = this.isSimilar(type1, type2);

@@ -90,6 +90,10 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean> implem
             }
         }
 
+        /*
+         * FIXME: Can throw NullPointerException, if ref.getArraySelectors() is null
+         */
+        
         if (ref1.getArraySelectors().size() != ref2.getArraySelectors().size()) {
             return Boolean.FALSE;
         }
@@ -157,6 +161,10 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean> implem
             return Boolean.FALSE;
         }
 
+        /*
+         * FIXME: Can throw NullPointerException, if call.getArguments() is null
+         */
+        
         if (call1.getArguments().size() != call2.getArguments().size()) {
             return Boolean.FALSE;
         }

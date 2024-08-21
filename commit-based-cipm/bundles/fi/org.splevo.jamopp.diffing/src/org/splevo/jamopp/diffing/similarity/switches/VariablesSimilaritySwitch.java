@@ -47,6 +47,10 @@ public class VariablesSimilaritySwitch extends VariablesSwitch<Boolean> implemen
 
         Variable var2 = (Variable) this.getCompareElement();
 
+        /*
+         * FIXME: Can throw NullPointerException, if var.getName() is null
+         */
+        
         // check the variables name equality
         if (!var1.getName().equals(var2.getName())) {
             return Boolean.FALSE;

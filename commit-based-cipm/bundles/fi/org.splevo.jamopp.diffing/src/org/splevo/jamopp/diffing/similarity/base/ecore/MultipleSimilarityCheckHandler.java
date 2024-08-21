@@ -29,7 +29,7 @@ public class MultipleSimilarityCheckHandler implements ISimilarityRequestHandler
 	public MultipleSimilarityCheckHandler(ISimilarityRequestHandler srh) {
 		this.srh = srh;
 	}
-
+	
 	/**
 	 * {@inheritDoc} <br>
 	 * <br>
@@ -52,6 +52,12 @@ public class MultipleSimilarityCheckHandler implements ISimilarityRequestHandler
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object handleSimilarityRequest(ISimilarityRequest req) {
+		/*
+		 * FIXME: Can throw NullPointerException, if elements variable(s) are null.
+		 * 
+		 * FIXME: What to do, if a similarity checking results in Boolean.NULL
+		 */
+		
 		MultipleSimilarityCheckRequest castedR = (MultipleSimilarityCheckRequest) req;
 
 		Object[] params = (Object[]) castedR.getParams();

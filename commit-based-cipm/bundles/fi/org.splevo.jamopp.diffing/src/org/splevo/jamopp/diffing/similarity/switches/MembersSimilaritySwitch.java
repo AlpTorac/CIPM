@@ -73,11 +73,19 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements I
 
         Method method2 = (Method) this.getCompareElement();
 
+        /*
+         * FIXME: Can throw NullPointerException, if method.getName() is null
+         */
+        
         // if methods have different names they are not similar.
         if (!method1.getName().equals(method2.getName())) {
             return Boolean.FALSE;
         }
 
+        /*
+         * FIXME: Can throw NullPointerException, if method.getParameters() is null
+         */
+        
         if (method1.getParameters().size() != method2.getParameters().size()) {
             return Boolean.FALSE;
         }
@@ -85,6 +93,11 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements I
         for (int i = 0; i < method1.getParameters().size(); i++) {
             Parameter param1 = method1.getParameters().get(i);
             Parameter param2 = method2.getParameters().get(i);
+            
+            /*
+             * FIXME: Can throw NullPointerException, if param.getTypeReference() is null
+             */
+            
             Type type1 = param1.getTypeReference().getTarget();
             Type type2 = param2.getTypeReference().getTarget();
             Boolean typeSimilarity = this.isSimilar(type1, type2);
@@ -117,6 +130,10 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements I
             }
         }
 
+        /*
+         * FIXME: Can throw NullPointerException, if method.eContainer() is null
+         */
+        
         this.logMessage("MethodDeclaration in unknown container: " + method1.getName() + " : "
                 + method1.eContainer(), Level.WARN);
         return super.caseMethod(method1);
@@ -149,6 +166,10 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements I
     public Boolean caseConstructor(Constructor constructor1) {
     	this.logMessage("caseConstructor");
 
+        /*
+         * FIXME: Can throw NullPointerException, if constructor.getName() is null
+         */
+    	
         Constructor constructor2 = (Constructor) this.getCompareElement();
 
         // if methods have different names they are not similar.
@@ -184,6 +205,10 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean> implements I
             }
         }
 
+        /*
+         * FIXME: Can throw NullPointerException, if constructor.eContainer() is null
+         */
+        
         this.logMessage("ConstructorDeclaration in unknown container: " + constructor1.getName() + " : "
                 + constructor1.eContainer(), Level.WARN);
         return super.caseConstructor(constructor1);

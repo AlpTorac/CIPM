@@ -59,6 +59,10 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean> implements I
 
         StaticMemberImport import2 = (StaticMemberImport) this.getCompareElement();
 
+        /*
+         * FIXME: Can throw NullPointerException, if import.getStaticMembers() is null
+         */
+        
         if (import1.getStaticMembers().size() != import2.getStaticMembers().size()) {
             return Boolean.FALSE;
         }

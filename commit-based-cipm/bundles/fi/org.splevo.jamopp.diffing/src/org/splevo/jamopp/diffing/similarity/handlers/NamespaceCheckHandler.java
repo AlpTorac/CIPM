@@ -22,6 +22,11 @@ public class NamespaceCheckHandler implements ISimilarityRequestHandler {
 	public Object handleSimilarityRequest(ISimilarityRequest req) {
 		NamespaceCheckRequest castedR = (NamespaceCheckRequest) req;
 		NamespaceAwareElement[] params = (NamespaceAwareElement[]) castedR.getParams();
+		
+		/*
+		 * FIXME: Can throw NullPointerException, if ele variables and/or ele.getNamespaces() are null
+		 */
+		
 		var ele1 = params[0];
 		var ele2 = params[1];
 

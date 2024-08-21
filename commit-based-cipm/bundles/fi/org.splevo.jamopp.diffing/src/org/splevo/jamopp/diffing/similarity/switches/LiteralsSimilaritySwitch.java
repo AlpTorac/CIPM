@@ -52,6 +52,10 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean> implements
     public Boolean caseCharacterLiteral(CharacterLiteral char1) {
     	this.logMessage("caseCharacterLiteral");
     	
+    	/*
+    	 * FIXME: Can throw NullPointerException, if char.getValue() is null
+    	 */
+    	
         CharacterLiteral char2 = (CharacterLiteral) this.getCompareElement();
         return char1.getValue().equals(char2.getValue());
     }
@@ -96,6 +100,10 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean> implements
     public Boolean caseDecimalIntegerLiteral(DecimalIntegerLiteral int1) {
     	this.logMessage("caseDecimalIntegerLiteral");
     	
+    	/*
+    	 * FIXME: Can throw NullPointerException, if int.getDecimalValue() is null
+    	 */
+    	
         DecimalIntegerLiteral int2 = (DecimalIntegerLiteral) this.getCompareElement();
         return (int1.getDecimalValue().equals(int2.getDecimalValue()));
     }
@@ -103,6 +111,10 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean> implements
     @Override
     public Boolean caseHexIntegerLiteral(HexIntegerLiteral int1) {
     	this.logMessage("caseHexIntegerLiteral");
+    	
+    	/*
+    	 * FIXME: Can throw NullPointerException, if int.getHexValue() is null
+    	 */
     	
         HexIntegerLiteral int2 = (HexIntegerLiteral) this.getCompareElement();
         return (int1.getHexValue().equals(int2.getHexValue()));
@@ -112,6 +124,10 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean> implements
     public Boolean caseOctalIntegerLiteral(OctalIntegerLiteral int1) {
     	this.logMessage("caseOctalIntegerLiteral");
     	
+    	/*
+    	 * FIXME: Can throw NullPointerException, if int.getOctalValue() is null
+    	 */
+    	
         OctalIntegerLiteral int2 = (OctalIntegerLiteral) this.getCompareElement();
         return (int1.getOctalValue().equals(int2.getOctalValue()));
     }
@@ -119,6 +135,10 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean> implements
     @Override
     public Boolean caseDecimalLongLiteral(DecimalLongLiteral long1) {
     	this.logMessage("caseDecimalLongLiteral");
+    	
+    	/*
+    	 * FIXME: Can throw NullPointerException, if long.getDecimalValue() is null
+    	 */
     	
         DecimalLongLiteral long2 = (DecimalLongLiteral) this.getCompareElement();
         return (long1.getDecimalValue().equals(long2.getDecimalValue()));
@@ -128,6 +148,10 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean> implements
     public Boolean caseHexLongLiteral(HexLongLiteral long1) {
     	this.logMessage("caseHexLongLiteral");
     	
+    	/*
+    	 * FIXME: Can throw NullPointerException, if long.getHexValue() is null
+    	 */
+    	
         HexLongLiteral long2 = (HexLongLiteral) this.getCompareElement();
         return (long1.getHexValue().equals(long2.getHexValue()));
     }
@@ -135,6 +159,10 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean> implements
     @Override
     public Boolean caseOctalLongLiteral(OctalLongLiteral long1) {
     	this.logMessage("caseOctalLongLiteral");
+    	
+    	/*
+    	 * FIXME: Can throw NullPointerException, if long.getOctalValue() is null
+    	 */
     	
         OctalLongLiteral long2 = (OctalLongLiteral) this.getCompareElement();
         return (long1.getOctalValue().equals(long2.getOctalValue()));
@@ -144,6 +172,10 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean> implements
     public Boolean caseBinaryLongLiteral(BinaryLongLiteral long1) {
     	this.logMessage("caseBinaryLongLiteral");
     	
+    	/*
+    	 * FIXME: Can throw NullPointerException, if long.getBinaryValue() is null
+    	 */
+    	
     	BinaryLongLiteral long2 = (BinaryLongLiteral) this.getCompareElement();
     	return long1.getBinaryValue().equals(long2.getBinaryValue());
     }
@@ -151,6 +183,10 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean> implements
     @Override
     public Boolean caseBinaryIntegerLiteral(BinaryIntegerLiteral int1) {
     	this.logMessage("caseBinaryIntegerLiteral");
+    	
+    	/*
+    	 * FIXME: Can throw NullPointerException, if int.getBinaryValue() is null
+    	 */
     	
     	BinaryIntegerLiteral int2 = (BinaryIntegerLiteral) this.getCompareElement();
     	return int1.getBinaryValue().equals(int2.getBinaryValue());
