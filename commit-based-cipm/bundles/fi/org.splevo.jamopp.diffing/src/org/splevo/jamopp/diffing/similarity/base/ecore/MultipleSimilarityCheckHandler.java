@@ -53,8 +53,6 @@ public class MultipleSimilarityCheckHandler implements ISimilarityRequestHandler
 	@Override
 	public Object handleSimilarityRequest(ISimilarityRequest req) {
 		/*
-		 * FIXME: Can throw NullPointerException, if elements variable(s) are null.
-		 * 
 		 * FIXME: What to do, if a similarity checking results in Boolean.NULL
 		 */
 		
@@ -65,13 +63,21 @@ public class MultipleSimilarityCheckHandler implements ISimilarityRequestHandler
 		Collection<? extends EObject> elements2 = (Collection<? extends EObject>) params[1];
 		Collection<? extends IComposedSwitchAdapter> sss = (Collection<? extends IComposedSwitchAdapter>) params[2];
 
+		// Null check to avoid NullPointerExceptions
+		if (elements1 == elements2) {
+			return Boolean.TRUE;
+		}
+		else if (elements1 == null ^ elements2 == null) {
+			return Boolean.FALSE;
+		}
+		
 		int size = elements1.size();
 
 		if (size != elements2.size()) {
 			return Boolean.FALSE;
 		}
 
-		if (size != sss.size()) {
+		if (sss == null || size != sss.size()) {
 			return null;
 		}
 

@@ -22,19 +22,25 @@ public class NamespaceCheckHandler implements ISimilarityRequestHandler {
 	public Object handleSimilarityRequest(ISimilarityRequest req) {
 		NamespaceCheckRequest castedR = (NamespaceCheckRequest) req;
 		NamespaceAwareElement[] params = (NamespaceAwareElement[]) castedR.getParams();
-		
-		/*
-		 * FIXME: Can throw NullPointerException, if ele variables and/or ele.getNamespaces() are null
-		 */
-		
+
 		var ele1 = params[0];
 		var ele2 = params[1];
 
-		if (ele1.getNamespaces().size() != ele2.getNamespaces().size()) {
+		var nss1 = ele1.getNamespaces();
+		var nss2 = ele2.getNamespaces();
+
+		// Null check to avoid NullPointerExceptions
+		if (nss1 == nss2) {
+			return true;
+		} else if (nss1 == null ^ nss2 == null) {
 			return false;
 		}
-		for (int idx = 0; idx < ele1.getNamespaces().size(); idx++) {
-			if (!ele1.getNamespaces().get(idx).equals(ele2.getNamespaces().get(idx))) {
+
+		if (nss1.size() != nss2.size()) {
+			return false;
+		}
+		for (int idx = 0; idx < nss1.size(); idx++) {
+			if (!nss1.get(idx).equals(nss2.get(idx))) {
 				return false;
 			}
 		}

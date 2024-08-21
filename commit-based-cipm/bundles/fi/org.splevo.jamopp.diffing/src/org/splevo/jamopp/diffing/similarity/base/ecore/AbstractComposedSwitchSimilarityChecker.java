@@ -43,6 +43,18 @@ public abstract class AbstractComposedSwitchSimilarityChecker extends AbstractSi
 	public Boolean areSimilar(Collection<Object> elements1, Collection<Object> elements2) {
 		Collection<IComposedSwitchAdapter> sss = new ArrayList<IComposedSwitchAdapter>();
 
+		// Null check to avoid NullPointerExceptions
+		if (elements1 == elements2) {
+			return Boolean.TRUE;
+		}
+		else if (elements1 == null ^ elements2 == null) {
+			return Boolean.FALSE;
+		}
+		
+		if (elements1.size() != elements2.size()) {
+			return Boolean.FALSE;
+		}
+		
 		for (int i = 0; i < elements1.size(); i++) {
 			sss.add(this.createDefaultNewSwitch());
 		}
