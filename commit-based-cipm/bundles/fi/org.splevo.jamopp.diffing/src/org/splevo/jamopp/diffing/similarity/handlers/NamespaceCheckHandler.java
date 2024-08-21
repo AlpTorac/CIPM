@@ -46,6 +46,7 @@ public class NamespaceCheckHandler implements ISimilarityRequestHandler {
 		if (nss1.size() != nss2.size()) {
 			return false;
 		}
+
 		for (int idx = 0; idx < nss1.size(); idx++) {
 			if (!nss1.get(idx).equals(nss2.get(idx))) {
 				return false;
