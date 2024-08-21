@@ -356,4 +356,40 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 
 		Assertions.assertTrue(this.areSimilar(resOne.getContents(), resTwo.getContents()));
 	}
+	
+	@Test
+	public void testIsSimilarOneNull() {
+		this.setResourceFileTestIdentifier("testIsSimilarOneNull");
+		
+		var initialiser = new ModuleInitialiser();
+		var obj = initialiser.instantiate();
+		
+		Assertions.assertFalse(this.isSimilar(null, obj));
+		Assertions.assertFalse(this.isSimilar(obj, null));
+	}
+	
+	@Test
+	public void testIsSimilarBothNull() {
+		this.setResourceFileTestIdentifier("testIsSimilarBothNull");
+		
+		Assertions.assertTrue(this.isSimilar(null, null));
+	}
+	
+	@Test
+	public void testAreSimilarOneNull() {
+		this.setResourceFileTestIdentifier("testAreSimilarOneNull");
+		
+		var initialiser = new ModuleInitialiser();
+		var obj = initialiser.instantiate();
+		
+		Assertions.assertFalse(this.areSimilar(null, List.of(obj)));
+		Assertions.assertFalse(this.areSimilar(List.of(obj), null));
+	}
+	
+	@Test
+	public void testAreSimilarBothNull() {
+		this.setResourceFileTestIdentifier("testAreSimilarBothNull");
+		
+		Assertions.assertTrue(this.areSimilar(null, null));
+	}
 }
