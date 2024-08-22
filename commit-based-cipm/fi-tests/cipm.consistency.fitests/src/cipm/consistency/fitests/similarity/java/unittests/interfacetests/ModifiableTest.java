@@ -29,4 +29,16 @@ public class ModifiableTest extends EObjectSimilarityTest implements UsesModifie
 
 		this.testSimilarity(objOne, objTwo, ModifiersPackage.Literals.MODIFIABLE__MODIFIERS);
 	}
+	
+	@ParameterizedTest
+	@ArgumentsSource(ModifiableTestParams.class)
+	public void testModifierNull(IModifiableInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testModifierNull");
+		
+		var objOne = this.initElement(init, new Modifier[] { this.createFinal() });
+		var objTwo = init.instantiate();
+		
+		this.testSimilarity(objOne, objTwo, ModifiersPackage.Literals.MODIFIABLE__MODIFIERS);
+	}
 }

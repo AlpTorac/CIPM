@@ -27,4 +27,14 @@ public class SelfReferenceTest extends EObjectSimilarityTest implements UsesLite
 
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.SELF_REFERENCE__SELF);
 	}
+	
+	@Test
+	public void testSelfNull() {
+		this.setResourceFileTestIdentifier("testSelfNull");
+		
+		var objOne = this.initElement(this.createThis());
+		var objTwo = new SelfReferenceInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.SELF_REFERENCE__SELF);
+	}
 }

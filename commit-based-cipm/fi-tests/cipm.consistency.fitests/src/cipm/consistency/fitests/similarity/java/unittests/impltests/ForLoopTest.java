@@ -29,6 +29,16 @@ public class ForLoopTest extends EObjectSimilarityTest implements UsesExpression
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.FOR_LOOP__INIT);
 	}
+	
+	@Test
+	public void testInitNull() {
+		this.setResourceFileTestIdentifier("testInitNull");
+		
+		var objOne = this.initElement(this.createExprList(), null);
+		var objTwo = new ForLoopInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.FOR_LOOP__INIT);
+	}
 
 	@Test
 	public void testUpdate() {
@@ -37,6 +47,16 @@ public class ForLoopTest extends EObjectSimilarityTest implements UsesExpression
 		var objOne = this.initElement(null, new Expression[] { this.createMinimalFalseEE() });
 		var objTwo = this.initElement(null, new Expression[] { this.createMinimalTrueNEE() });
 
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.FOR_LOOP__UPDATES);
+	}
+	
+	@Test
+	public void testUpdateNull() {
+		this.setResourceFileTestIdentifier("testUpdateNull");
+		
+		var objOne = this.initElement(null, new Expression[] { this.createMinimalFalseEE() });
+		var objTwo = new ForLoopInitialiser().instantiate();
+		
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.FOR_LOOP__UPDATES);
 	}
 }

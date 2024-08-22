@@ -27,4 +27,14 @@ public class SynchronizedBlockTest extends EObjectSimilarityTest implements Uses
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SYNCHRONIZED_BLOCK__LOCK_PROVIDER);
 	}
+	
+	@Test
+	public void testLockProviderNull() {
+		this.setResourceFileTestIdentifier("testLockProviderNull");
+		
+		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
+		var objTwo = new SynchronizedBlockInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SYNCHRONIZED_BLOCK__LOCK_PROVIDER);
+	}
 }

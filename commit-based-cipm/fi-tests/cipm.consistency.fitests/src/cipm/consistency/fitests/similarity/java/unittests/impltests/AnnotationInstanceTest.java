@@ -32,6 +32,16 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest
 
 		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_INSTANCE__ANNOTATION);
 	}
+	
+	@Test
+	public void testAnnotationNull() {
+		this.setResourceFileTestIdentifier("testAnnotationNull");
+		
+		var objOne = this.initElement(this.createMinimalClass("cls1"), null);
+		var objTwo = new AnnotationInstanceInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_INSTANCE__ANNOTATION);
+	}
 
 	@Test
 	public void testParameter() {
@@ -40,6 +50,16 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest
 		var objOne = this.initElement(null, this.createSingleNullAnnoParam());
 		var objTwo = this.initElement(null, this.createSingleStrAnnoParam("val"));
 
+		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_INSTANCE__PARAMETER);
+	}
+	
+	@Test
+	public void testParameterNull() {
+		this.setResourceFileTestIdentifier("testParameterNull");
+		
+		var objOne = this.initElement(null, this.createSingleNullAnnoParam());
+		var objTwo = new AnnotationInstanceInitialiser().instantiate();
+		
 		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_INSTANCE__PARAMETER);
 	}
 }

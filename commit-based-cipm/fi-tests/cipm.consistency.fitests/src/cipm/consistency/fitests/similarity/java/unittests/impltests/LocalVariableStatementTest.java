@@ -27,4 +27,14 @@ public class LocalVariableStatementTest extends EObjectSimilarityTest implements
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.LOCAL_VARIABLE_STATEMENT__VARIABLE);
 	}
+	
+	@Test
+	public void testVariableNull() {
+		this.setResourceFileTestIdentifier("testVariableNull");
+		
+		var objOne = this.initElement(this.createMinimalLV("lv1"));
+		var objTwo = new LocalVariableStatementInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.LOCAL_VARIABLE_STATEMENT__VARIABLE);
+	}
 }

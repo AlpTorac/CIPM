@@ -29,6 +29,16 @@ public class SwitchTest extends EObjectSimilarityTest implements UsesSwitchCases
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SWITCH__CASES);
 	}
+	
+	@Test
+	public void testCaseNull() {
+		this.setResourceFileTestIdentifier("testCaseNull");
+		
+		var objOne = this.initElement(new SwitchCase[] { this.createEmptyNSC() }, null);
+		var objTwo = new SwitchInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SWITCH__CASES);
+	}
 
 	@Test
 	public void testVariable() {
@@ -37,6 +47,16 @@ public class SwitchTest extends EObjectSimilarityTest implements UsesSwitchCases
 		var objOne = this.initElement(null, this.createMinimalSR("str1"));
 		var objTwo = this.initElement(null, this.createMinimalSR("str2"));
 
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SWITCH__VARIABLE);
+	}
+	
+	@Test
+	public void testVariableNull() {
+		this.setResourceFileTestIdentifier("testVariableNull");
+		
+		var objOne = this.initElement(null, this.createMinimalSR("str1"));
+		var objTwo = new SwitchInitialiser().instantiate();
+		
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SWITCH__VARIABLE);
 	}
 }

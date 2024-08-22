@@ -23,4 +23,12 @@ public class DecimalDoubleLiteralTest extends EObjectSimilarityTest {
 		this.testSimilarity(this.initElement(1.5d), this.initElement(2.5d),
 				LiteralsPackage.Literals.DECIMAL_DOUBLE_LITERAL__DECIMAL_VALUE);
 	}
+	
+	@Test
+	public void testDecimalValueNull() {
+		this.setResourceFileTestIdentifier("testDecimalValueNull");
+		
+		this.testSimilarity(this.initElement(1.5d), new DecimalDoubleLiteralInitialiser().instantiate(),
+				LiteralsPackage.Literals.DECIMAL_DOUBLE_LITERAL__DECIMAL_VALUE);
+	}
 }

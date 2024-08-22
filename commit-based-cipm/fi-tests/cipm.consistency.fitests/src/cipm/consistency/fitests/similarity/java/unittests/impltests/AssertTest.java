@@ -28,4 +28,14 @@ public class AssertTest extends EObjectSimilarityTest implements UsesExpressions
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.ASSERT__ERROR_MESSAGE);
 	}
+	
+	@Test
+	public void testErrorMessageNull() {
+		this.setResourceFileTestIdentifier("testErrorMessageNull");
+		
+		var objOne = this.initElement(this.createMinimalSR("val1"));
+		var objTwo = new AssertInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.ASSERT__ERROR_MESSAGE);
+	}
 }

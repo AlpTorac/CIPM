@@ -28,6 +28,15 @@ public class PrimaryExpressionReferenceExpressionTest extends EObjectSimilarityT
 				this.initElement(this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.PRIMARY_EXPRESSION_REFERENCE_EXPRESSION__CHILD);
 	}
+	
+	@Test
+	public void testChildNull() {
+		this.setResourceFileTestIdentifier("testChildNull");
+		
+		this.testSimilarity(this.initElement(this.createDecimalIntegerLiteral(1), null),
+				new PrimaryExpressionReferenceExpressionInitialiser().instantiate(),
+				ExpressionsPackage.Literals.PRIMARY_EXPRESSION_REFERENCE_EXPRESSION__CHILD);
+	}
 
 	@Test
 	public void testMethodReference() {
@@ -35,6 +44,15 @@ public class PrimaryExpressionReferenceExpressionTest extends EObjectSimilarityT
 
 		this.testSimilarity(this.initElement(null, this.createMinimalSR("str1")),
 				this.initElement(null, this.createMinimalSR("str2")),
+				ExpressionsPackage.Literals.PRIMARY_EXPRESSION_REFERENCE_EXPRESSION__METHOD_REFERENCE);
+	}
+	
+	@Test
+	public void testMethodReferenceNull() {
+		this.setResourceFileTestIdentifier("testMethodReferenceNull");
+		
+		this.testSimilarity(this.initElement(null, this.createMinimalSR("str1")),
+				new PrimaryExpressionReferenceExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.PRIMARY_EXPRESSION_REFERENCE_EXPRESSION__METHOD_REFERENCE);
 	}
 }

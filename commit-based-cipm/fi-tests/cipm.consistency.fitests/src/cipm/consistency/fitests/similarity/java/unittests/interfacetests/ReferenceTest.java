@@ -32,6 +32,19 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__NEXT);
 	}
+	
+	@ParameterizedTest
+	@ArgumentsSource(ReferenceTestParams.class)
+	public void testNextNull(IReferenceInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testNextNull");
+		
+		var objOne = this.initElement(init, this.createMinimalSR("str1"), null);
+		var objTwo = init.instantiate();
+		Assertions.assertTrue(init.initialise(objTwo));
+		
+		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__NEXT);
+	}
 
 	@ParameterizedTest
 	@ArgumentsSource(ReferenceTestParams.class)
@@ -42,6 +55,19 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 		var objOne = this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(0) });
 		var objTwo = this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(1) });
 
+		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
+	}
+	
+	@ParameterizedTest
+	@ArgumentsSource(ReferenceTestParams.class)
+	public void testArraySelectorNull(IReferenceInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testArraySelectorNull");
+		
+		var objOne = this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(0) });
+		var objTwo = init.instantiate();
+		Assertions.assertTrue(init.initialise(objTwo));
+		
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
 	}
 }

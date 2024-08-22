@@ -31,6 +31,16 @@ public class PackageTest extends EObjectSimilarityTest implements UsesModules, U
 
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.PACKAGE__MODULE);
 	}
+	
+	@Test
+	public void testModuleNull() {
+		this.setResourceFileTestIdentifier("testModuleNull");
+		
+		var objOne = this.initElement(this.createMinimalModule("mod1"), null);
+		var objTwo = new PackageInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.PACKAGE__MODULE);
+	}
 
 	@Test
 	public void testClassifiers() {
@@ -39,6 +49,16 @@ public class PackageTest extends EObjectSimilarityTest implements UsesModules, U
 		var objOne = this.initElement(null, new ConcreteClassifier[] { this.createMinimalClass("cls1") });
 		var objTwo = this.initElement(null, new ConcreteClassifier[] { this.createMinimalClass("cls2") });
 
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.PACKAGE__CLASSIFIERS);
+	}
+	
+	@Test
+	public void testClassifiersNull() {
+		this.setResourceFileTestIdentifier("testClassifiersNull");
+		
+		var objOne = this.initElement(null, new ConcreteClassifier[] { this.createMinimalClass("cls1") });
+		var objTwo = new PackageInitialiser().instantiate();
+		
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.PACKAGE__CLASSIFIERS);
 	}
 }

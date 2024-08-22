@@ -23,4 +23,12 @@ public class HexLongLiteralTest extends EObjectSimilarityTest {
 		this.testSimilarity(this.initElement(1), this.initElement(2),
 				LiteralsPackage.Literals.HEX_LONG_LITERAL__HEX_VALUE);
 	}
+	
+	@Test
+	public void testHexValueNull() {
+		this.setResourceFileTestIdentifier("testHexValueNull");
+		
+		this.testSimilarity(this.initElement(1), new HexLongLiteralInitialiser().instantiate(),
+				LiteralsPackage.Literals.HEX_LONG_LITERAL__HEX_VALUE);
+	}
 }

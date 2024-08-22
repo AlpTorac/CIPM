@@ -23,4 +23,12 @@ public class OctalIntegerLiteralTest extends EObjectSimilarityTest {
 		this.testSimilarity(this.initElement(1), this.initElement(2),
 				LiteralsPackage.Literals.OCTAL_INTEGER_LITERAL__OCTAL_VALUE);
 	}
+	
+	@Test
+	public void testOctalValueNull() {
+		this.setResourceFileTestIdentifier("testOctalValueNull");
+		
+		this.testSimilarity(this.initElement(1), new OctalIntegerLiteralInitialiser().instantiate(),
+				LiteralsPackage.Literals.OCTAL_INTEGER_LITERAL__OCTAL_VALUE);
+	}
 }

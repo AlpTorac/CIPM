@@ -27,4 +27,14 @@ public class CatchParameterTest extends EObjectSimilarityTest implements UsesTyp
 
 		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.CATCH_PARAMETER__TYPE_REFERENCES);
 	}
+
+	@Test
+	public void testTypeReferenceNull() {
+		this.setResourceFileTestIdentifier("testTypeReferenceNull");
+
+		var objOne = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") });
+		var objTwo = new CatchParameterInitialiser().instantiate();
+
+		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.CATCH_PARAMETER__TYPE_REFERENCES);
+	}
 }

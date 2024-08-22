@@ -34,11 +34,29 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 	}
 
 	@Test
+	public void testChildNull() {
+		this.setResourceFileTestIdentifier("testChildNull");
+
+		this.testSimilarity(this.initElement(this.createDecimalIntegerLiteral(1), null, null, null),
+				new ConditionalExpressionInitialiser().instantiate(),
+				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__CHILD);
+	}
+
+	@Test
 	public void testExpressionChild() {
 		this.setResourceFileTestIdentifier("testExpressionChild");
 
 		this.testSimilarity(this.initElement(null, this.createDecimalIntegerLiteral(1), null, null),
 				this.initElement(null, this.createDecimalIntegerLiteral(2), null, null),
+				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__CHILD);
+	}
+
+	@Test
+	public void testExpressionChildNull() {
+		this.setResourceFileTestIdentifier("testExpressionChildNull");
+
+		this.testSimilarity(this.initElement(null, this.createDecimalIntegerLiteral(1), null, null),
+				new ConditionalExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__CHILD);
 	}
 
@@ -52,11 +70,29 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 	}
 
 	@Test
+	public void testExpressionIfNull() {
+		this.setResourceFileTestIdentifier("testExpressionIfNull");
+
+		this.testSimilarity(this.initElement(null, null, this.createDecimalIntegerLiteral(1), null),
+				new ConditionalExpressionInitialiser().instantiate(),
+				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__EXPRESSION_IF);
+	}
+
+	@Test
 	public void testGeneralExpressionElse() {
 		this.setResourceFileTestIdentifier("testGeneralExpressionElse");
 
 		this.testSimilarity(this.initElement(null, null, null, this.createDecimalIntegerLiteral(1)),
 				this.initElement(null, null, null, this.createDecimalIntegerLiteral(2)),
+				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__GENERAL_EXPRESSION_ELSE);
+	}
+
+	@Test
+	public void testGeneralExpressionElseNull() {
+		this.setResourceFileTestIdentifier("testGeneralExpressionElseNull");
+
+		this.testSimilarity(this.initElement(null, null, null, this.createDecimalIntegerLiteral(1)),
+				new ConditionalExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__GENERAL_EXPRESSION_ELSE);
 	}
 }

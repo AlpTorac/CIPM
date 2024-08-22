@@ -23,4 +23,12 @@ public class BooleanLiteralTest extends EObjectSimilarityTest {
 		this.testSimilarity(this.initElement(true), this.initElement(false),
 				LiteralsPackage.Literals.BOOLEAN_LITERAL__VALUE);
 	}
+
+	@Test
+	public void testValueNull() {
+		this.setResourceFileTestIdentifier("testValueNull");
+
+		this.testSimilarity(this.initElement(true), new BooleanLiteralInitialiser().instantiate(),
+				LiteralsPackage.Literals.BOOLEAN_LITERAL__VALUE);
+	}
 }

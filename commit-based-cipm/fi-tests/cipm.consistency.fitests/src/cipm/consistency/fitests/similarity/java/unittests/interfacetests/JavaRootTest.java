@@ -29,4 +29,17 @@ public class JavaRootTest extends EObjectSimilarityTest {
 
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.JAVA_ROOT__ORIGIN);
 	}
+	
+	@ParameterizedTest
+	@ArgumentsSource(JavaRootTestParams.class)
+	public void testOriginNull(IJavaRootInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testOriginNull");
+		
+		var objOne = this.initElement(init, Origin.BINDING);
+		var objTwo = init.instantiate();
+		Assertions.assertTrue(init.initialise(objTwo));
+		
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.JAVA_ROOT__ORIGIN);
+	}
 }

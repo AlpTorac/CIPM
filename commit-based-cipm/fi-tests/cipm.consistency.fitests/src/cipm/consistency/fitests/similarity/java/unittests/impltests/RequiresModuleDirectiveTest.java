@@ -30,6 +30,16 @@ public class RequiresModuleDirectiveTest extends EObjectSimilarityTest implement
 
 		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.REQUIRES_MODULE_DIRECTIVE__MODIFIER);
 	}
+	
+	@Test
+	public void testModifierNull() {
+		this.setResourceFileTestIdentifier("testModifierNull");
+		
+		var objOne = this.initElement(this.createStatic(), null);
+		var objTwo = new RequiresModuleDirectiveInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.REQUIRES_MODULE_DIRECTIVE__MODIFIER);
+	}
 
 	@Test
 	public void testRequiredModule() {
@@ -38,6 +48,16 @@ public class RequiresModuleDirectiveTest extends EObjectSimilarityTest implement
 		var objOne = this.initElement(null, this.createMinimalMR("mod1", new String[] { "ns1", "ns2" }));
 		var objTwo = this.initElement(null, this.createMinimalMR("mod2", new String[] { "ns3", "ns4" }));
 
+		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.REQUIRES_MODULE_DIRECTIVE__REQUIRED_MODULE);
+	}
+	
+	@Test
+	public void testRequiredModuleNull() {
+		this.setResourceFileTestIdentifier("testRequiredModuleNull");
+		
+		var objOne = this.initElement(null, this.createMinimalMR("mod1", new String[] { "ns1", "ns2" }));
+		var objTwo = new RequiresModuleDirectiveInitialiser().instantiate();
+		
 		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.REQUIRES_MODULE_DIRECTIVE__REQUIRED_MODULE);
 	}
 }

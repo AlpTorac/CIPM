@@ -28,6 +28,15 @@ public class UnaryExpressionTest extends EObjectSimilarityTest implements UsesEx
 				this.initElement(this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.UNARY_EXPRESSION__CHILD);
 	}
+	
+	@Test
+	public void testChildNull() {
+		this.setResourceFileTestIdentifier("testChildNull");
+		
+		this.testSimilarity(this.initElement(this.createDecimalIntegerLiteral(1), null),
+				new UnaryExpressionInitialiser().instantiate(),
+				ExpressionsPackage.Literals.UNARY_EXPRESSION__CHILD);
+	}
 
 	@Test
 	public void testOperator() {
@@ -35,6 +44,15 @@ public class UnaryExpressionTest extends EObjectSimilarityTest implements UsesEx
 
 		this.testSimilarity(this.initElement(null, new UnaryOperator[] { this.createAdditionOperator() }),
 				this.initElement(null, new UnaryOperator[] { this.createSubtractionOperator() }),
+				ExpressionsPackage.Literals.UNARY_EXPRESSION__OPERATORS);
+	}
+	
+	@Test
+	public void testOperatorNull() {
+		this.setResourceFileTestIdentifier("testOperatorNull");
+		
+		this.testSimilarity(this.initElement(null, new UnaryOperator[] { this.createAdditionOperator() }),
+				new UnaryExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.UNARY_EXPRESSION__OPERATORS);
 	}
 }

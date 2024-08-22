@@ -31,11 +31,20 @@ public class CastExpressionTest extends EObjectSimilarityTest implements UsesExp
 	}
 
 	@Test
-	public void testAdditionalBould() {
-		this.setResourceFileTestIdentifier("testAdditionalBould");
+	public void testAdditionalBound() {
+		this.setResourceFileTestIdentifier("testAdditionalBound");
 
 		this.testSimilarity(this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null, null),
 				this.initElement(new TypeReference[] { this.createMinimalClsRef("cls2") }, null, null),
+				ExpressionsPackage.Literals.CAST_EXPRESSION__ADDITIONAL_BOUNDS);
+	}
+
+	@Test
+	public void testAdditionalBoundNull() {
+		this.setResourceFileTestIdentifier("testAdditionalBoundNull");
+
+		this.testSimilarity(this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null, null),
+				new CastExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.CAST_EXPRESSION__ADDITIONAL_BOUNDS);
 	}
 
@@ -45,6 +54,15 @@ public class CastExpressionTest extends EObjectSimilarityTest implements UsesExp
 
 		this.testSimilarity(this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
 				this.initElement(null, null, this.createDecimalIntegerLiteral(2)),
+				ExpressionsPackage.Literals.CAST_EXPRESSION__GENERAL_CHILD);
+	}
+
+	@Test
+	public void testGeneralChildNull() {
+		this.setResourceFileTestIdentifier("testGeneralChildNull");
+
+		this.testSimilarity(this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
+				new CastExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.CAST_EXPRESSION__GENERAL_CHILD);
 	}
 }

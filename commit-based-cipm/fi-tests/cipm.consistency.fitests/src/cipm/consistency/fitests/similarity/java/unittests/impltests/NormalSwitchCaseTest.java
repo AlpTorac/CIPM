@@ -27,4 +27,14 @@ public class NormalSwitchCaseTest extends EObjectSimilarityTest implements UsesE
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.NORMAL_SWITCH_CASE__ADDITIONAL_CONDITIONS);
 	}
+	
+	@Test
+	public void testAdditionalConditionNull() {
+		this.setResourceFileTestIdentifier("testAdditionalConditionNull");
+		
+		var objOne = this.initElement(new Expression[] { this.createMinimalFalseEE() });
+		var objTwo = new NormalSwitchCaseInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.NORMAL_SWITCH_CASE__ADDITIONAL_CONDITIONS);
+	}
 }

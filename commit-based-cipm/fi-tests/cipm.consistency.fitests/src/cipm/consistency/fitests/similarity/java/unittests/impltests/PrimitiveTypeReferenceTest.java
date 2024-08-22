@@ -28,4 +28,14 @@ public class PrimitiveTypeReferenceTest extends EObjectSimilarityTest {
 
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.PRIMITIVE_TYPE_REFERENCE__PRIMITIVE_TYPE);
 	}
+	
+	@Test
+	public void testPrimitiveTypeNull() {
+		this.setResourceFileTestIdentifier("testPrimitiveTypeNull");
+		
+		var objOne = this.initElement(new BooleanInitialiser().instantiate());
+		var objTwo = new PrimitiveTypeReferenceInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.PRIMITIVE_TYPE_REFERENCE__PRIMITIVE_TYPE);
+	}
 }

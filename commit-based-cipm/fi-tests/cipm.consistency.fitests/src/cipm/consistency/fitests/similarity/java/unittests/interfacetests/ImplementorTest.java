@@ -29,4 +29,16 @@ public class ImplementorTest extends EObjectSimilarityTest implements UsesTypeRe
 
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
 	}
+	
+	@ParameterizedTest
+	@ArgumentsSource(ImplementorTestParams.class)
+	public void testImplementsNull(IImplementorInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testImplementsNull");
+		
+		var objOne = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") });
+		var objTwo = init.instantiate();
+		
+		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
+	}
 }

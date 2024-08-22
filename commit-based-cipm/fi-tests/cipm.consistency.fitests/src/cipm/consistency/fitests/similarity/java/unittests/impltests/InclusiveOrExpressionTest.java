@@ -26,4 +26,13 @@ public class InclusiveOrExpressionTest extends EObjectSimilarityTest implements 
 				this.initElement(new InclusiveOrExpressionChild[] { this.createDecimalIntegerLiteral(2) }),
 				ExpressionsPackage.Literals.INCLUSIVE_OR_EXPRESSION__CHILDREN);
 	}
+	
+	@Test
+	public void testChildNull() {
+		this.setResourceFileTestIdentifier("testChildNull");
+		
+		this.testSimilarity(this.initElement(new InclusiveOrExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
+				new InclusiveOrExpressionInitialiser().instantiate(),
+				ExpressionsPackage.Literals.INCLUSIVE_OR_EXPRESSION__CHILDREN);
+	}
 }

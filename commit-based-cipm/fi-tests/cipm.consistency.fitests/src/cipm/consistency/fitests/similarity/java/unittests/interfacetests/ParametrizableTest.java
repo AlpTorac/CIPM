@@ -31,4 +31,17 @@ public class ParametrizableTest extends EObjectSimilarityTest implements UsesPar
 
 		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS);
 	}
+	
+	@ParameterizedTest
+	@ArgumentsSource(ParametrizableTestParams.class)
+	public void testParametersNull(IParametrizableInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testParametersNull");
+		
+		var objOne = this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p1", "t1") });
+		var objTwo = init.instantiate();
+		Assertions.assertTrue(init.initialise(objTwo));
+		
+		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS);
+	}
 }

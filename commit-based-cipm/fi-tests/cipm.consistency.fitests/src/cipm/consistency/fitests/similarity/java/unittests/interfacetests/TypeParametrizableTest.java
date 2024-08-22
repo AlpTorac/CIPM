@@ -30,4 +30,17 @@ public class TypeParametrizableTest extends EObjectSimilarityTest implements Use
 
 		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.TYPE_PARAMETRIZABLE__TYPE_PARAMETERS);
 	}
+	
+	@ParameterizedTest
+	@ArgumentsSource(TypeParametrizableTestParams.class)
+	public void testTypeParametersNull(ITypeParametrizableInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testTypeParametersNull");
+		
+		var objOne = this.initElement(init, new TypeParameter[] { this.createMinimalTypeParamWithClsRef("cls1") });
+		var objTwo = init.instantiate();
+		Assertions.assertTrue(init.initialise(objTwo));
+		
+		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.TYPE_PARAMETRIZABLE__TYPE_PARAMETERS);
+	}
 }

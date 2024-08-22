@@ -26,4 +26,13 @@ public class InstanceOfExpressionTest extends EObjectSimilarityTest implements U
 				this.initElement(this.createDecimalIntegerLiteral(2)),
 				ExpressionsPackage.Literals.INSTANCE_OF_EXPRESSION__CHILD);
 	}
+	
+	@Test
+	public void testChildNull() {
+		this.setResourceFileTestIdentifier("testChildNull");
+		
+		this.testSimilarity(this.initElement(this.createDecimalIntegerLiteral(1)),
+				new InstanceOfExpressionInitialiser().instantiate(),
+				ExpressionsPackage.Literals.INSTANCE_OF_EXPRESSION__CHILD);
+	}
 }

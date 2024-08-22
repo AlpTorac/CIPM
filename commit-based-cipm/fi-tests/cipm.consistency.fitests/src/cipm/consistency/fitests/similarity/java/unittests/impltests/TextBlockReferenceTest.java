@@ -25,4 +25,14 @@ public class TextBlockReferenceTest extends EObjectSimilarityTest {
 
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.TEXT_BLOCK_REFERENCE__VALUE);
 	}
+	
+	@Test
+	public void testValueNull() {
+		this.setResourceFileTestIdentifier("testValueNull");
+		
+		var objOne = this.initElement("val1");
+		var objTwo = new TextBlockReferenceInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.TEXT_BLOCK_REFERENCE__VALUE);
+	}
 }

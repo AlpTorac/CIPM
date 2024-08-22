@@ -29,6 +29,16 @@ public class RelationExpressionTest extends EObjectSimilarityTest implements Use
 				this.initElement(new RelationExpressionChild[] { this.createDecimalIntegerLiteral(2) }, null),
 				ExpressionsPackage.Literals.RELATION_EXPRESSION__CHILDREN);
 	}
+	
+	@Test
+	public void testChildNull() {
+		this.setResourceFileTestIdentifier("testChildNull");
+		
+		this.testSimilarity(
+				this.initElement(new RelationExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
+				new RelationExpressionInitialiser().instantiate(),
+				ExpressionsPackage.Literals.RELATION_EXPRESSION__CHILDREN);
+	}
 
 	@Test
 	public void testRelationOperator() {
@@ -36,6 +46,15 @@ public class RelationExpressionTest extends EObjectSimilarityTest implements Use
 
 		this.testSimilarity(this.initElement(null, new RelationOperator[] { this.createGreaterThanOperator() }),
 				this.initElement(null, new RelationOperator[] { this.createLessThanOperator() }),
+				ExpressionsPackage.Literals.RELATION_EXPRESSION__RELATION_OPERATORS);
+	}
+	
+	@Test
+	public void testRelationOperatorNull() {
+		this.setResourceFileTestIdentifier("testRelationOperatorNull");
+		
+		this.testSimilarity(this.initElement(null, new RelationOperator[] { this.createGreaterThanOperator() }),
+				new RelationExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.RELATION_EXPRESSION__RELATION_OPERATORS);
 	}
 }

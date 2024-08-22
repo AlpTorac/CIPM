@@ -27,4 +27,14 @@ public class EnumerationTest extends EObjectSimilarityTest implements UsesEnumCo
 
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.ENUMERATION__CONSTANTS);
 	}
+	
+	@Test
+	public void testConstantNull() {
+		this.setResourceFileTestIdentifier("testConstantNull");
+		
+		var objOne = this.initElement(new EnumConstant[] { this.createMinimalEnumConstant("cst1") });
+		var objTwo = new EnumerationInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.ENUMERATION__CONSTANTS);
+	}
 }

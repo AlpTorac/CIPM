@@ -31,6 +31,17 @@ public class UnaryModificationExpressionTest extends EObjectSimilarityTest imple
 				this.initElement(init, this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__CHILD);
 	}
+	
+	@ParameterizedTest
+	@ArgumentsSource(UnaryModificationExpressionTestParams.class)
+	public void testChildNull(IUnaryModificationExpressionInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testChildNull");
+		
+		this.testSimilarity(this.initElement(init, this.createDecimalIntegerLiteral(1), null),
+				init.instantiate(),
+				ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__CHILD);
+	}
 
 	@ParameterizedTest
 	@ArgumentsSource(UnaryModificationExpressionTestParams.class)
@@ -40,6 +51,17 @@ public class UnaryModificationExpressionTest extends EObjectSimilarityTest imple
 
 		this.testSimilarity(this.initElement(init, null, this.createPlusPlusOperator()),
 				this.initElement(init, null, this.createMinusMinusOperator()),
+				ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__OPERATOR);
+	}
+	
+	@ParameterizedTest
+	@ArgumentsSource(UnaryModificationExpressionTestParams.class)
+	public void testOperatorNull(IUnaryModificationExpressionInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testOperatorNull");
+		
+		this.testSimilarity(this.initElement(init, null, this.createPlusPlusOperator()),
+				init.instantiate(),
 				ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__OPERATOR);
 	}
 }

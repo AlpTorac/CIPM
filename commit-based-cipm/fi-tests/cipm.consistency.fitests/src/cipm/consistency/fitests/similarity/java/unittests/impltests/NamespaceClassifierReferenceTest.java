@@ -28,4 +28,15 @@ public class NamespaceClassifierReferenceTest extends EObjectSimilarityTest impl
 		this.testSimilarity(objOne, objTwo,
 				TypesPackage.Literals.NAMESPACE_CLASSIFIER_REFERENCE__CLASSIFIER_REFERENCES);
 	}
+	
+	@Test
+	public void testClassifierReferenceNull() {
+		this.setResourceFileTestIdentifier("testClassifierReferenceNull");
+		
+		var objOne = this.initElement(new ClassifierReference[] { this.createMinimalClsRef("cls1") });
+		var objTwo = new NamespaceClassifierReferenceInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo,
+				TypesPackage.Literals.NAMESPACE_CLASSIFIER_REFERENCE__CLASSIFIER_REFERENCES);
+	}
 }

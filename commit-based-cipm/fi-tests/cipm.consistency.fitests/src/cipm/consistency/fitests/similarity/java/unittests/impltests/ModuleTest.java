@@ -38,6 +38,16 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__OPEN);
 	}
+	
+	@Test
+	public void testOpenNull() {
+		this.setResourceFileTestIdentifier("testOpenNull");
+		
+		var objOne = this.initElement(null, null, true);
+		var objTwo = new ModuleInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__OPEN);
+	}
 
 	@Test
 	public void testPackages() {
@@ -48,7 +58,18 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__PACKAGES);
 	}
+	
+	@Test
+	public void testPackagesNull() {
+		this.setResourceFileTestIdentifier("testPackagesNull");
+		
+		var objOne = this.initElement(new Package[] { this.createMinimalPackage(new String[] { "ns1" }) }, null, false);
+		var objTwo = new ModuleInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__PACKAGES);
+	}
 
+	@Test
 	public void testTargets() {
 		this.setResourceFileTestIdentifier("testTargets");
 
@@ -57,6 +78,17 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 		var objTwo = this.initElement(null, new ModuleDirective[] { this.createMinimalOMD(new String[] { "ns1" }) },
 				false);
 
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__TARGET);
+	}
+	
+	@Test
+	public void testTargetsNull() {
+		this.setResourceFileTestIdentifier("testTargetsNull");
+		
+		var objOne = this.initElement(null, new ModuleDirective[] { this.createMinimalEMD(new String[] { "ns1" }) },
+				false);
+		var objTwo = new ModuleInitialiser().instantiate();
+		
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__TARGET);
 	}
 }

@@ -47,6 +47,21 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
 						|| (!init.canAddImports(objOne) && !init.canAddImports(objTwo)));
 	}
+	
+	@ParameterizedTest
+	@ArgumentsSource(ClassifierTestParams.class)
+	public void testImportsNull(IClassifierInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testImportsNull");
+		
+		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }, null);
+		var objTwo = init.instantiate();
+		Assertions.assertTrue(init.initialise(objTwo));
+		
+		this.testSimilarity(objOne, objTwo, CompilationUnit.class,
+				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
+				|| (!init.canAddImports(objOne) && !init.canAddImports(objTwo)));
+	}
 
 	/**
 	 * Package import differences do not break similarity
@@ -65,5 +80,21 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 		this.testSimilarity(objOne, objTwo, CompilationUnit.class,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
 						|| (!init.canAddImports(objOne) && !init.canAddImports(objTwo)));
+	}
+	
+	@ParameterizedTest
+	@ArgumentsSource(ClassifierTestParams.class)
+	public void testPackageImportsNull(IClassifierInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testPackageImportsNull");
+		
+		var objOne = this.initElement(init, null,
+				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }) });
+		var objTwo = init.instantiate();
+		Assertions.assertTrue(init.initialise(objTwo));
+		
+		this.testSimilarity(objOne, objTwo, CompilationUnit.class,
+				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
+				|| (!init.canAddImports(objOne) && !init.canAddImports(objTwo)));
 	}
 }

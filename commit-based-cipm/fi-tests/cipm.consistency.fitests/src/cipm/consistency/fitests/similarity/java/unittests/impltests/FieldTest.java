@@ -27,4 +27,14 @@ public class FieldTest extends EObjectSimilarityTest implements UsesAdditionalFi
 
 		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.FIELD__ADDITIONAL_FIELDS);
 	}
+	
+	@Test
+	public void testAdditionalFieldNull() {
+		this.setResourceFileTestIdentifier("testAdditionalFieldNull");
+		
+		var objOne = this.initElement(new AdditionalField[] { this.createMinimalAF("af1") });
+		var objTwo = new FieldInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.FIELD__ADDITIONAL_FIELDS);
+	}
 }

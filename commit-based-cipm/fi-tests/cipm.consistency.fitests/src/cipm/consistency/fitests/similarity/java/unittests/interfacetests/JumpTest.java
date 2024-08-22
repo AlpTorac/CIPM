@@ -29,4 +29,16 @@ public class JumpTest extends EObjectSimilarityTest implements UsesStatements {
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.JUMP__TARGET);
 	}
+	
+	@ParameterizedTest
+	@ArgumentsSource(JumpTestParams.class)
+	public void testTargetNull(IJumpInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testTargetNull");
+		
+		var objOne = this.initElement(init, this.createMinimalJLToNullReturn("jl1"));
+		var objTwo = init.instantiate();
+		
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.JUMP__TARGET);
+	}
 }

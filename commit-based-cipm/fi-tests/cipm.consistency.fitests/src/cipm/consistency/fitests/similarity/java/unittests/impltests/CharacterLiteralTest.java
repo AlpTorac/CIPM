@@ -23,4 +23,12 @@ public class CharacterLiteralTest extends EObjectSimilarityTest {
 		this.testSimilarity(this.initElement("a"), this.initElement("b"),
 				LiteralsPackage.Literals.CHARACTER_LITERAL__VALUE);
 	}
+	
+	@Test
+	public void testValueNull() {
+		this.setResourceFileTestIdentifier("testValueNull");
+		
+		this.testSimilarity(this.initElement("a"), new CharacterLiteralInitialiser().instantiate(),
+				LiteralsPackage.Literals.CHARACTER_LITERAL__VALUE);
+	}
 }

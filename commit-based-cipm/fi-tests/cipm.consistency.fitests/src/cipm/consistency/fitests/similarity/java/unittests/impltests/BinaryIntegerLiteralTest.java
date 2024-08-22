@@ -23,4 +23,12 @@ public class BinaryIntegerLiteralTest extends EObjectSimilarityTest {
 		this.testSimilarity(this.initElement(1), this.initElement(2),
 				LiteralsPackage.Literals.BINARY_INTEGER_LITERAL__BINARY_VALUE);
 	}
+
+	@Test
+	public void testBinaryValueNull() {
+		this.setResourceFileTestIdentifier("testBinaryValueNull");
+
+		this.testSimilarity(this.initElement(1), new BinaryIntegerLiteralInitialiser().instantiate(),
+				LiteralsPackage.Literals.BINARY_INTEGER_LITERAL__BINARY_VALUE);
+	}
 }

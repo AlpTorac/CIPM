@@ -30,4 +30,17 @@ public class CallTypeArgumentableTest extends EObjectSimilarityTest implements U
 
 		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.CALL_TYPE_ARGUMENTABLE__CALL_TYPE_ARGUMENTS);
 	}
+	
+	@ParameterizedTest
+	@ArgumentsSource(CallTypeArgumentableTestParams.class)
+	public void testCallTypeArgumentsNull(ICallTypeArgumentableInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testCallTypeArgumentsNull");
+		
+		var objOne = this.initElement(init, new TypeArgument[] { this.createMinimalExtendsTAWithCls("cls1") });
+		var objTwo = init.instantiate();
+		Assertions.assertTrue(init.initialise(objTwo));
+		
+		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.CALL_TYPE_ARGUMENTABLE__CALL_TYPE_ARGUMENTS);
+	}
 }

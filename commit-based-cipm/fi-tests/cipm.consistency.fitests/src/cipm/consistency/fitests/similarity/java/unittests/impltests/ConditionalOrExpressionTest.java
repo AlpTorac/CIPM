@@ -27,4 +27,14 @@ public class ConditionalOrExpressionTest extends EObjectSimilarityTest implement
 				this.initElement(new ConditionalOrExpressionChild[] { this.createDecimalIntegerLiteral(2) }),
 				ExpressionsPackage.Literals.CONDITIONAL_OR_EXPRESSION__CHILDREN);
 	}
+	
+	@Test
+	public void testChildNull() {
+		this.setResourceFileTestIdentifier("testChildNull");
+		
+		this.testSimilarity(
+				this.initElement(new ConditionalOrExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
+				new ConditionalOrExpressionInitialiser().instantiate(),
+				ExpressionsPackage.Literals.CONDITIONAL_OR_EXPRESSION__CHILDREN);
+	}
 }

@@ -27,4 +27,14 @@ public class EnumConstantTest extends EObjectSimilarityTest implements UsesAnony
 
 		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.ENUM_CONSTANT__ANONYMOUS_CLASS);
 	}
+	
+	@Test
+	public void testAnonymousClassNull() {
+		this.setResourceFileTestIdentifier("testAnonymousClassNull");
+		
+		var objOne = this.initElement(this.createMinimalAnonymousClassWithMethod("met1"));
+		var objTwo = new EnumConstantInitialiser().instantiate();
+		
+		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.ENUM_CONSTANT__ANONYMOUS_CLASS);
+	}
 }

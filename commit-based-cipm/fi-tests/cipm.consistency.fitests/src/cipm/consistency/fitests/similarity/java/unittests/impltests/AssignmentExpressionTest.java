@@ -30,6 +30,15 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 				this.initElement(this.createAssignmentOrOperator(), null, null),
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__ASSIGNMENT_OPERATOR);
 	}
+	
+	@Test
+	public void testAssignmentOperatorNull() {
+		this.setResourceFileTestIdentifier("testAssignmentOperatorNull");
+		
+		this.testSimilarity(this.initElement(this.createAssignmentOperator(), null, null),
+				new AssignmentExpressionInitialiser().instantiate(),
+				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__ASSIGNMENT_OPERATOR);
+	}
 
 	@Test
 	public void testChild() {
@@ -39,6 +48,15 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 				this.initElement(null, this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__CHILD);
 	}
+	
+	@Test
+	public void testChildNull() {
+		this.setResourceFileTestIdentifier("testChildNull");
+		
+		this.testSimilarity(this.initElement(null, this.createDecimalIntegerLiteral(1), null),
+				new AssignmentExpressionInitialiser().instantiate(),
+				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__CHILD);
+	}
 
 	@Test
 	public void testValue() {
@@ -46,6 +64,15 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 
 		this.testSimilarity(this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
 				this.initElement(null, null, this.createDecimalIntegerLiteral(2)),
+				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__VALUE);
+	}
+	
+	@Test
+	public void testValueNull() {
+		this.setResourceFileTestIdentifier("testValueNull");
+		
+		this.testSimilarity(this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
+				new AssignmentExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__VALUE);
 	}
 }
