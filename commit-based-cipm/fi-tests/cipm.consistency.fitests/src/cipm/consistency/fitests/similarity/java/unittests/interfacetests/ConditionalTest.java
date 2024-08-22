@@ -29,16 +29,16 @@ public class ConditionalTest extends EObjectSimilarityTest implements UsesExpres
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.CONDITIONAL__CONDITION);
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ConditionalTestParams.class)
-	public void testConditionNull(IConditionalInitialiser init) {
+	public void testConditionNullCheck(IConditionalInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testConditionNull");
-		
+		this.setResourceFileTestIdentifier("testConditionNullCheck");
+
 		var objOne = this.initElement(init, this.createMinimalTrueEE());
 		var objTwo = init.instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.CONDITIONAL__CONDITION);
 	}
 }

@@ -27,14 +27,14 @@ public class ModuleReferenceTest extends EObjectSimilarityTest implements UsesMo
 
 		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.MODULE_REFERENCE__TARGET);
 	}
-	
+
 	@Test
-	public void testTargetNull() {
-		this.setResourceFileTestIdentifier("testTargetNull");
-		
+	public void testTargetNullCheck() {
+		this.setResourceFileTestIdentifier("testTargetNullCheck");
+
 		var objOne = this.initElement(this.createMinimalModule("mod1"));
 		var objTwo = new ModuleReferenceInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.MODULE_REFERENCE__TARGET);
 	}
 }

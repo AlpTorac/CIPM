@@ -29,11 +29,11 @@ public class AdditiveExpressionTest extends EObjectSimilarityTest implements Use
 				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(2) }, null),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__CHILDREN);
 	}
-	
+
 	@Test
-	public void testChildNull() {
-		this.setResourceFileTestIdentifier("testChildNull");
-		
+	public void testChildNullCheck() {
+		this.setResourceFileTestIdentifier("testChildNullCheck");
+
 		this.testSimilarity(
 				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
 				new AdditiveExpressionInitialiser().instantiate(),
@@ -48,11 +48,11 @@ public class AdditiveExpressionTest extends EObjectSimilarityTest implements Use
 				this.initElement(null, new AdditiveOperator[] { this.createSubtractionOperator() }),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__ADDITIVE_OPERATORS);
 	}
-	
+
 	@Test
-	public void testAdditiveOperatorNull() {
-		this.setResourceFileTestIdentifier("testAdditiveOperatorNull");
-		
+	public void testAdditiveOperatorNullCheck() {
+		this.setResourceFileTestIdentifier("testAdditiveOperatorNullCheck");
+
 		this.testSimilarity(this.initElement(null, new AdditiveOperator[] { this.createAdditionOperator() }),
 				new AdditiveExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__ADDITIVE_OPERATORS);

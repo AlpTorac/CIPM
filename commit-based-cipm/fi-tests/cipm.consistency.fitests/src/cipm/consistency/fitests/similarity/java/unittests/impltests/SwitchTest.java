@@ -29,14 +29,14 @@ public class SwitchTest extends EObjectSimilarityTest implements UsesSwitchCases
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SWITCH__CASES);
 	}
-	
+
 	@Test
-	public void testCaseNull() {
-		this.setResourceFileTestIdentifier("testCaseNull");
-		
+	public void testCaseNullCheck() {
+		this.setResourceFileTestIdentifier("testCaseNullCheck");
+
 		var objOne = this.initElement(new SwitchCase[] { this.createEmptyNSC() }, null);
 		var objTwo = new SwitchInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SWITCH__CASES);
 	}
 
@@ -49,14 +49,14 @@ public class SwitchTest extends EObjectSimilarityTest implements UsesSwitchCases
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SWITCH__VARIABLE);
 	}
-	
+
 	@Test
-	public void testVariableNull() {
-		this.setResourceFileTestIdentifier("testVariableNull");
-		
+	public void testVariableNullCheck() {
+		this.setResourceFileTestIdentifier("testVariableNullCheck");
+
 		var objOne = this.initElement(null, this.createMinimalSR("str1"));
 		var objTwo = new SwitchInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SWITCH__VARIABLE);
 	}
 }

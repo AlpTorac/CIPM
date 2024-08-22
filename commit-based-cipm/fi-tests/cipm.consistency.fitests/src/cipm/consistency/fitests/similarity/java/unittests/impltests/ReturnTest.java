@@ -27,14 +27,14 @@ public class ReturnTest extends EObjectSimilarityTest implements UsesExpressions
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.RETURN__RETURN_VALUE);
 	}
-	
+
 	@Test
-	public void testReturnValueNull() {
-		this.setResourceFileTestIdentifier("testReturnValueNull");
-		
+	public void testReturnValueNullCheck() {
+		this.setResourceFileTestIdentifier("testReturnValueNullCheck");
+
 		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
 		var objTwo = new ReturnInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.RETURN__RETURN_VALUE);
 	}
 }

@@ -40,8 +40,8 @@ public class CastExpressionTest extends EObjectSimilarityTest implements UsesExp
 	}
 
 	@Test
-	public void testAdditionalBoundNull() {
-		this.setResourceFileTestIdentifier("testAdditionalBoundNull");
+	public void testAdditionalBoundNullCheck() {
+		this.setResourceFileTestIdentifier("testAdditionalBoundNullCheck");
 
 		this.testSimilarity(this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null, null),
 				new CastExpressionInitialiser().instantiate(),
@@ -58,8 +58,8 @@ public class CastExpressionTest extends EObjectSimilarityTest implements UsesExp
 	}
 
 	@Test
-	public void testGeneralChildNull() {
-		this.setResourceFileTestIdentifier("testGeneralChildNull");
+	public void testGeneralChildNullCheck() {
+		this.setResourceFileTestIdentifier("testGeneralChildNullCheck");
 
 		this.testSimilarity(this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
 				new CastExpressionInitialiser().instantiate(),

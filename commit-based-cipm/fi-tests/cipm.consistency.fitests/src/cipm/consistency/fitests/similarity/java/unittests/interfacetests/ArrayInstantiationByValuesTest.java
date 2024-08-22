@@ -32,16 +32,16 @@ public class ArrayInstantiationByValuesTest extends EObjectSimilarityTest
 
 		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER);
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ArrayInstantiationByValuesTestParams.class)
-	public void testArrayInitialiserNull(IArrayInstantiationByValuesInitialiser init) {
+	public void testArrayInitialiserNullCheck(IArrayInstantiationByValuesInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testArrayInitialiserNull");
-		
+		this.setResourceFileTestIdentifier("testArrayInitialiserNullCheck");
+
 		var objOne = this.initElement(init, this.createMinimalArrayInitializer(this.createDecimalIntegerLiteral(0)));
 		var objTwo = init.instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER);
 	}
 }

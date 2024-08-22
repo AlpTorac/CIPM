@@ -30,16 +30,16 @@ public class StaticImportTest extends EObjectSimilarityTest implements UsesImpor
 
 		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.STATIC_IMPORT__STATIC);
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(StaticImportTestParams.class)
-	public void testStaticNull(IStaticImportInitialiser init) {
+	public void testStaticNullCheck(IStaticImportInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testStaticNull");
-		
+		this.setResourceFileTestIdentifier("testStaticNullCheck");
+
 		var objOne = this.initElement(init, this.createStatic());
 		var objTwo = init.instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.STATIC_IMPORT__STATIC);
 	}
 }

@@ -30,11 +30,11 @@ public class MultiplicativeExpressionTest extends EObjectSimilarityTest implemen
 				this.initElement(new MultiplicativeExpressionChild[] { this.createDecimalIntegerLiteral(2) }, null),
 				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__CHILDREN);
 	}
-	
+
 	@Test
-	public void testChildNull() {
-		this.setResourceFileTestIdentifier("testChildNull");
-		
+	public void testChildNullCheck() {
+		this.setResourceFileTestIdentifier("testChildNullCheck");
+
 		this.testSimilarity(
 				this.initElement(new MultiplicativeExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
 				new MultiplicativeExpressionInitialiser().instantiate(),
@@ -49,11 +49,11 @@ public class MultiplicativeExpressionTest extends EObjectSimilarityTest implemen
 				this.initElement(null, new MultiplicativeOperator[] { this.createMultiplicationOperator() }),
 				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__MULTIPLICATIVE_OPERATORS);
 	}
-	
+
 	@Test
-	public void testMultiplicativeOperatorNull() {
-		this.setResourceFileTestIdentifier("testMultiplicativeOperatorNull");
-		
+	public void testMultiplicativeOperatorNullCheck() {
+		this.setResourceFileTestIdentifier("testMultiplicativeOperatorNullCheck");
+
 		this.testSimilarity(this.initElement(null, new MultiplicativeOperator[] { this.createDivisionOperator() }),
 				new MultiplicativeExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__MULTIPLICATIVE_OPERATORS);

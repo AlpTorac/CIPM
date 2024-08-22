@@ -29,8 +29,8 @@ public class ConditionalAndExpressionTest extends EObjectSimilarityTest implemen
 	}
 
 	@Test
-	public void testChildNull() {
-		this.setResourceFileTestIdentifier("testChildNull");
+	public void testChildNullCheck() {
+		this.setResourceFileTestIdentifier("testChildNullCheck");
 
 		this.testSimilarity(
 				this.initElement(new ConditionalAndExpressionChild[] { this.createDecimalIntegerLiteral(1) }),

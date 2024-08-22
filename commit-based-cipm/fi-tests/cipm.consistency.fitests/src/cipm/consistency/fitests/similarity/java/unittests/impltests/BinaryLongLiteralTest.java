@@ -25,8 +25,8 @@ public class BinaryLongLiteralTest extends EObjectSimilarityTest {
 	}
 
 	@Test
-	public void testBinaryValueNull() {
-		this.setResourceFileTestIdentifier("testBinaryValueNull");
+	public void testBinaryValueNullCheck() {
+		this.setResourceFileTestIdentifier("testBinaryValueNullCheck");
 
 		this.testSimilarity(this.initElement(1), new BinaryLongLiteralInitialiser().instantiate(),
 				LiteralsPackage.Literals.BINARY_LONG_LITERAL__BINARY_VALUE);

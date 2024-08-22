@@ -27,14 +27,14 @@ public class SuperTypeArgumentTest extends EObjectSimilarityTest implements Uses
 
 		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.SUPER_TYPE_ARGUMENT__SUPER_TYPE);
 	}
-	
+
 	@Test
-	public void testSuperTypeNull() {
-		this.setResourceFileTestIdentifier("testSuperTypeNull");
-		
+	public void testSuperTypeNullCheck() {
+		this.setResourceFileTestIdentifier("testSuperTypeNullCheck");
+
 		var objOne = this.initElement(this.createMinimalClsRef("cls1"));
 		var objTwo = new SuperTypeArgumentInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.SUPER_TYPE_ARGUMENT__SUPER_TYPE);
 	}
 }

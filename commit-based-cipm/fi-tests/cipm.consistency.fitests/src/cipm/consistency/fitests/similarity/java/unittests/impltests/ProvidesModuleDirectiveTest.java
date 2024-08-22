@@ -27,14 +27,14 @@ public class ProvidesModuleDirectiveTest extends EObjectSimilarityTest implement
 
 		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.PROVIDES_MODULE_DIRECTIVE__SERVICE_PROVIDERS);
 	}
-	
+
 	@Test
-	public void testServiceProviderNull() {
-		this.setResourceFileTestIdentifier("testServiceProviderNull");
-		
+	public void testServiceProviderNullCheck() {
+		this.setResourceFileTestIdentifier("testServiceProviderNullCheck");
+
 		var objOne = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") });
 		var objTwo = new ProvidesModuleDirectiveInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.PROVIDES_MODULE_DIRECTIVE__SERVICE_PROVIDERS);
 	}
 }

@@ -27,16 +27,16 @@ public class NamedElementTest extends EObjectSimilarityTest {
 
 		this.testSimilarity(objOne, objTwo, CommonsPackage.Literals.NAMED_ELEMENT__NAME);
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(NameTestParams.class)
-	public void testNameNull(INamedElementInitialiser init) {
+	public void testNameNullCheck(INamedElementInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testNameNull");
-		
+		this.setResourceFileTestIdentifier("testNameNullCheck");
+
 		var objOne = this.initElement(init, "name11");
 		var objTwo = init.instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, CommonsPackage.Literals.NAMED_ELEMENT__NAME);
 	}
 }

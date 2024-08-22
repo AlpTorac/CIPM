@@ -27,14 +27,14 @@ public class ExtendsTypeArgumentTest extends EObjectSimilarityTest implements Us
 
 		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.EXTENDS_TYPE_ARGUMENT__EXTEND_TYPE);
 	}
-	
+
 	@Test
-	public void testExtendTypeNull() {
-		this.setResourceFileTestIdentifier("testExtendTypeNull");
-		
+	public void testExtendTypeNullCheck() {
+		this.setResourceFileTestIdentifier("testExtendTypeNullCheck");
+
 		var objOne = this.initElement(this.createMinimalClsRef("cls1"));
 		var objTwo = new ExtendsTypeArgumentInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.EXTENDS_TYPE_ARGUMENT__EXTEND_TYPE);
 	}
 }

@@ -23,11 +23,11 @@ public class HexIntegerLiteralTest extends EObjectSimilarityTest {
 		this.testSimilarity(this.initElement(1), this.initElement(2),
 				LiteralsPackage.Literals.HEX_INTEGER_LITERAL__HEX_VALUE);
 	}
-	
+
 	@Test
-	public void testHexValueNull() {
-		this.setResourceFileTestIdentifier("testHexValueNull");
-		
+	public void testHexValueNullCheck() {
+		this.setResourceFileTestIdentifier("testHexValueNullCheck");
+
 		this.testSimilarity(this.initElement(1), new HexIntegerLiteralInitialiser().instantiate(),
 				LiteralsPackage.Literals.HEX_INTEGER_LITERAL__HEX_VALUE);
 	}

@@ -27,7 +27,7 @@ public class NewConstructorCallTest extends EObjectSimilarityTest implements Use
 		Assertions.assertTrue(nccInit.setAnonymousClass(ncc, anonymousCls));
 		return ncc;
 	}
-	
+
 	@Test
 	public void testAnonymousClass() {
 		this.setResourceFileTestIdentifier("testAnonymousClass");
@@ -37,14 +37,14 @@ public class NewConstructorCallTest extends EObjectSimilarityTest implements Use
 
 		this.testSimilarity(objOne, objTwo, InstantiationsPackage.Literals.NEW_CONSTRUCTOR_CALL__ANONYMOUS_CLASS);
 	}
-	
+
 	@Test
-	public void testAnonymousClassNull() {
-		this.setResourceFileTestIdentifier("testAnonymousClassNull");
-		
+	public void testAnonymousClassNullCheck() {
+		this.setResourceFileTestIdentifier("testAnonymousClassNullCheck");
+
 		var objOne = this.initElement(this.createMinimalAnonymousClassWithMethod("met1"));
 		var objTwo = new NewConstructorCallInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, InstantiationsPackage.Literals.NEW_CONSTRUCTOR_CALL__ANONYMOUS_CLASS);
 	}
 }

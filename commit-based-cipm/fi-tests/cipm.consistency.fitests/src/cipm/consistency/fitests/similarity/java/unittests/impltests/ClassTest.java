@@ -28,14 +28,14 @@ public class ClassTest extends EObjectSimilarityTest implements UsesTypeReferenc
 
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.CLASS__DEFAULT_EXTENDS);
 	}
-	
+
 	@Test
-	public void testDefaultExtendsNull() {
-		this.setResourceFileTestIdentifier("testDefaultExtendsNull");
-		
+	public void testDefaultExtendsNullCheck() {
+		this.setResourceFileTestIdentifier("testDefaultExtendsNullCheck");
+
 		var objOne = this.initElement(this.createMinimalClsRef("cls1"), null);
 		var objTwo = new ClassInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.CLASS__DEFAULT_EXTENDS);
 	}
 
@@ -48,14 +48,14 @@ public class ClassTest extends EObjectSimilarityTest implements UsesTypeReferenc
 
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.CLASS__EXTENDS);
 	}
-	
+
 	@Test
-	public void testExtendsNull() {
-		this.setResourceFileTestIdentifier("testExtendsNull");
-		
+	public void testExtendsNullCheck() {
+		this.setResourceFileTestIdentifier("testExtendsNullCheck");
+
 		var objOne = this.initElement(null, this.createMinimalClsRef("cls1"));
 		var objTwo = new ClassInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.CLASS__EXTENDS);
 	}
 }

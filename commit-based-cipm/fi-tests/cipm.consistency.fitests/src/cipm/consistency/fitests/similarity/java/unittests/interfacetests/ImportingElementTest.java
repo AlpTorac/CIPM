@@ -30,17 +30,17 @@ public class ImportingElementTest extends EObjectSimilarityTest implements UsesI
 
 		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ImportingElementTestParams.class)
-	public void testImportsNull(IImportingElementInitialiser init) {
+	public void testImportsNullCheck(IImportingElementInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testImportsNull");
-		
+		this.setResourceFileTestIdentifier("testImportsNullCheck");
+
 		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") });
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));
-		
+
 		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
 	}
 }

@@ -17,8 +17,8 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesModifiers;
 public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 		implements UsesAnnotationInstances, UsesModifiers {
 
-	protected EObject initElement(IAnnotableAndModifiableInitialiser init, Modifier[] modifs,
-			AnnotationInstance[] ais, InitialiserVisibilityModifier visibility) {
+	protected EObject initElement(IAnnotableAndModifiableInitialiser init, Modifier[] modifs, AnnotationInstance[] ais,
+			InitialiserVisibilityModifier visibility) {
 
 		var result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
@@ -34,26 +34,26 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testModifier");
 
-		var objOne = this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() },
-				null, null);
-		var objTwo = this.initElement(init, new Modifier[] { this.createVolatile(), this.createProtected() },
-				null, null);
+		var objOne = this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null,
+				null);
+		var objTwo = this.initElement(init, new Modifier[] { this.createVolatile(), this.createProtected() }, null,
+				null);
 
 		this.testSimilarity(objOne, objTwo,
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
-	
+
 	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testModifierNull(IAnnotableAndModifiableInitialiser init) {
+	public void testModifierNullCheck(IAnnotableAndModifiableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testModifierNull");
-		
-		var objOne = this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() },
-				null, null);
+		this.setResourceFileTestIdentifier("testModifierNullCheck");
+
+		var objOne = this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null,
+				null);
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));
-		
+
 		this.testSimilarity(objOne, objTwo,
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
@@ -72,18 +72,18 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 		this.testSimilarity(objOne, objTwo,
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
-	
+
 	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testAnnotationInstanceNull(IAnnotableAndModifiableInitialiser init) {
+	public void testAnnotationInstanceNullCheck(IAnnotableAndModifiableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testAnnotationInstanceNull");
-		
+		this.setResourceFileTestIdentifier("testAnnotationInstanceNullCheck");
+
 		var objOne = this.initElement(init, null,
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") }, null);
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));
-		
+
 		this.testSimilarity(objOne, objTwo,
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
@@ -100,17 +100,17 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 		this.testSimilarity(objOne, objTwo,
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
-	
+
 	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
-	public void testVisibilityNull(IAnnotableAndModifiableInitialiser init) {
+	public void testVisibilityNullCheck(IAnnotableAndModifiableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testVisibilityNull");
-		
+		this.setResourceFileTestIdentifier("testVisibilityNullCheck");
+
 		var objOne = this.initElement(init, null, null, InitialiserVisibilityModifier.PRIVATE);
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));
-		
+
 		this.testSimilarity(objOne, objTwo,
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}

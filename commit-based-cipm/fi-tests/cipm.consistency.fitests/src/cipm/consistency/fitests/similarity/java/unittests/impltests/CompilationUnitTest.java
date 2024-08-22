@@ -28,14 +28,14 @@ public class CompilationUnitTest extends EObjectSimilarityTest implements UsesCo
 
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.COMPILATION_UNIT__CLASSIFIERS);
 	}
-	
+
 	@Test
-	public void testClassifierNull() {
-		this.setResourceFileTestIdentifier("testClassifierNull");
-		
+	public void testClassifierNullCheck() {
+		this.setResourceFileTestIdentifier("testClassifierNullCheck");
+
 		var objOne = this.initElement(new ConcreteClassifier[] { this.createMinimalClass("cls1") });
 		var objTwo = new CompilationUnitInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.COMPILATION_UNIT__CLASSIFIERS);
 	}
 }

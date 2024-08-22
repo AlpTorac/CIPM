@@ -27,14 +27,14 @@ public class NestedExpressionTest extends EObjectSimilarityTest implements UsesE
 
 		this.testSimilarity(objOne, objTwo, ExpressionsPackage.Literals.NESTED_EXPRESSION__EXPRESSION);
 	}
-	
+
 	@Test
-	public void testExpressionNull() {
-		this.setResourceFileTestIdentifier("testExpressionNull");
-		
+	public void testExpressionNullCheck() {
+		this.setResourceFileTestIdentifier("testExpressionNullCheck");
+
 		var objOne = this.initElement(this.createMinimalFalseEE());
 		var objTwo = new NestedExpressionInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, ExpressionsPackage.Literals.NESTED_EXPRESSION__EXPRESSION);
 	}
 }

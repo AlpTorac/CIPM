@@ -25,8 +25,8 @@ public class BooleanLiteralTest extends EObjectSimilarityTest {
 	}
 
 	@Test
-	public void testValueNull() {
-		this.setResourceFileTestIdentifier("testValueNull");
+	public void testValueNullCheck() {
+		this.setResourceFileTestIdentifier("testValueNullCheck");
 
 		this.testSimilarity(this.initElement(true), new BooleanLiteralInitialiser().instantiate(),
 				LiteralsPackage.Literals.BOOLEAN_LITERAL__VALUE);

@@ -29,14 +29,14 @@ public class TypeParameterTest extends EObjectSimilarityTest implements UsesType
 
 		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.TYPE_PARAMETER__EXTEND_TYPES);
 	}
-	
+
 	@Test
-	public void testExtendTypeNull() {
-		this.setResourceFileTestIdentifier("testExtendTypeNull");
-		
+	public void testExtendTypeNullCheck() {
+		this.setResourceFileTestIdentifier("testExtendTypeNullCheck");
+
 		var objOne = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") });
 		var objTwo = new TypeParameterInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.TYPE_PARAMETER__EXTEND_TYPES);
 	}
 }

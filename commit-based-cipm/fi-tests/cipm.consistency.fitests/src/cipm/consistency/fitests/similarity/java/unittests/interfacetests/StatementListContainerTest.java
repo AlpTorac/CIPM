@@ -41,19 +41,19 @@ public class StatementListContainerTest extends EObjectSimilarityTest implements
 				this.getExpectedSimilarityResult(StatementsPackage.Literals.BLOCK__STATEMENTS).booleanValue()
 						|| (!init.canContainStatements(objOne) && !init.canContainStatements(objTwo)));
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(StatementListContainerTestParams.class)
-	public void testStatementsNull(IStatementListContainerInitialiser init) {
+	public void testStatementsNullCheck(IStatementListContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testStatementsNull");
-		
+		this.setResourceFileTestIdentifier("testStatementsNullCheck");
+
 		var objOne = this.initElement(init, new Statement[] { this.createMinimalNullReturn() });
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));
-		
+
 		this.testSimilarity(objOne, objTwo,
 				this.getExpectedSimilarityResult(StatementsPackage.Literals.BLOCK__STATEMENTS).booleanValue()
-				|| (!init.canContainStatements(objOne) && !init.canContainStatements(objTwo)));
+						|| (!init.canContainStatements(objOne) && !init.canContainStatements(objTwo)));
 	}
 }

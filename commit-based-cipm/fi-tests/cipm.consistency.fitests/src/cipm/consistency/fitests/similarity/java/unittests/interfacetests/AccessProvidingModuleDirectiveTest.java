@@ -29,22 +29,22 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest
 	public void testModule(IAccessProvidingModuleDirectiveInitialiser init) {
 		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testModuleReference");
-		
+
 		var objOne = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod1") }, null);
 		var objTwo = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod2") }, null);
 
 		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__MODULES);
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
-	public void testModuleNull(IAccessProvidingModuleDirectiveInitialiser init) {
+	public void testModuleNullCheck(IAccessProvidingModuleDirectiveInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testModuleNull");
-		
+		this.setResourceFileTestIdentifier("testModuleNullCheck");
+
 		var objOne = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod1") }, null);
 		var objTwo = init.instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__MODULES);
 	}
 
@@ -60,16 +60,16 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest
 		this.testSimilarity(objOne, objTwo,
 				ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__ACCESSABLE_PACKAGE);
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
-	public void testAccessablePackageNull(IAccessProvidingModuleDirectiveInitialiser init) {
+	public void testAccessablePackageNullCheck(IAccessProvidingModuleDirectiveInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testAccessablePackageNull");
-		
+		this.setResourceFileTestIdentifier("testAccessablePackageNullCheck");
+
 		var objOne = this.initElement(init, null, this.createMinimalPackage(new String[] { "ns1", "ns2" }));
 		var objTwo = init.instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo,
 				ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__ACCESSABLE_PACKAGE);
 	}

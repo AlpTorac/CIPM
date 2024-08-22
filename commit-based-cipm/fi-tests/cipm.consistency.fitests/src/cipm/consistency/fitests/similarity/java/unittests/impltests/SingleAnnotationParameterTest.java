@@ -27,14 +27,14 @@ public class SingleAnnotationParameterTest extends EObjectSimilarityTest impleme
 
 		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.SINGLE_ANNOTATION_PARAMETER__VALUE);
 	}
-	
+
 	@Test
-	public void testValueNull() {
-		this.setResourceFileTestIdentifier("testValueNull");
-		
+	public void testValueNullCheck() {
+		this.setResourceFileTestIdentifier("testValueNullCheck");
+
 		var objOne = this.initElement(this.createNullLiteral());
 		var objTwo = new SingleAnnotationParameterInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.SINGLE_ANNOTATION_PARAMETER__VALUE);
 	}
 }

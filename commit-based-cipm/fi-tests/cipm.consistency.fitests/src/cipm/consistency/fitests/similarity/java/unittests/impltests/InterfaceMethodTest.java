@@ -29,14 +29,14 @@ public class InterfaceMethodTest extends EObjectSimilarityTest implements UsesAn
 
 		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.INTERFACE_METHOD__DEFAULT_VALUE);
 	}
-	
+
 	@Test
-	public void testDefaultValueNull() {
-		this.setResourceFileTestIdentifier("testDefaultValueNull");
-		
+	public void testDefaultValueNullCheck() {
+		this.setResourceFileTestIdentifier("testDefaultValueNullCheck");
+
 		var objOne = this.initElement(this.createNullLiteral());
 		var objTwo = new InterfaceMethodInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.INTERFACE_METHOD__DEFAULT_VALUE);
 	}
 }

@@ -39,17 +39,17 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 
 		this.testSimilarity(objOne, objTwo, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(NamespaceAwareElementTestParams.class)
-	public void testNamespaceNull(INamespaceAwareElementInitialiser init) {
+	public void testNamespaceNullCheck(INamespaceAwareElementInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testNamespaceNull");
-		
+		this.setResourceFileTestIdentifier("testNamespaceNullCheck");
+
 		var objOne = this.initElement(init, nss1);
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));
-		
+
 		this.testSimilarity(objOne, objTwo, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
 	}
 

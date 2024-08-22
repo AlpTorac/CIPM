@@ -30,17 +30,17 @@ public class TypedElementExtensionTest extends EObjectSimilarityTest implements 
 
 		this.testSimilarity(objOne, objTwo, TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(TypedElementExtensionTestParams.class)
-	public void testActualTargetNull(ITypedElementExtensionInitialiser init) {
+	public void testActualTargetNullCheck(ITypedElementExtensionInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testActualTargetNull");
-		
+		this.setResourceFileTestIdentifier("testActualTargetNullCheck");
+
 		var objOne = this.initElement(init, this.createMinimalClsRef("cls1"));
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));
-		
+
 		this.testSimilarity(objOne, objTwo, TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
 	}
 }

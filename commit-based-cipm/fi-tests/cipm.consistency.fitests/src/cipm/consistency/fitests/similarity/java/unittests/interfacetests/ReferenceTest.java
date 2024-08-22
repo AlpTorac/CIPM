@@ -32,17 +32,17 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__NEXT);
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ReferenceTestParams.class)
-	public void testNextNull(IReferenceInitialiser init) {
+	public void testNextNullCheck(IReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testNextNull");
-		
+		this.setResourceFileTestIdentifier("testNextNullCheck");
+
 		var objOne = this.initElement(init, this.createMinimalSR("str1"), null);
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));
-		
+
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__NEXT);
 	}
 
@@ -57,17 +57,17 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(ReferenceTestParams.class)
-	public void testArraySelectorNull(IReferenceInitialiser init) {
+	public void testArraySelectorNullCheck(IReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testArraySelectorNull");
-		
+		this.setResourceFileTestIdentifier("testArraySelectorNullCheck");
+
 		var objOne = this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(0) });
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));
-		
+
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
 	}
 }

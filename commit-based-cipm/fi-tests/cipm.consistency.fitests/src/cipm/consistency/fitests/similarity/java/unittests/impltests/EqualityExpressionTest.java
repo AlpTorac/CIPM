@@ -29,11 +29,11 @@ public class EqualityExpressionTest extends EObjectSimilarityTest implements Use
 				this.initElement(new EqualityExpressionChild[] { this.createDecimalIntegerLiteral(2) }, null),
 				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__CHILDREN);
 	}
-	
+
 	@Test
-	public void testChildNull() {
-		this.setResourceFileTestIdentifier("testChildNull");
-		
+	public void testChildNullCheck() {
+		this.setResourceFileTestIdentifier("testChildNullCheck");
+
 		this.testSimilarity(
 				this.initElement(new EqualityExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
 				new EqualityExpressionInitialiser().instantiate(),
@@ -48,11 +48,11 @@ public class EqualityExpressionTest extends EObjectSimilarityTest implements Use
 				this.initElement(null, this.createNotEqualOperator()),
 				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__EQUALITY_OPERATORS);
 	}
-	
+
 	@Test
-	public void testEqualityOperatorNull() {
-		this.setResourceFileTestIdentifier("testEqualityOperatorNull");
-		
+	public void testEqualityOperatorNullCheck() {
+		this.setResourceFileTestIdentifier("testEqualityOperatorNullCheck");
+
 		this.testSimilarity(this.initElement(null, this.createEqualityOperator()),
 				new EqualityExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__EQUALITY_OPERATORS);

@@ -30,17 +30,17 @@ public class BlockContainerTest extends EObjectSimilarityTest implements UsesSta
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.BLOCK_CONTAINER__BLOCK);
 	}
-	
+
 	@ParameterizedTest
 	@ArgumentsSource(BlockContainerTestParams.class)
-	public void testBlockNull(IBlockContainerInitialiser init) {
+	public void testBlockNullCheck(IBlockContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testBlockNull");
-		
+		this.setResourceFileTestIdentifier("testBlockNullCheck");
+
 		var objOne = this.initElement(init, this.createMinimalBlockWithNullReturn());
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.BLOCK_CONTAINER__BLOCK);
 	}
 }

@@ -27,14 +27,14 @@ public class YieldStatementTest extends EObjectSimilarityTest implements UsesExp
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.YIELD_STATEMENT__YIELD_EXPRESSION);
 	}
-	
+
 	@Test
-	public void testYieldExpressionNull() {
-		this.setResourceFileTestIdentifier("testYieldExpressionNull");
-		
+	public void testYieldExpressionNullCheck() {
+		this.setResourceFileTestIdentifier("testYieldExpressionNullCheck");
+
 		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
 		var objTwo = new YieldStatementInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.YIELD_STATEMENT__YIELD_EXPRESSION);
 	}
 }

@@ -34,8 +34,8 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 	}
 
 	@Test
-	public void testChildNull() {
-		this.setResourceFileTestIdentifier("testChildNull");
+	public void testChildNullCheck() {
+		this.setResourceFileTestIdentifier("testChildNullCheck");
 
 		this.testSimilarity(this.initElement(this.createDecimalIntegerLiteral(1), null, null, null),
 				new ConditionalExpressionInitialiser().instantiate(),
@@ -52,8 +52,8 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 	}
 
 	@Test
-	public void testExpressionChildNull() {
-		this.setResourceFileTestIdentifier("testExpressionChildNull");
+	public void testExpressionChildNullCheck() {
+		this.setResourceFileTestIdentifier("testExpressionChildNullCheck");
 
 		this.testSimilarity(this.initElement(null, this.createDecimalIntegerLiteral(1), null, null),
 				new ConditionalExpressionInitialiser().instantiate(),
@@ -70,8 +70,8 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 	}
 
 	@Test
-	public void testExpressionIfNull() {
-		this.setResourceFileTestIdentifier("testExpressionIfNull");
+	public void testExpressionIfNullCheck() {
+		this.setResourceFileTestIdentifier("testExpressionIfNullCheck");
 
 		this.testSimilarity(this.initElement(null, null, this.createDecimalIntegerLiteral(1), null),
 				new ConditionalExpressionInitialiser().instantiate(),
@@ -88,8 +88,8 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 	}
 
 	@Test
-	public void testGeneralExpressionElseNull() {
-		this.setResourceFileTestIdentifier("testGeneralExpressionElseNull");
+	public void testGeneralExpressionElseNullCheck() {
+		this.setResourceFileTestIdentifier("testGeneralExpressionElseNullCheck");
 
 		this.testSimilarity(this.initElement(null, null, null, this.createDecimalIntegerLiteral(1)),
 				new ConditionalExpressionInitialiser().instantiate(),

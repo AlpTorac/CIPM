@@ -27,14 +27,14 @@ public class ExpressionStatementTest extends EObjectSimilarityTest implements Us
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.EXPRESSION_STATEMENT__EXPRESSION);
 	}
-	
+
 	@Test
-	public void testExpressionNull() {
-		this.setResourceFileTestIdentifier("testExpressionNull");
-		
+	public void testExpressionNullCheck() {
+		this.setResourceFileTestIdentifier("testExpressionNullCheck");
+
 		var objOne = this.initElement(this.createMinimalFalseEE());
 		var objTwo = new ExpressionStatementInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.EXPRESSION_STATEMENT__EXPRESSION);
 	}
 }

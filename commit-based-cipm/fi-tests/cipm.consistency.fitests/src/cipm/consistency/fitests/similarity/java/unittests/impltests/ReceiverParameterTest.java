@@ -30,14 +30,14 @@ public class ReceiverParameterTest extends EObjectSimilarityTest implements Uses
 
 		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.RECEIVER_PARAMETER__THIS_REFERENCE);
 	}
-	
+
 	@Test
-	public void testThisTypeReferenceNull() {
-		this.setResourceFileTestIdentifier("testThisTypeReferenceNull");
-		
+	public void testThisTypeReferenceNullCheck() {
+		this.setResourceFileTestIdentifier("testThisTypeReferenceNullCheck");
+
 		var objOne = this.initElement(this.createThis(), null);
 		var objTwo = new ReceiverParameterInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.RECEIVER_PARAMETER__THIS_REFERENCE);
 	}
 
@@ -50,14 +50,14 @@ public class ReceiverParameterTest extends EObjectSimilarityTest implements Uses
 
 		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.RECEIVER_PARAMETER__OUTER_TYPE_REFERENCE);
 	}
-	
+
 	@Test
-	public void testOuterTypeReferenceNull() {
-		this.setResourceFileTestIdentifier("testOuterTypeReferenceNull");
-		
+	public void testOuterTypeReferenceNullCheck() {
+		this.setResourceFileTestIdentifier("testOuterTypeReferenceNullCheck");
+
 		var objOne = this.initElement(null, this.createMinimalClsRef("cls1"));
 		var objTwo = new ReceiverParameterInitialiser().instantiate();
-		
+
 		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.RECEIVER_PARAMETER__OUTER_TYPE_REFERENCE);
 	}
 }
