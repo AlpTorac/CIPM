@@ -14,9 +14,9 @@
  * The tests within this package are meant to be minimal and only test the
  * individual attributes of {@link EObject} instances isolated. <br>
  * <br>
- * In order to supply init parameters to the parameterized tests, XParam
- * classes that implement {@link ArgumentsProvider} can be declared and used
- * with the {@link ArgumentsSource} annotation. Elements declared within
+ * In order to supply init parameters to the parameterized tests, XParam classes
+ * that implement {@link ArgumentsProvider} can be declared and used with the
+ * {@link ArgumentsSource} annotation. Elements declared within
  * {@link cipm.consistency.fitests.similarity.java.params} can be used in the
  * implementation of the XParam classes to keep the consistency. <br>
  * <br>
@@ -24,8 +24,8 @@
  * {@link EObject} instances as obvious and visible as possible, as their
  * construction can get complicated and not knowing all the construction steps
  * can lead to tests not fulfilling their goal. Furthermore, it is also
- * important to adapt the inits, rather than using instanceof/if-blocks
- * to define type-specific behaviour. Should certain sub-classes/-interfaces
+ * important to adapt the inits, rather than using instanceof/if-blocks to
+ * define type-specific behaviour. Should certain sub-classes/-interfaces
  * diverge from their super type so much that they are incompatible with
  * parameterized tests, it is suggested to instead define special unit tests for
  * the said sub-classes/-interfaces.
