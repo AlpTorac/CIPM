@@ -21,6 +21,10 @@ public class SingleSimilarityCheckHandler implements ISimilarityRequestHandler {
 	 * @return TRUE, if they are similar; FALSE if not, NULL if it can't be decided.
 	 */
 	public Boolean isSimilar(EObject element1, EObject element2, IComposedSwitchAdapter ss) {
+		// If no switch is given, similarity cannot be computed
+		if (ss == null) {
+			return null;
+		}
 
 		// check that either both or none of them is null
 		if (element1 == element2) {

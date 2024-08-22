@@ -26,6 +26,13 @@ public class NamespaceCheckHandler implements ISimilarityRequestHandler {
 		var ele1 = params[0];
 		var ele2 = params[1];
 
+		// Null check to avoid NullPointerExceptions
+		if (ele1 == ele2) {
+			return true;
+		} else if (ele1 == null ^ ele2 == null) {
+			return false;
+		}
+		
 		var nss1 = ele1.getNamespaces();
 		var nss2 = ele2.getNamespaces();
 

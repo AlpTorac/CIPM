@@ -402,8 +402,8 @@ public final class JaMoPPElementUtil {
 
 		if (statement.eContainer() instanceof StatementListContainer) {
 			StatementListContainer container = (StatementListContainer) statement.eContainer();
-
-			return container.getStatements() != null ? container.getStatements().indexOf(statement) : -1;
+			var sts = container.getStatements();
+			return sts != null ? sts.indexOf(statement) : -1;
 		}
 
 		return -1;
