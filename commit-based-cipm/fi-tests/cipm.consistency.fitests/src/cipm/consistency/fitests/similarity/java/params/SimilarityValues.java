@@ -105,6 +105,7 @@ public class SimilarityValues extends AbstractSimilarityValues {
 		this.addSimilarityEntry(ContainersPackage.Literals.COMPILATION_UNIT__CLASSIFIERS, Boolean.TRUE);
 		this.addSimilarityEntry(ContainersPackage.Literals.MODULE__OPEN, Boolean.TRUE);
 		this.addSimilarityEntry(ContainersPackage.Literals.MODULE__PACKAGES, Boolean.TRUE);
+		this.addSimilarityEntry(ContainersPackage.Literals.MODULE__TARGET, Boolean.TRUE);
 		this.addSimilarityEntry(ContainersPackage.Literals.PACKAGE__CLASSIFIERS, Boolean.TRUE);
 		this.addSimilarityEntry(ContainersPackage.Literals.PACKAGE__MODULE, Boolean.TRUE);
 		this.addSimilarityEntry(ContainersPackage.Literals.JAVA_ROOT__ORIGIN, Boolean.TRUE);
