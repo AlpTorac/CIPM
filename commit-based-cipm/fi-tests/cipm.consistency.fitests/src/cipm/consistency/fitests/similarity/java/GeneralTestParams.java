@@ -11,6 +11,8 @@ import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
 public class GeneralTestParams implements ArgumentsProvider {
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
-		return new InitialiserParameters().getAllInitialisers().stream().map((i) -> Arguments.of(i));
+		// No need for adapted versions of initialisers, since init.initialise(...) is
+		// not called in these tests
+		return new InitialiserParameters().getAllNonAdaptedInitialisers().stream().map((i) -> Arguments.of(i));
 	}
 }
