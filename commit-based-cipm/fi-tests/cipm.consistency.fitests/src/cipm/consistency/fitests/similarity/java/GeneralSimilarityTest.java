@@ -27,6 +27,53 @@ import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageIn
  * @author atora
  */
 public class GeneralSimilarityTest extends AbstractSimilarityTest {
+	@ParameterizedTest
+	@ArgumentsSource(GeneralTestParams.class)
+	public void testIsSimilarUninitialisedObject(EObjectInitialiser initialiser) {
+		this.setResourceFileTestIdentifier("testIsSimilarUninitialisedObject");
+
+		var obj1 = initialiser.instantiate();
+		var obj2 = initialiser.instantiate();
+
+		var res = this.isSimilar(obj1, obj2);
+
+		if (res != null) {
+			Assertions.assertTrue(res);
+		}
+	}
+
+	@ParameterizedTest
+	@ArgumentsSource(GeneralTestParams.class)
+	public void testAreSimilarUninitialisedSingleObject(EObjectInitialiser initialiser) {
+		this.setResourceFileTestIdentifier("testAreSimilarUninitialisedSingleObject");
+
+		var obj1 = initialiser.instantiate();
+		var obj2 = initialiser.instantiate();
+
+		var res = this.areSimilar(List.of(obj1), List.of(obj2));
+
+		if (res != null) {
+			Assertions.assertTrue(res);
+		}
+	}
+
+	@ParameterizedTest
+	@ArgumentsSource(GeneralTestParams.class)
+	public void testAreSimilarUninitialisedMultipleObjects(EObjectInitialiser initialiser) {
+		this.setResourceFileTestIdentifier("testAreSimilarUninitialisedMultipleObjects");
+
+		var obj11 = initialiser.instantiate();
+		var obj12 = initialiser.instantiate();
+		var obj21 = initialiser.instantiate();
+		var obj22 = initialiser.instantiate();
+
+		var res = this.areSimilar(List.of(obj11, obj12), List.of(obj21, obj22));
+
+		if (res != null) {
+			Assertions.assertTrue(res);
+		}
+	}
+
 	/**
 	 * Checks if the same {@link EObject} instance is similar to itself.
 	 */
@@ -356,40 +403,40 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 
 		Assertions.assertTrue(this.areSimilar(resOne.getContents(), resTwo.getContents()));
 	}
-	
+
 	@Test
 	public void testIsSimilarOneNull() {
 		this.setResourceFileTestIdentifier("testIsSimilarOneNull");
-		
+
 		var initialiser = new ModuleInitialiser();
 		var obj = initialiser.instantiate();
-		
+
 		Assertions.assertFalse(this.isSimilar(null, obj));
 		Assertions.assertFalse(this.isSimilar(obj, null));
 	}
-	
+
 	@Test
 	public void testIsSimilarBothNull() {
 		this.setResourceFileTestIdentifier("testIsSimilarBothNull");
-		
+
 		Assertions.assertTrue(this.isSimilar(null, null));
 	}
-	
+
 	@Test
 	public void testAreSimilarOneNull() {
 		this.setResourceFileTestIdentifier("testAreSimilarOneNull");
-		
+
 		var initialiser = new ModuleInitialiser();
 		var obj = initialiser.instantiate();
-		
+
 		Assertions.assertFalse(this.areSimilar(null, List.of(obj)));
 		Assertions.assertFalse(this.areSimilar(List.of(obj), null));
 	}
-	
+
 	@Test
 	public void testAreSimilarBothNull() {
 		this.setResourceFileTestIdentifier("testAreSimilarBothNull");
-		
+
 		Assertions.assertTrue(this.areSimilar(null, null));
 	}
 }
