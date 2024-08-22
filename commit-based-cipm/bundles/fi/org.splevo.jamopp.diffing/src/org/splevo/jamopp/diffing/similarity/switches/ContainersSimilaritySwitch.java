@@ -56,21 +56,20 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean>
 		this.logMessage("caseCompilationUnit");
 
 		CompilationUnit unit2 = (CompilationUnit) this.getCompareElement();
-		this.logComparison(unit1.getName(), unit2.getName(), CompilationUnit.class.getSimpleName());
 
-		String name1 = this.normalizeCompilationUnit(unit1.getName());
-		name1 = this.normalizePackage(name1);
+		String name1 = Strings.nullToEmpty(unit1.getName());
+		name1 = Strings.nullToEmpty(this.normalizeCompilationUnit(name1));
+		name1 = Strings.nullToEmpty(this.normalizePackage(name1));
+
 		String name2 = Strings.nullToEmpty(unit2.getName());
 
-		this.logResult(name1.equals(name2), "compilation unit name");
 		if (!name1.equals(name2)) {
 			return Boolean.FALSE;
 		}
 
-		String namespaceString1 = this.normalizeNamespace(unit1.getNamespacesAsString());
+		String namespaceString1 = Strings.nullToEmpty(unit1.getNamespacesAsString());
 		String namespaceString2 = Strings.nullToEmpty(unit2.getNamespacesAsString());
-
-		this.logResult(namespaceString1.equals(namespaceString2), "compilation unit namespace");
+		namespaceString1 = Strings.nullToEmpty(this.normalizeNamespace(namespaceString1));
 
 		if (!namespaceString1.equals(namespaceString2)) {
 			return Boolean.FALSE;
@@ -94,15 +93,11 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean>
 		this.logMessage("casePackage");
 
 		Package package2 = (Package) this.getCompareElement();
-		this.logComparison(package1, package2, Package.class.getSimpleName());
 
 		String packagePath1 = Strings.nullToEmpty(JaMoPPModelUtil.buildNamespacePath(package1));
-		packagePath1 = this.normalizeNamespace(packagePath1);
-		packagePath1 = Strings.nullToEmpty(packagePath1);
-		String packagePath2 = Strings.nullToEmpty(JaMoPPModelUtil.buildNamespacePath(package2));
+		packagePath1 = Strings.nullToEmpty(this.normalizeNamespace(packagePath1));
 
-		this.logComparison(packagePath1, packagePath2, "package namespace");
-		this.logResult(packagePath1.equals(packagePath2), "package path");
+		String packagePath2 = Strings.nullToEmpty(JaMoPPModelUtil.buildNamespacePath(package2));
 
 		if (!packagePath1.equals(packagePath2)) {
 			return Boolean.FALSE;
@@ -131,7 +126,6 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean>
 		var name1 = Strings.nullToEmpty(module1.getName());
 		var name2 = Strings.nullToEmpty(module2.getName());
 
-		this.logResult(name1.equals(name2), org.emftext.language.java.containers.Module.class.getSimpleName());
 		if (!name1.equals(name2)) {
 			return Boolean.FALSE;
 		}
