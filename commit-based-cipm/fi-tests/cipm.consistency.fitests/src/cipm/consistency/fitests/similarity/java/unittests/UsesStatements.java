@@ -41,14 +41,14 @@ public interface UsesStatements extends UsesLiterals {
 		init.setName(res, lvName);
 		return this.createMinimalLVS(res);
 	}
-	
+
 	public default LocalVariableStatement createMinimalLVS(LocalVariable lv) {
 		var init = new LocalVariableStatementInitialiser();
 		var res = init.instantiate();
 		init.setVariable(res, lv);
 		return res;
 	}
-	
+
 	/**
 	 * @param jlName   The name of the instance to be constructed
 	 * @param targetSt The target statement of the instance to be constructed
