@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.members.MembersPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -18,32 +17,24 @@ import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
 
 /**
  * Tests whether {@link MemberContainer} implementors' similarity is computed as
- * expected, if they have different types, contain {@link Member} instances and
- * them having differing members breaks their similarity. <br>
- * <br>
+ * expected, if they contain different types of {@link Member} instances.
  * {@link Member} instances are added as members to {@link MemberContainer}s in
  * some tests and as default members in tests in others. <br>
  * <br>
- * Due to combinational explosion, all possible combinations of
- * {@link MemberContainer} and {@link Member} instances cannot be tested.
- * Therefore, tests are parameterised over all combinations of
- * {@link MemberContainer} implementors, while the type of {@link Member}
- * instance to be added to each side is the same. <br>
- * <br>
- * The difference between this test class and the
- * {@link cipm.consistency.fitests.similarity.java.unittests.interfacetests.MemberContainerTest}
- * is: This test class checks the similarity of different types of
- * {@link MemberContainer} instances too, while the latter only tests the
- * similarity of {@link MemberContainer} instances of the same type.
- * Additionally, the latter keeps {@link Member} instances' type constant within
- * each test. <br>
+ * There are differences between this test class and the
+ * {@link cipm.consistency.fitests.similarity.java.unittests.interfacetests.MemberContainerTest}.
+ * This test class checks the similarity of 2 {@link MemberContainer} instances
+ * of the same type but with varying {@link Member} instances. The latter only
+ * tests the similarity of {@link MemberContainer} instances of the same type
+ * with the same {@link Member} instances.<br>
  * <br>
  * <b>This test class is overshadowed by neither
  * {@link cipm.consistency.fitests.similarity.java.unittests.impltests} nor
  * {@link cipm.consistency.fitests.similarity.java.unittests.interfacetests},
  * because the type of the {@link MemberContainer} containing a certain
- * {@link Member} can influence the similarity checking result of both
- * {@link MemberContainer} instances and {@link Member} instances.</b>
+ * {@link Member} can indirectly influence the similarity checking result of
+ * both {@link MemberContainer} instances and {@link Member} instances (via
+ * qualified name differences for instance).</b>
  * 
  * @author atora
  */
@@ -65,12 +56,12 @@ public class MemberInContainerTest extends EObjectSimilarityTest {
 	private static Stream<Arguments> getMemConMemPairs() {
 		var res = new ArrayList<Arguments>();
 
-		for (var memInit : getAllMemberInitInstances()) {
-			for (var memConInit1 : getAllMemberContainerInitInstances()) {
-				for (var memConInit2 : getAllMemberContainerInitInstances()) {
-					var displayName = memConInit1.getClass().getSimpleName() + " - "
-							+ memConInit2.getClass().getSimpleName() + " with " + memInit.getClass().getSimpleName();
-					res.add(Arguments.of(displayName, memConInit1, memConInit2, memInit));
+		for (var memConInit : getAllMemberContainerInitInstances()) {
+			for (var memInit1 : getAllMemberInitInstances()) {
+				for (var memInit2 : getAllMemberInitInstances()) {
+					var displayName = memInit1.getClass().getSimpleName() + " - " + memInit2.getClass().getSimpleName()
+							+ " in " + memConInit.getClass().getSimpleName();
+					res.add(Arguments.of(displayName, memConInit, memInit1, memInit2));
 				}
 			}
 		}
@@ -79,147 +70,64 @@ public class MemberInContainerTest extends EObjectSimilarityTest {
 	}
 
 	/**
-	 * Tests whether 2 {@link MemberContainer} instances (can be of different or
-	 * same type) are considered to be similar, if a similar {@link Member} is added
-	 * to each as an ordinary member ({@code via memConInit.addMember(member)}).
+	 * Tests whether 2 {@link MemberContainer} instances of the same type are
+	 * considered to be similar, if certain {@link Member} instances are added to
+	 * each as ordinary members ({@code via memConInit.addMember(member)}).
 	 */
 	@ParameterizedTest(name = "{0}")
 	@MethodSource("getMemConMemPairs")
-	public void testSimilarMembersInContainers(String displayName, IMemberContainerInitialiser memConInit1,
-			IMemberContainerInitialiser memConInit2, IMemberInitialiser memInit) {
-		this.setResourceFileTestIdentifier("testSimilarMembersInContainers");
+	public void testMembersInContainers(String displayName, IMemberContainerInitialiser memConInit,
+			IMemberInitialiser memInit1, IMemberInitialiser memInit2) {
+		this.setResourceFileTestIdentifier("testMembersInContainers");
 
-		var mem1 = memInit.instantiate();
-		var mem2 = memInit.instantiate();
+		var mem1 = memInit1.instantiate();
+		var mem2 = memInit2.instantiate();
 
-		// Perform the assertion for members here, because adding them to member
-		// containers can change their similarity
-		this.assertSimilarityResult(mem1, mem2, true);
+		var memCon1 = memConInit.instantiate();
+		Assertions.assertTrue(memConInit.initialise(memCon1));
+		var memCon2 = memConInit.instantiate();
+		Assertions.assertTrue(memConInit.initialise(memCon2));
 
-		var memCon1 = memConInit1.instantiate();
-		Assertions.assertTrue(memConInit1.initialise(memCon1));
-		Assertions.assertTrue(memConInit1.addMember(memCon1, mem1));
+		this.assertSimilarityResult(memCon1, memCon2, true);
 
-		var memCon2 = memConInit2.instantiate();
-		Assertions.assertTrue(memConInit2.initialise(memCon2));
-		Assertions.assertTrue(memConInit2.addMember(memCon2, mem2));
+		Assertions.assertTrue(memConInit.addMember(memCon1, mem1));
+		Assertions.assertTrue(memConInit.addMember(memCon2, mem2));
 
-		var expectedResult = memCon1.getClass().equals(memCon2.getClass());
-
-		this.assertSimilarityResult(memCon1, memCon2, expectedResult);
-	}
-
-	/**
-	 * Tests whether 2 {@link MemberContainer} instances (can be of different or
-	 * same type) are considered to be similar, if a different {@link Member} is
-	 * added to each as an ordinary member
-	 * ({@code via memConInit.addMember(member)}).
-	 */
-	@ParameterizedTest(name = "{0}")
-	@MethodSource("getMemConMemPairs")
-	public void testDifferentMembersInContainers(String displayName, IMemberContainerInitialiser memConInit1,
-			IMemberContainerInitialiser memConInit2, IMemberInitialiser memInit) {
-		this.setResourceFileTestIdentifier("testDifferentMembersInContainers");
-
-		// All relevant members' similarity is broken by name differences
-		var mem1 = memInit.instantiate();
-		Assertions.assertTrue(memInit.setName(mem1, "mem1"));
-		var mem2 = memInit.instantiate();
-		Assertions.assertTrue(memInit.setName(mem2, "mem2"));
-
-		// Perform the assertion for members here, because adding them to member
-		// containers can change their similarity
-		this.assertSimilarityResult(mem1, mem2,
-				this.getExpectedSimilarityResult(mem1.getClass(), CommonsPackage.Literals.NAMED_ELEMENT__NAME) && this
-						.getExpectedSimilarityResult(mem2.getClass(), CommonsPackage.Literals.NAMED_ELEMENT__NAME));
-
-		var memCon1 = memConInit1.instantiate();
-		Assertions.assertTrue(memConInit1.initialise(memCon1));
-		Assertions.assertTrue(memConInit1.addMember(memCon1, mem1));
-
-		var memCon2 = memConInit2.instantiate();
-		Assertions.assertTrue(memConInit2.initialise(memCon2));
-		Assertions.assertTrue(memConInit2.addMember(memCon2, mem2));
-
-		var expectedResult = memCon1.getClass().equals(memCon2.getClass())
-				&& this.getExpectedSimilarityResult(memCon1.getClass(),
+		this.assertSimilarityResult(memCon1, memCon2,
+				mem1.getClass().equals(mem2.getClass()) || (this.getExpectedSimilarityResult(memCon1.getClass(),
 						MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS)
-				&& this.getExpectedSimilarityResult(memCon2.getClass(),
-						MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
-
-		this.assertSimilarityResult(memCon1, memCon2, expectedResult);
+						&& this.getExpectedSimilarityResult(memCon2.getClass(),
+								MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS)));
 	}
 
 	/**
-	 * Tests whether 2 {@link MemberContainer} instances (can be of different or
-	 * same type) are considered to be similar, if a similar {@link Member} is added
-	 * to each as a default member
-	 * ({@code via memConInit.addDefaultMember(member)}).
+	 * Tests whether 2 {@link MemberContainer} instances of the same type are
+	 * considered to be similar, if certain {@link Member} instances are added to
+	 * each as default members ({@code via memConInit.addDefaultMember(member)}).
 	 */
 	@ParameterizedTest(name = "{0}")
 	@MethodSource("getMemConMemPairs")
-	public void testSimilarDefaultMembersInContainers(String displayName, IMemberContainerInitialiser memConInit1,
-			IMemberContainerInitialiser memConInit2, IMemberInitialiser memInit) {
-		this.setResourceFileTestIdentifier("testSimilarDefaultMembersInContainers");
+	public void testDefaultMembersInContainers(String displayName, IMemberContainerInitialiser memConInit,
+			IMemberInitialiser memInit1, IMemberInitialiser memInit2) {
+		this.setResourceFileTestIdentifier("testDefaultMembersInContainers");
 
-		var mem1 = memInit.instantiate();
-		var mem2 = memInit.instantiate();
+		var mem1 = memInit1.instantiate();
+		var mem2 = memInit2.instantiate();
 
-		// Perform the assertion for members here, because adding them to member
-		// containers can change their similarity
-		this.assertSimilarityResult(mem1, mem2, true);
+		var memCon1 = memConInit.instantiate();
+		Assertions.assertTrue(memConInit.initialise(memCon1));
+		var memCon2 = memConInit.instantiate();
+		Assertions.assertTrue(memConInit.initialise(memCon2));
 
-		var memCon1 = memConInit1.instantiate();
-		Assertions.assertTrue(memConInit1.initialise(memCon1));
-		Assertions.assertTrue(memConInit1.addDefaultMember(memCon1, mem1));
+		this.assertSimilarityResult(memCon1, memCon2, true);
 
-		var memCon2 = memConInit2.instantiate();
-		Assertions.assertTrue(memConInit2.initialise(memCon2));
-		Assertions.assertTrue(memConInit2.addDefaultMember(memCon2, mem2));
+		Assertions.assertTrue(memConInit.addDefaultMember(memCon1, mem1));
+		Assertions.assertTrue(memConInit.addDefaultMember(memCon2, mem2));
 
-		var expectedResult = memCon1.getClass().equals(memCon2.getClass());
-
-		this.assertSimilarityResult(memCon1, memCon2, expectedResult);
-	}
-
-	/**
-	 * Tests whether 2 {@link MemberContainer} instances (can be of different or
-	 * same type) are considered to be similar, if a different {@link Member} is
-	 * added to each as a default member
-	 * ({@code via memConInit.addDefaultMember(member)}).
-	 */
-	@ParameterizedTest(name = "{0}")
-	@MethodSource("getMemConMemPairs")
-	public void testDifferentDefaultMembersInContainers(String displayName, IMemberContainerInitialiser memConInit1,
-			IMemberContainerInitialiser memConInit2, IMemberInitialiser memInit) {
-		this.setResourceFileTestIdentifier("testDifferentDefaultMembersInContainers");
-
-		// All relevant members' similarity is broken by name differences
-		var mem1 = memInit.instantiate();
-		Assertions.assertTrue(memInit.setName(mem1, "mem1"));
-		var mem2 = memInit.instantiate();
-		Assertions.assertTrue(memInit.setName(mem2, "mem2"));
-
-		// Perform the assertion for members here, because adding them to member
-		// containers can change their similarity
-		this.assertSimilarityResult(mem1, mem2,
-				this.getExpectedSimilarityResult(mem1.getClass(), CommonsPackage.Literals.NAMED_ELEMENT__NAME) && this
-						.getExpectedSimilarityResult(mem2.getClass(), CommonsPackage.Literals.NAMED_ELEMENT__NAME));
-
-		var memCon1 = memConInit1.instantiate();
-		Assertions.assertTrue(memConInit1.initialise(memCon1));
-		Assertions.assertTrue(memConInit1.addDefaultMember(memCon1, mem1));
-
-		var memCon2 = memConInit2.instantiate();
-		Assertions.assertTrue(memConInit2.initialise(memCon2));
-		Assertions.assertTrue(memConInit2.addDefaultMember(memCon2, mem2));
-
-		var expectedResult = memCon1.getClass().equals(memCon2.getClass())
-				&& this.getExpectedSimilarityResult(memCon1.getClass(),
+		this.assertSimilarityResult(memCon1, memCon2,
+				mem1.getClass().equals(mem2.getClass()) || (this.getExpectedSimilarityResult(memCon1.getClass(),
 						MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS)
-				&& this.getExpectedSimilarityResult(memCon2.getClass(),
-						MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
-
-		this.assertSimilarityResult(memCon1, memCon2, expectedResult);
+						&& this.getExpectedSimilarityResult(memCon2.getClass(),
+								MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS)));
 	}
 }
