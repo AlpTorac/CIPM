@@ -4,13 +4,17 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.Assert;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.JumpLabel;
+import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.variables.LocalVariable;
 
 import cipm.consistency.fitests.similarity.java.initialiser.statements.AssertInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.BlockInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.JumpLabelInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.statements.LocalVariableStatementInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.ReturnInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.variables.LocalVariableInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with
@@ -31,6 +35,20 @@ public interface UsesStatements extends UsesLiterals {
 		return result;
 	}
 
+	public default LocalVariableStatement createMinimalLVS(String lvName) {
+		var init = new LocalVariableInitialiser();
+		var res = init.instantiate();
+		init.setName(res, lvName);
+		return this.createMinimalLVS(res);
+	}
+	
+	public default LocalVariableStatement createMinimalLVS(LocalVariable lv) {
+		var init = new LocalVariableStatementInitialiser();
+		var res = init.instantiate();
+		init.setVariable(res, lv);
+		return res;
+	}
+	
 	/**
 	 * @param jlName   The name of the instance to be constructed
 	 * @param targetSt The target statement of the instance to be constructed
