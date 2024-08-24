@@ -9,11 +9,13 @@ import cipm.consistency.fitests.similarity.java.initialiser.classifiers.IConcret
 import cipm.consistency.fitests.similarity.java.initialiser.commons.INamedElementInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.containers.CompilationUnitInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.initadapters.BlockContainerInitialiserAdapter;
+import cipm.consistency.fitests.similarity.java.initialiser.initadapters.ClassMethodInitialiserAdapter;
 import cipm.consistency.fitests.similarity.java.initialiser.initadapters.ConcreteClassifierInitialiserAdapter;
 import cipm.consistency.fitests.similarity.java.initialiser.initadapters.MemberInitialiserAdapter;
 import cipm.consistency.fitests.similarity.java.initialiser.initadapters.NamedElementInitialiserAdapter;
 import cipm.consistency.fitests.similarity.java.initialiser.initadapters.NewConstructorCallInitialiserAdapter;
 import cipm.consistency.fitests.similarity.java.initialiser.instantiations.INewConstructorCallInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.members.IClassMethodInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.members.IMemberInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.BlockInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.IBlockContainerInitialiser;
@@ -49,6 +51,9 @@ public class InitialiserParameterAdaptationStrategy implements IInitialiserParam
 					if (INewConstructorCallInitialiser.class.isAssignableFrom(i.getClass())) {
 						i.addAdaptingInitialiser(new NewConstructorCallInitialiserAdapter(
 								new ClassifierReferenceInitialiser(), new ClassInitialiser()));
+					}
+					if (IClassMethodInitialiser.class.isAssignableFrom(i.getClass())) {
+						i.addAdaptingInitialiser(new ClassMethodInitialiserAdapter(new BlockInitialiser()));
 					}
 				});
 	}
