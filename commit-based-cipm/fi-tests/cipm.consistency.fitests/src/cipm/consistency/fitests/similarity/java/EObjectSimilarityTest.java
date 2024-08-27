@@ -5,12 +5,12 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 
+import cipm.consistency.fitests.similarity.java.action.EMFTextUtil;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
 import cipm.consistency.fitests.similarity.java.params.InitialiserTestSettingsProvider;
@@ -33,9 +33,13 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	 */
 	private IInitialiser currentInit = null;
 
+	private InitialiserTestSettingsProvider itspInstance;
+	private EMFTextUtil emfTextUtilInstance;
+	
 	@BeforeAll
 	public static void setUpBeforeClass() {
 		InitialiserTestSettingsProvider.initialise();
+		EMFTextUtil.initialise();
 	}
 
 	@BeforeEach
@@ -43,6 +47,9 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	public void setUp() {
 		super.setUp();
 
+		this.itspInstance = InitialiserTestSettingsProvider.getInstance();
+		this.emfTextUtilInstance = EMFTextUtil.getInstance();
+		
 		this.setupInitialiserTestSettingsProvider();
 	}
 
@@ -54,19 +61,64 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 		this.resetInitialiserTestSettingsProvider();
 	}
 
+	protected InitialiserTestSettingsProvider getInitialiserTestSettingsProvider() {
+		return this.itspInstance;
+	}
+	
+	protected EMFTextUtil getEMFTextUtil() {
+		return this.emfTextUtilInstance;
+	}
+	
+	/**
+	 * @see {@link EMFTextUtil#cloneEObj(EObject)}
+	 */
+	public <T extends EObject> T cloneEObj(T obj) {
+		return this.getEMFTextUtil().cloneEObj(obj);
+	}
+
+	/**
+	 * @see {@link EMFTextUtil#cloneEObjWithContainers(EObject)}
+	 */
+	public <T extends EObject> T cloneEObjWithContainers(T obj) {
+		return this.getEMFTextUtil().cloneEObjWithContainers(obj);
+	}
+
+	/**
+	 * @see {@link EMFTextUtil#cloneEObjList(Collection)}
+	 */
+	public <T extends EObject> Collection<T> cloneEObjList(Collection<T> objs) {
+		return this.getEMFTextUtil().cloneEObjList(objs);
+	}
+	
+	/**
+	 * @see {@link EMFTextUtil#getActualEquality(EObject, EObject)}
+	 */
+	public boolean getActualEquality(EObject elem1, EObject elem2) {
+		return this.getEMFTextUtil().getActualEquality(elem1, elem2);
+	}
+
+	/**
+	 * @see {@link EMFTextUtil#getActualEquality(List, List)}
+	 */
+	public boolean getActualEquality(List<? extends EObject> elems1, List<? extends EObject> elems2) {
+		return this.getEMFTextUtil().getActualEquality(elems1, elems2);
+	}
+	
+	
+	
 	/**
 	 * Prepares {@link InitialiserTestSettingsProvider} for individual tests.
 	 */
 	protected void setupInitialiserTestSettingsProvider() {
-		InitialiserTestSettingsProvider.getInstance().setParameters(new InitialiserParameters());
-		InitialiserTestSettingsProvider.getInstance().setSimilarityValues(new SimilarityValues());
+		this.getInitialiserTestSettingsProvider().setParameters(new InitialiserParameters());
+		this.getInitialiserTestSettingsProvider().setSimilarityValues(new SimilarityValues());
 	}
 
 	/**
 	 * Resets {@link InitialiserTestSettingsProvider} after individual tests.
 	 */
 	protected void resetInitialiserTestSettingsProvider() {
-		InitialiserTestSettingsProvider.getInstance().reset();
+		this.getInitialiserTestSettingsProvider().reset();
 	}
 
 	/**
@@ -115,90 +167,6 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	public Boolean getExpectedSimilarityResult(Class<? extends EObject> objCls, EStructuralFeature attrKey) {
 		return InitialiserTestSettingsProvider.getInstance().getSimilarityValues().getExpectedSimilarityResult(objCls,
 				attrKey);
-	}
-
-	/**
-	 * Creates a clone copy of the given obj and its contents. <br>
-	 * <br>
-	 * <b>Note: DOES NOT clone the container {@code obj.eContainer()} of this
-	 * object. Only copies the given object and the contents nested in it.</b>
-	 * 
-	 * @return A clone of obj without its container and clones of its contents.
-	 * @see {@link EcoreUtil#copy(EObject)}
-	 */
-	public <T extends EObject> T cloneEObj(T obj) {
-		return EcoreUtil.copy(obj);
-	}
-
-	/**
-	 * Finds the topmost EObject (objTop) that can be reached from obj, clones
-	 * objTop, finds the clone of obj among the contents of objTop and returns that
-	 * clone.
-	 * 
-	 * @return A clone of obj, which preserves obj's place in its hierarchy. The
-	 *         returned clone contains clones of obj's contents and is contained by
-	 *         clones of all containers of obj.
-	 * @see {@link EcoreUtil#copy(EObject)}
-	 */
-	@SuppressWarnings("unchecked")
-	public <T extends EObject> T cloneEObjWithContainers(T obj) {
-		if (obj.eContainer() == null) {
-			return this.cloneEObj(obj);
-		}
-
-		EObject cObj = obj;
-
-		while (cObj.eContainer() != null) {
-			cObj = cObj.eContainer();
-		}
-
-		EObject clone = this.cloneEObj(cObj);
-		var contents = clone.eAllContents();
-
-		while (contents.hasNext()) {
-			var cCloneObj = contents.next();
-			if (this.getActualEquality(obj, cCloneObj)) {
-				return (T) cCloneObj;
-			}
-		}
-
-		Assertions.fail("Cloning unsuccessful");
-		return null;
-	}
-
-	/**
-	 * Creates a clone copy of all given objs.
-	 * 
-	 * @see {@link EcoreUtil#copyAll(Collection)}
-	 */
-	public <T extends EObject> Collection<T> cloneEObjList(Collection<T> objs) {
-		return EcoreUtil.copyAll(objs);
-	}
-
-	/**
-	 * Computes the equality of two {@link EObject} instances using
-	 * {@link EcoreUtil}. <br>
-	 * <br>
-	 * <b>Note: The equality here is not the same as similarity checking that is
-	 * being tested. This form of equality is much stricter than similarity, since
-	 * there might be some attributes and/or nested classes, which are irrelevant
-	 * for similarity in certain cases.</b>
-	 */
-	public boolean getActualEquality(EObject elem1, EObject elem2) {
-		return EcoreUtil.equals(elem1, elem2);
-	}
-
-	/**
-	 * Computes the equality of two lists of {@link EObject} using
-	 * {@link EcoreUtil}. <br>
-	 * <br>
-	 * <b>Note: The equality here is not the same as similarity checking that is
-	 * being tested. This form of equality is much stricter than similarity, since
-	 * there might be some attributes and/or nested classes, which are irrelevant
-	 * for similarity in certain cases.</b>
-	 */
-	public boolean getActualEquality(List<? extends EObject> elems1, List<? extends EObject> elems2) {
-		return EcoreUtil.equals(elems1, elems2);
 	}
 
 	/**
