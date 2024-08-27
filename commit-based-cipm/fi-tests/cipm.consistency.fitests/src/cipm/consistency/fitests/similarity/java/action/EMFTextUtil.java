@@ -116,8 +116,9 @@ public class EMFTextUtil {
 		return EcoreUtil.equals(elems1, elems2);
 	}
 
-	public void addContentToResource(Resource res, EObject obj) {
+	public boolean addContentToResource(Resource res, EObject obj) {
 		res.getContents().add(obj);
+		return this.hasDirectContent(res, obj);
 	}
 
 	public void iterateAllContents(Resource res, Consumer<EObject> consumer) {
