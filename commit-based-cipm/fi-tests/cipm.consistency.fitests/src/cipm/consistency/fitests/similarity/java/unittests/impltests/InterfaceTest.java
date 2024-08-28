@@ -30,6 +30,17 @@ public class InterfaceTest extends EObjectSimilarityTest implements UsesTypeRefe
 	}
 
 	@Test
+	public void testDefaultExtendsSize() {
+		this.setResourceFileTestIdentifier("testDefaultExtends");
+
+		var objOne = this.initElement(
+				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") }, null);
+		var objTwo = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null);
+
+		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.INTERFACE__DEFAULT_EXTENDS);
+	}
+
+	@Test
 	public void testDefaultExtendsNullCheck() {
 		this.setResourceFileTestIdentifier("testDefaultExtendsNullCheck");
 
@@ -45,6 +56,17 @@ public class InterfaceTest extends EObjectSimilarityTest implements UsesTypeRefe
 
 		var objOne = this.initElement(null, new TypeReference[] { this.createMinimalClsRef("cls1") });
 		var objTwo = this.initElement(null, new TypeReference[] { this.createMinimalClsRef("cls2") });
+
+		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.INTERFACE__EXTENDS);
+	}
+
+	@Test
+	public void testExtendsSize() {
+		this.setResourceFileTestIdentifier("testExtendsSize");
+
+		var objOne = this.initElement(null,
+				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
+		var objTwo = this.initElement(null, new TypeReference[] { this.createMinimalClsRef("cls1") });
 
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.INTERFACE__EXTENDS);
 	}

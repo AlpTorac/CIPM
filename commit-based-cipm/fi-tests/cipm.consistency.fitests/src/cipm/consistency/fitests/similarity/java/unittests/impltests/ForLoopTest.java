@@ -51,6 +51,17 @@ public class ForLoopTest extends EObjectSimilarityTest implements UsesExpression
 	}
 
 	@Test
+	public void testUpdateSize() {
+		this.setResourceFileTestIdentifier("testUpdateSize");
+
+		var objOne = this.initElement(null,
+				new Expression[] { this.createMinimalFalseEE(), this.createMinimalFalseEE() });
+		var objTwo = this.initElement(null, new Expression[] { this.createMinimalFalseEE() });
+
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.FOR_LOOP__UPDATES);
+	}
+
+	@Test
 	public void testUpdateNullCheck() {
 		this.setResourceFileTestIdentifier("testUpdateNullCheck");
 

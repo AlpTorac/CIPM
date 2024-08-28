@@ -31,6 +31,16 @@ public class SwitchTest extends EObjectSimilarityTest implements UsesSwitchCases
 	}
 
 	@Test
+	public void testCaseSize() {
+		this.setResourceFileTestIdentifier("testCaseSize");
+
+		var objOne = this.initElement(new SwitchCase[] { this.createEmptyNSC(), this.createEmptyNSC() }, null);
+		var objTwo = this.initElement(new SwitchCase[] { this.createEmptyNSC() }, null);
+
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SWITCH__CASES);
+	}
+
+	@Test
 	public void testCaseNullCheck() {
 		this.setResourceFileTestIdentifier("testCaseNullCheck");
 

@@ -40,6 +40,16 @@ public class CastExpressionTest extends EObjectSimilarityTest implements UsesExp
 	}
 
 	@Test
+	public void testAdditionalBoundSize() {
+		this.setResourceFileTestIdentifier("testAdditionalBoundSize");
+
+		this.testSimilarity(this.initElement(
+				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") }, null, null),
+				this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null, null),
+				ExpressionsPackage.Literals.CAST_EXPRESSION__ADDITIONAL_BOUNDS);
+	}
+
+	@Test
 	public void testAdditionalBoundNullCheck() {
 		this.setResourceFileTestIdentifier("testAdditionalBoundNullCheck");
 

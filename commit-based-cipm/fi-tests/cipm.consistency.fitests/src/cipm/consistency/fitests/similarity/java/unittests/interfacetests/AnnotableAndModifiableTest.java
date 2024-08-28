@@ -45,6 +45,20 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 
 	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
+	public void testModifierSize(IAnnotableAndModifiableInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testModifierSize");
+
+		var objOne = this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null,
+				null);
+		var objTwo = this.initElement(init, new Modifier[] { this.createAbstract() }, null, null);
+
+		this.testSimilarity(objOne, objTwo,
+				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
+	}
+
+	@ParameterizedTest()
+	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testModifierNullCheck(IAnnotableAndModifiableInitialiser init) {
 		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testModifierNullCheck");
@@ -68,6 +82,23 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") }, null);
 		var objTwo = this.initElement(init, null,
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns2" }, "anno2") }, null);
+
+		this.testSimilarity(objOne, objTwo,
+				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
+	}
+
+	@ParameterizedTest()
+	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
+	public void testAnnotationInstanceSize(IAnnotableAndModifiableInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testAnnotationInstanceSize");
+
+		var objOne = this.initElement(init, null,
+				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") }, null);
+		var objTwo = this.initElement(init, null,
+				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1"),
+						this.createMinimalAI(new String[] { "ns2" }, "anno2") },
+				null);
 
 		this.testSimilarity(objOne, objTwo,
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);

@@ -50,6 +50,21 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 
 	@ParameterizedTest
 	@ArgumentsSource(ClassifierTestParams.class)
+	public void testImportsSize(IClassifierInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testImportsSize");
+
+		var objOne = this.initElement(init,
+				new Import[] { this.createMinimalClsImport("cls1"), this.createMinimalClsImport("cls2") }, null);
+		var objTwo = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }, null);
+
+		this.testSimilarity(objOne, objTwo, CompilationUnit.class,
+				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
+						|| (!init.canAddImports(objOne) && !init.canAddImports(objTwo)));
+	}
+
+	@ParameterizedTest
+	@ArgumentsSource(ClassifierTestParams.class)
 	public void testImportsNullCheck(IClassifierInitialiser init) {
 		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testImportsNullCheck");
@@ -76,6 +91,23 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }) });
 		var objTwo = this.initElement(init, null,
 				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns3", "ns4" }) });
+
+		this.testSimilarity(objOne, objTwo, CompilationUnit.class,
+				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
+						|| (!init.canAddImports(objOne) && !init.canAddImports(objTwo)));
+	}
+
+	@ParameterizedTest
+	@ArgumentsSource(ClassifierTestParams.class)
+	public void testPackageImportsSize(IClassifierInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testPackageImportsSize");
+
+		var objOne = this.initElement(init, null,
+				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }),
+						this.createMinimalPackageImport(new String[] { "ns3", "ns4" }) });
+		var objTwo = this.initElement(init, null,
+				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }) });
 
 		this.testSimilarity(objOne, objTwo, CompilationUnit.class,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()

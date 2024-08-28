@@ -40,19 +40,6 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 		this.testSimilarity(objOne, objTwo, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
 	}
 
-	@ParameterizedTest
-	@ArgumentsSource(NamespaceAwareElementTestParams.class)
-	public void testNamespaceNullCheck(INamespaceAwareElementInitialiser init) {
-		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testNamespaceNullCheck");
-
-		var objOne = this.initElement(init, nss1);
-		var objTwo = init.instantiate();
-		Assertions.assertTrue(init.initialise(objTwo));
-
-		this.testSimilarity(objOne, objTwo, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
-	}
-
 	/**
 	 * Tests whether longer namespaces with the same prefix are different.
 	 */
@@ -75,4 +62,18 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 			this.testSimilarity(objOne, objTwo, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
 		}
 	}
+
+	@ParameterizedTest
+	@ArgumentsSource(NamespaceAwareElementTestParams.class)
+	public void testNamespaceNullCheck(INamespaceAwareElementInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testNamespaceNullCheck");
+
+		var objOne = this.initElement(init, nss1);
+		var objTwo = init.instantiate();
+		Assertions.assertTrue(init.initialise(objTwo));
+
+		this.testSimilarity(objOne, objTwo, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
+	}
+
 }

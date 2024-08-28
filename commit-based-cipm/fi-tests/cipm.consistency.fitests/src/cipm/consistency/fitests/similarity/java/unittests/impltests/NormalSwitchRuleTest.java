@@ -29,6 +29,16 @@ public class NormalSwitchRuleTest extends EObjectSimilarityTest implements UsesE
 	}
 
 	@Test
+	public void testAdditionalConditionSize() {
+		this.setResourceFileTestIdentifier("testAdditionalConditionSize");
+
+		var objOne = this.initElement(new Expression[] { this.createMinimalFalseEE(), this.createMinimalFalseEE() });
+		var objTwo = this.initElement(new Expression[] { this.createMinimalFalseEE() });
+
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.NORMAL_SWITCH_RULE__ADDITIONAL_CONDITIONS);
+	}
+
+	@Test
 	public void testAdditionalConditionNullCheck() {
 		this.setResourceFileTestIdentifier("testAdditionalConditionNullCheck");
 

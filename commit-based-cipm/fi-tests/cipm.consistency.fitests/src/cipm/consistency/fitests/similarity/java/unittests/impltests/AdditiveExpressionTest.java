@@ -31,6 +31,17 @@ public class AdditiveExpressionTest extends EObjectSimilarityTest implements Use
 	}
 
 	@Test
+	public void testChildSize() {
+		this.setResourceFileTestIdentifier("testChildSize");
+
+		this.testSimilarity(
+				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(1),
+						this.createDecimalIntegerLiteral(1) }, null),
+				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
+				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__CHILDREN);
+	}
+
+	@Test
 	public void testChildNullCheck() {
 		this.setResourceFileTestIdentifier("testChildNullCheck");
 
@@ -46,6 +57,17 @@ public class AdditiveExpressionTest extends EObjectSimilarityTest implements Use
 
 		this.testSimilarity(this.initElement(null, new AdditiveOperator[] { this.createAdditionOperator() }),
 				this.initElement(null, new AdditiveOperator[] { this.createSubtractionOperator() }),
+				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__ADDITIVE_OPERATORS);
+	}
+
+	@Test
+	public void testAdditiveOperatorSize() {
+		this.setResourceFileTestIdentifier("testAdditiveOperatorSize");
+
+		this.testSimilarity(
+				this.initElement(null,
+						new AdditiveOperator[] { this.createAdditionOperator(), this.createAdditionOperator() }),
+				this.initElement(null, new AdditiveOperator[] { this.createAdditionOperator() }),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__ADDITIVE_OPERATORS);
 	}
 

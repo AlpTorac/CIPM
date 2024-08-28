@@ -36,6 +36,19 @@ public class ArgumentableTest extends EObjectSimilarityTest
 
 	@ParameterizedTest
 	@ArgumentsSource(ArgumentableTestParams.class)
+	public void testArgumentsSize(IArgumentableInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testArgumentsSize");
+
+		var objOne = this.initElement(init,
+				new Expression[] { this.createDecimalIntegerLiteral(1), this.createDecimalIntegerLiteral(1) });
+		var objTwo = this.initElement(init, new Expression[] { this.createDecimalIntegerLiteral(1) });
+
+		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS);
+	}
+
+	@ParameterizedTest
+	@ArgumentsSource(ArgumentableTestParams.class)
 	public void testArgumentsNullCheck(IArgumentableInitialiser init) {
 		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testArgumentsNullCheck");

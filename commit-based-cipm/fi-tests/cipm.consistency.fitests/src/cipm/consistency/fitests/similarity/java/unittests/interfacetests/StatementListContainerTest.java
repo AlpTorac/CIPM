@@ -44,6 +44,21 @@ public class StatementListContainerTest extends EObjectSimilarityTest implements
 
 	@ParameterizedTest
 	@ArgumentsSource(StatementListContainerTestParams.class)
+	public void testStatementsSize(IStatementListContainerInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testStatementsSize");
+
+		var objOne = this.initElement(init,
+				new Statement[] { this.createMinimalTrivialAssert(), this.createMinimalNullReturn() });
+		var objTwo = this.initElement(init, new Statement[] { this.createMinimalTrivialAssert() });
+
+		this.testSimilarity(objOne, objTwo,
+				this.getExpectedSimilarityResult(StatementsPackage.Literals.BLOCK__STATEMENTS).booleanValue()
+						|| (!init.canContainStatements(objOne) && !init.canContainStatements(objTwo)));
+	}
+
+	@ParameterizedTest
+	@ArgumentsSource(StatementListContainerTestParams.class)
 	public void testStatementsNullCheck(IStatementListContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testStatementsNullCheck");

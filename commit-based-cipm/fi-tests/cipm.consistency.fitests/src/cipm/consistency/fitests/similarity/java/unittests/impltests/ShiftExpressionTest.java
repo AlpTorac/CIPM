@@ -30,6 +30,17 @@ public class ShiftExpressionTest extends EObjectSimilarityTest implements UsesEx
 	}
 
 	@Test
+	public void testChildSize() {
+		this.setResourceFileTestIdentifier("testChildSize");
+
+		this.testSimilarity(
+				this.initElement(new ShiftExpressionChild[] { this.createDecimalIntegerLiteral(1),
+						this.createDecimalIntegerLiteral(1) }, null),
+				this.initElement(new ShiftExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
+				ExpressionsPackage.Literals.SHIFT_EXPRESSION__CHILDREN);
+	}
+
+	@Test
 	public void testChildNullCheck() {
 		this.setResourceFileTestIdentifier("testChildNullCheck");
 
@@ -43,6 +54,17 @@ public class ShiftExpressionTest extends EObjectSimilarityTest implements UsesEx
 
 		this.testSimilarity(this.initElement(null, new ShiftOperator[] { this.createLeftShiftOperator() }),
 				this.initElement(null, new ShiftOperator[] { this.createRightShiftOperator() }),
+				ExpressionsPackage.Literals.SHIFT_EXPRESSION__SHIFT_OPERATORS);
+	}
+
+	@Test
+	public void testShiftOperatorSize() {
+		this.setResourceFileTestIdentifier("testShiftOperatorSize");
+
+		this.testSimilarity(
+				this.initElement(null,
+						new ShiftOperator[] { this.createLeftShiftOperator(), this.createLeftShiftOperator() }),
+				this.initElement(null, new ShiftOperator[] { this.createLeftShiftOperator() }),
 				ExpressionsPackage.Literals.SHIFT_EXPRESSION__SHIFT_OPERATORS);
 	}
 

@@ -60,6 +60,17 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 	}
 
 	@Test
+	public void testPackagesSize() {
+		this.setResourceFileTestIdentifier("testPackagesSize");
+
+		var objOne = this.initElement(new Package[] { this.createMinimalPackage(new String[] { "ns1" }),
+				this.createMinimalPackage(new String[] { "ns2" }) }, null, false);
+		var objTwo = this.initElement(new Package[] { this.createMinimalPackage(new String[] { "ns1" }) }, null, false);
+
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__PACKAGES);
+	}
+
+	@Test
 	public void testPackagesNullCheck() {
 		this.setResourceFileTestIdentifier("testPackagesNullCheck");
 
@@ -76,6 +87,18 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 		var objOne = this.initElement(null, new ModuleDirective[] { this.createMinimalEMD(new String[] { "ns1" }) },
 				false);
 		var objTwo = this.initElement(null, new ModuleDirective[] { this.createMinimalOMD(new String[] { "ns1" }) },
+				false);
+
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__TARGET);
+	}
+
+	@Test
+	public void testTargetsSize() {
+		this.setResourceFileTestIdentifier("testTargetsSize");
+
+		var objOne = this.initElement(null, new ModuleDirective[] { this.createMinimalEMD(new String[] { "ns1" }),
+				this.createMinimalEMD(new String[] { "ns2" }) }, false);
+		var objTwo = this.initElement(null, new ModuleDirective[] { this.createMinimalEMD(new String[] { "ns1" }) },
 				false);
 
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__TARGET);

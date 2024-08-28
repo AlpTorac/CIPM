@@ -28,6 +28,16 @@ public class AndExpressionTest extends EObjectSimilarityTest implements UsesExpr
 	}
 
 	@Test
+	public void testChildSize() {
+		this.setResourceFileTestIdentifier("testChildSize");
+
+		this.testSimilarity(this.initElement(
+				new AndExpressionChild[] { this.createDecimalIntegerLiteral(1), this.createDecimalIntegerLiteral(1) }),
+				this.initElement(new AndExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
+				ExpressionsPackage.Literals.AND_EXPRESSION__CHILDREN);
+	}
+
+	@Test
 	public void testChildNullCheck() {
 		this.setResourceFileTestIdentifier("testChildNullCheck");
 

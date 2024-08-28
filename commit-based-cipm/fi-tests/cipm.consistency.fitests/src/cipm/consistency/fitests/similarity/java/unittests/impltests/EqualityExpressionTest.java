@@ -31,6 +31,17 @@ public class EqualityExpressionTest extends EObjectSimilarityTest implements Use
 	}
 
 	@Test
+	public void testChildSize() {
+		this.setResourceFileTestIdentifier("testChildSize");
+
+		this.testSimilarity(
+				this.initElement(new EqualityExpressionChild[] { this.createDecimalIntegerLiteral(1),
+						this.createDecimalIntegerLiteral(1) }, null),
+				this.initElement(new EqualityExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
+				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__CHILDREN);
+	}
+
+	@Test
 	public void testChildNullCheck() {
 		this.setResourceFileTestIdentifier("testChildNullCheck");
 

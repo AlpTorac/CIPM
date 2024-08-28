@@ -47,6 +47,17 @@ public class UnaryExpressionTest extends EObjectSimilarityTest implements UsesEx
 	}
 
 	@Test
+	public void testOperatorSize() {
+		this.setResourceFileTestIdentifier("testOperatorSize");
+
+		this.testSimilarity(
+				this.initElement(null,
+						new UnaryOperator[] { this.createAdditionOperator(), this.createAdditionOperator() }),
+				this.initElement(null, new UnaryOperator[] { this.createAdditionOperator() }),
+				ExpressionsPackage.Literals.UNARY_EXPRESSION__OPERATORS);
+	}
+
+	@Test
 	public void testOperatorNullCheck() {
 		this.setResourceFileTestIdentifier("testOperatorNullCheck");
 

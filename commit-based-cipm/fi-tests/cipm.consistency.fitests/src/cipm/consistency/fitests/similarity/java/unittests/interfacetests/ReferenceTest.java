@@ -60,6 +60,19 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 
 	@ParameterizedTest
 	@ArgumentsSource(ReferenceTestParams.class)
+	public void testArraySelectorSize(IReferenceInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testArraySelectorSize");
+
+		var objOne = this.initElement(init, null,
+				new ArraySelector[] { this.createMinimalAS(0), this.createMinimalAS(0) });
+		var objTwo = this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(0) });
+
+		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
+	}
+
+	@ParameterizedTest
+	@ArgumentsSource(ReferenceTestParams.class)
 	public void testArraySelectorNullCheck(IReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testArraySelectorNullCheck");

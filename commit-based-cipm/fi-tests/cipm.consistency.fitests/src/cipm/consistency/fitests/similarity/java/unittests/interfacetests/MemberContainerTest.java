@@ -36,6 +36,19 @@ public class MemberContainerTest extends EObjectSimilarityTest
 
 	@ParameterizedTest
 	@ArgumentsSource(MemberContainerTestParams.class)
+	public void testMemberSize(IMemberContainerInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testMemberSize");
+
+		var objOne = this.initElement(init,
+				new Member[] { this.createMinimalClass("cls1"), this.createMinimalClass("cls2") }, null);
+		var objTwo = this.initElement(init, new Member[] { this.createMinimalClass("cls1") }, null);
+
+		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
+	}
+
+	@ParameterizedTest
+	@ArgumentsSource(MemberContainerTestParams.class)
 	public void testMemberNullCheck(IMemberContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testMemberNullCheck");
@@ -54,6 +67,19 @@ public class MemberContainerTest extends EObjectSimilarityTest
 
 		var objOne = this.initElement(init, null, new Member[] { this.createMinimalClass("cls1") });
 		var objTwo = this.initElement(init, null, new Member[] { this.createMinimalClass("cls2") });
+
+		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
+	}
+
+	@ParameterizedTest
+	@ArgumentsSource(MemberContainerTestParams.class)
+	public void testDefaultMemberSize(IMemberContainerInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testDefaultMemberSize");
+
+		var objOne = this.initElement(init, null,
+				new Member[] { this.createMinimalClass("cls1"), this.createMinimalClass("cls2") });
+		var objTwo = this.initElement(init, null, new Member[] { this.createMinimalClass("cls1") });
 
 		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
 	}

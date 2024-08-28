@@ -31,6 +31,17 @@ public class LocalVariableTest extends EObjectSimilarityTest implements UsesAddi
 	}
 
 	@Test
+	public void testLocalVariableSize() {
+		this.setResourceFileTestIdentifier("testLocalVariableSize");
+
+		var objOne = this.initElement(
+				new AdditionalLocalVariable[] { this.createMinimalALV("alv1"), this.createMinimalALV("alv2") });
+		var objTwo = this.initElement(new AdditionalLocalVariable[] { this.createMinimalALV("alv1") });
+
+		this.testSimilarity(objOne, objTwo, VariablesPackage.Literals.LOCAL_VARIABLE__ADDITIONAL_LOCAL_VARIABLES);
+	}
+
+	@Test
 	public void testLocalVariableNullCheck() {
 		this.setResourceFileTestIdentifier("testLocalVariableNullCheck");
 

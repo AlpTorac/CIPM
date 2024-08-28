@@ -30,6 +30,18 @@ public class NamespaceClassifierReferenceTest extends EObjectSimilarityTest impl
 	}
 
 	@Test
+	public void testClassifierReferenceSize() {
+		this.setResourceFileTestIdentifier("testClassifierReferenceSize");
+
+		var objOne = this.initElement(
+				new ClassifierReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
+		var objTwo = this.initElement(new ClassifierReference[] { this.createMinimalClsRef("cls1") });
+
+		this.testSimilarity(objOne, objTwo,
+				TypesPackage.Literals.NAMESPACE_CLASSIFIER_REFERENCE__CLASSIFIER_REFERENCES);
+	}
+
+	@Test
 	public void testClassifierReferenceNullCheck() {
 		this.setResourceFileTestIdentifier("testClassifierReferenceNullCheck");
 
