@@ -12,7 +12,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.annotations.IAnnotab
 import cipm.consistency.fitests.similarity.java.unittests.UsesAnnotationInstances;
 
 public class AnnotableTest extends EObjectSimilarityTest implements UsesAnnotationInstances {
-	protected Annotable initElement(IAnnotableInitialiser init, AnnotationInstance... annotations) {
+	protected Annotable initElement(IAnnotableInitialiser init, AnnotationInstance[] annotations) {
 		Annotable result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.addAnnotations(result, annotations));
@@ -25,8 +25,25 @@ public class AnnotableTest extends EObjectSimilarityTest implements UsesAnnotati
 		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testAnnotation");
 
-		var objOne = this.initElement(init, this.createMinimalAI(new String[] { "ns1" }, "anno1"));
-		var objTwo = this.initElement(init, this.createMinimalAI(new String[] { "ns2" }, "anno2"));
+		var objOne = this.initElement(init,
+				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") });
+		var objTwo = this.initElement(init,
+				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns2" }, "anno2") });
+
+		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTABLE__ANNOTATIONS);
+	}
+
+	@ParameterizedTest
+	@ArgumentsSource(AnnotableTestParams.class)
+	public void testAnnotationSize(IAnnotableInitialiser init) {
+		this.setCurrentInitialiser(init);
+		this.setResourceFileTestIdentifier("testAnnotationSize");
+
+		var objOne = this.initElement(init,
+				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1"),
+						this.createMinimalAI(new String[] { "ns2" }, "anno2") });
+		var objTwo = this.initElement(init,
+				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") });
 
 		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTABLE__ANNOTATIONS);
 	}
@@ -37,7 +54,8 @@ public class AnnotableTest extends EObjectSimilarityTest implements UsesAnnotati
 		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testAnnotationNullCheck");
 
-		var objOne = this.initElement(init, this.createMinimalAI(new String[] { "ns1" }, "anno1"));
+		var objOne = this.initElement(init,
+				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") });
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));
 
