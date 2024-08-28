@@ -107,9 +107,17 @@ public abstract class AbstractSimilarityTest {
 	 * Creates and returns a {@link Resource} instance, whose URI will be the given
 	 * one.
 	 */
-	private Resource initResource(URI resUri) {
+	protected Resource initResource(URI resUri) {
 		ResourceSet rSet = new ResourceSetImpl();
 		return rSet.createResource(resUri);
+	}
+	
+	/**
+	 * A variant of {@link #initResource(URI)} that constructs a default {@link Resource}
+	 * instance based on which test is being run.
+	 */
+	protected Resource initResource() {
+		return this.initResource(this.createURI(this.getResourceName()));
 	}
 
 	/**
