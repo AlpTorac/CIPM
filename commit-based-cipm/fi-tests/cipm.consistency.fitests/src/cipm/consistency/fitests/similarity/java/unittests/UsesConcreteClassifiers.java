@@ -16,6 +16,28 @@ import cipm.consistency.fitests.similarity.java.initialiser.containers.Compilati
  */
 public interface UsesConcreteClassifiers extends UsesPackages, UsesNames {
 	/**
+	 * @return A {@link Class} instance without setting any of its attributes
+	 */
+	public default Class createMinimalClass() {
+		return new ClassInitialiser().instantiate();
+	}
+
+	/**
+	 * @return A {@link Class} instance contained in a {@link CompilationUnit}
+	 *         instance. Attributes of neither the {@link Class} instance nor the
+	 *         {@link CompilationUnit} instance are set.
+	 */
+	public default Class createMinimalClassWithCU() {
+		var cls = this.createMinimalClass();
+
+		var cuInit = new CompilationUnitInitialiser();
+		var cu = cuInit.instantiate();
+		cuInit.addClassifier(cu, cls);
+
+		return cls;
+	}
+	
+	/**
 	 * @param init    The initialiser that will be used to create the instance
 	 * @param clsName The name of the instance to be constructed
 	 * @return A {@link ConcreteClassifier} instance with the given name. The
