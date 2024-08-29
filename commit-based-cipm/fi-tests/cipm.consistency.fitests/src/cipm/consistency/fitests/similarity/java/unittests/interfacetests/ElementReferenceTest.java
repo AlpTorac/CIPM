@@ -14,24 +14,6 @@ import cipm.consistency.fitests.similarity.java.unittests.UsesConcreteClassifier
 public class ElementReferenceTest extends EObjectSimilarityTest implements UsesConcreteClassifiers {
 	protected ElementReference initElement(IElementReferenceInitialiser init, ReferenceableElement target,
 			ReferenceableElement cTarget) {
-		ElementReference result = this.initElementWithoutContainer(init, target, cTarget);
-		// FIXME: Move to complex tests
-//		var insInit = new ExplicitConstructorCallInitialiser();
-//		var ecc = insInit.instantiate();
-//		Assertions.assertTrue(insInit.addArgument(ecc, result));
-//
-//		var esInit = new ExpressionStatementInitialiser();
-//		var es = esInit.instantiate();
-//		Assertions.assertTrue(esInit.setExpression(es, ecc));
-//
-//		var bInit = new BlockInitialiser();
-//		var block = bInit.instantiate();
-//		Assertions.assertTrue(bInit.addStatement(block, es));
-		return result;
-	}
-
-	protected ElementReference initElementWithoutContainer(IElementReferenceInitialiser init,
-			ReferenceableElement target, ReferenceableElement cTarget) {
 		ElementReference result = init.instantiate();
 		Assertions.assertTrue(init.setTarget(result, target));
 		Assertions.assertTrue(init.setContainedTarget(result, cTarget));
@@ -72,8 +54,8 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testTargetNoException");
 
-		var objOne = this.initElementWithoutContainer(init, this.createMinimalClass("cls1"), null);
-		var objTwo = this.initElementWithoutContainer(init, this.createMinimalClass("cls2"), null);
+		var objOne = this.initElement(init, this.createMinimalClass("cls1"), null);
+		var objTwo = this.initElement(init, this.createMinimalClass("cls2"), null);
 
 		Assertions.assertDoesNotThrow(
 				() -> this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__TARGET));
@@ -85,7 +67,7 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 		this.setCurrentInitialiser(init);
 		this.setResourceFileTestIdentifier("testTargetNoExceptionNullCheck");
 
-		var objOne = this.initElementWithoutContainer(init, this.createMinimalClass("cls1"), null);
+		var objOne = this.initElement(init, this.createMinimalClass("cls1"), null);
 		var objTwo = init.instantiate();
 
 		Assertions.assertDoesNotThrow(

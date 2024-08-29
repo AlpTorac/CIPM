@@ -2,7 +2,6 @@ package cipm.consistency.fitests.similarity.java.unittests.complextests;
 
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.arrays.ArraySelector;
-import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.references.IdentifierReference;
 import org.junit.jupiter.api.Assertions;
@@ -10,13 +9,16 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.containers.CompilationUnitInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.instantiations.ExplicitConstructorCallInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.references.IdentifierReferenceInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.statements.ExpressionStatementInitialiser;
 import cipm.consistency.fitests.similarity.java.unittests.UsesConcreteClassifiers;
 
 public class IdentifierReferenceContainerTest extends EObjectSimilarityTest implements UsesConcreteClassifiers {
+
+	/**
+	 * Realises {@code JaMoPPElementUtil.getFirstContainerNotOfGivenType(...)}
+	 */
 	protected EObject getFirstEligibleContainer(IdentifierReference ref) {
 		var currentContainer = ref.eContainer();
 
@@ -32,6 +34,10 @@ public class IdentifierReferenceContainerTest extends EObjectSimilarityTest impl
 		return null;
 	}
 
+	/**
+	 * @return Whether the similarity of {@code ref_i.getTarget().eContainer()} will
+	 *         be computed, where i = {1, 2}.
+	 */
 	protected boolean isTargetContainerSimilarityCheckReached(IdentifierReference ref1, IdentifierReference ref2) {
 		var ref1Container = this.getFirstEligibleContainer(ref1);
 		var ref2Container = this.getFirstEligibleContainer(ref2);
@@ -49,10 +55,24 @@ public class IdentifierReferenceContainerTest extends EObjectSimilarityTest impl
 			target2Container = target2.eContainer();
 		}
 
-		return target1Container != ref1Container && target2Container != ref2Container && target1Container != ref1
-				&& target2Container != ref2;
+		return target1Container != ref1Container && target2Container != ref2Container &&
+
+		// refX cannot be null and there is currently no EObject implementor that can be
+		// the target of an IdentifierReference IR and have IR as its container (?)
+		// Impossible to break the following conditions (?)
+				target1Container != ref1 && target2Container != ref2;
 	}
 
+	/**
+	 * Nests an {@link ExpressionStatement} es instance within an
+	 * {@link ExplicitConstructorCall} ecc instance and sets ref's container to ecc.
+	 * <br>
+	 * <br>
+	 * Can be used to add a container to ref (as in {@code ref.eContainer()}). <br>
+	 * <br>
+	 * <b>Note: ref's eligible container {@code this.getFirstEligibleContainer(ref)}
+	 * will be es.</b>
+	 */
 	protected void initialiseIdentifierReference(IdentifierReference ref) {
 		var insInit = new ExplicitConstructorCallInitialiser();
 		var ecc = insInit.instantiate();
@@ -66,30 +86,16 @@ public class IdentifierReferenceContainerTest extends EObjectSimilarityTest impl
 		Assertions.assertEquals(this.getFirstEligibleContainer(ref), es);
 	}
 
-	protected ConcreteClassifier createClass() {
-		return new ClassInitialiser().instantiate();
-	}
-
-	protected ConcreteClassifier createClassWithCU() {
-		var cls = this.createClass();
-
-		var cuInit = new CompilationUnitInitialiser();
-		var cu = cuInit.instantiate();
-		cuInit.addClassifier(cu, cls);
-
-		return cls;
-	}
-
 	/**
-	 * Neither IdentifierReference instances have a container, Neither targets have
+	 * Neither IdentifierReference instances have a container, neither targets have
 	 * an eligible container
 	 */
 	@Test
 	public void testBothTargetsNullContainer() {
 		this.setResourceFileTestIdentifier("testBothTargetsNullContainer");
 
-		var targetOne = this.createClass();
-		var targetTwo = this.createClass();
+		var targetOne = this.createMinimalClass();
+		var targetTwo = this.createMinimalClass();
 
 		var objInit = new IdentifierReferenceInitialiser();
 		var objOne = objInit.instantiate();
@@ -104,15 +110,15 @@ public class IdentifierReferenceContainerTest extends EObjectSimilarityTest impl
 	}
 
 	/**
-	 * Neither IdentifierReference instances have a container, Only one target has
+	 * Neither IdentifierReference instances have a container, only one target has
 	 * an eligible container
 	 */
 	@Test
 	public void testOneTargetNullContainer() {
 		this.setResourceFileTestIdentifier("testOneTargetNullContainer");
 
-		var targetOne = this.createClassWithCU();
-		var targetTwo = this.createClass();
+		var targetOne = this.createMinimalClassWithCU();
+		var targetTwo = this.createMinimalClass();
 
 		var objInit = new IdentifierReferenceInitialiser();
 		var objOne = objInit.instantiate();
@@ -127,15 +133,15 @@ public class IdentifierReferenceContainerTest extends EObjectSimilarityTest impl
 	}
 
 	/**
-	 * Neither IdentifierReference instances have a container, Both targets have
+	 * Neither IdentifierReference instances have a container, both targets have
 	 * similar containers
 	 */
 	@Test
 	public void testBothTargetsSimilarContainer() {
 		this.setResourceFileTestIdentifier("testBothTargetsSimilarContainer");
 
-		var targetOne = this.createClassWithCU();
-		var targetTwo = this.createClassWithCU();
+		var targetOne = this.createMinimalClassWithCU();
+		var targetTwo = this.createMinimalClassWithCU();
 
 		var objInit = new IdentifierReferenceInitialiser();
 		var objOne = objInit.instantiate();
@@ -149,7 +155,7 @@ public class IdentifierReferenceContainerTest extends EObjectSimilarityTest impl
 	}
 
 	/**
-	 * Neither IdentifierReference instances have a container, Both targets have
+	 * Neither IdentifierReference instances have a container, both targets have
 	 * different containers
 	 */
 	@Test
@@ -178,8 +184,8 @@ public class IdentifierReferenceContainerTest extends EObjectSimilarityTest impl
 	public void testOneIROneTargetHaveContainer() {
 		this.setResourceFileTestIdentifier("testOneIROneTargetHaveContainer");
 
-		var targetOne = this.createClassWithCU();
-		var targetTwo = this.createClass();
+		var targetOne = this.createMinimalClassWithCU();
+		var targetTwo = this.createMinimalClass();
 
 		var objInit = new IdentifierReferenceInitialiser();
 		var objOne = objInit.instantiate();
@@ -203,8 +209,8 @@ public class IdentifierReferenceContainerTest extends EObjectSimilarityTest impl
 	public void testDifferentIRAndTargetHaveContainer() {
 		this.setResourceFileTestIdentifier("testDifferentIRAndTargetHaveContainer");
 
-		var targetOne = this.createClass();
-		var targetTwo = this.createClassWithCU();
+		var targetOne = this.createMinimalClass();
+		var targetTwo = this.createMinimalClassWithCU();
 
 		var objInit = new IdentifierReferenceInitialiser();
 		var objOne = objInit.instantiate();
@@ -270,6 +276,4 @@ public class IdentifierReferenceContainerTest extends EObjectSimilarityTest impl
 		Assertions.assertTrue(this.isTargetContainerSimilarityCheckReached(objOne, objTwo));
 		this.testSimilarity(objOne, objTwo, Boolean.FALSE);
 	}
-
-	// TODO: Try using a TypeArgument or Annotation to get targetContainer == ref
 }
