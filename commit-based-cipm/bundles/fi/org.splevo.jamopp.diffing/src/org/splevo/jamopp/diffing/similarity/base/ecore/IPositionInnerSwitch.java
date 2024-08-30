@@ -67,9 +67,10 @@ public interface IPositionInnerSwitch extends IInnerSwitch {
 			List<Boolean> csps) {
 
 		Collection<IComposedSwitchAdapter> sss = new ArrayList<IComposedSwitchAdapter>();
-		
-		if (csps == null) return null;
-		
+
+		if (csps == null)
+			return null;
+
 		csps.forEach((csp) -> sss.add((IComposedSwitchAdapter) this.requestNewSwitch(csp)));
 
 		return this.areSimilar(eos1, eos2, sss);
@@ -88,11 +89,11 @@ public interface IPositionInnerSwitch extends IInnerSwitch {
 		} else if (eos1 == null ^ eos2 == null) {
 			return Boolean.FALSE;
 		}
-		
+
 		if (eos1.size() != eos2.size()) {
 			return Boolean.FALSE;
 		}
-		
+
 		for (int i = 0; i < eos1.size(); i++) {
 			csps.add(this.shouldCheckStatementPosition());
 		}
