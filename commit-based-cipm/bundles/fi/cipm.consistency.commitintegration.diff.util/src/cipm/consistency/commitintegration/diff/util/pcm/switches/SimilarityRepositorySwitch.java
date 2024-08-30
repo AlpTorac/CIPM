@@ -13,7 +13,6 @@ import org.palladiosimulator.pcm.repository.Parameter;
 import org.palladiosimulator.pcm.repository.PrimitiveDataType;
 import org.palladiosimulator.pcm.repository.Repository;
 import org.palladiosimulator.pcm.repository.util.RepositorySwitch;
-import org.splevo.jamopp.diffing.similarity.ISimilaritySwitch;
 
 import cipm.consistency.commitintegration.diff.util.pcm.PCMRepositorySimilaritySwitch;
 
