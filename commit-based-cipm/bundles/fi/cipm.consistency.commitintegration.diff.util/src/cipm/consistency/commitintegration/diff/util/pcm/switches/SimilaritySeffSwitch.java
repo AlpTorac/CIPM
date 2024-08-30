@@ -8,14 +8,35 @@ import org.palladiosimulator.pcm.seff.ExternalCallAction;
 import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.util.SeffSwitch;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
+import org.splevo.jamopp.diffing.similarity.base.ecore.IComposedSwitchWrapper;
 
-import cipm.consistency.commitintegration.diff.util.pcm.PCMRepositorySimilaritySwitch;
+import cipm.consistency.commitintegration.diff.util.pcm.IPCMRepositorySimilaritySwitch;
 
-public class SimilaritySeffSwitch extends SeffSwitch<Boolean> {
-	private final PCMRepositorySimilaritySwitch similaritySwitch;
+public class SimilaritySeffSwitch extends SeffSwitch<Boolean> implements IPCMPositionInnerSwitch {
+	private IPCMRepositorySimilaritySwitch similaritySwitch;
+	private boolean checkStatementPosition;
 
-	public SimilaritySeffSwitch(PCMRepositorySimilaritySwitch pcmRepositorySimilaritySwitch) {
-		similaritySwitch = pcmRepositorySimilaritySwitch;
+	@Override
+	public ISimilarityRequestHandler getSimilarityRequestHandler() {
+		return this.similaritySwitch;
+	}
+
+	@Override
+	public IComposedSwitchWrapper getContainingSwitch() {
+		return this.similaritySwitch;
+	}
+	
+	@Override
+	public boolean shouldCheckStatementPosition() {
+		return this.checkStatementPosition;
+	}
+	
+	public SimilaritySeffSwitch(
+			IPCMRepositorySimilaritySwitch similaritySwitch,
+			boolean checkStatementPosition) {
+		this.similaritySwitch = similaritySwitch;
+		this.checkStatementPosition = checkStatementPosition;
 	}
 
 	private Boolean checkPositionInContainer(AbstractAction action1, AbstractAction action2) {
@@ -28,29 +49,29 @@ public class SimilaritySeffSwitch extends SeffSwitch<Boolean> {
 
 	@Override
 	public Boolean caseAbstractAction(AbstractAction action1) {
-		AbstractAction action2 = (AbstractAction) similaritySwitch.getCompareElement();
+		AbstractAction action2 = (AbstractAction) getCompareElement();
 		return checkPositionInContainer(action1, action2);
 	}
 
 	@Override
 	public Boolean caseResourceDemandingBehaviour(ResourceDemandingBehaviour behav1) {
-		ResourceDemandingBehaviour behav2 = (ResourceDemandingBehaviour) similaritySwitch.getCompareElement();
-		return similaritySwitch.areSimilar(behav1.getSteps_Behaviour(), behav2.getSteps_Behaviour());
+		ResourceDemandingBehaviour behav2 = (ResourceDemandingBehaviour) getCompareElement();
+		return areSimilar(behav1.getSteps_Behaviour(), behav2.getSteps_Behaviour());
 	}
 
 	@Override
 	public Boolean caseResourceDemandingSEFF(ResourceDemandingSEFF seff1) {
-		ResourceDemandingSEFF seff2 = (ResourceDemandingSEFF) similaritySwitch.getCompareElement();
+		ResourceDemandingSEFF seff2 = (ResourceDemandingSEFF) getCompareElement();
 
-		return similaritySwitch.isSimilar(seff1.getDescribedService__SEFF(),
+		return isSimilar(seff1.getDescribedService__SEFF(),
 				seff2.getDescribedService__SEFF());
 	}
 
 	@Override
 	public Boolean caseCollectionIteratorAction(CollectionIteratorAction action1) {
-		CollectionIteratorAction action2 = (CollectionIteratorAction) similaritySwitch.getCompareElement();
+		CollectionIteratorAction action2 = (CollectionIteratorAction) getCompareElement();
 
-		var result = similaritySwitch.isSimilar(
+		var result = isSimilar(
 				action1.getParameter_CollectionIteratorAction(),
 				action2.getParameter_CollectionIteratorAction());
 
@@ -63,7 +84,7 @@ public class SimilaritySeffSwitch extends SeffSwitch<Boolean> {
 
 	@Override
 	public Boolean caseAbstractBranchTransition(AbstractBranchTransition transition1) {
-		AbstractBranchTransition transition2 = (AbstractBranchTransition) similaritySwitch.getCompareElement();
+		AbstractBranchTransition transition2 = (AbstractBranchTransition) getCompareElement();
 
 		BranchAction parent1 = (BranchAction) transition1.eContainer();
 		BranchAction parent2 = (BranchAction) transition2.eContainer();
@@ -74,9 +95,9 @@ public class SimilaritySeffSwitch extends SeffSwitch<Boolean> {
 
 	@Override
 	public Boolean caseExternalCallAction(ExternalCallAction action1) {
-		ExternalCallAction action2 = (ExternalCallAction) similaritySwitch.getCompareElement();
+		ExternalCallAction action2 = (ExternalCallAction) getCompareElement();
 
-		var result = similaritySwitch.isSimilar(
+		var result = isSimilar(
 				action1.getCalledService_ExternalService(),
 				action2.getCalledService_ExternalService());
 
