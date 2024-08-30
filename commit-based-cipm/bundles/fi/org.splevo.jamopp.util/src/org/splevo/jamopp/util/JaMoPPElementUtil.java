@@ -399,10 +399,11 @@ public final class JaMoPPElementUtil {
 	 * @return The position in the container's statement list.
 	 */
 	public static int getPositionInContainer(Statement statement) {
+		var statementContainer = statement.eContainer();
 
-		if (statement.eContainer() instanceof StatementListContainer) {
-			StatementListContainer container = (StatementListContainer) statement.eContainer();
-			var sts = container.getStatements();
+		if (statementContainer instanceof StatementListContainer) {
+			var sts = ((StatementListContainer) statementContainer).getStatements();
+
 			return sts != null ? sts.indexOf(statement) : -1;
 		}
 
