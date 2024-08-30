@@ -29,7 +29,7 @@ public class MultipleSimilarityCheckHandler implements ISimilarityRequestHandler
 	public MultipleSimilarityCheckHandler(ISimilarityRequestHandler srh) {
 		this.srh = srh;
 	}
-	
+
 	/**
 	 * {@inheritDoc} <br>
 	 * <br>
@@ -62,11 +62,10 @@ public class MultipleSimilarityCheckHandler implements ISimilarityRequestHandler
 		// Null check to avoid NullPointerExceptions
 		if (elements1 == elements2) {
 			return Boolean.TRUE;
-		}
-		else if (elements1 == null ^ elements2 == null) {
+		} else if (elements1 == null ^ elements2 == null) {
 			return Boolean.FALSE;
 		}
-		
+
 		int size = elements1.size();
 
 		if (size != elements2.size()) {
