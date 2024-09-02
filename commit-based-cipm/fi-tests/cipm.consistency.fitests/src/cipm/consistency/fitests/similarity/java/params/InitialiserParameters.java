@@ -1,0 +1,22 @@
+package cipm.consistency.fitests.similarity.java.params;
+
+import java.util.Collection;
+
+import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.InitialiserPackage;
+
+/**
+ * A class that provides central access to concrete initialiser instances.
+ * 
+ * @author atora
+ */
+public class InitialiserParameters implements IInitialiserParameters {
+	public Collection<IInitialiser> getAllNonAdaptedInitialisers() {
+		return new InitialiserPackage().getAllInitialiserInstances();
+	}
+
+	@Override
+	public IInitialiserParameterAdaptationStrategy getAdaptationStrategy() {
+		return new InitialiserParameterAdaptationStrategy();
+	}
+}

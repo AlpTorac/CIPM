@@ -1,0 +1,9 @@
+package cipm.consistency.fitests.similarity.java.initialiser.literals;
+
+import org.emftext.language.java.literals.IntegerLiteral;
+
+public interface IIntegerLiteralInitialiser extends ILiteralInitialiser {
+	@Override
+	public IntegerLiteral instantiate();
+
+}
