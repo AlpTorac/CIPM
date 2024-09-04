@@ -23,8 +23,6 @@ public class RequiresModuleDirectiveTest extends EObjectSimilarityTest implement
 
 	@Test
 	public void testModifier() {
-		this.setResourceFileTestIdentifier("testModifier");
-
 		var objOne = this.initElement(this.createStatic(), null);
 		var objTwo = this.initElement(this.createTransitive(), null);
 
@@ -33,8 +31,6 @@ public class RequiresModuleDirectiveTest extends EObjectSimilarityTest implement
 
 	@Test
 	public void testModifierNullCheck() {
-		this.setResourceFileTestIdentifier("testModifierNullCheck");
-
 		var objOne = this.initElement(this.createStatic(), null);
 		var objTwo = new RequiresModuleDirectiveInitialiser().instantiate();
 
@@ -43,8 +39,6 @@ public class RequiresModuleDirectiveTest extends EObjectSimilarityTest implement
 
 	@Test
 	public void testRequiredModule() {
-		this.setResourceFileTestIdentifier("testRequiredModule");
-
 		var objOne = this.initElement(null, this.createMinimalMR("mod1", new String[] { "ns1", "ns2" }));
 		var objTwo = this.initElement(null, this.createMinimalMR("mod2", new String[] { "ns3", "ns4" }));
 
@@ -53,8 +47,6 @@ public class RequiresModuleDirectiveTest extends EObjectSimilarityTest implement
 
 	@Test
 	public void testRequiredModuleNullCheck() {
-		this.setResourceFileTestIdentifier("testRequiredModuleNullCheck");
-
 		var objOne = this.initElement(null, this.createMinimalMR("mod1", new String[] { "ns1", "ns2" }));
 		var objTwo = new RequiresModuleDirectiveInitialiser().instantiate();
 

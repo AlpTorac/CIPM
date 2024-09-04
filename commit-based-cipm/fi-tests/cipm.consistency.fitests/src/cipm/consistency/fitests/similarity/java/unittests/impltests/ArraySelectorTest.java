@@ -20,8 +20,6 @@ public class ArraySelectorTest extends EObjectSimilarityTest implements UsesExpr
 
 	@Test
 	public void testPosition() {
-		this.setResourceFileTestIdentifier("testPosition");
-
 		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
 		var objTwo = this.initElement(this.createDecimalIntegerLiteral(2));
 
@@ -30,8 +28,6 @@ public class ArraySelectorTest extends EObjectSimilarityTest implements UsesExpr
 
 	@Test
 	public void testPositionNullCheck() {
-		this.setResourceFileTestIdentifier("testPositionNullCheck");
-
 		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
 		var objTwo = new ArraySelectorInitialiser().instantiate();
 

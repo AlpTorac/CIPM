@@ -78,8 +78,6 @@ public class MemberInContainerTest extends EObjectSimilarityTest {
 	@MethodSource("getMemConMemPairs")
 	public void testMembersInContainers(String displayName, IMemberContainerInitialiser memConInit,
 			IMemberInitialiser memInit1, IMemberInitialiser memInit2) {
-		this.setResourceFileTestIdentifier("testMembersInContainers");
-
 		var mem1 = memInit1.instantiate();
 		var mem2 = memInit2.instantiate();
 
@@ -109,8 +107,6 @@ public class MemberInContainerTest extends EObjectSimilarityTest {
 	@MethodSource("getMemConMemPairs")
 	public void testDefaultMembersInContainers(String displayName, IMemberContainerInitialiser memConInit,
 			IMemberInitialiser memInit1, IMemberInitialiser memInit2) {
-		this.setResourceFileTestIdentifier("testDefaultMembersInContainers");
-
 		var mem1 = memInit1.instantiate();
 		var mem2 = memInit2.instantiate();
 

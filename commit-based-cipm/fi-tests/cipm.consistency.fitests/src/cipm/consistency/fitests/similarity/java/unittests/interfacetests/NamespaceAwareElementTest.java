@@ -32,8 +32,6 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	@ArgumentsSource(NamespaceAwareElementTestParams.class)
 	public void testNamespace(INamespaceAwareElementInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testNamespace");
-
 		var objOne = this.initElement(init, nss1);
 		var objTwo = this.initElement(init, nss2);
 
@@ -47,8 +45,6 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	@ArgumentsSource(NamespaceAwareElementTestParams.class)
 	public void testNamespaceScope(INamespaceAwareElementInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testNamespaceScope");
-
 		for (int i = 0; i < nss1.length; i++) {
 			var newNss = new String[i];
 
@@ -67,8 +63,6 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	@ArgumentsSource(NamespaceAwareElementTestParams.class)
 	public void testNamespaceNullCheck(INamespaceAwareElementInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testNamespaceNullCheck");
-
 		var objOne = this.initElement(init, nss1);
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));

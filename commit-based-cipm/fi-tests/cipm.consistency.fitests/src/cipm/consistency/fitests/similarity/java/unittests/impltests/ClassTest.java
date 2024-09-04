@@ -21,8 +21,6 @@ public class ClassTest extends EObjectSimilarityTest implements UsesTypeReferenc
 
 	@Test
 	public void testDefaultExtends() {
-		this.setResourceFileTestIdentifier("testDefaultExtends");
-
 		var objOne = this.initElement(this.createMinimalClsRef("cls1"), null);
 		var objTwo = this.initElement(this.createMinimalClsRef("cls2"), null);
 
@@ -31,8 +29,6 @@ public class ClassTest extends EObjectSimilarityTest implements UsesTypeReferenc
 
 	@Test
 	public void testDefaultExtendsNullCheck() {
-		this.setResourceFileTestIdentifier("testDefaultExtendsNullCheck");
-
 		var objOne = this.initElement(this.createMinimalClsRef("cls1"), null);
 		var objTwo = new ClassInitialiser().instantiate();
 
@@ -41,8 +37,6 @@ public class ClassTest extends EObjectSimilarityTest implements UsesTypeReferenc
 
 	@Test
 	public void testExtends() {
-		this.setResourceFileTestIdentifier("testExtends");
-
 		var objOne = this.initElement(null, this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(null, this.createMinimalClsRef("cls2"));
 
@@ -51,8 +45,6 @@ public class ClassTest extends EObjectSimilarityTest implements UsesTypeReferenc
 
 	@Test
 	public void testExtendsNullCheck() {
-		this.setResourceFileTestIdentifier("testExtendsNullCheck");
-
 		var objOne = this.initElement(null, this.createMinimalClsRef("cls1"));
 		var objTwo = new ClassInitialiser().instantiate();
 

@@ -20,8 +20,6 @@ public class ExtendsTypeArgumentTest extends EObjectSimilarityTest implements Us
 
 	@Test
 	public void testExtendType() {
-		this.setResourceFileTestIdentifier("testExtendType");
-
 		var objOne = this.initElement(this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(this.createMinimalClsRef("cls2"));
 
@@ -30,8 +28,6 @@ public class ExtendsTypeArgumentTest extends EObjectSimilarityTest implements Us
 
 	@Test
 	public void testExtendTypeNullCheck() {
-		this.setResourceFileTestIdentifier("testExtendTypeNullCheck");
-
 		var objOne = this.initElement(this.createMinimalClsRef("cls1"));
 		var objTwo = new ExtendsTypeArgumentInitialiser().instantiate();
 

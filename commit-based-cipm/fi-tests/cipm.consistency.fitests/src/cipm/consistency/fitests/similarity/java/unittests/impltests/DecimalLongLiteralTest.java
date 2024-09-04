@@ -18,16 +18,12 @@ public class DecimalLongLiteralTest extends EObjectSimilarityTest {
 
 	@Test
 	public void testDecimalValue() {
-		this.setResourceFileTestIdentifier("testDecimalValue");
-
 		this.testSimilarity(this.initElement(1), this.initElement(2),
 				LiteralsPackage.Literals.DECIMAL_LONG_LITERAL__DECIMAL_VALUE);
 	}
 
 	@Test
 	public void testDecimalValueNullCheck() {
-		this.setResourceFileTestIdentifier("testDecimalValueNullCheck");
-
 		this.testSimilarity(this.initElement(1), new DecimalLongLiteralInitialiser().instantiate(),
 				LiteralsPackage.Literals.DECIMAL_LONG_LITERAL__DECIMAL_VALUE);
 	}

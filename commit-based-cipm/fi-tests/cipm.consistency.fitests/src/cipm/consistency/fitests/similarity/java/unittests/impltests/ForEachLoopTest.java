@@ -23,8 +23,6 @@ public class ForEachLoopTest extends EObjectSimilarityTest implements UsesExpres
 
 	@Test
 	public void testCollection() {
-		this.setResourceFileTestIdentifier("testCollection");
-
 		var objOne = this.initElement(this.createMinimalFalseEE(), null);
 		var objTwo = this.initElement(this.createMinimalTrueNEE(), null);
 
@@ -33,8 +31,6 @@ public class ForEachLoopTest extends EObjectSimilarityTest implements UsesExpres
 
 	@Test
 	public void testCollectionNullCheck() {
-		this.setResourceFileTestIdentifier("testCollectionNullCheck");
-
 		var objOne = this.initElement(this.createMinimalFalseEE(), null);
 		var objTwo = new ForEachLoopInitialiser().instantiate();
 
@@ -43,8 +39,6 @@ public class ForEachLoopTest extends EObjectSimilarityTest implements UsesExpres
 
 	@Test
 	public void testNext() {
-		this.setResourceFileTestIdentifier("testNext");
-
 		var objOne = this.initElement(null, this.createMinimalOrdParamWithClsTarget("param1", "cls1"));
 		var objTwo = this.initElement(null, this.createMinimalOrdParamWithClsTarget("param2", "cls2"));
 
@@ -53,8 +47,6 @@ public class ForEachLoopTest extends EObjectSimilarityTest implements UsesExpres
 
 	@Test
 	public void testNextNullCheck() {
-		this.setResourceFileTestIdentifier("testNextNullCheck");
-
 		var objOne = this.initElement(null, this.createMinimalOrdParamWithClsTarget("param1", "cls1"));
 		var objTwo = new ForEachLoopInitialiser().instantiate();
 

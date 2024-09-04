@@ -24,8 +24,6 @@ public class PackageTest extends EObjectSimilarityTest implements UsesModules, U
 
 	@Test
 	public void testModule() {
-		this.setResourceFileTestIdentifier("testModule");
-
 		var objOne = this.initElement(this.createMinimalModule("mod1"), null);
 		var objTwo = this.initElement(this.createMinimalModule("mod2"), null);
 
@@ -34,8 +32,6 @@ public class PackageTest extends EObjectSimilarityTest implements UsesModules, U
 
 	@Test
 	public void testModuleNullCheck() {
-		this.setResourceFileTestIdentifier("testModuleNullCheck");
-
 		var objOne = this.initElement(this.createMinimalModule("mod1"), null);
 		var objTwo = new PackageInitialiser().instantiate();
 
@@ -44,8 +40,6 @@ public class PackageTest extends EObjectSimilarityTest implements UsesModules, U
 
 	@Test
 	public void testClassifiers() {
-		this.setResourceFileTestIdentifier("testClassifiers");
-
 		var objOne = this.initElement(null, new ConcreteClassifier[] { this.createMinimalClass("cls1") });
 		var objTwo = this.initElement(null, new ConcreteClassifier[] { this.createMinimalClass("cls2") });
 
@@ -54,8 +48,6 @@ public class PackageTest extends EObjectSimilarityTest implements UsesModules, U
 
 	@Test
 	public void testClassifiersSize() {
-		this.setResourceFileTestIdentifier("testClassifiersSize");
-
 		var objOne = this.initElement(null,
 				new ConcreteClassifier[] { this.createMinimalClass("cls1"), this.createMinimalClass("cls2") });
 		var objTwo = this.initElement(null, new ConcreteClassifier[] { this.createMinimalClass("cls1") });
@@ -65,8 +57,6 @@ public class PackageTest extends EObjectSimilarityTest implements UsesModules, U
 
 	@Test
 	public void testClassifiersNullCheck() {
-		this.setResourceFileTestIdentifier("testClassifiersNullCheck");
-
 		var objOne = this.initElement(null, new ConcreteClassifier[] { this.createMinimalClass("cls1") });
 		var objTwo = new PackageInitialiser().instantiate();
 

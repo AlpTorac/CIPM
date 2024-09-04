@@ -22,8 +22,6 @@ public class JumpTest extends EObjectSimilarityTest implements UsesStatements {
 	@ArgumentsSource(JumpTestParams.class)
 	public void testTarget(IJumpInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testTarget");
-
 		var objOne = this.initElement(init, this.createMinimalJLToNullReturn("jl1"));
 		var objTwo = this.initElement(init, this.createMinimalJLToTrivialAssert("jl2"));
 
@@ -34,8 +32,6 @@ public class JumpTest extends EObjectSimilarityTest implements UsesStatements {
 	@ArgumentsSource(JumpTestParams.class)
 	public void testTargetNullCheck(IJumpInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testTargetNullCheck");
-
 		var objOne = this.initElement(init, this.createMinimalJLToNullReturn("jl1"));
 		var objTwo = init.instantiate();
 

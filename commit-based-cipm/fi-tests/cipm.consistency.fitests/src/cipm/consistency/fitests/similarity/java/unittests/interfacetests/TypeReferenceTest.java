@@ -21,8 +21,6 @@ public class TypeReferenceTest extends EObjectSimilarityTest implements UsesConc
 	@ParameterizedTest
 	@ArgumentsSource(TypeReferenceTestParams.class)
 	public void testTargetNullCheck(ITypeReferenceInitialiser init) {
-		this.setResourceFileTestIdentifier("testTargetNullCheck");
-
 		var objOne = this.initElement(init, this.createMinimalClass("cls"));
 		var objTwo = init.instantiate();
 

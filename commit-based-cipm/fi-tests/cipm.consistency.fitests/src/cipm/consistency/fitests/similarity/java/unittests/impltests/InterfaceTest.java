@@ -21,8 +21,6 @@ public class InterfaceTest extends EObjectSimilarityTest implements UsesTypeRefe
 
 	@Test
 	public void testDefaultExtends() {
-		this.setResourceFileTestIdentifier("testDefaultExtends");
-
 		var objOne = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null);
 		var objTwo = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls2") }, null);
 
@@ -31,8 +29,6 @@ public class InterfaceTest extends EObjectSimilarityTest implements UsesTypeRefe
 
 	@Test
 	public void testDefaultExtendsSize() {
-		this.setResourceFileTestIdentifier("testDefaultExtends");
-
 		var objOne = this.initElement(
 				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") }, null);
 		var objTwo = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null);
@@ -42,8 +38,6 @@ public class InterfaceTest extends EObjectSimilarityTest implements UsesTypeRefe
 
 	@Test
 	public void testDefaultExtendsNullCheck() {
-		this.setResourceFileTestIdentifier("testDefaultExtendsNullCheck");
-
 		var objOne = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null);
 		var objTwo = new InterfaceInitialiser().instantiate();
 
@@ -52,8 +46,6 @@ public class InterfaceTest extends EObjectSimilarityTest implements UsesTypeRefe
 
 	@Test
 	public void testExtends() {
-		this.setResourceFileTestIdentifier("testExtends");
-
 		var objOne = this.initElement(null, new TypeReference[] { this.createMinimalClsRef("cls1") });
 		var objTwo = this.initElement(null, new TypeReference[] { this.createMinimalClsRef("cls2") });
 
@@ -62,8 +54,6 @@ public class InterfaceTest extends EObjectSimilarityTest implements UsesTypeRefe
 
 	@Test
 	public void testExtendsSize() {
-		this.setResourceFileTestIdentifier("testExtendsSize");
-
 		var objOne = this.initElement(null,
 				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
 		var objTwo = this.initElement(null, new TypeReference[] { this.createMinimalClsRef("cls1") });
@@ -73,8 +63,6 @@ public class InterfaceTest extends EObjectSimilarityTest implements UsesTypeRefe
 
 	@Test
 	public void testExtendsNullCheck() {
-		this.setResourceFileTestIdentifier("testExtendsNullCheck");
-
 		var objOne = this.initElement(null, new TypeReference[] { this.createMinimalClsRef("cls1") });
 		var objTwo = new InterfaceInitialiser().instantiate();
 

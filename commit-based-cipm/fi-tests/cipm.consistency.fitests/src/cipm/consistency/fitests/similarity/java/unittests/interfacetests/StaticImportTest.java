@@ -23,8 +23,6 @@ public class StaticImportTest extends EObjectSimilarityTest implements UsesImpor
 	@ArgumentsSource(StaticImportTestParams.class)
 	public void testStatic(IStaticImportInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testStatic");
-
 		var objOne = this.initElement(init, this.createStatic());
 		var objTwo = this.initElement(init, null);
 
@@ -35,8 +33,6 @@ public class StaticImportTest extends EObjectSimilarityTest implements UsesImpor
 	@ArgumentsSource(StaticImportTestParams.class)
 	public void testStaticNullCheck(IStaticImportInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testStaticNullCheck");
-
 		var objOne = this.initElement(init, this.createStatic());
 		var objTwo = init.instantiate();
 

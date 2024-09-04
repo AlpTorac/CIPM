@@ -25,8 +25,6 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 	@ArgumentsSource(ReferenceTestParams.class)
 	public void testNext(IReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testNext");
-
 		var objOne = this.initElement(init, this.createMinimalSR("str1"), null);
 		var objTwo = this.initElement(init, this.createMinimalSR("str2"), null);
 
@@ -37,8 +35,6 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 	@ArgumentsSource(ReferenceTestParams.class)
 	public void testNextNullCheck(IReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testNextNullCheck");
-
 		var objOne = this.initElement(init, this.createMinimalSR("str1"), null);
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));
@@ -50,8 +46,6 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 	@ArgumentsSource(ReferenceTestParams.class)
 	public void testArraySelector(IReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testArraySelector");
-
 		var objOne = this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(0) });
 		var objTwo = this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(1) });
 
@@ -62,8 +56,6 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 	@ArgumentsSource(ReferenceTestParams.class)
 	public void testArraySelectorSize(IReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testArraySelectorSize");
-
 		var objOne = this.initElement(init, null,
 				new ArraySelector[] { this.createMinimalAS(0), this.createMinimalAS(0) });
 		var objTwo = this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(0) });
@@ -75,8 +67,6 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 	@ArgumentsSource(ReferenceTestParams.class)
 	public void testArraySelectorNullCheck(IReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testArraySelectorNullCheck");
-
 		var objOne = this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(0) });
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));

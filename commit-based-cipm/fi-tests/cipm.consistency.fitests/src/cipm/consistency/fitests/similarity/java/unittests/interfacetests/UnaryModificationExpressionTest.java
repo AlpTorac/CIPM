@@ -25,8 +25,6 @@ public class UnaryModificationExpressionTest extends EObjectSimilarityTest imple
 	@ArgumentsSource(UnaryModificationExpressionTestParams.class)
 	public void testChild(IUnaryModificationExpressionInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testChild");
-
 		this.testSimilarity(this.initElement(init, this.createDecimalIntegerLiteral(1), null),
 				this.initElement(init, this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__CHILD);
@@ -36,8 +34,6 @@ public class UnaryModificationExpressionTest extends EObjectSimilarityTest imple
 	@ArgumentsSource(UnaryModificationExpressionTestParams.class)
 	public void testChildNullCheck(IUnaryModificationExpressionInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testChildNullCheck");
-
 		this.testSimilarity(this.initElement(init, this.createDecimalIntegerLiteral(1), null), init.instantiate(),
 				ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__CHILD);
 	}
@@ -46,8 +42,6 @@ public class UnaryModificationExpressionTest extends EObjectSimilarityTest imple
 	@ArgumentsSource(UnaryModificationExpressionTestParams.class)
 	public void testOperator(IUnaryModificationExpressionInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testOperator");
-
 		this.testSimilarity(this.initElement(init, null, this.createPlusPlusOperator()),
 				this.initElement(init, null, this.createMinusMinusOperator()),
 				ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__OPERATOR);
@@ -57,8 +51,6 @@ public class UnaryModificationExpressionTest extends EObjectSimilarityTest imple
 	@ArgumentsSource(UnaryModificationExpressionTestParams.class)
 	public void testOperatorNullCheck(IUnaryModificationExpressionInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testOperatorNullCheck");
-
 		this.testSimilarity(this.initElement(init, null, this.createPlusPlusOperator()), init.instantiate(),
 				ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__OPERATOR);
 	}

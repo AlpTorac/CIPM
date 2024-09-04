@@ -20,8 +20,6 @@ public class ExclusiveOrExpressionTest extends EObjectSimilarityTest implements 
 
 	@Test
 	public void testChild() {
-		this.setResourceFileTestIdentifier("testChild");
-
 		this.testSimilarity(this.initElement(new ExclusiveOrExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
 				this.initElement(new ExclusiveOrExpressionChild[] { this.createDecimalIntegerLiteral(2) }),
 				ExpressionsPackage.Literals.EXCLUSIVE_OR_EXPRESSION__CHILDREN);
@@ -29,8 +27,6 @@ public class ExclusiveOrExpressionTest extends EObjectSimilarityTest implements 
 
 	@Test
 	public void testChildSize() {
-		this.setResourceFileTestIdentifier("testChildSize");
-
 		this.testSimilarity(
 				this.initElement(new ExclusiveOrExpressionChild[] { this.createDecimalIntegerLiteral(1),
 						this.createDecimalIntegerLiteral(1) }),
@@ -40,8 +36,6 @@ public class ExclusiveOrExpressionTest extends EObjectSimilarityTest implements 
 
 	@Test
 	public void testChildNullCheck() {
-		this.setResourceFileTestIdentifier("testChildNullCheck");
-
 		this.testSimilarity(this.initElement(new ExclusiveOrExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
 				new ExclusiveOrExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.EXCLUSIVE_OR_EXPRESSION__CHILDREN);

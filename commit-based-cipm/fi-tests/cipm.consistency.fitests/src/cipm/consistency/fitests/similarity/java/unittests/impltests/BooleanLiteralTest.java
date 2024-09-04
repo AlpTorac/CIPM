@@ -18,16 +18,12 @@ public class BooleanLiteralTest extends EObjectSimilarityTest {
 
 	@Test
 	public void testValue() {
-		this.setResourceFileTestIdentifier("testValue");
-
 		this.testSimilarity(this.initElement(true), this.initElement(false),
 				LiteralsPackage.Literals.BOOLEAN_LITERAL__VALUE);
 	}
 
 	@Test
 	public void testValueNullCheck() {
-		this.setResourceFileTestIdentifier("testValueNullCheck");
-
 		this.testSimilarity(this.initElement(true), new BooleanLiteralInitialiser().instantiate(),
 				LiteralsPackage.Literals.BOOLEAN_LITERAL__VALUE);
 	}

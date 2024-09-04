@@ -20,8 +20,6 @@ public class SynchronizedBlockTest extends EObjectSimilarityTest implements Uses
 
 	@Test
 	public void testLockProvider() {
-		this.setResourceFileTestIdentifier("testLockProvider");
-
 		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
 		var objTwo = this.initElement(this.createDecimalIntegerLiteral(2));
 
@@ -30,8 +28,6 @@ public class SynchronizedBlockTest extends EObjectSimilarityTest implements Uses
 
 	@Test
 	public void testLockProviderNullCheck() {
-		this.setResourceFileTestIdentifier("testLockProviderNullCheck");
-
 		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
 		var objTwo = new SynchronizedBlockInitialiser().instantiate();
 

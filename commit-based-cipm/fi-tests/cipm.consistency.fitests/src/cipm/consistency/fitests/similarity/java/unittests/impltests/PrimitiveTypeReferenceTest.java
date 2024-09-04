@@ -21,8 +21,6 @@ public class PrimitiveTypeReferenceTest extends EObjectSimilarityTest {
 
 	@Test
 	public void testPrimitiveType() {
-		this.setResourceFileTestIdentifier("testPrimitiveType");
-
 		var objOne = this.initElement(new BooleanInitialiser().instantiate());
 		var objTwo = this.initElement(new IntInitialiser().instantiate());
 
@@ -31,8 +29,6 @@ public class PrimitiveTypeReferenceTest extends EObjectSimilarityTest {
 
 	@Test
 	public void testPrimitiveTypeNullCheck() {
-		this.setResourceFileTestIdentifier("testPrimitiveTypeNullCheck");
-
 		var objOne = this.initElement(new BooleanInitialiser().instantiate());
 		var objTwo = new PrimitiveTypeReferenceInitialiser().instantiate();
 

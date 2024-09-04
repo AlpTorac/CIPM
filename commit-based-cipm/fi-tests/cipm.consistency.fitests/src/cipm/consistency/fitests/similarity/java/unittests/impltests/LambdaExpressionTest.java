@@ -23,8 +23,6 @@ public class LambdaExpressionTest extends EObjectSimilarityTest implements UsesS
 
 	@Test
 	public void testBody() {
-		this.setResourceFileTestIdentifier("testBody");
-
 		var objOne = this.initElement(this.createMinimalBlockWithNullReturn(), null);
 		var objTwo = this.initElement(this.createMinimalBlockWithTrivialAssert(), null);
 
@@ -33,8 +31,6 @@ public class LambdaExpressionTest extends EObjectSimilarityTest implements UsesS
 
 	@Test
 	public void testBodyNullCheck() {
-		this.setResourceFileTestIdentifier("testBodyNullCheck");
-
 		var objOne = this.initElement(this.createMinimalBlockWithNullReturn(), null);
 		var objTwo = new LambdaExpressionInitialiser().instantiate();
 
@@ -43,8 +39,6 @@ public class LambdaExpressionTest extends EObjectSimilarityTest implements UsesS
 
 	@Test
 	public void testParameters() {
-		this.setResourceFileTestIdentifier("testParameters");
-
 		var objOne = this.initElement(null, this.createMinimalETLP("p1", "c1"));
 		var objTwo = this.initElement(null, this.createMinimalETLP("p2", "c2"));
 
@@ -53,8 +47,6 @@ public class LambdaExpressionTest extends EObjectSimilarityTest implements UsesS
 
 	@Test
 	public void testParametersNullCheck() {
-		this.setResourceFileTestIdentifier("testParametersNullCheck");
-
 		var objOne = this.initElement(null, this.createMinimalETLP("p1", "c1"));
 		var objTwo = new LambdaExpressionInitialiser().instantiate();
 

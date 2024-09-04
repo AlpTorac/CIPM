@@ -20,8 +20,6 @@ public class ArrayInitializerTest extends EObjectSimilarityTest implements UsesE
 
 	@Test
 	public void testInitialValues() {
-		this.setResourceFileTestIdentifier("testInitialValues");
-
 		var objOne = this.initElement(new ArrayInitializationValue[] { this.createDecimalIntegerLiteral(1) });
 		var objTwo = this.initElement(new ArrayInitializationValue[] { this.createDecimalIntegerLiteral(2) });
 
@@ -30,8 +28,6 @@ public class ArrayInitializerTest extends EObjectSimilarityTest implements UsesE
 
 	@Test
 	public void testInitialValuesSize() {
-		this.setResourceFileTestIdentifier("testInitialValuesSize");
-
 		var objOne = this.initElement(new ArrayInitializationValue[] { this.createDecimalIntegerLiteral(1),
 				this.createDecimalIntegerLiteral(1) });
 		var objTwo = this.initElement(new ArrayInitializationValue[] { this.createDecimalIntegerLiteral(1) });
@@ -41,8 +37,6 @@ public class ArrayInitializerTest extends EObjectSimilarityTest implements UsesE
 
 	@Test
 	public void testInitialValuesNullCheck() {
-		this.setResourceFileTestIdentifier("testInitialValuesNullCheck");
-
 		var objOne = this.initElement(new ArrayInitializationValue[] { this.createDecimalIntegerLiteral(1) });
 		var objTwo = new ArrayInitializerInitialiser().instantiate();
 

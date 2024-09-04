@@ -20,8 +20,6 @@ public class EnumerationTest extends EObjectSimilarityTest implements UsesEnumCo
 
 	@Test
 	public void testConstant() {
-		this.setResourceFileTestIdentifier("testConstant");
-
 		var objOne = this.initElement(new EnumConstant[] { this.createMinimalEnumConstant("cst1") });
 		var objTwo = this.initElement(new EnumConstant[] { this.createMinimalEnumConstant("cst2") });
 
@@ -30,8 +28,6 @@ public class EnumerationTest extends EObjectSimilarityTest implements UsesEnumCo
 
 	@Test
 	public void testConstantSize() {
-		this.setResourceFileTestIdentifier("testConstantSize");
-
 		var objOne = this.initElement(
 				new EnumConstant[] { this.createMinimalEnumConstant("cst1"), this.createMinimalEnumConstant("cst2") });
 		var objTwo = this.initElement(new EnumConstant[] { this.createMinimalEnumConstant("cst1") });
@@ -41,8 +37,6 @@ public class EnumerationTest extends EObjectSimilarityTest implements UsesEnumCo
 
 	@Test
 	public void testConstantNullCheck() {
-		this.setResourceFileTestIdentifier("testConstantNullCheck");
-
 		var objOne = this.initElement(new EnumConstant[] { this.createMinimalEnumConstant("cst1") });
 		var objTwo = new EnumerationInitialiser().instantiate();
 

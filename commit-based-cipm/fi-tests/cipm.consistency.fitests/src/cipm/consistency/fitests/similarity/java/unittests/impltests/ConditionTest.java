@@ -20,8 +20,6 @@ public class ConditionTest extends EObjectSimilarityTest implements UsesStatemen
 
 	@Test
 	public void testElseStatement() {
-		this.setResourceFileTestIdentifier("testElseStatement");
-
 		var objOne = this.initElement(this.createMinimalTrivialAssert());
 		var objTwo = this.initElement(this.createMinimalNullReturn());
 
@@ -30,8 +28,6 @@ public class ConditionTest extends EObjectSimilarityTest implements UsesStatemen
 
 	@Test
 	public void testElseStatementNullCheck() {
-		this.setResourceFileTestIdentifier("testElseStatementNullCheck");
-
 		var objOne = this.initElement(this.createMinimalTrivialAssert());
 		var objTwo = new ConditionInitialiser().instantiate();
 

@@ -92,8 +92,6 @@ public class IdentifierReferenceContainerTest extends EObjectSimilarityTest impl
 	 */
 	@Test
 	public void testBothTargetsNullContainer() {
-		this.setResourceFileTestIdentifier("testBothTargetsNullContainer");
-
 		var targetOne = this.createMinimalClass();
 		var targetTwo = this.createMinimalClass();
 
@@ -115,8 +113,6 @@ public class IdentifierReferenceContainerTest extends EObjectSimilarityTest impl
 	 */
 	@Test
 	public void testOneTargetNullContainer() {
-		this.setResourceFileTestIdentifier("testOneTargetNullContainer");
-
 		var targetOne = this.createMinimalClassWithCU();
 		var targetTwo = this.createMinimalClass();
 
@@ -138,8 +134,6 @@ public class IdentifierReferenceContainerTest extends EObjectSimilarityTest impl
 	 */
 	@Test
 	public void testBothTargetsSimilarContainer() {
-		this.setResourceFileTestIdentifier("testBothTargetsSimilarContainer");
-
 		var targetOne = this.createMinimalClassWithCU();
 		var targetTwo = this.createMinimalClassWithCU();
 
@@ -160,8 +154,6 @@ public class IdentifierReferenceContainerTest extends EObjectSimilarityTest impl
 	 */
 	@Test
 	public void testBothTargetsDifferentContainer() {
-		this.setResourceFileTestIdentifier("testBothTargetsDifferentContainer");
-
 		var targetOne = this.createMinimalClassifierWithCU(new ClassInitialiser(), "cls1", "cu1");
 		var targetTwo = this.createMinimalClassifierWithCU(new ClassInitialiser(), "cls1", "cu2");
 
@@ -182,8 +174,6 @@ public class IdentifierReferenceContainerTest extends EObjectSimilarityTest impl
 	 */
 	@Test
 	public void testOneIROneTargetHaveContainer() {
-		this.setResourceFileTestIdentifier("testOneIROneTargetHaveContainer");
-
 		var targetOne = this.createMinimalClassWithCU();
 		var targetTwo = this.createMinimalClass();
 
@@ -207,8 +197,6 @@ public class IdentifierReferenceContainerTest extends EObjectSimilarityTest impl
 	 */
 	@Test
 	public void testDifferentIRAndTargetHaveContainer() {
-		this.setResourceFileTestIdentifier("testDifferentIRAndTargetHaveContainer");
-
 		var targetOne = this.createMinimalClass();
 		var targetTwo = this.createMinimalClassWithCU();
 
@@ -231,8 +219,6 @@ public class IdentifierReferenceContainerTest extends EObjectSimilarityTest impl
 	 */
 	@Test
 	public void testBothSimilarTargetsHaveSimilarContainers() {
-		this.setResourceFileTestIdentifier("testBothSimilarTargetsHaveSimilarContainers");
-
 		var targetOne = this.createMinimalClassifierWithCU(new ClassInitialiser(), "cls1", "cu1");
 		var targetTwo = this.createMinimalClassifierWithCU(new ClassInitialiser(), "cls1", "cu1");
 
@@ -257,8 +243,6 @@ public class IdentifierReferenceContainerTest extends EObjectSimilarityTest impl
 	 */
 	@Test
 	public void testBothSimilarTargetsHaveDifferentContainers() {
-		this.setResourceFileTestIdentifier("testBothSimilarTargetsHaveDifferentContainers");
-
 		var targetOne = this.createMinimalClassifierWithCU(new ClassInitialiser(), "cls1", "cu1");
 		var targetTwo = this.createMinimalClassifierWithCU(new ClassInitialiser(), "cls1", "cu2");
 

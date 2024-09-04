@@ -20,8 +20,6 @@ public class ExpressionListTest extends EObjectSimilarityTest implements UsesExp
 
 	@Test
 	public void testExpression() {
-		this.setResourceFileTestIdentifier("testExpression");
-
 		var objOne = this.initElement(new Expression[] { this.createMinimalFalseEE() });
 		var objTwo = this.initElement(new Expression[] { this.createMinimalTrueNEE() });
 
@@ -30,8 +28,6 @@ public class ExpressionListTest extends EObjectSimilarityTest implements UsesExp
 
 	@Test
 	public void testExpressionSize() {
-		this.setResourceFileTestIdentifier("testExpressionSize");
-
 		var objOne = this.initElement(new Expression[] { this.createMinimalFalseEE(), this.createMinimalFalseEE() });
 		var objTwo = this.initElement(new Expression[] { this.createMinimalFalseEE() });
 
@@ -40,8 +36,6 @@ public class ExpressionListTest extends EObjectSimilarityTest implements UsesExp
 
 	@Test
 	public void testExpressionNullCheck() {
-		this.setResourceFileTestIdentifier("testExpressionNullCheck");
-
 		var objOne = this.initElement(new Expression[] { this.createMinimalFalseEE() });
 		var objTwo = new ExpressionListInitialiser().instantiate();
 

@@ -20,8 +20,6 @@ public class NamespaceClassifierReferenceTest extends EObjectSimilarityTest impl
 
 	@Test
 	public void testClassifierReference() {
-		this.setResourceFileTestIdentifier("testClassifierReference");
-
 		var objOne = this.initElement(new ClassifierReference[] { this.createMinimalClsRef("cls1") });
 		var objTwo = this.initElement(new ClassifierReference[] { this.createMinimalClsRef("cls2") });
 
@@ -31,8 +29,6 @@ public class NamespaceClassifierReferenceTest extends EObjectSimilarityTest impl
 
 	@Test
 	public void testClassifierReferenceSize() {
-		this.setResourceFileTestIdentifier("testClassifierReferenceSize");
-
 		var objOne = this.initElement(
 				new ClassifierReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
 		var objTwo = this.initElement(new ClassifierReference[] { this.createMinimalClsRef("cls1") });
@@ -43,8 +39,6 @@ public class NamespaceClassifierReferenceTest extends EObjectSimilarityTest impl
 
 	@Test
 	public void testClassifierReferenceNullCheck() {
-		this.setResourceFileTestIdentifier("testClassifierReferenceNullCheck");
-
 		var objOne = this.initElement(new ClassifierReference[] { this.createMinimalClsRef("cls1") });
 		var objTwo = new NamespaceClassifierReferenceInitialiser().instantiate();
 

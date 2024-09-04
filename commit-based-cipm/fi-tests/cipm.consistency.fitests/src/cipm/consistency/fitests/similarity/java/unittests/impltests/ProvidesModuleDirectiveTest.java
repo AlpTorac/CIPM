@@ -20,8 +20,6 @@ public class ProvidesModuleDirectiveTest extends EObjectSimilarityTest implement
 
 	@Test
 	public void testServiceProvider() {
-		this.setResourceFileTestIdentifier("testServiceProvider");
-
 		var objOne = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") });
 		var objTwo = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls2") });
 
@@ -30,8 +28,6 @@ public class ProvidesModuleDirectiveTest extends EObjectSimilarityTest implement
 
 	@Test
 	public void testServiceProviderSize() {
-		this.setResourceFileTestIdentifier("testServiceProviderSize");
-
 		var objOne = this.initElement(
 				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
 		var objTwo = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") });
@@ -41,8 +37,6 @@ public class ProvidesModuleDirectiveTest extends EObjectSimilarityTest implement
 
 	@Test
 	public void testServiceProviderNullCheck() {
-		this.setResourceFileTestIdentifier("testServiceProviderNullCheck");
-
 		var objOne = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") });
 		var objTwo = new ProvidesModuleDirectiveInitialiser().instantiate();
 

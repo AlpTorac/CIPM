@@ -21,8 +21,6 @@ public class ClassifierReferenceTest extends EObjectSimilarityTest implements Us
 
 	@Test
 	public void testTarget() {
-		this.setResourceFileTestIdentifier("testTarget");
-
 		var objOne = this.initElement(this.createMinimalClass("cls1"));
 		var objTwo = this.initElement(this.createMinimalClass("cls2"));
 
@@ -31,8 +29,6 @@ public class ClassifierReferenceTest extends EObjectSimilarityTest implements Us
 
 	@Test
 	public void testTargetNullCheck() {
-		this.setResourceFileTestIdentifier("testTargetNullCheck");
-
 		var objOne = this.initElement(this.createMinimalClass("cls1"));
 		var objTwo = new ClassifierReferenceInitialiser().instantiate();
 

@@ -24,8 +24,6 @@ public class ExceptionThrowerTest extends EObjectSimilarityTest implements UsesT
 	@ArgumentsSource(ExceptionThrowerTestParams.class)
 	public void testExceptions(IExceptionThrowerInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testExceptions");
-
 		var objOne = this.initElement(init, new NamespaceClassifierReference[] { this.createMinimalCNR("cls1") });
 		var objTwo = this.initElement(init, new NamespaceClassifierReference[] { this.createMinimalCNR("cls2") });
 
@@ -36,8 +34,6 @@ public class ExceptionThrowerTest extends EObjectSimilarityTest implements UsesT
 	@ArgumentsSource(ExceptionThrowerTestParams.class)
 	public void testExceptionsSize(IExceptionThrowerInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testExceptionsSize");
-
 		var objOne = this.initElement(init,
 				new NamespaceClassifierReference[] { this.createMinimalCNR("cls1"), this.createMinimalCNR("cls2") });
 		var objTwo = this.initElement(init, new NamespaceClassifierReference[] { this.createMinimalCNR("cls1") });
@@ -49,8 +45,6 @@ public class ExceptionThrowerTest extends EObjectSimilarityTest implements UsesT
 	@ArgumentsSource(ExceptionThrowerTestParams.class)
 	public void testExceptionsNullCheck(IExceptionThrowerInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testExceptionsNullCheck");
-
 		var objOne = this.initElement(init, new NamespaceClassifierReference[] { this.createMinimalCNR("cls1") });
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));

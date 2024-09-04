@@ -23,8 +23,6 @@ public class InitializableTest extends EObjectSimilarityTest implements UsesLite
 	@ArgumentsSource(InitializableTestParams.class)
 	public void testInitialValue(IInitializableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testInitialValue");
-
 		var objOne = this.initElement(init, this.createDecimalIntegerLiteral(5));
 		var objTwo = this.initElement(init, this.createBooleanLiteral(false));
 
@@ -35,8 +33,6 @@ public class InitializableTest extends EObjectSimilarityTest implements UsesLite
 	@ArgumentsSource(InitializableTestParams.class)
 	public void testInitialValueNullCheck(IInitializableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testInitialValueNullCheck");
-
 		var objOne = this.initElement(init, this.createDecimalIntegerLiteral(5));
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));

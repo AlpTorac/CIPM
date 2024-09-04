@@ -23,8 +23,6 @@ public class StatementContainerTest extends EObjectSimilarityTest implements Use
 	@ArgumentsSource(StatementContainerTestParams.class)
 	public void testStatement(IStatementContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testStatement");
-
 		var objOne = this.initElement(init, this.createMinimalNullReturn());
 		var objTwo = this.initElement(init, this.createMinimalTrivialAssert());
 
@@ -35,8 +33,6 @@ public class StatementContainerTest extends EObjectSimilarityTest implements Use
 	@ArgumentsSource(StatementContainerTestParams.class)
 	public void testStatementNullCheck(IStatementContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testStatementNullCheck");
-
 		var objOne = this.initElement(init, this.createMinimalNullReturn());
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));

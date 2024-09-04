@@ -22,8 +22,6 @@ public class PrimaryExpressionReferenceExpressionTest extends EObjectSimilarityT
 
 	@Test
 	public void testChild() {
-		this.setResourceFileTestIdentifier("testChild");
-
 		this.testSimilarity(this.initElement(this.createDecimalIntegerLiteral(1), null),
 				this.initElement(this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.PRIMARY_EXPRESSION_REFERENCE_EXPRESSION__CHILD);
@@ -31,8 +29,6 @@ public class PrimaryExpressionReferenceExpressionTest extends EObjectSimilarityT
 
 	@Test
 	public void testChildNullCheck() {
-		this.setResourceFileTestIdentifier("testChildNullCheck");
-
 		this.testSimilarity(this.initElement(this.createDecimalIntegerLiteral(1), null),
 				new PrimaryExpressionReferenceExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.PRIMARY_EXPRESSION_REFERENCE_EXPRESSION__CHILD);
@@ -40,8 +36,6 @@ public class PrimaryExpressionReferenceExpressionTest extends EObjectSimilarityT
 
 	@Test
 	public void testMethodReference() {
-		this.setResourceFileTestIdentifier("testMethodReference");
-
 		this.testSimilarity(this.initElement(null, this.createMinimalSR("str1")),
 				this.initElement(null, this.createMinimalSR("str2")),
 				ExpressionsPackage.Literals.PRIMARY_EXPRESSION_REFERENCE_EXPRESSION__METHOD_REFERENCE);
@@ -49,8 +43,6 @@ public class PrimaryExpressionReferenceExpressionTest extends EObjectSimilarityT
 
 	@Test
 	public void testMethodReferenceNullCheck() {
-		this.setResourceFileTestIdentifier("testMethodReferenceNullCheck");
-
 		this.testSimilarity(this.initElement(null, this.createMinimalSR("str1")),
 				new PrimaryExpressionReferenceExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.PRIMARY_EXPRESSION_REFERENCE_EXPRESSION__METHOD_REFERENCE);

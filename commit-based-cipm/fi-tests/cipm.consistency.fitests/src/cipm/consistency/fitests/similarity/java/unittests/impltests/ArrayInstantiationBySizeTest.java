@@ -20,8 +20,6 @@ public class ArrayInstantiationBySizeTest extends EObjectSimilarityTest implemen
 
 	@Test
 	public void testSize() {
-		this.setResourceFileTestIdentifier("testSize");
-
 		var objOne = this.initElement(new Expression[] { this.createDecimalIntegerLiteral(1) });
 		var objTwo = this.initElement(new Expression[] { this.createDecimalIntegerLiteral(2) });
 
@@ -30,8 +28,6 @@ public class ArrayInstantiationBySizeTest extends EObjectSimilarityTest implemen
 
 	@Test
 	public void testSizeSize() {
-		this.setResourceFileTestIdentifier("testSizeSize");
-
 		var objOne = this.initElement(
 				new Expression[] { this.createDecimalIntegerLiteral(1), this.createDecimalIntegerLiteral(1) });
 		var objTwo = this.initElement(new Expression[] { this.createDecimalIntegerLiteral(1) });
@@ -41,8 +37,6 @@ public class ArrayInstantiationBySizeTest extends EObjectSimilarityTest implemen
 
 	@Test
 	public void testSizeNullCheck() {
-		this.setResourceFileTestIdentifier("testSizeNullCheck");
-
 		var objOne = this.initElement(new Expression[] { this.createDecimalIntegerLiteral(1) });
 		var objTwo = new ArrayInstantiationBySizeInitialiser().instantiate();
 

@@ -20,8 +20,6 @@ public class NormalSwitchRuleTest extends EObjectSimilarityTest implements UsesE
 
 	@Test
 	public void testAdditionalCondition() {
-		this.setResourceFileTestIdentifier("testAdditionalCondition");
-
 		var objOne = this.initElement(new Expression[] { this.createMinimalFalseEE() });
 		var objTwo = this.initElement(new Expression[] { this.createMinimalTrueNEE() });
 
@@ -30,8 +28,6 @@ public class NormalSwitchRuleTest extends EObjectSimilarityTest implements UsesE
 
 	@Test
 	public void testAdditionalConditionSize() {
-		this.setResourceFileTestIdentifier("testAdditionalConditionSize");
-
 		var objOne = this.initElement(new Expression[] { this.createMinimalFalseEE(), this.createMinimalFalseEE() });
 		var objTwo = this.initElement(new Expression[] { this.createMinimalFalseEE() });
 
@@ -40,8 +36,6 @@ public class NormalSwitchRuleTest extends EObjectSimilarityTest implements UsesE
 
 	@Test
 	public void testAdditionalConditionNullCheck() {
-		this.setResourceFileTestIdentifier("testAdditionalConditionNullCheck");
-
 		var objOne = this.initElement(new Expression[] { this.createMinimalFalseEE() });
 		var objTwo = new NormalSwitchRuleInitialiser().instantiate();
 

@@ -19,6 +19,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -72,8 +73,8 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 
 	@BeforeEach
 	@Override
-	public void setUp() {
-		super.setUp();
+	public void setUp(TestInfo info) {
+		super.setUp(info);
 	}
 
 	/**
@@ -330,8 +331,6 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 	@ParameterizedTest(name = "{3}")
 	@MethodSource({ "generateReferenceEqualityTestParams" })
 	public void sameResourceSimilarityTest(Resource res1, Resource res2, Boolean areSimilar, String modelDirName) {
-		this.setResourceFileTestIdentifier("sameResourceSimilarityTest");
-
 		this.testSimilarity(res1, res2, areSimilar);
 	}
 
@@ -347,8 +346,6 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 	@ParameterizedTest(name = "{3}")
 	@MethodSource({ "generateEqualityTestParams" })
 	public void sameFileSimilarityTest(Resource res1, Resource res2, Boolean areSimilar, String modelDirName) {
-		this.setResourceFileTestIdentifier("sameFileSimilarityTest");
-
 		this.testSimilarity(res1, res2, areSimilar);
 	}
 
@@ -364,8 +361,6 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 	@ParameterizedTest(name = "{3}")
 	@MethodSource({ "generateUnsimilarityTestParams" })
 	public void differentFileSimilarityTest(Resource res1, Resource res2, Boolean areSimilar, String modelDirName) {
-		this.setResourceFileTestIdentifier("differentFileSimilarityTest");
-
 		this.testSimilarity(res1, res2, areSimilar);
 	}
 }

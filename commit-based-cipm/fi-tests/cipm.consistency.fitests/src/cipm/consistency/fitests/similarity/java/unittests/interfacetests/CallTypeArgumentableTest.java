@@ -23,8 +23,6 @@ public class CallTypeArgumentableTest extends EObjectSimilarityTest implements U
 	@ArgumentsSource(CallTypeArgumentableTestParams.class)
 	public void testCallTypeArguments(ICallTypeArgumentableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testCallTypeArguments");
-
 		var objOne = this.initElement(init, new TypeArgument[] { this.createMinimalExtendsTAWithCls("cls1") });
 		var objTwo = this.initElement(init, new TypeArgument[] { this.createMinimalSuperTAWithCls("cls2") });
 
@@ -35,8 +33,6 @@ public class CallTypeArgumentableTest extends EObjectSimilarityTest implements U
 	@ArgumentsSource(CallTypeArgumentableTestParams.class)
 	public void testCallTypeArgumentsSize(ICallTypeArgumentableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testCallTypeArgumentsSize");
-
 		var objOne = this.initElement(init, new TypeArgument[] { this.createMinimalExtendsTAWithCls("cls1"),
 				this.createMinimalExtendsTAWithCls("cls2") });
 		var objTwo = this.initElement(init, new TypeArgument[] { this.createMinimalExtendsTAWithCls("cls1") });
@@ -48,8 +44,6 @@ public class CallTypeArgumentableTest extends EObjectSimilarityTest implements U
 	@ArgumentsSource(CallTypeArgumentableTestParams.class)
 	public void testCallTypeArgumentsNullCheck(ICallTypeArgumentableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testCallTypeArgumentsNullCheck");
-
 		var objOne = this.initElement(init, new TypeArgument[] { this.createMinimalExtendsTAWithCls("cls1") });
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));

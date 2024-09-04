@@ -20,8 +20,6 @@ public class SingleAnnotationParameterTest extends EObjectSimilarityTest impleme
 
 	@Test
 	public void testValue() {
-		this.setResourceFileTestIdentifier("testValue");
-
 		var objOne = this.initElement(this.createNullLiteral());
 		var objTwo = this.initElement(this.createMinimalSR("strVal"));
 
@@ -30,8 +28,6 @@ public class SingleAnnotationParameterTest extends EObjectSimilarityTest impleme
 
 	@Test
 	public void testValueNullCheck() {
-		this.setResourceFileTestIdentifier("testValueNullCheck");
-
 		var objOne = this.initElement(this.createNullLiteral());
 		var objTwo = new SingleAnnotationParameterInitialiser().instantiate();
 

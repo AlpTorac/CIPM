@@ -23,8 +23,6 @@ public class TypeArgumentableTest extends EObjectSimilarityTest implements UsesT
 	@ArgumentsSource(TypeArgumentableTestParams.class)
 	public void testTypeArgument(ITypeArgumentableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testTypeArgument");
-
 		var objOne = this.initElement(init, this.createMinimalExtendsTAWithCls("cls1"));
 		var objTwo = this.initElement(init, this.createMinimalSuperTAWithCls("cls2"));
 
@@ -35,8 +33,6 @@ public class TypeArgumentableTest extends EObjectSimilarityTest implements UsesT
 	@ArgumentsSource(TypeArgumentableTestParams.class)
 	public void testTypeArgumentNullCheck(ITypeArgumentableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testTypeArgumentNullCheck");
-
 		var objOne = this.initElement(init, this.createMinimalExtendsTAWithCls("cls1"));
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));

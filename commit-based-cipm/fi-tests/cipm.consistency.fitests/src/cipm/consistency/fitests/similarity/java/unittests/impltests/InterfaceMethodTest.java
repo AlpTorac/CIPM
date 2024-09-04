@@ -22,8 +22,6 @@ public class InterfaceMethodTest extends EObjectSimilarityTest implements UsesAn
 
 	@Test
 	public void testDefaultValue() {
-		this.setResourceFileTestIdentifier("testDefaultValue");
-
 		var objOne = this.initElement(this.createNullLiteral());
 		var objTwo = this.initElement(this.createMinimalSR("strval"));
 
@@ -32,8 +30,6 @@ public class InterfaceMethodTest extends EObjectSimilarityTest implements UsesAn
 
 	@Test
 	public void testDefaultValueNullCheck() {
-		this.setResourceFileTestIdentifier("testDefaultValueNullCheck");
-
 		var objOne = this.initElement(this.createNullLiteral());
 		var objTwo = new InterfaceMethodInitialiser().instantiate();
 

@@ -20,8 +20,6 @@ public class NestedExpressionTest extends EObjectSimilarityTest implements UsesE
 
 	@Test
 	public void testExpression() {
-		this.setResourceFileTestIdentifier("testExpression");
-
 		var objOne = this.initElement(this.createMinimalFalseEE());
 		var objTwo = this.initElement(this.createMinimalTrueEE());
 
@@ -30,8 +28,6 @@ public class NestedExpressionTest extends EObjectSimilarityTest implements UsesE
 
 	@Test
 	public void testExpressionNullCheck() {
-		this.setResourceFileTestIdentifier("testExpressionNullCheck");
-
 		var objOne = this.initElement(this.createMinimalFalseEE());
 		var objTwo = new NestedExpressionInitialiser().instantiate();
 

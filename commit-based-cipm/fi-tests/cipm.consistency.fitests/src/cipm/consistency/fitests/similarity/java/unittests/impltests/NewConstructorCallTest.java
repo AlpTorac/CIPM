@@ -30,8 +30,6 @@ public class NewConstructorCallTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testAnonymousClass() {
-		this.setResourceFileTestIdentifier("testAnonymousClass");
-
 		var objOne = this.initElement(this.createMinimalAnonymousClassWithMethod("met1"));
 		var objTwo = this.initElement(this.createMinimalAnonymousClassWithMethod("met2"));
 
@@ -40,8 +38,6 @@ public class NewConstructorCallTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testAnonymousClassNullCheck() {
-		this.setResourceFileTestIdentifier("testAnonymousClassNullCheck");
-
 		var objOne = this.initElement(this.createMinimalAnonymousClassWithMethod("met1"));
 		var objTwo = new NewConstructorCallInitialiser().instantiate();
 

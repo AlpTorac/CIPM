@@ -20,8 +20,6 @@ public class SelfReferenceTest extends EObjectSimilarityTest implements UsesLite
 
 	@Test
 	public void testSelf() {
-		this.setResourceFileTestIdentifier("testSelf");
-
 		var objOne = this.initElement(this.createThis());
 		var objTwo = this.initElement(this.createSuper());
 
@@ -30,8 +28,6 @@ public class SelfReferenceTest extends EObjectSimilarityTest implements UsesLite
 
 	@Test
 	public void testSelfNullCheck() {
-		this.setResourceFileTestIdentifier("testSelfNullCheck");
-
 		var objOne = this.initElement(this.createThis());
 		var objTwo = new SelfReferenceInitialiser().instantiate();
 

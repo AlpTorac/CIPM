@@ -22,8 +22,6 @@ public class ImplementorTest extends EObjectSimilarityTest implements UsesTypeRe
 	@ArgumentsSource(ImplementorTestParams.class)
 	public void testImplements(IImplementorInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testImplements");
-
 		var objOne = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") });
 		var objTwo = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls2") });
 
@@ -34,8 +32,6 @@ public class ImplementorTest extends EObjectSimilarityTest implements UsesTypeRe
 	@ArgumentsSource(ImplementorTestParams.class)
 	public void testImplementsSize(IImplementorInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testImplementsSize");
-
 		var objOne = this.initElement(init,
 				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
 		var objTwo = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") });
@@ -47,8 +43,6 @@ public class ImplementorTest extends EObjectSimilarityTest implements UsesTypeRe
 	@ArgumentsSource(ImplementorTestParams.class)
 	public void testImplementsNullCheck(IImplementorInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testImplementsNullCheck");
-
 		var objOne = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") });
 		var objTwo = init.instantiate();
 

@@ -22,8 +22,6 @@ public class EqualityExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testChild() {
-		this.setResourceFileTestIdentifier("testChild");
-
 		this.testSimilarity(
 				this.initElement(new EqualityExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
 				this.initElement(new EqualityExpressionChild[] { this.createDecimalIntegerLiteral(2) }, null),
@@ -32,8 +30,6 @@ public class EqualityExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testChildSize() {
-		this.setResourceFileTestIdentifier("testChildSize");
-
 		this.testSimilarity(
 				this.initElement(new EqualityExpressionChild[] { this.createDecimalIntegerLiteral(1),
 						this.createDecimalIntegerLiteral(1) }, null),
@@ -43,8 +39,6 @@ public class EqualityExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testChildNullCheck() {
-		this.setResourceFileTestIdentifier("testChildNullCheck");
-
 		this.testSimilarity(
 				this.initElement(new EqualityExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
 				new EqualityExpressionInitialiser().instantiate(),
@@ -53,8 +47,6 @@ public class EqualityExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testEqualityOperator() {
-		this.setResourceFileTestIdentifier("testEqualityOperator");
-
 		this.testSimilarity(this.initElement(null, this.createEqualityOperator()),
 				this.initElement(null, this.createNotEqualOperator()),
 				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__EQUALITY_OPERATORS);
@@ -62,8 +54,6 @@ public class EqualityExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testEqualityOperatorNullCheck() {
-		this.setResourceFileTestIdentifier("testEqualityOperatorNullCheck");
-
 		this.testSimilarity(this.initElement(null, this.createEqualityOperator()),
 				new EqualityExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__EQUALITY_OPERATORS);

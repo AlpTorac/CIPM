@@ -22,8 +22,6 @@ public class ConditionalTest extends EObjectSimilarityTest implements UsesExpres
 	@ArgumentsSource(ConditionalTestParams.class)
 	public void testCondition(IConditionalInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testConditional");
-
 		var objOne = this.initElement(init, this.createMinimalTrueEE());
 		var objTwo = this.initElement(init, this.createMinimalTrueNEE());
 
@@ -34,8 +32,6 @@ public class ConditionalTest extends EObjectSimilarityTest implements UsesExpres
 	@ArgumentsSource(ConditionalTestParams.class)
 	public void testConditionNullCheck(IConditionalInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testConditionNullCheck");
-
 		var objOne = this.initElement(init, this.createMinimalTrueEE());
 		var objTwo = init.instantiate();
 

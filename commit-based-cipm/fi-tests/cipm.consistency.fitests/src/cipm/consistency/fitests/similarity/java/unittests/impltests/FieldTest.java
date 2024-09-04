@@ -20,8 +20,6 @@ public class FieldTest extends EObjectSimilarityTest implements UsesAdditionalFi
 
 	@Test
 	public void testAdditionalField() {
-		this.setResourceFileTestIdentifier("testAdditionalField");
-
 		var objOne = this.initElement(new AdditionalField[] { this.createMinimalAF("af1") });
 		var objTwo = this.initElement(new AdditionalField[] { this.createMinimalAF("af2") });
 
@@ -30,8 +28,6 @@ public class FieldTest extends EObjectSimilarityTest implements UsesAdditionalFi
 
 	@Test
 	public void testAdditionalFieldSize() {
-		this.setResourceFileTestIdentifier("testAdditionalFieldSize");
-
 		var objOne = this
 				.initElement(new AdditionalField[] { this.createMinimalAF("af1"), this.createMinimalAF("af2") });
 		var objTwo = this.initElement(new AdditionalField[] { this.createMinimalAF("af1") });
@@ -41,8 +37,6 @@ public class FieldTest extends EObjectSimilarityTest implements UsesAdditionalFi
 
 	@Test
 	public void testAdditionalFieldNullCheck() {
-		this.setResourceFileTestIdentifier("testAdditionalFieldNullCheck");
-
 		var objOne = this.initElement(new AdditionalField[] { this.createMinimalAF("af1") });
 		var objTwo = new FieldInitialiser().instantiate();
 

@@ -26,8 +26,6 @@ public class MemberContainerTest extends EObjectSimilarityTest
 	@ArgumentsSource(MemberContainerTestParams.class)
 	public void testMember(IMemberContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testMember");
-
 		var objOne = this.initElement(init, new Member[] { this.createMinimalClass("cls1") }, null);
 		var objTwo = this.initElement(init, new Member[] { this.createMinimalClass("cls2") }, null);
 
@@ -38,8 +36,6 @@ public class MemberContainerTest extends EObjectSimilarityTest
 	@ArgumentsSource(MemberContainerTestParams.class)
 	public void testMemberSize(IMemberContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testMemberSize");
-
 		var objOne = this.initElement(init,
 				new Member[] { this.createMinimalClass("cls1"), this.createMinimalClass("cls2") }, null);
 		var objTwo = this.initElement(init, new Member[] { this.createMinimalClass("cls1") }, null);
@@ -51,8 +47,6 @@ public class MemberContainerTest extends EObjectSimilarityTest
 	@ArgumentsSource(MemberContainerTestParams.class)
 	public void testMemberNullCheck(IMemberContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testMemberNullCheck");
-
 		var objOne = this.initElement(init, new Member[] { this.createMinimalClass("cls1") }, null);
 		var objTwo = init.instantiate();
 
@@ -63,8 +57,6 @@ public class MemberContainerTest extends EObjectSimilarityTest
 	@ArgumentsSource(MemberContainerTestParams.class)
 	public void testDefaultMember(IMemberContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testDefaultMember");
-
 		var objOne = this.initElement(init, null, new Member[] { this.createMinimalClass("cls1") });
 		var objTwo = this.initElement(init, null, new Member[] { this.createMinimalClass("cls2") });
 
@@ -75,8 +67,6 @@ public class MemberContainerTest extends EObjectSimilarityTest
 	@ArgumentsSource(MemberContainerTestParams.class)
 	public void testDefaultMemberSize(IMemberContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testDefaultMemberSize");
-
 		var objOne = this.initElement(init, null,
 				new Member[] { this.createMinimalClass("cls1"), this.createMinimalClass("cls2") });
 		var objTwo = this.initElement(init, null, new Member[] { this.createMinimalClass("cls1") });
@@ -88,8 +78,6 @@ public class MemberContainerTest extends EObjectSimilarityTest
 	@ArgumentsSource(MemberContainerTestParams.class)
 	public void testDefaultMemberNullCheck(IMemberContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testDefaultMemberNullCheck");
-
 		var objOne = this.initElement(init, null, new Member[] { this.createMinimalClass("cls1") });
 		var objTwo = init.instantiate();
 

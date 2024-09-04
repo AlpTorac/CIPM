@@ -21,8 +21,6 @@ public class AssertTest extends EObjectSimilarityTest implements UsesExpressions
 
 	@Test
 	public void testErrorMessage() {
-		this.setResourceFileTestIdentifier("testErrorMessage");
-
 		var objOne = this.initElement(this.createMinimalSR("val1"));
 		var objTwo = this.initElement(this.createMinimalSR("val2"));
 
@@ -31,8 +29,6 @@ public class AssertTest extends EObjectSimilarityTest implements UsesExpressions
 
 	@Test
 	public void testErrorMessageNullCheck() {
-		this.setResourceFileTestIdentifier("testErrorMessageNullCheck");
-
 		var objOne = this.initElement(this.createMinimalSR("val1"));
 		var objTwo = new AssertInitialiser().instantiate();
 

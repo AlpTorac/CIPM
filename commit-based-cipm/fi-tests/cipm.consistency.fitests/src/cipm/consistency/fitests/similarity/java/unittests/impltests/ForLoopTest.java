@@ -22,8 +22,6 @@ public class ForLoopTest extends EObjectSimilarityTest implements UsesExpression
 
 	@Test
 	public void testInit() {
-		this.setResourceFileTestIdentifier("testInit");
-
 		var objOne = this.initElement(this.createExprList(), null);
 		var objTwo = this.initElement(this.createExprList(this.createMinimalFalseEE()), null);
 
@@ -32,8 +30,6 @@ public class ForLoopTest extends EObjectSimilarityTest implements UsesExpression
 
 	@Test
 	public void testInitNullCheck() {
-		this.setResourceFileTestIdentifier("testInitNullCheck");
-
 		var objOne = this.initElement(this.createExprList(), null);
 		var objTwo = new ForLoopInitialiser().instantiate();
 
@@ -42,8 +38,6 @@ public class ForLoopTest extends EObjectSimilarityTest implements UsesExpression
 
 	@Test
 	public void testUpdate() {
-		this.setResourceFileTestIdentifier("testUpdate");
-
 		var objOne = this.initElement(null, new Expression[] { this.createMinimalFalseEE() });
 		var objTwo = this.initElement(null, new Expression[] { this.createMinimalTrueNEE() });
 
@@ -52,8 +46,6 @@ public class ForLoopTest extends EObjectSimilarityTest implements UsesExpression
 
 	@Test
 	public void testUpdateSize() {
-		this.setResourceFileTestIdentifier("testUpdateSize");
-
 		var objOne = this.initElement(null,
 				new Expression[] { this.createMinimalFalseEE(), this.createMinimalFalseEE() });
 		var objTwo = this.initElement(null, new Expression[] { this.createMinimalFalseEE() });
@@ -63,8 +55,6 @@ public class ForLoopTest extends EObjectSimilarityTest implements UsesExpression
 
 	@Test
 	public void testUpdateNullCheck() {
-		this.setResourceFileTestIdentifier("testUpdateNullCheck");
-
 		var objOne = this.initElement(null, new Expression[] { this.createMinimalFalseEE() });
 		var objTwo = new ForLoopInitialiser().instantiate();
 

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
@@ -40,8 +41,8 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 
 	@BeforeEach
 	@Override
-	public void setUp() {
-		super.setUp();
+	public void setUp(TestInfo info) {
+		super.setUp(info);
 
 		this.setupInitialiserTestSettingsProvider();
 	}

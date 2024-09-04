@@ -24,8 +24,6 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 
 	@Test
 	public void testAssignmentOperator() {
-		this.setResourceFileTestIdentifier("testAssignmentOperator");
-
 		this.testSimilarity(this.initElement(this.createAssignmentOperator(), null, null),
 				this.initElement(this.createAssignmentOrOperator(), null, null),
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__ASSIGNMENT_OPERATOR);
@@ -33,8 +31,6 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 
 	@Test
 	public void testAssignmentOperatorNullCheck() {
-		this.setResourceFileTestIdentifier("testAssignmentOperatorNullCheck");
-
 		this.testSimilarity(this.initElement(this.createAssignmentOperator(), null, null),
 				new AssignmentExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__ASSIGNMENT_OPERATOR);
@@ -42,8 +38,6 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 
 	@Test
 	public void testChild() {
-		this.setResourceFileTestIdentifier("testChild");
-
 		this.testSimilarity(this.initElement(null, this.createDecimalIntegerLiteral(1), null),
 				this.initElement(null, this.createDecimalIntegerLiteral(2), null),
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__CHILD);
@@ -51,8 +45,6 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 
 	@Test
 	public void testChildNullCheck() {
-		this.setResourceFileTestIdentifier("testChildNullCheck");
-
 		this.testSimilarity(this.initElement(null, this.createDecimalIntegerLiteral(1), null),
 				new AssignmentExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__CHILD);
@@ -60,8 +52,6 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 
 	@Test
 	public void testValue() {
-		this.setResourceFileTestIdentifier("testValue");
-
 		this.testSimilarity(this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
 				this.initElement(null, null, this.createDecimalIntegerLiteral(2)),
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__VALUE);
@@ -69,8 +59,6 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 
 	@Test
 	public void testValueNullCheck() {
-		this.setResourceFileTestIdentifier("testValueNullCheck");
-
 		this.testSimilarity(this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
 				new AssignmentExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__VALUE);

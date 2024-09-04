@@ -24,8 +24,6 @@ public class ConcreteClassifierTest extends EObjectSimilarityTest implements Use
 	@ArgumentsSource(ConcreteClassifierTestParams.class)
 	public void testPackage(IConcreteClassifierInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testPackage");
-
 		var objOne = this.initElement(init, this.createMinimalPackage("pOneNS", 2));
 		var objTwo = this.initElement(init, this.createMinimalPackage("pTwoNS", 2));
 
@@ -36,8 +34,6 @@ public class ConcreteClassifierTest extends EObjectSimilarityTest implements Use
 	@ArgumentsSource(ConcreteClassifierTestParams.class)
 	public void testPackageNullCheck(IConcreteClassifierInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testPackageNullCheck");
-
 		var objOne = this.initElement(init, this.createMinimalPackage("pOneNS", 2));
 		var objTwo = init.instantiate();
 

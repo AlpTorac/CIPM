@@ -22,8 +22,6 @@ public class TypeParameterTest extends EObjectSimilarityTest implements UsesType
 
 	@Test
 	public void testExtendType() {
-		this.setResourceFileTestIdentifier("testExtendType");
-
 		var objOne = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") });
 		var objTwo = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls2") });
 
@@ -32,8 +30,6 @@ public class TypeParameterTest extends EObjectSimilarityTest implements UsesType
 
 	@Test
 	public void testExtendTypeSize() {
-		this.setResourceFileTestIdentifier("testExtendTypeSize");
-
 		var objOne = this.initElement(
 				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
 		var objTwo = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") });
@@ -43,8 +39,6 @@ public class TypeParameterTest extends EObjectSimilarityTest implements UsesType
 
 	@Test
 	public void testExtendTypeNullCheck() {
-		this.setResourceFileTestIdentifier("testExtendTypeNullCheck");
-
 		var objOne = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") });
 		var objTwo = new TypeParameterInitialiser().instantiate();
 

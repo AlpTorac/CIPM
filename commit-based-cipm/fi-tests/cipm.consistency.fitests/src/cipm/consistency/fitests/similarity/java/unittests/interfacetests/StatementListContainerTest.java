@@ -32,8 +32,6 @@ public class StatementListContainerTest extends EObjectSimilarityTest implements
 	@ArgumentsSource(StatementListContainerTestParams.class)
 	public void testStatements(IStatementListContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testStatements");
-
 		var objOne = this.initElement(init, new Statement[] { this.createMinimalNullReturn() });
 		var objTwo = this.initElement(init, new Statement[] { this.createMinimalTrivialAssert() });
 
@@ -46,8 +44,6 @@ public class StatementListContainerTest extends EObjectSimilarityTest implements
 	@ArgumentsSource(StatementListContainerTestParams.class)
 	public void testStatementsSize(IStatementListContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testStatementsSize");
-
 		var objOne = this.initElement(init,
 				new Statement[] { this.createMinimalTrivialAssert(), this.createMinimalNullReturn() });
 		var objTwo = this.initElement(init, new Statement[] { this.createMinimalTrivialAssert() });
@@ -61,8 +57,6 @@ public class StatementListContainerTest extends EObjectSimilarityTest implements
 	@ArgumentsSource(StatementListContainerTestParams.class)
 	public void testStatementsNullCheck(IStatementListContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testStatementsNullCheck");
-
 		var objOne = this.initElement(init, new Statement[] { this.createMinimalNullReturn() });
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));

@@ -23,8 +23,6 @@ public class TypedElementTest extends EObjectSimilarityTest implements UsesTypeR
 	@ArgumentsSource(TypedElementTestParams.class)
 	public void testTypeReference(ITypedElementInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testTypeReference");
-
 		var objOne = this.initElement(init, this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(init, this.createMinimalClsRef("cls2"));
 
@@ -35,8 +33,6 @@ public class TypedElementTest extends EObjectSimilarityTest implements UsesTypeR
 	@ArgumentsSource(TypedElementTestParams.class)
 	public void testTypeReferenceNullCheck(ITypedElementInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testTypeReferenceNullCheck");
-
 		var objOne = this.initElement(init, this.createMinimalClsRef("cls1"));
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));

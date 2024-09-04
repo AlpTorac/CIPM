@@ -20,8 +20,6 @@ public class StaticMemberImportTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testStaticMember() {
-		this.setResourceFileTestIdentifier("testStaticMember");
-
 		var objOne = this.initElement(new ReferenceableElement[] { this.createMinimalClsMethodWithNullReturn("met1") });
 		var objTwo = this.initElement(new ReferenceableElement[] { this.createMinimalClsMethodWithNullReturn("met2") });
 
@@ -30,8 +28,6 @@ public class StaticMemberImportTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testStaticMemberSize() {
-		this.setResourceFileTestIdentifier("testStaticMemberSize");
-
 		var objOne = this.initElement(new ReferenceableElement[] { this.createMinimalClsMethodWithNullReturn("met1"),
 				this.createMinimalClsMethodWithNullReturn("met2") });
 		var objTwo = this.initElement(new ReferenceableElement[] { this.createMinimalClsMethodWithNullReturn("met1") });
@@ -41,8 +37,6 @@ public class StaticMemberImportTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testStaticMemberNullCheck() {
-		this.setResourceFileTestIdentifier("testStaticMemberNullCheck");
-
 		var objOne = this.initElement(new ReferenceableElement[] { this.createMinimalClsMethodWithNullReturn("met1") });
 		var objTwo = new StaticMemberImportInitialiser().instantiate();
 

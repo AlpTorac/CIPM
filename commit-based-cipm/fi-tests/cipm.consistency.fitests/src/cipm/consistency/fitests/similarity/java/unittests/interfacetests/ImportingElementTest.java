@@ -23,8 +23,6 @@ public class ImportingElementTest extends EObjectSimilarityTest implements UsesI
 	@ArgumentsSource(ImportingElementTestParams.class)
 	public void testImports(IImportingElementInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testImports");
-
 		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") });
 		var objTwo = this.initElement(init, new Import[] { this.createMinimalClsImport("cls2") });
 
@@ -35,8 +33,6 @@ public class ImportingElementTest extends EObjectSimilarityTest implements UsesI
 	@ArgumentsSource(ImportingElementTestParams.class)
 	public void testImportsSize(IImportingElementInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testImportsSize");
-
 		var objOne = this.initElement(init,
 				new Import[] { this.createMinimalClsImport("cls1"), this.createMinimalClsImport("cls2") });
 		var objTwo = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") });
@@ -48,8 +44,6 @@ public class ImportingElementTest extends EObjectSimilarityTest implements UsesI
 	@ArgumentsSource(ImportingElementTestParams.class)
 	public void testImportsNullCheck(IImportingElementInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testImportsNullCheck");
-
 		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") });
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));

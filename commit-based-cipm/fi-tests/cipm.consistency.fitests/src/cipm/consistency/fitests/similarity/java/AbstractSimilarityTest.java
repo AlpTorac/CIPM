@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
 
 /**
@@ -69,9 +70,19 @@ public abstract class AbstractSimilarityTest {
 	 */
 	private String testIdentifier = "";
 
+	/**
+	 * Sets up the necessary variables before tests are run. The
+	 * {@link TestInfo} parameter is included, so that test-specific
+	 * set up can be performed.
+	 * 
+	 * @param info An object that contains information about the current
+	 * test to be run (ex: the test method instance, test class, ...)
+	 */
 	@BeforeEach
-	public void setUp() {
+	public void setUp(TestInfo info) {
 		this.setResourceFileTestPrefix(this.getClass().getSimpleName());
+
+		this.performTestSpecificSetUp(info);
 
 		this.setUpLogger();
 		this.setResourceRegistry(this.getResourceRootPath());
@@ -86,6 +97,23 @@ public abstract class AbstractSimilarityTest {
 
 		this.logTestEndMessage();
 		this.resetAfterTest();
+	}
+
+	/**
+	 * Makes use of the info parameter to retrieve information
+	 * about its corresponding test method. That information
+	 * is then used to set various variables prior to test run.
+	 * 
+	 * TODO: Explain what variables are set
+	 * 
+	 * @see {@link #setUp(TestInfo)}
+	 */
+	protected void performTestSpecificSetUp(TestInfo info) {
+		var met = info.getTestMethod().orElseGet(() -> null);
+
+		if (met != null) {
+			this.setResourceFileTestIdentifier(met.getName());
+		}
 	}
 
 	/**

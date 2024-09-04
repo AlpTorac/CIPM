@@ -32,8 +32,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testModifier(IAnnotableAndModifiableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testModifier");
-
 		var objOne = this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null,
 				null);
 		var objTwo = this.initElement(init, new Modifier[] { this.createVolatile(), this.createProtected() }, null,
@@ -47,8 +45,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testModifierSize(IAnnotableAndModifiableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testModifierSize");
-
 		var objOne = this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null,
 				null);
 		var objTwo = this.initElement(init, new Modifier[] { this.createAbstract() }, null, null);
@@ -61,8 +57,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testModifierNullCheck(IAnnotableAndModifiableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testModifierNullCheck");
-
 		var objOne = this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null,
 				null);
 		var objTwo = init.instantiate();
@@ -76,8 +70,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testAnnotationInstance(IAnnotableAndModifiableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testAnnotationInstance");
-
 		var objOne = this.initElement(init, null,
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") }, null);
 		var objTwo = this.initElement(init, null,
@@ -91,8 +83,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testAnnotationInstanceSize(IAnnotableAndModifiableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testAnnotationInstanceSize");
-
 		var objOne = this.initElement(init, null,
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") }, null);
 		var objTwo = this.initElement(init, null,
@@ -108,8 +98,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testAnnotationInstanceNullCheck(IAnnotableAndModifiableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testAnnotationInstanceNullCheck");
-
 		var objOne = this.initElement(init, null,
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") }, null);
 		var objTwo = init.instantiate();
@@ -123,8 +111,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testVisibility(IAnnotableAndModifiableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testVisibility");
-
 		var objOne = this.initElement(init, null, null, InitialiserVisibilityModifier.PRIVATE);
 		var objTwo = this.initElement(init, null, null, InitialiserVisibilityModifier.PUBLIC);
 
@@ -136,8 +122,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testVisibilityNullCheck(IAnnotableAndModifiableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testVisibilityNullCheck");
-
 		var objOne = this.initElement(init, null, null, InitialiserVisibilityModifier.PRIVATE);
 		var objTwo = init.instantiate();
 		Assertions.assertTrue(init.initialise(objTwo));

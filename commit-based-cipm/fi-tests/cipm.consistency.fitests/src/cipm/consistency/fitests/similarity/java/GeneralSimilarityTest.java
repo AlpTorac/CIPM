@@ -30,8 +30,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
 	public void testIsSimilarUninitialisedObject(EObjectInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testIsSimilarUninitialisedObject");
-
 		var obj1 = initialiser.instantiate();
 		var obj2 = initialiser.instantiate();
 
@@ -45,8 +43,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
 	public void testAreSimilarUninitialisedSingleObject(EObjectInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testAreSimilarUninitialisedSingleObject");
-
 		var obj1 = initialiser.instantiate();
 		var obj2 = initialiser.instantiate();
 
@@ -60,8 +56,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
 	public void testAreSimilarUninitialisedMultipleObjects(EObjectInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testAreSimilarUninitialisedMultipleObjects");
-
 		var obj11 = initialiser.instantiate();
 		var obj12 = initialiser.instantiate();
 		var obj21 = initialiser.instantiate();
@@ -80,8 +74,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
 	public void testIsSimilarSameReference(EObjectInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testIsSimilarSameReference");
-
 		var obj11 = initialiser.instantiate();
 
 		Assertions.assertTrue(this.isSimilar(obj11, obj11));
@@ -94,8 +86,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
 	public void testAreSimilarSameReference(EObjectInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testAreSimilarSameReference");
-
 		var obj11 = initialiser.instantiate();
 
 		var list1 = List.of(obj11);
@@ -112,8 +102,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
 	public void testListSameReference(EObjectInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testListSameReference");
-
 		var obj11 = initialiser.instantiate();
 		var obj12 = initialiser.instantiate();
 
@@ -131,8 +119,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
 	public void testOneListSubList(EObjectInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testListSubList");
-
 		var obj11 = initialiser.instantiate();
 		var obj11Copy = initialiser.clone(obj11);
 
@@ -155,8 +141,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
 	public void testOneListEmpty(EObjectInitialiser initialiser) {
-		this.setResourceFileTestIdentifier("testOneListEmpty");
-
 		var obj11 = initialiser.instantiate();
 
 		List<EObject> list1 = List.of();
@@ -175,8 +159,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	 */
 	@Test
 	public void testClassMismatch() {
-		this.setResourceFileTestIdentifier("testClassMismatch");
-
 		var mod = new ModuleInitialiser().instantiate();
 		var pac = new PackageInitialiser().instantiate();
 
@@ -195,8 +177,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	 */
 	@Test
 	public void testBothListsEmpty() {
-		this.setResourceFileTestIdentifier("testBothListsEmpty");
-
 		List<EObject> list1 = List.of();
 		List<EObject> list2 = List.of();
 
@@ -215,8 +195,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	 */
 	@Test
 	public void testListSameSizeDifferentElements() {
-		this.setResourceFileTestIdentifier("testListSameSizeDifferentElement");
-
 		var modInit = new ModuleInitialiser();
 
 		var modName1 = "mod1";
@@ -304,8 +282,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	 */
 	@Test
 	public void testListSameElementsSameOrder() {
-		this.setResourceFileTestIdentifier("testListSameSizeSameElementsSameOrder");
-
 		var modInit = new ModuleInitialiser();
 
 		var modName1 = "mod1";
@@ -338,8 +314,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	 */
 	@Test
 	public void testListSameElementsDifferentOrder() {
-		this.setResourceFileTestIdentifier("testListSameElementsDifferentOrder");
-
 		var modInit = new ModuleInitialiser();
 
 		var modName1 = "mod1";
@@ -368,8 +342,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	 */
 	@Test
 	public void testIsSimilarEqual() {
-		this.setResourceFileTestIdentifier("testIsSimilarEqual");
-
 		var initialiser = new ModuleInitialiser();
 
 		var obj11 = initialiser.instantiate();
@@ -386,8 +358,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 	 */
 	@Test
 	public void testAreSimilarEqual() {
-		this.setResourceFileTestIdentifier("testAreSimilarEqual");
-
 		var initialiser = new ModuleInitialiser();
 
 		var obj11 = initialiser.instantiate();
@@ -406,8 +376,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 
 	@Test
 	public void testIsSimilarOneNull() {
-		this.setResourceFileTestIdentifier("testIsSimilarOneNull");
-
 		var initialiser = new ModuleInitialiser();
 		var obj = initialiser.instantiate();
 
@@ -417,15 +385,11 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 
 	@Test
 	public void testIsSimilarBothNull() {
-		this.setResourceFileTestIdentifier("testIsSimilarBothNull");
-
 		Assertions.assertTrue(this.isSimilar(null, null));
 	}
 
 	@Test
 	public void testAreSimilarOneNull() {
-		this.setResourceFileTestIdentifier("testAreSimilarOneNull");
-
 		var initialiser = new ModuleInitialiser();
 		var obj = initialiser.instantiate();
 
@@ -435,8 +399,6 @@ public class GeneralSimilarityTest extends AbstractSimilarityTest {
 
 	@Test
 	public void testAreSimilarBothNull() {
-		this.setResourceFileTestIdentifier("testAreSimilarBothNull");
-
 		Assertions.assertTrue(this.areSimilar(null, null));
 	}
 }

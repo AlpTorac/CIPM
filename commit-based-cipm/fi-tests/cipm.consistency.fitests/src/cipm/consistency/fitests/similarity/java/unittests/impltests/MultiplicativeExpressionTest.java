@@ -23,8 +23,6 @@ public class MultiplicativeExpressionTest extends EObjectSimilarityTest implemen
 
 	@Test
 	public void testChild() {
-		this.setResourceFileTestIdentifier("testChild");
-
 		this.testSimilarity(
 				this.initElement(new MultiplicativeExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
 				this.initElement(new MultiplicativeExpressionChild[] { this.createDecimalIntegerLiteral(2) }, null),
@@ -33,8 +31,6 @@ public class MultiplicativeExpressionTest extends EObjectSimilarityTest implemen
 
 	@Test
 	public void testChildSize() {
-		this.setResourceFileTestIdentifier("testChildSize");
-
 		this.testSimilarity(
 				this.initElement(new MultiplicativeExpressionChild[] { this.createDecimalIntegerLiteral(1),
 						this.createDecimalIntegerLiteral(1) }, null),
@@ -44,8 +40,6 @@ public class MultiplicativeExpressionTest extends EObjectSimilarityTest implemen
 
 	@Test
 	public void testChildNullCheck() {
-		this.setResourceFileTestIdentifier("testChildNullCheck");
-
 		this.testSimilarity(
 				this.initElement(new MultiplicativeExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
 				new MultiplicativeExpressionInitialiser().instantiate(),
@@ -54,8 +48,6 @@ public class MultiplicativeExpressionTest extends EObjectSimilarityTest implemen
 
 	@Test
 	public void testMultiplicativeOperator() {
-		this.setResourceFileTestIdentifier("testMultiplicativeOperator");
-
 		this.testSimilarity(this.initElement(null, new MultiplicativeOperator[] { this.createDivisionOperator() }),
 				this.initElement(null, new MultiplicativeOperator[] { this.createMultiplicationOperator() }),
 				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__MULTIPLICATIVE_OPERATORS);
@@ -63,8 +55,6 @@ public class MultiplicativeExpressionTest extends EObjectSimilarityTest implemen
 
 	@Test
 	public void testMultiplicativeOperatorSize() {
-		this.setResourceFileTestIdentifier("testMultiplicativeOperatorSize");
-
 		this.testSimilarity(
 				this.initElement(null,
 						new MultiplicativeOperator[] { this.createDivisionOperator(), this.createDivisionOperator() }),
@@ -74,8 +64,6 @@ public class MultiplicativeExpressionTest extends EObjectSimilarityTest implemen
 
 	@Test
 	public void testMultiplicativeOperatorNullCheck() {
-		this.setResourceFileTestIdentifier("testMultiplicativeOperatorNullCheck");
-
 		this.testSimilarity(this.initElement(null, new MultiplicativeOperator[] { this.createDivisionOperator() }),
 				new MultiplicativeExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__MULTIPLICATIVE_OPERATORS);

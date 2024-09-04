@@ -25,8 +25,6 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest
 
 	@Test
 	public void testAnnotation() {
-		this.setResourceFileTestIdentifier("testAnnotation");
-
 		var objOne = this.initElement(this.createMinimalClass("cls1"), null);
 		var objTwo = this.initElement(this.createMinimalClass("cls2"), null);
 
@@ -35,8 +33,6 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest
 
 	@Test
 	public void testAnnotationNullCheck() {
-		this.setResourceFileTestIdentifier("testAnnotationNullCheck");
-
 		var objOne = this.initElement(this.createMinimalClass("cls1"), null);
 		var objTwo = new AnnotationInstanceInitialiser().instantiate();
 
@@ -45,8 +41,6 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest
 
 	@Test
 	public void testParameter() {
-		this.setResourceFileTestIdentifier("testParameter");
-
 		var objOne = this.initElement(null, this.createSingleNullAnnoParam());
 		var objTwo = this.initElement(null, this.createSingleStrAnnoParam("val"));
 
@@ -55,8 +49,6 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest
 
 	@Test
 	public void testParameterNullCheck() {
-		this.setResourceFileTestIdentifier("testParameterNullCheck");
-
 		var objOne = this.initElement(null, this.createSingleNullAnnoParam());
 		var objTwo = new AnnotationInstanceInitialiser().instantiate();
 

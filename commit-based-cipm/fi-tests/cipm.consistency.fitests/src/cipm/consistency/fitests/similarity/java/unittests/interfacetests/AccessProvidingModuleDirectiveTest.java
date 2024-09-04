@@ -28,8 +28,6 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest
 	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
 	public void testModule(IAccessProvidingModuleDirectiveInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testModuleReference");
-
 		var objOne = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod1") }, null);
 		var objTwo = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod2") }, null);
 
@@ -40,8 +38,6 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest
 	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
 	public void testModuleSize(IAccessProvidingModuleDirectiveInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testModuleSize");
-
 		var objOne = this.initElement(init,
 				new ModuleReference[] { this.createMinimalMR("mod1"), this.createMinimalMR("mod2") }, null);
 		var objTwo = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod1") }, null);
@@ -53,8 +49,6 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest
 	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
 	public void testModuleNullCheck(IAccessProvidingModuleDirectiveInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testModuleNullCheck");
-
 		var objOne = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod1") }, null);
 		var objTwo = init.instantiate();
 
@@ -65,8 +59,6 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest
 	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
 	public void testAccessablePackage(IAccessProvidingModuleDirectiveInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testAccessablePackage");
-
 		var objOne = this.initElement(init, null, this.createMinimalPackage(new String[] { "ns1", "ns2" }));
 		var objTwo = this.initElement(init, null, this.createMinimalPackage(new String[] { "ns3", "ns4" }));
 
@@ -78,8 +70,6 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest
 	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
 	public void testAccessablePackageNullCheck(IAccessProvidingModuleDirectiveInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testAccessablePackageNullCheck");
-
 		var objOne = this.initElement(init, null, this.createMinimalPackage(new String[] { "ns1", "ns2" }));
 		var objTwo = init.instantiate();
 

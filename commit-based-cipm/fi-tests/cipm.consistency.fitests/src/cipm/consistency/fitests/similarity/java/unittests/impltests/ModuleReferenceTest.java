@@ -20,8 +20,6 @@ public class ModuleReferenceTest extends EObjectSimilarityTest implements UsesMo
 
 	@Test
 	public void testTarget() {
-		this.setResourceFileTestIdentifier("testTarget");
-
 		var objOne = this.initElement(this.createMinimalModule("mod1"));
 		var objTwo = this.initElement(this.createMinimalModule("mod2"));
 
@@ -30,8 +28,6 @@ public class ModuleReferenceTest extends EObjectSimilarityTest implements UsesMo
 
 	@Test
 	public void testTargetNullCheck() {
-		this.setResourceFileTestIdentifier("testTargetNullCheck");
-
 		var objOne = this.initElement(this.createMinimalModule("mod1"));
 		var objTwo = new ModuleReferenceInitialiser().instantiate();
 

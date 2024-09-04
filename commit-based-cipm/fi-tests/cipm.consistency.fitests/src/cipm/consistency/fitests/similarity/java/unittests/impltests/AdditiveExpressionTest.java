@@ -22,8 +22,6 @@ public class AdditiveExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testChild() {
-		this.setResourceFileTestIdentifier("testChild");
-
 		this.testSimilarity(
 				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
 				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(2) }, null),
@@ -32,8 +30,6 @@ public class AdditiveExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testChildSize() {
-		this.setResourceFileTestIdentifier("testChildSize");
-
 		this.testSimilarity(
 				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(1),
 						this.createDecimalIntegerLiteral(1) }, null),
@@ -43,8 +39,6 @@ public class AdditiveExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testChildNullCheck() {
-		this.setResourceFileTestIdentifier("testChildNullCheck");
-
 		this.testSimilarity(
 				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
 				new AdditiveExpressionInitialiser().instantiate(),
@@ -53,8 +47,6 @@ public class AdditiveExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testAdditiveOperator() {
-		this.setResourceFileTestIdentifier("testAdditiveOperator");
-
 		this.testSimilarity(this.initElement(null, new AdditiveOperator[] { this.createAdditionOperator() }),
 				this.initElement(null, new AdditiveOperator[] { this.createSubtractionOperator() }),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__ADDITIVE_OPERATORS);
@@ -62,8 +54,6 @@ public class AdditiveExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testAdditiveOperatorSize() {
-		this.setResourceFileTestIdentifier("testAdditiveOperatorSize");
-
 		this.testSimilarity(
 				this.initElement(null,
 						new AdditiveOperator[] { this.createAdditionOperator(), this.createAdditionOperator() }),
@@ -73,8 +63,6 @@ public class AdditiveExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testAdditiveOperatorNullCheck() {
-		this.setResourceFileTestIdentifier("testAdditiveOperatorNullCheck");
-
 		this.testSimilarity(this.initElement(null, new AdditiveOperator[] { this.createAdditionOperator() }),
 				new AdditiveExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__ADDITIVE_OPERATORS);

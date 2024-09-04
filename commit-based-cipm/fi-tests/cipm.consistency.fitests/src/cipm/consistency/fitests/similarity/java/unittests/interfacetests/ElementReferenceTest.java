@@ -24,8 +24,6 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 	@ArgumentsSource(ElementReferenceTestParams.class)
 	public void testTarget(IElementReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testTarget");
-
 		var objOne = this.initElement(init, this.createMinimalClass("cls1"), null);
 		var objTwo = this.initElement(init, this.createMinimalClass("cls2"), null);
 
@@ -36,8 +34,6 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 	@ArgumentsSource(ElementReferenceTestParams.class)
 	public void testTargetNullCheck(IElementReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testTargetNullCheck");
-
 		var objOne = this.initElement(init, this.createMinimalClass("cls1"), null);
 		var objTwo = init.instantiate();
 
@@ -52,8 +48,6 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 	@ArgumentsSource(ElementReferenceTestParams.class)
 	public void testTargetNoException(IElementReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testTargetNoException");
-
 		var objOne = this.initElement(init, this.createMinimalClass("cls1"), null);
 		var objTwo = this.initElement(init, this.createMinimalClass("cls2"), null);
 
@@ -65,8 +59,6 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 	@ArgumentsSource(ElementReferenceTestParams.class)
 	public void testTargetNoExceptionNullCheck(IElementReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testTargetNoExceptionNullCheck");
-
 		var objOne = this.initElement(init, this.createMinimalClass("cls1"), null);
 		var objTwo = init.instantiate();
 
@@ -78,8 +70,6 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 	@ArgumentsSource(ElementReferenceTestParams.class)
 	public void testContainedTarget(IElementReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testContainedTarget");
-
 		var objOne = this.initElement(init, null, this.createMinimalClass("cls1"));
 		var objTwo = this.initElement(init, null, this.createMinimalClass("cls2"));
 
@@ -90,8 +80,6 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 	@ArgumentsSource(ElementReferenceTestParams.class)
 	public void testContainedTargetNullCheck(IElementReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testContainedTargetNullCheck");
-
 		var objOne = this.initElement(init, null, this.createMinimalClass("cls1"));
 		var objTwo = init.instantiate();
 

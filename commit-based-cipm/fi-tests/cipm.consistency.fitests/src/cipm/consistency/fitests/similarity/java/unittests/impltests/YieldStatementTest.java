@@ -20,8 +20,6 @@ public class YieldStatementTest extends EObjectSimilarityTest implements UsesExp
 
 	@Test
 	public void testYieldExpression() {
-		this.setResourceFileTestIdentifier("testYieldExpression");
-
 		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
 		var objTwo = this.initElement(this.createDecimalIntegerLiteral(2));
 
@@ -30,8 +28,6 @@ public class YieldStatementTest extends EObjectSimilarityTest implements UsesExp
 
 	@Test
 	public void testYieldExpressionNullCheck() {
-		this.setResourceFileTestIdentifier("testYieldExpressionNullCheck");
-
 		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
 		var objTwo = new YieldStatementInitialiser().instantiate();
 

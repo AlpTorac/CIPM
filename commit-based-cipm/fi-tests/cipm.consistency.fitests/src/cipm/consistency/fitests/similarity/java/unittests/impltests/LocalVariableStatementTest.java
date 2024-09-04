@@ -20,8 +20,6 @@ public class LocalVariableStatementTest extends EObjectSimilarityTest implements
 
 	@Test
 	public void testVariable() {
-		this.setResourceFileTestIdentifier("testVariable");
-
 		var objOne = this.initElement(this.createMinimalLV("lv1"));
 		var objTwo = this.initElement(this.createMinimalLV("lv2"));
 
@@ -30,8 +28,6 @@ public class LocalVariableStatementTest extends EObjectSimilarityTest implements
 
 	@Test
 	public void testVariableNullCheck() {
-		this.setResourceFileTestIdentifier("testVariableNullCheck");
-
 		var objOne = this.initElement(this.createMinimalLV("lv1"));
 		var objTwo = new LocalVariableStatementInitialiser().instantiate();
 

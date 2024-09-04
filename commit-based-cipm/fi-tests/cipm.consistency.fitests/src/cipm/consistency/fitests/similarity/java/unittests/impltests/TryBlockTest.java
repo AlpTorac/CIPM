@@ -26,8 +26,6 @@ public class TryBlockTest extends EObjectSimilarityTest implements UsesCatchBloc
 
 	@Test
 	public void testResource() {
-		this.setResourceFileTestIdentifier("testResource");
-
 		var objOne = this.initElement(new Resource[] { this.createMinimalLV("lv1") }, null, null);
 		var objTwo = this.initElement(new Resource[] { this.createMinimalLV("lv2") }, null, null);
 
@@ -36,8 +34,6 @@ public class TryBlockTest extends EObjectSimilarityTest implements UsesCatchBloc
 
 	@Test
 	public void testResourceSize() {
-		this.setResourceFileTestIdentifier("testResourceSize");
-
 		var objOne = this.initElement(new Resource[] { this.createMinimalLV("lv1"), this.createMinimalLV("lv2") }, null,
 				null);
 		var objTwo = this.initElement(new Resource[] { this.createMinimalLV("lv1") }, null, null);
@@ -47,8 +43,6 @@ public class TryBlockTest extends EObjectSimilarityTest implements UsesCatchBloc
 
 	@Test
 	public void testResourceNullCheck() {
-		this.setResourceFileTestIdentifier("testResourceNullCheck");
-
 		var objOne = this.initElement(new Resource[] { this.createMinimalLV("lv1") }, null, null);
 		var objTwo = new TryBlockInitialiser().instantiate();
 
@@ -57,8 +51,6 @@ public class TryBlockTest extends EObjectSimilarityTest implements UsesCatchBloc
 
 	@Test
 	public void testCatchBlock() {
-		this.setResourceFileTestIdentifier("testCatchBlock");
-
 		var objOne = this.initElement(null, new CatchBlock[] { this.createMinimalCB("p1", "t1") }, null);
 		var objTwo = this.initElement(null, new CatchBlock[] { this.createMinimalCB("p2", "t2") }, null);
 
@@ -67,8 +59,6 @@ public class TryBlockTest extends EObjectSimilarityTest implements UsesCatchBloc
 
 	@Test
 	public void testCatchBlockSize() {
-		this.setResourceFileTestIdentifier("testCatchBlockSize");
-
 		var objOne = this.initElement(null,
 				new CatchBlock[] { this.createMinimalCB("p1", "t1"), this.createMinimalCB("p2", "t2") }, null);
 		var objTwo = this.initElement(null, new CatchBlock[] { this.createMinimalCB("p1", "t1") }, null);
@@ -78,8 +68,6 @@ public class TryBlockTest extends EObjectSimilarityTest implements UsesCatchBloc
 
 	@Test
 	public void testCatchBlockNullCheck() {
-		this.setResourceFileTestIdentifier("testCatchBlockNullCheck");
-
 		var objOne = this.initElement(null, new CatchBlock[] { this.createMinimalCB("p1", "t1") }, null);
 		var objTwo = new TryBlockInitialiser().instantiate();
 
@@ -88,8 +76,6 @@ public class TryBlockTest extends EObjectSimilarityTest implements UsesCatchBloc
 
 	@Test
 	public void testFinallyBlock() {
-		this.setResourceFileTestIdentifier("testFinallyBlock");
-
 		var objOne = this.initElement(null, null, this.createMinimalBlockWithNullReturn());
 		var objTwo = this.initElement(null, null, this.createMinimalBlockWithTrivialAssert());
 
@@ -98,8 +84,6 @@ public class TryBlockTest extends EObjectSimilarityTest implements UsesCatchBloc
 
 	@Test
 	public void testFinallyBlockNullCheck() {
-		this.setResourceFileTestIdentifier("testFinallyBlockNullCheck");
-
 		var objOne = this.initElement(null, null, this.createMinimalBlockWithNullReturn());
 		var objTwo = new TryBlockInitialiser().instantiate();
 

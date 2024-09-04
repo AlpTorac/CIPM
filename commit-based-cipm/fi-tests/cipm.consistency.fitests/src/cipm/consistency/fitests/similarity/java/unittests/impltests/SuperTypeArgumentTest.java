@@ -20,8 +20,6 @@ public class SuperTypeArgumentTest extends EObjectSimilarityTest implements Uses
 
 	@Test
 	public void testSuperType() {
-		this.setResourceFileTestIdentifier("testSuperType");
-
 		var objOne = this.initElement(this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(this.createMinimalClsRef("cls2"));
 
@@ -30,8 +28,6 @@ public class SuperTypeArgumentTest extends EObjectSimilarityTest implements Uses
 
 	@Test
 	public void testSuperTypeNullCheck() {
-		this.setResourceFileTestIdentifier("testSuperTypeNullCheck");
-
 		var objOne = this.initElement(this.createMinimalClsRef("cls1"));
 		var objTwo = new SuperTypeArgumentInitialiser().instantiate();
 

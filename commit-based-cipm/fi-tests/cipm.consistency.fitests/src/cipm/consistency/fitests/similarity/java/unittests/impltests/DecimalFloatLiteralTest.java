@@ -18,16 +18,12 @@ public class DecimalFloatLiteralTest extends EObjectSimilarityTest {
 
 	@Test
 	public void testDecimalValue() {
-		this.setResourceFileTestIdentifier("testDecimalValue");
-
 		this.testSimilarity(this.initElement(1.5f), this.initElement(2.5f),
 				LiteralsPackage.Literals.DECIMAL_FLOAT_LITERAL__DECIMAL_VALUE);
 	}
 
 	@Test
 	public void testDecimalValueNullCheck() {
-		this.setResourceFileTestIdentifier("testDecimalValueNullCheck");
-
 		this.testSimilarity(this.initElement(1.5f), new DecimalFloatLiteralInitialiser().instantiate(),
 				LiteralsPackage.Literals.DECIMAL_FLOAT_LITERAL__DECIMAL_VALUE);
 	}

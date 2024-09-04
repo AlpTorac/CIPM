@@ -23,8 +23,6 @@ public class ReceiverParameterTest extends EObjectSimilarityTest implements Uses
 
 	@Test
 	public void testThisTypeReference() {
-		this.setResourceFileTestIdentifier("testThisTypeReference");
-
 		var objOne = this.initElement(this.createThis(), null);
 		var objTwo = this.initElement(null, null);
 
@@ -33,8 +31,6 @@ public class ReceiverParameterTest extends EObjectSimilarityTest implements Uses
 
 	@Test
 	public void testThisTypeReferenceNullCheck() {
-		this.setResourceFileTestIdentifier("testThisTypeReferenceNullCheck");
-
 		var objOne = this.initElement(this.createThis(), null);
 		var objTwo = new ReceiverParameterInitialiser().instantiate();
 
@@ -43,8 +39,6 @@ public class ReceiverParameterTest extends EObjectSimilarityTest implements Uses
 
 	@Test
 	public void testOuterTypeReference() {
-		this.setResourceFileTestIdentifier("testOuterTypeReference");
-
 		var objOne = this.initElement(null, this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(null, this.createMinimalClsRef("cls2"));
 
@@ -53,8 +47,6 @@ public class ReceiverParameterTest extends EObjectSimilarityTest implements Uses
 
 	@Test
 	public void testOuterTypeReferenceNullCheck() {
-		this.setResourceFileTestIdentifier("testOuterTypeReferenceNullCheck");
-
 		var objOne = this.initElement(null, this.createMinimalClsRef("cls1"));
 		var objTwo = new ReceiverParameterInitialiser().instantiate();
 

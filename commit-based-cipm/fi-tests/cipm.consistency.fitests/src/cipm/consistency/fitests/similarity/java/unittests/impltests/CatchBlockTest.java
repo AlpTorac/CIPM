@@ -20,8 +20,6 @@ public class CatchBlockTest extends EObjectSimilarityTest implements UsesParamet
 
 	@Test
 	public void testParameter() {
-		this.setResourceFileTestIdentifier("testParameter");
-
 		var objOne = this.initElement(this.createMinimalOrdParamWithClsTarget("param1", "cls1"));
 		var objTwo = this.initElement(this.createMinimalOrdParamWithClsTarget("param2", "cls2"));
 
@@ -30,8 +28,6 @@ public class CatchBlockTest extends EObjectSimilarityTest implements UsesParamet
 
 	@Test
 	public void testParameterNullCheck() {
-		this.setResourceFileTestIdentifier("testParameterNullCheck");
-
 		var objOne = this.initElement(this.createMinimalOrdParamWithClsTarget("param1", "cls1"));
 		var objTwo = new CatchBlockInitialiser().instantiate();
 

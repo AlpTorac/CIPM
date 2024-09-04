@@ -20,8 +20,6 @@ public class ExpressionStatementTest extends EObjectSimilarityTest implements Us
 
 	@Test
 	public void testExpression() {
-		this.setResourceFileTestIdentifier("testExpression");
-
 		var objOne = this.initElement(this.createMinimalFalseEE());
 		var objTwo = this.initElement(this.createMinimalTrueNEE());
 
@@ -30,8 +28,6 @@ public class ExpressionStatementTest extends EObjectSimilarityTest implements Us
 
 	@Test
 	public void testExpressionNullCheck() {
-		this.setResourceFileTestIdentifier("testExpressionNullCheck");
-
 		var objOne = this.initElement(this.createMinimalFalseEE());
 		var objTwo = new ExpressionStatementInitialiser().instantiate();
 

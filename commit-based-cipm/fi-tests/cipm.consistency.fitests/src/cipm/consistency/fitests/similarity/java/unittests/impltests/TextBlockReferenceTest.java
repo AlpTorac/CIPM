@@ -18,8 +18,6 @@ public class TextBlockReferenceTest extends EObjectSimilarityTest {
 
 	@Test
 	public void testValue() {
-		this.setResourceFileTestIdentifier("testValue");
-
 		var objOne = this.initElement("val1");
 		var objTwo = this.initElement("val2");
 
@@ -28,8 +26,6 @@ public class TextBlockReferenceTest extends EObjectSimilarityTest {
 
 	@Test
 	public void testValueNullCheck() {
-		this.setResourceFileTestIdentifier("testValueNullCheck");
-
 		var objOne = this.initElement("val1");
 		var objTwo = new TextBlockReferenceInitialiser().instantiate();
 

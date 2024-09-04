@@ -20,8 +20,6 @@ public class ThrowTest extends EObjectSimilarityTest implements UsesExpressions 
 
 	@Test
 	public void testThrowable() {
-		this.setResourceFileTestIdentifier("testThrowable");
-
 		var objOne = this.initElement(this.createMinimalSR("str1"));
 		var objTwo = this.initElement(this.createMinimalSR("str2"));
 
@@ -30,8 +28,6 @@ public class ThrowTest extends EObjectSimilarityTest implements UsesExpressions 
 
 	@Test
 	public void testThrowableNullCheck() {
-		this.setResourceFileTestIdentifier("testThrowableNullCheck");
-
 		var objOne = this.initElement(this.createMinimalSR("str1"));
 		var objTwo = new ThrowInitialiser().instantiate();
 

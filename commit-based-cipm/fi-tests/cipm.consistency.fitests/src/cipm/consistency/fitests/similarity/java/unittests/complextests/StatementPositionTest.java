@@ -79,8 +79,6 @@ public class StatementPositionTest extends EObjectSimilarityTest implements Uses
 	@MethodSource("genTestParams")
 	public void testSameStatementPosition(String displayName, IStatementListContainerInitialiser containerInit,
 			IStatementInitialiser containeeInit) {
-		this.setResourceFileTestIdentifier("testSameStatementPosition");
-
 		var slc1 = containerInit.instantiate();
 		Assertions.assertTrue(containerInit.initialise(slc1));
 		var slc2 = containerInit.instantiate();
@@ -133,8 +131,6 @@ public class StatementPositionTest extends EObjectSimilarityTest implements Uses
 	@MethodSource("genTestParams")
 	public void testDifferentStatementPosition(String displayName, IStatementListContainerInitialiser containerInit,
 			IStatementInitialiser containeeInit) {
-		this.setResourceFileTestIdentifier("testDifferentStatementPosition");
-
 		var containeeCls = containeeInit.instantiate().getClass();
 
 		var slc1 = containerInit.instantiate();

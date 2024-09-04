@@ -20,8 +20,6 @@ public class NamedElementTest extends EObjectSimilarityTest {
 	@ArgumentsSource(NameTestParams.class)
 	public void testName(INamedElementInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testName");
-
 		var objOne = this.initElement(init, "name11");
 		var objTwo = this.initElement(init, "name22");
 
@@ -32,8 +30,6 @@ public class NamedElementTest extends EObjectSimilarityTest {
 	@ArgumentsSource(NameTestParams.class)
 	public void testNameNullCheck(INamedElementInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.setResourceFileTestIdentifier("testNameNullCheck");
-
 		var objOne = this.initElement(init, "name11");
 		var objTwo = init.instantiate();
 

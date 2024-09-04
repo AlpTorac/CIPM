@@ -31,8 +31,6 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 
 	@Test
 	public void testOpen() {
-		this.setResourceFileTestIdentifier("testOpen");
-
 		var objOne = this.initElement(null, null, true);
 		var objTwo = this.initElement(null, null, false);
 
@@ -41,8 +39,6 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 
 	@Test
 	public void testOpenNullCheck() {
-		this.setResourceFileTestIdentifier("testOpenNullCheck");
-
 		var objOne = this.initElement(null, null, true);
 		var objTwo = new ModuleInitialiser().instantiate();
 
@@ -51,8 +47,6 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 
 	@Test
 	public void testPackages() {
-		this.setResourceFileTestIdentifier("testPackages");
-
 		var objOne = this.initElement(new Package[] { this.createMinimalPackage(new String[] { "ns1" }) }, null, false);
 		var objTwo = this.initElement(new Package[] { this.createMinimalPackage(new String[] { "ns2" }) }, null, false);
 
@@ -61,8 +55,6 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 
 	@Test
 	public void testPackagesSize() {
-		this.setResourceFileTestIdentifier("testPackagesSize");
-
 		var objOne = this.initElement(new Package[] { this.createMinimalPackage(new String[] { "ns1" }),
 				this.createMinimalPackage(new String[] { "ns2" }) }, null, false);
 		var objTwo = this.initElement(new Package[] { this.createMinimalPackage(new String[] { "ns1" }) }, null, false);
@@ -72,8 +64,6 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 
 	@Test
 	public void testPackagesNullCheck() {
-		this.setResourceFileTestIdentifier("testPackagesNullCheck");
-
 		var objOne = this.initElement(new Package[] { this.createMinimalPackage(new String[] { "ns1" }) }, null, false);
 		var objTwo = new ModuleInitialiser().instantiate();
 
@@ -82,8 +72,6 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 
 	@Test
 	public void testTargets() {
-		this.setResourceFileTestIdentifier("testTargets");
-
 		var objOne = this.initElement(null, new ModuleDirective[] { this.createMinimalEMD(new String[] { "ns1" }) },
 				false);
 		var objTwo = this.initElement(null, new ModuleDirective[] { this.createMinimalOMD(new String[] { "ns1" }) },
@@ -94,8 +82,6 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 
 	@Test
 	public void testTargetsSize() {
-		this.setResourceFileTestIdentifier("testTargetsSize");
-
 		var objOne = this.initElement(null, new ModuleDirective[] { this.createMinimalEMD(new String[] { "ns1" }),
 				this.createMinimalEMD(new String[] { "ns2" }) }, false);
 		var objTwo = this.initElement(null, new ModuleDirective[] { this.createMinimalEMD(new String[] { "ns1" }) },
@@ -106,8 +92,6 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 
 	@Test
 	public void testTargetsNullCheck() {
-		this.setResourceFileTestIdentifier("testTargetsNullCheck");
-
 		var objOne = this.initElement(null, new ModuleDirective[] { this.createMinimalEMD(new String[] { "ns1" }) },
 				false);
 		var objTwo = new ModuleInitialiser().instantiate();

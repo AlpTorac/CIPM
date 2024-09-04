@@ -20,8 +20,6 @@ public class ExplicitConstructorCallTest extends EObjectSimilarityTest implement
 
 	@Test
 	public void testCallTarget() {
-		this.setResourceFileTestIdentifier("testCallTarget");
-
 		var objOne = this.initElement(this.createThis());
 		var objTwo = this.initElement(this.createSuper());
 
@@ -30,8 +28,6 @@ public class ExplicitConstructorCallTest extends EObjectSimilarityTest implement
 
 	@Test
 	public void testCallTargetNullCheck() {
-		this.setResourceFileTestIdentifier("testCallTargetNullCheck");
-
 		var objOne = this.initElement(this.createThis());
 		var objTwo = new ExplicitConstructorCallInitialiser().instantiate();
 

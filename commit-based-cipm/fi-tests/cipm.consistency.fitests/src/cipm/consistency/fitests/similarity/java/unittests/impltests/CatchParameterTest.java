@@ -20,8 +20,6 @@ public class CatchParameterTest extends EObjectSimilarityTest implements UsesTyp
 
 	@Test
 	public void testTypeReference() {
-		this.setResourceFileTestIdentifier("testTypeReference");
-
 		var objOne = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") });
 		var objTwo = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls2") });
 
@@ -30,8 +28,6 @@ public class CatchParameterTest extends EObjectSimilarityTest implements UsesTyp
 
 	@Test
 	public void testTypeReferenceSize() {
-		this.setResourceFileTestIdentifier("testTypeReferenceSize");
-
 		var objOne = this.initElement(
 				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
 		var objTwo = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") });
@@ -41,8 +37,6 @@ public class CatchParameterTest extends EObjectSimilarityTest implements UsesTyp
 
 	@Test
 	public void testTypeReferenceNullCheck() {
-		this.setResourceFileTestIdentifier("testTypeReferenceNullCheck");
-
 		var objOne = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") });
 		var objTwo = new CatchParameterInitialiser().instantiate();
 

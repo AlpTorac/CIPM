@@ -20,8 +20,6 @@ public class ReturnTest extends EObjectSimilarityTest implements UsesExpressions
 
 	@Test
 	public void testReturnValue() {
-		this.setResourceFileTestIdentifier("testReturnValue");
-
 		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
 		var objTwo = this.initElement(this.createMinimalFalseEE());
 
@@ -30,8 +28,6 @@ public class ReturnTest extends EObjectSimilarityTest implements UsesExpressions
 
 	@Test
 	public void testReturnValueNullCheck() {
-		this.setResourceFileTestIdentifier("testReturnValueNullCheck");
-
 		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
 		var objTwo = new ReturnInitialiser().instantiate();
 

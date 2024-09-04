@@ -22,8 +22,6 @@ public class RelationExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testChild() {
-		this.setResourceFileTestIdentifier("testChild");
-
 		this.testSimilarity(
 				this.initElement(new RelationExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
 				this.initElement(new RelationExpressionChild[] { this.createDecimalIntegerLiteral(2) }, null),
@@ -32,8 +30,6 @@ public class RelationExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testChildSize() {
-		this.setResourceFileTestIdentifier("testChildSize");
-
 		this.testSimilarity(
 				this.initElement(new RelationExpressionChild[] { this.createDecimalIntegerLiteral(1),
 						this.createDecimalIntegerLiteral(1) }, null),
@@ -43,8 +39,6 @@ public class RelationExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testChildNullCheck() {
-		this.setResourceFileTestIdentifier("testChildNullCheck");
-
 		this.testSimilarity(
 				this.initElement(new RelationExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
 				new RelationExpressionInitialiser().instantiate(),
@@ -53,8 +47,6 @@ public class RelationExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testRelationOperator() {
-		this.setResourceFileTestIdentifier("testRelationOperator");
-
 		this.testSimilarity(this.initElement(null, new RelationOperator[] { this.createGreaterThanOperator() }),
 				this.initElement(null, new RelationOperator[] { this.createLessThanOperator() }),
 				ExpressionsPackage.Literals.RELATION_EXPRESSION__RELATION_OPERATORS);
@@ -62,8 +54,6 @@ public class RelationExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testRelationOperatorSize() {
-		this.setResourceFileTestIdentifier("testRelationOperatorSize");
-
 		this.testSimilarity(
 				this.initElement(null,
 						new RelationOperator[] { this.createGreaterThanOperator(), this.createGreaterThanOperator() }),
@@ -73,8 +63,6 @@ public class RelationExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testRelationOperatorNullCheck() {
-		this.setResourceFileTestIdentifier("testRelationOperatorNullCheck");
-
 		this.testSimilarity(this.initElement(null, new RelationOperator[] { this.createGreaterThanOperator() }),
 				new RelationExpressionInitialiser().instantiate(),
 				ExpressionsPackage.Literals.RELATION_EXPRESSION__RELATION_OPERATORS);
