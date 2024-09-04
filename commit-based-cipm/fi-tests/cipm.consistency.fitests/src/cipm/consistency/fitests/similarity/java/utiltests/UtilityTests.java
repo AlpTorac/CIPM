@@ -148,7 +148,7 @@ public class UtilityTests extends AbstractSimilarityTest {
 	 * @return Class objects of all initialisers.
 	 */
 	public Collection<Class<? extends IInitialiser>> getAllEObjInitialiserClasses() {
-		return new InitialiserPackage().getAllInitialiserClasses();
+		return new InitialiserPackage().getAllInitialiserInterfaceTypes();
 	}
 
 	/**
@@ -204,7 +204,7 @@ public class UtilityTests extends AbstractSimilarityTest {
 	 * @return The class of the initialiser meant to instantiate objClass.
 	 */
 	public Class<? extends IInitialiser> getInitialiserClsFor(Class<?> objClass) {
-		return new InitialiserPackage().getInitialiserClsFor(objClass);
+		return new InitialiserPackage().getInitialiserInterfaceTypeFor(objClass);
 	}
 
 	/**
