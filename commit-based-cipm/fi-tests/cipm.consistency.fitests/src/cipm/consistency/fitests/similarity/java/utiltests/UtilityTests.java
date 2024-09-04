@@ -7,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EClass;
@@ -162,7 +161,7 @@ public class UtilityTests extends AbstractSimilarityTest {
 	/**
 	 * @return The name of the initialiser interface corresponding to cls.
 	 */
-	public String getInterfaceInitialiserName(Class<?> cls) {
+	public String getInitialiserInterfaceName(Class<?> cls) {
 		return initialiserInterfacePrefix + cls.getSimpleName() + initialiserSuffix;
 	}
 
@@ -224,7 +223,7 @@ public class UtilityTests extends AbstractSimilarityTest {
 		var initClss = this.getAllInitialiserTypes();
 
 		return List.of(this.getAllInitialiserCandidates().stream().filter(
-				(c) -> initClss.stream().anyMatch((f) -> f.getSimpleName().equals(this.getInterfaceInitialiserName(c))))
+				(c) -> initClss.stream().anyMatch((f) -> f.getSimpleName().equals(this.getInitialiserInterfaceName(c))))
 				.toArray(Class<?>[]::new));
 	}
 
@@ -314,7 +313,7 @@ public class UtilityTests extends AbstractSimilarityTest {
 	 * types can be found in the assertion message.
 	 */
 	@Test
-	public void testAllInitialiserPackagesRegistered() {
+	public void testAllConcreteInitialisersRegistered() {
 		var clss = this.getAllConcreteInitialiserCandidates();
 		var registeredInits = new InitialiserPackage().getAllInitialiserInstances();
 
@@ -325,56 +324,98 @@ public class UtilityTests extends AbstractSimilarityTest {
 		this.getLogger().info(matches.size() + " out of " + clss.size() + " concrete initialisers are registered");
 
 		if (matches.size() != clss.size()) {
-			Assertions.fail("Initialisers not registered: "
+			Assertions.fail("Concrete initialisers not registered: "
 					+ this.clsStreamToString(clss.stream().filter((cls) -> !matches.contains(cls))));
 		}
 	}
 
 	/**
-	 * FIXME: Fix commentary
-	 * 
-	 * Checks if all interface initialisers (ISomethingInitialiser.java) files are
-	 * implemented and present under {@link #root}.
+	 * Checks if all necessary initialiser interface types can be accessed under
+	 * {@link InitialiserPackage}, which is used in initialiser tests. <br>
+	 * <br>
+	 * Prints the amount of accessible/registered initialiser interface types. The
+	 * missing types can be found in the assertion message.
 	 */
 	@Test
-	public void testAllInitialiserInterfacesPresent() {
-		var intfcs = this.getAllInitialiserCandidates();
-		var matches = this.getClassesWithInitialiserInterface();
+	public void testAllInitialiserInterfacesRegistered() {
+		var clss = this.getAllInitialiserCandidates();
+		var registeredInits = new InitialiserPackage().getAllInitialiserInterfaceTypes();
 
-		this.getLogger().info(matches.size() + " out of " + intfcs.size() + " initialiser interfaces are present");
+		var matches = List.of(clss.stream()
+				.filter((cls) -> registeredInits.stream()
+						.anyMatch((init) -> this.getInitialiserInterfaceName(cls).equals(init.getSimpleName())))
+				.toArray(Class<?>[]::new));
 
-		if (matches.size() != intfcs.size()) {
-			Assertions.fail("Initialisers missing for: "
-					+ this.clsStreamToString(intfcs.stream().filter((e) -> !matches.contains(e))));
+		this.getLogger().info(matches.size() + " out of " + clss.size() + " initialiser interfaces are registered");
+
+		if (matches.size() != clss.size()) {
+			Assertions.fail("Initialiser interfaces not registered: "
+					+ this.clsStreamToString(clss.stream().filter((cls) -> !matches.contains(cls))));
 		}
 	}
 
 	/**
-	 * FIXME: Fix commentary
-	 * 
 	 * Checks if all concrete initialisers (SomethingInitialiser.java) files are
-	 * implemented and present under {@link #root}.
+	 * implemented and present under {@link #root}. <br>
+	 * <br>
+	 * Prints the number of present concrete initialiser files. Information on the
+	 * missing files can be found in the assertion message. <br>
+	 * <br>
+	 * <b>Only checks whether the said files are present, does not inspect their
+	 * content at all.</b>
 	 */
 	@Test
 	public void testAllConcreteInitialisersPresent() {
-		var pac = new InitialiserPackage();
 		var intfcs = this.getAllConcreteInitialiserCandidates();
-		Predicate<Class<?>> pred = (initCls) -> pac.getInitialiserInstanceFor(initCls) != null;
-		var matches = intfcs.stream().filter(pred);
-		var count = matches.count();
+		var files = this.getAllFiles();
 
-		this.getLogger().info(count + " out of " + intfcs.size() + " concrete initialisers are present");
+		var matches = List.of(intfcs.stream().filter(
+				(ifc) -> files.stream().anyMatch((f) -> this.fileNameEquals(f, this.getConcreteInitialiserName(ifc))))
+				.toArray(Class<?>[]::new));
+		var count = matches.size();
+
+		this.getLogger().info(count + " out of " + intfcs.size() + " concrete initialiser files are present");
 
 		if (count != intfcs.size()) {
-			Assertions.fail("Concrete initialisers missing for: "
-					+ this.clsStreamToString(intfcs.stream().filter(pred.negate())));
+			Assertions.fail("Concrete initialiser files missing for: "
+					+ this.clsStreamToString(intfcs.stream().filter((ifc) -> !matches.contains(ifc))));
+		}
+	}
+
+	/**
+	 * Checks if all interface initialisers (ISomethingInitialiser.java) files are
+	 * implemented and present under {@link #root}. <br>
+	 * <br>
+	 * Prints the number of present initialiser files. Information on the missing
+	 * files can be found in the assertion message. <br>
+	 * <br>
+	 * <b>Only checks whether the said files are present, does not inspect their
+	 * content at all.</b>
+	 */
+	@Test
+	public void testAllInitialiserInterfacesPresent() {
+		var intfcs = this.getAllInitialiserCandidates();
+		var files = this.getAllFiles();
+
+		var matches = List.of(intfcs.stream().filter(
+				(ifc) -> files.stream().anyMatch((f) -> this.fileNameEquals(f, this.getInitialiserInterfaceName(ifc))))
+				.toArray(Class<?>[]::new));
+		var count = matches.size();
+
+		this.getLogger().info(count + " out of " + intfcs.size() + " initialiser files are present");
+
+		if (count != intfcs.size()) {
+			Assertions.fail("Initialiser files missing for: "
+					+ this.clsStreamToString(intfcs.stream().filter((ifc) -> !matches.contains(ifc))));
 		}
 	}
 
 	/**
 	 * Checks if all classes in the need of an initialiser, which have their own
-	 * methods that modify them (the ones they do not get from inheritance), have
+	 * methods that modify them (the methods they do not get from inheritance), have
 	 * their corresponding test file. <br>
+	 * <br>
+	 * In short, checks if all necessary initialiser test files are present. <br>
 	 * <br>
 	 * Prints the number of required test files that are actually present.
 	 * Information on the missing test files can be found in the assertion message.
