@@ -18,6 +18,7 @@ import org.emftext.language.java.commons.Commentable;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.java.AbstractSimilarityTest;
@@ -32,8 +33,8 @@ import cipm.consistency.fitests.similarity.java.initialiser.InitialiserPackage;
  */
 public class UtilityTests extends AbstractSimilarityTest {
 	/**
-	 * Points at the cimp.consistency.fitests.similarity.java package. Used by
-	 * discovering methods in this class.
+	 * Points at the {@link cipm.consistency.fitests.similarity.java} package. Used
+	 * by discovering methods in this class.
 	 */
 	private static final File root = new File("").getAbsoluteFile().getParentFile();
 	/**
@@ -71,24 +72,24 @@ public class UtilityTests extends AbstractSimilarityTest {
 	}
 
 	/**
-	 * @return Classes of concrete implementations and interfaces of all Java-Model
+	 * @return Types of concrete implementations and interfaces of all Java-Model
 	 *         elements.
 	 */
-	public Set<Class<?>> getAllPossibleClasses() {
-		return this.getAllPossibleClasses(JavaPackage.eINSTANCE.getESubpackages());
+	public Set<Class<?>> getAllPossibleTypes() {
+		return this.getAllPossibleTypes(JavaPackage.eINSTANCE.getESubpackages());
 	}
 
 	/**
 	 * Recursively discovers sub-packages of cPac (including cPac) for
-	 * {@link EClassifier}s contained within, aggregates the classes represented by
+	 * {@link EClassifier}s contained within, aggregates the types represented by
 	 * the EClassifiers as a Set and returns the Set.
 	 * 
 	 * @param cPac The package, which is the start point of the discovery.
-	 * @return All classes represented by EClassifiers contained in cPac and its
+	 * @return All types represented by EClassifiers contained in cPac and its
 	 *         sub-packages. Includes types of interfaces as well as concrete
 	 *         implementation classes.
 	 */
-	protected Set<Class<?>> getAllPossibleClasses(EPackage cPac) {
+	protected Set<Class<?>> getAllPossibleTypes(EPackage cPac) {
 		var clss = cPac.getEClassifiers();
 		var subPacs = cPac.getESubpackages();
 
@@ -115,23 +116,23 @@ public class UtilityTests extends AbstractSimilarityTest {
 		}
 
 		if (subPacs != null) {
-			foundClss.addAll(this.getAllPossibleClasses(subPacs));
+			foundClss.addAll(this.getAllPossibleTypes(subPacs));
 		}
 
 		return foundClss;
 	}
 
 	/**
-	 * @return All classes represented by EClassifiers contained in pacs and their
-	 *         sub-packages. Includes types of interfaces as well as concrete
+	 * @return All types represented by {@link EClassifiers} contained in pacs and
+	 *         their sub-packages. Includes types of interfaces as well as concrete
 	 *         implementation classes.
-	 * @see {@link #getAllPossibleClasses(EPackage)}}
+	 * @see {@link #getAllPossibleTypes(EPackage)}}
 	 */
-	protected Set<Class<?>> getAllPossibleClasses(Collection<EPackage> pacs) {
+	protected Set<Class<?>> getAllPossibleTypes(Collection<EPackage> pacs) {
 		var foundClss = new HashSet<Class<?>>();
 
 		for (var pac : pacs) {
-			foundClss.addAll(this.getAllPossibleClasses(pac));
+			foundClss.addAll(this.getAllPossibleTypes(pac));
 		}
 
 		return foundClss;
@@ -140,14 +141,14 @@ public class UtilityTests extends AbstractSimilarityTest {
 	/**
 	 * @return An instance of all initialisers.
 	 */
-	public Collection<IInitialiser> getAllEObjInitialiserInstances() {
+	public Collection<IInitialiser> getAllInitialiserInstances() {
 		return new InitialiserPackage().getAllInitialiserInstances();
 	}
 
 	/**
-	 * @return Class objects of all initialisers.
+	 * @return Types of all initialisers.
 	 */
-	public Collection<Class<? extends IInitialiser>> getAllEObjInitialiserClasses() {
+	public Collection<Class<? extends IInitialiser>> getAllInitialiserTypes() {
 		return new InitialiserPackage().getAllInitialiserInterfaceTypes();
 	}
 
@@ -173,11 +174,17 @@ public class UtilityTests extends AbstractSimilarityTest {
 	}
 
 	/**
-	 * @return The classes from {@link #getClassesInFullHierarchy}, which should
-	 *         have a corresponding initialiser interface.
+	 * Used to determine which {@link EObject} implementors should have an
+	 * {@link IInitialiser}. <br>
+	 * <br>
+	 * Here, such implementors (initialiser candidates) implement
+	 * {@link Commentable} and their names do not end with {@link #implSuffix}.
+	 * 
+	 * @return The classes from {@link #getAllPossibleTypes()}, which should have a
+	 *         corresponding initialiser interface.
 	 */
 	public Collection<Class<?>> getAllInitialiserCandidates() {
-		var fullHierarchy = this.getAllPossibleClasses();
+		var fullHierarchy = this.getAllPossibleTypes();
 
 		var intfcs = fullHierarchy.stream().filter((c) -> Commentable.class.isAssignableFrom(c))
 				.filter((c) -> !c.getSimpleName().endsWith(implSuffix)).toArray(Class<?>[]::new);
@@ -186,11 +193,12 @@ public class UtilityTests extends AbstractSimilarityTest {
 	}
 
 	/**
-	 * @return The classes from {@link #getClassesInFullHierarchy}, which should
-	 *         have a corresponding concrete initialiser.
+	 * @return The types from {@link #getAllPossibleTypes()}, which should have a
+	 *         corresponding concrete initialiser, i.e. a class implementing
+	 *         {@link IInitialiser} that can be instantiated.
 	 */
 	public Collection<Class<?>> getAllConcreteInitialiserCandidates() {
-		var fullHierarchy = this.getAllPossibleClasses();
+		var fullHierarchy = this.getAllPossibleTypes();
 
 		var intfcs = fullHierarchy.stream().filter((c) -> Commentable.class.isAssignableFrom(c))
 				.filter((c) -> fullHierarchy.stream()
@@ -201,18 +209,19 @@ public class UtilityTests extends AbstractSimilarityTest {
 	}
 
 	/**
-	 * @return The class of the initialiser meant to instantiate objClass.
+	 * @return The type of the initialiser meant to instantiate objClass.
 	 */
-	public Class<? extends IInitialiser> getInitialiserClsFor(Class<?> objClass) {
+	public Class<? extends IInitialiser> getInitialiserInterfaceFor(Class<?> objClass) {
 		return new InitialiserPackage().getInitialiserInterfaceTypeFor(objClass);
 	}
 
 	/**
-	 * @return All classes in the need of an initialiser that actually have a
-	 *         corresponding initialiser interface under {@link root}.
+	 * @return All types in the need of an initialiser that actually have a
+	 *         corresponding initialiser interface under the {@link #root}
+	 *         directory.
 	 */
 	public Collection<Class<?>> getClassesWithInitialiserInterface() {
-		var initClss = this.getAllEObjInitialiserClasses();
+		var initClss = this.getAllInitialiserTypes();
 
 		return List.of(this.getAllInitialiserCandidates().stream().filter(
 				(c) -> initClss.stream().anyMatch((f) -> f.getSimpleName().equals(this.getInterfaceInitialiserName(c))))
@@ -287,17 +296,22 @@ public class UtilityTests extends AbstractSimilarityTest {
 	}
 
 	/**
-	 * Prints the interfaces between everything from
-	 * {@link #getAllPossibleClasses()} and {@link Commentable}.
+	 * Prints the interfaces between everything from {@link #getAllPossibleTypes()}
+	 * and {@link Commentable}.
 	 */
+	@Disabled("Can be enabled to print all possible concrete EObject types, does not test anything")
 	@Test
 	public void printFullHierarchy() {
-		var hSet = this.getAllPossibleClasses();
+		var hSet = this.getAllPossibleTypes();
 		this.getLogger().info(this.clsStreamToString(hSet.stream()));
 	}
 
 	/**
-	 * Checks if all necessary concrete initialisers are provided to tests.
+	 * Checks if all necessary concrete initialisers can be accessed under
+	 * {@link InitialiserPackage}, which is used in initialiser tests. <br>
+	 * <br>
+	 * Prints the amount of accessible/registered initialiser types. The missing
+	 * types can be found in the assertion message.
 	 */
 	@Test
 	public void testAllInitialiserPackagesRegistered() {
@@ -317,6 +331,8 @@ public class UtilityTests extends AbstractSimilarityTest {
 	}
 
 	/**
+	 * FIXME: Fix commentary
+	 * 
 	 * Checks if all interface initialisers (ISomethingInitialiser.java) files are
 	 * implemented and present under {@link #root}.
 	 */
@@ -334,6 +350,8 @@ public class UtilityTests extends AbstractSimilarityTest {
 	}
 
 	/**
+	 * FIXME: Fix commentary
+	 * 
 	 * Checks if all concrete initialisers (SomethingInitialiser.java) files are
 	 * implemented and present under {@link #root}.
 	 */
@@ -356,10 +374,14 @@ public class UtilityTests extends AbstractSimilarityTest {
 	/**
 	 * Checks if all classes in the need of an initialiser, which have their own
 	 * methods that modify them (the ones they do not get from inheritance), have
-	 * corresponding tests.
-	 * 
-	 * Only verifies, if there are corresponding test files. Does not check the unit
-	 * tests they implement.
+	 * their corresponding test file. <br>
+	 * <br>
+	 * Prints the number of required test files that are actually present.
+	 * Information on the missing test files can be found in the assertion message.
+	 * <br>
+	 * <br>
+	 * <b> Only checks whether there are corresponding test files. Does not check
+	 * the unit tests they implement. </b>
 	 */
 	@Test
 	public void testAllInterfaceTestsPresent() {
@@ -367,7 +389,7 @@ public class UtilityTests extends AbstractSimilarityTest {
 		var allFiles = this.getAllFiles();
 
 		var matches = List.of(intfcs.stream()
-				.filter((c) -> !IInitialiser.declaresModificationMethods(this.getInitialiserClsFor(c))
+				.filter((c) -> !IInitialiser.declaresModificationMethods(this.getInitialiserInterfaceFor(c))
 						|| allFiles.stream().anyMatch((tf) -> fileNameEquals(tf, getTestName(c))))
 				.toArray(Class<?>[]::new));
 
