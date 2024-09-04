@@ -2,14 +2,13 @@ package cipm.consistency.fitests.similarity.java.initialiser.statements;
 
 import java.util.Collection;
 
-import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserPackage;
 
 public class StatementsInitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiser> getInitialiserInstances() {
-		return this.initCol(new EObjectInitialiser[] { new AssertInitialiser(), new BlockInitialiser(),
+		return this.initCol(new IInitialiser[] { new AssertInitialiser(), new BlockInitialiser(),
 				new BreakInitialiser(), new CatchBlockInitialiser(), new ConditionInitialiser(),
 				new ContinueInitialiser(), new DefaultSwitchCaseInitialiser(), new DefaultSwitchRuleInitialiser(),
 				new DoWhileLoopInitialiser(), new EmptyStatementInitialiser(), new ExpressionStatementInitialiser(),
@@ -22,7 +21,7 @@ public class StatementsInitialiserPackage implements IInitialiserPackage {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Collection<Class<? extends IInitialiser>> getInitialiserClasses() {
+	public Collection<Class<? extends IInitialiser>> getInitialiserInterfaceTypes() {
 		return this.initCol(new Class[] { IAssertInitialiser.class, IBlockContainerInitialiser.class,
 				IBlockInitialiser.class, IBreakInitialiser.class, ICatchBlockInitialiser.class,
 				IConditionalInitialiser.class, IConditionInitialiser.class, IContinueInitialiser.class,

@@ -27,7 +27,7 @@ public interface IInitialiserPackage {
 	 * 
 	 * @see {@link #getAllInitialiserClasses()}
 	 */
-	public default Collection<Class<? extends IInitialiser>> getInitialiserClasses() {
+	public default Collection<Class<? extends IInitialiser>> getInitialiserInterfaceTypes() {
 		return this.initCol();
 	}
 
@@ -105,13 +105,13 @@ public interface IInitialiserPackage {
 	 * @return All class objects from directly and indirectly stored
 	 *         {@link IInitialiser} classes and interfaces.
 	 * 
-	 * @see {@link #getInitialiserClasses()}
+	 * @see {@link #getInitialiserInterfaceTypes()}
 	 */
 	public default Collection<Class<? extends IInitialiser>> getAllInitialiserClasses() {
-		var result = this.getInitialiserClasses();
+		var result = this.getInitialiserInterfaceTypes();
 
 		for (var pac : this.getAllSubPackages()) {
-			result.addAll(pac.getInitialiserClasses());
+			result.addAll(pac.getInitialiserInterfaceTypes());
 		}
 
 		return result;

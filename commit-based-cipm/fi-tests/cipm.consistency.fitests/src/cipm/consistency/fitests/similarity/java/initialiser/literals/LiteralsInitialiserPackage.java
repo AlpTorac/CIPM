@@ -2,14 +2,13 @@ package cipm.consistency.fitests.similarity.java.initialiser.literals;
 
 import java.util.Collection;
 
-import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserPackage;
 
 public class LiteralsInitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiser> getInitialiserInstances() {
-		return this.initCol(new EObjectInitialiser[] { new BinaryIntegerLiteralInitialiser(),
+		return this.initCol(new IInitialiser[] { new BinaryIntegerLiteralInitialiser(),
 				new BinaryLongLiteralInitialiser(), new BooleanLiteralInitialiser(), new CharacterLiteralInitialiser(),
 				new DecimalDoubleLiteralInitialiser(), new DecimalFloatLiteralInitialiser(),
 				new DecimalIntegerLiteralInitialiser(), new DecimalLongLiteralInitialiser(),
@@ -20,7 +19,7 @@ public class LiteralsInitialiserPackage implements IInitialiserPackage {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Collection<Class<? extends IInitialiser>> getInitialiserClasses() {
+	public Collection<Class<? extends IInitialiser>> getInitialiserInterfaceTypes() {
 		return this.initCol(new Class[] { IBinaryIntegerLiteralInitialiser.class, IBinaryLongLiteralInitialiser.class,
 				IBooleanLiteralInitialiser.class, ICharacterLiteralInitialiser.class,
 				IDecimalDoubleLiteralInitialiser.class, IDecimalFloatLiteralInitialiser.class,

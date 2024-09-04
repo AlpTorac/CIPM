@@ -2,14 +2,13 @@ package cipm.consistency.fitests.similarity.java.initialiser.operators;
 
 import java.util.Collection;
 
-import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserPackage;
 
 public class OperatorsInitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiser> getInitialiserInstances() {
-		return this.initCol(new EObjectInitialiser[] { new AdditionInitialiser(), new AssignmentAndInitialiser(),
+		return this.initCol(new IInitialiser[] { new AdditionInitialiser(), new AssignmentAndInitialiser(),
 				new AssignmentDivisionInitialiser(), new AssignmentExclusiveOrInitialiser(),
 				new AssignmentInitialiser(), new AssignmentLeftShiftInitialiser(), new AssignmentMinusInitialiser(),
 				new AssignmentModuloInitialiser(), new AssignmentMultiplicationInitialiser(),
@@ -24,7 +23,7 @@ public class OperatorsInitialiserPackage implements IInitialiserPackage {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Collection<Class<? extends IInitialiser>> getInitialiserClasses() {
+	public Collection<Class<? extends IInitialiser>> getInitialiserInterfaceTypes() {
 		return this.initCol(new Class[] { IAdditionInitialiser.class, IAdditiveOperatorInitialiser.class,
 				IAssignmentAndInitialiser.class, IAssignmentDivisionInitialiser.class,
 				IAssignmentExclusiveOrInitialiser.class, IAssignmentInitialiser.class,

@@ -2,7 +2,6 @@ package cipm.consistency.fitests.similarity.java.initialiser.expressions;
 
 import java.util.Collection;
 
-import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
 import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserPackage;
 
@@ -10,7 +9,7 @@ public class ExpressionsInitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiser> getInitialiserInstances() {
 		return this
-				.initCol(new EObjectInitialiser[] { new AdditiveExpressionInitialiser(), new AndExpressionInitialiser(),
+				.initCol(new IInitialiser[] { new AdditiveExpressionInitialiser(), new AndExpressionInitialiser(),
 						new ArrayConstructorReferenceExpressionInitialiser(), new AssignmentExpressionInitialiser(),
 						new CastExpressionInitialiser(), new ClassTypeConstructorReferenceExpressionInitialiser(),
 						new ConditionalAndExpressionInitialiser(), new ConditionalExpressionInitialiser(),
@@ -27,7 +26,7 @@ public class ExpressionsInitialiserPackage implements IInitialiserPackage {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public Collection<Class<? extends IInitialiser>> getInitialiserClasses() {
+	public Collection<Class<? extends IInitialiser>> getInitialiserInterfaceTypes() {
 		return this.initCol(new Class[] { IAdditiveExpressionChildInitialiser.class,
 				IAdditiveExpressionInitialiser.class, IAndExpressionChildInitialiser.class,
 				IAndExpressionInitialiser.class, IArrayConstructorReferenceExpressionInitialiser.class,
