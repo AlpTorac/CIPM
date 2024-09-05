@@ -41,8 +41,7 @@ public class AdditiveExpressionTest extends EObjectSimilarityTest implements Use
 	public void testChildNullCheck() {
 		this.testSimilarityNullCheck(
 				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
-				new AdditiveExpressionInitialiser(), false,
-				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__CHILDREN);
+				new AdditiveExpressionInitialiser(), false, ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__CHILDREN);
 	}
 
 	@Test

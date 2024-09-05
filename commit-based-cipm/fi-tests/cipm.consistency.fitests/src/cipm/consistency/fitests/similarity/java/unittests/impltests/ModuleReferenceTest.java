@@ -28,6 +28,7 @@ public class ModuleReferenceTest extends EObjectSimilarityTest implements UsesMo
 
 	@Test
 	public void testTargetNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createMinimalModule("mod1")), new ModuleReferenceInitialiser(), false, ModulesPackage.Literals.MODULE_REFERENCE__TARGET);
+		this.testSimilarityNullCheck(this.initElement(this.createMinimalModule("mod1")),
+				new ModuleReferenceInitialiser(), false, ModulesPackage.Literals.MODULE_REFERENCE__TARGET);
 	}
 }

@@ -46,8 +46,7 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 	@Test
 	public void testChildNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(null, this.createDecimalIntegerLiteral(1), null),
-				new AssignmentExpressionInitialiser(), false,
-				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__CHILD);
+				new AssignmentExpressionInitialiser(), false, ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__CHILD);
 	}
 
 	@Test
@@ -60,7 +59,6 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 	@Test
 	public void testValueNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
-				new AssignmentExpressionInitialiser(), false,
-				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__VALUE);
+				new AssignmentExpressionInitialiser(), false, ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__VALUE);
 	}
 }

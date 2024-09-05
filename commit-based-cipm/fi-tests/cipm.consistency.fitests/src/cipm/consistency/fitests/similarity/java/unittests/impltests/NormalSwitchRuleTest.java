@@ -36,6 +36,8 @@ public class NormalSwitchRuleTest extends EObjectSimilarityTest implements UsesE
 
 	@Test
 	public void testAdditionalConditionNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(new Expression[] { this.createMinimalFalseEE() }), new NormalSwitchRuleInitialiser(), false, StatementsPackage.Literals.NORMAL_SWITCH_RULE__ADDITIONAL_CONDITIONS);
+		this.testSimilarityNullCheck(this.initElement(new Expression[] { this.createMinimalFalseEE() }),
+				new NormalSwitchRuleInitialiser(), false,
+				StatementsPackage.Literals.NORMAL_SWITCH_RULE__ADDITIONAL_CONDITIONS);
 	}
 }

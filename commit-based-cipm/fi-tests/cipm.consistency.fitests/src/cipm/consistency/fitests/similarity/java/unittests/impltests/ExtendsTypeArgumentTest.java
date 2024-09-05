@@ -28,6 +28,8 @@ public class ExtendsTypeArgumentTest extends EObjectSimilarityTest implements Us
 
 	@Test
 	public void testExtendTypeNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createMinimalClsRef("cls1")), new ExtendsTypeArgumentInitialiser(), false, GenericsPackage.Literals.EXTENDS_TYPE_ARGUMENT__EXTEND_TYPE);
+		this.testSimilarityNullCheck(this.initElement(this.createMinimalClsRef("cls1")),
+				new ExtendsTypeArgumentInitialiser(), false,
+				GenericsPackage.Literals.EXTENDS_TYPE_ARGUMENT__EXTEND_TYPE);
 	}
 }

@@ -64,7 +64,8 @@ public class MultiplicativeExpressionTest extends EObjectSimilarityTest implemen
 
 	@Test
 	public void testMultiplicativeOperatorNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(null, new MultiplicativeOperator[] { this.createDivisionOperator() }),
+		this.testSimilarityNullCheck(
+				this.initElement(null, new MultiplicativeOperator[] { this.createDivisionOperator() }),
 				new MultiplicativeExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__MULTIPLICATIVE_OPERATORS);
 	}

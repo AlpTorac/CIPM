@@ -28,6 +28,8 @@ public class LocalVariableStatementTest extends EObjectSimilarityTest implements
 
 	@Test
 	public void testVariableNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createMinimalLV("lv1")), new LocalVariableStatementInitialiser(), false, StatementsPackage.Literals.LOCAL_VARIABLE_STATEMENT__VARIABLE);
+		this.testSimilarityNullCheck(this.initElement(this.createMinimalLV("lv1")),
+				new LocalVariableStatementInitialiser(), false,
+				StatementsPackage.Literals.LOCAL_VARIABLE_STATEMENT__VARIABLE);
 	}
 }

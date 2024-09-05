@@ -26,6 +26,7 @@ public class TextBlockReferenceTest extends EObjectSimilarityTest {
 
 	@Test
 	public void testValueNullCheck() {
-		this.testSimilarityNullCheck(this.initElement("val1"), new TextBlockReferenceInitialiser(), false, ReferencesPackage.Literals.TEXT_BLOCK_REFERENCE__VALUE);
+		this.testSimilarityNullCheck(this.initElement("val1"), new TextBlockReferenceInitialiser(), false,
+				ReferencesPackage.Literals.TEXT_BLOCK_REFERENCE__VALUE);
 	}
 }

@@ -28,6 +28,7 @@ public class ReturnTest extends EObjectSimilarityTest implements UsesExpressions
 
 	@Test
 	public void testReturnValueNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createDecimalIntegerLiteral(1)), new ReturnInitialiser(), false, StatementsPackage.Literals.RETURN__RETURN_VALUE);
+		this.testSimilarityNullCheck(this.initElement(this.createDecimalIntegerLiteral(1)), new ReturnInitialiser(),
+				false, StatementsPackage.Literals.RETURN__RETURN_VALUE);
 	}
 }

@@ -32,7 +32,8 @@ public class PackageTest extends EObjectSimilarityTest implements UsesModules, U
 
 	@Test
 	public void testModuleNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createMinimalModule("mod1"), null), new PackageInitialiser(), false, ContainersPackage.Literals.PACKAGE__MODULE);
+		this.testSimilarityNullCheck(this.initElement(this.createMinimalModule("mod1"), null), new PackageInitialiser(),
+				false, ContainersPackage.Literals.PACKAGE__MODULE);
 	}
 
 	@Test
@@ -54,6 +55,8 @@ public class PackageTest extends EObjectSimilarityTest implements UsesModules, U
 
 	@Test
 	public void testClassifiersNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(null, new ConcreteClassifier[] { this.createMinimalClass("cls1") }), new PackageInitialiser(), false, ContainersPackage.Literals.PACKAGE__CLASSIFIERS);
+		this.testSimilarityNullCheck(
+				this.initElement(null, new ConcreteClassifier[] { this.createMinimalClass("cls1") }),
+				new PackageInitialiser(), false, ContainersPackage.Literals.PACKAGE__CLASSIFIERS);
 	}
 }

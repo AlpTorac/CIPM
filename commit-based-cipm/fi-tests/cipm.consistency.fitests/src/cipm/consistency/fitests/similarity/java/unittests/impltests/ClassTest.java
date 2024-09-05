@@ -29,7 +29,8 @@ public class ClassTest extends EObjectSimilarityTest implements UsesTypeReferenc
 
 	@Test
 	public void testDefaultExtendsNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createMinimalClsRef("cls1"), null), new ClassInitialiser(), false, ClassifiersPackage.Literals.CLASS__DEFAULT_EXTENDS);
+		this.testSimilarityNullCheck(this.initElement(this.createMinimalClsRef("cls1"), null), new ClassInitialiser(),
+				false, ClassifiersPackage.Literals.CLASS__DEFAULT_EXTENDS);
 	}
 
 	@Test
@@ -42,6 +43,7 @@ public class ClassTest extends EObjectSimilarityTest implements UsesTypeReferenc
 
 	@Test
 	public void testExtendsNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(null, this.createMinimalClsRef("cls1")), new ClassInitialiser(), false, ClassifiersPackage.Literals.CLASS__EXTENDS);
+		this.testSimilarityNullCheck(this.initElement(null, this.createMinimalClsRef("cls1")), new ClassInitialiser(),
+				false, ClassifiersPackage.Literals.CLASS__EXTENDS);
 	}
 }

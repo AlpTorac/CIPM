@@ -26,6 +26,7 @@ public class StringReferenceTest extends EObjectSimilarityTest {
 
 	@Test
 	public void testValueNullCheck() {
-		this.testSimilarityNullCheck(this.initElement("val1"), new StringReferenceInitialiser(), false, ReferencesPackage.Literals.STRING_REFERENCE__VALUE);
+		this.testSimilarityNullCheck(this.initElement("val1"), new StringReferenceInitialiser(), false,
+				ReferencesPackage.Literals.STRING_REFERENCE__VALUE);
 	}
 }

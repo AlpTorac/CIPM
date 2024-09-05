@@ -28,6 +28,8 @@ public class ExpressionStatementTest extends EObjectSimilarityTest implements Us
 
 	@Test
 	public void testExpressionNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createMinimalFalseEE()), new ExpressionStatementInitialiser(), false, StatementsPackage.Literals.EXPRESSION_STATEMENT__EXPRESSION);
+		this.testSimilarityNullCheck(this.initElement(this.createMinimalFalseEE()),
+				new ExpressionStatementInitialiser(), false,
+				StatementsPackage.Literals.EXPRESSION_STATEMENT__EXPRESSION);
 	}
 }

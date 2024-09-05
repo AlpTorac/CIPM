@@ -52,7 +52,6 @@ public class UnaryExpressionTest extends EObjectSimilarityTest implements UsesEx
 	@Test
 	public void testOperatorNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(null, new UnaryOperator[] { this.createAdditionOperator() }),
-				new UnaryExpressionInitialiser(), false,
-				ExpressionsPackage.Literals.UNARY_EXPRESSION__OPERATORS);
+				new UnaryExpressionInitialiser(), false, ExpressionsPackage.Literals.UNARY_EXPRESSION__OPERATORS);
 	}
 }

@@ -41,8 +41,7 @@ public class EqualityExpressionTest extends EObjectSimilarityTest implements Use
 	public void testChildNullCheck() {
 		this.testSimilarityNullCheck(
 				this.initElement(new EqualityExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
-				new EqualityExpressionInitialiser(), false,
-				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__CHILDREN);
+				new EqualityExpressionInitialiser(), false, ExpressionsPackage.Literals.EQUALITY_EXPRESSION__CHILDREN);
 	}
 
 	@Test

@@ -28,6 +28,8 @@ public class SingleAnnotationParameterTest extends EObjectSimilarityTest impleme
 
 	@Test
 	public void testValueNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createNullLiteral()), new SingleAnnotationParameterInitialiser(), false, AnnotationsPackage.Literals.SINGLE_ANNOTATION_PARAMETER__VALUE);
+		this.testSimilarityNullCheck(this.initElement(this.createNullLiteral()),
+				new SingleAnnotationParameterInitialiser(), false,
+				AnnotationsPackage.Literals.SINGLE_ANNOTATION_PARAMETER__VALUE);
 	}
 }

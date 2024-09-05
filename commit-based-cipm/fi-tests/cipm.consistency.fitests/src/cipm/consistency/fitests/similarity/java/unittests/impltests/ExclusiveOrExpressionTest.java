@@ -36,7 +36,8 @@ public class ExclusiveOrExpressionTest extends EObjectSimilarityTest implements 
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(new ExclusiveOrExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
+		this.testSimilarityNullCheck(
+				this.initElement(new ExclusiveOrExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
 				new ExclusiveOrExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.EXCLUSIVE_OR_EXPRESSION__CHILDREN);
 	}

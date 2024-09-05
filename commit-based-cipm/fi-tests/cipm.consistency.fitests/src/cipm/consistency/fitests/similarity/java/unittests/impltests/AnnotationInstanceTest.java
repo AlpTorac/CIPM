@@ -33,7 +33,9 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest
 
 	@Test
 	public void testAnnotationNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createMinimalClass("cls1"), null), new AnnotationInstanceInitialiser(), false, AnnotationsPackage.Literals.ANNOTATION_INSTANCE__ANNOTATION);
+		this.testSimilarityNullCheck(this.initElement(this.createMinimalClass("cls1"), null),
+				new AnnotationInstanceInitialiser(), false,
+				AnnotationsPackage.Literals.ANNOTATION_INSTANCE__ANNOTATION);
 	}
 
 	@Test
@@ -46,6 +48,7 @@ public class AnnotationInstanceTest extends EObjectSimilarityTest
 
 	@Test
 	public void testParameterNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(null, this.createSingleNullAnnoParam()), new AnnotationInstanceInitialiser(), false, AnnotationsPackage.Literals.ANNOTATION_INSTANCE__PARAMETER);
+		this.testSimilarityNullCheck(this.initElement(null, this.createSingleNullAnnoParam()),
+				new AnnotationInstanceInitialiser(), false, AnnotationsPackage.Literals.ANNOTATION_INSTANCE__PARAMETER);
 	}
 }

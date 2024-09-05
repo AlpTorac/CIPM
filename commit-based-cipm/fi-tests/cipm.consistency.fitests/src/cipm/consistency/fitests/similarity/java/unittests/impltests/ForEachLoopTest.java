@@ -31,7 +31,8 @@ public class ForEachLoopTest extends EObjectSimilarityTest implements UsesExpres
 
 	@Test
 	public void testCollectionNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createMinimalFalseEE(), null), new ForEachLoopInitialiser(), false, StatementsPackage.Literals.FOR_EACH_LOOP__COLLECTION);
+		this.testSimilarityNullCheck(this.initElement(this.createMinimalFalseEE(), null), new ForEachLoopInitialiser(),
+				false, StatementsPackage.Literals.FOR_EACH_LOOP__COLLECTION);
 	}
 
 	@Test
@@ -44,6 +45,7 @@ public class ForEachLoopTest extends EObjectSimilarityTest implements UsesExpres
 
 	@Test
 	public void testNextNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(null, this.createMinimalOrdParamWithClsTarget("param1", "cls1")), new ForEachLoopInitialiser(), false, StatementsPackage.Literals.FOR_EACH_LOOP__NEXT);
+		this.testSimilarityNullCheck(this.initElement(null, this.createMinimalOrdParamWithClsTarget("param1", "cls1")),
+				new ForEachLoopInitialiser(), false, StatementsPackage.Literals.FOR_EACH_LOOP__NEXT);
 	}
 }

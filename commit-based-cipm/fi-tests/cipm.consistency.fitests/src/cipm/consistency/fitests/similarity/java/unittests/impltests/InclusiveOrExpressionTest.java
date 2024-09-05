@@ -36,7 +36,8 @@ public class InclusiveOrExpressionTest extends EObjectSimilarityTest implements 
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(new InclusiveOrExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
+		this.testSimilarityNullCheck(
+				this.initElement(new InclusiveOrExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
 				new InclusiveOrExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.INCLUSIVE_OR_EXPRESSION__CHILDREN);
 	}
