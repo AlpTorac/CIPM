@@ -45,7 +45,7 @@ public class ImportingElementTest extends EObjectSimilarityTest implements UsesI
 	public void testImportsNullCheck(IImportingElementInitialiser init) {
 		this.setCurrentInitialiser(init);
 
-		this.testSimilarityNullCheck(this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }), init, true,
-				ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
+		this.testSimilarityNullCheck(this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }), init,
+				true, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
 	}
 }

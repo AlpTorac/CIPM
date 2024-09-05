@@ -66,8 +66,7 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 
 		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }, null);
 
-		this.testSimilarityNullCheck(objOne, init, true,
-				CompilationUnit.class,
+		this.testSimilarityNullCheck(objOne, init, true, CompilationUnit.class,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
 						|| (!init.canAddImports(objOne)));
 	}
@@ -112,8 +111,7 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 		var objOne = this.initElement(init, null,
 				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }) });
 
-		this.testSimilarityNullCheck(objOne, init, true,
-				CompilationUnit.class,
+		this.testSimilarityNullCheck(objOne, init, true, CompilationUnit.class,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
 						|| (!init.canAddImports(objOne)));
 	}

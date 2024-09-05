@@ -48,7 +48,7 @@ public class ArgumentableTest extends EObjectSimilarityTest
 	public void testArgumentsNullCheck(IArgumentableInitialiser init) {
 		this.setCurrentInitialiser(init);
 
-		this.testSimilarityNullCheck(this.initElement(init, new Expression[] { this.createDecimalIntegerLiteral(1) }), init, true,
-				ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS);
+		this.testSimilarityNullCheck(this.initElement(init, new Expression[] { this.createDecimalIntegerLiteral(1) }),
+				init, true, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS);
 	}
 }

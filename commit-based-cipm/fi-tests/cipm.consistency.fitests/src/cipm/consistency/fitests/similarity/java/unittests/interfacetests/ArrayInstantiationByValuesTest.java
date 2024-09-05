@@ -36,7 +36,8 @@ public class ArrayInstantiationByValuesTest extends EObjectSimilarityTest
 	public void testArrayInitialiserNullCheck(IArrayInstantiationByValuesInitialiser init) {
 		this.setCurrentInitialiser(init);
 
-		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalArrayInitializer(this.createDecimalIntegerLiteral(0))), init, false,
-				ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER);
+		this.testSimilarityNullCheck(
+				this.initElement(init, this.createMinimalArrayInitializer(this.createDecimalIntegerLiteral(0))), init,
+				false, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER);
 	}
 }

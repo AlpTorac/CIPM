@@ -54,8 +54,9 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	public void testModifierNullCheck(IAnnotableAndModifiableInitialiser init) {
 		this.setCurrentInitialiser(init);
 
-		this.testSimilarityNullCheck(this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null), init, true,
-				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
+		this.testSimilarityNullCheck(
+				this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null), init,
+				true, ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 
 	@ParameterizedTest()
@@ -90,9 +91,10 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	public void testAnnotationInstanceNullCheck(IAnnotableAndModifiableInitialiser init) {
 		this.setCurrentInitialiser(init);
 
-		this.testSimilarityNullCheck(this.initElement(init, null,
-				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") }), init, true,
-				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
+		this.testSimilarityNullCheck(
+				this.initElement(init, null,
+						new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") }),
+				init, true, ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 
 	@ParameterizedTest()

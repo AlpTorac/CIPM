@@ -66,7 +66,7 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 	public void testArraySelectorNullCheck(IReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
 
-		this.testSimilarityNullCheck(this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(0) }), init, true,
-				ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
+		this.testSimilarityNullCheck(this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(0) }),
+				init, true, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
 	}
 }

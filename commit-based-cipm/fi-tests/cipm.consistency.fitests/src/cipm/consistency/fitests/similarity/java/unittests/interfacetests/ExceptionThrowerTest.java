@@ -46,7 +46,8 @@ public class ExceptionThrowerTest extends EObjectSimilarityTest implements UsesT
 	public void testExceptionsNullCheck(IExceptionThrowerInitialiser init) {
 		this.setCurrentInitialiser(init);
 
-		this.testSimilarityNullCheck(this.initElement(init, new NamespaceClassifierReference[] { this.createMinimalCNR("cls1") }), init, true,
-				MembersPackage.Literals.EXCEPTION_THROWER__EXCEPTIONS);
+		this.testSimilarityNullCheck(
+				this.initElement(init, new NamespaceClassifierReference[] { this.createMinimalCNR("cls1") }), init,
+				true, MembersPackage.Literals.EXCEPTION_THROWER__EXCEPTIONS);
 	}
 }
