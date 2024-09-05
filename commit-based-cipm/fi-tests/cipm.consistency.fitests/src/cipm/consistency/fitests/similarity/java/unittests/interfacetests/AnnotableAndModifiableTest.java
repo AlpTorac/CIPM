@@ -54,10 +54,8 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	public void testModifierNullCheck(IAnnotableAndModifiableInitialiser init) {
 		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null);
-		var objTwo = init.instantiate();
-		Assertions.assertTrue(init.initialise(objTwo));
 
-		this.testSimilarity(objOne, objTwo,
+		this.testSimilarityNullCheck(objOne, init, true,
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 
@@ -94,10 +92,8 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, null,
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") });
-		var objTwo = init.instantiate();
-		Assertions.assertTrue(init.initialise(objTwo));
 
-		this.testSimilarity(objOne, objTwo,
+		this.testSimilarityNullCheck(objOne, init, true,
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 
@@ -124,10 +120,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 		var objOne = this.initElement(init, null, null);
 		init.makePrivate(objOne);
 
-		var objTwo = init.instantiate();
-		Assertions.assertTrue(init.initialise(objTwo));
-
-		this.testSimilarity(objOne, objTwo,
+		this.testSimilarityNullCheck(objOne, init, true,
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 
@@ -154,10 +147,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 		var objOne = this.initElement(init, null, null);
 		init.makeProtected(objOne);
 
-		var objTwo = init.instantiate();
-		Assertions.assertTrue(init.initialise(objTwo));
-
-		this.testSimilarity(objOne, objTwo,
+		this.testSimilarityNullCheck(objOne, init, true,
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 
@@ -184,10 +174,7 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 		var objOne = this.initElement(init, null, null);
 		init.makePublic(objOne);
 
-		var objTwo = init.instantiate();
-		Assertions.assertTrue(init.initialise(objTwo));
-
-		this.testSimilarity(objOne, objTwo,
+		this.testSimilarityNullCheck(objOne, init, true,
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 }

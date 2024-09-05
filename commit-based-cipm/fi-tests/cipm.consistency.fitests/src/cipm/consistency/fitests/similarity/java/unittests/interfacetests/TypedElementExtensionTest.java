@@ -34,9 +34,8 @@ public class TypedElementExtensionTest extends EObjectSimilarityTest implements 
 	public void testActualTargetNullCheck(ITypedElementExtensionInitialiser init) {
 		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, this.createMinimalClsRef("cls1"));
-		var objTwo = init.instantiate();
-		Assertions.assertTrue(init.initialise(objTwo));
 
-		this.testSimilarity(objOne, objTwo, TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
+		this.testSimilarityNullCheck(objOne, init, true,
+				TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
 	}
 }

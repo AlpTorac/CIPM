@@ -36,10 +36,9 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 	public void testNextNullCheck(IReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, this.createMinimalSR("str1"), null);
-		var objTwo = init.instantiate();
-		Assertions.assertTrue(init.initialise(objTwo));
 
-		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__NEXT);
+		this.testSimilarityNullCheck(objOne, init, true,
+				ReferencesPackage.Literals.REFERENCE__NEXT);
 	}
 
 	@ParameterizedTest
@@ -68,9 +67,8 @@ public class ReferenceTest extends EObjectSimilarityTest implements UsesReferenc
 	public void testArraySelectorNullCheck(IReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(0) });
-		var objTwo = init.instantiate();
-		Assertions.assertTrue(init.initialise(objTwo));
 
-		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
+		this.testSimilarityNullCheck(objOne, init, true,
+				ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
 	}
 }

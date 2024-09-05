@@ -34,7 +34,7 @@ public class UnaryModificationExpressionTest extends EObjectSimilarityTest imple
 	@ArgumentsSource(UnaryModificationExpressionTestParams.class)
 	public void testChildNullCheck(IUnaryModificationExpressionInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.testSimilarity(this.initElement(init, this.createDecimalIntegerLiteral(1), null), init.instantiate(),
+		this.testSimilarityNullCheck(this.initElement(init, this.createDecimalIntegerLiteral(1), null), init, false,
 				ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__CHILD);
 	}
 
@@ -51,7 +51,7 @@ public class UnaryModificationExpressionTest extends EObjectSimilarityTest imple
 	@ArgumentsSource(UnaryModificationExpressionTestParams.class)
 	public void testOperatorNullCheck(IUnaryModificationExpressionInitialiser init) {
 		this.setCurrentInitialiser(init);
-		this.testSimilarity(this.initElement(init, null, this.createPlusPlusOperator()), init.instantiate(),
+		this.testSimilarityNullCheck(this.initElement(init, null, this.createPlusPlusOperator()), init, false,
 				ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__OPERATOR);
 	}
 }

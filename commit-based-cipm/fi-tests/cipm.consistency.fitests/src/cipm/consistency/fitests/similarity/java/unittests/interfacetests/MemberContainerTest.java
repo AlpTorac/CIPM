@@ -48,9 +48,9 @@ public class MemberContainerTest extends EObjectSimilarityTest
 	public void testMemberNullCheck(IMemberContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, new Member[] { this.createMinimalClass("cls1") }, null);
-		var objTwo = init.instantiate();
 
-		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
+		this.testSimilarityNullCheck(objOne, init, false,
+				MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
 	}
 
 	@ParameterizedTest
@@ -79,8 +79,8 @@ public class MemberContainerTest extends EObjectSimilarityTest
 	public void testDefaultMemberNullCheck(IMemberContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, null, new Member[] { this.createMinimalClass("cls1") });
-		var objTwo = init.instantiate();
 
-		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
+		this.testSimilarityNullCheck(objOne, init, false,
+				MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
 	}
 }

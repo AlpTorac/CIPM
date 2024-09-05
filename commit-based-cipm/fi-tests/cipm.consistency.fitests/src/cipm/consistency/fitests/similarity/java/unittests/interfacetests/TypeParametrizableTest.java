@@ -45,9 +45,8 @@ public class TypeParametrizableTest extends EObjectSimilarityTest implements Use
 	public void testTypeParametersNullCheck(ITypeParametrizableInitialiser init) {
 		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, new TypeParameter[] { this.createMinimalTypeParamWithClsRef("cls1") });
-		var objTwo = init.instantiate();
-		Assertions.assertTrue(init.initialise(objTwo));
 
-		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.TYPE_PARAMETRIZABLE__TYPE_PARAMETERS);
+		this.testSimilarityNullCheck(objOne, init, true,
+				GenericsPackage.Literals.TYPE_PARAMETRIZABLE__TYPE_PARAMETERS);
 	}
 }

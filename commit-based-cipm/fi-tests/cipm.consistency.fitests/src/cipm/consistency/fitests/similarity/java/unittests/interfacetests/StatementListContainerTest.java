@@ -58,11 +58,9 @@ public class StatementListContainerTest extends EObjectSimilarityTest implements
 	public void testStatementsNullCheck(IStatementListContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, new Statement[] { this.createMinimalNullReturn() });
-		var objTwo = init.instantiate();
-		Assertions.assertTrue(init.initialise(objTwo));
 
-		this.testSimilarity(objOne, objTwo,
+		this.testSimilarityNullCheck(objOne, init, true,
 				this.getExpectedSimilarityResult(StatementsPackage.Literals.BLOCK__STATEMENTS).booleanValue()
-						|| (!init.canContainStatements(objOne) && !init.canContainStatements(objTwo)));
+						|| (!init.canContainStatements(objOne)));
 	}
 }

@@ -34,8 +34,8 @@ public class StaticImportTest extends EObjectSimilarityTest implements UsesImpor
 	public void testStaticNullCheck(IStaticImportInitialiser init) {
 		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, this.createStatic());
-		var objTwo = init.instantiate();
 
-		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.STATIC_IMPORT__STATIC);
+		this.testSimilarityNullCheck(objOne, init, false,
+				ImportsPackage.Literals.STATIC_IMPORT__STATIC);
 	}
 }

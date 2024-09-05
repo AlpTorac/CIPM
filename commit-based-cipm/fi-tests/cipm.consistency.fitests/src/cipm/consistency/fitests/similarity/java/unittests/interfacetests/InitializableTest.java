@@ -34,9 +34,8 @@ public class InitializableTest extends EObjectSimilarityTest implements UsesLite
 	public void testInitialValueNullCheck(IInitializableInitialiser init) {
 		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, this.createDecimalIntegerLiteral(5));
-		var objTwo = init.instantiate();
-		Assertions.assertTrue(init.initialise(objTwo));
 
-		this.testSimilarity(objOne, objTwo, InstantiationsPackage.Literals.INITIALIZABLE__INITIAL_VALUE);
+		this.testSimilarityNullCheck(objOne, init, true,
+				InstantiationsPackage.Literals.INITIALIZABLE__INITIAL_VALUE);
 	}
 }

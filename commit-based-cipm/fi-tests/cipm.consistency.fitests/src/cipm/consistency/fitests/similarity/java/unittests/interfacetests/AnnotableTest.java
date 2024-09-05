@@ -50,9 +50,8 @@ public class AnnotableTest extends EObjectSimilarityTest implements UsesAnnotati
 		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init,
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") });
-		var objTwo = init.instantiate();
-		Assertions.assertTrue(init.initialise(objTwo));
 
-		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTABLE__ANNOTATIONS);
+		this.testSimilarityNullCheck(objOne, init, true,
+				AnnotationsPackage.Literals.ANNOTABLE__ANNOTATIONS);
 	}
 }

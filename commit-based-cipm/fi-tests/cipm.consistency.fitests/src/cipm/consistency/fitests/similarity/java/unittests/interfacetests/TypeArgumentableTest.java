@@ -34,9 +34,8 @@ public class TypeArgumentableTest extends EObjectSimilarityTest implements UsesT
 	public void testTypeArgumentNullCheck(ITypeArgumentableInitialiser init) {
 		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, this.createMinimalExtendsTAWithCls("cls1"));
-		var objTwo = init.instantiate();
-		Assertions.assertTrue(init.initialise(objTwo));
 
-		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.TYPE_ARGUMENTABLE__TYPE_ARGUMENTS);
+		this.testSimilarityNullCheck(objOne, init, true,
+				GenericsPackage.Literals.TYPE_ARGUMENTABLE__TYPE_ARGUMENTS);
 	}
 }

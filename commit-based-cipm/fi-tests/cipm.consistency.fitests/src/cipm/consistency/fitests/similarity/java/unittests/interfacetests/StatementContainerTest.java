@@ -34,9 +34,8 @@ public class StatementContainerTest extends EObjectSimilarityTest implements Use
 	public void testStatementNullCheck(IStatementContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, this.createMinimalNullReturn());
-		var objTwo = init.instantiate();
-		Assertions.assertTrue(init.initialise(objTwo));
 
-		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.STATEMENT_CONTAINER__STATEMENT);
+		this.testSimilarityNullCheck(objOne, init, true,
+				StatementsPackage.Literals.STATEMENT_CONTAINER__STATEMENT);
 	}
 }

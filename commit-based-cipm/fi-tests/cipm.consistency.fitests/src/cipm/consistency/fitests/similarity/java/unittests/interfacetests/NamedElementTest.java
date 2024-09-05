@@ -31,8 +31,8 @@ public class NamedElementTest extends EObjectSimilarityTest {
 	public void testNameNullCheck(INamedElementInitialiser init) {
 		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, "name11");
-		var objTwo = init.instantiate();
 
-		this.testSimilarity(objOne, objTwo, CommonsPackage.Literals.NAMED_ELEMENT__NAME);
+		this.testSimilarityNullCheck(objOne, init, false,
+				CommonsPackage.Literals.NAMED_ELEMENT__NAME);
 	}
 }

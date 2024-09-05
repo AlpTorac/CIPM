@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
+import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
 import cipm.consistency.fitests.similarity.java.params.InitialiserTestSettingsProvider;
 import cipm.consistency.fitests.similarity.java.params.SimilarityValues;
@@ -25,14 +25,14 @@ import cipm.consistency.fitests.similarity.java.params.SimilarityValues;
  */
 public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	/**
-	 * The {@link IInitialiser} instance that is currently being used. <br>
+	 * The {@link EObjectInitialiser} instance that is currently being used. <br>
 	 * <br>
 	 * Meant to help log parameterized tests better, since it is hard to match a
 	 * certain initialiser instance to a given piece of log message otherwise.<br>
 	 * <br>
 	 * It is recommended to set it to null after each tests, so that
 	 */
-	private IInitialiser currentInit = null;
+	private EObjectInitialiser currentInit = null;
 
 	@BeforeAll
 	public static void setUpBeforeClass() {
@@ -77,7 +77,7 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	 * {@code TestClass.testMethod [with SomethingInitialiser] ran} <br>
 	 * <br>
 	 * The part in square brackets is added only if the current initialiser is set
-	 * via {@link #setCurrentInitialiser(IInitialiser)}.
+	 * via {@link #setCurrentInitialiser(EObjectInitialiser)}.
 	 */
 	@Override
 	protected void logTestEndMessage() {
@@ -272,12 +272,41 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	}
 
 	/**
-	 * Sets the currently used {@link IInitialiser} instance.<br>
+	 * A variant of {@link #testSimilarity(EObject, EObject, Class, Object)} that constructs
+	 * a minimal second element with the given {@link EObjectInitialiser} instance and uses it as
+	 * the second parameter in the said method.
+	 * <br><br>
+	 * If initialiseSecondElement is set to true, constructs the second element with
+	 * {@code init.initialise(init.instantiate())}. Otherwise uses {@code init.instantiate()}.
+	 * <br><br>
+	 * Can be used to summarise the null check tests.
+	 * 
+	 * @param init The {@link EObjectInitialiser} used in the construction of elem
+	 * @param initialiseSecondElement Denotes whether {@code init.initialise(...)} will be
+	 * used in the construction of the second element.
+	 */
+	public void testSimilarityNullCheck(EObject elem, EObjectInitialiser init, boolean initialiseSecondElement, Class<? extends EObject> objCls, Object attrKey) {
+		var elem2 = init.instantiate();
+
+		if (initialiseSecondElement) {
+			Assertions.assertTrue(init.initialise(elem2));
+		}
+
+		this.testSimilarity(elem, elem2, objCls, attrKey);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public void testSimilarityNullCheck(EObject elem, EObjectInitialiser init, boolean initialiseSecondElement, Object attrKey) {
+		this.testSimilarityNullCheck(elem, init, initialiseSecondElement, (Class<? extends EObject>) elem.eClass().getInstanceClass(), attrKey);
+	}
+	
+	/**
+	 * Sets the currently used {@link EObjectInitialiser} instance.<br>
 	 * <br>
 	 * Meant to help log parameterized tests better, since it is hard to match a
 	 * certain initialiser instance to a given piece of log message otherwise.
 	 */
-	protected void setCurrentInitialiser(IInitialiser init) {
+	protected void setCurrentInitialiser(EObjectInitialiser init) {
 		this.currentInit = init;
 	}
 }
