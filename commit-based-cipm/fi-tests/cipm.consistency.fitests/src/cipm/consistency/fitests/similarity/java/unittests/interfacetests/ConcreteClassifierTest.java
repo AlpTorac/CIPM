@@ -34,9 +34,8 @@ public class ConcreteClassifierTest extends EObjectSimilarityTest implements Use
 	@ArgumentsSource(ConcreteClassifierTestParams.class)
 	public void testPackageNullCheck(IConcreteClassifierInitialiser init) {
 		this.setCurrentInitialiser(init);
-		var objOne = this.initElement(init, this.createMinimalPackage("pOneNS", 2));
 
-		this.testSimilarityNullCheck(objOne, init, false,
+		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalPackage("pOneNS", 2)), init, false,
 				ClassifiersPackage.Literals.CONCRETE_CLASSIFIER__PACKAGE);
 	}
 }

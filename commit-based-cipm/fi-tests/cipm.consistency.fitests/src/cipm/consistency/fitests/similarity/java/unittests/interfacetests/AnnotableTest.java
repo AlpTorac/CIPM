@@ -48,10 +48,9 @@ public class AnnotableTest extends EObjectSimilarityTest implements UsesAnnotati
 	@ArgumentsSource(AnnotableTestParams.class)
 	public void testAnnotationNullCheck(IAnnotableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		var objOne = this.initElement(init,
-				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") });
 
-		this.testSimilarityNullCheck(objOne, init, true,
+		this.testSimilarityNullCheck(this.initElement(init,
+				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") }), init, true,
 				AnnotationsPackage.Literals.ANNOTABLE__ANNOTATIONS);
 	}
 }

@@ -33,9 +33,8 @@ public class TypedElementExtensionTest extends EObjectSimilarityTest implements 
 	@ArgumentsSource(TypedElementExtensionTestParams.class)
 	public void testActualTargetNullCheck(ITypedElementExtensionInitialiser init) {
 		this.setCurrentInitialiser(init);
-		var objOne = this.initElement(init, this.createMinimalClsRef("cls1"));
 
-		this.testSimilarityNullCheck(objOne, init, true,
+		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalClsRef("cls1")), init, true,
 				TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
 	}
 }

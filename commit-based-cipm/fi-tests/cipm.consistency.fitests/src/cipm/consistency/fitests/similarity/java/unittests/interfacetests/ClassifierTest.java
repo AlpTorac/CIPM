@@ -63,6 +63,7 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 	@ArgumentsSource(ClassifierTestParams.class)
 	public void testImportsNullCheck(IClassifierInitialiser init) {
 		this.setCurrentInitialiser(init);
+
 		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }, null);
 
 		this.testSimilarityNullCheck(objOne, init, true,
@@ -107,6 +108,7 @@ public class ClassifierTest extends EObjectSimilarityTest implements UsesImports
 	@ArgumentsSource(ClassifierTestParams.class)
 	public void testPackageImportsNullCheck(IClassifierInitialiser init) {
 		this.setCurrentInitialiser(init);
+
 		var objOne = this.initElement(init, null,
 				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }) });
 

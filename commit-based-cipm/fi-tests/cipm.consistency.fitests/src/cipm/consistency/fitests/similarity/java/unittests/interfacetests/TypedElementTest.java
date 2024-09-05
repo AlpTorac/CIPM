@@ -33,9 +33,8 @@ public class TypedElementTest extends EObjectSimilarityTest implements UsesTypeR
 	@ArgumentsSource(TypedElementTestParams.class)
 	public void testTypeReferenceNullCheck(ITypedElementInitialiser init) {
 		this.setCurrentInitialiser(init);
-		var objOne = this.initElement(init, this.createMinimalClsRef("cls1"));
 
-		this.testSimilarityNullCheck(objOne, init, true,
+		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalClsRef("cls1")), init, true,
 				TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE);
 	}
 }

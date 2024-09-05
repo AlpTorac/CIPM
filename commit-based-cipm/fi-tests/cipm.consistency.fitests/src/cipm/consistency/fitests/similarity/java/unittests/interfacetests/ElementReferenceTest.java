@@ -34,9 +34,8 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 	@ArgumentsSource(ElementReferenceTestParams.class)
 	public void testTargetNullCheck(IElementReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
-		var objOne = this.initElement(init, this.createMinimalClass("cls1"), null);
 
-		this.testSimilarityNullCheck(objOne, init, false,
+		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalClass("cls1"), null), init, false,
 				ReferencesPackage.Literals.ELEMENT_REFERENCE__TARGET);
 	}
 
@@ -80,9 +79,8 @@ public class ElementReferenceTest extends EObjectSimilarityTest implements UsesC
 	@ArgumentsSource(ElementReferenceTestParams.class)
 	public void testContainedTargetNullCheck(IElementReferenceInitialiser init) {
 		this.setCurrentInitialiser(init);
-		var objOne = this.initElement(init, null, this.createMinimalClass("cls1"));
 
-		this.testSimilarityNullCheck(objOne, init, false,
+		this.testSimilarityNullCheck(this.initElement(init, null, this.createMinimalClass("cls1")), init, false,
 				ReferencesPackage.Literals.ELEMENT_REFERENCE__CONTAINED_TARGET);
 	}
 }

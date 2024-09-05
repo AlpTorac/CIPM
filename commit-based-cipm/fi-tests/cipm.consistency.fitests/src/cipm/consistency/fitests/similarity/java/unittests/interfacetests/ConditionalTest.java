@@ -32,9 +32,8 @@ public class ConditionalTest extends EObjectSimilarityTest implements UsesExpres
 	@ArgumentsSource(ConditionalTestParams.class)
 	public void testConditionNullCheck(IConditionalInitialiser init) {
 		this.setCurrentInitialiser(init);
-		var objOne = this.initElement(init, this.createMinimalTrueEE());
 
-		this.testSimilarityNullCheck(objOne, init, false,
+		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalTrueEE()), init, false,
 				StatementsPackage.Literals.CONDITIONAL__CONDITION);
 	}
 }

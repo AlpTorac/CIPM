@@ -57,6 +57,7 @@ public class StatementListContainerTest extends EObjectSimilarityTest implements
 	@ArgumentsSource(StatementListContainerTestParams.class)
 	public void testStatementsNullCheck(IStatementListContainerInitialiser init) {
 		this.setCurrentInitialiser(init);
+
 		var objOne = this.initElement(init, new Statement[] { this.createMinimalNullReturn() });
 
 		this.testSimilarityNullCheck(objOne, init, true,

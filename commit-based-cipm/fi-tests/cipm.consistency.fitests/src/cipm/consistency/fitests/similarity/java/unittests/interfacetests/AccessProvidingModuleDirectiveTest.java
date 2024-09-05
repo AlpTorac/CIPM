@@ -49,9 +49,8 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest
 	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
 	public void testModuleNullCheck(IAccessProvidingModuleDirectiveInitialiser init) {
 		this.setCurrentInitialiser(init);
-		var objOne = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod1") }, null);
 
-		this.testSimilarityNullCheck(objOne, init, false,
+		this.testSimilarityNullCheck(this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod1") }, null), init, false,
 				ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__MODULES);
 	}
 
@@ -70,9 +69,8 @@ public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest
 	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
 	public void testAccessablePackageNullCheck(IAccessProvidingModuleDirectiveInitialiser init) {
 		this.setCurrentInitialiser(init);
-		var objOne = this.initElement(init, null, this.createMinimalPackage(new String[] { "ns1", "ns2" }));
 
-		this.testSimilarityNullCheck(objOne, init, false,
+		this.testSimilarityNullCheck(this.initElement(init, null, this.createMinimalPackage(new String[] { "ns1", "ns2" })), init, false,
 				ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__ACCESSABLE_PACKAGE);
 	}
 }

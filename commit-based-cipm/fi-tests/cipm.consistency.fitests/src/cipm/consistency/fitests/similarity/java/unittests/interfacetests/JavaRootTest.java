@@ -32,9 +32,8 @@ public class JavaRootTest extends EObjectSimilarityTest {
 	@ArgumentsSource(JavaRootTestParams.class)
 	public void testOriginNullCheck(IJavaRootInitialiser init) {
 		this.setCurrentInitialiser(init);
-		var objOne = this.initElement(init, Origin.BINDING);
 
-		this.testSimilarityNullCheck(objOne, init, true,
+		this.testSimilarityNullCheck(this.initElement(init, Origin.BINDING), init, true,
 				ContainersPackage.Literals.JAVA_ROOT__ORIGIN);
 	}
 }

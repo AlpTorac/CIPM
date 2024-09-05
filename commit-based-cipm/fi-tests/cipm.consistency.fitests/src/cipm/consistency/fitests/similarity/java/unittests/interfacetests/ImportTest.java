@@ -33,9 +33,8 @@ public class ImportTest extends EObjectSimilarityTest implements UsesImports {
 	@ArgumentsSource(ImportTestParams.class)
 	public void testClassifierNullCheck(IImportInitialiser init) {
 		this.setCurrentInitialiser(init);
-		var objOne = this.initElement(init, this.createMinimalClass("cls1Name"));
 
-		this.testSimilarityNullCheck(objOne, init, false,
+		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalClass("cls1Name")), init, false,
 				ImportsPackage.Literals.IMPORT__CLASSIFIER);
 	}
 }

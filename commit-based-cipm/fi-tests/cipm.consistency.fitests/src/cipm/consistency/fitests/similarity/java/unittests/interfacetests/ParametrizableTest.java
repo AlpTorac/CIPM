@@ -44,9 +44,8 @@ public class ParametrizableTest extends EObjectSimilarityTest implements UsesPar
 	@ArgumentsSource(ParametrizableTestParams.class)
 	public void testParametersNullCheck(IParametrizableInitialiser init) {
 		this.setCurrentInitialiser(init);
-		var objOne = this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p1", "t1") });
 
-		this.testSimilarityNullCheck(objOne, init, true,
+		this.testSimilarityNullCheck(this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p1", "t1") }), init, true,
 				ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS);
 	}
 }

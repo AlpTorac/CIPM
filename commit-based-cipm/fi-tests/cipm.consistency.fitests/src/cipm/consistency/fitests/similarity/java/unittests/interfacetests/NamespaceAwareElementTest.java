@@ -63,9 +63,8 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	@ArgumentsSource(NamespaceAwareElementTestParams.class)
 	public void testNamespaceNullCheck(INamespaceAwareElementInitialiser init) {
 		this.setCurrentInitialiser(init);
-		var objOne = this.initElement(init, nss1);
 
-		this.testSimilarityNullCheck(objOne, init, true,
+		this.testSimilarityNullCheck(this.initElement(init, nss1), init, true,
 				CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
 	}
 

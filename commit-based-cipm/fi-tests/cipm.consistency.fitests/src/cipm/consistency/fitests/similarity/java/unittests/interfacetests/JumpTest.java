@@ -32,9 +32,8 @@ public class JumpTest extends EObjectSimilarityTest implements UsesStatements {
 	@ArgumentsSource(JumpTestParams.class)
 	public void testTargetNullCheck(IJumpInitialiser init) {
 		this.setCurrentInitialiser(init);
-		var objOne = this.initElement(init, this.createMinimalJLToNullReturn("jl1"));
 
-		this.testSimilarityNullCheck(objOne, init, false,
+		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalJLToNullReturn("jl1")), init, false,
 				StatementsPackage.Literals.JUMP__TARGET);
 	}
 }

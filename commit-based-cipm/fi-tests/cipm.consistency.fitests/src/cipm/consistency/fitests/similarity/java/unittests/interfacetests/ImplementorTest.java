@@ -43,9 +43,8 @@ public class ImplementorTest extends EObjectSimilarityTest implements UsesTypeRe
 	@ArgumentsSource(ImplementorTestParams.class)
 	public void testImplementsNullCheck(IImplementorInitialiser init) {
 		this.setCurrentInitialiser(init);
-		var objOne = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") });
 
-		this.testSimilarityNullCheck(objOne, init, false,
+		this.testSimilarityNullCheck(this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") }), init, false,
 				ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
 	}
 }
