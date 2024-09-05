@@ -33,9 +33,8 @@ public class AnnotationAttributeSettingTest extends EObjectSimilarityTest implem
 	@Test
 	public void testAttributeNullCheck() {
 		var objOne = this.initElement(this.createMinimalInterfaceMethodWithNullReturn("im1Name"), null);
-		var objTwo = new AnnotationAttributeSettingInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__ATTRIBUTE);
+		this.testSimilarityNullCheck(objOne, new AnnotationAttributeSettingInitialiser(), false, AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__ATTRIBUTE);
 	}
 
 	@Test
@@ -49,8 +48,7 @@ public class AnnotationAttributeSettingTest extends EObjectSimilarityTest implem
 	@Test
 	public void testValueNullCheck() {
 		var objOne = this.initElement(null, this.createNullLiteral());
-		var objTwo = new AnnotationAttributeSettingInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__VALUE);
+		this.testSimilarityNullCheck(objOne, new AnnotationAttributeSettingInitialiser(), false, AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__VALUE);
 	}
 }

@@ -30,8 +30,7 @@ public class AssertTest extends EObjectSimilarityTest implements UsesExpressions
 	@Test
 	public void testErrorMessageNullCheck() {
 		var objOne = this.initElement(this.createMinimalSR("val1"));
-		var objTwo = new AssertInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.ASSERT__ERROR_MESSAGE);
+		this.testSimilarityNullCheck(objOne, new AssertInitialiser(), false, StatementsPackage.Literals.ASSERT__ERROR_MESSAGE);
 	}
 }

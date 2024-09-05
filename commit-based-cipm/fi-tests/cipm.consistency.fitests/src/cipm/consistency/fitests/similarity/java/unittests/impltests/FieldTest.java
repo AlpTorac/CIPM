@@ -38,8 +38,7 @@ public class FieldTest extends EObjectSimilarityTest implements UsesAdditionalFi
 	@Test
 	public void testAdditionalFieldNullCheck() {
 		var objOne = this.initElement(new AdditionalField[] { this.createMinimalAF("af1") });
-		var objTwo = new FieldInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.FIELD__ADDITIONAL_FIELDS);
+		this.testSimilarityNullCheck(objOne, new FieldInitialiser(), false, MembersPackage.Literals.FIELD__ADDITIONAL_FIELDS);
 	}
 }

@@ -24,7 +24,7 @@ public class DecimalLongLiteralTest extends EObjectSimilarityTest {
 
 	@Test
 	public void testDecimalValueNullCheck() {
-		this.testSimilarity(this.initElement(1), new DecimalLongLiteralInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(1), new DecimalLongLiteralInitialiser(), false,
 				LiteralsPackage.Literals.DECIMAL_LONG_LITERAL__DECIMAL_VALUE);
 	}
 }

@@ -29,8 +29,7 @@ public class ThrowTest extends EObjectSimilarityTest implements UsesExpressions 
 	@Test
 	public void testThrowableNullCheck() {
 		var objOne = this.initElement(this.createMinimalSR("str1"));
-		var objTwo = new ThrowInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.THROW__THROWABLE);
+		this.testSimilarityNullCheck(objOne, new ThrowInitialiser(), false, StatementsPackage.Literals.THROW__THROWABLE);
 	}
 }

@@ -24,7 +24,7 @@ public class OctalLongLiteralTest extends EObjectSimilarityTest {
 
 	@Test
 	public void testOctalValueNullCheck() {
-		this.testSimilarity(this.initElement(1), new OctalLongLiteralInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(1), new OctalLongLiteralInitialiser(), false,
 				LiteralsPackage.Literals.OCTAL_LONG_LITERAL__OCTAL_VALUE);
 	}
 }

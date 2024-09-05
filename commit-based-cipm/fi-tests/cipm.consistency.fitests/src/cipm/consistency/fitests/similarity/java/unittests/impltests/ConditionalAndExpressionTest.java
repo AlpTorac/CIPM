@@ -37,9 +37,9 @@ public class ConditionalAndExpressionTest extends EObjectSimilarityTest implemen
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarity(
+		this.testSimilarityNullCheck(
 				this.initElement(new ConditionalAndExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
-				new ConditionalAndExpressionInitialiser().instantiate(),
+				new ConditionalAndExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.CONDITIONAL_AND_EXPRESSION__CHILDREN);
 	}
 }

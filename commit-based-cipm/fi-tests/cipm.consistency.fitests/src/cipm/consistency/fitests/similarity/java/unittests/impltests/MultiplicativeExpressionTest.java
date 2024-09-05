@@ -40,9 +40,9 @@ public class MultiplicativeExpressionTest extends EObjectSimilarityTest implemen
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarity(
+		this.testSimilarityNullCheck(
 				this.initElement(new MultiplicativeExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
-				new MultiplicativeExpressionInitialiser().instantiate(),
+				new MultiplicativeExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__CHILDREN);
 	}
 
@@ -64,8 +64,8 @@ public class MultiplicativeExpressionTest extends EObjectSimilarityTest implemen
 
 	@Test
 	public void testMultiplicativeOperatorNullCheck() {
-		this.testSimilarity(this.initElement(null, new MultiplicativeOperator[] { this.createDivisionOperator() }),
-				new MultiplicativeExpressionInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(null, new MultiplicativeOperator[] { this.createDivisionOperator() }),
+				new MultiplicativeExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__MULTIPLICATIVE_OPERATORS);
 	}
 }

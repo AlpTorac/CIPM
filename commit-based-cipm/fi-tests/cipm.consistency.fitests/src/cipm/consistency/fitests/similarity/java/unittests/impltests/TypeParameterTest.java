@@ -40,8 +40,7 @@ public class TypeParameterTest extends EObjectSimilarityTest implements UsesType
 	@Test
 	public void testExtendTypeNullCheck() {
 		var objOne = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") });
-		var objTwo = new TypeParameterInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.TYPE_PARAMETER__EXTEND_TYPES);
+		this.testSimilarityNullCheck(objOne, new TypeParameterInitialiser(), false, GenericsPackage.Literals.TYPE_PARAMETER__EXTEND_TYPES);
 	}
 }

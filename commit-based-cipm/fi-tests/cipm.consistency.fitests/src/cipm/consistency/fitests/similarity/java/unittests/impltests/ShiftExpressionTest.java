@@ -38,8 +38,8 @@ public class ShiftExpressionTest extends EObjectSimilarityTest implements UsesEx
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarity(this.initElement(new ShiftExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
-				new ShiftExpressionInitialiser().instantiate(), ExpressionsPackage.Literals.SHIFT_EXPRESSION__CHILDREN);
+		this.testSimilarityNullCheck(this.initElement(new ShiftExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
+				new ShiftExpressionInitialiser(), false, ExpressionsPackage.Literals.SHIFT_EXPRESSION__CHILDREN);
 	}
 
 	@Test
@@ -60,8 +60,8 @@ public class ShiftExpressionTest extends EObjectSimilarityTest implements UsesEx
 
 	@Test
 	public void testShiftOperatorNullCheck() {
-		this.testSimilarity(this.initElement(null, new ShiftOperator[] { this.createLeftShiftOperator() }),
-				new ShiftExpressionInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(null, new ShiftOperator[] { this.createLeftShiftOperator() }),
+				new ShiftExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.SHIFT_EXPRESSION__SHIFT_OPERATORS);
 	}
 }

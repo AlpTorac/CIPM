@@ -32,9 +32,8 @@ public class LambdaExpressionTest extends EObjectSimilarityTest implements UsesS
 	@Test
 	public void testBodyNullCheck() {
 		var objOne = this.initElement(this.createMinimalBlockWithNullReturn(), null);
-		var objTwo = new LambdaExpressionInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, ExpressionsPackage.Literals.LAMBDA_EXPRESSION__BODY);
+		this.testSimilarityNullCheck(objOne, new LambdaExpressionInitialiser(), false, ExpressionsPackage.Literals.LAMBDA_EXPRESSION__BODY);
 	}
 
 	@Test
@@ -48,8 +47,7 @@ public class LambdaExpressionTest extends EObjectSimilarityTest implements UsesS
 	@Test
 	public void testParametersNullCheck() {
 		var objOne = this.initElement(null, this.createMinimalETLP("p1", "c1"));
-		var objTwo = new LambdaExpressionInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, ExpressionsPackage.Literals.LAMBDA_EXPRESSION__PARAMETERS);
+		this.testSimilarityNullCheck(objOne, new LambdaExpressionInitialiser(), false, ExpressionsPackage.Literals.LAMBDA_EXPRESSION__PARAMETERS);
 	}
 }

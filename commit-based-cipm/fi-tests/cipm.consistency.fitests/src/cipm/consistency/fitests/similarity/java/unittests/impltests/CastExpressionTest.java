@@ -47,8 +47,8 @@ public class CastExpressionTest extends EObjectSimilarityTest implements UsesExp
 
 	@Test
 	public void testAdditionalBoundNullCheck() {
-		this.testSimilarity(this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null, null),
-				new CastExpressionInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null, null),
+				new CastExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.CAST_EXPRESSION__ADDITIONAL_BOUNDS);
 	}
 
@@ -61,8 +61,8 @@ public class CastExpressionTest extends EObjectSimilarityTest implements UsesExp
 
 	@Test
 	public void testGeneralChildNullCheck() {
-		this.testSimilarity(this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
-				new CastExpressionInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
+				new CastExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.CAST_EXPRESSION__GENERAL_CHILD);
 	}
 }

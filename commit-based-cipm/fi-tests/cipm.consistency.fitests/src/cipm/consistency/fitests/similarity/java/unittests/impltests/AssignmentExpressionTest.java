@@ -31,8 +31,8 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 
 	@Test
 	public void testAssignmentOperatorNullCheck() {
-		this.testSimilarity(this.initElement(this.createAssignmentOperator(), null, null),
-				new AssignmentExpressionInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(this.createAssignmentOperator(), null, null),
+				new AssignmentExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__ASSIGNMENT_OPERATOR);
 	}
 
@@ -45,8 +45,8 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarity(this.initElement(null, this.createDecimalIntegerLiteral(1), null),
-				new AssignmentExpressionInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(null, this.createDecimalIntegerLiteral(1), null),
+				new AssignmentExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__CHILD);
 	}
 
@@ -59,8 +59,8 @@ public class AssignmentExpressionTest extends EObjectSimilarityTest implements U
 
 	@Test
 	public void testValueNullCheck() {
-		this.testSimilarity(this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
-				new AssignmentExpressionInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
+				new AssignmentExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__VALUE);
 	}
 }

@@ -30,8 +30,7 @@ public class ClassifierReferenceTest extends EObjectSimilarityTest implements Us
 	@Test
 	public void testTargetNullCheck() {
 		var objOne = this.initElement(this.createMinimalClass("cls1"));
-		var objTwo = new ClassifierReferenceInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, TypesPackage.Literals.CLASSIFIER_REFERENCE__TARGET);
+		this.testSimilarityNullCheck(objOne, new ClassifierReferenceInitialiser(), false, TypesPackage.Literals.CLASSIFIER_REFERENCE__TARGET);
 	}
 }

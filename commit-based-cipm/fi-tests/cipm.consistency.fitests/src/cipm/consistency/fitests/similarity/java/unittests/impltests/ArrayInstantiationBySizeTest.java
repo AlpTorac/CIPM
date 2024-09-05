@@ -38,8 +38,7 @@ public class ArrayInstantiationBySizeTest extends EObjectSimilarityTest implemen
 	@Test
 	public void testSizeNullCheck() {
 		var objOne = this.initElement(new Expression[] { this.createDecimalIntegerLiteral(1) });
-		var objTwo = new ArrayInstantiationBySizeInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_SIZE__SIZES);
+		this.testSimilarityNullCheck(objOne, new ArrayInstantiationBySizeInitialiser(), false, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_SIZE__SIZES);
 	}
 }

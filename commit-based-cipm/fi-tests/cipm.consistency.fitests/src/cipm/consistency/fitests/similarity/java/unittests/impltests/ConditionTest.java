@@ -29,8 +29,7 @@ public class ConditionTest extends EObjectSimilarityTest implements UsesStatemen
 	@Test
 	public void testElseStatementNullCheck() {
 		var objOne = this.initElement(this.createMinimalTrivialAssert());
-		var objTwo = new ConditionInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.CONDITION__ELSE_STATEMENT);
+		this.testSimilarityNullCheck(objOne, new ConditionInitialiser(), false, StatementsPackage.Literals.CONDITION__ELSE_STATEMENT);
 	}
 }

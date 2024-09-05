@@ -39,9 +39,9 @@ public class EqualityExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarity(
+		this.testSimilarityNullCheck(
 				this.initElement(new EqualityExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
-				new EqualityExpressionInitialiser().instantiate(),
+				new EqualityExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__CHILDREN);
 	}
 
@@ -54,8 +54,8 @@ public class EqualityExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testEqualityOperatorNullCheck() {
-		this.testSimilarity(this.initElement(null, this.createEqualityOperator()),
-				new EqualityExpressionInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(null, this.createEqualityOperator()),
+				new EqualityExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__EQUALITY_OPERATORS);
 	}
 }

@@ -29,8 +29,8 @@ public class UnaryExpressionTest extends EObjectSimilarityTest implements UsesEx
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarity(this.initElement(this.createDecimalIntegerLiteral(1), null),
-				new UnaryExpressionInitialiser().instantiate(), ExpressionsPackage.Literals.UNARY_EXPRESSION__CHILD);
+		this.testSimilarityNullCheck(this.initElement(this.createDecimalIntegerLiteral(1), null),
+				new UnaryExpressionInitialiser(), false, ExpressionsPackage.Literals.UNARY_EXPRESSION__CHILD);
 	}
 
 	@Test
@@ -51,8 +51,8 @@ public class UnaryExpressionTest extends EObjectSimilarityTest implements UsesEx
 
 	@Test
 	public void testOperatorNullCheck() {
-		this.testSimilarity(this.initElement(null, new UnaryOperator[] { this.createAdditionOperator() }),
-				new UnaryExpressionInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(null, new UnaryOperator[] { this.createAdditionOperator() }),
+				new UnaryExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.UNARY_EXPRESSION__OPERATORS);
 	}
 }

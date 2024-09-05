@@ -32,9 +32,8 @@ public class ReceiverParameterTest extends EObjectSimilarityTest implements Uses
 	@Test
 	public void testThisTypeReferenceNullCheck() {
 		var objOne = this.initElement(this.createThis(), null);
-		var objTwo = new ReceiverParameterInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.RECEIVER_PARAMETER__THIS_REFERENCE);
+		this.testSimilarityNullCheck(objOne, new ReceiverParameterInitialiser(), false, ParametersPackage.Literals.RECEIVER_PARAMETER__THIS_REFERENCE);
 	}
 
 	@Test
@@ -48,8 +47,7 @@ public class ReceiverParameterTest extends EObjectSimilarityTest implements Uses
 	@Test
 	public void testOuterTypeReferenceNullCheck() {
 		var objOne = this.initElement(null, this.createMinimalClsRef("cls1"));
-		var objTwo = new ReceiverParameterInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.RECEIVER_PARAMETER__OUTER_TYPE_REFERENCE);
+		this.testSimilarityNullCheck(objOne, new ReceiverParameterInitialiser(), false, ParametersPackage.Literals.RECEIVER_PARAMETER__OUTER_TYPE_REFERENCE);
 	}
 }

@@ -38,8 +38,7 @@ public class ArrayInitializerTest extends EObjectSimilarityTest implements UsesE
 	@Test
 	public void testInitialValuesNullCheck() {
 		var objOne = this.initElement(new ArrayInitializationValue[] { this.createDecimalIntegerLiteral(1) });
-		var objTwo = new ArrayInitializerInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_INITIALIZER__INITIAL_VALUES);
+		this.testSimilarityNullCheck(objOne, new ArrayInitializerInitialiser(), false, ArraysPackage.Literals.ARRAY_INITIALIZER__INITIAL_VALUES);
 	}
 }

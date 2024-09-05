@@ -40,8 +40,7 @@ public class AnnotationParameterListTest extends EObjectSimilarityTest
 	@Test
 	public void testSettingNullCheck() {
 		var objOne = this.initElement(new AnnotationAttributeSetting[] { this.createEmptyAAS() });
-		var objTwo = new AnnotationParameterListInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_PARAMETER_LIST__SETTINGS);
+		this.testSimilarityNullCheck(objOne, new AnnotationParameterListInitialiser(), false, AnnotationsPackage.Literals.ANNOTATION_PARAMETER_LIST__SETTINGS);
 	}
 }

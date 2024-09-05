@@ -24,7 +24,7 @@ public class HexDoubleLiteralTest extends EObjectSimilarityTest {
 
 	@Test
 	public void testHexValueNullCheck() {
-		this.testSimilarity(this.initElement(1.5d), new HexDoubleLiteralInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(1.5d), new HexDoubleLiteralInitialiser(), false,
 				LiteralsPackage.Literals.HEX_DOUBLE_LITERAL__HEX_VALUE);
 	}
 }

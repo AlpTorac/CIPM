@@ -24,7 +24,7 @@ public class CharacterLiteralTest extends EObjectSimilarityTest {
 
 	@Test
 	public void testValueNullCheck() {
-		this.testSimilarity(this.initElement("a"), new CharacterLiteralInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement("a"), new CharacterLiteralInitialiser(), false,
 				LiteralsPackage.Literals.CHARACTER_LITERAL__VALUE);
 	}
 }

@@ -24,7 +24,7 @@ public class DecimalFloatLiteralTest extends EObjectSimilarityTest {
 
 	@Test
 	public void testDecimalValueNullCheck() {
-		this.testSimilarity(this.initElement(1.5f), new DecimalFloatLiteralInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(1.5f), new DecimalFloatLiteralInitialiser(), false,
 				LiteralsPackage.Literals.DECIMAL_FLOAT_LITERAL__DECIMAL_VALUE);
 	}
 }

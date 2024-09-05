@@ -24,7 +24,7 @@ public class BooleanLiteralTest extends EObjectSimilarityTest {
 
 	@Test
 	public void testValueNullCheck() {
-		this.testSimilarity(this.initElement(true), new BooleanLiteralInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(true), new BooleanLiteralInitialiser(), false,
 				LiteralsPackage.Literals.BOOLEAN_LITERAL__VALUE);
 	}
 }

@@ -29,8 +29,7 @@ public class ArraySelectorTest extends EObjectSimilarityTest implements UsesExpr
 	@Test
 	public void testPositionNullCheck() {
 		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
-		var objTwo = new ArraySelectorInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_SELECTOR__POSITION);
+		this.testSimilarityNullCheck(objOne, new ArraySelectorInitialiser(), false, ArraysPackage.Literals.ARRAY_SELECTOR__POSITION);
 	}
 }

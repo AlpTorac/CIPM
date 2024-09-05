@@ -38,8 +38,7 @@ public class ProvidesModuleDirectiveTest extends EObjectSimilarityTest implement
 	@Test
 	public void testServiceProviderNullCheck() {
 		var objOne = this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") });
-		var objTwo = new ProvidesModuleDirectiveInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.PROVIDES_MODULE_DIRECTIVE__SERVICE_PROVIDERS);
+		this.testSimilarityNullCheck(objOne, new ProvidesModuleDirectiveInitialiser(), false, ModulesPackage.Literals.PROVIDES_MODULE_DIRECTIVE__SERVICE_PROVIDERS);
 	}
 }

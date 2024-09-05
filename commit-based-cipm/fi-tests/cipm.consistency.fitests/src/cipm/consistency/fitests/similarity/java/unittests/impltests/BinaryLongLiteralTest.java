@@ -24,7 +24,7 @@ public class BinaryLongLiteralTest extends EObjectSimilarityTest {
 
 	@Test
 	public void testBinaryValueNullCheck() {
-		this.testSimilarity(this.initElement(1), new BinaryLongLiteralInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(1), new BinaryLongLiteralInitialiser(), false,
 				LiteralsPackage.Literals.BINARY_LONG_LITERAL__BINARY_VALUE);
 	}
 }

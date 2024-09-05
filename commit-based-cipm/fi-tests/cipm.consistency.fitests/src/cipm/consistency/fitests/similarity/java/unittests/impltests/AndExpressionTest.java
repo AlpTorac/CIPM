@@ -35,7 +35,7 @@ public class AndExpressionTest extends EObjectSimilarityTest implements UsesExpr
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarity(this.initElement(new AndExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
-				new AndExpressionInitialiser().instantiate(), ExpressionsPackage.Literals.AND_EXPRESSION__CHILDREN);
+		this.testSimilarityNullCheck(this.initElement(new AndExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
+				new AndExpressionInitialiser(), false, ExpressionsPackage.Literals.AND_EXPRESSION__CHILDREN);
 	}
 }

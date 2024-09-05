@@ -29,8 +29,7 @@ public class SuperTypeArgumentTest extends EObjectSimilarityTest implements Uses
 	@Test
 	public void testSuperTypeNullCheck() {
 		var objOne = this.initElement(this.createMinimalClsRef("cls1"));
-		var objTwo = new SuperTypeArgumentInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.SUPER_TYPE_ARGUMENT__SUPER_TYPE);
+		this.testSimilarityNullCheck(objOne, new SuperTypeArgumentInitialiser(), false, GenericsPackage.Literals.SUPER_TYPE_ARGUMENT__SUPER_TYPE);
 	}
 }

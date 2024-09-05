@@ -29,8 +29,7 @@ public class SelfReferenceTest extends EObjectSimilarityTest implements UsesLite
 	@Test
 	public void testSelfNullCheck() {
 		var objOne = this.initElement(this.createThis());
-		var objTwo = new SelfReferenceInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.SELF_REFERENCE__SELF);
+		this.testSimilarityNullCheck(objOne, new SelfReferenceInitialiser(), false, ReferencesPackage.Literals.SELF_REFERENCE__SELF);
 	}
 }

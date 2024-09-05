@@ -33,8 +33,8 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarity(this.initElement(this.createDecimalIntegerLiteral(1), null, null, null),
-				new ConditionalExpressionInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(this.createDecimalIntegerLiteral(1), null, null, null),
+				new ConditionalExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__CHILD);
 	}
 
@@ -47,8 +47,8 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 
 	@Test
 	public void testExpressionChildNullCheck() {
-		this.testSimilarity(this.initElement(null, this.createDecimalIntegerLiteral(1), null, null),
-				new ConditionalExpressionInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(null, this.createDecimalIntegerLiteral(1), null, null),
+				new ConditionalExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__CHILD);
 	}
 
@@ -61,8 +61,8 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 
 	@Test
 	public void testExpressionIfNullCheck() {
-		this.testSimilarity(this.initElement(null, null, this.createDecimalIntegerLiteral(1), null),
-				new ConditionalExpressionInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(null, null, this.createDecimalIntegerLiteral(1), null),
+				new ConditionalExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__EXPRESSION_IF);
 	}
 
@@ -75,8 +75,8 @@ public class ConditionalExpressionTest extends EObjectSimilarityTest implements 
 
 	@Test
 	public void testGeneralExpressionElseNullCheck() {
-		this.testSimilarity(this.initElement(null, null, null, this.createDecimalIntegerLiteral(1)),
-				new ConditionalExpressionInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(null, null, null, this.createDecimalIntegerLiteral(1)),
+				new ConditionalExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__GENERAL_EXPRESSION_ELSE);
 	}
 }

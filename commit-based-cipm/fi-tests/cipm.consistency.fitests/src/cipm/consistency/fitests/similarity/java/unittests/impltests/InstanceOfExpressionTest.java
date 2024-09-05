@@ -27,8 +27,8 @@ public class InstanceOfExpressionTest extends EObjectSimilarityTest implements U
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarity(this.initElement(this.createDecimalIntegerLiteral(1)),
-				new InstanceOfExpressionInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(this.createDecimalIntegerLiteral(1)),
+				new InstanceOfExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.INSTANCE_OF_EXPRESSION__CHILD);
 	}
 }

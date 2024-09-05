@@ -39,9 +39,9 @@ public class AdditiveExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarity(
+		this.testSimilarityNullCheck(
 				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
-				new AdditiveExpressionInitialiser().instantiate(),
+				new AdditiveExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__CHILDREN);
 	}
 
@@ -63,8 +63,8 @@ public class AdditiveExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testAdditiveOperatorNullCheck() {
-		this.testSimilarity(this.initElement(null, new AdditiveOperator[] { this.createAdditionOperator() }),
-				new AdditiveExpressionInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(null, new AdditiveOperator[] { this.createAdditionOperator() }),
+				new AdditiveExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__ADDITIVE_OPERATORS);
 	}
 }

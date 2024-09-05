@@ -29,8 +29,7 @@ public class CatchBlockTest extends EObjectSimilarityTest implements UsesParamet
 	@Test
 	public void testParameterNullCheck() {
 		var objOne = this.initElement(this.createMinimalOrdParamWithClsTarget("param1", "cls1"));
-		var objTwo = new CatchBlockInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.CATCH_BLOCK__PARAMETER);
+		this.testSimilarityNullCheck(objOne, new CatchBlockInitialiser(), false, StatementsPackage.Literals.CATCH_BLOCK__PARAMETER);
 	}
 }

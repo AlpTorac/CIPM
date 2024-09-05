@@ -39,8 +39,7 @@ public class NewConstructorCallTest extends EObjectSimilarityTest implements Use
 	@Test
 	public void testAnonymousClassNullCheck() {
 		var objOne = this.initElement(this.createMinimalAnonymousClassWithMethod("met1"));
-		var objTwo = new NewConstructorCallInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, InstantiationsPackage.Literals.NEW_CONSTRUCTOR_CALL__ANONYMOUS_CLASS);
+		this.testSimilarityNullCheck(objOne, new NewConstructorCallInitialiser(), false, InstantiationsPackage.Literals.NEW_CONSTRUCTOR_CALL__ANONYMOUS_CLASS);
 	}
 }

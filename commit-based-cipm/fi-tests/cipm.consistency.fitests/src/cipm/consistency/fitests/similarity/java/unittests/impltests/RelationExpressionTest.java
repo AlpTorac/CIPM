@@ -39,9 +39,9 @@ public class RelationExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarity(
+		this.testSimilarityNullCheck(
 				this.initElement(new RelationExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
-				new RelationExpressionInitialiser().instantiate(),
+				new RelationExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.RELATION_EXPRESSION__CHILDREN);
 	}
 
@@ -63,8 +63,8 @@ public class RelationExpressionTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testRelationOperatorNullCheck() {
-		this.testSimilarity(this.initElement(null, new RelationOperator[] { this.createGreaterThanOperator() }),
-				new RelationExpressionInitialiser().instantiate(),
+		this.testSimilarityNullCheck(this.initElement(null, new RelationOperator[] { this.createGreaterThanOperator() }),
+				new RelationExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.RELATION_EXPRESSION__RELATION_OPERATORS);
 	}
 }

@@ -40,8 +40,7 @@ public class LocalVariableTest extends EObjectSimilarityTest implements UsesAddi
 	@Test
 	public void testLocalVariableNullCheck() {
 		var objOne = this.initElement(new AdditionalLocalVariable[] { this.createMinimalALV("alv1") });
-		var objTwo = new LocalVariableInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, VariablesPackage.Literals.LOCAL_VARIABLE__ADDITIONAL_LOCAL_VARIABLES);
+		this.testSimilarityNullCheck(objOne, new LocalVariableInitialiser(), false, VariablesPackage.Literals.LOCAL_VARIABLE__ADDITIONAL_LOCAL_VARIABLES);
 	}
 }

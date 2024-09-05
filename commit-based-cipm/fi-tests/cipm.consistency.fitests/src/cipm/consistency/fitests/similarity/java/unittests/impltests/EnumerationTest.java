@@ -38,8 +38,7 @@ public class EnumerationTest extends EObjectSimilarityTest implements UsesEnumCo
 	@Test
 	public void testConstantNullCheck() {
 		var objOne = this.initElement(new EnumConstant[] { this.createMinimalEnumConstant("cst1") });
-		var objTwo = new EnumerationInitialiser().instantiate();
 
-		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.ENUMERATION__CONSTANTS);
+		this.testSimilarityNullCheck(objOne, new EnumerationInitialiser(), false, ClassifiersPackage.Literals.ENUMERATION__CONSTANTS);
 	}
 }
