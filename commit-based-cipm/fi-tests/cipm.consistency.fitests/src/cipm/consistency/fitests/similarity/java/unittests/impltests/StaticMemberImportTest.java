@@ -37,8 +37,6 @@ public class StaticMemberImportTest extends EObjectSimilarityTest implements Use
 
 	@Test
 	public void testStaticMemberNullCheck() {
-		var objOne = this.initElement(new ReferenceableElement[] { this.createMinimalClsMethodWithNullReturn("met1") });
-
-		this.testSimilarityNullCheck(objOne, new StaticMemberImportInitialiser(), false, ImportsPackage.Literals.STATIC_MEMBER_IMPORT__STATIC_MEMBERS);
+		this.testSimilarityNullCheck(this.initElement(new ReferenceableElement[] { this.createMinimalClsMethodWithNullReturn("met1") }), new StaticMemberImportInitialiser(), false, ImportsPackage.Literals.STATIC_MEMBER_IMPORT__STATIC_MEMBERS);
 	}
 }

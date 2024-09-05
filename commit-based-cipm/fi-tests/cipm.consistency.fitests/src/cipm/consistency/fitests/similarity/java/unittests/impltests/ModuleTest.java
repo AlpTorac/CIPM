@@ -39,9 +39,7 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 
 	@Test
 	public void testOpenNullCheck() {
-		var objOne = this.initElement(null, null, true);
-
-		this.testSimilarityNullCheck(objOne, new ModuleInitialiser(), false, ContainersPackage.Literals.MODULE__OPEN);
+		this.testSimilarityNullCheck(this.initElement(null, null, true), new ModuleInitialiser(), false, ContainersPackage.Literals.MODULE__OPEN);
 	}
 
 	@Test
@@ -63,9 +61,7 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 
 	@Test
 	public void testPackagesNullCheck() {
-		var objOne = this.initElement(new Package[] { this.createMinimalPackage(new String[] { "ns1" }) }, null, false);
-
-		this.testSimilarityNullCheck(objOne, new ModuleInitialiser(), false, ContainersPackage.Literals.MODULE__PACKAGES);
+		this.testSimilarityNullCheck(this.initElement(new Package[] { this.createMinimalPackage(new String[] { "ns1" }) }, null, false), new ModuleInitialiser(), false, ContainersPackage.Literals.MODULE__PACKAGES);
 	}
 
 	@Test
@@ -90,9 +86,7 @@ public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirec
 
 	@Test
 	public void testTargetsNullCheck() {
-		var objOne = this.initElement(null, new ModuleDirective[] { this.createMinimalEMD(new String[] { "ns1" }) },
-				false);
-
-		this.testSimilarityNullCheck(objOne, new ModuleInitialiser(), false, ContainersPackage.Literals.MODULE__TARGET);
+		this.testSimilarityNullCheck(this.initElement(null, new ModuleDirective[] { this.createMinimalEMD(new String[] { "ns1" }) },
+				false), new ModuleInitialiser(), false, ContainersPackage.Literals.MODULE__TARGET);
 	}
 }

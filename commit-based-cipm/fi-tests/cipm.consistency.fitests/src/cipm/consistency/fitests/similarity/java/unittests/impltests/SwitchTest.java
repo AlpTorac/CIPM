@@ -38,9 +38,7 @@ public class SwitchTest extends EObjectSimilarityTest implements UsesSwitchCases
 
 	@Test
 	public void testCaseNullCheck() {
-		var objOne = this.initElement(new SwitchCase[] { this.createEmptyNSC() }, null);
-
-		this.testSimilarityNullCheck(objOne, new SwitchInitialiser(), false, StatementsPackage.Literals.SWITCH__CASES);
+		this.testSimilarityNullCheck(this.initElement(new SwitchCase[] { this.createEmptyNSC() }, null), new SwitchInitialiser(), false, StatementsPackage.Literals.SWITCH__CASES);
 	}
 
 	@Test
@@ -53,8 +51,6 @@ public class SwitchTest extends EObjectSimilarityTest implements UsesSwitchCases
 
 	@Test
 	public void testVariableNullCheck() {
-		var objOne = this.initElement(null, this.createMinimalSR("str1"));
-
-		this.testSimilarityNullCheck(objOne, new SwitchInitialiser(), false, StatementsPackage.Literals.SWITCH__VARIABLE);
+		this.testSimilarityNullCheck(this.initElement(null, this.createMinimalSR("str1")), new SwitchInitialiser(), false, StatementsPackage.Literals.SWITCH__VARIABLE);
 	}
 }

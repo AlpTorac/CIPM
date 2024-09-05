@@ -28,8 +28,6 @@ public class SynchronizedBlockTest extends EObjectSimilarityTest implements Uses
 
 	@Test
 	public void testLockProviderNullCheck() {
-		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
-
-		this.testSimilarityNullCheck(objOne, new SynchronizedBlockInitialiser(), false, StatementsPackage.Literals.SYNCHRONIZED_BLOCK__LOCK_PROVIDER);
+		this.testSimilarityNullCheck(this.initElement(this.createDecimalIntegerLiteral(1)), new SynchronizedBlockInitialiser(), false, StatementsPackage.Literals.SYNCHRONIZED_BLOCK__LOCK_PROVIDER);
 	}
 }

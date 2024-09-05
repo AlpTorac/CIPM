@@ -31,9 +31,7 @@ public class RequiresModuleDirectiveTest extends EObjectSimilarityTest implement
 
 	@Test
 	public void testModifierNullCheck() {
-		var objOne = this.initElement(this.createStatic(), null);
-
-		this.testSimilarityNullCheck(objOne, new RequiresModuleDirectiveInitialiser(), false, ModulesPackage.Literals.REQUIRES_MODULE_DIRECTIVE__MODIFIER);
+		this.testSimilarityNullCheck(this.initElement(this.createStatic(), null), new RequiresModuleDirectiveInitialiser(), false, ModulesPackage.Literals.REQUIRES_MODULE_DIRECTIVE__MODIFIER);
 	}
 
 	@Test
@@ -46,8 +44,6 @@ public class RequiresModuleDirectiveTest extends EObjectSimilarityTest implement
 
 	@Test
 	public void testRequiredModuleNullCheck() {
-		var objOne = this.initElement(null, this.createMinimalMR("mod1", new String[] { "ns1", "ns2" }));
-
-		this.testSimilarityNullCheck(objOne, new RequiresModuleDirectiveInitialiser(), false, ModulesPackage.Literals.REQUIRES_MODULE_DIRECTIVE__REQUIRED_MODULE);
+		this.testSimilarityNullCheck(this.initElement(null, this.createMinimalMR("mod1", new String[] { "ns1", "ns2" })), new RequiresModuleDirectiveInitialiser(), false, ModulesPackage.Literals.REQUIRES_MODULE_DIRECTIVE__REQUIRED_MODULE);
 	}
 }

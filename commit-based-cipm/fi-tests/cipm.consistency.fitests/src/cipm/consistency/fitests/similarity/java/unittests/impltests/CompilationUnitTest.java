@@ -38,8 +38,6 @@ public class CompilationUnitTest extends EObjectSimilarityTest implements UsesCo
 
 	@Test
 	public void testClassifierNullCheck() {
-		var objOne = this.initElement(new ConcreteClassifier[] { this.createMinimalClass("cls1") });
-
-		this.testSimilarityNullCheck(objOne, new CompilationUnitInitialiser(), false, ContainersPackage.Literals.COMPILATION_UNIT__CLASSIFIERS);
+		this.testSimilarityNullCheck(this.initElement(new ConcreteClassifier[] { this.createMinimalClass("cls1") }), new CompilationUnitInitialiser(), false, ContainersPackage.Literals.COMPILATION_UNIT__CLASSIFIERS);
 	}
 }

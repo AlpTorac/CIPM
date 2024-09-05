@@ -43,9 +43,7 @@ public class TryBlockTest extends EObjectSimilarityTest implements UsesCatchBloc
 
 	@Test
 	public void testResourceNullCheck() {
-		var objOne = this.initElement(new Resource[] { this.createMinimalLV("lv1") }, null, null);
-
-		this.testSimilarityNullCheck(objOne, new TryBlockInitialiser(), false, StatementsPackage.Literals.TRY_BLOCK__RESOURCES);
+		this.testSimilarityNullCheck(this.initElement(new Resource[] { this.createMinimalLV("lv1") }, null, null), new TryBlockInitialiser(), false, StatementsPackage.Literals.TRY_BLOCK__RESOURCES);
 	}
 
 	@Test
@@ -67,9 +65,7 @@ public class TryBlockTest extends EObjectSimilarityTest implements UsesCatchBloc
 
 	@Test
 	public void testCatchBlockNullCheck() {
-		var objOne = this.initElement(null, new CatchBlock[] { this.createMinimalCB("p1", "t1") }, null);
-
-		this.testSimilarityNullCheck(objOne, new TryBlockInitialiser(), false, StatementsPackage.Literals.TRY_BLOCK__CATCH_BLOCKS);
+		this.testSimilarityNullCheck(this.initElement(null, new CatchBlock[] { this.createMinimalCB("p1", "t1") }, null), new TryBlockInitialiser(), false, StatementsPackage.Literals.TRY_BLOCK__CATCH_BLOCKS);
 	}
 
 	@Test
@@ -82,8 +78,6 @@ public class TryBlockTest extends EObjectSimilarityTest implements UsesCatchBloc
 
 	@Test
 	public void testFinallyBlockNullCheck() {
-		var objOne = this.initElement(null, null, this.createMinimalBlockWithNullReturn());
-
-		this.testSimilarityNullCheck(objOne, new TryBlockInitialiser(), false, StatementsPackage.Literals.TRY_BLOCK__FINALLY_BLOCK);
+		this.testSimilarityNullCheck(this.initElement(null, null, this.createMinimalBlockWithNullReturn()), new TryBlockInitialiser(), false, StatementsPackage.Literals.TRY_BLOCK__FINALLY_BLOCK);
 	}
 }

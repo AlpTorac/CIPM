@@ -39,9 +39,7 @@ public class NamespaceClassifierReferenceTest extends EObjectSimilarityTest impl
 
 	@Test
 	public void testClassifierReferenceNullCheck() {
-		var objOne = this.initElement(new ClassifierReference[] { this.createMinimalClsRef("cls1") });
-
-		this.testSimilarityNullCheck(objOne, new NamespaceClassifierReferenceInitialiser(), false,
+		this.testSimilarityNullCheck(this.initElement(new ClassifierReference[] { this.createMinimalClsRef("cls1") }), new NamespaceClassifierReferenceInitialiser(), false,
 				TypesPackage.Literals.NAMESPACE_CLASSIFIER_REFERENCE__CLASSIFIER_REFERENCES);
 	}
 }

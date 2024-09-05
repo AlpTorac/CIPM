@@ -28,8 +28,6 @@ public class NestedExpressionTest extends EObjectSimilarityTest implements UsesE
 
 	@Test
 	public void testExpressionNullCheck() {
-		var objOne = this.initElement(this.createMinimalFalseEE());
-
-		this.testSimilarityNullCheck(objOne, new NestedExpressionInitialiser(), false, ExpressionsPackage.Literals.NESTED_EXPRESSION__EXPRESSION);
+		this.testSimilarityNullCheck(this.initElement(this.createMinimalFalseEE()), new NestedExpressionInitialiser(), false, ExpressionsPackage.Literals.NESTED_EXPRESSION__EXPRESSION);
 	}
 }

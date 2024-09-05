@@ -28,8 +28,6 @@ public class ExplicitConstructorCallTest extends EObjectSimilarityTest implement
 
 	@Test
 	public void testCallTargetNullCheck() {
-		var objOne = this.initElement(this.createThis());
-
-		this.testSimilarityNullCheck(objOne, new ExplicitConstructorCallInitialiser(), false, InstantiationsPackage.Literals.EXPLICIT_CONSTRUCTOR_CALL__CALL_TARGET);
+		this.testSimilarityNullCheck(this.initElement(this.createThis()), new ExplicitConstructorCallInitialiser(), false, InstantiationsPackage.Literals.EXPLICIT_CONSTRUCTOR_CALL__CALL_TARGET);
 	}
 }

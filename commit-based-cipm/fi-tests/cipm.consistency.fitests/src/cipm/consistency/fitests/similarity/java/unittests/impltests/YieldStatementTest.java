@@ -28,8 +28,6 @@ public class YieldStatementTest extends EObjectSimilarityTest implements UsesExp
 
 	@Test
 	public void testYieldExpressionNullCheck() {
-		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
-
-		this.testSimilarityNullCheck(objOne, new YieldStatementInitialiser(), false, StatementsPackage.Literals.YIELD_STATEMENT__YIELD_EXPRESSION);
+		this.testSimilarityNullCheck(this.initElement(this.createDecimalIntegerLiteral(1)), new YieldStatementInitialiser(), false, StatementsPackage.Literals.YIELD_STATEMENT__YIELD_EXPRESSION);
 	}
 }

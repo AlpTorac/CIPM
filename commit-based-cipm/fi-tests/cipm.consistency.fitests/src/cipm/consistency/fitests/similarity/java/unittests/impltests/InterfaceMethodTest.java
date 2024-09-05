@@ -30,8 +30,6 @@ public class InterfaceMethodTest extends EObjectSimilarityTest implements UsesAn
 
 	@Test
 	public void testDefaultValueNullCheck() {
-		var objOne = this.initElement(this.createNullLiteral());
-
-		this.testSimilarityNullCheck(objOne, new InterfaceMethodInitialiser(), false, MembersPackage.Literals.INTERFACE_METHOD__DEFAULT_VALUE);
+		this.testSimilarityNullCheck(this.initElement(this.createNullLiteral()), new InterfaceMethodInitialiser(), false, MembersPackage.Literals.INTERFACE_METHOD__DEFAULT_VALUE);
 	}
 }

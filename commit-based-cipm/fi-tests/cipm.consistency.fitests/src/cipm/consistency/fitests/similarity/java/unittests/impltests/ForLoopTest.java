@@ -30,9 +30,7 @@ public class ForLoopTest extends EObjectSimilarityTest implements UsesExpression
 
 	@Test
 	public void testInitNullCheck() {
-		var objOne = this.initElement(this.createExprList(), null);
-
-		this.testSimilarityNullCheck(objOne, new ForLoopInitialiser(), false, StatementsPackage.Literals.FOR_LOOP__INIT);
+		this.testSimilarityNullCheck(this.initElement(this.createExprList(), null), new ForLoopInitialiser(), false, StatementsPackage.Literals.FOR_LOOP__INIT);
 	}
 
 	@Test
@@ -54,8 +52,6 @@ public class ForLoopTest extends EObjectSimilarityTest implements UsesExpression
 
 	@Test
 	public void testUpdateNullCheck() {
-		var objOne = this.initElement(null, new Expression[] { this.createMinimalFalseEE() });
-
-		this.testSimilarityNullCheck(objOne, new ForLoopInitialiser(), false, StatementsPackage.Literals.FOR_LOOP__UPDATES);
+		this.testSimilarityNullCheck(this.initElement(null, new Expression[] { this.createMinimalFalseEE() }), new ForLoopInitialiser(), false, StatementsPackage.Literals.FOR_LOOP__UPDATES);
 	}
 }
