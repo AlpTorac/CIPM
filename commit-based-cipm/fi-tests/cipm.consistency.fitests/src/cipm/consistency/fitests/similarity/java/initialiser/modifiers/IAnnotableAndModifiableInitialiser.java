@@ -4,7 +4,6 @@ import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.Modifier;
 
-import cipm.consistency.fitests.similarity.java.initialiser.InitialiserVisibilityModifier;
 import cipm.consistency.fitests.similarity.java.initialiser.commons.ICommentableInitialiser;
 
 public interface IAnnotableAndModifiableInitialiser extends ICommentableInitialiser {
@@ -35,25 +34,6 @@ public interface IAnnotableAndModifiableInitialiser extends ICommentableInitiali
 
 	public default boolean addAnnotationInstances(AnnotableAndModifiable aam, AnnotationInstance[] annoAndModifArr) {
 		return this.doMultipleModifications(aam, annoAndModifArr, this::addAnnotationInstance);
-	}
-
-	public default boolean setVisibility(AnnotableAndModifiable aam, InitialiserVisibilityModifier modifier) {
-		if (modifier != null) {
-			switch (modifier) {
-			case PRIVATE:
-				this.makePrivate(aam);
-				return aam.isPrivate();
-			case PROTECTED:
-				this.makeProtected(aam);
-				return aam.isProtected();
-			case PUBLIC:
-				this.makePublic(aam);
-				return aam.isPublic();
-			default:
-				throw new IllegalArgumentException("Invalid InitialiserVisibilityModifier");
-			}
-		}
-		return true;
 	}
 
 	public default boolean makePrivate(AnnotableAndModifiable aam) {
