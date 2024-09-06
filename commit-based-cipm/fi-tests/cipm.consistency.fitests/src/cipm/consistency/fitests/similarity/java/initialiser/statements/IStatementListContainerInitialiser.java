@@ -9,9 +9,6 @@ public interface IStatementListContainerInitialiser extends ICommentableInitiali
 	@Override
 	public StatementListContainer instantiate();
 
-	// TODO: Remove the statement methods here after implementing the missing
-	// impltests. They most likely do not modify the instance.
-
 	/**
 	 * Attempts to add the given {@link Statement} to the given
 	 * {@link StatementListContainer}. <br>
