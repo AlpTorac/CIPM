@@ -23,12 +23,12 @@ public class ResourceHelper {
 	 * The directory, where the created {@link Resource} instances will be stored,
 	 * if they are saved.
 	 */
-	private String resourceRootPath;
+	private String resourceSaveRootPath;
 
 	/**
 	 * The extension of {@link Resource} files, if they are saved.
 	 */
-	private String resourceExtension;
+	private String resourceFileExtension;
 
 	/**
 	 * The map that keeps track of the mapping inserted into
@@ -43,15 +43,17 @@ public class ResourceHelper {
 	 */
 	private List<Resource> createdResources = new ArrayList<Resource>();
 	
-	private Logger getLogger() {
+	protected Logger getLogger() {
 		return logger;
 	}
 	
 	/**
 	 * Creates and returns a {@link Resource} instance, whose URI will be the given
 	 * one.
+	 * <br><br>
+	 * Does not save the created {@link Resource} instance.
 	 */
-	private Resource initResource(URI resUri) {
+	protected Resource initResource(URI resUri) {
 		ResourceSet rSet = new ResourceSetImpl();
 		return rSet.createResource(resUri);
 	}
@@ -60,42 +62,36 @@ public class ResourceHelper {
 	 * Sets the directory, where the created {@link Resource} instances will be stored,
 	 * if they are saved.
 	 */
-	public void setResourceRootPath(String resourceRootPath) {
-		this.resourceRootPath = resourceRootPath;
+	public void setResourceSaveRootPath(String resourceSaveRootPath) {
+		this.resourceSaveRootPath = resourceSaveRootPath;
 	}
 
 	/**
 	 * Sets the extension of {@link Resource} files, if they are saved.
 	 */
-	public void setResourceFileExtension(String resourceExtension) {
-		this.resourceExtension = resourceExtension;
+	public void setResourceFileExtension(String resourceFileExtension) {
+		this.removeFromRegistry(this.resourceFileExtension);
+		this.resourceFileExtension = resourceFileExtension;
+		this.setResourceRegistry();
 	}
 	
 	/**
 	 * @return The extension of the {@link Resource} files.
 	 */
-	public String getExtension() {
-		return this.resourceExtension;
+	public String getResourceFileExtension() {
+		return this.resourceFileExtension;
 	}
 
 	/**
 	 * @return The directory, where the created {@link Resource} instances will be
 	 *         stored, if they are saved.
 	 */
-	public String getAbstractSimilarityTestResourceRootPath() {
-		return resourceRootPath;
+	public String getResourceSaveRootPath() {
+		return resourceSaveRootPath;
 	}
 
 	/**
-	 * The non-static version of
-	 * {@link #getAbstractSimilarityTestResourceRootPath()}.
-	 */
-	public String getResourceRootPath() {
-		return getAbstractSimilarityTestResourceRootPath();
-	}
-
-	/**
-	 * Complements {@link #getResourceRootPath()} with the {@link Resource} file
+	 * Complements {@link #getResourceSaveRootPath()} with the {@link Resource} file
 	 * name and extension. The said file will only be created, if the
 	 * {@link Resource} file is saved.
 	 * 
@@ -103,17 +99,17 @@ public class ResourceHelper {
 	 * @param resourceFileExtension The extension of the file
 	 * @return The {@link URI} for a {@link Resource} instance.
 	 */
-	public URI createURI(String resourceFileName, String resourceFileExtension) {
+	protected URI createURI(String resourceFileName, String resourceFileExtension) {
 		return URI.createFileURI(
-				this.getResourceRootPath() + File.separator + resourceFileName + "." + resourceFileExtension);
+				this.getResourceSaveRootPath() + File.separator + resourceFileName + "." + resourceFileExtension);
 	}
 
 	/**
 	 * The variant of {@link #createURI(String, String)}, which uses
-	 * {@link #getExtension()}.
+	 * {@link #getResourceFileExtension()}.
 	 */
-	public URI createURI(String resourceName) {
-		return this.createURI(resourceName, this.getExtension());
+	protected URI createURI(String resourceName) {
+		return this.createURI(resourceName, this.getResourceFileExtension());
 	}
 
 	/**
@@ -130,7 +126,7 @@ public class ResourceHelper {
 	 * to be created.
 	 */
 	protected String computeEffectiveResourceName(String resourceName) {
-		var resourceRoot = new File(this.getResourceRootPath());
+		var resourceRoot = new File(this.getResourceSaveRootPath());
 
 		var count = 0;
 		
@@ -147,17 +143,19 @@ public class ResourceHelper {
 	}
 	
 	/**
-	 * Creates a {@link Resource} instance for the given EObject instances. <br>
+	 * Creates a {@link Resource} instance for the given EObject instances. The Resource
+	 * instances created with this method are tracked, so that they can be deleted later
+	 * if necessary. <br>
 	 * <br>
 	 * <b>!!! IMPORTANT !!!</b> <br>
 	 * <br>
-	 * <b>Using this method will cause {@link AbstractSimilarityTest#LOGGER} to send
-	 * an error message, if some of the EObject instances (from eos) that are
+	 * <b>Using this method will cause log an error message,
+	 * if some of the EObject instances (from eos) that are
 	 * already in a Resource instance are attempted to be placed into another
 	 * Resource. This should be avoided, since doing so will REMOVE the said EObject
 	 * instances from their former Resource and cause side effects in tests.</b>
 	 */
-	protected Resource createResource(Collection<? extends EObject> eos, String resourceName) {
+	public Resource createResource(Collection<? extends EObject> eos, String resourceName) {
 		Resource res = this.initResource(this.createURI(this.computeEffectiveResourceName(resourceName)));
 		this.createdResources.add(res);
 
@@ -181,13 +179,16 @@ public class ResourceHelper {
 
 	/**
 	 * Puts the necessary mapping for saving {@link Resource} files with the given
-	 * file extension into {@link Resource.Factory.Registry}. Duplicates the entry
-	 * and adds it to {@link #registryMappings} as well.
+	 * file extension into {@link Resource.Factory.Registry}. The entry is also
+	 * tracked so that it can be deleted later, if necessary.
 	 */
-	public void setResourceRegistry(String resFileExtension) {
-		this.registryMappings.put(resFileExtension, new XMIResourceFactoryImpl());
+	protected void setResourceRegistry() {
+		var resFileExtension = this.getResourceFileExtension();
+		var fac = new XMIResourceFactoryImpl();
+
+		this.registryMappings.put(resFileExtension, fac);
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(resFileExtension,
-				new XMIResourceFactoryImpl());
+				fac);
 	}
 
 	/**
@@ -198,8 +199,9 @@ public class ResourceHelper {
 	}
 
 	/**
-	 * Unloads and removes all created {@link Resource} instances, if they are
-	 * created with {@link #createResource(Collection)}.
+	 * Unloads and deletes all created {@link Resource} instances, if they are
+	 * created with {@link #createResource(Collection)}. Stops tracking them
+	 * as well.
 	 */
 	public void cleanAllResources() {
 		this.createdResources.forEach((r) -> {
@@ -221,14 +223,35 @@ public class ResourceHelper {
 	 * empty.
 	 */
 	public void deleteResourceDir() {
-		new File(this.getResourceRootPath()).delete();
+		new File(this.getResourceSaveRootPath()).delete();
 	}
 
+	protected void removeFromRegistry(String resourceFileExtension) {
+		if (resourceFileExtension == null)
+			return;
+
+		var reg = Resource.Factory.Registry.INSTANCE;
+		var regMap = reg.getExtensionToFactoryMap();
+
+		if (regMap.containsKey(resourceFileExtension)) {
+			var val = regMap.get(resourceFileExtension);
+			
+			if (this.registryMappings.containsKey(resourceFileExtension)) {
+				var valTracked = this.registryMappings.get(resourceFileExtension);
+				
+				if (val.equals(valTracked)) {
+					regMap.remove(val);
+					this.registryMappings.remove(valTracked);
+				}
+			}
+		}
+	}
+	
 	/**
 	 * Cleans the mapping(s) in {@link Resource.Factory.Registry} inserted by
-	 * {@link #setResourceRegistry(String)}.
+	 * {@link #setResourceRegistry(String)}. Stops tracking them as well.
 	 */
-	public void cleanRegistry() {
+	protected void cleanRegistry() {
 		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
 
 		for (var key : this.registryMappings.keySet()) {
@@ -239,7 +262,7 @@ public class ResourceHelper {
 	}
 	
 	/**
-	 * 
+	 * Cleans up the saved attributes and created {@link Resource} files.
 	 */
 	public void clean() {
 		this.cleanRegistry();

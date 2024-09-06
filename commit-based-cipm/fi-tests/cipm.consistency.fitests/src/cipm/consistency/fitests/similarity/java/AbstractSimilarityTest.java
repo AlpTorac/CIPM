@@ -81,7 +81,7 @@ public abstract class AbstractSimilarityTest {
 	protected void setUpResourceHelper() {
 		this.resHelper = new ResourceHelper();
 
-		this.getResourceHelper().setResourceRootPath(getAbsoluteResourceRootPath());
+		this.getResourceHelper().setResourceSaveRootPath(getAbsoluteResourceRootPath());
 		this.getResourceHelper().setResourceFileExtension(getResourceFileExtension());
 	}
 	
