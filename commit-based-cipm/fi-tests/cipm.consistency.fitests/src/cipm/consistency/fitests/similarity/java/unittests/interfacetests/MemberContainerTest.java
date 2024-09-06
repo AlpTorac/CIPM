@@ -25,7 +25,6 @@ public class MemberContainerTest extends EObjectSimilarityTest
 	@ParameterizedTest
 	@ArgumentsSource(MemberContainerTestParams.class)
 	public void testMember(IMemberContainerInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, new Member[] { this.createMinimalClass("cls1") }, null);
 		var objTwo = this.initElement(init, new Member[] { this.createMinimalClass("cls2") }, null);
 
@@ -35,7 +34,6 @@ public class MemberContainerTest extends EObjectSimilarityTest
 	@ParameterizedTest
 	@ArgumentsSource(MemberContainerTestParams.class)
 	public void testMemberSize(IMemberContainerInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init,
 				new Member[] { this.createMinimalClass("cls1"), this.createMinimalClass("cls2") }, null);
 		var objTwo = this.initElement(init, new Member[] { this.createMinimalClass("cls1") }, null);
@@ -46,8 +44,6 @@ public class MemberContainerTest extends EObjectSimilarityTest
 	@ParameterizedTest
 	@ArgumentsSource(MemberContainerTestParams.class)
 	public void testMemberNullCheck(IMemberContainerInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(this.initElement(init, new Member[] { this.createMinimalClass("cls1") }, null),
 				init, false, MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
 	}
@@ -55,7 +51,6 @@ public class MemberContainerTest extends EObjectSimilarityTest
 	@ParameterizedTest
 	@ArgumentsSource(MemberContainerTestParams.class)
 	public void testDefaultMember(IMemberContainerInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, null, new Member[] { this.createMinimalClass("cls1") });
 		var objTwo = this.initElement(init, null, new Member[] { this.createMinimalClass("cls2") });
 
@@ -65,7 +60,6 @@ public class MemberContainerTest extends EObjectSimilarityTest
 	@ParameterizedTest
 	@ArgumentsSource(MemberContainerTestParams.class)
 	public void testDefaultMemberSize(IMemberContainerInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, null,
 				new Member[] { this.createMinimalClass("cls1"), this.createMinimalClass("cls2") });
 		var objTwo = this.initElement(init, null, new Member[] { this.createMinimalClass("cls1") });
@@ -76,8 +70,6 @@ public class MemberContainerTest extends EObjectSimilarityTest
 	@ParameterizedTest
 	@ArgumentsSource(MemberContainerTestParams.class)
 	public void testDefaultMemberNullCheck(IMemberContainerInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(this.initElement(init, null, new Member[] { this.createMinimalClass("cls1") }),
 				init, false, MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
 	}

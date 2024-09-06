@@ -22,7 +22,6 @@ public class ImportingElementTest extends EObjectSimilarityTest implements UsesI
 	@ParameterizedTest
 	@ArgumentsSource(ImportingElementTestParams.class)
 	public void testImports(IImportingElementInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") });
 		var objTwo = this.initElement(init, new Import[] { this.createMinimalClsImport("cls2") });
 
@@ -32,7 +31,6 @@ public class ImportingElementTest extends EObjectSimilarityTest implements UsesI
 	@ParameterizedTest
 	@ArgumentsSource(ImportingElementTestParams.class)
 	public void testImportsSize(IImportingElementInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init,
 				new Import[] { this.createMinimalClsImport("cls1"), this.createMinimalClsImport("cls2") });
 		var objTwo = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") });
@@ -43,8 +41,6 @@ public class ImportingElementTest extends EObjectSimilarityTest implements UsesI
 	@ParameterizedTest
 	@ArgumentsSource(ImportingElementTestParams.class)
 	public void testImportsNullCheck(IImportingElementInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }), init,
 				true, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
 	}

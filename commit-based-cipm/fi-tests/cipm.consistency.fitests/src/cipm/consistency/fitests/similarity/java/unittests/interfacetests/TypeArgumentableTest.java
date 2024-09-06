@@ -22,7 +22,6 @@ public class TypeArgumentableTest extends EObjectSimilarityTest implements UsesT
 	@ParameterizedTest
 	@ArgumentsSource(TypeArgumentableTestParams.class)
 	public void testTypeArgument(ITypeArgumentableInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, this.createMinimalExtendsTAWithCls("cls1"));
 		var objTwo = this.initElement(init, this.createMinimalSuperTAWithCls("cls2"));
 
@@ -32,8 +31,6 @@ public class TypeArgumentableTest extends EObjectSimilarityTest implements UsesT
 	@ParameterizedTest
 	@ArgumentsSource(TypeArgumentableTestParams.class)
 	public void testTypeArgumentNullCheck(ITypeArgumentableInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalExtendsTAWithCls("cls1")), init, true,
 				GenericsPackage.Literals.TYPE_ARGUMENTABLE__TYPE_ARGUMENTS);
 	}

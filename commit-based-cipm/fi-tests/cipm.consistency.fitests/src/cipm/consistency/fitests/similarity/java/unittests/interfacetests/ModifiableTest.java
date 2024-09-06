@@ -21,7 +21,6 @@ public class ModifiableTest extends EObjectSimilarityTest implements UsesModifie
 	@ParameterizedTest
 	@ArgumentsSource(ModifiableTestParams.class)
 	public void testModifier(IModifiableInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, new Modifier[] { this.createFinal() });
 		var objTwo = this.initElement(init, new Modifier[] { this.createAbstract() });
 
@@ -31,7 +30,6 @@ public class ModifiableTest extends EObjectSimilarityTest implements UsesModifie
 	@ParameterizedTest
 	@ArgumentsSource(ModifiableTestParams.class)
 	public void testModifierSize(IModifiableInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, new Modifier[] { this.createFinal(), this.createAbstract() });
 		var objTwo = this.initElement(init, new Modifier[] { this.createFinal() });
 
@@ -41,7 +39,6 @@ public class ModifiableTest extends EObjectSimilarityTest implements UsesModifie
 	@ParameterizedTest
 	@ArgumentsSource(ModifiableTestParams.class)
 	public void testModifierNullCheck(IModifiableInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, new Modifier[] { this.createFinal() });
 		var objTwo = init.instantiate();
 

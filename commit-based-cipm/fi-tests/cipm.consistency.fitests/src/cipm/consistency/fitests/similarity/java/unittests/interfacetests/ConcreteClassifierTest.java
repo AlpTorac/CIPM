@@ -23,7 +23,6 @@ public class ConcreteClassifierTest extends EObjectSimilarityTest implements Use
 	@ParameterizedTest
 	@ArgumentsSource(ConcreteClassifierTestParams.class)
 	public void testPackage(IConcreteClassifierInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, this.createMinimalPackage("pOneNS", 2));
 		var objTwo = this.initElement(init, this.createMinimalPackage("pTwoNS", 2));
 
@@ -33,8 +32,6 @@ public class ConcreteClassifierTest extends EObjectSimilarityTest implements Use
 	@ParameterizedTest
 	@ArgumentsSource(ConcreteClassifierTestParams.class)
 	public void testPackageNullCheck(IConcreteClassifierInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalPackage("pOneNS", 2)), init, false,
 				ClassifiersPackage.Literals.CONCRETE_CLASSIFIER__PACKAGE);
 	}

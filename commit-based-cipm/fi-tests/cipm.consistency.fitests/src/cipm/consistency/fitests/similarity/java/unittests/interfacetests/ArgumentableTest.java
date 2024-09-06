@@ -25,7 +25,6 @@ public class ArgumentableTest extends EObjectSimilarityTest
 	@ParameterizedTest
 	@ArgumentsSource(ArgumentableTestParams.class)
 	public void testArguments(IArgumentableInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, new Expression[] { this.createDecimalIntegerLiteral(1) });
 		var objTwo = this.initElement(init, new Expression[] { this.createDecimalIntegerLiteral(0) });
 
@@ -35,7 +34,6 @@ public class ArgumentableTest extends EObjectSimilarityTest
 	@ParameterizedTest
 	@ArgumentsSource(ArgumentableTestParams.class)
 	public void testArgumentsSize(IArgumentableInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init,
 				new Expression[] { this.createDecimalIntegerLiteral(1), this.createDecimalIntegerLiteral(1) });
 		var objTwo = this.initElement(init, new Expression[] { this.createDecimalIntegerLiteral(1) });
@@ -46,8 +44,6 @@ public class ArgumentableTest extends EObjectSimilarityTest
 	@ParameterizedTest
 	@ArgumentsSource(ArgumentableTestParams.class)
 	public void testArgumentsNullCheck(IArgumentableInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(this.initElement(init, new Expression[] { this.createDecimalIntegerLiteral(1) }),
 				init, true, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS);
 	}

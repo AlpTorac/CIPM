@@ -22,7 +22,6 @@ public class TypedElementExtensionTest extends EObjectSimilarityTest implements 
 	@ParameterizedTest
 	@ArgumentsSource(TypedElementExtensionTestParams.class)
 	public void testActualTarget(ITypedElementExtensionInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(init, this.createMinimalClsRef("cls2"));
 
@@ -32,8 +31,6 @@ public class TypedElementExtensionTest extends EObjectSimilarityTest implements 
 	@ParameterizedTest
 	@ArgumentsSource(TypedElementExtensionTestParams.class)
 	public void testActualTargetNullCheck(ITypedElementExtensionInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalClsRef("cls1")), init, true,
 				TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
 	}

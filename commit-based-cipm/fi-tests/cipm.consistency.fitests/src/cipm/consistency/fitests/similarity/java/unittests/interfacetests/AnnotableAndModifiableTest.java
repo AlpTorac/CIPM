@@ -30,7 +30,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testModifier(IAnnotableAndModifiableInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null);
 		var objTwo = this.initElement(init, new Modifier[] { this.createVolatile(), this.createProtected() }, null);
 
@@ -41,7 +40,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testModifierSize(IAnnotableAndModifiableInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null);
 		var objTwo = this.initElement(init, new Modifier[] { this.createAbstract() }, null);
 
@@ -52,8 +50,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testModifierNullCheck(IAnnotableAndModifiableInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(
 				this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null), init,
 				true, ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
@@ -62,7 +58,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testAnnotationInstance(IAnnotableAndModifiableInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, null,
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") });
 		var objTwo = this.initElement(init, null,
@@ -75,7 +70,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testAnnotationInstanceSize(IAnnotableAndModifiableInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, null,
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") });
 		var objTwo = this.initElement(init, null,
@@ -89,8 +83,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testAnnotationInstanceNullCheck(IAnnotableAndModifiableInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(
 				this.initElement(init, null,
 						new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") }),
@@ -100,8 +92,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testPrivate(IAnnotableAndModifiableInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		var objOne = this.initElement(init, null, null);
 		init.makePrivate(objOne);
 
@@ -115,8 +105,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testPrivateNullCheck(IAnnotableAndModifiableInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		var objOne = this.initElement(init, null, null);
 		init.makePrivate(objOne);
 
@@ -127,8 +115,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testProtected(IAnnotableAndModifiableInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		var objOne = this.initElement(init, null, null);
 		init.makeProtected(objOne);
 
@@ -142,8 +128,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testProtectedNullCheck(IAnnotableAndModifiableInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		var objOne = this.initElement(init, null, null);
 		init.makeProtected(objOne);
 
@@ -154,8 +138,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testPublic(IAnnotableAndModifiableInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		var objOne = this.initElement(init, null, null);
 		init.makePublic(objOne);
 
@@ -169,8 +151,6 @@ public class AnnotableAndModifiableTest extends EObjectSimilarityTest
 	@ParameterizedTest()
 	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
 	public void testPublicNullCheck(IAnnotableAndModifiableInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		var objOne = this.initElement(init, null, null);
 		init.makePublic(objOne);
 

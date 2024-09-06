@@ -21,7 +21,6 @@ public class JavaRootTest extends EObjectSimilarityTest {
 	@ParameterizedTest
 	@ArgumentsSource(JavaRootTestParams.class)
 	public void testOrigin(IJavaRootInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, Origin.BINDING);
 		var objTwo = this.initElement(init, Origin.CLASS);
 
@@ -31,8 +30,6 @@ public class JavaRootTest extends EObjectSimilarityTest {
 	@ParameterizedTest
 	@ArgumentsSource(JavaRootTestParams.class)
 	public void testOriginNullCheck(IJavaRootInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(this.initElement(init, Origin.BINDING), init, true,
 				ContainersPackage.Literals.JAVA_ROOT__ORIGIN);
 	}

@@ -22,7 +22,6 @@ public class ParametrizableTest extends EObjectSimilarityTest implements UsesPar
 	@ParameterizedTest
 	@ArgumentsSource(ParametrizableTestParams.class)
 	public void testParameters(IParametrizableInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p1", "t1") });
 		var objTwo = this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p2", "t2") });
 
@@ -32,7 +31,6 @@ public class ParametrizableTest extends EObjectSimilarityTest implements UsesPar
 	@ParameterizedTest
 	@ArgumentsSource(ParametrizableTestParams.class)
 	public void testParametersSize(IParametrizableInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p1", "t1"),
 				this.createMinimalOrdParamWithClsTarget("p2", "t2") });
 		var objTwo = this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p1", "t1") });
@@ -43,8 +41,6 @@ public class ParametrizableTest extends EObjectSimilarityTest implements UsesPar
 	@ParameterizedTest
 	@ArgumentsSource(ParametrizableTestParams.class)
 	public void testParametersNullCheck(IParametrizableInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(
 				this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p1", "t1") }), init,
 				true, ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS);

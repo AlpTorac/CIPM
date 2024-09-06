@@ -31,7 +31,6 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	@ParameterizedTest
 	@ArgumentsSource(NamespaceAwareElementTestParams.class)
 	public void testNamespace(INamespaceAwareElementInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, nss1);
 		var objTwo = this.initElement(init, nss2);
 
@@ -44,7 +43,6 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	@ParameterizedTest
 	@ArgumentsSource(NamespaceAwareElementTestParams.class)
 	public void testNamespaceScope(INamespaceAwareElementInitialiser init) {
-		this.setCurrentInitialiser(init);
 		for (int i = 0; i < nss1.length; i++) {
 			var newNss = new String[i];
 
@@ -62,8 +60,6 @@ public class NamespaceAwareElementTest extends EObjectSimilarityTest {
 	@ParameterizedTest
 	@ArgumentsSource(NamespaceAwareElementTestParams.class)
 	public void testNamespaceNullCheck(INamespaceAwareElementInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(this.initElement(init, nss1), init, true,
 				CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
 	}

@@ -24,7 +24,6 @@ public class ArrayInstantiationByValuesTest extends EObjectSimilarityTest
 	@ParameterizedTest
 	@ArgumentsSource(ArrayInstantiationByValuesTestParams.class)
 	public void testArrayInitialiser(IArrayInstantiationByValuesInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, this.createMinimalArrayInitializer(this.createDecimalIntegerLiteral(0)));
 		var objTwo = this.initElement(init, this.createMinimalArrayInitializer(this.createDecimalIntegerLiteral(1)));
 
@@ -34,8 +33,6 @@ public class ArrayInstantiationByValuesTest extends EObjectSimilarityTest
 	@ParameterizedTest
 	@ArgumentsSource(ArrayInstantiationByValuesTestParams.class)
 	public void testArrayInitialiserNullCheck(IArrayInstantiationByValuesInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(
 				this.initElement(init, this.createMinimalArrayInitializer(this.createDecimalIntegerLiteral(0))), init,
 				false, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER);

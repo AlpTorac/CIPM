@@ -22,7 +22,6 @@ public class ImportTest extends EObjectSimilarityTest implements UsesImports {
 	@ParameterizedTest
 	@ArgumentsSource(ImportTestParams.class)
 	public void testClassifier(IImportInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, this.createMinimalClass("cls1Name"));
 		var objTwo = this.initElement(init, this.createMinimalClass("cls2Name"));
 
@@ -32,8 +31,6 @@ public class ImportTest extends EObjectSimilarityTest implements UsesImports {
 	@ParameterizedTest
 	@ArgumentsSource(ImportTestParams.class)
 	public void testClassifierNullCheck(IImportInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalClass("cls1Name")), init, false,
 				ImportsPackage.Literals.IMPORT__CLASSIFIER);
 	}

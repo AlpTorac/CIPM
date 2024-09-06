@@ -22,7 +22,6 @@ public class TypedElementTest extends EObjectSimilarityTest implements UsesTypeR
 	@ParameterizedTest
 	@ArgumentsSource(TypedElementTestParams.class)
 	public void testTypeReference(ITypedElementInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, this.createMinimalClsRef("cls1"));
 		var objTwo = this.initElement(init, this.createMinimalClsRef("cls2"));
 
@@ -32,8 +31,6 @@ public class TypedElementTest extends EObjectSimilarityTest implements UsesTypeR
 	@ParameterizedTest
 	@ArgumentsSource(TypedElementTestParams.class)
 	public void testTypeReferenceNullCheck(ITypedElementInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalClsRef("cls1")), init, true,
 				TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE);
 	}

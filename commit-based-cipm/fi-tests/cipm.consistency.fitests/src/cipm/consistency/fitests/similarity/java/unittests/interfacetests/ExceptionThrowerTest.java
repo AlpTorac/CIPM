@@ -23,7 +23,6 @@ public class ExceptionThrowerTest extends EObjectSimilarityTest implements UsesT
 	@ParameterizedTest
 	@ArgumentsSource(ExceptionThrowerTestParams.class)
 	public void testExceptions(IExceptionThrowerInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, new NamespaceClassifierReference[] { this.createMinimalCNR("cls1") });
 		var objTwo = this.initElement(init, new NamespaceClassifierReference[] { this.createMinimalCNR("cls2") });
 
@@ -33,7 +32,6 @@ public class ExceptionThrowerTest extends EObjectSimilarityTest implements UsesT
 	@ParameterizedTest
 	@ArgumentsSource(ExceptionThrowerTestParams.class)
 	public void testExceptionsSize(IExceptionThrowerInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init,
 				new NamespaceClassifierReference[] { this.createMinimalCNR("cls1"), this.createMinimalCNR("cls2") });
 		var objTwo = this.initElement(init, new NamespaceClassifierReference[] { this.createMinimalCNR("cls1") });
@@ -44,8 +42,6 @@ public class ExceptionThrowerTest extends EObjectSimilarityTest implements UsesT
 	@ParameterizedTest
 	@ArgumentsSource(ExceptionThrowerTestParams.class)
 	public void testExceptionsNullCheck(IExceptionThrowerInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(
 				this.initElement(init, new NamespaceClassifierReference[] { this.createMinimalCNR("cls1") }), init,
 				true, MembersPackage.Literals.EXCEPTION_THROWER__EXCEPTIONS);

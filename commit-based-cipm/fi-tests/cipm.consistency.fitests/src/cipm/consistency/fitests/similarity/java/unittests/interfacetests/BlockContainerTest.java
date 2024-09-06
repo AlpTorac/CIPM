@@ -22,7 +22,6 @@ public class BlockContainerTest extends EObjectSimilarityTest implements UsesSta
 	@ParameterizedTest
 	@ArgumentsSource(BlockContainerTestParams.class)
 	public void testBlock(IBlockContainerInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, this.createMinimalBlockWithNullReturn());
 		var objTwo = this.initElement(init, this.createMinimalBlockWithTrivialAssert());
 
@@ -32,8 +31,6 @@ public class BlockContainerTest extends EObjectSimilarityTest implements UsesSta
 	@ParameterizedTest
 	@ArgumentsSource(BlockContainerTestParams.class)
 	public void testBlockNullCheck(IBlockContainerInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalBlockWithNullReturn()), init, true,
 				StatementsPackage.Literals.BLOCK_CONTAINER__BLOCK);
 	}

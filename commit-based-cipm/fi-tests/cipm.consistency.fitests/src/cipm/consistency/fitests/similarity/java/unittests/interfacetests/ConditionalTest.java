@@ -21,7 +21,6 @@ public class ConditionalTest extends EObjectSimilarityTest implements UsesExpres
 	@ParameterizedTest
 	@ArgumentsSource(ConditionalTestParams.class)
 	public void testCondition(IConditionalInitialiser init) {
-		this.setCurrentInitialiser(init);
 		var objOne = this.initElement(init, this.createMinimalTrueEE());
 		var objTwo = this.initElement(init, this.createMinimalTrueNEE());
 
@@ -31,8 +30,6 @@ public class ConditionalTest extends EObjectSimilarityTest implements UsesExpres
 	@ParameterizedTest
 	@ArgumentsSource(ConditionalTestParams.class)
 	public void testConditionNullCheck(IConditionalInitialiser init) {
-		this.setCurrentInitialiser(init);
-
 		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalTrueEE()), init, false,
 				StatementsPackage.Literals.CONDITIONAL__CONDITION);
 	}
