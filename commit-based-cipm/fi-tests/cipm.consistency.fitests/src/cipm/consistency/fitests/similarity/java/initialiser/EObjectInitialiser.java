@@ -5,12 +5,6 @@ import java.util.function.BiFunction;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-/*
- * TODO: Add remove and/or clear methods to initialisers with
- * addSomething() methods to allow modifications that may be
- * necessary in advanced tests.
- */
-
 /**
  * An interface for {@link IInitialiser} sub-interfaces, whose purpose is to
  * create and modify {@link EObject} instances. <br>
