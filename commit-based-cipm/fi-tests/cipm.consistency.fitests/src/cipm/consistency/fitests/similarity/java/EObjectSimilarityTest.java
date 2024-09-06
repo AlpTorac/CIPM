@@ -24,16 +24,6 @@ import cipm.consistency.fitests.similarity.java.params.SimilarityValues;
  * @author atora
  */
 public class EObjectSimilarityTest extends AbstractSimilarityTest {
-	/**
-	 * The {@link EObjectInitialiser} instance that is currently being used. <br>
-	 * <br>
-	 * Meant to help log parameterized tests better, since it is hard to match a
-	 * certain initialiser instance to a given piece of log message otherwise.<br>
-	 * <br>
-	 * It is recommended to set it to null after each tests, so that
-	 */
-	private EObjectInitialiser currentInit = null;
-
 	@BeforeAll
 	public static void setUpBeforeClass() {
 		InitialiserTestSettingsProvider.initialise();
@@ -68,34 +58,6 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	 */
 	protected void resetInitialiserTestSettingsProvider() {
 		InitialiserTestSettingsProvider.getInstance().reset();
-	}
-
-	/**
-	 * Logs a message indicating the end of a test case. <br>
-	 * <br>
-	 * The message is of form:
-	 * {@code TestClass.testMethod [with SomethingInitialiser] ran} <br>
-	 * <br>
-	 * The part in square brackets is added only if the current initialiser is set
-	 * via {@link #setCurrentInitialiser(EObjectInitialiser)}.
-	 */
-	@Override
-	protected void logTestEndMessage() {
-		var endMsg = this.getResourceFileTestPrefix() + "." + this.getResourceFileTestIdentifier();
-
-		if (this.currentInit != null) {
-			endMsg += " with " + this.currentInit.getClass().getSimpleName();
-		}
-
-		endMsg += " ran";
-
-		this.getLogger().info(endMsg);
-	}
-
-	@Override
-	protected void resetAfterTest() {
-		super.resetAfterTest();
-		this.currentInit = null;
 	}
 
 	/**
@@ -218,7 +180,7 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 			this.getLogger().debug("No expected similarity result present");
 		} else if ((!expectedSimilarityResult.booleanValue() && this.getActualEquality(elem1, elem2))) {
 			this.getLogger().debug("Elements are expected to be different" + " in "
-					+ this.getResourceFileTestIdentifier() + " but are similar according to EcoreUtil");
+					+ this.getCurrentTestMethodName() + " but are similar according to EcoreUtil");
 		}
 
 		var objOne = this.cloneEObjWithContainers(elem1);
@@ -298,15 +260,5 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	@SuppressWarnings("unchecked")
 	public void testSimilarityNullCheck(EObject elem, EObjectInitialiser init, boolean initialiseSecondElement, Object attrKey) {
 		this.testSimilarityNullCheck(elem, init, initialiseSecondElement, (Class<? extends EObject>) elem.eClass().getInstanceClass(), attrKey);
-	}
-	
-	/**
-	 * Sets the currently used {@link EObjectInitialiser} instance.<br>
-	 * <br>
-	 * Meant to help log parameterized tests better, since it is hard to match a
-	 * certain initialiser instance to a given piece of log message otherwise.
-	 */
-	protected void setCurrentInitialiser(EObjectInitialiser init) {
-		this.currentInit = init;
 	}
 }

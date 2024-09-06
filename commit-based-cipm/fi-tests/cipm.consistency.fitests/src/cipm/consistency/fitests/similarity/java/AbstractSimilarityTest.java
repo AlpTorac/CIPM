@@ -1,23 +1,14 @@
 package cipm.consistency.fitests.similarity.java;
 
 import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
@@ -32,44 +23,33 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
  */
 public abstract class AbstractSimilarityTest {
 	/**
-	 * The directory, where the created {@link Resource} instances will be stored,
-	 * if they are saved.
+	 * @return The absolute path, under which the {@link Resource} files will be
+	 * saved.
 	 */
-	private static final String resourceRootPath = new File("").getAbsoluteFile().getAbsolutePath() + File.separator
-			+ "testModels";
-
+	public static String getAbsoluteResourceRootPath() {
+		return new File("").getAbsoluteFile().getAbsolutePath() + File.separator
+				+ "testModels";
+	}
+	
 	/**
-	 * The extension of {@link Resource} files, if they are saved.
+	 * @return The extension of the {@link Resource} files, if they are saved.
 	 */
-	private final String extension = "javaxmi";
-
-	/**
-	 * The map that keeps track of the mapping inserted into
-	 * {@link Resource.Factory.Registry}. Can be used to clean such mappings from
-	 * the registry at the end of tests.
-	 */
-	private final Map<String, Object> registryMappings = new HashMap<String, Object>();
-
-	/**
-	 * The list of created {@link Resource} instances. Can be used to perform clean
-	 * up after tests.
-	 */
-	private final List<Resource> createdResources = new ArrayList<Resource>();
-
+	public static String getResourceFileExtension() {
+		return "javaxmi";
+	}
+	
+	private ResourceHelper resHelper;
+	
 	/**
 	 * The similarity checker that will handle similarity checking operations.
 	 */
 	private ISimilarityChecker sc;
 
 	/**
-	 * The name of the current test class.
+	 * An object that contains information on the currently running test.
 	 */
-	private String testPrefix = "";
-	/**
-	 * The name of the current test method.
-	 */
-	private String testIdentifier = "";
-
+	private TestInfo currentTestInfo;
+	
 	/**
 	 * Sets up the necessary variables before tests are run. The
 	 * {@link TestInfo} parameter is included, so that test-specific
@@ -80,48 +60,61 @@ public abstract class AbstractSimilarityTest {
 	 */
 	@BeforeEach
 	public void setUp(TestInfo info) {
-		this.setResourceFileTestPrefix(this.getClass().getSimpleName());
-
-		this.performTestSpecificSetUp(info);
+		this.currentTestInfo = info;
 
 		this.setUpLogger();
-		this.setResourceRegistry(this.getResourceRootPath());
+		this.setUpResourceHelper();
+		
 		this.setSimilarityChecker(this.initSC());
 	}
 
 	@AfterEach
 	public void tearDown() {
-		this.cleanRegistry();
-		this.cleanAllResources();
-		this.deleteResourceDir();
+		this.getResourceHelper().clean();
 
-		this.logTestEndMessage();
 		this.resetAfterTest();
 	}
-
+	
 	/**
-	 * Makes use of the info parameter to retrieve information
-	 * about its corresponding test method. That information
-	 * is then used to set various variables prior to test run.
-	 * 
-	 * TODO: Explain what variables are set
-	 * 
-	 * @see {@link #setUp(TestInfo)}
+	 * Sets up the {@link ResourceHelper} instance that will be used.
 	 */
-	protected void performTestSpecificSetUp(TestInfo info) {
-		var met = info.getTestMethod().orElseGet(() -> null);
+	protected void setUpResourceHelper() {
+		this.resHelper = new ResourceHelper();
 
-		if (met != null) {
-			this.setResourceFileTestIdentifier(met.getName());
+		this.getResourceHelper().setResourceRootPath(getAbsoluteResourceRootPath());
+		this.getResourceHelper().setResourceFileExtension(getResourceFileExtension());
+	}
+	
+	private ResourceHelper getResourceHelper() {
+		return this.resHelper;
+	}
+	
+	/**
+	 * @param info An object that contains information on a
+	 * test.
+	 * 
+	 * @return The name of the test method, to whom the info
+	 * parameter belongs. Returns an empty String, if info is
+	 * null or info does not contain a test method.
+	 */
+	protected String getCurrentTestMethodName(TestInfo info) {
+		if (info != null) {
+			var met = info.getTestMethod().orElseGet(() -> null);
+			
+			if (met != null) {
+				return met.getName();
+			}
 		}
+
+		return "";
 	}
 
 	/**
 	 * Resets all stored attributes related to individual tests.
 	 */
 	protected void resetAfterTest() {
-		this.testPrefix = "";
-		this.testIdentifier = "";
+		this.sc = null;
+		this.currentTestInfo = null;
 	}
 
 	/**
@@ -129,15 +122,6 @@ public abstract class AbstractSimilarityTest {
 	 */
 	protected Logger getLogger() {
 		return Logger.getLogger("cipm." + this.getClass().getSimpleName());
-	}
-
-	/**
-	 * Creates and returns a {@link Resource} instance, whose URI will be the given
-	 * one.
-	 */
-	private Resource initResource(URI resUri) {
-		ResourceSet rSet = new ResourceSetImpl();
-		return rSet.createResource(resUri);
 	}
 
 	/**
@@ -151,8 +135,8 @@ public abstract class AbstractSimilarityTest {
 		logger.setLevel(Level.ALL);
 		
 		// Enable to receive log messages from similarity switches
-		logger = Logger.getLogger("javaswitch");
-		logger.setLevel(Level.ALL);
+//		logger = Logger.getLogger("javaswitch");
+//		logger.setLevel(Level.ALL);
 		
 //		logger = Logger.getLogger("jamopp");
 //		logger.setLevel(Level.ALL);
@@ -181,164 +165,6 @@ public abstract class AbstractSimilarityTest {
 	}
 
 	/**
-	 * @return The extension of the {@link Resource} files.
-	 */
-	public String getExtension() {
-		return this.extension;
-	}
-
-	/**
-	 * @return The directory, where the created {@link Resource} instances will be
-	 *         stored, if they are saved.
-	 */
-	public static String getAbstractSimilarityTestResourceRootPath() {
-		return resourceRootPath;
-	}
-
-	/**
-	 * The non-static version of
-	 * {@link #getAbstractSimilarityTestResourceRootPath()}.
-	 */
-	public String getResourceRootPath() {
-		return getAbstractSimilarityTestResourceRootPath();
-	}
-
-	/**
-	 * Complements {@link #getResourceRootPath()} with the {@link Resource} file
-	 * name and extension. The said file will only be created, if the
-	 * {@link Resource} file is saved.
-	 * 
-	 * @param resourceFileName      The name of the file
-	 * @param resourceFileExtension The extension of the file
-	 * @return The {@link URI} for a {@link Resource} instance.
-	 */
-	public URI createURI(String resourceFileName, String resourceFileExtension) {
-		return URI.createFileURI(
-				this.getResourceRootPath() + File.separator + resourceFileName + "." + resourceFileExtension);
-	}
-
-	/**
-	 * The variant of {@link #createURI(String, String)}, which uses
-	 * {@link #getExtension()}.
-	 */
-	public URI createURI(String resourceName) {
-		return this.createURI(resourceName, this.getExtension());
-	}
-
-	/**
-	 * Provides a unique name for the file of the {@link Resource} instance, in
-	 * order to avoid them from replacing one another, should multiple
-	 * {@link Resource} instances be saved in the same test.
-	 * 
-	 * @return A unique name for the file of the {@link Resource} instance.
-	 */
-	public String getResourceName() {
-		var count = 1;
-
-		var prefix = this.getResourceFileTestPrefix() + "_" + this.getResourceFileTestIdentifier();
-
-		var resourceRoot = new File(this.getResourceRootPath());
-
-		if (resourceRoot.exists()) {
-			count = resourceRoot.listFiles((f) -> f.getName().equals(prefix)).length + count;
-		}
-
-		return prefix + "_" + count;
-	}
-
-	/**
-	 * Creates a {@link Resource} instance for the given EObject instances. <br>
-	 * <br>
-	 * <b>!!! IMPORTANT !!!</b> <br>
-	 * <br>
-	 * <b>Using this method will cause {@link AbstractSimilarityTest#LOGGER} to send
-	 * an error message, if some of the EObject instances (from eos) that are
-	 * already in a Resource instance are attempted to be placed into another
-	 * Resource. This should be avoided, since doing so will REMOVE the said EObject
-	 * instances from their former Resource and cause side effects in tests.</b>
-	 */
-	protected Resource createResource(Collection<? extends EObject> eos) {
-		Resource res = this.initResource(this.createURI(this.getResourceName()));
-		this.createdResources.add(res);
-
-		if (eos != null) {
-			for (var eo : eos) {
-
-				/*
-				 * Make sure to not add an EObject, which has already been added to a Resource,
-				 * to another Resource. Doing so will detach it from its former Resource and add
-				 * it to the second one.
-				 */
-				if (eo.eResource() != null) {
-					this.getLogger().error("An EObject's resource was set and shifted during resource creation");
-				}
-				res.getContents().add(eo);
-			}
-		}
-
-		return res;
-	}
-
-	/**
-	 * Puts the necessary mapping for saving {@link Resource} files with the given
-	 * file extension into {@link Resource.Factory.Registry}. Duplicates the entry
-	 * and adds it to {@link #registryMappings} as well.
-	 */
-	public void setResourceRegistry(String resFileExtension) {
-		this.registryMappings.put(resFileExtension, new XMIResourceFactoryImpl());
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(resFileExtension,
-				new XMIResourceFactoryImpl());
-	}
-
-	/**
-	 * Unloads the given {@link Resource} instance.
-	 */
-	public void unloadResource(Resource res) {
-		res.unload();
-	}
-
-	/**
-	 * Unloads and removes all created {@link Resource} instances, if they are
-	 * created with {@link #createResource(Collection)}.
-	 */
-	public void cleanAllResources() {
-		this.createdResources.forEach((r) -> {
-			this.unloadResource(r);
-
-			try {
-				r.delete(null);
-			} catch (IOException e) {
-				this.getLogger().debug("Resource either was not created as a file or has already been deleted: "
-						+ r.getURI().toString());
-			}
-		});
-
-		this.createdResources.clear();
-	}
-
-	/**
-	 * Deletes the directory that contains all {@link Resource} instances, if it is
-	 * empty.
-	 */
-	public void deleteResourceDir() {
-		new File(this.getResourceRootPath()).delete();
-	}
-
-	/**
-	 * Cleans the mapping(s) in {@link Resource.Factory.Registry} inserted by
-	 * {@link #setResourceRegistry(String)}.
-	 */
-	public void cleanRegistry() {
-		Resource.Factory.Registry reg = Resource.Factory.Registry.INSTANCE;
-
-		for (var key : this.registryMappings.keySet()) {
-			reg.getExtensionToFactoryMap().remove(key);
-		}
-
-		this.registryMappings.clear();
-	}
-
-	/**
 	 * Delegates similarity checking to the underlying {@link ISimilarityChecker}.
 	 */
 	public Boolean isSimilar(EObject element1, EObject element2) {
@@ -357,44 +183,39 @@ public abstract class AbstractSimilarityTest {
 	 * @return The prefix of the {@link Resource} file names created from within the
 	 *         current test class. Defaults to the name of the current test class.
 	 * 
-	 * @see {@link #getResourceName()}
+	 * @see {@link #getResourceFileName()}
 	 */
-	public String getResourceFileTestPrefix() {
-		return this.testPrefix;
+	public String getCurrentTestClassName() {
+		return this.getClass().getSimpleName();
 	}
 
 	/**
-	 * @return The unique part of the {@link Resource} file names created from
-	 *         within the current test class. Defaults to the name of the current
-	 *         test method.
+	 * @return The name of the currently running test method
+	 */
+	public String getCurrentTestMethodName() {
+		return this.getCurrentTestMethodName(this.currentTestInfo);
+	}
+	
+	/**
+	 * Delegates the creation of a {@link Resource} instance to the underlying
+	 * {@link ResourceHelper}.
+	 * <br><br>
+	 * The name of the {@link Resource} instance will be the return value of
+	 * {@link #getResourceFileName()}.
 	 * 
-	 * @see {@link #getResourceName()}
+	 * @return A {@link Resource} instance with the given contents
 	 */
-	public String getResourceFileTestIdentifier() {
-		return this.testIdentifier;
+	protected Resource createResource(Collection<? extends EObject> eos) {
+		return this.getResourceHelper().createResource(eos, this.getResourceFileName());
 	}
-
+	
 	/**
-	 * Sets the value that will be returned by {@link #getResourceFileTestPrefix()}.
+	 * Uses the currently run test class and method to compute a name for the
+	 * file of the {@link Resource} instance, should it be saved.
+	 * 
+	 * @return A name for the file of the {@link Resource} instance.
 	 */
-	protected void setResourceFileTestPrefix(String testPrefix) {
-		this.testPrefix = testPrefix;
-	}
-
-	/**
-	 * Sets the value that will be returned by
-	 * {@link #getResourceFileTestIdentifier()}.
-	 */
-	protected void setResourceFileTestIdentifier(String testIdentifier) {
-		this.testIdentifier = testIdentifier;
-	}
-
-	/**
-	 * Logs a message indicating the end of a test case. <br>
-	 * <br>
-	 * The message is of form: {@code TestClass.testMethod ran}
-	 */
-	protected void logTestEndMessage() {
-		this.getLogger().info(this.getResourceFileTestPrefix() + "." + this.getResourceFileTestIdentifier() + " ran");
+	public String getResourceFileName() {
+		return this.getCurrentTestClassName() + "_" + this.getCurrentTestMethodName(this.currentTestInfo);
 	}
 }

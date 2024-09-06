@@ -64,7 +64,7 @@ public class SPLevoModelsSimilarityTest extends AbstractSimilarityTest {
 	/**
 	 * The path, at which the resource file's URI will point at.
 	 */
-	private static Path targetPath = Path.of(AbstractSimilarityTest.getAbstractSimilarityTestResourceRootPath());
+	private static Path targetPath = Path.of(AbstractSimilarityTest.getAbsoluteResourceRootPath());
 
 	@BeforeAll
 	public static void setUpBeforeAll() {

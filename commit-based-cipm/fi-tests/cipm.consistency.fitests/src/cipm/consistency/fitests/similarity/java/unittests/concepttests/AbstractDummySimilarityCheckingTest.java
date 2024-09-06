@@ -16,10 +16,6 @@ import cipm.consistency.fitests.similarity.java.unittests.concepttests.dummy.Ref
  * @author atora
  */
 public abstract class AbstractDummySimilarityCheckingTest extends AbstractSimilarityTest {
-	@Override
-	protected void logTestEndMessage() {
-	}
-
 	/**
 	 * Constructs a {@link DummySimilarityToolbox} instance using a
 	 * {@link DummySimilarityToolboxBuilder}. Adds request-handler pairs to that
