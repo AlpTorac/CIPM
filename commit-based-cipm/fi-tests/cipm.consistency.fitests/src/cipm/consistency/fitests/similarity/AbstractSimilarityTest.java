@@ -37,11 +37,18 @@ public abstract class AbstractSimilarityTest {
 		this.setSimilarityCheckerContainer(this.initSCC());
 	}
 
+	/**
+	 * Cleans up the variables set up with {@link #setUp(TestInfo)} and performs
+	 * other necessary clean up operations.
+	 */
 	@AfterEach
 	public void tearDown() {
 		this.resetAfterTest();
 	}
 
+	/**
+	 * @return An object that contains information on the currently running test.
+	 */
 	protected TestInfo getCurrentTestInfo() {
 		return this.currentTestInfo;
 	}
