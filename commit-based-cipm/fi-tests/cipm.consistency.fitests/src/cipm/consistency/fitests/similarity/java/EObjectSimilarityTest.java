@@ -13,9 +13,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 
 import cipm.consistency.fitests.similarity.java.eobject.initialiser.EObjectInitialiser;
-import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
+import cipm.consistency.fitests.similarity.java.eobject.params.EObjectSimilarityValues;
+import cipm.consistency.fitests.similarity.java.eobject.params.EObjectInitialiserParameters;
 import cipm.consistency.fitests.similarity.java.params.InitialiserTestSettingsProvider;
-import cipm.consistency.fitests.similarity.java.params.SimilarityValues;
 
 /**
  * Extends {@link AbstractSimilarityTest} with similarity checking methods to
@@ -49,8 +49,8 @@ public class EObjectSimilarityTest extends AbstractSimilarityTest {
 	 * Prepares {@link InitialiserTestSettingsProvider} for individual tests.
 	 */
 	protected void setupInitialiserTestSettingsProvider() {
-		InitialiserTestSettingsProvider.getInstance().setParameters(new InitialiserParameters());
-		InitialiserTestSettingsProvider.getInstance().setSimilarityValues(new SimilarityValues());
+		InitialiserTestSettingsProvider.getInstance().setParameters(new EObjectInitialiserParameters());
+		InitialiserTestSettingsProvider.getInstance().setSimilarityValues(new EObjectSimilarityValues());
 	}
 
 	/**

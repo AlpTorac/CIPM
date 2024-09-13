@@ -7,13 +7,13 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
 import cipm.consistency.fitests.similarity.java.eobject.initialiser.classifiers.IConcreteClassifierInitialiser;
-import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
+import cipm.consistency.fitests.similarity.java.eobject.params.EObjectInitialiserParameters;
 
 public class ConcreteClassifierTestParams implements ArgumentsProvider {
 
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
-		return new InitialiserParameters().getAllInitialisersBySuper(IConcreteClassifierInitialiser.class).stream()
+		return new EObjectInitialiserParameters().getAllInitialisersBySuper(IConcreteClassifierInitialiser.class).stream()
 				.map((i) -> Arguments.of(i));
 	}
 

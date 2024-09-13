@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.java.params;
+package cipm.consistency.fitests.similarity.java.eobject.params;
 
 import java.util.Collection;
 
@@ -20,6 +20,7 @@ import cipm.consistency.fitests.similarity.java.eobject.initialiser.members.IMem
 import cipm.consistency.fitests.similarity.java.eobject.initialiser.statements.BlockInitialiser;
 import cipm.consistency.fitests.similarity.java.eobject.initialiser.statements.IBlockContainerInitialiser;
 import cipm.consistency.fitests.similarity.java.eobject.initialiser.types.ClassifierReferenceInitialiser;
+import cipm.consistency.fitests.similarity.java.params.IInitialiserParameterAdaptationStrategy;
 
 /**
  * A concrete implementation of {@link IInitialiserParameterAdaptationStrategy}.
@@ -29,7 +30,7 @@ import cipm.consistency.fitests.similarity.java.eobject.initialiser.types.Classi
  * can run without exceptions being thrown, due to objects they instantiate
  * missing certain components.
  */
-public class InitialiserParameterAdaptationStrategy implements IInitialiserParameterAdaptationStrategy {
+public class EObjectInitialiserParameterAdaptationStrategy implements IInitialiserParameterAdaptationStrategy {
 
 	@Override
 	public void adaptInitialisers(Collection<IInitialiser> inits) {

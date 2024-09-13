@@ -1,7 +1,7 @@
 /**
  * Contains various utility classes/interfaces that can be used in tests that
- * use initialisers to programmatically create {@link EObject} instances. This
- * includes elements that provide access to and adapt initialiser instances
+ * use initialisers. This includes elements that provide access to and adapt
+ * initialiser instances
  * ({@link cipm.consistency.fitests.similarity.java.params.IInitialiserParameters})
  * and elements that help bundle test results
  * ({@link cipm.consistency.fitests.similarity.java.params.ISimilarityValues}).

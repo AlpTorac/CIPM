@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.java.params;
+package cipm.consistency.fitests.similarity.java.eobject.params;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.emftext.language.java.annotations.AnnotationsPackage;
@@ -48,6 +48,9 @@ import org.emftext.language.java.statements.StatementsPackage;
 import org.emftext.language.java.types.TypesPackage;
 import org.emftext.language.java.variables.VariablesPackage;
 
+import cipm.consistency.fitests.similarity.java.params.AbstractSimilarityValues;
+import cipm.consistency.fitests.similarity.java.params.ISimilarityValues;
+
 /**
  * Contains expected similarity values for tests, in which a certain attribute
  * is different. <br>
@@ -67,8 +70,8 @@ import org.emftext.language.java.variables.VariablesPackage;
  *      below.
  * @see {@link AbstractSimilarityValues}
  */
-public class SimilarityValues extends AbstractSimilarityValues {
-	public SimilarityValues() {
+public class EObjectSimilarityValues extends AbstractSimilarityValues {
+	public EObjectSimilarityValues() {
 		/*
 		 * setDefaultSimilarityResult(val): If there are no addSimilarityEntry calls
 		 * below for a certain attribute, the similarity value will be val.
@@ -247,5 +250,21 @@ public class SimilarityValues extends AbstractSimilarityValues {
 
 		// Variables
 		this.addSimilarityEntry(VariablesPackage.Literals.LOCAL_VARIABLE__ADDITIONAL_LOCAL_VARIABLES, Boolean.TRUE);
+	}
+
+
+	/**
+	 * @return The type of the class that has the attribute attr.
+	 */
+	protected Class<? extends Object> getClassFromStructuralFeature(Object attr) {
+		return (Class<? extends Object>) ((EStructuralFeature) attr).getContainerClass();
+	}
+
+	public void addSimilarityEntry(Object attr, Boolean expectedSimResult) {
+		this.addSimilarityEntry(this.getClassFromStructuralFeature(attr), attr, expectedSimResult);
+	}
+
+	public Boolean getExpectedSimilarityResult(Object attr) {
+		return this.getExpectedSimilarityResult(this.getClassFromStructuralFeature(attr), attr);
 	}
 }

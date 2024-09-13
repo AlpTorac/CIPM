@@ -7,13 +7,13 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
 import cipm.consistency.fitests.similarity.java.eobject.initialiser.types.ITypedElementExtensionInitialiser;
-import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
+import cipm.consistency.fitests.similarity.java.eobject.params.EObjectInitialiserParameters;
 
 public class TypedElementExtensionTestParams implements ArgumentsProvider {
 
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
-		return new InitialiserParameters().getAllInitialisersBySuper(ITypedElementExtensionInitialiser.class).stream()
+		return new EObjectInitialiserParameters().getAllInitialisersBySuper(ITypedElementExtensionInitialiser.class).stream()
 				.map((i) -> Arguments.of(i));
 	}
 

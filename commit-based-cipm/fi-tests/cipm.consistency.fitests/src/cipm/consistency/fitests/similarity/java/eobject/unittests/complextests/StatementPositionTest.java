@@ -16,8 +16,8 @@ import org.junit.jupiter.params.provider.MethodSource;
 import cipm.consistency.fitests.similarity.java.EObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.java.eobject.initialiser.statements.IStatementInitialiser;
 import cipm.consistency.fitests.similarity.java.eobject.initialiser.statements.IStatementListContainerInitialiser;
+import cipm.consistency.fitests.similarity.java.eobject.params.EObjectInitialiserParameters;
 import cipm.consistency.fitests.similarity.java.eobject.unittests.UsesStatements;
-import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
 
 /**
  * Tests whether similarity checking works as intended for {@link Statement}
@@ -33,14 +33,14 @@ import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
 public class StatementPositionTest extends EObjectSimilarityTest implements UsesStatements {
 	private static List<IStatementListContainerInitialiser> getAllSLCInitInstances() {
 		var res = new ArrayList<IStatementListContainerInitialiser>();
-		var inits = new InitialiserParameters().getAdaptedInitialisersBySuper(IStatementListContainerInitialiser.class);
+		var inits = new EObjectInitialiserParameters().getAdaptedInitialisersBySuper(IStatementListContainerInitialiser.class);
 		inits.forEach((i) -> res.add(((IStatementListContainerInitialiser) i)));
 		return res;
 	}
 
 	private static List<IStatementInitialiser> getAllStatementInitInstances() {
 		var res = new ArrayList<IStatementInitialiser>();
-		var inits = new InitialiserParameters().getAdaptedInitialisersBySuper(IStatementInitialiser.class);
+		var inits = new EObjectInitialiserParameters().getAdaptedInitialisersBySuper(IStatementInitialiser.class);
 		inits.forEach((i) -> res.add(((IStatementInitialiser) i)));
 		return res;
 	}
