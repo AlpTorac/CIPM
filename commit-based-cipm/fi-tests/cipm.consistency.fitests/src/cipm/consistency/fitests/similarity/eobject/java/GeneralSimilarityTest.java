@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.eobject.java;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -400,5 +401,28 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 	@Test
 	public void testAreSimilarBothNull() {
 		Assertions.assertTrue(this.areSimilar(null, null));
+	}
+
+	@Test
+	public void testAreSimilarOneNullElement() {
+		var initialiser = new ModuleInitialiser();
+		var obj = initialiser.instantiate();
+
+		var list = new ArrayList<Object>();
+		list.add(null);
+
+		Assertions.assertFalse(this.areSimilar(List.of(obj), list));
+		Assertions.assertFalse(this.areSimilar(list, List.of(obj)));
+	}
+
+	@Test
+	public void testAreSimilarBothNullElement() {
+		var list1 = new ArrayList<Object>();
+		list1.add(null);
+
+		var list2 = new ArrayList<Object>();
+		list2.add(null);
+
+		Assertions.assertTrue(this.areSimilar(list1, list2));
 	}
 }
