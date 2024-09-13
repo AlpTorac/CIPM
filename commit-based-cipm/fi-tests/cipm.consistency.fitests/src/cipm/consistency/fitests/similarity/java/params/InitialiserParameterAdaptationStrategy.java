@@ -2,24 +2,24 @@ package cipm.consistency.fitests.similarity.java.params;
 
 import java.util.Collection;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.IInitialiserBase;
-import cipm.consistency.fitests.similarity.java.initialiser.classifiers.ClassInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.classifiers.IConcreteClassifierInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.commons.INamedElementInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.containers.CompilationUnitInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.initadapters.BlockContainerInitialiserAdapter;
-import cipm.consistency.fitests.similarity.java.initialiser.initadapters.ClassMethodInitialiserAdapter;
-import cipm.consistency.fitests.similarity.java.initialiser.initadapters.ConcreteClassifierInitialiserAdapter;
-import cipm.consistency.fitests.similarity.java.initialiser.initadapters.MemberInitialiserAdapter;
-import cipm.consistency.fitests.similarity.java.initialiser.initadapters.NamedElementInitialiserAdapter;
-import cipm.consistency.fitests.similarity.java.initialiser.initadapters.NewConstructorCallInitialiserAdapter;
-import cipm.consistency.fitests.similarity.java.initialiser.instantiations.INewConstructorCallInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.members.IClassMethodInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.members.IMemberInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.statements.BlockInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.statements.IBlockContainerInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.types.ClassifierReferenceInitialiser;
+import cipm.consistency.fitests.similarity.initialiser.IInitialiser;
+import cipm.consistency.fitests.similarity.initialiser.IInitialiserBase;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.classifiers.ClassInitialiser;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.classifiers.IConcreteClassifierInitialiser;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.commons.INamedElementInitialiser;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.containers.CompilationUnitInitialiser;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.initadapters.BlockContainerInitialiserAdapter;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.initadapters.ClassMethodInitialiserAdapter;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.initadapters.ConcreteClassifierInitialiserAdapter;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.initadapters.MemberInitialiserAdapter;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.initadapters.NamedElementInitialiserAdapter;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.initadapters.NewConstructorCallInitialiserAdapter;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.instantiations.INewConstructorCallInitialiser;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.members.IClassMethodInitialiser;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.members.IMemberInitialiser;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.statements.BlockInitialiser;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.statements.IBlockContainerInitialiser;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.types.ClassifierReferenceInitialiser;
 
 /**
  * A concrete implementation of {@link IInitialiserParameterAdaptationStrategy}.

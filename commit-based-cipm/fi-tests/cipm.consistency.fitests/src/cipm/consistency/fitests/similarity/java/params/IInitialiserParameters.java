@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Predicate;
 
-import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
+import cipm.consistency.fitests.similarity.initialiser.IInitialiser;
 
 /**
  * An interface meant for classes that generate {@link IInitialiser} instances

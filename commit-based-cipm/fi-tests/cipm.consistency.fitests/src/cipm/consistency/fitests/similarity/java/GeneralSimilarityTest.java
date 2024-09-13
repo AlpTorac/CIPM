@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import org.emftext.language.java.containers.Module;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.EObjectInitialiser;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.containers.ModuleInitialiser;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.containers.PackageInitialiser;
 
-import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.containers.ModuleInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.containers.PackageInitialiser;
+import org.emftext.language.java.containers.Module;
 
 /**
  * A test class dedicated to test the general control flow of similarity

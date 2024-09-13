@@ -12,7 +12,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 
-import cipm.consistency.fitests.similarity.java.initialiser.EObjectInitialiser;
+import cipm.consistency.fitests.similarity.java.eobject.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.java.params.InitialiserParameters;
 import cipm.consistency.fitests.similarity.java.params.InitialiserTestSettingsProvider;
 import cipm.consistency.fitests.similarity.java.params.SimilarityValues;
