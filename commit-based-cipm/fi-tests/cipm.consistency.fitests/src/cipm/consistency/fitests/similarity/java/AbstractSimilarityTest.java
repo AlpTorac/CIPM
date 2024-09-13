@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
 
 /**
  * The abstract test class that contains test elements needed in similarity
@@ -24,39 +23,38 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
 public abstract class AbstractSimilarityTest {
 	/**
 	 * @return The absolute path, under which the {@link Resource} files will be
-	 * saved.
+	 *         saved.
 	 */
 	public static String getAbsoluteResourceRootPath() {
-		return new File("").getAbsoluteFile().getAbsolutePath() + File.separator
-				+ "testModels";
+		return new File("").getAbsoluteFile().getAbsolutePath() + File.separator + "testModels";
 	}
-	
+
 	/**
 	 * @return The extension of the {@link Resource} files, if they are saved.
 	 */
 	public static String getResourceFileExtension() {
 		return "javaxmi";
 	}
-	
+
 	private ResourceHelper resHelper;
-	
+
 	/**
-	 * The similarity checker that will handle similarity checking operations.
+	 * The {@link ISimilarityCheckerContainer} that will be used to store the
+	 * {@link ISimilarityChecker} under test.
 	 */
-	private ISimilarityChecker sc;
+	private ISimilarityCheckerContainer scc;
 
 	/**
 	 * An object that contains information on the currently running test.
 	 */
 	private TestInfo currentTestInfo;
-	
+
 	/**
-	 * Sets up the necessary variables before tests are run. The
-	 * {@link TestInfo} parameter is included, so that test-specific
-	 * set up can be performed.
+	 * Sets up the necessary variables before tests are run. The {@link TestInfo}
+	 * parameter is included, so that test-specific set up can be performed.
 	 * 
-	 * @param info An object that contains information about the current
-	 * test to be run (ex: the test method instance, test class, ...)
+	 * @param info An object that contains information about the current test to be
+	 *             run (ex: the test method instance, test class, ...)
 	 */
 	@BeforeEach
 	public void setUp(TestInfo info) {
@@ -64,8 +62,8 @@ public abstract class AbstractSimilarityTest {
 
 		this.setUpLogger();
 		this.setUpResourceHelper();
-		
-		this.setSimilarityChecker(this.initSC());
+
+		this.setSimilarityCheckerContainer(this.initSCC());
 	}
 
 	@AfterEach
@@ -74,7 +72,7 @@ public abstract class AbstractSimilarityTest {
 
 		this.resetAfterTest();
 	}
-	
+
 	/**
 	 * Sets up the {@link ResourceHelper} instance that will be used.
 	 */
@@ -84,23 +82,22 @@ public abstract class AbstractSimilarityTest {
 		this.getResourceHelper().setResourceSaveRootPath(getAbsoluteResourceRootPath());
 		this.getResourceHelper().setResourceFileExtension(getResourceFileExtension());
 	}
-	
+
 	private ResourceHelper getResourceHelper() {
 		return this.resHelper;
 	}
-	
+
 	/**
-	 * @param info An object that contains information on a
-	 * test.
+	 * @param info An object that contains information on a test.
 	 * 
-	 * @return The name of the test method, to whom the info
-	 * parameter belongs. Returns an empty String, if info is
-	 * null or info does not contain a test method.
+	 * @return The name of the test method, to whom the info parameter belongs.
+	 *         Returns an empty String, if info is null or info does not contain a
+	 *         test method.
 	 */
 	protected String getCurrentTestMethodName(TestInfo info) {
 		if (info != null) {
 			var met = info.getTestMethod().orElseGet(() -> null);
-			
+
 			if (met != null) {
 				return met.getName();
 			}
@@ -113,7 +110,7 @@ public abstract class AbstractSimilarityTest {
 	 * Resets all stored attributes related to individual tests.
 	 */
 	protected void resetAfterTest() {
-		this.sc = null;
+		this.scc = null;
 		this.currentTestInfo = null;
 	}
 
@@ -133,11 +130,11 @@ public abstract class AbstractSimilarityTest {
 	protected void setUpLogger() {
 		Logger logger = Logger.getLogger("cipm");
 		logger.setLevel(Level.ALL);
-		
+
 		// Enable to receive log messages from similarity switches
 //		logger = Logger.getLogger("javaswitch");
 //		logger.setLevel(Level.ALL);
-		
+
 //		logger = Logger.getLogger("jamopp");
 //		logger.setLevel(Level.ALL);
 		logger = Logger.getRootLogger();
@@ -148,35 +145,43 @@ public abstract class AbstractSimilarityTest {
 	}
 
 	/**
-	 * Creates the concrete {@link ISimilarityChecker} that will be used in tests.
-	 * Can be overridden to change the said similarity checker.
-	 * 
-	 * @return A {@link ISimilarityChecker} implementation.
+	 * Creates the concrete {@link ISimilarityCheckerContainer} that will be used to
+	 * store the {@link ISimilarityChecker} under test. <br>
+	 * <br>
+	 * If necessary, it can be overridden in tests to change the said similarity
+	 * checker during set up.
 	 */
-	protected ISimilarityChecker initSC() {
-		return new JavaSimilarityCheckerProvider().createSC();
+	protected ISimilarityCheckerContainer initSCC() {
+		var scc = new JavaSimilarityCheckerContainer();
+		scc.setSimilarityCheckerProvider(new JavaSimilarityCheckerProvider());
+		return scc;
 	}
 
 	/**
-	 * Sets the used {@link ISimilarityChecker} to the given one.
+	 * Sets the used {@link ISimilarityCheckerContainer} to the given one. <br>
+	 * <br>
+	 * If necessary, it can be called in tests to change the used similarity checker
+	 * container to the given one.
+	 * 
+	 * @see {@link #initSCC()} for setting the {@link ISimilarityCheckerContainer}
+	 *      during set up.
 	 */
-	protected void setSimilarityChecker(ISimilarityChecker sc) {
-		this.sc = sc;
+	protected void setSimilarityCheckerContainer(ISimilarityCheckerContainer scc) {
+		this.scc = scc;
 	}
 
 	/**
 	 * Delegates similarity checking to the underlying {@link ISimilarityChecker}.
 	 */
 	public Boolean isSimilar(EObject element1, EObject element2) {
-		return this.sc.isSimilar(element1, element2);
+		return this.scc.isSimilar(element1, element2);
 	}
 
 	/**
 	 * Delegates similarity checking to the underlying {@link ISimilarityChecker}.
 	 */
-	@SuppressWarnings("unchecked")
 	public Boolean areSimilar(Collection<? extends EObject> elements1, Collection<? extends EObject> elements2) {
-		return this.sc.areSimilar((Collection<Object>) elements1, (Collection<Object>) elements2);
+		return this.scc.areSimilar(elements1, elements2);
 	}
 
 	/**
@@ -195,11 +200,11 @@ public abstract class AbstractSimilarityTest {
 	public String getCurrentTestMethodName() {
 		return this.getCurrentTestMethodName(this.currentTestInfo);
 	}
-	
+
 	/**
 	 * Delegates the creation of a {@link Resource} instance to the underlying
-	 * {@link ResourceHelper}.
-	 * <br><br>
+	 * {@link ResourceHelper}. <br>
+	 * <br>
 	 * The name of the {@link Resource} instance will be the return value of
 	 * {@link #getResourceFileName()}.
 	 * 
@@ -208,10 +213,10 @@ public abstract class AbstractSimilarityTest {
 	protected Resource createResource(Collection<? extends EObject> eos) {
 		return this.getResourceHelper().createResource(eos, this.getResourceFileName());
 	}
-	
+
 	/**
-	 * Uses the currently run test class and method to compute a name for the
-	 * file of the {@link Resource} instance, should it be saved.
+	 * Uses the currently run test class and method to compute a name for the file
+	 * of the {@link Resource} instance, should it be saved.
 	 * 
 	 * @return A name for the file of the {@link Resource} instance.
 	 */
