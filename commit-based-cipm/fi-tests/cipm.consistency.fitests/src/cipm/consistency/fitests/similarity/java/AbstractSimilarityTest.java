@@ -13,6 +13,12 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 
+import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
+import cipm.consistency.fitests.similarity.SimilarityCheckerContainer;
+import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.ResourceHelper;
+import cipm.consistency.fitests.similarity.eobject.java.JavaSimilarityCheckerProvider;
+
 /**
  * The abstract test class that contains test elements needed in similarity
  * checking tests.
@@ -152,7 +158,7 @@ public abstract class AbstractSimilarityTest {
 	 * checker during set up.
 	 */
 	protected ISimilarityCheckerContainer initSCC() {
-		var scc = new JavaSimilarityCheckerContainer();
+		var scc = new SimilarityCheckerContainer();
 		scc.setSimilarityCheckerProvider(new JavaSimilarityCheckerProvider());
 		return scc;
 	}
@@ -180,8 +186,9 @@ public abstract class AbstractSimilarityTest {
 	/**
 	 * Delegates similarity checking to the underlying {@link ISimilarityChecker}.
 	 */
+	@SuppressWarnings("unchecked")
 	public Boolean areSimilar(Collection<? extends EObject> elements1, Collection<? extends EObject> elements2) {
-		return this.scc.areSimilar(elements1, elements2);
+		return this.scc.areSimilar((Collection<Object>) elements1, (Collection<Object>) elements2);
 	}
 
 	/**

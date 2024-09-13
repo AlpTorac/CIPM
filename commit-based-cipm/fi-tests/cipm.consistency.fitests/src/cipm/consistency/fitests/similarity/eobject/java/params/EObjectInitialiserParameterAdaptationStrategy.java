@@ -1,0 +1,62 @@
+package cipm.consistency.fitests.similarity.eobject.java.params;
+
+import java.util.Collection;
+
+import cipm.consistency.fitests.similarity.eobject.initialiser.java.classifiers.ClassInitialiser;
+import cipm.consistency.fitests.similarity.eobject.initialiser.java.classifiers.IConcreteClassifierInitialiser;
+import cipm.consistency.fitests.similarity.eobject.initialiser.java.commons.INamedElementInitialiser;
+import cipm.consistency.fitests.similarity.eobject.initialiser.java.containers.CompilationUnitInitialiser;
+import cipm.consistency.fitests.similarity.eobject.initialiser.java.initadapters.BlockContainerInitialiserAdapter;
+import cipm.consistency.fitests.similarity.eobject.initialiser.java.initadapters.ClassMethodInitialiserAdapter;
+import cipm.consistency.fitests.similarity.eobject.initialiser.java.initadapters.ConcreteClassifierInitialiserAdapter;
+import cipm.consistency.fitests.similarity.eobject.initialiser.java.initadapters.MemberInitialiserAdapter;
+import cipm.consistency.fitests.similarity.eobject.initialiser.java.initadapters.NamedElementInitialiserAdapter;
+import cipm.consistency.fitests.similarity.eobject.initialiser.java.initadapters.NewConstructorCallInitialiserAdapter;
+import cipm.consistency.fitests.similarity.eobject.initialiser.java.instantiations.INewConstructorCallInitialiser;
+import cipm.consistency.fitests.similarity.eobject.initialiser.java.members.IClassMethodInitialiser;
+import cipm.consistency.fitests.similarity.eobject.initialiser.java.members.IMemberInitialiser;
+import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.BlockInitialiser;
+import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.IBlockContainerInitialiser;
+import cipm.consistency.fitests.similarity.eobject.initialiser.java.types.ClassifierReferenceInitialiser;
+import cipm.consistency.fitests.similarity.initialiser.IInitialiser;
+import cipm.consistency.fitests.similarity.initialiser.IInitialiserBase;
+import cipm.consistency.fitests.similarity.params.IInitialiserParameterAdaptationStrategy;
+
+/**
+ * A concrete implementation of {@link IInitialiserParameterAdaptationStrategy}.
+ * <br>
+ * <br>
+ * Adapts the given {@link IInitialiser} instances in a way that interface tests
+ * can run without exceptions being thrown, due to objects they instantiate
+ * missing certain components.
+ */
+public class EObjectInitialiserParameterAdaptationStrategy implements IInitialiserParameterAdaptationStrategy {
+
+	@Override
+	public void adaptInitialisers(Collection<IInitialiser> inits) {
+		inits.stream().filter((i) -> IInitialiserBase.class.isAssignableFrom(i.getClass()))
+				.map((i) -> (IInitialiserBase) i).forEach((i) -> {
+					if (INamedElementInitialiser.class.isAssignableFrom(i.getClass())) {
+						i.addAdaptingInitialiser(new NamedElementInitialiserAdapter());
+					}
+					if (IBlockContainerInitialiser.class.isAssignableFrom(i.getClass())) {
+						i.addAdaptingInitialiser(new BlockContainerInitialiserAdapter(new BlockInitialiser()));
+					}
+					if (IMemberInitialiser.class.isAssignableFrom(i.getClass())) {
+						i.addAdaptingInitialiser(new MemberInitialiserAdapter(new ClassInitialiser()));
+					}
+					if (IConcreteClassifierInitialiser.class.isAssignableFrom(i.getClass())) {
+						i.addAdaptingInitialiser(
+								new ConcreteClassifierInitialiserAdapter(new CompilationUnitInitialiser()));
+					}
+					if (INewConstructorCallInitialiser.class.isAssignableFrom(i.getClass())) {
+						i.addAdaptingInitialiser(new NewConstructorCallInitialiserAdapter(
+								new ClassifierReferenceInitialiser(), new ClassInitialiser()));
+					}
+					if (IClassMethodInitialiser.class.isAssignableFrom(i.getClass())) {
+						i.addAdaptingInitialiser(new ClassMethodInitialiserAdapter(new BlockInitialiser()));
+					}
+				});
+	}
+
+}

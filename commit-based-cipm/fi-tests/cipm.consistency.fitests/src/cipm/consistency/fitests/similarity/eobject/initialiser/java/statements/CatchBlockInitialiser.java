@@ -1,0 +1,18 @@
+package cipm.consistency.fitests.similarity.eobject.initialiser.java.statements;
+
+import org.emftext.language.java.statements.CatchBlock;
+import org.emftext.language.java.statements.StatementsFactory;
+
+import cipm.consistency.fitests.similarity.initialiser.AbstractInitialiserBase;
+
+public class CatchBlockInitialiser extends AbstractInitialiserBase implements ICatchBlockInitialiser {
+	@Override
+	public CatchBlock instantiate() {
+		return StatementsFactory.eINSTANCE.createCatchBlock();
+	}
+
+	@Override
+	public CatchBlockInitialiser newInitialiser() {
+		return new CatchBlockInitialiser();
+	}
+}
