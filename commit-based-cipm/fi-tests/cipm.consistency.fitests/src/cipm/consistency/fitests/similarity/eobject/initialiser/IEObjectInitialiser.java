@@ -12,7 +12,6 @@ import cipm.consistency.fitests.similarity.initialiser.IInitialiserAdapterStrate
  * An interface for {@link IInitialiser} sub-interfaces, whose purpose is to
  * create and modify {@link EObject} instances. <br>
  * <br>
- * <b></b>
  * 
  * @author atora
  */

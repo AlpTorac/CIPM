@@ -2,8 +2,6 @@ package cipm.consistency.fitests.similarity.eobject.java;
 
 import java.io.File;
 
-import org.eclipse.emf.ecore.resource.Resource;
-
 import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
 import cipm.consistency.fitests.similarity.SimilarityCheckerContainerWithProvider;
 import cipm.consistency.fitests.similarity.eobject.AbstractEObjectSimilarityTest;
@@ -20,33 +18,29 @@ import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvide
  */
 public abstract class AbstractEObjectJavaSimilarityTest extends AbstractEObjectSimilarityTest {
 	/**
-	 * Creates the concrete {@link ISimilarityCheckerContainer} that will be used to
-	 * store the {@link ISimilarityChecker} under test. <br>
+	 * {@inheritDoc} <br>
 	 * <br>
-	 * If necessary, it can be overridden in tests to change the said similarity
-	 * checker during set up.
+	 * Uses {@link JavaSimilarityCheckerProvider} to create Java similarity
+	 * checkers.
 	 */
+	@Override
 	protected ISimilarityCheckerContainer initSCC() {
 		var scc = new SimilarityCheckerContainerWithProvider();
 		scc.setSimilarityCheckerProvider(new JavaSimilarityCheckerProvider());
 		return scc;
 	}
 
-	/**
-	 * @return The absolute path, under which the {@link Resource} files will be
-	 *         saved.
-	 */
+	@Override
 	public String getAbsoluteResourceRootPath() {
 		return new File("").getAbsoluteFile().getAbsolutePath() + File.separator + "testModels";
 	}
 
-	/**
-	 * @return The extension of the {@link Resource} files, if they are saved.
-	 */
+	@Override
 	public String getResourceFileExtension() {
 		return "javaxmi";
 	}
 
+	@Override
 	protected void setupInitialiserTestSettingsProvider() {
 		InitialiserTestSettingsProvider.getInstance().setParameters(new EObjectJavaInitialiserParameters());
 		InitialiserTestSettingsProvider.getInstance().setSimilarityValues(new EObjectJavaSimilarityValues());

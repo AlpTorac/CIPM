@@ -260,10 +260,12 @@ public class EObjectJavaSimilarityValues extends AbstractSimilarityValues {
 		return (Class<? extends Object>) ((EStructuralFeature) attr).getContainerClass();
 	}
 
+	@Override
 	public void addSimilarityEntry(Object attr, Boolean expectedSimResult) {
 		this.addSimilarityEntry(this.getClassFromStructuralFeature(attr), attr, expectedSimResult);
 	}
 
+	@Override
 	public Boolean getExpectedSimilarityResult(Object attr) {
 		return this.getExpectedSimilarityResult(this.getClassFromStructuralFeature(attr), attr);
 	}

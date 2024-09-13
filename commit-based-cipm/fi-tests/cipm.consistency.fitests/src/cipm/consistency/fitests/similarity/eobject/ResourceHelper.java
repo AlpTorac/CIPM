@@ -16,9 +16,14 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
+/**
+ * A class that encapsulates the means to create {@link Resource} instances.
+ * 
+ * @author atora
+ */
 public class ResourceHelper {
-	private static final Logger logger = Logger.getLogger("cipm."+ResourceHelper.class.getSimpleName());
-	
+	private static final Logger logger = Logger.getLogger("cipm." + ResourceHelper.class.getSimpleName());
+
 	/**
 	 * The directory, where the created {@link Resource} instances will be stored,
 	 * if they are saved.
@@ -42,25 +47,29 @@ public class ResourceHelper {
 	 * up after tests.
 	 */
 	private List<Resource> createdResources = new ArrayList<Resource>();
-	
+
+	/**
+	 * @return The {@link Logger} that can be used to log happenings in this
+	 *         instance.
+	 */
 	protected Logger getLogger() {
 		return logger;
 	}
-	
+
 	/**
 	 * Creates and returns a {@link Resource} instance, whose URI will be the given
-	 * one.
-	 * <br><br>
+	 * one. <br>
+	 * <br>
 	 * Does not save the created {@link Resource} instance.
 	 */
 	protected Resource initResource(URI resUri) {
 		ResourceSet rSet = new ResourceSetImpl();
 		return rSet.createResource(resUri);
 	}
-	
+
 	/**
-	 * Sets the directory, where the created {@link Resource} instances will be stored,
-	 * if they are saved.
+	 * Sets the directory, where the created {@link Resource} instances will be
+	 * stored, if they are saved.
 	 */
 	public void setResourceSaveRootPath(String resourceSaveRootPath) {
 		this.resourceSaveRootPath = resourceSaveRootPath;
@@ -74,7 +83,7 @@ public class ResourceHelper {
 		this.resourceFileExtension = resourceFileExtension;
 		this.setResourceRegistry();
 	}
-	
+
 	/**
 	 * @return The extension of the {@link Resource} files.
 	 */
@@ -113,27 +122,27 @@ public class ResourceHelper {
 	}
 
 	/**
-	 * @return The name of the {@link Resource} file with the count parameter
-	 * added to it.
+	 * @return The name of the {@link Resource} file with the count parameter added
+	 *         to it.
 	 */
 	protected String getResourceNameWithCount(String resourceName, int count) {
 		return resourceName + "-" + count;
 	}
-	
+
 	/**
-	 * @return Computes a unique name for the {@link Resource} file, so that
-	 * it is not overwritten if another resource file with the same name is
-	 * to be created.
+	 * @return Computes a unique name for the {@link Resource} file, so that it is
+	 *         not overwritten if another resource file with the same name is to be
+	 *         created.
 	 */
 	protected String computeEffectiveResourceName(String resourceName) {
 		var resourceRoot = new File(this.getResourceSaveRootPath());
 
 		var count = 0;
-		
+
 		if (resourceRoot.exists()) {
-			var files = List.of(List.of(resourceRoot.listFiles()).stream()
-					.map((file) -> file.getName()).toArray(String[]::new));
-			
+			var files = List.of(
+					List.of(resourceRoot.listFiles()).stream().map((file) -> file.getName()).toArray(String[]::new));
+
 			while (files.contains(this.getResourceNameWithCount(resourceName, count))) {
 				count++;
 			}
@@ -141,19 +150,19 @@ public class ResourceHelper {
 
 		return this.getResourceNameWithCount(resourceName, count);
 	}
-	
+
 	/**
-	 * Creates a {@link Resource} instance for the given EObject instances. The Resource
-	 * instances created with this method are tracked, so that they can be deleted later
-	 * if necessary. <br>
+	 * Creates a {@link Resource} instance for the given EObject instances. The
+	 * Resource instances created with this method are tracked, so that they can be
+	 * deleted later if necessary. <br>
 	 * <br>
 	 * <b>!!! IMPORTANT !!!</b> <br>
 	 * <br>
-	 * <b>Using this method will cause log an error message,
-	 * if some of the EObject instances (from eos) that are
-	 * already in a Resource instance are attempted to be placed into another
-	 * Resource. This should be avoided, since doing so will REMOVE the said EObject
-	 * instances from their former Resource and cause side effects in tests.</b>
+	 * <b>Using this method will cause log an error message, if some of the EObject
+	 * instances (from eos) that are already in a Resource instance are attempted to
+	 * be placed into another Resource. This should be avoided, since doing so will
+	 * REMOVE the said EObject instances from their former Resource and cause side
+	 * effects in tests.</b>
 	 */
 	public Resource createResource(Collection<? extends EObject> eos, String resourceName) {
 		Resource res = this.initResource(this.createURI(this.computeEffectiveResourceName(resourceName)));
@@ -187,8 +196,7 @@ public class ResourceHelper {
 		var fac = new XMIResourceFactoryImpl();
 
 		this.registryMappings.put(resFileExtension, fac);
-		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(resFileExtension,
-				fac);
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put(resFileExtension, fac);
 	}
 
 	/**
@@ -200,8 +208,8 @@ public class ResourceHelper {
 
 	/**
 	 * Unloads and deletes all created {@link Resource} instances, if they are
-	 * created with {@link #createResource(Collection)}. Stops tracking them
-	 * as well.
+	 * created with {@link #createResource(Collection)}. Stops tracking them as
+	 * well.
 	 */
 	public void cleanAllResources() {
 		this.createdResources.forEach((r) -> {
@@ -226,6 +234,11 @@ public class ResourceHelper {
 		new File(this.getResourceSaveRootPath()).delete();
 	}
 
+	/**
+	 * Removes the entry matching to the given {@code resourceFileExtension} from
+	 * the resource factory, if it was added by this instance. Stops tracking the
+	 * said entry.
+	 */
 	protected void removeFromRegistry(String resourceFileExtension) {
 		if (resourceFileExtension == null)
 			return;
@@ -235,10 +248,10 @@ public class ResourceHelper {
 
 		if (regMap.containsKey(resourceFileExtension)) {
 			var val = regMap.get(resourceFileExtension);
-			
+
 			if (this.registryMappings.containsKey(resourceFileExtension)) {
 				var valTracked = this.registryMappings.get(resourceFileExtension);
-				
+
 				if (val.equals(valTracked)) {
 					regMap.remove(val);
 					this.registryMappings.remove(valTracked);
@@ -246,7 +259,7 @@ public class ResourceHelper {
 			}
 		}
 	}
-	
+
 	/**
 	 * Cleans the mapping(s) in {@link Resource.Factory.Registry} inserted by
 	 * {@link #setResourceRegistry(String)}. Stops tracking them as well.
@@ -260,7 +273,7 @@ public class ResourceHelper {
 
 		this.registryMappings.clear();
 	}
-	
+
 	/**
 	 * Cleans up the saved attributes and created {@link Resource} files.
 	 */

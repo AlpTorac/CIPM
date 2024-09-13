@@ -13,6 +13,7 @@ import cipm.consistency.fitests.similarity.params.IInitialiserParameters;
  * @author atora
  */
 public class EObjectJavaInitialiserParameters implements IInitialiserParameters {
+	@Override
 	public Collection<IInitialiser> getAllNonAdaptedInitialisers() {
 		return new EObjectJavaInitialiserPackage().getAllInitialiserInstances();
 	}

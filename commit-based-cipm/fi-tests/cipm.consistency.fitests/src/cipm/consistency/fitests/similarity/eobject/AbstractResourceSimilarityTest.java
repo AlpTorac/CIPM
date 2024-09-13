@@ -10,23 +10,28 @@ import org.junit.jupiter.api.TestInfo;
 
 import cipm.consistency.fitests.similarity.AbstractSimilarityTest;
 
+/**
+ * An abstract class that extends {@link AbstractSimilarityTest} with additional
+ * methods regarding {@link Resource} instance creation.
+ * 
+ * @author atora
+ */
 public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityTest {
+	/**
+	 * The {@link ResourceHelper} instance that can be used for creating
+	 * {@link Resource} instances.
+	 */
 	private ResourceHelper resHelper;
 
-	/**
-	 * Sets up the necessary variables before tests are run. The {@link TestInfo}
-	 * parameter is included, so that test-specific set up can be performed.
-	 * 
-	 * @param info An object that contains information about the current test to be
-	 *             run (ex: the test method instance, test class, ...)
-	 */
 	@BeforeEach
+	@Override
 	public void setUp(TestInfo info) {
 		super.setUp(info);
 		this.setUpResourceHelper();
 	}
 
 	@AfterEach
+	@Override
 	public void tearDown() {
 		this.getResourceHelper().clean();
 		this.resHelper = null;
@@ -44,6 +49,10 @@ public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityT
 		this.getResourceHelper().setResourceFileExtension(this.getResourceFileExtension());
 	}
 
+	/**
+	 * The {@link ResourceHelper} instance that can be used for creating
+	 * {@link Resource} instances.
+	 */
 	protected ResourceHelper getResourceHelper() {
 		return this.resHelper;
 	}

@@ -10,10 +10,18 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 
+/**
+ * An abstract class for similarity checking tests to extend. <br>
+ * <br>
+ * Contains methods that provide information on the next test method to be run
+ * and various delegation methods that spare call chains.
+ * 
+ * @author atora
+ */
 public abstract class AbstractSimilarityTest {
 	/**
 	 * The {@link ISimilarityCheckerContainer} that will be used to store the
-	 * {@link ISimilarityChecker} under test.
+	 * similarity checker under test.
 	 */
 	private ISimilarityCheckerContainer scc;
 	/**
@@ -23,7 +31,11 @@ public abstract class AbstractSimilarityTest {
 
 	/**
 	 * Sets up the necessary variables before tests are run. The {@link TestInfo}
-	 * parameter is included, so that test-specific set up can be performed.
+	 * parameter is included, so that test-specific set up can be performed. <br>
+	 * <br>
+	 * It is suggested to have a call to {@code super.setUp()} as the first
+	 * statement in overriding implementations. Doing so circumvents potential
+	 * errors caused by the order of set up operations.
 	 * 
 	 * @param info An object that contains information about the current test to be
 	 *             run (ex: the test method instance, test class, ...)
@@ -39,7 +51,11 @@ public abstract class AbstractSimilarityTest {
 
 	/**
 	 * Cleans up the variables set up with {@link #setUp(TestInfo)} and performs
-	 * other necessary clean up operations.
+	 * other necessary clean up operations. <br>
+	 * <br>
+	 * It is suggested to have a call to {@code super.tearDown()} as the last
+	 * statement in overriding implementations. Doing so circumvents potential
+	 * errors caused by the order of clean up operations.
 	 */
 	@AfterEach
 	public void tearDown() {
@@ -112,7 +128,7 @@ public abstract class AbstractSimilarityTest {
 
 	/**
 	 * Creates the concrete {@link ISimilarityCheckerContainer} that will be used to
-	 * store the {@link ISimilarityChecker} under test. <br>
+	 * store the similarity checker under test. <br>
 	 * <br>
 	 * If necessary, it can be overridden in tests to change the said similarity
 	 * checker during set up.

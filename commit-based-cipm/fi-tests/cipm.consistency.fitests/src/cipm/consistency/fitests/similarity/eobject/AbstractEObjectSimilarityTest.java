@@ -15,7 +15,22 @@ import org.junit.jupiter.api.TestInfo;
 import cipm.consistency.fitests.similarity.eobject.initialiser.IEObjectInitialiser;
 import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvider;
 
+/**
+ * An abstract class that extends {@link AbstractResourceSimilarityTest} with
+ * various methods that can be used to test the similarity checking of
+ * {@link EObject} instances. <br>
+ * <br>
+ * Integrates {@link InitialiserTestSettingsProvider}, in order to grant access
+ * to expected similarity values.
+ * 
+ * @author atora
+ * @see {@link InitialiserTestSettingsProvider#getSimilarityValues()} for more information
+ * on expected similarity values.
+ */
 public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimilarityTest {
+	/**
+	 * Initialises {@link InitialiserTestSettingsProvider}, which is used in tests.
+	 */
 	@BeforeAll
 	public static void setUpBeforeClass() {
 		InitialiserTestSettingsProvider.initialise();
@@ -83,9 +98,9 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	}
 
 	/**
-	 * Finds the topmost EObject (objTop) that can be reached from obj, clones
-	 * objTop, finds the clone of obj among the contents of objTop and returns that
-	 * clone.
+	 * Finds the topmost EObject (objTop) that can be reached from {@code obj},
+	 * clones objTop, finds the clone of {@code obj} among the contents of objTop
+	 * and returns that clone.
 	 * 
 	 * @return A clone of obj, which preserves obj's place in its hierarchy. The
 	 *         returned clone contains clones of obj's contents and is contained by
@@ -119,7 +134,10 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	}
 
 	/**
-	 * Creates a clone copy of all given objs.
+	 * Creates a clone copy of all given objs. <br>
+	 * <br>
+	 * <b>Note: DOES NOT clone any containers {@code obj.eContainer()} of the
+	 * objects. Only copies the given objects and the contents nested in them.</b>
 	 * 
 	 * @see {@link EcoreUtil#copyAll(Collection)}
 	 */
@@ -154,7 +172,13 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	}
 
 	/**
-	 * Clones elem and compares it with its clone. They are expected to be similar.
+	 * Clones elem and compares it with its clone. They are expected to be
+	 * similar.<br>
+	 * <br>
+	 * <b>Note: All given {@link EObject} instances will be cloned before tests to
+	 * make sure that there are no side effects caused by the given {@link EObject}
+	 * instances changing their container.</b> <br>
+	 * <br>
 	 */
 	public void assertSimilar(EObject elem) {
 		this.assertSimilarityResult(elem, elem, Boolean.TRUE);
@@ -162,14 +186,19 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 
 	/**
 	 * Compares elem1 with elem2, expects the similarity result to be the same with
-	 * the given expected value.
+	 * the given expected value. <br>
+	 * <br>
+	 * <b>Note: All given {@link EObject} instances will be cloned before tests to
+	 * make sure that there are no side effects caused by the given {@link EObject}
+	 * instances changing their container.</b> <br>
+	 * <br>
 	 */
 	public void assertSimilarityResult(EObject elem1, EObject elem2, Boolean expectedSimilarityResult) {
 		if (expectedSimilarityResult == null) {
 			this.getLogger().debug("No expected similarity result present");
 		} else if ((!expectedSimilarityResult.booleanValue() && this.getActualEquality(elem1, elem2))) {
-			this.getLogger().debug("Elements are expected to be different" + " in "
-					+ this.getCurrentTestMethodName() + " but are similar according to EcoreUtil");
+			this.getLogger().debug("Elements are expected to be different" + " in " + this.getCurrentTestMethodName()
+					+ " but are similar according to EcoreUtil");
 		}
 
 		var objOne = this.cloneEObjWithContainers(elem1);
@@ -190,6 +219,11 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	 * <li>Compares elem1 with elem2
 	 * <li>Compares elem2 with elem1
 	 * </ol>
+	 * 
+	 * <b>Note: All given {@link EObject} instances will be cloned before tests to
+	 * make sure that there are no side effects caused by the given {@link EObject}
+	 * instances changing their container.</b> <br>
+	 * <br>
 	 * 
 	 * @param objCls  The {@link EObject} sub-class that is the subject of
 	 *                similarity checking. This parameter's purpose is providing a
@@ -215,7 +249,12 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 
 	/**
 	 * The variant of {@link #testSimilarity(EObject, EObject, Class, Object)} that
-	 * uses the same class as the given elems.
+	 * uses the same class as the given elems. <br>
+	 * <br>
+	 * <b>Note: All given {@link EObject} instances will be cloned before tests to
+	 * make sure that there are no side effects caused by the given {@link EObject}
+	 * instances changing their container.</b> <br>
+	 * <br>
 	 */
 	@SuppressWarnings("unchecked")
 	public void testSimilarity(EObject elem1, EObject elem2, Object attrKey) {
@@ -223,20 +262,30 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	}
 
 	/**
-	 * A variant of {@link #testSimilarity(EObject, EObject, Class, Object)} that constructs
-	 * a minimal second element with the given {@link IEObjectInitialiser} instance and uses it as
-	 * the second parameter in the said method.
-	 * <br><br>
+	 * A variant of {@link #testSimilarity(EObject, EObject, Class, Object)} that
+	 * constructs a minimal second element with the given
+	 * {@link IEObjectInitialiser} instance and uses it as the second parameter in
+	 * the said method. <br>
+	 * <br>
 	 * If initialiseSecondElement is set to true, constructs the second element with
-	 * {@code init.initialise(init.instantiate())}. Otherwise uses {@code init.instantiate()}.
-	 * <br><br>
-	 * Can be used to summarise the null check tests.
+	 * {@code init.initialise(init.instantiate())}. Otherwise uses
+	 * {@code init.instantiate()}. <br>
+	 * <br>
+	 * Can be used to summarise the null check tests.<br>
+	 * <br>
+	 * <b>Note: All given {@link EObject} instances will be cloned before tests to
+	 * make sure that there are no side effects caused by the given {@link EObject}
+	 * instances changing their container.</b> <br>
+	 * <br>
 	 * 
-	 * @param init The {@link IEObjectInitialiser} used in the construction of elem
-	 * @param initialiseSecondElement Denotes whether {@code init.initialise(...)} will be
-	 * used in the construction of the second element.
+	 * @param init                    The {@link IEObjectInitialiser} used in the
+	 *                                construction of elem
+	 * @param initialiseSecondElement Denotes whether {@code init.initialise(...)}
+	 *                                will be used in the construction of the second
+	 *                                element.
 	 */
-	public void testSimilarityNullCheck(EObject elem, IEObjectInitialiser init, boolean initialiseSecondElement, Class<? extends EObject> objCls, Object attrKey) {
+	public void testSimilarityNullCheck(EObject elem, IEObjectInitialiser init, boolean initialiseSecondElement,
+			Class<? extends EObject> objCls, Object attrKey) {
 		var elem2 = init.instantiate();
 
 		if (initialiseSecondElement) {
@@ -245,9 +294,22 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 
 		this.testSimilarity(elem, elem2, objCls, attrKey);
 	}
-	
+
+	/**
+	 * A variant of
+	 * {@link #testSimilarityNullCheck(EObject, IEObjectInitialiser, boolean, Class, Object)}
+	 * that computes the {@code objCls} parameter from the {@code elem}
+	 * parameter.<br>
+	 * <br>
+	 * <b>Note: All given {@link EObject} instances will be cloned before tests to
+	 * make sure that there are no side effects caused by the given {@link EObject}
+	 * instances changing their container.</b> <br>
+	 * <br>
+	 */
 	@SuppressWarnings("unchecked")
-	public void testSimilarityNullCheck(EObject elem, IEObjectInitialiser init, boolean initialiseSecondElement, Object attrKey) {
-		this.testSimilarityNullCheck(elem, init, initialiseSecondElement, (Class<? extends EObject>) elem.eClass().getInstanceClass(), attrKey);
+	public void testSimilarityNullCheck(EObject elem, IEObjectInitialiser init, boolean initialiseSecondElement,
+			Object attrKey) {
+		this.testSimilarityNullCheck(elem, init, initialiseSecondElement,
+				(Class<? extends EObject>) elem.eClass().getInstanceClass(), attrKey);
 	}
 }

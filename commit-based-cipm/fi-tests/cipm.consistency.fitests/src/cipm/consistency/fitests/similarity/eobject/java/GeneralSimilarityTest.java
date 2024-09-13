@@ -23,11 +23,15 @@ import org.emftext.language.java.containers.Module;
  * Also contains some tests for lists, from which some abstract from
  * {@link EObject} instances, whereas others make use of {@link Module}
  * instances, as they can easily be compared after their name
- * (module.getName()).
+ * ({@code module.getName()})
  * 
  * @author atora
  */
 public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
+	/**
+	 * Checks if similarity checking causes issues, if the {@link EObject} instances
+	 * on both sides are not properly initialised.
+	 */
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
 	public void testIsSimilarUninitialisedObject(IEObjectInitialiser initialiser) {
@@ -36,11 +40,17 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 
 		var res = this.isSimilar(obj1, obj2);
 
+		// FIXME: Remove the null check and deal with the cause of the issues
 		if (res != null) {
 			Assertions.assertTrue(res);
 		}
 	}
 
+	/**
+	 * Checks if similarity checking causes issues, if 2 lists each with 1
+	 * {@link EObject} instance cause issues, where the mentioned {@link EObject}
+	 * instances are not initialised properly.
+	 */
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
 	public void testAreSimilarUninitialisedSingleObject(IEObjectInitialiser initialiser) {
@@ -49,11 +59,17 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 
 		var res = this.areSimilar(List.of(obj1), List.of(obj2));
 
+		// FIXME: Remove the null check and deal with the cause of the issues
 		if (res != null) {
 			Assertions.assertTrue(res);
 		}
 	}
 
+	/**
+	 * Checks if similarity checking causes issues, if 2 lists each with 2
+	 * {@link EObject} instance cause issues, where the mentioned {@link EObject}
+	 * instances are not initialised properly.
+	 */
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
 	public void testAreSimilarUninitialisedMultipleObjects(IEObjectInitialiser initialiser) {
@@ -64,6 +80,7 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 
 		var res = this.areSimilar(List.of(obj11, obj12), List.of(obj21, obj22));
 
+		// FIXME: Remove the null check and deal with the cause of the issues
 		if (res != null) {
 			Assertions.assertTrue(res);
 		}
@@ -193,6 +210,8 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 	 * <br>
 	 * Implemented by cloning and comparing 2
 	 * {@link org.emftext.language.java.containers.Module}.
+	 * 
+	 * FIXME: Tidy up this test method
 	 */
 	@Test
 	public void testListSameSizeDifferentElements() {
@@ -280,6 +299,8 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 	 * <br>
 	 * Implemented by cloning and comparing 2
 	 * {@link org.emftext.language.java.containers.Module}.
+	 * 
+	 * FIXME: Tidy up this test method
 	 */
 	@Test
 	public void testListSameElementsSameOrder() {
@@ -312,6 +333,8 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 	 * <br>
 	 * Implemented by cloning and comparing 2
 	 * {@link org.emftext.language.java.containers.Module}.
+	 * 
+	 * FIXME: Tidy up this test method
 	 */
 	@Test
 	public void testListSameElementsDifferentOrder() {
@@ -375,6 +398,9 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 		Assertions.assertTrue(this.areSimilar(resOne.getContents(), resTwo.getContents()));
 	}
 
+	/**
+	 * Checks if similarity checking causes issues, if one side is null.
+	 */
 	@Test
 	public void testIsSimilarOneNull() {
 		var initialiser = new ModuleInitialiser();
@@ -384,11 +410,18 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 		Assertions.assertFalse(this.isSimilar(obj, null));
 	}
 
+	/**
+	 * Checks if similarity checking causes issues, if both sides are null.
+	 */
 	@Test
 	public void testIsSimilarBothNull() {
 		Assertions.assertTrue(this.isSimilar(null, null));
 	}
 
+	/**
+	 * Checks if similarity checking lists of {@link EObject} instances causes
+	 * issues, if one side is null.
+	 */
 	@Test
 	public void testAreSimilarOneNull() {
 		var initialiser = new ModuleInitialiser();
@@ -398,11 +431,19 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 		Assertions.assertFalse(this.areSimilar(List.of(obj), null));
 	}
 
+	/**
+	 * Checks if similarity checking lists of {@link EObject} instances causes
+	 * issues, if both sides are null.
+	 */
 	@Test
 	public void testAreSimilarBothNull() {
 		Assertions.assertTrue(this.areSimilar(null, null));
 	}
 
+	/**
+	 * Checks if similarity checking lists of {@link EObject} instances causes
+	 * issues, if one of the lists contains a null element.
+	 */
 	@Test
 	public void testAreSimilarOneNullElement() {
 		var initialiser = new ModuleInitialiser();
@@ -415,6 +456,10 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 		Assertions.assertFalse(this.areSimilar(list, List.of(obj)));
 	}
 
+	/**
+	 * Checks if similarity checking lists of {@link EObject} instances causes
+	 * issues, if both lists each contain a null element.
+	 */
 	@Test
 	public void testAreSimilarBothNullElement() {
 		var list1 = new ArrayList<Object>();

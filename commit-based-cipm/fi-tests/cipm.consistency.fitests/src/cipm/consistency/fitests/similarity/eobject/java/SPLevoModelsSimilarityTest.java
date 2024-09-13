@@ -66,6 +66,11 @@ public class SPLevoModelsSimilarityTest extends AbstractEObjectJavaSimilarityTes
 	 */
 	private static Path targetPath = Path.of(new File("").getAbsoluteFile().getAbsolutePath() + File.separator + "testModels");
 
+	/**
+	 * Discovers the sub-directories under the root folder of SPLevo tests,
+	 * which contain Java source files in folders with certain names, and
+	 * adds them to a list.
+	 */
 	@BeforeAll
 	public static void setUpBeforeAll() {
 		modelDirs.addAll(discoverFiles(new File(splevoModelImplPath)));

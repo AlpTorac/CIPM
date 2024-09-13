@@ -122,11 +122,13 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 		this.similarityValues.put(se, expectedSimResult);
 	}
 
+	@Override
 	public void addSimilarityEntry(Class<? extends Object> objCls, Object attr,
 			Boolean expectedSimResult) {
 		this.addEntry(this.createEntry(objCls, attr), expectedSimResult);
 	}
 
+	@Override
 	public void removeSimilarityEntry(Class<? extends Object> objCls, Object attr) {
 		var se = this.findEntry(objCls, attr);
 
@@ -134,12 +136,14 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 			this.similarityValues.remove(se);
 	}
 
+	@Override
 	public Boolean getExpectedSimilarityResult(Class<? extends Object> objCls, Object attr) {
 		var se = this.findEntry(objCls, attr);
 
 		return se == null ? this.getDefaultSimilarityResult() : this.similarityValues.get(se);
 	}
 
+	@Override
 	public void clear() {
 		this.similarityValues.clear();
 	}
