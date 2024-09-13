@@ -81,10 +81,10 @@ public interface IInitialiser {
 	}
 
 	/**
-	 * A variant of {@link #declaresModificationMethods(Class)} for {@link EObject}
+	 * A variant of {@link #declaresModificationMethods(Class)} for {@link IInitialiser}
 	 * instances. <br>
 	 * <br>
-	 * Extracts {@link EObject} class object from init.
+	 * Uses the type of the given parameter init.
 	 */
 	public static boolean declaresModificationMethods(IInitialiser init) {
 		return declaresModificationMethods(init.getClass());
