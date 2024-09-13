@@ -30,7 +30,7 @@ import cipm.consistency.fitests.similarity.params.IInitialiserParameterAdaptatio
  * can run without exceptions being thrown, due to objects they instantiate
  * missing certain components.
  */
-public class EObjectInitialiserParameterAdaptationStrategy implements IInitialiserParameterAdaptationStrategy {
+public class EObjectJavaInitialiserParameterAdaptationStrategy implements IInitialiserParameterAdaptationStrategy {
 
 	@Override
 	public void adaptInitialisers(Collection<IInitialiser> inits) {

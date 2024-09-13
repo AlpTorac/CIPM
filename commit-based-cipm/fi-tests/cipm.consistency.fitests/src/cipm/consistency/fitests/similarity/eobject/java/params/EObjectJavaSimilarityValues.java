@@ -70,8 +70,8 @@ import cipm.consistency.fitests.similarity.params.ISimilarityValues;
  *      below.
  * @see {@link AbstractSimilarityValues}
  */
-public class EObjectSimilarityValues extends AbstractSimilarityValues {
-	public EObjectSimilarityValues() {
+public class EObjectJavaSimilarityValues extends AbstractSimilarityValues {
+	public EObjectJavaSimilarityValues() {
 		/*
 		 * setDefaultSimilarityResult(val): If there are no addSimilarityEntry calls
 		 * below for a certain attribute, the similarity value will be val.

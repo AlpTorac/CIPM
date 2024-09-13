@@ -7,13 +7,13 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.members.IExceptionThrowerInitialiser;
-import cipm.consistency.fitests.similarity.eobject.java.params.EObjectInitialiserParameters;
+import cipm.consistency.fitests.similarity.eobject.java.params.EObjectJavaInitialiserParameters;
 
 public class ExceptionThrowerTestParams implements ArgumentsProvider {
 
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
-		return new EObjectInitialiserParameters().getAllInitialisersBySuper(IExceptionThrowerInitialiser.class).stream()
+		return new EObjectJavaInitialiserParameters().getAllInitialisersBySuper(IExceptionThrowerInitialiser.class).stream()
 				.map((i) -> Arguments.of(i));
 	}
 

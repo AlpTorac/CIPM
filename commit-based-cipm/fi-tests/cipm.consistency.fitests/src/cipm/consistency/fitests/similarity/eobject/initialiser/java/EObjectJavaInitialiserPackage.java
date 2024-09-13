@@ -30,7 +30,7 @@ import cipm.consistency.fitests.similarity.initialiser.IInitialiserPackage;
  * 
  * @author atora
  */
-public class EObjectInitialiserPackage implements IInitialiserPackage {
+public class EObjectJavaInitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiserPackage> getSubPackages() {
 		return this.initCol(new IInitialiserPackage[] { new AnnotationsInitialiserPackage(),

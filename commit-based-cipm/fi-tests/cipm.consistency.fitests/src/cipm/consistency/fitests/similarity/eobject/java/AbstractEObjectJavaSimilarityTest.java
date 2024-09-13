@@ -7,8 +7,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
 import cipm.consistency.fitests.similarity.SimilarityCheckerContainerWithProvider;
 import cipm.consistency.fitests.similarity.eobject.AbstractEObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.java.params.EObjectInitialiserParameters;
-import cipm.consistency.fitests.similarity.eobject.java.params.EObjectSimilarityValues;
+import cipm.consistency.fitests.similarity.eobject.java.params.EObjectJavaInitialiserParameters;
+import cipm.consistency.fitests.similarity.eobject.java.params.EObjectJavaSimilarityValues;
 import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvider;
 
 /**
@@ -48,7 +48,7 @@ public abstract class AbstractEObjectJavaSimilarityTest extends AbstractEObjectS
 	}
 
 	protected void setupInitialiserTestSettingsProvider() {
-		InitialiserTestSettingsProvider.getInstance().setParameters(new EObjectInitialiserParameters());
-		InitialiserTestSettingsProvider.getInstance().setSimilarityValues(new EObjectSimilarityValues());
+		InitialiserTestSettingsProvider.getInstance().setParameters(new EObjectJavaInitialiserParameters());
+		InitialiserTestSettingsProvider.getInstance().setSimilarityValues(new EObjectJavaSimilarityValues());
 	}
 }

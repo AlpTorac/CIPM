@@ -7,12 +7,12 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.imports.IStaticImportInitialiser;
-import cipm.consistency.fitests.similarity.eobject.java.params.EObjectInitialiserParameters;
+import cipm.consistency.fitests.similarity.eobject.java.params.EObjectJavaInitialiserParameters;
 
 public class StaticImportTestParams implements ArgumentsProvider {
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
-		return new EObjectInitialiserParameters().getAllInitialisersBySuper(IStaticImportInitialiser.class).stream()
+		return new EObjectJavaInitialiserParameters().getAllInitialisersBySuper(IStaticImportInitialiser.class).stream()
 				.map((i) -> Arguments.of(i));
 	}
 }

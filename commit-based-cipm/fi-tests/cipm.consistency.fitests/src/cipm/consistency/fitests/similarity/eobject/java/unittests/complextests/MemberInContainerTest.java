@@ -13,7 +13,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.members.IMemberContainerInitialiser;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.members.IMemberInitialiser;
-import cipm.consistency.fitests.similarity.eobject.java.params.EObjectInitialiserParameters;
+import cipm.consistency.fitests.similarity.eobject.java.params.EObjectJavaInitialiserParameters;
 
 /**
  * Tests whether {@link MemberContainer} implementors' similarity is computed as
@@ -41,14 +41,14 @@ import cipm.consistency.fitests.similarity.eobject.java.params.EObjectInitialise
 public class MemberInContainerTest extends AbstractEObjectJavaSimilarityTest {
 	private static List<IMemberInitialiser> getAllMemberInitInstances() {
 		var res = new ArrayList<IMemberInitialiser>();
-		var inits = new EObjectInitialiserParameters().getAdaptedInitialisersBySuper(IMemberInitialiser.class);
+		var inits = new EObjectJavaInitialiserParameters().getAdaptedInitialisersBySuper(IMemberInitialiser.class);
 		inits.forEach((i) -> res.add(((IMemberInitialiser) i)));
 		return res;
 	}
 
 	private static List<IMemberContainerInitialiser> getAllMemberContainerInitInstances() {
 		var res = new ArrayList<IMemberContainerInitialiser>();
-		var inits = new EObjectInitialiserParameters().getAdaptedInitialisersBySuper(IMemberContainerInitialiser.class);
+		var inits = new EObjectJavaInitialiserParameters().getAdaptedInitialisersBySuper(IMemberContainerInitialiser.class);
 		inits.forEach((i) -> res.add(((IMemberContainerInitialiser) i)));
 		return res;
 	}
