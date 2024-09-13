@@ -40,5 +40,5 @@ public interface ISimilarityCheckerContainer {
 	/**
 	 * Delegates similarity checking
 	 */
-	public Boolean areSimilar(Collection<Object> elements1, Collection<Object> elements2);
+	public Boolean areSimilar(Collection<?> elements1, Collection<?> elements2);
 }

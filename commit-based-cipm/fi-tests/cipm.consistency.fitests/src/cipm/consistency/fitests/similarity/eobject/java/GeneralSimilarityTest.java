@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import cipm.consistency.fitests.similarity.eobject.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.containers.ModuleInitialiser;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.containers.PackageInitialiser;
-import cipm.consistency.fitests.similarity.java.AbstractSimilarityTest;
+import cipm.consistency.fitests.similarity.java.AbstractJavaSimilarityTest;
 
 import org.emftext.language.java.containers.Module;
 
@@ -27,7 +27,7 @@ import org.emftext.language.java.containers.Module;
  * 
  * @author atora
  */
-public class GeneralSimilarityTest extends AbstractSimilarityTest {
+public class GeneralSimilarityTest extends AbstractJavaSimilarityTest {
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
 	public void testIsSimilarUninitialisedObject(EObjectInitialiser initialiser) {

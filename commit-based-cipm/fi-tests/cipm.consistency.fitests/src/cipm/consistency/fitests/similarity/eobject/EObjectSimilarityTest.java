@@ -15,16 +15,16 @@ import org.junit.jupiter.api.TestInfo;
 import cipm.consistency.fitests.similarity.eobject.initialiser.EObjectInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.params.EObjectInitialiserParameters;
 import cipm.consistency.fitests.similarity.eobject.java.params.EObjectSimilarityValues;
-import cipm.consistency.fitests.similarity.java.AbstractSimilarityTest;
+import cipm.consistency.fitests.similarity.java.AbstractJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvider;
 
 /**
- * Extends {@link AbstractSimilarityTest} with similarity checking methods to
+ * Extends {@link AbstractJavaSimilarityTest} with similarity checking methods to
  * avoid code duplication.
  * 
  * @author atora
  */
-public class EObjectSimilarityTest extends AbstractSimilarityTest {
+public class EObjectSimilarityTest extends AbstractJavaSimilarityTest {
 	@BeforeAll
 	public static void setUpBeforeClass() {
 		InitialiserTestSettingsProvider.initialise();

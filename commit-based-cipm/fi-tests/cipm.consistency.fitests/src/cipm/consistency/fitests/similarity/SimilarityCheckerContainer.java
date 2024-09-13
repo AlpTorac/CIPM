@@ -6,7 +6,7 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
 
 public class SimilarityCheckerContainer extends AbstractSimilarityCheckerContainer {
 	private ISimilarityChecker sc;
-	
+
 	public ISimilarityChecker getSimilarityChecker() {
 		if (this.sc == null) {
 			this.sc = this.getSimilarityCheckerProvider().createSC();
@@ -14,7 +14,7 @@ public class SimilarityCheckerContainer extends AbstractSimilarityCheckerContain
 
 		return this.sc;
 	}
-	
+
 	@Override
 	public void resetSimilarityChecker() {
 		this.sc = this.getSimilarityChecker();
@@ -30,8 +30,8 @@ public class SimilarityCheckerContainer extends AbstractSimilarityCheckerContain
 	/**
 	 * Delegates similarity checking to the underlying {@link ISimilarityChecker}.
 	 */
-	public Boolean areSimilar(Collection<Object> elements1,
-			Collection<Object> elements2) {
-		return this.getSimilarityChecker().areSimilar(elements1, elements2);
+	@SuppressWarnings("unchecked")
+	public Boolean areSimilar(Collection<?> elements1, Collection<?> elements2) {
+		return this.getSimilarityChecker().areSimilar((Collection<Object>) elements1, (Collection<Object>) elements2);
 	}
 }
