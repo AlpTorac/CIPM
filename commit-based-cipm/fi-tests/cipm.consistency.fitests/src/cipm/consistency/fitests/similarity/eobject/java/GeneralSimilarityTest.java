@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.EObjectInitialiser;
+import cipm.consistency.fitests.similarity.eobject.initialiser.IEObjectInitialiser;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.containers.ModuleInitialiser;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.containers.PackageInitialiser;
 
@@ -29,7 +29,7 @@ import org.emftext.language.java.containers.Module;
 public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public void testIsSimilarUninitialisedObject(EObjectInitialiser initialiser) {
+	public void testIsSimilarUninitialisedObject(IEObjectInitialiser initialiser) {
 		var obj1 = initialiser.instantiate();
 		var obj2 = initialiser.instantiate();
 
@@ -42,7 +42,7 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public void testAreSimilarUninitialisedSingleObject(EObjectInitialiser initialiser) {
+	public void testAreSimilarUninitialisedSingleObject(IEObjectInitialiser initialiser) {
 		var obj1 = initialiser.instantiate();
 		var obj2 = initialiser.instantiate();
 
@@ -55,7 +55,7 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public void testAreSimilarUninitialisedMultipleObjects(EObjectInitialiser initialiser) {
+	public void testAreSimilarUninitialisedMultipleObjects(IEObjectInitialiser initialiser) {
 		var obj11 = initialiser.instantiate();
 		var obj12 = initialiser.instantiate();
 		var obj21 = initialiser.instantiate();
@@ -73,7 +73,7 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 	 */
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public void testIsSimilarSameReference(EObjectInitialiser initialiser) {
+	public void testIsSimilarSameReference(IEObjectInitialiser initialiser) {
 		var obj11 = initialiser.instantiate();
 
 		Assertions.assertTrue(this.isSimilar(obj11, obj11));
@@ -85,7 +85,7 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 	 */
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public void testAreSimilarSameReference(EObjectInitialiser initialiser) {
+	public void testAreSimilarSameReference(IEObjectInitialiser initialiser) {
 		var obj11 = initialiser.instantiate();
 
 		var list1 = List.of(obj11);
@@ -101,7 +101,7 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 	 */
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public void testListSameReference(EObjectInitialiser initialiser) {
+	public void testListSameReference(IEObjectInitialiser initialiser) {
 		var obj11 = initialiser.instantiate();
 		var obj12 = initialiser.instantiate();
 
@@ -118,7 +118,7 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 	 */
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public void testOneListSubList(EObjectInitialiser initialiser) {
+	public void testOneListSubList(IEObjectInitialiser initialiser) {
 		var obj11 = initialiser.instantiate();
 		var obj11Copy = initialiser.clone(obj11);
 
@@ -140,7 +140,7 @@ public class GeneralSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 	 */
 	@ParameterizedTest
 	@ArgumentsSource(GeneralTestParams.class)
-	public void testOneListEmpty(EObjectInitialiser initialiser) {
+	public void testOneListEmpty(IEObjectInitialiser initialiser) {
 		var obj11 = initialiser.instantiate();
 
 		List<EObject> list1 = List.of();

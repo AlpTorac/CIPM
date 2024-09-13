@@ -16,7 +16,7 @@ import cipm.consistency.fitests.similarity.initialiser.IInitialiserAdapterStrate
  * 
  * @author atora
  */
-public interface EObjectInitialiser extends IInitialiser {
+public interface IEObjectInitialiser extends IInitialiser {
 	/**
 	 * Clones the given {@link EObject} and its contents. <br>
 	 * <br>
@@ -65,5 +65,5 @@ public interface EObjectInitialiser extends IInitialiser {
 	public EObject instantiate();
 
 	@Override
-	public EObjectInitialiser newInitialiser();
+	public IEObjectInitialiser newInitialiser();
 }
