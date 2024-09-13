@@ -5,10 +5,10 @@ import org.emftext.language.java.references.StringReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.references.StringReferenceInitialiser;
 
-public class StringReferenceTest extends EObjectSimilarityTest {
+public class StringReferenceTest extends AbstractEObjectJavaSimilarityTest {
 	protected StringReference initElement(String val) {
 		var srInit = new StringReferenceInitialiser();
 		var sr = srInit.instantiate();

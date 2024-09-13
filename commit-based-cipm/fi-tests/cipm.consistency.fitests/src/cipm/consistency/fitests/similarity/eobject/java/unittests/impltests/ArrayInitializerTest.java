@@ -6,11 +6,11 @@ import org.emftext.language.java.arrays.ArrayInitializer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.arrays.ArrayInitializerInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesExpressions;
 
-public class ArrayInitializerTest extends EObjectSimilarityTest implements UsesExpressions {
+public class ArrayInitializerTest extends AbstractEObjectJavaSimilarityTest implements UsesExpressions {
 	protected ArrayInitializer initElement(ArrayInitializationValue[] initVals) {
 		var aiInit = new ArrayInitializerInitialiser();
 		var ai = aiInit.instantiate();

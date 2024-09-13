@@ -1,6 +1,5 @@
-package cipm.consistency.fitests.similarity.java;
+package cipm.consistency.fitests.similarity.eobject;
 
-import java.io.File;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
@@ -10,35 +9,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 
 import cipm.consistency.fitests.similarity.AbstractSimilarityTest;
-import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
-import cipm.consistency.fitests.similarity.SimilarityCheckerContainer;
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.ResourceHelper;
-import cipm.consistency.fitests.similarity.eobject.java.JavaSimilarityCheckerProvider;
 
-/**
- * The abstract test class that contains test elements needed in similarity
- * checking tests.
- * 
- * @author atora
- * @see {@link EObjectSimilarityTest}
- */
-public abstract class AbstractJavaSimilarityTest extends AbstractSimilarityTest {
-	/**
-	 * @return The absolute path, under which the {@link Resource} files will be
-	 *         saved.
-	 */
-	public static String getAbsoluteResourceRootPath() {
-		return new File("").getAbsoluteFile().getAbsolutePath() + File.separator + "testModels";
-	}
-
-	/**
-	 * @return The extension of the {@link Resource} files, if they are saved.
-	 */
-	public static String getResourceFileExtension() {
-		return "javaxmi";
-	}
-
+public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityTest {
 	private ResourceHelper resHelper;
 
 	/**
@@ -63,26 +35,13 @@ public abstract class AbstractJavaSimilarityTest extends AbstractSimilarityTest 
 	}
 
 	/**
-	 * Creates the concrete {@link ISimilarityCheckerContainer} that will be used to
-	 * store the {@link ISimilarityChecker} under test. <br>
-	 * <br>
-	 * If necessary, it can be overridden in tests to change the said similarity
-	 * checker during set up.
-	 */
-	protected ISimilarityCheckerContainer initSCC() {
-		var scc = new SimilarityCheckerContainer();
-		scc.setSimilarityCheckerProvider(new JavaSimilarityCheckerProvider());
-		return scc;
-	}
-
-	/**
 	 * Sets up the {@link ResourceHelper} instance that will be used.
 	 */
 	protected void setUpResourceHelper() {
 		this.resHelper = new ResourceHelper();
 
 		this.getResourceHelper().setResourceSaveRootPath(getAbsoluteResourceRootPath());
-		this.getResourceHelper().setResourceFileExtension(getResourceFileExtension());
+		this.getResourceHelper().setResourceFileExtension(this.getResourceFileExtension());
 	}
 
 	protected ResourceHelper getResourceHelper() {
@@ -111,4 +70,15 @@ public abstract class AbstractJavaSimilarityTest extends AbstractSimilarityTest 
 	public String getResourceFileName() {
 		return this.getCurrentTestClassName() + "_" + this.getCurrentTestMethodName();
 	}
+	
+	/**
+	 * @return The absolute path, under which the {@link Resource} files will be
+	 *         saved.
+	 */
+	public abstract String getAbsoluteResourceRootPath();
+
+	/**
+	 * @return The extension of the {@link Resource} files, if they are saved.
+	 */
+	public abstract String getResourceFileExtension();
 }

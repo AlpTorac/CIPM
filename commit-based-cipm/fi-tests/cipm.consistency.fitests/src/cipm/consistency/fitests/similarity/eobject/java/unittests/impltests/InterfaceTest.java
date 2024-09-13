@@ -6,11 +6,11 @@ import org.emftext.language.java.types.TypeReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.classifiers.InterfaceInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesTypeReferences;
 
-public class InterfaceTest extends EObjectSimilarityTest implements UsesTypeReferences {
+public class InterfaceTest extends AbstractEObjectJavaSimilarityTest implements UsesTypeReferences {
 	protected Interface initElement(TypeReference[] defExts, TypeReference[] exts) {
 		var intfcInit = new InterfaceInitialiser();
 		var intfc = intfcInit.instantiate();

@@ -6,11 +6,11 @@ import org.emftext.language.java.annotations.SingleAnnotationParameter;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.annotations.SingleAnnotationParameterInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesAnnotationValues;
 
-public class SingleAnnotationParameterTest extends EObjectSimilarityTest implements UsesAnnotationValues {
+public class SingleAnnotationParameterTest extends AbstractEObjectJavaSimilarityTest implements UsesAnnotationValues {
 	protected SingleAnnotationParameter initElement(AnnotationValue val) {
 		var sapInit = new SingleAnnotationParameterInitialiser();
 		var sap = sapInit.instantiate();

@@ -6,11 +6,11 @@ import org.emftext.language.java.statements.StatementsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.NormalSwitchCaseInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesExpressions;
 
-public class NormalSwitchCaseTest extends EObjectSimilarityTest implements UsesExpressions {
+public class NormalSwitchCaseTest extends AbstractEObjectJavaSimilarityTest implements UsesExpressions {
 	protected NormalSwitchCase initElement(Expression[] additionalConds) {
 		var nscInit = new NormalSwitchCaseInitialiser();
 		var nsc = nscInit.instantiate();

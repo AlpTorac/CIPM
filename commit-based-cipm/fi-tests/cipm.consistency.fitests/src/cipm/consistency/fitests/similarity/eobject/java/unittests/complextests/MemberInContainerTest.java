@@ -10,7 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.members.IMemberContainerInitialiser;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.members.IMemberInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.params.EObjectInitialiserParameters;
@@ -38,7 +38,7 @@ import cipm.consistency.fitests.similarity.eobject.java.params.EObjectInitialise
  * 
  * @author atora
  */
-public class MemberInContainerTest extends EObjectSimilarityTest {
+public class MemberInContainerTest extends AbstractEObjectJavaSimilarityTest {
 	private static List<IMemberInitialiser> getAllMemberInitInstances() {
 		var res = new ArrayList<IMemberInitialiser>();
 		var inits = new EObjectInitialiserParameters().getAdaptedInitialisersBySuper(IMemberInitialiser.class);

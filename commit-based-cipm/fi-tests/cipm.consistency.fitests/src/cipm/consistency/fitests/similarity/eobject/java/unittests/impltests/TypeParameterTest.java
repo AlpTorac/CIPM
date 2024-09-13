@@ -6,12 +6,12 @@ import org.emftext.language.java.types.TypeReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.generics.TypeParameterInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesNames;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesTypeReferences;
 
-public class TypeParameterTest extends EObjectSimilarityTest implements UsesTypeReferences, UsesNames {
+public class TypeParameterTest extends AbstractEObjectJavaSimilarityTest implements UsesTypeReferences, UsesNames {
 	protected TypeParameter initElement(TypeReference[] extTypes) {
 		var tpInit = new TypeParameterInitialiser();
 		var tp = tpInit.instantiate();

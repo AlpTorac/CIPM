@@ -6,11 +6,11 @@ import org.emftext.language.java.modules.ModulesPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.modules.ModuleReferenceInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesModules;
 
-public class ModuleReferenceTest extends EObjectSimilarityTest implements UsesModules {
+public class ModuleReferenceTest extends AbstractEObjectJavaSimilarityTest implements UsesModules {
 	protected ModuleReference initElement(Module target) {
 		var mrInit = new ModuleReferenceInitialiser();
 		var mr = mrInit.instantiate();

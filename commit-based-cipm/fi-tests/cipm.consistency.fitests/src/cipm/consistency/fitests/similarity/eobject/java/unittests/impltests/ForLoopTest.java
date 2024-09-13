@@ -7,11 +7,11 @@ import org.emftext.language.java.statements.ForLoopInitializer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.ForLoopInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesExpressions;
 
-public class ForLoopTest extends EObjectSimilarityTest implements UsesExpressions {
+public class ForLoopTest extends AbstractEObjectJavaSimilarityTest implements UsesExpressions {
 	protected ForLoop initElement(ForLoopInitializer flInit, Expression[] updateExprs) {
 		var init = new ForLoopInitialiser();
 		var fl = init.instantiate();

@@ -6,11 +6,11 @@ import org.emftext.language.java.statements.StatementsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.CatchBlockInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesParameters;
 
-public class CatchBlockTest extends EObjectSimilarityTest implements UsesParameters {
+public class CatchBlockTest extends AbstractEObjectJavaSimilarityTest implements UsesParameters {
 	protected CatchBlock initElement(OrdinaryParameter param) {
 		var cbInit = new CatchBlockInitialiser();
 		var cb = cbInit.instantiate();

@@ -6,12 +6,12 @@ import org.emftext.language.java.annotations.AnnotationsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.annotations.AnnotationParameterListInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesAnnotationAttributeSettings;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesAnnotationParameters;
 
-public class AnnotationParameterListTest extends EObjectSimilarityTest
+public class AnnotationParameterListTest extends AbstractEObjectJavaSimilarityTest
 		implements UsesAnnotationParameters, UsesAnnotationAttributeSettings {
 	protected AnnotationParameterList initElement(AnnotationAttributeSetting[] annoAttrSettingsArr) {
 		var aplInit = new AnnotationParameterListInitialiser();

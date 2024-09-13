@@ -6,11 +6,11 @@ import org.emftext.language.java.types.TypesPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.types.ClassifierReferenceInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesConcreteClassifiers;
 
-public class ClassifierReferenceTest extends EObjectSimilarityTest implements UsesConcreteClassifiers {
+public class ClassifierReferenceTest extends AbstractEObjectJavaSimilarityTest implements UsesConcreteClassifiers {
 	protected ClassifierReference initElement(Classifier target) {
 		var init = new ClassifierReferenceInitialiser();
 		var res = init.instantiate();

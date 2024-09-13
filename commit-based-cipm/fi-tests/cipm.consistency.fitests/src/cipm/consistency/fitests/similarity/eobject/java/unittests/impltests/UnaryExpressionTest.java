@@ -7,11 +7,11 @@ import org.emftext.language.java.operators.UnaryOperator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.expressions.UnaryExpressionInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesExpressions;
 
-public class UnaryExpressionTest extends EObjectSimilarityTest implements UsesExpressions {
+public class UnaryExpressionTest extends AbstractEObjectJavaSimilarityTest implements UsesExpressions {
 	protected UnaryExpression initElement(UnaryExpressionChild child, UnaryOperator[] ops) {
 		var ueInit = new UnaryExpressionInitialiser();
 		var ue = ueInit.instantiate();

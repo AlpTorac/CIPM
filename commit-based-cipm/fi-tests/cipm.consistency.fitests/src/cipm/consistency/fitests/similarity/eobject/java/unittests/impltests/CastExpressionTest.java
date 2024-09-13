@@ -8,7 +8,7 @@ import org.emftext.language.java.types.TypeReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.expressions.CastExpressionInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesExpressions;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesTypeReferences;
@@ -19,7 +19,7 @@ import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesTypeRefere
  * 
  * @author atora
  */
-public class CastExpressionTest extends EObjectSimilarityTest implements UsesExpressions, UsesTypeReferences {
+public class CastExpressionTest extends AbstractEObjectJavaSimilarityTest implements UsesExpressions, UsesTypeReferences {
 	protected CastExpression initElement(TypeReference[] additionalBoundsArr, MultiplicativeExpressionChild child,
 			Expression generalChild) {
 		var ceInit = new CastExpressionInitialiser();

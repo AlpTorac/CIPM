@@ -7,11 +7,11 @@ import org.emftext.language.java.references.Reference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.expressions.PrimaryExpressionReferenceExpressionInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesExpressions;
 
-public class PrimaryExpressionReferenceExpressionTest extends EObjectSimilarityTest implements UsesExpressions {
+public class PrimaryExpressionReferenceExpressionTest extends AbstractEObjectJavaSimilarityTest implements UsesExpressions {
 	protected PrimaryExpressionReferenceExpression initElement(MethodReferenceExpressionChild child, Reference metRef) {
 		var pereInit = new PrimaryExpressionReferenceExpressionInitialiser();
 		var pere = pereInit.instantiate();

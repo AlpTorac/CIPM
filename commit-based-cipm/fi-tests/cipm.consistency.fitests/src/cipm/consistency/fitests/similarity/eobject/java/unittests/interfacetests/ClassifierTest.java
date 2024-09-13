@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.classifiers.IClassifierInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesImports;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesPackageImports;
@@ -19,7 +19,7 @@ import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesPackageImp
  * 
  * @author atora
  */
-public class ClassifierTest extends EObjectSimilarityTest implements UsesImports, UsesPackageImports {
+public class ClassifierTest extends AbstractEObjectJavaSimilarityTest implements UsesImports, UsesPackageImports {
 	protected Classifier initElement(IClassifierInitialiser init, Import[] imps, PackageImport[] pImps) {
 
 		var result = init.instantiate();

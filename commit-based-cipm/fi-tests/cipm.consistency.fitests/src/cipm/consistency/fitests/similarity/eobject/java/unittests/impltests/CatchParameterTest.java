@@ -6,11 +6,11 @@ import org.emftext.language.java.types.TypeReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.parameters.CatchParameterInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesTypeReferences;
 
-public class CatchParameterTest extends EObjectSimilarityTest implements UsesTypeReferences {
+public class CatchParameterTest extends AbstractEObjectJavaSimilarityTest implements UsesTypeReferences {
 	protected CatchParameter initElement(TypeReference[] trefs) {
 		var cpInit = new CatchParameterInitialiser();
 		var cp = cpInit.instantiate();

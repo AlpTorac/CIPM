@@ -7,12 +7,12 @@ import org.emftext.language.java.types.TypeReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.parameters.ReceiverParameterInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesLiterals;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesTypeReferences;
 
-public class ReceiverParameterTest extends EObjectSimilarityTest implements UsesTypeReferences, UsesLiterals {
+public class ReceiverParameterTest extends AbstractEObjectJavaSimilarityTest implements UsesTypeReferences, UsesLiterals {
 	protected ReceiverParameter initElement(This thisRef, TypeReference otRef) {
 		var rpInit = new ReceiverParameterInitialiser();
 		var rp = rpInit.instantiate();

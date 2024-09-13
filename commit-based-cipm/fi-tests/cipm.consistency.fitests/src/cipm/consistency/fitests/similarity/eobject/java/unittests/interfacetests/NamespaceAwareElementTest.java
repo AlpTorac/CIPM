@@ -6,10 +6,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.commons.INamespaceAwareElementInitialiser;
 
-public class NamespaceAwareElementTest extends EObjectSimilarityTest {
+public class NamespaceAwareElementTest extends AbstractEObjectJavaSimilarityTest {
 	private final String ns11 = "ns11";
 	private final String ns12 = "ns12";
 	private final String ns13 = "ns13";

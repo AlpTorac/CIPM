@@ -6,11 +6,11 @@ import org.emftext.language.java.members.MembersPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.members.FieldInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesAdditionalFields;
 
-public class FieldTest extends EObjectSimilarityTest implements UsesAdditionalFields {
+public class FieldTest extends AbstractEObjectJavaSimilarityTest implements UsesAdditionalFields {
 	protected Field initElement(AdditionalField[] additionalFields) {
 		var fieldInit = new FieldInitialiser();
 		var field = fieldInit.instantiate();

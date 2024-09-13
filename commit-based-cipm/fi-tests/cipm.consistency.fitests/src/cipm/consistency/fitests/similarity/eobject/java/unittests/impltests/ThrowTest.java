@@ -6,11 +6,11 @@ import org.emftext.language.java.statements.Throw;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.ThrowInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesExpressions;
 
-public class ThrowTest extends EObjectSimilarityTest implements UsesExpressions {
+public class ThrowTest extends AbstractEObjectJavaSimilarityTest implements UsesExpressions {
 	protected Throw initElement(Expression throwable) {
 		var thInit = new ThrowInitialiser();
 		var th = thInit.instantiate();

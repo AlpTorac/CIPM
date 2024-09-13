@@ -5,10 +5,10 @@ import org.emftext.language.java.literals.LiteralsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.DecimalDoubleLiteralInitialiser;
 
-public class DecimalDoubleLiteralTest extends EObjectSimilarityTest {
+public class DecimalDoubleLiteralTest extends AbstractEObjectJavaSimilarityTest {
 	protected DecimalDoubleLiteral initElement(double val) {
 		var init = new DecimalDoubleLiteralInitialiser();
 		var lit = init.instantiate();

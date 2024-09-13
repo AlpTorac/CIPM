@@ -7,13 +7,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.members.IMemberContainerInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesConcreteClassifiers;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesFields;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesMethods;
 
-public class MemberContainerTest extends EObjectSimilarityTest
+public class MemberContainerTest extends AbstractEObjectJavaSimilarityTest
 		implements UsesMethods, UsesFields, UsesConcreteClassifiers {
 	protected MemberContainer initElement(IMemberContainerInitialiser init, Member[] members, Member[] defMembers) {
 		MemberContainer result = init.instantiate();

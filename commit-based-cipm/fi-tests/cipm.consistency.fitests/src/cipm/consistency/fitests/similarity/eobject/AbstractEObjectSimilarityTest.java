@@ -13,18 +13,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 
 import cipm.consistency.fitests.similarity.eobject.initialiser.EObjectInitialiser;
-import cipm.consistency.fitests.similarity.eobject.java.params.EObjectInitialiserParameters;
-import cipm.consistency.fitests.similarity.eobject.java.params.EObjectSimilarityValues;
-import cipm.consistency.fitests.similarity.java.AbstractJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvider;
 
-/**
- * Extends {@link AbstractJavaSimilarityTest} with similarity checking methods to
- * avoid code duplication.
- * 
- * @author atora
- */
-public class EObjectSimilarityTest extends AbstractJavaSimilarityTest {
+public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimilarityTest {
 	@BeforeAll
 	public static void setUpBeforeClass() {
 		InitialiserTestSettingsProvider.initialise();
@@ -41,18 +32,15 @@ public class EObjectSimilarityTest extends AbstractJavaSimilarityTest {
 	@AfterEach
 	@Override
 	public void tearDown() {
-		super.tearDown();
-
 		this.resetInitialiserTestSettingsProvider();
+
+		super.tearDown();
 	}
 
 	/**
 	 * Prepares {@link InitialiserTestSettingsProvider} for individual tests.
 	 */
-	protected void setupInitialiserTestSettingsProvider() {
-		InitialiserTestSettingsProvider.getInstance().setParameters(new EObjectInitialiserParameters());
-		InitialiserTestSettingsProvider.getInstance().setSimilarityValues(new EObjectSimilarityValues());
-	}
+	protected abstract void setupInitialiserTestSettingsProvider();
 
 	/**
 	 * Resets {@link InitialiserTestSettingsProvider} after individual tests.

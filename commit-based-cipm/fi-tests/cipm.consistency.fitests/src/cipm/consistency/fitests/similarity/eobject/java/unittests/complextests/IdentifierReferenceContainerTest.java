@@ -8,7 +8,7 @@ import org.emftext.language.java.references.ReferenceableElement;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.classifiers.ClassInitialiser;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.instantiations.ExplicitConstructorCallInitialiser;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.references.IdentifierReferenceInitialiser;
@@ -16,7 +16,7 @@ import cipm.consistency.fitests.similarity.eobject.initialiser.java.references.S
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.ExpressionStatementInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesConcreteClassifiers;
 
-public class IdentifierReferenceContainerTest extends EObjectSimilarityTest implements UsesConcreteClassifiers {
+public class IdentifierReferenceContainerTest extends AbstractEObjectJavaSimilarityTest implements UsesConcreteClassifiers {
 	
 	/**
 	 * Realises {@code JaMoPPElementUtil.getFirstContainerNotOfGivenType(...)}

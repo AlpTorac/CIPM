@@ -22,8 +22,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.EObjectInitialiserPackage;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.initialiser.IInitialiser;
-import cipm.consistency.fitests.similarity.java.AbstractJavaSimilarityTest;
 
 /**
  * A test class, whose tests can be used to make sure no initialiser interfaces,
@@ -31,7 +31,7 @@ import cipm.consistency.fitests.similarity.java.AbstractJavaSimilarityTest;
  * 
  * @author atora
  */
-public class UtilityTests extends AbstractJavaSimilarityTest {
+public class UtilityTests extends AbstractEObjectJavaSimilarityTest {
 	/**
 	 * Points at the {@link cipm.consistency.fitests.similarity.java} package. Used
 	 * by discovering methods in this class.

@@ -9,12 +9,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.modules.IAccessProvidingModuleDirectiveInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesModuleReferences;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesPackages;
 
-public class AccessProvidingModuleDirectiveTest extends EObjectSimilarityTest
+public class AccessProvidingModuleDirectiveTest extends AbstractEObjectJavaSimilarityTest
 		implements UsesModuleReferences, UsesPackages {
 	protected AccessProvidingModuleDirective initElement(IAccessProvidingModuleDirectiveInitialiser init,
 			ModuleReference[] modRefs, Package accessablePac) {

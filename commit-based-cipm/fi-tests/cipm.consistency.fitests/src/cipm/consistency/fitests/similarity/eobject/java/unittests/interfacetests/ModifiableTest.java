@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.IModifiableInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesModifiers;
 
-public class ModifiableTest extends EObjectSimilarityTest implements UsesModifiers {
+public class ModifiableTest extends AbstractEObjectJavaSimilarityTest implements UsesModifiers {
 	protected Modifiable initElement(IModifiableInitialiser init, Modifier[] modifs) {
 		Modifiable result = init.instantiate();
 		Assertions.assertTrue(init.addModifiers(result, modifs));

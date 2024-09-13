@@ -6,12 +6,12 @@ import org.emftext.language.java.statements.StatementsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.AssertInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesExpressions;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesStringReferences;
 
-public class AssertTest extends EObjectSimilarityTest implements UsesExpressions, UsesStringReferences {
+public class AssertTest extends AbstractEObjectJavaSimilarityTest implements UsesExpressions, UsesStringReferences {
 	protected Assert initElement(Expression errMsg) {
 		var asrtInit = new AssertInitialiser();
 		var asrt = asrtInit.instantiate();

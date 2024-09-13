@@ -7,11 +7,11 @@ import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.imports.ImportingElement;
 import org.emftext.language.java.imports.ImportsPackage;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.imports.IImportingElementInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesImportingElements;
 
-public class ImportingElementTest extends EObjectSimilarityTest implements UsesImportingElements {
+public class ImportingElementTest extends AbstractEObjectJavaSimilarityTest implements UsesImportingElements {
 	protected ImportingElement initElement(IImportingElementInitialiser init, Import[] imps) {
 		ImportingElement result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));

@@ -5,10 +5,10 @@ import org.emftext.language.java.literals.OctalIntegerLiteral;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.OctalIntegerLiteralInitialiser;
 
-public class OctalIntegerLiteralTest extends EObjectSimilarityTest {
+public class OctalIntegerLiteralTest extends AbstractEObjectJavaSimilarityTest {
 	protected OctalIntegerLiteral initElement(int val) {
 		var init = new OctalIntegerLiteralInitialiser();
 		var lit = init.instantiate();

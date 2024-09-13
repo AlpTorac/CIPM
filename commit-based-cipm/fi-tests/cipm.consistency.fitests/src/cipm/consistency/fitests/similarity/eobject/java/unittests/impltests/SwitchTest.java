@@ -7,11 +7,11 @@ import org.emftext.language.java.statements.SwitchCase;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.SwitchInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesSwitchCases;
 
-public class SwitchTest extends EObjectSimilarityTest implements UsesSwitchCases {
+public class SwitchTest extends AbstractEObjectJavaSimilarityTest implements UsesSwitchCases {
 	protected Switch initElement(SwitchCase[] cases, Expression var) {
 		var swInit = new SwitchInitialiser();
 		var sw = swInit.instantiate();

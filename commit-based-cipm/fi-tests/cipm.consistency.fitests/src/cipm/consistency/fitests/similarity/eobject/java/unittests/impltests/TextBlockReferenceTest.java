@@ -5,10 +5,10 @@ import org.emftext.language.java.references.TextBlockReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.references.TextBlockReferenceInitialiser;
 
-public class TextBlockReferenceTest extends EObjectSimilarityTest {
+public class TextBlockReferenceTest extends AbstractEObjectJavaSimilarityTest {
 	protected TextBlockReference initElement(String val) {
 		var tbrInit = new TextBlockReferenceInitialiser();
 		var tbr = tbrInit.instantiate();

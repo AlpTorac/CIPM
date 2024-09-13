@@ -6,12 +6,12 @@ import org.emftext.language.java.members.MembersPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.members.InterfaceMethodInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesAnnotationValues;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesNames;
 
-public class InterfaceMethodTest extends EObjectSimilarityTest implements UsesAnnotationValues, UsesNames {
+public class InterfaceMethodTest extends AbstractEObjectJavaSimilarityTest implements UsesAnnotationValues, UsesNames {
 	protected InterfaceMethod initElement(AnnotationValue defVal) {
 		var imInit = new InterfaceMethodInitialiser();
 		var im = imInit.instantiate();

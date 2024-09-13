@@ -6,11 +6,11 @@ import org.emftext.language.java.instantiations.InstantiationsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.instantiations.NewConstructorCallInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesAnonymousClasses;
 
-public class NewConstructorCallTest extends EObjectSimilarityTest implements UsesAnonymousClasses {
+public class NewConstructorCallTest extends AbstractEObjectJavaSimilarityTest implements UsesAnonymousClasses {
 	protected NewConstructorCall initElement(AnonymousClass anonymousCls) {
 		var nccInit = new NewConstructorCallInitialiser();
 		var ncc = nccInit.instantiate();

@@ -7,12 +7,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.arrays.IArrayInstantiationByValuesInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesArrayInitializers;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesLiterals;
 
-public class ArrayInstantiationByValuesTest extends EObjectSimilarityTest
+public class ArrayInstantiationByValuesTest extends AbstractEObjectJavaSimilarityTest
 		implements UsesArrayInitializers, UsesLiterals {
 	protected ArrayInstantiationByValues initElement(IArrayInstantiationByValuesInitialiser init,
 			ArrayInitializer arrInit) {

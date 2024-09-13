@@ -13,7 +13,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.IStatementInitialiser;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.IStatementListContainerInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.params.EObjectInitialiserParameters;
@@ -30,7 +30,7 @@ import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesStatements
  * 
  * @author atora
  */
-public class StatementPositionTest extends EObjectSimilarityTest implements UsesStatements {
+public class StatementPositionTest extends AbstractEObjectJavaSimilarityTest implements UsesStatements {
 	private static List<IStatementListContainerInitialiser> getAllSLCInitInstances() {
 		var res = new ArrayList<IStatementListContainerInitialiser>();
 		var inits = new EObjectInitialiserParameters().getAdaptedInitialisersBySuper(IStatementListContainerInitialiser.class);

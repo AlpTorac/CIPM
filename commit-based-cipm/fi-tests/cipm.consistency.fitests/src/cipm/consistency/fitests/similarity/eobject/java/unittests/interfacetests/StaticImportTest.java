@@ -7,12 +7,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.imports.IStaticImportInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesImports;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesModifiers;
 
-public class StaticImportTest extends EObjectSimilarityTest implements UsesImports, UsesModifiers {
+public class StaticImportTest extends AbstractEObjectJavaSimilarityTest implements UsesImports, UsesModifiers {
 	protected StaticImport initElement(IStaticImportInitialiser init, Static st) {
 		StaticImport result = init.instantiate();
 		Assertions.assertTrue(init.setStatic(result, st));

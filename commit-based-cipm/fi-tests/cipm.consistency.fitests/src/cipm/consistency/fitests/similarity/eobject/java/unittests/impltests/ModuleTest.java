@@ -7,13 +7,13 @@ import org.emftext.language.java.modules.ModuleDirective;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.containers.ModuleInitialiser;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.OpenInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesModuleDirectives;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesNames;
 
-public class ModuleTest extends EObjectSimilarityTest implements UsesModuleDirectives, UsesNames {
+public class ModuleTest extends AbstractEObjectJavaSimilarityTest implements UsesModuleDirectives, UsesNames {
 	protected Module initElement(Package[] pacs, ModuleDirective[] targets, boolean isOpen) {
 		var initialiser = new ModuleInitialiser();
 		Module result = initialiser.instantiate();

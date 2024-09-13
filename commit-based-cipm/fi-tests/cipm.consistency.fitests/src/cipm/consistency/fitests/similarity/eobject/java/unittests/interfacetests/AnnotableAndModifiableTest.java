@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.IAnnotableAndModifiableInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesAnnotationInstances;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesModifiers;
 
-public class AnnotableAndModifiableTest extends EObjectSimilarityTest
+public class AnnotableAndModifiableTest extends AbstractEObjectJavaSimilarityTest
 		implements UsesAnnotationInstances, UsesModifiers {
 
 	protected AnnotableAndModifiable initElement(IAnnotableAndModifiableInitialiser init, Modifier[] modifs,

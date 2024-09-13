@@ -8,13 +8,13 @@ import org.emftext.language.java.variables.Resource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.TryBlockInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesCatchBlocks;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesLocalVariables;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesStatements;
 
-public class TryBlockTest extends EObjectSimilarityTest implements UsesCatchBlocks, UsesStatements, UsesLocalVariables {
+public class TryBlockTest extends AbstractEObjectJavaSimilarityTest implements UsesCatchBlocks, UsesStatements, UsesLocalVariables {
 	protected TryBlock initElement(Resource[] ress, CatchBlock[] catchBlocks, Block finallyBlock) {
 		var tbInit = new TryBlockInitialiser();
 		var tb = tbInit.instantiate();

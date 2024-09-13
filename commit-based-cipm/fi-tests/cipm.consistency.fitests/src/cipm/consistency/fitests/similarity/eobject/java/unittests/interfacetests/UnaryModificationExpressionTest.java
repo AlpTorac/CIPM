@@ -8,11 +8,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.expressions.IUnaryModificationExpressionInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesExpressions;
 
-public class UnaryModificationExpressionTest extends EObjectSimilarityTest implements UsesExpressions {
+public class UnaryModificationExpressionTest extends AbstractEObjectJavaSimilarityTest implements UsesExpressions {
 	protected UnaryModificationExpression initElement(IUnaryModificationExpressionInitialiser init,
 			UnaryModificationExpressionChild child, UnaryModificationOperator op) {
 		UnaryModificationExpression result = init.instantiate();

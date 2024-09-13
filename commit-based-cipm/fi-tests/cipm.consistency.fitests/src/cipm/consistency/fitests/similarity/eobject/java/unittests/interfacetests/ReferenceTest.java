@@ -7,12 +7,12 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.references.IReferenceInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesArraySelectors;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesReferences;
 
-public class ReferenceTest extends EObjectSimilarityTest implements UsesReferences, UsesArraySelectors {
+public class ReferenceTest extends AbstractEObjectJavaSimilarityTest implements UsesReferences, UsesArraySelectors {
 	protected Reference initElement(IReferenceInitialiser init, Reference next, ArraySelector[] arrSels) {
 		Reference ref = init.instantiate();
 		Assertions.assertTrue(init.initialise(ref));

@@ -6,11 +6,11 @@ import org.emftext.language.java.members.EnumConstant;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.classifiers.EnumerationInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesEnumConstants;
 
-public class EnumerationTest extends EObjectSimilarityTest implements UsesEnumConstants {
+public class EnumerationTest extends AbstractEObjectJavaSimilarityTest implements UsesEnumConstants {
 	protected Enumeration initElement(EnumConstant[] consts) {
 		var enmInit = new EnumerationInitialiser();
 		var enm = enmInit.instantiate();

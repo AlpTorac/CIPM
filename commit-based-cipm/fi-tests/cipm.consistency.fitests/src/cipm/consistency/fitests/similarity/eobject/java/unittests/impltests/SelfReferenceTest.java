@@ -6,11 +6,11 @@ import org.emftext.language.java.references.ReferencesPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.references.SelfReferenceInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesLiterals;
 
-public class SelfReferenceTest extends EObjectSimilarityTest implements UsesLiterals {
+public class SelfReferenceTest extends AbstractEObjectJavaSimilarityTest implements UsesLiterals {
 	protected SelfReference initElement(Self self) {
 		var srInit = new SelfReferenceInitialiser();
 		var sr = srInit.instantiate();

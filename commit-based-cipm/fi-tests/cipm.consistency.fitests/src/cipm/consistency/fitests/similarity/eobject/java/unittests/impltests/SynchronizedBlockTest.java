@@ -6,11 +6,11 @@ import org.emftext.language.java.statements.SynchronizedBlock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.SynchronizedBlockInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesExpressions;
 
-public class SynchronizedBlockTest extends EObjectSimilarityTest implements UsesExpressions {
+public class SynchronizedBlockTest extends AbstractEObjectJavaSimilarityTest implements UsesExpressions {
 	protected SynchronizedBlock initElement(Expression lockProvider) {
 		var sbInit = new SynchronizedBlockInitialiser();
 		var sb = sbInit.instantiate();

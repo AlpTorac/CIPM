@@ -6,11 +6,11 @@ import org.emftext.language.java.references.ReferenceableElement;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.imports.StaticMemberImportInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesMethods;
 
-public class StaticMemberImportTest extends EObjectSimilarityTest implements UsesMethods {
+public class StaticMemberImportTest extends AbstractEObjectJavaSimilarityTest implements UsesMethods {
 	protected StaticMemberImport initElement(ReferenceableElement[] staticMems) {
 		var smiInit = new StaticMemberImportInitialiser();
 		var smi = smiInit.instantiate();

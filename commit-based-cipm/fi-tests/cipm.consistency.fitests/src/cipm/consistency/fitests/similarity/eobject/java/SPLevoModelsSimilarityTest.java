@@ -24,7 +24,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import cipm.consistency.fitests.similarity.java.AbstractJavaSimilarityTest;
 import jamopp.options.ParserOptions;
 import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
 
@@ -34,7 +33,7 @@ import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
  * 
  * @author atora
  */
-public class SPLevoModelsSimilarityTest extends AbstractJavaSimilarityTest {
+public class SPLevoModelsSimilarityTest extends AbstractEObjectJavaSimilarityTest {
 	private static final Logger LOGGER = Logger.getLogger("cipm." + SPLevoModelsSimilarityTest.class.getSimpleName());
 
 	/**
@@ -65,7 +64,7 @@ public class SPLevoModelsSimilarityTest extends AbstractJavaSimilarityTest {
 	/**
 	 * The path, at which the resource file's URI will point at.
 	 */
-	private static Path targetPath = Path.of(AbstractJavaSimilarityTest.getAbsoluteResourceRootPath());
+	private static Path targetPath = Path.of(new File("").getAbsoluteFile().getAbsolutePath() + File.separator + "testModels");
 
 	@BeforeAll
 	public static void setUpBeforeAll() {

@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.references.IElementReferenceInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesConcreteClassifiers;
 
-public class ElementReferenceTest extends EObjectSimilarityTest implements UsesConcreteClassifiers {
+public class ElementReferenceTest extends AbstractEObjectJavaSimilarityTest implements UsesConcreteClassifiers {
 	protected ElementReference initElement(IElementReferenceInitialiser init, ReferenceableElement target,
 			ReferenceableElement cTarget) {
 		ElementReference result = init.instantiate();

@@ -6,12 +6,12 @@ import org.emftext.language.java.variables.VariablesPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.EObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.initialiser.java.variables.LocalVariableInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesAdditionalLocalVariables;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesNames;
 
-public class LocalVariableTest extends EObjectSimilarityTest implements UsesAdditionalLocalVariables, UsesNames {
+public class LocalVariableTest extends AbstractEObjectJavaSimilarityTest implements UsesAdditionalLocalVariables, UsesNames {
 	protected LocalVariable initElement(AdditionalLocalVariable[] alvs) {
 		var lvInit = new LocalVariableInitialiser();
 		var lv = lvInit.instantiate();
