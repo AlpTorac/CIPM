@@ -31,9 +31,9 @@ public abstract class AbstractSimilarityTest {
 	@BeforeEach
 	public void setUp(TestInfo info) {
 		this.currentTestInfo = info;
-	
+
 		this.setUpLogger();
-	
+
 		this.setSimilarityCheckerContainer(this.initSCC());
 	}
 
@@ -45,7 +45,7 @@ public abstract class AbstractSimilarityTest {
 	protected TestInfo getCurrentTestInfo() {
 		return this.currentTestInfo;
 	}
-	
+
 	/**
 	 * @param info An object that contains information on a test.
 	 * 
@@ -56,12 +56,12 @@ public abstract class AbstractSimilarityTest {
 	private String getCurrentTestMethodName(TestInfo info) {
 		if (info != null) {
 			var met = info.getTestMethod().orElseGet(() -> null);
-	
+
 			if (met != null) {
 				return met.getName();
 			}
 		}
-	
+
 		return "";
 	}
 
@@ -87,21 +87,21 @@ public abstract class AbstractSimilarityTest {
 	 * Java memory issues.</b>
 	 */
 	protected void setUpLogger() {
-			Logger logger = Logger.getLogger("cipm");
-			logger.setLevel(Level.ALL);
-	
-			// Enable to receive log messages from similarity switches
-	//		logger = Logger.getLogger("javaswitch");
-	//		logger.setLevel(Level.ALL);
-	
-	//		logger = Logger.getLogger("jamopp");
-	//		logger.setLevel(Level.ALL);
-			logger = Logger.getRootLogger();
-			logger.removeAllAppenders();
-			ConsoleAppender ap = new ConsoleAppender(new PatternLayout("[%d{DATE}] %-5p: %c - %m%n"),
-					ConsoleAppender.SYSTEM_OUT);
-			logger.addAppender(ap);
-		}
+		Logger logger = Logger.getLogger("cipm");
+		logger.setLevel(Level.ALL);
+
+		// Enable to receive log messages from similarity switches
+		// logger = Logger.getLogger("javaswitch");
+		// logger.setLevel(Level.ALL);
+
+		// logger = Logger.getLogger("jamopp");
+		// logger.setLevel(Level.ALL);
+		logger = Logger.getRootLogger();
+		logger.removeAllAppenders();
+		ConsoleAppender ap = new ConsoleAppender(new PatternLayout("[%d{DATE}] %-5p: %c - %m%n"),
+				ConsoleAppender.SYSTEM_OUT);
+		logger.addAppender(ap);
+	}
 
 	/**
 	 * Creates the concrete {@link ISimilarityCheckerContainer} that will be used to
@@ -126,14 +126,16 @@ public abstract class AbstractSimilarityTest {
 	}
 
 	/**
-	 * Delegates similarity checking to the underlying {@link ISimilarityCheckerContainer}.
+	 * Delegates similarity checking to the underlying
+	 * {@link ISimilarityCheckerContainer}.
 	 */
 	public Boolean isSimilar(Object element1, Object element2) {
 		return this.scc.isSimilar(element1, element2);
 	}
 
 	/**
-	 * Delegates similarity checking to the underlying {@link ISimilarityCheckerContainer}.
+	 * Delegates similarity checking to the underlying
+	 * {@link ISimilarityCheckerContainer}.
 	 */
 	public Boolean areSimilar(Collection<?> elements1, Collection<?> elements2) {
 		return this.scc.areSimilar(elements1, elements2);
