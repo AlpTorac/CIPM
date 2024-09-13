@@ -5,7 +5,7 @@ import java.io.File;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
-import cipm.consistency.fitests.similarity.SimilarityCheckerContainer;
+import cipm.consistency.fitests.similarity.SimilarityCheckerContainerWithProvider;
 import cipm.consistency.fitests.similarity.eobject.AbstractEObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.java.params.EObjectInitialiserParameters;
 import cipm.consistency.fitests.similarity.eobject.java.params.EObjectSimilarityValues;
@@ -27,7 +27,7 @@ public abstract class AbstractEObjectJavaSimilarityTest extends AbstractEObjectS
 	 * checker during set up.
 	 */
 	protected ISimilarityCheckerContainer initSCC() {
-		var scc = new SimilarityCheckerContainer();
+		var scc = new SimilarityCheckerContainerWithProvider();
 		scc.setSimilarityCheckerProvider(new JavaSimilarityCheckerProvider());
 		return scc;
 	}
