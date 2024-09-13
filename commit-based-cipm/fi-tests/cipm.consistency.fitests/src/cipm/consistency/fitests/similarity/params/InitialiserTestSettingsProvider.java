@@ -2,8 +2,8 @@ package cipm.consistency.fitests.similarity.params;
 
 public class InitialiserTestSettingsProvider {
 	private static InitialiserTestSettingsProvider instance;
-	private static IInitialiserParameters params;
-	private static ISimilarityValues simVals;
+	private IInitialiserParameters params;
+	private ISimilarityValues simVals;
 
 	private InitialiserTestSettingsProvider() {
 	};
@@ -19,23 +19,23 @@ public class InitialiserTestSettingsProvider {
 	}
 
 	public ISimilarityValues getSimilarityValues() {
-		return simVals;
+		return this.simVals;
 	}
 
 	public void setSimilarityValues(ISimilarityValues similarityValues) {
-		simVals = similarityValues;
+		this.simVals = similarityValues;
 	}
 
 	public IInitialiserParameters getParameters() {
-		return params;
+		return this.params;
 	}
 
 	public void setParameters(IInitialiserParameters prms) {
-		params = prms;
+		this.params = prms;
 	}
 
 	public void reset() {
-		params = null;
-		simVals = null;
+		this.params = null;
+		this.simVals = null;
 	}
 }
