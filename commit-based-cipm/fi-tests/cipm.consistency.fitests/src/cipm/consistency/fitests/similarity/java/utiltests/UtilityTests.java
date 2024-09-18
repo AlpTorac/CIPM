@@ -20,9 +20,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.java.AbstractSimilarityTest;
-import cipm.consistency.fitests.similarity.java.initialiser.IInitialiser;
-import cipm.consistency.fitests.similarity.java.initialiser.InitialiserPackage;
+import cipm.consistency.fitests.similarity.eobject.initialiser.java.EObjectJavaInitialiserPackage;
+import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
+import cipm.consistency.fitests.similarity.initialiser.IInitialiser;
 
 /**
  * A test class, whose tests can be used to make sure no initialiser interfaces,
@@ -30,7 +30,7 @@ import cipm.consistency.fitests.similarity.java.initialiser.InitialiserPackage;
  * 
  * @author atora
  */
-public class UtilityTests extends AbstractSimilarityTest {
+public class UtilityTests extends AbstractEObjectJavaSimilarityTest {
 	/**
 	 * Points at the {@link cipm.consistency.fitests.similarity.java} package. Used
 	 * by discovering methods in this class.
@@ -141,14 +141,14 @@ public class UtilityTests extends AbstractSimilarityTest {
 	 * @return An instance of all initialisers.
 	 */
 	public Collection<IInitialiser> getAllInitialiserInstances() {
-		return new InitialiserPackage().getAllInitialiserInstances();
+		return new EObjectJavaInitialiserPackage().getAllInitialiserInstances();
 	}
 
 	/**
 	 * @return Types of all initialisers.
 	 */
 	public Collection<Class<? extends IInitialiser>> getAllInitialiserTypes() {
-		return new InitialiserPackage().getAllInitialiserInterfaceTypes();
+		return new EObjectJavaInitialiserPackage().getAllInitialiserInterfaceTypes();
 	}
 
 	/**
@@ -211,7 +211,7 @@ public class UtilityTests extends AbstractSimilarityTest {
 	 * @return The type of the initialiser meant to instantiate objClass.
 	 */
 	public Class<? extends IInitialiser> getInitialiserInterfaceFor(Class<?> objClass) {
-		return new InitialiserPackage().getInitialiserInterfaceTypeFor(objClass);
+		return new EObjectJavaInitialiserPackage().getInitialiserInterfaceTypeFor(objClass);
 	}
 
 	/**
@@ -266,7 +266,7 @@ public class UtilityTests extends AbstractSimilarityTest {
 	 * @return The initialiser meant to instantiate objClass.
 	 */
 	public IInitialiser getInitialiserInstanceFor(Class<?> objClass) {
-		return new InitialiserPackage().getInitialiserInstanceFor(objClass);
+		return new EObjectJavaInitialiserPackage().getInitialiserInstanceFor(objClass);
 	}
 
 	/**
@@ -315,7 +315,7 @@ public class UtilityTests extends AbstractSimilarityTest {
 	@Test
 	public void testAllConcreteInitialisersRegistered() {
 		var clss = this.getAllConcreteInitialiserCandidates();
-		var registeredInits = new InitialiserPackage().getAllInitialiserInstances();
+		var registeredInits = new EObjectJavaInitialiserPackage().getAllInitialiserInstances();
 
 		var matches = List.of(
 				clss.stream().filter((cls) -> registeredInits.stream().anyMatch((init) -> init.isInitialiserFor(cls)))
@@ -339,7 +339,7 @@ public class UtilityTests extends AbstractSimilarityTest {
 	@Test
 	public void testAllInitialiserInterfacesRegistered() {
 		var clss = this.getAllInitialiserCandidates();
-		var registeredInits = new InitialiserPackage().getAllInitialiserInterfaceTypes();
+		var registeredInits = new EObjectJavaInitialiserPackage().getAllInitialiserInterfaceTypes();
 
 		var matches = List.of(clss.stream()
 				.filter((cls) -> registeredInits.stream()
