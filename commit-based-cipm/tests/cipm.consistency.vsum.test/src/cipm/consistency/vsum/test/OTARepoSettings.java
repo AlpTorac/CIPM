@@ -59,8 +59,7 @@ public class OTARepoSettings implements HasRepoSettings {
 		return new ComponentDetectionStrategy[] {new PackageBasedComponentDetectionStrategy() {
 			@Override
 			protected void initializeMappings() {
-				this.addPackageModuleMapping("gatling-gradle.*?", "gatling-gradle", ModuleState.MICROSERVICE_COMPONENT);
-				this.addPackageModuleMapping("ota-tester-with-broker.*?", "ota-tester-with-broker", ModuleState.MICROSERVICE_COMPONENT);
+				this.addPackageModuleMapping("com\\.ota\\.update\\..*?", "com.ota.update", ModuleState.MICROSERVICE_COMPONENT);
 			}
 		}};
 	}
