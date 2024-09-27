@@ -79,6 +79,8 @@ public final class JavaParserAndPropagatorUtils {
 			new TrivialRecovery(resourceSet).recover();
 		}
 		
+		resourceSet.getResources().forEach((r) -> LOGGER.debug(r.getURI().toString()));
+		
 		LOGGER.debug("Parsed " + resourceSet.getResources().size() + " files.");
 
 		// 2. Filter the resources and create modules for components.
