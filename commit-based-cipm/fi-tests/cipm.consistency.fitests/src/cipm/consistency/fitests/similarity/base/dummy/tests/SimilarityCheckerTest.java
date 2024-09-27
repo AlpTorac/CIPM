@@ -1,17 +1,17 @@
-package cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests;
+package cipm.consistency.fitests.similarity.base.dummy.tests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.DummySimilarityChecker;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.DummySimilarityToolbox;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.DummySingleSimilarityRequest;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.DummySingleSimilarityRequestHandler;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.EqualsCheckRequest;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.EqualsCheckRequestHandler;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.ReferenceCheckRequest;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.ReferenceCheckRequestHandler;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.DummySimilarityToolbox.HandleHistoryEntry;
+import cipm.consistency.fitests.similarity.base.dummy.DummySimilarityChecker;
+import cipm.consistency.fitests.similarity.base.dummy.DummySimilarityToolbox;
+import cipm.consistency.fitests.similarity.base.dummy.DummySingleSimilarityRequest;
+import cipm.consistency.fitests.similarity.base.dummy.DummySingleSimilarityRequestHandler;
+import cipm.consistency.fitests.similarity.base.dummy.EqualsCheckRequest;
+import cipm.consistency.fitests.similarity.base.dummy.EqualsCheckRequestHandler;
+import cipm.consistency.fitests.similarity.base.dummy.ReferenceCheckRequest;
+import cipm.consistency.fitests.similarity.base.dummy.ReferenceCheckRequestHandler;
+import cipm.consistency.fitests.similarity.base.dummy.DummySimilarityToolbox.HandleHistoryEntry;
 
 public class SimilarityCheckerTest extends AbstractDummySimilarityCheckingTest {
 	@Test

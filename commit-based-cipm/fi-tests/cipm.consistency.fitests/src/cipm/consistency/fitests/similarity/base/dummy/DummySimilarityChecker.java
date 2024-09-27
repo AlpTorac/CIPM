@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy;
+package cipm.consistency.fitests.similarity.base.dummy;
 
 import java.util.Collection;
 

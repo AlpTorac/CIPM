@@ -1,12 +1,12 @@
-package cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests;
+package cipm.consistency.fitests.similarity.base.dummy.tests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.DummySimilarityToolboxBuilder;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.DummySimilarityToolboxFactory;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.EqualsCheckRequest;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.ReferenceCheckRequest;
+import cipm.consistency.fitests.similarity.base.dummy.DummySimilarityToolboxBuilder;
+import cipm.consistency.fitests.similarity.base.dummy.DummySimilarityToolboxFactory;
+import cipm.consistency.fitests.similarity.base.dummy.EqualsCheckRequest;
+import cipm.consistency.fitests.similarity.base.dummy.ReferenceCheckRequest;
 
 public class SimilarityToolboxBuilderTest extends AbstractDummySimilarityCheckingTest {
 	@Test

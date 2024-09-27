@@ -1,13 +1,12 @@
-package cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests;
+package cipm.consistency.fitests.similarity.base.dummy.tests;
 
-import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.DummySimilarityToolbox;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.DummySimilarityToolboxBuilder;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.DummySimilarityToolboxFactory;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.EqualsCheckRequest;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.EqualsCheckRequestHandler;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.ReferenceCheckRequest;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.ReferenceCheckRequestHandler;
+import cipm.consistency.fitests.similarity.base.dummy.DummySimilarityToolbox;
+import cipm.consistency.fitests.similarity.base.dummy.DummySimilarityToolboxBuilder;
+import cipm.consistency.fitests.similarity.base.dummy.DummySimilarityToolboxFactory;
+import cipm.consistency.fitests.similarity.base.dummy.EqualsCheckRequest;
+import cipm.consistency.fitests.similarity.base.dummy.EqualsCheckRequestHandler;
+import cipm.consistency.fitests.similarity.base.dummy.ReferenceCheckRequest;
+import cipm.consistency.fitests.similarity.base.dummy.ReferenceCheckRequestHandler;
 
 /**
  * An abstract class that contains utility methods for tests that use dummy
@@ -15,7 +14,7 @@ import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.d
  * 
  * @author atora
  */
-public abstract class AbstractDummySimilarityCheckingTest extends AbstractEObjectJavaSimilarityTest {
+public abstract class AbstractDummySimilarityCheckingTest {
 	/**
 	 * Constructs a {@link DummySimilarityToolbox} instance using a
 	 * {@link DummySimilarityToolboxBuilder}. Adds request-handler pairs to that

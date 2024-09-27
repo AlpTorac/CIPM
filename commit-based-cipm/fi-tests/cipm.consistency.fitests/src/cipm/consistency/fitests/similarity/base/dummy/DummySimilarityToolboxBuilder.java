@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy;
+package cipm.consistency.fitests.similarity.base.dummy;
 
 import org.splevo.jamopp.diffing.similarity.base.AbstractSimilarityToolboxBuilder;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;

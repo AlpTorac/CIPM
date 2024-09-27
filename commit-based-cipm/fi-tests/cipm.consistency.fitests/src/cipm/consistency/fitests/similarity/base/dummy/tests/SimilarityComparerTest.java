@@ -1,14 +1,14 @@
-package cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests;
+package cipm.consistency.fitests.similarity.base.dummy.tests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.DummySimilarityComparer;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.DummySimilarityToolbox;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.EqualsCheckRequest;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.EqualsCheckRequestHandler;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.ReferenceCheckRequest;
-import cipm.consistency.fitests.similarity.eobject.java.unittests.concepttests.dummy.ReferenceCheckRequestHandler;
+import cipm.consistency.fitests.similarity.base.dummy.DummySimilarityComparer;
+import cipm.consistency.fitests.similarity.base.dummy.DummySimilarityToolbox;
+import cipm.consistency.fitests.similarity.base.dummy.EqualsCheckRequest;
+import cipm.consistency.fitests.similarity.base.dummy.EqualsCheckRequestHandler;
+import cipm.consistency.fitests.similarity.base.dummy.ReferenceCheckRequest;
+import cipm.consistency.fitests.similarity.base.dummy.ReferenceCheckRequestHandler;
 
 public class SimilarityComparerTest extends AbstractDummySimilarityCheckingTest {
 	@Test
