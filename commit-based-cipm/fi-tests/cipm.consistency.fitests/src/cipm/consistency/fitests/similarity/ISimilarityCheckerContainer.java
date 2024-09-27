@@ -5,7 +5,11 @@ import java.util.Collection;
 /**
  * An interface meant to be implemented by classes that store the similarity
  * checker under test, in order to spare other test classes the need to add that
- * similarity checker as a dependency.
+ * similarity checker as a dependency. <br>
+ * <br>
+ * This interface contains dependencies to neither similarity checker interfaces
+ * nor to concrete implementations, because doing so would reduce the
+ * re-usability.
  * 
  * @author atora
  */
