@@ -3,7 +3,8 @@ package cipm.consistency.fitests.similarity.eobject.java;
 import java.io.File;
 
 import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
-import cipm.consistency.fitests.similarity.SimilarityCheckerContainerWithProvider;
+import cipm.consistency.fitests.similarity.base.JavaSimilarityCheckerProvider;
+import cipm.consistency.fitests.similarity.base.SimilarityCheckerContainerWithProvider;
 import cipm.consistency.fitests.similarity.eobject.AbstractEObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.eobject.java.params.EObjectJavaInitialiserParameters;
 import cipm.consistency.fitests.similarity.eobject.java.params.EObjectJavaSimilarityValues;

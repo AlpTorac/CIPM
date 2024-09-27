@@ -1,11 +1,9 @@
-package cipm.consistency.fitests.similarity.eobject.java;
+package cipm.consistency.fitests.similarity.base;
 
 import org.splevo.jamopp.diffing.similarity.JavaSimilarityChecker;
 import org.splevo.jamopp.diffing.similarity.JavaSimilarityToolboxBuilder;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
 import org.splevo.jamopp.diffing.similarity.base.MapSimilarityToolboxFactory;
-
-import cipm.consistency.fitests.similarity.ISimilarityCheckerProvider;
 
 /**
  * A concrete implementation of {@link ISimilarityCheckerProvider} that creates

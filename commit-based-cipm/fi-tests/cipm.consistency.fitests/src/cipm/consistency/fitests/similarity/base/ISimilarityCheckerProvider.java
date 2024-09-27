@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity;
+package cipm.consistency.fitests.similarity.base;
 
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
 
