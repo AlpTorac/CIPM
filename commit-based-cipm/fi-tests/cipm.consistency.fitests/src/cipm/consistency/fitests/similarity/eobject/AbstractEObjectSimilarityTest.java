@@ -13,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 
 import cipm.consistency.fitests.similarity.eobject.initialiser.IEObjectInitialiser;
+import cipm.consistency.fitests.similarity.initialiser.IInitialiserPackage;
 import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvider;
 
 /**
@@ -24,8 +25,8 @@ import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvide
  * to expected similarity values.
  * 
  * @author atora
- * @see {@link InitialiserTestSettingsProvider#getSimilarityValues()} for more information
- * on expected similarity values.
+ * @see {@link InitialiserTestSettingsProvider#getSimilarityValues()} for more
+ *      information on expected similarity values.
  */
 public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimilarityTest {
 	/**
@@ -62,6 +63,14 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	 */
 	protected void resetInitialiserTestSettingsProvider() {
 		InitialiserTestSettingsProvider.getInstance().reset();
+	}
+
+	/**
+	 * @return The {@link IInitialiserPackage} that is used to generate
+	 *         {@link IInitialiser} parameters for tests.
+	 */
+	public IInitialiserPackage getUsedInitialiserPackage() {
+		return InitialiserTestSettingsProvider.getInstance().getUsedInitialiserPackage();
 	}
 
 	/**

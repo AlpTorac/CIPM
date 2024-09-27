@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.function.Predicate;
 
 import cipm.consistency.fitests.similarity.initialiser.IInitialiser;
+import cipm.consistency.fitests.similarity.initialiser.IInitialiserPackage;
 
 /**
  * An interface meant for classes that generate {@link IInitialiser} instances
@@ -18,11 +19,19 @@ import cipm.consistency.fitests.similarity.initialiser.IInitialiser;
  */
 public interface IInitialiserParameters {
 	/**
+	 * @return The {@link IInitialiserPackage} that will be used to generate
+	 *         {@link IInitialiser} parameters for tests.
+	 */
+	public IInitialiserPackage getUsedInitialiserPackage();
+
+	/**
 	 * @return An instance of all {@link IInitialiser}s the
 	 *         {@link IInitialiserParameters} encompasses. The returned
 	 *         {@link IInitialiser}s are not adapted.
 	 */
-	public Collection<IInitialiser> getAllNonAdaptedInitialisers();
+	public default Collection<IInitialiser> getAllNonAdaptedInitialisers() {
+		return this.getUsedInitialiserPackage().getAllInitialiserInstances();
+	}
 
 	/**
 	 * @return An adapted instance of all {@link IInitialiser}s the

@@ -1,5 +1,7 @@
 package cipm.consistency.fitests.similarity.params;
 
+import cipm.consistency.fitests.similarity.initialiser.IInitialiserPackage;
+
 /**
  * A singleton class that provides central access to
  * {@link IInitialiserParameters} and {@link ISimilarityValues} instance
@@ -76,6 +78,23 @@ public class InitialiserTestSettingsProvider {
 	 */
 	public void setParameters(IInitialiserParameters prms) {
 		this.params = prms;
+	}
+
+	/**
+	 * Change the stored {@link IInitialiserParameters} instance to change the
+	 * return value.
+	 * 
+	 * @return The {@link IInitialiserPackage} used in the stored
+	 *         {@link IInitialiserParameters}
+	 */
+	public IInitialiserPackage getUsedInitialiserPackage() {
+		var params = this.getParameters();
+
+		if (params != null) {
+			return params.getUsedInitialiserPackage();
+		}
+
+		return null;
 	}
 
 	/**
