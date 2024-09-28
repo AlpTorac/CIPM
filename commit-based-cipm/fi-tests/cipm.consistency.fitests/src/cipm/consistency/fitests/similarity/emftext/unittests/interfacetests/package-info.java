@@ -33,6 +33,9 @@
  * to define type-specific behaviour. Should certain sub-classes/-interfaces
  * diverge from their super type so much that they are incompatible with
  * parameterised tests, it is suggested to instead define special unit tests for
- * the said sub-classes/-interfaces.
+ * the said sub-classes/-interfaces.<br>
+ * <br>
+ * See {@link cipm.consistency.fitests.similarity.emftext.unittests} to find out
+ * more about what test methods do.
  */
 package cipm.consistency.fitests.similarity.emftext.unittests.interfacetests;
