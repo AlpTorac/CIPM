@@ -32,7 +32,7 @@ public class EqualityExpressionTest extends AbstractEMFTextSimilarityTest implem
 	public void testChildSize() {
 		this.testSimilarity(
 				this.initElement(new EqualityExpressionChild[] { this.createDecimalIntegerLiteral(1),
-						this.createDecimalIntegerLiteral(1) }, null),
+						this.createDecimalIntegerLiteral(2) }, null),
 				this.initElement(new EqualityExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
 				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__CHILDREN);
 	}

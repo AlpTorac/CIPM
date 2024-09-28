@@ -28,7 +28,7 @@ public class ExpressionListTest extends AbstractEMFTextSimilarityTest implements
 
 	@Test
 	public void testExpressionSize() {
-		var objOne = this.initElement(new Expression[] { this.createMinimalFalseEE(), this.createMinimalFalseEE() });
+		var objOne = this.initElement(new Expression[] { this.createMinimalFalseEE(), this.createMinimalTrueNEE() });
 		var objTwo = this.initElement(new Expression[] { this.createMinimalFalseEE() });
 
 		this.testSimilarity(objOne, objTwo, ExpressionsPackage.Literals.EXPRESSION_LIST__EXPRESSIONS);

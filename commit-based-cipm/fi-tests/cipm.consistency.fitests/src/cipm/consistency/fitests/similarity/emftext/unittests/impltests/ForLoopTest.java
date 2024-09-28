@@ -45,7 +45,7 @@ public class ForLoopTest extends AbstractEMFTextSimilarityTest implements UsesEx
 	@Test
 	public void testUpdateSize() {
 		var objOne = this.initElement(null,
-				new Expression[] { this.createMinimalFalseEE(), this.createMinimalFalseEE() });
+				new Expression[] { this.createMinimalFalseEE(), this.createMinimalTrueNEE() });
 		var objTwo = this.initElement(null, new Expression[] { this.createMinimalFalseEE() });
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.FOR_LOOP__UPDATES);

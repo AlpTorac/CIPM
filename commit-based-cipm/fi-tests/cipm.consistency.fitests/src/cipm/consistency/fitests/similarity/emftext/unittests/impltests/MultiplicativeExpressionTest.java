@@ -33,7 +33,7 @@ public class MultiplicativeExpressionTest extends AbstractEMFTextSimilarityTest 
 	public void testChildSize() {
 		this.testSimilarity(
 				this.initElement(new MultiplicativeExpressionChild[] { this.createDecimalIntegerLiteral(1),
-						this.createDecimalIntegerLiteral(1) }, null),
+						this.createDecimalIntegerLiteral(2) }, null),
 				this.initElement(new MultiplicativeExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
 				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__CHILDREN);
 	}
@@ -57,7 +57,7 @@ public class MultiplicativeExpressionTest extends AbstractEMFTextSimilarityTest 
 	public void testMultiplicativeOperatorSize() {
 		this.testSimilarity(
 				this.initElement(null,
-						new MultiplicativeOperator[] { this.createDivisionOperator(), this.createDivisionOperator() }),
+						new MultiplicativeOperator[] { this.createDivisionOperator(), this.createMultiplicationOperator() }),
 				this.initElement(null, new MultiplicativeOperator[] { this.createDivisionOperator() }),
 				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__MULTIPLICATIVE_OPERATORS);
 	}

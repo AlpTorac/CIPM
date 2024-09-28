@@ -44,7 +44,7 @@ public class UnaryExpressionTest extends AbstractEMFTextSimilarityTest implement
 	public void testOperatorSize() {
 		this.testSimilarity(
 				this.initElement(null,
-						new UnaryOperator[] { this.createAdditionOperator(), this.createAdditionOperator() }),
+						new UnaryOperator[] { this.createAdditionOperator(), this.createSubtractionOperator() }),
 				this.initElement(null, new UnaryOperator[] { this.createAdditionOperator() }),
 				ExpressionsPackage.Literals.UNARY_EXPRESSION__OPERATORS);
 	}

@@ -32,7 +32,7 @@ public class RelationExpressionTest extends AbstractEMFTextSimilarityTest implem
 	public void testChildSize() {
 		this.testSimilarity(
 				this.initElement(new RelationExpressionChild[] { this.createDecimalIntegerLiteral(1),
-						this.createDecimalIntegerLiteral(1) }, null),
+						this.createDecimalIntegerLiteral(2) }, null),
 				this.initElement(new RelationExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
 				ExpressionsPackage.Literals.RELATION_EXPRESSION__CHILDREN);
 	}
@@ -55,7 +55,7 @@ public class RelationExpressionTest extends AbstractEMFTextSimilarityTest implem
 	public void testRelationOperatorSize() {
 		this.testSimilarity(
 				this.initElement(null,
-						new RelationOperator[] { this.createGreaterThanOperator(), this.createGreaterThanOperator() }),
+						new RelationOperator[] { this.createGreaterThanOperator(), this.createLessThanOperator() }),
 				this.initElement(null, new RelationOperator[] { this.createGreaterThanOperator() }),
 				ExpressionsPackage.Literals.RELATION_EXPRESSION__RELATION_OPERATORS);
 	}

@@ -30,7 +30,7 @@ public class ConditionalOrExpressionTest extends AbstractEMFTextSimilarityTest i
 	public void testChildSize() {
 		this.testSimilarity(
 				this.initElement(new ConditionalOrExpressionChild[] { this.createDecimalIntegerLiteral(1),
-						this.createDecimalIntegerLiteral(1) }),
+						this.createDecimalIntegerLiteral(2) }),
 				this.initElement(new ConditionalOrExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
 				ExpressionsPackage.Literals.CONDITIONAL_OR_EXPRESSION__CHILDREN);
 	}

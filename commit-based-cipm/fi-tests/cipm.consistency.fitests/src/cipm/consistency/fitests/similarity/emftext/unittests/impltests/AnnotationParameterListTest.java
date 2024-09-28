@@ -31,7 +31,7 @@ public class AnnotationParameterListTest extends AbstractEMFTextSimilarityTest
 	@Test
 	public void testSettingSize() {
 		var objOne = this
-				.initElement(new AnnotationAttributeSetting[] { this.createEmptyAAS(), this.createEmptyAAS() });
+				.initElement(new AnnotationAttributeSetting[] { this.createEmptyAAS(), this.createNullAAS() });
 		var objTwo = this.initElement(new AnnotationAttributeSetting[] { this.createEmptyAAS() });
 
 		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_PARAMETER_LIST__SETTINGS);

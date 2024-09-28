@@ -50,7 +50,7 @@ public class ReferenceTest extends AbstractEMFTextSimilarityTest implements Uses
 	@ArgumentsSource(ReferenceTestParams.class)
 	public void testArraySelectorSize(IReferenceInitialiser init) {
 		var objOne = this.initElement(init, null,
-				new ArraySelector[] { this.createMinimalAS(0), this.createMinimalAS(0) });
+				new ArraySelector[] { this.createMinimalAS(0), this.createMinimalAS(1) });
 		var objTwo = this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(0) });
 
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);

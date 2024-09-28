@@ -30,7 +30,7 @@ public class SwitchTest extends AbstractEMFTextSimilarityTest implements UsesSwi
 
 	@Test
 	public void testCaseSize() {
-		var objOne = this.initElement(new SwitchCase[] { this.createEmptyNSC(), this.createEmptyNSC() }, null);
+		var objOne = this.initElement(new SwitchCase[] { this.createEmptyNSC(), this.createMinimalNSC() }, null);
 		var objTwo = this.initElement(new SwitchCase[] { this.createEmptyNSC() }, null);
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SWITCH__CASES);

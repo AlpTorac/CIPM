@@ -29,7 +29,7 @@ public class ArrayInstantiationBySizeTest extends AbstractEMFTextSimilarityTest 
 	@Test
 	public void testSizeSize() {
 		var objOne = this.initElement(
-				new Expression[] { this.createDecimalIntegerLiteral(1), this.createDecimalIntegerLiteral(1) });
+				new Expression[] { this.createDecimalIntegerLiteral(1), this.createDecimalIntegerLiteral(2) });
 		var objTwo = this.initElement(new Expression[] { this.createDecimalIntegerLiteral(1) });
 
 		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_SIZE__SIZES);

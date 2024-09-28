@@ -31,7 +31,7 @@ public class ShiftExpressionTest extends AbstractEMFTextSimilarityTest implement
 	public void testChildSize() {
 		this.testSimilarity(
 				this.initElement(new ShiftExpressionChild[] { this.createDecimalIntegerLiteral(1),
-						this.createDecimalIntegerLiteral(1) }, null),
+						this.createDecimalIntegerLiteral(2) }, null),
 				this.initElement(new ShiftExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
 				ExpressionsPackage.Literals.SHIFT_EXPRESSION__CHILDREN);
 	}
@@ -54,7 +54,7 @@ public class ShiftExpressionTest extends AbstractEMFTextSimilarityTest implement
 	public void testShiftOperatorSize() {
 		this.testSimilarity(
 				this.initElement(null,
-						new ShiftOperator[] { this.createLeftShiftOperator(), this.createLeftShiftOperator() }),
+						new ShiftOperator[] { this.createLeftShiftOperator(), this.createRightShiftOperator() }),
 				this.initElement(null, new ShiftOperator[] { this.createLeftShiftOperator() }),
 				ExpressionsPackage.Literals.SHIFT_EXPRESSION__SHIFT_OPERATORS);
 	}

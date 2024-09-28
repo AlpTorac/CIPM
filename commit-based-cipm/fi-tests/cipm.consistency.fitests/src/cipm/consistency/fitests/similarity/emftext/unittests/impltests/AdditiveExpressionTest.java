@@ -32,7 +32,7 @@ public class AdditiveExpressionTest extends AbstractEMFTextSimilarityTest implem
 	public void testChildSize() {
 		this.testSimilarity(
 				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(1),
-						this.createDecimalIntegerLiteral(1) }, null),
+						this.createDecimalIntegerLiteral(2) }, null),
 				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__CHILDREN);
 	}
@@ -55,7 +55,7 @@ public class AdditiveExpressionTest extends AbstractEMFTextSimilarityTest implem
 	public void testAdditiveOperatorSize() {
 		this.testSimilarity(
 				this.initElement(null,
-						new AdditiveOperator[] { this.createAdditionOperator(), this.createAdditionOperator() }),
+						new AdditiveOperator[] { this.createAdditionOperator(), this.createSubtractionOperator() }),
 				this.initElement(null, new AdditiveOperator[] { this.createAdditionOperator() }),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__ADDITIVE_OPERATORS);
 	}

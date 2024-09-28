@@ -29,7 +29,7 @@ public class ArrayInitializerTest extends AbstractEMFTextSimilarityTest implemen
 	@Test
 	public void testInitialValuesSize() {
 		var objOne = this.initElement(new ArrayInitializationValue[] { this.createDecimalIntegerLiteral(1),
-				this.createDecimalIntegerLiteral(1) });
+				this.createDecimalIntegerLiteral(2) });
 		var objTwo = this.initElement(new ArrayInitializationValue[] { this.createDecimalIntegerLiteral(1) });
 
 		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_INITIALIZER__INITIAL_VALUES);

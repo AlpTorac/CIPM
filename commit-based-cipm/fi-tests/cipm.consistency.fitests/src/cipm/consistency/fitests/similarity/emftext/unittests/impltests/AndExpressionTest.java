@@ -28,7 +28,7 @@ public class AndExpressionTest extends AbstractEMFTextSimilarityTest implements 
 	@Test
 	public void testChildSize() {
 		this.testSimilarity(this.initElement(
-				new AndExpressionChild[] { this.createDecimalIntegerLiteral(1), this.createDecimalIntegerLiteral(1) }),
+				new AndExpressionChild[] { this.createDecimalIntegerLiteral(1), this.createDecimalIntegerLiteral(2) }),
 				this.initElement(new AndExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
 				ExpressionsPackage.Literals.AND_EXPRESSION__CHILDREN);
 	}

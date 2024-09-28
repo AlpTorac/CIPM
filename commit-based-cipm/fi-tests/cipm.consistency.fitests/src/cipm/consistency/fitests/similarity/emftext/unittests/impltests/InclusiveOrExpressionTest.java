@@ -29,7 +29,7 @@ public class InclusiveOrExpressionTest extends AbstractEMFTextSimilarityTest imp
 	public void testChildSize() {
 		this.testSimilarity(
 				this.initElement(new InclusiveOrExpressionChild[] { this.createDecimalIntegerLiteral(1),
-						this.createDecimalIntegerLiteral(1) }),
+						this.createDecimalIntegerLiteral(2) }),
 				this.initElement(new InclusiveOrExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
 				ExpressionsPackage.Literals.INCLUSIVE_OR_EXPRESSION__CHILDREN);
 	}

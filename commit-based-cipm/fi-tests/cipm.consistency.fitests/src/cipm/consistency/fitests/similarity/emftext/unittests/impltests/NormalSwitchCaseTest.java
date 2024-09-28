@@ -28,7 +28,7 @@ public class NormalSwitchCaseTest extends AbstractEMFTextSimilarityTest implemen
 
 	@Test
 	public void testAdditionalConditionSize() {
-		var objOne = this.initElement(new Expression[] { this.createMinimalFalseEE(), this.createMinimalFalseEE() });
+		var objOne = this.initElement(new Expression[] { this.createMinimalFalseEE(), this.createMinimalTrueNEE() });
 		var objTwo = this.initElement(new Expression[] { this.createMinimalFalseEE() });
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.NORMAL_SWITCH_CASE__ADDITIONAL_CONDITIONS);

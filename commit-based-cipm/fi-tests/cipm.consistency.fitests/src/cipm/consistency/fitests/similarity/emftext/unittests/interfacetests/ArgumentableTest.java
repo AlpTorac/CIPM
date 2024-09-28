@@ -35,7 +35,7 @@ public class ArgumentableTest extends AbstractEMFTextSimilarityTest
 	@ArgumentsSource(ArgumentableTestParams.class)
 	public void testArgumentsSize(IArgumentableInitialiser init) {
 		var objOne = this.initElement(init,
-				new Expression[] { this.createDecimalIntegerLiteral(1), this.createDecimalIntegerLiteral(1) });
+				new Expression[] { this.createDecimalIntegerLiteral(1), this.createDecimalIntegerLiteral(2) });
 		var objTwo = this.initElement(init, new Expression[] { this.createDecimalIntegerLiteral(1) });
 
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS);
