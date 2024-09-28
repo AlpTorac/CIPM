@@ -1,17 +1,25 @@
 package cipm.consistency.fitests.similarity.emftext.unittests.interfacetests;
 
+import java.util.stream.Stream;
+
 import org.emftext.language.java.members.ExceptionThrower;
 import org.emftext.language.java.members.MembersPackage;
 import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.emftext.AbstractEMFTextSimilarityTest;
 import cipm.consistency.fitests.similarity.emftext.unittests.UsesTypeReferences;
 import cipm.consistency.initialisers.emftext.members.IExceptionThrowerInitialiser;
 
 public class ExceptionThrowerTest extends AbstractEMFTextSimilarityTest implements UsesTypeReferences {
+
+	private static Stream<Arguments> provideArguments() {
+		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IExceptionThrowerInitialiser.class);
+	}
+
 	protected ExceptionThrower initElement(IExceptionThrowerInitialiser init,
 			NamespaceClassifierReference[] exceptions) {
 		ExceptionThrower result = init.instantiate();
@@ -21,7 +29,7 @@ public class ExceptionThrowerTest extends AbstractEMFTextSimilarityTest implemen
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(ExceptionThrowerTestParams.class)
+	@MethodSource("provideArguments")
 	public void testExceptions(IExceptionThrowerInitialiser init) {
 		var objOne = this.initElement(init, new NamespaceClassifierReference[] { this.createMinimalCNR("cls1") });
 		var objTwo = this.initElement(init, new NamespaceClassifierReference[] { this.createMinimalCNR("cls2") });
@@ -30,7 +38,7 @@ public class ExceptionThrowerTest extends AbstractEMFTextSimilarityTest implemen
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(ExceptionThrowerTestParams.class)
+	@MethodSource("provideArguments")
 	public void testExceptionsSize(IExceptionThrowerInitialiser init) {
 		var objOne = this.initElement(init,
 				new NamespaceClassifierReference[] { this.createMinimalCNR("cls1"), this.createMinimalCNR("cls2") });
@@ -40,7 +48,7 @@ public class ExceptionThrowerTest extends AbstractEMFTextSimilarityTest implemen
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(ExceptionThrowerTestParams.class)
+	@MethodSource("provideArguments")
 	public void testExceptionsNullCheck(IExceptionThrowerInitialiser init) {
 		this.testSimilarityNullCheck(
 				this.initElement(init, new NamespaceClassifierReference[] { this.createMinimalCNR("cls1") }), init,

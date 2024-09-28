@@ -1,5 +1,7 @@
 package cipm.consistency.fitests.similarity.emftext.unittests.interfacetests;
 
+import java.util.stream.Stream;
+
 import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.imports.Import;
@@ -7,7 +9,8 @@ import org.emftext.language.java.imports.ImportsPackage;
 import org.emftext.language.java.imports.PackageImport;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.emftext.AbstractEMFTextSimilarityTest;
 import cipm.consistency.fitests.similarity.emftext.unittests.UsesImports;
@@ -20,6 +23,11 @@ import cipm.consistency.initialisers.emftext.classifiers.IClassifierInitialiser;
  * @author atora
  */
 public class ClassifierTest extends AbstractEMFTextSimilarityTest implements UsesImports, UsesPackageImports {
+
+	private static Stream<Arguments> provideArguments() {
+		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IClassifierInitialiser.class);
+	}
+
 	protected Classifier initElement(IClassifierInitialiser init, Import[] imps, PackageImport[] pImps) {
 
 		var result = init.instantiate();
@@ -35,7 +43,7 @@ public class ClassifierTest extends AbstractEMFTextSimilarityTest implements Use
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(ClassifierTestParams.class)
+	@MethodSource("provideArguments")
 	public void testImports(IClassifierInitialiser init) {
 		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }, null);
 		var objTwo = this.initElement(init, new Import[] { this.createMinimalClsImport("cls2") }, null);
@@ -46,7 +54,7 @@ public class ClassifierTest extends AbstractEMFTextSimilarityTest implements Use
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(ClassifierTestParams.class)
+	@MethodSource("provideArguments")
 	public void testImportsSize(IClassifierInitialiser init) {
 		var objOne = this.initElement(init,
 				new Import[] { this.createMinimalClsImport("cls1"), this.createMinimalClsImport("cls2") }, null);
@@ -58,7 +66,7 @@ public class ClassifierTest extends AbstractEMFTextSimilarityTest implements Use
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(ClassifierTestParams.class)
+	@MethodSource("provideArguments")
 	public void testImportsNullCheck(IClassifierInitialiser init) {
 		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }, null);
 
@@ -71,7 +79,7 @@ public class ClassifierTest extends AbstractEMFTextSimilarityTest implements Use
 	 * Package import differences do not break similarity
 	 */
 	@ParameterizedTest
-	@ArgumentsSource(ClassifierTestParams.class)
+	@MethodSource("provideArguments")
 	public void testPackageImports(IClassifierInitialiser init) {
 		var objOne = this.initElement(init, null,
 				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }) });
@@ -84,7 +92,7 @@ public class ClassifierTest extends AbstractEMFTextSimilarityTest implements Use
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(ClassifierTestParams.class)
+	@MethodSource("provideArguments")
 	public void testPackageImportsSize(IClassifierInitialiser init) {
 		var objOne = this.initElement(init, null,
 				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }),
@@ -98,7 +106,7 @@ public class ClassifierTest extends AbstractEMFTextSimilarityTest implements Use
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(ClassifierTestParams.class)
+	@MethodSource("provideArguments")
 	public void testPackageImportsNullCheck(IClassifierInitialiser init) {
 		var objOne = this.initElement(init, null,
 				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }) });

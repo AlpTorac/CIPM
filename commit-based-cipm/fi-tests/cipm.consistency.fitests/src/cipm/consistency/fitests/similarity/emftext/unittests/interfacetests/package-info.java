@@ -18,13 +18,6 @@
  * for one of them. This way, one can pinpoint basic similarity checking errors
  * regarding certain attributes of certain {@link EObject} implementors.<br>
  * <br>
- * In order to supply initialiser parameters to the parameterised tests,
- * <i>SomethingParam</i> classes that implement {@link ArgumentsProvider} can be
- * declared and used with the {@link ArgumentsSource} annotation. Elements
- * declared within {@link cipm.consistency.fitests.similarity.params} can be
- * used in the implementation of the XParam classes to keep the consistency.
- * <br>
- * <br>
  * It is highly recommended to make the construction of the "main"
  * {@link EObject} instances as obvious and visible as possible, as their
  * construction can get complicated and not knowing all the construction steps

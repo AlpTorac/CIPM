@@ -1,15 +1,23 @@
 package cipm.consistency.fitests.similarity.emftext.unittests.interfacetests;
 
+import java.util.stream.Stream;
+
 import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.commons.NamespaceAwareElement;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.emftext.AbstractEMFTextSimilarityTest;
 import cipm.consistency.initialisers.emftext.commons.INamespaceAwareElementInitialiser;
 
 public class NamespaceAwareElementTest extends AbstractEMFTextSimilarityTest {
+
+	private static Stream<Arguments> provideArguments() {
+		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(INamespaceAwareElementInitialiser.class);
+	}
+
 	private final String ns11 = "ns11";
 	private final String ns12 = "ns12";
 	private final String ns13 = "ns13";
@@ -29,7 +37,7 @@ public class NamespaceAwareElementTest extends AbstractEMFTextSimilarityTest {
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(NamespaceAwareElementTestParams.class)
+	@MethodSource("provideArguments")
 	public void testNamespace(INamespaceAwareElementInitialiser init) {
 		var objOne = this.initElement(init, nss1);
 		var objTwo = this.initElement(init, nss2);
@@ -41,7 +49,7 @@ public class NamespaceAwareElementTest extends AbstractEMFTextSimilarityTest {
 	 * Tests whether longer namespaces with the same prefix are different.
 	 */
 	@ParameterizedTest
-	@ArgumentsSource(NamespaceAwareElementTestParams.class)
+	@MethodSource("provideArguments")
 	public void testNamespaceScope(INamespaceAwareElementInitialiser init) {
 		for (int i = 0; i < nss1.length; i++) {
 			var newNss = new String[i];
@@ -58,7 +66,7 @@ public class NamespaceAwareElementTest extends AbstractEMFTextSimilarityTest {
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(NamespaceAwareElementTestParams.class)
+	@MethodSource("provideArguments")
 	public void testNamespaceNullCheck(INamespaceAwareElementInitialiser init) {
 		this.testSimilarityNullCheck(this.initElement(init, nss1), init, true,
 				CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);

@@ -1,12 +1,15 @@
 package cipm.consistency.fitests.similarity.emftext.unittests.interfacetests;
 
+import java.util.stream.Stream;
+
 import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.modifiers.ModifiersPackage;
 import org.emftext.language.java.modifiers.AnnotableAndModifiable;
 import org.emftext.language.java.modifiers.Modifier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.emftext.AbstractEMFTextSimilarityTest;
 import cipm.consistency.fitests.similarity.emftext.unittests.UsesAnnotationInstances;
@@ -16,6 +19,10 @@ import cipm.consistency.initialisers.emftext.modifiers.IAnnotableAndModifiableIn
 public class AnnotableAndModifiableTest extends AbstractEMFTextSimilarityTest
 		implements UsesAnnotationInstances, UsesModifiers {
 
+	private static Stream<Arguments> provideArguments() {
+		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IAnnotableAndModifiableInitialiser.class);
+	}
+	
 	protected AnnotableAndModifiable initElement(IAnnotableAndModifiableInitialiser init, Modifier[] modifs,
 			AnnotationInstance[] ais) {
 
@@ -28,7 +35,7 @@ public class AnnotableAndModifiableTest extends AbstractEMFTextSimilarityTest
 	}
 
 	@ParameterizedTest()
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testModifier(IAnnotableAndModifiableInitialiser init) {
 		var objOne = this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null);
 		var objTwo = this.initElement(init, new Modifier[] { this.createVolatile(), this.createProtected() }, null);
@@ -38,7 +45,7 @@ public class AnnotableAndModifiableTest extends AbstractEMFTextSimilarityTest
 	}
 
 	@ParameterizedTest()
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testModifierSize(IAnnotableAndModifiableInitialiser init) {
 		var objOne = this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null);
 		var objTwo = this.initElement(init, new Modifier[] { this.createAbstract() }, null);
@@ -48,7 +55,7 @@ public class AnnotableAndModifiableTest extends AbstractEMFTextSimilarityTest
 	}
 
 	@ParameterizedTest()
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testModifierNullCheck(IAnnotableAndModifiableInitialiser init) {
 		this.testSimilarityNullCheck(
 				this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null), init,
@@ -56,7 +63,7 @@ public class AnnotableAndModifiableTest extends AbstractEMFTextSimilarityTest
 	}
 
 	@ParameterizedTest()
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testAnnotationInstance(IAnnotableAndModifiableInitialiser init) {
 		var objOne = this.initElement(init, null,
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") });
@@ -68,7 +75,7 @@ public class AnnotableAndModifiableTest extends AbstractEMFTextSimilarityTest
 	}
 
 	@ParameterizedTest()
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testAnnotationInstanceSize(IAnnotableAndModifiableInitialiser init) {
 		var objOne = this.initElement(init, null,
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") });
@@ -81,7 +88,7 @@ public class AnnotableAndModifiableTest extends AbstractEMFTextSimilarityTest
 	}
 
 	@ParameterizedTest()
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testAnnotationInstanceNullCheck(IAnnotableAndModifiableInitialiser init) {
 		this.testSimilarityNullCheck(
 				this.initElement(init, null,
@@ -90,7 +97,7 @@ public class AnnotableAndModifiableTest extends AbstractEMFTextSimilarityTest
 	}
 
 	@ParameterizedTest()
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testPrivate(IAnnotableAndModifiableInitialiser init) {
 		var objOne = this.initElement(init, null, null);
 		init.makePrivate(objOne);
@@ -103,7 +110,7 @@ public class AnnotableAndModifiableTest extends AbstractEMFTextSimilarityTest
 	}
 
 	@ParameterizedTest()
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testPrivateNullCheck(IAnnotableAndModifiableInitialiser init) {
 		var objOne = this.initElement(init, null, null);
 		init.makePrivate(objOne);
@@ -113,7 +120,7 @@ public class AnnotableAndModifiableTest extends AbstractEMFTextSimilarityTest
 	}
 
 	@ParameterizedTest()
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testProtected(IAnnotableAndModifiableInitialiser init) {
 		var objOne = this.initElement(init, null, null);
 		init.makeProtected(objOne);
@@ -126,7 +133,7 @@ public class AnnotableAndModifiableTest extends AbstractEMFTextSimilarityTest
 	}
 
 	@ParameterizedTest()
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testProtectedNullCheck(IAnnotableAndModifiableInitialiser init) {
 		var objOne = this.initElement(init, null, null);
 		init.makeProtected(objOne);
@@ -136,7 +143,7 @@ public class AnnotableAndModifiableTest extends AbstractEMFTextSimilarityTest
 	}
 
 	@ParameterizedTest()
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testPublic(IAnnotableAndModifiableInitialiser init) {
 		var objOne = this.initElement(init, null, null);
 		init.makePublic(objOne);
@@ -149,7 +156,7 @@ public class AnnotableAndModifiableTest extends AbstractEMFTextSimilarityTest
 	}
 
 	@ParameterizedTest()
-	@ArgumentsSource(AnnotableAndModifiableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testPublicNullCheck(IAnnotableAndModifiableInitialiser init) {
 		var objOne = this.initElement(init, null, null);
 		init.makePublic(objOne);

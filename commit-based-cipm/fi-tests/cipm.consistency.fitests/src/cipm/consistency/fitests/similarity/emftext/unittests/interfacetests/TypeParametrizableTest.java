@@ -1,17 +1,25 @@
 package cipm.consistency.fitests.similarity.emftext.unittests.interfacetests;
 
+import java.util.stream.Stream;
+
 import org.emftext.language.java.generics.GenericsPackage;
 import org.emftext.language.java.generics.TypeParameter;
 import org.emftext.language.java.generics.TypeParametrizable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.emftext.AbstractEMFTextSimilarityTest;
 import cipm.consistency.fitests.similarity.emftext.unittests.UsesTypeParameters;
 import cipm.consistency.initialisers.emftext.generics.ITypeParametrizableInitialiser;
 
 public class TypeParametrizableTest extends AbstractEMFTextSimilarityTest implements UsesTypeParameters {
+
+	private static Stream<Arguments> provideArguments() {
+		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(ITypeParametrizableInitialiser.class);
+	}
+
 	protected TypeParametrizable initElement(ITypeParametrizableInitialiser init, TypeParameter[] tParams) {
 		TypeParametrizable result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
@@ -20,7 +28,7 @@ public class TypeParametrizableTest extends AbstractEMFTextSimilarityTest implem
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(TypeParametrizableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testTypeParameters(ITypeParametrizableInitialiser init) {
 		var objOne = this.initElement(init, new TypeParameter[] { this.createMinimalTypeParamWithClsRef("cls1") });
 		var objTwo = this.initElement(init, new TypeParameter[] { this.createMinimalTypeParamWithClsRef("cls2") });
@@ -29,7 +37,7 @@ public class TypeParametrizableTest extends AbstractEMFTextSimilarityTest implem
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(TypeParametrizableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testTypeParametersSize(ITypeParametrizableInitialiser init) {
 		var objOne = this.initElement(init, new TypeParameter[] { this.createMinimalTypeParamWithClsRef("cls1"),
 				this.createMinimalTypeParamWithClsRef("cls2") });
@@ -39,7 +47,7 @@ public class TypeParametrizableTest extends AbstractEMFTextSimilarityTest implem
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(TypeParametrizableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testTypeParametersNullCheck(ITypeParametrizableInitialiser init) {
 		this.testSimilarityNullCheck(
 				this.initElement(init, new TypeParameter[] { this.createMinimalTypeParamWithClsRef("cls1") }), init,

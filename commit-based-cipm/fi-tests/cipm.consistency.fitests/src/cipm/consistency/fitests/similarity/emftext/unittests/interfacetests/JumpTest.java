@@ -1,17 +1,25 @@
 package cipm.consistency.fitests.similarity.emftext.unittests.interfacetests;
 
+import java.util.stream.Stream;
+
 import org.emftext.language.java.statements.Jump;
 import org.emftext.language.java.statements.JumpLabel;
 import org.emftext.language.java.statements.StatementsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.emftext.AbstractEMFTextSimilarityTest;
 import cipm.consistency.fitests.similarity.emftext.unittests.UsesStatements;
 import cipm.consistency.initialisers.emftext.statements.IJumpInitialiser;
 
 public class JumpTest extends AbstractEMFTextSimilarityTest implements UsesStatements {
+
+	private static Stream<Arguments> provideArguments() {
+		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IJumpInitialiser.class);
+	}
+
 	protected Jump initElement(IJumpInitialiser init, JumpLabel jl) {
 		Jump result = init.instantiate();
 		Assertions.assertTrue(init.setTarget(result, jl));
@@ -19,7 +27,7 @@ public class JumpTest extends AbstractEMFTextSimilarityTest implements UsesState
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(JumpTestParams.class)
+	@MethodSource("provideArguments")
 	public void testTarget(IJumpInitialiser init) {
 		var objOne = this.initElement(init, this.createMinimalJLToNullReturn("jl1"));
 		var objTwo = this.initElement(init, this.createMinimalJLToTrivialAssert("jl2"));
@@ -28,7 +36,7 @@ public class JumpTest extends AbstractEMFTextSimilarityTest implements UsesState
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(JumpTestParams.class)
+	@MethodSource("provideArguments")
 	public void testTargetNullCheck(IJumpInitialiser init) {
 		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalJLToNullReturn("jl1")), init, false,
 				StatementsPackage.Literals.JUMP__TARGET);

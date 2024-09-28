@@ -1,17 +1,25 @@
 package cipm.consistency.fitests.similarity.emftext.unittests.interfacetests;
 
+import java.util.stream.Stream;
+
 import org.emftext.language.java.annotations.Annotable;
 import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.emftext.AbstractEMFTextSimilarityTest;
 import cipm.consistency.fitests.similarity.emftext.unittests.UsesAnnotationInstances;
 import cipm.consistency.initialisers.emftext.annotations.IAnnotableInitialiser;
 
 public class AnnotableTest extends AbstractEMFTextSimilarityTest implements UsesAnnotationInstances {
+	
+	private static Stream<Arguments> provideArguments() {
+		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IAnnotableInitialiser.class);
+	}
+	
 	protected Annotable initElement(IAnnotableInitialiser init, AnnotationInstance[] annotations) {
 		Annotable result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
@@ -20,7 +28,7 @@ public class AnnotableTest extends AbstractEMFTextSimilarityTest implements Uses
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(AnnotableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testAnnotation(IAnnotableInitialiser init) {
 		var objOne = this.initElement(init,
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") });
@@ -31,7 +39,7 @@ public class AnnotableTest extends AbstractEMFTextSimilarityTest implements Uses
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(AnnotableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testAnnotationSize(IAnnotableInitialiser init) {
 		var objOne = this.initElement(init,
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1"),
@@ -43,7 +51,7 @@ public class AnnotableTest extends AbstractEMFTextSimilarityTest implements Uses
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(AnnotableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testAnnotationNullCheck(IAnnotableInitialiser init) {
 		this.testSimilarityNullCheck(
 				this.initElement(init,

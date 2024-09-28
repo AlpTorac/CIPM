@@ -1,17 +1,25 @@
 package cipm.consistency.fitests.similarity.emftext.unittests.interfacetests;
 
+import java.util.stream.Stream;
+
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.instantiations.Initializable;
 import org.emftext.language.java.instantiations.InstantiationsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.emftext.AbstractEMFTextSimilarityTest;
 import cipm.consistency.fitests.similarity.emftext.unittests.UsesLiterals;
 import cipm.consistency.initialisers.emftext.instantiations.IInitializableInitialiser;
 
 public class InitializableTest extends AbstractEMFTextSimilarityTest implements UsesLiterals {
+
+	private static Stream<Arguments> provideArguments() {
+		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IInitializableInitialiser.class);
+	}
+
 	protected Initializable initElement(IInitializableInitialiser init, Expression initVal) {
 		Initializable result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
@@ -20,7 +28,7 @@ public class InitializableTest extends AbstractEMFTextSimilarityTest implements 
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(InitializableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testInitialValue(IInitializableInitialiser init) {
 		var objOne = this.initElement(init, this.createDecimalIntegerLiteral(5));
 		var objTwo = this.initElement(init, this.createBooleanLiteral(false));
@@ -29,7 +37,7 @@ public class InitializableTest extends AbstractEMFTextSimilarityTest implements 
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(InitializableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testInitialValueNullCheck(IInitializableInitialiser init) {
 		this.testSimilarityNullCheck(this.initElement(init, this.createDecimalIntegerLiteral(5)), init, true,
 				InstantiationsPackage.Literals.INITIALIZABLE__INITIAL_VALUE);

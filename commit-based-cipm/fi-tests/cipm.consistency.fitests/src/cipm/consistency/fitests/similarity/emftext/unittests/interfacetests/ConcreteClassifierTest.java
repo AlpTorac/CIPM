@@ -1,17 +1,26 @@
 package cipm.consistency.fitests.similarity.emftext.unittests.interfacetests;
 
 import org.emftext.language.java.containers.Package;
+
+import java.util.stream.Stream;
+
 import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.emftext.AbstractEMFTextSimilarityTest;
 import cipm.consistency.fitests.similarity.emftext.unittests.UsesPackages;
 import cipm.consistency.initialisers.emftext.classifiers.IConcreteClassifierInitialiser;
 
 public class ConcreteClassifierTest extends AbstractEMFTextSimilarityTest implements UsesPackages {
+
+	private static Stream<Arguments> provideArguments() {
+		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IConcreteClassifierInitialiser.class);
+	}
+
 	protected ConcreteClassifier initElement(IConcreteClassifierInitialiser init, Package pac) {
 
 		ConcreteClassifier result = init.instantiate();
@@ -21,7 +30,7 @@ public class ConcreteClassifierTest extends AbstractEMFTextSimilarityTest implem
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(ConcreteClassifierTestParams.class)
+	@MethodSource("provideArguments")
 	public void testPackage(IConcreteClassifierInitialiser init) {
 		var objOne = this.initElement(init, this.createMinimalPackage("pOneNS", 2));
 		var objTwo = this.initElement(init, this.createMinimalPackage("pTwoNS", 2));
@@ -30,7 +39,7 @@ public class ConcreteClassifierTest extends AbstractEMFTextSimilarityTest implem
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(ConcreteClassifierTestParams.class)
+	@MethodSource("provideArguments")
 	public void testPackageNullCheck(IConcreteClassifierInitialiser init) {
 		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalPackage("pOneNS", 2)), init, false,
 				ClassifiersPackage.Literals.CONCRETE_CLASSIFIER__PACKAGE);

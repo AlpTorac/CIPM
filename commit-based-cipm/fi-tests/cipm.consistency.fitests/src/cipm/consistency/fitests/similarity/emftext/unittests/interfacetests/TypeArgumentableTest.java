@@ -1,17 +1,25 @@
 package cipm.consistency.fitests.similarity.emftext.unittests.interfacetests;
 
+import java.util.stream.Stream;
+
 import org.emftext.language.java.generics.GenericsPackage;
 import org.emftext.language.java.generics.TypeArgument;
 import org.emftext.language.java.generics.TypeArgumentable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.emftext.AbstractEMFTextSimilarityTest;
 import cipm.consistency.fitests.similarity.emftext.unittests.UsesTypeArguments;
 import cipm.consistency.initialisers.emftext.generics.ITypeArgumentableInitialiser;
 
 public class TypeArgumentableTest extends AbstractEMFTextSimilarityTest implements UsesTypeArguments {
+
+	private static Stream<Arguments> provideArguments() {
+		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(ITypeArgumentableInitialiser.class);
+	}
+
 	protected TypeArgumentable initElement(ITypeArgumentableInitialiser init, TypeArgument typeArg) {
 		TypeArgumentable result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
@@ -20,7 +28,7 @@ public class TypeArgumentableTest extends AbstractEMFTextSimilarityTest implemen
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(TypeArgumentableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testTypeArgument(ITypeArgumentableInitialiser init) {
 		var objOne = this.initElement(init, this.createMinimalExtendsTAWithCls("cls1"));
 		var objTwo = this.initElement(init, this.createMinimalSuperTAWithCls("cls2"));
@@ -29,7 +37,7 @@ public class TypeArgumentableTest extends AbstractEMFTextSimilarityTest implemen
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(TypeArgumentableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testTypeArgumentNullCheck(ITypeArgumentableInitialiser init) {
 		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalExtendsTAWithCls("cls1")), init, true,
 				GenericsPackage.Literals.TYPE_ARGUMENTABLE__TYPE_ARGUMENTS);

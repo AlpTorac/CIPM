@@ -1,5 +1,7 @@
 package cipm.consistency.fitests.similarity.emftext.unittests.interfacetests;
 
+import java.util.stream.Stream;
+
 import org.emftext.language.java.containers.Package;
 
 import org.emftext.language.java.modules.AccessProvidingModuleDirective;
@@ -7,7 +9,8 @@ import org.emftext.language.java.modules.ModuleReference;
 import org.emftext.language.java.modules.ModulesPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.emftext.AbstractEMFTextSimilarityTest;
 import cipm.consistency.fitests.similarity.emftext.unittests.UsesModuleReferences;
@@ -16,6 +19,11 @@ import cipm.consistency.initialisers.emftext.modules.IAccessProvidingModuleDirec
 
 public class AccessProvidingModuleDirectiveTest extends AbstractEMFTextSimilarityTest
 		implements UsesModuleReferences, UsesPackages {
+
+	private static Stream<Arguments> provideArguments() {
+		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IAccessProvidingModuleDirectiveInitialiser.class);
+	}
+
 	protected AccessProvidingModuleDirective initElement(IAccessProvidingModuleDirectiveInitialiser init,
 			ModuleReference[] modRefs, Package accessablePac) {
 		var result = init.instantiate();
@@ -25,7 +33,7 @@ public class AccessProvidingModuleDirectiveTest extends AbstractEMFTextSimilarit
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
+	@MethodSource("provideArguments")
 	public void testModule(IAccessProvidingModuleDirectiveInitialiser init) {
 		var objOne = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod1") }, null);
 		var objTwo = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod2") }, null);
@@ -34,7 +42,7 @@ public class AccessProvidingModuleDirectiveTest extends AbstractEMFTextSimilarit
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
+	@MethodSource("provideArguments")
 	public void testModuleSize(IAccessProvidingModuleDirectiveInitialiser init) {
 		var objOne = this.initElement(init,
 				new ModuleReference[] { this.createMinimalMR("mod1"), this.createMinimalMR("mod2") }, null);
@@ -44,7 +52,7 @@ public class AccessProvidingModuleDirectiveTest extends AbstractEMFTextSimilarit
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
+	@MethodSource("provideArguments")
 	public void testModuleNullCheck(IAccessProvidingModuleDirectiveInitialiser init) {
 		this.testSimilarityNullCheck(
 				this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod1") }, null), init, false,
@@ -52,7 +60,7 @@ public class AccessProvidingModuleDirectiveTest extends AbstractEMFTextSimilarit
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
+	@MethodSource("provideArguments")
 	public void testAccessablePackage(IAccessProvidingModuleDirectiveInitialiser init) {
 		var objOne = this.initElement(init, null, this.createMinimalPackage(new String[] { "ns1", "ns2" }));
 		var objTwo = this.initElement(init, null, this.createMinimalPackage(new String[] { "ns3", "ns4" }));
@@ -62,7 +70,7 @@ public class AccessProvidingModuleDirectiveTest extends AbstractEMFTextSimilarit
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(AccessProvidingModuleDirectiveTestParams.class)
+	@MethodSource("provideArguments")
 	public void testAccessablePackageNullCheck(IAccessProvidingModuleDirectiveInitialiser init) {
 		this.testSimilarityNullCheck(
 				this.initElement(init, null, this.createMinimalPackage(new String[] { "ns1", "ns2" })), init, false,

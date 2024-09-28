@@ -1,17 +1,25 @@
 package cipm.consistency.fitests.similarity.emftext.unittests.interfacetests;
 
+import java.util.stream.Stream;
+
 import org.emftext.language.java.generics.CallTypeArgumentable;
 import org.emftext.language.java.generics.GenericsPackage;
 import org.emftext.language.java.generics.TypeArgument;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.emftext.AbstractEMFTextSimilarityTest;
 import cipm.consistency.fitests.similarity.emftext.unittests.UsesTypeArguments;
 import cipm.consistency.initialisers.emftext.generics.ICallTypeArgumentableInitialiser;
 
 public class CallTypeArgumentableTest extends AbstractEMFTextSimilarityTest implements UsesTypeArguments {
+
+	private static Stream<Arguments> provideArguments() {
+		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(ICallTypeArgumentableInitialiser.class);
+	}
+
 	protected CallTypeArgumentable initElement(ICallTypeArgumentableInitialiser init, TypeArgument[] callTypeArgs) {
 		CallTypeArgumentable result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
@@ -20,7 +28,7 @@ public class CallTypeArgumentableTest extends AbstractEMFTextSimilarityTest impl
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(CallTypeArgumentableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testCallTypeArguments(ICallTypeArgumentableInitialiser init) {
 		var objOne = this.initElement(init, new TypeArgument[] { this.createMinimalExtendsTAWithCls("cls1") });
 		var objTwo = this.initElement(init, new TypeArgument[] { this.createMinimalSuperTAWithCls("cls2") });
@@ -29,7 +37,7 @@ public class CallTypeArgumentableTest extends AbstractEMFTextSimilarityTest impl
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(CallTypeArgumentableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testCallTypeArgumentsSize(ICallTypeArgumentableInitialiser init) {
 		var objOne = this.initElement(init, new TypeArgument[] { this.createMinimalExtendsTAWithCls("cls1"),
 				this.createMinimalExtendsTAWithCls("cls2") });
@@ -39,7 +47,7 @@ public class CallTypeArgumentableTest extends AbstractEMFTextSimilarityTest impl
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(CallTypeArgumentableTestParams.class)
+	@MethodSource("provideArguments")
 	public void testCallTypeArgumentsNullCheck(ICallTypeArgumentableInitialiser init) {
 		this.testSimilarityNullCheck(
 				this.initElement(init, new TypeArgument[] { this.createMinimalExtendsTAWithCls("cls1") }), init, true,

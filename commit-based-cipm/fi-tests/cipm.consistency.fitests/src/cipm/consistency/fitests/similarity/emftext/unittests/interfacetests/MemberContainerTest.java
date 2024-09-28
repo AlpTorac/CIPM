@@ -1,11 +1,14 @@
 package cipm.consistency.fitests.similarity.emftext.unittests.interfacetests;
 
+import java.util.stream.Stream;
+
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.MembersPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.emftext.AbstractEMFTextSimilarityTest;
 import cipm.consistency.fitests.similarity.emftext.unittests.UsesConcreteClassifiers;
@@ -15,6 +18,11 @@ import cipm.consistency.initialisers.emftext.members.IMemberContainerInitialiser
 
 public class MemberContainerTest extends AbstractEMFTextSimilarityTest
 		implements UsesMethods, UsesFields, UsesConcreteClassifiers {
+
+	private static Stream<Arguments> provideArguments() {
+		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IMemberContainerInitialiser.class);
+	}
+
 	protected MemberContainer initElement(IMemberContainerInitialiser init, Member[] members, Member[] defMembers) {
 		MemberContainer result = init.instantiate();
 		Assertions.assertTrue(init.addMembers(result, members));
@@ -23,7 +31,7 @@ public class MemberContainerTest extends AbstractEMFTextSimilarityTest
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(MemberContainerTestParams.class)
+	@MethodSource("provideArguments")
 	public void testMember(IMemberContainerInitialiser init) {
 		var objOne = this.initElement(init, new Member[] { this.createMinimalClass("cls1") }, null);
 		var objTwo = this.initElement(init, new Member[] { this.createMinimalClass("cls2") }, null);
@@ -32,7 +40,7 @@ public class MemberContainerTest extends AbstractEMFTextSimilarityTest
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(MemberContainerTestParams.class)
+	@MethodSource("provideArguments")
 	public void testMemberSize(IMemberContainerInitialiser init) {
 		var objOne = this.initElement(init,
 				new Member[] { this.createMinimalClass("cls1"), this.createMinimalClass("cls2") }, null);
@@ -42,14 +50,14 @@ public class MemberContainerTest extends AbstractEMFTextSimilarityTest
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(MemberContainerTestParams.class)
+	@MethodSource("provideArguments")
 	public void testMemberNullCheck(IMemberContainerInitialiser init) {
 		this.testSimilarityNullCheck(this.initElement(init, new Member[] { this.createMinimalClass("cls1") }, null),
 				init, false, MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(MemberContainerTestParams.class)
+	@MethodSource("provideArguments")
 	public void testDefaultMember(IMemberContainerInitialiser init) {
 		var objOne = this.initElement(init, null, new Member[] { this.createMinimalClass("cls1") });
 		var objTwo = this.initElement(init, null, new Member[] { this.createMinimalClass("cls2") });
@@ -58,7 +66,7 @@ public class MemberContainerTest extends AbstractEMFTextSimilarityTest
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(MemberContainerTestParams.class)
+	@MethodSource("provideArguments")
 	public void testDefaultMemberSize(IMemberContainerInitialiser init) {
 		var objOne = this.initElement(init, null,
 				new Member[] { this.createMinimalClass("cls1"), this.createMinimalClass("cls2") });
@@ -68,7 +76,7 @@ public class MemberContainerTest extends AbstractEMFTextSimilarityTest
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(MemberContainerTestParams.class)
+	@MethodSource("provideArguments")
 	public void testDefaultMemberNullCheck(IMemberContainerInitialiser init) {
 		this.testSimilarityNullCheck(this.initElement(init, null, new Member[] { this.createMinimalClass("cls1") }),
 				init, false, MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
