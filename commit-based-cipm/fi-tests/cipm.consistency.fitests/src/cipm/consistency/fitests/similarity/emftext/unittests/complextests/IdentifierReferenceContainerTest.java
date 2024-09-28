@@ -180,14 +180,14 @@ public class IdentifierReferenceContainerTest extends AbstractEMFTextSimilarityT
 
 		var objTwo = objInit.instantiate();
 
-		var targetOne = new DummyClassDecorator(objOne, new StringReferenceInitialiser().instantiate());
-		var targetTwo = new DummyClassDecorator(objTwo, new StringReferenceInitialiser().instantiate());
+		var targetOne = new DummyClassImplAndReference(objOne, new StringReferenceInitialiser().instantiate());
+		var targetTwo = new DummyClassImplAndReference(objTwo, new StringReferenceInitialiser().instantiate());
 
 		Assertions.assertTrue(objInit.setTarget(objOne, targetOne));
-		Assertions.assertTrue(objInit.setNext(objOne, (DummyClassDecorator) targetOne));
+		Assertions.assertTrue(objInit.setNext(objOne, (DummyClassImplAndReference) targetOne));
 		
 		Assertions.assertTrue(objInit.setTarget(objTwo, targetTwo));
-		Assertions.assertTrue(objInit.setNext(objTwo, (DummyClassDecorator) targetTwo));
+		Assertions.assertTrue(objInit.setNext(objTwo, (DummyClassImplAndReference) targetTwo));
 		
 		/* Make sure that:
 		 * 
@@ -229,11 +229,11 @@ public class IdentifierReferenceContainerTest extends AbstractEMFTextSimilarityT
 		var objOne = objInit.instantiate();
 		var objTwo = objInit.instantiate();
 		
-		var targetOne = new DummyClassDecorator(objOne, new StringReferenceInitialiser().instantiate());
-		var targetTwo = new DummyClassDecorator(objTwo, new StringReferenceInitialiser().instantiate());
+		var targetOne = new DummyClassImplAndReference(objOne, new StringReferenceInitialiser().instantiate());
+		var targetTwo = new DummyClassImplAndReference(objTwo, new StringReferenceInitialiser().instantiate());
 
 		Assertions.assertTrue(objInit.setTarget(objOne, targetOne));
-		Assertions.assertTrue(objInit.setNext(objOne, (DummyClassDecorator) targetOne));
+		Assertions.assertTrue(objInit.setNext(objOne, (DummyClassImplAndReference) targetOne));
 
 		// Only set targetTwo as target in objTwo and not also as next, since that will make objTwo its container
 		Assertions.assertTrue(objInit.setTarget(objTwo, targetTwo));
