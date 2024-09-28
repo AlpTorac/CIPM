@@ -14,6 +14,9 @@
  * It is highly recommended to make the construction of the "main"
  * {@link EObject} instances as obvious and visible as possible, as their
  * construction can get complicated and not knowing all the construction steps
- * can lead to tests not fulfilling their goal.
+ * can lead to tests not fulfilling their goal. <br>
+ * <br>
+ * See {@link cipm.consistency.fitests.similarity.emftext.unittests} to find out
+ * more about what test methods do.
  */
 package cipm.consistency.fitests.similarity.emftext.unittests.impltests;
