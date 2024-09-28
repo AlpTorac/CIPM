@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.eobject.java.utiltests;
+package cipm.consistency.initialisers.eobject.java.utiltests;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -7,31 +7,54 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PatternLayout;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
 import cipm.consistency.initialisers.IInitialiser;
+import cipm.consistency.initialisers.IInitialiserPackage;
 import cipm.consistency.initialisers.eobject.InitialiserNameHelper;
 import cipm.consistency.initialisers.eobject.java.EMFtextHelper;
+import cipm.consistency.initialisers.eobject.java.EObjectJavaInitialiserPackage;
 
 /**
- * A test class, whose tests can be used to make sure no initialiser interfaces,
- * concrete initialisers or initialiser tests are missing.
+ * A test class, whose tests can be used to make sure no initialiser interfaces
+ * or concrete initialisers are missing.
  * 
  * @author atora
  */
-public class UtilityTests extends AbstractEObjectJavaSimilarityTest {
+public class UtilityTests {
+	private static final Logger LOGGER = Logger.getLogger(UtilityTests.class);
 	/**
 	 * Points at the {@link cipm.consistency.fitests.similarity.java} package. Used
 	 * by discovering methods in this class.
 	 */
 	private static final File root = new File("").getAbsoluteFile().getParentFile();
 
-	/**
-	 * The suffix used in tests.
-	 */
-	private static final String testSuffix = "Test";
+	@BeforeEach
+	public void setUp() {
+		Logger logger = this.getLogger();
+		logger.setLevel(Level.ALL);
+
+		logger = Logger.getRootLogger();
+		logger.removeAllAppenders();
+		ConsoleAppender ap = new ConsoleAppender(new PatternLayout("[%d{DATE}] %-5p: %c - %m%n"),
+				ConsoleAppender.SYSTEM_OUT);
+		logger.addAppender(ap);
+	}
+
+	public Logger getLogger() {
+		return LOGGER;
+	}
+
+	public IInitialiserPackage getUsedInitialiserPackage() {
+		return new EObjectJavaInitialiserPackage();
+	}
 
 	/**
 	 * @return The given text without whitespaces (includes line breaks).
@@ -55,27 +78,6 @@ public class UtilityTests extends AbstractEObjectJavaSimilarityTest {
 	}
 
 	/**
-	 * @return The name of the concrete initialiser corresponding to cls.
-	 */
-	public String getConcreteInitialiserName(Class<?> cls) {
-		return InitialiserNameHelper.getConcreteInitialiserName(cls);
-	}
-
-	/**
-	 * @return The name of the initialiser interface corresponding to cls.
-	 */
-	public String getInitialiserInterfaceName(Class<?> cls) {
-		return InitialiserNameHelper.getInitialiserInterfaceName(cls);
-	}
-
-	/**
-	 * @return The name of the test corresponding to cls.
-	 */
-	public String getTestName(Class<?> cls) {
-		return cls.getSimpleName() + testSuffix;
-	}
-
-	/**
 	 * @return The type of the initialiser meant to instantiate objClass.
 	 */
 	public Class<? extends IInitialiser> getInitialiserInterfaceFor(Class<?> objClass) {
@@ -90,8 +92,9 @@ public class UtilityTests extends AbstractEObjectJavaSimilarityTest {
 	public Collection<Class<?>> getClassesWithInitialiserInterface() {
 		var initClss = this.getAllInitialiserTypes();
 
-		return List.of(EMFtextHelper.getAllInitialiserCandidates().stream().filter(
-				(c) -> initClss.stream().anyMatch((f) -> f.getSimpleName().equals(this.getInitialiserInterfaceName(c))))
+		return List.of(EMFtextHelper.getAllInitialiserCandidates().stream()
+				.filter((c) -> initClss.stream().anyMatch(
+						(f) -> f.getSimpleName().equals(InitialiserNameHelper.getInitialiserInterfaceName(c))))
 				.toArray(Class<?>[]::new));
 	}
 
@@ -163,6 +166,17 @@ public class UtilityTests extends AbstractEObjectJavaSimilarityTest {
 	}
 
 	/**
+	 * Prints the interfaces between everything from {@link #getAllPossibleTypes()}
+	 * and {@link Commentable}.
+	 */
+	@Disabled("Can be enabled to print all possible concrete EObject types, does not test anything")
+	@Test
+	public void printFullHierarchy() {
+		var hSet = EMFtextHelper.getAllPossibleTypes();
+		this.getLogger().info(this.clsStreamToString(hSet.stream()));
+	}
+
+	/**
 	 * Checks if all necessary concrete initialisers can be accessed under the used
 	 * initialiser package, which is used in initialiser tests. <br>
 	 * <br>
@@ -199,8 +213,8 @@ public class UtilityTests extends AbstractEObjectJavaSimilarityTest {
 		var registeredInits = this.getUsedInitialiserPackage().getAllInitialiserInterfaceTypes();
 
 		var matches = List.of(clss.stream()
-				.filter((cls) -> registeredInits.stream()
-						.anyMatch((init) -> this.getInitialiserInterfaceName(cls).equals(init.getSimpleName())))
+				.filter((cls) -> registeredInits.stream().anyMatch(
+						(init) -> InitialiserNameHelper.getInitialiserInterfaceName(cls).equals(init.getSimpleName())))
 				.toArray(Class<?>[]::new));
 
 		this.getLogger().info(matches.size() + " out of " + clss.size() + " initialiser interfaces are registered");
@@ -212,34 +226,60 @@ public class UtilityTests extends AbstractEObjectJavaSimilarityTest {
 	}
 
 	/**
-	 * Checks if all classes in the need of an initialiser, which have their own
-	 * methods that modify them (the methods they do not get from inheritance), have
-	 * their corresponding test file. <br>
+	 * Checks if all concrete initialisers (SomethingInitialiser.java) files are
+	 * implemented and present under {@link #root}. <br>
 	 * <br>
-	 * In short, checks if all necessary initialiser test files are present. <br>
+	 * Prints the number of present concrete initialiser files. Information on the
+	 * missing files can be found in the assertion message. <br>
 	 * <br>
-	 * Prints the number of required test files that are actually present.
-	 * Information on the missing test files can be found in the assertion message.
-	 * <br>
-	 * <br>
-	 * <b> Only checks whether there are corresponding test files. Does not check
-	 * the unit tests they implement. </b>
+	 * <b>Only checks whether the said files are present, does not inspect their
+	 * content at all.</b>
 	 */
 	@Test
-	public void testAllInterfaceTestsPresent() {
-		var intfcs = EMFtextHelper.getAllInitialiserCandidates();
-		var allFiles = this.getAllFiles();
+	public void testAllConcreteInitialisersPresent() {
+		var intfcs = EMFtextHelper.getAllConcreteInitialiserCandidates();
+		var files = this.getAllFiles();
 
 		var matches = List.of(intfcs.stream()
-				.filter((c) -> !IInitialiser.declaresModificationMethods(this.getInitialiserInterfaceFor(c))
-						|| allFiles.stream().anyMatch((tf) -> fileNameEquals(tf, getTestName(c))))
+				.filter((ifc) -> files.stream()
+						.anyMatch((f) -> this.fileNameEquals(f, InitialiserNameHelper.getConcreteInitialiserName(ifc))))
 				.toArray(Class<?>[]::new));
+		var count = matches.size();
 
-		this.getLogger().info(matches.size() + " out of " + intfcs.size() + " interfaces are covered by tests");
+		this.getLogger().info(count + " out of " + intfcs.size() + " concrete initialiser files are present");
 
-		if (matches.size() != intfcs.size()) {
-			Assertions.fail("Tests missing for: "
-					+ this.clsStreamToString(intfcs.stream().filter((e) -> !matches.contains(e))));
+		if (count != intfcs.size()) {
+			Assertions.fail("Concrete initialiser files missing for: "
+					+ this.clsStreamToString(intfcs.stream().filter((ifc) -> !matches.contains(ifc))));
+		}
+	}
+
+	/**
+	 * Checks if all interface initialisers (ISomethingInitialiser.java) files are
+	 * implemented and present under {@link #root}. <br>
+	 * <br>
+	 * Prints the number of present initialiser files. Information on the missing
+	 * files can be found in the assertion message. <br>
+	 * <br>
+	 * <b>Only checks whether the said files are present, does not inspect their
+	 * content at all.</b>
+	 */
+	@Test
+	public void testAllInitialiserInterfacesPresent() {
+		var intfcs = EMFtextHelper.getAllInitialiserCandidates();
+		var files = this.getAllFiles();
+
+		var matches = List.of(intfcs.stream()
+				.filter((ifc) -> files.stream().anyMatch(
+						(f) -> this.fileNameEquals(f, InitialiserNameHelper.getInitialiserInterfaceName(ifc))))
+				.toArray(Class<?>[]::new));
+		var count = matches.size();
+
+		this.getLogger().info(count + " out of " + intfcs.size() + " initialiser files are present");
+
+		if (count != intfcs.size()) {
+			Assertions.fail("Initialiser files missing for: "
+					+ this.clsStreamToString(intfcs.stream().filter((ifc) -> !matches.contains(ifc))));
 		}
 	}
 }
