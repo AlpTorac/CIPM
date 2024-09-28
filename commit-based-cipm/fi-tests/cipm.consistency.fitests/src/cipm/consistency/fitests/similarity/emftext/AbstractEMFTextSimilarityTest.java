@@ -1,6 +1,9 @@
 package cipm.consistency.fitests.similarity.emftext;
 
 import java.io.File;
+import java.util.stream.Stream;
+
+import org.junit.jupiter.params.provider.Arguments;
 
 import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
 import cipm.consistency.fitests.similarity.base.JavaSimilarityCheckerProvider;
@@ -8,7 +11,9 @@ import cipm.consistency.fitests.similarity.base.SimilarityCheckerContainerWithPr
 import cipm.consistency.fitests.similarity.emftext.params.EMFTextInitialiserParameters;
 import cipm.consistency.fitests.similarity.emftext.params.EMFTextSimilarityValues;
 import cipm.consistency.fitests.similarity.eobject.AbstractEObjectSimilarityTest;
+import cipm.consistency.fitests.similarity.params.IInitialiserParameters;
 import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvider;
+import cipm.consistency.initialisers.IInitialiser;
 
 /**
  * The abstract test class that contains test elements needed in similarity
@@ -41,9 +46,56 @@ public abstract class AbstractEMFTextSimilarityTest extends AbstractEObjectSimil
 		return "javaxmi";
 	}
 
+	/**
+	 * @return The {@link InitialiserTestSettingsProvider} that will be used in
+	 *         tests. Initialises the instance to be returned, if not properly
+	 *         initialised.
+	 */
+	public static InitialiserTestSettingsProvider getClassesInitialiserTestSettingsProvider() {
+		var instance = InitialiserTestSettingsProvider.getInstance();
+
+		if (instance == null) {
+			InitialiserTestSettingsProvider.initialise();
+			instance = InitialiserTestSettingsProvider.getInstance();
+		}
+
+		if (instance.getParameters() == null) {
+			instance.setParameters(new EMFTextInitialiserParameters());
+		}
+
+		if (instance.getSimilarityValues() == null) {
+			instance.setSimilarityValues(new EMFTextSimilarityValues());
+		}
+
+		return instance;
+	}
+
 	@Override
-	protected void setupInitialiserTestSettingsProvider() {
-		InitialiserTestSettingsProvider.getInstance().setParameters(new EMFTextInitialiserParameters());
-		InitialiserTestSettingsProvider.getInstance().setSimilarityValues(new EMFTextSimilarityValues());
+	public InitialiserTestSettingsProvider getInitialiserTestSettingsProvider() {
+		return getClassesInitialiserTestSettingsProvider();
+	}
+
+	/**
+	 * @see {@link IInitialiserParameters#getAllInitialisersBySuper(Class)}
+	 */
+	public static Stream<Arguments> getAllInitialiserArgumentsFor(Class<? extends IInitialiser> superType) {
+		return getClassesInitialiserTestSettingsProvider().getParameters().getAllInitialisersBySuper(superType).stream()
+				.map((i) -> Arguments.of(i));
+	}
+
+	/**
+	 * @see {@link IInitialiserParameters#getAdaptedInitialisersBySuper(Class)}
+	 */
+	public static Stream<Arguments> getAdaptedInitialiserArgumentsFor(Class<? extends IInitialiser> superType) {
+		return getClassesInitialiserTestSettingsProvider().getParameters().getAdaptedInitialisersBySuper(superType)
+				.stream().map((i) -> Arguments.of(i));
+	}
+
+	/**
+	 * @see {@link IInitialiserParameters#getNonAdaptedInitialisersBySuper(Class)}
+	 */
+	public static Stream<Arguments> getNonAdaptedInitialiserArgumentsFor(Class<? extends IInitialiser> superType) {
+		return getClassesInitialiserTestSettingsProvider().getParameters().getNonAdaptedInitialisersBySuper(superType)
+				.stream().map((i) -> Arguments.of(i));
 	}
 }

@@ -8,9 +8,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.TestInfo;
 
 import cipm.consistency.initialisers.eobject.IEObjectInitialiser;
 import cipm.consistency.initialisers.IInitialiserPackage;
@@ -29,22 +26,6 @@ import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvide
  *      information on expected similarity values.
  */
 public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimilarityTest {
-	/**
-	 * Initialises {@link InitialiserTestSettingsProvider}, which is used in tests.
-	 */
-	@BeforeAll
-	public static void setUpBeforeClass() {
-		InitialiserTestSettingsProvider.initialise();
-	}
-
-	@BeforeEach
-	@Override
-	public void setUp(TestInfo info) {
-		super.setUp(info);
-
-		this.setupInitialiserTestSettingsProvider();
-	}
-
 	@AfterEach
 	@Override
 	public void tearDown() {
@@ -54,15 +35,20 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	}
 
 	/**
-	 * Prepares {@link InitialiserTestSettingsProvider} for individual tests.
+	 * Consider adding default initialisation for
+	 * {@link InitialiserTestSettingsProvider} if plausible to spare code
+	 * duplication.
+	 * 
+	 * @return The {@link InitialiserTestSettingsProvider} that will be used in
+	 *         tests.
 	 */
-	protected abstract void setupInitialiserTestSettingsProvider();
+	public abstract InitialiserTestSettingsProvider getInitialiserTestSettingsProvider();
 
 	/**
-	 * Resets {@link InitialiserTestSettingsProvider} after individual tests.
+	 * Resets {@link #getInitialiserTestSettingsProvider()} after individual tests.
 	 */
 	protected void resetInitialiserTestSettingsProvider() {
-		InitialiserTestSettingsProvider.getInstance().reset();
+		this.getInitialiserTestSettingsProvider().reset();
 	}
 
 	/**
@@ -70,7 +56,7 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	 *         {@link IInitialiser} parameters for tests.
 	 */
 	public IInitialiserPackage getUsedInitialiserPackage() {
-		return InitialiserTestSettingsProvider.getInstance().getUsedInitialiserPackage();
+		return this.getInitialiserTestSettingsProvider().getUsedInitialiserPackage();
 	}
 
 	/**
@@ -79,7 +65,7 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	 * interface, which introduces attrKey to the {@link EObject} hierarchy first.
 	 */
 	public Boolean getExpectedSimilarityResult(EStructuralFeature attrKey) {
-		return InitialiserTestSettingsProvider.getInstance().getSimilarityValues().getExpectedSimilarityResult(attrKey);
+		return this.getInitialiserTestSettingsProvider().getSimilarityValues().getExpectedSimilarityResult(attrKey);
 	}
 
 	/**
@@ -89,7 +75,7 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	 *         are compared, whose attribute (attrKey) is different.
 	 */
 	public Boolean getExpectedSimilarityResult(Class<? extends EObject> objCls, EStructuralFeature attrKey) {
-		return InitialiserTestSettingsProvider.getInstance().getSimilarityValues().getExpectedSimilarityResult(objCls,
+		return this.getInitialiserTestSettingsProvider().getSimilarityValues().getExpectedSimilarityResult(objCls,
 				attrKey);
 	}
 
