@@ -47,8 +47,7 @@ import cipm.consistency.initialisers.emftext.modifiers.TransitiveInitialiser;
  * {@link Literal} instances. <br>
  * <br>
  * Contains methods that can be used to create {@link Literal} instances. The
- * methods wrap the value provided to them with the corresponding
- * {@link Literal} implementations.
+ * methods wrap primitive value provided to them for convenience.
  */
 public interface UsesLiterals {
 	public default CharacterLiteral createCharacterLiteral(String val) {
