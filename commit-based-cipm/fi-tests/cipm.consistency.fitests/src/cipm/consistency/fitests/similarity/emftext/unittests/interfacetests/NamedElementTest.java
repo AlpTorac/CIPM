@@ -17,7 +17,7 @@ public class NamedElementTest extends AbstractEMFTextSimilarityTest {
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(NameTestParams.class)
+	@ArgumentsSource(NamedElementTestParams.class)
 	public void testName(INamedElementInitialiser init) {
 		var objOne = this.initElement(init, "name11");
 		var objTwo = this.initElement(init, "name22");
@@ -26,7 +26,7 @@ public class NamedElementTest extends AbstractEMFTextSimilarityTest {
 	}
 
 	@ParameterizedTest
-	@ArgumentsSource(NameTestParams.class)
+	@ArgumentsSource(NamedElementTestParams.class)
 	public void testNameNullCheck(INamedElementInitialiser init) {
 		this.testSimilarityNullCheck(this.initElement(init, "name11"), init, false,
 				CommonsPackage.Literals.NAMED_ELEMENT__NAME);

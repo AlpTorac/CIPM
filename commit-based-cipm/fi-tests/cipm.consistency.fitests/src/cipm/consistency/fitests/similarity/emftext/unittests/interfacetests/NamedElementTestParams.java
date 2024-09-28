@@ -9,7 +9,7 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 import cipm.consistency.fitests.similarity.emftext.params.EMFTextInitialiserParameters;
 import cipm.consistency.initialisers.emftext.commons.INamedElementInitialiser;
 
-public class NameTestParams implements ArgumentsProvider {
+public class NamedElementTestParams implements ArgumentsProvider {
 	@Override
 	public Stream<? extends Arguments> provideArguments(ExtensionContext arg0) throws Exception {
 		return new EMFTextInitialiserParameters().getAllInitialisersBySuper(INamedElementInitialiser.class).stream()
