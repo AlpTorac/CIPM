@@ -2,7 +2,7 @@ package cipm.consistency.fitests.similarity.eobject.java.unittests;
 
 import org.emftext.language.java.modules.ModuleReference;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modules.ModuleReferenceInitialiser;
+import cipm.consistency.initialisers.eobject.java.modules.ModuleReferenceInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.annotations.AnnotationAttributeSettingInitialiser;
+import cipm.consistency.initialisers.eobject.java.annotations.AnnotationAttributeSettingInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesAnnotationValues;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesMethods;
 

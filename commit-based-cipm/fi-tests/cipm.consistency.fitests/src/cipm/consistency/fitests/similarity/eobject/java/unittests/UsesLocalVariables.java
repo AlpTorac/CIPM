@@ -2,7 +2,7 @@ package cipm.consistency.fitests.similarity.eobject.java.unittests;
 
 import org.emftext.language.java.variables.LocalVariable;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.variables.LocalVariableInitialiser;
+import cipm.consistency.initialisers.eobject.java.variables.LocalVariableInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

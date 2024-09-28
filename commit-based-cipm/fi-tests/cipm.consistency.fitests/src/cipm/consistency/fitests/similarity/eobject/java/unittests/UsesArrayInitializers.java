@@ -4,7 +4,7 @@ import org.emftext.language.java.arrays.ArrayInitializationValue;
 import org.emftext.language.java.arrays.ArrayInitializer;
 import org.emftext.language.java.expressions.Expression;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.arrays.ArrayInitializerInitialiser;
+import cipm.consistency.initialisers.eobject.java.arrays.ArrayInitializerInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

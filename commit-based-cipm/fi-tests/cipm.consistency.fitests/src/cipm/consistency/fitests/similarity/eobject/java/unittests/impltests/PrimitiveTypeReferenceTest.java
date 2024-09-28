@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.references.PrimitiveTypeReferenceInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.types.BooleanInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.types.IntInitialiser;
+import cipm.consistency.initialisers.eobject.java.references.PrimitiveTypeReferenceInitialiser;
+import cipm.consistency.initialisers.eobject.java.types.BooleanInitialiser;
+import cipm.consistency.initialisers.eobject.java.types.IntInitialiser;
 
 public class PrimitiveTypeReferenceTest extends AbstractEObjectJavaSimilarityTest {
 	protected PrimitiveTypeReference initElement(PrimitiveType pType) {

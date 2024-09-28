@@ -4,8 +4,8 @@ import org.emftext.language.java.generics.ExtendsTypeArgument;
 import org.emftext.language.java.generics.SuperTypeArgument;
 import org.emftext.language.java.types.TypeReference;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.generics.ExtendsTypeArgumentInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.generics.SuperTypeArgumentInitialiser;
+import cipm.consistency.initialisers.eobject.java.generics.ExtendsTypeArgumentInitialiser;
+import cipm.consistency.initialisers.eobject.java.generics.SuperTypeArgumentInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

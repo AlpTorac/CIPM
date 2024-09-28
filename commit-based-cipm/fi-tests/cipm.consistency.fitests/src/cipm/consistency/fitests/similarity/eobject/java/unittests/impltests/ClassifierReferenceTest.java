@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.types.ClassifierReferenceInitialiser;
+import cipm.consistency.initialisers.eobject.java.types.ClassifierReferenceInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesConcreteClassifiers;
 
 public class ClassifierReferenceTest extends AbstractEObjectJavaSimilarityTest implements UsesConcreteClassifiers {

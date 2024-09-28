@@ -5,9 +5,9 @@ import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.TypeReference;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.types.ClassifierReferenceInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.types.ITypeReferenceInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.types.NamespaceClassifierReferenceInitialiser;
+import cipm.consistency.initialisers.eobject.java.types.ClassifierReferenceInitialiser;
+import cipm.consistency.initialisers.eobject.java.types.ITypeReferenceInitialiser;
+import cipm.consistency.initialisers.eobject.java.types.NamespaceClassifierReferenceInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

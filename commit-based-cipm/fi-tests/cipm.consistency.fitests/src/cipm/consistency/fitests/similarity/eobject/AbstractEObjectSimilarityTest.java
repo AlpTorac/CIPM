@@ -12,8 +12,8 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.IEObjectInitialiser;
-import cipm.consistency.fitests.similarity.initialiser.IInitialiserPackage;
+import cipm.consistency.initialisers.eobject.IEObjectInitialiser;
+import cipm.consistency.initialisers.IInitialiserPackage;
 import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvider;
 
 /**

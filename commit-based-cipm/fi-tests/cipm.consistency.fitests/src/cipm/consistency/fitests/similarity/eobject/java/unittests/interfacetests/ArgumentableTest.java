@@ -8,7 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.references.IArgumentableInitialiser;
+import cipm.consistency.initialisers.eobject.java.references.IArgumentableInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesConcreteClassifiers;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesExpressions;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesLiterals;

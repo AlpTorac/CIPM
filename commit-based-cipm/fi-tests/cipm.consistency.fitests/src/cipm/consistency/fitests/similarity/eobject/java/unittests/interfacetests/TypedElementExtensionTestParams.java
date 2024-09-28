@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.types.ITypedElementExtensionInitialiser;
+import cipm.consistency.initialisers.eobject.java.types.ITypedElementExtensionInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.params.EObjectJavaInitialiserParameters;
 
 public class TypedElementExtensionTestParams implements ArgumentsProvider {

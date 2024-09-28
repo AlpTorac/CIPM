@@ -2,7 +2,7 @@ package cipm.consistency.fitests.similarity.eobject.java.unittests;
 
 import org.emftext.language.java.classifiers.Annotation;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.classifiers.AnnotationInitialiser;
+import cipm.consistency.initialisers.eobject.java.classifiers.AnnotationInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

@@ -10,9 +10,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.IEObjectInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.containers.ModuleInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.containers.PackageInitialiser;
+import cipm.consistency.initialisers.eobject.IEObjectInitialiser;
+import cipm.consistency.initialisers.eobject.java.containers.ModuleInitialiser;
+import cipm.consistency.initialisers.eobject.java.containers.PackageInitialiser;
 
 import org.emftext.language.java.containers.Module;
 

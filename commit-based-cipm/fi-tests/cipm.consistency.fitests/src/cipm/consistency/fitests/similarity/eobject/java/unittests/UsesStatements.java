@@ -9,12 +9,12 @@ import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.variables.LocalVariable;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.AssertInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.BlockInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.JumpLabelInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.LocalVariableStatementInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.ReturnInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.variables.LocalVariableInitialiser;
+import cipm.consistency.initialisers.eobject.java.statements.AssertInitialiser;
+import cipm.consistency.initialisers.eobject.java.statements.BlockInitialiser;
+import cipm.consistency.initialisers.eobject.java.statements.JumpLabelInitialiser;
+import cipm.consistency.initialisers.eobject.java.statements.LocalVariableStatementInitialiser;
+import cipm.consistency.initialisers.eobject.java.statements.ReturnInitialiser;
+import cipm.consistency.initialisers.eobject.java.variables.LocalVariableInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

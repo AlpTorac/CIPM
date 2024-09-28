@@ -8,8 +8,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.containers.ModuleInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.OpenInitialiser;
+import cipm.consistency.initialisers.eobject.java.containers.ModuleInitialiser;
+import cipm.consistency.initialisers.eobject.java.modifiers.OpenInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesModuleDirectives;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesNames;
 

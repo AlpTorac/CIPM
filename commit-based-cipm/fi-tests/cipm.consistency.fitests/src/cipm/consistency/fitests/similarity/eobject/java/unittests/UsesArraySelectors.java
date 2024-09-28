@@ -3,7 +3,7 @@ package cipm.consistency.fitests.similarity.eobject.java.unittests;
 import org.emftext.language.java.arrays.ArraySelector;
 import org.emftext.language.java.expressions.Expression;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.arrays.ArraySelectorInitialiser;
+import cipm.consistency.initialisers.eobject.java.arrays.ArraySelectorInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

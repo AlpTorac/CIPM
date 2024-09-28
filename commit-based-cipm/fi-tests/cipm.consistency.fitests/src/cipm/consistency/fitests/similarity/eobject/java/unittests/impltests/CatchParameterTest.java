@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.parameters.CatchParameterInitialiser;
+import cipm.consistency.initialisers.eobject.java.parameters.CatchParameterInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesTypeReferences;
 
 public class CatchParameterTest extends AbstractEObjectJavaSimilarityTest implements UsesTypeReferences {

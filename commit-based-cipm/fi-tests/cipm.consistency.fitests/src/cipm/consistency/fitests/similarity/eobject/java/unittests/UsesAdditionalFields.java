@@ -2,7 +2,7 @@ package cipm.consistency.fitests.similarity.eobject.java.unittests;
 
 import org.emftext.language.java.members.AdditionalField;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.members.AdditionalFieldInitialiser;
+import cipm.consistency.initialisers.eobject.java.members.AdditionalFieldInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

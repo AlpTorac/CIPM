@@ -15,20 +15,20 @@ import org.emftext.language.java.operators.PlusPlus;
 import org.emftext.language.java.operators.RightShift;
 import org.emftext.language.java.operators.Subtraction;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.operators.AdditionInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.operators.AssignmentInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.operators.AssignmentOrInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.operators.DivisionInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.operators.EqualInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.operators.GreaterThanInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.operators.LeftShiftInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.operators.LessThanInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.operators.MinusMinusInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.operators.MultiplicationInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.operators.NotEqualInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.operators.PlusPlusInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.operators.RightShiftInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.operators.SubtractionInitialiser;
+import cipm.consistency.initialisers.eobject.java.operators.AdditionInitialiser;
+import cipm.consistency.initialisers.eobject.java.operators.AssignmentInitialiser;
+import cipm.consistency.initialisers.eobject.java.operators.AssignmentOrInitialiser;
+import cipm.consistency.initialisers.eobject.java.operators.DivisionInitialiser;
+import cipm.consistency.initialisers.eobject.java.operators.EqualInitialiser;
+import cipm.consistency.initialisers.eobject.java.operators.GreaterThanInitialiser;
+import cipm.consistency.initialisers.eobject.java.operators.LeftShiftInitialiser;
+import cipm.consistency.initialisers.eobject.java.operators.LessThanInitialiser;
+import cipm.consistency.initialisers.eobject.java.operators.MinusMinusInitialiser;
+import cipm.consistency.initialisers.eobject.java.operators.MultiplicationInitialiser;
+import cipm.consistency.initialisers.eobject.java.operators.NotEqualInitialiser;
+import cipm.consistency.initialisers.eobject.java.operators.PlusPlusInitialiser;
+import cipm.consistency.initialisers.eobject.java.operators.RightShiftInitialiser;
+import cipm.consistency.initialisers.eobject.java.operators.SubtractionInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

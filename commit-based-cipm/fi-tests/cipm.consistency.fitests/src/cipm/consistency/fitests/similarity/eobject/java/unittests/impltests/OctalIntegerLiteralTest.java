@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.OctalIntegerLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.OctalIntegerLiteralInitialiser;
 
 public class OctalIntegerLiteralTest extends AbstractEObjectJavaSimilarityTest {
 	protected OctalIntegerLiteral initElement(int val) {

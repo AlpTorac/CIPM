@@ -2,7 +2,7 @@ package cipm.consistency.fitests.similarity.params;
 
 import java.util.Collection;
 
-import cipm.consistency.fitests.similarity.initialiser.IInitialiser;
+import cipm.consistency.initialisers.IInitialiser;
 
 /**
  * An interface for classes that encapsulate the logic to adapt

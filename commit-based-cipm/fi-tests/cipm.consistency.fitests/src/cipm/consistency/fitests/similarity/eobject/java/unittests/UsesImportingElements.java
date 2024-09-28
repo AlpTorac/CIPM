@@ -3,7 +3,7 @@ package cipm.consistency.fitests.similarity.eobject.java.unittests;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.imports.ImportingElement;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.imports.IImportingElementInitialiser;
+import cipm.consistency.initialisers.eobject.java.imports.IImportingElementInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

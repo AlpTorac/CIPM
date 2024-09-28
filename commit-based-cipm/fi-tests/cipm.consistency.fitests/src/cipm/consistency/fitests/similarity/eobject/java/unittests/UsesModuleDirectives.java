@@ -5,9 +5,9 @@ import org.emftext.language.java.modules.AccessProvidingModuleDirective;
 import org.emftext.language.java.modules.ExportsModuleDirective;
 import org.emftext.language.java.modules.OpensModuleDirective;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modules.ExportsModuleDirectiveInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modules.IAccessProvidingModuleDirectiveInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modules.OpensModuleDirectiveInitialiser;
+import cipm.consistency.initialisers.eobject.java.modules.ExportsModuleDirectiveInitialiser;
+import cipm.consistency.initialisers.eobject.java.modules.IAccessProvidingModuleDirectiveInitialiser;
+import cipm.consistency.initialisers.eobject.java.modules.OpensModuleDirectiveInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

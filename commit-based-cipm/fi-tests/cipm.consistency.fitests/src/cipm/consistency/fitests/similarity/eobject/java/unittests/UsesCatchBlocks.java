@@ -3,7 +3,7 @@ package cipm.consistency.fitests.similarity.eobject.java.unittests;
 import org.emftext.language.java.parameters.OrdinaryParameter;
 import org.emftext.language.java.statements.CatchBlock;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.CatchBlockInitialiser;
+import cipm.consistency.initialisers.eobject.java.statements.CatchBlockInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

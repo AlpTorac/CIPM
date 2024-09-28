@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.NormalSwitchCaseInitialiser;
+import cipm.consistency.initialisers.eobject.java.statements.NormalSwitchCaseInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesExpressions;
 
 public class NormalSwitchCaseTest extends AbstractEObjectJavaSimilarityTest implements UsesExpressions {

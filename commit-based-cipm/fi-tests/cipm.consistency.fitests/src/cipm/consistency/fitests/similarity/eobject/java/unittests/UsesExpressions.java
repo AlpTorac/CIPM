@@ -6,8 +6,8 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionList;
 import org.emftext.language.java.operators.EqualityOperator;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.expressions.EqualityExpressionInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.expressions.ExpressionListInitialiser;
+import cipm.consistency.initialisers.eobject.java.expressions.EqualityExpressionInitialiser;
+import cipm.consistency.initialisers.eobject.java.expressions.ExpressionListInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

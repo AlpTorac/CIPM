@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.members.EnumConstantInitialiser;
+import cipm.consistency.initialisers.eobject.java.members.EnumConstantInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesAnonymousClasses;
 
 public class EnumConstantTest extends AbstractEObjectJavaSimilarityTest implements UsesAnonymousClasses {

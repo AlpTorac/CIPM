@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.types.NamespaceClassifierReferenceInitialiser;
+import cipm.consistency.initialisers.eobject.java.types.NamespaceClassifierReferenceInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesTypeReferences;
 
 public class NamespaceClassifierReferenceTest extends AbstractEObjectJavaSimilarityTest implements UsesTypeReferences {

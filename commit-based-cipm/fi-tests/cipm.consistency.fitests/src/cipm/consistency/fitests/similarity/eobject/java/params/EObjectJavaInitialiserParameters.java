@@ -1,7 +1,7 @@
 package cipm.consistency.fitests.similarity.eobject.java.params;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.EObjectJavaInitialiserPackage;
-import cipm.consistency.fitests.similarity.initialiser.IInitialiserPackage;
+import cipm.consistency.initialisers.eobject.java.EObjectJavaInitialiserPackage;
+import cipm.consistency.initialisers.IInitialiserPackage;
 import cipm.consistency.fitests.similarity.params.IInitialiserParameterAdaptationStrategy;
 import cipm.consistency.fitests.similarity.params.IInitialiserParameters;
 

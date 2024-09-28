@@ -4,8 +4,8 @@ import org.emftext.language.java.parameters.OrdinaryParameter;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.types.TypeReference;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.parameters.IParameterInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.parameters.OrdinaryParameterInitialiser;
+import cipm.consistency.initialisers.eobject.java.parameters.IParameterInitialiser;
+import cipm.consistency.initialisers.eobject.java.parameters.OrdinaryParameterInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

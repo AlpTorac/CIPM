@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.LocalVariableStatementInitialiser;
+import cipm.consistency.initialisers.eobject.java.statements.LocalVariableStatementInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesLocalVariables;
 
 public class LocalVariableStatementTest extends AbstractEObjectJavaSimilarityTest implements UsesLocalVariables {

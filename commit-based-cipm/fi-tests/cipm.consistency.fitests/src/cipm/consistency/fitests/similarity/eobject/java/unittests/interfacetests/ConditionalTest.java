@@ -8,7 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.IConditionalInitialiser;
+import cipm.consistency.initialisers.eobject.java.statements.IConditionalInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesExpressions;
 
 public class ConditionalTest extends AbstractEObjectJavaSimilarityTest implements UsesExpressions {

@@ -2,9 +2,9 @@ package cipm.consistency.fitests.similarity.eobject.java.unittests;
 
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.classifiers.ClassInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.classifiers.IConcreteClassifierInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.containers.CompilationUnitInitialiser;
+import cipm.consistency.initialisers.eobject.java.classifiers.ClassInitialiser;
+import cipm.consistency.initialisers.eobject.java.classifiers.IConcreteClassifierInitialiser;
+import cipm.consistency.initialisers.eobject.java.containers.CompilationUnitInitialiser;
 
 import org.emftext.language.java.classifiers.Class;
 

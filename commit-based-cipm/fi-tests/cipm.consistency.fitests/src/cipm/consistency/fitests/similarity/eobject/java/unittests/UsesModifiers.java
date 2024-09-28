@@ -13,18 +13,18 @@ import org.emftext.language.java.modifiers.Synchronized;
 import org.emftext.language.java.modifiers.Transient;
 import org.emftext.language.java.modifiers.Volatile;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.AbstractInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.DefaultInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.FinalInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.NativeInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.PrivateInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.ProtectedInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.PublicInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.StaticInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.StrictfpInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.SynchronizedInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.TransientInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.VolatileInitialiser;
+import cipm.consistency.initialisers.eobject.java.modifiers.AbstractInitialiser;
+import cipm.consistency.initialisers.eobject.java.modifiers.DefaultInitialiser;
+import cipm.consistency.initialisers.eobject.java.modifiers.FinalInitialiser;
+import cipm.consistency.initialisers.eobject.java.modifiers.NativeInitialiser;
+import cipm.consistency.initialisers.eobject.java.modifiers.PrivateInitialiser;
+import cipm.consistency.initialisers.eobject.java.modifiers.ProtectedInitialiser;
+import cipm.consistency.initialisers.eobject.java.modifiers.PublicInitialiser;
+import cipm.consistency.initialisers.eobject.java.modifiers.StaticInitialiser;
+import cipm.consistency.initialisers.eobject.java.modifiers.StrictfpInitialiser;
+import cipm.consistency.initialisers.eobject.java.modifiers.SynchronizedInitialiser;
+import cipm.consistency.initialisers.eobject.java.modifiers.TransientInitialiser;
+import cipm.consistency.initialisers.eobject.java.modifiers.VolatileInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

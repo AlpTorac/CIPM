@@ -9,11 +9,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.classifiers.ClassInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.instantiations.ExplicitConstructorCallInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.references.IdentifierReferenceInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.references.StringReferenceInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.ExpressionStatementInitialiser;
+import cipm.consistency.initialisers.eobject.java.classifiers.ClassInitialiser;
+import cipm.consistency.initialisers.eobject.java.instantiations.ExplicitConstructorCallInitialiser;
+import cipm.consistency.initialisers.eobject.java.references.IdentifierReferenceInitialiser;
+import cipm.consistency.initialisers.eobject.java.references.StringReferenceInitialiser;
+import cipm.consistency.initialisers.eobject.java.statements.ExpressionStatementInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesConcreteClassifiers;
 
 public class IdentifierReferenceContainerTest extends AbstractEObjectJavaSimilarityTest implements UsesConcreteClassifiers {

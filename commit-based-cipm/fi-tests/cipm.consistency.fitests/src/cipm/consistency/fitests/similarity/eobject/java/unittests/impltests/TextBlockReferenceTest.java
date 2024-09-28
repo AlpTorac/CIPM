@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.references.TextBlockReferenceInitialiser;
+import cipm.consistency.initialisers.eobject.java.references.TextBlockReferenceInitialiser;
 
 public class TextBlockReferenceTest extends AbstractEObjectJavaSimilarityTest {
 	protected TextBlockReference initElement(String val) {

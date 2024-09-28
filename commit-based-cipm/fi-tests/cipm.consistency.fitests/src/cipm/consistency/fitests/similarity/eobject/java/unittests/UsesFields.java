@@ -2,7 +2,7 @@ package cipm.consistency.fitests.similarity.eobject.java.unittests;
 
 import org.emftext.language.java.members.Field;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.members.FieldInitialiser;
+import cipm.consistency.initialisers.eobject.java.members.FieldInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with {@link Field}

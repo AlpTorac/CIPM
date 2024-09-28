@@ -8,7 +8,7 @@ import org.emftext.language.java.imports.ImportingElement;
 import org.emftext.language.java.imports.ImportsPackage;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.imports.IImportingElementInitialiser;
+import cipm.consistency.initialisers.eobject.java.imports.IImportingElementInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesImportingElements;
 
 public class ImportingElementTest extends AbstractEObjectJavaSimilarityTest implements UsesImportingElements {

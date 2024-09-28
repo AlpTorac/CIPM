@@ -6,7 +6,7 @@ import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.ArgumentsProvider;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.commons.INamespaceAwareElementInitialiser;
+import cipm.consistency.initialisers.eobject.java.commons.INamespaceAwareElementInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.params.EObjectJavaInitialiserParameters;
 
 public class NamespaceAwareElementTestParams implements ArgumentsProvider {

@@ -3,8 +3,8 @@ package cipm.consistency.fitests.similarity.eobject.java.unittests;
 import org.emftext.language.java.generics.TypeParameter;
 import org.emftext.language.java.types.TypeReference;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.generics.ITypeParameterInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.generics.TypeParameterInitialiser;
+import cipm.consistency.initialisers.eobject.java.generics.ITypeParameterInitialiser;
+import cipm.consistency.initialisers.eobject.java.generics.TypeParameterInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

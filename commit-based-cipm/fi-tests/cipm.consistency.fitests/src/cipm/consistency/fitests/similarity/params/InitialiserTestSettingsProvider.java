@@ -1,6 +1,6 @@
 package cipm.consistency.fitests.similarity.params;
 
-import cipm.consistency.fitests.similarity.initialiser.IInitialiserPackage;
+import cipm.consistency.initialisers.IInitialiserPackage;
 
 /**
  * A singleton class that provides central access to

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.generics.ExtendsTypeArgumentInitialiser;
+import cipm.consistency.initialisers.eobject.java.generics.ExtendsTypeArgumentInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesTypeReferences;
 
 public class ExtendsTypeArgumentTest extends AbstractEObjectJavaSimilarityTest implements UsesTypeReferences {

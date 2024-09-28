@@ -8,7 +8,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.types.ITypedElementExtensionInitialiser;
+import cipm.consistency.initialisers.eobject.java.types.ITypedElementExtensionInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesTypeReferences;
 
 public class TypedElementExtensionTest extends AbstractEObjectJavaSimilarityTest implements UsesTypeReferences {

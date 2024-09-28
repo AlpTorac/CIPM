@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.expressions.AndExpressionInitialiser;
+import cipm.consistency.initialisers.eobject.java.expressions.AndExpressionInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesExpressions;
 
 public class AndExpressionTest extends AbstractEObjectJavaSimilarityTest implements UsesExpressions {

@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.references.SelfReferenceInitialiser;
+import cipm.consistency.initialisers.eobject.java.references.SelfReferenceInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesLiterals;
 
 public class SelfReferenceTest extends AbstractEObjectJavaSimilarityTest implements UsesLiterals {

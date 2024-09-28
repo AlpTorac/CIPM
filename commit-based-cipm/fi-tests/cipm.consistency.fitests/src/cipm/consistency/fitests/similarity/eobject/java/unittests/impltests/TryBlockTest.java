@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.TryBlockInitialiser;
+import cipm.consistency.initialisers.eobject.java.statements.TryBlockInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesCatchBlocks;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesLocalVariables;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesStatements;

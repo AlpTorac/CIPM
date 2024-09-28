@@ -14,8 +14,8 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.IStatementInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.IStatementListContainerInitialiser;
+import cipm.consistency.initialisers.eobject.java.statements.IStatementInitialiser;
+import cipm.consistency.initialisers.eobject.java.statements.IStatementListContainerInitialiser;
 import cipm.consistency.fitests.similarity.eobject.java.params.EObjectJavaInitialiserParameters;
 import cipm.consistency.fitests.similarity.eobject.java.unittests.UsesStatements;
 

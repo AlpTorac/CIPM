@@ -3,7 +3,7 @@ package cipm.consistency.fitests.similarity.eobject.java.unittests;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.NormalSwitchCase;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.statements.NormalSwitchCaseInitialiser;
+import cipm.consistency.initialisers.eobject.java.statements.NormalSwitchCaseInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

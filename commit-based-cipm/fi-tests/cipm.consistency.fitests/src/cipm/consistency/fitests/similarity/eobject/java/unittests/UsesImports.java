@@ -4,8 +4,8 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.Import;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.imports.ClassifierImportInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.imports.IImportInitialiser;
+import cipm.consistency.initialisers.eobject.java.imports.ClassifierImportInitialiser;
+import cipm.consistency.initialisers.eobject.java.imports.IImportInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with {@link Import}

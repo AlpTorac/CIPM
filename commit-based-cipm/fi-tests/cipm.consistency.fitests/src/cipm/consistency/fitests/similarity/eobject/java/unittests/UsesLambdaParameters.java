@@ -3,7 +3,7 @@ package cipm.consistency.fitests.similarity.eobject.java.unittests;
 import org.emftext.language.java.expressions.ExplicitlyTypedLambdaParameters;
 import org.emftext.language.java.parameters.Parameter;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.expressions.ExplicitlyTypedLambdaParametersInitialiser;
+import cipm.consistency.initialisers.eobject.java.expressions.ExplicitlyTypedLambdaParametersInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

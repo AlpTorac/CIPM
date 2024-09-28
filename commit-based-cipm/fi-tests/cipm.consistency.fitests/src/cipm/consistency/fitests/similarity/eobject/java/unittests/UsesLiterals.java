@@ -22,25 +22,25 @@ import org.emftext.language.java.literals.This;
 import org.emftext.language.java.modifiers.Static;
 import org.emftext.language.java.modifiers.Transitive;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.BinaryIntegerLiteralInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.BinaryLongLiteralInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.BooleanLiteralInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.CharacterLiteralInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.DecimalDoubleLiteralInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.DecimalFloatLiteralInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.DecimalIntegerLiteralInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.DecimalLongLiteralInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.HexDoubleLiteralInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.HexFloatLiteralInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.HexIntegerLiteralInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.HexLongLiteralInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.NullLiteralInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.OctalIntegerLiteralInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.OctalLongLiteralInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.SuperInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.ThisInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.StaticInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.modifiers.TransitiveInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.BinaryIntegerLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.BinaryLongLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.BooleanLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.CharacterLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.DecimalDoubleLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.DecimalFloatLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.DecimalIntegerLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.DecimalLongLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.HexDoubleLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.HexFloatLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.HexIntegerLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.HexLongLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.NullLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.OctalIntegerLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.OctalLongLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.SuperInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.ThisInitialiser;
+import cipm.consistency.initialisers.eobject.java.modifiers.StaticInitialiser;
+import cipm.consistency.initialisers.eobject.java.modifiers.TransitiveInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

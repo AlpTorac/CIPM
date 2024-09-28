@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.BinaryIntegerLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.BinaryIntegerLiteralInitialiser;
 
 public class BinaryIntegerLiteralTest extends AbstractEObjectJavaSimilarityTest {
 	protected BinaryIntegerLiteral initElement(int val) {

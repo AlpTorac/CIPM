@@ -7,7 +7,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.commons.INamespaceAwareElementInitialiser;
+import cipm.consistency.initialisers.eobject.java.commons.INamespaceAwareElementInitialiser;
 
 public class NamespaceAwareElementTest extends AbstractEObjectJavaSimilarityTest {
 	private final String ns11 = "ns11";

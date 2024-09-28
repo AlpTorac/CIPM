@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.eobject.java.AbstractEObjectJavaSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.literals.DecimalIntegerLiteralInitialiser;
+import cipm.consistency.initialisers.eobject.java.literals.DecimalIntegerLiteralInitialiser;
 
 public class DecimalIntegerLiteralTest extends AbstractEObjectJavaSimilarityTest {
 	protected DecimalIntegerLiteral initElement(int val) {

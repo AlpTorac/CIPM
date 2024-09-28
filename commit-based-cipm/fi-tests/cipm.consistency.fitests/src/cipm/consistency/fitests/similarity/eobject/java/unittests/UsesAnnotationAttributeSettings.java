@@ -4,7 +4,7 @@ import org.emftext.language.java.annotations.AnnotationAttributeSetting;
 import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.members.InterfaceMethod;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.annotations.AnnotationAttributeSettingInitialiser;
+import cipm.consistency.initialisers.eobject.java.annotations.AnnotationAttributeSettingInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

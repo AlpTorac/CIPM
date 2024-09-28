@@ -3,7 +3,7 @@ package cipm.consistency.fitests.similarity.eobject.java.unittests;
 import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.annotations.SingleAnnotationParameter;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.annotations.SingleAnnotationParameterInitialiser;
+import cipm.consistency.initialisers.eobject.java.annotations.SingleAnnotationParameterInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with

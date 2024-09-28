@@ -3,8 +3,8 @@ package cipm.consistency.fitests.similarity.eobject.java.unittests;
 import org.emftext.language.java.members.ClassMethod;
 import org.emftext.language.java.members.InterfaceMethod;
 
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.members.ClassMethodInitialiser;
-import cipm.consistency.fitests.similarity.eobject.initialiser.java.members.InterfaceMethodInitialiser;
+import cipm.consistency.initialisers.eobject.java.members.ClassMethodInitialiser;
+import cipm.consistency.initialisers.eobject.java.members.InterfaceMethodInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with {@link Method}
