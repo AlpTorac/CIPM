@@ -9,7 +9,11 @@ import java.util.Collection;
  * <br>
  * This interface contains dependencies to neither similarity checker interfaces
  * nor to concrete implementations, because doing so would reduce the
- * re-usability.
+ * re-usability. <br>
+ * <br>
+ * Keep in mind that reseting the underlying similarity checker has to be done
+ * manually. Otherwise the same similarity checker will be used in similarity
+ * checking.
  * 
  * @author atora
  */
