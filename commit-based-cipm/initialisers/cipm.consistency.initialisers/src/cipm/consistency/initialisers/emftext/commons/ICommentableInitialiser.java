@@ -2,9 +2,9 @@ package cipm.consistency.initialisers.emftext.commons;
 
 import org.emftext.language.java.commons.Commentable;
 
-import cipm.consistency.initialisers.eobject.IEObjectInitialiser;
+import cipm.consistency.initialisers.emftext.IEMFTextEObjectInitialiser;
 
-public interface ICommentableInitialiser extends IEObjectInitialiser {
+public interface ICommentableInitialiser extends IEMFTextEObjectInitialiser {
 	@Override
 	public Commentable instantiate();
 
