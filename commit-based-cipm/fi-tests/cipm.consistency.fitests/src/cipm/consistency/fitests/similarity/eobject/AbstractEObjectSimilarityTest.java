@@ -5,9 +5,10 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 
 import cipm.consistency.initialisers.eobject.IEObjectInitialiser;
 import cipm.consistency.initialisers.IInitialiserPackage;
@@ -26,9 +27,23 @@ import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvide
  *      information on expected similarity values.
  */
 public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimilarityTest {
+	/**
+	 * A helper class instance that can be used to perform various operations on
+	 * {@link EObject} instances.
+	 */
+	private EcoreUtilHelper ecoreHelper;
+
+	@BeforeEach
+	@Override
+	public void setUp(TestInfo info) {
+		super.setUp(info);
+		this.ecoreHelper = new EcoreUtilHelper();
+	}
+
 	@AfterEach
 	@Override
 	public void tearDown() {
+		this.ecoreHelper = null;
 		this.resetInitialiserTestSettingsProvider();
 
 		super.tearDown();
@@ -45,6 +60,14 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	public abstract InitialiserTestSettingsProvider getInitialiserTestSettingsProvider();
 
 	/**
+	 * @return A helper class instance that can be used to perform various
+	 *         operations on {@link EObject} instances.
+	 */
+	protected EcoreUtilHelper getEcoreUtilHelper() {
+		return this.ecoreHelper;
+	}
+
+	/**
 	 * Resets {@link #getInitialiserTestSettingsProvider()} after individual tests.
 	 */
 	protected void resetInitialiserTestSettingsProvider() {
@@ -52,8 +75,8 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	}
 
 	/**
-	 * @return The {@link IInitialiserPackage} that is used to generate
-	 *         initialiser parameters for tests.
+	 * @return The {@link IInitialiserPackage} that is used to generate initialiser
+	 *         parameters for tests.
 	 */
 	public IInitialiserPackage getUsedInitialiserPackage() {
 		return this.getInitialiserTestSettingsProvider().getUsedInitialiserPackage();
@@ -69,7 +92,7 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	}
 
 	/**
-	 * @param objCls  The interface of the {@link EObject} instances being compared
+	 * @param objCls  The type of the {@link EObject} instances being compared
 	 * @param attrKey The attribute, based on which the said instances are compared
 	 * @return The expected similarity value for cases, where 2 instances of objCls
 	 *         are compared, whose attribute (attrKey) is different.
@@ -80,90 +103,43 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	}
 
 	/**
-	 * Creates a clone copy of the given obj and its contents. <br>
-	 * <br>
-	 * <b>Note: DOES NOT clone the container {@code obj.eContainer()} of this
-	 * object. Only copies the given object and the contents nested in it.</b>
-	 * 
-	 * @return A clone of obj without its container and clones of its contents.
-	 * @see {@link EcoreUtil#copy(EObject)}
+	 * See {@link EcoreUtilHelper#cloneEObj(EObject)}
 	 */
 	public <T extends EObject> T cloneEObj(T obj) {
-		return EcoreUtil.copy(obj);
+		return this.getEcoreUtilHelper().cloneEObj(obj);
 	}
 
 	/**
-	 * Finds the topmost EObject (objTop) that can be reached from {@code obj},
-	 * clones objTop, finds the clone of {@code obj} among the contents of objTop
-	 * and returns that clone.
-	 * 
-	 * @return A clone of obj, which preserves obj's place in its hierarchy. The
-	 *         returned clone contains clones of obj's contents and is contained by
-	 *         clones of all containers of obj.
-	 * @see {@link EcoreUtil#copy(EObject)}
+	 * See {@link EcoreUtilHelper#cloneEObjWithContainers(EObject)}
 	 */
-	@SuppressWarnings("unchecked")
 	public <T extends EObject> T cloneEObjWithContainers(T obj) {
-		if (obj.eContainer() == null) {
-			return this.cloneEObj(obj);
-		}
+		var clone = this.getEcoreUtilHelper().cloneEObjWithContainers(obj);
+		if (clone != null)
+			return clone;
 
-		EObject cObj = obj;
-
-		while (cObj.eContainer() != null) {
-			cObj = cObj.eContainer();
-		}
-
-		EObject clone = this.cloneEObj(cObj);
-		var contents = clone.eAllContents();
-
-		while (contents.hasNext()) {
-			var cCloneObj = contents.next();
-			if (this.getActualEquality(obj, cCloneObj)) {
-				return (T) cCloneObj;
-			}
-		}
-
-		Assertions.fail("Cloning unsuccessful");
+		Assertions.fail("Cloning with cloneEObjWithContainers failed");
 		return null;
 	}
 
 	/**
-	 * Creates a clone copy of all given objs. <br>
-	 * <br>
-	 * <b>Note: DOES NOT clone any containers {@code obj.eContainer()} of the
-	 * objects. Only copies the given objects and the contents nested in them.</b>
-	 * 
-	 * @see {@link EcoreUtil#copyAll(Collection)}
+	 * See {@link EcoreUtilHelper#cloneEObjList(Collection)}
 	 */
 	public <T extends EObject> Collection<T> cloneEObjList(Collection<T> objs) {
-		return EcoreUtil.copyAll(objs);
+		return this.getEcoreUtilHelper().cloneEObjList(objs);
 	}
 
 	/**
-	 * Computes the equality of two {@link EObject} instances using
-	 * {@link EcoreUtil}. <br>
-	 * <br>
-	 * <b>Note: The equality here is not the same as similarity checking that is
-	 * being tested. This form of equality is much stricter than similarity, since
-	 * there might be some attributes and/or nested classes, which are irrelevant
-	 * for similarity in certain cases.</b>
+	 * See {@link EcoreUtilHelper#getActualEquality(EObject, EObject)}
 	 */
 	public boolean getActualEquality(EObject elem1, EObject elem2) {
-		return EcoreUtil.equals(elem1, elem2);
+		return this.getEcoreUtilHelper().getActualEquality(elem1, elem2);
 	}
 
 	/**
-	 * Computes the equality of two lists of {@link EObject} using
-	 * {@link EcoreUtil}. <br>
-	 * <br>
-	 * <b>Note: The equality here is not the same as similarity checking that is
-	 * being tested. This form of equality is much stricter than similarity, since
-	 * there might be some attributes and/or nested classes, which are irrelevant
-	 * for similarity in certain cases.</b>
+	 * See {@link EcoreUtilHelper#getActualEquality(List, List)}
 	 */
 	public boolean getActualEquality(List<? extends EObject> elems1, List<? extends EObject> elems2) {
-		return EcoreUtil.equals(elems1, elems2);
+		return this.getEcoreUtilHelper().getActualEquality(elems1, elems2);
 	}
 
 	/**
