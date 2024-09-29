@@ -13,7 +13,8 @@ import cipm.consistency.fitests.similarity.emftext.params.EMFTextSimilarityValue
 import cipm.consistency.fitests.similarity.eobject.AbstractEObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.params.IInitialiserParameters;
 import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvider;
-import cipm.consistency.initialisers.IInitialiser;
+import cipm.consistency.initialisers.IInitialiserBase;
+import cipm.consistency.initialisers.emftext.IEMFTextEObjectInitialiser;
 
 /**
  * The abstract test class that contains test elements needed in similarity
@@ -76,9 +77,19 @@ public abstract class AbstractEMFTextSimilarityTest extends AbstractEObjectSimil
 	}
 
 	/**
+	 * @see {@link IInitialiserParameters#getEachInitialiserOnceBySuper(Class)}
+	 */
+	public static Stream<Arguments> getEachInitialiserArgumentsOnceFor(
+			Class<? extends IEMFTextEObjectInitialiser> superType) {
+		return getClassesInitialiserTestSettingsProvider().getParameters().getEachInitialiserOnceBySuper(superType)
+				.stream().map((i) -> Arguments.of(i));
+	}
+
+	/**
 	 * @see {@link IInitialiserParameters#getAllInitialisersBySuper(Class)}
 	 */
-	public static Stream<Arguments> getAllInitialiserArgumentsFor(Class<? extends IInitialiser> superType) {
+	public static Stream<Arguments> getAllInitialiserArgumentsFor(
+			Class<? extends IEMFTextEObjectInitialiser> superType) {
 		return getClassesInitialiserTestSettingsProvider().getParameters().getAllInitialisersBySuper(superType).stream()
 				.map((i) -> Arguments.of(i));
 	}
@@ -86,7 +97,8 @@ public abstract class AbstractEMFTextSimilarityTest extends AbstractEObjectSimil
 	/**
 	 * @see {@link IInitialiserParameters#getAdaptedInitialisersBySuper(Class)}
 	 */
-	public static Stream<Arguments> getAdaptedInitialiserArgumentsFor(Class<? extends IInitialiser> superType) {
+	public static <T extends IEMFTextEObjectInitialiser & IInitialiserBase> Stream<Arguments> getAdaptedInitialiserArgumentsFor(
+			Class<T> superType) {
 		return getClassesInitialiserTestSettingsProvider().getParameters().getAdaptedInitialisersBySuper(superType)
 				.stream().map((i) -> Arguments.of(i));
 	}
@@ -94,7 +106,8 @@ public abstract class AbstractEMFTextSimilarityTest extends AbstractEObjectSimil
 	/**
 	 * @see {@link IInitialiserParameters#getNonAdaptedInitialisersBySuper(Class)}
 	 */
-	public static Stream<Arguments> getNonAdaptedInitialiserArgumentsFor(Class<? extends IInitialiser> superType) {
+	public static Stream<Arguments> getNonAdaptedInitialiserArgumentsFor(
+			Class<? extends IEMFTextEObjectInitialiser> superType) {
 		return getClassesInitialiserTestSettingsProvider().getParameters().getNonAdaptedInitialisersBySuper(superType)
 				.stream().map((i) -> Arguments.of(i));
 	}

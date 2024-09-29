@@ -31,32 +31,27 @@ import cipm.consistency.fitests.similarity.params.IInitialiserParameterAdaptatio
  * missing certain components.
  */
 public class EMFTextInitialiserParameterAdaptationStrategy implements IInitialiserParameterAdaptationStrategy {
-
 	@Override
-	public void adaptInitialisers(Collection<IInitialiser> inits) {
-		inits.stream().filter((i) -> IInitialiserBase.class.isAssignableFrom(i.getClass()))
-				.map((i) -> (IInitialiserBase) i).forEach((i) -> {
-					if (INamedElementInitialiser.class.isAssignableFrom(i.getClass())) {
-						i.addAdaptingInitialiser(new NamedElementInitialiserAdapter());
-					}
-					if (IBlockContainerInitialiser.class.isAssignableFrom(i.getClass())) {
-						i.addAdaptingInitialiser(new BlockContainerInitialiserAdapter(new BlockInitialiser()));
-					}
-					if (IMemberInitialiser.class.isAssignableFrom(i.getClass())) {
-						i.addAdaptingInitialiser(new MemberInitialiserAdapter(new ClassInitialiser()));
-					}
-					if (IConcreteClassifierInitialiser.class.isAssignableFrom(i.getClass())) {
-						i.addAdaptingInitialiser(
-								new ConcreteClassifierInitialiserAdapter(new CompilationUnitInitialiser()));
-					}
-					if (INewConstructorCallInitialiser.class.isAssignableFrom(i.getClass())) {
-						i.addAdaptingInitialiser(new NewConstructorCallInitialiserAdapter(
-								new ClassifierReferenceInitialiser(), new ClassInitialiser()));
-					}
-					if (IClassMethodInitialiser.class.isAssignableFrom(i.getClass())) {
-						i.addAdaptingInitialiser(new ClassMethodInitialiserAdapter(new BlockInitialiser()));
-					}
-				});
-	}
-
+		public void adaptAdaptableInitialiser(IInitialiserBase init) {
+			if (INamedElementInitialiser.class.isAssignableFrom(init.getClass())) {
+				init.addAdaptingInitialiser(new NamedElementInitialiserAdapter());
+			}
+			if (IBlockContainerInitialiser.class.isAssignableFrom(init.getClass())) {
+				init.addAdaptingInitialiser(new BlockContainerInitialiserAdapter(new BlockInitialiser()));
+			}
+			if (IMemberInitialiser.class.isAssignableFrom(init.getClass())) {
+				init.addAdaptingInitialiser(new MemberInitialiserAdapter(new ClassInitialiser()));
+			}
+			if (IConcreteClassifierInitialiser.class.isAssignableFrom(init.getClass())) {
+				init.addAdaptingInitialiser(
+						new ConcreteClassifierInitialiserAdapter(new CompilationUnitInitialiser()));
+			}
+			if (INewConstructorCallInitialiser.class.isAssignableFrom(init.getClass())) {
+				init.addAdaptingInitialiser(new NewConstructorCallInitialiserAdapter(
+						new ClassifierReferenceInitialiser(), new ClassInitialiser()));
+			}
+			if (IClassMethodInitialiser.class.isAssignableFrom(init.getClass())) {
+				init.addAdaptingInitialiser(new ClassMethodInitialiserAdapter(new BlockInitialiser()));
+			}
+		}
 }

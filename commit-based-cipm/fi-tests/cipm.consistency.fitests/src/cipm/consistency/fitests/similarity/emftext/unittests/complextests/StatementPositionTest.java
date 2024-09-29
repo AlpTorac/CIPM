@@ -33,14 +33,14 @@ import cipm.consistency.initialisers.emftext.statements.IStatementListContainerI
 public class StatementPositionTest extends AbstractEMFTextSimilarityTest implements UsesStatements {
 	private static List<IStatementListContainerInitialiser> getAllSLCInitInstances() {
 		var res = new ArrayList<IStatementListContainerInitialiser>();
-		var inits = new EMFTextInitialiserParameters().getAdaptedInitialisersBySuper(IStatementListContainerInitialiser.class);
+		var inits = new EMFTextInitialiserParameters().getEachInitialiserOnceBySuper(IStatementListContainerInitialiser.class);
 		inits.forEach((i) -> res.add(((IStatementListContainerInitialiser) i)));
 		return res;
 	}
 
 	private static List<IStatementInitialiser> getAllStatementInitInstances() {
 		var res = new ArrayList<IStatementInitialiser>();
-		var inits = new EMFTextInitialiserParameters().getAdaptedInitialisersBySuper(IStatementInitialiser.class);
+		var inits = new EMFTextInitialiserParameters().getEachInitialiserOnceBySuper(IStatementInitialiser.class);
 		inits.forEach((i) -> res.add(((IStatementInitialiser) i)));
 		return res;
 	}

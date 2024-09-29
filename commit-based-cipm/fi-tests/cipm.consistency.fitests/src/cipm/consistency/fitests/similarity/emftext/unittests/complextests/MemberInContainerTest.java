@@ -41,14 +41,14 @@ import cipm.consistency.initialisers.emftext.members.IMemberInitialiser;
 public class MemberInContainerTest extends AbstractEMFTextSimilarityTest {
 	private static List<IMemberInitialiser> getAllMemberInitInstances() {
 		var res = new ArrayList<IMemberInitialiser>();
-		var inits = new EMFTextInitialiserParameters().getAdaptedInitialisersBySuper(IMemberInitialiser.class);
+		var inits = new EMFTextInitialiserParameters().getEachInitialiserOnceBySuper(IMemberInitialiser.class);
 		inits.forEach((i) -> res.add(((IMemberInitialiser) i)));
 		return res;
 	}
 
 	private static List<IMemberContainerInitialiser> getAllMemberContainerInitInstances() {
 		var res = new ArrayList<IMemberContainerInitialiser>();
-		var inits = new EMFTextInitialiserParameters().getAdaptedInitialisersBySuper(IMemberContainerInitialiser.class);
+		var inits = new EMFTextInitialiserParameters().getEachInitialiserOnceBySuper(IMemberContainerInitialiser.class);
 		inits.forEach((i) -> res.add(((IMemberContainerInitialiser) i)));
 		return res;
 	}

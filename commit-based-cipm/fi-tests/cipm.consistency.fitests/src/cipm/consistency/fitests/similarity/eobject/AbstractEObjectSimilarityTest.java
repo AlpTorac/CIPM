@@ -53,7 +53,7 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 
 	/**
 	 * @return The {@link IInitialiserPackage} that is used to generate
-	 *         {@link IInitialiser} parameters for tests.
+	 *         initialiser parameters for tests.
 	 */
 	public IInitialiserPackage getUsedInitialiserPackage() {
 		return this.getInitialiserTestSettingsProvider().getUsedInitialiserPackage();
