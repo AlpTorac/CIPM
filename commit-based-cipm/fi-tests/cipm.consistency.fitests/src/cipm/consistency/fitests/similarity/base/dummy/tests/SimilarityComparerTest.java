@@ -18,26 +18,26 @@ public class SimilarityComparerTest extends AbstractDummySimilarityCheckingTest 
 		Assertions.assertTrue(simComparer.canHandleSimilarityRequest(EqualsCheckRequest.class));
 		Assertions.assertTrue(simComparer.canHandleSimilarityRequest(ReferenceCheckRequest.class));
 	}
-	
+
 	@Test
 	public void testHandleSimilarityRequest() {
 		var tb = new DummySimilarityToolbox();
 		var ecrh = new EqualsCheckRequestHandler();
 		var rcrh = new ReferenceCheckRequestHandler();
-		
+
 		tb.addRequestHandlerPair(EqualsCheckRequest.class, ecrh);
 		tb.addRequestHandlerPair(ReferenceCheckRequest.class, rcrh);
-		
+
 		var simComparer = new DummySimilarityComparer(tb);
-		
+
 		var req = new EqualsCheckRequest(1, 2);
 		var result = simComparer.handleSimilarityRequest(req);
-		
+
 		var history = tb.getHandlingHistory();
 		Assertions.assertEquals(1, history.size());
 		var he = history.get(0);
-		
-		Assertions.assertEquals(req, he.getReq());
+
+		Assertions.assertEquals(req, he.getRequest());
 		Assertions.assertEquals(ecrh, he.getHandler());
 		Assertions.assertEquals(result, he.getOutput());
 		Assertions.assertEquals(ecrh.handleSimilarityRequest(req), he.getOutput());

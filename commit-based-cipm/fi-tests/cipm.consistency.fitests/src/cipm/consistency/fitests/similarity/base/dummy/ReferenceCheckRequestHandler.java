@@ -3,6 +3,11 @@ package cipm.consistency.fitests.similarity.base.dummy;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 
+/**
+ * An exemplary custom handler for {@link ReferenceCheckRequest}.
+ * 
+ * @author atora
+ */
 public class ReferenceCheckRequestHandler implements ISimilarityRequestHandler {
 	@Override
 	public Object handleSimilarityRequest(ISimilarityRequest req) {

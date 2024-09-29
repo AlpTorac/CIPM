@@ -14,9 +14,14 @@ public class SimilarityToolboxBuilderTest extends AbstractDummySimilarityCheckin
 		var tbBuilder = new DummySimilarityToolboxBuilder();
 		tbBuilder.setSimilarityToolboxFactory(new DummySimilarityToolboxFactory());
 
+		// No toolbox under construction present within builder
 		Assertions.assertNull(tbBuilder.build());
+
 		tbBuilder.instantiate();
+		// Builder now has a toolbox under construction
 		Assertions.assertNotNull(tbBuilder.build());
+
+		// Builder already returned the toolbox under construction
 		Assertions.assertNull(tbBuilder.build());
 	}
 
@@ -35,7 +40,7 @@ public class SimilarityToolboxBuilderTest extends AbstractDummySimilarityCheckin
 		Assertions.assertTrue(tbOnePair.canHandleSimilarityRequest(EqualsCheckRequest.class));
 		Assertions.assertFalse(tbOnePair.canHandleSimilarityRequest(ReferenceCheckRequest.class));
 
-		var tbBothPairs = tbBuilder.instantiate().buildEqualsCheckHandler().buildReferenceCheckHandler().build();
+		var tbBothPairs = tbBuilder.instantiate().buildEqualityCheckingHandlers().build();
 
 		Assertions.assertTrue(tbBothPairs.canHandleSimilarityRequest(EqualsCheckRequest.class));
 		Assertions.assertTrue(tbBothPairs.canHandleSimilarityRequest(ReferenceCheckRequest.class));

@@ -24,8 +24,7 @@ public abstract class AbstractDummySimilarityCheckingTest {
 		var tbBuilder = new DummySimilarityToolboxBuilder();
 		tbBuilder.setSimilarityToolboxFactory(new DummySimilarityToolboxFactory());
 
-		return (DummySimilarityToolbox) tbBuilder.instantiate().buildEqualsCheckHandler().buildReferenceCheckHandler()
-				.build();
+		return (DummySimilarityToolbox) tbBuilder.instantiate().buildEqualityCheckingHandlers().build();
 	}
 
 	/**

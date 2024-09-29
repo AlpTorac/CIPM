@@ -70,7 +70,7 @@ public class SimilarityToolboxTest extends AbstractDummySimilarityCheckingTest {
 		Assertions.assertEquals(1, history.size());
 		var he = history.get(0);
 		
-		Assertions.assertEquals(req, he.getReq());
+		Assertions.assertEquals(req, he.getRequest());
 		Assertions.assertEquals(ecrh, he.getHandler());
 		Assertions.assertEquals(result, he.getOutput());
 		Assertions.assertEquals(ecrh.handleSimilarityRequest(req), he.getOutput());
