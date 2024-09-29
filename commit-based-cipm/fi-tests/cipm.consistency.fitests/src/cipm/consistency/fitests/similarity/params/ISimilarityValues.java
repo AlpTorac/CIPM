@@ -32,7 +32,8 @@ public interface ISimilarityValues {
 	 * value to this instance.
 	 * 
 	 * @see {@link #getExpectedSimilarityResult(Class, Object)} for more information
-	 *      on expected similarity checking result.
+	 *      on expected similarity checking result and which entry is chosen, if
+	 *      entries for super/sub-types of objCls exist.
 	 * 
 	 * @see {@link #addSimilarityEntry(Class[], Object, Boolean)}
 	 * @see {@link #addSimilarityEntry(Class[], Object[], Boolean[])}
@@ -133,11 +134,11 @@ public interface ISimilarityValues {
 	 *         <li>Null: The result of similarity checking a and b is not defined,
 	 *         i.e. differences in attr play no decisive role.
 	 *         </ul>
-	 *         Note: If this instance has no entries for the given parameters, it
+	 *         Note: If this instance does not have the entry for (objCls, attr), it
 	 *         checks whether there is an entry for a parent class parObjCls (of
-	 *         objCls) and attr. If there is one such entry, the expected result of
-	 *         similarity checking for parObjCls and attr is returned. If there are
-	 *         no entries for objCls or parObjCls,
+	 *         objCls) and attr (parObjCls, attr). If there is one such entry, the
+	 *         expected result of similarity checking for (parObjCls, attr) is
+	 *         returned. If there are still no matching entries,
 	 *         {@link #getDefaultSimilarityResult()} is returned.
 	 */
 	public Boolean getExpectedSimilarityResult(Class<? extends Object> objCls, Object attr);

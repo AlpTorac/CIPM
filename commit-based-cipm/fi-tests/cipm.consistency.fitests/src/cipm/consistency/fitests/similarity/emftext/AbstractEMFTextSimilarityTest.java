@@ -17,11 +17,12 @@ import cipm.consistency.initialisers.IInitialiserBase;
 import cipm.consistency.initialisers.emftext.IEMFTextEObjectInitialiser;
 
 /**
- * The abstract test class that contains test elements needed in similarity
- * checking tests.
+ * An abstract test class that extends {@link AbstractEObjectSimilarityTest}
+ * with concrete method implementations for EMFText context, as well as static
+ * methods that can be used in parameterised tests to generate initialiser
+ * instances.
  * 
  * @author atora
- * @see {@link AbstractEObjectSimilarityTest}
  */
 public abstract class AbstractEMFTextSimilarityTest extends AbstractEObjectSimilarityTest {
 	/**
