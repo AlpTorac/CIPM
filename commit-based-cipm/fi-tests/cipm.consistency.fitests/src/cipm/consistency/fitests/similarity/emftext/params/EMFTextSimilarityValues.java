@@ -55,11 +55,11 @@ import cipm.consistency.fitests.similarity.params.ISimilarityValues;
  * Contains expected similarity values for tests, in which a certain attribute
  * is different. <br>
  * <br>
- * Entries for sub-interfaces will take precedence over their parent interfaces.
- * If the behaviour of a certain sub-interface differs from its parents' and/or
- * sibling interfaces, an entry can be created to account for it. This spares
- * having to create explicit entries for everything in a part of the hierarchy,
- * if there are small deviations. <br>
+ * Entries for directly matching entries will take precedence over entries of
+ * their parent types. If the behaviour of a certain type differs from its
+ * parents' and/or sibling types, an entry can be created to account for it.
+ * This spares having to create explicit entries for everything in a part of the
+ * hierarchy, if there are small deviations. <br>
  * <br>
  * To spare creating entries for every possibility, a default similarity value
  * can be defined by using {@link #setDefaultSimilarityResult(Boolean)}. If
@@ -234,10 +234,7 @@ public class EMFTextSimilarityValues extends AbstractSimilarityValues {
 	}
 
 	public void addTypesSimilarityEntries() {
-		/*
-		 * FIXME: There might be issues with TYPED_ELEMENT__TYPE_REFERENCE
-		 */
-		// Types
+		// FIXME: There might be issues with TYPED_ELEMENT__TYPE_REFERENCE
 		this.addSimilarityEntry(TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS, Boolean.TRUE);
 		this.addSimilarityEntry(TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE, Boolean.TRUE);
 		this.addSimilarityEntry(
