@@ -22,7 +22,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
  * @author atora
  */
 public class ResourceHelper {
-	private static final Logger logger = Logger.getLogger("cipm." + ResourceHelper.class.getSimpleName());
+	private static final Logger LOGGER = Logger.getLogger("cipm." + ResourceHelper.class.getSimpleName());
 
 	/**
 	 * The directory, where the created {@link Resource} instances will be stored,
@@ -53,7 +53,7 @@ public class ResourceHelper {
 	 *         instance.
 	 */
 	protected Logger getLogger() {
-		return logger;
+		return LOGGER;
 	}
 
 	/**
