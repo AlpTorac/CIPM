@@ -35,6 +35,10 @@ public interface UsesStatements extends UsesLiterals {
 		return result;
 	}
 
+	/**
+	 * @param lvName The name of the instance to be constructed
+	 * @return A {@link LocalVariableStatement} instance with the given name.
+	 */
 	public default LocalVariableStatement createMinimalLVS(String lvName) {
 		var init = new LocalVariableInitialiser();
 		var res = init.instantiate();
@@ -42,6 +46,11 @@ public interface UsesStatements extends UsesLiterals {
 		return this.createMinimalLVS(res);
 	}
 
+	/**
+	 * @param lvName The {@link LocalVariable} of the instance to be constructed
+	 * @return A {@link LocalVariableStatement} instance with the given
+	 *         {@link LocalVariable}.
+	 */
 	public default LocalVariableStatement createMinimalLVS(LocalVariable lv) {
 		var init = new LocalVariableStatementInitialiser();
 		var res = init.instantiate();
