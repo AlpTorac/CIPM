@@ -26,10 +26,12 @@ public class SimilarityCheckerContainerWithProvider implements ISimilarityChecke
 
 	/**
 	 * @return A similarity checker instance created with the provider returned by
-	 *         {@link #getSimilarityCheckerProvider()}
+	 *         {@link #getSimilarityCheckerProvider()}. If the provider is not set,
+	 *         returns null.
 	 */
 	protected ISimilarityChecker createSC() {
-		return this.getSimilarityCheckerProvider().createSC();
+		var provider = this.getSimilarityCheckerProvider();
+		return provider != null ? provider.createSC() : null;
 	}
 
 	/**
@@ -50,7 +52,8 @@ public class SimilarityCheckerContainerWithProvider implements ISimilarityChecke
 
 	/**
 	 * @return The similarity checker that is currently used for similarity
-	 *         checking.
+	 *         checking. If there is no similarity checker present, attempts to
+	 *         create one and returns it. If unsuccessful, returns null.
 	 */
 	public ISimilarityChecker getSimilarityChecker() {
 		if (this.sc == null) {
