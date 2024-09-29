@@ -5,20 +5,21 @@ import java.util.Map;
 
 /**
  * An abstract class for classes to implement, which uses a {@link Map} to store
- * mappings of ({@link Object} object class, {@link Object}
- * attribute) to their expected similarity checking results.
+ * mappings of (class object, attribute object) to their expected similarity
+ * checking results. An attribute object denotes an attribute within a class,
+ * rather than the value of an attribute.
  * 
- * @see {@link #addSimilarityEntry(Class, Object, Boolean)} for more
- *      information on adding entries.
- * @see {@link #getExpectedSimilarityResult(Class, Object)} for more
- *      information on expected similarity checking results.
+ * @see {@link #addSimilarityEntry(Class, Object, Boolean)} for more information
+ *      on adding entries.
+ * @see {@link #getExpectedSimilarityResult(Class, Object)} for more information
+ *      on expected similarity checking results.
  * 
  * @author atora
  */
 public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	/**
 	 * The expected similarity checking result for cases, where there is no matching
-	 * {@link SimilarityEntry} in this instance
+	 * {@link SimilarityEntry} in this instance.
 	 * 
 	 * @see {@link #getExpectedSimilarityResult(Class, Object)}
 	 */
@@ -34,10 +35,10 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	 * Constructs an instance and initialises the internal data structure that
 	 * stores expected similarity checking results.
 	 * 
-	 * @see {@link #addSimilarityEntry(Class, Object, Boolean)} for more
-	 *      information on adding entries.
-	 * @see {@link #getExpectedSimilarityResult(Class, Object)} for more
-	 *      information on expected similarity checking results.
+	 * @see {@link #addSimilarityEntry(Class, Object, Boolean)} for more information
+	 *      on adding entries.
+	 * @see {@link #getExpectedSimilarityResult(Class, Object)} for more information
+	 *      on expected similarity checking results.
 	 */
 	public AbstractSimilarityValues() {
 		this.similarityValues = this.initSimilarityValues();
@@ -51,9 +52,9 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	}
 
 	/**
-	 * First, tries to find a direct match for the given parameters. If there is no
-	 * direct match, it relaxes objCls to super interfaces of objCls and tries to
-	 * find a match again.
+	 * First, tries to find a direct match for the given parameters (see
+	 * {@link #findDirectEntry(Class, Object)}). If there is no direct match, it
+	 * relaxes objCls to super types of objCls and tries to find a match again.
 	 * 
 	 * @param objCls The interface of the Object instance
 	 * @param An     attribute of the Object instance, which is the subject of the
@@ -67,7 +68,8 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	}
 
 	/**
-	 * Tries to find a directly matching entry.
+	 * Tries to find a directly matching entry (i.e. an entry with objCls and attr).
+	 * Ignores entries belonging to super-types of objCls.
 	 * 
 	 * @param objCls The interface of the Object instance
 	 * @param attr   An attribute of the Object instance, which is the subject of
@@ -75,20 +77,21 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	 * @return The corresponding {@link SimilarityEntry}
 	 */
 	protected SimilarityEntry findDirectEntry(Class<? extends Object> objCls, Object attr) {
-		return this.similarityValues.keySet().stream().filter((se) -> se.objCls.equals(objCls) && se.attr.equals(attr))
-				.findFirst().orElse(null);
+		return this.similarityValues.keySet().stream()
+				.filter((se) -> se.getObjectClass().equals(objCls) && se.getAttribute().equals(attr)).findFirst()
+				.orElse(null);
 	}
 
 	/**
-	 * Tries to find an entry of a super interface using a depth-first recursion in
-	 * the hierarchy of objCls towards Object. <br>
+	 * Tries to find an entry with a super-type of objCls using a depth-first
+	 * recursion in the type hierarchy of objCls towards Object. If there is a
+	 * direct entry (see {@link #findDirectEntry(Class, Object)}), returns it. <br>
 	 * <br>
-	 * <b>This method DOES NOT look for a directly matching entry for objCls.</b>
 	 * 
 	 * @param objCls The interface of the Object instance
 	 * @param attr   An attribute of the Object instance, which is the subject of
 	 *               the current similarity check
-	 * @return The corresponding {@link SimilarityEntry}
+	 * @return A corresponding {@link SimilarityEntry}
 	 */
 	protected SimilarityEntry findParentEntry(Class<? extends Object> objCls, Object attr) {
 		var parents = objCls.getInterfaces();
@@ -123,8 +126,7 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	}
 
 	@Override
-	public void addSimilarityEntry(Class<? extends Object> objCls, Object attr,
-			Boolean expectedSimResult) {
+	public void addSimilarityEntry(Class<? extends Object> objCls, Object attr, Boolean expectedSimResult) {
 		this.addEntry(this.createEntry(objCls, attr), expectedSimResult);
 	}
 
@@ -159,24 +161,25 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	}
 
 	/**
-	 * Contains a class object from an {@link Object} instance and an
-	 * {@link Object} of the said instance.
+	 * Contains a class object and an attribute object of that class. An attribute
+	 * object denotes an attribute within a class, rather than the value of an
+	 * attribute.
 	 * 
 	 * @author atora
 	 */
 	protected class SimilarityEntry {
 		/**
-		 * The class of an {@link Object} instance.
+		 * The class object.
 		 */
 		private final Class<? extends Object> objCls;
 		/**
-		 * An attribute of the {@link Object} instance.
+		 * An attribute object of {@link #objCls}.
 		 */
 		private final Object attr;
 
 		/**
-		 * @param objCls Class object from an {@link Object} instance
-		 * @param attr   An attribute of the {@link Object} instance
+		 * @param objCls A class object
+		 * @param attr   An attribute object of {@link #objCls}
 		 */
 		private SimilarityEntry(Class<? extends Object> objCls, Object attr) {
 			this.objCls = objCls;
@@ -186,15 +189,15 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 		/**
 		 * @return The class object stored in this instance.
 		 */
-		public Class<? extends Object> getObjCls() {
-			return objCls;
+		public Class<? extends Object> getObjectClass() {
+			return this.objCls;
 		}
 
 		/**
 		 * @return The attribute stored in this entry.
 		 */
-		public Object getAttr() {
-			return attr;
+		public Object getAttribute() {
+			return this.attr;
 		}
 
 		/**

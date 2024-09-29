@@ -17,7 +17,7 @@ import cipm.consistency.initialisers.IInitialiserBase;
  */
 public interface IInitialiserParameterAdaptationStrategy {
 	/**
-	 * Adapts the given {@link IInitialiser} instances.
+	 * Adapts the given {@link IInitialiser} instances, if they can be adapted.
 	 * 
 	 * @see {@link IInitialiserAdapterStrategy}
 	 */
@@ -34,10 +34,18 @@ public interface IInitialiserParameterAdaptationStrategy {
 		inits.forEach((i) -> this.adaptAdaptableInitialiser(i));
 	}
 
+	/**
+	 * A variant of {@link #adaptAdaptableInitialiser(IInitialiserBase)} that adapts
+	 * the given {@link IInitialiser} init, if init implements
+	 * {@link IInitialiserBase}.
+	 */
 	public default void adaptInitialiser(IInitialiser init) {
 		if (init instanceof IInitialiserBase)
 			this.adaptAdaptableInitialiser((IInitialiserBase) init);
 	}
 
+	/**
+	 * Adapts the given {@link IInitialiserBase} instance.
+	 */
 	public void adaptAdaptableInitialiser(IInitialiserBase init);
 }

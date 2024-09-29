@@ -39,8 +39,9 @@ public class InitialiserTestSettingsProvider {
 	}
 
 	/**
-	 * @return The only instance of this class. If there is no instance, creates an
-	 *         instance first. That will be the only instance of this class.
+	 * @return The only instance of this class. If there is no such instance,
+	 *         creates an instance first. That will be the only instance of this
+	 *         class.
 	 */
 	public static InitialiserTestSettingsProvider getInstance() {
 		initialise();
