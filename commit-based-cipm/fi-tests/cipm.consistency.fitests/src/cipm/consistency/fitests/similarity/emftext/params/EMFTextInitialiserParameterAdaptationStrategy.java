@@ -1,7 +1,5 @@
 package cipm.consistency.fitests.similarity.emftext.params;
 
-import java.util.Collection;
-
 import cipm.consistency.initialisers.IInitialiser;
 import cipm.consistency.initialisers.IInitialiserBase;
 import cipm.consistency.initialisers.emftext.classifiers.ClassInitialiser;
