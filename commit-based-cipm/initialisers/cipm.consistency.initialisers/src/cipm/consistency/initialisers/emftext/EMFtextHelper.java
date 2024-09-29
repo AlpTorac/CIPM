@@ -6,12 +6,9 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.emftext.language.java.JavaPackage;
 import org.emftext.language.java.commons.Commentable;
-
-import cipm.consistency.initialisers.IInitialiser;
 
 public final class EMFtextHelper {
 	/**
@@ -20,12 +17,12 @@ public final class EMFtextHelper {
 	private static final String implSuffix = "Impl";
 
 	/**
-	 * The suffix used in the concrete implementation of {@link EObject} classes.
+	 * The suffix used in the concrete implementation of EObject classes.
 	 */
 	public static String getImplSuffix() {
 		return implSuffix;
 	}
-	
+
 	/**
 	 * @return Types of concrete implementations and interfaces of all Java-Model
 	 *         elements.
@@ -76,7 +73,7 @@ public final class EMFtextHelper {
 
 		return foundClss;
 	}
-	
+
 	/**
 	 * @return All types represented by {@link EClassifiers} contained in pacs and
 	 *         their sub-packages. Includes types of interfaces as well as concrete
@@ -94,8 +91,7 @@ public final class EMFtextHelper {
 	}
 
 	/**
-	 * Used to determine which {@link EObject} implementors should have an
-	 * {@link IInitialiser}. <br>
+	 * Used to determine which EObject implementors should have an initialiser. <br>
 	 * <br>
 	 * Here, such implementors (initialiser candidates) implement
 	 * {@link Commentable} and their names do not end with {@link #implSuffix}.
@@ -113,9 +109,9 @@ public final class EMFtextHelper {
 	}
 
 	/**
-	 * @return The types from {@link #getAllPossibleTypes()}, which should have a
-	 *         corresponding concrete initialiser, i.e. a class implementing
-	 *         {@link IInitialiser} that can be instantiated.
+	 * @return The EObject types from {@link #getAllPossibleTypes()}, which should
+	 *         have a corresponding concrete initialiser that can instantiate the
+	 *         said type.
 	 */
 	public static Collection<Class<?>> getAllConcreteInitialiserCandidates() {
 		var fullHierarchy = getAllPossibleTypes();
