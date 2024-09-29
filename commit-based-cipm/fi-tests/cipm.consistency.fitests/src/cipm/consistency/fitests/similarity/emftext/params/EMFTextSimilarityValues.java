@@ -71,40 +71,24 @@ import cipm.consistency.fitests.similarity.params.ISimilarityValues;
  * @see {@link AbstractSimilarityValues}
  */
 public class EMFTextSimilarityValues extends AbstractSimilarityValues {
-	public EMFTextSimilarityValues() {
-		/*
-		 * setDefaultSimilarityResult(val): If there are no addSimilarityEntry calls
-		 * below for a certain attribute, the similarity value will be val.
-		 * 
-		 * addSimilarityEntry(attr, val): If two EObject instances eo1 and eo2 are
-		 * compared where attr in eo1 and eo2 is different, the similarity value should
-		 * be val.
-		 * 
-		 * addSimilarityEntry(ifc, attr, val): Same as addSimilarityEntry(attr, val),
-		 * but takes precedence over attr.getContainerClass(), if both EObject instances
-		 * implement the interface ifc. If there are multiple such entries for the same
-		 * hierarchy, the entry with the most specific ifc will be used to determine the
-		 * similarity value.
-		 */
-
-		this.setDefaultSimilarityResult(Boolean.FALSE);
-
-		// Annotations
+	public void addAnnotationsSimilarityEntries() {
 		this.addSimilarityEntry(AnnotationsPackage.Literals.ANNOTABLE__ANNOTATIONS, Boolean.TRUE);
 		this.addSimilarityEntry(AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__VALUE, Boolean.TRUE);
 		this.addSimilarityEntry(AnnotationsPackage.Literals.ANNOTATION_INSTANCE__PARAMETER, Boolean.TRUE);
 		this.addSimilarityEntry(AnnotationsPackage.Literals.ANNOTATION_PARAMETER_LIST__SETTINGS, Boolean.TRUE);
 		this.addSimilarityEntry(AnnotationsPackage.Literals.SINGLE_ANNOTATION_PARAMETER__VALUE, Boolean.TRUE);
+	}
 
-		// Arrays
+	public void addArraysSimilarityEntries() {
 		this.addSimilarityEntry(ArraysPackage.Literals.ARRAY_INITIALIZER__INITIAL_VALUES, Boolean.TRUE);
 		this.addSimilarityEntry(ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_SIZE__SIZES, Boolean.TRUE);
 		this.addSimilarityEntry(ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER, Boolean.TRUE);
 		this.addSimilarityEntry(ArraysPackage.Literals.ARRAY_SELECTOR__POSITION, Boolean.TRUE);
 		this.addSimilarityEntry(ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER, Boolean.TRUE);
 		this.addSimilarityEntry(ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_BEFORE, Boolean.TRUE);
+	}
 
-		// Containers
+	public void addContainersSimilarityEntries() {
 		this.addSimilarityEntry(ContainersPackage.Literals.COMPILATION_UNIT__CLASSIFIERS, Boolean.TRUE);
 		this.addSimilarityEntry(ContainersPackage.Literals.MODULE__OPEN, Boolean.TRUE);
 		this.addSimilarityEntry(ContainersPackage.Literals.MODULE__PACKAGES, Boolean.TRUE);
@@ -112,8 +96,9 @@ public class EMFTextSimilarityValues extends AbstractSimilarityValues {
 		this.addSimilarityEntry(ContainersPackage.Literals.PACKAGE__CLASSIFIERS, Boolean.TRUE);
 		this.addSimilarityEntry(ContainersPackage.Literals.PACKAGE__MODULE, Boolean.TRUE);
 		this.addSimilarityEntry(ContainersPackage.Literals.JAVA_ROOT__ORIGIN, Boolean.TRUE);
+	}
 
-		// Commons
+	public void addCommonsSimilarityEntries() {
 		this.addSimilarityEntry(new Class[] { AdditionalField.class, Package.class, Block.class },
 				CommonsPackage.Literals.NAMED_ELEMENT__NAME, Boolean.TRUE);
 		this.addSimilarityEntry(new Class[] { PackageImport.class, StaticClassifierImport.class, Module.class },
@@ -122,8 +107,9 @@ public class EMFTextSimilarityValues extends AbstractSimilarityValues {
 				new EStructuralFeature[] { CommonsPackage.Literals.NAMED_ELEMENT__NAME,
 						CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES },
 				new Boolean[] { Boolean.TRUE, Boolean.TRUE });
+	}
 
-		// Classifiers
+	public void addClassifiersSimilarityEntries() {
 		this.addSimilarityEntry(ClassifiersPackage.Literals.CLASS__DEFAULT_EXTENDS, Boolean.TRUE);
 		this.addSimilarityEntry(ClassifiersPackage.Literals.CLASS__EXTENDS, Boolean.TRUE);
 		this.addSimilarityEntry(ClassifiersPackage.Literals.CONCRETE_CLASSIFIER__PACKAGE, Boolean.TRUE);
@@ -131,8 +117,9 @@ public class EMFTextSimilarityValues extends AbstractSimilarityValues {
 		this.addSimilarityEntry(ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS, Boolean.TRUE);
 		this.addSimilarityEntry(ClassifiersPackage.Literals.INTERFACE__DEFAULT_EXTENDS, Boolean.TRUE);
 		this.addSimilarityEntry(ClassifiersPackage.Literals.INTERFACE__EXTENDS, Boolean.TRUE);
+	}
 
-		// Expressions
+	public void addExpressionsSimilarityEntries() {
 		this.addSimilarityEntry(ExpressionsPackage.Literals.CAST_EXPRESSION__ADDITIONAL_BOUNDS, Boolean.TRUE);
 		this.addSimilarityEntry(ExpressionsPackage.Literals.CAST_EXPRESSION__GENERAL_CHILD, Boolean.TRUE);
 		this.addSimilarityEntry(ExpressionsPackage.Literals.CONDITIONAL_EXPRESSION__CHILD, Boolean.TRUE);
@@ -155,44 +142,51 @@ public class EMFTextSimilarityValues extends AbstractSimilarityValues {
 		this.addSimilarityEntry(ExpressionsPackage.Literals.UNARY_MODIFICATION_EXPRESSION__OPERATOR, Boolean.TRUE);
 		this.addSimilarityEntry(ExpressionsPackage.Literals.LAMBDA_EXPRESSION__BODY, Boolean.TRUE);
 		this.addSimilarityEntry(ExpressionsPackage.Literals.LAMBDA_EXPRESSION__PARAMETERS, Boolean.TRUE);
+	}
 
-		// Generics
+	public void addGenericsSimilarityEntries() {
 		this.addSimilarityEntry(GenericsPackage.Literals.CALL_TYPE_ARGUMENTABLE__CALL_TYPE_ARGUMENTS, Boolean.TRUE);
 		this.addSimilarityEntry(GenericsPackage.Literals.TYPE_ARGUMENTABLE__TYPE_ARGUMENTS, Boolean.TRUE);
 		this.addSimilarityEntry(GenericsPackage.Literals.TYPE_PARAMETRIZABLE__TYPE_PARAMETERS, Boolean.TRUE);
+	}
 
-		// Instantiations
+	public void addInstantiationsSimilarityEntries() {
 		this.addSimilarityEntry(InstantiationsPackage.Literals.NEW_CONSTRUCTOR_CALL__ANONYMOUS_CLASS, Boolean.TRUE);
 		this.addSimilarityEntry(InstantiationsPackage.Literals.INITIALIZABLE__INITIAL_VALUE, Boolean.TRUE);
+	}
 
-		// Imports
+	public void addImportsSimilarityEntries() {
 		this.addSimilarityEntry(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS, Boolean.TRUE);
 		this.addSimilarityEntry(ImportsPackage.Literals.IMPORT__CLASSIFIER, Boolean.TRUE);
 		this.addSimilarityEntry(ImportsPackage.Literals.STATIC_IMPORT__STATIC, Boolean.TRUE);
 		this.addSimilarityEntry(ClassifierImport.class, ImportsPackage.Literals.IMPORT__CLASSIFIER, Boolean.FALSE);
+	}
 
-		// Members
+	public void addMembersSimilarityEntries() {
 		this.addSimilarityEntry(MembersPackage.Literals.ENUM_CONSTANT__ANONYMOUS_CLASS, Boolean.TRUE);
 		this.addSimilarityEntry(MembersPackage.Literals.FIELD__ADDITIONAL_FIELDS, Boolean.TRUE);
 		this.addSimilarityEntry(MembersPackage.Literals.INTERFACE_METHOD__DEFAULT_VALUE, Boolean.TRUE);
 		this.addSimilarityEntry(MembersPackage.Literals.EXCEPTION_THROWER__EXCEPTIONS, Boolean.TRUE);
 		this.addSimilarityEntry(MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS, Boolean.TRUE);
 		this.addSimilarityEntry(MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS, Boolean.TRUE);
+	}
 
-		// Modifiers
+	public void addModifiersSimilarityEntries() {
 		this.addSimilarityEntry(ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS,
 				Boolean.TRUE);
 		this.addSimilarityEntry(ModifiersPackage.Literals.MODIFIABLE__MODIFIERS, Boolean.TRUE);
+	}
 
-		// Modules
+	public void addModulesSimilarityEntries() {
 		this.addSimilarityEntry(ModulesPackage.Literals.MODULE_REFERENCE__TARGET, Boolean.TRUE);
 		this.addSimilarityEntry(ModulesPackage.Literals.PROVIDES_MODULE_DIRECTIVE__SERVICE_PROVIDERS, Boolean.TRUE);
 		this.addSimilarityEntry(ModulesPackage.Literals.REQUIRES_MODULE_DIRECTIVE__MODIFIER, Boolean.TRUE);
 		this.addSimilarityEntry(ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__ACCESSABLE_PACKAGE,
 				Boolean.TRUE);
 		this.addSimilarityEntry(ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__MODULES, Boolean.TRUE);
+	}
 
-		// Statements
+	public void addStatementsSimilarityEntries() {
 		this.addSimilarityEntry(StatementsPackage.Literals.ASSERT__ERROR_MESSAGE, Boolean.TRUE);
 		this.addSimilarityEntry(StatementsPackage.Literals.CONDITION__ELSE_STATEMENT, Boolean.TRUE);
 		this.addSimilarityEntry(StatementsPackage.Literals.FOR_EACH_LOOP__COLLECTION, Boolean.TRUE);
@@ -211,8 +205,9 @@ public class EMFTextSimilarityValues extends AbstractSimilarityValues {
 		this.addSimilarityEntry(StatementsPackage.Literals.STATEMENT_CONTAINER__STATEMENT, Boolean.TRUE);
 		this.addSimilarityEntry(StatementListContainer.class, StatementsPackage.Literals.BLOCK__STATEMENTS,
 				Boolean.TRUE);
+	}
 
-		// Parameters
+	public void addParametersSimilarityEntries() {
 		this.addSimilarityEntry(ParametersPackage.Literals.CATCH_PARAMETER__TYPE_REFERENCES, Boolean.TRUE);
 		this.addSimilarityEntry(ParametersPackage.Literals.RECEIVER_PARAMETER__THIS_REFERENCE, Boolean.TRUE);
 		this.addSimilarityEntry(ParametersPackage.Literals.RECEIVER_PARAMETER__OUTER_TYPE_REFERENCE, Boolean.TRUE);
@@ -220,8 +215,9 @@ public class EMFTextSimilarityValues extends AbstractSimilarityValues {
 				new Class[] { ExplicitlyTypedLambdaParameters.class, ImplicitlyTypedLambdaParameters.class,
 						SingleImplicitLambdaParameter.class },
 				ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS, Boolean.TRUE);
+	}
 
-		// References
+	public void addReferencesSimilarityEntries() {
 		this.addSimilarityEntry(ReferencesPackage.Literals.PRIMITIVE_TYPE_REFERENCE__PRIMITIVE_TYPE, Boolean.TRUE);
 		this.addSimilarityEntry(ReferencesPackage.Literals.SELF_REFERENCE__SELF, Boolean.TRUE);
 		this.addSimilarityEntry(ReferencesPackage.Literals.TEXT_BLOCK_REFERENCE__VALUE, Boolean.TRUE);
@@ -235,7 +231,9 @@ public class EMFTextSimilarityValues extends AbstractSimilarityValues {
 				new EStructuralFeature[] { ReferencesPackage.Literals.REFERENCE__NEXT,
 						ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS },
 				new Boolean[] { Boolean.TRUE, Boolean.TRUE });
+	}
 
+	public void addTypesSimilarityEntries() {
 		/*
 		 * FIXME: There might be issues with TYPED_ELEMENT__TYPE_REFERENCE
 		 */
@@ -247,11 +245,37 @@ public class EMFTextSimilarityValues extends AbstractSimilarityValues {
 						NewConstructorCallWithInferredTypeArguments.class, ProvidesModuleDirective.class,
 						UsesModuleDirective.class },
 				TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE, Boolean.FALSE);
+	}
 
-		// Variables
+	public void addVariablesSimilarityEntries() {
 		this.addSimilarityEntry(VariablesPackage.Literals.LOCAL_VARIABLE__ADDITIONAL_LOCAL_VARIABLES, Boolean.TRUE);
 	}
 
+	public void setDefaultSimilarityResult() {
+		this.setDefaultSimilarityResult(Boolean.FALSE);
+	}
+
+	public EMFTextSimilarityValues() {
+		this.setDefaultSimilarityResult();
+
+		this.addAnnotationsSimilarityEntries();
+		this.addArraysSimilarityEntries();
+		this.addContainersSimilarityEntries();
+		this.addCommonsSimilarityEntries();
+		this.addClassifiersSimilarityEntries();
+		this.addExpressionsSimilarityEntries();
+		this.addGenericsSimilarityEntries();
+		this.addInstantiationsSimilarityEntries();
+		this.addImportsSimilarityEntries();
+		this.addMembersSimilarityEntries();
+		this.addModifiersSimilarityEntries();
+		this.addModulesSimilarityEntries();
+		this.addStatementsSimilarityEntries();
+		this.addParametersSimilarityEntries();
+		this.addReferencesSimilarityEntries();
+		this.addTypesSimilarityEntries();
+		this.addVariablesSimilarityEntries();
+	}
 
 	/**
 	 * @return The type of the class that has the attribute attr.
