@@ -41,6 +41,24 @@ public interface IInitialiserBase extends IInitialiser {
 	}
 
 	/**
+	 * @return Number of {@link IInitialiserAdapterStrategy} instances that are
+	 *         currently adapting this.
+	 */
+	public default int getAdaptingInitialiserCount() {
+		var adaptingInits = this.getAdaptingInitialisers();
+		return adaptingInits != null ? adaptingInits.size() : 0;
+	}
+
+	/**
+	 * @return Whether any {@link IInitialiserAdapterStrategy} instances are
+	 *         currently adapting this.
+	 */
+	public default boolean isAdapted() {
+		var adaptingInits = this.getAdaptingInitialisers();
+		return adaptingInits != null ? !adaptingInits.isEmpty() : false;
+	}
+
+	/**
 	 * <b>For the sake of clarity, only use this method, if adapters are meant to be
 	 * used.</b> <br>
 	 * <br>
