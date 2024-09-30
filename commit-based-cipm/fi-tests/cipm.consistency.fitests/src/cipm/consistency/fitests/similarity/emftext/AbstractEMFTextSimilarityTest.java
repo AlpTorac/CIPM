@@ -13,7 +13,6 @@ import cipm.consistency.fitests.similarity.emftext.params.EMFTextSimilarityValue
 import cipm.consistency.fitests.similarity.eobject.AbstractEObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.params.IInitialiserParameters;
 import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvider;
-import cipm.consistency.initialisers.IInitialiserBase;
 import cipm.consistency.initialisers.emftext.IEMFTextEObjectInitialiser;
 
 /**
@@ -98,7 +97,7 @@ public abstract class AbstractEMFTextSimilarityTest extends AbstractEObjectSimil
 	/**
 	 * @see {@link IInitialiserParameters#getAdaptedInitialisersBySuper(Class)}
 	 */
-	public static <T extends IEMFTextEObjectInitialiser & IInitialiserBase> Stream<Arguments> getAdaptedInitialiserArgumentsFor(
+	public static <T extends IEMFTextEObjectInitialiser> Stream<Arguments> getAdaptedInitialiserArgumentsFor(
 			Class<T> superType) {
 		return getClassesInitialiserTestSettingsProvider().getParameters().getAdaptedInitialisersBySuper(superType)
 				.stream().map((i) -> Arguments.of(i));
