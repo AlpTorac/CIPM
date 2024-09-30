@@ -36,7 +36,7 @@ public class OTARepoSettings implements HasRepoSettings {
 
 	@Override
 	public String getRepositoryAddress() {
-		return "file:///C:/Users/atora/OneDrive/Belgeler/GitHub/OTA";
+		return "file:///C:/Users/sdq-l/OTA";
 	}
 
 	@Override
@@ -59,7 +59,10 @@ public class OTARepoSettings implements HasRepoSettings {
 		return new ComponentDetectionStrategy[] {new PackageBasedComponentDetectionStrategy() {
 			@Override
 			protected void initializeMappings() {
-				this.addPackageModuleMapping("com\\.ota\\.update\\..*?", "com.ota.update", ModuleState.MICROSERVICE_COMPONENT);
+				this.addPackageModuleMapping("com\\.ota\\.update\\.controller\\..*?", "com.ota.update.controller", ModuleState.MICROSERVICE_COMPONENT);
+				this.addPackageModuleMapping("com\\.ota\\.update\\.dal\\..*?", "com.ota.update.dal", ModuleState.REGULAR_COMPONENT);
+				this.addPackageModuleMapping("com\\.ota\\.update\\.entities\\..*?", "com.ota.update.entities", ModuleState.REGULAR_COMPONENT);
+				this.addPackageModuleMapping("com\\.ota\\.update\\.repos\\..*?", "com.ota.update.repos", ModuleState.REGULAR_COMPONENT);
 			}
 		}};
 	}

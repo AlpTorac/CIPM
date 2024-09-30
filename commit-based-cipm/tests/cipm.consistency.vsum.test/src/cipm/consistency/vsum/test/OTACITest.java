@@ -9,7 +9,7 @@ public class OTACITest extends AbstractRepoTest {
 		return new OTARepoSettings();
 	}
 
-	@Disabled("Only one test case should run at once.")
+//	@Disabled("Only one test case should run at once.")
 	@Test
 	public void testOTAIntegration() throws Exception {
 		executePropagationAndEvaluation(null, this.getCommitHash(5), 0);
