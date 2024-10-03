@@ -1,8 +1,0 @@
-package cipm.consistency.initialisers.emftext.imports;
-
-import org.emftext.language.java.imports.StaticClassifierImport;
-
-public interface IStaticClassifierImportInitialiser extends IStaticImportInitialiser {
-	@Override
-	public StaticClassifierImport instantiate();
-}
