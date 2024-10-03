@@ -2,8 +2,17 @@ package cipm.consistency.initialisers.tests.dummy;
 
 import cipm.consistency.initialisers.AbstractInitialiserBase;
 import cipm.consistency.initialisers.IInitialiser;
+import cipm.consistency.initialisers.IInitialiserAdapterStrategy;
 
 public class DummyInitialiserC extends AbstractInitialiserBase {
+
+	public DummyInitialiserC() {
+		super();
+	}
+
+	public DummyInitialiserC(IInitialiserAdapterStrategy[] adaptingInits) {
+		super(adaptingInits);
+	}
 
 	@Override
 	public IInitialiser newInitialiser() {

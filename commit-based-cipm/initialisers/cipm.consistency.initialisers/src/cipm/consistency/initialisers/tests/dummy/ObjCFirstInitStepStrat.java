@@ -3,14 +3,13 @@ package cipm.consistency.initialisers.tests.dummy;
 import cipm.consistency.initialisers.IInitialiser;
 import cipm.consistency.initialisers.IInitialiserAdapterStrategy;
 
-public class ObjCFirstInitStepStrat implements IInitialiserAdapterStrategy {
-	private boolean initSuccessfully;
-
+public class ObjCFirstInitStepStrat extends AbstractDummyAdaptationStrategy {
 	public ObjCFirstInitStepStrat() {
+		super();
 	}
 
 	public ObjCFirstInitStepStrat(boolean initSuccessfully) {
-		this.initSuccessfully = initSuccessfully;
+		super(initSuccessfully);
 	}
 
 	@Override
@@ -18,9 +17,11 @@ public class ObjCFirstInitStepStrat implements IInitialiserAdapterStrategy {
 		if (obj instanceof DummyObjC) {
 			var castedO = (DummyObjC) obj;
 
-			if (this.initSuccessfully) {
+			if (this.doesInitialiseSuccessfully()) {
 				castedO.initStepOne();
 			}
+			
+			return castedO.isInitialisationStepOneDone();
 		}
 
 		return true;
