@@ -18,7 +18,7 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolbox;
  * which handler(s) they are delegated and what is done with the received
  * output(s)) depends on the concrete implementation of the toolbox.</b>
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class DummySimilarityToolbox implements ISimilarityToolbox {
 	/**
@@ -148,7 +148,7 @@ public class DummySimilarityToolbox implements ISimilarityToolbox {
 	 * A class that stores all aspects of a similarity checking request being
 	 * handled by a handler.
 	 * 
-	 * @author atora
+	 * @author Alp Torac Genc
 	 */
 	public class HandleHistoryEntry {
 		private ISimilarityRequest req;
@@ -209,7 +209,7 @@ public class DummySimilarityToolbox implements ISimilarityToolbox {
 	/**
 	 * Stores a pair of similarity checking request and its corresponding handler.
 	 * 
-	 * @author atora
+	 * @author Alp Torac Genc
 	 */
 	protected class RequestHandlerPairEntry {
 		private Class<? extends ISimilarityRequest> reqCls;

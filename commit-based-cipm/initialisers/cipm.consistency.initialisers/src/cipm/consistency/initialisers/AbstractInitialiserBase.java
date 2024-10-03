@@ -8,7 +8,7 @@ import java.util.Collection;
  * them with infrastructure and concrete methods for
  * {@link IInitialiserAdapterStrategy}.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public abstract class AbstractInitialiserBase implements IInitialiserBase {
 	/**

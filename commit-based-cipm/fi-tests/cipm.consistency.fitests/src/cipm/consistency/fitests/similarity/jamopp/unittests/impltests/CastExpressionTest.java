@@ -17,7 +17,7 @@ import cipm.consistency.initialisers.jamopp.expressions.CastExpressionInitialise
  * 
  * General child and child are the same. Therefore testChild is left out.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class CastExpressionTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions, UsesTypeReferences {
 	protected CastExpression initElement(TypeReference[] additionalBoundsArr, MultiplicativeExpressionChild child,

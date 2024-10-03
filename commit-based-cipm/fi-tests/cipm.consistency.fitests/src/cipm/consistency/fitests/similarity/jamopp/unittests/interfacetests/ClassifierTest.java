@@ -20,7 +20,7 @@ import cipm.consistency.initialisers.jamopp.classifiers.IClassifierInitialiser;
 /**
  * Classifier has no modifiable attributes on its own.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements UsesImports, UsesPackageImports {
 

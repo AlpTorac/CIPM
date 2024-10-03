@@ -12,7 +12,7 @@ import cipm.consistency.initialisers.jamopp.commons.ICommentableInitialiser;
  * <b>{@code argumentable.getArgumentTypes()} cannot be used to modify an
  * attribute</b>
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public interface IArgumentableInitialiser extends ICommentableInitialiser {
 	@Override

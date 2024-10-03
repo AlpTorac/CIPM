@@ -14,7 +14,7 @@ import cipm.consistency.fitests.similarity.AbstractSimilarityTest;
  * An abstract class that extends {@link AbstractSimilarityTest} with additional
  * methods regarding {@link Resource} instance creation.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityTest {
 	/**

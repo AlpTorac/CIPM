@@ -22,7 +22,7 @@ import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvide
  * Integrates {@link InitialiserTestSettingsProvider}, in order to grant access
  * to expected similarity values.
  * 
- * @author atora
+ * @author Alp Torac Genc
  * @see {@link InitialiserTestSettingsProvider#getSimilarityValues()} for more
  *      information on expected similarity values.
  */

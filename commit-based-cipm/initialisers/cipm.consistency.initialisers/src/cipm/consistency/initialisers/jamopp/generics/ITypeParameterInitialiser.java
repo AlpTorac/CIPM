@@ -16,7 +16,7 @@ import cipm.consistency.initialisers.jamopp.classifiers.IClassifierInitialiser;
  * <b>Note: {@link TypeParameter} cannot add {@link Import}s to its container,
  * so attempting to add {@link Import} to it has no effect.</b>
  * 
- * @author atora
+ * @author Alp Torac Genc
  *
  */
 public interface ITypeParameterInitialiser extends IClassifierInitialiser, IAnnotableInitialiser {

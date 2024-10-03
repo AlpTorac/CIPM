@@ -6,7 +6,7 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
  * An interface implemented by classes that can be used to create
  * {@link ISimilarityChecker} instances.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public interface ISimilarityCheckerProvider {
 	/**

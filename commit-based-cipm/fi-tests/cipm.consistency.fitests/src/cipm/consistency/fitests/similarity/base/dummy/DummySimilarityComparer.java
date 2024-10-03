@@ -11,7 +11,7 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolbox;
  * delegation methods, which would otherwise have to be in similarity checker
  * and make it bloated.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class DummySimilarityComparer extends AbstractSimilarityComparer {
 	public DummySimilarityComparer(ISimilarityToolbox st) {

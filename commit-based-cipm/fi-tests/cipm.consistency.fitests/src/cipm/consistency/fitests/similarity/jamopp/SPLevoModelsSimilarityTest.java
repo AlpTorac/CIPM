@@ -31,7 +31,7 @@ import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
  * A test class that attempts to parse and check similarity of {@link Resource}
  * files.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class SPLevoModelsSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	private static final Logger LOGGER = Logger.getLogger("cipm." + SPLevoModelsSimilarityTest.class.getSimpleName());

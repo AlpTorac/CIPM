@@ -10,7 +10,7 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolbox;
  * A minimal similarity checker that illustrates what a similarity checker could
  * look like.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class DummySimilarityChecker extends AbstractSimilarityChecker {
 	/**

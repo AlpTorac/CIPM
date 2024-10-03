@@ -9,7 +9,7 @@ import java.util.Collection;
  * be used to discover which initialisers are present and to allow centralised
  * access to initialisers.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public interface IInitialiserPackage {
 	/**

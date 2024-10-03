@@ -19,7 +19,7 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 /**
  * A class that encapsulates the means to create {@link Resource} instances.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class ResourceHelper {
 	private static final Logger LOGGER = Logger.getLogger("cipm." + ResourceHelper.class.getSimpleName());

@@ -21,7 +21,7 @@ import org.junit.jupiter.api.Test;
  * from Teammates tests, as the Teammates repository is much smaller than the
  * TeaStore repository.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class ResourcePersistenceTest extends AbstractFITest {
 	/**

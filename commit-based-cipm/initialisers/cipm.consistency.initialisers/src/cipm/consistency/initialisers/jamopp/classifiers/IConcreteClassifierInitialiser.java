@@ -16,7 +16,7 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementInitialiser;
  * <b>Note: {@link #setPackage(ConcreteClassifier, Package)} does not add the
  * given {@link ConcreteClassifier} to the given {@link Package}.</b>
  * 
- * @author atora
+ * @author Alp Torac Genc
  *
  */
 public interface IConcreteClassifierInitialiser extends IAnnotableAndModifiableInitialiser, IMemberContainerInitialiser,

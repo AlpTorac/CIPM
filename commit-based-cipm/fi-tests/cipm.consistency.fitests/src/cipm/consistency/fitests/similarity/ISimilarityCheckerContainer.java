@@ -15,7 +15,7 @@ import java.util.Collection;
  * manually. Otherwise the same similarity checker will be used in similarity
  * checking.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public interface ISimilarityCheckerContainer {
 	/**

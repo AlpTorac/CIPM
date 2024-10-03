@@ -27,7 +27,7 @@ import org.emftext.language.java.containers.Module;
  * instances, as they can easily be compared after their name
  * ({@code module.getName()})
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	private static Stream<Arguments> provideNonAdaptedInitialisers() {

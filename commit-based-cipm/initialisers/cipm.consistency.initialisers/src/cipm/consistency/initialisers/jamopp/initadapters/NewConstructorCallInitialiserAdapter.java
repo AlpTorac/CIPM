@@ -26,7 +26,7 @@ import cipm.consistency.initialisers.jamopp.types.ITypeReferenceInitialiser;
  * Does not modify the created {@link NewConstructorCall}, if it already has a
  * {@link TypeReference}.
  * 
- * @author atora
+ * @author Alp Torac Genc
  *
  */
 public class NewConstructorCallInitialiserAdapter implements IInitialiserAdapterStrategy {

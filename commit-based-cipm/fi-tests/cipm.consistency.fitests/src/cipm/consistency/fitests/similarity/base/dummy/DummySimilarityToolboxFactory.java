@@ -6,7 +6,7 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolboxFactory;
 /**
  * A minimal toolbox factory.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class DummySimilarityToolboxFactory implements ISimilarityToolboxFactory {
 	@Override

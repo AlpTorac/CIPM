@@ -36,7 +36,7 @@ import cipm.consistency.initialisers.jamopp.members.IMemberInitialiser;
  * both {@link MemberContainer} instances and {@link Member} instances (via
  * qualified name differences for instance).</b>
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	private static List<IMemberInitialiser> getAllMemberInitInstances() {

@@ -13,7 +13,7 @@ import cipm.consistency.initialisers.IInitialiserAdapterStrategy;
  * create and modify {@link EObject} instances. <br>
  * <br>
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public interface IEObjectInitialiser extends IInitialiser {
 	/**

@@ -12,7 +12,7 @@ import cipm.consistency.fitests.similarity.base.dummy.ReferenceCheckRequestHandl
  * An abstract class that contains utility methods for tests that use dummy
  * implementations of similarity checking elements.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public abstract class AbstractDummySimilarityCheckingTest {
 	/**

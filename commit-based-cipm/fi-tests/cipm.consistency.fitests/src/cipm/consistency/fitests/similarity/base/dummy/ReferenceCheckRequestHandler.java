@@ -6,7 +6,7 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 /**
  * An exemplary custom handler for {@link ReferenceCheckRequest}.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class ReferenceCheckRequestHandler implements ISimilarityRequestHandler {
 	@Override

@@ -15,7 +15,7 @@ import cipm.consistency.initialisers.jamopp.types.ITypeInitialiser;
  * {@link CompilationUnit}. {@link Classifier} has no attributes itself. The
  * same holds for the "add..." methods of this initialiser.</b>
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 
 public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceableElementInitialiser {

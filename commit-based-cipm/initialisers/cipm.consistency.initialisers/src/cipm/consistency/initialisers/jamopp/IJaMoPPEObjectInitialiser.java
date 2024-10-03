@@ -7,7 +7,7 @@ import cipm.consistency.initialisers.eobject.IEObjectInitialiser;
  * sub-types, whose purpose is to create {@link EObject} implementors within
  * EMFText.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public interface IJaMoPPEObjectInitialiser extends IEObjectInitialiser {
 	@Override

@@ -13,7 +13,7 @@ package cipm.consistency.fitests.similarity.params;
  * @see {@link #getExpectedSimilarityResult(Class, Object)} for more information
  *      on expected similarity checking values.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public interface ISimilarityValues {
 	/**

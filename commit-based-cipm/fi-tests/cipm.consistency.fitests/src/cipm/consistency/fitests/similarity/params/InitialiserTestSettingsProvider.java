@@ -7,7 +7,7 @@ import cipm.consistency.initialisers.IInitialiserPackage;
  * {@link IInitialiserParameters} and {@link ISimilarityValues} instance
  * required by tests.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class InitialiserTestSettingsProvider {
 	/**

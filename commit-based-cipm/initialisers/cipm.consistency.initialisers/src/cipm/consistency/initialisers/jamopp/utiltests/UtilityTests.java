@@ -27,7 +27,7 @@ import cipm.consistency.initialisers.jamopp.JaMoPPInitialiserPackage;
  * A test class, whose tests can be used to make sure no initialiser interfaces
  * or concrete initialisers are missing.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class UtilityTests {
 	private static final Logger LOGGER = Logger.getLogger(UtilityTests.class);

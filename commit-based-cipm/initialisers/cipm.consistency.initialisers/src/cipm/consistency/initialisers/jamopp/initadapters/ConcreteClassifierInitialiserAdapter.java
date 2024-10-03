@@ -18,7 +18,7 @@ import cipm.consistency.initialisers.jamopp.containers.ICompilationUnitInitialis
  * {@link ConcreteClassifier} instances does not throw exceptions, due to them
  * not having a container.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class ConcreteClassifierInitialiserAdapter implements IInitialiserAdapterStrategy {
 	/**

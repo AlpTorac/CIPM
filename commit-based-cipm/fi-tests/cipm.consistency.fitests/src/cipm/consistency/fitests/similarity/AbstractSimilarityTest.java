@@ -16,7 +16,7 @@ import org.junit.jupiter.api.TestInfo;
  * Contains methods that provide information on the next test method to be run
  * and various delegation methods that spare call chains.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public abstract class AbstractSimilarityTest {
 	/**

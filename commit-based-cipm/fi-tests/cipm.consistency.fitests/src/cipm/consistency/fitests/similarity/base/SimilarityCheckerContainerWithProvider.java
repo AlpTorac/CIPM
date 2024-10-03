@@ -10,7 +10,7 @@ import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
  * A class that integrates {@link ISimilarityCheckerProvider} with
  * {@link ISimilarityCheckerContainer}.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class SimilarityCheckerContainerWithProvider implements ISimilarityCheckerContainer {
 	/**

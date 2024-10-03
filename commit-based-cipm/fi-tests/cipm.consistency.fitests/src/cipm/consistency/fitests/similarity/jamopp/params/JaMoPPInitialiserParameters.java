@@ -8,7 +8,7 @@ import cipm.consistency.fitests.similarity.params.IInitialiserParameters;
 /**
  * A class that provides central access to concrete initialiser instances.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class JaMoPPInitialiserParameters implements IInitialiserParameters {
 	@Override

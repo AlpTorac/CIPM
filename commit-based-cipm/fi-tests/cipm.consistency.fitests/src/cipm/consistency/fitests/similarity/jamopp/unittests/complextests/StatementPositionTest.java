@@ -28,7 +28,7 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
  * Tests are parameterised over all possible combinations of
  * {@link StatementListContainer} and {@link Statement} implementors.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class StatementPositionTest extends AbstractJaMoPPSimilarityTest implements UsesStatements {
 	private static List<IStatementListContainerInitialiser> getAllSLCInitInstances() {

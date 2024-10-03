@@ -28,7 +28,7 @@ import cipm.consistency.initialisers.jamopp.variables.VariablesInitialiserPackag
  * <br>
  * Includes all implemented initialisers.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class JaMoPPInitialiserPackage implements IInitialiserPackage {
 	@Override

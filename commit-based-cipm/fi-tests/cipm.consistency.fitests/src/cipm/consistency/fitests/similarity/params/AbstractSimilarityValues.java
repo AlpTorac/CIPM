@@ -14,7 +14,7 @@ import java.util.Map;
  * @see {@link #getExpectedSimilarityResult(Class, Object)} for more information
  *      on expected similarity checking results.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	/**
@@ -165,7 +165,7 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	 * object denotes an attribute within a class, rather than the value of an
 	 * attribute.
 	 * 
-	 * @author atora
+	 * @author Alp Torac Genc
 	 */
 	protected class SimilarityEntry {
 		/**

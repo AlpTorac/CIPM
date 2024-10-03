@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
  * instances at meta-metamodel level, without any other context (i.e. their
  * contents and all of their attributes are accounted for)
  * 
- * @author atora
+ * @author Alp Torac Genc
  * @see {@link EcoreUtil}
  */
 public class EcoreUtilHelper {

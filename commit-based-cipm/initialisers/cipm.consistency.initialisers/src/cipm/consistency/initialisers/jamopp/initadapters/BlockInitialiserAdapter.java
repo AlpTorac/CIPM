@@ -16,7 +16,7 @@ import cipm.consistency.initialisers.jamopp.statements.IBlockContainerInitialise
  * {@link Block} instances does not throw exceptions, due to them not having a
  * container.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class BlockInitialiserAdapter implements IInitialiserAdapterStrategy {
 	/**

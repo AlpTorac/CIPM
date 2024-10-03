@@ -34,7 +34,7 @@ import org.emftext.language.java.types.TypeReference;
  * super-types. The sole purpose of this class is to be used as a parameter for
  * {@code IR.setNext(...)} and {@code IR.setTarget(...)} in tests !!!</b>
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class DummyClassImplAndReference extends ClassImpl implements Reference {
 	private Reference innerRef;

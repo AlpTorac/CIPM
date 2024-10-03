@@ -15,7 +15,7 @@ import cipm.consistency.initialisers.jamopp.commons.INamedElementInitialiser;
  * has no name. This way, similarity checking 2 {@link NamedElement} instances
  * does not throw exceptions, due to them not having a name.
  * 
- * @author atora
+ * @author Alp Torac Genc
  *
  */
 public class NamedElementInitialiserAdapter implements IInitialiserAdapterStrategy {

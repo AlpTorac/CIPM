@@ -17,7 +17,7 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
 /**
  * {@link StatementListContainer} has no attributes itself.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class StatementListContainerTest extends AbstractJaMoPPSimilarityTest implements UsesStatements {
 

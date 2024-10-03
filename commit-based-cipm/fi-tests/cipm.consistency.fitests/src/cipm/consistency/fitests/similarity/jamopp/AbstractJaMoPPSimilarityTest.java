@@ -21,7 +21,7 @@ import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
  * methods that can be used in parameterised tests to generate initialiser
  * instances.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimilarityTest {
 	/**

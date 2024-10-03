@@ -16,7 +16,7 @@ import cipm.consistency.initialisers.jamopp.members.IMemberContainerInitialiser;
  * This way, similarity checking 2 {@link Member} instances does not throw an
  * exception, due to them not being contained by a {@link MemberContainer}.
  * 
- * @author atora
+ * @author Alp Torac Genc
  *
  */
 public class MemberInitialiserAdapter implements IInitialiserAdapterStrategy {

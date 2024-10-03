@@ -7,7 +7,7 @@ import java.util.Collection;
  * which are supposed to be able to work with
  * {@link IInitialiserAdapterStrategy}.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public interface IInitialiserBase extends IInitialiser {
 	/**

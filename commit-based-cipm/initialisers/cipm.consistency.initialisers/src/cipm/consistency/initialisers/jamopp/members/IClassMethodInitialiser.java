@@ -24,7 +24,7 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
  * <b>Note that the said method will REPLACE the former statement when used.
  * </b>
  * 
- * @author atora
+ * @author Alp Torac Genc
  *
  */
 public interface IClassMethodInitialiser extends IMethodInitialiser, IStatementListContainerInitialiser {

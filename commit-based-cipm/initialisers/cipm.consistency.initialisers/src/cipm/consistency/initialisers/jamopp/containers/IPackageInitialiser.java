@@ -18,7 +18,7 @@ import cipm.consistency.initialisers.jamopp.references.IReferenceableElementInit
  * {@link #addNamespace(org.emftext.language.java.commons.NamespaceAwareElement, String)}
  * to modify its name.</b>
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public interface IPackageInitialiser extends IJavaRootInitialiser, IReferenceableElementInitialiser {
 	@Override

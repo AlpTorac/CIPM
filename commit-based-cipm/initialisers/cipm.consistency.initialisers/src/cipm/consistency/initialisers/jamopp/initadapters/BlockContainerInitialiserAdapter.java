@@ -18,7 +18,7 @@ import cipm.consistency.initialisers.jamopp.statements.IBlockInitialiser;
  * 2 {@link BlockContainer} instances, because of them not having a
  * {@link Block}.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class BlockContainerInitialiserAdapter implements IInitialiserAdapterStrategy {
 	/**

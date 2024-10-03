@@ -16,7 +16,7 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
  * uses}, make sure to document them or provide ways to determine what will be
  * done in such cases.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class DummySimilarityToolboxBuilder extends AbstractSimilarityToolboxBuilder {
 	@Override

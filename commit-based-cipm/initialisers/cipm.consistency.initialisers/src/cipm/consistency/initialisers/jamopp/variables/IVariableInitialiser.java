@@ -13,7 +13,7 @@ import cipm.consistency.initialisers.jamopp.types.ITypedElementInitialiser;
  * <b>Note: "createMethodCall..." methods in {@link Variable} do not modify
  * {@link Variable} instances.</b>
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public interface IVariableInitialiser
 		extends IReferenceableElementInitialiser, ITypeArgumentableInitialiser, ITypedElementInitialiser {

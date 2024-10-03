@@ -13,7 +13,7 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
  * should not contain their own handling logic. They should only contain
  * information.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class DummySingleSimilarityRequest implements ISimilarityRequest {
 	private Object elem1;

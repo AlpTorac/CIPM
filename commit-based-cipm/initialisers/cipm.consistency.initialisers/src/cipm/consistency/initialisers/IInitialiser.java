@@ -20,7 +20,7 @@ package cipm.consistency.initialisers;
  * <br>
  * This interface also contains some static utility methods.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public interface IInitialiser {
 	/**

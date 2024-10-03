@@ -11,7 +11,7 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
  * while processing the request it initially received. This can be used in real
  * handlers, in order to re-use code and to keep consistency, if needed.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class DummySingleSimilarityRequestHandler implements ISimilarityRequestHandler {
 	private ISimilarityRequestHandler srh;

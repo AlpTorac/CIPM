@@ -9,7 +9,7 @@ package cipm.consistency.initialisers;
  * Doing so keeps {@link IInitialiser} classes independent of one another and
  * extracts concrete initialisation code away from "general" interfaces.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public interface IInitialiserAdapterStrategy {
 	/**
