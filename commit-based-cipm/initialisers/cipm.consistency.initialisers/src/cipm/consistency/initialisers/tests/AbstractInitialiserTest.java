@@ -11,15 +11,16 @@ public abstract class AbstractInitialiserTest {
 	public Collection<IInitialiser> getAllInitialisers() {
 		return new DummyTopLevelInitialiserPackage().getAllInitialiserInstances();
 	}
-	
+
 	public Collection<IInitialiserBase> getAllAdaptableInitialisers() {
 		var allInits = this.getAllInitialisers();
 		var result = new ArrayList<IInitialiserBase>();
-		
+
 		allInits.forEach((i) -> {
-			if (i instanceof IInitialiserBase) result.add((IInitialiserBase) i);
+			if (i instanceof IInitialiserBase)
+				result.add((IInitialiserBase) i);
 		});
-		
+
 		return result;
 	}
 }
