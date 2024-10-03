@@ -5,10 +5,10 @@ import org.emftext.language.java.literals.LiteralsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.initialisers.jamopp.literals.HexDoubleLiteralInitialiser;
 
-public class HexDoubleLiteralTest extends AbstractEMFTextSimilarityTest {
+public class HexDoubleLiteralTest extends AbstractJaMoPPSimilarityTest {
 	protected HexDoubleLiteral initElement(double val) {
 		var init = new HexDoubleLiteralInitialiser();
 		var lit = init.instantiate();

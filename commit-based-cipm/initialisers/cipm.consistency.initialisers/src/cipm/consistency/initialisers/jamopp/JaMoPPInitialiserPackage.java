@@ -30,7 +30,7 @@ import cipm.consistency.initialisers.jamopp.variables.VariablesInitialiserPackag
  * 
  * @author atora
  */
-public class EMFtextInitialiserPackage implements IInitialiserPackage {
+public class JaMoPPInitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiserPackage> getSubPackages() {
 		return this.initCol(new IInitialiserPackage[] { new AnnotationsInitialiserPackage(),

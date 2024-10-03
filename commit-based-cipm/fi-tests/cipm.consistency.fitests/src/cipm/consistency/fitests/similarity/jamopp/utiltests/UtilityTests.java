@@ -11,10 +11,10 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.initialisers.IInitialiser;
 import cipm.consistency.initialisers.eobject.InitialiserNameHelper;
-import cipm.consistency.initialisers.jamopp.EMFtextHelper;
+import cipm.consistency.initialisers.jamopp.JaMoPPHelper;
 
 /**
  * A test class, whose tests can be used to make sure no initialiser interfaces,
@@ -22,7 +22,7 @@ import cipm.consistency.initialisers.jamopp.EMFtextHelper;
  * 
  * @author atora
  */
-public class UtilityTests extends AbstractEMFTextSimilarityTest {
+public class UtilityTests extends AbstractJaMoPPSimilarityTest {
 	/**
 	 * Points at the parent package. Used by discovering methods in this class.
 	 */
@@ -93,7 +93,7 @@ public class UtilityTests extends AbstractEMFTextSimilarityTest {
 	public Collection<Class<?>> getClassesWithInitialiserInterface() {
 		var initClss = this.getAllInitialiserTypes();
 
-		return List.of(EMFtextHelper.getAllInitialiserCandidates().stream().filter(
+		return List.of(JaMoPPHelper.getAllInitialiserCandidates().stream().filter(
 				(c) -> initClss.stream().anyMatch((f) -> f.getSimpleName().equals(this.getInitialiserInterfaceName(c))))
 				.toArray(Class<?>[]::new));
 	}
@@ -174,7 +174,7 @@ public class UtilityTests extends AbstractEMFTextSimilarityTest {
 	 */
 	@Test
 	public void testAllConcreteInitialisersRegistered() {
-		var clss = EMFtextHelper.getAllConcreteInitialiserCandidates();
+		var clss = JaMoPPHelper.getAllConcreteInitialiserCandidates();
 		var registeredInits = this.getUsedInitialiserPackage().getAllInitialiserInstances();
 
 		var matches = List.of(
@@ -198,7 +198,7 @@ public class UtilityTests extends AbstractEMFTextSimilarityTest {
 	 */
 	@Test
 	public void testAllInitialiserInterfacesRegistered() {
-		var clss = EMFtextHelper.getAllInitialiserCandidates();
+		var clss = JaMoPPHelper.getAllInitialiserCandidates();
 		var registeredInits = this.getUsedInitialiserPackage().getAllInitialiserInterfaceTypes();
 
 		var matches = List.of(clss.stream()
@@ -230,7 +230,7 @@ public class UtilityTests extends AbstractEMFTextSimilarityTest {
 	 */
 	@Test
 	public void testAllInterfaceTestsPresent() {
-		var intfcs = EMFtextHelper.getAllInitialiserCandidates();
+		var intfcs = JaMoPPHelper.getAllInitialiserCandidates();
 		var allFiles = this.getAllFiles();
 
 		var matches = List.of(intfcs.stream()

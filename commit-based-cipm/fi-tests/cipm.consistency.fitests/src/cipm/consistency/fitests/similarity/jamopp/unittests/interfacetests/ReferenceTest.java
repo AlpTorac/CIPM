@@ -10,15 +10,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesArraySelectors;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesReferences;
 import cipm.consistency.initialisers.jamopp.references.IReferenceInitialiser;
 
-public class ReferenceTest extends AbstractEMFTextSimilarityTest implements UsesReferences, UsesArraySelectors {
+public class ReferenceTest extends AbstractJaMoPPSimilarityTest implements UsesReferences, UsesArraySelectors {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IReferenceInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IReferenceInitialiser.class);
 	}
 
 	protected Reference initElement(IReferenceInitialiser init, Reference next, ArraySelector[] arrSels) {

@@ -6,11 +6,11 @@ import org.emftext.language.java.statements.StatementsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesParameters;
 import cipm.consistency.initialisers.jamopp.statements.CatchBlockInitialiser;
 
-public class CatchBlockTest extends AbstractEMFTextSimilarityTest implements UsesParameters {
+public class CatchBlockTest extends AbstractJaMoPPSimilarityTest implements UsesParameters {
 	protected CatchBlock initElement(OrdinaryParameter param) {
 		var cbInit = new CatchBlockInitialiser();
 		var cb = cbInit.instantiate();

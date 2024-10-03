@@ -7,11 +7,11 @@ import org.emftext.language.java.operators.RelationOperator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
 import cipm.consistency.initialisers.jamopp.expressions.RelationExpressionInitialiser;
 
-public class RelationExpressionTest extends AbstractEMFTextSimilarityTest implements UsesExpressions {
+public class RelationExpressionTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions {
 	protected RelationExpression initElement(RelationExpressionChild[] children, RelationOperator[] ops) {
 		var reInit = new RelationExpressionInitialiser();
 		var re = reInit.instantiate();

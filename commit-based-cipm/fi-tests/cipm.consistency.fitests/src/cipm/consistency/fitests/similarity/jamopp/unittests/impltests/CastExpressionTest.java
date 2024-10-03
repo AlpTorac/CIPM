@@ -8,7 +8,7 @@ import org.emftext.language.java.types.TypeReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesTypeReferences;
 import cipm.consistency.initialisers.jamopp.expressions.CastExpressionInitialiser;
@@ -19,7 +19,7 @@ import cipm.consistency.initialisers.jamopp.expressions.CastExpressionInitialise
  * 
  * @author atora
  */
-public class CastExpressionTest extends AbstractEMFTextSimilarityTest implements UsesExpressions, UsesTypeReferences {
+public class CastExpressionTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions, UsesTypeReferences {
 	protected CastExpression initElement(TypeReference[] additionalBoundsArr, MultiplicativeExpressionChild child,
 			Expression generalChild) {
 		var ceInit = new CastExpressionInitialiser();

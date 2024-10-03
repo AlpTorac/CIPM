@@ -9,7 +9,7 @@ import cipm.consistency.initialisers.eobject.IEObjectInitialiser;
  * 
  * @author atora
  */
-public interface IEMFTextEObjectInitialiser extends IEObjectInitialiser {
+public interface IJaMoPPEObjectInitialiser extends IEObjectInitialiser {
 	@Override
-	public IEMFTextEObjectInitialiser newInitialiser();
+	public IJaMoPPEObjectInitialiser newInitialiser();
 }

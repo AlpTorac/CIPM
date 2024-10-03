@@ -10,15 +10,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesImports;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesModifiers;
 import cipm.consistency.initialisers.jamopp.imports.IStaticImportInitialiser;
 
-public class StaticImportTest extends AbstractEMFTextSimilarityTest implements UsesImports, UsesModifiers {
+public class StaticImportTest extends AbstractJaMoPPSimilarityTest implements UsesImports, UsesModifiers {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IStaticImportInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IStaticImportInitialiser.class);
 	}
 
 	protected StaticImport initElement(IStaticImportInitialiser init, Static st) {

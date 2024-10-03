@@ -7,11 +7,11 @@ import org.emftext.language.java.operators.EqualityOperator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
 import cipm.consistency.initialisers.jamopp.expressions.EqualityExpressionInitialiser;
 
-public class EqualityExpressionTest extends AbstractEMFTextSimilarityTest implements UsesExpressions {
+public class EqualityExpressionTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions {
 	protected EqualityExpression initElement(EqualityExpressionChild[] children, EqualityOperator op) {
 		var eeInit = new EqualityExpressionInitialiser();
 		var ee = eeInit.instantiate();

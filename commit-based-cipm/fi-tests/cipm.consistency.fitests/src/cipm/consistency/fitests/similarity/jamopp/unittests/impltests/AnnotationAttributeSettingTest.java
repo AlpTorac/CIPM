@@ -7,12 +7,12 @@ import org.emftext.language.java.members.InterfaceMethod;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesAnnotationValues;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesMethods;
 import cipm.consistency.initialisers.jamopp.annotations.AnnotationAttributeSettingInitialiser;
 
-public class AnnotationAttributeSettingTest extends AbstractEMFTextSimilarityTest implements UsesMethods, UsesAnnotationValues {
+public class AnnotationAttributeSettingTest extends AbstractJaMoPPSimilarityTest implements UsesMethods, UsesAnnotationValues {
 	protected AnnotationAttributeSetting initElement(InterfaceMethod attr, AnnotationValue val) {
 		var initialiser = new AnnotationAttributeSettingInitialiser();
 		AnnotationAttributeSetting result = initialiser.instantiate();

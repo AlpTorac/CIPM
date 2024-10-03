@@ -13,8 +13,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.params.EMFTextInitialiserParameters;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPInitialiserParameters;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
 import cipm.consistency.initialisers.jamopp.statements.IStatementInitialiser;
 import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerInitialiser;
@@ -30,17 +30,17 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
  * 
  * @author atora
  */
-public class StatementPositionTest extends AbstractEMFTextSimilarityTest implements UsesStatements {
+public class StatementPositionTest extends AbstractJaMoPPSimilarityTest implements UsesStatements {
 	private static List<IStatementListContainerInitialiser> getAllSLCInitInstances() {
 		var res = new ArrayList<IStatementListContainerInitialiser>();
-		var inits = new EMFTextInitialiserParameters().getEachInitialiserOnceBySuper(IStatementListContainerInitialiser.class);
+		var inits = new JaMoPPInitialiserParameters().getEachInitialiserOnceBySuper(IStatementListContainerInitialiser.class);
 		inits.forEach((i) -> res.add(((IStatementListContainerInitialiser) i)));
 		return res;
 	}
 
 	private static List<IStatementInitialiser> getAllStatementInitInstances() {
 		var res = new ArrayList<IStatementInitialiser>();
-		var inits = new EMFTextInitialiserParameters().getEachInitialiserOnceBySuper(IStatementInitialiser.class);
+		var inits = new JaMoPPInitialiserParameters().getEachInitialiserOnceBySuper(IStatementInitialiser.class);
 		inits.forEach((i) -> res.add(((IStatementInitialiser) i)));
 		return res;
 	}

@@ -20,8 +20,8 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.initialisers.IInitialiser;
 import cipm.consistency.initialisers.IInitialiserPackage;
 import cipm.consistency.initialisers.eobject.InitialiserNameHelper;
-import cipm.consistency.initialisers.jamopp.EMFtextHelper;
-import cipm.consistency.initialisers.jamopp.EMFtextInitialiserPackage;
+import cipm.consistency.initialisers.jamopp.JaMoPPHelper;
+import cipm.consistency.initialisers.jamopp.JaMoPPInitialiserPackage;
 
 /**
  * A test class, whose tests can be used to make sure no initialiser interfaces
@@ -56,7 +56,7 @@ public class UtilityTests {
 	}
 
 	public IInitialiserPackage getUsedInitialiserPackage() {
-		return new EMFtextInitialiserPackage();
+		return new JaMoPPInitialiserPackage();
 	}
 
 	/**
@@ -95,7 +95,7 @@ public class UtilityTests {
 	public Collection<Class<?>> getClassesWithInitialiserInterface() {
 		var initClss = this.getAllInitialiserTypes();
 
-		return List.of(EMFtextHelper.getAllInitialiserCandidates().stream()
+		return List.of(JaMoPPHelper.getAllInitialiserCandidates().stream()
 				.filter((c) -> initClss.stream().anyMatch(
 						(f) -> f.getSimpleName().equals(InitialiserNameHelper.getInitialiserInterfaceName(c))))
 				.toArray(Class<?>[]::new));
@@ -175,7 +175,7 @@ public class UtilityTests {
 	@Disabled("Can be enabled to print all possible concrete EObject types, does not test anything")
 	@Test
 	public void printFullHierarchy() {
-		var hSet = EMFtextHelper.getAllPossibleTypes();
+		var hSet = JaMoPPHelper.getAllPossibleTypes();
 		this.getLogger().info(this.clsStreamToString(hSet.stream()));
 	}
 
@@ -188,7 +188,7 @@ public class UtilityTests {
 	 */
 	@Test
 	public void testAllConcreteInitialisersRegistered() {
-		var clss = EMFtextHelper.getAllConcreteInitialiserCandidates();
+		var clss = JaMoPPHelper.getAllConcreteInitialiserCandidates();
 		var registeredInits = this.getUsedInitialiserPackage().getAllInitialiserInstances();
 
 		var matches = List.of(
@@ -212,7 +212,7 @@ public class UtilityTests {
 	 */
 	@Test
 	public void testAllInitialiserInterfacesRegistered() {
-		var clss = EMFtextHelper.getAllInitialiserCandidates();
+		var clss = JaMoPPHelper.getAllInitialiserCandidates();
 		var registeredInits = this.getUsedInitialiserPackage().getAllInitialiserInterfaceTypes();
 
 		var matches = List.of(clss.stream()
@@ -240,7 +240,7 @@ public class UtilityTests {
 	 */
 	@Test
 	public void testAllConcreteInitialisersPresent() {
-		var intfcs = EMFtextHelper.getAllConcreteInitialiserCandidates();
+		var intfcs = JaMoPPHelper.getAllConcreteInitialiserCandidates();
 		var files = this.getAllFiles();
 
 		var matches = List.of(intfcs.stream()
@@ -269,7 +269,7 @@ public class UtilityTests {
 	 */
 	@Test
 	public void testAllInitialiserInterfacesPresent() {
-		var intfcs = EMFtextHelper.getAllInitialiserCandidates();
+		var intfcs = JaMoPPHelper.getAllInitialiserCandidates();
 		var files = this.getAllFiles();
 
 		var matches = List.of(intfcs.stream()

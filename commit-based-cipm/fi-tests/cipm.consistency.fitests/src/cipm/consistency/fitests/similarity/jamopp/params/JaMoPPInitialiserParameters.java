@@ -1,7 +1,7 @@
 package cipm.consistency.fitests.similarity.jamopp.params;
 
 import cipm.consistency.initialisers.IInitialiserPackage;
-import cipm.consistency.initialisers.jamopp.EMFtextInitialiserPackage;
+import cipm.consistency.initialisers.jamopp.JaMoPPInitialiserPackage;
 import cipm.consistency.fitests.similarity.params.IInitialiserParameterAdaptationStrategy;
 import cipm.consistency.fitests.similarity.params.IInitialiserParameters;
 
@@ -10,14 +10,14 @@ import cipm.consistency.fitests.similarity.params.IInitialiserParameters;
  * 
  * @author atora
  */
-public class EMFTextInitialiserParameters implements IInitialiserParameters {
+public class JaMoPPInitialiserParameters implements IInitialiserParameters {
 	@Override
 	public IInitialiserPackage getUsedInitialiserPackage() {
-		return new EMFtextInitialiserPackage();
+		return new JaMoPPInitialiserPackage();
 	}
 
 	@Override
 	public IInitialiserParameterAdaptationStrategy getAdaptationStrategy() {
-		return new EMFTextInitialiserParameterAdaptationStrategy();
+		return new JaMoPPInitialiserParameterAdaptationStrategy();
 	}
 }

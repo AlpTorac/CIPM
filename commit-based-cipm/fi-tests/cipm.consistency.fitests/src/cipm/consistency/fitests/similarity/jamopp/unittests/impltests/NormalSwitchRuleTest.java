@@ -6,11 +6,11 @@ import org.emftext.language.java.statements.StatementsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
 import cipm.consistency.initialisers.jamopp.statements.NormalSwitchRuleInitialiser;
 
-public class NormalSwitchRuleTest extends AbstractEMFTextSimilarityTest implements UsesExpressions {
+public class NormalSwitchRuleTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions {
 	protected NormalSwitchRule initElement(Expression[] additionalConds) {
 		var nsrInit = new NormalSwitchRuleInitialiser();
 		var nsr = nsrInit.instantiate();

@@ -6,11 +6,11 @@ import org.emftext.language.java.instantiations.InstantiationsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesAnonymousClasses;
 import cipm.consistency.initialisers.jamopp.instantiations.NewConstructorCallInitialiser;
 
-public class NewConstructorCallTest extends AbstractEMFTextSimilarityTest implements UsesAnonymousClasses {
+public class NewConstructorCallTest extends AbstractJaMoPPSimilarityTest implements UsesAnonymousClasses {
 	protected NewConstructorCall initElement(AnonymousClass anonymousCls) {
 		var nccInit = new NewConstructorCallInitialiser();
 		var ncc = nccInit.instantiate();

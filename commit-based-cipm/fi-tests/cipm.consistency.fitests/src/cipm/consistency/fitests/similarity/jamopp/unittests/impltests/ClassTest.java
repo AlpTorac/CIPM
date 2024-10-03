@@ -1,6 +1,6 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesTypeReferences;
 import cipm.consistency.initialisers.jamopp.classifiers.ClassInitialiser;
 
@@ -10,7 +10,7 @@ import org.emftext.language.java.types.TypeReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class ClassTest extends AbstractEMFTextSimilarityTest implements UsesTypeReferences {
+public class ClassTest extends AbstractJaMoPPSimilarityTest implements UsesTypeReferences {
 	protected Class initElement(TypeReference defExt, TypeReference ext) {
 		var clsInit = new ClassInitialiser();
 		var cls = clsInit.instantiate();

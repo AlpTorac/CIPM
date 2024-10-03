@@ -6,11 +6,11 @@ import org.emftext.language.java.references.ReferencesPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesLiterals;
 import cipm.consistency.initialisers.jamopp.references.SelfReferenceInitialiser;
 
-public class SelfReferenceTest extends AbstractEMFTextSimilarityTest implements UsesLiterals {
+public class SelfReferenceTest extends AbstractJaMoPPSimilarityTest implements UsesLiterals {
 	protected SelfReference initElement(Self self) {
 		var srInit = new SelfReferenceInitialiser();
 		var sr = srInit.instantiate();

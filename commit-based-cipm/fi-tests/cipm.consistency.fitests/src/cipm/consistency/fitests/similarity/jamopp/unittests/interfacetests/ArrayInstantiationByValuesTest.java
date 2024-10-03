@@ -10,16 +10,16 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesArrayInitializers;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesLiterals;
 import cipm.consistency.initialisers.jamopp.arrays.IArrayInstantiationByValuesInitialiser;
 
-public class ArrayInstantiationByValuesTest extends AbstractEMFTextSimilarityTest
+public class ArrayInstantiationByValuesTest extends AbstractJaMoPPSimilarityTest
 		implements UsesArrayInitializers, UsesLiterals {
 	
 	private static Stream<Arguments> provideArguments() {
-		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IArrayInstantiationByValuesInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IArrayInstantiationByValuesInitialiser.class);
 	}
 	
 	protected ArrayInstantiationByValues initElement(IArrayInstantiationByValuesInitialiser init,

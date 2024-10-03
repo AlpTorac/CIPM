@@ -11,14 +11,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
 import cipm.consistency.initialisers.jamopp.expressions.IUnaryModificationExpressionInitialiser;
 
-public class UnaryModificationExpressionTest extends AbstractEMFTextSimilarityTest implements UsesExpressions {
+public class UnaryModificationExpressionTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IUnaryModificationExpressionInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IUnaryModificationExpressionInitialiser.class);
 	}
 
 	protected UnaryModificationExpression initElement(IUnaryModificationExpressionInitialiser init,

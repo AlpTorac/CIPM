@@ -6,11 +6,11 @@ import org.emftext.language.java.expressions.Expression;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
 import cipm.consistency.initialisers.jamopp.arrays.ArraySelectorInitialiser;
 
-public class ArraySelectorTest extends AbstractEMFTextSimilarityTest implements UsesExpressions {
+public class ArraySelectorTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions {
 	protected ArraySelector initElement(Expression pos) {
 		var asInit = new ArraySelectorInitialiser();
 		var as = asInit.instantiate();

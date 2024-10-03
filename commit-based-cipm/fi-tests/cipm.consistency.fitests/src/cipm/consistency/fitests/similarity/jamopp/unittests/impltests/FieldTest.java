@@ -6,11 +6,11 @@ import org.emftext.language.java.members.MembersPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesAdditionalFields;
 import cipm.consistency.initialisers.jamopp.members.FieldInitialiser;
 
-public class FieldTest extends AbstractEMFTextSimilarityTest implements UsesAdditionalFields {
+public class FieldTest extends AbstractJaMoPPSimilarityTest implements UsesAdditionalFields {
 	protected Field initElement(AdditionalField[] additionalFields) {
 		var fieldInit = new FieldInitialiser();
 		var field = fieldInit.instantiate();

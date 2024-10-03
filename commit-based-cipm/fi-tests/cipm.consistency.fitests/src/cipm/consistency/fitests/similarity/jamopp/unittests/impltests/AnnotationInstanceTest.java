@@ -7,12 +7,12 @@ import org.emftext.language.java.classifiers.Classifier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesAnnotationParameters;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesConcreteClassifiers;
 import cipm.consistency.initialisers.jamopp.annotations.AnnotationInstanceInitialiser;
 
-public class AnnotationInstanceTest extends AbstractEMFTextSimilarityTest
+public class AnnotationInstanceTest extends AbstractJaMoPPSimilarityTest
 		implements UsesConcreteClassifiers, UsesAnnotationParameters {
 
 	protected AnnotationInstance initElement(Classifier annotation, AnnotationParameter annoParam) {

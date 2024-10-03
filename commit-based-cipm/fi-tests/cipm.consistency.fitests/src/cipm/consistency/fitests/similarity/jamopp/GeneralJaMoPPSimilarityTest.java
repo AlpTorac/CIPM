@@ -12,7 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import cipm.consistency.initialisers.jamopp.IEMFTextEObjectInitialiser;
+import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
 import cipm.consistency.initialisers.jamopp.containers.ModuleInitialiser;
 import cipm.consistency.initialisers.jamopp.containers.PackageInitialiser;
 
@@ -29,17 +29,17 @@ import org.emftext.language.java.containers.Module;
  * 
  * @author atora
  */
-public class GeneralEMFTextSimilarityTest extends AbstractEMFTextSimilarityTest {
+public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	private static Stream<Arguments> provideNonAdaptedInitialisers() {
-		return AbstractEMFTextSimilarityTest.getNonAdaptedInitialiserArgumentsFor(IEMFTextEObjectInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getNonAdaptedInitialiserArgumentsFor(IJaMoPPEObjectInitialiser.class);
 	}
 
 	private static Stream<Arguments> provideAdaptedInitialisers() {
-		return AbstractEMFTextSimilarityTest.getAdaptedInitialiserArgumentsFor(IEMFTextEObjectInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getAdaptedInitialiserArgumentsFor(IJaMoPPEObjectInitialiser.class);
 	}
 
 	private static Stream<Arguments> provideAllInitialisers() {
-		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IEMFTextEObjectInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IJaMoPPEObjectInitialiser.class);
 	}
 
 	private <T extends Object> List<T> toList() {
@@ -50,7 +50,7 @@ public class GeneralEMFTextSimilarityTest extends AbstractEMFTextSimilarityTest 
 		return List.of(eos);
 	}
 
-	private EObject instantiateAndInitialise(IEMFTextEObjectInitialiser init) {
+	private EObject instantiateAndInitialise(IJaMoPPEObjectInitialiser init) {
 		var obj = init.instantiate();
 		Assertions.assertTrue(init.initialise(obj));
 		return obj;
@@ -115,7 +115,7 @@ public class GeneralEMFTextSimilarityTest extends AbstractEMFTextSimilarityTest 
 	 */
 	@ParameterizedTest
 	@MethodSource("provideNonAdaptedInitialisers")
-	public void testIsSimilarUninitialisedObjectsEqual(IEMFTextEObjectInitialiser initialiser) {
+	public void testIsSimilarUninitialisedObjectsEqual(IJaMoPPEObjectInitialiser initialiser) {
 		var obj1 = initialiser.instantiate();
 		var obj2 = initialiser.instantiate();
 
@@ -131,7 +131,7 @@ public class GeneralEMFTextSimilarityTest extends AbstractEMFTextSimilarityTest 
 	 */
 	@ParameterizedTest
 	@MethodSource("provideAdaptedInitialisers")
-	public void testIsSimilarInitialisedObjectsEqual(IEMFTextEObjectInitialiser initialiser) {
+	public void testIsSimilarInitialisedObjectsEqual(IJaMoPPEObjectInitialiser initialiser) {
 		var obj11 = this.instantiateAndInitialise(initialiser);
 		var obj12 = this.instantiateAndInitialise(initialiser);
 
@@ -143,7 +143,7 @@ public class GeneralEMFTextSimilarityTest extends AbstractEMFTextSimilarityTest 
 	 */
 	@ParameterizedTest
 	@MethodSource("provideAllInitialisers")
-	public void testIsSimilarSameReference(IEMFTextEObjectInitialiser initialiser) {
+	public void testIsSimilarSameReference(IJaMoPPEObjectInitialiser initialiser) {
 		var obj11 = initialiser.instantiate();
 
 		Assertions.assertTrue(this.isSimilar(obj11, obj11));
@@ -154,7 +154,7 @@ public class GeneralEMFTextSimilarityTest extends AbstractEMFTextSimilarityTest 
 	 */
 	@ParameterizedTest
 	@MethodSource("provideAllInitialisers")
-	public void testIsSimilarCloneEqual(IEMFTextEObjectInitialiser initialiser) {
+	public void testIsSimilarCloneEqual(IJaMoPPEObjectInitialiser initialiser) {
 		var obj11 = initialiser.instantiate();
 		var objClone = initialiser.clone(obj11);
 
@@ -203,7 +203,7 @@ public class GeneralEMFTextSimilarityTest extends AbstractEMFTextSimilarityTest 
 	 */
 	@ParameterizedTest
 	@MethodSource("provideNonAdaptedInitialisers")
-	public void testAreSimilarUninitialisedSingleObject(IEMFTextEObjectInitialiser initialiser) {
+	public void testAreSimilarUninitialisedSingleObject(IJaMoPPEObjectInitialiser initialiser) {
 		var obj1 = initialiser.instantiate();
 		var obj2 = initialiser.instantiate();
 
@@ -220,7 +220,7 @@ public class GeneralEMFTextSimilarityTest extends AbstractEMFTextSimilarityTest 
 	 */
 	@ParameterizedTest
 	@MethodSource("provideNonAdaptedInitialisers")
-	public void testAreSimilarUninitialisedMultipleObjects(IEMFTextEObjectInitialiser initialiser) {
+	public void testAreSimilarUninitialisedMultipleObjects(IJaMoPPEObjectInitialiser initialiser) {
 		var obj11 = initialiser.instantiate();
 		var obj12 = initialiser.instantiate();
 		var obj21 = initialiser.instantiate();
@@ -239,7 +239,7 @@ public class GeneralEMFTextSimilarityTest extends AbstractEMFTextSimilarityTest 
 	 */
 	@ParameterizedTest
 	@MethodSource("provideAdaptedInitialisers")
-	public void testAreSimilarInitialisedSingleObject(IEMFTextEObjectInitialiser initialiser) {
+	public void testAreSimilarInitialisedSingleObject(IJaMoPPEObjectInitialiser initialiser) {
 		var obj1 = this.instantiateAndInitialise(initialiser);
 		var obj2 = this.instantiateAndInitialise(initialiser);
 
@@ -256,7 +256,7 @@ public class GeneralEMFTextSimilarityTest extends AbstractEMFTextSimilarityTest 
 	 */
 	@ParameterizedTest
 	@MethodSource("provideAdaptedInitialisers")
-	public void testAreSimilarInitialisedMultipleObjects(IEMFTextEObjectInitialiser initialiser) {
+	public void testAreSimilarInitialisedMultipleObjects(IJaMoPPEObjectInitialiser initialiser) {
 		var obj11 = this.instantiateAndInitialise(initialiser);
 		var obj12 = this.instantiateAndInitialise(initialiser);
 		var obj21 = this.instantiateAndInitialise(initialiser);
@@ -271,7 +271,7 @@ public class GeneralEMFTextSimilarityTest extends AbstractEMFTextSimilarityTest 
 	 */
 	@ParameterizedTest
 	@MethodSource("provideNonAdaptedInitialisers")
-	public void testAreSimilarSingleObjectSameReference(IEMFTextEObjectInitialiser initialiser) {
+	public void testAreSimilarSingleObjectSameReference(IJaMoPPEObjectInitialiser initialiser) {
 		var obj = initialiser.instantiate();
 		var list = this.toList(obj);
 
@@ -303,7 +303,7 @@ public class GeneralEMFTextSimilarityTest extends AbstractEMFTextSimilarityTest 
 	 */
 	@ParameterizedTest
 	@MethodSource("provideAllInitialisers")
-	public void testAreSimilarSingleObjectCloneEqual(IEMFTextEObjectInitialiser initialiser) {
+	public void testAreSimilarSingleObjectCloneEqual(IJaMoPPEObjectInitialiser initialiser) {
 		var obj = initialiser.instantiate();
 		var objCopy = initialiser.clone(obj);
 
@@ -378,7 +378,7 @@ public class GeneralEMFTextSimilarityTest extends AbstractEMFTextSimilarityTest 
 	 */
 	@ParameterizedTest
 	@MethodSource("provideNonAdaptedInitialisers")
-	public void testAreSimilarOneListEmpty(IEMFTextEObjectInitialiser initialiser) {
+	public void testAreSimilarOneListEmpty(IJaMoPPEObjectInitialiser initialiser) {
 		var obj = initialiser.instantiate();
 
 		this.assertAreSimilar(this.toList(), this.toList(obj), Boolean.FALSE);

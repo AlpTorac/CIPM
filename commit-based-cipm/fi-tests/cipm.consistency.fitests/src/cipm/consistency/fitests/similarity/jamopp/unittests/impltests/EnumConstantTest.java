@@ -6,11 +6,11 @@ import org.emftext.language.java.members.MembersPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesAnonymousClasses;
 import cipm.consistency.initialisers.jamopp.members.EnumConstantInitialiser;
 
-public class EnumConstantTest extends AbstractEMFTextSimilarityTest implements UsesAnonymousClasses {
+public class EnumConstantTest extends AbstractJaMoPPSimilarityTest implements UsesAnonymousClasses {
 	protected EnumConstant initElement(AnonymousClass anonymousCls) {
 		var ecInit = new EnumConstantInitialiser();
 		var ec = ecInit.instantiate();

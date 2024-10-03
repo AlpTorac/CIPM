@@ -6,11 +6,11 @@ import org.emftext.language.java.containers.ContainersPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesConcreteClassifiers;
 import cipm.consistency.initialisers.jamopp.containers.CompilationUnitInitialiser;
 
-public class CompilationUnitTest extends AbstractEMFTextSimilarityTest implements UsesConcreteClassifiers {
+public class CompilationUnitTest extends AbstractJaMoPPSimilarityTest implements UsesConcreteClassifiers {
 	protected CompilationUnit initElement(ConcreteClassifier[] classifiers) {
 		var cuInit = new CompilationUnitInitialiser();
 		var cu = cuInit.instantiate();

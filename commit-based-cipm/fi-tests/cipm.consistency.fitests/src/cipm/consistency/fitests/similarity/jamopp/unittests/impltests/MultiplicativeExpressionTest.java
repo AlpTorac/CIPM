@@ -7,11 +7,11 @@ import org.emftext.language.java.operators.MultiplicativeOperator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
 import cipm.consistency.initialisers.jamopp.expressions.MultiplicativeExpressionInitialiser;
 
-public class MultiplicativeExpressionTest extends AbstractEMFTextSimilarityTest implements UsesExpressions {
+public class MultiplicativeExpressionTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions {
 	protected MultiplicativeExpression initElement(MultiplicativeExpressionChild[] children,
 			MultiplicativeOperator[] ops) {
 		var meInit = new MultiplicativeExpressionInitialiser();

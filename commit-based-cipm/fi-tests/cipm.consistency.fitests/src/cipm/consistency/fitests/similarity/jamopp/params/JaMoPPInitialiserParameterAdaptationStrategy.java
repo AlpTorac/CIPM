@@ -27,7 +27,7 @@ import cipm.consistency.fitests.similarity.params.IInitialiserParameterAdaptatio
  * tests can run without exceptions being thrown, due to objects they
  * instantiate missing certain components.
  */
-public class EMFTextInitialiserParameterAdaptationStrategy implements IInitialiserParameterAdaptationStrategy {
+public class JaMoPPInitialiserParameterAdaptationStrategy implements IInitialiserParameterAdaptationStrategy {
 	@Override
 	public void adaptAdaptableInitialiser(IInitialiserBase init) {
 		if (INamedElementInitialiser.class.isAssignableFrom(init.getClass())) {

@@ -6,11 +6,11 @@ import org.emftext.language.java.expressions.InstanceOfExpressionChild;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
 import cipm.consistency.initialisers.jamopp.expressions.InstanceOfExpressionInitialiser;
 
-public class InstanceOfExpressionTest extends AbstractEMFTextSimilarityTest implements UsesExpressions {
+public class InstanceOfExpressionTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions {
 	protected InstanceOfExpression initElement(InstanceOfExpressionChild child) {
 		var ioeInit = new InstanceOfExpressionInitialiser();
 		var ioe = ioeInit.instantiate();

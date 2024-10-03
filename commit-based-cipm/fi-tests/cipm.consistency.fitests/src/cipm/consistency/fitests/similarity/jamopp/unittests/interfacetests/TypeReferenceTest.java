@@ -9,14 +9,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesConcreteClassifiers;
 import cipm.consistency.initialisers.jamopp.types.ITypeReferenceInitialiser;
 
-public class TypeReferenceTest extends AbstractEMFTextSimilarityTest implements UsesConcreteClassifiers {
+public class TypeReferenceTest extends AbstractJaMoPPSimilarityTest implements UsesConcreteClassifiers {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(ITypeReferenceInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(ITypeReferenceInitialiser.class);
 	}
 
 	protected TypeReference initElement(ITypeReferenceInitialiser init, Classifier target) {

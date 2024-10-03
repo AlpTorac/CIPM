@@ -6,11 +6,11 @@ import org.emftext.language.java.expressions.NestedExpression;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
 import cipm.consistency.initialisers.jamopp.expressions.NestedExpressionInitialiser;
 
-public class NestedExpressionTest extends AbstractEMFTextSimilarityTest implements UsesExpressions {
+public class NestedExpressionTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions {
 	protected NestedExpression initElement(Expression expr) {
 		var init = new NestedExpressionInitialiser();
 		var result = init.instantiate();

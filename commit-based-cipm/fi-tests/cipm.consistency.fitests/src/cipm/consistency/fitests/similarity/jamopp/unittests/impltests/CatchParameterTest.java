@@ -6,11 +6,11 @@ import org.emftext.language.java.types.TypeReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesTypeReferences;
 import cipm.consistency.initialisers.jamopp.parameters.CatchParameterInitialiser;
 
-public class CatchParameterTest extends AbstractEMFTextSimilarityTest implements UsesTypeReferences {
+public class CatchParameterTest extends AbstractJaMoPPSimilarityTest implements UsesTypeReferences {
 	protected CatchParameter initElement(TypeReference[] trefs) {
 		var cpInit = new CatchParameterInitialiser();
 		var cp = cpInit.instantiate();

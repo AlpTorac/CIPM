@@ -6,11 +6,11 @@ import org.emftext.language.java.types.TypeReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesTypeReferences;
 import cipm.consistency.initialisers.jamopp.generics.ExtendsTypeArgumentInitialiser;
 
-public class ExtendsTypeArgumentTest extends AbstractEMFTextSimilarityTest implements UsesTypeReferences {
+public class ExtendsTypeArgumentTest extends AbstractJaMoPPSimilarityTest implements UsesTypeReferences {
 	protected ExtendsTypeArgument initElement(TypeReference extType) {
 		var etaInit = new ExtendsTypeArgumentInitialiser();
 		var eta = etaInit.instantiate();

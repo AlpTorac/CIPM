@@ -11,16 +11,16 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesAnnotationInstances;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesModifiers;
 import cipm.consistency.initialisers.jamopp.modifiers.IAnnotableAndModifiableInitialiser;
 
-public class AnnotableAndModifiableTest extends AbstractEMFTextSimilarityTest
+public class AnnotableAndModifiableTest extends AbstractJaMoPPSimilarityTest
 		implements UsesAnnotationInstances, UsesModifiers {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IAnnotableAndModifiableInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IAnnotableAndModifiableInitialiser.class);
 	}
 	
 	protected AnnotableAndModifiable initElement(IAnnotableAndModifiableInitialiser init, Modifier[] modifs,

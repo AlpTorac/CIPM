@@ -7,12 +7,12 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesConcreteClassifiers;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesModules;
 import cipm.consistency.initialisers.jamopp.containers.PackageInitialiser;
 
-public class PackageTest extends AbstractEMFTextSimilarityTest implements UsesModules, UsesConcreteClassifiers {
+public class PackageTest extends AbstractJaMoPPSimilarityTest implements UsesModules, UsesConcreteClassifiers {
 	protected Package initElement(Module mod, ConcreteClassifier[] clss) {
 		var initialiser = new PackageInitialiser();
 		Package pac = initialiser.instantiate();

@@ -10,7 +10,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
 import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerInitialiser;
 
@@ -19,10 +19,10 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
  * 
  * @author atora
  */
-public class StatementListContainerTest extends AbstractEMFTextSimilarityTest implements UsesStatements {
+public class StatementListContainerTest extends AbstractJaMoPPSimilarityTest implements UsesStatements {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IStatementListContainerInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IStatementListContainerInitialiser.class);
 	}
 
 	protected StatementListContainer initElement(IStatementListContainerInitialiser init, Statement[] sts) {

@@ -10,17 +10,17 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesConcreteClassifiers;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesLiterals;
 import cipm.consistency.initialisers.jamopp.references.IArgumentableInitialiser;
 
-public class ArgumentableTest extends AbstractEMFTextSimilarityTest
+public class ArgumentableTest extends AbstractJaMoPPSimilarityTest
 		implements UsesConcreteClassifiers, UsesExpressions, UsesLiterals {
 	
 	private static Stream<Arguments> provideArguments() {
-		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IArgumentableInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IArgumentableInitialiser.class);
 	}
 	
 	protected Argumentable initElement(IArgumentableInitialiser init, Expression[] args) {

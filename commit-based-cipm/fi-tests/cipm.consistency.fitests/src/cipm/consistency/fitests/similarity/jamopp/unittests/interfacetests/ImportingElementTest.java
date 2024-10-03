@@ -11,14 +11,14 @@ import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.imports.ImportingElement;
 import org.emftext.language.java.imports.ImportsPackage;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesImportingElements;
 import cipm.consistency.initialisers.jamopp.imports.IImportingElementInitialiser;
 
-public class ImportingElementTest extends AbstractEMFTextSimilarityTest implements UsesImportingElements {
+public class ImportingElementTest extends AbstractJaMoPPSimilarityTest implements UsesImportingElements {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IImportingElementInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IImportingElementInitialiser.class);
 	}
 
 	protected ImportingElement initElement(IImportingElementInitialiser init, Import[] imps) {

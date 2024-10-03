@@ -10,14 +10,14 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesTypeReferences;
 import cipm.consistency.initialisers.jamopp.classifiers.IImplementorInitialiser;
 
-public class ImplementorTest extends AbstractEMFTextSimilarityTest implements UsesTypeReferences {
+public class ImplementorTest extends AbstractJaMoPPSimilarityTest implements UsesTypeReferences {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IImplementorInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IImplementorInitialiser.class);
 	}
 
 	protected Implementor initElement(IImplementorInitialiser init, TypeReference[] impls) {

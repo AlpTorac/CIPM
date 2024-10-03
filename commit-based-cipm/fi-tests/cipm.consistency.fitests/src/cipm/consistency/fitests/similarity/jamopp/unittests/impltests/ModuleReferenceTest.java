@@ -6,11 +6,11 @@ import org.emftext.language.java.modules.ModulesPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesModules;
 import cipm.consistency.initialisers.jamopp.modules.ModuleReferenceInitialiser;
 
-public class ModuleReferenceTest extends AbstractEMFTextSimilarityTest implements UsesModules {
+public class ModuleReferenceTest extends AbstractJaMoPPSimilarityTest implements UsesModules {
 	protected ModuleReference initElement(Module target) {
 		var mrInit = new ModuleReferenceInitialiser();
 		var mr = mrInit.instantiate();

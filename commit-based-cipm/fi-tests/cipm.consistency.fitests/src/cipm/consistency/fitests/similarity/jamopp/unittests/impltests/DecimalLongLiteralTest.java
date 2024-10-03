@@ -5,10 +5,10 @@ import org.emftext.language.java.literals.LiteralsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.initialisers.jamopp.literals.DecimalLongLiteralInitialiser;
 
-public class DecimalLongLiteralTest extends AbstractEMFTextSimilarityTest {
+public class DecimalLongLiteralTest extends AbstractJaMoPPSimilarityTest {
 	protected DecimalLongLiteral initElement(long val) {
 		var init = new DecimalLongLiteralInitialiser();
 		var lit = init.instantiate();

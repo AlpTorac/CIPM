@@ -33,7 +33,7 @@ import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
  * 
  * @author atora
  */
-public class SPLevoModelsSimilarityTest extends AbstractEMFTextSimilarityTest {
+public class SPLevoModelsSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	private static final Logger LOGGER = Logger.getLogger("cipm." + SPLevoModelsSimilarityTest.class.getSimpleName());
 
 	/**

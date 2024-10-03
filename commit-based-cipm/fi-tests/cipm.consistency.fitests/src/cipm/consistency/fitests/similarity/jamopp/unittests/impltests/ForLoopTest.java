@@ -7,11 +7,11 @@ import org.emftext.language.java.statements.ForLoopInitializer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
 import cipm.consistency.initialisers.jamopp.statements.ForLoopInitialiser;
 
-public class ForLoopTest extends AbstractEMFTextSimilarityTest implements UsesExpressions {
+public class ForLoopTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions {
 	protected ForLoop initElement(ForLoopInitializer flInit, Expression[] updateExprs) {
 		var init = new ForLoopInitialiser();
 		var fl = init.instantiate();

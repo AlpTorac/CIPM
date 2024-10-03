@@ -6,12 +6,12 @@ import org.emftext.language.java.types.PrimitiveType;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.initialisers.jamopp.references.PrimitiveTypeReferenceInitialiser;
 import cipm.consistency.initialisers.jamopp.types.BooleanInitialiser;
 import cipm.consistency.initialisers.jamopp.types.IntInitialiser;
 
-public class PrimitiveTypeReferenceTest extends AbstractEMFTextSimilarityTest {
+public class PrimitiveTypeReferenceTest extends AbstractJaMoPPSimilarityTest {
 	protected PrimitiveTypeReference initElement(PrimitiveType pType) {
 		var ptInit = new PrimitiveTypeReferenceInitialiser();
 		var pt = ptInit.instantiate();

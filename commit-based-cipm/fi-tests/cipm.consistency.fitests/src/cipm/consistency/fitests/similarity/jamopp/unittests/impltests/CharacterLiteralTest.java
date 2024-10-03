@@ -5,10 +5,10 @@ import org.emftext.language.java.literals.LiteralsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.initialisers.jamopp.literals.CharacterLiteralInitialiser;
 
-public class CharacterLiteralTest extends AbstractEMFTextSimilarityTest {
+public class CharacterLiteralTest extends AbstractJaMoPPSimilarityTest {
 	protected CharacterLiteral initElement(String val) {
 		var init = new CharacterLiteralInitialiser();
 		var lit = init.instantiate();

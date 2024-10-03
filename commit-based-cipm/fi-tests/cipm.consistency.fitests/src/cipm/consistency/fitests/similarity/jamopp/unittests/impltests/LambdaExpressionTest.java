@@ -7,12 +7,12 @@ import org.emftext.language.java.expressions.LambdaParameters;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesLambdaParameters;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
 import cipm.consistency.initialisers.jamopp.expressions.LambdaExpressionInitialiser;
 
-public class LambdaExpressionTest extends AbstractEMFTextSimilarityTest implements UsesStatements, UsesLambdaParameters {
+public class LambdaExpressionTest extends AbstractJaMoPPSimilarityTest implements UsesStatements, UsesLambdaParameters {
 	protected LambdaExpression initElement(LambdaBody body, LambdaParameters param) {
 		var init = new LambdaExpressionInitialiser();
 		LambdaExpression result = init.instantiate();

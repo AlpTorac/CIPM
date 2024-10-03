@@ -5,10 +5,10 @@ import org.emftext.language.java.references.StringReference;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.initialisers.jamopp.references.StringReferenceInitialiser;
 
-public class StringReferenceTest extends AbstractEMFTextSimilarityTest {
+public class StringReferenceTest extends AbstractJaMoPPSimilarityTest {
 	protected StringReference initElement(String val) {
 		var srInit = new StringReferenceInitialiser();
 		var sr = srInit.instantiate();

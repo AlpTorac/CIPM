@@ -6,11 +6,11 @@ import org.emftext.language.java.types.TypesPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesTypeReferences;
 import cipm.consistency.initialisers.jamopp.types.NamespaceClassifierReferenceInitialiser;
 
-public class NamespaceClassifierReferenceTest extends AbstractEMFTextSimilarityTest implements UsesTypeReferences {
+public class NamespaceClassifierReferenceTest extends AbstractJaMoPPSimilarityTest implements UsesTypeReferences {
 	protected NamespaceClassifierReference initElement(ClassifierReference[] clsRefs) {
 		var ncrInit = new NamespaceClassifierReferenceInitialiser();
 		var ncr = ncrInit.instantiate();

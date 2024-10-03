@@ -70,7 +70,7 @@ import cipm.consistency.fitests.similarity.params.ISimilarityValues;
  *      below.
  * @see {@link AbstractSimilarityValues}
  */
-public class EMFTextSimilarityValues extends AbstractSimilarityValues {
+public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 	public void addAnnotationsSimilarityEntries() {
 		this.addSimilarityEntry(AnnotationsPackage.Literals.ANNOTABLE__ANNOTATIONS, Boolean.TRUE);
 		this.addSimilarityEntry(AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__VALUE, Boolean.TRUE);
@@ -252,7 +252,7 @@ public class EMFTextSimilarityValues extends AbstractSimilarityValues {
 		this.setDefaultSimilarityResult(Boolean.FALSE);
 	}
 
-	public EMFTextSimilarityValues() {
+	public JaMoPPSimilarityValues() {
 		this.setDefaultSimilarityResult();
 
 		this.addAnnotationsSimilarityEntries();

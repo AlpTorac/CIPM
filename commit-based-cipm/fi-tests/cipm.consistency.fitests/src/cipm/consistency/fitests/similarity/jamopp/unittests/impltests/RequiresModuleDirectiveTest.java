@@ -7,12 +7,12 @@ import org.emftext.language.java.modules.RequiresModuleDirective;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesLiterals;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesModuleReferences;
 import cipm.consistency.initialisers.jamopp.modules.RequiresModuleDirectiveInitialiser;
 
-public class RequiresModuleDirectiveTest extends AbstractEMFTextSimilarityTest implements UsesLiterals, UsesModuleReferences {
+public class RequiresModuleDirectiveTest extends AbstractJaMoPPSimilarityTest implements UsesLiterals, UsesModuleReferences {
 	protected RequiresModuleDirective initElement(ModuleRequiresModifier modif, ModuleReference reqMod) {
 		var rmdInit = new RequiresModuleDirectiveInitialiser();
 		var rmd = rmdInit.instantiate();

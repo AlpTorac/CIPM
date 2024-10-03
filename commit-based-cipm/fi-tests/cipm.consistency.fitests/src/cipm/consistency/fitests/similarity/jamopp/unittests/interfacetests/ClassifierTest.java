@@ -12,7 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesImports;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesPackageImports;
 import cipm.consistency.initialisers.jamopp.classifiers.IClassifierInitialiser;
@@ -22,10 +22,10 @@ import cipm.consistency.initialisers.jamopp.classifiers.IClassifierInitialiser;
  * 
  * @author atora
  */
-public class ClassifierTest extends AbstractEMFTextSimilarityTest implements UsesImports, UsesPackageImports {
+public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements UsesImports, UsesPackageImports {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractEMFTextSimilarityTest.getAllInitialiserArgumentsFor(IClassifierInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IClassifierInitialiser.class);
 	}
 
 	protected Classifier initElement(IClassifierInitialiser init, Import[] imps, PackageImport[] pImps) {

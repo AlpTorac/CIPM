@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.emftext.language.java.JavaPackage;
 import org.emftext.language.java.commons.Commentable;
 
-public final class EMFtextHelper {
+public final class JaMoPPHelper {
 	/**
 	 * See {@link #getImplSuffix()}
 	 */

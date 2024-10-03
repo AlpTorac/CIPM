@@ -10,8 +10,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.params.EMFTextInitialiserParameters;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPInitialiserParameters;
 import cipm.consistency.initialisers.jamopp.members.IMemberContainerInitialiser;
 import cipm.consistency.initialisers.jamopp.members.IMemberInitialiser;
 
@@ -38,17 +38,17 @@ import cipm.consistency.initialisers.jamopp.members.IMemberInitialiser;
  * 
  * @author atora
  */
-public class MemberInContainerTest extends AbstractEMFTextSimilarityTest {
+public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	private static List<IMemberInitialiser> getAllMemberInitInstances() {
 		var res = new ArrayList<IMemberInitialiser>();
-		var inits = new EMFTextInitialiserParameters().getEachInitialiserOnceBySuper(IMemberInitialiser.class);
+		var inits = new JaMoPPInitialiserParameters().getEachInitialiserOnceBySuper(IMemberInitialiser.class);
 		inits.forEach((i) -> res.add(((IMemberInitialiser) i)));
 		return res;
 	}
 
 	private static List<IMemberContainerInitialiser> getAllMemberContainerInitInstances() {
 		var res = new ArrayList<IMemberContainerInitialiser>();
-		var inits = new EMFTextInitialiserParameters().getEachInitialiserOnceBySuper(IMemberContainerInitialiser.class);
+		var inits = new JaMoPPInitialiserParameters().getEachInitialiserOnceBySuper(IMemberContainerInitialiser.class);
 		inits.forEach((i) -> res.add(((IMemberContainerInitialiser) i)));
 		return res;
 	}

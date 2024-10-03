@@ -7,11 +7,11 @@ import org.emftext.language.java.operators.ShiftOperator;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.similarity.jamopp.AbstractEMFTextSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
 import cipm.consistency.initialisers.jamopp.expressions.ShiftExpressionInitialiser;
 
-public class ShiftExpressionTest extends AbstractEMFTextSimilarityTest implements UsesExpressions {
+public class ShiftExpressionTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions {
 	protected ShiftExpression initElement(ShiftExpressionChild[] children, ShiftOperator[] ops) {
 		var seInit = new ShiftExpressionInitialiser();
 		var se = seInit.instantiate();
