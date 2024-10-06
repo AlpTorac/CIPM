@@ -58,14 +58,15 @@ public interface IInitialiser {
 		if (methods.length > 0) {
 			/*
 			 * Instead of using a naming convention for modification methods, use the fact
-			 * that modification methods take an object instance obj as a parameter,
-			 * where initCls is capable of instantiating obj.
+			 * that modification methods take an object instance obj as a parameter, where
+			 * initCls is capable of instantiating obj.
 			 */
 			for (var met : methods) {
 
 				// A modification method must at least take obj as a parameter to modify it
-				if (met.getParameterCount() < 0) continue;
-				
+				if (met.getParameterCount() < 0)
+					continue;
+
 				// One of the parameters has to have the exact type of obj
 				// initCls should thus be able to instantiate the type obj
 				for (var p : met.getParameters()) {
@@ -81,8 +82,8 @@ public interface IInitialiser {
 	}
 
 	/**
-	 * A variant of {@link #declaresModificationMethods(Class)} for {@link IInitialiser}
-	 * instances. <br>
+	 * A variant of {@link #declaresModificationMethods(Class)} for
+	 * {@link IInitialiser} instances. <br>
 	 * <br>
 	 * Uses the type of the given parameter init.
 	 */
@@ -91,13 +92,13 @@ public interface IInitialiser {
 	}
 
 	/**
-	 * @return True, if initCls is an initaliser type, which is meant to
-	 *         instantiate objects of class objClass. An initialiser class is
-	 *         assumed to be able to instantiate the class objClass, if it has a
-	 *         method, whose return type is objClass and which has no parameters.
-	 *         The instantiation method can be inherited. For the result to be true,
-	 *         initCls has to be able to instantiate exactly objClass, i.e. the return
-	 *         type of the instantiation method has to be objClass.
+	 * @return True, if initCls is an initaliser type, which is meant to instantiate
+	 *         objects of class objClass. An initialiser class is assumed to be able
+	 *         to instantiate the class objClass, if it has a method, whose return
+	 *         type is objClass and which has no parameters. The instantiation
+	 *         method can be inherited. For the result to be true, initCls has to be
+	 *         able to instantiate exactly objClass, i.e. the return type of the
+	 *         instantiation method has to be objClass.
 	 */
 	public static boolean isInitialiserFor(Class<? extends IInitialiser> initCls, Class<?> objClass) {
 		if (initCls == null || objClass == null) {
