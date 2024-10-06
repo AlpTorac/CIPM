@@ -87,7 +87,7 @@ public interface IInitialiser {
 	 * Uses the type of the given parameter init.
 	 */
 	public static boolean declaresModificationMethods(IInitialiser init) {
-		return declaresModificationMethods(init.getClass());
+		return init != null && declaresModificationMethods(init.getClass());
 	}
 
 	/**
@@ -100,7 +100,7 @@ public interface IInitialiser {
 	 *         type of the instantiation method has to be objClass.
 	 */
 	public static boolean isInitialiserFor(Class<? extends IInitialiser> initCls, Class<?> objClass) {
-		if (objClass == null) {
+		if (initCls == null || objClass == null) {
 			return false;
 		}
 
@@ -155,7 +155,7 @@ public interface IInitialiser {
 	 * extracted from init.
 	 */
 	public static boolean isInitialiserFor(IInitialiser init, Class<?> objClass) {
-		return isInitialiserFor(init.getClass(), objClass);
+		return init != null && objClass != null && isInitialiserFor(init.getClass(), objClass);
 	}
 
 	/**
@@ -173,6 +173,6 @@ public interface IInitialiser {
 	 * Uses this initialiser as init.
 	 */
 	public default boolean isInitialiserFor(Class<?> objClass) {
-		return isInitialiserFor(this, objClass);
+		return objClass != null && isInitialiserFor(this, objClass);
 	}
 }
