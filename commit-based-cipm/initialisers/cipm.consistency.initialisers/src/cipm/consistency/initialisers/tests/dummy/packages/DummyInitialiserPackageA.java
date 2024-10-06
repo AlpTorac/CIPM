@@ -8,9 +8,9 @@ import cipm.consistency.initialisers.IInitialiserPackage;
 public class DummyInitialiserPackageA implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiser> getInitialiserInstances() {
-		return this.initCol(new IInitialiser[] {new DummyInitialiserA()});
+		return this.initCol(new IInitialiser[] { new DummyInitialiserA() });
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Class<? extends IInitialiser>> getInitialiserInterfaceTypes() {

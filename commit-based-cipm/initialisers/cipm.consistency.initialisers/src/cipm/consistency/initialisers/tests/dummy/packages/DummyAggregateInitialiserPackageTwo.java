@@ -7,7 +7,6 @@ import cipm.consistency.initialisers.IInitialiserPackage;
 public class DummyAggregateInitialiserPackageTwo implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiserPackage> getSubPackages() {
-		return this
-				.initCol(new IInitialiserPackage[] { new DummyInitialiserPackageCD() });
+		return this.initCol(new IInitialiserPackage[] { new DummyInitialiserPackageCD() });
 	}
 }

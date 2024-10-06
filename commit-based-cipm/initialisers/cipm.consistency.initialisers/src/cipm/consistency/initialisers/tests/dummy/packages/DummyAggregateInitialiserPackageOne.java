@@ -14,9 +14,9 @@ public class DummyAggregateInitialiserPackageOne implements IInitialiserPackage 
 
 	@Override
 	public Collection<IInitialiser> getInitialiserInstances() {
-		return this.initCol(new IInitialiser[] {new DummyInitialiserE()});
+		return this.initCol(new IInitialiser[] { new DummyInitialiserE() });
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Class<? extends IInitialiser>> getInitialiserInterfaceTypes() {
