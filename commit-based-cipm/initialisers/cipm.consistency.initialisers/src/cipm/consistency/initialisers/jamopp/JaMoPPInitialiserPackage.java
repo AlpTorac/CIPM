@@ -24,9 +24,8 @@ import cipm.consistency.initialisers.jamopp.types.TypesInitialiserPackage;
 import cipm.consistency.initialisers.jamopp.variables.VariablesInitialiserPackage;
 
 /**
- * The topmost implementor of {@link IInitialiserPackage}. <br>
- * <br>
- * Includes all implemented initialisers.
+ * The topmost implementor of {@link IInitialiserPackage} for EObject
+ * implementors used by JaMoPP.
  * 
  * @author Alp Torac Genc
  */

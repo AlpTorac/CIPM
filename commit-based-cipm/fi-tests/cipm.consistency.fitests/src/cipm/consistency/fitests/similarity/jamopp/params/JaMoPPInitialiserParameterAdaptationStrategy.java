@@ -31,23 +31,23 @@ public class JaMoPPInitialiserParameterAdaptationStrategy implements IInitialise
 	@Override
 	public void adaptAdaptableInitialiser(IInitialiserBase init) {
 		if (INamedElementInitialiser.class.isAssignableFrom(init.getClass())) {
-			init.addAdaptingInitialiser(new NamedElementInitialiserAdapter());
+			init.addAdaptingStrategy(new NamedElementInitialiserAdapter());
 		}
 		if (IBlockContainerInitialiser.class.isAssignableFrom(init.getClass())) {
-			init.addAdaptingInitialiser(new BlockContainerInitialiserAdapter(new BlockInitialiser()));
+			init.addAdaptingStrategy(new BlockContainerInitialiserAdapter(new BlockInitialiser()));
 		}
 		if (IMemberInitialiser.class.isAssignableFrom(init.getClass())) {
-			init.addAdaptingInitialiser(new MemberInitialiserAdapter(new ClassInitialiser()));
+			init.addAdaptingStrategy(new MemberInitialiserAdapter(new ClassInitialiser()));
 		}
 		if (IConcreteClassifierInitialiser.class.isAssignableFrom(init.getClass())) {
-			init.addAdaptingInitialiser(new ConcreteClassifierInitialiserAdapter(new CompilationUnitInitialiser()));
+			init.addAdaptingStrategy(new ConcreteClassifierInitialiserAdapter(new CompilationUnitInitialiser()));
 		}
 		if (INewConstructorCallInitialiser.class.isAssignableFrom(init.getClass())) {
-			init.addAdaptingInitialiser(new NewConstructorCallInitialiserAdapter(new ClassifierReferenceInitialiser(),
+			init.addAdaptingStrategy(new NewConstructorCallInitialiserAdapter(new ClassifierReferenceInitialiser(),
 					new ClassInitialiser()));
 		}
 		if (IClassMethodInitialiser.class.isAssignableFrom(init.getClass())) {
-			init.addAdaptingInitialiser(new ClassMethodInitialiserAdapter(new BlockInitialiser()));
+			init.addAdaptingStrategy(new ClassMethodInitialiserAdapter(new BlockInitialiser()));
 		}
 	}
 }

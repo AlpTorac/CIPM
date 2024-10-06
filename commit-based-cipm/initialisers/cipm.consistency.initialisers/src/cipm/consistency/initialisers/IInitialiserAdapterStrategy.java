@@ -1,13 +1,15 @@
 package cipm.consistency.initialisers;
 
 /**
- * An interface for classes and interfaces to implement, which encapsulates
- * initialisation logic for the objects instantiated by {@link IInitialiserBase}
- * implementors. Although it is ultimately {@link IInitialiser}'s responsibility
- * to instantiate and initialise objects, this interface allows extracting parts
- * of it, which revolves around other {@link IInitialiser} interfaces/classes.
- * Doing so keeps {@link IInitialiser} classes independent of one another and
- * extracts concrete initialisation code away from "general" interfaces.
+ * An interface for classes and interfaces to implement, which encapsulate
+ * initialisation logic for complex objects instantiated by
+ * {@link IInitialiserBase} implementors. <br>
+ * <br>
+ * Although it is ultimately {@link IInitialiser}'s responsibility to
+ * instantiate and initialise objects, this interface allows extracting parts of
+ * it, especially the parts that revolve around other {@link IInitialiser}s. By
+ * extracting that logic from {@link IInitialiser} implementors, dependencies to
+ * other {@link IInitialiser}s can be spared.
  * 
  * @author Alp Torac Genc
  */

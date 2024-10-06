@@ -25,7 +25,16 @@ import cipm.consistency.initialisers.tests.dummy.types.verticalhierarchy.DummyTo
 import cipm.consistency.initialisers.tests.dummy.types.verticalhierarchy.DummyTopLevelObjInitialiser;
 import cipm.consistency.initialisers.tests.dummy.types.verticalhierarchy.IDummyAlternateInitialiser;
 
+/**
+ * Contains tests for (static/default) methods implemented in
+ * {@link IInitialiser}
+ * 
+ * @author Alp Torac Genc
+ */
 public class InitialiserTests {
+	// TODO: Remove test_Initialisation_TriviallySucceeding and
+	// test_Initialisation_TriviallyFailing
+
 	/**
 	 * Test initialising an object generated from a non-adaptable initialiser, whose
 	 * initialise method just returns true.

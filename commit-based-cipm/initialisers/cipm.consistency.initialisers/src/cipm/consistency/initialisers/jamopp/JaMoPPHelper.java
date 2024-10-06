@@ -10,6 +10,16 @@ import org.eclipse.emf.ecore.EPackage;
 import org.emftext.language.java.JavaPackage;
 import org.emftext.language.java.commons.Commentable;
 
+/**
+ * A utility class that provides information about EObjects used by JaMoPP, as
+ * well as methods to access their types. There are further methods, which map
+ * their types to the initalisers implemented in sub-packages. <br>
+ * <br>
+ * This class is intended to be used in tests, which ensure that all necessary
+ * initialisers are implemented and can be accessed.
+ * 
+ * @author Alp Torac Genc
+ */
 public final class JaMoPPHelper {
 	/**
 	 * See {@link #getImplSuffix()}

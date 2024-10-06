@@ -14,7 +14,7 @@ public abstract class AbstractInitialiserBase implements IInitialiserBase {
 	/**
 	 * Stores the added {@link IInitialiserAdapterStrategy} instances.
 	 */
-	private Collection<IInitialiserAdapterStrategy> adaptingInits;
+	private Collection<IInitialiserAdapterStrategy> adaptingStrats;
 
 	/**
 	 * A variant of {@link #AbstractInitialiserBase(IInitialiserAdapterStrategy[])}
@@ -29,10 +29,10 @@ public abstract class AbstractInitialiserBase implements IInitialiserBase {
 	 * array.
 	 */
 	public AbstractInitialiserBase(IInitialiserAdapterStrategy[] adaptingInits) {
-		this.adaptingInits = this.createAICol();
+		this.adaptingStrats = this.createAdaptingStrategyCol();
 
 		if (adaptingInits != null) {
-			this.addAdaptingInitialisers(adaptingInits);
+			this.addAdaptingStrategies(adaptingInits);
 		}
 	}
 
@@ -42,29 +42,29 @@ public abstract class AbstractInitialiserBase implements IInitialiserBase {
 	 *         assigned to relevant attributes and undergo additional setup steps
 	 *         (if any).
 	 */
-	protected Collection<IInitialiserAdapterStrategy> createAICol() {
+	protected Collection<IInitialiserAdapterStrategy> createAdaptingStrategyCol() {
 		return new ArrayList<IInitialiserAdapterStrategy>();
 	}
 
 	@Override
-	public void addAdaptingInitialiser(IInitialiserAdapterStrategy init) {
-		this.adaptingInits.add(init);
+	public void addAdaptingStrategy(IInitialiserAdapterStrategy init) {
+		this.adaptingStrats.add(init);
 	}
 
 	@Override
-	public void removeAdaptingInitialiser(IInitialiserAdapterStrategy init) {
-		this.adaptingInits.remove(init);
+	public void removeAdaptingStrategy(IInitialiserAdapterStrategy init) {
+		this.adaptingStrats.remove(init);
 	}
 
 	@Override
-	public void cleanAdaptingInitialiser() {
-		this.adaptingInits.clear();
+	public void cleanAdaptingStrategy() {
+		this.adaptingStrats.clear();
 	}
 
 	@Override
-	public Collection<IInitialiserAdapterStrategy> getAdaptingInitialisers() {
-		var res = this.createAICol();
-		res.addAll(this.adaptingInits);
+	public Collection<IInitialiserAdapterStrategy> getAdaptingStrategies() {
+		var res = this.createAdaptingStrategyCol();
+		res.addAll(this.adaptingStrats);
 		return res;
 	}
 }

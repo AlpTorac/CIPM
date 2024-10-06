@@ -8,6 +8,7 @@ import cipm.consistency.initialisers.IInitialiserBase;
 import cipm.consistency.initialisers.tests.dummy.packages.DummyTopLevelInitialiserPackage;
 
 public abstract class AbstractInitialiserTest {
+	// TODO Remove this class and add its methods to InitialiserBaseTests
 	public Collection<IInitialiser> getAllInitialisers() {
 		return new DummyTopLevelInitialiserPackage().getAllInitialiserInstances();
 	}

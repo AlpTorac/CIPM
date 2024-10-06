@@ -24,7 +24,20 @@ import cipm.consistency.initialisers.tests.dummy.packages.DummyObjD;
 import cipm.consistency.initialisers.tests.dummy.packages.DummyObjE;
 import cipm.consistency.initialisers.tests.dummy.packages.DummyTopLevelInitialiserPackage;
 
+/**
+ * Contains tests for {@link IInitialiserPackage} over dummy elements. The aim
+ * is to ensure that initialiser discovery works on certain package structures
+ * as intended. <br>
+ * <br>
+ * Check the used dummy elements to get more information on their structure.
+ * 
+ * @author Alp Torac Genc
+ */
 public class InitialiserPackageTests {
+	/**
+	 * Assert that the initialiser for objects of type cls is/is not reachable from
+	 * pac.
+	 */
 	private void assertInitialiserReachableFrom(Class<?> cls, IInitialiserPackage pac, boolean isReachable) {
 		var init = pac.getInitialiserInstanceFor(cls);
 		var initCls = pac.getInitialiserInterfaceTypeFor(cls);
@@ -38,10 +51,19 @@ public class InitialiserPackageTests {
 		}
 	}
 
+	/**
+	 * A variant of
+	 * {@link #assertInitialiserReachableFrom(Class, IInitialiserPackage, boolean)},
+	 * where the final parameter is true.
+	 */
 	private void assertInitialiserReachableFrom(Class<?> cls, IInitialiserPackage pac) {
 		this.assertInitialiserReachableFrom(cls, pac, true);
 	}
 
+	/**
+	 * Asserts either that the expected elements are in col or that col contains
+	 * elements of same types as expected elements.
+	 */
 	private <T> void assertContentEqualsByClass(T[] expectedElems, Collection<T> col) {
 		if (expectedElems != null) {
 			Assertions.assertEquals(expectedElems.length, col.size());
@@ -55,6 +77,10 @@ public class InitialiserPackageTests {
 		}
 	}
 
+	/**
+	 * Asserts that all inits are present within initInsCol (as instance) and in
+	 * initClsCol (as class object).
+	 */
 	@SuppressWarnings("unchecked")
 	private void assertInitialiserContentEquals(IInitialiser[] inits, Collection<IInitialiser> initInsCol,
 			Collection<Class<? extends IInitialiser>> initClsCol) {
@@ -62,10 +88,17 @@ public class InitialiserPackageTests {
 		this.assertContentEqualsByClass(initInsCol.stream().map((i) -> i.getClass()).toArray(Class[]::new), initClsCol);
 	}
 
+	/**
+	 * Asserts that direct contents (i.e. contents of pac that can be found without
+	 * discovering its sub-packages) of pac are equal to inits.
+	 */
 	private void assertDirectPackageContentEquals(IInitialiser[] inits, IInitialiserPackage pac) {
 		this.assertInitialiserContentEquals(inits, pac.getInitialiserInstances(), pac.getInitialiserInterfaceTypes());
 	}
 
+	/**
+	 * Asserts that all contents accessible from pac are equal to inits.
+	 */
 	private void assertAllPackageContentEquals(IInitialiser[] inits, IInitialiserPackage pac) {
 		this.assertInitialiserContentEquals(inits, pac.getAllInitialiserInstances(),
 				pac.getAllInitialiserInterfaceTypes());

@@ -13,6 +13,12 @@ import cipm.consistency.initialisers.tests.dummy.packages.ObjAInitStrat;
 import cipm.consistency.initialisers.tests.dummy.packages.ObjCFirstInitStepStrat;
 import cipm.consistency.initialisers.tests.dummy.packages.ObjCSecondInitStepStrat;
 
+/**
+ * Contains tests for {@link IInitialiserBase} over dummy elements, with a focus
+ * on the interaction with {@link IInitialiserAdapterStrategy}.
+ * 
+ * @author Alp Torac Genc
+ */
 public class InitialiserBaseTests extends AbstractInitialiserTest {
 	/**
 	 * Shortcut for {@code assertAdapted(init, true)}
@@ -26,9 +32,9 @@ public class InitialiserBaseTests extends AbstractInitialiserTest {
 	 * strategy.
 	 */
 	private void assertAdapted(IInitialiserBase init, boolean isAdapted) {
-		Assertions.assertEquals(init.getAdaptingInitialiserCount(), init.getAdaptingInitialisers().size());
+		Assertions.assertEquals(init.getAdaptingStrategyCount(), init.getAdaptingStrategies().size());
 		Assertions.assertEquals(isAdapted, init.isAdapted());
-		Assertions.assertEquals(isAdapted, init.getAdaptingInitialiserCount() > 0);
+		Assertions.assertEquals(isAdapted, init.getAdaptingStrategyCount() > 0);
 	}
 
 	/**
@@ -37,7 +43,7 @@ public class InitialiserBaseTests extends AbstractInitialiserTest {
 	 */
 	private void assertAdaptedBy(IInitialiserAdapterStrategy[] strats, IInitialiserBase init) {
 		if (strats != null && strats.length > 0) {
-			var adaptingStrats = init.getAdaptingInitialisers();
+			var adaptingStrats = init.getAdaptingStrategies();
 			Assertions.assertEquals(strats.length, adaptingStrats.size());
 			this.assertAdapted(init);
 			for (var strat : strats) {
@@ -53,7 +59,7 @@ public class InitialiserBaseTests extends AbstractInitialiserTest {
 	 * necessary assertions before and after insertion.
 	 */
 	private void addAndAssertAdded(IInitialiserAdapterStrategy strat, IInitialiserBase init) {
-		var priorStrats = init.getAdaptingInitialisers();
+		var priorStrats = init.getAdaptingStrategies();
 		Assertions.assertFalse(priorStrats.contains(strat));
 
 		var allStrats = new ArrayList<IInitialiserAdapterStrategy>();
@@ -61,10 +67,10 @@ public class InitialiserBaseTests extends AbstractInitialiserTest {
 		this.assertAdaptedBy(allStrats.toArray(IInitialiserAdapterStrategy[]::new), init);
 
 		allStrats.add(strat);
-		init.addAdaptingInitialiser(strat);
+		init.addAdaptingStrategy(strat);
 		this.assertAdaptedBy(allStrats.toArray(IInitialiserAdapterStrategy[]::new), init);
 
-		Assertions.assertEquals(priorStrats.size() + 1, init.getAdaptingInitialiserCount());
+		Assertions.assertEquals(priorStrats.size() + 1, init.getAdaptingStrategyCount());
 	}
 
 	/**
@@ -105,11 +111,11 @@ public class InitialiserBaseTests extends AbstractInitialiserTest {
 		this.assertAdapted(init, false);
 
 		var stratOne = new ObjAInitStrat();
-		init.addAdaptingInitialiser(stratOne);
+		init.addAdaptingStrategy(stratOne);
 		this.assertAdaptedBy(new IInitialiserAdapterStrategy[] { stratOne }, init);
 
 		var stratTwo = new ObjAInitStrat();
-		init.addAdaptingInitialiser(stratTwo);
+		init.addAdaptingStrategy(stratTwo);
 		this.assertAdaptedBy(new IInitialiserAdapterStrategy[] { stratOne, stratTwo }, init);
 	}
 
@@ -121,14 +127,14 @@ public class InitialiserBaseTests extends AbstractInitialiserTest {
 		var init = new DummyInitialiserA();
 		var stratOne = new ObjAInitStrat();
 		var stratTwo = new ObjAInitStrat();
-		init.addAdaptingInitialiser(stratOne);
-		init.addAdaptingInitialiser(stratTwo);
+		init.addAdaptingStrategy(stratOne);
+		init.addAdaptingStrategy(stratTwo);
 		this.assertAdaptedBy(new IInitialiserAdapterStrategy[] { stratOne, stratTwo }, init);
 
-		init.removeAdaptingInitialiser(stratOne);
+		init.removeAdaptingStrategy(stratOne);
 		this.assertAdaptedBy(new IInitialiserAdapterStrategy[] { stratTwo }, init);
 
-		init.removeAdaptingInitialiser(stratTwo);
+		init.removeAdaptingStrategy(stratTwo);
 		this.assertAdaptedBy(null, init);
 	}
 
@@ -141,7 +147,7 @@ public class InitialiserBaseTests extends AbstractInitialiserTest {
 		var strat = new ObjAInitStrat();
 
 		this.assertAdapted(init, false);
-		init.removeAdaptingInitialiser(strat);
+		init.removeAdaptingStrategy(strat);
 		this.assertAdapted(init, false);
 	}
 
@@ -153,20 +159,20 @@ public class InitialiserBaseTests extends AbstractInitialiserTest {
 		var init = new DummyInitialiserA();
 		var stratOne = new ObjAInitStrat();
 		var stratTwo = new ObjAInitStrat();
-		init.addAdaptingInitialiser(stratOne);
-		init.addAdaptingInitialiser(stratTwo);
+		init.addAdaptingStrategy(stratOne);
+		init.addAdaptingStrategy(stratTwo);
 		this.assertAdaptedBy(new IInitialiserAdapterStrategy[] { stratOne, stratTwo }, init);
 
-		init.removeAdaptingInitialiser(stratOne);
+		init.removeAdaptingStrategy(stratOne);
 		this.assertAdaptedBy(new IInitialiserAdapterStrategy[] { stratTwo }, init);
-		var stratsAfterFirstRemoval = init.getAdaptingInitialisers();
+		var stratsAfterFirstRemoval = init.getAdaptingStrategies();
 
-		init.removeAdaptingInitialiser(stratOne);
+		init.removeAdaptingStrategy(stratOne);
 		this.assertAdaptedBy(new IInitialiserAdapterStrategy[] { stratTwo }, init);
 
 		// Make sure that all other adapting initialisers are still there after the
 		// second removal attempt
-		Assertions.assertTrue(init.getAdaptingInitialisers().containsAll(stratsAfterFirstRemoval));
+		Assertions.assertTrue(init.getAdaptingStrategies().containsAll(stratsAfterFirstRemoval));
 	}
 
 	/**
@@ -178,11 +184,11 @@ public class InitialiserBaseTests extends AbstractInitialiserTest {
 		var init = new DummyInitialiserA();
 		var stratOne = new ObjAInitStrat();
 		var stratTwo = new ObjAInitStrat();
-		init.addAdaptingInitialiser(stratOne);
-		init.addAdaptingInitialiser(stratTwo);
+		init.addAdaptingStrategy(stratOne);
+		init.addAdaptingStrategy(stratTwo);
 		this.assertAdaptedBy(new IInitialiserAdapterStrategy[] { stratOne, stratTwo }, init);
 
-		init.cleanAdaptingInitialiser();
+		init.cleanAdaptingStrategy();
 		this.assertAdapted(init, false);
 	}
 
@@ -217,8 +223,8 @@ public class InitialiserBaseTests extends AbstractInitialiserTest {
 		this.assertAdapted(newInit, true);
 
 		Assertions.assertFalse(init == newInit);
-		Assertions.assertFalse(newInit.getAdaptingInitialisers().contains(stratOne));
-		Assertions.assertFalse(newInit.getAdaptingInitialisers().contains(stratTwo));
+		Assertions.assertFalse(newInit.getAdaptingStrategies().contains(stratOne));
+		Assertions.assertFalse(newInit.getAdaptingStrategies().contains(stratTwo));
 	}
 
 	/**

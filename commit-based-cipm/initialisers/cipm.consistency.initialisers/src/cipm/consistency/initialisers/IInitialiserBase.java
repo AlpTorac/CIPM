@@ -13,30 +13,31 @@ public interface IInitialiserBase extends IInitialiser {
 	/**
 	 * Adds the given {@link IInitialiserAdapterStrategy} to this instance.
 	 */
-	public void addAdaptingInitialiser(IInitialiserAdapterStrategy init);
+	public void addAdaptingStrategy(IInitialiserAdapterStrategy init);
 
 	/**
 	 * Removes the given {@link IInitialiserAdapterStrategy} from this instance.
 	 */
-	public void removeAdaptingInitialiser(IInitialiserAdapterStrategy init);
+	public void removeAdaptingStrategy(IInitialiserAdapterStrategy init);
 
 	/**
 	 * Removes all {@link IInitialiserAdapterStrategy} from this instance.
 	 */
-	public void cleanAdaptingInitialiser();
+	public void cleanAdaptingStrategy();
 
 	/**
-	 * @return All {@link IInitialiserAdapterStrategy} added to this instance
+	 * @return All {@link IInitialiserAdapterStrategy} instances added to this.
 	 */
-	public Collection<IInitialiserAdapterStrategy> getAdaptingInitialisers();
+	public Collection<IInitialiserAdapterStrategy> getAdaptingStrategies();
 
 	/**
-	 * The variant of {@link #addAdaptingInitialiser(IInitialiserAdapterStrategy)}
-	 * for arrays.
+	 * The variant of {@link #addAdaptingStrategy(IInitialiserAdapterStrategy)} for
+	 * arrays.
 	 */
-	public default void addAdaptingInitialisers(IInitialiserAdapterStrategy[] init) {
+	public default void addAdaptingStrategies(IInitialiserAdapterStrategy[] init) {
+		// TODO: Add null check for array
 		for (var i : init) {
-			this.addAdaptingInitialiser(i);
+			this.addAdaptingStrategy(i);
 		}
 	}
 
@@ -44,9 +45,10 @@ public interface IInitialiserBase extends IInitialiser {
 	 * @return Number of {@link IInitialiserAdapterStrategy} instances that are
 	 *         currently adapting this.
 	 */
-	public default int getAdaptingInitialiserCount() {
-		var adaptingInits = this.getAdaptingInitialisers();
-		return adaptingInits != null ? adaptingInits.size() : 0;
+	public default int getAdaptingStrategyCount() {
+		// TODO: Remove the null check
+		var adaptingStrats = this.getAdaptingStrategies();
+		return adaptingStrats != null ? adaptingStrats.size() : 0;
 	}
 
 	/**
@@ -54,8 +56,9 @@ public interface IInitialiserBase extends IInitialiser {
 	 *         currently adapting this.
 	 */
 	public default boolean isAdapted() {
-		var adaptingInits = this.getAdaptingInitialisers();
-		return adaptingInits != null ? !adaptingInits.isEmpty() : false;
+		// TODO: Remove the null check
+		var adaptingStrats = this.getAdaptingStrategies();
+		return adaptingStrats != null ? !adaptingStrats.isEmpty() : false;
 	}
 
 	/**
@@ -68,7 +71,7 @@ public interface IInitialiserBase extends IInitialiser {
 	public default boolean initialise(Object obj) {
 		boolean result = true;
 
-		for (var init : this.getAdaptingInitialisers()) {
+		for (var init : this.getAdaptingStrategies()) {
 			result = result && init.apply(this, obj);
 		}
 
@@ -81,10 +84,10 @@ public interface IInitialiserBase extends IInitialiser {
 	 */
 	public default IInitialiserBase newInitialiserWithStrategies() {
 		var init = (IInitialiserBase) this.newInitialiser();
-		var strats = this.getAdaptingInitialisers();
-
+		var strats = this.getAdaptingStrategies();
+		// TODO: Remove the null check
 		if (strats != null) {
-			strats.forEach((s) -> init.addAdaptingInitialiser(s.newStrategy()));
+			strats.forEach((s) -> init.addAdaptingStrategy(s.newStrategy()));
 		}
 
 		return init;

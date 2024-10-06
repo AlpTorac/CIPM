@@ -9,8 +9,8 @@ import cipm.consistency.initialisers.IInitialiser;
 import cipm.consistency.initialisers.IInitialiserAdapterStrategy;
 
 /**
- * An interface for {@link IInitialiser} sub-interfaces, whose purpose is to
- * create and modify {@link EObject} instances. <br>
+ * An interface for {@link IInitialiser} sub-types, whose purpose is to create
+ * and modify {@link EObject} instances. <br>
  * <br>
  * 
  * @author Alp Torac Genc
@@ -26,6 +26,7 @@ public interface IEObjectInitialiser extends IInitialiser {
 	 */
 	public default <T extends EObject> T clone(T obj) {
 		var clone = EcoreUtil.copy(obj);
+		// TODO: Remove the assertion
 		assert EcoreUtil.equals(obj, clone);
 		return clone;
 	}
@@ -55,8 +56,8 @@ public interface IEObjectInitialiser extends IInitialiser {
 	 * {@inheritDoc} <br>
 	 * <br>
 	 * <b>Note: The created instance may not be "valid" due to certain attributes
-	 * not being set. A properly set up {@link IInitialiserAdapter} can be used to
-	 * initialise the freshly created instance, so that it becomes "valid".</b>
+	 * not being set. Using proper {@link IInitialiserAdapter} instances on
+	 * implementors can circumvent potential issues.</b>
 	 * 
 	 * @see {@link IInitialiserAdapter}, {@link IInitialiserAdapterStrategy}
 	 */

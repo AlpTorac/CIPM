@@ -8,19 +8,27 @@ package cipm.consistency.initialisers;
  * Initialisers can also implement (default) methods that modify their
  * designated objects. It is suggested to declare the return types of such
  * modification methods as "boolean". This enables returning true or false to
- * ensure that the method actually worked as intended and make the modifications
+ * ensure that the method actually worked as intended and made the modifications
  * it was meant to do. It is also possible to extract this behaviour into
  * additional assertion methods. <br>
  * <br>
  * It is recommended to separate instantiation and initialisation (modification)
  * methods, as doing so will allow using the individual methods in
  * sub-interfaces and sub-classes. Implementing initialisers similar to the way
- * the objects are implemented, which they will instantiate, may make
- * initialisers more flexible and ease implementing them. <br>
+ * the objects are implemented, which they instantiate, may make initialisers
+ * more flexible and ease implementing them. <br>
+ * <br>
+ * A further suggestion is to not declare attributes in the concrete
+ * implementors, so that all functionality is present in form of methods. This
+ * alleviates having to declare unnecessary attributes in sub-types and makes
+ * overriding behaviour easier. If initialisation of the instantiated objects is
+ * complex, consider realising it in form of initialiser adaptation strategies.
+ * <br>
  * <br>
  * This interface also contains some static utility methods.
  * 
  * @author Alp Torac Genc
+ * @see {@link IInitialiserBase}
  */
 public interface IInitialiser {
 	/**
@@ -29,8 +37,9 @@ public interface IInitialiser {
 	public IInitialiser newInitialiser();
 
 	/**
-	 * Attempts to instantiate the class denoted by this {@link IInitialiser}'s
-	 * name. Depending on the return type, additional setup may be necessary.
+	 * Attempts to instantiate the class this {@link IInitialiser} is designated
+	 * for. Depending on the returned object, additional initialisation may be
+	 * necessary.
 	 */
 	public Object instantiate();
 
@@ -92,11 +101,12 @@ public interface IInitialiser {
 	}
 
 	/**
-	 * @return True, if initCls is an initaliser type, which is meant to instantiate
-	 *         objects of class objClass. An initialiser class is assumed to be able
-	 *         to instantiate the class objClass, if it has a method (instantiation
-	 *         method), whose return type is objClass and which has no parameters.
-	 *         Methods inherited by initCls will also be inspected. <br>
+	 * @return True, if initCls is an initialiser type, which is meant to
+	 *         instantiate objects of class objClass. An initialiser class is
+	 *         assumed to be able to instantiate the class objClass, if it has a
+	 *         method (instantiation method), whose return type is objClass and
+	 *         which has no parameters. Methods inherited by initCls will also be
+	 *         inspected. <br>
 	 *         <br>
 	 *         For the result to be true, initCls has to be able to instantiate
 	 *         <i><b>exactly</b></i> objClass, i.e. the return type of the
