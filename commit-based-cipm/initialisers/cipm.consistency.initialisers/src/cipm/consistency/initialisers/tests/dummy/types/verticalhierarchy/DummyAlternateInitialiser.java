@@ -1,10 +1,8 @@
 package cipm.consistency.initialisers.tests.dummy.types.verticalhierarchy;
 
-import cipm.consistency.initialisers.IInitialiser;
-
 public class DummyAlternateInitialiser implements IDummyAlternateInitialiser {
 	@Override
-	public IInitialiser newInitialiser() {
+	public DummyAlternateInitialiser newInitialiser() {
 		return new DummyAlternateInitialiser();
 	}
 

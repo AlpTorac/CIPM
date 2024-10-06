@@ -1,10 +1,8 @@
 package cipm.consistency.initialisers.tests.dummy.types.verticalhierarchy;
 
-import cipm.consistency.initialisers.IInitialiser;
-
 public class DummyTerminalObjInitialiser implements IDummyTerminalObjInitialiser {
 	@Override
-	public IInitialiser newInitialiser() {
+	public DummyTerminalObjInitialiser newInitialiser() {
 		return new DummyTerminalObjInitialiser();
 	}
 
@@ -12,7 +10,7 @@ public class DummyTerminalObjInitialiser implements IDummyTerminalObjInitialiser
 	public DummyTerminalObj instantiate() {
 		return new DummyTerminalObj();
 	}
-	
+
 	@Override
 	public boolean initialise(Object obj) {
 		return true;

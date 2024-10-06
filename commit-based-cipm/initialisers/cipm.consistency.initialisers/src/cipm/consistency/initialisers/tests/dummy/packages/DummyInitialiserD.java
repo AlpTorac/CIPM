@@ -5,7 +5,7 @@ import cipm.consistency.initialisers.IInitialiser;
 public class DummyInitialiserD implements IInitialiser {
 
 	@Override
-	public IInitialiser newInitialiser() {
+	public DummyInitialiserD newInitialiser() {
 		return new DummyInitialiserD();
 	}
 

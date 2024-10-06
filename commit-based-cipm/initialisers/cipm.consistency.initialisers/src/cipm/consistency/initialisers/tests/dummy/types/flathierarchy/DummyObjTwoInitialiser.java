@@ -1,6 +1,5 @@
 package cipm.consistency.initialisers.tests.dummy.types.flathierarchy;
 
-import cipm.consistency.initialisers.IInitialiser;
 import cipm.consistency.initialisers.tests.dummy.types.AbstractDummyTriviallyInitialisingInitialiser;
 
 public class DummyObjTwoInitialiser extends AbstractDummyTriviallyInitialisingInitialiser
@@ -15,8 +14,8 @@ public class DummyObjTwoInitialiser extends AbstractDummyTriviallyInitialisingIn
 	}
 
 	@Override
-	public IInitialiser newInitialiser() {
-		return new DummyObjOneInitialiser();
+	public DummyObjTwoInitialiser newInitialiser() {
+		return new DummyObjTwoInitialiser();
 	}
 
 	@Override

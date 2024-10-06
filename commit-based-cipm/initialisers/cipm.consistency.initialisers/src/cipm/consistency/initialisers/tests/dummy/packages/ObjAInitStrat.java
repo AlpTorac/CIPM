@@ -1,7 +1,6 @@
 package cipm.consistency.initialisers.tests.dummy.packages;
 
 import cipm.consistency.initialisers.IInitialiser;
-import cipm.consistency.initialisers.IInitialiserAdapterStrategy;
 
 public class ObjAInitStrat extends AbstractDummyAdaptationStrategy {
 	public ObjAInitStrat() {
@@ -28,7 +27,7 @@ public class ObjAInitStrat extends AbstractDummyAdaptationStrategy {
 	}
 
 	@Override
-	public IInitialiserAdapterStrategy newStrategy() {
+	public ObjAInitStrat newStrategy() {
 		return new ObjAInitStrat();
 	}
 }

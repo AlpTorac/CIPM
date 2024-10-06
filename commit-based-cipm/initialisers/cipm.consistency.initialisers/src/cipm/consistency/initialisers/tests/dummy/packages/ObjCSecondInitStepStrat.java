@@ -1,7 +1,6 @@
 package cipm.consistency.initialisers.tests.dummy.packages;
 
 import cipm.consistency.initialisers.IInitialiser;
-import cipm.consistency.initialisers.IInitialiserAdapterStrategy;
 
 public class ObjCSecondInitStepStrat extends AbstractDummyAdaptationStrategy {
 	public ObjCSecondInitStepStrat() {
@@ -20,7 +19,7 @@ public class ObjCSecondInitStepStrat extends AbstractDummyAdaptationStrategy {
 			if (this.doesInitialiseSuccessfully()) {
 				castedO.initStepTwo();
 			}
-			
+
 			return castedO.isInitialisationStepTwoDone();
 		}
 
@@ -28,7 +27,7 @@ public class ObjCSecondInitStepStrat extends AbstractDummyAdaptationStrategy {
 	}
 
 	@Override
-	public IInitialiserAdapterStrategy newStrategy() {
+	public ObjCSecondInitStepStrat newStrategy() {
 		return new ObjCSecondInitStepStrat();
 	}
 }
