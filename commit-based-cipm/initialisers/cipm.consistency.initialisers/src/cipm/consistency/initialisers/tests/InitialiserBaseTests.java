@@ -7,11 +7,11 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.initialisers.IInitialiserAdapterStrategy;
 import cipm.consistency.initialisers.IInitialiserBase;
-import cipm.consistency.initialisers.tests.dummy.DummyInitialiserA;
-import cipm.consistency.initialisers.tests.dummy.DummyInitialiserC;
-import cipm.consistency.initialisers.tests.dummy.ObjAInitStrat;
-import cipm.consistency.initialisers.tests.dummy.ObjCFirstInitStepStrat;
-import cipm.consistency.initialisers.tests.dummy.ObjCSecondInitStepStrat;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyInitialiserA;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyInitialiserC;
+import cipm.consistency.initialisers.tests.dummy.packages.ObjAInitStrat;
+import cipm.consistency.initialisers.tests.dummy.packages.ObjCFirstInitStepStrat;
+import cipm.consistency.initialisers.tests.dummy.packages.ObjCSecondInitStepStrat;
 
 public class InitialiserBaseTests extends AbstractInitialiserTest {
 	/**

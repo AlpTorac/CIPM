@@ -3,8 +3,8 @@ package cipm.consistency.initialisers.tests;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.initialisers.tests.dummy.DummyInitialiserB;
-import cipm.consistency.initialisers.tests.dummy.DummyInitialiserE;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyInitialiserB;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyInitialiserE;
 
 public class InitialiserTests {
 	/**

@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import cipm.consistency.initialisers.IInitialiser;
 import cipm.consistency.initialisers.IInitialiserBase;
-import cipm.consistency.initialisers.tests.dummy.DummyTopLevelInitialiserPackage;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyTopLevelInitialiserPackage;
 
 public abstract class AbstractInitialiserTest {
 	public Collection<IInitialiser> getAllInitialisers() {

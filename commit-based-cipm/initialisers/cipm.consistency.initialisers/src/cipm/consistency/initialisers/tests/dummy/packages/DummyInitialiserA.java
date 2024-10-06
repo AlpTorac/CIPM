@@ -1,4 +1,4 @@
-package cipm.consistency.initialisers.tests.dummy;
+package cipm.consistency.initialisers.tests.dummy.packages;
 
 import cipm.consistency.initialisers.AbstractInitialiserBase;
 

@@ -7,22 +7,22 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.initialisers.IInitialiser;
 import cipm.consistency.initialisers.IInitialiserPackage;
-import cipm.consistency.initialisers.tests.dummy.DummyInitialiserA;
-import cipm.consistency.initialisers.tests.dummy.DummyAggregateInitialiserPackageOne;
-import cipm.consistency.initialisers.tests.dummy.DummyAggregateInitialiserPackageTwo;
-import cipm.consistency.initialisers.tests.dummy.DummyInitialiserPackageA;
-import cipm.consistency.initialisers.tests.dummy.DummyInitialiserPackageB;
-import cipm.consistency.initialisers.tests.dummy.DummyInitialiserPackageCD;
-import cipm.consistency.initialisers.tests.dummy.DummyInitialiserB;
-import cipm.consistency.initialisers.tests.dummy.DummyInitialiserC;
-import cipm.consistency.initialisers.tests.dummy.DummyInitialiserD;
-import cipm.consistency.initialisers.tests.dummy.DummyInitialiserE;
-import cipm.consistency.initialisers.tests.dummy.DummyObjA;
-import cipm.consistency.initialisers.tests.dummy.DummyObjB;
-import cipm.consistency.initialisers.tests.dummy.DummyObjC;
-import cipm.consistency.initialisers.tests.dummy.DummyObjD;
-import cipm.consistency.initialisers.tests.dummy.DummyObjE;
-import cipm.consistency.initialisers.tests.dummy.DummyTopLevelInitialiserPackage;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyAggregateInitialiserPackageOne;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyAggregateInitialiserPackageTwo;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyInitialiserA;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyInitialiserB;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyInitialiserC;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyInitialiserD;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyInitialiserE;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyInitialiserPackageA;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyInitialiserPackageB;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyInitialiserPackageCD;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyObjA;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyObjB;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyObjC;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyObjD;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyObjE;
+import cipm.consistency.initialisers.tests.dummy.packages.DummyTopLevelInitialiserPackage;
 
 public class InitialiserPackageTests {
 	private void assertInitialiserReachableFrom(Class<?> cls, IInitialiserPackage pac, boolean isReachable) {
