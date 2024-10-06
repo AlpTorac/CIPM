@@ -187,6 +187,61 @@ public class InitialiserBaseTests extends AbstractInitialiserTest {
 	}
 
 	/**
+	 * Test new initialiser creation with adapting strategies, where the original
+	 * initialiser has no adapting strategies.
+	 */
+	@Test
+	public void test_NewInitialiserWithStrategy_NoStrategies() {
+		var init = new DummyInitialiserC();
+		this.assertAdapted(init, false);
+		var newInit = init.newInitialiserWithStrategies();
+		this.assertAdapted(newInit, false);
+
+		Assertions.assertFalse(init == newInit);
+	}
+
+	/**
+	 * Test new initialiser creation with adapting strategies.
+	 */
+	@Test
+	public void test_NewInitialiserWithStrategy() {
+		var init = new DummyInitialiserC();
+		var stratOne = new ObjCFirstInitStepStrat();
+		var stratTwo = new ObjCSecondInitStepStrat();
+
+		this.addAndAssertAdded(stratOne, init);
+		this.addAndAssertAdded(stratTwo, init);
+		this.assertAdapted(init, true);
+
+		var newInit = init.newInitialiserWithStrategies();
+		this.assertAdapted(newInit, true);
+
+		Assertions.assertFalse(init == newInit);
+		Assertions.assertFalse(newInit.getAdaptingInitialisers().contains(stratOne));
+		Assertions.assertFalse(newInit.getAdaptingInitialisers().contains(stratTwo));
+	}
+
+	/**
+	 * Test new initialiser creation without adapting strategies, even though the
+	 * original initialiser has adapting strategies.
+	 */
+	@Test
+	public void test_NewInitialiser_WithStrategies() {
+		var init = new DummyInitialiserC();
+		var stratOne = new ObjCFirstInitStepStrat();
+		var stratTwo = new ObjCSecondInitStepStrat();
+
+		this.addAndAssertAdded(stratOne, init);
+		this.addAndAssertAdded(stratTwo, init);
+		this.assertAdapted(init, true);
+
+		var newInit = init.newInitialiser();
+		this.assertAdapted(newInit, false);
+
+		Assertions.assertFalse(init == newInit);
+	}
+
+	/**
 	 * Test initialising an object generated from an initialiser without adapting
 	 * it.
 	 */
