@@ -49,12 +49,34 @@ public class InitialiserTests {
 	}
 
 	/**
+	 * Checks whether {@link IInitialiser#declaresModificationMethods(Class)}
+	 * circumvents null pointer exceptions.
+	 */
+	@Test
+	public void test_DeclaresModificationMethods_NullClass() {
+		Class<? extends IInitialiser> cls = null;
+		Assertions.assertFalse(IInitialiser.declaresModificationMethods(cls));
+	}
+
+	/**
+	 * Checks whether {@link IInitialiser#declaresModificationMethods(IInitialiser)}
+	 * circumvents null pointer exceptions.
+	 */
+	@Test
+	public void test_DeclaresModificationMethods_NullInitialiser() {
+		IInitialiser init = null;
+		Assertions.assertFalse(IInitialiser.declaresModificationMethods(init));
+	}
+
+	/**
 	 * Check whether a modification method implemented only in the interface of an
 	 * initialiser can be found.
 	 */
 	@Test
 	public void test_DeclaresModificationMethods_InInterface() {
-		Assertions.assertFalse(new DummyObjOneInitialiser().declaresModificationMethods());
+		var init = new DummyObjOneInitialiser();
+		Assertions.assertFalse(init.declaresModificationMethods());
+		Assertions.assertFalse(IInitialiser.declaresModificationMethods(init));
 		Assertions.assertTrue(IInitialiser.declaresModificationMethods(IDummyObjOneInitialiser.class));
 	}
 
@@ -64,17 +86,21 @@ public class InitialiserTests {
 	 */
 	@Test
 	public void test_DeclaresModificationMethods_InClass() {
-		Assertions.assertTrue(new DummyObjTwoInitialiser().declaresModificationMethods());
+		var init = new DummyObjTwoInitialiser();
+		Assertions.assertTrue(init.declaresModificationMethods());
+		Assertions.assertTrue(IInitialiser.declaresModificationMethods(init));
 		Assertions.assertFalse(IInitialiser.declaresModificationMethods(IDummyObjTwoInitialiser.class));
 	}
 
 	/**
-	 * Check whether initialisers with no additional modification methods can be
-	 * detected.
+	 * Check whether initialisers with only an overridden instantiate() method are
+	 * detected as initialisers without modification methods.
 	 */
 	@Test
-	public void test_DeclaresModificationMethods_NoMethods() {
-		Assertions.assertFalse(new DummyObjThreeInitialiser().declaresModificationMethods());
+	public void test_DeclaresModificationMethods_NoAdditionalMethods() {
+		var init = new DummyObjThreeInitialiser();
+		Assertions.assertFalse(init.declaresModificationMethods());
+		Assertions.assertFalse(IInitialiser.declaresModificationMethods(init));
 		Assertions.assertFalse(IInitialiser.declaresModificationMethods(IDummyObjThreeInitialiser.class));
 	}
 
@@ -84,7 +110,9 @@ public class InitialiserTests {
 	 */
 	@Test
 	public void test_DeclaresModificationMethods_NoModificationMethods() {
-		Assertions.assertFalse(new DummyObjFourInitialiser().declaresModificationMethods());
+		var init = new DummyObjFourInitialiser();
+		Assertions.assertFalse(init.declaresModificationMethods());
+		Assertions.assertFalse(IInitialiser.declaresModificationMethods(init));
 		Assertions.assertFalse(IInitialiser.declaresModificationMethods(IDummyObjFourInitialiser.class));
 	}
 
@@ -95,7 +123,9 @@ public class InitialiserTests {
 	 */
 	@Test
 	public void test_DeclaresModificationMethods_NoDirectModificationMethods() {
-		Assertions.assertFalse(new DummyAlternateInitialiser().declaresModificationMethods());
+		var init = new DummyAlternateInitialiser();
+		Assertions.assertFalse(init.declaresModificationMethods());
+		Assertions.assertFalse(IInitialiser.declaresModificationMethods(init));
 		Assertions.assertFalse(IInitialiser.declaresModificationMethods(IDummyAlternateInitialiser.class));
 	}
 
@@ -109,6 +139,41 @@ public class InitialiserTests {
 		Assertions.assertTrue(new DummyAlternateInitialiser().isInitialiserFor(DummyNonTerminalObj.class));
 		Assertions
 				.assertTrue(IInitialiser.isInitialiserFor(IDummyAlternateInitialiser.class, DummyNonTerminalObj.class));
+	}
+
+	/**
+	 * Checks whether {@link IInitialiser#isInitialiserFor(Class, Class)}
+	 * circumvents null pointer exceptions, which could be caused by the first
+	 * parameter being null.
+	 */
+	@Test
+	public void test_IsInitialiserFor_NullInitialiserClass() {
+		Class<? extends IInitialiser> initCls = null;
+		Assertions.assertFalse(IInitialiser.isInitialiserFor(initCls, DummyNonTerminalObj.class));
+	}
+
+	/**
+	 * Checks whether {@link IInitialiser#isInitialiserFor(IInitialiser, Class)}
+	 * circumvents null pointer exceptions, which could be caused by the first
+	 * parameter being null.
+	 */
+	@Test
+	public void test_IsInitialiserFor_NullInitialiser() {
+		IInitialiser init = null;
+		Assertions.assertFalse(IInitialiser.isInitialiserFor(init, DummyNonTerminalObj.class));
+	}
+
+	/**
+	 * Checks whether {@link IInitialiser#isInitialiserFor(Class, Class)} and
+	 * {@link IInitialiser#isInitialiserFor(IInitialiser, Class)} circumvents null
+	 * pointer exceptions, which could be caused by the second parameter being null.
+	 */
+	@Test
+	public void test_IsInitialiserFor_NullClass() {
+		Class<?> cls = null;
+
+		Assertions.assertFalse(IInitialiser.isInitialiserFor(new DummyObjOneInitialiser(), cls));
+		Assertions.assertFalse(IInitialiser.isInitialiserFor(DummyObjOneInitialiser.class, cls));
 	}
 
 	/**
