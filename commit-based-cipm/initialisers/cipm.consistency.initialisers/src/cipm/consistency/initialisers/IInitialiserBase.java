@@ -74,4 +74,19 @@ public interface IInitialiserBase extends IInitialiser {
 
 		return result;
 	}
+
+	/**
+	 * @return A new instance of this {@link IInitialiserBase} along with clones of
+	 *         strategies currently adapting it.
+	 */
+	public default IInitialiserBase newInitialiserWithStrategies() {
+		var init = (IInitialiserBase) this.newInitialiser();
+		var strats = this.getAdaptingInitialisers();
+
+		if (strats != null) {
+			strats.forEach((s) -> init.addAdaptingInitialiser(s.newStrategy()));
+		}
+
+		return init;
+	}
 }
