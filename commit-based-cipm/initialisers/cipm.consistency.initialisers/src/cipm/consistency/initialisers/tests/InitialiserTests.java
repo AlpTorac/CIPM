@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.initialisers.IInitialiser;
+import cipm.consistency.initialisers.tests.dummy.types.DummyModifiableObjInitialiser;
 import cipm.consistency.initialisers.tests.dummy.types.IDummyInitialiserWithoutMethods;
 import cipm.consistency.initialisers.tests.dummy.types.flathierarchy.DummyObjFour;
 import cipm.consistency.initialisers.tests.dummy.types.flathierarchy.DummyObjFourInitialiser;
@@ -33,6 +34,117 @@ import cipm.consistency.initialisers.tests.dummy.types.verticalhierarchy.IDummyA
  * @author Alp Torac Genc
  */
 public class InitialiserTests {
+	/**
+	 * Ensures that
+	 * {@link IInitialiser#doMultipleModifications(Object, Object[], java.util.function.BiFunction)}
+	 * throws null pointer exceptions if the object to be modified is null.
+	 */
+	@Test
+	public void test_doMultipleModifications_NullObject() {
+		var init = new DummyModifiableObjInitialiser();
+		Assertions.assertThrows(NullPointerException.class, () -> {
+			init.addAttrs(null, new Object[] { 1 });
+		});
+	}
+
+	/**
+	 * Check whether
+	 * {@link IInitialiser#doMultipleModifications(Object, Object[], java.util.function.BiFunction)}
+	 * throws exceptions, if null is passed as array of modification parameters.
+	 * Also ensures that true is returned.
+	 */
+	@Test
+	public void test_doMultipleModifications_NullModificationParams() {
+		var init = new DummyModifiableObjInitialiser();
+		Assertions.assertTrue(init.addAttrs(init.instantiate(), null));
+	}
+
+	/**
+	 * Check whether
+	 * {@link IInitialiser#doMultipleModifications(Object, Object[], java.util.function.BiFunction)}
+	 * throws exceptions, if array of modification parameters is empty. Also ensures
+	 * that true is returned.
+	 */
+	@Test
+	public void test_doMultipleModifications_EmptyModificationParams() {
+		var init = new DummyModifiableObjInitialiser();
+		Assertions.assertTrue(init.addAttrs(init.instantiate(), new Object[] {}));
+	}
+
+	/**
+	 * Check whether
+	 * {@link IInitialiser#doMultipleModifications(Object, Object[], java.util.function.BiFunction)}
+	 * works for 1 proper modification parameter (passed via an array of size 1).
+	 */
+	@Test
+	public void test_doMultipleModifications_SingleModification_Success() {
+		var init = new DummyModifiableObjInitialiser();
+		Assertions.assertTrue(init.addAttrs(init.instantiate(), new Object[] { 1 }));
+	}
+
+	/**
+	 * Check whether
+	 * {@link IInitialiser#doMultipleModifications(Object, Object[], java.util.function.BiFunction)}
+	 * works for 1 inappropriate modification parameter (passed via an array of size
+	 * 1).
+	 */
+	@Test
+	public void test_doMultipleModifications_SingleModification_Failure() {
+		var init = new DummyModifiableObjInitialiser();
+		Assertions.assertFalse(init.addAttrs(init.instantiate(), new Object[] { null }));
+	}
+
+	/**
+	 * Check whether
+	 * {@link IInitialiser#doMultipleModifications(Object, Object[], java.util.function.BiFunction)}
+	 * works for its intended use case (i.e. summarising multiple modification
+	 * method calls) with proper parameters.
+	 */
+	@Test
+	public void test_doMultipleModifications_MultipleModifications_Success() {
+		var init = new DummyModifiableObjInitialiser();
+		Assertions.assertTrue(init.addAttrs(init.instantiate(), new Object[] { 1, 2, 3 }));
+	}
+
+	/**
+	 * Check whether
+	 * {@link IInitialiser#doMultipleModifications(Object, Object[], java.util.function.BiFunction)}
+	 * successfully performs modifications till it fails.
+	 */
+	@Test
+	public void test_doMultipleModifications_MultipleModifications_LateFailure() {
+		var init = new DummyModifiableObjInitialiser();
+		var obj = init.instantiate();
+		var attr1 = Integer.valueOf(1);
+		var attr2 = Integer.valueOf(2);
+
+		Assertions.assertFalse(init.addAttrs(obj, new Object[] { attr1, attr2, attr1 }));
+		var attrs = obj.getAttrs();
+		Assertions.assertTrue(attrs.contains(attr1));
+		Assertions.assertTrue(attrs.contains(attr2));
+		Assertions.assertEquals(2, attrs.size());
+	}
+
+	/**
+	 * Check whether
+	 * {@link IInitialiser#doMultipleModifications(Object, Object[], java.util.function.BiFunction)}
+	 * fails early, if a modification fails, which is neither performed at the start
+	 * nor at the end.
+	 */
+	@Test
+	public void test_doMultipleModifications_MultipleModifications_FailEarly() {
+		var init = new DummyModifiableObjInitialiser();
+		var obj = init.instantiate();
+		var attr1 = Integer.valueOf(1);
+		var attr2 = Integer.valueOf(2);
+
+		Assertions.assertFalse(init.addAttrs(obj, new Object[] { attr1, attr1, attr2 }));
+		var attrs = obj.getAttrs();
+		Assertions.assertTrue(attrs.contains(attr1));
+		Assertions.assertFalse(attrs.contains(attr2));
+		Assertions.assertEquals(1, attrs.size());
+	}
+
 	/**
 	 * Checks whether {@link IInitialiser#declaresModificationMethods(Class)}
 	 * circumvents null pointer exceptions.
