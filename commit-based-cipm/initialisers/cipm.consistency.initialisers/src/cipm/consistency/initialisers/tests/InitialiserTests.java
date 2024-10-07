@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.initialisers.IInitialiser;
+import cipm.consistency.initialisers.tests.dummy.types.IDummyInitialiserWithoutMethods;
 import cipm.consistency.initialisers.tests.dummy.types.flathierarchy.DummyObjFour;
 import cipm.consistency.initialisers.tests.dummy.types.flathierarchy.DummyObjFourInitialiser;
 import cipm.consistency.initialisers.tests.dummy.types.flathierarchy.DummyObjOne;
@@ -77,6 +78,15 @@ public class InitialiserTests {
 	}
 
 	/**
+	 * Check whether initialiser types with neither direct nor overridden methods
+	 * cause exceptions.
+	 */
+	@Test
+	public void test_DeclaresModificationMethods_NoMethods() {
+		Assertions.assertFalse(IInitialiser.declaresModificationMethods(IDummyInitialiserWithoutMethods.class));
+	}
+
+	/**
 	 * Check whether initialisers with only an overridden instantiate() method are
 	 * detected as initialisers without modification methods.
 	 */
@@ -111,6 +121,17 @@ public class InitialiserTests {
 		Assertions.assertFalse(init.declaresModificationMethods());
 		Assertions.assertFalse(IInitialiser.declaresModificationMethods(init));
 		Assertions.assertFalse(IInitialiser.declaresModificationMethods(IDummyAlternateInitialiser.class));
+	}
+
+	/**
+	 * Check whether initialiser types with neither direct nor overridden methods
+	 * cause exceptions.
+	 */
+	@Test
+	public void test_IsInitialiserFor_NoMethods() {
+		Assertions.assertFalse(
+				IInitialiser.isInitialiserFor(IDummyInitialiserWithoutMethods.class, DummyNonTerminalObj.class));
+		Assertions.assertFalse(IInitialiser.isInitialiserFor(IDummyInitialiserWithoutMethods.class, null));
 	}
 
 	/**
