@@ -148,9 +148,8 @@ public class InitialiserTests {
 	}
 
 	/**
-	 * Checks whether {@link IInitialiser#isInitialiserFor(Class, Class)} and
-	 * {@link IInitialiser#isInitialiserFor(IInitialiser, Class)} circumvents null
-	 * pointer exceptions, which could be caused by the second parameter being null.
+	 * Checks whether isInitialiserFor methods circumvent null pointer exceptions,
+	 * which could be caused by the class object parameter being null.
 	 */
 	@Test
 	public void test_IsInitialiserFor_NullClass() {
@@ -158,6 +157,7 @@ public class InitialiserTests {
 
 		Assertions.assertFalse(IInitialiser.isInitialiserFor(new DummyObjOneInitialiser(), cls));
 		Assertions.assertFalse(IInitialiser.isInitialiserFor(DummyObjOneInitialiser.class, cls));
+		Assertions.assertFalse(new DummyObjOneInitialiser().isInitialiserFor(cls));
 	}
 
 	/**
