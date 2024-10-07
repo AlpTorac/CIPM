@@ -23,14 +23,14 @@ public final class InitialiserNameHelper {
 	 * @return The name of the concrete initialiser corresponding to cls.
 	 */
 	public static String getConcreteInitialiserName(Class<?> cls) {
-		return cls.getSimpleName() + initialiserSuffix;
+		return cls.getSimpleName() + getInitialiserSuffix();
 	}
 
 	/**
 	 * @return The name of the initialiser interface corresponding to cls.
 	 */
 	public static String getInitialiserInterfaceName(Class<?> cls) {
-		return initialiserInterfacePrefix + cls.getSimpleName() + initialiserSuffix;
+		return getInitialiserInterfacePrefix() + cls.getSimpleName() + getInitialiserSuffix();
 	}
 
 	/**
