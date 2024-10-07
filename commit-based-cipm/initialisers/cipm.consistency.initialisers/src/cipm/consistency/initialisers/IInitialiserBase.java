@@ -11,14 +11,16 @@ import java.util.Collection;
  */
 public interface IInitialiserBase extends IInitialiser {
 	/**
-	 * Adds the given {@link IInitialiserAdapterStrategy} to this instance.
+	 * Adds the given {@link IInitialiserAdapterStrategy} to this instance. Does not
+	 * add null, if {@code strat == null}.
 	 */
-	public void addAdaptingStrategy(IInitialiserAdapterStrategy init);
+	public void addAdaptingStrategy(IInitialiserAdapterStrategy strat);
 
 	/**
 	 * Removes the given {@link IInitialiserAdapterStrategy} from this instance.
+	 * Does nothing, if {@code strat == null}.
 	 */
-	public void removeAdaptingStrategy(IInitialiserAdapterStrategy init);
+	public void removeAdaptingStrategy(IInitialiserAdapterStrategy strat);
 
 	/**
 	 * Removes all {@link IInitialiserAdapterStrategy} from this instance.
@@ -27,17 +29,19 @@ public interface IInitialiserBase extends IInitialiser {
 
 	/**
 	 * @return All {@link IInitialiserAdapterStrategy} instances added to this.
+	 *         Returns an empty collection if none.
 	 */
 	public Collection<IInitialiserAdapterStrategy> getAdaptingStrategies();
 
 	/**
 	 * The variant of {@link #addAdaptingStrategy(IInitialiserAdapterStrategy)} for
-	 * arrays.
+	 * arrays. Does nothing if {@code strats == null}.
 	 */
-	public default void addAdaptingStrategies(IInitialiserAdapterStrategy[] init) {
-		// TODO: Add null check for array
-		for (var i : init) {
-			this.addAdaptingStrategy(i);
+	public default void addAdaptingStrategies(IInitialiserAdapterStrategy[] strats) {
+		if (strats != null) {
+			for (var i : strats) {
+				this.addAdaptingStrategy(i);
+			}
 		}
 	}
 
@@ -46,9 +50,7 @@ public interface IInitialiserBase extends IInitialiser {
 	 *         currently adapting this.
 	 */
 	public default int getAdaptingStrategyCount() {
-		// TODO: Remove the null check
-		var adaptingStrats = this.getAdaptingStrategies();
-		return adaptingStrats != null ? adaptingStrats.size() : 0;
+		return this.getAdaptingStrategies().size();
 	}
 
 	/**
@@ -56,9 +58,7 @@ public interface IInitialiserBase extends IInitialiser {
 	 *         currently adapting this.
 	 */
 	public default boolean isAdapted() {
-		// TODO: Remove the null check
-		var adaptingStrats = this.getAdaptingStrategies();
-		return adaptingStrats != null ? !adaptingStrats.isEmpty() : false;
+		return !this.getAdaptingStrategies().isEmpty();
 	}
 
 	/**
@@ -71,8 +71,8 @@ public interface IInitialiserBase extends IInitialiser {
 	public default boolean initialise(Object obj) {
 		boolean result = true;
 
-		for (var init : this.getAdaptingStrategies()) {
-			result = result && init.apply(this, obj);
+		for (var strat : this.getAdaptingStrategies()) {
+			result = result && strat.apply(this, obj);
 		}
 
 		return result;
@@ -83,13 +83,12 @@ public interface IInitialiserBase extends IInitialiser {
 	 *         strategies currently adapting it.
 	 */
 	public default IInitialiserBase newInitialiserWithStrategies() {
-		var init = (IInitialiserBase) this.newInitialiser();
-		var strats = this.getAdaptingStrategies();
-		// TODO: Remove the null check
-		if (strats != null) {
-			strats.forEach((s) -> init.addAdaptingStrategy(s.newStrategy()));
-		}
+		var newInit = (IInitialiserBase) this.newInitialiser();
 
-		return init;
+		// Create a new strategy for the new initialiser, so that neither the original
+		// strategy nor its copy are modified by the other one.
+		this.getAdaptingStrategies().forEach((s) -> newInit.addAdaptingStrategy(s.newStrategy()));
+
+		return newInit;
 	}
 }

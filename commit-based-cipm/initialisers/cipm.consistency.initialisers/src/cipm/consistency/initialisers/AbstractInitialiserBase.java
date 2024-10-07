@@ -28,12 +28,9 @@ public abstract class AbstractInitialiserBase implements IInitialiserBase {
 	 * Constructs an instance with the given {@link IInitialiserAdapterStrategy}
 	 * array.
 	 */
-	public AbstractInitialiserBase(IInitialiserAdapterStrategy[] adaptingInits) {
+	public AbstractInitialiserBase(IInitialiserAdapterStrategy[] adaptingStrats) {
 		this.adaptingStrats = this.createAdaptingStrategyCol();
-
-		if (adaptingInits != null) {
-			this.addAdaptingStrategies(adaptingInits);
-		}
+		this.addAdaptingStrategies(adaptingStrats);
 	}
 
 	/**
@@ -47,13 +44,15 @@ public abstract class AbstractInitialiserBase implements IInitialiserBase {
 	}
 
 	@Override
-	public void addAdaptingStrategy(IInitialiserAdapterStrategy init) {
-		this.adaptingStrats.add(init);
+	public void addAdaptingStrategy(IInitialiserAdapterStrategy strat) {
+		if (strat != null)
+			this.adaptingStrats.add(strat);
 	}
 
 	@Override
-	public void removeAdaptingStrategy(IInitialiserAdapterStrategy init) {
-		this.adaptingStrats.remove(init);
+	public void removeAdaptingStrategy(IInitialiserAdapterStrategy strat) {
+		if (strat != null)
+			this.adaptingStrats.remove(strat);
 	}
 
 	@Override
