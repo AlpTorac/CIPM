@@ -25,10 +25,7 @@ public interface IEObjectInitialiser extends IInitialiser {
 	 * @see {@link EcoreUtil#copy(EObject)}
 	 */
 	public default <T extends EObject> T clone(T obj) {
-		var clone = EcoreUtil.copy(obj);
-		// TODO: Remove the assertion
-		assert EcoreUtil.equals(obj, clone);
-		return clone;
+		return EcoreUtil.copy(obj);
 	}
 
 	/**
