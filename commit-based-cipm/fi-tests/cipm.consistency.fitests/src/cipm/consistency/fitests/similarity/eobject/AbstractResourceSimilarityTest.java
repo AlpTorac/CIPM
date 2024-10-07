@@ -36,7 +36,7 @@ public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityT
 		this.getResourceHelper().clean();
 		this.resHelper = null;
 
-		super.resetAfterTest();
+		super.tearDown();
 	}
 
 	/**
