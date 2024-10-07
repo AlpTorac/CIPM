@@ -64,25 +64,23 @@ public interface IInitialiser {
 
 		var methods = initCls.getDeclaredMethods();
 
-		if (methods.length > 0) {
-			/*
-			 * Instead of using a naming convention for modification methods, use the fact
-			 * that modification methods take an object instance obj as a parameter, where
-			 * initCls is capable of instantiating obj.
-			 */
-			for (var met : methods) {
+		/*
+		 * Instead of using a naming convention for modification methods, use the fact
+		 * that modification methods take an object instance obj as a parameter, where
+		 * initCls is capable of instantiating obj.
+		 */
+		for (var met : methods) {
 
-				// A modification method must at least take obj as a parameter to modify it
-				if (met.getParameterCount() <= 0)
-					continue;
+			// A modification method must at least take obj as a parameter to modify it
+			if (met.getParameterCount() <= 0)
+				continue;
 
-				// One of the parameters has to have the exact type of obj
-				// initCls should thus be able to instantiate the type obj
-				for (var p : met.getParameters()) {
-					var pType = p.getType();
-					if (isInitialiserFor(initCls, pType)) {
-						return true;
-					}
+			// One of the parameters has to have the exact type of obj
+			// initCls should thus be able to instantiate the type obj
+			for (var p : met.getParameters()) {
+				var pType = p.getType();
+				if (isInitialiserFor(initCls, pType)) {
+					return true;
 				}
 			}
 		}
