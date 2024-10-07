@@ -1,5 +1,7 @@
 package cipm.consistency.fitests.similarity.base.dummy.tests;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -57,5 +59,79 @@ public class SimilarityCheckerTest extends AbstractDummySimilarityCheckingTest {
 		Assertions.assertEquals(Boolean.FALSE, dsHistory.getOutput());
 		Assertions.assertEquals(Boolean.FALSE, rcHistory.getOutput());
 		Assertions.assertEquals(Boolean.FALSE, ecHistory.getOutput());
+	}
+
+	@Test
+	public void testAreSimilar() {
+		var tb = new DummySimilarityToolbox();
+		var dssh = new DummySingleSimilarityRequestHandler(tb);
+		var ecrh = new EqualsCheckRequestHandler();
+		var rcrh = new ReferenceCheckRequestHandler();
+
+		tb.addRequestHandlerPair(DummySingleSimilarityRequest.class, dssh);
+		tb.addRequestHandlerPair(EqualsCheckRequest.class, ecrh);
+		tb.addRequestHandlerPair(ReferenceCheckRequest.class, rcrh);
+
+		var sc = new DummySimilarityChecker(tb);
+		var elem11 = "ab";
+		var elem12 = "cd";
+		/*
+		 * Fancier version of elem21 = "ab" (same value as elem11), in order to make
+		 * sure that compiler does not optimise and internally set elem11 = elem21,
+		 * which would make their references equal
+		 */
+		var elem21 = String.copyValueOf(elem11.toCharArray());
+		var elem22 = "ef";
+
+		// Make sure that the first elements (elem11, elem21) are equal in value but not
+		// in reference
+		Assertions.assertTrue(elem11 != elem21);
+		Assertions.assertTrue(elem11.equals(elem21));
+
+		// Ensure that the second elements (elem12, elem22) are not equal in any way
+		Assertions.assertTrue(!elem12.equals(elem22));
+
+		// Check if lists of elements are pair-wise equal
+		Assertions.assertFalse(sc.areSimilar(List.of(elem11, elem12), List.of(elem21, elem22)));
+
+		var history = tb.getHandlingHistory();
+
+		/*
+		 * 6 history entries are expected, since areSimilar generates 2
+		 * DummySingleSimilarityRequest instances, each of which in return generate 1
+		 * EqualsCheckRequest and 1 ReferenceCheckRequest.
+		 */
+		Assertions.assertEquals(6, history.size());
+
+		var dsHistoryArr = history.stream().filter((e) -> e.getHandler().equals(dssh))
+				.toArray(HandleHistoryEntry[]::new);
+		Assertions.assertEquals(2, dsHistoryArr.length);
+		var dsHistory1 = dsHistoryArr[0];
+		var dsHistory2 = dsHistoryArr[1];
+
+		var rcHistoryArr = history.stream().filter((e) -> e.getHandler().equals(rcrh))
+				.toArray(HandleHistoryEntry[]::new);
+		Assertions.assertEquals(2, rcHistoryArr.length);
+		var rcHistory1 = rcHistoryArr[0];
+		var rcHistory2 = rcHistoryArr[1];
+
+		var ecHistoryArr = history.stream().filter((e) -> e.getHandler().equals(ecrh))
+				.toArray(HandleHistoryEntry[]::new);
+		Assertions.assertEquals(2, ecHistoryArr.length);
+		var ecHistory1 = ecHistoryArr[0];
+		var ecHistory2 = ecHistoryArr[1];
+
+		// Similarity checking of first elements should succeed because of
+		// elem11.equals(elem21)
+		Assertions.assertEquals(Boolean.TRUE, dsHistory1.getOutput());
+		// elem11 != elem21
+		Assertions.assertEquals(Boolean.FALSE, rcHistory1.getOutput());
+		// elem11.equals(elem21)
+		Assertions.assertEquals(Boolean.TRUE, ecHistory1.getOutput());
+
+		// Similarity checking of second elements should fail as expected
+		Assertions.assertEquals(Boolean.FALSE, dsHistory2.getOutput());
+		Assertions.assertEquals(Boolean.FALSE, rcHistory2.getOutput());
+		Assertions.assertEquals(Boolean.FALSE, ecHistory2.getOutput());
 	}
 }
