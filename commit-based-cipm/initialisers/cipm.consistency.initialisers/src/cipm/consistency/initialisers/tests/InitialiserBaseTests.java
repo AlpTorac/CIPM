@@ -213,7 +213,7 @@ public class InitialiserBaseTests {
 	 * Test removing a non-existent adaptation strategy from an initialiser.
 	 */
 	@Test
-	public void test_RemoveNonExistentAdapterStrategy() {
+	public void test_RemoveAdapterStrategy_NonExistent() {
 		var init = new DummyInitialiserA();
 		var strat = new ObjAInitStrat();
 
@@ -223,10 +223,22 @@ public class InitialiserBaseTests {
 	}
 
 	/**
+	 * Test removing a non-existent adaptation strategy from an initialiser.
+	 */
+	@Test
+	public void test_RemoveAdapterStrategy_NullCheck() {
+		var init = new DummyInitialiserA();
+
+		this.assertAdapted(init, false);
+		init.removeAdaptingStrategy(null);
+		this.assertAdapted(init, false);
+	}
+
+	/**
 	 * Test removing an existing adaptation strategy from an initialiser twice.
 	 */
 	@Test
-	public void test_RemoveAdapterStrategyTwice() {
+	public void test_RemoveAdapterStrategy_Twice() {
 		var init = new DummyInitialiserA();
 		var stratOne = new ObjAInitStrat();
 		var stratTwo = new ObjAInitStrat();
