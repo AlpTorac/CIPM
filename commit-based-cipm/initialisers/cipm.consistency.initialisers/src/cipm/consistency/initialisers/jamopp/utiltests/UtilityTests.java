@@ -5,6 +5,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
@@ -60,13 +61,6 @@ public class UtilityTests {
 	}
 
 	/**
-	 * @return The given text without whitespaces (includes line breaks).
-	 */
-	public String removeWhitespaces(String text) {
-		return text.replaceAll("\\n", "").replaceAll("\\r", "").replaceAll("\\s", "");
-	}
-
-	/**
 	 * @return An instance of all initialisers.
 	 */
 	public Collection<IInitialiser> getAllInitialiserInstances() {
@@ -76,29 +70,8 @@ public class UtilityTests {
 	/**
 	 * @return Types of all initialisers.
 	 */
-	public Collection<Class<? extends IInitialiser>> getAllInitialiserTypes() {
+	public Collection<Class<? extends IInitialiser>> getAllInitialiserInterfaceTypes() {
 		return this.getUsedInitialiserPackage().getAllInitialiserInterfaceTypes();
-	}
-
-	/**
-	 * @return The type of the initialiser meant to instantiate objClass.
-	 */
-	public Class<? extends IInitialiser> getInitialiserInterfaceFor(Class<?> objClass) {
-		return this.getUsedInitialiserPackage().getInitialiserInterfaceTypeFor(objClass);
-	}
-
-	/**
-	 * @return All types in the need of an initialiser that actually have a
-	 *         corresponding initialiser interface under the {@link #root}
-	 *         directory.
-	 */
-	public Collection<Class<?>> getClassesWithInitialiserInterface() {
-		var initClss = this.getAllInitialiserTypes();
-
-		return List.of(JaMoPPHelper.getAllInitialiserCandidates().stream()
-				.filter((c) -> initClss.stream().anyMatch(
-						(f) -> f.getSimpleName().equals(InitialiserNameHelper.getInitialiserInterfaceName(c))))
-				.toArray(Class<?>[]::new));
 	}
 
 	/**
@@ -137,13 +110,6 @@ public class UtilityTests {
 	}
 
 	/**
-	 * @return The initialiser meant to instantiate objClass.
-	 */
-	public IInitialiser getInitialiserInstanceFor(Class<?> objClass) {
-		return this.getUsedInitialiserPackage().getInitialiserInstanceFor(objClass);
-	}
-
-	/**
 	 * @return A String representing the given stream. The provided toStringFunc
 	 *         will be used to transform stream elements into Strings.
 	 */
@@ -169,13 +135,48 @@ public class UtilityTests {
 	}
 
 	/**
+	 * {@link JaMoPPHelper#getAllPossibleTypes()}
+	 */
+	public Set<Class<?>> getAllPossibleJaMoPPEObjectTypes() {
+		return JaMoPPHelper.getAllPossibleTypes();
+	}
+
+	/**
+	 * {@link JaMoPPHelper#getAllInitialiserCandidates()}
+	 */
+	public Collection<Class<?>> getAllInitialiserCandidates() {
+		return JaMoPPHelper.getAllInitialiserCandidates();
+	}
+
+	/**
+	 * {@link JaMoPPHelper#getAllConcreteInitialiserCandidates()}
+	 */
+	public Collection<Class<?>> getAllConcreteInitialiserCandidates() {
+		return JaMoPPHelper.getAllConcreteInitialiserCandidates();
+	}
+
+	/**
+	 * {@link InitialiserNameHelper#getInitialiserInterfaceName(Class)}
+	 */
+	public String getInitialiserInterfaceName(Class<?> cls) {
+		return InitialiserNameHelper.getInitialiserInterfaceName(cls);
+	}
+
+	/**
+	 * {@link InitialiserNameHelper#getConcreteInitialiserName(Class)}
+	 */
+	public String getConcreteInitialiserName(Class<?> ifc) {
+		return InitialiserNameHelper.getConcreteInitialiserName(ifc);
+	}
+
+	/**
 	 * Prints the interfaces between everything from {@link #getAllPossibleTypes()}
 	 * and {@link Commentable}.
 	 */
 	@Disabled("Can be enabled to print all possible concrete EObject types, does not test anything")
 	@Test
 	public void printFullHierarchy() {
-		var hSet = JaMoPPHelper.getAllPossibleTypes();
+		var hSet = this.getAllPossibleJaMoPPEObjectTypes();
 		this.getLogger().info(this.clsStreamToString(hSet.stream()));
 	}
 
@@ -188,8 +189,8 @@ public class UtilityTests {
 	 */
 	@Test
 	public void testAllConcreteInitialisersRegistered() {
-		var clss = JaMoPPHelper.getAllConcreteInitialiserCandidates();
-		var registeredInits = this.getUsedInitialiserPackage().getAllInitialiserInstances();
+		var clss = this.getAllConcreteInitialiserCandidates();
+		var registeredInits = this.getAllInitialiserInstances();
 
 		var matches = List.of(
 				clss.stream().filter((cls) -> registeredInits.stream().anyMatch((init) -> init.isInitialiserFor(cls)))
@@ -212,12 +213,12 @@ public class UtilityTests {
 	 */
 	@Test
 	public void testAllInitialiserInterfacesRegistered() {
-		var clss = JaMoPPHelper.getAllInitialiserCandidates();
-		var registeredInits = this.getUsedInitialiserPackage().getAllInitialiserInterfaceTypes();
+		var clss = this.getAllInitialiserCandidates();
+		var registeredInits = this.getAllInitialiserInterfaceTypes();
 
 		var matches = List.of(clss.stream()
-				.filter((cls) -> registeredInits.stream().anyMatch(
-						(init) -> InitialiserNameHelper.getInitialiserInterfaceName(cls).equals(init.getSimpleName())))
+				.filter((cls) -> registeredInits.stream()
+						.anyMatch((init) -> this.getInitialiserInterfaceName(cls).equals(init.getSimpleName())))
 				.toArray(Class<?>[]::new));
 
 		this.getLogger().info(matches.size() + " out of " + clss.size() + " initialiser interfaces are registered");
@@ -240,12 +241,11 @@ public class UtilityTests {
 	 */
 	@Test
 	public void testAllConcreteInitialisersPresent() {
-		var intfcs = JaMoPPHelper.getAllConcreteInitialiserCandidates();
+		var intfcs = this.getAllConcreteInitialiserCandidates();
 		var files = this.getAllFiles();
 
-		var matches = List.of(intfcs.stream()
-				.filter((ifc) -> files.stream()
-						.anyMatch((f) -> this.fileNameEquals(f, InitialiserNameHelper.getConcreteInitialiserName(ifc))))
+		var matches = List.of(intfcs.stream().filter(
+				(ifc) -> files.stream().anyMatch((f) -> this.fileNameEquals(f, this.getConcreteInitialiserName(ifc))))
 				.toArray(Class<?>[]::new));
 		var count = matches.size();
 
@@ -269,12 +269,11 @@ public class UtilityTests {
 	 */
 	@Test
 	public void testAllInitialiserInterfacesPresent() {
-		var intfcs = JaMoPPHelper.getAllInitialiserCandidates();
+		var intfcs = this.getAllInitialiserCandidates();
 		var files = this.getAllFiles();
 
-		var matches = List.of(intfcs.stream()
-				.filter((ifc) -> files.stream().anyMatch(
-						(f) -> this.fileNameEquals(f, InitialiserNameHelper.getInitialiserInterfaceName(ifc))))
+		var matches = List.of(intfcs.stream().filter(
+				(ifc) -> files.stream().anyMatch((f) -> this.fileNameEquals(f, this.getInitialiserInterfaceName(ifc))))
 				.toArray(Class<?>[]::new));
 		var count = matches.size();
 
