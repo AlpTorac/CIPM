@@ -1,9 +1,6 @@
 package cipm.consistency.initialisers.eobject;
 
-import java.util.function.BiFunction;
-
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import cipm.consistency.initialisers.IInitialiser;
 import cipm.consistency.initialisers.IInitialiserAdapterStrategy;
@@ -16,39 +13,6 @@ import cipm.consistency.initialisers.IInitialiserAdapterStrategy;
  * @author Alp Torac Genc
  */
 public interface IEObjectInitialiser extends IInitialiser {
-	/**
-	 * Clones the given {@link EObject} and its contents. <br>
-	 * <br>
-	 * <b>Note: DOES NOT clone its container. The created clone will have no
-	 * container.</b>
-	 * 
-	 * @see {@link EcoreUtil#copy(EObject)}
-	 */
-	public default <T extends EObject> T clone(T obj) {
-		return EcoreUtil.copy(obj);
-	}
-
-	/**
-	 * A helper method for implementors, which provides them with a template for
-	 * versions of their methods, which take arrays of parameters rather than
-	 * singular ones, and perform multiple modifications.
-	 * 
-	 * @return Conjunction of results of all modification methods this is equivalent
-	 *         to.
-	 */
-	public default <T extends EObject, X extends Object> boolean doMultipleModifications(T obj, X[] xs,
-			BiFunction<T, X, Boolean> addFunction) {
-		boolean result = true;
-
-		if (xs != null) {
-			for (var x : xs) {
-				result = result && addFunction.apply(obj, x);
-			}
-		}
-
-		return xs == null || result;
-	}
-
 	/**
 	 * {@inheritDoc} <br>
 	 * <br>

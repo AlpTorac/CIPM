@@ -156,7 +156,7 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	@MethodSource("provideAllInitialisers")
 	public void testIsSimilarCloneEqual(IJaMoPPEObjectInitialiser initialiser) {
 		var obj11 = initialiser.instantiate();
-		var objClone = initialiser.clone(obj11);
+		var objClone = this.cloneEObj(obj11);
 
 		this.assertIsSimilar(obj11, objClone);
 	}
@@ -305,7 +305,7 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	@MethodSource("provideAllInitialisers")
 	public void testAreSimilarSingleObjectCloneEqual(IJaMoPPEObjectInitialiser initialiser) {
 		var obj = initialiser.instantiate();
-		var objCopy = initialiser.clone(obj);
+		var objCopy = this.cloneEObj(obj);
 
 		this.assertAreSimilar(this.toList(obj), this.toList(objCopy));
 	}
@@ -324,8 +324,8 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 		var obj2 = initialiser.instantiate();
 		Assertions.assertTrue(initialiser.setName(obj2, "mod2"));
 
-		var obj1Copy = initialiser.clone(obj1);
-		var obj2Copy = initialiser.clone(obj2);
+		var obj1Copy = this.cloneEObj(obj1);
+		var obj2Copy = this.cloneEObj(obj2);
 
 		this.assertAreSimilar(this.toList(obj1, obj2), this.toList(obj1Copy, obj2Copy));
 	}

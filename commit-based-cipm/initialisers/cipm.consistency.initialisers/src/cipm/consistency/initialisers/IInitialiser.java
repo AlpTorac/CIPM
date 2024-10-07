@@ -1,5 +1,7 @@
 package cipm.consistency.initialisers;
 
+import java.util.function.BiFunction;
+
 /**
  * An interface to be implemented by initialisers. Initialisers are interfaces
  * or classes, which are meant to instantiate objects ({@link #instantiate()}).
@@ -11,6 +13,13 @@ package cipm.consistency.initialisers;
  * ensure that the method actually worked as intended and made the modifications
  * it was meant to do. It is also possible to extract this behaviour into
  * additional assertion methods. <br>
+ * <br>
+ * <b>Modification methods DO NOT check, if the object that is being modified is
+ * null. Attempting to modify null objects will result in EXCEPTIONS being
+ * thrown. They only have null checks for the other passed parameters, which are
+ * used to perform the modifications.</b> The reason behind this is that it is
+ * important to know, if a null object is attempted to be modified, since this
+ * should never happen.<br>
  * <br>
  * It is recommended to separate instantiation and initialisation (modification)
  * methods, as doing so will allow using the individual methods in
@@ -32,6 +41,8 @@ package cipm.consistency.initialisers;
  */
 public interface IInitialiser {
 	/**
+	 * Can be used to create a (deep) copy of this.
+	 * 
 	 * @return A fresh instance of this initialiser's class.
 	 */
 	public IInitialiser newInitialiser();
@@ -164,5 +175,53 @@ public interface IInitialiser {
 	 */
 	public default boolean isInitialiserFor(Class<?> objClass) {
 		return objClass != null && isInitialiserFor(this, objClass);
+	}
+
+	/**
+	 * A helper method for implementors, which provides them with a template for
+	 * versions of their methods, which take arrays of parameters rather than
+	 * singular ones, and perform multiple modifications. <br>
+	 * <br>
+	 * <b>If addFunction returns false for an element x of xs, the method will FAIL
+	 * EARLY and return false.</b> This means, addFunction WILL NOT be called for
+	 * the remaining xs once it fails. <br>
+	 * <br>
+	 * Because of this, it is important to perform modifications one by one, if
+	 * performing the said modifications is expected to fail for some x. <br>
+	 * <br>
+	 * This method is not intended to be used directly from outside.
+	 * 
+	 * @param <T>         The type of the object being modified
+	 * @param <X>         The parameter passed to the modification function
+	 *                    (addFunction)
+	 * @param obj         The object being modified. {@code obj == null} will cause
+	 *                    null pointer exceptions, if xs has at least one element.
+	 * @param xs          Array of parameters that will be passed to addFunction
+	 * @param addFunction The modification function that will be run on obj, using
+	 *                    xs as parameters (one addFunction call each x in xs)
+	 * 
+	 * @return
+	 *         <ul>
+	 *         <li>True, if either:
+	 *         <ul>
+	 *         <li>xs is null (because no modifications were performed and nothing
+	 *         can fail)
+	 *         <li>All modification method calls returned true (i.e. all
+	 *         modifications were successfully performed)
+	 *         </ul>
+	 *         <li>Otherwise false, i.e. if {@code xs != null} and a modification
+	 *         method call returned false.
+	 *         </ul>
+	 */
+	public default <T extends Object, X extends Object> boolean doMultipleModifications(T obj, X[] xs,
+			BiFunction<T, X, Boolean> addFunction) {
+		if (xs != null) {
+			for (var x : xs) {
+				if (!addFunction.apply(obj, x))
+					return false;
+			}
+		}
+
+		return true;
 	}
 }
