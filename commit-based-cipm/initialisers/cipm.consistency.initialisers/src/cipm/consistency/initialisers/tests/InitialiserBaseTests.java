@@ -19,7 +19,7 @@ import cipm.consistency.initialisers.tests.dummy.packages.ObjCSecondInitStepStra
  * 
  * @author Alp Torac Genc
  */
-public class InitialiserBaseTests extends AbstractInitialiserTest {
+public class InitialiserBaseTests {
 	/**
 	 * Shortcut for {@code assertAdapted(init, true)}
 	 */
@@ -102,10 +102,21 @@ public class InitialiserBaseTests extends AbstractInitialiserTest {
 	}
 
 	/**
-	 * Test adding adaptation strategies to an initialiser.
+	 * Test adding a null array of adaptation strategies to an initialiser during
+	 * its construction.
 	 */
 	@Test
-	public void test_AddAdapterStrategy() {
+	public void test_AddStrategiesToInitAtConstruction_NullArray() {
+		var init = new DummyInitialiserC(null);
+		this.assertAdapted(init, false);
+	}
+
+	/**
+	 * Test adding adaptation strategies to an initialiser. Strategies are added one
+	 * at a time.
+	 */
+	@Test
+	public void test_AddStrategy_OneAtATime() {
 		var init = new DummyInitialiserA();
 
 		this.assertAdapted(init, false);
@@ -117,6 +128,66 @@ public class InitialiserBaseTests extends AbstractInitialiserTest {
 		var stratTwo = new ObjAInitStrat();
 		init.addAdaptingStrategy(stratTwo);
 		this.assertAdaptedBy(new IInitialiserAdapterStrategy[] { stratOne, stratTwo }, init);
+	}
+
+	/**
+	 * Test adding adaptation strategies to an initialiser. A strategy array is
+	 * added to the initialiser.
+	 */
+	@Test
+	public void test_AddStrategy_StrategyArray() {
+		var init = new DummyInitialiserA();
+		this.assertAdapted(init, false);
+
+		var stratOne = new ObjAInitStrat();
+		var stratTwo = new ObjAInitStrat();
+		var stratArr = new IInitialiserAdapterStrategy[] { stratOne, stratTwo };
+
+		init.addAdaptingStrategies(stratArr);
+		this.assertAdaptedBy(stratArr, init);
+	}
+
+	/**
+	 * Test adding adaptation strategies to an initialiser. A strategy array with a
+	 * null element is added to the initialiser.
+	 */
+	@Test
+	public void test_AddStrategy_StrategyArrayWithNull() {
+		var init = new DummyInitialiserA();
+		this.assertAdapted(init, false);
+
+		var stratOne = new ObjAInitStrat();
+		var stratTwo = new ObjAInitStrat();
+		var stratArr = new IInitialiserAdapterStrategy[] { stratOne, null, stratTwo };
+
+		init.addAdaptingStrategies(stratArr);
+		this.assertAdaptedBy(new IInitialiserAdapterStrategy[] { stratOne, stratTwo }, init);
+	}
+
+	/**
+	 * Test adding an empty array of adaptation strategies to an initialiser.
+	 */
+	@Test
+	public void test_AddStrategy_EmptyArray() {
+		var init = new DummyInitialiserA();
+		this.assertAdapted(init, false);
+
+		var stratArr = new IInitialiserAdapterStrategy[] {};
+
+		init.addAdaptingStrategies(stratArr);
+		this.assertAdapted(init, false);
+	}
+
+	/**
+	 * Test adding a null array (of adaptation strategies) to an initialiser.
+	 */
+	@Test
+	public void test_AddStrategy_NullArray() {
+		var init = new DummyInitialiserA();
+		this.assertAdapted(init, false);
+
+		init.addAdaptingStrategies(null);
+		this.assertAdapted(init, false);
 	}
 
 	/**
