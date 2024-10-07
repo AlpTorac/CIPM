@@ -32,31 +32,6 @@ import cipm.consistency.initialisers.tests.dummy.types.verticalhierarchy.IDummyA
  * @author Alp Torac Genc
  */
 public class InitialiserTests {
-	// TODO: Remove test_Initialisation_TriviallySucceeding and
-	// test_Initialisation_TriviallyFailing
-
-	/**
-	 * Test initialising an object generated from a non-adaptable initialiser, whose
-	 * initialise method just returns true.
-	 */
-	@Test
-	public void test_Initialisation_TriviallySucceeding() {
-		var init = new DummyObjOneInitialiser(true);
-		var obj = init.instantiate();
-		Assertions.assertTrue(init.initialise(obj));
-	}
-
-	/**
-	 * Test initialising an object generated from a non-adaptable initialiser, whose
-	 * initialise method just returns false.
-	 */
-	@Test
-	public void test_Initialisation_TriviallyFailing() {
-		var init = new DummyObjOneInitialiser(false);
-		var obj = init.instantiate();
-		Assertions.assertFalse(init.initialise(obj));
-	}
-
 	/**
 	 * Checks whether {@link IInitialiser#declaresModificationMethods(Class)}
 	 * circumvents null pointer exceptions.
