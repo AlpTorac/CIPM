@@ -109,6 +109,9 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 		}
 	}
 
+	// TODO Move newInitialiser tests to initialiser package, since they do not use
+	// similarity checking
+
 	/**
 	 * Ensure that the inherited {@link IJaMoPPEObjectInitialiser#newInitialiser()}
 	 * returns an initialiser instance of the same type. <br>
