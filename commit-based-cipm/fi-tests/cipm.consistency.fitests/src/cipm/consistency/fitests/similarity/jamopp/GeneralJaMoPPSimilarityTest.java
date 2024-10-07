@@ -12,6 +12,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import cipm.consistency.initialisers.IInitialiserBase;
 import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
 import cipm.consistency.initialisers.jamopp.containers.ModuleInitialiser;
 import cipm.consistency.initialisers.jamopp.containers.PackageInitialiser;
@@ -26,6 +27,8 @@ import org.emftext.language.java.containers.Module;
  * {@link EObject} instances, whereas others make use of {@link Module}
  * instances, as they can easily be compared after their name
  * ({@code module.getName()})
+ * 
+ * TODO Write commentary for private methods
  * 
  * @author Alp Torac Genc
  */
@@ -103,6 +106,63 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 			Assertions.assertTrue(res2, "isSimilar is not symmetric");
 		} else if (res1 == null ^ res2 == null) {
 			Assertions.fail("isSimilar is not symmetric (does not return null for both cases)");
+		}
+	}
+
+	/**
+	 * Ensure that the inherited {@link IJaMoPPEObjectInitialiser#newInitialiser()}
+	 * returns an initialiser instance of the same type. <br>
+	 * <br>
+	 * All versions of initialisers are included to make sure that adapting
+	 * initialisers does not break type equality of the returned initialiser.
+	 */
+	@ParameterizedTest
+	@MethodSource("provideAllInitialisers")
+	public void testNewInitialiserTypeCheck(IJaMoPPEObjectInitialiser initialiser) {
+		Assertions.assertEquals(initialiser.getClass(), initialiser.newInitialiser().getClass());
+	}
+
+	/**
+	 * Ensure that the inherited {@link IJaMoPPEObjectInitialiser#newInitialiser()}
+	 * does not consider adaptation strategies.
+	 */
+	@ParameterizedTest
+	@MethodSource("provideAdaptedInitialisers")
+	public void testNewInitialiserAdaptationStrategiesNotCopied(IInitialiserBase initialiser) {
+		var newInit = (IInitialiserBase) initialiser.newInitialiser();
+		Assertions.assertFalse(newInit.isAdapted());
+	}
+
+	/**
+	 * Ensure that adaptation strategies of adapted initialisers are copied for the
+	 * new initialiser instance. Also make sure that the new adaptation strategies
+	 * are not reference equal.
+	 */
+	@ParameterizedTest
+	@MethodSource("provideAdaptedInitialisers")
+	public void testNewInitialiserWithStrategies(IInitialiserBase initialiser) {
+		var newInit = initialiser.newInitialiserWithStrategies();
+
+		Assertions.assertEquals(initialiser.getClass(), newInit.getClass());
+
+		if (initialiser.isAdapted()) {
+			Assertions.assertTrue(newInit.isAdapted());
+
+			var strats = initialiser.getAdaptingStrategies();
+			var newStrats = newInit.getAdaptingStrategies();
+
+			Assertions.assertEquals(strats.size(), newStrats.size());
+
+			// Ensure that new adaptation strategies are not reference equal
+			for (var s : strats) {
+				Assertions.assertTrue(newStrats.stream().noneMatch((ns) -> ns == s));
+
+				// Approximate equality of contents by checking amount of elements of same type
+				Assertions.assertEquals(strats.stream().filter((s2) -> s2.getClass().equals(s.getClass())).count(),
+						newStrats.stream().filter((ns) -> ns.getClass().equals(s.getClass())).count());
+			}
+		} else {
+			Assertions.assertFalse(newInit.isAdapted());
 		}
 	}
 
