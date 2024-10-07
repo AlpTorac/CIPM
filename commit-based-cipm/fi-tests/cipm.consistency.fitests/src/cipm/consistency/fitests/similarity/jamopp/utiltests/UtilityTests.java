@@ -37,34 +37,6 @@ public class UtilityTests extends AbstractJaMoPPSimilarityTest {
 	private static final String testSuffix = "Test";
 
 	/**
-	 * @return The given text without whitespaces (includes line breaks).
-	 */
-	public String removeWhitespaces(String text) {
-		return text.replaceAll("\\n", "").replaceAll("\\r", "").replaceAll("\\s", "");
-	}
-
-	/**
-	 * @return An instance of all initialisers.
-	 */
-	public Collection<IInitialiser> getAllInitialiserInstances() {
-		return this.getUsedInitialiserPackage().getAllInitialiserInstances();
-	}
-
-	/**
-	 * @return Types of all initialisers.
-	 */
-	public Collection<Class<? extends IInitialiser>> getAllInitialiserTypes() {
-		return this.getUsedInitialiserPackage().getAllInitialiserInterfaceTypes();
-	}
-
-	/**
-	 * @return The name of the concrete initialiser corresponding to cls.
-	 */
-	public String getConcreteInitialiserName(Class<?> cls) {
-		return InitialiserNameHelper.getConcreteInitialiserName(cls);
-	}
-
-	/**
 	 * @return The name of the initialiser interface corresponding to cls.
 	 */
 	public String getInitialiserInterfaceName(Class<?> cls) {
@@ -83,19 +55,6 @@ public class UtilityTests extends AbstractJaMoPPSimilarityTest {
 	 */
 	public Class<? extends IInitialiser> getInitialiserInterfaceFor(Class<?> objClass) {
 		return this.getUsedInitialiserPackage().getInitialiserInterfaceTypeFor(objClass);
-	}
-
-	/**
-	 * @return All types in the need of an initialiser that actually have a
-	 *         corresponding initialiser interface under the {@link #root}
-	 *         directory.
-	 */
-	public Collection<Class<?>> getClassesWithInitialiserInterface() {
-		var initClss = this.getAllInitialiserTypes();
-
-		return List.of(JaMoPPHelper.getAllInitialiserCandidates().stream().filter(
-				(c) -> initClss.stream().anyMatch((f) -> f.getSimpleName().equals(this.getInitialiserInterfaceName(c))))
-				.toArray(Class<?>[]::new));
 	}
 
 	/**
@@ -134,10 +93,17 @@ public class UtilityTests extends AbstractJaMoPPSimilarityTest {
 	}
 
 	/**
-	 * @return The initialiser meant to instantiate objClass.
+	 * {@link JaMoPPHelper#getAllConcreteInitialiserCandidates()}
 	 */
-	public IInitialiser getInitialiserInstanceFor(Class<?> objClass) {
-		return this.getUsedInitialiserPackage().getInitialiserInstanceFor(objClass);
+	public Collection<Class<?>> getAllConcreteInitialiserCandidates() {
+		return JaMoPPHelper.getAllConcreteInitialiserCandidates();
+	}
+
+	/**
+	 * {@link JaMoPPHelper#getAllInitialiserCandidates()}
+	 */
+	public Collection<Class<?>> getAllInitialiserCandidates() {
+		return JaMoPPHelper.getAllInitialiserCandidates();
 	}
 
 	/**
@@ -174,7 +140,7 @@ public class UtilityTests extends AbstractJaMoPPSimilarityTest {
 	 */
 	@Test
 	public void testAllConcreteInitialisersRegistered() {
-		var clss = JaMoPPHelper.getAllConcreteInitialiserCandidates();
+		var clss = this.getAllConcreteInitialiserCandidates();
 		var registeredInits = this.getUsedInitialiserPackage().getAllInitialiserInstances();
 
 		var matches = List.of(
@@ -198,7 +164,7 @@ public class UtilityTests extends AbstractJaMoPPSimilarityTest {
 	 */
 	@Test
 	public void testAllInitialiserInterfacesRegistered() {
-		var clss = JaMoPPHelper.getAllInitialiserCandidates();
+		var clss = this.getAllInitialiserCandidates();
 		var registeredInits = this.getUsedInitialiserPackage().getAllInitialiserInterfaceTypes();
 
 		var matches = List.of(clss.stream()
@@ -230,7 +196,7 @@ public class UtilityTests extends AbstractJaMoPPSimilarityTest {
 	 */
 	@Test
 	public void testAllInterfaceTestsPresent() {
-		var intfcs = JaMoPPHelper.getAllInitialiserCandidates();
+		var intfcs = this.getAllInitialiserCandidates();
 		var allFiles = this.getAllFiles();
 
 		var matches = List.of(intfcs.stream()
