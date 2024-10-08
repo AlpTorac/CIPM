@@ -4,6 +4,7 @@ import org.apache.log4j.Level;
 import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.classifiers.AnonymousClass;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.members.AdditionalField;
 import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.EnumConstant;
 import org.emftext.language.java.members.Member;
@@ -11,6 +12,7 @@ import org.emftext.language.java.members.Method;
 import org.emftext.language.java.members.util.MembersSwitch;
 import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.types.Type;
+import org.emftext.language.java.types.TypedElement;
 import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
@@ -234,5 +236,86 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		String name1 = Strings.nullToEmpty(member1.getName());
 		String name2 = Strings.nullToEmpty(member2.getName());
 		return (name1.equals(name2));
+	}
+
+	/**
+	 * TODO Review this method to make sure it is correct.
+	 * 
+	 * <i><b>This method was added later, because comparing improperly
+	 * initialised additional fields could result in null otherwise.</b></i>
+	 * <br><br>
+	 * 
+	 * Additional fields are considered similar, if:
+	 * <ul>
+	 * <li> Their names are equal,
+	 * <li> Their types are similar,
+	 * <li> Types of their containers are similar,
+	 * <li> Types of containers of their containers are similar.
+	 * </ul>
+	 */
+	@Override
+	public Boolean caseAdditionalField(AdditionalField additionalField1) {
+		this.logMessage("caseAdditionalField");
+		
+		AdditionalField additionalField2 = (AdditionalField) this.getCompareElement();
+		String name1 = Strings.nullToEmpty(additionalField1.getName());
+		String name2 = Strings.nullToEmpty(additionalField2.getName());
+		
+		if (!name1.equals(name2)) {
+			return Boolean.FALSE;
+		}
+		
+		var type1 = additionalField1.getTypeReference();
+		var type2 = additionalField2.getTypeReference();
+		
+		// Compare additional field types
+		// Account for similarity result being null
+		if (this.isSimilar(type1, type2) != Boolean.TRUE) {
+			return Boolean.FALSE;
+		}
+		
+		var container1 = additionalField1.eContainer();
+		var container2 = additionalField2.eContainer();
+		
+		// Null check to avoid null pointer exceptions
+		if (container1 != null && container2 != null) {
+			var castedCon1 = (TypedElement) container1;
+			var castedCon2 = (TypedElement) container2;
+
+			var conType1 = castedCon1.getTypeReference();
+			var conType2 = castedCon2.getTypeReference();
+			
+			// Compare container types
+			// Account for similarity result being null
+			if (this.isSimilar(conType1, conType2) != Boolean.TRUE) {
+				return Boolean.FALSE;
+			}
+			
+			var containerOfCon1 = castedCon1.eContainer();
+			var containerOfCon2 = castedCon2.eContainer();
+			
+			// Null check to avoid null pointer exceptions
+			if (containerOfCon1 != null && containerOfCon2 != null) {
+				var castedConOfCon1 = (TypedElement) containerOfCon1;
+				var castedConOfCon2 = (TypedElement) containerOfCon2;
+				
+				var conOfConType1 = castedConOfCon1.getTypeReference();
+				var conOfConType2 = castedConOfCon2.getTypeReference();
+				
+				// Compare types of container of container
+				// Account for similarity result being null
+				if (this.isSimilar(conOfConType1, conOfConType2) != Boolean.TRUE) {
+					return Boolean.FALSE;
+				}
+				
+			} else if (containerOfCon1 == null ^ containerOfCon2 == null) {
+				return Boolean.FALSE;
+			}
+			
+		} else if (container1 == null ^ container2 == null) {
+			return Boolean.FALSE;
+		}
+		
+		return Boolean.TRUE;
 	}
 }
