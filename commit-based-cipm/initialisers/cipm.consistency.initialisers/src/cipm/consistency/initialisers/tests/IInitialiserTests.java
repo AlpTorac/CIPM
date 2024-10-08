@@ -33,7 +33,7 @@ import cipm.consistency.initialisers.tests.dummy.types.verticalhierarchy.IDummyA
  * 
  * @author Alp Torac Genc
  */
-public class InitialiserTests {
+public class IInitialiserTests {
 	/**
 	 * Ensures that
 	 * {@link IInitialiser#doMultipleModifications(Object, Object[], java.util.function.BiFunction)}
