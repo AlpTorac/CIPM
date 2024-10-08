@@ -141,7 +141,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		var containerString = method1.eContainer() == null ? "" : method1.eContainer().toString();
 
 		this.logMessage("MethodDeclaration in unknown container: " + name1 + " : " + containerString, Level.WARN);
-		return super.caseMethod(method1);
+		return null;
 	}
 
 	/**
@@ -213,7 +213,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		var containerString = constructor1.eContainer() == null ? "" : constructor1.eContainer().toString();
 
 		this.logMessage("ConstructorDeclaration in unknown container: " + name1 + " : " + containerString, Level.WARN);
-		return super.caseConstructor(constructor1);
+		return null;
 	}
 
 	@Override
