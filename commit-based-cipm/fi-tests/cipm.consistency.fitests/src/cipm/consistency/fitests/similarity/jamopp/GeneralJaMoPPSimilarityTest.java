@@ -28,41 +28,92 @@ import org.emftext.language.java.containers.Module;
  * instances, as they can easily be compared after their name
  * ({@code module.getName()})
  * 
- * TODO Write commentary for private methods
- * 
  * @author Alp Torac Genc
  */
 public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
+	/**
+	 * Provides all non-adapted versions of {@link IJaMoPPEObjectInitialiser}
+	 * implementors.
+	 */
 	private static Stream<Arguments> provideNonAdaptedInitialisers() {
 		return AbstractJaMoPPSimilarityTest.getNonAdaptedInitialiserArgumentsFor(IJaMoPPEObjectInitialiser.class);
 	}
 
+	/**
+	 * Provides all adapted versions of {@link IJaMoPPEObjectInitialiser}
+	 * implementors.
+	 */
 	private static Stream<Arguments> provideAdaptedInitialisers() {
 		return AbstractJaMoPPSimilarityTest.getAdaptedInitialiserArgumentsFor(IJaMoPPEObjectInitialiser.class);
 	}
 
+	/**
+	 * Provides all versions of {@link IJaMoPPEObjectInitialiser} implementors.
+	 */
 	private static Stream<Arguments> provideAllInitialisers() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IJaMoPPEObjectInitialiser.class);
 	}
 
+	/**
+	 * @return An empty, immutable list
+	 */
 	private <T extends Object> List<T> toList() {
 		return List.of();
 	}
 
+	/**
+	 * @return An immutable list containing the given elements
+	 */
 	private List<? extends EObject> toList(EObject... eos) {
 		return List.of(eos);
 	}
 
+	/**
+	 * Instantiates an object using init, initialises that object and returns it.
+	 * Asserts that the initialisation is successful.
+	 */
 	private EObject instantiateAndInitialise(IJaMoPPEObjectInitialiser init) {
 		var obj = init.instantiate();
 		Assertions.assertTrue(init.initialise(obj));
 		return obj;
 	}
 
+	/**
+	 * @return A mutable list with a single null element.
+	 */
+	private <T extends Object> List<T> makeListWithSingleNullElement() {
+		var list = new ArrayList<T>();
+		list.add(null);
+
+		// Make sure that the null element is in the list
+		Assertions.assertEquals(1, list.size());
+		Assertions.assertNull(list.get(0));
+
+		return list;
+	}
+
+	/**
+	 * A variant of {@link #assertAreSimilar(List, List, Boolean)}, where the last
+	 * parameter is true.
+	 */
 	private void assertAreSimilar(List<? extends EObject> eos1, List<? extends EObject> eos2) {
 		this.assertAreSimilar(eos1, eos2, Boolean.TRUE);
 	}
 
+	/**
+	 * Makes the following assertions:
+	 * 
+	 * <ul>
+	 * <li>The similarity value of both lists with respect to
+	 * {@link #areSimilar(java.util.Collection, java.util.Collection)} is
+	 * expectedResult.
+	 * <li>The object within the lists are pairwise similar with respect to
+	 * {@link #isSimilar(Object, Object)}, if expectedResult is true. Otherwise
+	 * asserts that there is at least one pair, which is not similar.
+	 * <li>The similarity checking is symmetrical, meaning that changing positions
+	 * of parameters within similarity checking methods has no effect on the result.
+	 * </ul>
+	 */
 	private void assertAreSimilar(List<? extends EObject> eos1, List<? extends EObject> eos2, Boolean expectedResult) {
 		Assertions.assertEquals(expectedResult, this.areSimilar(eos1, eos2));
 		Assertions.assertEquals(expectedResult, this.areSimilar(eos2, eos1), "areSimilar is not symmetric");
@@ -95,22 +146,29 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 		}
 	}
 
+	/**
+	 * A variant of {@link #assertIsSimilar(EObject, EObject, Boolean)}, where the
+	 * last parameter is true.
+	 */
 	private void assertIsSimilar(EObject obj1, EObject obj2) {
+		this.assertIsSimilar(obj1, obj2, Boolean.TRUE);
+	}
+
+	/**
+	 * Asserts that similarity checking obj1 and obj2 results in expectedResult.
+	 * Additionally asserts that similarity checking is symmetrical, meaning that
+	 * changing positions of obj1 and obj2 inside the similarity checking method has
+	 * no effect on the result.
+	 */
+	private void assertIsSimilar(EObject obj1, EObject obj2, Boolean expectedResult) {
 		var res1 = this.isSimilar(obj1, obj2);
 		var res2 = this.isSimilar(obj2, obj1);
 
 		// FIXME: Remove the null check and deal with the cause of the issues
 
-		if (res1 != null && res2 != null) {
-			Assertions.assertTrue(res1);
-			Assertions.assertTrue(res2, "isSimilar is not symmetric");
-		} else if (res1 == null ^ res2 == null) {
-			Assertions.fail("isSimilar is not symmetric (does not return null for both cases)");
-		}
+		Assertions.assertEquals(expectedResult, res1);
+		Assertions.assertEquals(expectedResult, res2, "isSimilar is not symmetric");
 	}
-
-	// TODO Move newInitialiser tests to initialiser package, since they do not use
-	// similarity checking
 
 	/**
 	 * Ensure that the inherited {@link IJaMoPPEObjectInitialiser#newInitialiser()}
@@ -209,7 +267,7 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	public void testIsSimilarSameReference(IJaMoPPEObjectInitialiser initialiser) {
 		var obj11 = initialiser.instantiate();
 
-		Assertions.assertTrue(this.isSimilar(obj11, obj11));
+		this.assertIsSimilar(obj11, obj11);
 	}
 
 	/**
@@ -232,8 +290,7 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 		var initialiser = new ModuleInitialiser();
 		var obj = initialiser.instantiate();
 
-		Assertions.assertFalse(this.isSimilar(null, obj));
-		Assertions.assertFalse(this.isSimilar(obj, null));
+		this.assertIsSimilar(null, obj, Boolean.FALSE);
 	}
 
 	/**
@@ -241,7 +298,7 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@Test
 	public void testIsSimilarBothSidesNull() {
-		Assertions.assertTrue(this.isSimilar(null, null));
+		this.assertIsSimilar(null, null);
 	}
 
 	/**
@@ -253,7 +310,7 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 		var mod = new ModuleInitialiser().instantiate();
 		var pac = new PackageInitialiser().instantiate();
 
-		Assertions.assertFalse(this.isSimilar(mod, pac));
+		this.assertIsSimilar(mod, pac, Boolean.FALSE);
 	}
 
 	/**
@@ -402,8 +459,7 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 		var initialiser = new ModuleInitialiser();
 		var obj = initialiser.instantiate();
 
-		Assertions.assertFalse(this.areSimilar(null, this.toList(obj)));
-		Assertions.assertFalse(this.areSimilar(this.toList(obj), null));
+		this.assertAreSimilar(null, this.toList(obj), Boolean.FALSE);
 	}
 
 	/**
@@ -412,7 +468,7 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@Test
 	public void testAreSimilarBothSidesNull() {
-		Assertions.assertTrue(this.areSimilar(null, null));
+		this.assertAreSimilar(null, null);
 	}
 
 	/**
@@ -455,17 +511,6 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 		Assertions.assertTrue(this.areSimilar(this.toList(), this.toList()));
 	}
 
-	private <T extends Object> List<T> makeListWithSingleNullElement() {
-		var list = new ArrayList<T>();
-		list.add(null);
-
-		// Make sure that the null element is in the list
-		Assertions.assertEquals(1, list.size());
-		Assertions.assertNull(list.get(0));
-
-		return list;
-	}
-
 	/**
 	 * Checks if similarity checking lists of {@link EObject} instances causes
 	 * issues, if one of the lists contains a null element.
@@ -484,8 +529,7 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@Test
 	public void testAreSimilarBothListsNullElement() {
-		Assertions.assertTrue(
-				this.areSimilar(this.makeListWithSingleNullElement(), this.makeListWithSingleNullElement()));
+		this.assertAreSimilar(this.makeListWithSingleNullElement(), this.makeListWithSingleNullElement());
 	}
 
 	/**
