@@ -1,6 +1,8 @@
 package org.splevo.jamopp.diffing.similarity.switches;
 
 import org.emftext.language.java.imports.ClassifierImport;
+import org.emftext.language.java.imports.PackageImport;
+import org.emftext.language.java.imports.StaticClassifierImport;
 import org.emftext.language.java.imports.StaticMemberImport;
 import org.emftext.language.java.imports.util.ImportsSwitch;
 import org.emftext.language.java.references.ReferenceableElement;
@@ -78,6 +80,59 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 					return Boolean.FALSE;
 				}
 			}
+		}
+
+		String namespace1 = Strings.nullToEmpty(import1.getNamespacesAsString());
+		String namespace2 = Strings.nullToEmpty(import2.getNamespacesAsString());
+		return (namespace1.equals(namespace2));
+	}
+
+	/**
+	 * TODO Review this method to make sure it is correct.
+	 * 
+	 * <i><b>This method was added later, because comparing improperly
+	 * initialised package imports could result in null otherwise.</b></i>
+	 * <br><br>
+	 * 
+	 * Package imports are considered similar, if their namespaces are equal
+	 * 
+	 * @param import1 the package import to compare with the compare element
+	 */
+	@Override
+	public Boolean casePackageImport(PackageImport import1) {
+		this.logMessage("casePackageImport");
+		
+		PackageImport import2 = (PackageImport) this.getCompareElement();
+		
+		String namespace1 = Strings.nullToEmpty(import1.getNamespacesAsString());
+		String namespace2 = Strings.nullToEmpty(import2.getNamespacesAsString());
+		return (namespace1.equals(namespace2));
+	}
+
+	/**
+	 * TODO Review this method to make sure it is correct.
+	 * 
+	 * <i><b>This method was added later, because comparing improperly
+	 * initialised static classifier imports could result in null otherwise.</b></i>
+	 * <br><br>
+	 * 
+	 * Static classifier imports are considered similar, if:
+	 * <ul>
+	 * <li> Their classifiers are similar
+	 * <li> Their namespaces are equal
+	 * </ul>
+	 * 
+	 * @param import1 the package import to compare with the compare element
+	 */
+	@Override
+	public Boolean caseStaticClassifierImport(StaticClassifierImport import1) {
+		this.logMessage("caseStaticClassifierImport");
+
+		StaticClassifierImport import2 = (StaticClassifierImport) this.getCompareElement();
+
+		Boolean similarity = this.isSimilar(import1.getClassifier(), import2.getClassifier());
+		if (similarity == Boolean.FALSE) {
+			return Boolean.FALSE;
 		}
 
 		String namespace1 = Strings.nullToEmpty(import1.getNamespacesAsString());
