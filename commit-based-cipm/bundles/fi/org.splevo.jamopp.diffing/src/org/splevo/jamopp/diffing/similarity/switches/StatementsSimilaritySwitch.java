@@ -299,7 +299,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
         Statement pred1 = getPredecessor(statement1);
         Statement pred2 = getPredecessor(statement2);
         Boolean similarity = this.isSimilar(pred1, pred2, false);
-        return similarity == Boolean.FALSE;
+        return similarity != Boolean.TRUE;
     }
 
     /**
@@ -315,7 +315,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
         Statement pred1 = getSuccessor(statement1);
         Statement pred2 = getSuccessor(statement2);
         Boolean similarity = this.isSimilar(pred1, pred2, false);
-        return similarity == Boolean.FALSE;
+        return similarity != Boolean.TRUE;
     }
 
     /**
