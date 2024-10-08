@@ -20,6 +20,9 @@ import cipm.consistency.initialisers.jamopp.JaMoPPHelper;
  * A test class, whose tests can be used to make sure no initialiser interfaces,
  * concrete initialisers or initialiser tests are missing.
  * 
+ * TODO Consider adding a test for checking if all literals are mentioned
+ * throughout test packages
+ * 
  * @author Alp Torac Genc
  */
 public class UtilityTests extends AbstractJaMoPPSimilarityTest {
