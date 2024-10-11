@@ -45,6 +45,8 @@ import org.emftext.language.java.references.TextBlockReference;
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.StatementsPackage;
+import org.emftext.language.java.types.InferableType;
+import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.TypesPackage;
 import org.emftext.language.java.variables.VariablesPackage;
 
@@ -235,6 +237,8 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 
 	public void addTypesSimilarityEntries() {
 		// FIXME: There might be issues with TYPED_ELEMENT__TYPE_REFERENCE
+		this.addSimilarityEntry(new Class[] { InferableType.class, PrimitiveType.class },
+				TypesPackage.Literals.CLASSIFIER_REFERENCE__TARGET, Boolean.TRUE);
 		this.addSimilarityEntry(TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS, Boolean.TRUE);
 		this.addSimilarityEntry(TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE, Boolean.TRUE);
 		this.addSimilarityEntry(
