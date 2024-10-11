@@ -29,6 +29,49 @@ public interface INamespaceClassifierReferenceInitialiser
 				&& clsRefs.size() == 1 && clsRefs.stream().anyMatch((cr) -> cr.getTarget().equals(target));
 	}
 
+	/**
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * In the case of {@link NamespaceClassifierReference}, this method:
+	 * <ul>
+	 * <li>Clears ALL {@link ClassifierReference} instances stored in tref,
+	 * <li>Sets target of tref ({@code tref.getTarget()}) to target,
+	 * <li>Internally constructs and adds a {@link ClassifierReference} pointing at
+	 * target to tref.
+	 * </ul>
+	 * The overridden version of this method in {@link NamespaceClassifierReference}
+	 * introduces no changes to its super version in
+	 * {@link ITypeReferenceInitialiser}. It is overridden for the sake of providing
+	 * commentary. <br>
+	 * <br>
+	 * 
+	 * @see {@link #canSetTarget(TypeReference)}
+	 * @see {@link #canSetTargetTo(TypeReference, Classifier)}
+	 * @see {@link #setTargetAssertion(TypeReference, Classifier)}
+	 * @see {@link #addClassifierReference(NamespaceClassifierReference, ClassifierReference)}
+	 */
+	@Override
+	public default boolean setTarget(TypeReference tref, Classifier target) {
+		return ITypeReferenceInitialiser.super.setTarget(tref, target);
+	}
+
+	/**
+	 * This method:
+	 * 
+	 * <ul>
+	 * <li>Adds the given clsRef to {@code ncr.getClassifierReferences()},
+	 * <li>Replaces the target of ncr ({@code ncr.getTarget()}) with
+	 * {@code clsRef.getTarget()}.
+	 * </ul>
+	 * 
+	 * <b>Using this method modifies the target attribute of ncr
+	 * ({@code ncr.getTarget()}).</b> Therefore, it should normally NOT be used
+	 * along with {@link #setTarget(TypeReference, Classifier)}, as they will modify
+	 * the said target attribute in conflicting ways. <br>
+	 * <br>
+	 * 
+	 * @see {@link #setTarget(TypeReference, Classifier)}
+	 */
 	public default boolean addClassifierReference(NamespaceClassifierReference ncr, ClassifierReference clsRef) {
 		if (clsRef != null) {
 			ncr.getClassifierReferences().add(clsRef);
