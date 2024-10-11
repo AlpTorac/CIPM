@@ -236,7 +236,6 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 	}
 
 	public void addTypesSimilarityEntries() {
-		// FIXME: There might be issues with TYPED_ELEMENT__TYPE_REFERENCE
 		this.addSimilarityEntry(new Class[] { InferableType.class, PrimitiveType.class },
 				TypesPackage.Literals.CLASSIFIER_REFERENCE__TARGET, Boolean.TRUE);
 		this.addSimilarityEntry(TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS, Boolean.TRUE);
