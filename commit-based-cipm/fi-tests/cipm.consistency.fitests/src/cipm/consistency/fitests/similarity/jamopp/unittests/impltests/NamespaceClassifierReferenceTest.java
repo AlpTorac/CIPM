@@ -16,7 +16,7 @@ public class NamespaceClassifierReferenceTest extends AbstractJaMoPPSimilarityTe
 	protected NamespaceClassifierReference initElement(Classifier target, ClassifierReference[] clsRefs) {
 		var ncrInit = new NamespaceClassifierReferenceInitialiser();
 		var ncr = ncrInit.instantiate();
-		Assertions.assertEquals(ncrInit.canSetTargetTo(ncr, target), ncrInit.setTarget(ncr, target));
+		Assertions.assertTrue(ncrInit.setTarget(ncr, target));
 		Assertions.assertTrue(ncrInit.addClassifierReferences(ncr, clsRefs));
 		return ncr;
 	}
