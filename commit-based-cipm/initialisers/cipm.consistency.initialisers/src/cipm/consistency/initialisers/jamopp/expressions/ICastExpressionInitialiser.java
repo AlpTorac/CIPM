@@ -1,7 +1,6 @@
 package cipm.consistency.initialisers.jamopp.expressions;
 
 import org.emftext.language.java.expressions.CastExpression;
-import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.MultiplicativeExpressionChild;
 import org.emftext.language.java.types.TypeReference;
 
@@ -24,18 +23,15 @@ public interface ICastExpressionInitialiser
 		return this.doMultipleModifications(ce, additionalBoundsArr, this::addAdditionalBound);
 	}
 
+	/**
+	 * {@code ce.getChild()} has the same return value as
+	 * {@code ce.getGeneralChild()}, it merely returns the child attribute as
+	 * {@link Expression} rather than {@link MultiplicativeExpressionChild}.
+	 */
 	public default boolean setChild(CastExpression ce, MultiplicativeExpressionChild child) {
 		if (child != null) {
 			ce.setChild(child);
 			return ce.getChild().equals(child);
-		}
-		return true;
-	}
-
-	public default boolean setGeneralChild(CastExpression ce, Expression generalChild) {
-		if (generalChild != null) {
-			ce.setGeneralChild(generalChild);
-			return ce.getGeneralChild().equals(generalChild);
 		}
 		return true;
 	}

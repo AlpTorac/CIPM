@@ -1,7 +1,6 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
 import org.emftext.language.java.expressions.CastExpression;
-import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.expressions.MultiplicativeExpressionChild;
 import org.emftext.language.java.types.TypeReference;
@@ -20,48 +19,47 @@ import cipm.consistency.initialisers.jamopp.expressions.CastExpressionInitialise
  * @author Alp Torac Genc
  */
 public class CastExpressionTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions, UsesTypeReferences {
-	protected CastExpression initElement(TypeReference[] additionalBoundsArr, MultiplicativeExpressionChild child,
-			Expression generalChild) {
+	protected CastExpression initElement(TypeReference[] additionalBoundsArr, MultiplicativeExpressionChild child) {
 		var ceInit = new CastExpressionInitialiser();
 		var ce = ceInit.instantiate();
 		Assertions.assertTrue(ceInit.addAdditionalBounds(ce, additionalBoundsArr));
 		Assertions.assertTrue(ceInit.setChild(ce, child));
-		Assertions.assertTrue(ceInit.setGeneralChild(ce, generalChild));
 		return ce;
 	}
 
 	@Test
 	public void testAdditionalBound() {
-		this.testSimilarity(this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null, null),
-				this.initElement(new TypeReference[] { this.createMinimalClsRef("cls2") }, null, null),
+		this.testSimilarity(this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null),
+				this.initElement(new TypeReference[] { this.createMinimalClsRef("cls2") }, null),
 				ExpressionsPackage.Literals.CAST_EXPRESSION__ADDITIONAL_BOUNDS);
 	}
 
 	@Test
 	public void testAdditionalBoundSize() {
-		this.testSimilarity(this.initElement(
-				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") }, null, null),
-				this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null, null),
+		this.testSimilarity(
+				this.initElement(
+						new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") },
+						null),
+				this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null),
 				ExpressionsPackage.Literals.CAST_EXPRESSION__ADDITIONAL_BOUNDS);
 	}
 
 	@Test
 	public void testAdditionalBoundNullCheck() {
-		this.testSimilarityNullCheck(
-				this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null, null),
+		this.testSimilarityNullCheck(this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null),
 				new CastExpressionInitialiser(), false, ExpressionsPackage.Literals.CAST_EXPRESSION__ADDITIONAL_BOUNDS);
 	}
 
 	@Test
-	public void testGeneralChild() {
-		this.testSimilarity(this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
-				this.initElement(null, null, this.createDecimalIntegerLiteral(2)),
+	public void testChild() {
+		this.testSimilarity(this.initElement(null, this.createDecimalIntegerLiteral(1)),
+				this.initElement(null, this.createDecimalIntegerLiteral(2)),
 				ExpressionsPackage.Literals.CAST_EXPRESSION__GENERAL_CHILD);
 	}
 
 	@Test
-	public void testGeneralChildNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(null, null, this.createDecimalIntegerLiteral(1)),
+	public void testChildNullCheck() {
+		this.testSimilarityNullCheck(this.initElement(null, this.createDecimalIntegerLiteral(1)),
 				new CastExpressionInitialiser(), false, ExpressionsPackage.Literals.CAST_EXPRESSION__GENERAL_CHILD);
 	}
 }
