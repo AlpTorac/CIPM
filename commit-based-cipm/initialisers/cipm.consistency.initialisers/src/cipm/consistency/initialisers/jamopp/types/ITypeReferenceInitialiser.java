@@ -15,8 +15,8 @@ public interface ITypeReferenceInitialiser extends IArrayTypeableInitialiser {
 	 * implemented as a template. <br>
 	 * <br>
 	 * Therefore, <b>what this method does can change immensely between different
-	 * implementors</b>. Check the concrete implementations of the methods below
-	 * within implementors for further details:
+	 * implementors</b>. Check the concrete implementations within implementors for
+	 * further details.
 	 * 
 	 * @see {@link #canSetTarget(TypeReference)}
 	 * @see {@link #canSetTargetTo(TypeReference, Classifier)}
