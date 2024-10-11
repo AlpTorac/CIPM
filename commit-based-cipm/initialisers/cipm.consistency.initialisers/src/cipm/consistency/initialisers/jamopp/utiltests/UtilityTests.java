@@ -2,12 +2,8 @@ package cipm.consistency.initialisers.jamopp.utiltests;
 
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Set;
-import java.util.function.Function;
-import java.util.stream.Stream;
 
 import org.apache.log4j.ConsoleAppender;
 import org.apache.log4j.Level;
@@ -15,13 +11,10 @@ import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.initialisers.IInitialiser;
 import cipm.consistency.initialisers.IInitialiserPackage;
-import cipm.consistency.initialisers.eobject.InitialiserNameHelper;
-import cipm.consistency.initialisers.jamopp.JaMoPPHelper;
+import cipm.consistency.initialisers.jamopp.IJaMoPPUtilityTest;
 import cipm.consistency.initialisers.jamopp.JaMoPPInitialiserPackage;
 
 /**
@@ -30,7 +23,7 @@ import cipm.consistency.initialisers.jamopp.JaMoPPInitialiserPackage;
  * 
  * @author Alp Torac Genc
  */
-public class UtilityTests {
+public class UtilityTests implements IJaMoPPUtilityTest {
 	private static final Logger LOGGER = Logger.getLogger(UtilityTests.class);
 	/**
 	 * Points at the parent package. Used by discovering methods in this class.
@@ -56,124 +49,22 @@ public class UtilityTests {
 		return LOGGER;
 	}
 
+	@Override
 	public IInitialiserPackage getUsedInitialiserPackage() {
 		return new JaMoPPInitialiserPackage();
 	}
 
-	/**
-	 * @return An instance of all initialisers.
-	 */
-	public Collection<IInitialiser> getAllInitialiserInstances() {
-		return this.getUsedInitialiserPackage().getAllInitialiserInstances();
-	}
-
-	/**
-	 * @return Types of all initialisers.
-	 */
-	public Collection<Class<? extends IInitialiser>> getAllInitialiserInterfaceTypes() {
-		return this.getUsedInitialiserPackage().getAllInitialiserInterfaceTypes();
-	}
-
-	/**
-	 * @return A list of all files under {@link #root}.
-	 */
+	@Override
 	public Collection<File> getAllFiles() {
 		return this.getAllFiles(root);
 	}
 
 	/**
-	 * @return A list of all files under the given path and its sub-directories.
+	 * Prints all interface types from {@link #getAllPossibleJaMoPPEObjectTypes()}.
+	 * <br>
+	 * <br>
+	 * Does not test anything, just prints the said types.
 	 */
-	public Collection<File> getAllFiles(File currentPath) {
-		var result = new ArrayList<File>();
-
-		if (currentPath.isFile()) {
-			result.add(currentPath);
-		} else {
-			var files = currentPath.listFiles();
-			if (files != null) {
-				for (var f : files) {
-					result.addAll(this.getAllFiles(f));
-				}
-			}
-		}
-
-		return result;
-	}
-
-	/**
-	 * @return Whether the given file's name (without extension) equals to the given
-	 *         fileName.
-	 */
-	public boolean fileNameEquals(File file, String fileName) {
-		return file != null && file.getName().split("\\.")[0].equals(fileName);
-	}
-
-	/**
-	 * @return A String representing the given stream. The provided toStringFunc
-	 *         will be used to transform stream elements into Strings.
-	 */
-	public <T extends Object> String streamToString(Stream<T> stream, Function<T, String> toStringFunc) {
-		return stream.map((e) -> toStringFunc.apply(e)).reduce("", (s1, s2) -> s1 + ", " + s2).substring(2);
-	}
-
-	/**
-	 * Opens a stream on the given list and delegates to
-	 * {@link #clsStreamToString(Stream)}.
-	 */
-	public String clsListToString(List<? extends Class<?>> list) {
-		return this.clsStreamToString(list.stream());
-	}
-
-	/**
-	 * A variant of {@link #streamToString(Stream, Function)} for Class streams.
-	 * 
-	 * Maps stream elements (classes) to String by returning their simple name.
-	 */
-	public String clsStreamToString(Stream<? extends Class<?>> list) {
-		return this.streamToString(list, (cls) -> cls.getSimpleName());
-	}
-
-	/**
-	 * {@link JaMoPPHelper#getAllPossibleTypes()}
-	 */
-	public Set<Class<?>> getAllPossibleJaMoPPEObjectTypes() {
-		return JaMoPPHelper.getAllPossibleTypes();
-	}
-
-	/**
-	 * {@link JaMoPPHelper#getAllInitialiserCandidates()}
-	 */
-	public Collection<Class<?>> getAllInitialiserCandidates() {
-		return JaMoPPHelper.getAllInitialiserCandidates();
-	}
-
-	/**
-	 * {@link JaMoPPHelper#getAllConcreteInitialiserCandidates()}
-	 */
-	public Collection<Class<?>> getAllConcreteInitialiserCandidates() {
-		return JaMoPPHelper.getAllConcreteInitialiserCandidates();
-	}
-
-	/**
-	 * {@link InitialiserNameHelper#getInitialiserInterfaceName(Class)}
-	 */
-	public String getInitialiserInterfaceName(Class<?> cls) {
-		return InitialiserNameHelper.getInitialiserInterfaceName(cls);
-	}
-
-	/**
-	 * {@link InitialiserNameHelper#getConcreteInitialiserName(Class)}
-	 */
-	public String getConcreteInitialiserName(Class<?> ifc) {
-		return InitialiserNameHelper.getConcreteInitialiserName(ifc);
-	}
-
-	/**
-	 * Prints the interfaces between everything from {@link #getAllPossibleTypes()}
-	 * and {@link Commentable}.
-	 */
-	@Disabled("Can be enabled to print all possible concrete EObject types, does not test anything")
 	@Test
 	public void printFullHierarchy() {
 		var hSet = this.getAllPossibleJaMoPPEObjectTypes();

@@ -2,19 +2,15 @@ package cipm.consistency.fitests.similarity.jamopp.utiltests;
 
 import java.io.File;
 import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Function;
-import java.util.stream.Stream;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.initialisers.IInitialiser;
-import cipm.consistency.initialisers.eobject.InitialiserNameHelper;
-import cipm.consistency.initialisers.jamopp.JaMoPPHelper;
+import cipm.consistency.initialisers.jamopp.IJaMoPPUtilityTest;
 
 /**
  * A test class, whose tests can be used to make sure no initialiser interfaces,
@@ -25,7 +21,7 @@ import cipm.consistency.initialisers.jamopp.JaMoPPHelper;
  * 
  * @author Alp Torac Genc
  */
-public class UtilityTests extends AbstractJaMoPPSimilarityTest {
+public class UtilityTests extends AbstractJaMoPPSimilarityTest implements IJaMoPPUtilityTest {
 	/**
 	 * Points at the parent package. Used by discovering methods in this class.
 	 */
@@ -40,13 +36,6 @@ public class UtilityTests extends AbstractJaMoPPSimilarityTest {
 	private static final String testSuffix = "Test";
 
 	/**
-	 * @return The name of the initialiser interface corresponding to cls.
-	 */
-	public String getInitialiserInterfaceName(Class<?> cls) {
-		return InitialiserNameHelper.getInitialiserInterfaceName(cls);
-	}
-
-	/**
 	 * @return The name of the test corresponding to cls.
 	 */
 	public String getTestName(Class<?> cls) {
@@ -54,84 +43,10 @@ public class UtilityTests extends AbstractJaMoPPSimilarityTest {
 	}
 
 	/**
-	 * @return The type of the initialiser meant to instantiate objClass.
-	 */
-	public Class<? extends IInitialiser> getInitialiserInterfaceFor(Class<?> objClass) {
-		return this.getUsedInitialiserPackage().getInitialiserInterfaceTypeFor(objClass);
-	}
-
-	/**
 	 * @return A list of all files under {@link #root}.
 	 */
 	public Collection<File> getAllFiles() {
 		return this.getAllFiles(root);
-	}
-
-	/**
-	 * @return A list of all files under the given path and its sub-directories.
-	 */
-	public Collection<File> getAllFiles(File currentPath) {
-		var result = new ArrayList<File>();
-
-		if (currentPath.isFile()) {
-			result.add(currentPath);
-		} else {
-			var files = currentPath.listFiles();
-			if (files != null) {
-				for (var f : files) {
-					result.addAll(this.getAllFiles(f));
-				}
-			}
-		}
-
-		return result;
-	}
-
-	/**
-	 * @return Whether the given file's name (without extension) equals to the given
-	 *         fileName.
-	 */
-	public boolean fileNameEquals(File file, String fileName) {
-		return file != null && file.getName().split("\\.")[0].equals(fileName);
-	}
-
-	/**
-	 * {@link JaMoPPHelper#getAllConcreteInitialiserCandidates()}
-	 */
-	public Collection<Class<?>> getAllConcreteInitialiserCandidates() {
-		return JaMoPPHelper.getAllConcreteInitialiserCandidates();
-	}
-
-	/**
-	 * {@link JaMoPPHelper#getAllInitialiserCandidates()}
-	 */
-	public Collection<Class<?>> getAllInitialiserCandidates() {
-		return JaMoPPHelper.getAllInitialiserCandidates();
-	}
-
-	/**
-	 * @return A String representing the given stream. The provided toStringFunc
-	 *         will be used to transform stream elements into Strings.
-	 */
-	public <T extends Object> String streamToString(Stream<T> stream, Function<T, String> toStringFunc) {
-		return stream.map((e) -> toStringFunc.apply(e)).reduce("", (s1, s2) -> s1 + ", " + s2).substring(2);
-	}
-
-	/**
-	 * Opens a stream on the given list and delegates to
-	 * {@link #clsStreamToString(Stream)}.
-	 */
-	public String clsListToString(List<? extends Class<?>> list) {
-		return this.clsStreamToString(list.stream());
-	}
-
-	/**
-	 * A variant of {@link #streamToString(Stream, Function)} for Class streams.
-	 * 
-	 * Maps stream elements (classes) to String by returning their simple name.
-	 */
-	public String clsStreamToString(Stream<? extends Class<?>> list) {
-		return this.streamToString(list, (cls) -> cls.getSimpleName());
 	}
 
 	/**
