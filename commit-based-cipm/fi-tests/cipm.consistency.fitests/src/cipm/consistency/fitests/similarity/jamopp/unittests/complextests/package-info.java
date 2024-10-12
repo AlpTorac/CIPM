@@ -1,5 +1,5 @@
 /**
- * Contains unit tests for {@link EObject} classes/interfaces within EMFText. In
+ * Contains unit tests for {@link EObject} classes/interfaces within JaMoPP. In
  * the said tests, {@link EObject} instances are constructed programmatically
  * and are checked for similarity. <br>
  * <br>
@@ -8,7 +8,7 @@
  * {@link cipm.consistency.fitests.similarity.jamopp.unittests.impltests} or
  * {@link cipm.consistency.fitests.similarity.jamopp.unittests.interfacetests}.
  * Such cases involve multiple attributes of 2 {@link EObject} instances being
- * different and/or more advanced initialisations.
+ * different and/or more advanced test setup.
  * 
  * TODO Add complex tests for AdditionalField (once the missing case methods are
  * added)
