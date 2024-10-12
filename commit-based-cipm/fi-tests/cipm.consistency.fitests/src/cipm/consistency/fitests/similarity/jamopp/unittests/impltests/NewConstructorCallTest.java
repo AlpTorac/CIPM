@@ -14,16 +14,6 @@ public class NewConstructorCallTest extends AbstractJaMoPPSimilarityTest impleme
 	protected NewConstructorCall initElement(AnonymousClass anonymousCls) {
 		var nccInit = new NewConstructorCallInitialiser();
 		var ncc = nccInit.instantiate();
-
-		// FIXME: Move to complex tests later
-//		var clsInit = new ClassInitialiser();
-//		var cls = clsInit.instantiate();
-//
-//		var trefInit = new ClassifierReferenceInitialiser();
-//		var tref = trefInit.instantiate();
-//
-//		Assertions.assertTrue(trefInit.setTarget(tref, cls));
-//		Assertions.assertTrue(nccInit.setTypeReference(ncc, tref));
 		Assertions.assertTrue(nccInit.setAnonymousClass(ncc, anonymousCls));
 		return ncc;
 	}
