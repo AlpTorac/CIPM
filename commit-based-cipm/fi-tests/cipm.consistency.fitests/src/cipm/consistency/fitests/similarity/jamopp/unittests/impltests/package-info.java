@@ -1,8 +1,8 @@
 /**
- * Contains unit tests for {@link EObject} classes/interfaces, which are
- * terminal in the {@link Commentable} type hierarchy, i.e. they have no further
- * sub-classes/-interfaces. In the said tests, {@link EObject} instances are
- * constructed programmatically and are checked for similarity. <br>
+ * Contains unit tests for {@link EObject} types, which have a concrete
+ * implementation in form of a non-abstract class in the {@link Commentable}
+ * type hierarchy. In the said tests, {@link EObject} instances are constructed
+ * programmatically and are checked for similarity. <br>
  * <br>
  * The tests within this package are meant to be minimal and only to test
  * similarity checking with respect to individual attributes of {@link EObject}
