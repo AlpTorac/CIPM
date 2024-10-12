@@ -18,16 +18,8 @@ public class NamespaceAwareElementTest extends AbstractJaMoPPSimilarityTest {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(INamespaceAwareElementInitialiser.class);
 	}
 
-	private final String ns11 = "ns11";
-	private final String ns12 = "ns12";
-	private final String ns13 = "ns13";
-
-	private final String ns21 = "ns21";
-	private final String ns22 = "ns22";
-	private final String ns23 = "ns23";
-
-	private final String[] nss1 = new String[] { ns11, ns12, ns13 };
-	private final String[] nss2 = new String[] { ns21, ns22, ns23 };
+	private final String[] nss1 = new String[] { "ns11", "ns12", "ns13" };
+	private final String[] nss2 = new String[] { "ns21", "ns22", "ns23" };
 
 	protected NamespaceAwareElement initElement(INamespaceAwareElementInitialiser init, String[] nss) {
 		NamespaceAwareElement result = init.instantiate();
