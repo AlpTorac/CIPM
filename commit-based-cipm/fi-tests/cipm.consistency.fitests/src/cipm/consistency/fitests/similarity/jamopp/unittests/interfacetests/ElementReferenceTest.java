@@ -45,8 +45,8 @@ public class ElementReferenceTest extends AbstractJaMoPPSimilarityTest implement
 	}
 
 	/**
-	 * Makes sure that not providing a container for the created element does not
-	 * result in an exception.
+	 * Makes sure that not providing a container for the created element reference
+	 * does not result in an exception.
 	 */
 	@ParameterizedTest
 	@MethodSource("provideArguments")
@@ -58,6 +58,11 @@ public class ElementReferenceTest extends AbstractJaMoPPSimilarityTest implement
 				() -> this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__TARGET));
 	}
 
+	/**
+	 * Makes sure that not providing a container for the created element reference
+	 * does not result in an exception, if it is compared to an uninitialised
+	 * element reference.
+	 */
 	@ParameterizedTest
 	@MethodSource("provideArguments")
 	public void testTargetNoExceptionNullCheck(IElementReferenceInitialiser init) {
