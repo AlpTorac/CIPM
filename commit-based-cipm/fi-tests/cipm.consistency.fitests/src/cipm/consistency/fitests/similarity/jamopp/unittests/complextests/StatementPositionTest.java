@@ -31,13 +31,25 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
  * @author Alp Torac Genc
  */
 public class StatementPositionTest extends AbstractJaMoPPSimilarityTest implements UsesStatements {
+	/**
+	 * @return A list of all initialisers that implement
+	 *         {@link IStatementListContainerInitialiser}. If an initialiser is
+	 *         adaptable, it will be adapted. Non-adaptable initialisers will be
+	 *         unaffected.
+	 */
 	private static List<IStatementListContainerInitialiser> getAllSLCInitInstances() {
 		var res = new ArrayList<IStatementListContainerInitialiser>();
-		var inits = new JaMoPPInitialiserParameters().getEachInitialiserOnceBySuper(IStatementListContainerInitialiser.class);
+		var inits = new JaMoPPInitialiserParameters()
+				.getEachInitialiserOnceBySuper(IStatementListContainerInitialiser.class);
 		inits.forEach((i) -> res.add(((IStatementListContainerInitialiser) i)));
 		return res;
 	}
 
+	/**
+	 * @return A list of all initialisers that implement
+	 *         {@link IStatementInitialiser}. If an initialiser is adaptable, it
+	 *         will be adapted. Non-adaptable initialisers will be unaffected.
+	 */
 	private static List<IStatementInitialiser> getAllStatementInitInstances() {
 		var res = new ArrayList<IStatementInitialiser>();
 		var inits = new JaMoPPInitialiserParameters().getEachInitialiserOnceBySuper(IStatementInitialiser.class);
@@ -46,6 +58,9 @@ public class StatementPositionTest extends AbstractJaMoPPSimilarityTest implemen
 	}
 
 	/**
+	 * The return value of this method was derived from the implementation of the
+	 * current similarity checker.
+	 * 
 	 * @return Whether the position of an instance of the given class within its
 	 *         container matters.
 	 */
@@ -54,6 +69,10 @@ public class StatementPositionTest extends AbstractJaMoPPSimilarityTest implemen
 				|| SynchronizedBlock.class.isAssignableFrom(cls);
 	}
 
+	/**
+	 * @return Parameters for the test methods in this test class. Refer to their
+	 *         documentation for more information.
+	 */
 	private static Stream<Arguments> genTestParams() {
 		var res = new ArrayList<Arguments>();
 
@@ -72,6 +91,13 @@ public class StatementPositionTest extends AbstractJaMoPPSimilarityTest implemen
 	 * Tests if similar {@link Statement} instances contained by their respective
 	 * {@link StatementListContainer} instance are similar, provided they are
 	 * contained in the same order.
+	 * 
+	 * @param displayName   The display name of the test
+	 * @param containerInit The initialiser that will be used to instantiate the
+	 *                      statement list container
+	 * @param containeeInit The initialiser that will be used to instantiate the
+	 *                      statement that will be added to the constructed
+	 *                      container
 	 */
 	@ParameterizedTest(name = "{0}")
 	@MethodSource("genTestParams")
@@ -100,7 +126,7 @@ public class StatementPositionTest extends AbstractJaMoPPSimilarityTest implemen
 		var st22 = this.cloneEObj(st12);
 		var st23 = this.cloneEObj(st13);
 
-		// Make sure that the surrounding statements are not similar
+		// Make sure that clones of surrounding statements are not similar
 		this.assertSimilarityResult(st21, st23, false);
 		var sts2 = new Statement[] { st21, st22, st23 };
 
@@ -108,8 +134,7 @@ public class StatementPositionTest extends AbstractJaMoPPSimilarityTest implemen
 		Assertions.assertTrue(containerInit.addStatements(slc2, sts2));
 
 		// Since similar statements are added in the same order, they are similar, if
-		// their
-		// position within the respective arrays is the same
+		// their position within the respective arrays is the same
 		for (int i = 0; i < sts1.length; i++) {
 			for (int j = 0; j < sts2.length; j++) {
 				var st1 = sts1[i];
@@ -124,6 +149,13 @@ public class StatementPositionTest extends AbstractJaMoPPSimilarityTest implemen
 	 * Tests if similar {@link Statement} instances contained by their respective
 	 * {@link StatementListContainer} instance are not similar, provided their order
 	 * within their container differ.
+	 * 
+	 * @param displayName   The display name of the test
+	 * @param containerInit The initialiser that will be used to instantiate the
+	 *                      statement list container
+	 * @param containeeInit The initialiser that will be used to instantiate the
+	 *                      statement that will be added to the constructed
+	 *                      container
 	 */
 	@ParameterizedTest
 	@MethodSource("genTestParams")
@@ -154,7 +186,7 @@ public class StatementPositionTest extends AbstractJaMoPPSimilarityTest implemen
 		var st22 = this.cloneEObj(st12);
 		var st23 = this.cloneEObj(st13);
 
-		// Make sure that the surrounding statements are not similar
+		// Make sure that clones of surrounding statements are not similar
 		this.assertSimilarityResult(st21, st23, false);
 		var sts2 = new Statement[] { st23, st22, st21 };
 
