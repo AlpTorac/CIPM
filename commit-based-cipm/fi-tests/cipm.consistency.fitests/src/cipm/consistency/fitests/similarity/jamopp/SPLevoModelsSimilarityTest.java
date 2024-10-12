@@ -18,8 +18,6 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -64,22 +62,17 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	/**
 	 * The path, at which the resource file's URI will point at.
 	 */
-	private static Path targetPath = Path.of(new File("").getAbsoluteFile().getAbsolutePath() + File.separator + "testModels");
+	private static Path targetPath = Path
+			.of(new File("").getAbsoluteFile().getAbsolutePath() + File.separator + "testModels");
 
 	/**
-	 * Discovers the sub-directories under the root folder of SPLevo tests,
-	 * which contain Java source files in folders with certain names, and
-	 * adds them to a list.
+	 * Discovers the sub-directories under the root folder of SPLevo tests, which
+	 * contain Java source files in folders with certain names, and adds them to a
+	 * list.
 	 */
 	@BeforeAll
 	public static void setUpBeforeAll() {
 		modelDirs.addAll(discoverFiles(new File(splevoModelImplPath)));
-	}
-
-	@BeforeEach
-	@Override
-	public void setUp(TestInfo info) {
-		super.setUp(info);
 	}
 
 	/**
@@ -225,6 +218,15 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPSimilarityTest {
 		return foundModelDirs;
 	}
 
+	private static String getDisplayName(Path path) {
+		var nameCount = path.getNameCount();
+
+		var startIndex = nameCount > 2 ? nameCount - 2 : nameCount - 1;
+		var endIndex = nameCount;
+
+		return path.subpath(startIndex, endIndex).toString();
+	}
+
 	/**
 	 * Creates and returns parameters for
 	 * {@link #sameResourceSimilarityTest(Resource, Resource, Boolean, String)}.
@@ -233,13 +235,14 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPSimilarityTest {
 		var args = new ArrayList<Arguments>();
 
 		modelDirs.forEach((md) -> {
-			var modelDirName = md.getName(md.getNameCount() - 1).toString();
+			var model1Path = Paths.get(md.toString(), model1Name);
+			var model2Path = Paths.get(md.toString(), model2Name);
 
-			var res1 = parseModelsDir(Paths.get(md.toString(), model1Name));
-			var res2 = parseModelsDir(Paths.get(md.toString(), model2Name));
+			var res1 = parseModelsDir(model1Path);
+			var res2 = parseModelsDir(model2Path);
 
-			args.add(Arguments.of(res1, res1, true, modelDirName));
-			args.add(Arguments.of(res2, res2, true, modelDirName));
+			args.add(Arguments.of(res1, res1, true, getDisplayName(model1Path)));
+			args.add(Arguments.of(res2, res2, true, getDisplayName(model2Path)));
 		});
 
 		return args.stream();
@@ -253,8 +256,6 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPSimilarityTest {
 		var args = new ArrayList<Arguments>();
 
 		modelDirs.forEach((md) -> {
-			var modelDirName = md.getName(md.getNameCount() - 1).toString();
-
 			var model1Path = Paths.get(md.toString(), model1Name);
 			var model2Path = Paths.get(md.toString(), model2Name);
 
@@ -264,8 +265,8 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPSimilarityTest {
 			var res21 = parseModelsDir(model2Path);
 			var res22 = parseModelsDir(model2Path);
 
-			args.add(Arguments.of(res11, res12, true, modelDirName));
-			args.add(Arguments.of(res21, res22, true, modelDirName));
+			args.add(Arguments.of(res11, res12, true, getDisplayName(model1Path)));
+			args.add(Arguments.of(res21, res22, true, getDisplayName(model2Path)));
 		});
 
 		return args.stream();
@@ -298,7 +299,8 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPSimilarityTest {
 			var res1 = parseModelsDir(model1Path);
 			var res2 = parseModelsDir(model2Path);
 
-			args.add(Arguments.of(res1, res2, contentEquality, modelDirName));
+			args.add(Arguments.of(res1, res2, contentEquality,
+					modelDirName + " (" + model1Name + " and " + model2Name + ")"));
 		});
 
 		return args.stream();
@@ -328,14 +330,14 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 * the similarity of res1 with itself (same reference) and res2 with itself
 	 * (same reference).
 	 * 
-	 * @param res1         The first {@link Resource} instance
-	 * @param res2         The second {@link Resource} instance
-	 * @param areSimilar   Expected similarity value
-	 * @param modelDirName The name of the Java-model file (for test display)
+	 * @param res1        The first {@link Resource} instance
+	 * @param res2        The second {@link Resource} instance
+	 * @param areSimilar  Expected similarity value
+	 * @param displayName The display name of the test
 	 */
 	@ParameterizedTest(name = "{3}")
 	@MethodSource({ "generateReferenceEqualityTestParams" })
-	public void sameResourceSimilarityTest(Resource res1, Resource res2, Boolean areSimilar, String modelDirName) {
+	public void sameResourceSimilarityTest(Resource res1, Resource res2, Boolean areSimilar, String displayName) {
 		this.testSimilarity(res1, res2, areSimilar);
 	}
 
@@ -343,14 +345,14 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 * Checks if parsed {@link Resource} instances are detected as similar. Checks
 	 * the similarity of res1 with its clone and res2 with its clone.
 	 * 
-	 * @param res1         The first {@link Resource} instance
-	 * @param res2         The second {@link Resource} instance
-	 * @param areSimilar   Expected similarity value
-	 * @param modelDirName The name of the Java-model file (for test display)
+	 * @param res1        The first {@link Resource} instance
+	 * @param res2        The second {@link Resource} instance
+	 * @param areSimilar  Expected similarity value
+	 * @param displayName The display name of the test
 	 */
 	@ParameterizedTest(name = "{3}")
 	@MethodSource({ "generateEqualityTestParams" })
-	public void sameFileSimilarityTest(Resource res1, Resource res2, Boolean areSimilar, String modelDirName) {
+	public void sameFileSimilarityTest(Resource res1, Resource res2, Boolean areSimilar, String displayName) {
 		this.testSimilarity(res1, res2, areSimilar);
 	}
 
@@ -358,14 +360,14 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 * Checks if parsed {@link Resource} instances are detected as similar. Checks
 	 * the similarity of res1 with res2.
 	 * 
-	 * @param res1         The first {@link Resource} instance
-	 * @param res2         The second {@link Resource} instance
-	 * @param areSimilar   Expected similarity value
-	 * @param modelDirName The name of the Java-model file (for test display)
+	 * @param res1        The first {@link Resource} instance
+	 * @param res2        The second {@link Resource} instance
+	 * @param areSimilar  Expected similarity value
+	 * @param displayName The display name of the test
 	 */
 	@ParameterizedTest(name = "{3}")
 	@MethodSource({ "generateUnsimilarityTestParams" })
-	public void differentFileSimilarityTest(Resource res1, Resource res2, Boolean areSimilar, String modelDirName) {
+	public void differentFileSimilarityTest(Resource res1, Resource res2, Boolean areSimilar, String displayName) {
 		this.testSimilarity(res1, res2, areSimilar);
 	}
 }
