@@ -5,7 +5,7 @@
  * <br>
  * Sub-packages contain tests and utility classes that test similarity checking.
  * They are named and structured to minimise dependencies concerning the context
- * of similarity checking (such as {@link EObject} or EMFtext). This way,
+ * of similarity checking (such as {@link EObject} or JaMoPP). This way,
  * re-using the contents of sub-packages is easier.
  */
 package cipm.consistency.fitests.similarity;
