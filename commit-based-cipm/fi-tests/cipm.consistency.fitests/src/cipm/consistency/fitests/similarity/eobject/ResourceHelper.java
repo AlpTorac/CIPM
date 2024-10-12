@@ -158,11 +158,11 @@ public class ResourceHelper {
 	 * <br>
 	 * <b>!!! IMPORTANT !!!</b> <br>
 	 * <br>
-	 * <b>Using this method will cause log an error message, if some of the EObject
-	 * instances (from eos) that are already in a Resource instance are attempted to
-	 * be placed into another Resource. This should be avoided, since doing so will
-	 * REMOVE the said EObject instances from their former Resource and cause side
-	 * effects in tests.</b>
+	 * <b>Using this method will cause the logger to log an error message, if some
+	 * of the EObject instances (from eos) that are already in a Resource instance
+	 * are attempted to be placed into another Resource. This should be avoided,
+	 * since doing so will REMOVE the said EObject instances from their former
+	 * Resource and cause side effects in tests.</b>
 	 */
 	public Resource createResource(Collection<? extends EObject> eos, String resourceName) {
 		Resource res = this.initResource(this.createURI(this.computeEffectiveResourceName(resourceName)));
