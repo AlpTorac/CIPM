@@ -18,7 +18,7 @@ import org.emftext.language.java.types.TypeReference;
  * <br>
  * {@code IR.getNext() == IR.getTarget()} <br>
  * <br>
- * Currently there is no actual class in EMFText, which implements both
+ * Currently there is no actual class used by JaMoPP, which implements both
  * interfaces named above. This class was implemented to test for the mentioned
  * scenario regardless, as references are very commonly used in programming and
  * should therefore be extensively tested. <br>
@@ -27,8 +27,8 @@ import org.emftext.language.java.types.TypeReference;
  * of them for the method implementations needed by the {@link Reference}
  * interface, except for the {@link #getPrevious()} method. The other
  * {@link Reference} instance is the return value for the {@link #getPrevious()}
- * method. This had to be done, as setting a previous {@link Reference} directly
- * is currently not possible. <br>
+ * method. This is necessary, as setting the previous attribute of a
+ * {@link Reference} instance directly is currently not possible. <br>
  * <br>
  * <b>!!! IMPORTANT: This class is NOT a proper implementation of its
  * super-types. The sole purpose of this class is to be used as a parameter for
