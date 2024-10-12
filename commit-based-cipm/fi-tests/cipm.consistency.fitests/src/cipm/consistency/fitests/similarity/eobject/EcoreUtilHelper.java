@@ -8,10 +8,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 /**
- * A helper class that contains methods, which can be used to clone
- * {@link EObject} instances. Also contains methods that compare {@link EObject}
- * instances at meta-metamodel level, without any other context (i.e. their
- * contents and all of their attributes are accounted for)
+ * A helper class that contains utility methods for {@link EObject}. This class
+ * encapsulates such methods, so that other classes can spare dependencies to
+ * various {@link EObject} related packages. <br>
+ * <br>
+ * Methods in this class include various cloning methods for {@link EObject}
+ * instances. Furthermore, there are methods that compare {@link EObject}
+ * instances at meta-metamodel level, without any other context (all their
+ * contents and attributes are checked).
  * 
  * @author Alp Torac Genc
  * @see {@link EcoreUtil}
@@ -38,8 +42,10 @@ public class EcoreUtilHelper {
 	 * and returns that clone.
 	 * 
 	 * @return A clone of obj, which preserves obj's place in its hierarchy. The
-	 *         returned clone contains clones of obj's contents and is contained by
-	 *         clones of all containers of obj.
+	 *         returned obj clone contains clones of original obj's contents. All
+	 *         objects containing obj are also implicitly cloned, so that obj
+	 *         clone's position (among object clones) matches to the original obj's
+	 *         position (among original objects).
 	 * @see {@link EcoreUtil#copy(EObject)}
 	 */
 	@SuppressWarnings("unchecked")
@@ -84,10 +90,10 @@ public class EcoreUtilHelper {
 	 * Computes the equality of two {@link EObject} instances using
 	 * {@link EcoreUtil}. <br>
 	 * <br>
-	 * <b>Note: The equality here is not the same as similarity checking that is
-	 * being tested. This form of equality is much stricter than similarity, since
-	 * there might be some attributes and/or nested content, which are irrelevant
-	 * for similarity in certain cases.</b>
+	 * <b>Note: The equality here is not necessarily the same as similarity checking
+	 * that is being tested. This form of equality is much stricter than similarity,
+	 * since there might be some differences in attributes and/or nested content,
+	 * which are irrelevant for similarity in certain cases.</b>
 	 */
 	public boolean getActualEquality(EObject elem1, EObject elem2) {
 		return EcoreUtil.equals(elem1, elem2);
@@ -97,10 +103,10 @@ public class EcoreUtilHelper {
 	 * Computes the equality of two lists of {@link EObject} using
 	 * {@link EcoreUtil}. <br>
 	 * <br>
-	 * <b>Note: The equality here is not the same as similarity checking that is
-	 * being tested. This form of equality is much stricter than similarity, since
-	 * there might be some attributes and/or nested content, which are irrelevant
-	 * for similarity in certain cases.</b>
+	 * <b>Note: The equality here is not necessarily the same as similarity checking
+	 * that is being tested. This form of equality is much stricter than similarity,
+	 * since there might be some differences in attributes and/or nested content,
+	 * which are irrelevant for similarity in certain cases.</b>
 	 */
 	public boolean getActualEquality(List<? extends EObject> elems1, List<? extends EObject> elems2) {
 		return EcoreUtil.equals(elems1, elems2);
