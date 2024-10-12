@@ -1,15 +1,15 @@
 /**
- * Contains unit tests for {@link EObject} classes/interfaces, which are
- * non-terminal in the {@link Commentable} type hierarchy, i.e. they have
- * sub-classes/-interfaces. In the said tests, {@link EObject} instances are
- * constructed programmatically and are checked for similarity. <br>
+ * Contains unit tests for {@link EObject} types, which are extended by other
+ * EObject types within the {@link Commentable} type hierarchy. In the said
+ * tests, {@link EObject} instances are constructed programmatically and are
+ * checked for similarity. <br>
  * <br>
- * Since non-terminal elements within the {@link Commentable} type hierarchy can
- * have multiple sub-classes/-interfaces, all tests should be parameterised over
- * initialisers. Those initialisers may have to be adapted, if there are
- * sub-classes/-interfaces, which require additional setup steps to be "valid".
- * Parameterising such tests help spare test code, as sub-classes/-interfaces
- * all need their mutual attributes to be tested. <br>
+ * Since such types within the {@link Commentable} type hierarchy can have
+ * multiple sub-types, all tests should be parameterised over initialisers.
+ * Those initialisers may have to be adapted, if there are sub-types, which
+ * require additional setup steps to be "valid". Parameterising such tests help
+ * spare test code, as sub-types all need their mutual attributes to be tested.
+ * <br>
  * <br>
  * The tests within this package are meant to be minimal and only to test
  * similarity checking with respect to individual attributes of {@link EObject}
@@ -23,10 +23,10 @@
  * construction can get complicated and not knowing all the construction steps
  * can lead to tests not fulfilling their goal. Furthermore, it is also
  * important to adapt the initialisers, rather than using instanceof/if-blocks
- * to define type-specific behaviour. Should certain sub-classes/-interfaces
- * diverge from their super type so much that they are incompatible with
- * parameterised tests, it is suggested to instead define special unit tests for
- * the said sub-classes/-interfaces.<br>
+ * to define type-specific behaviour. Should certain sub-types diverge from
+ * their super type so much that they are incompatible with parameterised tests,
+ * it is suggested to instead define special unit tests for the said
+ * sub-types.<br>
  * <br>
  * See {@link cipm.consistency.fitests.similarity.jamopp.unittests} to find out
  * more about what test methods do.
