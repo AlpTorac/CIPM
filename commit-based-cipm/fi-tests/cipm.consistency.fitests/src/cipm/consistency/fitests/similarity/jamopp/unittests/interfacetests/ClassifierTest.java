@@ -32,11 +32,10 @@ public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements Uses
 		var result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
 
-		var addImportsRes = init.addImports(result, imps);
-		var addPackageImportsRes = init.addPackageImports(result, pImps);
-
-		Assertions.assertEquals(init.canAddImports(result) || imps == null, addImportsRes);
-		Assertions.assertEquals(init.canAddPackageImports(result) || pImps == null, addPackageImportsRes);
+		// If there are no imports to add, add(Package)Imports will return true
+		Assertions.assertEquals(init.canAddImports(result) || imps == null, init.addImports(result, imps));
+		Assertions.assertEquals(init.canAddPackageImports(result) || pImps == null,
+				init.addPackageImports(result, pImps));
 
 		return result;
 	}
