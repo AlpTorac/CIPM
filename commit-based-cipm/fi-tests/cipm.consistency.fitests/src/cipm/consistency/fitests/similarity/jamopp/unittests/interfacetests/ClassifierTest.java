@@ -3,7 +3,6 @@ package cipm.consistency.fitests.similarity.jamopp.unittests.interfacetests;
 import java.util.stream.Stream;
 
 import org.emftext.language.java.classifiers.Classifier;
-import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.imports.ImportsPackage;
 import org.emftext.language.java.imports.PackageImport;
@@ -48,7 +47,7 @@ public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements Uses
 		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }, null);
 		var objTwo = this.initElement(init, new Import[] { this.createMinimalClsImport("cls2") }, null);
 
-		this.testSimilarity(objOne, objTwo, CompilationUnit.class,
+		this.testSimilarity(objOne, objTwo,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
 						|| (!init.canAddImports(objOne) && !init.canAddImports(objTwo)));
 	}
@@ -60,7 +59,7 @@ public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements Uses
 				new Import[] { this.createMinimalClsImport("cls1"), this.createMinimalClsImport("cls2") }, null);
 		var objTwo = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }, null);
 
-		this.testSimilarity(objOne, objTwo, CompilationUnit.class,
+		this.testSimilarity(objOne, objTwo,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
 						|| (!init.canAddImports(objOne) && !init.canAddImports(objTwo)));
 	}
@@ -70,7 +69,7 @@ public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements Uses
 	public void testImportsNullCheck(IClassifierInitialiser init) {
 		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }, null);
 
-		this.testSimilarityNullCheck(objOne, init, true, CompilationUnit.class,
+		this.testSimilarityNullCheck(objOne, init, true,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
 						|| (!init.canAddImports(objOne)));
 	}
@@ -86,7 +85,7 @@ public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements Uses
 		var objTwo = this.initElement(init, null,
 				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns3", "ns4" }) });
 
-		this.testSimilarity(objOne, objTwo, CompilationUnit.class,
+		this.testSimilarity(objOne, objTwo,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
 						|| (!init.canAddImports(objOne) && !init.canAddImports(objTwo)));
 	}
@@ -100,7 +99,7 @@ public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements Uses
 		var objTwo = this.initElement(init, null,
 				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }) });
 
-		this.testSimilarity(objOne, objTwo, CompilationUnit.class,
+		this.testSimilarity(objOne, objTwo,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
 						|| (!init.canAddImports(objOne) && !init.canAddImports(objTwo)));
 	}
@@ -111,7 +110,7 @@ public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements Uses
 		var objOne = this.initElement(init, null,
 				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }) });
 
-		this.testSimilarityNullCheck(objOne, init, true, CompilationUnit.class,
+		this.testSimilarityNullCheck(objOne, init, true,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
 						|| (!init.canAddImports(objOne)));
 	}

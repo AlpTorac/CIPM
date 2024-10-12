@@ -23,8 +23,9 @@ import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvide
  * to expected similarity values.
  * 
  * @author Alp Torac Genc
- * @see {@link InitialiserTestSettingsProvider#getSimilarityValues()} for more
- *      information on expected similarity values.
+ * @see {@link InitialiserTestSettingsProvider#getSimilarityValues()} and
+ *      further related methods and classes for more information on expected
+ *      similarity values.
  */
 public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimilarityTest {
 	/**
@@ -85,7 +86,7 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	/**
 	 * The variant of
 	 * {@link #getExpectedSimilarityResult(Class, EStructuralFeature)} that uses the
-	 * interface, which introduces attrKey to the {@link EObject} hierarchy first.
+	 * type, which introduces attrKey to the {@link EObject} hierarchy first.
 	 */
 	public Boolean getExpectedSimilarityResult(EStructuralFeature attrKey) {
 		return this.getInitialiserTestSettingsProvider().getSimilarityValues().getExpectedSimilarityResult(attrKey);
@@ -143,13 +144,7 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	}
 
 	/**
-	 * Clones elem and compares it with its clone. They are expected to be
-	 * similar.<br>
-	 * <br>
-	 * <b>Note: All given {@link EObject} instances will be cloned before tests to
-	 * make sure that there are no side effects caused by the given {@link EObject}
-	 * instances changing their container.</b> <br>
-	 * <br>
+	 * Clones elem and compares it with its clone. They are expected to be similar.
 	 */
 	public void assertSimilar(EObject elem) {
 		this.assertSimilarityResult(elem, elem, Boolean.TRUE);
@@ -161,15 +156,16 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	 * <br>
 	 * <b>Note: All given {@link EObject} instances will be cloned before tests to
 	 * make sure that there are no side effects caused by the given {@link EObject}
-	 * instances changing their container.</b> <br>
-	 * <br>
+	 * instances changing their container. </b>
+	 * {@link #cloneEObjWithContainers(EObject)} is used to make sure that all
+	 * potentially relevant containers are cloned as well.
 	 */
 	public void assertSimilarityResult(EObject elem1, EObject elem2, Boolean expectedSimilarityResult) {
 		if (expectedSimilarityResult == null) {
 			this.getLogger().debug("No expected similarity result present");
 		} else if ((!expectedSimilarityResult.booleanValue() && this.getActualEquality(elem1, elem2))) {
 			this.getLogger().debug("Elements are expected to be different" + " in " + this.getCurrentTestMethodName()
-					+ " but are similar according to EcoreUtil");
+					+ " but are similar according to EcoreUtilHelper");
 		}
 
 		var objOne = this.cloneEObjWithContainers(elem1);
@@ -183,7 +179,7 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	}
 
 	/**
-	 * Tests the similarity of the given elements:
+	 * Tests the similarity as follows:
 	 * <ol>
 	 * <li>Clones elem1 and compares it with its clone,
 	 * <li>Clones elem2 and compares it with its clone,
@@ -193,93 +189,100 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	 * 
 	 * <b>Note: All given {@link EObject} instances will be cloned before tests to
 	 * make sure that there are no side effects caused by the given {@link EObject}
-	 * instances changing their container.</b> <br>
+	 * instances changing their container. </b>
+	 * {@link #cloneEObjWithContainers(EObject)} is used to make sure that all
+	 * potentially relevant containers are cloned as well. <br>
 	 * <br>
 	 * 
-	 * @param objCls  The {@link EObject} sub-class that is the subject of
-	 *                similarity checking. This parameter's purpose is providing a
-	 *                way to allow manually inputting the (objCls, attr) pair. It is
-	 *                important for cases, where an element contained by the given
-	 *                elems is being modified indirectly.
-	 * 
-	 * @param attrKey The key of the attribute, based on which the similarity is
-	 *                compared. If its type is {@link Boolean}, it is assumed to be
-	 *                the expected result of the similarity comparing. Otherwise,
-	 *                its type is assumed to be {@link EStructuralFeature}.
+	 * @param expectedSimilarityValue The expected result of the similarity
+	 *                                checking.
 	 */
-	public void testSimilarity(EObject elem1, EObject elem2, Class<? extends EObject> objCls, Object attrKey) {
+	public void testSimilarity(EObject elem1, EObject elem2, Boolean expectedSimilarityValue) {
 		this.assertSimilar(elem1);
 		this.assertSimilar(elem2);
 
-		var key = attrKey instanceof Boolean ? (Boolean) attrKey
-				: this.getExpectedSimilarityResult(objCls, (EStructuralFeature) attrKey);
-
-		this.assertSimilarityResult(elem1, elem2, key);
-		this.assertSimilarityResult(elem2, elem1, key);
+		this.assertSimilarityResult(elem1, elem2, expectedSimilarityValue);
+		this.assertSimilarityResult(elem2, elem1, expectedSimilarityValue);
 	}
 
 	/**
-	 * The variant of {@link #testSimilarity(EObject, EObject, Class, Object)} that
-	 * uses the same class as the given elems. <br>
-	 * <br>
-	 * <b>Note: All given {@link EObject} instances will be cloned before tests to
-	 * make sure that there are no side effects caused by the given {@link EObject}
-	 * instances changing their container.</b> <br>
-	 * <br>
+	 * A variant of {@link #testSimilarity(EObject, EObject, Boolean)}, where the
+	 * last parameter is computed using the given attrKey.
+	 * 
+	 * @see {@link #getExpectedSimilarityResult(Class, EStructuralFeature)} for
+	 *      objCls and attrKey.
+	 */
+	public void testSimilarity(EObject elem1, EObject elem2, Class<? extends EObject> objCls,
+			EStructuralFeature attrKey) {
+		this.testSimilarity(elem1, elem2, this.getExpectedSimilarityResult(objCls, (EStructuralFeature) attrKey));
+	}
+
+	/**
+	 * The variant of
+	 * {@link #testSimilarity(EObject, EObject, Class, EStructuralFeature)} that
+	 * uses the same class as the given elems.
+	 * 
+	 * @see {@link #getExpectedSimilarityResult(Class, EStructuralFeature)} for
+	 *      attrKey.
 	 */
 	@SuppressWarnings("unchecked")
-	public void testSimilarity(EObject elem1, EObject elem2, Object attrKey) {
+	public void testSimilarity(EObject elem1, EObject elem2, EStructuralFeature attrKey) {
 		this.testSimilarity(elem1, elem2, (Class<? extends EObject>) elem1.eClass().getInstanceClass(), attrKey);
 	}
 
 	/**
-	 * A variant of {@link #testSimilarity(EObject, EObject, Class, Object)} that
-	 * constructs a minimal second element with the given
-	 * {@link IEObjectInitialiser} instance and uses it as the second parameter in
-	 * the said method. <br>
+	 * A variant of {@link #testSimilarity(EObject, EObject, Boolean)} that
+	 * constructs a minimal second element with the given initialiser instance init
+	 * and uses it as the second parameter in the said method. <br>
 	 * <br>
 	 * If initialiseSecondElement is set to true, constructs the second element with
 	 * {@code init.initialise(init.instantiate())}. Otherwise uses
 	 * {@code init.instantiate()}. <br>
 	 * <br>
-	 * Can be used to summarise the null check tests.<br>
-	 * <br>
-	 * <b>Note: All given {@link EObject} instances will be cloned before tests to
-	 * make sure that there are no side effects caused by the given {@link EObject}
-	 * instances changing their container.</b> <br>
-	 * <br>
+	 * Can be used to summarise the null check tests.
 	 * 
-	 * @param init                    The {@link IEObjectInitialiser} used in the
-	 *                                construction of elem
+	 * @param init                    The initialiser used in the construction of
+	 *                                the second element
 	 * @param initialiseSecondElement Denotes whether {@code init.initialise(...)}
 	 *                                will be used in the construction of the second
 	 *                                element.
 	 */
 	public void testSimilarityNullCheck(EObject elem, IEObjectInitialiser init, boolean initialiseSecondElement,
-			Class<? extends EObject> objCls, Object attrKey) {
+			Boolean expectedSimilarityValue) {
 		var elem2 = init.instantiate();
 
 		if (initialiseSecondElement) {
 			Assertions.assertTrue(init.initialise(elem2));
 		}
 
-		this.testSimilarity(elem, elem2, objCls, attrKey);
+		this.testSimilarity(elem, elem2, expectedSimilarityValue);
 	}
 
 	/**
 	 * A variant of
-	 * {@link #testSimilarityNullCheck(EObject, IEObjectInitialiser, boolean, Class, Object)}
-	 * that computes the {@code objCls} parameter from the {@code elem}
-	 * parameter.<br>
-	 * <br>
-	 * <b>Note: All given {@link EObject} instances will be cloned before tests to
-	 * make sure that there are no side effects caused by the given {@link EObject}
-	 * instances changing their container.</b> <br>
-	 * <br>
+	 * {@link #testSimilarityNullCheck(EObject, IEObjectInitialiser, boolean, Boolean)},
+	 * where the last parameter is computed using the given attrKey.
+	 * 
+	 * @see {@link #getExpectedSimilarityResult(Class, EStructuralFeature)} for
+	 *      objCls and attrKey.
+	 */
+	public void testSimilarityNullCheck(EObject elem, IEObjectInitialiser init, boolean initialiseSecondElement,
+			Class<? extends EObject> objCls, EStructuralFeature attrKey) {
+		this.testSimilarityNullCheck(elem, init, initialiseSecondElement,
+				this.getExpectedSimilarityResult(objCls, (EStructuralFeature) attrKey));
+	}
+
+	/**
+	 * A variant of
+	 * {@link #testSimilarityNullCheck(EObject, IEObjectInitialiser, boolean, Class, EStructuralFeature)}
+	 * that computes the {@code objCls} parameter from the {@code elem} parameter.
+	 * 
+	 * @see {@link #getExpectedSimilarityResult(Class, EStructuralFeature)} for
+	 *      attrKey.
 	 */
 	@SuppressWarnings("unchecked")
 	public void testSimilarityNullCheck(EObject elem, IEObjectInitialiser init, boolean initialiseSecondElement,
-			Object attrKey) {
+			EStructuralFeature attrKey) {
 		this.testSimilarityNullCheck(elem, init, initialiseSecondElement,
 				(Class<? extends EObject>) elem.eClass().getInstanceClass(), attrKey);
 	}
