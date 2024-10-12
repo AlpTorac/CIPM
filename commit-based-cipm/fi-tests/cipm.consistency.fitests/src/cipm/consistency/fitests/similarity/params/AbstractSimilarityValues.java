@@ -5,9 +5,10 @@ import java.util.Map;
 
 /**
  * An abstract class for classes to implement, which uses a {@link Map} to store
- * mappings of (class object, attribute object) to their expected similarity
- * checking results. An attribute object denotes an attribute within a class,
- * rather than the value of an attribute.
+ * mappings of (class object, attribute object) pairs to their expected
+ * similarity checking results. An attribute object denotes an attribute within
+ * a class (i.e. it serves as the identifier of the attribute), rather than the
+ * value of an attribute.
  * 
  * @see {@link #addSimilarityEntry(Class, Object, Boolean)} for more information
  *      on adding entries.
@@ -54,7 +55,8 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	/**
 	 * First, tries to find a direct match for the given parameters (see
 	 * {@link #findDirectEntry(Class, Object)}). If there is no direct match, it
-	 * relaxes objCls to super types of objCls and tries to find a match again.
+	 * relaxes objCls to super types of objCls and tries to find a match again (see
+	 * {@link #findParentEntry(Class, Object)}).
 	 * 
 	 * @param objCls The interface of the Object instance
 	 * @param An     attribute of the Object instance, which is the subject of the
@@ -68,8 +70,8 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	}
 
 	/**
-	 * Tries to find a directly matching entry (i.e. an entry with objCls and attr).
-	 * Ignores entries belonging to super-types of objCls.
+	 * Tries to find a directly matching entry (i.e. an entry with objCls-attr
+	 * pair). Ignores entries belonging to super-types of objCls.
 	 * 
 	 * @param objCls The interface of the Object instance
 	 * @param attr   An attribute of the Object instance, which is the subject of
@@ -111,7 +113,9 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	}
 
 	/**
-	 * @return The map that will be used by this instance.
+	 * @return The map that will be used by this instance to store mappings of
+	 *         (object class, attribute object) pairs to their expected similarity
+	 *         value.
 	 */
 	protected Map<SimilarityEntry, Boolean> initSimilarityValues() {
 		return new HashMap<SimilarityEntry, Boolean>();
@@ -162,8 +166,8 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 
 	/**
 	 * Contains a class object and an attribute object of that class. An attribute
-	 * object denotes an attribute within a class, rather than the value of an
-	 * attribute.
+	 * object denotes an attribute within a class (i.e. it serves as the identifier
+	 * of the attribute), rather than the value of an attribute.
 	 * 
 	 * @author Alp Torac Genc
 	 */
