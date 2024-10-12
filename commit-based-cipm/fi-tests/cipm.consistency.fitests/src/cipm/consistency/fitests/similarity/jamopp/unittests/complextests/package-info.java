@@ -10,10 +10,12 @@
  * Such cases involve multiple attributes of 2 {@link EObject} instances being
  * different and/or more advanced initialisations.
  * 
- * TODO Add complex tests for AdditionalField
+ * TODO Add complex tests for AdditionalField (once the missing case methods are
+ * added)
  * 
  * TODO Add complex tests for LocalVariableStatement with container Variable
  * 
- * TODO Look for further complex test cases
+ * TODO Look for further complex test cases (once the missing case methods are
+ * added)
  */
 package cipm.consistency.fitests.similarity.jamopp.unittests.complextests;

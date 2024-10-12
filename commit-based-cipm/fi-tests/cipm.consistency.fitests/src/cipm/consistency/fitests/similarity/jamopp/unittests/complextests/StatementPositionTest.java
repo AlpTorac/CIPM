@@ -46,8 +46,6 @@ public class StatementPositionTest extends AbstractJaMoPPSimilarityTest implemen
 	}
 
 	/**
-	 * TODO: Extract to a class later, if needed
-	 * 
 	 * @return Whether the position of an instance of the given class within its
 	 *         container matters.
 	 */
