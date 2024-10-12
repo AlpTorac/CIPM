@@ -29,9 +29,7 @@ public class StatementListContainerTest extends AbstractJaMoPPSimilarityTest imp
 
 		StatementListContainer result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
-
-		var addStatementsRes = init.addStatements(result, sts);
-		Assertions.assertEquals(init.canContainStatements(result), addStatementsRes);
+		Assertions.assertEquals(init.canContainStatements(result), init.addStatements(result, sts));
 
 		return result;
 	}
