@@ -39,6 +39,11 @@ import cipm.consistency.initialisers.jamopp.members.IMemberInitialiser;
  * @author Alp Torac Genc
  */
 public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
+	/**
+	 * @return A list of all initialisers that implement {@link IMemberInitialiser}.
+	 *         If an initialiser is adaptable, it will be adapted. Non-adaptable
+	 *         initialisers will be unaffected.
+	 */
 	private static List<IMemberInitialiser> getAllMemberInitInstances() {
 		var res = new ArrayList<IMemberInitialiser>();
 		var inits = new JaMoPPInitialiserParameters().getEachInitialiserOnceBySuper(IMemberInitialiser.class);
@@ -46,6 +51,11 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 		return res;
 	}
 
+	/**
+	 * @return A list of all initialisers that implement
+	 *         {@link IMemberContainerInitialiser}. If an initialiser is adaptable,
+	 *         it will be adapted. Non-adaptable initialisers will be unaffected.
+	 */
 	private static List<IMemberContainerInitialiser> getAllMemberContainerInitInstances() {
 		var res = new ArrayList<IMemberContainerInitialiser>();
 		var inits = new JaMoPPInitialiserParameters().getEachInitialiserOnceBySuper(IMemberContainerInitialiser.class);
@@ -53,6 +63,10 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 		return res;
 	}
 
+	/**
+	 * @return Parameters for the test methods in this test class. Refer to their
+	 *         documentation for more information.
+	 */
 	private static Stream<Arguments> getMemConMemPairs() {
 		var res = new ArrayList<Arguments>();
 
@@ -72,7 +86,15 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	/**
 	 * Tests whether 2 {@link MemberContainer} instances of the same type are
 	 * considered to be similar, if certain {@link Member} instances are added to
-	 * each as ordinary members ({@code via memConInit.addMember(member)}).
+	 * them as ordinary members ({@code via memConInit.addMember(member)}).
+	 * 
+	 * @param displayName The display name of the test
+	 * @param memConInit  The initialiser that will be used to instantiate both
+	 *                    member containers
+	 * @param memInit1    The member that will be added to the first member
+	 *                    container instance (as ordinary member)
+	 * @param memInit2    The member that will be added to the second member
+	 *                    container instance (as ordinary member)
 	 */
 	@ParameterizedTest(name = "{0}")
 	@MethodSource("getMemConMemPairs")
@@ -101,7 +123,15 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	/**
 	 * Tests whether 2 {@link MemberContainer} instances of the same type are
 	 * considered to be similar, if certain {@link Member} instances are added to
-	 * each as default members ({@code via memConInit.addDefaultMember(member)}).
+	 * them as default members ({@code via memConInit.addDefaultMember(member)}).
+	 *
+	 * @param displayName The display name of the test
+	 * @param memConInit  The initialiser that will be used to instantiate both
+	 *                    member containers
+	 * @param memInit1    The member that will be added to the first member
+	 *                    container instance (as default member)
+	 * @param memInit2    The member that will be added to the second member
+	 *                    container instance (as default member)
 	 */
 	@ParameterizedTest(name = "{0}")
 	@MethodSource("getMemConMemPairs")
