@@ -22,7 +22,7 @@ public class JavaRootTest extends AbstractJaMoPPSimilarityTest {
 	protected JavaRoot initElement(IJavaRootInitialiser init, Origin origin) {
 		JavaRoot result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
-		init.setOrigin(result, origin);
+		Assertions.assertTrue(init.setOrigin(result, origin));
 		return result;
 	}
 
