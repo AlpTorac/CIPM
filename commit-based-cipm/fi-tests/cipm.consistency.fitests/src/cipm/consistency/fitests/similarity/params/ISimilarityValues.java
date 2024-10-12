@@ -44,9 +44,9 @@ public interface ISimilarityValues {
 	 * A variant of {@link #addSimilarityEntry(Class, Object, Boolean)} for an array
 	 * of class objects. <br>
 	 * <br>
-	 * If
-	 * {@code objClsArr = [cls1, cls2, ..., clsN], attr = a1, expectedSimResults = true},
-	 * equivalent to:
+	 * Let
+	 * {@code objClsArr = [cls1, cls2, ..., clsN], attr = a1, expectedSimResults = true}.
+	 * Then this method is equivalent to:
 	 * <ul>
 	 * <li>addSimilarityEntry(cls1, a1, true)
 	 * <li>addSimilarityEntry(cls2, a1, true)
@@ -73,9 +73,9 @@ public interface ISimilarityValues {
 	 * <br>
 	 * Combines objClsArr with (attrArr[i], expectedSimResults[i]) for all i: <br>
 	 * <br>
-	 * If
-	 * {@code objClsArr = [cls1, cls2, cls3], attrArr = [a1, a2], expectedSimResults = [true, false]},
-	 * equivalent to:
+	 * Let
+	 * {@code objClsArr = [cls1, cls2, cls3], attrArr = [a1, a2], expectedSimResults = [true, false]}.
+	 * Then this method is equivalent to:
 	 * <ul>
 	 * <li>addSimilarityEntry(objClsArr, a1, true)
 	 * <li>addSimilarityEntry(objClsArr, a2, false)
@@ -122,7 +122,7 @@ public interface ISimilarityValues {
 
 	/**
 	 * Returns the expected result of similarity checking 2 object instances of the
-	 * class objCls, where both are the same, except for their attr attribute.
+	 * class objCls, where both are the same, except for their attribute attr.
 	 * 
 	 * @return Let a and b be object instances of the same class, which are the
 	 *         same, except for their attr attribute, then:
