@@ -17,7 +17,7 @@ import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
 
 /**
  * An abstract test class that extends {@link AbstractEObjectSimilarityTest}
- * with concrete method implementations for EMFText context, as well as static
+ * with concrete method implementations for JaMoPP context, as well as static
  * methods that can be used in parameterised tests to generate initialiser
  * instances.
  * 
