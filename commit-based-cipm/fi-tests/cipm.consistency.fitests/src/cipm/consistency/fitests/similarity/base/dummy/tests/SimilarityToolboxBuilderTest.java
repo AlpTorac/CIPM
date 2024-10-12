@@ -8,7 +8,18 @@ import cipm.consistency.fitests.similarity.base.dummy.DummySimilarityToolboxFact
 import cipm.consistency.fitests.similarity.base.dummy.EqualsCheckRequest;
 import cipm.consistency.fitests.similarity.base.dummy.ReferenceCheckRequest;
 
+/**
+ * Contains tests regarding the construction of {@link DummySimilarityToolbox}
+ * using {@link DummySimilarityToolboxBuilder}. Methods inherited by dummy
+ * classes from their abstract classes are tested along the way.
+ * 
+ * @author Alp Torac Genc
+ */
 public class SimilarityToolboxBuilderTest extends AbstractDummySimilarityCheckingTest {
+	/**
+	 * Test whether the {@link DummySimilarityToolboxBuilder#build()} method is
+	 * working as intended.
+	 */
 	@Test
 	public void testBuild() {
 		var tbBuilder = new DummySimilarityToolboxBuilder();
@@ -25,6 +36,9 @@ public class SimilarityToolboxBuilderTest extends AbstractDummySimilarityCheckin
 		Assertions.assertNull(tbBuilder.build());
 	}
 
+	/**
+	 * Test whether adding request-handler pairs step-wise works as intended.
+	 */
 	@Test
 	public void testRequestHandlerPairs() {
 		var tbBuilder = new DummySimilarityToolboxBuilder();

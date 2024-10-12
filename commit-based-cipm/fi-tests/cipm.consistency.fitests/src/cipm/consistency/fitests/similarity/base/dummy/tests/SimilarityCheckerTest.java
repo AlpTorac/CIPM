@@ -15,7 +15,18 @@ import cipm.consistency.fitests.similarity.base.dummy.ReferenceCheckRequest;
 import cipm.consistency.fitests.similarity.base.dummy.ReferenceCheckRequestHandler;
 import cipm.consistency.fitests.similarity.base.dummy.DummySimilarityToolbox.HandleHistoryEntry;
 
+/**
+ * Contains tests for similarity checking methods from
+ * {@link DummySimilarityChecker}.
+ * 
+ * @author Alp Torac Genc
+ */
 public class SimilarityCheckerTest extends AbstractDummySimilarityCheckingTest {
+	/**
+	 * Contains exemplary setup of the {@link DummySimilarityChecker} using the
+	 * other dummy elements. This is followed by a similarity checking attempt for 2
+	 * singular elements and the relevant assertions.
+	 */
 	@Test
 	public void testIsSimilar() {
 		var tb = new DummySimilarityToolbox();
@@ -61,6 +72,11 @@ public class SimilarityCheckerTest extends AbstractDummySimilarityCheckingTest {
 		Assertions.assertEquals(Boolean.FALSE, ecHistory.getOutput());
 	}
 
+	/**
+	 * Contains exemplary setup of the {@link DummySimilarityChecker} using the
+	 * other dummy elements. This is followed by a similarity checking attempt for 2
+	 * lists of elements and the relevant assertions.
+	 */
 	@Test
 	public void testAreSimilar() {
 		var tb = new DummySimilarityToolbox();

@@ -5,7 +5,5 @@
  * <br>
  * They also serve as proof-of-concept for the architecture behind similarity
  * checking.
- * 
- * TODO Write commentary for tests
  */
 package cipm.consistency.fitests.similarity.base.dummy.tests;
