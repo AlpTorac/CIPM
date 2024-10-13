@@ -20,7 +20,7 @@ public class NamedElementTest extends AbstractJaMoPPSimilarityTest {
 
 	protected NamedElement initElement(INamedElementInitialiser init, String name) {
 		NamedElement result = init.instantiate();
-		Assertions.assertEquals(init.canSetName(result), init.setName(result, name));
+		Assertions.assertEquals(init.canSetName(result) || name == null, init.setName(result, name));
 		return result;
 	}
 
