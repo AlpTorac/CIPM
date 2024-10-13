@@ -13,32 +13,28 @@ import org.emftext.language.java.commons.Commentable;
 /**
  * A utility class that provides information about EObjects used by JaMoPP, as
  * well as methods to access their types. There are further methods, which map
- * their types to the initalisers implemented in sub-packages. <br>
+ * their types to the initialisers implemented in sub-packages. <br>
  * <br>
  * This class is intended to be used in tests, which ensure that all necessary
  * initialisers are implemented and can be accessed.
  * 
  * @author Alp Torac Genc
  */
-public final class JaMoPPHelper {
-	/**
-	 * See {@link #getImplSuffix()}
-	 */
-	private static final String implSuffix = "Impl";
+public class JaMoPPHelper {
 
 	/**
 	 * The suffix used in the concrete implementation of EObject classes.
 	 */
-	public static String getImplSuffix() {
-		return implSuffix;
+	public String getImplSuffix() {
+		return "Impl";
 	}
 
 	/**
 	 * @return Types of concrete implementations and interfaces of all Java-Model
 	 *         elements.
 	 */
-	public static Set<Class<?>> getAllPossibleTypes() {
-		return getAllPossibleTypes(JavaPackage.eINSTANCE.getESubpackages());
+	public Set<Class<?>> getAllPossibleTypes() {
+		return this.getAllPossibleTypes(JavaPackage.eINSTANCE.getESubpackages());
 	}
 
 	/**
@@ -51,7 +47,7 @@ public final class JaMoPPHelper {
 	 *         sub-packages. Includes types of interfaces as well as concrete
 	 *         implementation classes.
 	 */
-	public static Set<Class<?>> getAllPossibleTypes(EPackage cPac) {
+	public Set<Class<?>> getAllPossibleTypes(EPackage cPac) {
 		var clss = cPac.getEClassifiers();
 		var subPacs = cPac.getESubpackages();
 
@@ -78,7 +74,7 @@ public final class JaMoPPHelper {
 		}
 
 		if (subPacs != null) {
-			foundClss.addAll(getAllPossibleTypes(subPacs));
+			foundClss.addAll(this.getAllPossibleTypes(subPacs));
 		}
 
 		return foundClss;
@@ -90,11 +86,11 @@ public final class JaMoPPHelper {
 	 *         implementation classes.
 	 * @see {@link #getAllPossibleTypes(EPackage)}}
 	 */
-	public static Set<Class<?>> getAllPossibleTypes(Collection<EPackage> pacs) {
+	public Set<Class<?>> getAllPossibleTypes(Collection<EPackage> pacs) {
 		var foundClss = new HashSet<Class<?>>();
 
 		for (var pac : pacs) {
-			foundClss.addAll(getAllPossibleTypes(pac));
+			foundClss.addAll(this.getAllPossibleTypes(pac));
 		}
 
 		return foundClss;
@@ -109,11 +105,11 @@ public final class JaMoPPHelper {
 	 * @return The classes from {@link #getAllPossibleTypes()}, which should have a
 	 *         corresponding initialiser interface.
 	 */
-	public static Collection<Class<?>> getAllInitialiserCandidates() {
+	public Collection<Class<?>> getAllInitialiserCandidates() {
 		var fullHierarchy = getAllPossibleTypes();
 
 		var intfcs = fullHierarchy.stream().filter((c) -> Commentable.class.isAssignableFrom(c))
-				.filter((c) -> !c.getSimpleName().endsWith(getImplSuffix())).toArray(Class<?>[]::new);
+				.filter((c) -> !c.getSimpleName().endsWith(this.getImplSuffix())).toArray(Class<?>[]::new);
 
 		return List.of(intfcs);
 	}
@@ -123,12 +119,12 @@ public final class JaMoPPHelper {
 	 *         have a corresponding concrete initialiser that can instantiate the
 	 *         said type.
 	 */
-	public static Collection<Class<?>> getAllConcreteInitialiserCandidates() {
+	public Collection<Class<?>> getAllConcreteInitialiserCandidates() {
 		var fullHierarchy = getAllPossibleTypes();
 
 		var intfcs = fullHierarchy.stream().filter((c) -> Commentable.class.isAssignableFrom(c))
 				.filter((c) -> fullHierarchy.stream()
-						.anyMatch((c2) -> c2.getSimpleName().equals(c.getSimpleName() + getImplSuffix())))
+						.anyMatch((c2) -> c2.getSimpleName().equals(c.getSimpleName() + this.getImplSuffix())))
 				.toArray(Class<?>[]::new);
 
 		return List.of(intfcs);
