@@ -9,8 +9,7 @@ import cipm.consistency.initialisers.jamopp.commons.ICommentableInitialiser;
  * An interface meant for {@link IInitialiser} implementors that are supposed to
  * create {@link Argumentable} instances. <br>
  * <br>
- * <b>{@code argumentable.getArgumentTypes()} cannot be used to modify an
- * attribute</b>
+ * {@code argable.getArgumentTypes().add(...)} cannot be used to modify argable.
  * 
  * @author Alp Torac Genc
  */
@@ -18,6 +17,12 @@ public interface IArgumentableInitialiser extends ICommentableInitialiser {
 	@Override
 	public Argumentable instantiate();
 
+	/**
+	 * Adds the given expression arg to argable as an argument. Uses
+	 * {@code argable.getArguments().add(...)} to do so.
+	 * 
+	 * @see {@link IArgumentableInitialiser}
+	 */
 	public default boolean addArgument(Argumentable argable, Expression arg) {
 		if (arg != null) {
 			argable.getArguments().add(arg);
