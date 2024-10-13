@@ -7,12 +7,26 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
+/**
+ * An interface that contains various methods that can be used in utility tests,
+ * which ensure that all initialisers and/or tests associated with them are
+ * present. Not implemented as an abstract class, since utility tests are likely
+ * to have to inherit from an abstract test class anyway.
+ * 
+ * @author Alp Torac Genc
+ */
 public interface IInitialiserUtilityTest {
 
 	/**
 	 * @return A list of all files under the root directory.
 	 */
 	public Collection<File> getAllFiles();
+
+	/**
+	 * @return The {@link IInitialiserPackage} that will be used within the utility
+	 *         test.
+	 */
+	public IInitialiserPackage getUsedInitialiserPackage();
 
 	/**
 	 * @return A list of all files under the given path and its sub-directories.
@@ -35,8 +49,8 @@ public interface IInitialiserUtilityTest {
 	}
 
 	/**
-	 * @return Whether the given file's name (without extension) equals to the given
-	 *         fileName.
+	 * @return Whether the given file's name (without extension) is equal to the
+	 *         given fileName.
 	 */
 	public default boolean fileNameEquals(File file, String fileName) {
 		return file != null && file.getName().split("\\.")[0].equals(fileName);
@@ -68,26 +82,24 @@ public interface IInitialiserUtilityTest {
 	}
 
 	/**
-	 * @return The {@link IInitialiserPackage} that will be used within the utility test.
-	 */
-	public IInitialiserPackage getUsedInitialiserPackage();
-	
-	/**
-	 * @return An instance of all initialisers.
+	 * @return An instance of all initialisers accessible from
+	 *         {@link #getUsedInitialiserPackage()}.
 	 */
 	public default Collection<IInitialiser> getAllInitialiserInstances() {
 		return this.getUsedInitialiserPackage().getAllInitialiserInstances();
 	}
 
 	/**
-	 * @return Types of all initialisers.
+	 * @return Types of all initialisers accessible from
+	 *         {@link #getUsedInitialiserPackage()}.
 	 */
 	public default Collection<Class<? extends IInitialiser>> getAllInitialiserInterfaceTypes() {
 		return this.getUsedInitialiserPackage().getAllInitialiserInterfaceTypes();
 	}
 
 	/**
-	 * @return The type of the initialiser meant to instantiate objClass.
+	 * @return The type of the initialiser meant to instantiate objClass, which is
+	 *         accessible from {@link #getUsedInitialiserPackage()}..
 	 */
 	public default Class<? extends IInitialiser> getInitialiserInterfaceFor(Class<?> objClass) {
 		return this.getUsedInitialiserPackage().getInitialiserInterfaceTypeFor(objClass);
