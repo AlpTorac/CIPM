@@ -24,6 +24,10 @@ public interface IEqualityExpressionInitialiser extends IAndExpressionChildIniti
 		return true;
 	}
 
+	public default boolean addEqualityOperators(EqualityExpression eqEx, EqualityOperator[] ops) {
+		return this.doMultipleModifications(eqEx, ops, this::addEqualityOperator);
+	}
+
 	public default boolean addChildren(EqualityExpression eqEx, EqualityExpressionChild[] children) {
 		return this.doMultipleModifications(eqEx, children, this::addChild);
 	}

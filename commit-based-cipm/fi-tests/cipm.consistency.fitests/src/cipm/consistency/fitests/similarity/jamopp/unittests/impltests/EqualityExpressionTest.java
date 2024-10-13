@@ -12,11 +12,11 @@ import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
 import cipm.consistency.initialisers.jamopp.expressions.EqualityExpressionInitialiser;
 
 public class EqualityExpressionTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions {
-	protected EqualityExpression initElement(EqualityExpressionChild[] children, EqualityOperator op) {
+	protected EqualityExpression initElement(EqualityExpressionChild[] children, EqualityOperator[] ops) {
 		var eeInit = new EqualityExpressionInitialiser();
 		var ee = eeInit.instantiate();
 		Assertions.assertTrue(eeInit.addChildren(ee, children));
-		Assertions.assertTrue(eeInit.addEqualityOperator(ee, op));
+		Assertions.assertTrue(eeInit.addEqualityOperators(ee, ops));
 		return ee;
 	}
 
@@ -46,14 +46,23 @@ public class EqualityExpressionTest extends AbstractJaMoPPSimilarityTest impleme
 
 	@Test
 	public void testEqualityOperator() {
-		this.testSimilarity(this.initElement(null, this.createEqualityOperator()),
-				this.initElement(null, this.createNotEqualOperator()),
+		this.testSimilarity(this.initElement(null, new EqualityOperator[] { this.createEqualityOperator() }),
+				this.initElement(null, new EqualityOperator[] { this.createNotEqualOperator() }),
+				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__EQUALITY_OPERATORS);
+	}
+
+	@Test
+	public void testEqualityOperatorSize() {
+		this.testSimilarity(
+				this.initElement(null,
+						new EqualityOperator[] { this.createEqualityOperator(), this.createNotEqualOperator() }),
+				this.initElement(null, new EqualityOperator[] { this.createEqualityOperator() }),
 				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__EQUALITY_OPERATORS);
 	}
 
 	@Test
 	public void testEqualityOperatorNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(null, this.createEqualityOperator()),
+		this.testSimilarityNullCheck(this.initElement(null, new EqualityOperator[] { this.createEqualityOperator() }),
 				new EqualityExpressionInitialiser(), false,
 				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__EQUALITY_OPERATORS);
 	}
