@@ -9,41 +9,33 @@ package cipm.consistency.initialisers.eobject;
  * 
  * @author Alp Torac Genc
  */
-public final class InitialiserNameHelper {
-	/**
-	 * The prefix used in initialiser interfaces.
-	 */
-	private static final String initialiserInterfacePrefix = "I";
-	/**
-	 * The suffix used in initialisers.
-	 */
-	private static final String initialiserSuffix = "Initialiser";
+public class InitialiserNameHelper {
 
 	/**
 	 * @return The name of the concrete initialiser corresponding to cls.
 	 */
-	public static String getConcreteInitialiserName(Class<?> cls) {
-		return cls.getSimpleName() + getInitialiserSuffix();
+	public String getConcreteInitialiserName(Class<?> cls) {
+		return cls.getSimpleName() + this.getInitialiserSuffix();
 	}
 
 	/**
 	 * @return The name of the initialiser interface corresponding to cls.
 	 */
-	public static String getInitialiserInterfaceName(Class<?> cls) {
-		return getInitialiserInterfacePrefix() + cls.getSimpleName() + getInitialiserSuffix();
+	public String getInitialiserInterfaceName(Class<?> cls) {
+		return getInitialiserInterfacePrefix() + cls.getSimpleName() + this.getInitialiserSuffix();
 	}
 
 	/**
 	 * The prefix used in initialiser interfaces.
 	 */
-	public static String getInitialiserInterfacePrefix() {
-		return initialiserInterfacePrefix;
+	public String getInitialiserInterfacePrefix() {
+		return "I";
 	}
 
 	/**
 	 * The suffix used in initialisers.
 	 */
-	public static String getInitialiserSuffix() {
-		return initialiserSuffix;
+	public String getInitialiserSuffix() {
+		return "Initialiser";
 	}
 }
