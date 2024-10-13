@@ -6,6 +6,20 @@ import org.emftext.language.java.types.TypeReference;
 
 import cipm.consistency.initialisers.jamopp.types.ITypedElementInitialiser;
 
+/**
+ * An interface meant to be implemented by initialisers, which are supposed to
+ * create {@link CastExpression} instances. <br>
+ * <br>
+ * For a {@link CastExpression} instance ce, {@code ce.getChild()} has the same
+ * return value as {@code ce.getGeneralChild()}, it merely returns the child
+ * attribute as {@link Expression} rather than
+ * {@link MultiplicativeExpressionChild}. <br>
+ * <br>
+ * Similarly, {@code ce.setGeneralChild(...)} is equivalent to
+ * {@code ce.setChild(...)}, just with a more general parameter type.
+ * 
+ * @author Alp Torac Genc
+ */
 public interface ICastExpressionInitialiser
 		extends ITypedElementInitialiser, IUnaryModificationExpressionChildInitialiser {
 	@Override
@@ -24,9 +38,9 @@ public interface ICastExpressionInitialiser
 	}
 
 	/**
-	 * {@code ce.getChild()} has the same return value as
-	 * {@code ce.getGeneralChild()}, it merely returns the child attribute as
-	 * {@link Expression} rather than {@link MultiplicativeExpressionChild}.
+	 * Adds the given child to ce. Uses {@code ce.setChild(...)} to do so.
+	 * 
+	 * @see {@link ICastExpressionInitialiser}
 	 */
 	public default boolean setChild(CastExpression ce, MultiplicativeExpressionChild child) {
 		if (child != null) {
