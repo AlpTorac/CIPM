@@ -16,4 +16,8 @@ public interface ITypedElementExtensionInitialiser extends ICommentableInitialis
 		}
 		return true;
 	}
+	
+	public default boolean addActualTargets(TypedElementExtension tee, TypeReference[] actualTargets) {
+		return this.doMultipleModifications(tee, actualTargets, this::addActualTarget);
+	}
 }

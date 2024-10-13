@@ -20,18 +20,28 @@ public class TypedElementExtensionTest extends AbstractJaMoPPSimilarityTest impl
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(ITypedElementExtensionInitialiser.class);
 	}
 
-	protected TypedElementExtension initElement(ITypedElementExtensionInitialiser init, TypeReference actualTarget) {
+	protected TypedElementExtension initElement(ITypedElementExtensionInitialiser init, TypeReference[] actualTargets) {
 		TypedElementExtension result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
-		Assertions.assertTrue(init.addActualTarget(result, actualTarget));
+		Assertions.assertTrue(init.addActualTargets(result, actualTargets));
 		return result;
 	}
 
 	@ParameterizedTest
 	@MethodSource("provideArguments")
 	public void testActualTarget(ITypedElementExtensionInitialiser init) {
-		var objOne = this.initElement(init, this.createMinimalClsRef("cls1"));
-		var objTwo = this.initElement(init, this.createMinimalClsRef("cls2"));
+		var objOne = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") });
+		var objTwo = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls2") });
+
+		this.testSimilarity(objOne, objTwo, TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
+	}
+
+	@ParameterizedTest
+	@MethodSource("provideArguments")
+	public void testActualTargets(ITypedElementExtensionInitialiser init) {
+		var objOne = this.initElement(init,
+				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
+		var objTwo = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") });
 
 		this.testSimilarity(objOne, objTwo, TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
 	}
@@ -39,7 +49,7 @@ public class TypedElementExtensionTest extends AbstractJaMoPPSimilarityTest impl
 	@ParameterizedTest
 	@MethodSource("provideArguments")
 	public void testActualTargetNullCheck(ITypedElementExtensionInitialiser init) {
-		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalClsRef("cls1")), init, true,
-				TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
+		this.testSimilarityNullCheck(this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") }),
+				init, true, TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
 	}
 }
