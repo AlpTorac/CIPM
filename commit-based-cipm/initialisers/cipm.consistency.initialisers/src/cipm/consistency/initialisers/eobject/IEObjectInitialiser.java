@@ -7,8 +7,7 @@ import cipm.consistency.initialisers.IInitialiserAdapterStrategy;
 
 /**
  * An interface for {@link IInitialiser} sub-types, whose purpose is to create
- * and modify {@link EObject} instances. <br>
- * <br>
+ * and modify {@link EObject} instances.
  * 
  * @author Alp Torac Genc
  */
