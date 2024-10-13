@@ -11,9 +11,12 @@ import cipm.consistency.initialisers.jamopp.types.ITypeInitialiser;
  * An interface meant for {@link IInitialiser} implementors that are supposed to
  * create {@link Classifier} instances. <br>
  * <br>
- * <b>Note: "add..." methods of {@link Classifier} add the imports to its
- * {@link CompilationUnit}. {@link Classifier} has no attributes itself. The
- * same holds for the "add..." methods of this initialiser.</b>
+ * <b>Note: The methods addImport/addPackageImport of {@link Classifier} add the
+ * imports to its {@link CompilationUnit}. {@link Classifier} has no attributes
+ * itself. The same holds for their corresponding methods in this
+ * initialiser.</b>. Use the methods {@link #canAddImports(Classifier)} and
+ * {@link #canAddPackageImports(Classifier)} to determine, whether certain
+ * imports can be added.
  * 
  * @author Alp Torac Genc
  */
@@ -24,15 +27,18 @@ public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceable
 
 	/**
 	 * Adds the given {@link Import} to the {@link CompilationUnit} containing the
-	 * given {@link Classifier}.
+	 * given {@link Classifier}. <br>
+	 * <br>
+	 * Attempting to add null imports will return true, since there is no
+	 * modification to perform.
 	 * 
 	 * @see {@link IClassifierInitialiser}
 	 */
 	public default boolean addImport(Classifier cls, Import imp) {
-		if (!this.canAddImports(cls)) {
-			return false;
-		}
 		if (imp != null) {
+			if (!this.canAddImports(cls)) {
+				return false;
+			}
 			var cu = cls.getContainingCompilationUnit();
 			cu.getImports().add(imp);
 			return cu.getImports().stream().anyMatch((i) -> i.equals(imp));
@@ -45,16 +51,16 @@ public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceable
 	}
 
 	/**
-	 * @return Whether {@link Import}s can be added via
-	 *         {@link #addImport(Classifier, Import)}
+	 * Whether {@link Import}s can be added via
+	 * {@link #addImport(Classifier, Import)}
 	 */
 	public default boolean canAddImports(Classifier cls) {
 		return cls.getContainingCompilationUnit() != null;
 	}
 
 	/**
-	 * @return Whether {@link PackageImport}s can be added via
-	 *         {@link #addPackageImport(Classifier, PackageImport)}
+	 * Whether {@link PackageImport}s can be added via
+	 * {@link #addPackageImport(Classifier, PackageImport)}
 	 */
 	public default boolean canAddPackageImports(Classifier cls) {
 		return cls.getContainingCompilationUnit() != null;
@@ -62,15 +68,18 @@ public interface IClassifierInitialiser extends ITypeInitialiser, IReferenceable
 
 	/**
 	 * Adds the given {@link PackageImport} to the {@link CompilationUnit}
-	 * containing the given {@link Classifier}.
+	 * containing the given {@link Classifier}. <br>
+	 * <br>
+	 * Attempting to add null package imports will return true, since there is no
+	 * modification to perform.
 	 * 
 	 * @see {@link IClassifierInitialiser}
 	 */
 	public default boolean addPackageImport(Classifier cls, PackageImport imp) {
-		if (!this.canAddPackageImports(cls)) {
-			return false;
-		}
 		if (imp != null) {
+			if (!this.canAddPackageImports(cls)) {
+				return false;
+			}
 			var cu = cls.getContainingCompilationUnit();
 			cu.getImports().add(imp);
 			return cu.getImports().stream().anyMatch((i) -> i.equals(imp));
