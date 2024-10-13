@@ -20,18 +20,28 @@ public class TypeArgumentableTest extends AbstractJaMoPPSimilarityTest implement
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(ITypeArgumentableInitialiser.class);
 	}
 
-	protected TypeArgumentable initElement(ITypeArgumentableInitialiser init, TypeArgument typeArg) {
+	protected TypeArgumentable initElement(ITypeArgumentableInitialiser init, TypeArgument[] typeArgs) {
 		TypeArgumentable result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
-		Assertions.assertTrue(init.addTypeArgument(result, typeArg));
+		Assertions.assertTrue(init.addTypeArguments(result, typeArgs));
 		return result;
 	}
 
 	@ParameterizedTest
 	@MethodSource("provideArguments")
 	public void testTypeArgument(ITypeArgumentableInitialiser init) {
-		var objOne = this.initElement(init, this.createMinimalExtendsTAWithCls("cls1"));
-		var objTwo = this.initElement(init, this.createMinimalSuperTAWithCls("cls2"));
+		var objOne = this.initElement(init, new TypeArgument[] { this.createMinimalExtendsTAWithCls("cls1") });
+		var objTwo = this.initElement(init, new TypeArgument[] { this.createMinimalSuperTAWithCls("cls2") });
+
+		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.TYPE_ARGUMENTABLE__TYPE_ARGUMENTS);
+	}
+
+	@ParameterizedTest
+	@MethodSource("provideArguments")
+	public void testTypeArgumentSize(ITypeArgumentableInitialiser init) {
+		var objOne = this.initElement(init, new TypeArgument[] { this.createMinimalExtendsTAWithCls("cls1"),
+				this.createMinimalSuperTAWithCls("cls2") });
+		var objTwo = this.initElement(init, new TypeArgument[] { this.createMinimalExtendsTAWithCls("cls1") });
 
 		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.TYPE_ARGUMENTABLE__TYPE_ARGUMENTS);
 	}
@@ -39,7 +49,8 @@ public class TypeArgumentableTest extends AbstractJaMoPPSimilarityTest implement
 	@ParameterizedTest
 	@MethodSource("provideArguments")
 	public void testTypeArgumentNullCheck(ITypeArgumentableInitialiser init) {
-		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalExtendsTAWithCls("cls1")), init, true,
+		this.testSimilarityNullCheck(
+				this.initElement(init, new TypeArgument[] { this.createMinimalExtendsTAWithCls("cls1") }), init, true,
 				GenericsPackage.Literals.TYPE_ARGUMENTABLE__TYPE_ARGUMENTS);
 	}
 }

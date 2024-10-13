@@ -16,4 +16,8 @@ public interface ITypeArgumentableInitialiser extends ICommentableInitialiser {
 		}
 		return true;
 	}
+
+	public default boolean addTypeArguments(TypeArgumentable ta, TypeArgument[] tArgs) {
+		return this.doMultipleModifications(ta, tArgs, this::addTypeArgument);
+	}
 }
