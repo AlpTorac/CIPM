@@ -4,8 +4,8 @@ import java.util.Collection;
 
 /**
  * An interface meant to be implemented by {@link IInitialiser} implementors,
- * which are supposed to be able to work with
- * {@link IInitialiserAdapterStrategy}.
+ * which are supposed to be adaptable by {@link IInitialiserAdapterStrategy}
+ * instances.
  * 
  * @author Alp Torac Genc
  */
@@ -23,13 +23,16 @@ public interface IInitialiserBase extends IInitialiser {
 	public void removeAdaptingStrategy(IInitialiserAdapterStrategy strat);
 
 	/**
-	 * Removes all {@link IInitialiserAdapterStrategy} from this instance.
+	 * Removes all stored {@link IInitialiserAdapterStrategy} instances from this.
 	 */
 	public void cleanAdaptingStrategy();
 
 	/**
 	 * @return All {@link IInitialiserAdapterStrategy} instances added to this.
-	 *         Returns an empty collection if none.
+	 *         Returns an empty collection if there are none. Modifying the elements
+	 *         of the collection will modify the adaptation strategies adapting
+	 *         this. Modifying the returned collection itself will have no effect on
+	 *         this.
 	 */
 	public Collection<IInitialiserAdapterStrategy> getAdaptingStrategies();
 
@@ -62,8 +65,8 @@ public interface IInitialiserBase extends IInitialiser {
 	}
 
 	/**
-	 * <b>For the sake of clarity, only use this method, if adapters are meant to be
-	 * used.</b> <br>
+	 * <b>For the sake of clarity, only use this method, if adaptation strategies
+	 * are meant to be used.</b> <br>
 	 * <br>
 	 * {@inheritDoc}
 	 */
@@ -80,7 +83,7 @@ public interface IInitialiserBase extends IInitialiser {
 
 	/**
 	 * @return A new instance of this {@link IInitialiserBase} along with clones of
-	 *         strategies currently adapting it.
+	 *         adaptation strategies currently adapting it.
 	 */
 	public default IInitialiserBase newInitialiserWithStrategies() {
 		var newInit = (IInitialiserBase) this.newInitialiser();
