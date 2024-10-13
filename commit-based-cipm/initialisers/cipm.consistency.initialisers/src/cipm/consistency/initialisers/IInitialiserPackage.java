@@ -11,8 +11,8 @@ import java.util.Collection;
  * <br>
  * Override {@link #getInitialiserInstances()},
  * {@link #getInitialiserInterfaceTypes()} and {@link #getSubPackages()} to
- * change what the implementors offer. The default implementations of the
- * methods only return an empty collection of the respective return type.
+ * change what the implementors encompass. The default implementations of the
+ * methods only return an empty collection of their respective return type.
  * 
  * @author Alp Torac Genc
  */
@@ -20,7 +20,8 @@ public interface IInitialiserPackage {
 	/**
 	 * @return {@link IInitialiser} instances that are contained in this instance.
 	 * 
-	 * @see {@link #getAllInitialiserInstances()}
+	 * @see {@link #getAllInitialiserInstances()} for all such initialisers that are
+	 *      accessible from this.
 	 */
 	public default Collection<IInitialiser> getInitialiserInstances() {
 		return this.initCol();
@@ -30,14 +31,15 @@ public interface IInitialiserPackage {
 	 * @return Class objects of {@link IInitialiser} types that are contained in
 	 *         this instance.
 	 * 
-	 * @see {@link #getAllInitialiserInterfaceTypes()}
+	 * @see {@link #getAllInitialiserInterfaceTypes()} for all such initialiser
+	 *      types that are accessible from this.
 	 */
 	public default Collection<Class<? extends IInitialiser>> getInitialiserInterfaceTypes() {
 		return this.initCol();
 	}
 
 	/**
-	 * @return All {@link IInitialiserPackage} nested in this instance.
+	 * @return All {@link IInitialiserPackage} instances nested in this.
 	 */
 	public default Collection<IInitialiserPackage> getSubPackages() {
 		return this.initCol();
@@ -70,10 +72,10 @@ public interface IInitialiserPackage {
 	 * Recursively discovers all nested {@link IInitialiserPackage} instances
 	 * reachable from this instance.
 	 * 
-	 * @return All directly and indirectly nested {@link IInitialiserPackage}
-	 *         instances.
+	 * @return All {@link IInitialiserPackage} instances accessible from this.
 	 * 
-	 * @see {@link #getSubPackages()}
+	 * @see {@link #getSubPackages()} for initialiser packages that are contained in
+	 *      this.
 	 */
 	public default Collection<IInitialiserPackage> getAllSubPackages() {
 		var result = this.getSubPackages();
@@ -89,9 +91,10 @@ public interface IInitialiserPackage {
 	 * Recursively discovers all nested {@link IInitialiserPackage} instances
 	 * reachable from this instance.
 	 * 
-	 * @return All directly and indirectly stored {@link IInitialiser} instances.
+	 * @return All {@link IInitialiser} instances accessible from this.
 	 * 
-	 * @see {@link #getInitialiserInstances()}
+	 * @see {@link #getInitialiserInstances()} for initialiser instances that are
+	 *      contained in this.
 	 */
 	public default Collection<IInitialiser> getAllInitialiserInstances() {
 		var result = this.getInitialiserInstances();
@@ -107,10 +110,10 @@ public interface IInitialiserPackage {
 	 * Recursively discovers all nested {@link IInitialiserPackage} instances
 	 * reachable from this instance.
 	 * 
-	 * @return All class objects from directly and indirectly stored
-	 *         {@link IInitialiser} classes and interfaces.
+	 * @return All initialiser types that are accessible from this.
 	 * 
-	 * @see {@link #getInitialiserInterfaceTypes()}
+	 * @see {@link #getInitialiserInterfaceTypes()} for initialiser types that are
+	 *      contained in this.
 	 */
 	public default Collection<Class<? extends IInitialiser>> getAllInitialiserInterfaceTypes() {
 		var result = this.getInitialiserInterfaceTypes();
@@ -127,10 +130,9 @@ public interface IInitialiserPackage {
 	 * for an {@link IInitialiser} type, which is capable of instantiating the given
 	 * cls.
 	 * 
-	 * @return The class object of the {@link IInitialiser} interface meant to
+	 * @return The class object of the {@link IInitialiser} type meant to
 	 *         instantiate the given cls. Null, if there is no such
-	 *         {@link IInitialiser} reachable from this {@link IInitialiserPackage}
-	 *         instance.
+	 *         {@link IInitialiser} reachable from this.
 	 */
 	public default Class<? extends IInitialiser> getInitialiserInterfaceTypeFor(Class<?> cls) {
 		var initClss = this.getAllInitialiserInterfaceTypes();
@@ -148,9 +150,9 @@ public interface IInitialiserPackage {
 	 * Recursively looks for an {@link IInitialiser} instance, which is capable of
 	 * instantiating the given cls.
 	 * 
-	 * @return An instance of the {@link IInitialiser} meant to instantiate cls.
-	 *         Null, if there is no such {@link IInitialiser} reachable from this
-	 *         instance.
+	 * @return An instance of the {@link IInitialiser} that is meant to instantiate
+	 *         cls. Null, if there is no such {@link IInitialiser} reachable from
+	 *         this.
 	 */
 	public default IInitialiser getInitialiserInstanceFor(Class<?> cls) {
 		var init = this.getAllInitialiserInstances();
