@@ -19,10 +19,8 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
  * <br>
  * <br>
  * Otherwise, one may only add a single statement to {@link ClassMethod} via
- * {@code classMethod.setStatement(...)}.<br>
- * <br>
- * <b>Note that the said method will REPLACE the former statement when used.
- * </b>
+ * {@code classMethod.setStatement(...)}. <b>Note that the said method will
+ * REPLACE the former statement when used. </b>
  * 
  * @author Alp Torac Genc
  *
@@ -43,7 +41,9 @@ public interface IClassMethodInitialiser extends IMethodInitialiser, IStatementL
 	 * Otherwise, {@code slc.setStatement(st)} can be used to add a single
 	 * {@link Statement} to slc. <b>Note that the {@link Statement} added to slc
 	 * this way WILL BE REPLACED, if {@code slc.setStatement(anotherSt)} is
-	 * called</b>.
+	 * called</b>. <br>
+	 * <br>
+	 * Overridden only to provide commentary.
 	 */
 	@Override
 	public default boolean addStatement(StatementListContainer slc, Statement st) {
