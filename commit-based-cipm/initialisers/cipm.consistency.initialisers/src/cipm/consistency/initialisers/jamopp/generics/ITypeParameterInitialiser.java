@@ -2,8 +2,6 @@ package cipm.consistency.initialisers.jamopp.generics;
 
 import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.generics.TypeParameter;
-import org.emftext.language.java.imports.Import;
-import org.emftext.language.java.imports.PackageImport;
 import org.emftext.language.java.types.TypeReference;
 
 import cipm.consistency.initialisers.jamopp.annotations.IAnnotableInitialiser;
@@ -13,8 +11,9 @@ import cipm.consistency.initialisers.jamopp.classifiers.IClassifierInitialiser;
  * An interface meant for {@link IInitialiser} implementors that are supposed to
  * create {@link TypeParameter} instances. <br>
  * <br>
- * <b>Note: {@link TypeParameter} cannot add {@link Import}s to its container,
- * so attempting to add {@link Import} to it has no effect.</b>
+ * <b>Note: {@link TypeParameter} cannot add imports to its container, so
+ * attempting to add imports to it has no effect. This is caused by the
+ * inconsistency in the {@link Classifier} sub-hierarchy.</b>
  * 
  * @author Alp Torac Genc
  *
@@ -32,24 +31,26 @@ public interface ITypeParameterInitialiser extends IClassifierInitialiser, IAnno
 	}
 
 	/**
-	 * {@link TypeParameter} cannot add imports to its container, so attempting to
-	 * add imports to it has no effect. <br>
-	 * <br>
-	 * This is caused by the inconsistency in the {@link Classifier} sub-hierarchy.
+	 * {@inheritDoc}
+	 * 
+	 * @return Returns false in case of {@link TypeParameter}.
+	 * 
+	 * @see {@link ITypeParameterInitialiser}
 	 */
 	@Override
-	public default boolean addImport(Classifier cls, Import imp) {
+	public default boolean canAddImports(Classifier cls) {
 		return false;
 	}
 
 	/**
-	 * {@link TypeParameter} cannot add imports to its container, so attempting to
-	 * add imports to it has no effect. <br>
-	 * <br>
-	 * This is caused by the inconsistency in the {@link Classifier} sub-hierarchy.
+	 * {@inheritDoc}
+	 * 
+	 * @return Returns false in case of {@link TypeParameter}.
+	 * 
+	 * @see {@link ITypeParameterInitialiser}
 	 */
 	@Override
-	public default boolean addPackageImport(Classifier cls, PackageImport pacImp) {
+	public default boolean canAddPackageImports(Classifier cls) {
 		return false;
 	}
 
