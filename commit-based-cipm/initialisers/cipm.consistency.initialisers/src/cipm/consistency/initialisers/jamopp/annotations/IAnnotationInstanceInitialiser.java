@@ -18,7 +18,7 @@ public interface IAnnotationInstanceInitialiser extends INamespaceAwareElementIn
 		return true;
 	}
 
-	public default boolean setAnnotationParameter(AnnotationInstance ai, AnnotationParameter param) {
+	public default boolean setParameter(AnnotationInstance ai, AnnotationParameter param) {
 		if (param != null) {
 			ai.setParameter(param);
 			return ai.getParameter().equals(param);

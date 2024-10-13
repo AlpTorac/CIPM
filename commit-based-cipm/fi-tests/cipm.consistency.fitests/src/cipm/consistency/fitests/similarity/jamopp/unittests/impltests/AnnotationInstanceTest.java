@@ -19,7 +19,7 @@ public class AnnotationInstanceTest extends AbstractJaMoPPSimilarityTest
 		var initialiser = new AnnotationInstanceInitialiser();
 		AnnotationInstance ai = initialiser.instantiate();
 		Assertions.assertTrue(initialiser.setAnnotation(ai, annotation));
-		Assertions.assertTrue(initialiser.setAnnotationParameter(ai, annoParam));
+		Assertions.assertTrue(initialiser.setParameter(ai, annoParam));
 		return ai;
 	}
 
