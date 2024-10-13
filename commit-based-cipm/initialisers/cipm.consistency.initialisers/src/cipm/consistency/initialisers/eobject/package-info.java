@@ -1,6 +1,6 @@
 /**
  * Contains the means to extend {@link IInitialiser} for {@link EObject}
- * implementors introduced with EMFText. Sub-packages contain concrete
+ * implementors introduced with JaMoPP. Sub-packages contain concrete
  * implementations and interfaces of concrete initialisers for their
  * corresponding {@link EObject} implementor. <br>
  * <br>
