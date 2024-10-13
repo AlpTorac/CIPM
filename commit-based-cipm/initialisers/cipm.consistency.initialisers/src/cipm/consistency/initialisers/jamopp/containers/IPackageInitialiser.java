@@ -12,7 +12,7 @@ import cipm.consistency.initialisers.jamopp.references.IReferenceableElementInit
  * that are supposed to create {@link Package} instances. <br>
  * <br>
  * <b>Note: Package names {@code package.getName()} is supposed to be left
- * empty. Changing it HAS NO EFFECT on the name of the package while similarity
+ * empty. Changing it HAS NO EFFECT on the name of the package in similarity
  * checking. Package's name consists of the concatenation of its namespaces with
  * dots ".". Therefore, use
  * {@link #addNamespace(org.emftext.language.java.commons.NamespaceAwareElement, String)}
