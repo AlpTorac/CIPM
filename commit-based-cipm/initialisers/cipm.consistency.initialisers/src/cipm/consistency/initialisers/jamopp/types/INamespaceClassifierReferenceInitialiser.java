@@ -14,6 +14,12 @@ public interface INamespaceClassifierReferenceInitialiser
 
 	@Override
 	public default boolean setTargetAssertion(TypeReference tref, Classifier target) {
+		if (target == null && tref.getTarget() == null) {
+			return true;
+		} else if (target == null) {
+			return false;
+		}
+
 		var castedTref = (NamespaceClassifierReference) tref;
 		var containerName = target.getContainingContainerName();
 		var nss = castedTref.getNamespaces();
@@ -86,7 +92,7 @@ public interface INamespaceClassifierReferenceInitialiser
 	}
 
 	@Override
-	default boolean canSetTargetTo(TypeReference tref, Classifier target) {
+	public default boolean canSetTargetTo(TypeReference tref, Classifier target) {
 		return ITypeReferenceInitialiser.super.canSetTargetTo(tref, target)
 				&& target.getContainingContainerName() != null;
 	}
