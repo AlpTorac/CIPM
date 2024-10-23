@@ -8,9 +8,9 @@ import cipm.consistency.initialisers.IInitialiserPackage;
 public class AnnotationsInitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiser> getInitialiserInstances() {
-		return this.initCol(new IInitialiser[] { new AnnotationAttributeSettingInitialiser(),
-				new AnnotationInstanceInitialiser(), new AnnotationParameterListInitialiser(),
-				new SingleAnnotationParameterInitialiser() });
+		return this.initCol(
+				new IInitialiser[] { new AnnotationAttributeSettingInitialiser(), new AnnotationInstanceInitialiser(),
+						new AnnotationParameterListInitialiser(), new SingleAnnotationParameterInitialiser() });
 	}
 
 	@SuppressWarnings("unchecked")

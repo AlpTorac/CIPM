@@ -8,9 +8,9 @@ import cipm.consistency.initialisers.IInitialiserPackage;
 public class TypesInitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiser> getInitialiserInstances() {
-		return this.initCol(new IInitialiser[] { new BooleanInitialiser(), new ByteInitialiser(),
-				new CharInitialiser(), new ClassifierReferenceInitialiser(), new DoubleInitialiser(),
-				new FloatInitialiser(), new InferableTypeInitialiser(), new IntInitialiser(), new LongInitialiser(),
+		return this.initCol(new IInitialiser[] { new BooleanInitialiser(), new ByteInitialiser(), new CharInitialiser(),
+				new ClassifierReferenceInitialiser(), new DoubleInitialiser(), new FloatInitialiser(),
+				new InferableTypeInitialiser(), new IntInitialiser(), new LongInitialiser(),
 				new NamespaceClassifierReferenceInitialiser(), new ShortInitialiser(), new VoidInitialiser(), });
 	}
 

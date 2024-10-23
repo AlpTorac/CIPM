@@ -8,9 +8,8 @@ import cipm.consistency.initialisers.IInitialiserPackage;
 public class ParametersInitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiser> getInitialiserInstances() {
-		return this
-				.initCol(new IInitialiser[] { new CatchParameterInitialiser(), new OrdinaryParameterInitialiser(),
-						new ReceiverParameterInitialiser(), new VariableLengthParameterInitialiser(), });
+		return this.initCol(new IInitialiser[] { new CatchParameterInitialiser(), new OrdinaryParameterInitialiser(),
+				new ReceiverParameterInitialiser(), new VariableLengthParameterInitialiser(), });
 	}
 
 	@SuppressWarnings("unchecked")

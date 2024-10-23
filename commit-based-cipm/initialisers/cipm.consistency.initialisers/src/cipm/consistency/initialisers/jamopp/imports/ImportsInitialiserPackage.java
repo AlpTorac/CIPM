@@ -8,9 +8,8 @@ import cipm.consistency.initialisers.IInitialiserPackage;
 public class ImportsInitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiser> getInitialiserInstances() {
-		return this
-				.initCol(new IInitialiser[] { new ClassifierImportInitialiser(), new PackageImportInitialiser(),
-						new StaticClassifierImportInitialiser(), new StaticMemberImportInitialiser(), });
+		return this.initCol(new IInitialiser[] { new ClassifierImportInitialiser(), new PackageImportInitialiser(),
+				new StaticClassifierImportInitialiser(), new StaticMemberImportInitialiser(), });
 	}
 
 	@SuppressWarnings("unchecked")

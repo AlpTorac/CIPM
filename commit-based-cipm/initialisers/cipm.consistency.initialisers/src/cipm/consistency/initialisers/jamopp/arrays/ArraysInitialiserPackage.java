@@ -8,10 +8,9 @@ import cipm.consistency.initialisers.IInitialiserPackage;
 public class ArraysInitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiser> getInitialiserInstances() {
-		return this
-				.initCol(new IInitialiser[] { new ArrayDimensionInitialiser(), new ArrayInitializerInitialiser(),
-						new ArrayInstantiationBySizeInitialiser(), new ArrayInstantiationByValuesTypedInitialiser(),
-						new ArrayInstantiationByValuesUntypedInitialiser(), new ArraySelectorInitialiser() });
+		return this.initCol(new IInitialiser[] { new ArrayDimensionInitialiser(), new ArrayInitializerInitialiser(),
+				new ArrayInstantiationBySizeInitialiser(), new ArrayInstantiationByValuesTypedInitialiser(),
+				new ArrayInstantiationByValuesUntypedInitialiser(), new ArraySelectorInitialiser() });
 	}
 
 	@SuppressWarnings("unchecked")

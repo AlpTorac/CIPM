@@ -8,8 +8,8 @@ import cipm.consistency.initialisers.IInitialiserPackage;
 public class ReferencesInitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiser> getInitialiserInstances() {
-		return this.initCol(new IInitialiser[] { new IdentifierReferenceInitialiser(),
-				new MethodCallInitialiser(), new PackageReferenceInitialiser(), new PrimitiveTypeReferenceInitialiser(),
+		return this.initCol(new IInitialiser[] { new IdentifierReferenceInitialiser(), new MethodCallInitialiser(),
+				new PackageReferenceInitialiser(), new PrimitiveTypeReferenceInitialiser(),
 				new ReflectiveClassReferenceInitialiser(), new SelfReferenceInitialiser(),
 				new StringReferenceInitialiser(), new TextBlockReferenceInitialiser(), });
 	}

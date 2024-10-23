@@ -8,8 +8,8 @@ import cipm.consistency.initialisers.IInitialiserPackage;
 public class ModulesInitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiser> getInitialiserInstances() {
-		return this.initCol(
-				new IInitialiser[] { new ExportsModuleDirectiveInitialiser(), new ModuleReferenceInitialiser(),
+		return this
+				.initCol(new IInitialiser[] { new ExportsModuleDirectiveInitialiser(), new ModuleReferenceInitialiser(),
 						new OpensModuleDirectiveInitialiser(), new ProvidesModuleDirectiveInitialiser(),
 						new RequiresModuleDirectiveInitialiser(), new UsesModuleDirectiveInitialiser(), });
 	}

@@ -8,20 +8,19 @@ import cipm.consistency.initialisers.IInitialiserPackage;
 public class ExpressionsInitialiserPackage implements IInitialiserPackage {
 	@Override
 	public Collection<IInitialiser> getInitialiserInstances() {
-		return this
-				.initCol(new IInitialiser[] { new AdditiveExpressionInitialiser(), new AndExpressionInitialiser(),
-						new ArrayConstructorReferenceExpressionInitialiser(), new AssignmentExpressionInitialiser(),
-						new CastExpressionInitialiser(), new ClassTypeConstructorReferenceExpressionInitialiser(),
-						new ConditionalAndExpressionInitialiser(), new ConditionalExpressionInitialiser(),
-						new ConditionalOrExpressionInitialiser(), new EqualityExpressionInitialiser(),
-						new ExclusiveOrExpressionInitialiser(), new ExplicitlyTypedLambdaParametersInitialiser(),
-						new ExpressionListInitialiser(), new ImplicitlyTypedLambdaParametersInitialiser(),
-						new InclusiveOrExpressionInitialiser(), new InstanceOfExpressionInitialiser(),
-						new LambdaExpressionInitialiser(), new MultiplicativeExpressionInitialiser(),
-						new NestedExpressionInitialiser(), new PrefixUnaryModificationExpressionInitialiser(),
-						new PrimaryExpressionReferenceExpressionInitialiser(), new RelationExpressionInitialiser(),
-						new ShiftExpressionInitialiser(), new SingleImplicitLambdaParameterInitialiser(),
-						new SuffixUnaryModificationExpressionInitialiser(), new UnaryExpressionInitialiser(), });
+		return this.initCol(new IInitialiser[] { new AdditiveExpressionInitialiser(), new AndExpressionInitialiser(),
+				new ArrayConstructorReferenceExpressionInitialiser(), new AssignmentExpressionInitialiser(),
+				new CastExpressionInitialiser(), new ClassTypeConstructorReferenceExpressionInitialiser(),
+				new ConditionalAndExpressionInitialiser(), new ConditionalExpressionInitialiser(),
+				new ConditionalOrExpressionInitialiser(), new EqualityExpressionInitialiser(),
+				new ExclusiveOrExpressionInitialiser(), new ExplicitlyTypedLambdaParametersInitialiser(),
+				new ExpressionListInitialiser(), new ImplicitlyTypedLambdaParametersInitialiser(),
+				new InclusiveOrExpressionInitialiser(), new InstanceOfExpressionInitialiser(),
+				new LambdaExpressionInitialiser(), new MultiplicativeExpressionInitialiser(),
+				new NestedExpressionInitialiser(), new PrefixUnaryModificationExpressionInitialiser(),
+				new PrimaryExpressionReferenceExpressionInitialiser(), new RelationExpressionInitialiser(),
+				new ShiftExpressionInitialiser(), new SingleImplicitLambdaParameterInitialiser(),
+				new SuffixUnaryModificationExpressionInitialiser(), new UnaryExpressionInitialiser(), });
 	}
 
 	@SuppressWarnings("unchecked")
