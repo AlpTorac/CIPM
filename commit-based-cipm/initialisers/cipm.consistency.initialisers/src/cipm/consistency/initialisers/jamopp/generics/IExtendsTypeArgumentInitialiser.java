@@ -26,6 +26,7 @@ public interface IExtendsTypeArgumentInitialiser extends IAnnotableInitialiser, 
 	 */
 	public default boolean setExtendType(ExtendsTypeArgument eta, TypeReference extType) {
 		eta.setExtendType(extType);
-		return (extType == null && eta.getExtendType() == null) || eta.getExtendType().equals(extType) && eta.getExtendTypes().contains(extType);
+		return (extType == null && eta.getExtendType() == null)
+				|| eta.getExtendType().equals(extType) && eta.getExtendTypes().contains(extType);
 	}
 }

@@ -11,6 +11,7 @@ public interface IInitializableInitialiser extends ICommentableInitialiser {
 
 	public default boolean setInitialValue(Initializable initializable, Expression initVal) {
 		initializable.setInitialValue(initVal);
-		return (initVal == null && initializable.getInitialValue() == null) || initializable.getInitialValue().equals(initVal);
+		return (initVal == null && initializable.getInitialValue() == null)
+				|| initializable.getInitialValue().equals(initVal);
 	}
 }

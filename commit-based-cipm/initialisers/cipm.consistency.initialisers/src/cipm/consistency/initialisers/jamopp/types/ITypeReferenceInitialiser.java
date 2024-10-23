@@ -42,7 +42,7 @@ public interface ITypeReferenceInitialiser extends IArrayTypeableInitialiser {
 		if (target != null && !this.canSetTargetTo(tref, target)) {
 			return false;
 		}
-		
+
 		tref.setTarget(target);
 		return this.setTargetAssertion(tref, target);
 	}

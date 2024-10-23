@@ -26,6 +26,7 @@ public interface IConditionalExpressionInitialiser extends IAssignmentExpression
 
 	public default boolean setGeneralExpressionElse(ConditionalExpression ce, Expression generalExprElse) {
 		ce.setGeneralExpressionElse(generalExprElse);
-		return (generalExprElse == null && ce.getGeneralExpressionElse() == null) || ce.getGeneralExpressionElse().equals(generalExprElse);
+		return (generalExprElse == null && ce.getGeneralExpressionElse() == null)
+				|| ce.getGeneralExpressionElse().equals(generalExprElse);
 	}
 }
