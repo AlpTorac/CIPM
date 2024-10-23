@@ -10,10 +10,7 @@ public interface ISuperTypeArgumentInitialiser extends IAnnotableInitialiser, IT
 	public SuperTypeArgument instantiate();
 
 	public default boolean setSuperType(SuperTypeArgument sta, TypeReference superType) {
-		if (superType != null) {
-			sta.setSuperType(superType);
-			return sta.getSuperType().equals(superType);
-		}
-		return true;
+		sta.setSuperType(superType);
+		return (superType == null && sta.getSuperType() == null) || sta.getSuperType().equals(superType);
 	}
 }

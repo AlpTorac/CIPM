@@ -10,11 +10,8 @@ public interface IModuleInitialiser extends IJavaRootInitialiser {
 	public Module instantiate();
 
 	public default boolean setOpen(Module mod, Open open) {
-		if (open != null) {
-			mod.setOpen(open);
-			return mod.getOpen().equals(open);
-		}
-		return true;
+		mod.setOpen(open);
+		return (open == null && mod.getOpen() == null) || mod.getOpen().equals(open);
 	}
 
 	public default boolean addTarget(Module mod, ModuleDirective target) {

@@ -10,10 +10,7 @@ public interface IImportInitialiser extends INamespaceAwareElementInitialiser {
 	public Import instantiate();
 
 	public default boolean setClassifier(Import imp, ConcreteClassifier cls) {
-		if (cls != null) {
-			imp.setClassifier(cls);
-			return imp.getClassifier().equals(cls);
-		}
-		return true;
+		imp.setClassifier(cls);
+		return (cls == null && imp.getClassifier() == null) || imp.getClassifier().equals(cls);
 	}
 }

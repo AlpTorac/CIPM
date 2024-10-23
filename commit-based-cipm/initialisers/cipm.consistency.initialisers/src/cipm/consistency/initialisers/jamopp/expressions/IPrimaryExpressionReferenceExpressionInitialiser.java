@@ -12,18 +12,12 @@ public interface IPrimaryExpressionReferenceExpressionInitialiser
 	public PrimaryExpressionReferenceExpression instantiate();
 
 	public default boolean setChild(PrimaryExpressionReferenceExpression pere, MethodReferenceExpressionChild mrec) {
-		if (mrec != null) {
-			pere.setChild(mrec);
-			return pere.getChild().equals(mrec);
-		}
-		return true;
+		pere.setChild(mrec);
+		return (mrec == null && pere.getChild() == null) || pere.getChild().equals(mrec);
 	}
 
 	public default boolean setMethodReference(PrimaryExpressionReferenceExpression pere, Reference metRef) {
-		if (metRef != null) {
-			pere.setMethodReference(metRef);
-			return pere.getMethodReference().equals(metRef);
-		}
-		return true;
+		pere.setMethodReference(metRef);
+		return (metRef == null && pere.getMethodReference() == null) || pere.getMethodReference().equals(metRef);
 	}
 }

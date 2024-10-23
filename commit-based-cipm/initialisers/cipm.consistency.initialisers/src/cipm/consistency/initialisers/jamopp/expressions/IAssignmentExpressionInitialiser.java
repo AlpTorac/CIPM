@@ -10,26 +10,17 @@ public interface IAssignmentExpressionInitialiser extends IExpressionInitialiser
 	public AssignmentExpression instantiate();
 
 	public default boolean setAssignmentOperator(AssignmentExpression ae, AssignmentOperator op) {
-		if (op != null) {
-			ae.setAssignmentOperator(op);
-			return ae.getAssignmentOperator().equals(op);
-		}
-		return true;
+		ae.setAssignmentOperator(op);
+		return (op == null && ae.getAssignmentOperator() == null) || ae.getAssignmentOperator().equals(op);
 	}
 
 	public default boolean setChild(AssignmentExpression ae, AssignmentExpressionChild child) {
-		if (child != null) {
-			ae.setChild(child);
-			return ae.getChild().equals(child);
-		}
-		return true;
+		ae.setChild(child);
+		return (child == null && ae.getChild() == null) || ae.getChild().equals(child);
 	}
 
 	public default boolean setValue(AssignmentExpression ae, Expression val) {
-		if (val != null) {
-			ae.setValue(val);
-			return ae.getValue().equals(val);
-		}
-		return true;
+		ae.setValue(val);
+		return (val == null && ae.getValue() == null) || ae.getValue().equals(val);
 	}
 }

@@ -8,18 +8,12 @@ public interface IElementReferenceInitialiser extends IReferenceInitialiser {
 	public ElementReference instantiate();
 
 	public default boolean setContainedTarget(ElementReference eref, ReferenceableElement conTarget) {
-		if (conTarget != null) {
-			eref.setContainedTarget(conTarget);
-			return eref.getContainedTarget().equals(conTarget);
-		}
-		return true;
+		eref.setContainedTarget(conTarget);
+		return (conTarget == null && eref.getContainedTarget() == null) || eref.getContainedTarget().equals(conTarget);
 	}
 
 	public default boolean setTarget(ElementReference eref, ReferenceableElement target) {
-		if (target != null) {
-			eref.setTarget(target);
-			return eref.getTarget().equals(target);
-		}
-		return true;
+		eref.setTarget(target);
+		return (target == null && eref.getTarget() == null) || eref.getTarget().equals(target);
 	}
 }

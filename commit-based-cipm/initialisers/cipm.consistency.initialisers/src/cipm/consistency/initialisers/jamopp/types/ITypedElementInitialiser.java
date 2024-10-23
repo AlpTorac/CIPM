@@ -10,10 +10,7 @@ public interface ITypedElementInitialiser extends ICommentableInitialiser {
 	public TypedElement instantiate();
 
 	public default boolean setTypeReference(TypedElement te, TypeReference tRef) {
-		if (tRef != null) {
-			te.setTypeReference(tRef);
-			return te.getTypeReference().equals(tRef);
-		}
-		return true;
+		te.setTypeReference(tRef);
+		return (tRef == null && te.getTypeReference() == null) || te.getTypeReference().equals(tRef);
 	}
 }

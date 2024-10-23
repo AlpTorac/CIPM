@@ -11,18 +11,12 @@ public interface IAnnotationInstanceInitialiser extends INamespaceAwareElementIn
 	public AnnotationInstance instantiate();
 
 	public default boolean setAnnotation(AnnotationInstance ai, Classifier anno) {
-		if (anno != null) {
-			ai.setAnnotation(anno);
-			return ai.getAnnotation().equals(anno);
-		}
-		return true;
+		ai.setAnnotation(anno);
+		return (anno == null && ai.getAnnotation() == null) || ai.getAnnotation().equals(anno);
 	}
 
 	public default boolean setParameter(AnnotationInstance ai, AnnotationParameter param) {
-		if (param != null) {
-			ai.setParameter(param);
-			return ai.getParameter().equals(param);
-		}
-		return true;
+		ai.setParameter(param);
+		return (param == null && ai.getParameter() == null) || ai.getParameter().equals(param);
 	}
 }

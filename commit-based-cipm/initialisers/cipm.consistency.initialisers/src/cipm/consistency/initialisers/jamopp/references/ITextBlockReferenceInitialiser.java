@@ -7,10 +7,7 @@ public interface ITextBlockReferenceInitialiser extends IReferenceInitialiser {
 	public TextBlockReference instantiate();
 
 	public default boolean setValue(TextBlockReference tbref, String val) {
-		if (val != null) {
-			tbref.setValue(val);
-			return tbref.getValue().equals(val);
-		}
-		return true;
+		tbref.setValue(val);
+		return (val == null && tbref.getValue() == null) || tbref.getValue().equals(val);
 	}
 }

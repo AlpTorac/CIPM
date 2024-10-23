@@ -14,10 +14,7 @@ public interface IJavaRootInitialiser extends INamedElementInitialiser, INamespa
 	public JavaRoot instantiate();
 
 	public default boolean setOrigin(JavaRoot jr, Origin origin) {
-		if (origin != null) {
-			jr.setOrigin(origin);
-			return jr.getOrigin().equals(origin);
-		}
-		return true;
+		jr.setOrigin(origin);
+		return (origin == null && jr.getOrigin() == null) || jr.getOrigin().equals(origin);
 	}
 }

@@ -10,10 +10,7 @@ public interface INestedExpressionInitialiser extends IReferenceInitialiser {
 	public NestedExpression instantiate();
 
 	public default boolean setExpression(NestedExpression ne, Expression expr) {
-		if (expr != null) {
-			ne.setExpression(expr);
-			return ne.getExpression().equals(expr);
-		}
-		return true;
+		ne.setExpression(expr);
+		return (expr == null && ne.getExpression() == null) || ne.getExpression().equals(expr);
 	}
 }

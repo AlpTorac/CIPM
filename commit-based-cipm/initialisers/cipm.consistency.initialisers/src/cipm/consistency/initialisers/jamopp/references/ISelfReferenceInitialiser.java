@@ -8,10 +8,7 @@ public interface ISelfReferenceInitialiser extends IReferenceInitialiser {
 	public SelfReference instantiate();
 
 	public default boolean setSelf(SelfReference sref, Self self) {
-		if (self != null) {
-			sref.setSelf(self);
-			return sref.getSelf().equals(self);
-		}
-		return true;
+		sref.setSelf(self);
+		return (self == null && sref.getSelf() == null) || sref.getSelf().equals(self);
 	}
 }

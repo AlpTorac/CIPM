@@ -11,18 +11,12 @@ public interface IReceiverParameterInitialiser extends IAnnotableInitialiser, IP
 	public ReceiverParameter instantiate();
 
 	public default boolean setOuterTypeReference(ReceiverParameter rp, TypeReference otRef) {
-		if (otRef != null) {
-			rp.setOuterTypeReference(otRef);
-			return rp.getOuterTypeReference().equals(otRef);
-		}
-		return true;
+		rp.setOuterTypeReference(otRef);
+		return (otRef == null && rp.getOuterTypeReference() == null) || rp.getOuterTypeReference().equals(otRef);
 	}
 
 	public default boolean setThisReference(ReceiverParameter rp, This thisRef) {
-		if (thisRef != null) {
-			rp.setThisReference(thisRef);
-			return rp.getThisReference().equals(thisRef);
-		}
-		return true;
+		rp.setThisReference(thisRef);
+		return (thisRef == null && rp.getThisReference() == null) || rp.getThisReference().equals(thisRef);
 	}
 }

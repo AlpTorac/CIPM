@@ -9,11 +9,8 @@ public interface IHexIntegerLiteralInitialiser extends IIntegerLiteralInitialise
 	public HexIntegerLiteral instantiate();
 
 	public default boolean setHexValue(HexIntegerLiteral hil, BigInteger val) {
-		if (val != null) {
-			hil.setHexValue(val);
-			return hil.getHexValue().equals(val);
-		}
-		return true;
+		hil.setHexValue(val);
+		return (val == null && hil.getHexValue() == null) || hil.getHexValue().equals(val);
 	}
 
 	public default boolean setHexValue(HexIntegerLiteral hil, int val) {

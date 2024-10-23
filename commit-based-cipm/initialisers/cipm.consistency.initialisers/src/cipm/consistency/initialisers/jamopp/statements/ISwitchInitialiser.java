@@ -23,10 +23,7 @@ public interface ISwitchInitialiser extends IStatementInitialiser, IUnaryModific
 	}
 
 	public default boolean setVariable(Switch sw, Expression var) {
-		if (var != null) {
-			sw.setVariable(var);
-			return sw.getVariable().equals(var);
-		}
-		return true;
+		sw.setVariable(var);
+		return (var == null && sw.getVariable() == null) || sw.getVariable().equals(var);
 	}
 }

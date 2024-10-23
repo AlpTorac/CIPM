@@ -10,10 +10,7 @@ public interface IStatementContainerInitialiser extends ICommentableInitialiser 
 	public StatementContainer instantiate();
 
 	public default boolean setStatement(StatementContainer sc, Statement st) {
-		if (st != null) {
-			sc.setStatement(st);
-			return sc.getStatement().equals(st);
-		}
-		return true;
+		sc.setStatement(st);
+		return (st == null && sc.getStatement() == null) || sc.getStatement().equals(st);
 	}
 }

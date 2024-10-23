@@ -9,18 +9,12 @@ public interface IForEachLoopInitialiser extends IStatementInitialiser, IStateme
 	public ForEachLoop instantiate();
 
 	public default boolean setCollection(ForEachLoop fel, Expression col) {
-		if (col != null) {
-			fel.setCollection(col);
-			return fel.getCollection().equals(col);
-		}
-		return true;
+		fel.setCollection(col);
+		return (col == null && fel.getCollection() == null) || fel.getCollection().equals(col);
 	}
 
 	public default boolean setNext(ForEachLoop fel, OrdinaryParameter next) {
-		if (next != null) {
-			fel.setNext(next);
-			return fel.getNext().equals(next);
-		}
-		return true;
+		fel.setNext(next);
+		return (next == null && fel.getNext() == null) || fel.getNext().equals(next);
 	}
 }

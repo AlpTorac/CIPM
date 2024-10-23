@@ -8,10 +8,7 @@ public interface IJumpInitialiser extends IStatementInitialiser {
 	public Jump instantiate();
 
 	public default boolean setTarget(Jump jump, JumpLabel target) {
-		if (target != null) {
-			jump.setTarget(target);
-			return jump.getTarget().equals(target);
-		}
-		return true;
+		jump.setTarget(target);
+		return (target == null && jump.getTarget() == null) || jump.getTarget().equals(target);
 	}
 }

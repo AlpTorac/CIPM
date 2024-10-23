@@ -8,10 +8,7 @@ public interface IExplicitConstructorCallInitialiser extends IInstantiationIniti
 	public ExplicitConstructorCall instantiate();
 
 	public default boolean setCallTarget(ExplicitConstructorCall ecc, Self callTarget) {
-		if (callTarget != null) {
-			ecc.setCallTarget(callTarget);
-			return ecc.getCallTarget().equals(callTarget);
-		}
-		return true;
+		ecc.setCallTarget(callTarget);
+		return (callTarget == null && ecc.getCallTarget() == null) || ecc.getCallTarget().equals(callTarget);
 	}
 }

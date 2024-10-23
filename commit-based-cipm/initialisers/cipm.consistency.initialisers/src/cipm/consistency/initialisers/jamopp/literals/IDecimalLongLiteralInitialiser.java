@@ -9,11 +9,8 @@ public interface IDecimalLongLiteralInitialiser extends ILongLiteralInitialiser 
 	public DecimalLongLiteral instantiate();
 
 	public default boolean setDecimalValue(DecimalLongLiteral dll, BigInteger val) {
-		if (val != null) {
-			dll.setDecimalValue(val);
-			return dll.getDecimalValue().equals(val);
-		}
-		return true;
+		dll.setDecimalValue(val);
+		return (val == null && dll.getDecimalValue() == null) || dll.getDecimalValue().equals(val);
 	}
 
 	public default boolean setDecimalValue(DecimalLongLiteral dll, long val) {

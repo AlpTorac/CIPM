@@ -8,10 +8,7 @@ public interface IInterfaceMethodInitialiser extends IMethodInitialiser {
 	public InterfaceMethod instantiate();
 
 	public default boolean setDefaultValue(InterfaceMethod im, AnnotationValue defVal) {
-		if (defVal != null) {
-			im.setDefaultValue(defVal);
-			return im.getDefaultValue().equals(defVal);
-		}
-		return true;
+		im.setDefaultValue(defVal);
+		return (defVal == null && im.getDefaultValue() == null) || im.getDefaultValue().equals(defVal);
 	}
 }

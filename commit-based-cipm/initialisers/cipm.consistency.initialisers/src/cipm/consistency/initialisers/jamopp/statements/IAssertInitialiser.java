@@ -8,10 +8,7 @@ public interface IAssertInitialiser extends IConditionalInitialiser, IStatementI
 	public Assert instantiate();
 
 	public default boolean setErrorMessage(Assert asrt, Expression errMsg) {
-		if (errMsg != null) {
-			asrt.setErrorMessage(errMsg);
-			return asrt.getErrorMessage().equals(errMsg);
-		}
-		return true;
+		asrt.setErrorMessage(errMsg);
+		return (errMsg == null && asrt.getErrorMessage() == null) || asrt.getErrorMessage().equals(errMsg);
 	}
 }

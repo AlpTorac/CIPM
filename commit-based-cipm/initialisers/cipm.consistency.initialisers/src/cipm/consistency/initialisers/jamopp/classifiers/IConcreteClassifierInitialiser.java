@@ -33,10 +33,7 @@ public interface IConcreteClassifierInitialiser extends IAnnotableAndModifiableI
 	 * @see {@link IConcreteClassifierInitialiser}
 	 */
 	public default boolean setPackage(ConcreteClassifier cls, Package pac) {
-		if (pac != null) {
-			cls.setPackage(pac);
-			return cls.getPackage().equals(pac);
-		}
-		return true;
+		cls.setPackage(pac);
+		return (pac == null && cls.getPackage() == null) || cls.getPackage().equals(pac);
 	}
 }

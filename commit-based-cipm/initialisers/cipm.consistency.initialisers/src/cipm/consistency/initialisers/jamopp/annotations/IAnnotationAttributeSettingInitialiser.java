@@ -11,18 +11,12 @@ public interface IAnnotationAttributeSettingInitialiser extends ICommentableInit
 	public AnnotationAttributeSetting instantiate();
 
 	public default boolean setAttribute(AnnotationAttributeSetting aas, InterfaceMethod attr) {
-		if (attr != null) {
-			aas.setAttribute(attr);
-			return aas.getAttribute().equals(attr);
-		}
-		return true;
+		aas.setAttribute(attr);
+		return (attr == null && aas.getAttribute() == null) || aas.getAttribute().equals(attr);
 	}
 
 	public default boolean setValue(AnnotationAttributeSetting aas, AnnotationValue val) {
-		if (val != null) {
-			aas.setValue(val);
-			return aas.getValue().equals(val);
-		}
-		return true;
+		aas.setValue(val);
+		return (val == null && aas.getValue() == null) || aas.getValue().equals(val);
 	}
 }

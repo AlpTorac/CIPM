@@ -9,11 +9,8 @@ public interface IBinaryLongLiteralInitialiser extends ILongLiteralInitialiser {
 	public BinaryLongLiteral instantiate();
 
 	public default boolean setBinaryValue(BinaryLongLiteral bil, BigInteger val) {
-		if (val != null) {
-			bil.setBinaryValue(val);
-			return bil.getBinaryValue().equals(val);
-		}
-		return true;
+		bil.setBinaryValue(val);
+		return (val == null && bil.getBinaryValue() == null) || bil.getBinaryValue().equals(val);
 	}
 
 	public default boolean setBinaryValue(BinaryLongLiteral bil, long val) {

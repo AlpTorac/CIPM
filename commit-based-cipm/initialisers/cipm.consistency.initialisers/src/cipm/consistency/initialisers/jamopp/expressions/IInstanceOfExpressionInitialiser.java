@@ -11,10 +11,7 @@ public interface IInstanceOfExpressionInitialiser
 	public InstanceOfExpression instantiate();
 
 	public default boolean setChild(InstanceOfExpression ioe, InstanceOfExpressionChild child) {
-		if (child != null) {
-			ioe.setChild(child);
-			return ioe.getChild().equals(child);
-		}
-		return true;
+		ioe.setChild(child);
+		return (child == null && ioe.getChild() == null) || ioe.getChild().equals(child);
 	}
 }

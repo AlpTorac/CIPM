@@ -43,10 +43,7 @@ public interface ICastExpressionInitialiser
 	 * @see {@link ICastExpressionInitialiser}
 	 */
 	public default boolean setChild(CastExpression ce, MultiplicativeExpressionChild child) {
-		if (child != null) {
-			ce.setChild(child);
-			return ce.getChild().equals(child);
-		}
-		return true;
+		ce.setChild(child);
+		return (child == null && ce.getChild() == null) || ce.getChild().equals(child);
 	}
 }

@@ -10,10 +10,7 @@ public interface IPrimitiveTypeReferenceInitialiser extends IArrayTypeableInitia
 	public PrimitiveTypeReference instantiate();
 
 	public default boolean setPrimitiveType(PrimitiveTypeReference ptr, PrimitiveType pt) {
-		if (pt != null) {
-			ptr.setPrimitiveType(pt);
-			return ptr.getPrimitiveType().equals(pt);
-		}
-		return true;
+		ptr.setPrimitiveType(pt);
+		return (pt == null && ptr.getPrimitiveType() == null) || ptr.getPrimitiveType().equals(pt);
 	}
 }

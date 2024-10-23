@@ -8,10 +8,7 @@ public interface IYieldStatementInitialiser extends IStatementInitialiser {
 	public YieldStatement instantiate();
 
 	public default boolean setYieldExpression(YieldStatement ys, Expression yieldExpr) {
-		if (yieldExpr != null) {
-			ys.setYieldExpression(yieldExpr);
-			return ys.getYieldExpression().equals(yieldExpr);
-		}
-		return true;
+		ys.setYieldExpression(yieldExpr);
+		return (yieldExpr == null && ys.getYieldExpression() == null) || ys.getYieldExpression().equals(yieldExpr);
 	}
 }

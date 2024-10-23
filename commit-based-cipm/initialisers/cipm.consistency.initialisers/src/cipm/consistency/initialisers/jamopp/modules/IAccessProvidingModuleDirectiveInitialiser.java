@@ -12,11 +12,9 @@ public interface IAccessProvidingModuleDirectiveInitialiser
 	public AccessProvidingModuleDirective instantiate();
 
 	public default boolean setAccessablePackage(AccessProvidingModuleDirective apmd, Package accessablePac) {
-		if (accessablePac != null) {
-			apmd.setAccessablePackage(accessablePac);
-			return apmd.getAccessablePackage().equals(accessablePac);
-		}
-		return true;
+		apmd.setAccessablePackage(accessablePac);
+		return (accessablePac == null && apmd.getAccessablePackage() == null)
+				|| apmd.getAccessablePackage().equals(accessablePac);
 	}
 
 	public default boolean addModule(AccessProvidingModuleDirective apmd, ModuleReference mod) {

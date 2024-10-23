@@ -9,11 +9,8 @@ public interface IHexLongLiteralInitialiser extends ILongLiteralInitialiser {
 	public HexLongLiteral instantiate();
 
 	public default boolean setHexValue(HexLongLiteral hll, BigInteger val) {
-		if (val != null) {
-			hll.setHexValue(val);
-			return hll.getHexValue().equals(val);
-		}
-		return true;
+		hll.setHexValue(val);
+		return (val == null && hll.getHexValue() == null) || hll.getHexValue().equals(val);
 	}
 
 	public default boolean setHexValue(HexLongLiteral hll, long val) {

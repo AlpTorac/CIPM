@@ -13,10 +13,7 @@ public interface IEnumConstantInitialiser
 	public EnumConstant instantiate();
 
 	public default boolean setAnonymousClass(EnumConstant ec, AnonymousClass anonymousCls) {
-		if (anonymousCls != null) {
-			ec.setAnonymousClass(anonymousCls);
-			return ec.getAnonymousClass().equals(anonymousCls);
-		}
-		return true;
+		ec.setAnonymousClass(anonymousCls);
+		return (anonymousCls == null && ec.getAnonymousClass() == null) || ec.getAnonymousClass().equals(anonymousCls);
 	}
 }

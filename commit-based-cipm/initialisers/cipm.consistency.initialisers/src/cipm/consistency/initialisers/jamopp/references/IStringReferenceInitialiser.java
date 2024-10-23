@@ -7,10 +7,7 @@ public interface IStringReferenceInitialiser extends IReferenceInitialiser {
 	public StringReference instantiate();
 
 	public default boolean setValue(StringReference sref, String val) {
-		if (val != null) {
-			sref.setValue(val);
-			return sref.getValue().equals(val);
-		}
-		return true;
+		sref.setValue(val);
+		return (val == null && sref.getValue() == null) || sref.getValue().equals(val);
 	}
 }

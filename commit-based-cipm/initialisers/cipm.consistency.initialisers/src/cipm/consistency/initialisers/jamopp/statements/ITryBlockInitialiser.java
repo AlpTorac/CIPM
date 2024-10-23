@@ -12,11 +12,8 @@ public interface ITryBlockInitialiser
 	public TryBlock instantiate();
 
 	public default boolean setFinallyBlock(TryBlock tb, Block finallyBlock) {
-		if (finallyBlock != null) {
-			tb.setFinallyBlock(finallyBlock);
-			return tb.getFinallyBlock().equals(finallyBlock);
-		}
-		return true;
+		tb.setFinallyBlock(finallyBlock);
+		return (finallyBlock == null && tb.getFinallyBlock() == null) || tb.getFinallyBlock().equals(finallyBlock);
 	}
 
 	public default boolean addCatchBlock(TryBlock tb, CatchBlock cb) {

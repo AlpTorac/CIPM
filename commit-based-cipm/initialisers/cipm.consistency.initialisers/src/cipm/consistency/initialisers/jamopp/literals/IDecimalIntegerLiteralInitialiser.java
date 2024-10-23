@@ -9,11 +9,8 @@ public interface IDecimalIntegerLiteralInitialiser extends IIntegerLiteralInitia
 	public DecimalIntegerLiteral instantiate();
 
 	public default boolean setDecimalValue(DecimalIntegerLiteral dil, BigInteger val) {
-		if (val != null) {
-			dil.setDecimalValue(val);
-			return dil.getDecimalValue().equals(val);
-		}
-		return true;
+		dil.setDecimalValue(val);
+		return (val == null && dil.getDecimalValue() == null) || dil.getDecimalValue().equals(val);
 	}
 
 	public default boolean setDecimalValue(DecimalIntegerLiteral dil, int val) {

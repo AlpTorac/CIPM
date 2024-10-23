@@ -10,10 +10,7 @@ public interface IModuleReferenceInitialiser extends INamespaceAwareElementIniti
 	public ModuleReference instantiate();
 
 	public default boolean setTarget(ModuleReference mref, Module target) {
-		if (target != null) {
-			mref.setTarget(target);
-			return mref.getTarget().equals(target);
-		}
-		return true;
+		mref.setTarget(target);
+		return (target == null && mref.getTarget() == null) || mref.getTarget().equals(target);
 	}
 }

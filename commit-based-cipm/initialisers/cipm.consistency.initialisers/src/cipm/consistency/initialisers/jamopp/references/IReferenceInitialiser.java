@@ -26,11 +26,9 @@ public interface IReferenceInitialiser
 	}
 
 	public default boolean setNext(Reference ref, Reference next) {
-		if (next != null) {
-			ref.setNext(next);
-			return ref.getNext().equals(next) && ref.getNext().getPrevious().equals(ref)
-					&& next.getPrevious().equals(ref) && next.getPrevious().getNext().equals(next);
-		}
-		return true;
+		ref.setNext(next);
+		return (next == null && ref.getNext() == null)
+				|| (ref.getNext().equals(next) && ref.getNext().getPrevious().equals(ref)
+						&& next.getPrevious().equals(ref) && next.getPrevious().getNext().equals(next));
 	}
 }

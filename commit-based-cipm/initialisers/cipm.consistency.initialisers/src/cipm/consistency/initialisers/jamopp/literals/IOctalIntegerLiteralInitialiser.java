@@ -9,11 +9,8 @@ public interface IOctalIntegerLiteralInitialiser extends IIntegerLiteralInitiali
 	public OctalIntegerLiteral instantiate();
 
 	public default boolean setOctalValue(OctalIntegerLiteral oil, BigInteger val) {
-		if (val != null) {
-			oil.setOctalValue(val);
-			return oil.getOctalValue().equals(val);
-		}
-		return true;
+		oil.setOctalValue(val);
+		return (val == null && oil.getOctalValue() == null) || oil.getOctalValue().equals(val);
 	}
 
 	public default boolean setOctalValue(OctalIntegerLiteral oil, int val) {

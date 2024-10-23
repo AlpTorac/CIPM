@@ -10,10 +10,7 @@ public interface IInitializableInitialiser extends ICommentableInitialiser {
 	public Initializable instantiate();
 
 	public default boolean setInitialValue(Initializable initializable, Expression initVal) {
-		if (initVal != null) {
-			initializable.setInitialValue(initVal);
-			return initializable.getInitialValue().equals(initVal);
-		}
-		return true;
+		initializable.setInitialValue(initVal);
+		return (initVal == null && initializable.getInitialValue() == null) || initializable.getInitialValue().equals(initVal);
 	}
 }

@@ -9,10 +9,8 @@ public interface IArrayInstantiationByValuesInitialiser extends IArrayInstantiat
 	public ArrayInstantiationByValues instantiate();
 
 	public default boolean setArrayInitializer(ArrayInstantiationByValues arrIns, ArrayInitializer arrInit) {
-		if (arrInit != null) {
-			arrIns.setArrayInitializer(arrInit);
-			return arrIns.getArrayInitializer().equals(arrInit);
-		}
-		return true;
+		arrIns.setArrayInitializer(arrInit);
+		return (arrInit == null && arrIns.getArrayInitializer() == null)
+				|| arrIns.getArrayInitializer().equals(arrInit);
 	}
 }

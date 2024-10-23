@@ -9,11 +9,8 @@ public interface IBinaryIntegerLiteralInitialiser extends IIntegerLiteralInitial
 	public BinaryIntegerLiteral instantiate();
 
 	public default boolean setBinaryValue(BinaryIntegerLiteral bil, BigInteger val) {
-		if (val != null) {
-			bil.setBinaryValue(val);
-			return bil.getBinaryValue().equals(val);
-		}
-		return true;
+		bil.setBinaryValue(val);
+		return (val == null && bil.getBinaryValue() == null) || bil.getBinaryValue().equals(val);
 	}
 
 	public default boolean setBinaryValue(BinaryIntegerLiteral bil, int val) {

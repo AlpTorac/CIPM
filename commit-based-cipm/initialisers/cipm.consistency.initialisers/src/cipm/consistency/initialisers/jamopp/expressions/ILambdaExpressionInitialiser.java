@@ -9,18 +9,12 @@ public interface ILambdaExpressionInitialiser extends IExpressionInitialiser {
 	public LambdaExpression instantiate();
 
 	public default boolean setBody(LambdaExpression le, LambdaBody body) {
-		if (body != null) {
-			le.setBody(body);
-			return le.getBody().equals(body);
-		}
-		return true;
+		le.setBody(body);
+		return (body == null && le.getBody() == null) || le.getBody().equals(body);
 	}
 
 	public default boolean setParameters(LambdaExpression le, LambdaParameters param) {
-		if (param != null) {
-			le.setParameters(param);
-			return le.getParameters().equals(param);
-		}
-		return true;
+		le.setParameters(param);
+		return (param == null && le.getParameters() == null) || le.getParameters().equals(param);
 	}
 }

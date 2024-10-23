@@ -9,11 +9,8 @@ public interface IOctalLongLiteralInitialiser extends ILongLiteralInitialiser {
 	public OctalLongLiteral instantiate();
 
 	public default boolean setOctalValue(OctalLongLiteral oll, BigInteger val) {
-		if (val != null) {
-			oll.setOctalValue(val);
-			return oll.getOctalValue().equals(val);
-		}
-		return true;
+		oll.setOctalValue(val);
+		return (val == null && oll.getOctalValue() == null) || oll.getOctalValue().equals(val);
 	}
 
 	public default boolean setOctalValue(OctalLongLiteral oll, long val) {

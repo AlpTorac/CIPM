@@ -9,23 +9,22 @@ import java.util.function.BiFunction;
  * they instantiate. <br>
  * <br>
  * Initialisers can also implement (default) methods that modify their
- * designated objects. It is suggested to declare the return types of such
- * modification methods as "boolean". This enables returning true or false to
- * ensure that the method actually worked as intended and made the modifications
- * it was meant to do. It is also possible to extract this behaviour into
- * additional assertion methods. <br>
+ * designated objects. It is suggested to have such modification methods return
+ * something that indicates whether they ran as expected. <b>In general,
+ * modification methods DO NOT check, if the object that is being modified
+ * (modification target) is null. Attempting to use null as modification target
+ * will result in EXCEPTIONS.</b> The reason behind this is the importance of
+ * knowing if the modification target is null, as this could hint towards faulty
+ * code.<br>
  * <br>
- * <b>Modification methods DO NOT check, if the object that is being modified
- * (modification target) is null. Attempting to modify null objects will result
- * in EXCEPTIONS being thrown. They only have null checks for the other passed
- * parameters, which are used to perform the modifications. If those parameters
- * are null, no modification will be performed and the return value of the said
- * methods will be true, since there is no modification to fail.</b> It is
- * important to know if the modification target is null, as this could hint
- * towards faulty code. Therefore there are no null checks for the modification
- * target. On the other hand, there are null checks for other modification
- * parameters. This is for the sake of sparing null checks in object
- * construction.<br>
+ * addSomething(...) methods have null checks for the passed parameters other
+ * than the modification target (i.e. modification parameters), which are used
+ * to perform modifications. By default, it is assumed that no null elements can
+ * be added to modification targets via addSomething(...). If modification
+ * parameters are null, no modification will be performed and the method will be
+ * assumed to have run as expected, since no modification was performed and
+ * failed. setSomething(...) methods, on the other hand, allow setting
+ * attributes of the modification target to null. <br>
  * <br>
  * It is recommended to separate instantiation and initialisation (modification)
  * methods, as doing so will allow using the individual methods in sub-types.

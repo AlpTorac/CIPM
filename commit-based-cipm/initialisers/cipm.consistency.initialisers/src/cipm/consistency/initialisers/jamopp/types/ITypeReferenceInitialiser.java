@@ -39,16 +39,12 @@ public interface ITypeReferenceInitialiser extends IArrayTypeableInitialiser {
 	 * @see {@link #setTargetAssertion(TypeReference, Classifier)}
 	 */
 	public default boolean setTarget(TypeReference tref, Classifier target) {
-		if (target != null) {
-			if (!this.canSetTargetTo(tref, target)) {
-				return false;
-			}
-
-			tref.setTarget(target);
-			return this.setTargetAssertion(tref, target);
+		if (target != null && !this.canSetTargetTo(tref, target)) {
+			return false;
 		}
-
-		return true;
+		
+		tref.setTarget(target);
+		return this.setTargetAssertion(tref, target);
 	}
 
 	/**

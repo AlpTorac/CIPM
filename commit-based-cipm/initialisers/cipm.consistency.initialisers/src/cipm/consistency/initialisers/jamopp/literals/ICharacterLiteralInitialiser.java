@@ -7,10 +7,7 @@ public interface ICharacterLiteralInitialiser extends ILiteralInitialiser {
 	public CharacterLiteral instantiate();
 
 	public default boolean setValue(CharacterLiteral cl, String val) {
-		if (val != null) {
-			cl.setValue(val);
-			return cl.getValue().equals(val);
-		}
-		return true;
+		cl.setValue(val);
+		return (val == null && cl.getValue() == null) || cl.getValue().equals(val);
 	}
 }

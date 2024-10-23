@@ -10,11 +10,8 @@ public interface IForLoopInitialiser
 	public ForLoop instantiate();
 
 	public default boolean setInit(ForLoop fl, ForLoopInitializer init) {
-		if (init != null) {
-			fl.setInit(init);
-			return fl.getInit().equals(init);
-		}
-		return true;
+		fl.setInit(init);
+		return (init == null && fl.getInit() == null) || fl.getInit().equals(init);
 	}
 
 	public default boolean addUpdate(ForLoop fl, Expression update) {

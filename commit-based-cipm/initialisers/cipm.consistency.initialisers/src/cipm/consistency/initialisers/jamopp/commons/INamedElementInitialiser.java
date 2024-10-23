@@ -26,14 +26,11 @@ public interface INamedElementInitialiser extends ICommentableInitialiser {
 	 * @see {@link #canSetName(NamedElement)}
 	 */
 	public default boolean setName(NamedElement ne, String name) {
-		if (name != null) {
-			if (!this.canSetName(ne)) {
-				return false;
-			}
-			ne.setName(name);
-			return ne.getName().equals(name);
+		if (!this.canSetName(ne)) {
+			return false;
 		}
-		return true;
+		ne.setName(name);
+		return (name == null && ne.getName() == null) || ne.getName().equals(name);
 	}
 
 	/**

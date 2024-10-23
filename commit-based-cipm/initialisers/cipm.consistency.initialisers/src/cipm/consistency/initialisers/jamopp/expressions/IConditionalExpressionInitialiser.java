@@ -10,34 +10,22 @@ public interface IConditionalExpressionInitialiser extends IAssignmentExpression
 	public ConditionalExpression instantiate();
 
 	public default boolean setChild(ConditionalExpression ce, ConditionalExpressionChild child) {
-		if (child != null) {
-			ce.setChild(child);
-			return ce.getChild().equals(child);
-		}
-		return true;
+		ce.setChild(child);
+		return (child == null && ce.getChild() == null) || ce.getChild().equals(child);
 	}
 
 	public default boolean setExpressionChild(ConditionalExpression ce, AssignmentExpressionChild exprChild) {
-		if (exprChild != null) {
-			ce.setExpressionChild(exprChild);
-			return ce.getExpressionElse().equals(exprChild);
-		}
-		return true;
+		ce.setExpressionChild(exprChild);
+		return (exprChild == null && ce.getExpressionElse() == null) || ce.getExpressionElse().equals(exprChild);
 	}
 
 	public default boolean setExpressionIf(ConditionalExpression ce, Expression exprIf) {
-		if (exprIf != null) {
-			ce.setExpressionIf(exprIf);
-			return ce.getExpressionIf().equals(exprIf);
-		}
-		return true;
+		ce.setExpressionIf(exprIf);
+		return (exprIf == null && ce.getExpressionIf() == null) || ce.getExpressionIf().equals(exprIf);
 	}
 
 	public default boolean setGeneralExpressionElse(ConditionalExpression ce, Expression generalExprElse) {
-		if (generalExprElse != null) {
-			ce.setGeneralExpressionElse(generalExprElse);
-			return ce.getGeneralExpressionElse().equals(generalExprElse);
-		}
-		return true;
+		ce.setGeneralExpressionElse(generalExprElse);
+		return (generalExprElse == null && ce.getGeneralExpressionElse() == null) || ce.getGeneralExpressionElse().equals(generalExprElse);
 	}
 }

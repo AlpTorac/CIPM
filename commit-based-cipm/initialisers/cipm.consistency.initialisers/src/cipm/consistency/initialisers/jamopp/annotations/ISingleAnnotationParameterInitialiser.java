@@ -8,10 +8,7 @@ public interface ISingleAnnotationParameterInitialiser extends IAnnotationParame
 	public SingleAnnotationParameter instantiate();
 
 	public default boolean setValue(SingleAnnotationParameter sap, AnnotationValue val) {
-		if (val != null) {
-			sap.setValue(val);
-			return sap.getValue().equals(val);
-		}
-		return true;
+		sap.setValue(val);
+		return (val == null && sap.getValue() == null) || sap.getValue().equals(val);
 	}
 }

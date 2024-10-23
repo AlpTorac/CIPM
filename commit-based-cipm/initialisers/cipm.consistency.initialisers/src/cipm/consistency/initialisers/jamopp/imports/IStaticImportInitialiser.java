@@ -8,10 +8,7 @@ public interface IStaticImportInitialiser extends IImportInitialiser {
 	public StaticImport instantiate();
 
 	public default boolean setStatic(StaticImport sImp, Static st) {
-		if (st != null) {
-			sImp.setStatic(st);
-			return sImp.getStatic().equals(st);
-		}
-		return true;
+		sImp.setStatic(st);
+		return (st == null && sImp.getStatic() == null) || sImp.getStatic().equals(st);
 	}
 }

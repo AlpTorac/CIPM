@@ -10,11 +10,8 @@ public interface ICatchBlockInitialiser extends IBlockContainerInitialiser, ISta
 	public CatchBlock instantiate();
 
 	public default boolean setParameter(CatchBlock cb, OrdinaryParameter param) {
-		if (param != null) {
-			cb.setParameter(param);
-			return cb.getParameter().equals(param);
-		}
-		return true;
+		cb.setParameter(param);
+		return (param == null && cb.getParameter() == null) || cb.getParameter().equals(param);
 	}
 
 	@Override

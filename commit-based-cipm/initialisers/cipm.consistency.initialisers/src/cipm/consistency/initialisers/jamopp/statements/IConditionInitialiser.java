@@ -10,10 +10,7 @@ public interface IConditionInitialiser
 	public Condition instantiate();
 
 	public default boolean setElseStatement(Condition cond, Statement elseSt) {
-		if (elseSt != null) {
-			cond.setElseStatement(elseSt);
-			return cond.getElseStatement().equals(elseSt);
-		}
-		return true;
+		cond.setElseStatement(elseSt);
+		return (elseSt == null && cond.getElseStatement() == null) || cond.getElseStatement().equals(elseSt);
 	}
 }

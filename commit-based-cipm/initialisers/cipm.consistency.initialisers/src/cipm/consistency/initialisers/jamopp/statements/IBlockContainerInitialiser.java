@@ -10,10 +10,7 @@ public interface IBlockContainerInitialiser extends ICommentableInitialiser {
 	public BlockContainer instantiate();
 
 	public default boolean setBlock(BlockContainer bc, Block block) {
-		if (block != null) {
-			bc.setBlock(block);
-			return bc.getBlock().equals(block);
-		}
-		return true;
+		bc.setBlock(block);
+		return (block == null && bc.getBlock() == null) || bc.getBlock().equals(block);
 	}
 }

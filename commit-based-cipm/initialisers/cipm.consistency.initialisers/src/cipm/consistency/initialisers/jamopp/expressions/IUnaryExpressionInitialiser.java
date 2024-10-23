@@ -21,10 +21,7 @@ public interface IUnaryExpressionInitialiser extends IMultiplicativeExpressionCh
 	}
 
 	public default boolean setChild(UnaryExpression ue, UnaryExpressionChild child) {
-		if (child != null) {
-			ue.setChild(child);
-			return ue.getChild().equals(child);
-		}
-		return true;
+		ue.setChild(child);
+		return (child == null && ue.getChild() == null) || ue.getChild().equals(child);
 	}
 }

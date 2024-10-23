@@ -36,11 +36,8 @@ public interface IPackageInitialiser extends IJavaRootInitialiser, IReferenceabl
 	}
 
 	public default boolean setModule(Package pac, Module mod) {
-		if (mod != null) {
-			pac.setModule(mod);
-			return pac.getModule().equals(mod);
-		}
-		return true;
+		pac.setModule(mod);
+		return (mod == null && pac.getModule() == null) || pac.getModule().equals(mod);
 	}
 
 	public default boolean addClassifier(Package pac, ConcreteClassifier cls) {

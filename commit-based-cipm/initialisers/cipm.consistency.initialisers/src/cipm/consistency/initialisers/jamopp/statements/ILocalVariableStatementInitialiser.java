@@ -8,10 +8,7 @@ public interface ILocalVariableStatementInitialiser extends IStatementInitialise
 	public LocalVariableStatement instantiate();
 
 	public default boolean setVariable(LocalVariableStatement lvs, LocalVariable var) {
-		if (var != null) {
-			lvs.setVariable(var);
-			return lvs.getVariable().equals(var);
-		}
-		return true;
+		lvs.setVariable(var);
+		return (var == null && lvs.getVariable() == null) || lvs.getVariable().equals(var);
 	}
 }

@@ -8,10 +8,7 @@ public interface IExpressionStatementInitialiser extends IStatementInitialiser {
 	public ExpressionStatement instantiate();
 
 	public default boolean setExpression(ExpressionStatement es, Expression expr) {
-		if (expr != null) {
-			es.setExpression(expr);
-			return es.getExpression().equals(expr);
-		}
-		return true;
+		es.setExpression(expr);
+		return (expr == null && es.getExpression() == null) || es.getExpression().equals(expr);
 	}
 }

@@ -9,18 +9,12 @@ public interface IUnaryModificationExpressionInitialiser extends IUnaryExpressio
 	public UnaryModificationExpression instantiate();
 
 	public default boolean setChild(UnaryModificationExpression ume, UnaryModificationExpressionChild child) {
-		if (child != null) {
-			ume.setChild(child);
-			return ume.getChild().equals(child);
-		}
-		return true;
+		ume.setChild(child);
+		return (child == null && ume.getChild() == null) || ume.getChild().equals(child);
 	}
 
 	public default boolean setOperator(UnaryModificationExpression ume, UnaryModificationOperator op) {
-		if (op != null) {
-			ume.setOperator(op);
-			return ume.getOperator().equals(op);
-		}
-		return true;
+		ume.setOperator(op);
+		return (op == null && ume.getOperator() == null) || ume.getOperator().equals(op);
 	}
 }
