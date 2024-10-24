@@ -18,7 +18,7 @@ public interface IInitialiserAdapterStrategy {
 	 * Applies the initialisation logic contained in this instance to the given
 	 * object.
 	 * 
-	 * @return If the method did what it was supposed to do.
+	 * @return Whether the method did what it was supposed to do.
 	 */
 	public boolean apply(IInitialiser init, Object obj);
 
