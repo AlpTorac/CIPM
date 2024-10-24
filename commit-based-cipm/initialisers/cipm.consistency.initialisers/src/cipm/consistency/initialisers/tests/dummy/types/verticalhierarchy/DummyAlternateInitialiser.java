@@ -1,5 +1,13 @@
 package cipm.consistency.initialisers.tests.dummy.types.verticalhierarchy;
 
+/**
+ * A dummy implementation of {@link IDummyAlternateInitialiser} that introduces
+ * nothing new. Serves as an alternative to
+ * {@link DummyNonTerminalObjInitialiser} (does not have any dependencies to
+ * it).
+ * 
+ * @author Alp Torac Genc
+ */
 public class DummyAlternateInitialiser implements IDummyAlternateInitialiser {
 	@Override
 	public DummyAlternateInitialiser newInitialiser() {
