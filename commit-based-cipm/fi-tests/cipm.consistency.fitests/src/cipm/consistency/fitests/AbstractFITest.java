@@ -28,7 +28,7 @@ import cipm.consistency.commitintegration.diff.util.JavaModelComparator;
  * Offers utility and assertion methods to help implement unit tests cleaner, as
  * well as logger integration that help keep up with the program flow.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public abstract class AbstractFITest {
 	private static final Logger LOGGER = Logger.getLogger("cipm." + AbstractFITest.class.getSimpleName());
