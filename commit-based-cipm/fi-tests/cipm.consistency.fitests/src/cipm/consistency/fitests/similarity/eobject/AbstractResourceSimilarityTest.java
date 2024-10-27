@@ -18,8 +18,7 @@ import cipm.consistency.fitests.similarity.AbstractSimilarityTest;
  */
 public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityTest {
 	/**
-	 * The {@link ResourceHelper} instance that can be used for creating
-	 * {@link Resource} instances.
+	 * @see {@link #getResourceHelper()}
 	 */
 	private ResourceHelper resHelper;
 
@@ -27,26 +26,36 @@ public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityT
 	@Override
 	public void setUp(TestInfo info) {
 		super.setUp(info);
-		this.setUpResourceHelper();
+
+		this.setResourceHelper(new ResourceHelper());
+
+		this.getResourceHelper().setResourceSaveRootPath(this.getAbsoluteResourceRootPath());
+		this.getResourceHelper().setResourceFileExtension(this.getResourceFileExtension());
 	}
 
 	@AfterEach
 	@Override
 	public void tearDown() {
 		this.getResourceHelper().clean();
-		this.resHelper = null;
+		this.cleanUpResourceHelper();
 
 		super.tearDown();
 	}
 
 	/**
-	 * Sets up the {@link ResourceHelper} instance that will be used.
+	 * Sets the used {@link ResourceHelper} to null, in order to ensure that each
+	 * test method has a fresh instance.
 	 */
-	protected void setUpResourceHelper() {
-		this.resHelper = new ResourceHelper();
+	protected void cleanUpResourceHelper() {
+		this.resHelper = null;
+	}
 
-		this.getResourceHelper().setResourceSaveRootPath(getAbsoluteResourceRootPath());
-		this.getResourceHelper().setResourceFileExtension(this.getResourceFileExtension());
+	/**
+	 * Sets up the {@link ResourceHelper} instance that will be used with the given
+	 * one.
+	 */
+	protected void setResourceHelper(ResourceHelper resHelper) {
+		this.resHelper = resHelper;
 	}
 
 	/**
@@ -79,7 +88,7 @@ public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityT
 	public String getResourceFileName() {
 		return this.getCurrentTestClassName() + "_" + this.getCurrentTestMethodName();
 	}
-	
+
 	/**
 	 * @return The absolute path, under which the {@link Resource} files will be
 	 *         saved.
