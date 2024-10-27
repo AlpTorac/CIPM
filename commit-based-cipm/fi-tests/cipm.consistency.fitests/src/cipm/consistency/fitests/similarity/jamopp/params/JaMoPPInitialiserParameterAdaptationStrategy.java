@@ -8,12 +8,14 @@ import cipm.consistency.initialisers.jamopp.containers.CompilationUnitInitialise
 import cipm.consistency.initialisers.jamopp.initadapters.BlockContainerInitialiserAdapter;
 import cipm.consistency.initialisers.jamopp.initadapters.ClassMethodInitialiserAdapter;
 import cipm.consistency.initialisers.jamopp.initadapters.ConcreteClassifierInitialiserAdapter;
+import cipm.consistency.initialisers.jamopp.initadapters.IdentifierReferenceInitialiserAdapter;
 import cipm.consistency.initialisers.jamopp.initadapters.MemberInitialiserAdapter;
 import cipm.consistency.initialisers.jamopp.initadapters.NamedElementInitialiserAdapter;
 import cipm.consistency.initialisers.jamopp.initadapters.NewConstructorCallInitialiserAdapter;
 import cipm.consistency.initialisers.jamopp.instantiations.INewConstructorCallInitialiser;
 import cipm.consistency.initialisers.jamopp.members.IClassMethodInitialiser;
 import cipm.consistency.initialisers.jamopp.members.IMemberInitialiser;
+import cipm.consistency.initialisers.jamopp.references.IIdentifierReferenceInitialiser;
 import cipm.consistency.initialisers.jamopp.statements.BlockInitialiser;
 import cipm.consistency.initialisers.jamopp.statements.IBlockContainerInitialiser;
 import cipm.consistency.initialisers.jamopp.types.ClassifierReferenceInitialiser;
@@ -48,6 +50,9 @@ public class JaMoPPInitialiserParameterAdaptationStrategy implements IInitialise
 		}
 		if (IClassMethodInitialiser.class.isAssignableFrom(init.getClass())) {
 			init.addAdaptingStrategy(new ClassMethodInitialiserAdapter(new BlockInitialiser()));
+		}
+		if (IIdentifierReferenceInitialiser.class.isAssignableFrom(init.getClass())) {
+			init.addAdaptingStrategy(new IdentifierReferenceInitialiserAdapter());
 		}
 	}
 }
