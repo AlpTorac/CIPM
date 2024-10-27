@@ -19,4 +19,3 @@ Require-Bundle: org.junit,
  jamopp.parser,
  cipm.consistency.commitintegration.diff.util,
  cipm.consistency.initialisers
-Export-Package: cipm.consistency.fitests
