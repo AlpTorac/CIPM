@@ -18,7 +18,7 @@ import cipm.consistency.initialisers.jamopp.parameters.IParametrizableInitialise
 public class ParametrizableTest extends AbstractJaMoPPSimilarityTest implements UsesParameters {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IParametrizableInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(IParametrizableInitialiser.class);
 	}
 
 	protected Parametrizable initElement(IParametrizableInitialiser init, Parameter[] params) {

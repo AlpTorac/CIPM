@@ -18,7 +18,7 @@ import cipm.consistency.initialisers.jamopp.annotations.IAnnotableInitialiser;
 public class AnnotableTest extends AbstractJaMoPPSimilarityTest implements UsesAnnotationInstances {
 	
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IAnnotableInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(IAnnotableInitialiser.class);
 	}
 	
 	protected Annotable initElement(IAnnotableInitialiser init, AnnotationInstance[] annotations) {

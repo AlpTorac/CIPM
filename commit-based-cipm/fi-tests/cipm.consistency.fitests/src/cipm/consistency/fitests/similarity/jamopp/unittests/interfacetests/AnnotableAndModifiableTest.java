@@ -21,7 +21,7 @@ public class AnnotableAndModifiableTest extends AbstractJaMoPPSimilarityTest
 		implements UsesAnnotationInstances, UsesModifiers {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IAnnotableAndModifiableInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(IAnnotableAndModifiableInitialiser.class);
 	}
 
 	protected AnnotableAndModifiable initElement(IAnnotableAndModifiableInitialiser init, Modifier[] modifs,

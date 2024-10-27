@@ -23,7 +23,7 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
 public class StatementListContainerTest extends AbstractJaMoPPSimilarityTest implements UsesStatements {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IStatementListContainerInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(IStatementListContainerInitialiser.class);
 	}
 
 	protected StatementListContainer initElement(IStatementListContainerInitialiser init, Statement[] sts) {

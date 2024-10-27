@@ -18,7 +18,7 @@ import cipm.consistency.initialisers.jamopp.statements.IBlockContainerInitialise
 public class BlockContainerTest extends AbstractJaMoPPSimilarityTest implements UsesStatements {
 	
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IBlockContainerInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(IBlockContainerInitialiser.class);
 	}
 	
 	protected BlockContainer initElement(IBlockContainerInitialiser init, Block bl) {

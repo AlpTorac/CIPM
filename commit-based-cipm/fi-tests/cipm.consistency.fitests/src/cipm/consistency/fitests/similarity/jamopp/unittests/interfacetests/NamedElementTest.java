@@ -16,7 +16,7 @@ import cipm.consistency.initialisers.jamopp.commons.INamedElementInitialiser;
 public class NamedElementTest extends AbstractJaMoPPSimilarityTest {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(INamedElementInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(INamedElementInitialiser.class);
 	}
 
 	protected NamedElement initElement(INamedElementInitialiser init, String name) {
