@@ -55,6 +55,14 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	}
 
 	/**
+	 * Provides one instance of each {@link IJaMoPPEObjectInitialiser} implementor.
+	 * The initialiser instance will be adapted, if possible.
+	 */
+	private static Stream<Arguments> provideEachInitialiserOnce() {
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(IJaMoPPEObjectInitialiser.class);
+	}
+
+	/**
 	 * @return An empty, immutable list
 	 */
 	private <T extends Object> List<T> toList() {
