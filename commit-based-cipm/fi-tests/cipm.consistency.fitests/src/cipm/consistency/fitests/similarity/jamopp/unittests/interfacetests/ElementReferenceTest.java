@@ -24,6 +24,7 @@ public class ElementReferenceTest extends AbstractJaMoPPSimilarityTest implement
 	protected ElementReference initElement(IElementReferenceInitialiser init, ReferenceableElement target,
 			ReferenceableElement cTarget) {
 		ElementReference result = init.instantiate();
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.setTarget(result, target));
 		Assertions.assertTrue(init.setContainedTarget(result, cTarget));
 		return result;
