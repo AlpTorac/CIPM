@@ -12,10 +12,12 @@ import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesAnnotationValues;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesMethods;
 import cipm.consistency.initialisers.jamopp.annotations.AnnotationAttributeSettingInitialiser;
+import cipm.consistency.initialisers.jamopp.initadapters.NamedElementInitialiserAdapter;
 
 public class AnnotationAttributeSettingTest extends AbstractJaMoPPSimilarityTest implements UsesMethods, UsesAnnotationValues {
 	protected AnnotationAttributeSetting initElement(InterfaceMethod attr, AnnotationValue val) {
 		var initialiser = new AnnotationAttributeSettingInitialiser();
+		initialiser.addAdaptingStrategy(new NamedElementInitialiserAdapter());
 		AnnotationAttributeSetting result = initialiser.instantiate();
 		Assertions.assertTrue(initialiser.setAttribute(result, attr));
 		Assertions.assertTrue(initialiser.setValue(result, val));

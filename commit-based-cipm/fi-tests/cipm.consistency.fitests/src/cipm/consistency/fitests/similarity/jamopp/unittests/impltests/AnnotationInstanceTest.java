@@ -12,12 +12,14 @@ import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesAnnotationParameters;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesConcreteClassifiers;
 import cipm.consistency.initialisers.jamopp.annotations.AnnotationInstanceInitialiser;
+import cipm.consistency.initialisers.jamopp.initadapters.NamedElementInitialiserAdapter;
 
 public class AnnotationInstanceTest extends AbstractJaMoPPSimilarityTest
 		implements UsesConcreteClassifiers, UsesAnnotationParameters {
 
 	protected AnnotationInstance initElement(Classifier annotation, AnnotationParameter annoParam) {
 		var initialiser = new AnnotationInstanceInitialiser();
+		initialiser.addAdaptingStrategy(new NamedElementInitialiserAdapter());
 		AnnotationInstance ai = initialiser.instantiate();
 		Assertions.assertTrue(initialiser.setAnnotation(ai, annotation));
 		Assertions.assertTrue(initialiser.setParameter(ai, annoParam));
