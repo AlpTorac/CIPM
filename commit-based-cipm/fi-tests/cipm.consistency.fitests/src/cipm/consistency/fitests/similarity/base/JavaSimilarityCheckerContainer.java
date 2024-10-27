@@ -1,11 +1,10 @@
 package cipm.consistency.fitests.similarity.base;
 
 import java.util.Collection;
+import java.util.List;
 
-import org.splevo.jamopp.diffing.similarity.JavaSimilarityChecker;
-import org.splevo.jamopp.diffing.similarity.JavaSimilarityToolboxBuilder;
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
-import org.splevo.jamopp.diffing.similarity.base.MapSimilarityToolboxFactory;
+import org.eclipse.emf.ecore.EObject;
+import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
 
 import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
 
@@ -16,9 +15,9 @@ import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
  * @author Alp Torac Genc
  */
 public class JavaSimilarityCheckerContainer implements ISimilarityCheckerContainer {
-	private ISimilarityChecker sc;
+	private SimilarityChecker sc;
 
-	private ISimilarityChecker getSimilarityChecker() {
+	private SimilarityChecker getSimilarityChecker() {
 		if (this.sc == null) {
 			this.newSimilarityChecker();
 		}
@@ -27,23 +26,18 @@ public class JavaSimilarityCheckerContainer implements ISimilarityCheckerContain
 
 	@Override
 	public void newSimilarityChecker() {
-		var builder = new JavaSimilarityToolboxBuilder();
-		builder.setSimilarityToolboxFactory(new MapSimilarityToolboxFactory());
-
-		var toolbox = builder.instantiate().buildNewSimilaritySwitchHandler().buildNormalizationHandlers()
-				.buildComparisonHandlers().build();
-
-		this.sc = new JavaSimilarityChecker(toolbox);
+		this.sc = new SimilarityChecker();
 	}
 
 	@Override
 	public Boolean isSimilar(Object element1, Object element2) {
-		return this.getSimilarityChecker().isSimilar(element1, element2);
+		return this.getSimilarityChecker().isSimilar((EObject) element1, (EObject) element2);
 	}
 
 	@SuppressWarnings("unchecked")
 	@Override
 	public Boolean areSimilar(Collection<?> elements1, Collection<?> elements2) {
-		return this.getSimilarityChecker().areSimilar((Collection<Object>) elements1, (Collection<Object>) elements2);
+		return this.getSimilarityChecker().areSimilar((List<? extends EObject>) elements1,
+				(List<? extends EObject>) elements2);
 	}
 }
