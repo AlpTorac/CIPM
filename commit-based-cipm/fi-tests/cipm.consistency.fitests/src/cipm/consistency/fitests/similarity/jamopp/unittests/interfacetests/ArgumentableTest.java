@@ -21,7 +21,7 @@ public class ArgumentableTest extends AbstractJaMoPPSimilarityTest
 		implements UsesConcreteClassifiers, UsesExpressions, UsesLiterals {
 	
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IArgumentableInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(IArgumentableInitialiser.class);
 	}
 	
 	protected Argumentable initElement(IArgumentableInitialiser init, Expression[] args) {

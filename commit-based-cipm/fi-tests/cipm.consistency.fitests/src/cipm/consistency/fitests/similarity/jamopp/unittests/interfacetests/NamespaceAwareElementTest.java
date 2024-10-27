@@ -16,7 +16,7 @@ import cipm.consistency.initialisers.jamopp.commons.INamespaceAwareElementInitia
 public class NamespaceAwareElementTest extends AbstractJaMoPPSimilarityTest {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(INamespaceAwareElementInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(INamespaceAwareElementInitialiser.class);
 	}
 
 	private final String[] nss1 = new String[] { "ns11", "ns12", "ns13" };

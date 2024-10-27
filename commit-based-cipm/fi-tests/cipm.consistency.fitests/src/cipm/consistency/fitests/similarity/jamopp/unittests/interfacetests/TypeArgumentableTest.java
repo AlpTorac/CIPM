@@ -18,7 +18,7 @@ import cipm.consistency.initialisers.jamopp.generics.ITypeArgumentableInitialise
 public class TypeArgumentableTest extends AbstractJaMoPPSimilarityTest implements UsesTypeArguments {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(ITypeArgumentableInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(ITypeArgumentableInitialiser.class);
 	}
 
 	protected TypeArgumentable initElement(ITypeArgumentableInitialiser init, TypeArgument[] typeArgs) {
