@@ -433,7 +433,6 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 * Checks if similarity checking returns true, when a list is compared to
 	 * itself. The said list contains two different {@link EObject} instances.
 	 */
-	@Disabled("Disabled till null pointer exceptions are fixed")
 	@Test
 	public void test_AreSimilar_MultipleObjects_SameReference() {
 		var modInit = new ModuleInitialiser();
@@ -442,7 +441,7 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 		Assertions.assertTrue(modInit.setName(obj1, "mod1"));
 
 		var obj2 = modInit.instantiate();
-		Assertions.assertTrue(modInit.setName(obj1, "mod2"));
+		Assertions.assertTrue(modInit.setName(obj2, "mod2"));
 
 		// Make sure both objects are different
 		this.assertIsSimilar(obj1, obj2, Boolean.FALSE);
