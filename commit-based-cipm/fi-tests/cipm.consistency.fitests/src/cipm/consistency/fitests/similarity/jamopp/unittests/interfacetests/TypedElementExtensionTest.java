@@ -18,7 +18,7 @@ import cipm.consistency.initialisers.jamopp.types.ITypedElementExtensionInitiali
 public class TypedElementExtensionTest extends AbstractJaMoPPSimilarityTest implements UsesTypeReferences {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(ITypedElementExtensionInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(ITypedElementExtensionInitialiser.class);
 	}
 
 	protected TypedElementExtension initElement(ITypedElementExtensionInitialiser init, TypeReference[] actualTargets) {

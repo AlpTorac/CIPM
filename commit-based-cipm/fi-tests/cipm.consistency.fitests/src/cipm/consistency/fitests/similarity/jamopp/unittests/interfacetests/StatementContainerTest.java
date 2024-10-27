@@ -18,7 +18,7 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementContainerInitia
 public class StatementContainerTest extends AbstractJaMoPPSimilarityTest implements UsesStatements {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IStatementContainerInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(IStatementContainerInitialiser.class);
 	}
 
 	protected StatementContainer initElement(IStatementContainerInitialiser init, Statement st) {
