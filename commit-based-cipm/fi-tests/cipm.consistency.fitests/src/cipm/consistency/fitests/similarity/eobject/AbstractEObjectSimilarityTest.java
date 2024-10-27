@@ -29,8 +29,7 @@ import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvide
  */
 public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimilarityTest {
 	/**
-	 * A helper class instance that can be used to perform various operations on
-	 * {@link EObject} instances.
+	 * @see {@link #getEcoreUtilHelper()}
 	 */
 	private EcoreUtilHelper ecoreHelper;
 
@@ -38,13 +37,15 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	@Override
 	public void setUp(TestInfo info) {
 		super.setUp(info);
-		this.ecoreHelper = new EcoreUtilHelper();
+
+		this.setEcoreUtilHelper(new EcoreUtilHelper());
 	}
 
 	@AfterEach
 	@Override
 	public void tearDown() {
-		this.ecoreHelper = null;
+		this.cleanUpEcoreUtilHelper();
+
 		this.resetInitialiserTestSettingsProvider();
 
 		super.tearDown();
@@ -59,6 +60,22 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	 *         tests.
 	 */
 	public abstract InitialiserTestSettingsProvider getInitialiserTestSettingsProvider();
+
+	/**
+	 * Sets up the {@link EcoreUtilHelper} instance that will be used with the given
+	 * one.
+	 */
+	protected void setEcoreUtilHelper(EcoreUtilHelper ecoreHelper) {
+		this.ecoreHelper = ecoreHelper;
+	}
+
+	/**
+	 * Sets the used {@link EcoreUtilHelper} to null, in order to make sure that
+	 * each test method has a fresh instance.
+	 */
+	protected void cleanUpEcoreUtilHelper() {
+		this.ecoreHelper = null;
+	}
 
 	/**
 	 * @return A helper class instance that can be used to perform various
