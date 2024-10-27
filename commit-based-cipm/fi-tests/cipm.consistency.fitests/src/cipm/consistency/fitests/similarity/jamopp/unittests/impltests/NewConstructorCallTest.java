@@ -9,12 +9,18 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesAnonymousClasses;
+import cipm.consistency.initialisers.jamopp.classifiers.ClassInitialiser;
+import cipm.consistency.initialisers.jamopp.initadapters.NewConstructorCallInitialiserAdapter;
 import cipm.consistency.initialisers.jamopp.instantiations.NewConstructorCallInitialiser;
+import cipm.consistency.initialisers.jamopp.types.ClassifierReferenceInitialiser;
 
 public class NewConstructorCallTest extends AbstractJaMoPPSimilarityTest implements UsesAnonymousClasses {
 	protected NewConstructorCall initElement(AnonymousClass anonymousCls) {
 		var nccInit = new NewConstructorCallInitialiser();
+		nccInit.addAdaptingStrategy(
+				new NewConstructorCallInitialiserAdapter(new ClassifierReferenceInitialiser(), new ClassInitialiser()));
 		var ncc = nccInit.instantiate();
+		Assertions.assertTrue(nccInit.initialise(ncc));
 		Assertions.assertTrue(nccInit.setAnonymousClass(ncc, anonymousCls));
 		return ncc;
 	}
