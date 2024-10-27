@@ -18,7 +18,7 @@ import cipm.consistency.initialisers.jamopp.members.IExceptionThrowerInitialiser
 public class ExceptionThrowerTest extends AbstractJaMoPPSimilarityTest implements UsesTypeReferences {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IExceptionThrowerInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(IExceptionThrowerInitialiser.class);
 	}
 
 	protected ExceptionThrower initElement(IExceptionThrowerInitialiser init,

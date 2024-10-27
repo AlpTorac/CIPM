@@ -25,7 +25,7 @@ import cipm.consistency.initialisers.jamopp.classifiers.IClassifierInitialiser;
 public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements UsesImports, UsesPackageImports {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IClassifierInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(IClassifierInitialiser.class);
 	}
 
 	protected Classifier initElement(IClassifierInitialiser init, Import[] imps, PackageImport[] pImps) {

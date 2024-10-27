@@ -19,7 +19,7 @@ import cipm.consistency.initialisers.jamopp.imports.IImportingElementInitialiser
 public class ImportingElementTest extends AbstractJaMoPPSimilarityTest implements UsesImportingElements {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IImportingElementInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(IImportingElementInitialiser.class);
 	}
 
 	protected ImportingElement initElement(IImportingElementInitialiser init, Import[] imps) {

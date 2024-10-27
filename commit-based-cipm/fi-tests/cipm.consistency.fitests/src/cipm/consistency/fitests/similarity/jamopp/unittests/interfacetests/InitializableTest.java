@@ -18,7 +18,7 @@ import cipm.consistency.initialisers.jamopp.instantiations.IInitializableInitial
 public class InitializableTest extends AbstractJaMoPPSimilarityTest implements UsesLiterals {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IInitializableInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(IInitializableInitialiser.class);
 	}
 
 	protected Initializable initElement(IInitializableInitialiser init, Expression initVal) {

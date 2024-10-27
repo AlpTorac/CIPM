@@ -18,7 +18,7 @@ import cipm.consistency.initialisers.jamopp.references.IElementReferenceInitiali
 public class ElementReferenceTest extends AbstractJaMoPPSimilarityTest implements UsesConcreteClassifiers {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IElementReferenceInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(IElementReferenceInitialiser.class);
 	}
 
 	protected ElementReference initElement(IElementReferenceInitialiser init, ReferenceableElement target,

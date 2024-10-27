@@ -19,7 +19,7 @@ import cipm.consistency.initialisers.jamopp.references.IReferenceInitialiser;
 public class ReferenceTest extends AbstractJaMoPPSimilarityTest implements UsesReferences, UsesArraySelectors {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IReferenceInitialiser.class);
+		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(IReferenceInitialiser.class);
 	}
 
 	protected Reference initElement(IReferenceInitialiser init, Reference next, ArraySelector[] arrSels) {
