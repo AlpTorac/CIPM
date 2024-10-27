@@ -20,12 +20,11 @@ import org.junit.jupiter.api.TestInfo;
  */
 public abstract class AbstractSimilarityTest {
 	/**
-	 * The {@link ISimilarityCheckerContainer} that will be used to store the
-	 * similarity checker under test.
+	 * @see {@link #getSCC()}
 	 */
 	private ISimilarityCheckerContainer scc;
 	/**
-	 * An object that contains information on the currently running test.
+	 * @see {@link #getCurrentTestInfo()}
 	 */
 	private TestInfo currentTestInfo;
 
@@ -33,7 +32,7 @@ public abstract class AbstractSimilarityTest {
 	 * Sets up the necessary variables before tests are run. The {@link TestInfo}
 	 * parameter is included, so that test-specific set up can be performed. <br>
 	 * <br>
-	 * It is suggested to have a call to {@code super.setUp()} as the first
+	 * It is suggested to have a call to {@code super.setUp()} as the FIRST
 	 * statement in overriding implementations. Doing so circumvents potential
 	 * errors caused by the order of set up operations.
 	 * 
@@ -42,24 +41,61 @@ public abstract class AbstractSimilarityTest {
 	 */
 	@BeforeEach
 	public void setUp(TestInfo info) {
-		this.currentTestInfo = info;
+		this.setTestInfo(info);
 
 		this.setUpLogger();
 
-		this.setSimilarityCheckerContainer(this.initSCC());
+		this.setSCC(this.initSCC());
 	}
 
 	/**
 	 * Cleans up the variables set up with {@link #setUp(TestInfo)} and performs
 	 * other necessary clean up operations. <br>
 	 * <br>
-	 * It is suggested to have a call to {@code super.tearDown()} as the last
+	 * It is suggested to have a call to {@code super.tearDown()} as the LAST
 	 * statement in overriding implementations. Doing so circumvents potential
 	 * errors caused by the order of clean up operations.
 	 */
 	@AfterEach
 	public void tearDown() {
-		this.resetAfterTest();
+		this.cleanUpSCC();
+		this.cleanUpTestInfo();
+	}
+
+	/**
+	 * Sets the {@link TestInfo} belonging to the currently running test method to
+	 * null. Used by {@link #tearDown()}, in order to make sure that the underlying
+	 * {@link TestInfo} does not get carried over.
+	 */
+	protected void cleanUpTestInfo() {
+		this.currentTestInfo = null;
+	}
+
+	/**
+	 * Sets the information object belonging to the currently running test method.
+	 */
+	protected void setTestInfo(TestInfo info) {
+		this.currentTestInfo = info;
+	}
+
+	/**
+	 * Provides the implementors access to the underlying
+	 * {@link ISimilarityCheckerContainer} (SCC).
+	 * 
+	 * @return The {@link ISimilarityCheckerContainer} (SCC) that will be used to
+	 *         store the similarity checker under test.
+	 */
+	protected ISimilarityCheckerContainer getSCC() {
+		return this.scc;
+	}
+
+	/**
+	 * Sets the used {@link ISimilarityCheckerContainer} to null. Used by
+	 * {@link #tearDown()}, in order to ensure that each test method starts with a
+	 * fresh {@link ISimilarityCheckerContainer}.
+	 */
+	protected void cleanUpSCC() {
+		this.scc = null;
 	}
 
 	/**
@@ -86,14 +122,6 @@ public abstract class AbstractSimilarityTest {
 		}
 
 		return "";
-	}
-
-	/**
-	 * Resets all stored attributes related to individual tests.
-	 */
-	protected void resetAfterTest() {
-		this.scc = null;
-		this.currentTestInfo = null;
 	}
 
 	/**
@@ -144,7 +172,7 @@ public abstract class AbstractSimilarityTest {
 	 * @see {@link #initSCC()} for setting the {@link ISimilarityCheckerContainer}
 	 *      during set up.
 	 */
-	protected void setSimilarityCheckerContainer(ISimilarityCheckerContainer scc) {
+	protected void setSCC(ISimilarityCheckerContainer scc) {
 		this.scc = scc;
 	}
 
@@ -153,7 +181,7 @@ public abstract class AbstractSimilarityTest {
 	 * {@link ISimilarityCheckerContainer}.
 	 */
 	public Boolean isSimilar(Object element1, Object element2) {
-		return this.scc.isSimilar(element1, element2);
+		return this.getSCC().isSimilar(element1, element2);
 	}
 
 	/**
@@ -161,7 +189,7 @@ public abstract class AbstractSimilarityTest {
 	 * {@link ISimilarityCheckerContainer}.
 	 */
 	public Boolean areSimilar(Collection<?> elements1, Collection<?> elements2) {
-		return this.scc.areSimilar(elements1, elements2);
+		return this.getSCC().areSimilar(elements1, elements2);
 	}
 
 	/**

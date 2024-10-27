@@ -11,29 +11,36 @@ import java.util.Collection;
  * nor to concrete implementations, because doing so would reduce the
  * re-usability. <br>
  * <br>
- * Keep in mind that reseting the underlying similarity checker has to be done
- * manually. Otherwise the same similarity checker will be used in similarity
- * checking.
+ * The underlying similarity checking mechanism(s) can be reset by using the
+ * {@link #newSimilarityChecker()} method. The similarity checking mechanism(s)
+ * are not automatically re-created upon calling similarity checking methods in
+ * this interface, because it might be desirable to keep using them.
  * 
  * @author Alp Torac Genc
  */
 public interface ISimilarityCheckerContainer {
 	/**
-	 * Replaces the currently stored similarity checker with a new one. <br>
+	 * If there are no similarity checking mechanism(s) present, this method creates
+	 * and sets them up. Otherwise, replaces the currently stored similarity
+	 * checking mechanism(s) with new ones. <br>
 	 * <br>
-	 * The similarity checker is not automatically re-created upon calling
-	 * similarity checking methods, because it might be desirable to keep using the
-	 * same similarity checker.
+	 * The similarity checking mechanism(s) are not automatically re-created upon
+	 * calling similarity checking methods, because it might be desirable to keep
+	 * using the existing similarity checking mechanism(s).
 	 */
-	public void resetSimilarityChecker();
+	public void newSimilarityChecker();
 
 	/**
-	 * Delegates similarity checking to the stored similarity checker
+	 * Delegates similarity checking to the similarity checking mechanism(s) within.
+	 * Calls {@link #newSimilarityChecker()} beforehand, if there are no similarity
+	 * checking mechanism(s) present.
 	 */
 	public Boolean isSimilar(Object element1, Object element2);
 
 	/**
-	 * Delegates similarity checking to the stored similarity checker
+	 * Delegates similarity checking to the similarity checking mechanism(s) within.
+	 * Calls {@link #newSimilarityChecker()} beforehand, if there are no similarity
+	 * checking mechanism(s) present.
 	 */
 	public Boolean areSimilar(Collection<?> elements1, Collection<?> elements2);
 }

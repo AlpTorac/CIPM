@@ -6,8 +6,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.params.provider.Arguments;
 
 import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
-import cipm.consistency.fitests.similarity.base.JavaSimilarityCheckerProvider;
-import cipm.consistency.fitests.similarity.base.SimilarityCheckerContainerWithProvider;
+import cipm.consistency.fitests.similarity.base.JavaSimilarityCheckerContainer;
 import cipm.consistency.fitests.similarity.eobject.AbstractEObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPInitialiserParameters;
 import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPSimilarityValues;
@@ -24,17 +23,9 @@ import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
  * @author Alp Torac Genc
  */
 public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimilarityTest {
-	/**
-	 * {@inheritDoc} <br>
-	 * <br>
-	 * Uses {@link JavaSimilarityCheckerProvider} to create Java similarity
-	 * checkers.
-	 */
 	@Override
 	protected ISimilarityCheckerContainer initSCC() {
-		var scc = new SimilarityCheckerContainerWithProvider();
-		scc.setSimilarityCheckerProvider(new JavaSimilarityCheckerProvider());
-		return scc;
+		return new JavaSimilarityCheckerContainer();
 	}
 
 	@Override
