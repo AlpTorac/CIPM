@@ -211,13 +211,7 @@ public class IdentifierReferenceContainerTest extends AbstractJaMoPPSimilarityTe
 		Assertions.assertTrue(objInit.setTarget(objTwo, targetTwo));
 		Assertions.assertTrue(objInit.setNext(objTwo, (DummyClassImplAndReference) targetTwo));
 
-		/*
-		 * Make sure that:
-		 * 
-		 * targetOne.eContainer() != objOne.eContainer() && targetTwo.eContainer() !=
-		 * objTwo.eContainer() && targetOne.eContainer() == objOne &&
-		 * targetTwo.eContainer() == objTwo
-		 */
+		// Assert that the setup went as intended
 		Assertions.assertNull(objOne.eContainer());
 		Assertions.assertNull(objTwo.eContainer());
 		Assertions.assertEquals(targetOne.eContainer(), objOne);
@@ -225,8 +219,19 @@ public class IdentifierReferenceContainerTest extends AbstractJaMoPPSimilarityTe
 		Assertions.assertTrue(this.getActualEquality(targetOne, targetTwo));
 		Assertions.assertFalse(this.isTargetContainerSimilarityCheckReached(objOne, objTwo));
 
-		// Swap parameter positions to make sure that the symmetry of similarity
-		// checking is asserted
+		// Assert that the desired branches will be reached
+		Assertions.assertNotEquals(targetOne.eContainer(), objOne.eContainer());
+		Assertions.assertNotEquals(targetTwo.eContainer(), objTwo.eContainer());
+		Assertions.assertEquals(targetOne.eContainer(), objOne);
+		Assertions.assertEquals(targetTwo.eContainer(), objTwo);
+
+		/*
+		 * Swap parameter positions to make sure that the symmetry of similarity
+		 * checking is asserted.
+		 * 
+		 * Do not use this.testSimilarity(...) because DummyClassImplAndReference cannot
+		 * be cloned by EcoreUtil.
+		 */
 		Assertions.assertTrue(this.isSimilar(objOne, objTwo));
 		Assertions.assertTrue(this.isSimilar(objTwo, objOne));
 	}
@@ -255,23 +260,26 @@ public class IdentifierReferenceContainerTest extends AbstractJaMoPPSimilarityTe
 		var objOne = objInit.instantiate();
 		var objTwo = objInit.instantiate();
 
+		// A 3rd IdentifierReference is needed as the temporary
+		// prev of targetTwo (see below)
+		var objThree = objInit.instantiate();
+
 		var targetOne = new DummyClassImplAndReference(objOne, new StringReferenceInitialiser().instantiate());
 		var targetTwo = new DummyClassImplAndReference(objTwo, new StringReferenceInitialiser().instantiate());
 
 		Assertions.assertTrue(objInit.setTarget(objOne, targetOne));
-		Assertions.assertTrue(objInit.setNext(objOne, (DummyClassImplAndReference) targetOne));
+		Assertions.assertTrue(objInit.setNext(objOne, targetOne));
 
 		// Only set targetTwo as target in objTwo and not also as next, since that will
 		// make objTwo its container
 		Assertions.assertTrue(objInit.setTarget(objTwo, targetTwo));
 
-		/*
-		 * Make sure that:
-		 * 
-		 * targetOne.eContainer() != objOne.eContainer() && targetTwo.eContainer() !=
-		 * objTwo.eContainer() && targetOne.eContainer() == objOne &&
-		 * targetTwo.eContainer() != objTwo
-		 */
+		// Wrap setNext(...) with setPrev(...) calls to avoid assertion errors
+		targetTwo.setPrev(objThree);
+		Assertions.assertTrue(objInit.setNext(objThree, targetTwo));
+		targetTwo.setPrev(objTwo);
+
+		// Assert that the setup went as intended
 		Assertions.assertNull(objOne.eContainer());
 		Assertions.assertNull(objTwo.eContainer());
 		Assertions.assertEquals(targetOne.eContainer(), objOne);
@@ -279,9 +287,19 @@ public class IdentifierReferenceContainerTest extends AbstractJaMoPPSimilarityTe
 		Assertions.assertTrue(this.getActualEquality(targetOne, targetTwo));
 		Assertions.assertFalse(this.isTargetContainerSimilarityCheckReached(objOne, objTwo));
 
-		// Swap parameter positions to make sure that the symmetry of similarity
-		// checking is asserted
-		// objX.getNext() matters for similarity checking
+		// Assert that the desired branches will be reached
+		Assertions.assertNotEquals(targetOne.eContainer(), objOne.eContainer());
+		Assertions.assertNotEquals(targetTwo.eContainer(), objTwo.eContainer());
+		Assertions.assertEquals(targetOne.eContainer(), objOne);
+		Assertions.assertNotEquals(targetTwo.eContainer(), objTwo);
+
+		/*
+		 * Swap parameter positions to make sure that similarity checking is
+		 * symmetrical.
+		 * 
+		 * Do not use this.testSimilarity(...) because DummyClassImplAndReference cannot
+		 * be cloned by EcoreUtil.
+		 */
 		Assertions.assertFalse(this.isSimilar(objOne, objTwo));
 		Assertions.assertFalse(this.isSimilar(objTwo, objOne));
 	}
