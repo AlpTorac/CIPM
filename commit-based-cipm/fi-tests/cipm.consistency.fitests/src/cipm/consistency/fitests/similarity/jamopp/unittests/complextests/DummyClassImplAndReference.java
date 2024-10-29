@@ -121,4 +121,15 @@ public class DummyClassImplAndReference extends ClassImpl implements Reference {
 	public void setNext(Reference arg0) {
 		innerRef.setNext(arg0);
 	}
+
+	/**
+	 * Sets the attribute holding the prev parameter passed to the constructor to
+	 * the given prev. Can be used in tests to change the said attribute, while
+	 * adding {@code this} as "next" of another {@link Reference}.
+	 * 
+	 * @see {@link DummyClassImplAndReference#DummyClassDecorator(Reference, Reference)}
+	 */
+	public void setPrev(Reference prev) {
+		this.prev = prev;
+	}
 }
