@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.emftext.language.java.members.MembersPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -113,11 +112,15 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 		Assertions.assertTrue(memConInit.addMember(memCon1, mem1));
 		Assertions.assertTrue(memConInit.addMember(memCon2, mem2));
 
-		this.assertSimilarityResult(memCon1, memCon2,
-				mem1.getClass().equals(mem2.getClass()) || (this.getExpectedSimilarityResult(memCon1.getClass(),
-						MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS)
-						&& this.getExpectedSimilarityResult(memCon2.getClass(),
-								MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS)));
+		// Only determining factor in member
+		// similarity is their class in this case
+		var expectedResult = mem1.getClass().equals(mem2.getClass());
+
+		/*
+		 * Test members' similarity because similarity checking the members' containers
+		 * MAY NOT consider the members.
+		 */
+		this.assertSimilarityResult(mem1, mem2, expectedResult);
 	}
 
 	/**
@@ -150,10 +153,14 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 		Assertions.assertTrue(memConInit.addDefaultMember(memCon1, mem1));
 		Assertions.assertTrue(memConInit.addDefaultMember(memCon2, mem2));
 
-		this.assertSimilarityResult(memCon1, memCon2,
-				mem1.getClass().equals(mem2.getClass()) || (this.getExpectedSimilarityResult(memCon1.getClass(),
-						MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS)
-						&& this.getExpectedSimilarityResult(memCon2.getClass(),
-								MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS)));
+		// Only determining factor in default member
+		// similarity is their class in this case
+		var expectedResult = mem1.getClass().equals(mem2.getClass());
+
+		/*
+		 * Test members' similarity because similarity checking the members' containers
+		 * MAY NOT consider the members.
+		 */
+		this.assertSimilarityResult(mem1, mem2, expectedResult);
 	}
 }
