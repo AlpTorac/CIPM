@@ -3,9 +3,9 @@ package cipm.consistency.fitests.similarity.base.dummy;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolbox;
+import coveragepac.ISimilarityRequest;
+import coveragepac.ISimilarityRequestHandler;
+import coveragepac.ISimilarityToolbox;
 
 /**
  * An exemplary toolbox implementation, which also keeps track of the handling

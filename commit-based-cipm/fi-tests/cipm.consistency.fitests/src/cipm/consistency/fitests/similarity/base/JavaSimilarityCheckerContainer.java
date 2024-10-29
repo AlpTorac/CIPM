@@ -2,12 +2,11 @@ package cipm.consistency.fitests.similarity.base;
 
 import java.util.Collection;
 
-import org.splevo.jamopp.diffing.similarity.JavaSimilarityChecker;
-import org.splevo.jamopp.diffing.similarity.JavaSimilarityToolboxBuilder;
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
-import org.splevo.jamopp.diffing.similarity.base.MapSimilarityToolboxFactory;
-
 import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
+import coveragepac.ISimilarityChecker;
+import coveragepac.JavaSimilarityChecker;
+import coveragepac.JavaSimilarityToolboxBuilder;
+import coveragepac.MapSimilarityToolboxFactory;
 
 /**
  * A concrete implementation of {@link ISimilarityCheckerContainer} that creates

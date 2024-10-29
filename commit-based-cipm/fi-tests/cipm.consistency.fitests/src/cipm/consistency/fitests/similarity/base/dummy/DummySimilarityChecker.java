@@ -2,9 +2,9 @@ package cipm.consistency.fitests.similarity.base.dummy;
 
 import java.util.Collection;
 
-import org.splevo.jamopp.diffing.similarity.base.AbstractSimilarityChecker;
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityComparer;
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolbox;
+import coveragepac.AbstractSimilarityChecker;
+import coveragepac.ISimilarityComparer;
+import coveragepac.ISimilarityToolbox;
 
 /**
  * A minimal similarity checker that illustrates what a similarity checker could

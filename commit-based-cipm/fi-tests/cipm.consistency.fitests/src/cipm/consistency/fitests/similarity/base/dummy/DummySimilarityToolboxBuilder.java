@@ -1,8 +1,8 @@
 package cipm.consistency.fitests.similarity.base.dummy;
 
-import org.splevo.jamopp.diffing.similarity.base.AbstractSimilarityToolboxBuilder;
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
+import coveragepac.AbstractSimilarityToolboxBuilder;
+import coveragepac.ISimilarityRequest;
+import coveragepac.ISimilarityRequestHandler;
 
 /**
  * An exemplary toolbox builder that illustrates what a real toolbox could look
