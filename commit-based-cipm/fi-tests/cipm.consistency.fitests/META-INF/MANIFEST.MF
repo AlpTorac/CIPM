@@ -17,5 +17,6 @@ Require-Bundle: org.junit,
  jamopp.parser.jdt.singlefile,
  jamopp.parser,
  cipm.consistency.commitintegration.diff.util,
- cipm.consistency.initialisers
+ cipm.consistency.initialisers,
+ org.mockito
 Import-Package: coveragepac
