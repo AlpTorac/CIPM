@@ -50,7 +50,7 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean>
 	 * classifier as well as package renaming normalizations to them.
 	 * 
 	 * @param unit1 The compilation unit to compare with the compareElement.
-	 * @return True/False whether they are similar or not.
+	 * @return False if not similar, true otherwise.
 	 */
 	@Override
 	public Boolean caseCompilationUnit(CompilationUnit unit1) {
@@ -85,9 +85,10 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean>
 	 * <ul>
 	 * <li>full qualified package path</li>
 	 * </ul>
+	 * Note: Normalizations are applied to the full qualified package path of package1.
 	 * 
 	 * @param package1 The package to compare with the compare element.
-	 * @return True/False if the packages are similar or not.
+	 * @return False if not similar, true otherwise.
 	 */
 	@Override
 	public Boolean casePackage(Package package1) {
@@ -115,7 +116,7 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean>
 	 * </ul>
 	 * 
 	 * @param module1 The module to compare with the compare element.
-	 * @return True/False if the modules are similar or not.
+	 * @return False if not similar, true otherwise.
 	 */
 	@Override
 	public Boolean caseModule(org.emftext.language.java.containers.Module module1) {

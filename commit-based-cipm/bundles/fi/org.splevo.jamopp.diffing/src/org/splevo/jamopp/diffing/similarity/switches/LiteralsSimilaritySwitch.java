@@ -41,6 +41,13 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 		this.similaritySwitch = similaritySwitch;
 	}
 
+	/**
+	 * Checks the similarity of 2 boolean literals. Similarity is checked by comparing
+	 * their values ({@link BooleanLiteral#isValue()}).
+	 * 
+	 * @param boolean1 The boolean literal to compare with compareElement
+	 * @return True if values are equal, false otherwise.
+	 */
 	@Override
 	public Boolean caseBooleanLiteral(BooleanLiteral boolean1) {
 		this.logMessage("caseBooleanLiteral");
@@ -49,6 +56,13 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 		return (boolean1.isValue() == boolean2.isValue());
 	}
 
+	/**
+	 * Checks the similarity of 2 character literals. Similarity is checked by comparing
+	 * their values ({@link CharacterLiteral#getValue()}).
+	 * 
+	 * @param char1 The character literal to compare with compareElement
+	 * @return True if values are equal, false otherwise.
+	 */
 	@Override
 	public Boolean caseCharacterLiteral(CharacterLiteral char1) {
 		this.logMessage("caseCharacterLiteral");
@@ -68,6 +82,13 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 		return val1.equals(val2);
 	}
 
+	/**
+	 * Checks the similarity of 2 decimal float literals. Similarity is checked by comparing
+	 * their values ({@link DecimalFloatLiteral#getDecimalValue()}).
+	 * 
+	 * @param float1 The decimal float literal to compare with compareElement
+	 * @return True if values are similar, false if not.
+	 */
 	@Override
 	public Boolean caseDecimalFloatLiteral(DecimalFloatLiteral float1) {
 		this.logMessage("caseDecimalFloatLiteral");
@@ -76,6 +97,13 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 		return compareDouble(float1.getDecimalValue(), float2.getDecimalValue());
 	}
 
+	/**
+	 * Checks the similarity of 2 hex float literals. Similarity is checked by comparing
+	 * their values ({@link HexFloatLiteral#getHexValue()}).
+	 * 
+	 * @param float1 The hex float literal to compare with compareElement
+	 * @return True if values are similar, false if not.
+	 */
 	@Override
 	public Boolean caseHexFloatLiteral(HexFloatLiteral float1) {
 		this.logMessage("caseHexFloatLiteral");
@@ -84,6 +112,13 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 		return compareDouble(float1.getHexValue(), float2.getHexValue());
 	}
 
+	/**
+	 * Checks the similarity of 2 decimal double literals. Similarity is checked by comparing
+	 * their values ({@link DecimalDoubleLiteral#getDecimalValue()}).
+	 * 
+	 * @param double1 The decimal double literal to compare with compareElement
+	 * @return True if values are similar, false if not.
+	 */
 	@Override
 	public Boolean caseDecimalDoubleLiteral(DecimalDoubleLiteral double1) {
 		this.logMessage("caseDecimalDoubleLiteral");
@@ -92,6 +127,13 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 		return compareDouble(double1.getDecimalValue(), double2.getDecimalValue());
 	}
 
+	/**
+	 * Checks the similarity of 2 hex double literals. Similarity is checked by comparing
+	 * their values ({@link HexDoubleLiteral#getHexValue()}).
+	 * 
+	 * @param double1 The hex double literal to compare with compareElement
+	 * @return True if values are similar, false if not.
+	 */
 	@Override
 	public Boolean caseHexDoubleLiteral(HexDoubleLiteral double1) {
 		this.logMessage("caseHexDoubleLiteral");
@@ -100,10 +142,20 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 		return compareDouble(double1.getHexValue(), double2.getHexValue());
 	}
 
+	/**
+	 * @return True if the given double values are equal or if they are both NaN. False otherwise.
+	 */
 	private boolean compareDouble(double d1, double d2) {
 		return d1 == d2 || Double.isNaN(d1) && Double.isNaN(d2);
 	}
 
+	/**
+	 * Checks the similarity of 2 decimal integer literals. Similarity is checked by comparing
+	 * their values ({@link DecimalIntegerLiteral#getDecimalValue()}).
+	 * 
+	 * @param int1 The decimal integer literal to compare to compareElement
+	 * @return True if values are similar, false if not.
+	 */
 	@Override
 	public Boolean caseDecimalIntegerLiteral(DecimalIntegerLiteral int1) {
 		this.logMessage("caseDecimalIntegerLiteral");

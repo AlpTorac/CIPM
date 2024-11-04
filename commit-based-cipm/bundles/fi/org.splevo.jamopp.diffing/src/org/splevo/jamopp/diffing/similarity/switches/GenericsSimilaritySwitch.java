@@ -40,6 +40,15 @@ public class GenericsSimilaritySwitch extends GenericsSwitch<Boolean>
 		this.checkStatementPosition = checkStatementPosition;
 	}
 
+	/**
+	 * Checks the similarity of 2 qualified type arguments. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> The type reference ({@link QualifiedTypeArgument#getTypeReference()})
+	 * </ol>
+	 * 
+	 * @param qta1 The qualified type argument to compare with compareElement
+	 * @return Result of similarity checking of type references.
+	 */
 	@Override
 	public Boolean caseQualifiedTypeArgument(QualifiedTypeArgument qta1) {
 		this.logMessage("caseQualifiedTypeArgument");
@@ -48,6 +57,15 @@ public class GenericsSimilaritySwitch extends GenericsSwitch<Boolean>
 		return this.isSimilar(qta1.getTypeReference(), qta2.getTypeReference());
 	}
 
+	/**
+	 * Checks the similarity of 2 super type arguments. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> The super type ({@link SuperTypeArgument#getSuperType()})
+	 * </ol>
+	 * 
+	 * @param sta1 The super type argument to compare with compareElement
+	 * @return Result of similarity checking of super types.
+	 */
 	@Override
 	public Boolean caseSuperTypeArgument(SuperTypeArgument sta1) {
 		this.logMessage("caseSuperTypeArgument");
@@ -56,6 +74,15 @@ public class GenericsSimilaritySwitch extends GenericsSwitch<Boolean>
 		return this.isSimilar(sta1.getSuperType(), sta2.getSuperType());
 	}
 
+	/**
+	 * Checks the similarity of 2 extends type arguments. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> The extend type argument ({@link ExtendsTypeArgument#getExtendType()})
+	 * </ol>
+	 * 
+	 * @param eta1 The extend type argument to compare with compareElement
+	 * @return Result of similarity checking of extend type arguments.
+	 */
 	@Override
 	public Boolean caseExtendsTypeArgument(ExtendsTypeArgument eta1) {
 		this.logMessage("caseExtendsTypeArgument");
@@ -64,6 +91,12 @@ public class GenericsSimilaritySwitch extends GenericsSwitch<Boolean>
 		return this.isSimilar(eta1.getExtendType(), eta2.getExtendType());
 	}
 
+	/**
+	 * Unknown type arguments are considered to be similar.
+	 * 
+	 * @param arg The unknown type argument to compare with compareElement
+	 * @return true
+	 */
 	@Override
 	public Boolean caseUnknownTypeArgument(UnknownTypeArgument arg) {
 		this.logMessage("caseUnknownTypeArgument");
@@ -71,6 +104,16 @@ public class GenericsSimilaritySwitch extends GenericsSwitch<Boolean>
 		return Boolean.TRUE;
 	}
 
+	/**
+	 * Checks the similarity of 2 type parameters. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> The name ({@link TypeParameter#getName()})
+	 * <li> The extend types ({@link TypeParameter#getExtendTypes()})
+	 * </ol>
+	 * 
+	 * @param param1 The type parameter to compare with compareElement
+	 * @return False if not similar, result of similarity checking in 2. otherwise.
+	 */
 	@Override
 	public Boolean caseTypeParameter(TypeParameter param1) {
 		this.logMessage("caseTypeParameter");
