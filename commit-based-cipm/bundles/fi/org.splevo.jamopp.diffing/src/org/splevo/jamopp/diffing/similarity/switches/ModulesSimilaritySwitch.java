@@ -41,7 +41,7 @@ public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> implements I
      * Check ModuleReference similarity.<br>
      * Similarity is checked by
      * <ul>
-     * <li>module names</li>
+     * <li>Individual parts of namespace (comparing all elements pairwise in {@link ModuleReference#getNamespaces()})
      * </ul>
      * 
      * @param modRef1 The module reference to compare with the compare element.
@@ -62,7 +62,7 @@ public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> implements I
      * Check similarity for access providing module directives.<br>
      * Similarity is checked by
      * <ul>
-     * <li>the provided package</li>
+     * <li>Individual parts of namespace (comparing all elements pairwise in {@link AccessProvidingModuleDirective#getNamespaces()})
      * </ul>
      * 
      * @param dir1 The access providing module directive to compare with the compare element.
@@ -83,11 +83,11 @@ public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> implements I
      * Check similarity for require module directives.<br>
      * Similarity is checked by
      * <ul>
-     * <li>required modules</li>
+     * <li>required module ({@link RequiresModuleDirective#getRequiredModule()})
      * </ul>
      * 
      * @param dir1 The require module directive to compare with the compare element.
-     * @return True/False if the module directives are similar or not.
+     * @return Result of similarity checking the required modules.
      */
 	@Override
 	public Boolean caseRequiresModuleDirective(RequiresModuleDirective dir1) {
@@ -101,11 +101,11 @@ public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> implements I
      * Check similarity for provide module directives.<br>
      * Similarity is checked by
      * <ul>
-     * <li>provided types</li>
+     * <li>provided types ({@link ProvidesModuleDirective#getTypeReference()})
      * </ul>
      * 
      * @param dir1 The provide module directive to compare with the compare element.
-     * @return True/False if the module directives are similar or not.
+     * @return Result of similarity checking the provided types.
      */
 	@Override
 	public Boolean caseProvidesModuleDirective(ProvidesModuleDirective dir1) {
@@ -119,11 +119,11 @@ public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> implements I
      * Check similarity for use module directives.<br>
      * Similarity is checked by
      * <ul>
-     * <li>used types</li>
+     * <li>used types ({@link ProvidesModuleDirective#getTypeReference()})
      * </ul>
      * 
-     * @param dir1 The use module directive to compare with the compare element.
-     * @return True/False if the module directives are similar or not.
+     * @param dir1 The uses module directive to compare with the compare element.
+     * @return Result of similarity checking used types.
      */
 	@Override
 	public Boolean caseUsesModuleDirective(UsesModuleDirective dir1) {

@@ -47,26 +47,28 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 
 	/**
 	 * Check abstract method declaration similarity. Similarity is checked by
-	 * <ul>
-	 * <li>name</li>
-	 * <li>parameter list size</li>
-	 * <li>parameter types</li>
-	 * <li>name</li>
-	 * <li>container for
-	 * <ul>
-	 * <li>AbstractTypeDeclaration</li>
-	 * <li>AnonymousClassDeclaration</li>
-	 * <li>Model</li>
-	 * </ul>
-	 * </li>
-	 * </ul>
+	 * <ol>
+	 * <li> Name ({@link Method#getName()})</li>
+	 * <li> Parameters ({@link Method#getParameters()})</li>
+	 * <ol>
+	 * <li> Size of parameters ({@code paramList.size()})
+	 * <li> Type reference of parameters ({@code typeRef = param.getTypeReference()})
+	 * <ol>
+	 * <li> Target ({@code typeRef.getTarget()})
+	 * <li> Array dimension ({@code typeRef.getArrayDimension()})
+	 * </ol>
+	 * </ol>
+	 * <li> {@link Method#getContainingConcreteClassifier()} (if existent)
+	 * <li> {@link Method#getContainingAnonymousClass()} (if existent)
+	 * </ol>
 	 * 
 	 * The container must be checked to check similarity for referenced methods.
 	 * 
 	 * 
 	 * @param method1 The abstract method declaration to compare with the compare
 	 *                element.
-	 * @return True/False if the abstract method declarations are similar or not.
+	 * @return False if a step fails, true if method1 has a container as specified
+	 * in last steps and all steps succeed, null otherwise.
 	 */
 	@Override
 	public Boolean caseMethod(Method method1) {
@@ -145,18 +147,12 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	}
 
 	/**
-	 * Check constuctor declaration similarity. Similarity is checked by
+	 * Check constructor declaration similarity. Similarity is checked by
 	 * <ul>
-	 * <li>name</li>
-	 * <li>parameter list size</li>
-	 * <li>parameter types</li>
-	 * <li>name</li>
-	 * <li>container for
-	 * <ul>
-	 * <li>AbstractTypeDeclaration</li>
-	 * <li>AnonymousClassDeclaration</li>
-	 * <li>Model</li>
-	 * </ul>
+	 * <li> Name ({@link Constructor#getName()})
+	 * <li> Parameters ({@link Constructor#getParameters()})
+	 * <li> {@link Method#getContainingConcreteClassifier()} (if existent)
+	 * <li> {@link Method#getContainingAnonymousClass()} (if existent)
 	 * </li>
 	 * </ul>
 	 * 
@@ -165,7 +161,8 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	 * 
 	 * @param constructor1 The abstract method declaration to compare with the
 	 *                     compare element.
-	 * @return True/False if the abstract method declarations are similar or not.
+	 * @return False if a step fails, true if constructor1 has a container as specified
+	 * in last steps and all steps succeed, null otherwise.
 	 */
 	@Override
 	public Boolean caseConstructor(Constructor constructor1) {
@@ -216,6 +213,13 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		return super.caseConstructor(constructor1);
 	}
 
+	/**
+	 * Checks the similarity of 2 enum constants. Similarity is checked by comparing
+	 * their names ({@link EnumConstant#getName()}).
+	 * 
+	 * @param const1 The enum constant to compare with compareElement
+	 * @return True if the names are similar, false if not.
+	 */
 	@Override
 	public Boolean caseEnumConstant(EnumConstant const1) {
 		this.logMessage("caseEnumConstant");
@@ -226,6 +230,13 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		return (name1.equals(name2));
 	}
 
+	/**
+	 * Checks the similarity of 2 members. Similarity is checked by comparing
+	 * their names ({@link Member#getName()}).
+	 * 
+	 * @param member1 The member to compare with compareElement
+	 * @return True if the names are similar, false if not.
+	 */
 	@Override
 	public Boolean caseMember(Member member1) {
 		this.logMessage("caseMember");

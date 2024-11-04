@@ -43,6 +43,13 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 		this.checkStatementPosition = checkStatementPosition;
 	}
 
+	/**
+	 * Checks the similarity of 2 string references. Similarity is checked by comparing
+	 * their values ({@link StringReference#getValue()}).
+	 * 
+	 * @param ref1 The string reference to compare with compareElement
+	 * @return True if the values are similar, false if not.
+	 */
 	@Override
 	public Boolean caseStringReference(StringReference ref1) {
 		this.logMessage("caseStringReference");
@@ -62,6 +69,18 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 		return val1.equals(val2);
 	}
 
+	/**
+	 * Checks the similarity of 2 identifier references. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> Target {@code t1 = ref1.getTarget() and t2 = compareElement.getTarget()}
+	 * <li> Container of t1 {@code t1Con = t1.eContainer()}, if ... TODO write better commentary
+	 * <li> Array selectors ({@link IdentifierReference#getArraySelectors()})
+	 * <li> Next ({@link IdentifierReference#getNext()}
+	 * </ol>
+	 * 
+	 * @param ref1 The identifier reference to compare with compareElement
+	 * @return False if a step fails, true otherwise.
+	 */
 	@Override
 	public Boolean caseIdentifierReference(IdentifierReference ref1) {
 		this.logMessage("caseIdentifierReference");
@@ -134,6 +153,8 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 	 * Is checked by the target (the method called). Everything else are containment
 	 * references checked indirectly.
 	 * 
+	 * TODO Merge with caseTypeReference into caseReference
+	 * 
 	 * @param ref1 The method call to compare with the compare element.
 	 * @return True As null always means null.
 	 */
@@ -152,13 +173,15 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 	}
 
 	/**
-	 * Proof method call similarity.
+	 * Checks the similarity of 2 method calls. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> Target ({@link MethodCall#getTarget()})
+	 * <li> Arguments ({@link MethodCall#getArguments()})
+	 * <li> Next ({@link MethodCall#getNext()})
+	 * </ol>
 	 * 
-	 * Similarity is decided by the method referenced and the arguments passed by.
-	 * 
-	 * @param call1 The left / modified method call to compare with the original
-	 *              one.
-	 * @return True/False if the method calls are similar or not.
+	 * @param call1 The method call to compare with compareElement
+	 * @return False if a step fails, true otherwise.
 	 */
 	@Override
 	public Boolean caseMethodCall(MethodCall call1) {
