@@ -51,12 +51,13 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
 		this.checkStatementPosition = checkStatementPosition;
 	}
 
-    /**
-     * Check expression statement similarity.<br>
-     * Similarity is checked by
-     * <ul>
-     * <li>similarity statements expressions</li>
-     * </ul>
+	/**
+	 * Checks the similarity of 2 expression statements. Similarity is checked by comparing:
+     * <ol>
+     * <li>Expressions
+     * </ol>
+     * 
+     * Note: Positions of the statements are checked as well.
      * 
      * @param statement1
      *            The expression statement to compare with the compare element.

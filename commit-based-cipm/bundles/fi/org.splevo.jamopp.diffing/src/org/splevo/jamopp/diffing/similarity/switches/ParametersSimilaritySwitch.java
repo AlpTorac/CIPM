@@ -32,6 +32,13 @@ public class ParametersSimilaritySwitch extends ParametersSwitch<Boolean> implem
 		this.similaritySwitch = similaritySwitch;
 	}
 
+	/**
+	 * Checks the similarity of 2 parameters. Similarity is checked by comparing
+	 * their names ({@link Parameter#getName()}).
+	 * 
+	 * @param param1 The parameter to compare with compareElement
+	 * @return True if the names are similar, false if not.
+     */
 	@Override
     public Boolean caseParameter(Parameter param1) {
 		this.logMessage("caseParameter");
