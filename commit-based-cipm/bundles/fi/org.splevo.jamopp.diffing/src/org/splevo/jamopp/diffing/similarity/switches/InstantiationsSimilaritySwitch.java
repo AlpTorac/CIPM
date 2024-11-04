@@ -50,7 +50,7 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 	 * </ul>
 	 * 
 	 * @param call1 The class instance creation to compare with the compare element.
-	 * @return True/False if the class instance creations are similar or not.
+	 * @return False if not similar, true otherwise.
 	 */
 	@Override
 	public Boolean caseExplicitConstructorCall(ExplicitConstructorCall call1) {
@@ -90,6 +90,19 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 		return Boolean.TRUE;
 	}
 
+	/**
+	 * Checks the similarity of 2 new constructor calls. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> Following aspects of type references ({@link NewConstructorCall#getTypeReference()}):
+	 * <ol>
+	 * <li> The target ({@link TypeReference#getTarget()})
+	 * </ol>
+	 * <li> The arguments ({@link NewConstructorCall#getArguments()})
+	 * </ol>
+	 * 
+	 * @param call1 The new constructor call to compare with compareElement
+	 * @return False if not similar, true otherwise.
+	 */
 	@Override
 	public Boolean caseNewConstructorCall(NewConstructorCall call1) {
 		this.logMessage("caseNewConstructorCall");
