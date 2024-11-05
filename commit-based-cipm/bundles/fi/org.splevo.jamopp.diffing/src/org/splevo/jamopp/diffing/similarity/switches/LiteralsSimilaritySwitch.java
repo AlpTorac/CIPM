@@ -20,6 +20,8 @@ import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 
+import com.google.common.base.Strings;
+
 /**
  * Similarity decisions for literal elements.
  */
@@ -73,16 +75,8 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 
 		CharacterLiteral char2 = (CharacterLiteral) this.getCompareElement();
 
-		var val1 = char1.getValue();
-		var val2 = char2.getValue();
-
-		// Null check to avoid NullPointerExceptions
-		if (val1 == val2) {
-			return Boolean.TRUE;
-		} else if (val1 == null ^ val2 == null) {
-			return Boolean.FALSE;
-		}
-
+		var val1 = Strings.nullToEmpty(char1.getValue());
+		var val2 = Strings.nullToEmpty(char2.getValue());
 		return val1.equals(val2);
 	}
 
