@@ -190,23 +190,9 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 
 		var args1 = call1.getArguments();
 		var args2 = call2.getArguments();
-
-		// Null check to avoid NullPointerExceptions
-		if (args1 == null ^ args2 == null) {
+		var argSimilarity = this.areSimilar(args1, args2);
+		if (JaMoPPBooleanUtil.isFalse(argSimilarity)) {
 			return Boolean.FALSE;
-		} else if (args1 != null && args2 != null) {
-			if (args1.size() != args2.size()) {
-				return Boolean.FALSE;
-			}
-
-			for (int i = 0; i < args1.size(); i++) {
-				Expression exp1 = args1.get(i);
-				Expression exp2 = args2.get(i);
-				Boolean argSimilarity = this.isSimilar(exp1, exp2);
-				if (JaMoPPBooleanUtil.isFalse(argSimilarity)) {
-					return Boolean.FALSE;
-				}
-			}
 		}
 
 		Boolean nextSimilarity = this.isSimilar(call1.getNext(), call2.getNext());
