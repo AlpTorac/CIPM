@@ -11,7 +11,6 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
 import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
-import org.splevo.jamopp.diffing.similarity.JavaSimilarityChecker;
 
 import com.google.common.base.Strings;
 
