@@ -44,9 +44,8 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 	 * Check class instance creation similarity.<br>
 	 * Similarity is checked by
 	 * <ul>
-	 * <li>instance type similarity</li>
-	 * <li>number of constructor arguments</li>
-	 * <li>types of constructor arguments</li>
+	 * <li>instance type similarity ({@link ExplicitConstructorCall#getCallTarget()}) </li>
+	 * <li>constructor arguments ({@link ExplicitConstructorCall#getArguments()}) </li>
 	 * </ul>
 	 * 
 	 * @param call1 The class instance creation to compare with the compare element.

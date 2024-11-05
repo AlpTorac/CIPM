@@ -53,7 +53,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
 
 	/**
 	 * Checks the similarity of 2 expression statements. Similarity is checked by comparing
-	 * their expressions ({@link ExpressionStatement#getExpression()})
+	 * their expressions ({@link ExpressionStatement#getExpression()}).
      * <br><br>
      * Note: Positions of the statements are checked as well.
      * 
@@ -128,7 +128,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
     }
 
     /**
-     * Checks the similarity of 2 returns. Similarity is checked by comparing their
+     * Checks the similarity of 2 return statements. Similarity is checked by comparing their
      * return values ({@link Return#getReturnValue()}).
      * 
      * @param returnStatement1
@@ -232,7 +232,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      * 
      * Similarity is checked by:
      * <ul>
-     * <li>similarity of the expressions ({@link Conditional#getCondition()}) </li>
+     * <li> Conditions ({@link Conditional#getCondition()}) </li>
      * </ul>
      * 
      * The then and else statements are not checked as part of the condition statement check
@@ -335,9 +335,9 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      * Check if two statements have differing predecessor statements.
      * 
      * @param statement1
-     *            The first statement to check.
+     *            The first statement to check the predecessor of.
      * @param statement2
-     *            The second statement to check.
+     *            The second statement to check the predecessor of.
      * @return True if their predecessors differ, false otherwise.
      */
     private boolean differentPredecessor(Statement statement1, Statement statement2) {
@@ -351,9 +351,9 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      * Check if two statements have differing successor statements.
      * 
      * @param statement1
-     *            The first statement to check.
+     *            The first statement to check the successor of.
      * @param statement2
-     *            The second statement to check.
+     *            The second statement to check the successor of.
      * @return True if their successors differ, false otherwise.
      */
     private boolean differentSuccessor(Statement statement1, Statement statement2) {
@@ -392,7 +392,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      * 
      * @param statement
      *            The statement to get the successor for.
-     * @return The predecessor or null if no successor exists.
+     * @return The successor or null if no successor exists.
      */
     private Statement getSuccessor(Statement statement) {
 

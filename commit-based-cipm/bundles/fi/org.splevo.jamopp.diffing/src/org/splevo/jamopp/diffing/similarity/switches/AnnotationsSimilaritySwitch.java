@@ -40,8 +40,8 @@ public class AnnotationsSimilaritySwitch extends AnnotationsSwitch<Boolean>
 	/**
 	 * Checks the similarity of 2 annotation instances. Similarity is checked by comparing:
 	 * <ol>
-	 * <li> The annotations {@link AnnotationInstance#getAnnotation()}
-	 * <li> The namespaces {@link AnnotationInstance#getNamespacesAsString()}
+	 * <li> Annotations {@link AnnotationInstance#getAnnotation()}
+	 * <li> Namespaces {@link AnnotationInstance#getNamespacesAsString()}
 	 * </ol>
 	 * 
 	 * @param instance1 The annotation instance to compare with compareElement.
