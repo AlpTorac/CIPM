@@ -69,27 +69,8 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 		// check number of type arguments
 		EList<Expression> cic1Args = call1.getArguments();
 		EList<Expression> cic2Args = call2.getArguments();
-
-		// Null check to avoid NullPointerExceptions
-		if (cic1Args == cic2Args) {
-			return Boolean.TRUE;
-		} else if (cic1Args == null ^ cic2Args == null) {
-			return Boolean.FALSE;
-		}
-
-		if (cic1Args.size() != cic2Args.size()) {
-			return Boolean.FALSE;
-		}
-
-		// check the argument similarity
-		for (int i = 0; i < cic1Args.size(); i++) {
-			Boolean argumentSimilarity = this.isSimilar(cic1Args.get(i), cic2Args.get(i));
-			if (JaMoPPBooleanUtil.isFalse(argumentSimilarity)) {
-				return Boolean.FALSE;
-			}
-		}
-
-		return Boolean.TRUE;
+		var cicArgsSimilarity = this.areSimilar(cic1Args, cic2Args);
+		return JaMoPPBooleanUtil.isNotFalse(cicArgsSimilarity);
 	}
 
 	/**
@@ -130,27 +111,8 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 
 		EList<Expression> types1 = call1.getArguments();
 		EList<Expression> types2 = call2.getArguments();
-
-		// Null check to avoid NullPointerExceptions
-		if (types1 == types2) {
-			return Boolean.TRUE;
-		} else if (types1 == null ^ types2 == null) {
-			return Boolean.FALSE;
-		}
-
-		if (types1.size() != types2.size()) {
-			return Boolean.FALSE;
-		}
-		for (int i = 0; i < types1.size(); i++) {
-			Expression argType1 = types1.get(i);
-			Expression argType2 = types2.get(i);
-			Boolean similarity = this.isSimilar(argType1, argType2);
-			if (JaMoPPBooleanUtil.isFalse(similarity)) {
-				return Boolean.FALSE;
-			}
-		}
-
-		return Boolean.TRUE;
+		var argsSimilarity = this.areSimilar(types1, types2);
+		return JaMoPPBooleanUtil.isNotFalse(argsSimilarity);
 	}
 
 	@Override
