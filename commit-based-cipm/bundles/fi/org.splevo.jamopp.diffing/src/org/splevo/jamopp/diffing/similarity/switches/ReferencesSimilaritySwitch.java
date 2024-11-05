@@ -16,6 +16,8 @@ import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 
+import com.google.common.base.Strings;
+
 /**
  * Similarity decisions for reference elements.
  */
@@ -59,16 +61,8 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 
 		StringReference ref2 = (StringReference) this.getCompareElement();
 
-		var val1 = ref1.getValue();
-		var val2 = ref2.getValue();
-
-		// Null check to avoid NullPointerException
-		if (val1 == val2) {
-			return Boolean.TRUE;
-		} else if (val1 == null ^ val2 == null) {
-			return Boolean.FALSE;
-		}
-
+		var val1 = Strings.nullToEmpty(ref1.getValue());
+		var val2 = Strings.nullToEmpty(ref2.getValue());
 		return val1.equals(val2);
 	}
 

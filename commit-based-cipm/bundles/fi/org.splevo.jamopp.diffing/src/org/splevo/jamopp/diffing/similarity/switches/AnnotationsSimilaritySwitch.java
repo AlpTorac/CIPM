@@ -10,6 +10,8 @@ import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
 
+import com.google.common.base.Strings;
+
 /**
  * Similarity decisions for annotation elements.
  */
@@ -64,14 +66,9 @@ public class AnnotationsSimilaritySwitch extends AnnotationsSwitch<Boolean>
 			return Boolean.FALSE;
 		}
 
-		String namespace1 = instance1.getNamespacesAsString();
-		String namespace2 = instance2.getNamespacesAsString();
-
-		if (namespace1 == null) {
-			return (namespace2 == null);
-		} else {
-			return (namespace1.equals(namespace2));
-		}
+		String namespace1 = Strings.nullToEmpty(instance1.getNamespacesAsString());
+		String namespace2 = Strings.nullToEmpty(instance2.getNamespacesAsString());
+		return (namespace1.equals(namespace2));
 	}
 
 	/**

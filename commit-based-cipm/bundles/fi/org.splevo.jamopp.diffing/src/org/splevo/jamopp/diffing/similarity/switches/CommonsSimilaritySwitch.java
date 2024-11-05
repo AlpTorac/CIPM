@@ -6,6 +6,8 @@ import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 
+import com.google.common.base.Strings;
+
 /**
  * Similarity decisions for commons elements.
  */
@@ -49,13 +51,8 @@ public class CommonsSimilaritySwitch extends CommonsSwitch<Boolean> implements I
     	
         NamedElement element2 = (NamedElement) this.getCompareElement();
 
-        var name1 = element1.getName();
-        var name2 = element2.getName();
-        
-        if (name1 == null) {
-            return (name2 == null);
-        }
-
+        var name1 = Strings.nullToEmpty(element1.getName());
+        var name2 = Strings.nullToEmpty(element2.getName());
         return (name1.equals(name2));
     }
 }
