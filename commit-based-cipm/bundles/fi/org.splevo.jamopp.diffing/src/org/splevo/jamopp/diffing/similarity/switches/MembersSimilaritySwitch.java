@@ -265,11 +265,16 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	 * 
 	 * Additional fields are considered similar, if:
 	 * <ul>
-	 * <li> Their names are equal,
-	 * <li> Their types are similar,
-	 * <li> Types of their containers are similar,
-	 * <li> Types of containers of their containers are similar.
+	 * <li> Their names ({@link AdditionalField#getName()}) are equal,
+	 * <li> Their types ({@link AdditionalField#getTypeReference()}) are similar,
+	 * <li> Types of their containers ({@code additionalField.eContainer().getTypeReference()}) are similar,
+	 * <li> Types of containers of their containers ({@code additionalField.eContainer().eContainer().getTypeReference()}) are similar.
 	 * </ul>
+	 * 
+	 * @param additionalField1 The additional field to compare with compareElement
+	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseAdditionalField(AdditionalField additionalField1) {
