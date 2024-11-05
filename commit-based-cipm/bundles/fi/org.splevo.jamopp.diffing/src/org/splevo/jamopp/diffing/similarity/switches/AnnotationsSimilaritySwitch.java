@@ -8,6 +8,7 @@ import org.emftext.language.java.classifiers.Classifier;
 import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
+import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
 
 /**
  * Similarity decisions for annotation elements.
@@ -59,7 +60,7 @@ public class AnnotationsSimilaritySwitch extends AnnotationsSwitch<Boolean>
 		Classifier class2 = instance2.getAnnotation();
 
 		Boolean classifierSimilarity = this.isSimilar(class1, class2);
-		if (classifierSimilarity == Boolean.FALSE) {
+		if (JaMoPPBooleanUtil.isFalse(classifierSimilarity)) {
 			return Boolean.FALSE;
 		}
 
@@ -89,7 +90,7 @@ public class AnnotationsSimilaritySwitch extends AnnotationsSwitch<Boolean>
 		AnnotationAttributeSetting setting2 = (AnnotationAttributeSetting) this.getCompareElement();
 
 		Boolean similarity = this.isSimilar(setting1.getAttribute(), setting2.getAttribute());
-		if (similarity == Boolean.FALSE) {
+		if (JaMoPPBooleanUtil.isFalse(similarity)) {
 			return Boolean.FALSE;
 		}
 

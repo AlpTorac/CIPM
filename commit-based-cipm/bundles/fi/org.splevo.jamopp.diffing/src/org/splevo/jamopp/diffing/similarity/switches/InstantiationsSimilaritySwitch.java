@@ -11,6 +11,7 @@ import org.emftext.language.java.types.TypeReference;
 import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
+import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
 
 /**
  * Similarity decisions for object instantiation elements.
@@ -61,7 +62,7 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 
 		// check the class instance types
 		Boolean typeSimilarity = this.isSimilar(call1.getCallTarget(), call2.getCallTarget());
-		if (typeSimilarity == Boolean.FALSE) {
+		if (JaMoPPBooleanUtil.isFalse(typeSimilarity)) {
 			return Boolean.FALSE;
 		}
 
@@ -83,7 +84,7 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 		// check the argument similarity
 		for (int i = 0; i < cic1Args.size(); i++) {
 			Boolean argumentSimilarity = this.isSimilar(cic1Args.get(i), cic2Args.get(i));
-			if (argumentSimilarity == Boolean.FALSE) {
+			if (JaMoPPBooleanUtil.isFalse(argumentSimilarity)) {
 				return Boolean.FALSE;
 			}
 		}
@@ -122,7 +123,7 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 			Type type1 = tref1.getTarget();
 			Type type2 = tref2.getTarget();
 			Boolean typeSimilarity = this.isSimilar(type1, type2);
-			if (typeSimilarity == Boolean.FALSE) {
+			if (JaMoPPBooleanUtil.isFalse(typeSimilarity)) {
 				return Boolean.FALSE;
 			}
 		}
@@ -144,7 +145,7 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 			Expression argType1 = types1.get(i);
 			Expression argType2 = types2.get(i);
 			Boolean similarity = this.isSimilar(argType1, argType2);
-			if (similarity == Boolean.FALSE) {
+			if (JaMoPPBooleanUtil.isFalse(similarity)) {
 				return Boolean.FALSE;
 			}
 		}

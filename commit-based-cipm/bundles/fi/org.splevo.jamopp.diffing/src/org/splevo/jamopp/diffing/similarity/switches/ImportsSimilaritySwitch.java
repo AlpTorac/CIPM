@@ -9,6 +9,7 @@ import org.emftext.language.java.references.ReferenceableElement;
 import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
+import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
 
 import com.google.common.base.Strings;
 
@@ -59,7 +60,7 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 		ClassifierImport import2 = (ClassifierImport) this.getCompareElement();
 
 		Boolean similarity = this.isSimilar(import1.getClassifier(), import2.getClassifier());
-		if (similarity == Boolean.FALSE) {
+		if (JaMoPPBooleanUtil.isFalse(similarity)) {
 			return Boolean.FALSE;
 		}
 
@@ -100,7 +101,7 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 				ReferenceableElement member1 = stMems1.get(i);
 				ReferenceableElement member2 = stMems2.get(i);
 				Boolean similarity = this.isSimilar(member1, member2);
-				if (similarity == Boolean.FALSE) {
+				if (JaMoPPBooleanUtil.isFalse(similarity)) {
 					return Boolean.FALSE;
 				}
 			}
@@ -162,7 +163,7 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 		StaticClassifierImport import2 = (StaticClassifierImport) this.getCompareElement();
 
 		Boolean similarity = this.isSimilar(import1.getClassifier(), import2.getClassifier());
-		if (similarity == Boolean.FALSE) {
+		if (JaMoPPBooleanUtil.isFalse(similarity)) {
 			return Boolean.FALSE;
 		}
 

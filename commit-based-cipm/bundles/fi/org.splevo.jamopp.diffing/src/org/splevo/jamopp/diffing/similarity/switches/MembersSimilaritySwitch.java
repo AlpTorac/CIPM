@@ -16,6 +16,7 @@ import org.emftext.language.java.types.TypedElement;
 import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
+import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
 
 import com.google.common.base.Strings;
 
@@ -110,7 +111,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 					Type type1 = tref1.getTarget();
 					Type type2 = tref2.getTarget();
 					Boolean typeSimilarity = this.isSimilar(type1, type2);
-					if (typeSimilarity == Boolean.FALSE) {
+					if (JaMoPPBooleanUtil.isFalse(typeSimilarity)) {
 						return Boolean.FALSE;
 					}
 					if (tref1.getArrayDimension() != tref2.getArrayDimension()) {
@@ -186,7 +187,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		EList<Parameter> params1 = constructor1.getParameters();
 		EList<Parameter> params2 = constructor2.getParameters();
 		Boolean parameterSimilarity = this.areSimilar(params1, params2);
-		if (parameterSimilarity == Boolean.FALSE) {
+		if (JaMoPPBooleanUtil.isFalse(parameterSimilarity)) {
 			return Boolean.FALSE;
 		}
 
@@ -293,7 +294,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		
 		// Compare additional field types
 		// Account for similarity result being null
-		if (this.isSimilar(type1, type2) != Boolean.TRUE) {
+		if (JaMoPPBooleanUtil.isNotTrue(this.isSimilar(type1, type2))) {
 			return Boolean.FALSE;
 		}
 		
@@ -310,7 +311,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 			
 			// Compare container types
 			// Account for similarity result being null
-			if (this.isSimilar(conType1, conType2) != Boolean.TRUE) {
+			if (JaMoPPBooleanUtil.isNotTrue(this.isSimilar(conType1, conType2))) {
 				return Boolean.FALSE;
 			}
 			
@@ -327,7 +328,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 				
 				// Compare types of container of container
 				// Account for similarity result being null
-				if (this.isSimilar(conOfConType1, conOfConType2) != Boolean.TRUE) {
+				if (JaMoPPBooleanUtil.isNotTrue(this.isSimilar(conOfConType1, conOfConType2))) {
 					return Boolean.FALSE;
 				}
 				

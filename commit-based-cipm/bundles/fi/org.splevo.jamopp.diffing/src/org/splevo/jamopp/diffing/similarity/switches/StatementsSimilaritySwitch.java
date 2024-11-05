@@ -20,6 +20,7 @@ import org.emftext.language.java.variables.Variable;
 import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
+import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 
 import com.google.common.base.Strings;
@@ -73,7 +74,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
         Expression exp2 = statement2.getExpression();
 
         Boolean expSimilarity = this.isSimilar(exp1, exp2);
-        if (expSimilarity == Boolean.FALSE) {
+        if (JaMoPPBooleanUtil.isFalse(expSimilarity)) {
             return Boolean.FALSE;
         }
 
@@ -110,13 +111,13 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
         Variable var1 = varStmt1.getVariable();
         Variable var2 = varStmt2.getVariable();
         Boolean varSimilarity = this.isSimilar(var1, var2);
-        if (varSimilarity == Boolean.FALSE) {
+        if (JaMoPPBooleanUtil.isFalse(varSimilarity)) {
             return Boolean.FALSE;
         }
         
         if (this.shouldCheckStatementPosition()) {
         	varSimilarity = this.isSimilar(varStmt1.eContainer(), varStmt2.eContainer(), false);
-        	if (!varSimilarity) {
+        	if (JaMoPPBooleanUtil.isFalse(varSimilarity)) {
         		return Boolean.FALSE;
         	}
         	if (differentPredecessor(varStmt1, varStmt2) && differentSuccessor(varStmt1, varStmt2)) {
@@ -170,7 +171,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
         Expression exp1 = statement1.getLockProvider();
         Expression exp2 = statement2.getLockProvider();
         Boolean similarity = this.isSimilar(exp1, exp2);
-        if (similarity == Boolean.FALSE) {
+        if (JaMoPPBooleanUtil.isFalse(similarity)) {
             return Boolean.FALSE;
         }
 
@@ -220,7 +221,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
         OrdinaryParameter catchedException2 = catchBlock2.getParameter();
 
         Boolean exceptionSimilarity = this.isSimilar(catchedException1, catchedException2);
-        if (exceptionSimilarity == Boolean.FALSE) {
+        if (JaMoPPBooleanUtil.isFalse(exceptionSimilarity)) {
             return exceptionSimilarity;
         }
 
@@ -255,8 +256,8 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
         Expression expression1 = conditional1.getCondition();
         Expression expression2 = conditional2.getCondition();
         Boolean expressionSimilarity = this.isSimilar(expression1, expression2);
-        if (expressionSimilarity == Boolean.FALSE) {
-            return expressionSimilarity;
+        if (JaMoPPBooleanUtil.isFalse(expressionSimilarity)) {
+            return Boolean.FALSE;
         }
 
         return Boolean.TRUE;
@@ -278,7 +279,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
         Jump jump2 = (Jump) this.getCompareElement();
 
         Boolean similarity = this.isSimilar(jump1.getTarget(), jump2.getTarget());
-        if (similarity == Boolean.FALSE) {
+        if (JaMoPPBooleanUtil.isFalse(similarity)) {
             return Boolean.FALSE;
         }
 
@@ -344,7 +345,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
         Statement pred1 = getPredecessor(statement1);
         Statement pred2 = getPredecessor(statement2);
         Boolean similarity = this.isSimilar(pred1, pred2, false);
-        return similarity != Boolean.TRUE;
+        return JaMoPPBooleanUtil.isNotTrue(similarity);
     }
 
     /**
@@ -360,7 +361,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
         Statement pred1 = getSuccessor(statement1);
         Statement pred2 = getSuccessor(statement2);
         Boolean similarity = this.isSimilar(pred1, pred2, false);
-        return similarity != Boolean.TRUE;
+        return JaMoPPBooleanUtil.isNotTrue(similarity);
     }
 
     /**
