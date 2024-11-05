@@ -60,11 +60,7 @@ public class TypesSimilaritySwitch extends TypesSwitch<Boolean> implements ILogg
         ClassifierReference ref2 = (ClassifierReference) this.getCompareElement();
 
         Boolean targetSimilarity = this.isSimilar(ref1.getTarget(), ref2.getTarget());
-        if (JaMoPPBooleanUtil.isFalse(targetSimilarity)) {
-            return Boolean.FALSE;
-        }
-
-        return Boolean.TRUE;
+        return JaMoPPBooleanUtil.isNotFalse(targetSimilarity);
     }
 
     /**
@@ -83,11 +79,7 @@ public class TypesSimilaritySwitch extends TypesSwitch<Boolean> implements ILogg
         TypeReference ref2 = (TypeReference) this.getCompareElement();
 
         Boolean targetSimilarity = this.isSimilar(ref1.getTarget(), ref2.getTarget());
-        if (JaMoPPBooleanUtil.isFalse(targetSimilarity)) {
-            return Boolean.FALSE;
-        }
-
-        return Boolean.TRUE;
+        return JaMoPPBooleanUtil.isNotFalse(targetSimilarity);
     }
 
     /**
