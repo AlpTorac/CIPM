@@ -140,11 +140,7 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 		Reference next1 = ref1.getNext();
 		Reference next2 = ref2.getNext();
 		Boolean nextSimilarity = this.isSimilar(next1, next2);
-		if (JaMoPPBooleanUtil.isFalse(nextSimilarity)) {
-			return Boolean.FALSE;
-		}
-
-		return Boolean.TRUE;
+		return JaMoPPBooleanUtil.isNotFalse(nextSimilarity);
 	}
 
 	/**
@@ -165,11 +161,7 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 		ElementReference ref2 = (ElementReference) this.getCompareElement();
 
 		Boolean targetSimilarity = this.isSimilar(ref1.getTarget(), ref2.getTarget());
-		if (JaMoPPBooleanUtil.isFalse(targetSimilarity)) {
-			return Boolean.FALSE;
-		}
-
-		return Boolean.TRUE;
+		return JaMoPPBooleanUtil.isNotFalse(targetSimilarity);
 	}
 
 	/**
