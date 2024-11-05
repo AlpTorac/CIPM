@@ -42,14 +42,14 @@ public class TypesSimilaritySwitch extends TypesSwitch<Boolean> implements ILogg
 	}
 
 	/**
-     * Check element reference similarity.<br>
+     * Checks the similarity of 2 classifier references.<br>
      * 
-     * Is checked by the target (the method called). Everything else are containment references
+     * Similarity is checked by the target (the method called). Everything else are containment references
      * checked indirectly.
      * 
      * @param ref1
-     *            The method call to compare with the compare element.
-     * @return True As null always means null.
+     *            The classifier reference to compare with the compare element.
+     * @return False if targets are not similar, true otherwise.
      */
     @Override
     public Boolean caseClassifierReference(ClassifierReference ref1) {
@@ -65,6 +65,13 @@ public class TypesSimilaritySwitch extends TypesSwitch<Boolean> implements ILogg
         return Boolean.TRUE;
     }
 
+    /**
+     * Checks the similarity of 2 type references. Similarity is checked by comparing
+     * their targets ({@link TypeReference#getTarget()}.
+     * 
+     * @param ref1 The type reference to compare with compareElement
+     * @return False if targets are not similar, true otherwise.
+     */
     @Override
     public Boolean caseTypeReference(TypeReference ref1) {
     	this.logMessage("caseTypeReference");
@@ -79,6 +86,17 @@ public class TypesSimilaritySwitch extends TypesSwitch<Boolean> implements ILogg
         return Boolean.TRUE;
     }
 
+    /**
+     * Checks the similarity of 2 namespace classifier reference. Similarity is checked by comparing:
+     * <ol>
+     * <li> Namespaces ({@link NamespaceClassifierReference#getNamespacesAsString()})
+     * <li> Pure classifier reference ({@link NamespaceClassifierReference#getPureClassifierReference})
+     * </ol>
+     * 
+     * @param ref1 The namespace classifier reference to compare with compareElement
+     * @return False if namespaces are not similar, otherwise returns the result of similarity checking
+     * pure classifier references.
+     */
     @Override
     public Boolean caseNamespaceClassifierReference(NamespaceClassifierReference ref1) {
     	this.logMessage("caseNamespaceClassifierReference");
@@ -98,14 +116,13 @@ public class TypesSimilaritySwitch extends TypesSwitch<Boolean> implements ILogg
     }
 
     /**
-     * Primitive types are always similar as their class similarity is assumed before by the
-     * outer {@link JavaSimilarityChecker}.
-     * 
+     * Primitive types are always similar as their class similarity is assumed.
+     * <br><br>
      * Note: The fall back to the default case is not sufficient here, as the common
      * TypeReference case would be used before, leading to a loop.
      * 
      * @param type
-     *            The primitive type object.
+     *            The primitive type to compare with compareElement.
      * @return TRUE
      */
     @Override
@@ -128,11 +145,6 @@ public class TypesSimilaritySwitch extends TypesSwitch<Boolean> implements ILogg
     	return Boolean.TRUE;
     }
 
-    /**
-     * Primitive type elements are strongly typed and the exact type is already checked by the
-     * outer {@link JavaSimilarityChecker}. <br>
-     * {@inheritDoc}
-     */
     @Override
     public Boolean defaultCase(EObject object) {
     	this.logMessage("defaultCase for Type");
