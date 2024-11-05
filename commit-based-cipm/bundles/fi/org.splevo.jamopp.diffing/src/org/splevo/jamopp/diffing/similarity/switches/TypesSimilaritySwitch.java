@@ -50,6 +50,8 @@ public class TypesSimilaritySwitch extends TypesSwitch<Boolean> implements ILogg
      * @param ref1
      *            The classifier reference to compare with the compare element.
      * @return False if targets are not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseClassifierReference(ClassifierReference ref1) {
@@ -71,6 +73,8 @@ public class TypesSimilaritySwitch extends TypesSwitch<Boolean> implements ILogg
      * 
      * @param ref1 The type reference to compare with compareElement
      * @return False if targets are not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseTypeReference(TypeReference ref1) {
@@ -96,6 +100,8 @@ public class TypesSimilaritySwitch extends TypesSwitch<Boolean> implements ILogg
      * @param ref1 The namespace classifier reference to compare with compareElement
      * @return False if namespaces are not similar, otherwise returns the result of similarity checking
      * pure classifier references.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseNamespaceClassifierReference(NamespaceClassifierReference ref1) {
@@ -124,6 +130,8 @@ public class TypesSimilaritySwitch extends TypesSwitch<Boolean> implements ILogg
      * @param type
      *            The primitive type to compare with compareElement.
      * @return TRUE
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean casePrimitiveType(PrimitiveType type) {
@@ -137,6 +145,8 @@ public class TypesSimilaritySwitch extends TypesSwitch<Boolean> implements ILogg
      * 
      * @param type The element to compare with the compare element.
      * @return true.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseInferableType(InferableType type) {

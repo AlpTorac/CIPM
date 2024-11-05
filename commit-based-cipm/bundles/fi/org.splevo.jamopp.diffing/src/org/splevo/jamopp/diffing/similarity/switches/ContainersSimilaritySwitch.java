@@ -51,6 +51,8 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean>
 	 * 
 	 * @param unit1 The compilation unit to compare with the compareElement.
 	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseCompilationUnit(CompilationUnit unit1) {
@@ -89,6 +91,8 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean>
 	 * 
 	 * @param package1 The package to compare with the compare element.
 	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean casePackage(Package package1) {
@@ -117,6 +121,8 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean>
 	 * 
 	 * @param module1 The module to compare with the compare element.
 	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseModule(org.emftext.language.java.containers.Module module1) {

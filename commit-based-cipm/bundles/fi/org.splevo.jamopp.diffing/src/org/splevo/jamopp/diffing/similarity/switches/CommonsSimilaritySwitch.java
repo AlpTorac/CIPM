@@ -41,6 +41,8 @@ public class CommonsSimilaritySwitch extends CommonsSwitch<Boolean> implements I
      * @param element1
      *            The method call to compare with the compare element.
      * @return True if similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseNamedElement(NamedElement element1) {

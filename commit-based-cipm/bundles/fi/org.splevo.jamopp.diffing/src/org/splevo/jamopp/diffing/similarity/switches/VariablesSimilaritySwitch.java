@@ -36,6 +36,8 @@ public class VariablesSimilaritySwitch extends VariablesSwitch<Boolean>
 	 * 
 	 * @param var1 The variable declaration to compare with the compare element.
 	 * @return False if names are not equal, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseVariable(Variable var1) {
@@ -60,6 +62,8 @@ public class VariablesSimilaritySwitch extends VariablesSwitch<Boolean>
 	 * 
 	 * @param var1 The additional local variable to compare with the compare element.
 	 * @return False if names are not equal, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseAdditionalLocalVariable(AdditionalLocalVariable var1) {

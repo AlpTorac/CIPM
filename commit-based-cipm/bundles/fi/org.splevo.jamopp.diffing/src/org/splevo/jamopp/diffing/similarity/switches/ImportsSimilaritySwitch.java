@@ -49,6 +49,8 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 	 * 
 	 * @param import1 The classifier import to compare with compareElement
 	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseClassifierImport(ClassifierImport import1) {
@@ -75,6 +77,8 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 	 * 
 	 * @param import1 The static member import to compare with compareElement
 	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseStaticMemberImport(StaticMemberImport import1) {
