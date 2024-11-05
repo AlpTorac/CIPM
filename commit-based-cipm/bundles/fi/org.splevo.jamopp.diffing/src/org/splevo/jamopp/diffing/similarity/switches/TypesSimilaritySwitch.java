@@ -8,6 +8,7 @@ import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.util.TypesSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
+import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
 import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.JavaSimilarityChecker;
@@ -60,7 +61,7 @@ public class TypesSimilaritySwitch extends TypesSwitch<Boolean> implements ILogg
         ClassifierReference ref2 = (ClassifierReference) this.getCompareElement();
 
         Boolean targetSimilarity = this.isSimilar(ref1.getTarget(), ref2.getTarget());
-        if (targetSimilarity == Boolean.FALSE) {
+        if (JaMoPPBooleanUtil.isFalse(targetSimilarity)) {
             return Boolean.FALSE;
         }
 
@@ -83,7 +84,7 @@ public class TypesSimilaritySwitch extends TypesSwitch<Boolean> implements ILogg
         TypeReference ref2 = (TypeReference) this.getCompareElement();
 
         Boolean targetSimilarity = this.isSimilar(ref1.getTarget(), ref2.getTarget());
-        if (targetSimilarity == Boolean.FALSE) {
+        if (JaMoPPBooleanUtil.isFalse(targetSimilarity)) {
             return Boolean.FALSE;
         }
 
