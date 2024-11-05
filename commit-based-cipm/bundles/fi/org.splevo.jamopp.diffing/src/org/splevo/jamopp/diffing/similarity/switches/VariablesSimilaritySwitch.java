@@ -30,16 +30,12 @@ public class VariablesSimilaritySwitch extends VariablesSwitch<Boolean>
 		this.similaritySwitch = similaritySwitch;
 	}
 
-	/**
-	 * Check variable declaration similarity.<br>
-	 * Similarity is checked by
-	 * <ul>
-	 * <li>variable name</li>
-	 * <li>variable container (name space)</li>
-	 * </ul>
+    /**
+     * Checks the similarity of 2 variables. Similarity is checked by comparing their
+     * names ({@link Variable#getName()}).
 	 * 
 	 * @param var1 The variable declaration to compare with the compare element.
-	 * @return True/False if the variable declarations are similar or not.
+	 * @return False if names are not equal, true otherwise.
 	 */
 	@Override
 	public Boolean caseVariable(Variable var1) {
@@ -58,6 +54,13 @@ public class VariablesSimilaritySwitch extends VariablesSwitch<Boolean>
 		return Boolean.TRUE;
 	}
 
+    /**
+     * Checks the similarity of 2 additional local variables. Similarity is checked by comparing their
+     * names ({@link AdditionalLocalVariable#getName()}).
+	 * 
+	 * @param var1 The additional local variable to compare with the compare element.
+	 * @return False if names are not equal, true otherwise.
+	 */
 	@Override
 	public Boolean caseAdditionalLocalVariable(AdditionalLocalVariable var1) {
 		this.logMessage("caseAdditionalLocalVariable");
