@@ -91,7 +91,7 @@ public class TypesSimilaritySwitch extends TypesSwitch<Boolean> implements ILogg
     }
 
     /**
-     * Checks the similarity of 2 namespace classifier reference. Similarity is checked by comparing:
+     * Checks the similarity of 2 namespace classifier references. Similarity is checked by comparing:
      * <ol>
      * <li> Namespaces ({@link NamespaceClassifierReference#getNamespacesAsString()})
      * <li> Pure classifier reference ({@link NamespaceClassifierReference#getPureClassifierReference})
@@ -143,7 +143,7 @@ public class TypesSimilaritySwitch extends TypesSwitch<Boolean> implements ILogg
     /**
      * Inferable types are considered to be similar.
      * 
-     * @param type The element to compare with the compare element.
+     * @param type The inferable type to compare with the compare element.
      * @return true.
 	 * 
 	 * @see {@link #getCompareElement()}

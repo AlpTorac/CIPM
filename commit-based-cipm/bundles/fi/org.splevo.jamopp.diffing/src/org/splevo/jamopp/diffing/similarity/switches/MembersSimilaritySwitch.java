@@ -51,7 +51,6 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	 * <li> Name ({@link Method#getName()})</li>
 	 * <li> Parameters ({@link Method#getParameters()})</li>
 	 * <ol>
-	 * <li> Size of parameters ({@code paramList.size()})
 	 * <li> Type reference of parameters ({@code typeRef = param.getTypeReference()})
 	 * <ol>
 	 * <li> Target ({@code typeRef.getTarget()})
@@ -63,7 +62,6 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	 * </ol>
 	 * 
 	 * The container must be checked to check similarity for referenced methods.
-	 * 
 	 * 
 	 * @param method1 The abstract method declaration to compare with the compare
 	 *                element.
@@ -150,16 +148,17 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 
 	/**
 	 * Check constructor declaration similarity. Similarity is checked by
-	 * <ul>
+	 * <ol>
 	 * <li> Name ({@link Constructor#getName()})
 	 * <li> Parameters ({@link Constructor#getParameters()})
+	 * <li> Container (either or):
+	 * <ul>
 	 * <li> {@link Method#getContainingConcreteClassifier()} (if existent)
 	 * <li> {@link Method#getContainingAnonymousClass()} (if existent)
-	 * </li>
 	 * </ul>
+	 * </ol>
 	 * 
 	 * The container must be checked to check similarity for referenced methods.
-	 * 
 	 * 
 	 * @param constructor1 The abstract method declaration to compare with the
 	 *                     compare element.

@@ -74,8 +74,9 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 	/**
 	 * Checks the similarity of 2 identifier references. Similarity is checked by comparing:
 	 * <ol>
-	 * <li> Target {@code t1 = ref1.getTarget() and t2 = compareElement.getTarget()}
-	 * <li> Container of t1 {@code t1Con = t1.eContainer()}, if ... TODO write better commentary
+	 * <li> Target ({@link IdentifierReference#getTarget()})
+	 * <li> Container of target ({@code target.eContainer()}), if it does not contain the
+	 * identifier reference and thus cause cyclic containment
 	 * <li> Array selectors ({@link IdentifierReference#getArraySelectors()})
 	 * <li> Next ({@link IdentifierReference#getNext()}
 	 * </ol>
@@ -154,13 +155,11 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 	/**
 	 * Check element reference similarity.<br>
 	 * 
-	 * Is checked by the target (the method called). Everything else are containment
+	 * Similarity is checked by the target (the method called). Everything else are containment
 	 * references checked indirectly.
 	 * 
-	 * TODO Merge with caseTypeReference into caseReference
-	 * 
-	 * @param ref1 The method call to compare with the compare element.
-	 * @return True As null always means null.
+	 * @param ref1 The element reference to compare with the compare element.
+	 * @return False if targets are not similar, true otherwise.
 	 * 
 	 * @see {@link #getCompareElement()}
 	 */
