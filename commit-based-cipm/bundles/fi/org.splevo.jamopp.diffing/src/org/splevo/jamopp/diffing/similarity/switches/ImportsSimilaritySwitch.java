@@ -118,9 +118,13 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 	 * initialised package imports could result in null otherwise.</b></i>
 	 * <br><br>
 	 * 
-	 * Package imports are considered similar, if their namespaces are equal
+	 * Package imports are considered similar, if their namespaces
+	 * ({@link PackageImport#getNamespacesAsString()} are equal.
 	 * 
 	 * @param import1 the package import to compare with the compare element
+	 * @return True if namespaces are equal, false otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean casePackageImport(PackageImport import1) {
@@ -142,11 +146,14 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 	 * 
 	 * Static classifier imports are considered similar, if:
 	 * <ul>
-	 * <li> Their classifiers are similar
-	 * <li> Their namespaces are equal
+	 * <li> Their classifiers ({@link StaticClassifierImport#getClassifier()}) are similar
+	 * <li> Their namespaces ({@link StaticClassifierImport#getNamespacesAsString()}) are equal
 	 * </ul>
 	 * 
 	 * @param import1 the package import to compare with the compare element
+	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseStaticClassifierImport(StaticClassifierImport import1) {
