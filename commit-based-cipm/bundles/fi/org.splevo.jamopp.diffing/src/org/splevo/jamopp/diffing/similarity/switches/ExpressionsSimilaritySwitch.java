@@ -73,6 +73,8 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
 	 * 
 	 * @param exp1 The assignment expression to compare with compareElement
 	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
 	@Override
     public Boolean caseAssignmentExpression(AssignmentExpression exp1) {
@@ -113,6 +115,8 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
 	 * 
 	 * @param exp1 The equality expression to compare with compareElement
 	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
     @Override
     public Boolean caseEqualityExpression(EqualityExpression exp1) {
@@ -148,6 +152,8 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
 	 * 
 	 * @param exp1 The relation expression to compare with compareElement
 	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseRelationExpression(RelationExpression exp1) {
@@ -182,6 +188,8 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
 	 * 
 	 * @param exp1 The and expression to compare with compareElement
 	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseAndExpression(AndExpression exp1) {
@@ -209,6 +217,8 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
 	 * 
 	 * @param exp1 The unary expression to compare with compareElement
 	 * @return False if not similar, result of similarity checking in 2. otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseUnaryExpression(UnaryExpression exp1) {
@@ -239,6 +249,8 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
 	 * 
 	 * @param exp1 The additive expression to compare with compareElement
 	 * @return False if not similar, result of similarity checking in 2. otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseAdditiveExpression(AdditiveExpression exp1) {
@@ -263,6 +275,8 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
 	 * 
 	 * @param exp1 The instance of expression to compare with compareElement
 	 * @return False if not similar, result of similarity checking in 2. otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseInstanceOfExpression(InstanceOfExpression exp1) {
@@ -292,6 +306,8 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
 	 * 
 	 * @param exp1 The conditional or expression to compare to compareElement
 	 * @return Result of similarity checking of the children.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseConditionalOrExpression(ConditionalOrExpression exp1) {
@@ -313,6 +329,8 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
 	 * 
 	 * @param exp1 The conditional and expression to compare with compareElement
 	 * @return Result of similarity checking of the children.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseConditionalAndExpression(ConditionalAndExpression exp1) {
@@ -334,6 +352,8 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
 	 * 
 	 * @param exp1 The nested expression to compare with compareElement
 	 * @return Result of similarity checking of the expressions.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseNestedExpression(NestedExpression exp1) {

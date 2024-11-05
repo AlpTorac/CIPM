@@ -69,6 +69,8 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	 *                element.
 	 * @return False if a step fails, true if method1 has a container as specified
 	 * in last steps and all steps succeed, null otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseMethod(Method method1) {
@@ -163,6 +165,8 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	 *                     compare element.
 	 * @return False if a step fails, true if constructor1 has a container as specified
 	 * in last steps and all steps succeed, null otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseConstructor(Constructor constructor1) {
@@ -219,6 +223,8 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	 * 
 	 * @param const1 The enum constant to compare with compareElement
 	 * @return True if the names are similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseEnumConstant(EnumConstant const1) {
@@ -236,6 +242,8 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	 * 
 	 * @param member1 The member to compare with compareElement
 	 * @return True if the names are similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseMember(Member member1) {

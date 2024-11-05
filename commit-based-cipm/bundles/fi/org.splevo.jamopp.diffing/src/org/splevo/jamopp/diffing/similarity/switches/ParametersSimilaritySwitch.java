@@ -38,6 +38,8 @@ public class ParametersSimilaritySwitch extends ParametersSwitch<Boolean> implem
 	 * 
 	 * @param param1 The parameter to compare with compareElement
 	 * @return True if the names are similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
 	@Override
     public Boolean caseParameter(Parameter param1) {

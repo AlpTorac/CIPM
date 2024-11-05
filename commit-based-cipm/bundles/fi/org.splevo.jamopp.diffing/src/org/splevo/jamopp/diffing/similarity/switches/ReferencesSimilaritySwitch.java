@@ -49,6 +49,8 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 	 * 
 	 * @param ref1 The string reference to compare with compareElement
 	 * @return True if the values are similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseStringReference(StringReference ref1) {
@@ -80,6 +82,8 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 	 * 
 	 * @param ref1 The identifier reference to compare with compareElement
 	 * @return False if a step fails, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseIdentifierReference(IdentifierReference ref1) {
@@ -157,6 +161,8 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 	 * 
 	 * @param ref1 The method call to compare with the compare element.
 	 * @return True As null always means null.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseElementReference(ElementReference ref1) {
@@ -182,6 +188,8 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 	 * 
 	 * @param call1 The method call to compare with compareElement
 	 * @return False if a step fails, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseMethodCall(MethodCall call1) {

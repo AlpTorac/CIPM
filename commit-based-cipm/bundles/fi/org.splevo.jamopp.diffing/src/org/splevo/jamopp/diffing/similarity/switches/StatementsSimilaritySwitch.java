@@ -60,6 +60,8 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      * @param statement1
      *            The expression statement to compare with the compare element.
      * @return False if expressions are not similar or their positions are not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseExpressionStatement(ExpressionStatement statement1) {
@@ -96,6 +98,8 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      * 
      * @param varStmt1 The local variable statement to compare with compareElement
      * @return False if not similar or positions are not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseLocalVariableStatement(LocalVariableStatement varStmt1) {
@@ -130,6 +134,8 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      * @param returnStatement1
      *            The return statement to compare with the compare element.
      * @return Result of similarity checking the return values.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseReturn(Return returnStatement1) {
@@ -152,6 +158,8 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      * @param statement1
      *            The synchronized statement to compare with the compare element.
      * @return False if not similar or positions are not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseSynchronizedBlock(SynchronizedBlock statement1) {
@@ -183,6 +191,8 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      * @param throwStatement1
      *            The throw statement to compare with the compare element.
      * @return True
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseThrow(Throw throwStatement1) {
@@ -197,6 +207,8 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      * 
      * @param catchBlock1 The catch block to compare with compareElement
      * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseCatchBlock(CatchBlock catchBlock1) {
@@ -231,6 +243,8 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      * @param conditional1
      *            The conditional to compare with the compare element.
      * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseConditional(Conditional conditional1) {
@@ -254,6 +268,8 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      * 
      * @param jump1 The jump to compare with compareElement
      * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseJump(Jump jump1) {
@@ -275,6 +291,8 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      * 
      * @param label1 The jump label to compare with compareElement
      * @return True if names are similar, false otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseJumpLabel(JumpLabel label1) {
@@ -294,6 +312,8 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      * 
      * @param switch1 The switch statement to compare with compareElement
      * @return Result of similarity checking their variables.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
     @Override
     public Boolean caseSwitch(Switch switch1) {

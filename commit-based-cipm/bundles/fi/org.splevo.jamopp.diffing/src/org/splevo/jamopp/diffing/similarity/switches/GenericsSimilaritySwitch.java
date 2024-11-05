@@ -48,6 +48,8 @@ public class GenericsSimilaritySwitch extends GenericsSwitch<Boolean>
 	 * 
 	 * @param qta1 The qualified type argument to compare with compareElement
 	 * @return Result of similarity checking of type references.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseQualifiedTypeArgument(QualifiedTypeArgument qta1) {
@@ -65,6 +67,8 @@ public class GenericsSimilaritySwitch extends GenericsSwitch<Boolean>
 	 * 
 	 * @param sta1 The super type argument to compare with compareElement
 	 * @return Result of similarity checking of super types.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseSuperTypeArgument(SuperTypeArgument sta1) {
@@ -82,6 +86,8 @@ public class GenericsSimilaritySwitch extends GenericsSwitch<Boolean>
 	 * 
 	 * @param eta1 The extend type argument to compare with compareElement
 	 * @return Result of similarity checking of extend type arguments.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseExtendsTypeArgument(ExtendsTypeArgument eta1) {
@@ -96,6 +102,8 @@ public class GenericsSimilaritySwitch extends GenericsSwitch<Boolean>
 	 * 
 	 * @param arg The unknown type argument to compare with compareElement
 	 * @return true
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseUnknownTypeArgument(UnknownTypeArgument arg) {
@@ -113,6 +121,8 @@ public class GenericsSimilaritySwitch extends GenericsSwitch<Boolean>
 	 * 
 	 * @param param1 The type parameter to compare with compareElement
 	 * @return False if not similar, result of similarity checking in 2. otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseTypeParameter(TypeParameter param1) {

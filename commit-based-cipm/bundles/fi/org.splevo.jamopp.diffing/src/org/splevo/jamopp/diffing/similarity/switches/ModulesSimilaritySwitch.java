@@ -46,6 +46,8 @@ public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> implements I
      * 
      * @param modRef1 The module reference to compare with the compare element.
      * @return True/False if the module references are similar or not.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
 	@Override
 	public Boolean caseModuleReference(ModuleReference modRef1) {
@@ -67,6 +69,8 @@ public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> implements I
      * 
      * @param dir1 The access providing module directive to compare with the compare element.
      * @return True/False if the module directives are similar or not.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
 	@Override
 	public Boolean caseAccessProvidingModuleDirective(AccessProvidingModuleDirective dir1) {
@@ -88,6 +92,8 @@ public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> implements I
      * 
      * @param dir1 The require module directive to compare with the compare element.
      * @return Result of similarity checking the required modules.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
 	@Override
 	public Boolean caseRequiresModuleDirective(RequiresModuleDirective dir1) {
@@ -106,6 +112,8 @@ public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> implements I
      * 
      * @param dir1 The provide module directive to compare with the compare element.
      * @return Result of similarity checking the provided types.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
 	@Override
 	public Boolean caseProvidesModuleDirective(ProvidesModuleDirective dir1) {
@@ -124,6 +132,8 @@ public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> implements I
      * 
      * @param dir1 The uses module directive to compare with the compare element.
      * @return Result of similarity checking used types.
+	 * 
+	 * @see {@link #getCompareElement()}
      */
 	@Override
 	public Boolean caseUsesModuleDirective(UsesModuleDirective dir1) {

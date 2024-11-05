@@ -47,6 +47,8 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 * 
 	 * @param boolean1 The boolean literal to compare with compareElement
 	 * @return True if values are equal, false otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseBooleanLiteral(BooleanLiteral boolean1) {
@@ -62,6 +64,8 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 * 
 	 * @param char1 The character literal to compare with compareElement
 	 * @return True if values are equal, false otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseCharacterLiteral(CharacterLiteral char1) {
@@ -88,6 +92,8 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 * 
 	 * @param float1 The decimal float literal to compare with compareElement
 	 * @return True if values are similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseDecimalFloatLiteral(DecimalFloatLiteral float1) {
@@ -103,6 +109,8 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 * 
 	 * @param float1 The hex float literal to compare with compareElement
 	 * @return True if values are similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseHexFloatLiteral(HexFloatLiteral float1) {
@@ -118,6 +126,8 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 * 
 	 * @param double1 The decimal double literal to compare with compareElement
 	 * @return True if values are similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseDecimalDoubleLiteral(DecimalDoubleLiteral double1) {
@@ -133,6 +143,8 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 * 
 	 * @param double1 The hex double literal to compare with compareElement
 	 * @return True if values are similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseHexDoubleLiteral(HexDoubleLiteral double1) {
@@ -155,6 +167,8 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 * 
 	 * @param int1 The decimal integer literal to compare to compareElement
 	 * @return True if values are similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseDecimalIntegerLiteral(DecimalIntegerLiteral int1) {
@@ -181,6 +195,8 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 * 
 	 * @param int1 The hex integer literal to compare to compareElement
 	 * @return True if values are similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseHexIntegerLiteral(HexIntegerLiteral int1) {
@@ -207,6 +223,8 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 * 
 	 * @param int1 The octal integer literal to compare with compareElement
 	 * @return True if values are similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseOctalIntegerLiteral(OctalIntegerLiteral int1) {
@@ -233,6 +251,8 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 * 
 	 * @param long1 The decimal long literal to compare with compareElement
 	 * @return True if values are similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseDecimalLongLiteral(DecimalLongLiteral long1) {
@@ -259,6 +279,8 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 * 
 	 * @param long1 The hex long literal to compare with compareElement
 	 * @return True if values are similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseHexLongLiteral(HexLongLiteral long1) {
@@ -285,6 +307,8 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 * 
 	 * @param long1 The octal long literal to compare with compareElement
 	 * @return True if values are similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseOctalLongLiteral(OctalLongLiteral long1) {
@@ -311,6 +335,8 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 * 
 	 * @param long1 The binary long literal to compare with compareElement
 	 * @return True if values are similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseBinaryLongLiteral(BinaryLongLiteral long1) {
@@ -337,6 +363,8 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 * 
 	 * @param int1 The binary integer literal to compare with compareElement
 	 * @return True if values are similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseBinaryIntegerLiteral(BinaryIntegerLiteral int1) {
@@ -364,6 +392,8 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 * 
 	 * @param object The literal to compare with the compare element.
 	 * @return True As null always means null.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean defaultCase(EObject object) {

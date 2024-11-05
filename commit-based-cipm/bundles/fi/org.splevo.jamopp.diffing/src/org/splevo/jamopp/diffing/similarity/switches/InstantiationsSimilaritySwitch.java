@@ -51,6 +51,8 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 	 * 
 	 * @param call1 The class instance creation to compare with the compare element.
 	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseExplicitConstructorCall(ExplicitConstructorCall call1) {
@@ -102,6 +104,8 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 	 * 
 	 * @param call1 The new constructor call to compare with compareElement
 	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseNewConstructorCall(NewConstructorCall call1) {
