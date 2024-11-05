@@ -196,11 +196,7 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 		}
 
 		Boolean nextSimilarity = this.isSimilar(call1.getNext(), call2.getNext());
-		if (JaMoPPBooleanUtil.isFalse(nextSimilarity)) {
-			return Boolean.FALSE;
-		}
-
-		return Boolean.TRUE;
+		return JaMoPPBooleanUtil.isNotFalse(nextSimilarity);
 	}
 
 	@Override
