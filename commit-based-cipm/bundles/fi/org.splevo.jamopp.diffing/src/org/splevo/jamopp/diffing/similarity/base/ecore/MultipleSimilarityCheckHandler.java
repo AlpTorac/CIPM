@@ -52,10 +52,6 @@ public class MultipleSimilarityCheckHandler implements ISimilarityRequestHandler
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object handleSimilarityRequest(ISimilarityRequest req) {
-		/*
-		 * FIXME: What to do, if a similarity checking results in Boolean.NULL
-		 */
-		
 		MultipleSimilarityCheckRequest castedR = (MultipleSimilarityCheckRequest) req;
 
 		Object[] params = (Object[]) castedR.getParams();
@@ -89,7 +85,7 @@ public class MultipleSimilarityCheckHandler implements ISimilarityRequestHandler
 			Boolean childSimilarity = (Boolean) this.srh
 					.handleSimilarityRequest(new SingleSimilarityCheckRequest(es1[i], es2[i], ssA[i]));
 
-			if (childSimilarity == Boolean.FALSE) {
+			if (childSimilarity != Boolean.TRUE) {
 				return Boolean.FALSE;
 			}
 		}
