@@ -17,6 +17,7 @@ import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
+import org.splevo.jamopp.diffing.util.JaMoPPNullCheckUtil;
 
 import com.google.common.base.Strings;
 
@@ -91,9 +92,9 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		var params2 = method2.getParameters();
 
 		// Null check to avoid NullPointerExceptions
-		if (params1 == null ^ params2 == null) {
+		if (JaMoPPNullCheckUtil.onlyOneIsNull(params1, params2)) {
 			return Boolean.FALSE;
-		} else if (params1 != null && params2 != null) {
+		} else if (JaMoPPNullCheckUtil.allNonNull(params1, params2)) {
 			if (params1.size() != params2.size()) {
 				return Boolean.FALSE;
 			}
@@ -105,9 +106,9 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 				var tref1 = param1.getTypeReference();
 				var tref2 = param2.getTypeReference();
 
-				if (tref1 == null ^ tref2 == null) {
+				if (JaMoPPNullCheckUtil.onlyOneIsNull(tref1, tref2)) {
 					return Boolean.FALSE;
-				} else if (tref1 != null && tref2 != null) {
+				} else if (JaMoPPNullCheckUtil.allNonNull(tref1, tref2)) {
 					Type type1 = tref1.getTarget();
 					Type type2 = tref2.getTarget();
 					Boolean typeSimilarity = this.isSimilar(type1, type2);
@@ -302,7 +303,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		var container2 = additionalField2.eContainer();
 		
 		// Null check to avoid null pointer exceptions
-		if (container1 != null && container2 != null) {
+		if (JaMoPPNullCheckUtil.allNonNull(container1, container2)) {
 			var castedCon1 = (TypedElement) container1;
 			var castedCon2 = (TypedElement) container2;
 
@@ -319,7 +320,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 			var containerOfCon2 = castedCon2.eContainer();
 			
 			// Null check to avoid null pointer exceptions
-			if (containerOfCon1 != null && containerOfCon2 != null) {
+			if (JaMoPPNullCheckUtil.allNonNull(containerOfCon1, containerOfCon2)) {
 				var castedConOfCon1 = (TypedElement) containerOfCon1;
 				var castedConOfCon2 = (TypedElement) containerOfCon2;
 				
@@ -332,11 +333,11 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 					return Boolean.FALSE;
 				}
 				
-			} else if (containerOfCon1 == null ^ containerOfCon2 == null) {
+			} else if (JaMoPPNullCheckUtil.onlyOneIsNull(containerOfCon1, containerOfCon2)) {
 				return Boolean.FALSE;
 			}
 			
-		} else if (container1 == null ^ container2 == null) {
+		} else if (JaMoPPNullCheckUtil.onlyOneIsNull(container1, container2)) {
 			return Boolean.FALSE;
 		}
 		
