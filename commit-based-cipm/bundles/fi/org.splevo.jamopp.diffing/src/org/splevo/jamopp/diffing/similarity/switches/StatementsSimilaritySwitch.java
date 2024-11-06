@@ -21,9 +21,8 @@ import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
+import org.splevo.jamopp.diffing.util.JaMoPPComparisonUtil;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
-
-import com.google.common.base.Strings;
 
 /**
  * Similarity decisions for the statement elements.
@@ -288,11 +287,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
     	this.logMessage("caseJumpLabel");
 
         JumpLabel label2 = (JumpLabel) this.getCompareElement();
-
-        String name1 = Strings.nullToEmpty(label1.getName());
-        String name2 = Strings.nullToEmpty(label2.getName());
-
-        return (name1.equals(name2));
+        return JaMoPPComparisonUtil.namesEqual(label1, label2);
     }
 
     /**
