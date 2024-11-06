@@ -3,6 +3,8 @@ package org.splevo.jamopp.diffing.util;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.commons.NamespaceAwareElement;
 
+import com.google.common.base.Strings;
+
 public class JaMoPPNamespaceUtil {
 	/**
 	 * Compares the namespaces of the given {@link NamespaceAwareElement}s part by
@@ -70,5 +72,18 @@ public class JaMoPPNamespaceUtil {
 		}
 
 		return null;
+	}
+
+	public static Boolean compareNamespacesAsString(NamespaceAwareElement nae1, NamespaceAwareElement nae2) {
+		// Null check to avoid NullPointerExceptions
+		if (nae1 == nae2) {
+			return true;
+		} else if (nae1 == null ^ nae2 == null) {
+			return false;
+		}
+		
+		String namespace1 = Strings.nullToEmpty(nae1.getNamespacesAsString());
+		String namespace2 = Strings.nullToEmpty(nae2.getNamespacesAsString());
+		return (namespace1.equals(namespace2));
 	}
 }
