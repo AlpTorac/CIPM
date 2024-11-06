@@ -9,8 +9,7 @@ import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
-
-import com.google.common.base.Strings;
+import org.splevo.jamopp.diffing.util.JaMoPPNamespaceUtil;
 
 /**
  * Similarity decisions for the import elements.
@@ -63,9 +62,7 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 			return Boolean.FALSE;
 		}
 
-		String namespace1 = Strings.nullToEmpty(import1.getNamespacesAsString());
-		String namespace2 = Strings.nullToEmpty(import2.getNamespacesAsString());
-		return (namespace1.equals(namespace2));
+		return JaMoPPNamespaceUtil.compareNamespacesAsString(import1, import2);
 	}
 
 	/**
@@ -93,9 +90,7 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 			return Boolean.FALSE;
 		}
 
-		String namespace1 = Strings.nullToEmpty(import1.getNamespacesAsString());
-		String namespace2 = Strings.nullToEmpty(import2.getNamespacesAsString());
-		return (namespace1.equals(namespace2));
+		return JaMoPPNamespaceUtil.compareNamespacesAsString(import1, import2);
 	}
 
 	/**
@@ -119,9 +114,7 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 		
 		PackageImport import2 = (PackageImport) this.getCompareElement();
 		
-		String namespace1 = Strings.nullToEmpty(import1.getNamespacesAsString());
-		String namespace2 = Strings.nullToEmpty(import2.getNamespacesAsString());
-		return (namespace1.equals(namespace2));
+		return JaMoPPNamespaceUtil.compareNamespacesAsString(import1, import2);
 	}
 
 	/**
@@ -153,8 +146,6 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 			return Boolean.FALSE;
 		}
 
-		String namespace1 = Strings.nullToEmpty(import1.getNamespacesAsString());
-		String namespace2 = Strings.nullToEmpty(import2.getNamespacesAsString());
-		return (namespace1.equals(namespace2));
+		return JaMoPPNamespaceUtil.compareNamespacesAsString(import1, import2);
 	}
 }
