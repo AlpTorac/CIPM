@@ -73,12 +73,7 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean>
 		String namespaceString1 = Strings.nullToEmpty(unit1.getNamespacesAsString());
 		String namespaceString2 = Strings.nullToEmpty(unit2.getNamespacesAsString());
 		namespaceString1 = Strings.nullToEmpty(this.normalizeNamespace(namespaceString1));
-
-		if (!namespaceString1.equals(namespaceString2)) {
-			return Boolean.FALSE;
-		}
-
-		return Boolean.TRUE;
+		return namespaceString1.equals(namespaceString2);
 	}
 
 	/**
@@ -104,14 +99,8 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean>
 
 		String packagePath1 = Strings.nullToEmpty(JaMoPPModelUtil.buildNamespacePath(package1));
 		packagePath1 = Strings.nullToEmpty(this.normalizeNamespace(packagePath1));
-
 		String packagePath2 = Strings.nullToEmpty(JaMoPPModelUtil.buildNamespacePath(package2));
-
-		if (!packagePath1.equals(packagePath2)) {
-			return Boolean.FALSE;
-		}
-
-		return Boolean.TRUE;
+		return packagePath1.equals(packagePath2);
 	}
 
 	/**
@@ -135,11 +124,7 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean>
 
 		var name1 = Strings.nullToEmpty(module1.getName());
 		var name2 = Strings.nullToEmpty(module2.getName());
-
-		if (!name1.equals(name2)) {
-			return Boolean.FALSE;
-		}
-		return Boolean.TRUE;
+		return name1.equals(name2);
 	}
 
 	/**

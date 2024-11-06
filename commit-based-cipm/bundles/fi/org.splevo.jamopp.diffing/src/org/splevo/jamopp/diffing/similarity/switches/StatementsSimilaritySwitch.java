@@ -221,11 +221,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
         OrdinaryParameter catchedException2 = catchBlock2.getParameter();
 
         Boolean exceptionSimilarity = this.isSimilar(catchedException1, catchedException2);
-        if (JaMoPPBooleanUtil.isFalse(exceptionSimilarity)) {
-            return exceptionSimilarity;
-        }
-
-        return Boolean.TRUE;
+        return JaMoPPBooleanUtil.isNotFalse(exceptionSimilarity);
     }
 
     /**
@@ -256,11 +252,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
         Expression expression1 = conditional1.getCondition();
         Expression expression2 = conditional2.getCondition();
         Boolean expressionSimilarity = this.isSimilar(expression1, expression2);
-        if (JaMoPPBooleanUtil.isFalse(expressionSimilarity)) {
-            return Boolean.FALSE;
-        }
-
-        return Boolean.TRUE;
+        return JaMoPPBooleanUtil.isNotFalse(expressionSimilarity);
     }
 
     /**
@@ -278,12 +270,8 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
     	
         Jump jump2 = (Jump) this.getCompareElement();
 
-        Boolean similarity = this.isSimilar(jump1.getTarget(), jump2.getTarget());
-        if (JaMoPPBooleanUtil.isFalse(similarity)) {
-            return Boolean.FALSE;
-        }
-
-        return Boolean.TRUE;
+        Boolean targetSimilarity = this.isSimilar(jump1.getTarget(), jump2.getTarget());
+        return JaMoPPBooleanUtil.isNotFalse(targetSimilarity);
     }
 
     /**

@@ -47,13 +47,7 @@ public class VariablesSimilaritySwitch extends VariablesSwitch<Boolean>
 
 		String name1 = Strings.nullToEmpty(var1.getName());
 		String name2 = Strings.nullToEmpty(var2.getName());
-
-		// check the variables name equality
-		if (!name1.equals(name2)) {
-			return Boolean.FALSE;
-		}
-
-		return Boolean.TRUE;
+		return name1.equals(name2);
 	}
 
     /**
@@ -71,13 +65,8 @@ public class VariablesSimilaritySwitch extends VariablesSwitch<Boolean>
 
 		AdditionalLocalVariable var2 = (AdditionalLocalVariable) this.getCompareElement();
 
-		// check the variables name equality
 		String name1 = Strings.nullToEmpty(var1.getName());
 		String name2 = Strings.nullToEmpty(var2.getName());
-		if (!name1.equals(name2)) {
-			return Boolean.FALSE;
-		}
-
-		return Boolean.TRUE;
+		return name1.equals(name2);
 	}
 }

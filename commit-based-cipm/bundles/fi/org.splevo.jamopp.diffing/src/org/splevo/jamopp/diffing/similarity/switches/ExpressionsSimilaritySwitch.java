@@ -100,11 +100,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
         Expression value1 = exp1.getValue();
         Expression value2 = exp2.getValue();
         Boolean valueSimilarity = this.isSimilar(value1, value2);
-        if (JaMoPPBooleanUtil.isFalse(valueSimilarity)) {
-            return Boolean.FALSE;
-        }
-
-        return Boolean.TRUE;
+        return JaMoPPBooleanUtil.isNotFalse(valueSimilarity);
     }
 
     /**
@@ -137,11 +133,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
         EList<EqualityExpressionChild> children1 = exp1.getChildren();
         EList<EqualityExpressionChild> children2 = exp2.getChildren();
         Boolean childSimilarity = this.areSimilar(children1, children2);
-        if (JaMoPPBooleanUtil.isFalse(childSimilarity)) {
-            return Boolean.FALSE;
-        }
-
-        return Boolean.TRUE;
+        return JaMoPPBooleanUtil.isNotFalse(childSimilarity);
     }
 
     /**
@@ -174,11 +166,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
         EList<RelationExpressionChild> children1 = exp1.getChildren();
         EList<RelationExpressionChild> children2 = exp2.getChildren();
         Boolean childSimilarity = this.areSimilar(children1, children2);
-        if (JaMoPPBooleanUtil.isFalse(childSimilarity)) {
-            return Boolean.FALSE;
-        }
-
-        return Boolean.TRUE;
+        return JaMoPPBooleanUtil.isNotFalse(childSimilarity);
     }
 
     /**
@@ -202,11 +190,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
         EList<AndExpressionChild> children1 = exp1.getChildren();
         EList<AndExpressionChild> children2 = exp2.getChildren();
         Boolean childSimilarity = this.areSimilar(children1, children2);
-        if (JaMoPPBooleanUtil.isFalse(childSimilarity)) {
-            return Boolean.FALSE;
-        }
-
-        return Boolean.TRUE;
+        return JaMoPPBooleanUtil.isNotFalse(childSimilarity);
     }
 
     /**
