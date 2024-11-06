@@ -86,12 +86,8 @@ public class AnnotationsSimilaritySwitch extends AnnotationsSwitch<Boolean>
 
 		AnnotationAttributeSetting setting2 = (AnnotationAttributeSetting) this.getCompareElement();
 
-		Boolean similarity = this.isSimilar(setting1.getAttribute(), setting2.getAttribute());
-		if (JaMoPPBooleanUtil.isFalse(similarity)) {
-			return Boolean.FALSE;
-		}
-
-		return Boolean.TRUE;
+		Boolean attrSimilarity = this.isSimilar(setting1.getAttribute(), setting2.getAttribute());
+		return JaMoPPBooleanUtil.isNotFalse(attrSimilarity);
 	}
 
 	@Override
