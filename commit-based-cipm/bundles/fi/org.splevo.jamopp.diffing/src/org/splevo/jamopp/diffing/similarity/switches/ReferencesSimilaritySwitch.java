@@ -14,9 +14,8 @@ import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
+import org.splevo.jamopp.diffing.util.JaMoPPComparisonUtil;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
-
-import com.google.common.base.Strings;
 
 /**
  * Similarity decisions for reference elements.
@@ -60,10 +59,7 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 		this.logMessage("caseStringReference");
 
 		StringReference ref2 = (StringReference) this.getCompareElement();
-
-		var val1 = Strings.nullToEmpty(ref1.getValue());
-		var val2 = Strings.nullToEmpty(ref2.getValue());
-		return val1.equals(val2);
+		return JaMoPPComparisonUtil.stringsEqual(ref1.getValue(), ref2.getValue());
 	}
 
 	/**
