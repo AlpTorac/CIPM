@@ -17,6 +17,7 @@ import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
+import org.splevo.jamopp.diffing.util.JaMoPPComparisonUtil;
 import org.splevo.jamopp.diffing.util.JaMoPPNullCheckUtil;
 
 import com.google.common.base.Strings;
@@ -80,11 +81,9 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 
 		Method method2 = (Method) this.getCompareElement();
 
-		var name1 = Strings.nullToEmpty(method1.getName());
-		var name2 = Strings.nullToEmpty(method2.getName());
-
 		// if methods have different names they are not similar.
-		if (!name1.equals(name2)) {
+		var nameSimilarity = JaMoPPComparisonUtil.namesEqual(method1, method2);
+		if (JaMoPPBooleanUtil.isFalse(nameSimilarity)) {
 			return Boolean.FALSE;
 		}
 
@@ -146,7 +145,8 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 
 		var containerString = method1.eContainer() == null ? "" : method1.eContainer().toString();
 
-		this.logMessage("MethodDeclaration in unknown container: " + name1 + " : " + containerString, Level.WARN);
+		this.logMessage("MethodDeclaration in unknown container: " + Strings.nullToEmpty(method1.getName())
+			+ " : " + containerString, Level.WARN);
 		return null;
 	}
 
@@ -177,11 +177,9 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 
 		Constructor constructor2 = (Constructor) this.getCompareElement();
 
-		var name1 = Strings.nullToEmpty(constructor1.getName());
-		var name2 = Strings.nullToEmpty(constructor2.getName());
-
 		// if methods have different names they are not similar.
-		if (!name1.equals(name2)) {
+		var nameSimilarity = JaMoPPComparisonUtil.namesEqual(constructor1, constructor2);
+		if (JaMoPPBooleanUtil.isFalse(nameSimilarity)) {
 			return Boolean.FALSE;
 		}
 
@@ -216,7 +214,8 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 
 		var containerString = constructor1.eContainer() == null ? "" : constructor1.eContainer().toString();
 
-		this.logMessage("ConstructorDeclaration in unknown container: " + name1 + " : " + containerString, Level.WARN);
+		this.logMessage("ConstructorDeclaration in unknown container: " +
+				Strings.nullToEmpty(constructor1.getName()) + " : " + containerString, Level.WARN);
 		return null;
 	}
 
@@ -234,9 +233,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		this.logMessage("caseEnumConstant");
 
 		EnumConstant const2 = (EnumConstant) this.getCompareElement();
-		String name1 = Strings.nullToEmpty(const1.getName());
-		String name2 = Strings.nullToEmpty(const2.getName());
-		return (name1.equals(name2));
+		return JaMoPPComparisonUtil.namesEqual(const1, const2);
 	}
 
 	/**
@@ -253,9 +250,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		this.logMessage("caseMember");
 
 		Member member2 = (Member) this.getCompareElement();
-		String name1 = Strings.nullToEmpty(member1.getName());
-		String name2 = Strings.nullToEmpty(member2.getName());
-		return (name1.equals(name2));
+		return JaMoPPComparisonUtil.namesEqual(member1, member2);
 	}
 
 	/**
@@ -283,10 +278,8 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		this.logMessage("caseAdditionalField");
 		
 		AdditionalField additionalField2 = (AdditionalField) this.getCompareElement();
-		String name1 = Strings.nullToEmpty(additionalField1.getName());
-		String name2 = Strings.nullToEmpty(additionalField2.getName());
-		
-		if (!name1.equals(name2)) {
+		var nameSimilarity = JaMoPPComparisonUtil.namesEqual(additionalField1, additionalField2);
+		if (JaMoPPBooleanUtil.isFalse(nameSimilarity)) {
 			return Boolean.FALSE;
 		}
 		
