@@ -62,7 +62,7 @@ public class GenericsSimilaritySwitch extends GenericsSwitch<Boolean>
 	/**
 	 * Checks the similarity of 2 super type arguments. Similarity is checked by comparing:
 	 * <ol>
-	 * <li> The super type ({@link SuperTypeArgument#getSuperType()})
+	 * <li> The super type (the lower bound) ({@link SuperTypeArgument#getSuperType()})
 	 * </ol>
 	 * 
 	 * @param sta1 The super type argument to compare with compareElement
@@ -81,7 +81,7 @@ public class GenericsSimilaritySwitch extends GenericsSwitch<Boolean>
 	/**
 	 * Checks the similarity of 2 extends type arguments. Similarity is checked by comparing:
 	 * <ol>
-	 * <li> The extend type argument ({@link ExtendsTypeArgument#getExtendType()})
+	 * <li> The extend type argument (the upper bound) ({@link ExtendsTypeArgument#getExtendType()})
 	 * </ol>
 	 * 
 	 * @param eta1 The extend type argument to compare with compareElement

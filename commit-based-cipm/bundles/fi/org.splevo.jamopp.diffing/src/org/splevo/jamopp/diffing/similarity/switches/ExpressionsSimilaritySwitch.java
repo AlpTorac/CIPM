@@ -67,9 +67,9 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
     /**
 	 * Checks the similarity of 2 assignment expressions. Similarity is checked by comparing:
 	 * <ol>
-	 * <li> The assignment expression child ({@link AssignmentExpression#getChild()})
+	 * <li> The assignment expression child (left hand side) ({@link AssignmentExpression#getChild()})
 	 * <li> The assignment operator ({@link AssignmentExpression#getAssignmentOperator()})
-	 * <li> The value ({@link AssignmentExpression#getValue()})
+	 * <li> The value (right hand side) ({@link AssignmentExpression#getValue()})
 	 * </ol>
 	 * 
 	 * @param exp1 The assignment expression to compare with compareElement
@@ -107,7 +107,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
 	 * Checks the similarity of 2 equality expressions. Similarity is checked by comparing:
 	 * <ol>
 	 * <li> The equality operators ({@link EqualityExpression#getEqualityOperators()})
-	 * <li> The equality expression children ({@link EqualityExpression#getChildren()})
+	 * <li> The equality expression children (left and right hand sides) ({@link EqualityExpression#getChildren()})
 	 * </ol>
 	 * 
 	 * @param exp1 The equality expression to compare with compareElement
@@ -140,7 +140,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
 	 * Checks the similarity of 2 relation expressions. Similarity is checked by comparing:
 	 * <ol>
 	 * <li> The relation operators ({@link RelationExpression#getRelationOperators()})
-	 * <li> The relation expression children ({@link RelationExpression#getChildren()})
+	 * <li> The relation expression children (left and right hand sides) ({@link RelationExpression#getChildren()})
 	 * </ol>
 	 * 
 	 * @param exp1 The relation expression to compare with compareElement
@@ -170,10 +170,9 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
     }
 
     /**
-	 * Checks the similarity of 2 and expressions. Similarity is checked by comparing:
-	 * <ol>
-	 * <li> The and expression children ({@link AndExpression#getChildren()})
-	 * </ol>
+	 * Checks the similarity of 2 and expressions. Similarity is checked by comparing
+	 * the terms "{@code t1, t2, ..., tn}" in "{@code t1 & t2 & ... & tn}"
+	 * ({@link AndExpression#getChildren()}).
 	 * 
 	 * @param exp1 The and expression to compare with compareElement
 	 * @return False if not similar, true otherwise.
@@ -229,7 +228,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
 	 * Checks the similarity of 2 additive expressions. Similarity is checked by comparing:
 	 * <ol>
 	 * <li> The additive operators ({@link AdditiveExpression#getAdditiveOperators()})
-	 * <li> The additive expression children ({@link AdditiveExpression#getChildren()})
+	 * <li> The additive expression children (summands) ({@link AdditiveExpression#getChildren()})
 	 * </ol>
 	 * 
 	 * @param exp1 The additive expression to compare with compareElement
@@ -252,10 +251,10 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
     }
 
     /**
-	 * Checks the similarity of 2 instance if expressions. Similarity is checked by comparing:
+	 * Checks the similarity of 2 instance of expressions. Similarity is checked by comparing:
 	 * <ol>
-	 * <li> The type reference ({@link InstanceOfExpression#getTypeReference()})
-	 * <li> The instance of expression child ({@link InstanceOfExpression#getChild()})
+	 * <li> The type reference (right hand side) ({@link InstanceOfExpression#getTypeReference()})
+	 * <li> The instance of expression child (left hand side) ({@link InstanceOfExpression#getChild()})
 	 * </ol>
 	 * 
 	 * @param exp1 The instance of expression to compare with compareElement
@@ -284,10 +283,9 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
     }
 
     /**
-	 * Checks the similarity of 2 conditional or expressions. Similarity is checked by comparing:
-	 * <ol>
-	 * <li> The conditional or expression children ({@link ConditionalOrExpression#getChildren()})
-	 * </ol>
+	 * Checks the similarity of 2 conditional or expressions. Similarity is checked by comparing
+	 * the terms "{@code t1, t2, ..., tn}" in "{@code t1 || t2 || ... || tn}"
+	 * ({@link ConditionalOrExpression#getChildren()}).
 	 * 
 	 * @param exp1 The conditional or expression to compare to compareElement
 	 * @return Result of similarity checking of the children.
@@ -307,10 +305,9 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
     }
 
     /**
-	 * Checks the similarity of 2 conditional and expressions. Similarity is checked by comparing:
-	 * <ol>
-	 * <li> The conditional and expression children ({@link ConditionalAndExpression#getChildren()})
-	 * </ol>
+	 * Checks the similarity of 2 conditional and expressions. Similarity is checked by comparing
+	 * the terms "{@code t1, t2, ..., tn}" in "{@code t1 && t2 && ... && tn}"
+	 * ({@link ConditionalAndExpression#getChildren()}).
 	 * 
 	 * @param exp1 The conditional and expression to compare with compareElement
 	 * @return Result of similarity checking of the children.
@@ -330,10 +327,8 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
     }
 
     /**
-	 * Checks the similarity of 2 nested expressions. Similarity is checked by comparing:
-	 * <ol>
-	 * <li> The expressions ({@link NestedExpression#getExpression()})
-	 * </ol>
+	 * Checks the similarity of 2 nested expressions. Similarity is checked by comparing
+	 * the nested expressions ({@link NestedExpression#getExpression()}).
 	 * 
 	 * @param exp1 The nested expression to compare with compareElement
 	 * @return Result of similarity checking of the expressions.
