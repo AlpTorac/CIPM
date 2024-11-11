@@ -53,17 +53,17 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	/**
 	 * Check abstract method declaration similarity. Similarity is checked by
 	 * <ol>
-	 * <li> Name ({@link Method#getName()})</li>
-	 * <li> Parameters ({@link Method#getParameters()})</li>
+	 * <li> The name of the method ({@link Method#getName()})</li>
+	 * <li> The input parameters of the method ({@link Method#getParameters()})</li>
 	 * <ol>
-	 * <li> Type reference of parameters ({@code typeRef = param.getTypeReference()})
+	 * <li> Type reference of input parameters ({@code typeRef = param.getTypeReference()})
 	 * <ol>
-	 * <li> Target ({@code typeRef.getTarget()})
-	 * <li> Array dimension ({@code typeRef.getArrayDimension()})
+	 * <li> Target of the type reference ({@code typeRef.getTarget()})
+	 * <li> Array dimension of the type reference ({@code typeRef.getArrayDimension()})
 	 * </ol>
 	 * </ol>
-	 * <li> {@link Method#getContainingConcreteClassifier()} (if existent)
-	 * <li> {@link Method#getContainingAnonymousClass()} (if existent)
+	 * <li> {@link Method#getContainingConcreteClassifier()} (if existent and then returns)
+	 * <li> {@link Method#getContainingAnonymousClass()} (if existent and then returns)
 	 * </ol>
 	 * 
 	 * The container must be checked to check similarity for referenced methods.
@@ -153,13 +153,10 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	/**
 	 * Check constructor declaration similarity. Similarity is checked by
 	 * <ol>
-	 * <li> Name ({@link Constructor#getName()})
-	 * <li> Parameters ({@link Constructor#getParameters()})
-	 * <li> Container (either or):
-	 * <ul>
-	 * <li> {@link Method#getContainingConcreteClassifier()} (if existent)
-	 * <li> {@link Method#getContainingAnonymousClass()} (if existent)
-	 * </ul>
+	 * <li> The constructor name ({@link Constructor#getName()})
+	 * <li> The constructor parameters ({@link Constructor#getParameters()})
+	 * <li> {@link Constructor#getContainingConcreteClassifier()} (if existent and then returns)
+	 * <li> {@link Constructor#getContainingAnonymousClass()} (if existent and then returns)
 	 * </ol>
 	 * 
 	 * The container must be checked to check similarity for referenced methods.
