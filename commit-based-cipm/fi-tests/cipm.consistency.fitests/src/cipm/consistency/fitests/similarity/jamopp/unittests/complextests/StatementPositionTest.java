@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.emftext.language.java.statements.ExpressionStatement;
-import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Statement;
-import org.emftext.language.java.statements.SynchronizedBlock;
+import org.emftext.language.java.statements.StatementListContainer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -15,6 +13,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPInitialiserParameters;
+import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementPositionTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
 import cipm.consistency.initialisers.jamopp.statements.IStatementInitialiser;
 import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerInitialiser;
@@ -30,7 +29,8 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
  * 
  * @author Alp Torac Genc
  */
-public class StatementPositionTest extends AbstractJaMoPPSimilarityTest implements UsesStatements {
+public class StatementPositionTest extends AbstractJaMoPPSimilarityTest
+		implements UsesStatements, IStatementPositionTest {
 	/**
 	 * @return A list of all initialisers that implement
 	 *         {@link IStatementListContainerInitialiser}. If an initialiser is
@@ -55,18 +55,6 @@ public class StatementPositionTest extends AbstractJaMoPPSimilarityTest implemen
 		var inits = new JaMoPPInitialiserParameters().getEachInitialiserOnceBySuper(IStatementInitialiser.class);
 		inits.forEach((i) -> res.add(((IStatementInitialiser) i)));
 		return res;
-	}
-
-	/**
-	 * The return value of this method was derived from the implementation of the
-	 * current similarity checker.
-	 * 
-	 * @return Whether the position of an instance of the given class within its
-	 *         container matters.
-	 */
-	private static Boolean doesStatementPositionMatter(Class<? extends Statement> cls) {
-		return ExpressionStatement.class.isAssignableFrom(cls) || LocalVariableStatement.class.isAssignableFrom(cls)
-				|| SynchronizedBlock.class.isAssignableFrom(cls);
 	}
 
 	/**
@@ -322,7 +310,7 @@ public class StatementPositionTest extends AbstractJaMoPPSimilarityTest implemen
 
 				this.assertSimilarityResult(cSt1, cSt2,
 						containeeCls.isAssignableFrom(cSt1.getClass()) && containeeCls.isAssignableFrom(cSt2.getClass())
-								&& !doesStatementPositionMatter(containeeCls));
+								&& !this.doesStatementPositionMatter(containeeCls));
 			}
 		}
 	}
