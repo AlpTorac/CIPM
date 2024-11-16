@@ -1,7 +1,4 @@
-package cipm.consistency.fitests.similarity.jamopp.unittests.complextests;
-
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+package cipm.consistency.fitests.similarity.jamopp.unittests.mocktests;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -18,14 +15,14 @@ import org.junit.jupiter.params.provider.MethodSource;
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 
 /**
- * A test class, which ensures that all interfaces extending {@link Commentable}
- * are addressed by similarity checking. <br>
+ * A test class, which ensures that all instances of all Java element types
+ * present in {@link JavaPackage} are addressed by similarity checking. <br>
  * <br>
  * Note: These tests may include cases that are not currently addressed.
  * 
  * @author Alp Torac Genc
  */
-public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest {
+public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implements IMockTest {
 	private static Stream<Arguments> genTestParams() {
 		return getAllClasses().stream().map(Arguments::of);
 	}
@@ -54,26 +51,9 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest {
 	}
 
 	/**
-	 * @return The {@link EClass} corresponding to the class represented by cls.
-	 *         Null, if no such {@link EClass} is found under {@link JavaPackage}.
-	 */
-	private EClass getEClassFor(Class<?> cls) {
-		var ePacs = JavaPackage.eINSTANCE.getESubpackages();
-		for (var ePac : ePacs) {
-			var eClss = ePac.getEClassifiers();
-			for (var eCls : eClss) {
-				if (eCls.getInstanceClass().equals(cls)) {
-					return (EClass) eCls;
-				}
-			}
-		}
-		return null;
-	}
-
-	/**
-	 * Makes sure that all interfaces extending {@link Commentable} are addressed by
-	 * similarity checking, i.e. computing the similarity of 2 mocked instances of
-	 * cls returns true.
+	 * Makes sure that all types that are present in {@link JavaPackage} are
+	 * addressed by similarity checking, i.e. computing the similarity of 2 mocked
+	 * instances of cls returns true.
 	 * 
 	 * @param cls The type extending {@link EObject} that will be mocked.
 	 */
@@ -86,10 +66,8 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest {
 		 * cause Null Pointer Exceptions.
 		 */
 
-		var clsMock1 = mock(cls);
-		when(clsMock1.eClass()).thenReturn(this.getEClassFor(cls));
-		var clsMock2 = mock(cls);
-		when(clsMock2.eClass()).thenReturn(this.getEClassFor(cls));
+		var clsMock1 = this.mockEObject(cls);
+		var clsMock2 = this.mockEObject(cls);
 
 		Assertions.assertTrue(this.isSimilar(clsMock1, clsMock2));
 	}
