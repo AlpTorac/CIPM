@@ -9,6 +9,8 @@ import org.emftext.language.java.classifiers.Classifier;
 
 
 
+
+
 /**
  * Similarity decisions for annotation elements.
  */
@@ -37,6 +39,18 @@ public class AnnotationsSimilaritySwitch extends AnnotationsSwitch<Boolean>
 		this.checkStatementPosition = checkStatementPosition;
 	}
 
+	/**
+	 * Checks the similarity of 2 annotation instances. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> The used annotation ({@link AnnotationInstance#getAnnotation()})
+	 * <li> Namespace of the used annotation ({@link AnnotationInstance#getNamespacesAsString()})
+	 * </ol>
+	 * 
+	 * @param instance1 The annotation instance to compare with compareElement.
+	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
+	 */
 	@Override
 	public Boolean caseAnnotationInstance(AnnotationInstance instance1) {
 		this.logMessage("caseAnnotationInstance");
@@ -47,32 +61,30 @@ public class AnnotationsSimilaritySwitch extends AnnotationsSwitch<Boolean>
 		Classifier class2 = instance2.getAnnotation();
 
 		Boolean classifierSimilarity = this.isSimilar(class1, class2);
-		if (classifierSimilarity == Boolean.FALSE) {
+		if (JaMoPPBooleanUtil.isFalse(classifierSimilarity)) {
 			return Boolean.FALSE;
 		}
 
-		String namespace1 = instance1.getNamespacesAsString();
-		String namespace2 = instance2.getNamespacesAsString();
-
-		if (namespace1 == null) {
-			return (namespace2 == null);
-		} else {
-			return (namespace1.equals(namespace2));
-		}
+		return JaMoPPNamespaceUtil.compareNamespacesAsString(instance1, instance2);
 	}
 
+	/**
+	 * Checks the similarity of 2 {@link AnnotationAttributeSetting}s. Similarity is checked by comparing
+	 * the attributes {@link AnnotationAttributeSetting#getAttribute()}.
+	 * 
+	 * @param setting1 The annotation attribute setting to compare with compareElement
+	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
+	 */
 	@Override
 	public Boolean caseAnnotationAttributeSetting(AnnotationAttributeSetting setting1) {
 		this.logMessage("caseAnnotationAttributeSetting");
 
 		AnnotationAttributeSetting setting2 = (AnnotationAttributeSetting) this.getCompareElement();
 
-		Boolean similarity = this.isSimilar(setting1.getAttribute(), setting2.getAttribute());
-		if (similarity == Boolean.FALSE) {
-			return Boolean.FALSE;
-		}
-
-		return Boolean.TRUE;
+		Boolean attrSimilarity = this.isSimilar(setting1.getAttribute(), setting2.getAttribute());
+		return JaMoPPBooleanUtil.isNotFalse(attrSimilarity);
 	}
 
 	@Override

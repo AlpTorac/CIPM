@@ -15,6 +15,8 @@ import org.emftext.language.java.references.util.ReferencesSwitch;
 
 
 
+
+
 /**
  * Similarity decisions for reference elements.
  */
@@ -43,25 +45,38 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 		this.checkStatementPosition = checkStatementPosition;
 	}
 
+	/**
+	 * Checks the similarity of 2 string references. Similarity is checked by comparing
+	 * their values ({@link StringReference#getValue()}).
+	 * 
+	 * @param ref1 The string reference to compare with compareElement
+	 * @return True if the values are similar, false if not.
+	 * 
+	 * @see {@link #getCompareElement()}
+	 */
 	@Override
 	public Boolean caseStringReference(StringReference ref1) {
 		this.logMessage("caseStringReference");
 
 		StringReference ref2 = (StringReference) this.getCompareElement();
-
-		var val1 = ref1.getValue();
-		var val2 = ref2.getValue();
-
-		// Null check to avoid NullPointerException
-		if (val1 == val2) {
-			return Boolean.TRUE;
-		} else if (val1 == null ^ val2 == null) {
-			return Boolean.FALSE;
-		}
-
-		return val1.equals(val2);
+		return JaMoPPComparisonUtil.stringsEqual(ref1.getValue(), ref2.getValue());
 	}
 
+	/**
+	 * Checks the similarity of 2 identifier references. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> Target ({@link IdentifierReference#getTarget()})
+	 * <li> Container of target ({@code target.eContainer()}), if it does not contain the
+	 * identifier reference and thus cause cyclic containment
+	 * <li> Array selectors ({@link IdentifierReference#getArraySelectors()})
+	 * <li> Next ({@link IdentifierReference#getNext()}
+	 * </ol>
+	 * 
+	 * @param ref1 The identifier reference to compare with compareElement
+	 * @return False if a step fails, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
+	 */
 	@Override
 	public Boolean caseIdentifierReference(IdentifierReference ref1) {
 		this.logMessage("caseIdentifierReference");
@@ -72,7 +87,7 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 
 		// target identity similarity
 		Boolean similarity = this.isSimilar(target1, target2);
-		if (similarity == Boolean.FALSE) {
+		if (JaMoPPBooleanUtil.isFalse(similarity)) {
 			return Boolean.FALSE;
 		}
 
@@ -92,7 +107,7 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 			if (target1Container != ref1Container && target2Container != ref2Container && target1Container != ref1
 					&& target2Container != ref2) {
 				Boolean containerSimilarity = this.isSimilar(target1Container, target2Container);
-				if (containerSimilarity == Boolean.FALSE) {
+				if (JaMoPPBooleanUtil.isFalse(containerSimilarity)) {
 					return Boolean.FALSE;
 				}
 			}
@@ -112,7 +127,7 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 				ArraySelector selector1 = arrSels1.get(i);
 				ArraySelector selector2 = arrSels2.get(i);
 				Boolean positionSimilarity = this.isSimilar(selector1.getPosition(), selector2.getPosition());
-				if (positionSimilarity == Boolean.FALSE) {
+				if (JaMoPPBooleanUtil.isFalse(positionSimilarity)) {
 					return Boolean.FALSE;
 				}
 			}
@@ -121,21 +136,19 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 		Reference next1 = ref1.getNext();
 		Reference next2 = ref2.getNext();
 		Boolean nextSimilarity = this.isSimilar(next1, next2);
-		if (nextSimilarity == Boolean.FALSE) {
-			return Boolean.FALSE;
-		}
-
-		return Boolean.TRUE;
+		return JaMoPPBooleanUtil.isNotFalse(nextSimilarity);
 	}
 
 	/**
 	 * Check element reference similarity.<br>
 	 * 
-	 * Is checked by the target (the method called). Everything else are containment
+	 * Similarity is checked by the target (the method called). Everything else are containment
 	 * references checked indirectly.
 	 * 
-	 * @param ref1 The method call to compare with the compare element.
-	 * @return True As null always means null.
+	 * @param ref1 The element reference to compare with the compare element.
+	 * @return False if targets are not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseElementReference(ElementReference ref1) {
@@ -144,21 +157,21 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 		ElementReference ref2 = (ElementReference) this.getCompareElement();
 
 		Boolean targetSimilarity = this.isSimilar(ref1.getTarget(), ref2.getTarget());
-		if (targetSimilarity == Boolean.FALSE) {
-			return Boolean.FALSE;
-		}
-
-		return Boolean.TRUE;
+		return JaMoPPBooleanUtil.isNotFalse(targetSimilarity);
 	}
 
 	/**
-	 * Proof method call similarity.
+	 * Checks the similarity of 2 method calls. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> Target ({@link MethodCall#getTarget()})
+	 * <li> Arguments ({@link MethodCall#getArguments()})
+	 * <li> Next ({@link MethodCall#getNext()})
+	 * </ol>
 	 * 
-	 * Similarity is decided by the method referenced and the arguments passed by.
+	 * @param call1 The method call to compare with compareElement
+	 * @return False if a step fails, true otherwise.
 	 * 
-	 * @param call1 The left / modified method call to compare with the original
-	 *              one.
-	 * @return True/False if the method calls are similar or not.
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseMethodCall(MethodCall call1) {
@@ -167,37 +180,19 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 		MethodCall call2 = (MethodCall) this.getCompareElement();
 
 		Boolean targetSimilarity = this.isSimilar(call1.getTarget(), call2.getTarget());
-		if (targetSimilarity == Boolean.FALSE) {
+		if (JaMoPPBooleanUtil.isFalse(targetSimilarity)) {
 			return Boolean.FALSE;
 		}
 
 		var args1 = call1.getArguments();
 		var args2 = call2.getArguments();
-
-		// Null check to avoid NullPointerExceptions
-		if (args1 == null ^ args2 == null) {
+		var argSimilarity = this.areSimilar(args1, args2);
+		if (JaMoPPBooleanUtil.isFalse(argSimilarity)) {
 			return Boolean.FALSE;
-		} else if (args1 != null && args2 != null) {
-			if (args1.size() != args2.size()) {
-				return Boolean.FALSE;
-			}
-
-			for (int i = 0; i < args1.size(); i++) {
-				Expression exp1 = args1.get(i);
-				Expression exp2 = args2.get(i);
-				Boolean argSimilarity = this.isSimilar(exp1, exp2);
-				if (argSimilarity == Boolean.FALSE) {
-					return Boolean.FALSE;
-				}
-			}
 		}
 
 		Boolean nextSimilarity = this.isSimilar(call1.getNext(), call2.getNext());
-		if (nextSimilarity == Boolean.FALSE) {
-			return Boolean.FALSE;
-		}
-
-		return Boolean.TRUE;
+		return JaMoPPBooleanUtil.isNotFalse(nextSimilarity);
 	}
 
 	@Override

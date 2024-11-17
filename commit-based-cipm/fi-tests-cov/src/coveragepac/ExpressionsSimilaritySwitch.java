@@ -31,6 +31,7 @@ import org.emftext.language.java.types.TypeReference;
 
 
 
+
 /**
  * Similarity decisions for expression elements.
  * <p>
@@ -63,6 +64,19 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
 		this.checkStatementPosition = checkStatementPosition;
 	}
 
+    /**
+	 * Checks the similarity of 2 assignment expressions. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> The assignment expression child (left hand side) ({@link AssignmentExpression#getChild()})
+	 * <li> The assignment operator ({@link AssignmentExpression#getAssignmentOperator()})
+	 * <li> The value (right hand side) ({@link AssignmentExpression#getValue()})
+	 * </ol>
+	 * 
+	 * @param exp1 The assignment expression to compare with compareElement
+	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
+     */
 	@Override
     public Boolean caseAssignmentExpression(AssignmentExpression exp1) {
 		this.logMessage("caseAssignmentExpression");
@@ -72,27 +86,35 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
         AssignmentExpressionChild child1 = exp1.getChild();
         AssignmentExpressionChild child2 = exp2.getChild();
         Boolean childSimilarity = this.isSimilar(child1, child2);
-        if (childSimilarity == Boolean.FALSE) {
+        if (JaMoPPBooleanUtil.isFalse(childSimilarity)) {
             return Boolean.FALSE;
         }
 
         AssignmentOperator op1 = exp1.getAssignmentOperator();
         AssignmentOperator op2 = exp2.getAssignmentOperator();
         Boolean operatorSimilarity = this.isSimilar(op1, op2);
-        if (operatorSimilarity == Boolean.FALSE) {
+        if (JaMoPPBooleanUtil.isFalse(operatorSimilarity)) {
             return Boolean.FALSE;
         }
 
         Expression value1 = exp1.getValue();
         Expression value2 = exp2.getValue();
         Boolean valueSimilarity = this.isSimilar(value1, value2);
-        if (valueSimilarity == Boolean.FALSE) {
-            return Boolean.FALSE;
-        }
-
-        return Boolean.TRUE;
+        return JaMoPPBooleanUtil.isNotFalse(valueSimilarity);
     }
 
+    /**
+	 * Checks the similarity of 2 equality expressions. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> The equality operators ({@link EqualityExpression#getEqualityOperators()})
+	 * <li> The equality expression children (left and right hand sides) ({@link EqualityExpression#getChildren()})
+	 * </ol>
+	 * 
+	 * @param exp1 The equality expression to compare with compareElement
+	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
+	 */
     @Override
     public Boolean caseEqualityExpression(EqualityExpression exp1) {
     	this.logMessage("caseEqualityExpression");
@@ -103,7 +125,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
         EList<EqualityOperator> operators1 = exp1.getEqualityOperators();
         EList<EqualityOperator> operators2 = exp2.getEqualityOperators();
         Boolean operatorSimilarity = this.areSimilar(operators1, operators2);
-        if (operatorSimilarity == Boolean.FALSE) {
+        if (JaMoPPBooleanUtil.isFalse(operatorSimilarity)) {
             return Boolean.FALSE;
         }
 
@@ -111,13 +133,21 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
         EList<EqualityExpressionChild> children1 = exp1.getChildren();
         EList<EqualityExpressionChild> children2 = exp2.getChildren();
         Boolean childSimilarity = this.areSimilar(children1, children2);
-        if (childSimilarity == Boolean.FALSE) {
-            return Boolean.FALSE;
-        }
-
-        return Boolean.TRUE;
+        return JaMoPPBooleanUtil.isNotFalse(childSimilarity);
     }
 
+    /**
+	 * Checks the similarity of 2 relation expressions. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> The relation operators ({@link RelationExpression#getRelationOperators()})
+	 * <li> The relation expression children (left and right hand sides) ({@link RelationExpression#getChildren()})
+	 * </ol>
+	 * 
+	 * @param exp1 The relation expression to compare with compareElement
+	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
+     */
     @Override
     public Boolean caseRelationExpression(RelationExpression exp1) {
     	this.logMessage("caseRelationExpression");
@@ -128,7 +158,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
         EList<RelationOperator> operators1 = exp1.getRelationOperators();
         EList<RelationOperator> operators2 = exp2.getRelationOperators();
         Boolean operatorSimilarity = this.areSimilar(operators1, operators2);
-        if (operatorSimilarity == Boolean.FALSE) {
+        if (JaMoPPBooleanUtil.isFalse(operatorSimilarity)) {
             return Boolean.FALSE;
         }
 
@@ -136,13 +166,19 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
         EList<RelationExpressionChild> children1 = exp1.getChildren();
         EList<RelationExpressionChild> children2 = exp2.getChildren();
         Boolean childSimilarity = this.areSimilar(children1, children2);
-        if (childSimilarity == Boolean.FALSE) {
-            return Boolean.FALSE;
-        }
-
-        return Boolean.TRUE;
+        return JaMoPPBooleanUtil.isNotFalse(childSimilarity);
     }
 
+    /**
+	 * Checks the similarity of 2 and expressions. Similarity is checked by comparing
+	 * the terms "{@code t1, t2, ..., tn}" in "{@code t1 & t2 & ... & tn}"
+	 * ({@link AndExpression#getChildren()}).
+	 * 
+	 * @param exp1 The and expression to compare with compareElement
+	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
+     */
     @Override
     public Boolean caseAndExpression(AndExpression exp1) {
     	this.logMessage("caseAndExpression");
@@ -153,13 +189,21 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
         EList<AndExpressionChild> children1 = exp1.getChildren();
         EList<AndExpressionChild> children2 = exp2.getChildren();
         Boolean childSimilarity = this.areSimilar(children1, children2);
-        if (childSimilarity == Boolean.FALSE) {
-            return Boolean.FALSE;
-        }
-
-        return Boolean.TRUE;
+        return JaMoPPBooleanUtil.isNotFalse(childSimilarity);
     }
 
+    /**
+	 * Checks the similarity of 2 unary expressions. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> The unary operators ({@link UnaryExpression#getOperators()})
+	 * <li> The unary expression child ({@link UnaryExpression#getChild()})
+	 * </ol>
+	 * 
+	 * @param exp1 The unary expression to compare with compareElement
+	 * @return False if not similar, result of similarity checking in 2. otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
+     */
     @Override
     public Boolean caseUnaryExpression(UnaryExpression exp1) {
     	this.logMessage("caseUnaryExpression");
@@ -170,7 +214,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
         EList<UnaryOperator> operators1 = exp1.getOperators();
         EList<UnaryOperator> operators2 = exp2.getOperators();
         Boolean operatorSimilarity = this.areSimilar(operators1, operators2);
-        if (operatorSimilarity == Boolean.FALSE) {
+        if (JaMoPPBooleanUtil.isFalse(operatorSimilarity)) {
             return Boolean.FALSE;
         }
 
@@ -179,7 +223,19 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
         UnaryExpressionChild child2 = exp2.getChild();
         return this.isSimilar(child1, child2);
     }
-    
+
+    /**
+	 * Checks the similarity of 2 additive expressions. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> The additive operators ({@link AdditiveExpression#getAdditiveOperators()})
+	 * <li> The additive expression children (summands) ({@link AdditiveExpression#getChildren()})
+	 * </ol>
+	 * 
+	 * @param exp1 The additive expression to compare with compareElement
+	 * @return False if not similar, result of similarity checking in 2. otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
+     */
     @Override
     public Boolean caseAdditiveExpression(AdditiveExpression exp1) {
     	this.logMessage("caseAdditiveExpression");
@@ -187,13 +243,25 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
     	AdditiveExpression exp2 = (AdditiveExpression) this.getCompareElement();
     	
     	Boolean opSimilarity = this.areSimilar(exp1.getAdditiveOperators(), exp2.getAdditiveOperators());
-    	if (opSimilarity == Boolean.FALSE) {
+    	if (JaMoPPBooleanUtil.isFalse(opSimilarity)) {
     		return Boolean.FALSE;
     	}
     	
     	return this.areSimilar(exp1.getChildren(), exp2.getChildren());
     }
 
+    /**
+	 * Checks the similarity of 2 instance of expressions. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> The type reference (right hand side) ({@link InstanceOfExpression#getTypeReference()})
+	 * <li> The instance of expression child (left hand side) ({@link InstanceOfExpression#getChild()})
+	 * </ol>
+	 * 
+	 * @param exp1 The instance of expression to compare with compareElement
+	 * @return False if not similar, result of similarity checking in 2. otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
+     */
     @Override
     public Boolean caseInstanceOfExpression(InstanceOfExpression exp1) {
     	this.logMessage("caseInstanceOfExpression");
@@ -204,7 +272,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
         TypeReference typeReference1 = exp1.getTypeReference();
         TypeReference typeReference2 = exp2.getTypeReference();
         Boolean typeSimilarity = this.isSimilar(typeReference1, typeReference2);
-        if (typeSimilarity == Boolean.FALSE) {
+        if (JaMoPPBooleanUtil.isFalse(typeSimilarity)) {
             return Boolean.FALSE;
         }
 
@@ -214,6 +282,16 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
         return this.isSimilar(child1, child2);
     }
 
+    /**
+	 * Checks the similarity of 2 conditional or expressions. Similarity is checked by comparing
+	 * the terms "{@code t1, t2, ..., tn}" in "{@code t1 || t2 || ... || tn}"
+	 * ({@link ConditionalOrExpression#getChildren()}).
+	 * 
+	 * @param exp1 The conditional or expression to compare to compareElement
+	 * @return Result of similarity checking of the children.
+	 * 
+	 * @see {@link #getCompareElement()}
+     */
     @Override
     public Boolean caseConditionalOrExpression(ConditionalOrExpression exp1) {
     	this.logMessage("caseConditionalOrExpression");
@@ -226,6 +304,16 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
         return this.areSimilar(children1, children2);
     }
 
+    /**
+	 * Checks the similarity of 2 conditional and expressions. Similarity is checked by comparing
+	 * the terms "{@code t1, t2, ..., tn}" in "{@code t1 && t2 && ... && tn}"
+	 * ({@link ConditionalAndExpression#getChildren()}).
+	 * 
+	 * @param exp1 The conditional and expression to compare with compareElement
+	 * @return Result of similarity checking of the children.
+	 * 
+	 * @see {@link #getCompareElement()}
+     */
     @Override
     public Boolean caseConditionalAndExpression(ConditionalAndExpression exp1) {
     	this.logMessage("caseConditionalAndExpression");
@@ -238,6 +326,15 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
         return this.areSimilar(children1, children2);
     }
 
+    /**
+	 * Checks the similarity of 2 nested expressions. Similarity is checked by comparing
+	 * the nested expressions ({@link NestedExpression#getExpression()}).
+	 * 
+	 * @param exp1 The nested expression to compare with compareElement
+	 * @return Result of similarity checking of the expressions.
+	 * 
+	 * @see {@link #getCompareElement()}
+     */
     @Override
     public Boolean caseNestedExpression(NestedExpression exp1) {
     	this.logMessage("caseNestedExpression");

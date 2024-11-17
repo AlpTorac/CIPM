@@ -57,11 +57,9 @@ public interface IJavaSimilarityInnerSwitch extends IInnerSwitch {
 	}
 
 	/**
-	 * Sends out a {@link NamespaceCheckRequest} and returns the result.
-	 * 
-	 * @see {@link #handleSimilarityRequest(org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest)}
+	 * @see {@link JaMoPPNamespaceUtil#compareNamespacesByPart(NamespaceAwareElement, NamespaceAwareElement)}
 	 */
 	public default Boolean compareNamespacesByPart(NamespaceAwareElement ele1, NamespaceAwareElement ele2) {
-		return (Boolean) this.handleSimilarityRequest(new NamespaceCheckRequest(ele1, ele2));
+		return JaMoPPNamespaceUtil.compareNamespacesByPart(ele1, ele2);
 	}
 }

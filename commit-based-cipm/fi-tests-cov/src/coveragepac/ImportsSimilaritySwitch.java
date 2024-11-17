@@ -1,14 +1,15 @@
 package coveragepac;
 
 import org.emftext.language.java.imports.ClassifierImport;
+import org.emftext.language.java.imports.PackageImport;
+import org.emftext.language.java.imports.StaticClassifierImport;
 import org.emftext.language.java.imports.StaticMemberImport;
 import org.emftext.language.java.imports.util.ImportsSwitch;
-import org.emftext.language.java.references.ReferenceableElement;
 
 
 
 
-import com.google.common.base.Strings;
+
 
 /**
  * Similarity decisions for the import elements.
@@ -38,6 +39,18 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 		this.checkStatementPosition = checkStatementPosition;
 	}
 
+	/**
+	 * Checks the similarity of 2 classifier imports. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> The classifier ({@link ClassifierImport#getClassifier()})
+	 * <li> The namespaces ({@link ClassifierImport#getNamespacesAsString()})
+	 * </ol>
+	 * 
+	 * @param import1 The classifier import to compare with compareElement
+	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
+	 */
 	@Override
 	public Boolean caseClassifierImport(ClassifierImport import1) {
 		this.logMessage("caseClassifierImport");
@@ -45,15 +58,25 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 		ClassifierImport import2 = (ClassifierImport) this.getCompareElement();
 
 		Boolean similarity = this.isSimilar(import1.getClassifier(), import2.getClassifier());
-		if (similarity == Boolean.FALSE) {
+		if (JaMoPPBooleanUtil.isFalse(similarity)) {
 			return Boolean.FALSE;
 		}
 
-		String namespace1 = Strings.nullToEmpty(import1.getNamespacesAsString());
-		String namespace2 = Strings.nullToEmpty(import2.getNamespacesAsString());
-		return (namespace1.equals(namespace2));
+		return JaMoPPNamespaceUtil.compareNamespacesAsString(import1, import2);
 	}
 
+	/**
+	 * Checks the similarity of 2 static member imports. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> The static members ({@link StaticMemberImport#getStaticMembers()})
+	 * <li> The namespace ({@link StaticMemberImport#getNamespacesAsString()})
+	 * </ol>
+	 * 
+	 * @param import1 The static member import to compare with compareElement
+	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
+	 */
 	@Override
 	public Boolean caseStaticMemberImport(StaticMemberImport import1) {
 		this.logMessage("caseStaticMemberImport");
@@ -62,26 +85,67 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 
 		var stMems1 = import1.getStaticMembers();
 		var stMems2 = import2.getStaticMembers();
-
-		// Null check to avoid NullPointerExceptions
-		if (stMems1 == null ^ stMems2 == null) {
+		var stMemsSimilarity = this.areSimilar(stMems1, stMems2);
+		if (JaMoPPBooleanUtil.isFalse(stMemsSimilarity)) {
 			return Boolean.FALSE;
-		} else if (stMems1 != null && stMems2 != null) {
-			if (stMems1.size() != stMems2.size()) {
-				return Boolean.FALSE;
-			}
-			for (int i = 0; i < stMems1.size(); i++) {
-				ReferenceableElement member1 = stMems1.get(i);
-				ReferenceableElement member2 = stMems2.get(i);
-				Boolean similarity = this.isSimilar(member1, member2);
-				if (similarity == Boolean.FALSE) {
-					return Boolean.FALSE;
-				}
-			}
 		}
 
-		String namespace1 = Strings.nullToEmpty(import1.getNamespacesAsString());
-		String namespace2 = Strings.nullToEmpty(import2.getNamespacesAsString());
-		return (namespace1.equals(namespace2));
+		return JaMoPPNamespaceUtil.compareNamespacesAsString(import1, import2);
+	}
+
+	/**
+	 * TODO Review this method to make sure it is correct.
+	 * 
+	 * <i><b>This method was added later, because comparing improperly
+	 * initialised package imports could result in null otherwise.</b></i>
+	 * <br><br>
+	 * 
+	 * Package imports are considered similar, if their namespaces
+	 * ({@link PackageImport#getNamespacesAsString()} are equal.
+	 * 
+	 * @param import1 the package import to compare with the compare element
+	 * @return True if namespaces are equal, false otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
+	 */
+	@Override
+	public Boolean casePackageImport(PackageImport import1) {
+		this.logMessage("casePackageImport");
+		
+		PackageImport import2 = (PackageImport) this.getCompareElement();
+		
+		return JaMoPPNamespaceUtil.compareNamespacesAsString(import1, import2);
+	}
+
+	/**
+	 * TODO Review this method to make sure it is correct.
+	 * 
+	 * <i><b>This method was added later, because comparing improperly
+	 * initialised static classifier imports could result in null otherwise.</b></i>
+	 * <br><br>
+	 * 
+	 * Static classifier imports are considered similar, if:
+	 * <ul>
+	 * <li> Their classifiers ({@link StaticClassifierImport#getClassifier()}) are similar
+	 * <li> Their namespaces ({@link StaticClassifierImport#getNamespacesAsString()}) are equal
+	 * </ul>
+	 * 
+	 * @param import1 the package import to compare with the compare element
+	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
+	 */
+	@Override
+	public Boolean caseStaticClassifierImport(StaticClassifierImport import1) {
+		this.logMessage("caseStaticClassifierImport");
+
+		StaticClassifierImport import2 = (StaticClassifierImport) this.getCompareElement();
+
+		Boolean similarity = this.isSimilar(import1.getClassifier(), import2.getClassifier());
+		if (JaMoPPBooleanUtil.isFalse(similarity)) {
+			return Boolean.FALSE;
+		}
+
+		return JaMoPPNamespaceUtil.compareNamespacesAsString(import1, import2);
 	}
 }

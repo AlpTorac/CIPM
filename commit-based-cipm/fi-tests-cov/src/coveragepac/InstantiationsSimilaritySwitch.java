@@ -12,6 +12,7 @@ import org.emftext.language.java.types.TypeReference;
 
 
 
+
 /**
  * Similarity decisions for object instantiation elements.
  */
@@ -44,13 +45,14 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 	 * Check class instance creation similarity.<br>
 	 * Similarity is checked by
 	 * <ul>
-	 * <li>instance type similarity</li>
-	 * <li>number of constructor arguments</li>
-	 * <li>types of constructor arguments</li>
+	 * <li>instance type similarity ({@link ExplicitConstructorCall#getCallTarget()}) </li>
+	 * <li>constructor arguments ({@link ExplicitConstructorCall#getArguments()}) </li>
 	 * </ul>
 	 * 
 	 * @param call1 The class instance creation to compare with the compare element.
-	 * @return True/False if the class instance creations are similar or not.
+	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
 	 */
 	@Override
 	public Boolean caseExplicitConstructorCall(ExplicitConstructorCall call1) {
@@ -60,36 +62,32 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 
 		// check the class instance types
 		Boolean typeSimilarity = this.isSimilar(call1.getCallTarget(), call2.getCallTarget());
-		if (typeSimilarity == Boolean.FALSE) {
+		if (JaMoPPBooleanUtil.isFalse(typeSimilarity)) {
 			return Boolean.FALSE;
 		}
 
 		// check number of type arguments
 		EList<Expression> cic1Args = call1.getArguments();
 		EList<Expression> cic2Args = call2.getArguments();
-
-		// Null check to avoid NullPointerExceptions
-		if (cic1Args == cic2Args) {
-			return Boolean.TRUE;
-		} else if (cic1Args == null ^ cic2Args == null) {
-			return Boolean.FALSE;
-		}
-
-		if (cic1Args.size() != cic2Args.size()) {
-			return Boolean.FALSE;
-		}
-
-		// check the argument similarity
-		for (int i = 0; i < cic1Args.size(); i++) {
-			Boolean argumentSimilarity = this.isSimilar(cic1Args.get(i), cic2Args.get(i));
-			if (argumentSimilarity == Boolean.FALSE) {
-				return Boolean.FALSE;
-			}
-		}
-
-		return Boolean.TRUE;
+		var cicArgsSimilarity = this.areSimilar(cic1Args, cic2Args);
+		return JaMoPPBooleanUtil.isNotFalse(cicArgsSimilarity);
 	}
 
+	/**
+	 * Checks the similarity of 2 new constructor calls. Similarity is checked by comparing:
+	 * <ol>
+	 * <li> Following aspects of type references ({@link NewConstructorCall#getTypeReference()}):
+	 * <ol>
+	 * <li> The target ({@link TypeReference#getTarget()})
+	 * </ol>
+	 * <li> The arguments ({@link NewConstructorCall#getArguments()})
+	 * </ol>
+	 * 
+	 * @param call1 The new constructor call to compare with compareElement
+	 * @return False if not similar, true otherwise.
+	 * 
+	 * @see {@link #getCompareElement()}
+	 */
 	@Override
 	public Boolean caseNewConstructorCall(NewConstructorCall call1) {
 		this.logMessage("caseNewConstructorCall");
@@ -106,34 +104,15 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 			Type type1 = tref1.getTarget();
 			Type type2 = tref2.getTarget();
 			Boolean typeSimilarity = this.isSimilar(type1, type2);
-			if (typeSimilarity == Boolean.FALSE) {
+			if (JaMoPPBooleanUtil.isFalse(typeSimilarity)) {
 				return Boolean.FALSE;
 			}
 		}
 
 		EList<Expression> types1 = call1.getArguments();
 		EList<Expression> types2 = call2.getArguments();
-
-		// Null check to avoid NullPointerExceptions
-		if (types1 == types2) {
-			return Boolean.TRUE;
-		} else if (types1 == null ^ types2 == null) {
-			return Boolean.FALSE;
-		}
-
-		if (types1.size() != types2.size()) {
-			return Boolean.FALSE;
-		}
-		for (int i = 0; i < types1.size(); i++) {
-			Expression argType1 = types1.get(i);
-			Expression argType2 = types2.get(i);
-			Boolean similarity = this.isSimilar(argType1, argType2);
-			if (similarity == Boolean.FALSE) {
-				return Boolean.FALSE;
-			}
-		}
-
-		return Boolean.TRUE;
+		var argsSimilarity = this.areSimilar(types1, types2);
+		return JaMoPPBooleanUtil.isNotFalse(argsSimilarity);
 	}
 
 	@Override

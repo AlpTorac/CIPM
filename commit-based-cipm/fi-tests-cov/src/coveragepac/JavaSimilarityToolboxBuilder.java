@@ -22,8 +22,6 @@ import java.util.regex.Pattern;
 
 
 
-
-
 /**
  * Concrete implementation of {@link AbstractSimilarityToolboxBuilder} for
  * constructing {@link ISimilarityToolbox} instances for computing similarity of
@@ -93,7 +91,6 @@ public class JavaSimilarityToolboxBuilder extends AbstractSimilarityToolboxBuild
 		this.buildRequestHandlerPair(SingleSimilarityCheckRequest.class, new SingleSimilarityCheckHandler());
 		this.buildRequestHandlerPair(MultipleSimilarityCheckRequest.class,
 				new MultipleSimilarityCheckHandler(this.getCurrentToolbox()));
-		this.buildRequestHandlerPair(NamespaceCheckRequest.class, new NamespaceCheckHandler());
 
 		return this;
 	}
