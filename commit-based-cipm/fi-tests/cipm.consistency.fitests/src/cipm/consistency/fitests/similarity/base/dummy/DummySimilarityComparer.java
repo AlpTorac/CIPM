@@ -1,7 +1,7 @@
 package cipm.consistency.fitests.similarity.base.dummy;
 
-import org.splevo.jamopp.diffing.similarity.base.AbstractSimilarityComparer;
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolbox;
+import coveragepac.AbstractSimilarityComparer;
+import coveragepac.ISimilarityToolbox;
 
 /**
  * A minimal similarity comparer implementation. <br>

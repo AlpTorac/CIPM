@@ -1,7 +1,7 @@
 package cipm.consistency.fitests.similarity.base.dummy;
 
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
+import coveragepac.ISimilarityRequest;
+import coveragepac.ISimilarityRequestHandler;
 
 /**
  * An exemplary custom handler for similarity checking 2 objects. <br>

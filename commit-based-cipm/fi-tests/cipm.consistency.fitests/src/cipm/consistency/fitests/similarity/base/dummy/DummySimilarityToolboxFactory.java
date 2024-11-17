@@ -1,7 +1,7 @@
 package cipm.consistency.fitests.similarity.base.dummy;
 
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolbox;
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolboxFactory;
+import coveragepac.ISimilarityToolbox;
+import coveragepac.ISimilarityToolboxFactory;
 
 /**
  * A minimal toolbox factory.
