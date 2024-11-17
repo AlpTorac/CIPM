@@ -2,7 +2,7 @@ package cipm.consistency.fitests.similarity.base.dummy.tests;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
+import coveragepac.ISimilarityRequest;
 
 import cipm.consistency.fitests.similarity.base.dummy.DummySimilarityComparer;
 import cipm.consistency.fitests.similarity.base.dummy.DummySimilarityToolbox;
