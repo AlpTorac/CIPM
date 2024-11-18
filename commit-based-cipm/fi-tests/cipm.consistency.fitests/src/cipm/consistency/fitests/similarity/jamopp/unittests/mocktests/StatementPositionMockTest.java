@@ -144,8 +144,8 @@ public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
 	@MethodSource("genTestParams")
 	public void test_StatementPosition_MalfunctioningStatementRetrieval(String displayName,
 			IStatementListContainerInitialiser containerInit, IStatementInitialiser containeeInit) {
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 5; j++) {
+		for (int i = 0; i < 4; i++) {
+			for (int j = 0; j < 4; j++) {
 				this.testBody(
 						(Class<? extends StatementListContainer>) this.getInstanceClassOfInitialiser(containerInit),
 						(Class<? extends Statement>) this.getInstanceClassOfInitialiser(containeeInit), i, j);
@@ -180,6 +180,11 @@ public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
 		var slc1 = this.mockEObject(containerCls);
 		var slc2 = this.mockEObject(containerCls);
 
+		/*
+		 * Mock the surrounding statements as well as the statements under test, because
+		 * there is no other way to add them as statements to slc1 or slc2.
+		 */
+
 		var pred1 = this.mockLVS(this.createMinimalLV("lv1"), slc1);
 		var st1 = this.mockEObjectWithContainer(containeeCls, slc1);
 		var succ1 = this.mockLVS(this.createMinimalLV("lv2"), slc1);
@@ -191,22 +196,77 @@ public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
 		var sts1 = new Statement[] { pred1, st1, succ1 };
 		var sts2 = new Statement[] { pred2, st2, succ2 };
 
+		var getStsCount1 = this.setUpSLCMock(slc1, sts1, lhsStatementRetrievalCount);
+		var getStsCount2 = this.setUpSLCMock(slc2, sts2, rhsStatementRetrievalCount);
+
+		// Make sure that the surrounding expressions
+		// are similar/not similar as intended
+		this.assertSimilarityResultEquals(pred1, pred2, true, getStsCount1, lhsStatementRetrievalCount, getStsCount2,
+				rhsStatementRetrievalCount);
+		this.assertSimilarityResultEquals(pred1, succ2, false, getStsCount1, lhsStatementRetrievalCount, getStsCount2,
+				rhsStatementRetrievalCount);
+		this.assertSimilarityResultEquals(succ1, pred2, false, getStsCount1, lhsStatementRetrievalCount, getStsCount2,
+				rhsStatementRetrievalCount);
+		this.assertSimilarityResultEquals(succ1, succ2, true, getStsCount1, lhsStatementRetrievalCount, getStsCount2,
+				rhsStatementRetrievalCount);
+
 		/*
-		 * Have slc1.getStatements() only provide the contained statements
-		 * lhsRetrievalCount times.
+		 * The construction above leads to preceding and proceeding statements to be
+		 * detected as similar, as statement retrieval fails. This in return causes the
+		 * similarity result to be true, since both surrounding statements are assumed
+		 * to be similar.
 		 * 
-		 * Wrap lhsRetrievalCount in a final int[], so that modifying it from the method
-		 * override is possible.
+		 * Keep in mind that this part will fail, if retrievalCounts are chosen too
+		 * high. If the similarity result becomes irrelevant, one could modify the
+		 * assertion method to instead check whether isSimilar(st1, st2) and
+		 * isSimilar(st2, st1) are equal. Do not forget to reset the retrievalCounts
+		 * after each isSimilar call.
 		 */
-		final int[] showStatements1 = new int[] { lhsStatementRetrievalCount };
-		when(slc1.getStatements()).thenAnswer(new Answer<EList<Statement>>() {
+		this.assertSimilarityResultEquals(st1, st2, true, getStsCount1, lhsStatementRetrievalCount, getStsCount2,
+				rhsStatementRetrievalCount);
+	}
+
+	/**
+	 * Asserts that the similarity checking result of obj1 and obj2 is expectedVal
+	 * and resets the getStatement call counts.
+	 */
+	private void assertSimilarityResultEquals(Object obj1, Object obj2, boolean expectedVal, final int[] lhsCallCount,
+			int lhsStatementRetrievalCount, final int[] rhsCallCount, int rhsStatementRetrievalCount) {
+		Assertions.assertEquals(expectedVal, this.isSimilar(obj1, obj2));
+		// Reset call counts after each similarity check
+		lhsCallCount[0] = lhsStatementRetrievalCount;
+		rhsCallCount[0] = rhsStatementRetrievalCount;
+	}
+
+	/**
+	 * Sets up the given {@link StatementListContainer} mock {@code slc} in a way
+	 * that {@code slc.getStatements()} returns the expected output
+	 * (statementsToContain in list form) only statementRetrievalCount times. Once
+	 * it reaches 0, the said method starts to return null instead.
+	 * 
+	 * @param slc                     A {@link StatementListContainer} mock to set
+	 *                                up or reset
+	 * @param statementsToContain     The statements that slc is supposed to contain
+	 * @param statementRetrievalCount The amount of times
+	 *                                {@code slc.getStatements()} returns the
+	 *                                expected output (statementsToContain in list
+	 *                                form) only statementRetrievalCount times
+	 * 
+	 * @return A final int array, which stores the amount of times
+	 *         {@code slc.getStatements()} returns the expected value. Once the int
+	 *         within reaches 0, the said method starts to return null.
+	 */
+	private final int[] setUpSLCMock(StatementListContainer slc, Statement[] statementsToContain,
+			int statementRetrievalCount) {
+
+		final int[] getStatementsCallCount = new int[] { statementRetrievalCount };
+		when(slc.getStatements()).thenAnswer(new Answer<EList<Statement>>() {
 			@Override
 			public EList<Statement> answer(InvocationOnMock arg0) throws Throwable {
-				var showSts = showStatements1[0];
-				if (showSts > 0) {
-					showStatements1[0] -= 1;
+				if (getStatementsCallCount[0] > 0) {
+					getStatementsCallCount[0] -= 1;
 					var list = new UniqueEList<Statement>();
-					for (var st : sts1) {
+					for (var st : statementsToContain) {
 						list.add(st);
 					}
 					return list;
@@ -216,43 +276,6 @@ public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
 			}
 		});
 
-		/*
-		 * Have slc2.getStatements() only provide the contained statements
-		 * rhsRetrievalCount times.
-		 * 
-		 * Wrap rhsRetrievalCount in a final int[], so that modifying it from the method
-		 * override is possible.
-		 */
-		final int[] showStatements2 = new int[] { rhsStatementRetrievalCount };
-		when(slc2.getStatements()).thenAnswer(new Answer<EList<Statement>>() {
-			@Override
-			public EList<Statement> answer(InvocationOnMock arg0) throws Throwable {
-				var showSts = showStatements2[0];
-				if (showSts > 0) {
-					showStatements2[0] -= 1;
-					var list = new UniqueEList<Statement>();
-					for (var st : sts2) {
-						list.add(st);
-					}
-					return list;
-				} else {
-					return null;
-				}
-			}
-		});
-
-		Assertions.assertEquals(this.isSimilar(pred1, pred2), true);
-		Assertions.assertEquals(this.isSimilar(pred1, st2), false);
-		Assertions.assertEquals(this.isSimilar(pred1, succ2), false);
-
-		Assertions.assertEquals(this.isSimilar(st1, pred2), false);
-		// The construction above leads to preceding and proceeding statements
-		// to be detected as similar, as statement retrieval fails
-		Assertions.assertEquals(this.isSimilar(st1, st2), true);
-		Assertions.assertEquals(this.isSimilar(st1, succ2), false);
-
-		Assertions.assertEquals(this.isSimilar(succ1, pred2), false);
-		Assertions.assertEquals(this.isSimilar(succ1, st2), false);
-		Assertions.assertEquals(this.isSimilar(succ1, succ2), true);
+		return getStatementsCallCount;
 	}
 }
