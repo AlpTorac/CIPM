@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.jamopp.unittests.mocktests;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EClass;
@@ -27,14 +28,24 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 		return getAllClasses().stream().map(Arguments::of);
 	}
 
+	// TODO Rename later
+	private static Stream<Arguments> genConcreteTestParams() {
+		return getAllClasses((eCls) -> !eCls.isAbstract()).stream().map(Arguments::of);
+	}
+
 	/**
 	 * @return All types accessible under the sub-packages of {@link JavaPackage} in
 	 *         form of {@link EClass}, whose instance class
 	 *         {@code eClass.getInstanceClass()} will be in the return value.
 	 */
 	private static Collection<Class<?>> getAllClasses() {
+		return getAllClasses(null);
+	}
+
+	private static Collection<Class<?>> getAllClasses(Predicate<EClass> pred) {
 		var res = new ArrayList<Class<?>>();
-		getAllEClasses().forEach((eCls) -> res.add(eCls.getInstanceClass()));
+		Predicate<EClass> predToUse = pred != null ? pred : (a) -> true;
+		getAllEClasses().stream().filter(predToUse).forEach((eCls) -> res.add(eCls.getInstanceClass()));
 		return res;
 	}
 
@@ -53,13 +64,16 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 	/**
 	 * Makes sure that all types that are present in {@link JavaPackage} are
 	 * addressed by similarity checking, i.e. computing the similarity of 2 mocked
-	 * instances of cls returns true.
+	 * instances of cls returns true (since they are equal). <br>
+	 * <br>
+	 * This also covers some edge cases, where certain attributes are null, even
+	 * though they cannot be null in the current similarity checking.
 	 * 
 	 * @param cls The type extending {@link EObject} that will be mocked.
 	 */
 	@ParameterizedTest
 	@MethodSource("genTestParams")
-	public void testInterfaceCoverage(Class<? extends EObject> cls) {
+	public void testInterfaceCoverage_BothSidesMocked(Class<? extends EObject> cls) {
 		/*
 		 * Mock the given class and make sure that the mocks return their corresponding
 		 * EClass, so that method calls till reaching similarity checking process do not
@@ -70,5 +84,43 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 		var clsMock2 = this.mockEObject(cls);
 
 		Assertions.assertTrue(this.isSimilar(clsMock1, clsMock2));
+	}
+
+	/**
+	 * Makes sure that similarity checking is robust for all concrete types present
+	 * in {@link JavaPackage} against cases, where retrieving the derived attributes
+	 * of one side (namely the real mock) returns null. <br>
+	 * <br>
+	 * This ensures that similarity checking is resistant to null pointer exceptions
+	 * in (currently) unrealistic scenarios.
+	 * 
+	 * @param cls The type extending {@link EObject} that will be mocked.
+	 */
+	@SuppressWarnings("unchecked")
+	@ParameterizedTest
+	@MethodSource("genConcreteTestParams")
+	public <T extends EObject> void testInterfaceCoverage_OneSideMocked(Class<T> cls) {
+		var init = this.getUsedInitialiserPackage().getInitialiserInstanceFor(cls);
+		var wrapee = (T) init.instantiate();
+		var wrapeeCls = (Class<T>) wrapee.getClass();
+
+		/*
+		 * Mock the concrete implementation class TImpl twice, where one of the mocks
+		 * (bareMock) is an ordinary mock and the other one (spyMock) is a spy that
+		 * merely wraps an actual TImpl instance (wrapee) and delegates all method calls
+		 * to wrapee.
+		 * 
+		 * This construction is a workaround for having an EObject implementation on one
+		 * side and a mock on the other side. It is necessary, because types of both
+		 * sides have to be equal for similarity checking, so cls1.equals(cls2). Even
+		 * though the said types seem to be the equal, mock types and actual instance
+		 * types are different and therefore not equal.
+		 */
+		var bareMock = this.mockEObjectImpl(wrapeeCls);
+		var spyMock = this.spyEObject(wrapee);
+
+		// Call isSimilar twice for both combinations to ensure that it is symmetrical
+		Assertions.assertEquals(this.isSimilar(bareMock, spyMock), this.isSimilar(spyMock, bareMock),
+				"isSimilar is not symmetric");
 	}
 }
