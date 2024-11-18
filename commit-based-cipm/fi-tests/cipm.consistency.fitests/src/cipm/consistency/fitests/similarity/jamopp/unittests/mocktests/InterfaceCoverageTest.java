@@ -1,7 +1,11 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.mocktests;
 
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.withSettings;
+
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -9,9 +13,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.JavaPackage;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 
@@ -99,7 +106,7 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 	@SuppressWarnings("unchecked")
 	@ParameterizedTest
 	@MethodSource("genConcreteTestParams")
-	public <T extends EObject> void testInterfaceCoverage_OneSideMocked(Class<T> cls) {
+	public <T extends EObject> void testInterfaceCoverage_OneSideMocked_AllMethodsDelegated(Class<T> cls) {
 		var init = this.getUsedInitialiserPackage().getInitialiserInstanceFor(cls);
 		var wrapee = (T) init.instantiate();
 		var wrapeeCls = (Class<T>) wrapee.getClass();
@@ -122,5 +129,82 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 		// Call isSimilar twice for both combinations to ensure that it is symmetrical
 		Assertions.assertEquals(this.isSimilar(bareMock, spyMock), this.isSimilar(spyMock, bareMock),
 				"isSimilar is not symmetric");
+	}
+
+	@SuppressWarnings("unchecked")
+	@ParameterizedTest
+	@MethodSource("genConcreteTestParams")
+	public <T extends EObject> void testInterfaceCoverage_OneSideMocked_GettersRestricted(Class<T> cls) {
+		var init = this.getUsedInitialiserPackage().getInitialiserInstanceFor(cls);
+		var wrapee = (T) init.instantiate();
+
+		var wrappedInstance = this.spyEObject(wrapee);
+
+		/*
+		 * List of potentially relevant getters that could be used throughout
+		 * similarity checking.
+		 */
+		final var getters = List.of(Stream.of(((T) init.instantiate())
+				.eClass().getInstanceClass().getMethods())
+				.filter((met) -> !met.getReturnType().equals(Void.class))
+				.filter((met) -> met.getParameterCount() == 0)
+				.map((met) -> met.getName())
+				.filter((name) -> name.startsWith("get"))
+				.toArray(String[]::new));
+
+		/*
+		 * Over-approximates the amount of times methods in getters could be
+		 * called during similarity checking.
+		 */
+		var getterCount = getters.size();
+
+		/*
+		 * Compute the similarity of 2 mock objects what wrap actual object
+		 * instances, where one side's methods contained in getters (from above)
+		 * only work as expected a certain amount of times (call limit).
+		 * Once that amount is reached, they return null.
+		 */
+		for (int getterCallLimit = 0; getterCallLimit < getterCount; getterCallLimit++) {
+			final var limit = new int[] {getterCallLimit};
+
+			var modifiedWrapee = (T) init.instantiate();
+			var spiedInstance = mock(modifiedWrapee.getClass(), withSettings()
+					.spiedInstance(modifiedWrapee)
+					.defaultAnswer(new Answer<Object>() {
+
+				/**
+				 * Call the real method in try blocks, so that any exception
+				 * outside similarity checking is ignored.
+				 */
+				@Override
+				public Object answer(InvocationOnMock arg0) throws Throwable {
+					var calledMethodName = arg0.getMethod().getName();
+					if (getters.contains(calledMethodName)) {
+						if (limit[0] > 0) {
+							limit[0] -= 1;
+							return this.safeCallRealMethod(arg0);
+						} else {
+							return null;
+						}
+					}
+					return this.safeCallRealMethod(arg0);
+				}
+				
+				private Object safeCallRealMethod(InvocationOnMock arg0) {
+					Object result = null;
+					try {
+						result = arg0.callRealMethod();
+					} catch (Throwable e) {}
+					return result;
+				}
+			}));
+			
+			var res1 = this.isSimilar(wrappedInstance, spiedInstance);
+			// Reset the call limit, so that isSimilar's symmetry is not
+			// violated because of it.
+			limit[0] = getterCallLimit;
+			var res2 = this.isSimilar(spiedInstance, wrappedInstance);
+			Assertions.assertEquals(res1, res2, "isSimilar is not symmetric");
+		}
 	}
 }
