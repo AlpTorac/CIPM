@@ -10,10 +10,10 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.JavaPackage;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -95,13 +95,14 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 
 	/**
 	 * Makes sure that similarity checking is robust for all concrete types present
-	 * in {@link JavaPackage} against cases, where retrieving the derived attributes
+	 * in {@link JavaPackage} against cases, where retrieving the attributes
 	 * of one side (namely the real mock) returns null. <br>
 	 * <br>
-	 * This ensures that similarity checking is resistant to null pointer exceptions
-	 * in (currently) unrealistic scenarios.
+	 * This ensures that similarity checking is resistant to null pointer exceptions.
 	 * 
-	 * @param cls The type extending {@link EObject} that will be mocked.
+	 * @param cls The type extending {@link EObject} that will be mocked. It should
+	 * have a direct implementation, meaning if {@code cls == x.class} then there should be
+	 * a concrete class {@code xImpl} that directly inherits from {@code x}.
 	 */
 	@SuppressWarnings("unchecked")
 	@ParameterizedTest
@@ -131,6 +132,24 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 				"isSimilar is not symmetric");
 	}
 
+	/**
+	 * Makes sure that similarity checking is robust for all concrete types present
+	 * in {@link JavaPackage} against cases, where retrieving the attributes
+	 * of one side can fail and return null. <br>
+	 * <br>
+	 * This test is similar to {@link #testInterfaceCoverage_OneSideMocked_AllMethodsDelegated(Class)}
+	 * but rather than having the (actually) modified side constantly return null,
+	 * it instead limits the amount of times certain methods work as intended.
+	 * <br><br>
+	 * This test case provides a deeper inspection of null checking mechanisms and
+	 * ensures that similarity checking is symmetrical, in terms of cls' methods
+	 * called during similarity checking. This means, isSimilar(lhs, rhs) is the
+	 * same as calling isSimilar(rhs, lhs).
+	 * 
+	 * @param cls The type extending {@link EObject} that will be mocked. It should
+	 * have a direct implementation, meaning if {@code cls == x.class} then there should be
+	 * a concrete class {@code xImpl} that directly inherits from {@code x}.
+	 */
 	@SuppressWarnings("unchecked")
 	@ParameterizedTest
 	@MethodSource("genConcreteTestParams")
@@ -139,34 +158,47 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 		var wrapee = (T) init.instantiate();
 
 		var wrappedInstance = this.spyEObject(wrapee);
-
+		
 		/*
-		 * List of potentially relevant getters that could be used throughout
-		 * similarity checking.
+		 * List of potentially relevant methods' names that could be used
+		 * throughout similarity checking.
 		 */
 		final var getters = List.of(Stream.of(((T) init.instantiate())
 				.eClass().getInstanceClass().getMethods())
-				.filter((met) -> !met.getReturnType().equals(Void.class))
+				// Exclude methods related to structure elements to avoid exceptions
+				.filter((met) -> !EModelElement.class.isAssignableFrom(met.getReturnType()))
+				// Methods used in similarity checking must return something
+				.filter((met) -> !met.getReturnType().equals(void.class))
+				// Methods used in similarity checking take no parameters
 				.filter((met) -> met.getParameterCount() == 0)
 				.map((met) -> met.getName())
-				.filter((name) -> name.startsWith("get"))
 				.toArray(String[]::new));
 
 		/*
-		 * Over-approximates the amount of times methods in getters could be
-		 * called during similarity checking.
-		 */
-		var getterCount = getters.size();
-
-		/*
 		 * Compute the similarity of 2 mock objects what wrap actual object
-		 * instances, where one side's methods contained in getters (from above)
+		 * instances, where one side's methods contained in the list above
 		 * only work as expected a certain amount of times (call limit).
 		 * Once that amount is reached, they return null.
+		 * 
+		 * Each loop starts with startingLimit[0] call limits and each time
+		 * one of the mentioned methods is called, the call limit within the loop
+		 * (currentLimit) is decremented by 1. In the end of the loop,
+		 * startingLimit[0] is incremented by 1 and
+		 * the remaining call limit (lastLimit) is checked:
+		 * 
+		 * lastLimit == 0 implies that the startingLimit was less than or equal
+		 * to the amount of call limit necessary to perform the similarity check
+		 * normally. If that is the case, continue with the next loop.
+		 * 
+		 * lastLimit > 0 implies that the similarity checking was performed
+		 * normally. Therefore, there is no need to continue.
 		 */
-		for (int getterCallLimit = 0; getterCallLimit < getterCount; getterCallLimit++) {
-			final var limit = new int[] {getterCallLimit};
+		final var startingLimit = new int[] {0};
+		final var currentLimit = new int[] {0};
+		var lastLimit = startingLimit[0];
 
+		while (lastLimit <= 0) {
+			currentLimit[0] = startingLimit[0];
 			var modifiedWrapee = (T) init.instantiate();
 			var spiedInstance = mock(modifiedWrapee.getClass(), withSettings()
 					.spiedInstance(modifiedWrapee)
@@ -180,8 +212,8 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 				public Object answer(InvocationOnMock arg0) throws Throwable {
 					var calledMethodName = arg0.getMethod().getName();
 					if (getters.contains(calledMethodName)) {
-						if (limit[0] > 0) {
-							limit[0] -= 1;
+						if (currentLimit[0] > 0) {
+							currentLimit[0] -= 1;
 							return this.safeCallRealMethod(arg0);
 						} else {
 							return null;
@@ -200,11 +232,20 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 			}));
 			
 			var res1 = this.isSimilar(wrappedInstance, spiedInstance);
+			var currentLimitAfterFirstSimCheck = currentLimit[0];
+
 			// Reset the call limit, so that isSimilar's symmetry is not
 			// violated because of it.
-			limit[0] = getterCallLimit;
+			currentLimit[0] = startingLimit[0];
 			var res2 = this.isSimilar(spiedInstance, wrappedInstance);
+
 			Assertions.assertEquals(res1, res2, "isSimilar is not symmetric");
+			Assertions.assertEquals(currentLimitAfterFirstSimCheck, currentLimit[0],
+					"isSimilar is not symmetric");
+
+			// Set up for the next loop
+			lastLimit = currentLimit[0];
+			startingLimit[0] += 1;
 		}
 	}
 }
