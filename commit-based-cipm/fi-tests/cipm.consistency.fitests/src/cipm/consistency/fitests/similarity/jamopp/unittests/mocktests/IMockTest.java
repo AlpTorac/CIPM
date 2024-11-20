@@ -4,6 +4,10 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.function.Predicate;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.JavaPackage;
@@ -17,6 +21,34 @@ import org.emftext.language.java.JavaPackage;
  * @author Alp Torac Genc
  */
 public interface IMockTest {
+	/**
+	 * @return All types accessible under the sub-packages of {@link JavaPackage} in
+	 *         form of {@link EClass}, whose instance class
+	 *         {@code eClass.getInstanceClass()} will be in the return value.
+	 */
+	public static Collection<Class<?>> getAllClasses() {
+		return getAllClasses(null);
+	}
+
+	public static Collection<Class<?>> getAllClasses(Predicate<EClass> pred) {
+		var res = new ArrayList<Class<?>>();
+		Predicate<EClass> predToUse = pred != null ? pred : (a) -> true;
+		getAllEClasses().stream().filter(predToUse).forEach((eCls) -> res.add(eCls.getInstanceClass()));
+		return res;
+	}
+
+	/**
+	 * @return All {@link EClass}es accessible under the sub-packages of
+	 *         {@link JavaPackage}.
+	 */
+	public static Collection<EClass> getAllEClasses() {
+		var res = new ArrayList<EClass>();
+		var ePacs = JavaPackage.eINSTANCE.getESubpackages();
+		ePacs.forEach((pac) -> pac.getEClassifiers().stream().filter((eClsf) -> eClsf instanceof EClass)
+				.forEach((c) -> res.add((EClass) c)));
+		return res;
+	}
+
 	/**
 	 * TODO Move to JaMoPPHelper in the future (use this as delegation)
 	 * 
