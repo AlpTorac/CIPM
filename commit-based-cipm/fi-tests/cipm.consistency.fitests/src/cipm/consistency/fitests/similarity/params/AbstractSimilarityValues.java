@@ -48,7 +48,7 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	/**
 	 * @return Creates a {@link SimilarityEntry} with the given parameters.
 	 */
-	protected SimilarityEntry createEntry(Class<? extends Object> objCls, Object attr) {
+	protected SimilarityEntry createEntry(Class<?> objCls, Object attr) {
 		return new SimilarityEntry(objCls, attr);
 	}
 
@@ -63,7 +63,7 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	 *               current similarity check
 	 * @return The corresponding {@link SimilarityEntry}
 	 */
-	protected SimilarityEntry findEntry(Class<? extends Object> objCls, Object attr) {
+	protected SimilarityEntry findEntry(Class<?> objCls, Object attr) {
 		var directMatch = this.findDirectEntry(objCls, attr);
 
 		return directMatch != null ? directMatch : this.findParentEntry(objCls, attr);
@@ -78,7 +78,7 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	 *               the current similarity check
 	 * @return The corresponding {@link SimilarityEntry}
 	 */
-	protected SimilarityEntry findDirectEntry(Class<? extends Object> objCls, Object attr) {
+	protected SimilarityEntry findDirectEntry(Class<?> objCls, Object attr) {
 		return this.similarityValues.keySet().stream()
 				.filter((se) -> se.getObjectClass().equals(objCls) && se.getAttribute().equals(attr)).findFirst()
 				.orElse(null);
@@ -95,7 +95,7 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	 *               the current similarity check
 	 * @return A corresponding {@link SimilarityEntry}
 	 */
-	protected SimilarityEntry findParentEntry(Class<? extends Object> objCls, Object attr) {
+	protected SimilarityEntry findParentEntry(Class<?> objCls, Object attr) {
 		var parents = objCls.getInterfaces();
 		SimilarityEntry result = null;
 
@@ -129,13 +129,17 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 		this.similarityValues.put(se, expectedSimResult);
 	}
 
+	protected Boolean getExpectedSimilarityResult(SimilarityEntry se) {
+		return this.similarityValues.get(se);
+	}
+
 	@Override
-	public void addSimilarityEntry(Class<? extends Object> objCls, Object attr, Boolean expectedSimResult) {
+	public void addSimilarityEntry(Class<?> objCls, Object attr, Boolean expectedSimResult) {
 		this.addEntry(this.createEntry(objCls, attr), expectedSimResult);
 	}
 
 	@Override
-	public void removeSimilarityEntry(Class<? extends Object> objCls, Object attr) {
+	public void removeSimilarityEntry(Class<?> objCls, Object attr) {
 		var se = this.findEntry(objCls, attr);
 
 		if (se != null)
@@ -143,10 +147,17 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 	}
 
 	@Override
-	public Boolean getExpectedSimilarityResult(Class<? extends Object> objCls, Object attr) {
+	public Boolean getStoredExpectedSimilarityResult(Class<?> objCls, Object attr) {
 		var se = this.findEntry(objCls, attr);
 
-		return se == null ? this.getDefaultSimilarityResult() : this.similarityValues.get(se);
+		return se != null ? this.similarityValues.get(se) : null;
+	}
+
+	@Override
+	public Boolean getStoredDirectExpectedSimilarityResult(Class<?> objCls, Object attr) {
+		var se = this.findDirectEntry(objCls, attr);
+
+		return se != null ? this.similarityValues.get(se) : null;
 	}
 
 	@Override

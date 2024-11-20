@@ -4,13 +4,13 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.when;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.function.Predicate;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
-import org.emftext.language.java.JavaPackage;
+
+import cipm.consistency.initialisers.jamopp.JaMoPPHelper;
 
 /**
  * An interface that provides methods for tests that use mock elements to
@@ -22,78 +22,38 @@ import org.emftext.language.java.JavaPackage;
  */
 public interface IMockTest {
 	/**
-	 * @return All types accessible under the sub-packages of {@link JavaPackage} in
-	 *         form of {@link EClass}, whose instance class
-	 *         {@code eClass.getInstanceClass()} will be in the return value.
+	 * @see {@link JaMoPPHelper#getAllClasses()}
 	 */
 	public static Collection<Class<?>> getAllClasses() {
-		return getAllClasses(null);
-	}
-
-	public static Collection<Class<?>> getAllClasses(Predicate<EClass> pred) {
-		var res = new ArrayList<Class<?>>();
-		Predicate<EClass> predToUse = pred != null ? pred : (a) -> true;
-		getAllEClasses().stream().filter(predToUse).forEach((eCls) -> res.add(eCls.getInstanceClass()));
-		return res;
+		return new JaMoPPHelper().getAllClasses(null);
 	}
 
 	/**
-	 * @return All {@link EClass}es accessible under the sub-packages of
-	 *         {@link JavaPackage}.
+	 * @see {@link JaMoPPHelper#getAllClasses(Predicate)}
+	 */
+	public static Collection<Class<?>> getAllClasses(Predicate<EClass> pred) {
+		return new JaMoPPHelper().getAllClasses(pred);
+	}
+
+	/**
+	 * @see {@link JaMoPPHelper#getAllEClasses()}
 	 */
 	public static Collection<EClass> getAllEClasses() {
-		var res = new ArrayList<EClass>();
-		var ePacs = JavaPackage.eINSTANCE.getESubpackages();
-		ePacs.forEach((pac) -> pac.getEClassifiers().stream().filter((eClsf) -> eClsf instanceof EClass)
-				.forEach((c) -> res.add((EClass) c)));
-		return res;
+		return new JaMoPPHelper().getAllEClasses();
 	}
 
 	/**
-	 * TODO Move to JaMoPPHelper in the future (use this as delegation)
-	 * 
-	 * @param cls The type of the Java element, whose {@link EClass} will be
-	 *            returned, if cls is the type of a Java element.
-	 * 
-	 * @return The {@link EClass} corresponding to the class represented by cls.
-	 *         Null, if no such {@link EClass} is found under {@link JavaPackage}.
+	 * @see {@link JaMoPPHelper#getEClassForJavaElement(Class)}
 	 */
 	public default EClass getEClassForJavaElement(Class<?> cls) {
-		var ePacs = JavaPackage.eINSTANCE.getESubpackages();
-		for (var ePac : ePacs) {
-			var eClss = ePac.getEClassifiers();
-			for (var eCls : eClss) {
-				if (eCls.getInstanceClass().equals(cls)) {
-					return (EClass) eCls;
-				}
-			}
-		}
-		return null;
+		return new JaMoPPHelper().getEClassForJavaElement(cls);
 	}
 
 	/**
-	 * TODO Move to JaMoPPHelper in the future (use this as delegation)
-	 * 
-	 * @param cls The type of the concrete implementation of the Java element, whose
-	 *            corresponding {@link EClass} will be returned.
-	 * 
-	 * @return The {@link EClass} corresponding to the interface type of cls. Null,
-	 *         if no such {@link EClass} is found under {@link JavaPackage}. <b>Note
-	 *         that the returned {@link EClass} will be from the interface of cls.
-	 *         This means, if cls represents the type xImpl, the returned
-	 *         {@link EClass} will belong to x.</b>
+	 * @see {@link JaMoPPHelper#getEClassForJavaElementImpl(Class)}
 	 */
 	public default EClass getEClassForJavaElementImpl(Class<?> cls) {
-		var ePacs = JavaPackage.eINSTANCE.getESubpackages();
-		for (var ePac : ePacs) {
-			var eClss = ePac.getEClassifiers();
-			for (var eCls : eClss) {
-				if (cls.getSimpleName().equals(eCls.getInstanceClass().getSimpleName() + "Impl")) {
-					return (EClass) eCls;
-				}
-			}
-		}
-		return null;
+		return new JaMoPPHelper().getEClassForJavaElementImpl(cls);
 	}
 
 	/**
