@@ -3,13 +3,9 @@ package cipm.consistency.fitests.similarity.jamopp.unittests.mocktests;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.withSettings;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.function.Predicate;
 import java.util.stream.Stream;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.JavaPackage;
@@ -32,40 +28,12 @@ import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
  */
 public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implements IMockTest {
 	private static Stream<Arguments> genTestParams() {
-		return getAllClasses().stream().map(Arguments::of);
+		return IMockTest.getAllClasses().stream().map(Arguments::of);
 	}
 
 	// TODO Rename later
 	private static Stream<Arguments> genConcreteTestParams() {
-		return getAllClasses((eCls) -> !eCls.isAbstract()).stream().map(Arguments::of);
-	}
-
-	/**
-	 * @return All types accessible under the sub-packages of {@link JavaPackage} in
-	 *         form of {@link EClass}, whose instance class
-	 *         {@code eClass.getInstanceClass()} will be in the return value.
-	 */
-	private static Collection<Class<?>> getAllClasses() {
-		return getAllClasses(null);
-	}
-
-	private static Collection<Class<?>> getAllClasses(Predicate<EClass> pred) {
-		var res = new ArrayList<Class<?>>();
-		Predicate<EClass> predToUse = pred != null ? pred : (a) -> true;
-		getAllEClasses().stream().filter(predToUse).forEach((eCls) -> res.add(eCls.getInstanceClass()));
-		return res;
-	}
-
-	/**
-	 * @return All {@link EClass}es accessible under the sub-packages of
-	 *         {@link JavaPackage}.
-	 */
-	private static Collection<EClass> getAllEClasses() {
-		var res = new ArrayList<EClass>();
-		var ePacs = JavaPackage.eINSTANCE.getESubpackages();
-		ePacs.forEach((pac) -> pac.getEClassifiers().stream().filter((eClsf) -> eClsf instanceof EClass)
-				.forEach((c) -> res.add((EClass) c)));
-		return res;
+		return IMockTest.getAllClasses((eCls) -> !eCls.isAbstract()).stream().map(Arguments::of);
 	}
 
 	/**
