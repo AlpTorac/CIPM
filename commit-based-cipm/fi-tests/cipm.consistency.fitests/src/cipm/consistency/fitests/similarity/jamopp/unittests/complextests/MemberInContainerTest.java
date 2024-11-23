@@ -4,14 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
-import org.eclipse.emf.ecore.EcorePackage;
-import org.junit.jupiter.api.Assertions;
+import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.members.Member;
+import org.emftext.language.java.members.MemberContainer;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPInitialiserParameters;
+import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPSimilarityCriterionExtension;
 import cipm.consistency.initialisers.jamopp.members.IMemberContainerInitialiser;
 import cipm.consistency.initialisers.jamopp.members.IMemberInitialiser;
 
@@ -99,9 +101,7 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 		memConInit1.addMember(memCon1, member1);
 		memConInit2.addMember(memCon2, member2);
 
-		this.testSimilarity(member1, member2,
-				this.getExpectedSimilarityResult(member1, EcorePackage.Literals.EREFERENCE__CONTAINER)
-						|| this.isSimilar(memCon1, memCon2));
+		this.testSimilarity(member1, member2, this.getExpectedSimilarityResult(member1, member2, memCon1, memCon2));
 	}
 
 	/**
@@ -119,8 +119,23 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 		memConInit1.addDefaultMember(memCon1, member1);
 		memConInit2.addDefaultMember(memCon2, member2);
 
-		this.testSimilarity(member1, member2,
-				this.getExpectedSimilarityResult(member1, EcorePackage.Literals.EREFERENCE__CONTAINER)
-				|| this.isSimilar(memCon1, memCon2));
+		this.testSimilarity(member1, member2, this.getExpectedSimilarityResult(member1, member2, memCon1, memCon2));
+	}
+
+	private Boolean getExpectedSimilarityResult(Member member1, Member member2, MemberContainer memCon1,
+			MemberContainer memCon2) {
+		var memberCls = member1.getClass();
+		var containerExpectedSimRes = this.getExpectedSimilarityResult(memberCls,
+				JaMoPPSimilarityCriterionExtension.ECONTAINER);
+		var containerClssEqual = memCon1.getClass().equals(memCon2.getClass());
+
+		return containerClssEqual || (containerExpectedSimRes &&
+
+		/*
+		 * ConcreteClassifier indirectly cares about its eContainer, because its
+		 * qualified name can be influenced by its container.
+		 */
+				(!ConcreteClassifier.class.isAssignableFrom(memberCls) || ((ConcreteClassifier) member1)
+						.getQualifiedName().equals(((ConcreteClassifier) member2).getQualifiedName())));
 	}
 }
