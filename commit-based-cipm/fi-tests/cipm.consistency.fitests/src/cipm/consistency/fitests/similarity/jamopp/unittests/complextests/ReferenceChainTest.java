@@ -1,0 +1,244 @@
+package cipm.consistency.fitests.similarity.jamopp.unittests.complextests;
+
+import java.util.ArrayList;
+import java.util.stream.Stream;
+
+import org.emftext.language.java.references.Reference;
+import org.emftext.language.java.references.ReferencesPackage;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
+
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPInitialiserParameters;
+import cipm.consistency.initialisers.jamopp.references.IReferenceInitialiser;
+
+/**
+ * Contains tests for cases, where {@link Reference} instances build reference
+ * chains (with {@code .setNext(...)}). <br>
+ * <br>
+ * There are also tests for cycles of length 1, 2 and 3 individually. Even
+ * though they serve the same purpose, it is useful to have all of them run,
+ * since one can oversee such cases and fail to address them properly in the
+ * implementation of similarity checking. <br>
+ * <br>
+ * The said tests are parameterized over all concrete
+ * {@link IReferenceInitialiser} sub-types as well as their combinations, in
+ * order to ensure that neither specific {@link Reference} sub-type(s) nor
+ * combinations thereof cause issues.
+ * 
+ * @author Alp Torac Genc
+ */
+public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
+	private static Stream<Arguments> genTestParams_ForOne() {
+		return AbstractJaMoPPSimilarityTest.getNonAdaptedInitialiserArgumentsFor(IReferenceInitialiser.class);
+	}
+
+	private static Stream<Arguments> genTestParams_ForTwo() {
+		var refInits = new JaMoPPInitialiserParameters().getNonAdaptedInitialisersBySuper(IReferenceInitialiser.class);
+		var params = new ArrayList<Arguments>();
+		for (var init1 : refInits) {
+			for (var init2 : refInits) {
+				params.add(Arguments.of(init1, init2));
+			}
+		}
+		return params.stream();
+	}
+
+	private static Stream<Arguments> genTestParams_ForThree() {
+		var refInits = new JaMoPPInitialiserParameters().getNonAdaptedInitialisersBySuper(IReferenceInitialiser.class);
+		var params = new ArrayList<Arguments>();
+		for (var init1 : refInits) {
+			for (var init2 : refInits) {
+				for (var init3 : refInits) {
+					params.add(Arguments.of(init1, init2, init3));
+				}
+			}
+		}
+		return params.stream();
+	}
+
+	/**
+	 * Attempts to run similarity checking in form of
+	 * {@code isSimilar(ref1, ref2) ; isSimilar(ref2, ref1)} and ensures that no
+	 * exceptions are thrown.
+	 */
+	private void assertTerminates(Reference ref1, Reference ref2) {
+		Assertions.assertDoesNotThrow(() -> {
+			Assertions.assertEquals(this.isSimilar(ref1, ref2), this.isSimilar(ref2, ref1));
+		});
+	}
+
+	/**
+	 * Attempts to run similarity checking for any combination of the given
+	 * {@link Reference} instances (not just pairwise) and checks whether any
+	 * exceptions are thrown.
+	 */
+	private void cycleAssertionsFor(Reference[] refs1, Reference[] refs2) {
+		/*
+		 * Directly use isSimilar to avoid cloning iRef, so that the underlying cloning
+		 * mechanisms are not involved and the cycle directly lands into similarity
+		 * checking.
+		 * 
+		 * All iRef variables are similar, since all of them are in a cycle, where all
+		 * elements in the cycle are similar.
+		 */
+		for (int i1 = 0; i1 < refs1.length; i1++) {
+			var ref11 = refs1[i1];
+			for (int i2 = 0; i2 < refs1.length; i2++) {
+				var ref12 = refs1[i2];
+				this.assertTerminates(ref11, ref12);
+				for (int j1 = 0; j1 < refs2.length; j1++) {
+					var ref21 = refs2[j1];
+					this.assertTerminates(ref11, ref21);
+					this.assertTerminates(ref12, ref21);
+					for (int j2 = 0; j2 < refs2.length; j2++) {
+						var ref22 = refs2[j2];
+						this.assertTerminates(ref11, ref22);
+						this.assertTerminates(ref12, ref22);
+						this.assertTerminates(ref21, ref22);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * Ensures that a {@link Reference} instance ref1 referencing nextRef1 is
+	 * similar to a reference instance ref2 referencing nextRef2, if types of ref1
+	 * and ref2 are equal and types of nextRef1 and nextRef2 are equal.
+	 */
+	@ParameterizedTest
+	@MethodSource("genTestParams_ForTwo")
+	public void test_ReferenceCombinations_SimilarNext(IReferenceInitialiser init1, IReferenceInitialiser init2) {
+		var ref1 = init1.instantiate();
+		var nextRef1 = init2.instantiate();
+		init1.setNext(ref1, nextRef1);
+
+		var ref2 = init1.instantiate();
+		var nextRef2 = init2.instantiate();
+		init1.setNext(ref2, nextRef2);
+
+		Assertions.assertTrue(this.isSimilar(ref1, ref2));
+	}
+
+	/**
+	 * Tests cases, where 2 {@link Reference} instances ref1 and ref2 each reference
+	 * nextRef1 and nextRef2 respectively, with types of nextRef1 and nextRef2 being
+	 * potentially different.<br>
+	 * <br>
+	 * 
+	 * Note: While
+	 * {@link #test_ReferenceCombinations_SimilarNext(IReferenceInitialiser, IReferenceInitialiser)}
+	 * asserts that both references should be similar, the assertion here is more
+	 * advanced.
+	 */
+	@ParameterizedTest
+	@MethodSource("genTestParams_ForThree")
+	public void test_ReferenceCombinations_DifferentNext(IReferenceInitialiser init1, IReferenceInitialiser init2,
+			IReferenceInitialiser init3) {
+		var ref1 = init1.instantiate();
+		var nextRef1 = init2.instantiate();
+		init1.setNext(ref1, nextRef1);
+
+		var ref2 = init1.instantiate();
+		var nextRef2 = init3.instantiate();
+		init1.setNext(ref2, nextRef2);
+
+		var nextClssSimilar = nextRef1.getClass().equals(nextRef2.getClass());
+		var breaksSimilarity = this.getExpectedSimilarityResult(ref1.getClass(),
+				ReferencesPackage.Literals.REFERENCE__NEXT);
+		Assertions.assertEquals(this.isSimilar(ref1, ref2), nextClssSimilar || breaksSimilarity);
+		Assertions.assertEquals(this.isSimilar(ref2, ref1), nextClssSimilar || breaksSimilarity);
+	}
+
+	/**
+	 * Tests whether similarity checking can detect and handle cycles of
+	 * {@link Reference} instances with a length of 1, i.e. references that
+	 * reference themselves:<br>
+	 * <br>
+	 * {@code ref -> ref} <br>
+	 * <br>
+	 * Performs this check for each sub-type of {@link Reference}.
+	 */
+	@ParameterizedTest
+	@MethodSource("genTestParams_ForOne")
+	public void test_ReferenceCycles_OneReference(IReferenceInitialiser init) {
+		var ref = init.instantiate();
+		init.setNext(ref, ref);
+		this.cycleAssertionsFor(new Reference[] { ref }, new Reference[] { ref });
+	}
+
+	/**
+	 * Tests whether similarity checking can detect and handle cycles of
+	 * {@link Reference} instances with a length of 2:<br>
+	 * <br>
+	 * {@code ref1 -> ref2 -> ref1} <br>
+	 * <br>
+	 * Performs this check for each combination of sub-type of {@link Reference}.
+	 */
+	@ParameterizedTest
+	@MethodSource("genTestParams_ForTwo")
+	public void test_ReferenceCycles_TwoReferences(IReferenceInitialiser init1, IReferenceInitialiser init2) {
+		var ref11 = init1.instantiate();
+		var ref12 = init2.instantiate();
+
+		init1.setNext(ref11, ref12);
+		init2.setNext(ref12, ref11);
+
+		var ref21 = init1.instantiate();
+		var ref22 = init2.instantiate();
+
+		init1.setNext(ref21, ref22);
+		init2.setNext(ref22, ref21);
+
+		this.cycleAssertionsFor(new Reference[] { ref11, ref12 }, new Reference[] { ref21, ref22 });
+	}
+
+	/**
+	 * Tests whether similarity checking can detect and handle cycles of
+	 * {@link Reference} instances, which has a length of 3: <br>
+	 * <br>
+	 * {@code ref1 -> ref2 -> ref3 -> ref1}
+	 * 
+	 * Note: Only testing for cycles with a length smaller than 3 is not enough,
+	 * since they can be easily accounted for, due to both {@link Reference}
+	 * instances (or the same reference instance, if it references itself) being
+	 * directly accessible from on another (by simply using the corresponding
+	 * getters). This is, however, not the case once cycles contain more than 2
+	 * instances. <br>
+	 * <br>
+	 * Performs this check for each combination of sub-type of {@link Reference}.
+	 */
+	@ParameterizedTest
+	@MethodSource("genTestParams_ForThree")
+	public void test_ReferenceCycles_ThreeReferences(IReferenceInitialiser init1, IReferenceInitialiser init2,
+			IReferenceInitialiser init3) {
+		var ref11 = init1.instantiate();
+		var ref12 = init2.instantiate();
+		var ref13 = init3.instantiate();
+
+		init1.setNext(ref11, ref12);
+		init2.setNext(ref12, ref13);
+		init3.setNext(ref13, ref11);
+
+		var ref21 = init1.instantiate();
+		var ref22 = init2.instantiate();
+		var ref23 = init3.instantiate();
+
+		init1.setNext(ref21, ref22);
+		init2.setNext(ref22, ref23);
+		init3.setNext(ref23, ref21);
+
+		/*
+		 * Directly use isSimilar to avoid cloning ref, so that the underlying cloning
+		 * mechanisms are not involved and the cycle directly lands into similarity
+		 * checking.
+		 * 
+		 * All ref variables are similar, since all of them are in a cycle, where all
+		 * elements in the cycle are similar.
+		 */
+		this.cycleAssertionsFor(new Reference[] { ref11, ref12, ref13 }, new Reference[] { ref21, ref22, ref23 });
+	}
+}
