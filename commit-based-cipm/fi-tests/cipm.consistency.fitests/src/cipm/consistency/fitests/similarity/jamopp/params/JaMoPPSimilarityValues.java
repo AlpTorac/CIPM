@@ -1,10 +1,7 @@
 package cipm.consistency.fitests.similarity.jamopp.params;
 
-import java.util.HashSet;
-
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.EcorePackage;
+import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationsPackage;
 import org.emftext.language.java.arrays.ArrayInstantiation;
 import org.emftext.language.java.arrays.ArraysPackage;
@@ -31,8 +28,10 @@ import org.emftext.language.java.instantiations.InstantiationsPackage;
 import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.emftext.language.java.instantiations.NewConstructorCallWithInferredTypeArguments;
 import org.emftext.language.java.members.AdditionalField;
+import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.EnumConstant;
 import org.emftext.language.java.members.MembersPackage;
+import org.emftext.language.java.members.Method;
 import org.emftext.language.java.modifiers.ModifiersPackage;
 import org.emftext.language.java.modules.ModulesPackage;
 import org.emftext.language.java.modules.ProvidesModuleDirective;
@@ -56,7 +55,6 @@ import org.emftext.language.java.variables.VariablesPackage;
 
 import cipm.consistency.fitests.similarity.params.AbstractSimilarityValues;
 import cipm.consistency.fitests.similarity.params.ISimilarityValues;
-import cipm.consistency.initialisers.jamopp.JaMoPPHelper;
 
 /**
  * Contains expected similarity values for tests, in which a certain attribute
@@ -259,38 +257,12 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 	}
 
 	/**
-	 * TODO: Add a method to synchronise the derived similarity entries, if new
-	 * entries are added
-	 * 
-	 * Derives and adds the similarity entries regading the containers of certain
-	 * object classes. <br>
-	 * <br>
-	 * Requires {@link #addFixedSimilarityEntries()} to take place beforehand to
-	 * work as intended.
-	 * 
-	 * TODO: Fix this method
+	 * Adds entries related to {@code obj.eContainer()}.
 	 */
 	public void addEContainerSimilarityEntries() {
-		/*
-		 * Most EObject implementors' containers are irrelevant for similarity checking,
-		 * hence the following entry.
-		 */
-		this.addSimilarityEntry(Commentable.class, EcorePackage.Literals.EREFERENCE__CONTAINER, Boolean.TRUE);
-
-		var eClss = new JaMoPPHelper().getAllEClasses();
-		for (var eCls : eClss) {
-			var conRefsOfeCls = eCls.getEAllContainments();
-			for (var conRef : conRefsOfeCls) {
-				var cls = eCls.getInstanceClass();
-
-				// The default value is irrelevant here
-				var currentConSimCheckVal = this.getStoredExpectedSimilarityResult(cls, conRef);
-				if (currentConSimCheckVal != this.getStoredExpectedSimilarityResult(cls,
-						EcorePackage.Literals.EREFERENCE__CONTAINER)) {
-					this.addSimilarityEntry(cls, EcorePackage.Literals.EREFERENCE__CONTAINER, currentConSimCheckVal);
-				}
-			}
-		}
+		this.addSimilarityEntry(Commentable.class, JaMoPPSimilarityCriterionExtension.ECONTAINER, Boolean.TRUE);
+		this.addSimilarityEntry(new Class[] { AnnotationInstance.class, Method.class, Constructor.class },
+				JaMoPPSimilarityCriterionExtension.ECONTAINER, Boolean.FALSE);
 	}
 
 	public void setDefaultSimilarityResult() {
@@ -321,8 +293,8 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 	}
 
 	/**
-	 * Adds the similarity entries, which are derived from the already existing
-	 * similarity entries.
+	 * Adds similarity entries that are related to values derived from the
+	 * attributes of objects.
 	 */
 	public void addDerivedSimilarityEntries() {
 		this.addEContainerSimilarityEntries();
