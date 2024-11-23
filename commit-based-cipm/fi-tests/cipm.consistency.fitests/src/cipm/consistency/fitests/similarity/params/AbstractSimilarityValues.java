@@ -1,6 +1,8 @@
 package cipm.consistency.fitests.similarity.params;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -131,6 +133,10 @@ public abstract class AbstractSimilarityValues implements ISimilarityValues {
 
 	protected Boolean getExpectedSimilarityResult(SimilarityEntry se) {
 		return this.similarityValues.get(se);
+	}
+
+	protected List<SimilarityEntry> getAllEntries() {
+		return new ArrayList<>(this.similarityValues.keySet());
 	}
 
 	@Override
