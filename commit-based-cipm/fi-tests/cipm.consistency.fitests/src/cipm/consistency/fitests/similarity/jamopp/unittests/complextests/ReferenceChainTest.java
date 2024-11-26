@@ -23,10 +23,25 @@ import cipm.consistency.initialisers.jamopp.references.IReferenceInitialiser;
  * since one can oversee such cases and fail to address them properly in the
  * implementation of similarity checking. <br>
  * <br>
+ * Tests for reference chains, where the cycle does not include the first
+ * reference are also included, in order to cover all forms of possible
+ * reference cycles for references that have up to one next reference (->
+ * corresponds to next reference):
+ * <ul>
+ * <li>Circular reference chains:
+ * {@code ref1 -> ref2 -> ... -> refN -> ref1 -> ...}
+ * <li>Sub-chain with a cycle:
+ * {@code ref1 -> ref2 -> ... -> refN1 -> refN2 -> ... -> refNM -> refN1 -> ...}
+ * </ul>
  * The said tests are parameterized over all concrete
  * {@link IReferenceInitialiser} sub-types as well as their combinations, in
  * order to ensure that neither specific {@link Reference} sub-type(s) nor
- * combinations thereof cause issues.
+ * combinations thereof cause issues. <br>
+ * <br>
+ * <b>Note: Running the tests within this class can take a long time, as they
+ * parameterize over all possible combinations of {@link Reference} sub-type(s).
+ * </b> <br>
+ * <br>
  * 
  * @author Alp Torac Genc
  */
@@ -73,7 +88,11 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	/**
 	 * Attempts to run similarity checking for any combination of the given
 	 * {@link Reference} instances (not just pairwise) and checks whether any
-	 * exceptions are thrown.
+	 * exceptions are thrown. <br>
+	 * <br>
+	 * Does not make any assertions on the similarity checking result. Asserts only
+	 * that it terminates without exceptions and that the similarity checking is
+	 * symmetric (i.e. isSimilar(lhs, rhs) == isSimilar(rhs, lhs)).
 	 */
 	private void cycleAssertionsFor(Reference[] refs1, Reference[] refs2) {
 		/*
@@ -164,7 +183,7 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@ParameterizedTest
 	@MethodSource("genTestParams_ForOne")
-	public void test_ReferenceCycles_OneReference(IReferenceInitialiser init) {
+	public void test_ReferenceCycles_OneReferenceCycle(IReferenceInitialiser init) {
 		var ref = init.instantiate();
 		init.setNext(ref, ref);
 		this.cycleAssertionsFor(new Reference[] { ref }, new Reference[] { ref });
@@ -180,7 +199,7 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@ParameterizedTest
 	@MethodSource("genTestParams_ForTwo")
-	public void test_ReferenceCycles_TwoReferences(IReferenceInitialiser init1, IReferenceInitialiser init2) {
+	public void test_ReferenceCycles_TwoReferencesCycle(IReferenceInitialiser init1, IReferenceInitialiser init2) {
 		var ref11 = init1.instantiate();
 		var ref12 = init2.instantiate();
 
@@ -213,7 +232,7 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@ParameterizedTest
 	@MethodSource("genTestParams_ForThree")
-	public void test_ReferenceCycles_ThreeReferences(IReferenceInitialiser init1, IReferenceInitialiser init2,
+	public void test_ReferenceCycles_ThreeReferencesCycle(IReferenceInitialiser init1, IReferenceInitialiser init2,
 			IReferenceInitialiser init3) {
 		var ref11 = init1.instantiate();
 		var ref12 = init2.instantiate();
