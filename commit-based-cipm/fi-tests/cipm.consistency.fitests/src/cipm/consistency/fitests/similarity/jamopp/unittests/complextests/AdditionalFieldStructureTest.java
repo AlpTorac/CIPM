@@ -95,9 +95,7 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest i
 		var conOfCon = init.instantiate();
 		init.addMember(conOfCon, field1);
 
-		// TODO Replace with testSimilarity once bugs are fixed
-		this.assertSimilarityResult(af1, af2, false);
-		this.assertSimilarityResult(af2, af1, false);
+		this.testSimilarity(af1, af2, false);
 	}
 
 	@ParameterizedTest
@@ -118,9 +116,7 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest i
 		var conOfCon = init.instantiate();
 		init.addMember(conOfCon, field1);
 
-		// TODO Replace with testSimilarity once bugs are fixed
-		this.assertSimilarityResult(af1, af2, false);
-		this.assertSimilarityResult(af2, af1, false);
+		this.testSimilarity(af1, af2, false);
 	}
 
 	// TODO: Add further tests to cover caseAdditionalField better
