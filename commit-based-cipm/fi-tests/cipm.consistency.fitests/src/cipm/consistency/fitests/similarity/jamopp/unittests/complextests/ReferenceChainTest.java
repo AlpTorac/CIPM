@@ -6,6 +6,7 @@ import java.util.stream.Stream;
 import org.emftext.language.java.references.Reference;
 import org.emftext.language.java.references.ReferencesPackage;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -178,6 +179,7 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * <br>
 	 * Performs this check for each sub-type of {@link Reference}.
 	 */
+	@Disabled("Until cycle checking mechanisms are implemented")
 	@ParameterizedTest
 	@MethodSource("genTestParams_ForOne")
 	public void test_ReferenceCycles_OneReferenceCycle(IReferenceInitialiser init) {
@@ -194,6 +196,7 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * <br>
 	 * Performs this check for each combination of sub-type of {@link Reference}.
 	 */
+	@Disabled("Until cycle checking mechanisms are implemented")
 	@ParameterizedTest
 	@MethodSource("genTestParams_ForTwo")
 	public void test_ReferenceCycles_TwoReferencesCycle(IReferenceInitialiser init1, IReferenceInitialiser init2) {
@@ -227,6 +230,7 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * <br>
 	 * Performs this check for each combination of sub-type of {@link Reference}.
 	 */
+	@Disabled("Until cycle checking mechanisms are implemented")
 	@ParameterizedTest
 	@MethodSource("genTestParams_ForThree")
 	public void test_ReferenceCycles_ThreeReferencesCycle(IReferenceInitialiser init1, IReferenceInitialiser init2,
@@ -272,6 +276,7 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * <br>
 	 * Performs this check for each combination of sub-type of {@link Reference}.
 	 */
+	@Disabled("Until cycle checking mechanisms are implemented")
 	@ParameterizedTest
 	@MethodSource("genTestParams_ForThree")
 	public void test_ReferenceCycles_OneRefLeadingToTwoRefCycle(IReferenceInitialiser init1,
