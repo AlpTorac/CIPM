@@ -1,7 +1,6 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.complextests;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.emftext.language.java.statements.Statement;
@@ -12,7 +11,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPInitialiserParameters;
 import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementPositionTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
 import cipm.consistency.initialisers.jamopp.statements.IStatementInitialiser;
@@ -32,40 +30,14 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
 public class StatementPositionTest extends AbstractJaMoPPSimilarityTest
 		implements UsesStatements, IStatementPositionTest {
 	/**
-	 * @return A list of all initialisers that implement
-	 *         {@link IStatementListContainerInitialiser}. If an initialiser is
-	 *         adaptable, it will be adapted. Non-adaptable initialisers will be
-	 *         unaffected.
-	 */
-	private static List<IStatementListContainerInitialiser> getAllSLCInitInstances() {
-		var res = new ArrayList<IStatementListContainerInitialiser>();
-		var inits = new JaMoPPInitialiserParameters()
-				.getEachInitialiserOnceBySuper(IStatementListContainerInitialiser.class);
-		inits.forEach((i) -> res.add(((IStatementListContainerInitialiser) i)));
-		return res;
-	}
-
-	/**
-	 * @return A list of all initialisers that implement
-	 *         {@link IStatementInitialiser}. If an initialiser is adaptable, it
-	 *         will be adapted. Non-adaptable initialisers will be unaffected.
-	 */
-	private static List<IStatementInitialiser> getAllStatementInitInstances() {
-		var res = new ArrayList<IStatementInitialiser>();
-		var inits = new JaMoPPInitialiserParameters().getEachInitialiserOnceBySuper(IStatementInitialiser.class);
-		inits.forEach((i) -> res.add(((IStatementInitialiser) i)));
-		return res;
-	}
-
-	/**
 	 * @return Parameters for the test methods in this test class. Refer to their
 	 *         documentation for more information.
 	 */
 	private static Stream<Arguments> genTestParams() {
 		var res = new ArrayList<Arguments>();
 
-		for (var stInit : getAllStatementInitInstances()) {
-			for (var slcInit : getAllSLCInitInstances()) {
+		for (var stInit : getEachInitialiserOnceFor(IStatementInitialiser.class)) {
+			for (var slcInit : getEachInitialiserOnceFor(IStatementListContainerInitialiser.class)) {
 				var displayName = stInit.getClass().getSimpleName() + " in " + slcInit.getClass().getSimpleName();
 
 				res.add(Arguments.of(displayName, slcInit, stInit));
