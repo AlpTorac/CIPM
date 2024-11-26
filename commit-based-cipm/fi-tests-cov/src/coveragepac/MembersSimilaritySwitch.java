@@ -121,33 +121,18 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 			}
 		}
 
-		/*
-		 * ************************************** methods as members of regular classes
-		 */
-		if (method1.getContainingConcreteClassifier() != null) {
-			ConcreteClassifier type1 = method1.getContainingConcreteClassifier();
-			ConcreteClassifier type2 = method2.getContainingConcreteClassifier();
-			return this.isSimilar(type1, type2);
+		var method1Container = method1.eContainer();
+		var method2Container = method2.eContainer();
+
+		if (method1Container == null) {
+			this.logMessage("MethodDeclaration (method1, parameter of caseMethod) " + Strings.nullToEmpty(method1.getName()) + " has no container", Level.WARN);
 		}
 
-		/*
-		 * ************************************** methods as members of anonymous
-		 * classes
-		 */
-		if (method1.getContainingAnonymousClass() != null) {
-			AnonymousClass type1 = method1.getContainingAnonymousClass();
-			AnonymousClass type2 = method2.getContainingAnonymousClass();
-			Boolean typeSimilarity = this.isSimilar(type1, type2);
-			if (typeSimilarity != null) {
-				return typeSimilarity;
-			}
+		if (method2Container == null) {
+			this.logMessage("MethodDeclaration (method2, compare element) " + Strings.nullToEmpty(method2.getName()) + " has no container", Level.WARN);
 		}
 
-		var containerString = method1.eContainer() == null ? "" : method1.eContainer().toString();
-
-		this.logMessage("MethodDeclaration in unknown container: " + Strings.nullToEmpty(method1.getName())
-			+ " : " + containerString, Level.WARN);
-		return null;
+		return this.isSimilar(method1Container, method2Container);
 	}
 
 	/**
@@ -187,33 +172,18 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 			return Boolean.FALSE;
 		}
 
-		/*
-		 * ************************************** methods as members of regular classes
-		 */
-		if (constructor1.getContainingConcreteClassifier() != null) {
-			ConcreteClassifier type1 = constructor1.getContainingConcreteClassifier();
-			ConcreteClassifier type2 = constructor2.getContainingConcreteClassifier();
-			return this.isSimilar(type1, type2);
+		var constructor1Container = constructor1.eContainer();
+		var constructor2Container = constructor2.eContainer();
+
+		if (constructor1Container == null) {
+			this.logMessage("ConstructorDeclaration (constructor1, parameter of caseConstructor) " + Strings.nullToEmpty(constructor1.getName()) + " has no container", Level.WARN);
 		}
 
-		/*
-		 * ************************************** methods as members of anonymous
-		 * classes
-		 */
-		if (constructor1.getContainingAnonymousClass() != null) {
-			AnonymousClass type1 = constructor1.getContainingAnonymousClass();
-			AnonymousClass type2 = constructor2.getContainingAnonymousClass();
-			Boolean typeSimilarity = this.isSimilar(type1, type2);
-			if (typeSimilarity != null) {
-				return typeSimilarity;
-			}
+		if (constructor2Container == null) {
+			this.logMessage("ConstructorDeclaration (constructor2, compare element) " + Strings.nullToEmpty(constructor2.getName()) + " has no container", Level.WARN);
 		}
 
-		var containerString = constructor1.eContainer() == null ? "" : constructor1.eContainer().toString();
-
-		this.logMessage("ConstructorDeclaration in unknown container: " +
-				Strings.nullToEmpty(constructor1.getName()) + " : " + containerString, Level.WARN);
-		return null;
+		return this.isSimilar(constructor1Container, constructor2Container);
 	}
 
 	/**
@@ -262,7 +232,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	 * <li> Their names ({@link AdditionalField#getName()}) are equal,
 	 * <li> Their types ({@link AdditionalField#getTypeReference()}) are similar,
 	 * <li> Types of their containers ({@code additionalField.eContainer().getTypeReference()}) are similar,
-	 * <li> Types of containers of their containers ({@code additionalField.eContainer().eContainer().getTypeReference()}) are similar.
+	 * <li> Containers of their containers ({@code additionalField.eContainer().eContainer()}) are similar.
 	 * </ul>
 	 * 
 	 * @param additionalField1 The additional field to compare with compareElement
@@ -273,25 +243,29 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	@Override
 	public Boolean caseAdditionalField(AdditionalField additionalField1) {
 		this.logMessage("caseAdditionalField");
-		
+
 		AdditionalField additionalField2 = (AdditionalField) this.getCompareElement();
 		var nameSimilarity = JaMoPPComparisonUtil.namesEqual(additionalField1, additionalField2);
 		if (JaMoPPBooleanUtil.isFalse(nameSimilarity)) {
 			return Boolean.FALSE;
 		}
-		
+
 		var type1 = additionalField1.getTypeReference();
 		var type2 = additionalField2.getTypeReference();
-		
+
 		// Compare additional field types
 		// Account for similarity result being null
 		if (JaMoPPBooleanUtil.isNotTrue(this.isSimilar(type1, type2))) {
 			return Boolean.FALSE;
 		}
-		
+
 		var container1 = additionalField1.eContainer();
 		var container2 = additionalField2.eContainer();
-		
+
+		if (JaMoPPNullCheckUtil.onlyOneIsNull(container1, container2)) {
+			return Boolean.FALSE;
+		}
+
 		// Null check to avoid null pointer exceptions
 		if (JaMoPPNullCheckUtil.allNonNull(container1, container2)) {
 			var castedCon1 = (TypedElement) container1;
@@ -299,38 +273,23 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 
 			var conType1 = castedCon1.getTypeReference();
 			var conType2 = castedCon2.getTypeReference();
-			
+
 			// Compare container types
 			// Account for similarity result being null
 			if (JaMoPPBooleanUtil.isNotTrue(this.isSimilar(conType1, conType2))) {
 				return Boolean.FALSE;
 			}
-			
+
 			var containerOfCon1 = castedCon1.eContainer();
 			var containerOfCon2 = castedCon2.eContainer();
-			
-			// Null check to avoid null pointer exceptions
-			if (JaMoPPNullCheckUtil.allNonNull(containerOfCon1, containerOfCon2)) {
-				var castedConOfCon1 = (TypedElement) containerOfCon1;
-				var castedConOfCon2 = (TypedElement) containerOfCon2;
-				
-				var conOfConType1 = castedConOfCon1.getTypeReference();
-				var conOfConType2 = castedConOfCon2.getTypeReference();
-				
-				// Compare types of container of container
-				// Account for similarity result being null
-				if (JaMoPPBooleanUtil.isNotTrue(this.isSimilar(conOfConType1, conOfConType2))) {
-					return Boolean.FALSE;
-				}
-				
-			} else if (JaMoPPNullCheckUtil.onlyOneIsNull(containerOfCon1, containerOfCon2)) {
+
+			// Compare container of container
+			// Account for similarity result being null
+			if (JaMoPPBooleanUtil.isNotTrue(this.isSimilar(containerOfCon1, containerOfCon2))) {
 				return Boolean.FALSE;
 			}
-			
-		} else if (JaMoPPNullCheckUtil.onlyOneIsNull(container1, container2)) {
-			return Boolean.FALSE;
 		}
-		
+
 		return Boolean.TRUE;
 	}
 }
