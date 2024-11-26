@@ -1,7 +1,6 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.complextests;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.emftext.language.java.classifiers.ConcreteClassifier;
@@ -12,7 +11,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPInitialiserParameters;
 import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPSimilarityCriterionExtension;
 import cipm.consistency.initialisers.jamopp.members.IMemberContainerInitialiser;
 import cipm.consistency.initialisers.jamopp.members.IMemberInitialiser;
@@ -42,39 +40,15 @@ import cipm.consistency.initialisers.jamopp.members.IMemberInitialiser;
  */
 public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	/**
-	 * @return A list of all initialisers that implement {@link IMemberInitialiser}.
-	 *         If an initialiser is adaptable, it will be adapted. Non-adaptable
-	 *         initialisers will be unaffected.
-	 */
-	private static List<IMemberInitialiser> getAllMemberInitInstances() {
-		var res = new ArrayList<IMemberInitialiser>();
-		var inits = new JaMoPPInitialiserParameters().getEachInitialiserOnceBySuper(IMemberInitialiser.class);
-		inits.forEach((i) -> res.add(((IMemberInitialiser) i)));
-		return res;
-	}
-
-	/**
-	 * @return A list of all initialisers that implement
-	 *         {@link IMemberContainerInitialiser}. If an initialiser is adaptable,
-	 *         it will be adapted. Non-adaptable initialisers will be unaffected.
-	 */
-	private static List<IMemberContainerInitialiser> getAllMemberContainerInitInstances() {
-		var res = new ArrayList<IMemberContainerInitialiser>();
-		var inits = new JaMoPPInitialiserParameters().getEachInitialiserOnceBySuper(IMemberContainerInitialiser.class);
-		inits.forEach((i) -> res.add(((IMemberContainerInitialiser) i)));
-		return res;
-	}
-
-	/**
 	 * @return Parameters for the test methods in this test class. Refer to their
 	 *         documentation for more information.
 	 */
 	private static Stream<Arguments> genTestParams() {
 		var res = new ArrayList<Arguments>();
 
-		for (var memInit : getAllMemberInitInstances()) {
-			for (var memConInit1 : getAllMemberContainerInitInstances()) {
-				for (var memConInit2 : getAllMemberContainerInitInstances()) {
+		for (var memInit : getEachInitialiserOnceFor(IMemberInitialiser.class)) {
+			for (var memConInit1 : getEachInitialiserOnceFor(IMemberContainerInitialiser.class)) {
+				for (var memConInit2 : getEachInitialiserOnceFor(IMemberContainerInitialiser.class)) {
 					var displayName = "Member " + memInit.getClass().getSimpleName() + " used with containers ("
 							+ memConInit1.getClass().getSimpleName() + ", " + memConInit2.getClass().getSimpleName()
 							+ ")";
