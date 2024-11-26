@@ -1,6 +1,7 @@
 package cipm.consistency.fitests.similarity.jamopp;
 
 import java.io.File;
+import java.util.Collection;
 import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
@@ -67,13 +68,25 @@ public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimila
 		return getClassesInitialiserTestSettingsProvider();
 	}
 
+	public static IInitialiserParameters getInitialiserTestParameters() {
+		return getClassesInitialiserTestSettingsProvider().getParameters();
+	}
+
+	public static <T extends IJaMoPPEObjectInitialiser> Collection<T> getEachInitialiserOnceFor(Class<T> superType) {
+		return getInitialiserTestParameters().getEachInitialiserOnceBySuper(superType);
+	}
+
 	/**
 	 * @see {@link IInitialiserParameters#getEachInitialiserOnceBySuper(Class)}
 	 */
 	public static Stream<Arguments> getEachInitialiserArgumentsOnceFor(
 			Class<? extends IJaMoPPEObjectInitialiser> superType) {
-		return getClassesInitialiserTestSettingsProvider().getParameters().getEachInitialiserOnceBySuper(superType)
+		return getEachInitialiserOnceFor(superType)
 				.stream().map((i) -> Arguments.of(i));
+	}
+
+	public static <T extends IJaMoPPEObjectInitialiser> Collection<T> getAllInitialisersFor(Class<T> superType) {
+		return getInitialiserTestParameters().getAllInitialisersBySuper(superType);
 	}
 
 	/**
@@ -81,8 +94,12 @@ public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimila
 	 */
 	public static Stream<Arguments> getAllInitialiserArgumentsFor(
 			Class<? extends IJaMoPPEObjectInitialiser> superType) {
-		return getClassesInitialiserTestSettingsProvider().getParameters().getAllInitialisersBySuper(superType).stream()
+		return getAllInitialisersFor(superType).stream()
 				.map((i) -> Arguments.of(i));
+	}
+
+	public static <T extends IJaMoPPEObjectInitialiser> Collection<T> getAdaptedInitialisersFor(Class<T> superType) {
+		return getInitialiserTestParameters().getAdaptedInitialisersBySuper(superType);
 	}
 
 	/**
@@ -90,8 +107,12 @@ public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimila
 	 */
 	public static <T extends IJaMoPPEObjectInitialiser> Stream<Arguments> getAdaptedInitialiserArgumentsFor(
 			Class<T> superType) {
-		return getClassesInitialiserTestSettingsProvider().getParameters().getAdaptedInitialisersBySuper(superType)
+		return getAdaptedInitialisersFor(superType)
 				.stream().map((i) -> Arguments.of(i));
+	}
+
+	public static <T extends IJaMoPPEObjectInitialiser> Collection<T> getNonAdaptedInitialisersFor(Class<T> superType) {
+		return getInitialiserTestParameters().getNonAdaptedInitialisersBySuper(superType);
 	}
 
 	/**
@@ -99,7 +120,7 @@ public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimila
 	 */
 	public static Stream<Arguments> getNonAdaptedInitialiserArgumentsFor(
 			Class<? extends IJaMoPPEObjectInitialiser> superType) {
-		return getClassesInitialiserTestSettingsProvider().getParameters().getNonAdaptedInitialisersBySuper(superType)
+		return getNonAdaptedInitialisersFor(superType)
 				.stream().map((i) -> Arguments.of(i));
 	}
 }
