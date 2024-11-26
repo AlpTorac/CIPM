@@ -20,7 +20,7 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest i
 	}
 
 	@Test
-	public void testDifferentContainer_OneContainer_Null() {
+	public void testDifferentContainer_OneContainer_IsNull() {
 		var afInit = new AdditionalFieldInitialiser();
 		var fieldInit = new FieldInitialiser();
 
@@ -35,7 +35,7 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest i
 	}
 	
 	@Test
-	public void testDifferentContainer_OneContainer_TypeReference() {
+	public void testDifferentContainer_OneContainer_HasTypeReference() {
 		var tref = this.createMinimalClsRef("cls");
 
 		var afInit = new AdditionalFieldInitialiser();
@@ -55,7 +55,7 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest i
 	}
 
 	@Test
-	public void testDifferentContainer_BothContainers_DifferentTypeReference() {
+	public void testDifferentContainer_BothContainers_HaveDifferentTypeReference() {
 		var tref1 = this.createMinimalClsRef("cls1");
 		var tref2 = this.createMinimalClsRef("cls2");
 
@@ -81,7 +81,7 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest i
 
 	@ParameterizedTest
 	@MethodSource("genTestParams")
-	public void testDifferentConOfCon_OneConOfCon_ContainerNull(IMemberContainerInitialiser init) {
+	public void testDifferentConOfCon_OneContainer_IsNull(IMemberContainerInitialiser init) {
 		var afInit = new AdditionalFieldInitialiser();
 		var fieldInit = new FieldInitialiser();
 
@@ -100,7 +100,7 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest i
 
 	@ParameterizedTest
 	@MethodSource("genTestParams")
-	public void testDifferentConOfCon_OneConOfCon_ConOfConNull(IMemberContainerInitialiser init) {
+	public void testDifferentConOfCon_OneConOfCon_IsNull(IMemberContainerInitialiser init) {
 		var afInit = new AdditionalFieldInitialiser();
 		var fieldInit = new FieldInitialiser();
 
@@ -118,6 +118,4 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest i
 
 		this.testSimilarity(af1, af2, false);
 	}
-
-	// TODO: Add further tests to cover caseAdditionalField better
 }
