@@ -121,7 +121,7 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 	@SuppressWarnings("unchecked")
 	@ParameterizedTest
 	@MethodSource("genConcreteTestParams")
-	public <T extends EObject> void testInterfaceCoverage_OneSideMocked_GettersRestricted(Class<T> cls) {
+	public <T extends EObject> void testInterfaceCoverage_OneSideMocked_MethodsRestricted(Class<T> cls) {
 		var init = this.getUsedInitialiserPackage().getInitialiserInstanceFor(cls);
 		var wrapee = (T) init.instantiate();
 
