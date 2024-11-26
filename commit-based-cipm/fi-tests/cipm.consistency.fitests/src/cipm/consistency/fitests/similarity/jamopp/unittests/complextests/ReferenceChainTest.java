@@ -11,7 +11,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPInitialiserParameters;
 import cipm.consistency.initialisers.jamopp.references.IReferenceInitialiser;
 
 /**
@@ -51,10 +50,9 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	}
 
 	private static Stream<Arguments> genTestParams_ForTwo() {
-		var refInits = new JaMoPPInitialiserParameters().getNonAdaptedInitialisersBySuper(IReferenceInitialiser.class);
 		var params = new ArrayList<Arguments>();
-		for (var init1 : refInits) {
-			for (var init2 : refInits) {
+		for (var init1 : getNonAdaptedInitialisersFor(IReferenceInitialiser.class)) {
+			for (var init2 : getNonAdaptedInitialisersFor(IReferenceInitialiser.class)) {
 				params.add(Arguments.of(init1, init2));
 			}
 		}
@@ -62,11 +60,10 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	}
 
 	private static Stream<Arguments> genTestParams_ForThree() {
-		var refInits = new JaMoPPInitialiserParameters().getNonAdaptedInitialisersBySuper(IReferenceInitialiser.class);
 		var params = new ArrayList<Arguments>();
-		for (var init1 : refInits) {
-			for (var init2 : refInits) {
-				for (var init3 : refInits) {
+		for (var init1 : getNonAdaptedInitialisersFor(IReferenceInitialiser.class)) {
+			for (var init2 : getNonAdaptedInitialisersFor(IReferenceInitialiser.class)) {
+				for (var init3 : getNonAdaptedInitialisersFor(IReferenceInitialiser.class)) {
 					params.add(Arguments.of(init1, init2, init3));
 				}
 			}
