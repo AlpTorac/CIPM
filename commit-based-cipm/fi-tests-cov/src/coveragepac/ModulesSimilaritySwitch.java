@@ -75,7 +75,7 @@ public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> implements I
 		this.logMessage("caseAccessProvidingModuleDirective");
 		
 		AccessProvidingModuleDirective dir2 = (AccessProvidingModuleDirective) this.getCompareElement();
-		return JaMoPPBooleanUtil.isNotFalse(this.compareNamespacesByPart(dir1, dir2));
+		return JaMoPPBooleanUtil.isTrue(this.compareNamespacesByPart(dir1, dir2));
 	}
 	
 	/**
