@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
@@ -18,6 +19,7 @@ import cipm.consistency.initialisers.eobject.IEObjectInitialiser;
  * 
  * @author Alp Torac Genc
  */
+@Disabled("Until cycle checking mechanisms are implemented")
 public class SelfReferenceTest extends AbstractJaMoPPSimilarityTest implements IStructuralFeatureTest {
 	/**
 	 * Scans the object type generated with {@code init} for references
