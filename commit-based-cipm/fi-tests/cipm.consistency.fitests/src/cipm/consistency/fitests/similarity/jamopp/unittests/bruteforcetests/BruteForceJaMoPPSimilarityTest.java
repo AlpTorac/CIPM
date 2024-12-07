@@ -15,6 +15,8 @@ import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.IStructuralFeatureTest;
 import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
 
+// TODO Rename methods and add commentary
+
 @Disabled("Takes too long to compute")
 public class BruteForceJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest
 	implements IStructuralFeatureTest {
