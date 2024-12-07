@@ -48,16 +48,26 @@ public class BruteForceJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest
 	private Object generateNonEObjectValueFor(EStructuralFeature feat) {
 		var type = feat.getEType().getInstanceClass();
 
-		// If type is primitive, null will be converted to a default value
-		if (type.isPrimitive()) return null;
-		if (Integer.class.isAssignableFrom(type)) return 0;
-		if (Byte.class.isAssignableFrom(type)) return 0;
-		if (Character.class.isAssignableFrom(type)) return 0;
-		if (Boolean.class.isAssignableFrom(type)) return Boolean.FALSE;
-		if (Double.class.isAssignableFrom(type)) return 0;
-		if (Float.class.isAssignableFrom(type)) return 0;
-		if (Long.class.isAssignableFrom(type)) return 0;
-		if (Short.class.isAssignableFrom(type)) return 0;
+		/*
+		 * Make sure to use non-default values, in order to ensure that
+		 * non-set values become apparent
+		 */
+		if (int.class.isAssignableFrom(type)) return 1;
+		if (byte.class.isAssignableFrom(type)) return 1;
+		if (char.class.isAssignableFrom(type)) return 1;
+		if (boolean.class.isAssignableFrom(type)) return true;
+		if (double.class.isAssignableFrom(type)) return 1d;
+		if (float.class.isAssignableFrom(type)) return 1f;
+		if (long.class.isAssignableFrom(type)) return 1;
+		if (short.class.isAssignableFrom(type)) return 1;
+		if (Integer.class.isAssignableFrom(type)) return 1;
+		if (Byte.class.isAssignableFrom(type)) return 1;
+		if (Character.class.isAssignableFrom(type)) return 1;
+		if (Boolean.class.isAssignableFrom(type)) return Boolean.TRUE;
+		if (Double.class.isAssignableFrom(type)) return 1d;
+		if (Float.class.isAssignableFrom(type)) return 1f;
+		if (Long.class.isAssignableFrom(type)) return 1;
+		if (Short.class.isAssignableFrom(type)) return 1;
 		if (String.class.isAssignableFrom(type)) return "str";
 
 		return null;
@@ -69,7 +79,8 @@ public class BruteForceJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest
 		
 		var pac = this.getUsedInitialiserPackage();
 		var initInstances = List.of(pac.getAllInitialiserInstances().stream()
-				.filter((i) -> i.isInitialiserFor(type)).toArray(IJaMoPPEObjectInitialiser[]::new));
+				.filter((i) -> type.isAssignableFrom(i.instantiate().getClass()))
+				.toArray(IJaMoPPEObjectInitialiser[]::new));
 
 		for (var init : initInstances) {
 			values.add(init.instantiate());
@@ -111,17 +122,17 @@ public class BruteForceJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest
 				var vals = new EObject[arrSizes];
 				for (int i = 0; i < vals.length; i++) {
 					vals[i] = this.cloneEObjWithContainers(val);
+					this.setValueOf(obj, attr, vals);
+					tests.add(this.getAssertionTest(oldObj, obj));
 				}
-				this.setValueOf(obj, attr, vals);
-				tests.add(this.getAssertionTest(oldObj, obj));
 			}
 		} else {
 			var vals = new Object[arrSizes];
 			for (int i = 0; i < vals.length; i++) {
 				vals[i] = this.generateNonEObjectValueFor(attr);
+				this.setValueOf(obj, attr, vals);
+				tests.add(this.getAssertionTest(oldObj, obj));
 			}
-			this.setValueOf(obj, attr, vals);
-			tests.add(this.getAssertionTest(oldObj, obj));
 		}
 		
 		return tests;
@@ -160,19 +171,13 @@ public class BruteForceJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest
 		for (var init : this.getUsedInitialiserPackage().getAllInitialiserInstances()) {
 			// 0, 0 yields 0% coverage (0/4983)
 			
-			// 1, 0 yields 63.1% coverage (3143/4983)
-			// 1, 1 yields 64% coverage (3191/4983)
-			// 1, 2 yields 64% coverage (3191/4983)
-			// 1, 3 yields 64% coverage (3191/4983)
+			// 1, 0 yields 61.7% coverage (3074/4983)
+			// 1, 1 yields 68.5% coverage (3411/4983)
+			// 1, 2 yields 68.5% coverage (3411/4983)
 			
-			// 2, 0 yields 63.1% coverage (3143/4983)
-			// 2, 1 yields 64.7% coverage (3223/4983)
-			// 2, 2 yields 64.7% coverage (3223/4983)
-			// 2, 3 yields 64.7% coverage (3223/4983)
-			
-			// 3, 0 yields 63.1% coverage (3143/4983)
-			// 3, 1 yields 64.7% coverage (3223/4983)
-			tests.addAll(this.initialiseAllFeatures((EObject) init.instantiate(), 5, 2));
+			// 2, 0 yields 61.7% coverage (3074/4983) about 3 mins
+			// 2, 1 yields 68.9% coverage (3432/4983) about 11 mins
+			tests.addAll(this.initialiseAllFeatures((EObject) init.instantiate(), 2, 1));
 		}
 		return tests;
 	}
