@@ -131,6 +131,7 @@ public class BruteForceJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest
 	}
 
 	private DynamicTest getAssertionTest(EObject oldObj, EObject obj) {
+		// FIXME: Find a better display name for tests
 		return DynamicTest.dynamicTest("ph", () -> {
 			Assertions.assertTrue(this.isSimilar(oldObj, oldObj));
 			Assertions.assertEquals(this.isSimilar(oldObj, obj),
