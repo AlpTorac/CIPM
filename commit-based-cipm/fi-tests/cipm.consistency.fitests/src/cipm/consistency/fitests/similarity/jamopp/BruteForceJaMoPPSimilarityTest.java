@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.jamopp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Stream;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -44,7 +45,7 @@ public class BruteForceJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest
 		}
 	}
 
-	private Object generateValueFor(EStructuralFeature feat) {
+	private Object generateNonEObjectValueFor(EStructuralFeature feat) {
 		var type = feat.getEType().getInstanceClass();
 
 		// If type is primitive, null will be converted to a default value
@@ -58,14 +59,72 @@ public class BruteForceJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest
 		if (Long.class.isAssignableFrom(type)) return 0;
 		if (Short.class.isAssignableFrom(type)) return 0;
 		if (String.class.isAssignableFrom(type)) return "str";
+
+		return null;
+	}
+
+	private Collection<EObject> generateEObjectValuesFor(EStructuralFeature feat) {
+		var type = feat.getEType().getInstanceClass();
+		var values = new ArrayList<EObject>();
 		
 		var pac = this.getUsedInitialiserPackage();
-		var init = pac.getInitialiserInstanceFor(type);
-		if (init != null) {
-			return (EObject) init.instantiate();
+		var initInstances = List.of(pac.getAllInitialiserInstances().stream()
+				.filter((i) -> i.isInitialiserFor(type)).toArray(IJaMoPPEObjectInitialiser[]::new));
+
+		for (var init : initInstances) {
+			values.add(init.instantiate());
+		}
+
+		return values;
+	}
+
+	private Collection<DynamicTest> initialiseNonManyFeature(EObject obj, EStructuralFeature attr, int depth, int arrSizes) {
+		var tests = new ArrayList<DynamicTest>();
+		var type = attr.getEType().getInstanceClass();
+		var oldObj = this.cloneEObjWithContainers(obj);
+		
+		if (EObject.class.isAssignableFrom(type)) {
+			var generatedVals = this.generateEObjectValuesFor(attr);
+			for (var val : generatedVals) {
+				tests.addAll(this.initialiseAllFeatures(val, depth - 1, arrSizes));
+				this.setValueOf(obj, attr, val);
+				tests.add(this.getAssertionTest(oldObj, obj));
+			}
+		} else {
+			var generatedVal = this.generateNonEObjectValueFor(attr);
+			this.setValueOf(obj, attr, generatedVal);
+			tests.add(this.getAssertionTest(oldObj, obj));
 		}
 		
-		return null;
+		return tests;
+	}
+
+	private Collection<DynamicTest> initialiseManyFeature(EObject obj, EStructuralFeature attr, int depth, int arrSizes) {
+		var tests = new ArrayList<DynamicTest>();
+		var type = attr.getEType().getInstanceClass();
+		var oldObj = this.cloneEObjWithContainers(obj);
+		
+		if (EObject.class.isAssignableFrom(type)) {
+			var generatedVals = this.generateEObjectValuesFor(attr);
+			for (var val : generatedVals) {
+				tests.addAll(this.initialiseAllFeatures(val, depth - 1, arrSizes));
+				var vals = new EObject[arrSizes];
+				for (int i = 0; i < vals.length; i++) {
+					vals[i] = this.cloneEObjWithContainers(val);
+				}
+				this.setValueOf(obj, attr, vals);
+				tests.add(this.getAssertionTest(oldObj, obj));
+			}
+		} else {
+			var vals = new Object[arrSizes];
+			for (int i = 0; i < vals.length; i++) {
+				vals[i] = this.generateNonEObjectValueFor(attr);
+			}
+			this.setValueOf(obj, attr, vals);
+			tests.add(this.getAssertionTest(oldObj, obj));
+		}
+		
+		return tests;
 	}
 
 	private Collection<DynamicTest> initialiseAllFeatures(EObject obj, int depth, int arrSizes) {
@@ -76,23 +135,9 @@ public class BruteForceJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest
 		for (var attr : obj.eClass().getEAllStructuralFeatures()) {
 			if (attr.isChangeable()) {
 				if (!attr.isMany()) {
-					var val = this.generateValueFor(attr);
-					if (val != null && EObject.class.isAssignableFrom(val.getClass())) {
-						tests.addAll(this.initialiseAllFeatures((EObject) val, depth - 1, arrSizes));
-					}
-					this.setValueOf(obj, attr, val);
-					tests.add(this.getAssertionTest(obj));
+					tests.addAll(this.initialiseNonManyFeature(obj, attr, depth, arrSizes));
 				} else {
-					var vals = new Object[arrSizes];
-					for (int i = 0; i < arrSizes; i++) {
-						var val = this.generateValueFor(attr);
-						if (val != null && EObject.class.isAssignableFrom(val.getClass())) {
-							tests.addAll(this.initialiseAllFeatures((EObject) val, depth - 1, arrSizes));
-						}
-						vals[i] = val;
-					}
-					this.setValueOf(obj, attr, vals);
-					tests.add(this.getAssertionTest(obj));
+					tests.addAll(this.initialiseManyFeature(obj, attr, depth, arrSizes));
 				}
 			}
 		}
@@ -100,9 +145,13 @@ public class BruteForceJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest
 		return tests;
 	}
 
-	private DynamicTest getAssertionTest(EObject obj) {
-		return DynamicTest.dynamicTest("ph", () -> Assertions.assertTrue(this.isSimilar(obj,
-				this.cloneEObjWithContainers(obj))));
+	private DynamicTest getAssertionTest(EObject oldObj, EObject obj) {
+		return DynamicTest.dynamicTest("ph", () -> {
+			Assertions.assertTrue(this.isSimilar(oldObj, oldObj));
+			Assertions.assertEquals(this.isSimilar(oldObj, obj),
+					this.isSimilar(obj, oldObj));
+			Assertions.assertTrue(this.isSimilar(obj, obj));
+		});
 	}
 
 	@TestFactory
@@ -123,7 +172,7 @@ public class BruteForceJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest
 			
 			// 3, 0 yields 63.1% coverage (3143/4983)
 			// 3, 1 yields 64.7% coverage (3223/4983)
-			tests.addAll(this.initialiseAllFeatures((EObject) init.instantiate(), 3, 1));
+			tests.addAll(this.initialiseAllFeatures((EObject) init.instantiate(), 5, 2));
 		}
 		return tests;
 	}
