@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.jamopp;
+package cipm.consistency.fitests.similarity.jamopp.unittests.bruteforcetests;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
+import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
 
 @Disabled("Takes too long to compute")
