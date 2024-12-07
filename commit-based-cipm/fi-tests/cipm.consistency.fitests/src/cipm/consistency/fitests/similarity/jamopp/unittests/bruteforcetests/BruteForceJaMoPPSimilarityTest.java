@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.junit.jupiter.api.Assertions;
@@ -13,30 +12,12 @@ import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.unittests.IStructuralFeatureTest;
 import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
 
 @Disabled("Takes too long to compute")
-public class BruteForceJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
-	private void setValueOf(EObject obj, EStructuralFeature feat, Object val) {
-		if (val == null)
-			return;
-
-		if (!feat.isMany()) {
-			obj.eSet(feat, val);
-		} else {
-			var list = new BasicEList<>();
-			if (!val.getClass().isArray()) {
-				list.add(val);
-			} else {
-				for (var valObj : (Object[]) val) {
-					if (valObj != null) {
-						list.add(valObj);
-					}
-				}
-			}
-			obj.eSet(feat, list);
-		}
-	}
+public class BruteForceJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest
+	implements IStructuralFeatureTest {
 
 	private Object generateNonEObjectValueFor(EStructuralFeature feat) {
 		var type = feat.getEType().getInstanceClass();
