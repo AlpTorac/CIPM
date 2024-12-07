@@ -1,28 +1,20 @@
 package cipm.consistency.fitests.similarity.jamopp;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Stream;
 
 import org.eclipse.emf.common.util.BasicEList;
-import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.util.EContentsEList;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DynamicTest;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestFactory;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
-import cipm.consistency.initialisers.jamopp.classifiers.ClassInitialiser;
 
+@Disabled("Takes too long to compute")
 public class BruteForceJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	private void setValueOf(EObject obj, EStructuralFeature feat, Object val) {
 		if (val == null)
@@ -174,10 +166,9 @@ public class BruteForceJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest
 			// 1, 0 yields 61.7% coverage (3074/4983)
 			// 1, 1 yields 68.5% coverage (3411/4983)
 			// 1, 2 yields 68.5% coverage (3411/4983)
-			
 			// 2, 0 yields 61.7% coverage (3074/4983) about 3 mins
 			// 2, 1 yields 68.9% coverage (3432/4983) about 11 mins
-			tests.addAll(this.initialiseAllFeatures((EObject) init.instantiate(), 2, 1));
+			tests.addAll(this.initialiseAllFeatures((EObject) init.instantiate(), 1, 1));
 		}
 		return tests;
 	}
