@@ -7,7 +7,6 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
@@ -17,7 +16,6 @@ import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
 
 // TODO Rename methods and add commentary
 
-@Disabled("Takes too long to compute")
 public class BruteForceJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest
 	implements IStructuralFeatureTest {
 
