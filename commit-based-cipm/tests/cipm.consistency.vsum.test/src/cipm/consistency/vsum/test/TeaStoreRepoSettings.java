@@ -30,7 +30,8 @@ public class TeaStoreRepoSettings implements HasRepoSettings {
 	 */
 	public enum TeaStoreCommitTag {
 		COMMIT_1_0("1_0"), COMMIT_1_1("1_1"), COMMIT_1_2("1_2"), COMMIT_1_2_1("1_2_1"), COMMIT_1_3("1_3"),
-		COMMIT_1_3_1("1_3_1"),;
+		COMMIT_1_3_1("1_3_1"), COMMIT_1_1_READER_INDENTATION_FIX("1_1_RIF"), COMMIT_1_1_WHOLE_INDENTATION_FIX("1_1_WIF"),
+		COMMIT_1_0_JUST_READER_INDENTATION("1_0_JRI"), COMMIT_1_1_JUST_READER_INDENTATION("1_1_JRI");
 
 		/**
 		 * The version part of the concrete enum values as String (ex: "1_0" for
@@ -79,6 +80,12 @@ public class TeaStoreRepoSettings implements HasRepoSettings {
 			put(TeaStoreCommitTag.COMMIT_1_2_1, "f8f13f4390f80d3dc8adb0a6167938a688ddb45e");
 			put(TeaStoreCommitTag.COMMIT_1_3, "745469e55fad8a801a92b0be96dc009acbe7e3fb");
 			put(TeaStoreCommitTag.COMMIT_1_3_1, "de69e957597d20d4be17fc7db2a0aa2fb3a414f7");
+			
+			put(TeaStoreCommitTag.COMMIT_1_1_READER_INDENTATION_FIX, "b0f8ce6896d252681e604e2b97b0bb8c4c128e12");
+			put(TeaStoreCommitTag.COMMIT_1_1_WHOLE_INDENTATION_FIX, "d120878b8ee825f213b2ffc640478f54c6dafd45");
+			
+			put(TeaStoreCommitTag.COMMIT_1_0_JUST_READER_INDENTATION, "86c4bbc6850d39f9070cdede8b92bb4d8a426f75");
+			put(TeaStoreCommitTag.COMMIT_1_1_JUST_READER_INDENTATION, "d8e9b8b07672b2925b330099eb0f5169a2b6481f");
 		}
 	};
 
@@ -101,7 +108,7 @@ public class TeaStoreRepoSettings implements HasRepoSettings {
 
 	@Override
 	public String getRepositoryAddress() {
-		return "file:///C:/Users/atora/OneDrive/Belgeler/GitHub/TeaStore";
+		return "file:///C:/Users/sdq-l/TeaStore";
 	}
 
 	@Override

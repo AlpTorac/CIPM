@@ -42,6 +42,44 @@ public class TeaStoreCITest extends AbstractRepoTest {
 				this.getCommitHash(TeaStoreCommitTag.COMMIT_1_1), 1);
 //		performIndependentEvaluation();
 	}
+	
+
+	@Disabled("Only one test case should run at once.")
+	@Test
+	public void testTeaStore1_0To1_1Propagation_RIF() throws Exception {
+		// Propagation of changes between TeaStore version 1.0 and 1.1.
+		executePropagationAndEvaluation(this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0),
+				this.getCommitHash(TeaStoreCommitTag.COMMIT_1_1_READER_INDENTATION_FIX), 1);
+//		performIndependentEvaluation();
+	}
+	
+
+	@Disabled("Only one test case should run at once.")
+	@Test
+	public void testTeaStore1_0To1_1Propagation_WIF() throws Exception {
+		// Propagation of changes between TeaStore version 1.0 and 1.1.
+		executePropagationAndEvaluation(this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0),
+				this.getCommitHash(TeaStoreCommitTag.COMMIT_1_1_WHOLE_INDENTATION_FIX), 1);
+//		performIndependentEvaluation();
+	}
+	
+	@Disabled("Only one test case should run at once.")
+	@Test
+	public void testTeaStore1_0To1_0Propagation_JRI() throws Exception {
+		// Propagation of changes between TeaStore version 1.0 and 1.1.
+		executePropagationAndEvaluation(this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0),
+				this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0_JUST_READER_INDENTATION), 1);
+//		performIndependentEvaluation();
+	}
+	
+	@Disabled("Only one test case should run at once.")
+	@Test
+	public void testTeaStore1_0_JRITo1_1Propagation_JRI() throws Exception {
+		// Propagation of changes between TeaStore version 1.0 and 1.1.
+		executePropagationAndEvaluation(this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0_JUST_READER_INDENTATION),
+				this.getCommitHash(TeaStoreCommitTag.COMMIT_1_1_JUST_READER_INDENTATION), 2);
+//		performIndependentEvaluation();
+	}
 
 	@Disabled("Only one test case should run at once.")
 	@Test
