@@ -62,6 +62,15 @@ public class TeaStoreCITest extends AbstractRepoTest {
 				this.getCommitHash(TeaStoreCommitTag.COMMIT_1_1_WHOLE_INDENTATION_FIX), 1);
 //		performIndependentEvaluation();
 	}
+
+	@Disabled("Only one test case should run at once.")
+	@Test
+	public void testTeaStore1_0To1_1Propagation_WO_R() throws Exception {
+		// Propagation of changes between TeaStore version 1.0 and 1.1.
+		executePropagationAndEvaluation(this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0),
+				this.getCommitHash(TeaStoreCommitTag.COMMIT_1_1_WO_READER), 1);
+//		performIndependentEvaluation();
+	}
 	
 	@Disabled("Only one test case should run at once.")
 	@Test
@@ -78,6 +87,60 @@ public class TeaStoreCITest extends AbstractRepoTest {
 		// Propagation of changes between TeaStore version 1.0 and 1.1.
 		executePropagationAndEvaluation(this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0_JUST_READER_INDENTATION),
 				this.getCommitHash(TeaStoreCommitTag.COMMIT_1_1_JUST_READER_INDENTATION), 2);
+//		performIndependentEvaluation();
+	}
+
+	@Disabled("Only one test case should run at once.")
+	@Test
+	public void testTeaStore1_0To1_1SplitPart_1() throws Exception {
+		// Propagation of changes between TeaStore version 1.0 and 1.1.
+		executePropagationAndEvaluation(this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0),
+				this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0_TO_1_1_TILL_FIRST_READER_CHANGE), 1);
+//		performIndependentEvaluation();
+	}
+
+	@Disabled("Only one test case should run at once.")
+	@Test
+	public void testTeaStore1_0To1_1SplitPart_2() throws Exception {
+		// Propagation of changes between TeaStore version 1.0 and 1.1.
+		executePropagationAndEvaluation(this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0_TO_1_1_TILL_FIRST_READER_CHANGE),
+				this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0_TO_1_1_FIRST_READER_CHANGE), 1);
+//		performIndependentEvaluation();
+	}
+
+	@Disabled("Only one test case should run at once.")
+	@Test
+	public void testTeaStore1_0To1_1SplitPart_3() throws Exception {
+		// Propagation of changes between TeaStore version 1.0 and 1.1.
+		executePropagationAndEvaluation(this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0_TO_1_1_FIRST_READER_CHANGE),
+				this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0_TO_1_1_TILL_SECOND_READER_CHANGE), 1);
+//		performIndependentEvaluation();
+	}
+
+	@Disabled("Only one test case should run at once.")
+	@Test
+	public void testTeaStore1_0To1_1SplitPart_4() throws Exception {
+		// Propagation of changes between TeaStore version 1.0 and 1.1.
+		executePropagationAndEvaluation(this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0_TO_1_1_TILL_SECOND_READER_CHANGE),
+				this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0_TO_1_1_SECOND_READER_CHANGE), 1);
+//		performIndependentEvaluation();
+	}
+
+	@Disabled("Only one test case should run at once.")
+	@Test
+	public void testTeaStore1_0To1_1SplitPart_5() throws Exception {
+		// Propagation of changes between TeaStore version 1.0 and 1.1.
+		executePropagationAndEvaluation(this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0_TO_1_1_SECOND_READER_CHANGE),
+				this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0_TO_1_1_AFTER_SECOND_READER_CHANGE), 1);
+//		performIndependentEvaluation();
+	}
+
+	@Disabled("Only one test case should run at once.")
+	@Test
+	public void testTeaStoreSplitPart4Integration() throws Exception {
+		// Propagation of changes between TeaStore version 1.0 and 1.1.
+		executePropagationAndEvaluation(null,
+				this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0_TO_1_1_SECOND_READER_CHANGE), 0);
 //		performIndependentEvaluation();
 	}
 
