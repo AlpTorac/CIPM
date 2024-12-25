@@ -146,6 +146,15 @@ public class TeaStoreCITest extends AbstractRepoTest {
 
 	@Disabled("Only one test case should run at once.")
 	@Test
+	public void testTeaStoreSplitPart3Integration() throws Exception {
+		// Propagation of changes between TeaStore version 1.0 and 1.1.
+		executePropagationAndEvaluation(null,
+				this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0_TO_1_1_TILL_SECOND_READER_CHANGE), 0);
+//		performIndependentEvaluation();
+	}
+
+	@Disabled("Only one test case should run at once.")
+	@Test
 	public void testTeaStoreWithMultipleCommits1_0To1_1() throws GitAPIException, IOException, InterruptedException {
 		propagateMultipleCommits(this.getCommitHash(TeaStoreCommitTag.COMMIT_1_0),
 				this.getCommitHash(TeaStoreCommitTag.COMMIT_1_1));
