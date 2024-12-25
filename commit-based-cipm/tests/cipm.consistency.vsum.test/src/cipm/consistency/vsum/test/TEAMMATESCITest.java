@@ -27,21 +27,21 @@ public class TEAMMATESCITest extends AbstractRepoTest {
 	@Disabled("Only one test case should run at once.")
 	@Test
 	public void testTeammatesSecondPropagation() throws Exception {
-		executePropagationAndEvaluation(this.getCommitHash(1), this.getCommitHash(2), 1);
+		executePropagationAndEvaluation(this.getCommitHash(1), this.getCommitHash(2), 2);
 //		performIndependentEvaluation();
 	}
 	
 	@Disabled("Only one test case should run at once.")
 	@Test
 	public void testTeammatesThirdPropagation() throws Exception {
-		executePropagationAndEvaluation(this.getCommitHash(2), this.getCommitHash(3), 1);
+		executePropagationAndEvaluation(this.getCommitHash(2), this.getCommitHash(3), 3);
 //		performIndependentEvaluation();
 	}
 	
 	@Disabled("Only one test case should run at once.")
 	@Test
 	public void testTeammatesFourthPropagation() throws Exception {
-		executePropagationAndEvaluation(this.getCommitHash(3), this.getCommitHash(4), 1);
+		executePropagationAndEvaluation(this.getCommitHash(3), this.getCommitHash(4), 4);
 //		performIndependentEvaluation();
 	}
 }
