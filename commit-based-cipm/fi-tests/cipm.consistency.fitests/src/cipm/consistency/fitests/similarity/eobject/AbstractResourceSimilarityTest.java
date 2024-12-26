@@ -16,7 +16,7 @@ import cipm.consistency.fitests.similarity.AbstractSimilarityTest;
  * 
  * @author Alp Torac Genc
  */
-public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityTest {
+public abstract class AbstractResourceSimilarityTest extends AbstractNotifierSimilarityTest {
 	/**
 	 * @see {@link #getResourceHelper()}
 	 */
