@@ -6,9 +6,12 @@ import java.util.List;
 
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.util.BasicMonitor;
+import org.eclipse.emf.compare.AttributeChange;
+import org.eclipse.emf.compare.CompareFactory;
 import org.eclipse.emf.compare.Comparison;
 import org.eclipse.emf.compare.Diff;
 import org.eclipse.emf.compare.EMFCompare;
+import org.eclipse.emf.compare.FeatureMapChange;
 import org.eclipse.emf.compare.ReferenceChange;
 import org.eclipse.emf.compare.diff.DefaultDiffEngine;
 import org.eclipse.emf.compare.diff.DiffBuilder;
@@ -21,6 +24,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DynamicTest;
 
 import cipm.consistency.commitintegration.diff.util.JavaModelComparator;
+import cipm.consistency.fitests.similarity.eobject.EcoreUtilHelper;
 
 public class JaMoPPChangeDetectionTestGenerator {
 	public Collection<DynamicTest> generateTestsFor(Notifier newState, Notifier currentState, Collection<Diff> expectedDiffs) {
@@ -37,11 +41,18 @@ public class JaMoPPChangeDetectionTestGenerator {
 		tests.add(this.generateDifferenceSymmetryTest("jamoppCompare(lhs, rhs) ~ jamoppCompare(rhs, lhs)", lhsRhsJamoppCmp.getDifferences(), rhsLhsJamoppCmp.getDifferences()));
 
 		// FIXME "Split" differences from default comparison into 2, such that one side only has left and the other one only has right
+		
+		// Use "splitToLeftAndRight"
+		
 		tests.add(DynamicTest.dynamicTest("jamoppCompare has all ReferenceChanges", () -> {
+			var splitDiffs = new ArrayList<Diff>();
 			for (var defDiff : lhsRhsDefCmp.getDifferences()) {
-				if (defDiff instanceof ReferenceChange) {
+				splitDiffs.addAll(this.splitToLeftAndRight(defDiff));
+			}
+			for (var splitDefDiff : splitDiffs) {
+				if (splitDefDiff instanceof ReferenceChange) {
 					Assertions.assertTrue(lhsRhsJamoppCmp.getDifferences().stream().anyMatch((d) ->
-							this.diffsEqual(d, defDiff)));
+							this.diffsEqual(d, splitDefDiff)));
 				}
 			}
 		}));
@@ -61,6 +72,58 @@ public class JaMoPPChangeDetectionTestGenerator {
 		return tests;
 	}
 
+	private Collection<Diff> splitToLeftAndRight(Diff diff) {
+		var helper = new EcoreUtilHelper();
+		var diffMatch = diff.getMatch();
+		var diffMatchBase = helper.cloneEObj(diffMatch);
+		diffMatchBase.getDifferences().clear();
+		
+		var diffLeftMatch = helper.cloneEObj(diffMatchBase);
+		var diffLeft = this.cloneDiff(diff);
+		diffLeftMatch.setLeft(diffMatch.getLeft());
+		diffLeftMatch.setRight(null);
+		diffLeft.setMatch(diffLeftMatch);
+		
+		var diffRightMatch = helper.cloneEObj(diffMatchBase);
+		var diffRight = this.cloneDiff(diff);
+		diffRightMatch.setRight(diffMatch.getRight());
+		diffRightMatch.setLeft(null);
+		diffRight.setMatch(diffRightMatch);
+		
+		return new ArrayList<>() {{
+			add(diffLeft);
+			add(diffRight);
+		}};
+	}
+
+	private <T extends Diff> T cloneDiff(T originalDiff) {
+		return new EcoreUtilHelper().cloneEObj(originalDiff);
+//		var fac = CompareFactory.eINSTANCE;
+//		
+//		@SuppressWarnings("unchecked")
+//		var newDiff = (T) fac.create(originalDiff.eClass());
+//		newDiff.setKind(originalDiff.getKind());
+//		if (newDiff instanceof ReferenceChange) {
+//			var castedOriginalDiff = (ReferenceChange) originalDiff;
+//			var castedNewDiff = (ReferenceChange) newDiff;
+//			castedNewDiff.setReference(castedOriginalDiff.getReference());
+//			castedNewDiff.setValue(castedOriginalDiff.getValue());
+//		}
+//		else if (newDiff instanceof AttributeChange) {
+//			var castedOriginalDiff = (AttributeChange) originalDiff;
+//			var castedNewDiff = (AttributeChange) newDiff;
+//			castedNewDiff.setAttribute(castedOriginalDiff.getAttribute());
+//			castedNewDiff.setValue(castedOriginalDiff.getValue());
+//		}
+//		else if (newDiff instanceof FeatureMapChange) {
+//			var castedOriginalDiff = (FeatureMapChange) originalDiff;
+//			var castedNewDiff = (FeatureMapChange) newDiff;
+//			castedNewDiff.setAttribute(castedOriginalDiff.getAttribute());
+//			castedNewDiff.setValue(castedOriginalDiff.getValue());
+//		}
+//		return newDiff;
+	}
+	
 	private boolean diffsEqual(Diff diff1, Diff diff2) {
 		return  diff1.getClass().equals(diff2.getClass()) && 
 				diff1.getKind().equals(diff2.getKind()) &&
