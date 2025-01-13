@@ -40,9 +40,8 @@ public class JaMoPPChangeDetectionTestGenerator {
 
 		tests.add(this.generateDifferenceSymmetryTest("jamoppCompare(lhs, rhs) ~ jamoppCompare(rhs, lhs)", lhsRhsJamoppCmp.getDifferences(), rhsLhsJamoppCmp.getDifferences()));
 
-		// FIXME "Split" differences from default comparison into 2, such that one side only has left and the other one only has right
-		
-		// Use "splitToLeftAndRight"
+		// "Split" differences from default comparison into 2,
+		// such that one side only has left and the other one only has right
 		
 		tests.add(DynamicTest.dynamicTest("jamoppCompare has all ReferenceChanges", () -> {
 			var splitDiffs = new ArrayList<Diff>();
