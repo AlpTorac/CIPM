@@ -2,7 +2,6 @@ package cipm.consistency.fitests.similarity.jamopp.unittests;
 
 import org.emftext.language.java.statements.ExpressionStatement;
 import org.emftext.language.java.statements.LocalVariableStatement;
-import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.SynchronizedBlock;
 
 /**
@@ -19,7 +18,7 @@ public interface IStatementPositionTest {
 	 * @return Whether the position of an instance of the given class within its
 	 *         container matters.
 	 */
-	public default boolean doesStatementPositionMatter(Class<? extends Statement> cls) {
+	public default boolean doesStatementPositionMatter(Class<?> cls) {
 		return ExpressionStatement.class.isAssignableFrom(cls) || LocalVariableStatement.class.isAssignableFrom(cls)
 				|| SynchronizedBlock.class.isAssignableFrom(cls);
 	}
