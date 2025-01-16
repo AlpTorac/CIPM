@@ -14,8 +14,10 @@ import org.junit.jupiter.params.provider.MethodSource;
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementPositionTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
+import cipm.consistency.initialisers.jamopp.members.ClassMethodInitialiser;
 import cipm.consistency.initialisers.jamopp.statements.BlockInitialiser;
 import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerInitialiser;
+import cipm.consistency.initialisers.jamopp.statements.NormalSwitchCaseInitialiser;
 
 public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTest
 		implements UsesStatements, IStatementPositionTest {
@@ -70,6 +72,8 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 	@ParameterizedTest
 	@MethodSource("genTestParams")
 	public void test(IStatementListContainerInitialiser containerInit) {
+		// FIXME: Find out why it fails for Block
+		
 		/*
 		 * 5 statements are needed to cover all possible cases:
 		 * 
@@ -91,28 +95,36 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 
 		for (int con1Start = 0; con1Start < stsLen; con1Start++) {
 			for (int con1End = con1Start; con1End < stsLen; con1End++) {
+				
+				// FIXME Extract the initialisation code and re-use it below
+				
 				var placeholderCon1 = placeholderConInit.instantiate();
+				this.addBlockIfNecessary(placeholderCon1, placeholderConInit);
 				var con1 = containerInit.instantiate();
 				var sts1 = this.createDistinctSts(stsLen);
 
 				/*
 				 * Place all statements and the container inside a block, so that similarity
-				 * checking can consider statement positions.
+				 * checking can consider statement positions. Make sure to add them
+				 * in the correct order to not mess up the intended ordering.
 				 */
-				placeholderConInit.addStatements(placeholderCon1, sts1);
+				for (int i = 0; i < con1Start; i++) {
+					placeholderConInit.addStatement(placeholderCon1, sts1[i]);
+				}
+				// FIXME instanceof should not be necessary here, not placing con there breaks the purpose of the test
 				if (con1 instanceof Statement) {
 					placeholderConInit.addStatement(placeholderCon1, (Statement) con1);
 				}
-
+				for (int i = con1End+1; i < stsLen; i++) {
+					placeholderConInit.addStatement(placeholderCon1, sts1[i]);
+				}
+				
 				this.addStatementsInRange(con1, containerInit, sts1, con1Start, con1End);
-
-//				for (int i = 0; i < con1Start; i++) {
-//					placeholderConInit.addStatement(placeholderCon1, sts1[i]);
-//				}
 				
 				for (int con2Start = 0; con2Start < stsLen; con2Start++) {
 					for (int con2End = con2Start; con2End < stsLen; con2End++) {
 						var placeholderCon2 = placeholderConInit.instantiate();
+						this.addBlockIfNecessary(placeholderCon2, placeholderConInit);
 						var con2 = containerInit.instantiate();
 						var sts2 = this.createDistinctSts(stsLen);
 
@@ -120,13 +132,19 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 						 * Place all statements and the container inside a block, so that similarity
 						 * checking can consider statement positions.
 						 */
-						placeholderConInit.addStatements(placeholderCon2, sts2);
+						for (int i = 0; i < con2Start; i++) {
+							placeholderConInit.addStatement(placeholderCon2, sts2[i]);
+						}
+						// FIXME instanceof should not be necessary here, not placing con there breaks the purpose of the test
 						if (con2 instanceof Statement) {
 							placeholderConInit.addStatement(placeholderCon2, (Statement) con2);
 						}
-
+						for (int i = con2End+1; i < stsLen; i++) {
+							placeholderConInit.addStatement(placeholderCon2, sts2[i]);
+						}
+						
 						this.addStatementsInRange(con2, containerInit, sts2, con2Start, con2End);
-
+						
 						for (int i = 0; i < stsLen; i++) {
 							var st1 = sts1[i];
 							var st2 = sts2[i];
