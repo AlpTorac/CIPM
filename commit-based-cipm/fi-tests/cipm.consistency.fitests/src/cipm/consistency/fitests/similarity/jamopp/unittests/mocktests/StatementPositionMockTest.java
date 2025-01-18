@@ -24,7 +24,6 @@ import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPInitialiserParameters;
 import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementPositionTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
-import cipm.consistency.initialisers.eobject.IEObjectInitialiser;
 import cipm.consistency.initialisers.jamopp.statements.IStatementInitialiser;
 import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerInitialiser;
 
@@ -87,16 +86,6 @@ public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
 	}
 
 	/**
-	 * TODO Move to IEObjectInitialiser in the future
-	 * 
-	 * @param init An initialiser
-	 * @return The type of what the given initialiser instantiates.
-	 */
-	private Class<?> getInstanceClassOfInitialiser(IEObjectInitialiser init) {
-		return init.instantiate().eClass().getInstanceClass();
-	}
-
-	/**
 	 * @return A mock of {@link LocalVariableStatement} in form of an instance,
 	 *         whose container is the given one and whose local variable is the
 	 *         given one.
@@ -147,8 +136,8 @@ public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
 				this.testBody(
-						(Class<? extends StatementListContainer>) this.getInstanceClassOfInitialiser(containerInit),
-						(Class<? extends Statement>) this.getInstanceClassOfInitialiser(containeeInit), i, j);
+						(Class<? extends StatementListContainer>) containerInit.getInstanceClassOfInitialiser(),
+						(Class<? extends Statement>) containeeInit.getInstanceClassOfInitialiser(), i, j);
 			}
 		}
 	}

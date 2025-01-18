@@ -60,7 +60,7 @@ public class SelfReferenceTest extends AbstractJaMoPPSimilarityTest implements I
 		var tests = new ArrayList<DynamicTest>();
 
 		var obj = init.instantiate();
-		var objCls = obj.eClass().getInstanceClass();
+		var objCls = init.getInstanceClassOfInitialiser();
 
 		for (var attr : obj.eClass().getEAllStructuralFeatures()) {
 			if (attr.isChangeable()) {

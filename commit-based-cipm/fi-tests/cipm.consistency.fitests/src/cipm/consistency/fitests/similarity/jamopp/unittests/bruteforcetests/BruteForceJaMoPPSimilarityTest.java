@@ -59,7 +59,7 @@ public class BruteForceJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest
 		
 		var pac = this.getUsedInitialiserPackage();
 		var initInstances = List.of(pac.getAllInitialiserInstances().stream()
-				.filter((i) -> type.isAssignableFrom(i.instantiate().getClass()))
+				.filter((i) -> type.isAssignableFrom(i.getInstanceClassOfInitialiser()))
 				.toArray(IJaMoPPEObjectInitialiser[]::new));
 
 		for (var init : initInstances) {
