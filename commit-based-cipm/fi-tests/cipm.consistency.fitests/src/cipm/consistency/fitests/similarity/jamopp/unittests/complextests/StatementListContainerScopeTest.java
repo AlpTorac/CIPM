@@ -85,8 +85,8 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 	}
 
 	/**
-	 * Adds statements in sts within the range [start, end] (both inclusive) to slc.
-	 * <br>
+	 * Adds statements in sts within the range [start, end) (start included, end
+	 * excluded) to slc. <br>
 	 * <br>
 	 * Adds a block to slc first, if statements cannot be added to it in its current
 	 * form.
@@ -94,10 +94,10 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 	private void addStatementsInRange(StatementListContainer slc, IStatementListContainerInitialiser slcInit,
 			Statement[] sts, int start, int end) {
 		this.addBlockIfNecessary(slc, slcInit);
-		for (int i = start; i <= end; i++) {
+		for (int i = start; i < end; i++) {
 			slcInit.addStatement(slc, sts[i]);
 		}
-		Assertions.assertEquals(end - start + 1, slc.getStatements().size());
+		Assertions.assertEquals(end - start, slc.getStatements().size());
 	}
 
 	/**
@@ -106,11 +106,11 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 	 * <li>An array of {@link LocalVariableStatement} instances {@code sts} of size
 	 * {@code stsLen}
 	 * <li>A container ({@code nestedCon}) and adds
-	 * {@code sts[nestedConStart]...sts[nestedConEnd]} to it ({@code nestedConStart}
-	 * and {@code nestedConEnd} included)
+	 * {@code sts[nestedConStart]...sts[nestedConEnd - 1]} to it. nestedCon is only
+	 * then generated, if {@code nestedConEnd > nestedConStart}.
 	 * <li>A container ({@code placeholderCon}) and adds remaining elements of
-	 * {@code sts} and {@code nestedCon} to it, in the order:
-	 * {@code sts[0] ... sts[nestedConStart-1] nestedCon sts[nestedConEnd+1] ... sts[stsLen]}
+	 * {@code sts} and {@code nestedCon} to it, in the following order:
+	 * {@code sts[0] ... sts[nestedConStart-1] nestedCon sts[nestedConEnd] ... sts[stsLen]}
 	 * </ul>
 	 */
 	private Statement[] setupForTest(IStatementListContainerInitialiser placeholderConInit,
@@ -119,7 +119,12 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 		var placeholderCon = placeholderConInit.instantiate();
 		this.addBlockIfNecessary(placeholderCon, placeholderConInit);
 
-		var nestedCon = nestedConInit.instantiate();
+		// Only generate nestedCon, if any statements are to be in its scope
+		StatementListContainer nestedCon = null;
+		if (nestedConEnd - nestedConStart > 0) {
+			nestedCon = nestedConInit.instantiate();
+		}
+
 		var sts = this.createDistinctSts(stsLen);
 
 		/*
@@ -131,16 +136,40 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 		for (int i = 0; i < nestedConStart; i++) {
 			placeholderConInit.addStatement(placeholderCon, sts[i]);
 		}
-		placeholderConInit.addStatement(placeholderCon, (Statement) nestedCon);
-		for (int i = nestedConEnd + 1; i < stsLen; i++) {
+		if (nestedCon != null) {
+			placeholderConInit.addStatement(placeholderCon, (Statement) nestedCon);
+			this.addStatementsInRange(nestedCon, nestedConInit, sts, nestedConStart, nestedConEnd);
+		}
+		for (int i = nestedConEnd; i < stsLen; i++) {
 			placeholderConInit.addStatement(placeholderCon, sts[i]);
 		}
 
-		/*
-		 * Add the remaining elements of sts into nestedCon afterward, in order to
-		 * ensure that no element of sts has the wrong container.
-		 */
-		this.addStatementsInRange(nestedCon, nestedConInit, sts, nestedConStart, nestedConEnd);
+		// Make sure that the statements are in the correct container
+		for (int i = 0; i < stsLen; i++) {
+			var stCon = sts[i].eContainer();
+			if (i >= nestedConStart && i < nestedConEnd) {
+				// Account for the potential Block instance between nestedCon and sts[i]
+				Assertions.assertTrue(stCon == nestedCon || stCon.eContainer() == nestedCon);
+			} else {
+				// Account for the potential Block instance between nestedCon and sts[i]
+				Assertions.assertTrue(stCon == placeholderCon || stCon.eContainer() == placeholderCon);
+			}
+		}
+
+		// Make sure that the statement count of containers is correct
+		var expectedNestedConStCount = nestedConEnd - nestedConStart;
+		Assertions.assertTrue((nestedCon != null) == expectedNestedConStCount > 0);
+		// Account for placeholderCon also containing nestedCon (if it exists)
+		var expectedPlaceholderConStCount = expectedNestedConStCount == 0 ? stsLen
+				: stsLen - expectedNestedConStCount + 1;
+		if (nestedCon != null) {
+			// Account for the potential Block instance between placeholderCon and nestedCon
+			Assertions.assertTrue(
+					nestedCon.eContainer() == placeholderCon || nestedCon.eContainer().eContainer() == placeholderCon);
+			Assertions.assertEquals(expectedNestedConStCount, nestedCon.getStatements().size());
+		}
+		Assertions.assertEquals(expectedPlaceholderConStCount, placeholderCon.getStatements().size());
+
 		return sts;
 	}
 
@@ -156,18 +185,28 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 	 * containerInit. Then checks the similarity of all possible such sub-group
 	 * combinations. <br>
 	 * <br>
-	 * The size of the said group of LVS instances (stsLen) should be >= 5: <br>
+	 * The size of the said group of LVS instances (stsLen) should be {@code >= 5}:
+	 * <br>
 	 * <br>
 	 * Similarity checking considers the statement itself, its predecessor and its
 	 * successor. With 3 statements, it is possible to cover all basic cases.
 	 * However, since the statements are nested within nestedCon, all said cases
 	 * also have to be covered within nestedCon, as well as with the nestedCon
 	 * itself as a statement within placeholderCon. This makes the following the
-	 * most general form of statement placement, where st_i are statements:
-	 * 
-	 * placeholderCon(st_0 ... st_n nestedCon(st_n+1 ... st_m) st_m+1 ... st_k)
-	 * 
-	 * with 5 statements: placeholderCon(st_0 nestedCon(st_1 st_2 st_3) st_4)
+	 * most general form of statement placement, where st_i are statements: <br>
+	 * <br>
+	 * {@code placeholderCon(st_0 ... st_n nestedCon(st_n+1 ... st_m) st_m+1 ... st_k)}
+	 * <br>
+	 * <br>
+	 * With 5 statements:
+	 * {@code placeholderCon(st_0 nestedCon(st_1 st_2 st_3) st_4)} <br>
+	 * <br>
+	 * {@code st_i} are {@link Statement} instances and can therefore be replaced
+	 * with instances that implement both {@link StatementListContainer} and
+	 * {@link Statement}. Since similarity checking currently only considers the
+	 * direct container of such statements ({@code st.eContainer()}) during
+	 * statement position checks, this construction covers all possible ways
+	 * statements can be nested within one another.
 	 * 
 	 * @param displayName        The name of the tests' display
 	 * @param nestedConInit      The initialiser responsible for instantiating the
@@ -197,13 +236,17 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 
 		var stsLen = 5;
 
-		for (int nestedCon1Start = 0; nestedCon1Start < stsLen; nestedCon1Start++) {
-			for (int nestedCon1End = nestedCon1Start; nestedCon1End < stsLen; nestedCon1End++) {
+		/*
+		 * Include stsLen as a value for nestedConXEnd variables, since stsLen case will
+		 * be sorted out in test setup.
+		 */
+		for (int nestedCon1Start = 0; nestedCon1Start <= stsLen; nestedCon1Start++) {
+			for (int nestedCon1End = nestedCon1Start; nestedCon1End <= stsLen; nestedCon1End++) {
 
 				var sts1 = this.setupForTest(placeholderConInit, nestedConInit, nestedCon1Start, nestedCon1End, stsLen);
 
-				for (int nestedCon2Start = 0; nestedCon2Start < stsLen; nestedCon2Start++) {
-					for (int nestedCon2End = nestedCon2Start; nestedCon2End < stsLen; nestedCon2End++) {
+				for (int nestedCon2Start = 0; nestedCon2Start <= stsLen; nestedCon2Start++) {
+					for (int nestedCon2End = nestedCon2Start; nestedCon2End <= stsLen; nestedCon2End++) {
 
 						var sts2 = this.setupForTest(placeholderConInit, nestedConInit, nestedCon2Start, nestedCon2End,
 								stsLen);
@@ -233,10 +276,7 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 		}
 	}
 
-	/**
-	 * @return Whether {@code start <= idx <= end}
-	 */
 	private boolean inIndexRange(int idx, int start, int end) {
-		return idx >= start && idx <= end;
+		return idx >= start && idx < end;
 	}
 }
