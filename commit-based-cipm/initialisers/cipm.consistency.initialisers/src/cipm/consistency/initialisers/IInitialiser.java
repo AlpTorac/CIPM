@@ -165,11 +165,28 @@ public interface IInitialiser {
 	}
 
 	/**
-	 * A variant of {@link #isInitialiserFor(Class, Class)}, where initCls is
-	 * extracted from init. Returns false, if any parameter is null.
+	 * Returns whether the given initialiser init instantiates objects of type
+	 * objClass. <br>
+	 * <br>
+	 * For the result to be true, init has to be able to instantiate
+	 * <i><b>exactly</b></i> objClass, i.e. the return type of the instantiation
+	 * method has to be <i><b>exactly</b></i> objClass.
 	 */
 	public static boolean isInitialiserFor(IInitialiser init, Class<?> objClass) {
-		return init != null && objClass != null && isInitialiserFor(init.getClass(), objClass);
+		return init != null && init.getInstanceClassOfInitialiser().equals(objClass);
+	}
+
+	/**
+	 * Uses the return value of {@link #instantiate()} to determine the outcome.
+	 * This method should not return null, as long as {@link #instantiate()} does
+	 * not return null.
+	 * 
+	 * @return The {@link Class} object of the type this initialiser instantiates,
+	 *         or null if {@link #instantiate()} returns null.
+	 */
+	public default Class<?> getInstanceClassOfInitialiser() {
+		var obj = this.instantiate();
+		return obj != null ? obj.getClass() : null;
 	}
 
 	/**
