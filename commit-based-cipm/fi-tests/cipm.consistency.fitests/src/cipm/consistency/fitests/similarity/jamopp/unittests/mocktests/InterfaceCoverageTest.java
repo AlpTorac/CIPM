@@ -135,8 +135,7 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 		 * List of potentially relevant methods' names that could be used
 		 * throughout similarity checking.
 		 */
-		final var getters = List.of(Stream.of(((T) init.instantiate())
-				.eClass().getInstanceClass().getMethods())
+		final var getters = List.of(Stream.of(init.getInstanceClassOfInitialiser().getMethods())
 				// Exclude methods related to structure elements to avoid exceptions
 				.filter((met) -> !EModelElement.class.isAssignableFrom(met.getReturnType()))
 				// Methods used in similarity checking must return something

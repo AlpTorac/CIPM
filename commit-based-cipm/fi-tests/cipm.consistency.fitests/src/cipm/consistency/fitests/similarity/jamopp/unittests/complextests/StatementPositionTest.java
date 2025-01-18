@@ -239,7 +239,7 @@ public class StatementPositionTest extends AbstractJaMoPPSimilarityTest
 	@MethodSource("genTestParams")
 	public void test_DifferentPredecessor_DifferentSuccessor(String displayName,
 			IStatementListContainerInitialiser containerInit, IStatementInitialiser containeeInit) {
-		var containeeCls = containeeInit.instantiate().getClass();
+		var containeeCls = containeeInit.getInstanceClassOfInitialiser();
 
 		var slc1 = containerInit.instantiate();
 		Assertions.assertTrue(containerInit.initialise(slc1));
