@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.util.ComposedSwitch;
  * attribute to contain the compare element mentioned there. It also provides
  * implementations for the methods from {@link IComposedSwitchAdapter}.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public abstract class AbstractComposedSwitchAdapter extends ComposedSwitch<Boolean> implements IComposedSwitchAdapter {
 	/** The object to compare the switched element with. */

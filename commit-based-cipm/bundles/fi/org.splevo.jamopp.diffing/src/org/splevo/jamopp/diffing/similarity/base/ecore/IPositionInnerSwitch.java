@@ -12,7 +12,7 @@ import org.splevo.jamopp.diffing.util.JaMoPPNullCheckUtil;
  * among the implementors of {@link IInnerSwitch} that additionally use a flag
  * to check statement positions in {@link EObject} instances they compare.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public interface IPositionInnerSwitch extends IInnerSwitch {
 	/**

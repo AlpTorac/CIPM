@@ -10,7 +10,7 @@ import org.splevo.jamopp.diffing.util.JaMoPPNullCheckUtil;
  * A {@link ISimilarityRequestHandler} that processes
  * {@link SingleSimilarityCheckRequest} instances.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class SingleSimilarityCheckHandler implements ISimilarityRequestHandler {
 	/**
