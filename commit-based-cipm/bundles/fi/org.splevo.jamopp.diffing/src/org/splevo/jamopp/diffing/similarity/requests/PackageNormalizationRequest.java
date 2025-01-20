@@ -1,14 +1,17 @@
 package org.splevo.jamopp.diffing.similarity.requests;
 
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 
 /**
  * An {@link ISimilarityRequest}, which contains the name of a
  * {@link CompilationUnit} instance normalised via
- * {@link CompilationUnitNormalizationRequest} first.
+ * {@link CompilationUnitNormalizationRequest} first.<br>
+ * <br>
+ * Instances can be passed to a matching {@link ISimilarityRequestHandler} for
+ * further normalisation.
  * 
  * @author Alp Torac Genc
- *
  */
 public class PackageNormalizationRequest implements ISimilarityRequest {
 	/**
