@@ -15,13 +15,6 @@ public abstract class AbstractComposedSwitchAdapter extends ComposedSwitch<Boole
 	private EObject compareElement = null;
 
 	/**
-	 * @see {@link ComposedSwitch#ComposedSwitch()}
-	 */
-	public AbstractComposedSwitchAdapter() {
-
-	}
-
-	/**
 	 * {@inheritDoc}
 	 * 
 	 * @return The object to compare the switched element with.
