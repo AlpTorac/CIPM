@@ -41,7 +41,8 @@ public class JaMoPPNullCheckUtil {
 
 	/**
 	 * @return Whether both obj1 and obj2 are null / non-null and equal (as in
-	 *         {@code .equals(...)}).
+	 *         {@code .equals(...)}). Make sure to check equality in both ways to
+	 *         ensure that this method is symmetric for its parameters.
 	 */
 	public static Boolean bothNullOrEqual(Object obj1, Object obj2) {
 		return (obj1 == null && obj2 == null)
