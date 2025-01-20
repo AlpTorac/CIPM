@@ -6,7 +6,7 @@ import org.emftext.language.java.variables.util.VariablesSwitch;
 import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
-import org.splevo.jamopp.diffing.util.JaMoPPComparisonUtil;
+import org.splevo.jamopp.diffing.util.JaMoPPNameComparisonUtil;
 
 /**
  * Similarity decisions for the variable elements.
@@ -43,7 +43,7 @@ public class VariablesSimilaritySwitch extends VariablesSwitch<Boolean>
 		this.logInfoMessage("caseVariable");
 
 		Variable var2 = (Variable) this.getCompareElement();
-		return JaMoPPComparisonUtil.namesEqual(var1, var2);
+		return JaMoPPNameComparisonUtil.namesEqual(var1, var2);
 	}
 
     /**
@@ -60,6 +60,6 @@ public class VariablesSimilaritySwitch extends VariablesSwitch<Boolean>
 		this.logInfoMessage("caseAdditionalLocalVariable");
 
 		AdditionalLocalVariable var2 = (AdditionalLocalVariable) this.getCompareElement();
-		return JaMoPPComparisonUtil.namesEqual(var1, var2);
+		return JaMoPPNameComparisonUtil.namesEqual(var1, var2);
 	}
 }

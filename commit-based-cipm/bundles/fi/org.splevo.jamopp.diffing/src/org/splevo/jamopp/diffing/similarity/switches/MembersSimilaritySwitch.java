@@ -15,7 +15,7 @@ import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
-import org.splevo.jamopp.diffing.util.JaMoPPComparisonUtil;
+import org.splevo.jamopp.diffing.util.JaMoPPNameComparisonUtil;
 import org.splevo.jamopp.diffing.util.JaMoPPNullCheckUtil;
 
 import com.google.common.base.Strings;
@@ -80,7 +80,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		Method method2 = (Method) this.getCompareElement();
 
 		// if methods have different names they are not similar.
-		var nameSimilarity = JaMoPPComparisonUtil.namesEqual(method1, method2);
+		var nameSimilarity = JaMoPPNameComparisonUtil.namesEqual(method1, method2);
 		if (JaMoPPBooleanUtil.isFalse(nameSimilarity)) {
 			return Boolean.FALSE;
 		}
@@ -158,7 +158,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		Constructor constructor2 = (Constructor) this.getCompareElement();
 
 		// if methods have different names they are not similar.
-		var nameSimilarity = JaMoPPComparisonUtil.namesEqual(constructor1, constructor2);
+		var nameSimilarity = JaMoPPNameComparisonUtil.namesEqual(constructor1, constructor2);
 		if (JaMoPPBooleanUtil.isFalse(nameSimilarity)) {
 			return Boolean.FALSE;
 		}
@@ -198,7 +198,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		this.logInfoMessage("caseEnumConstant");
 
 		EnumConstant const2 = (EnumConstant) this.getCompareElement();
-		return JaMoPPComparisonUtil.namesEqual(const1, const2);
+		return JaMoPPNameComparisonUtil.namesEqual(const1, const2);
 	}
 
 	/**
@@ -215,7 +215,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		this.logInfoMessage("caseMember");
 
 		Member member2 = (Member) this.getCompareElement();
-		return JaMoPPComparisonUtil.namesEqual(member1, member2);
+		return JaMoPPNameComparisonUtil.namesEqual(member1, member2);
 	}
 
 	/**
@@ -243,7 +243,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		this.logInfoMessage("caseAdditionalField");
 
 		AdditionalField additionalField2 = (AdditionalField) this.getCompareElement();
-		var nameSimilarity = JaMoPPComparisonUtil.namesEqual(additionalField1, additionalField2);
+		var nameSimilarity = JaMoPPNameComparisonUtil.namesEqual(additionalField1, additionalField2);
 		if (JaMoPPBooleanUtil.isFalse(nameSimilarity)) {
 			return Boolean.FALSE;
 		}

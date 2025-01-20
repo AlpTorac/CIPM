@@ -7,7 +7,7 @@ import org.emftext.language.java.containers.util.ContainersSwitch;
 import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
-import org.splevo.jamopp.diffing.util.JaMoPPComparisonUtil;
+import org.splevo.jamopp.diffing.util.JaMoPPNameComparisonUtil;
 import org.splevo.jamopp.diffing.util.JaMoPPModelUtil;
 
 import com.google.common.base.Strings;
@@ -123,7 +123,7 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean>
 		org.emftext.language.java.containers.Module module2 = (org.emftext.language.java.containers.Module) this
 				.getCompareElement();
 
-		return JaMoPPComparisonUtil.namesEqual(module1, module2);
+		return JaMoPPNameComparisonUtil.namesEqual(module1, module2);
 	}
 
 	/**

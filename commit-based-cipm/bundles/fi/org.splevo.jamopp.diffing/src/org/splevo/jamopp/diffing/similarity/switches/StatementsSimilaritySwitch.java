@@ -22,7 +22,7 @@ import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
-import org.splevo.jamopp.diffing.util.JaMoPPComparisonUtil;
+import org.splevo.jamopp.diffing.util.JaMoPPNameComparisonUtil;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 
 /**
@@ -290,7 +290,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
     	this.logInfoMessage("caseJumpLabel");
 
         JumpLabel label2 = (JumpLabel) this.getCompareElement();
-        return JaMoPPComparisonUtil.namesEqual(label1, label2);
+        return JaMoPPNameComparisonUtil.namesEqual(label1, label2);
     }
 
     /**

@@ -5,7 +5,7 @@ import org.emftext.language.java.parameters.util.ParametersSwitch;
 import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
-import org.splevo.jamopp.diffing.util.JaMoPPComparisonUtil;
+import org.splevo.jamopp.diffing.util.JaMoPPNameComparisonUtil;
 
 /**
  * Similarity decisions for parameter elements.
@@ -45,6 +45,6 @@ public class ParametersSimilaritySwitch extends ParametersSwitch<Boolean> implem
 		this.logInfoMessage("caseParameter");
 		
         Parameter param2 = (Parameter) this.getCompareElement();
-        return JaMoPPComparisonUtil.namesEqual(param1, param2);
+        return JaMoPPNameComparisonUtil.namesEqual(param1, param2);
     }
 }

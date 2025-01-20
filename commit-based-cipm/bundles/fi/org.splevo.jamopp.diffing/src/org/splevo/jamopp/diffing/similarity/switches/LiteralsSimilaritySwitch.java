@@ -19,8 +19,8 @@ import org.emftext.language.java.literals.util.LiteralsSwitch;
 import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
-import org.splevo.jamopp.diffing.util.JaMoPPComparisonUtil;
 import org.splevo.jamopp.diffing.util.JaMoPPNullCheckUtil;
+import org.splevo.jamopp.diffing.util.JaMoPPStringUtil;
 
 /**
  * Similarity decisions for literal elements.
@@ -74,7 +74,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 		this.logInfoMessage("caseCharacterLiteral");
 
 		CharacterLiteral char2 = (CharacterLiteral) this.getCompareElement();
-		return JaMoPPComparisonUtil.stringsEqual(char1.getValue(), char2.getValue());
+		return JaMoPPStringUtil.stringsEqual(char1.getValue(), char2.getValue());
 	}
 
 	/**
