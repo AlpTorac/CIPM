@@ -44,6 +44,7 @@ public class JaMoPPNullCheckUtil {
 	 *         {@code .equals(...)}).
 	 */
 	public static Boolean bothNullOrEqual(Object obj1, Object obj2) {
-		return (obj1 == null && obj2 == null) || ((obj1 != null && obj2 != null) && obj1.equals(obj2));
+		return (obj1 == null && obj2 == null)
+				|| ((obj1 != null && obj2 != null) && obj1.equals(obj2) && obj2.equals(obj1));
 	}
 }
