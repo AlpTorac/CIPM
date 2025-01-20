@@ -79,7 +79,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
      */
 	@Override
     public Boolean caseAssignmentExpression(AssignmentExpression exp1) {
-		this.logMessage("caseAssignmentExpression");
+		this.logInfoMessage("caseAssignmentExpression");
 
         AssignmentExpression exp2 = (AssignmentExpression) this.getCompareElement();
 
@@ -117,7 +117,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
 	 */
     @Override
     public Boolean caseEqualityExpression(EqualityExpression exp1) {
-    	this.logMessage("caseEqualityExpression");
+    	this.logInfoMessage("caseEqualityExpression");
     	
         EqualityExpression exp2 = (EqualityExpression) this.getCompareElement();
 
@@ -150,7 +150,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
      */
     @Override
     public Boolean caseRelationExpression(RelationExpression exp1) {
-    	this.logMessage("caseRelationExpression");
+    	this.logInfoMessage("caseRelationExpression");
 
         RelationExpression exp2 = (RelationExpression) this.getCompareElement();
 
@@ -181,7 +181,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
      */
     @Override
     public Boolean caseAndExpression(AndExpression exp1) {
-    	this.logMessage("caseAndExpression");
+    	this.logInfoMessage("caseAndExpression");
 
         AndExpression exp2 = (AndExpression) this.getCompareElement();
 
@@ -206,7 +206,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
      */
     @Override
     public Boolean caseUnaryExpression(UnaryExpression exp1) {
-    	this.logMessage("caseUnaryExpression");
+    	this.logInfoMessage("caseUnaryExpression");
 
         UnaryExpression exp2 = (UnaryExpression) this.getCompareElement();
 
@@ -238,7 +238,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
      */
     @Override
     public Boolean caseAdditiveExpression(AdditiveExpression exp1) {
-    	this.logMessage("caseAdditiveExpression");
+    	this.logInfoMessage("caseAdditiveExpression");
     	
     	AdditiveExpression exp2 = (AdditiveExpression) this.getCompareElement();
     	
@@ -264,7 +264,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
      */
     @Override
     public Boolean caseInstanceOfExpression(InstanceOfExpression exp1) {
-    	this.logMessage("caseInstanceOfExpression");
+    	this.logInfoMessage("caseInstanceOfExpression");
 
         InstanceOfExpression exp2 = (InstanceOfExpression) this.getCompareElement();
 
@@ -294,7 +294,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
      */
     @Override
     public Boolean caseConditionalOrExpression(ConditionalOrExpression exp1) {
-    	this.logMessage("caseConditionalOrExpression");
+    	this.logInfoMessage("caseConditionalOrExpression");
 
         ConditionalOrExpression exp2 = (ConditionalOrExpression) this.getCompareElement();
 
@@ -316,7 +316,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
      */
     @Override
     public Boolean caseConditionalAndExpression(ConditionalAndExpression exp1) {
-    	this.logMessage("caseConditionalAndExpression");
+    	this.logInfoMessage("caseConditionalAndExpression");
 
         ConditionalAndExpression exp2 = (ConditionalAndExpression) this.getCompareElement();
 
@@ -337,7 +337,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
      */
     @Override
     public Boolean caseNestedExpression(NestedExpression exp1) {
-    	this.logMessage("caseNestedExpression");
+    	this.logInfoMessage("caseNestedExpression");
 
         NestedExpression exp2 = (NestedExpression) this.getCompareElement();
 
@@ -349,7 +349,7 @@ public class ExpressionsSimilaritySwitch extends ExpressionsSwitch<Boolean> impl
 
     @Override
     public Boolean defaultCase(EObject object) {
-    	this.logMessage("defaultCase for Expression");
+    	this.logInfoMessage("defaultCase for Expression");
     	
         return Boolean.TRUE;
     }

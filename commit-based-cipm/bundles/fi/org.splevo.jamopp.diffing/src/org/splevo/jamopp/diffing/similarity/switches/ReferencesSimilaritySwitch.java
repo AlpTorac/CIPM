@@ -56,7 +56,7 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseStringReference(StringReference ref1) {
-		this.logMessage("caseStringReference");
+		this.logInfoMessage("caseStringReference");
 
 		StringReference ref2 = (StringReference) this.getCompareElement();
 		return JaMoPPComparisonUtil.stringsEqual(ref1.getValue(), ref2.getValue());
@@ -79,7 +79,7 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseIdentifierReference(IdentifierReference ref1) {
-		this.logMessage("caseIdentifierReference");
+		this.logInfoMessage("caseIdentifierReference");
 
 		IdentifierReference ref2 = (IdentifierReference) this.getCompareElement();
 		ReferenceableElement target1 = ref1.getTarget();
@@ -152,7 +152,7 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseElementReference(ElementReference ref1) {
-		this.logMessage("caseElementReference");
+		this.logInfoMessage("caseElementReference");
 
 		ElementReference ref2 = (ElementReference) this.getCompareElement();
 
@@ -175,7 +175,7 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseMethodCall(MethodCall call1) {
-		this.logMessage("caseMethodCall");
+		this.logInfoMessage("caseMethodCall");
 
 		MethodCall call2 = (MethodCall) this.getCompareElement();
 
@@ -197,7 +197,7 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 
 	@Override
 	public Boolean defaultCase(EObject object) {
-		this.logMessage("defaultCase for Reference");
+		this.logInfoMessage("defaultCase for Reference");
 
 		return Boolean.TRUE;
 	}

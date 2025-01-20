@@ -66,7 +66,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      */
     @Override
     public Boolean caseExpressionStatement(ExpressionStatement statement1) {
-    	this.logMessage("caseExpressionStatement");
+    	this.logInfoMessage("caseExpressionStatement");
 
         ExpressionStatement statement2 = (ExpressionStatement) this.getCompareElement();
 
@@ -104,7 +104,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      */
     @Override
     public Boolean caseLocalVariableStatement(LocalVariableStatement varStmt1) {
-    	this.logMessage("caseLocalVariableStatement");
+    	this.logInfoMessage("caseLocalVariableStatement");
     	
         LocalVariableStatement varStmt2 = (LocalVariableStatement) this.getCompareElement();
 
@@ -142,7 +142,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      */
     @Override
     public Boolean caseReturn(Return returnStatement1) {
-    	this.logMessage("caseReturn");
+    	this.logInfoMessage("caseReturn");
 
         Return returnStatement2 = (Return) this.getCompareElement();
 
@@ -166,7 +166,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      */
     @Override
     public Boolean caseSynchronizedBlock(SynchronizedBlock statement1) {
-    	this.logMessage("caseSynchronizedBlock");
+    	this.logInfoMessage("caseSynchronizedBlock");
 
         SynchronizedBlock statement2 = (SynchronizedBlock) this.getCompareElement();
 
@@ -199,7 +199,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      */
     @Override
     public Boolean caseThrow(Throw throwStatement1) {
-    	this.logMessage("caseThrow");
+    	this.logInfoMessage("caseThrow");
     	
         return Boolean.TRUE;
     }
@@ -215,7 +215,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      */
     @Override
     public Boolean caseCatchBlock(CatchBlock catchBlock1) {
-    	this.logMessage("caseCatchBlock");
+    	this.logInfoMessage("caseCatchBlock");
 
         CatchBlock catchBlock2 = (CatchBlock) this.getCompareElement();
 
@@ -247,7 +247,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      */
     @Override
     public Boolean caseConditional(Conditional conditional1) {
-    	this.logMessage("caseConditional");
+    	this.logInfoMessage("caseConditional");
 
         Conditional conditional2 = (Conditional) this.getCompareElement();
 
@@ -268,7 +268,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      */
     @Override
     public Boolean caseJump(Jump jump1) {
-    	this.logMessage("caseJump");
+    	this.logInfoMessage("caseJump");
     	
         Jump jump2 = (Jump) this.getCompareElement();
 
@@ -287,7 +287,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      */
     @Override
     public Boolean caseJumpLabel(JumpLabel label1) {
-    	this.logMessage("caseJumpLabel");
+    	this.logInfoMessage("caseJumpLabel");
 
         JumpLabel label2 = (JumpLabel) this.getCompareElement();
         return JaMoPPComparisonUtil.namesEqual(label1, label2);
@@ -304,7 +304,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
      */
     @Override
     public Boolean caseSwitch(Switch switch1) {
-    	this.logMessage("caseSwitch");
+    	this.logInfoMessage("caseSwitch");
     	
     	Switch switch2 = (Switch) this.getCompareElement();
     	
@@ -313,7 +313,7 @@ public class StatementsSimilaritySwitch extends StatementsSwitch<Boolean> implem
 
     @Override
     public Boolean defaultCase(EObject object) {
-    	this.logMessage("defaultCase for Statement");
+    	this.logInfoMessage("defaultCase for Statement");
     	
         return Boolean.TRUE;
     }

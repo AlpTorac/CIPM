@@ -75,7 +75,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseMethod(Method method1) {
-		this.logMessage("caseMethod");
+		this.logInfoMessage("caseMethod");
 
 		Method method2 = (Method) this.getCompareElement();
 
@@ -123,11 +123,11 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		var method2Container = method2.eContainer();
 
 		if (method1Container == null) {
-			this.logMessage("MethodDeclaration (method1, parameter of caseMethod) " + Strings.nullToEmpty(method1.getName()) + " has no container", Level.WARN);
+			this.logWarnMessage("MethodDeclaration (method1, parameter of caseMethod) " + Strings.nullToEmpty(method1.getName()) + " has no container");
 		}
 
 		if (method2Container == null) {
-			this.logMessage("MethodDeclaration (method2, compare element) " + Strings.nullToEmpty(method2.getName()) + " has no container", Level.WARN);
+			this.logWarnMessage("MethodDeclaration (method2, compare element) " + Strings.nullToEmpty(method2.getName()) + " has no container");
 		}
 
 		return this.isSimilar(method1Container, method2Container);
@@ -153,7 +153,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseConstructor(Constructor constructor1) {
-		this.logMessage("caseConstructor");
+		this.logInfoMessage("caseConstructor");
 
 		Constructor constructor2 = (Constructor) this.getCompareElement();
 
@@ -174,11 +174,11 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 		var constructor2Container = constructor2.eContainer();
 
 		if (constructor1Container == null) {
-			this.logMessage("ConstructorDeclaration (constructor1, parameter of caseConstructor) " + Strings.nullToEmpty(constructor1.getName()) + " has no container", Level.WARN);
+			this.logWarnMessage("ConstructorDeclaration (constructor1, parameter of caseConstructor) " + Strings.nullToEmpty(constructor1.getName()) + " has no container");
 		}
 
 		if (constructor2Container == null) {
-			this.logMessage("ConstructorDeclaration (constructor2, compare element) " + Strings.nullToEmpty(constructor2.getName()) + " has no container", Level.WARN);
+			this.logWarnMessage("ConstructorDeclaration (constructor2, compare element) " + Strings.nullToEmpty(constructor2.getName()) + " has no container");
 		}
 
 		return this.isSimilar(constructor1Container, constructor2Container);
@@ -195,7 +195,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseEnumConstant(EnumConstant const1) {
-		this.logMessage("caseEnumConstant");
+		this.logInfoMessage("caseEnumConstant");
 
 		EnumConstant const2 = (EnumConstant) this.getCompareElement();
 		return JaMoPPComparisonUtil.namesEqual(const1, const2);
@@ -212,7 +212,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseMember(Member member1) {
-		this.logMessage("caseMember");
+		this.logInfoMessage("caseMember");
 
 		Member member2 = (Member) this.getCompareElement();
 		return JaMoPPComparisonUtil.namesEqual(member1, member2);
@@ -240,7 +240,7 @@ public class MembersSimilaritySwitch extends MembersSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseAdditionalField(AdditionalField additionalField1) {
-		this.logMessage("caseAdditionalField");
+		this.logInfoMessage("caseAdditionalField");
 
 		AdditionalField additionalField2 = (AdditionalField) this.getCompareElement();
 		var nameSimilarity = JaMoPPComparisonUtil.namesEqual(additionalField1, additionalField2);

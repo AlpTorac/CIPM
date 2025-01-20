@@ -54,7 +54,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseBooleanLiteral(BooleanLiteral boolean1) {
-		this.logMessage("caseBooleanLiteral");
+		this.logInfoMessage("caseBooleanLiteral");
 
 		BooleanLiteral boolean2 = (BooleanLiteral) this.getCompareElement();
 		return (boolean1.isValue() == boolean2.isValue());
@@ -71,7 +71,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseCharacterLiteral(CharacterLiteral char1) {
-		this.logMessage("caseCharacterLiteral");
+		this.logInfoMessage("caseCharacterLiteral");
 
 		CharacterLiteral char2 = (CharacterLiteral) this.getCompareElement();
 		return JaMoPPComparisonUtil.stringsEqual(char1.getValue(), char2.getValue());
@@ -88,7 +88,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseDecimalFloatLiteral(DecimalFloatLiteral float1) {
-		this.logMessage("caseDecimalFloatLiteral");
+		this.logInfoMessage("caseDecimalFloatLiteral");
 
 		DecimalFloatLiteral float2 = (DecimalFloatLiteral) this.getCompareElement();
 		return compareDouble(float1.getDecimalValue(), float2.getDecimalValue());
@@ -105,7 +105,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseHexFloatLiteral(HexFloatLiteral float1) {
-		this.logMessage("caseHexFloatLiteral");
+		this.logInfoMessage("caseHexFloatLiteral");
 
 		HexFloatLiteral float2 = (HexFloatLiteral) this.getCompareElement();
 		return compareDouble(float1.getHexValue(), float2.getHexValue());
@@ -122,7 +122,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseDecimalDoubleLiteral(DecimalDoubleLiteral double1) {
-		this.logMessage("caseDecimalDoubleLiteral");
+		this.logInfoMessage("caseDecimalDoubleLiteral");
 
 		DecimalDoubleLiteral double2 = (DecimalDoubleLiteral) this.getCompareElement();
 		return compareDouble(double1.getDecimalValue(), double2.getDecimalValue());
@@ -139,7 +139,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseHexDoubleLiteral(HexDoubleLiteral double1) {
-		this.logMessage("caseHexDoubleLiteral");
+		this.logInfoMessage("caseHexDoubleLiteral");
 
 		HexDoubleLiteral double2 = (HexDoubleLiteral) this.getCompareElement();
 		return compareDouble(double1.getHexValue(), double2.getHexValue());
@@ -163,7 +163,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseDecimalIntegerLiteral(DecimalIntegerLiteral int1) {
-		this.logMessage("caseDecimalIntegerLiteral");
+		this.logInfoMessage("caseDecimalIntegerLiteral");
 
 		DecimalIntegerLiteral int2 = (DecimalIntegerLiteral) this.getCompareElement();
 
@@ -183,7 +183,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseHexIntegerLiteral(HexIntegerLiteral int1) {
-		this.logMessage("caseHexIntegerLiteral");
+		this.logInfoMessage("caseHexIntegerLiteral");
 
 		HexIntegerLiteral int2 = (HexIntegerLiteral) this.getCompareElement();
 
@@ -203,7 +203,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseOctalIntegerLiteral(OctalIntegerLiteral int1) {
-		this.logMessage("caseOctalIntegerLiteral");
+		this.logInfoMessage("caseOctalIntegerLiteral");
 
 		OctalIntegerLiteral int2 = (OctalIntegerLiteral) this.getCompareElement();
 
@@ -223,7 +223,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseDecimalLongLiteral(DecimalLongLiteral long1) {
-		this.logMessage("caseDecimalLongLiteral");
+		this.logInfoMessage("caseDecimalLongLiteral");
 
 		DecimalLongLiteral long2 = (DecimalLongLiteral) this.getCompareElement();
 
@@ -243,7 +243,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseHexLongLiteral(HexLongLiteral long1) {
-		this.logMessage("caseHexLongLiteral");
+		this.logInfoMessage("caseHexLongLiteral");
 
 		HexLongLiteral long2 = (HexLongLiteral) this.getCompareElement();
 
@@ -263,7 +263,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseOctalLongLiteral(OctalLongLiteral long1) {
-		this.logMessage("caseOctalLongLiteral");
+		this.logInfoMessage("caseOctalLongLiteral");
 
 		OctalLongLiteral long2 = (OctalLongLiteral) this.getCompareElement();
 
@@ -283,7 +283,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseBinaryLongLiteral(BinaryLongLiteral long1) {
-		this.logMessage("caseBinaryLongLiteral");
+		this.logInfoMessage("caseBinaryLongLiteral");
 
 		BinaryLongLiteral long2 = (BinaryLongLiteral) this.getCompareElement();
 
@@ -303,7 +303,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 */
 	@Override
 	public Boolean caseBinaryIntegerLiteral(BinaryIntegerLiteral int1) {
-		this.logMessage("caseBinaryIntegerLiteral");
+		this.logInfoMessage("caseBinaryIntegerLiteral");
 
 		BinaryIntegerLiteral int2 = (BinaryIntegerLiteral) this.getCompareElement();
 
@@ -324,7 +324,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 */
 	@Override
 	public Boolean defaultCase(EObject object) {
-		this.logMessage("defaultCase for Literals");
+		this.logInfoMessage("defaultCase for Literals");
 
 		return Boolean.TRUE;
 	}
