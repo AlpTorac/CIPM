@@ -4,6 +4,11 @@ import org.emftext.language.java.commons.NamedElement;
 
 import com.google.common.base.Strings;
 
+/**
+ * TODO Add commentary
+ * 
+ * @author Alp Torac Genc
+ */
 public class JaMoPPComparisonUtil {
 	public static Boolean stringsEqual(String s1, String s2) {
 		return Strings.nullToEmpty(s1).equals(Strings.nullToEmpty(s2));

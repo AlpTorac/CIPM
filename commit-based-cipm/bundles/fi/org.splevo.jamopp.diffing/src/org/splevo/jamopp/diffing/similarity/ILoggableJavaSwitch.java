@@ -6,6 +6,8 @@ import org.apache.log4j.Level;
 import com.google.common.base.Strings;
 
 /**
+ * TODO Extract a superinterface and move it to ...similarity.base package
+ * 
  * An interface to help log the switch classes without having to duplicate
  * similar log message structures. <br>
  * <br>

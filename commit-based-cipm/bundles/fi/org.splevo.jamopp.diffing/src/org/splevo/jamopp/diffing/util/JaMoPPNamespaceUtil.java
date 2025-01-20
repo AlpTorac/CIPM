@@ -5,6 +5,11 @@ import org.emftext.language.java.commons.NamespaceAwareElement;
 
 import com.google.common.base.Strings;
 
+/**
+ * TODO Add commentary
+ * 
+ * @author Alp Torac Genc
+ */
 public class JaMoPPNamespaceUtil {
 	/**
 	 * Compares the namespaces of the given {@link NamespaceAwareElement}s part by

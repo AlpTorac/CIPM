@@ -2,6 +2,11 @@ package org.splevo.jamopp.diffing.util;
 
 import org.apache.commons.lang.BooleanUtils;
 
+/**
+ * TODO Add commentary
+ * 
+ * @author Alp Torac Genc
+ */
 public class JaMoPPBooleanUtil {
 	/**
 	 * @see {@link BooleanUtils#isNotTrue(Boolean)}

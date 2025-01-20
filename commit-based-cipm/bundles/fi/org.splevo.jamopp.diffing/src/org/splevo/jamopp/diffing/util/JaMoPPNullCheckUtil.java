@@ -1,5 +1,10 @@
 package org.splevo.jamopp.diffing.util;
 
+/**
+ * TODO Add commentary
+ * 
+ * @author Alp Torac Genc
+ */
 public class JaMoPPNullCheckUtil {
 	/**
 	 * Method to check if only one of the provided elements is null.
