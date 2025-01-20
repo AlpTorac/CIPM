@@ -1,6 +1,5 @@
 package org.splevo.jamopp.diffing.similarity.switches;
 
-import org.apache.log4j.Level;
 import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.members.AdditionalField;
 import org.emftext.language.java.members.Constructor;
