@@ -1,7 +1,7 @@
 package org.splevo.jamopp.diffing.util;
 
 /**
- * TODO Add commentary
+ * A utility class for null checking.
  * 
  * @author Alp Torac Genc
  */
@@ -17,6 +17,9 @@ public class JaMoPPNullCheckUtil {
 		return element1 == null ^ element2 == null;
 	}
 
+	/**
+	 * @return Whether none of the objs are null.
+	 */
 	public static Boolean allNonNull(Object... objs) {
 		for (var obj : objs)
 			if (obj == null)
@@ -25,6 +28,9 @@ public class JaMoPPNullCheckUtil {
 		return Boolean.TRUE;
 	}
 
+	/**
+	 * @return Whether all objs are null.
+	 */
 	public static Boolean allNull(Object... objs) {
 		for (var obj : objs)
 			if (obj != null)
@@ -33,6 +39,10 @@ public class JaMoPPNullCheckUtil {
 		return Boolean.TRUE;
 	}
 
+	/**
+	 * @return Whether both obj1 and obj2 are null / non-null and equal (as in
+	 *         {@code .equals(...)}).
+	 */
 	public static Boolean bothNullOrEqual(Object obj1, Object obj2) {
 		return (obj1 == null && obj2 == null) || ((obj1 != null && obj2 != null) && obj1.equals(obj2));
 	}
