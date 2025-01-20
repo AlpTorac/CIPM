@@ -6,7 +6,11 @@ import org.emftext.language.java.commons.NamespaceAwareElement;
 import com.google.common.base.Strings;
 
 /**
- * TODO Add commentary
+ * A utility class for checking namespaces of {@link NamespaceAwareElement}
+ * instances. <br>
+ * <br>
+ * The methods of this class can handle null parameters without throwing
+ * NullPointerExceptions.
  * 
  * @author Alp Torac Genc
  */
@@ -15,7 +19,9 @@ public class JaMoPPNamespaceUtil {
 	 * Compares the namespaces of the given {@link NamespaceAwareElement}s part by
 	 * part.
 	 * 
-	 * @return False if namespaces have parts different parts, true if not.
+	 * @return False if namespaces have parts different parts, true if not. If only
+	 *         one parameter is null, returns false. If both parameters are null,
+	 *         returns true.
 	 */
 	public static Boolean compareNamespacesByPart(NamespaceAwareElement nae1, NamespaceAwareElement nae2) {
 		// Null check to avoid NullPointerExceptions
@@ -51,7 +57,8 @@ public class JaMoPPNamespaceUtil {
 	 * aware of it's name space or the closest aware container is used.
 	 *
 	 * @param element The element to get the package for.
-	 * @return The identified name space or null if none could be found.
+	 * @return The identified name space or null if none could be found. Returns
+	 *         null, if the parameter is null.
 	 */
 	public static String buildNamespacePath(EObject element) {
 
@@ -79,6 +86,13 @@ public class JaMoPPNamespaceUtil {
 		return null;
 	}
 
+	/**
+	 * Compares the namespaces of the given {@link NamespaceAwareElement}s as a
+	 * whole (i.e. all namespace parts concatenated together).
+	 * 
+	 * @return False if namespaces are different, true if not. If only one parameter
+	 *         is null, returns false. If both parameters are null, returns true.
+	 */
 	public static Boolean compareNamespacesAsString(NamespaceAwareElement nae1, NamespaceAwareElement nae2) {
 		// Null check to avoid NullPointerExceptions
 		if (nae1 == nae2) {
