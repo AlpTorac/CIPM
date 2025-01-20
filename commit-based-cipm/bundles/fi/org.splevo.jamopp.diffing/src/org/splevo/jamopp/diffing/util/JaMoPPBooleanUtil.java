@@ -3,7 +3,12 @@ package org.splevo.jamopp.diffing.util;
 import org.apache.commons.lang.BooleanUtils;
 
 /**
- * TODO Add commentary
+ * A utility class for checking values of {@link Boolean} instances. <br>
+ * <br>
+ * Since {@link Boolean} instances can have 3 values (TRUE, FALSE, null), using
+ * in conditionals as if they were booleans can cause errors, especially
+ * NullPointerExceptions. The purpose of this class is to collect
+ * {@link Boolean} checking methods and to grant central access to them.
  * 
  * @author Alp Torac Genc
  */
