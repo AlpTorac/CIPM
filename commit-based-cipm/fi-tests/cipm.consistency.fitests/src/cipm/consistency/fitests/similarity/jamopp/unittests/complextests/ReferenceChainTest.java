@@ -74,8 +74,17 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 
 	/**
 	 * Attempts to run similarity checking in form of
-	 * {@code isSimilar(ref1, ref2) ; isSimilar(ref2, ref1)} and ensures that no
-	 * exceptions are thrown.
+	 * {@code isSimilar(ref1, ref2) ; isSimilar(ref2, ref1)}, compares the results,
+	 * ensures that no exceptions are thrown. Note that the similarity checking not
+	 * terminating will most likely result in exceptions. <br>
+	 * <br>
+	 * Directly uses isSimilar to avoid cloning refs, so that the underlying cloning
+	 * mechanisms are not involved. This is important; since ref1 and ref2 could be
+	 * forming a cycle, which the cloning mechanisms may not support. <br>
+	 * <br>
+	 * Does not make any assertions on the similarity checking result. Asserts only
+	 * that it terminates without exceptions and that the similarity checking is
+	 * symmetric (i.e. isSimilar(lhs, rhs) == isSimilar(rhs, lhs)).
 	 */
 	private void assertTerminates(Reference ref1, Reference ref2) {
 		Assertions.assertDoesNotThrow(() -> {
@@ -86,18 +95,11 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	/**
 	 * Attempts to run similarity checking for any combination of the given
 	 * {@link Reference} instances (not just pairwise) and checks whether any
-	 * exceptions are thrown. <br>
-	 * <br>
-	 * Does not make any assertions on the similarity checking result. Asserts only
-	 * that it terminates without exceptions and that the similarity checking is
-	 * symmetric (i.e. isSimilar(lhs, rhs) == isSimilar(rhs, lhs)).
+	 * exceptions are thrown. If there are exceptions, it could be an indicator of
+	 * endless recursions and/or loops.
 	 */
 	private void cycleAssertionsFor(Reference[] refs1, Reference[] refs2) {
 		/*
-		 * Directly use isSimilar to avoid cloning iRef, so that the underlying cloning
-		 * mechanisms are not involved and the cycle directly lands into similarity
-		 * checking.
-		 * 
 		 * All iRef variables are similar, since all of them are in a cycle, where all
 		 * elements in the cycle are similar.
 		 */
@@ -219,8 +221,8 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * Tests whether similarity checking can detect and handle cycles of
 	 * {@link Reference} instances, which has a length of 3: <br>
 	 * <br>
-	 * {@code ref1 -> ref2 -> ref3 -> ref1}
-	 * 
+	 * {@code ref1 -> ref2 -> ref3 -> ref1} <br>
+	 * <br>
 	 * Note: Only testing for cycles with a length smaller than 3 is not enough,
 	 * since they can be easily accounted for, due to both {@link Reference}
 	 * instances (or the same reference instance, if it references itself) being
@@ -251,14 +253,6 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 		init2.setNext(ref22, ref23);
 		init3.setNext(ref23, ref21);
 
-		/*
-		 * Directly use isSimilar to avoid cloning ref, so that the underlying cloning
-		 * mechanisms are not involved and the cycle directly lands into similarity
-		 * checking.
-		 * 
-		 * All ref variables are similar, since all of them are in a cycle, where all
-		 * elements in the cycle are similar.
-		 */
 		this.cycleAssertionsFor(new Reference[] { ref11, ref12, ref13 }, new Reference[] { ref21, ref22, ref23 });
 	}
 
@@ -267,8 +261,8 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * {@link Reference} instances, where the cycle (of length 2) does not include
 	 * the first reference: <br>
 	 * <br>
-	 * {@code ref1 -> ref2 -> ref3 -> ref2 -> ...}
-	 * 
+	 * {@code ref1 -> ref2 -> ref3 -> ref2 -> ...} <br>
+	 * <br>
 	 * Note: Only testing for cycles, which consist of the entire reference chain is
 	 * not enough, since such cases do not necessarily cover the scenario presented
 	 * here. Especially if cycle checking expects the first reference (ref1) to
