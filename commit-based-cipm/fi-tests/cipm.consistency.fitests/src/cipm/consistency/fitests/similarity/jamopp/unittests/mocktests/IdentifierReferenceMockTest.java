@@ -18,6 +18,9 @@ import cipm.consistency.fitests.similarity.jamopp.unittests.UsesConcreteClassifi
 import cipm.consistency.initialisers.jamopp.references.IdentifierReferenceInitialiser;
 import cipm.consistency.initialisers.jamopp.references.StringReferenceInitialiser;
 
+/**
+ * TODO Add commentary
+ */
 public class IdentifierReferenceMockTest extends AbstractJaMoPPSimilarityTest
 		implements IMockTest, IIdentifierReferenceTest, UsesConcreteClassifiers {
 
