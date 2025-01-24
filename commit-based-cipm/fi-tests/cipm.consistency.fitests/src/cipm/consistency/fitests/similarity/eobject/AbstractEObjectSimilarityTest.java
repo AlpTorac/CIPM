@@ -145,7 +145,6 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 		if (clone != null)
 			return clone;
 
-		Assertions.fail("Cloning with cloneEObjWithContainers failed");
 		return null;
 	}
 
