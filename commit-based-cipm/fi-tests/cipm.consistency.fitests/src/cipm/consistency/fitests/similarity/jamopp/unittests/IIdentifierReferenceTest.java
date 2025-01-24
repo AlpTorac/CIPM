@@ -9,6 +9,12 @@ import org.junit.jupiter.api.Assertions;
 import cipm.consistency.initialisers.jamopp.instantiations.ExplicitConstructorCallInitialiser;
 import cipm.consistency.initialisers.jamopp.statements.ExpressionStatementInitialiser;
 
+/**
+ * An interface that contains default methods for tests that use and make
+ * assertions about {@link IdentifierReference} instances.
+ * 
+ * @author Alp Torac Genc
+ */
 public interface IIdentifierReferenceTest {
 	/**
 	 * Realises the functionality of
