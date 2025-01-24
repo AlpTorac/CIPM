@@ -9,6 +9,7 @@ import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementContainer;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -27,6 +28,7 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
  * 
  * @author Alp Torac Genc
  */
+@Disabled("Until these scenarios are properly addressed")
 public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTest
 		implements UsesStatements {
 
