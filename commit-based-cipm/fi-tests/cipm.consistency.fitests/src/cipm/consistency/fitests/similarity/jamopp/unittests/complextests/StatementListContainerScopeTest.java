@@ -14,7 +14,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementPositionTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
 import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
 import cipm.consistency.initialisers.jamopp.statements.BlockInitialiser;
@@ -29,7 +28,7 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
  * @author Alp Torac Genc
  */
 public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTest
-		implements UsesStatements, IStatementPositionTest {
+		implements UsesStatements {
 
 	private static Stream<Arguments> genTestParams() {
 		var args = new ArrayList<Arguments>();

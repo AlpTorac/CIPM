@@ -22,7 +22,6 @@ import org.mockito.stubbing.Answer;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPInitialiserParameters;
-import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementPositionTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
 import cipm.consistency.initialisers.jamopp.statements.IStatementInitialiser;
 import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerInitialiser;
@@ -40,7 +39,7 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
  * @author Alp Torac Genc
  */
 public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
-		implements UsesStatements, IMockTest, IStatementPositionTest {
+		implements UsesStatements, IMockTest {
 	/**
 	 * @return A list of all initialisers that implement
 	 *         {@link IStatementListContainerInitialiser}. If an initialiser is

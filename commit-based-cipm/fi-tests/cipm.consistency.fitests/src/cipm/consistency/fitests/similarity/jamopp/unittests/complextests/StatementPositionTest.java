@@ -11,7 +11,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementPositionTest;
+import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPSimilarityCriterionExtension;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
 import cipm.consistency.initialisers.jamopp.statements.IStatementInitialiser;
 import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerInitialiser;
@@ -27,8 +27,7 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
  * 
  * @author Alp Torac Genc
  */
-public class StatementPositionTest extends AbstractJaMoPPSimilarityTest
-		implements UsesStatements, IStatementPositionTest {
+public class StatementPositionTest extends AbstractJaMoPPSimilarityTest implements UsesStatements {
 	/**
 	 * @return Parameters for the test methods in this test class. Refer to their
 	 *         documentation for more information.
@@ -282,7 +281,8 @@ public class StatementPositionTest extends AbstractJaMoPPSimilarityTest
 
 				this.assertSimilarityResult(cSt1, cSt2,
 						containeeCls.isAssignableFrom(cSt1.getClass()) && containeeCls.isAssignableFrom(cSt2.getClass())
-								&& !this.doesStatementPositionMatter(containeeCls));
+								&& this.getExpectedSimilarityResult(containeeCls,
+										JaMoPPSimilarityCriterionExtension.STATEMENT_POSITION));
 			}
 		}
 	}
