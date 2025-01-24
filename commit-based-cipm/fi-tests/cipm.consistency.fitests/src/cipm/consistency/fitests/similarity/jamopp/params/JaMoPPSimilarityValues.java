@@ -46,8 +46,11 @@ import org.emftext.language.java.references.SelfReference;
 import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.references.TextBlockReference;
 import org.emftext.language.java.statements.Block;
+import org.emftext.language.java.statements.ExpressionStatement;
+import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.StatementsPackage;
+import org.emftext.language.java.statements.SynchronizedBlock;
 import org.emftext.language.java.types.InferableType;
 import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.TypesPackage;
@@ -265,6 +268,17 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 				JaMoPPSimilarityCriterionExtension.ECONTAINER, Boolean.FALSE);
 	}
 
+	/**
+	 * Adds entries related to the position of {@link Statement} types in their
+	 * container.
+	 */
+	public void addStatementPositionEntries() {
+		this.addSimilarityEntry(Commentable.class, JaMoPPSimilarityCriterionExtension.STATEMENT_POSITION, Boolean.TRUE);
+		this.addSimilarityEntry(
+				new Class[] { ExpressionStatement.class, LocalVariableStatement.class, SynchronizedBlock.class },
+				JaMoPPSimilarityCriterionExtension.STATEMENT_POSITION, Boolean.FALSE);
+	}
+
 	public void setDefaultSimilarityResult() {
 		this.setDefaultSimilarityResult(Boolean.FALSE);
 	}
@@ -309,6 +323,7 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 	 */
 	public void addDerivedSimilarityEntries() {
 		this.addEContainerSimilarityEntries();
+		this.addStatementPositionEntries();
 	}
 
 	public JaMoPPSimilarityValues() {
