@@ -31,6 +31,11 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
 @Disabled("Until these scenarios are properly addressed")
 public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTest implements UsesStatements {
 
+	/**
+	 * Generates all possible combinations (nestedConInit, placeholderConInit). <br>
+	 * <br>
+	 * Check other test methods' commentary for more information.
+	 */
 	private static Stream<Arguments> genTestParams() {
 		var args = new ArrayList<Arguments>();
 		var nestedConInits = List
@@ -223,8 +228,6 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 			IStatementListContainerInitialiser nestedConInit, IStatementListContainerInitialiser placeholderConInit) {
 
 		/*
-		 * FIXME Adapt the test after clarifying the Block situation
-		 * 
 		 * Block causes issues, because block instances are always assumed to be
 		 * similar. Fixing the scope issue of LocalVariableStatement should fix these
 		 * cases too.
