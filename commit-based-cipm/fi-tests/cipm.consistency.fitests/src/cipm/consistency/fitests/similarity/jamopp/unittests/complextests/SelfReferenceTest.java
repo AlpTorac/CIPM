@@ -45,7 +45,7 @@ public class SelfReferenceTest extends AbstractJaMoPPSimilarityTest implements I
 	 * <li>N being cycleOffset
 	 * <li>M being cycleLength
 	 * </ul>
-	 * Finally generates a {@link DynamicTest} asserting that similarity checking
+	 * Finally, generates {@link DynamicTest}s asserting that similarity checking
 	 * can handle the generated reference chains without throwing exceptions.
 	 * 
 	 * @param cycleLength Amount of elements in the cycle - 1. Passing 0 here will
