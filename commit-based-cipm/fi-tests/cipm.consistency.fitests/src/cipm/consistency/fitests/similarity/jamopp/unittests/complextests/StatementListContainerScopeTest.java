@@ -29,8 +29,7 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
  * @author Alp Torac Genc
  */
 @Disabled("Until these scenarios are properly addressed")
-public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTest
-		implements UsesStatements {
+public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTest implements UsesStatements {
 
 	private static Stream<Arguments> genTestParams() {
 		var args = new ArrayList<Arguments>();
