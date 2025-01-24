@@ -14,6 +14,9 @@ import cipm.consistency.initialisers.jamopp.members.AdditionalFieldInitialiser;
 import cipm.consistency.initialisers.jamopp.members.FieldInitialiser;
 import cipm.consistency.initialisers.jamopp.members.IMemberContainerInitialiser;
 
+/**
+ * TODO Add commentary
+ */
 public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest implements UsesFields, UsesTypeReferences {
 	private static Stream<Arguments> genTestParams() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IMemberContainerInitialiser.class);

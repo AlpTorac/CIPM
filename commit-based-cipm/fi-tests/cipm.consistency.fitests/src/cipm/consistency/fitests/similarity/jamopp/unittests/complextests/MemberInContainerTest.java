@@ -61,6 +61,7 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	}
 
 	/**
+	 * TODO Add commentary
 	 */
 	@ParameterizedTest(name = "{0}")
 	@MethodSource("genTestParams")
@@ -79,6 +80,7 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	}
 
 	/**
+	 * TODO Add commentary
 	 */
 	@ParameterizedTest(name = "{0}")
 	@MethodSource("genTestParams")
@@ -96,6 +98,10 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 		this.testSimilarity(member1, member2, this.getExpectedSimilarityResult(member1, member2, memCon1, memCon2));
 	}
 
+	/**
+	 * TODO Add commentary
+	 * TODO Extract similarity entry
+	 */
 	private Boolean getExpectedSimilarityResult(Member member1, Member member2, MemberContainer memCon1,
 			MemberContainer memCon2) {
 		var memberCls = member1.getClass();
