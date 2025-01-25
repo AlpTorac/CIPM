@@ -43,8 +43,10 @@ import cipm.consistency.initialisers.jamopp.members.IMemberInitialiser;
  */
 public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	/**
-	 * @return Parameters for the test methods in this test class. Refer to their
-	 *         documentation for more information.
+	 * @return Parameters for the test methods in this test class. See the
+	 *         documentation of the class for more information.
+	 * 
+	 * @see {@link MemberInContainerTest}
 	 */
 	private static Stream<Arguments> genTestParams() {
 		var res = new ArrayList<Arguments>();
@@ -102,7 +104,9 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	}
 
 	/**
-	 * TODO Add commentary
+	 * Containers are needed too, since they can indirectly influence the outcome.
+	 * 
+	 * @return The expected result of similarity checking member1 and member2.
 	 */
 	private Boolean getExpectedSimilarityResultForMembers(Member member1, Member member2, MemberContainer memCon1,
 			MemberContainer memCon2) {
