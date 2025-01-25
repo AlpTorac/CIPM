@@ -15,13 +15,34 @@ import cipm.consistency.initialisers.jamopp.members.FieldInitialiser;
 import cipm.consistency.initialisers.jamopp.members.IMemberContainerInitialiser;
 
 /**
- * TODO Add commentary
+ * Contains tests for {@link AdditionalField} instances, their {@link Field}s
+ * and attributes thereof.
+ * 
+ * @author Alp Torac Genc
  */
 public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest implements UsesFields, UsesTypeReferences {
+	/**
+	 * @return Parameters for the test methods in this test class. See the
+	 *         documentation of parameterized test methods.
+	 */
 	private static Stream<Arguments> genTestParams() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IMemberContainerInitialiser.class);
 	}
 
+	/**
+	 * Ensures that similarity checking detects it as a difference, if 2
+	 * {@link AdditionalField} instances are compared and only one of them has a
+	 * container. <br>
+	 * <br>
+	 * Let AF_i be {@link AdditionalField} instances and F_i be {@link Field}
+	 * instances. Then the construction is as follows: <br>
+	 * <br>
+	 * AF_1 <- F_1 <br>
+	 * -----------VS----------- <br>
+	 * AF_2 <br>
+	 * <br>
+	 * Where {@code "a <- b" := a.eContainer() = b}
+	 */
 	@Test
 	public void testDifferentContainer_OneContainer_IsNull() {
 		var afInit = new AdditionalFieldInitialiser();
@@ -36,7 +57,22 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest i
 		
 		this.testSimilarity(af1, af2, false);
 	}
-	
+
+	/**
+	 * Ensures that similarity checking detects it as a difference, if 2
+	 * {@link AdditionalField} instances each with a {@link Field} as container are
+	 * compared, where only one of the containers has a {@link TypeReference}. <br>
+	 * <br>
+	 * Let AF_i be {@link AdditionalField} instances, F_i be {@link Field} instances
+	 * and TRef_i be {@link TypeReference}s. Then the construction is as follows:
+	 * <br>
+	 * <br>
+	 * AF_1 <- F_1 (with TRef_1) <br>
+	 * -----------VS----------- <br>
+	 * AF_2 <- F_2 <br>
+	 * <br>
+	 * Where {@code "a <- b" := a.eContainer() = b}
+	 */
 	@Test
 	public void testDifferentContainer_OneContainer_HasTypeReference() {
 		var tref = this.createMinimalClsRef("cls");
@@ -57,6 +93,21 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest i
 		this.testSimilarity(af1, af2, false);
 	}
 
+	/**
+	 * Ensures that similarity checking detects it as a difference, if 2
+	 * {@link AdditionalField} instances each with a {@link Field} as container are
+	 * compared, where their containers' {@link TypeReference}s differ. <br>
+	 * <br>
+	 * Let AF_i be {@link AdditionalField} instances, F_i be {@link Field} instances
+	 * and TRef_i be {@link TypeReference}s. Then the construction is as follows:
+	 * <br>
+	 * <br>
+	 * AF_1 <- F_1 (with TRef_1) <br>
+	 * -----------VS----------- <br>
+	 * AF_2 <- F_2 (with TRef_2) <br>
+	 * <br>
+	 * Where {@code "a <- b" := a.eContainer() = b}
+	 */
 	@Test
 	public void testDifferentContainer_BothContainers_HaveDifferentTypeReference() {
 		var tref1 = this.createMinimalClsRef("cls1");
@@ -82,6 +133,23 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest i
 		this.testSimilarity(af1, af2, false);
 	}
 
+	/**
+	 * Ensures that similarity checking handles advanced constructions with
+	 * {@link AdditionalField} instances as expected. <br>
+	 * <br>
+	 * Let AF_i be {@link AdditionalField} instances, F_i be {@link Field}
+	 * instances, MC_i be {@link MemberContainer} instances and TRef_i be
+	 * {@link TypeReference}s. Then the construction is as follows: <br>
+	 * <br>
+	 * AF_1 <- F_1 <- MC_1 <br>
+	 * -----------VS----------- <br>
+	 * AF_2 <br>
+	 * <br>
+	 * Where {@code "a <- b" := a.eContainer() = b}
+	 *
+	 * @param init The initialiser that constructs the container of the container of
+	 *             the {@link AdditionalField} instance (MC_i).
+	 */
 	@ParameterizedTest
 	@MethodSource("genTestParams")
 	public void testDifferentConOfCon_OneContainer_IsNull(IMemberContainerInitialiser init) {
@@ -101,6 +169,23 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest i
 		this.testSimilarity(af1, af2, false);
 	}
 
+	/**
+	 * Ensures that similarity checking handles advanced constructions with
+	 * {@link AdditionalField} instances as expected. <br>
+	 * <br>
+	 * Let AF_i be {@link AdditionalField} instances, F_i be {@link Field}
+	 * instances, MC_i be {@link MemberContainer} instances and TRef_i be
+	 * {@link TypeReference}s. Then the construction is as follows: <br>
+	 * <br>
+	 * AF_1 <- F_1 <- MC_1 <br>
+	 * -----------VS----------- <br>
+	 * AF_2 <- F_2 <br>
+	 * <br>
+	 * Where {@code "a <- b" := a.eContainer() = b}
+	 * 
+	 * @param init The initialiser that constructs the container of the container of
+	 *             the {@link AdditionalField} instance (MC_i).
+	 */
 	@ParameterizedTest
 	@MethodSource("genTestParams")
 	public void testDifferentConOfCon_OneConOfCon_IsNull(IMemberContainerInitialiser init) {
