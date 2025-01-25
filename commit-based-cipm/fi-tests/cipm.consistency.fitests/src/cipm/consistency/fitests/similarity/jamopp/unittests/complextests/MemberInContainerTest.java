@@ -3,15 +3,17 @@ package cipm.consistency.fitests.similarity.jamopp.unittests.complextests;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
+import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MemberContainer;
+import org.emftext.language.java.members.Method;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPSimilarityCriterionExtension;
 import cipm.consistency.initialisers.jamopp.members.IMemberContainerInitialiser;
 import cipm.consistency.initialisers.jamopp.members.IMemberInitialiser;
 
@@ -100,16 +102,16 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 
 	/**
 	 * TODO Add commentary
-	 * TODO Extract similarity entry
 	 */
 	private Boolean getExpectedSimilarityResult(Member member1, Member member2, MemberContainer memCon1,
 			MemberContainer memCon2) {
 		var memberCls = member1.getClass();
-		var containerExpectedSimRes = this.getExpectedSimilarityResult(memberCls,
-				JaMoPPSimilarityCriterionExtension.ECONTAINER);
+		var containerMatters = AnnotationInstance.class.isAssignableFrom(memberCls) || 
+				Method.class.isAssignableFrom(memberCls) ||
+				Constructor.class.isAssignableFrom(memberCls);
 		var containerClssEqual = memCon1.getClass().equals(memCon2.getClass());
 
-		return containerClssEqual || (containerExpectedSimRes &&
+		return containerClssEqual || (!containerMatters &&
 
 		/*
 		 * ConcreteClassifier indirectly cares about its eContainer, because its

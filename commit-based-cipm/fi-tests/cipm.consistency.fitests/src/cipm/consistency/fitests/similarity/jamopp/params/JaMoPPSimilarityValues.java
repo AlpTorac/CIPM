@@ -1,12 +1,10 @@
 package cipm.consistency.fitests.similarity.jamopp.params;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationsPackage;
 import org.emftext.language.java.arrays.ArrayInstantiation;
 import org.emftext.language.java.arrays.ArraysPackage;
 import org.emftext.language.java.classifiers.ClassifiersPackage;
-import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.containers.ContainersPackage;
 import org.emftext.language.java.containers.Module;
@@ -28,10 +26,8 @@ import org.emftext.language.java.instantiations.InstantiationsPackage;
 import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.emftext.language.java.instantiations.NewConstructorCallWithInferredTypeArguments;
 import org.emftext.language.java.members.AdditionalField;
-import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.EnumConstant;
 import org.emftext.language.java.members.MembersPackage;
-import org.emftext.language.java.members.Method;
 import org.emftext.language.java.modifiers.ModifiersPackage;
 import org.emftext.language.java.modules.ModulesPackage;
 import org.emftext.language.java.modules.ProvidesModuleDirective;
@@ -46,11 +42,8 @@ import org.emftext.language.java.references.SelfReference;
 import org.emftext.language.java.references.StringReference;
 import org.emftext.language.java.references.TextBlockReference;
 import org.emftext.language.java.statements.Block;
-import org.emftext.language.java.statements.ExpressionStatement;
-import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.StatementsPackage;
-import org.emftext.language.java.statements.SynchronizedBlock;
 import org.emftext.language.java.types.InferableType;
 import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.TypesPackage;
@@ -259,26 +252,6 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 		this.addSimilarityEntry(VariablesPackage.Literals.LOCAL_VARIABLE__ADDITIONAL_LOCAL_VARIABLES, Boolean.TRUE);
 	}
 
-	/**
-	 * Adds entries related to {@code obj.eContainer()}.
-	 */
-	public void addEContainerSimilarityEntries() {
-		this.addSimilarityEntry(Commentable.class, JaMoPPSimilarityCriterionExtension.ECONTAINER, Boolean.TRUE);
-		this.addSimilarityEntry(new Class[] { AnnotationInstance.class, Method.class, Constructor.class },
-				JaMoPPSimilarityCriterionExtension.ECONTAINER, Boolean.FALSE);
-	}
-
-	/**
-	 * Adds entries related to the position of {@link Statement} types in their
-	 * container.
-	 */
-	public void addStatementPositionEntries() {
-		this.addSimilarityEntry(Commentable.class, JaMoPPSimilarityCriterionExtension.STATEMENT_POSITION, Boolean.TRUE);
-		this.addSimilarityEntry(
-				new Class[] { ExpressionStatement.class, LocalVariableStatement.class, SynchronizedBlock.class },
-				JaMoPPSimilarityCriterionExtension.STATEMENT_POSITION, Boolean.FALSE);
-	}
-
 	public void setDefaultSimilarityResult() {
 		this.setDefaultSimilarityResult(Boolean.FALSE);
 	}
@@ -288,8 +261,6 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 	 * to certain attributes of certain object types. This means that the results
 	 * contained within these similarity entries are tied to only one attribute
 	 * of an object type per entry.
-	 * 
-	 * @see {@link #addDerivedSimilarityEntries()}
 	 */
 	public void addFixedSimilarityEntries() {
 		this.addAnnotationsSimilarityEntries();
@@ -311,25 +282,9 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 		this.addVariablesSimilarityEntries();
 	}
 
-	/**
-	 * Adds similarity entries that are related to values derived from the
-	 * attributes of objects. This means that the results contained within
-	 * these similarity entries are tied to values that are derived from
-	 * certain attributes of certain object types. It is recommended to
-	 * use special keys for them, and not such attributes.
-	 * 
-	 * @see {@link #addFixedSimilarityEntries()}
-	 * @see {@link JaMoPPSimilarityCriterionExtension}
-	 */
-	public void addDerivedSimilarityEntries() {
-		this.addEContainerSimilarityEntries();
-		this.addStatementPositionEntries();
-	}
-
 	public JaMoPPSimilarityValues() {
 		this.setDefaultSimilarityResult();
 		this.addFixedSimilarityEntries();
-		this.addDerivedSimilarityEntries();
 	}
 
 	/**
