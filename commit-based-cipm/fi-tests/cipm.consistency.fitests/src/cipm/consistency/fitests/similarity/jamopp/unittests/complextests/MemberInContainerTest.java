@@ -106,10 +106,13 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	private Boolean getExpectedSimilarityResultForMembers(Member member1, Member member2, MemberContainer memCon1,
 			MemberContainer memCon2) {
-		var memberCls = member1.getClass();
-		var containerMatters = AnnotationInstance.class.isAssignableFrom(memberCls) || 
-				Method.class.isAssignableFrom(memberCls) ||
-				Constructor.class.isAssignableFrom(memberCls);
+		var memberCls1 = member1.getClass();
+		var memberCls2 = member2.getClass();
+		if (!memberCls1.equals(memberCls2)) {
+			return false;
+		}
+		var containerMatters = AnnotationInstance.class.isAssignableFrom(memberCls1)
+				|| Method.class.isAssignableFrom(memberCls1) || Constructor.class.isAssignableFrom(memberCls1);
 		var containerClssEqual = memCon1.getClass().equals(memCon2.getClass());
 
 		return containerClssEqual || (!containerMatters &&
@@ -118,7 +121,7 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 		 * ConcreteClassifier indirectly cares about its eContainer, because its
 		 * qualified name can be influenced by its container.
 		 */
-				(!ConcreteClassifier.class.isAssignableFrom(memberCls) || ((ConcreteClassifier) member1)
+				(!ConcreteClassifier.class.isAssignableFrom(memberCls1) || ((ConcreteClassifier) member1)
 						.getQualifiedName().equals(((ConcreteClassifier) member2).getQualifiedName())));
 	}
 }
