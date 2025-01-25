@@ -18,25 +18,26 @@ import cipm.consistency.initialisers.jamopp.members.IMemberContainerInitialiser;
 import cipm.consistency.initialisers.jamopp.members.IMemberInitialiser;
 
 /**
- * Tests whether {@link MemberContainer} implementors' similarity is computed as
- * expected, if they contain different types of {@link Member} instances.
- * {@link Member} instances are added as members to {@link MemberContainer}s in
- * some tests and as default members in tests in others. <br>
+ * Tests whether {@link Member} implementors' similarity is computed as
+ * expected, if they are contained in different types of {@link MemberContainer}
+ * instances. {@link Member} instances are added as members to
+ * {@link MemberContainer}s in some tests and as default members in tests in
+ * others. <br>
  * <br>
  * There are differences between this test class and the
- * {@link cipm.consistency.fitests.similarity.jamopp.unittests.interfacetests.MemberContainerTest}.
- * This test class checks the similarity of 2 {@link MemberContainer} instances
- * of the same type but with varying {@link Member} instances. The latter only
- * tests the similarity of {@link MemberContainer} instances of the same type
- * with the same {@link Member} instances.<br>
+ * {@link cipm.consistency.fitests.similarity.jamopp.unittests.interfacetests.MemberContainerTest}:
+ * This test class checks the similarity of 2 {@link Member} instances of the
+ * same type but with varying {@link MemberContainer} instances as their
+ * container.<br>
  * <br>
  * <b>This test class is overshadowed by neither
  * {@link cipm.consistency.fitests.similarity.jamopp.unittests.impltests} nor
  * {@link cipm.consistency.fitests.similarity.jamopp.unittests.interfacetests},
- * because the type of the {@link MemberContainer} containing a certain
- * {@link Member} can indirectly influence the similarity checking result of
- * both {@link MemberContainer} instances and {@link Member} instances (via
- * qualified name differences for instance).</b>
+ * because the similarity of {@link Member} instances can be indirectly
+ * influenced by their container. This is the case if Member instances support
+ * qualified names and similarity checking accounts for their qualified name,
+ * for instance. The reason is that the type of their container can change their
+ * qualified name. </b>
  * 
  * @author Alp Torac Genc
  */
@@ -63,7 +64,7 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	}
 
 	/**
-	 * TODO Add commentary
+	 * @see {@link MemberInContainerTest}
 	 */
 	@ParameterizedTest(name = "{0}")
 	@MethodSource("genTestParams")
@@ -82,7 +83,7 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	}
 
 	/**
-	 * TODO Add commentary
+	 * @see {@link MemberInContainerTest}
 	 */
 	@ParameterizedTest(name = "{0}")
 	@MethodSource("genTestParams")
