@@ -19,7 +19,12 @@ import cipm.consistency.initialisers.jamopp.references.IdentifierReferenceInitia
 import cipm.consistency.initialisers.jamopp.references.StringReferenceInitialiser;
 
 /**
- * TODO Add commentary
+ * Contains mock tests concerning similarity checking of
+ * {@link IdentifierReference} instances. Said tests ensure that similarity
+ * checking is robust and can handle erroneous {@link IdentifierReference}
+ * instances.
+ * 
+ * @author Alp Torac Genc
  */
 public class IdentifierReferenceMockTest extends AbstractJaMoPPSimilarityTest
 		implements IMockTest, IIdentifierReferenceTest, UsesConcreteClassifiers {
