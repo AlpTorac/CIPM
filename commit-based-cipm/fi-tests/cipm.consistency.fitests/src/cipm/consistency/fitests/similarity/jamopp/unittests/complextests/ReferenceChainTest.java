@@ -46,10 +46,17 @@ import cipm.consistency.initialisers.jamopp.references.IReferenceInitialiser;
  * @author Alp Torac Genc
  */
 public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
+	/**
+	 * @return Non-adapted initialisers for each {@link Reference} sub-types.
+	 */
 	private static Stream<Arguments> genTestParams_ForOne() {
 		return AbstractJaMoPPSimilarityTest.getNonAdaptedInitialiserArgumentsFor(IReferenceInitialiser.class);
 	}
 
+	/**
+	 * @return Each possible pair of non-adapted initialisers for each
+	 *         {@link Reference} sub-types.
+	 */
 	private static Stream<Arguments> genTestParams_ForTwo() {
 		var params = new ArrayList<Arguments>();
 		for (var init1 : getNonAdaptedInitialisersFor(IReferenceInitialiser.class)) {
@@ -60,6 +67,10 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 		return params.stream();
 	}
 
+	/**
+	 * @return Each possible triplet of non-adapted initialisers for each
+	 *         {@link Reference} sub-types.
+	 */
 	private static Stream<Arguments> genTestParams_ForThree() {
 		var params = new ArrayList<Arguments>();
 		for (var init1 : getNonAdaptedInitialisersFor(IReferenceInitialiser.class)) {
