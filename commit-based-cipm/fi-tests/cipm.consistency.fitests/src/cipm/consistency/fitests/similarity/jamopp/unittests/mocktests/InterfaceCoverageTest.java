@@ -27,11 +27,16 @@ import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
  * @author Alp Torac Genc
  */
 public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implements IMockTest {
+	/**
+	 * @return Class object of each Java element type present in {@link JavaPackage}.
+	 */
 	private static Stream<Arguments> genTestParams() {
 		return IMockTest.getAllClasses().stream().map(Arguments::of);
 	}
 
-	// TODO Rename later
+	/**
+	 * @return Class object of each Java element type present in {@link JavaPackage}, which is concrete.
+	 */
 	private static Stream<Arguments> genConcreteTestParams() {
 		return IMockTest.getAllClasses((eCls) -> !eCls.isAbstract()).stream().map(Arguments::of);
 	}
