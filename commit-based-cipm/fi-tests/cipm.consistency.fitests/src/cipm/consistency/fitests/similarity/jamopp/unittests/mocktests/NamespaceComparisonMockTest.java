@@ -19,6 +19,10 @@ import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
  * @author Alp Torac Genc
  */
 public class NamespaceComparisonMockTest extends AbstractJaMoPPSimilarityTest implements IMockTest {
+	/**
+	 * @return Class object of each non-abstract {@link NamespaceAwareElement}
+	 *         sub-type.
+	 */
 	private static Stream<Arguments> genTestParams() {
 		return IMockTest.getAllClasses(
 				(cls) -> NamespaceAwareElement.class.isAssignableFrom(cls.getInstanceClass()) && !cls.isAbstract())
