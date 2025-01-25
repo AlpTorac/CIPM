@@ -81,7 +81,8 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 		memConInit1.addMember(memCon1, member1);
 		memConInit2.addMember(memCon2, member2);
 
-		this.testSimilarity(member1, member2, this.getExpectedSimilarityResultForMembers(member1, member2, memCon1, memCon2));
+		this.testSimilarity(member1, member2,
+				this.getExpectedSimilarityResultForMembers(member1, member2, memCon1, memCon2));
 	}
 
 	/**
@@ -100,7 +101,8 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 		memConInit1.addDefaultMember(memCon1, member1);
 		memConInit2.addDefaultMember(memCon2, member2);
 
-		this.testSimilarity(member1, member2, this.getExpectedSimilarityResultForMembers(member1, member2, memCon1, memCon2));
+		this.testSimilarity(member1, member2,
+				this.getExpectedSimilarityResultForMembers(member1, member2, memCon1, memCon2));
 	}
 
 	/**
