@@ -79,7 +79,7 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 		memConInit1.addMember(memCon1, member1);
 		memConInit2.addMember(memCon2, member2);
 
-		this.testSimilarity(member1, member2, this.getExpectedSimilarityResult(member1, member2, memCon1, memCon2));
+		this.testSimilarity(member1, member2, this.getExpectedSimilarityResultForMembers(member1, member2, memCon1, memCon2));
 	}
 
 	/**
@@ -98,13 +98,13 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 		memConInit1.addDefaultMember(memCon1, member1);
 		memConInit2.addDefaultMember(memCon2, member2);
 
-		this.testSimilarity(member1, member2, this.getExpectedSimilarityResult(member1, member2, memCon1, memCon2));
+		this.testSimilarity(member1, member2, this.getExpectedSimilarityResultForMembers(member1, member2, memCon1, memCon2));
 	}
 
 	/**
 	 * TODO Add commentary
 	 */
-	private Boolean getExpectedSimilarityResult(Member member1, Member member2, MemberContainer memCon1,
+	private Boolean getExpectedSimilarityResultForMembers(Member member1, Member member2, MemberContainer memCon1,
 			MemberContainer memCon2) {
 		var memberCls = member1.getClass();
 		var containerMatters = AnnotationInstance.class.isAssignableFrom(memberCls) || 
