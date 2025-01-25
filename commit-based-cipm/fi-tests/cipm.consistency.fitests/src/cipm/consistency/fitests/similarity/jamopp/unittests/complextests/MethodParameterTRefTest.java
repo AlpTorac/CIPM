@@ -23,7 +23,10 @@ import cipm.consistency.initialisers.jamopp.types.ClassifierReferenceInitialiser
  */
 public class MethodParameterTRefTest extends AbstractJaMoPPSimilarityTest
 		implements UsesParameters, UsesArrayDimensions {
-
+	/**
+	 * @return Parameters for the test methods in this test class. See the
+	 *         documentation of parameterized test methods.
+	 */
 	private static Stream<Arguments> getTestParams() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IMethodInitialiser.class);
 	}
