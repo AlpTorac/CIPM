@@ -20,7 +20,8 @@ import cipm.consistency.initialisers.jamopp.members.IMemberContainerInitialiser;
  * 
  * @author Alp Torac Genc
  */
-public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest implements UsesFields, UsesTypeReferences {
+public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest
+		implements UsesFields, UsesTypeReferences {
 	/**
 	 * @return Parameters for the test methods in this test class. See the
 	 *         documentation of parameterized test methods.
@@ -54,7 +55,7 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest i
 		var field1 = fieldInit.instantiate();
 
 		fieldInit.addAdditionalField(field1, af1);
-		
+
 		this.testSimilarity(af1, af2, false);
 	}
 
@@ -89,7 +90,7 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest i
 
 		fieldInit.addAdditionalField(field1, af1);
 		fieldInit.addAdditionalField(field2, af2);
-		
+
 		this.testSimilarity(af1, af2, false);
 	}
 
@@ -115,7 +116,7 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest i
 
 		// Make sure that the type references are different
 		this.assertSimilarityResult(tref1, tref2, false);
-		
+
 		var fieldInit = new FieldInitialiser();
 
 		var field1 = fieldInit.instantiate();
