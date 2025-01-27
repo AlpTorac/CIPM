@@ -12,7 +12,7 @@ import java.util.Collection;
 public interface IInitialiserBase extends IInitialiser {
 	/**
 	 * Adds the given {@link IInitialiserAdapterStrategy} to this instance. Does not
-	 * add null, if {@code strat == null}.
+	 * add, if {@code strat == null}.
 	 */
 	public void addAdaptingStrategy(IInitialiserAdapterStrategy strat);
 
