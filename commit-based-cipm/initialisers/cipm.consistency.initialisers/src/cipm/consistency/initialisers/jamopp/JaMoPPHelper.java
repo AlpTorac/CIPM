@@ -21,6 +21,9 @@ import org.emftext.language.java.JavaPackage;
  * This class is intended to be used in tests, which ensure that all necessary
  * initialisers are implemented and can be accessed.
  * 
+ * TODO Extract EObjectHelper class from this: Extract the parts without
+ * JavaPackage, since that is the only JaMoPP related part here.
+ * 
  * @author Alp Torac Genc
  */
 public class JaMoPPHelper {
