@@ -24,14 +24,14 @@ public interface IMockTest {
 	/**
 	 * @see {@link JaMoPPHelper#getAllClasses()}
 	 */
-	public static Collection<Class<?>> getAllClasses() {
+	public static Collection<Class<? extends EObject>> getAllClasses() {
 		return new JaMoPPHelper().getAllClasses(null);
 	}
 
 	/**
 	 * @see {@link JaMoPPHelper#getAllClasses(Predicate)}
 	 */
-	public static Collection<Class<?>> getAllClasses(Predicate<EClass> pred) {
+	public static Collection<Class<? extends EObject>> getAllClasses(Predicate<EClass> pred) {
 		return new JaMoPPHelper().getAllClasses(pred);
 	}
 
@@ -45,14 +45,14 @@ public interface IMockTest {
 	/**
 	 * @see {@link JaMoPPHelper#getEClassForJavaElement(Class)}
 	 */
-	public default EClass getEClassForJavaElement(Class<?> cls) {
+	public default EClass getEClassForJavaElement(Class<? extends EObject> cls) {
 		return new JaMoPPHelper().getEClassForJavaElement(cls);
 	}
 
 	/**
 	 * @see {@link JaMoPPHelper#getEClassForJavaElementImpl(Class)}
 	 */
-	public default EClass getEClassForJavaElementImpl(Class<?> cls) {
+	public default EClass getEClassForJavaElementImpl(Class<? extends EObject> cls) {
 		return new JaMoPPHelper().getEClassForJavaElementImpl(cls);
 	}
 
