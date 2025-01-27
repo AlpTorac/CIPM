@@ -141,11 +141,7 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	 * See {@link EcoreUtilHelper#cloneEObjWithContainers(EObject)}
 	 */
 	public <T extends EObject> T cloneEObjWithContainers(T obj) {
-		var clone = this.getEcoreUtilHelper().cloneEObjWithContainers(obj);
-		if (clone != null)
-			return clone;
-
-		return null;
+		return this.getEcoreUtilHelper().cloneEObjWithContainers(obj);
 	}
 
 	/**
