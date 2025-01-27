@@ -35,15 +35,34 @@ public class UtilityTests extends AbstractJaMoPPSimilarityTest implements IJaMoP
 	/**
 	 * @return The name of the test corresponding to cls.
 	 */
-	public String getTestName(Class<?> cls) {
+	private String getTestName(Class<?> cls) {
 		return cls.getSimpleName() + testSuffix;
 	}
 
 	/**
 	 * @return A list of all files under {@link #root}.
 	 */
-	public Collection<File> getAllFiles() {
+	private Collection<File> getAllFiles() {
 		return this.getAllFiles(root);
+	}
+
+	/**
+	 * The expected amount of concrete initialiser types. <br>
+	 * <br>
+	 * Note: Must be adapted, if new initialisers are added, which have concrete
+	 * implementations.
+	 */
+	private int getExpectedConcreteInitialiserCount() {
+		return 181;
+	}
+
+	/**
+	 * The expected amount of initialiser types (abstract or concrete).<br>
+	 * <br>
+	 * Note: Must be adapted, if new initialisers are added.
+	 */
+	private int getExpectedInitialiserCount() {
+		return 274;
 	}
 
 	/**
@@ -56,7 +75,9 @@ public class UtilityTests extends AbstractJaMoPPSimilarityTest implements IJaMoP
 	@Test
 	public void testAllConcreteInitialisersRegistered() {
 		var clss = this.getAllConcreteInitialiserCandidates();
+		Assertions.assertEquals(this.getExpectedConcreteInitialiserCount(), clss.size());
 		var registeredInits = this.getUsedInitialiserPackage().getAllInitialiserInstances();
+		Assertions.assertEquals(this.getExpectedConcreteInitialiserCount(), registeredInits.size());
 
 		var matches = List.of(
 				clss.stream().filter((cls) -> registeredInits.stream().anyMatch((init) -> init.isInitialiserFor(cls)))
@@ -80,7 +101,9 @@ public class UtilityTests extends AbstractJaMoPPSimilarityTest implements IJaMoP
 	@Test
 	public void testAllInitialiserInterfacesRegistered() {
 		var clss = this.getAllInitialiserCandidates();
+		Assertions.assertEquals(this.getExpectedInitialiserCount(), clss.size());
 		var registeredInits = this.getUsedInitialiserPackage().getAllInitialiserInterfaceTypes();
+		Assertions.assertEquals(this.getExpectedInitialiserCount(), registeredInits.size());
 
 		var matches = List.of(clss.stream()
 				.filter((cls) -> registeredInits.stream()
@@ -112,6 +135,7 @@ public class UtilityTests extends AbstractJaMoPPSimilarityTest implements IJaMoP
 	@Test
 	public void testAllInterfaceTestsPresent() {
 		var intfcs = this.getAllInitialiserCandidates();
+		Assertions.assertEquals(this.getExpectedInitialiserCount(), intfcs.size());
 		var allFiles = this.getAllFiles();
 
 		var matches = List.of(intfcs.stream()
