@@ -16,7 +16,8 @@ package cipm.consistency.initialisers;
 public interface IInitialiserAdapterStrategy {
 	/**
 	 * Applies the initialisation logic contained in this instance to the given
-	 * object.
+	 * object. Check the concrete class' documentation for more information, since
+	 * the semantics of this method is tightly coupled with it.
 	 * 
 	 * @return Whether this method did what it was supposed to do.
 	 */
