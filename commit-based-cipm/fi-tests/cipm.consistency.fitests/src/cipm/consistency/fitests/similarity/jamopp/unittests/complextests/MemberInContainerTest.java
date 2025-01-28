@@ -51,9 +51,9 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	private static Stream<Arguments> genTestParams() {
 		var res = new ArrayList<Arguments>();
 
-		for (var memInit : getEachInitialiserOnceFor(IMemberInitialiser.class)) {
-			for (var memConInit1 : getEachInitialiserOnceFor(IMemberContainerInitialiser.class)) {
-				for (var memConInit2 : getEachInitialiserOnceFor(IMemberContainerInitialiser.class)) {
+		for (var memInit : getNonAdaptedInitialisersFor(IMemberInitialiser.class)) {
+			for (var memConInit1 : getNonAdaptedInitialisersFor(IMemberContainerInitialiser.class)) {
+				for (var memConInit2 : getNonAdaptedInitialisersFor(IMemberContainerInitialiser.class)) {
 					var displayName = "Member " + memInit.getClass().getSimpleName() + " used with containers ("
 							+ memConInit1.getClass().getSimpleName() + ", " + memConInit2.getClass().getSimpleName()
 							+ ")";
