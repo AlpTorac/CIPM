@@ -8,9 +8,8 @@ import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.util.JaMoPPNameComparisonUtil;
+import org.splevo.jamopp.diffing.util.JaMoPPStringUtil;
 import org.splevo.jamopp.diffing.util.JaMoPPModelUtil;
-
-import com.google.common.base.Strings;
 
 /**
  * Similarity decisions for container elements.
@@ -61,20 +60,17 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean>
 
 		CompilationUnit unit2 = (CompilationUnit) this.getCompareElement();
 
-		String name1 = Strings.nullToEmpty(unit1.getName());
-		name1 = Strings.nullToEmpty(this.normalizeCompilationUnit(name1));
-		name1 = Strings.nullToEmpty(this.normalizePackage(name1));
+		String name1 = this.normalizePackage(this.normalizeCompilationUnit(unit1.getName()));
+		String name2 = this.normalizePackage(this.normalizeCompilationUnit(unit2.getName()));
 
-		String name2 = Strings.nullToEmpty(unit2.getName());
-
-		if (!name1.equals(name2)) {
+		if (!JaMoPPStringUtil.stringsEqual(name1, name2)) {
 			return Boolean.FALSE;
 		}
 
-		String namespaceString1 = Strings.nullToEmpty(unit1.getNamespacesAsString());
-		String namespaceString2 = Strings.nullToEmpty(unit2.getNamespacesAsString());
-		namespaceString1 = Strings.nullToEmpty(this.normalizeNamespace(namespaceString1));
-		return namespaceString1.equals(namespaceString2);
+		String namespaceString1 = this.normalizeNamespace(unit1.getNamespacesAsString());
+		String namespaceString2 = this.normalizeNamespace(unit2.getNamespacesAsString());
+
+		return JaMoPPStringUtil.stringsEqual(namespaceString1, namespaceString2);
 	}
 
 	/**
@@ -98,10 +94,9 @@ public class ContainersSimilaritySwitch extends ContainersSwitch<Boolean>
 
 		Package package2 = (Package) this.getCompareElement();
 
-		String packagePath1 = Strings.nullToEmpty(JaMoPPModelUtil.buildNamespacePath(package1));
-		packagePath1 = Strings.nullToEmpty(this.normalizeNamespace(packagePath1));
-		String packagePath2 = Strings.nullToEmpty(JaMoPPModelUtil.buildNamespacePath(package2));
-		return packagePath1.equals(packagePath2);
+		String packagePath1 = this.normalizeNamespace(JaMoPPModelUtil.buildNamespacePath(package1));
+		String packagePath2 = this.normalizeNamespace(JaMoPPModelUtil.buildNamespacePath(package2));
+		return JaMoPPStringUtil.stringsEqual(packagePath1, packagePath2);
 	}
 
 	/**
