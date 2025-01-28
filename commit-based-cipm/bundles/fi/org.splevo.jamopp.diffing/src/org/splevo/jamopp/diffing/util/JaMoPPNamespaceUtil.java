@@ -21,7 +21,7 @@ public class JaMoPPNamespaceUtil {
 	 *         one parameter is null, returns false. If both parameters are null,
 	 *         returns true.
 	 */
-	public static Boolean compareNamespacesByPart(NamespaceAwareElement nae1, NamespaceAwareElement nae2) {
+	public static boolean compareNamespacesByPart(NamespaceAwareElement nae1, NamespaceAwareElement nae2) {
 		if (JaMoPPNullCheckUtil.allNull(nae1, nae2)) {
 			return true;
 		} else if (JaMoPPNullCheckUtil.onlyOneIsNull(nae1, nae2)) {
@@ -89,7 +89,7 @@ public class JaMoPPNamespaceUtil {
 	 * @return False if namespaces are different, true if not. If only one parameter
 	 *         is null, returns false. If both parameters are null, returns true.
 	 */
-	public static Boolean compareNamespacesAsString(NamespaceAwareElement nae1, NamespaceAwareElement nae2) {
+	public static boolean compareNamespacesAsString(NamespaceAwareElement nae1, NamespaceAwareElement nae2) {
 		if (JaMoPPNullCheckUtil.allNull(nae1, nae2)) {
 			return true;
 		} else if (JaMoPPNullCheckUtil.onlyOneIsNull(nae1, nae2)) {

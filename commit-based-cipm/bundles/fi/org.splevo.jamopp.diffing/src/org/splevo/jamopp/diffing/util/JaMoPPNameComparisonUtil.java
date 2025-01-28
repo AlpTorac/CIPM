@@ -17,7 +17,7 @@ public class JaMoPPNameComparisonUtil {
 	 *         the names is null, returns false. If both names are null, returns
 	 *         true.
 	 */
-	public static Boolean namesEqual(NamedElement ne1, NamedElement ne2) {
+	public static boolean namesEqual(NamedElement ne1, NamedElement ne2) {
 		if (JaMoPPNullCheckUtil.allNull(ne1, ne2)) {
 			return true;
 		} else if (JaMoPPNullCheckUtil.onlyOneIsNull(ne1, ne2)) {

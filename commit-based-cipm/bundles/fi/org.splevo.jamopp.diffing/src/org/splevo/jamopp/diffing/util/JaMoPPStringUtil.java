@@ -14,7 +14,7 @@ public class JaMoPPStringUtil {
 	 * @return Whether the given String instances are equal. Accounts for null
 	 *         parameters.
 	 */
-	public static Boolean stringsEqual(String s1, String s2) {
+	public static boolean stringsEqual(String s1, String s2) {
 		if (JaMoPPNullCheckUtil.allNull(s1, s2)) {
 			return true;
 		} else if (JaMoPPNullCheckUtil.allNonNull(s1, s2)) {
