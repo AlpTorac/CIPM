@@ -3,7 +3,6 @@ package cipm.consistency.fitests.similarity.jamopp.unittests.mocktests;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.eclipse.emf.common.util.EList;
@@ -21,11 +20,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPInitialiserParameters;
-import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementPositionTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
-import cipm.consistency.initialisers.jamopp.statements.IStatementInitialiser;
-import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerInitialiser;
 
 /**
  * Contains tests that check whether the necessary null checks are present in
@@ -40,33 +35,7 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
  * @author Alp Torac Genc
  */
 public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
-		implements UsesStatements, IMockTest, IStatementPositionTest {
-	/**
-	 * @return A list of all initialisers that implement
-	 *         {@link IStatementListContainerInitialiser}. If an initialiser is
-	 *         adaptable, it will be adapted. Non-adaptable initialisers will be
-	 *         unaffected.
-	 */
-	private static List<IStatementListContainerInitialiser> getAllSLCInitInstances() {
-		var res = new ArrayList<IStatementListContainerInitialiser>();
-		var inits = new JaMoPPInitialiserParameters()
-				.getEachInitialiserOnceBySuper(IStatementListContainerInitialiser.class);
-		inits.forEach((i) -> res.add(((IStatementListContainerInitialiser) i)));
-		return res;
-	}
-
-	/**
-	 * @return A list of all initialisers that implement
-	 *         {@link IStatementInitialiser}. If an initialiser is adaptable, it
-	 *         will be adapted. Non-adaptable initialisers will be unaffected.
-	 */
-	private static List<IStatementInitialiser> getAllStatementInitInstances() {
-		var res = new ArrayList<IStatementInitialiser>();
-		var inits = new JaMoPPInitialiserParameters().getEachInitialiserOnceBySuper(IStatementInitialiser.class);
-		inits.forEach((i) -> res.add(((IStatementInitialiser) i)));
-		return res;
-	}
-
+		implements UsesStatements, IMockTest {
 	/**
 	 * @return Parameters for the test methods in this test class. Refer to their
 	 *         documentation for more information.
@@ -74,11 +43,11 @@ public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
 	private static Stream<Arguments> genTestParams() {
 		var res = new ArrayList<Arguments>();
 
-		for (var stInit : getAllStatementInitInstances()) {
-			for (var slcInit : getAllSLCInitInstances()) {
-				var displayName = stInit.getClass().getSimpleName() + " in " + slcInit.getClass().getSimpleName();
+		for (var stCls : IMockTest.getAllClasses().stream().filter((cls) -> Statement.class.isAssignableFrom(cls)).toArray(Class<?>[]::new)) {
+			for (var slcCls : IMockTest.getAllClasses().stream().filter((cls) -> StatementListContainer.class.isAssignableFrom(cls)).toArray(Class<?>[]::new)) {
+				var displayName = stCls.getSimpleName() + " in " + slcCls.getSimpleName();
 
-				res.add(Arguments.of(displayName, slcInit, stInit));
+				res.add(Arguments.of(displayName, slcCls, stCls));
 			}
 		}
 
@@ -123,21 +92,19 @@ public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
 	 * preceding/proceeding statement checks are changed).
 	 * 
 	 * @param displayName   The display name of the test
-	 * @param containerInit The initialiser corresponding to the statement list
-	 *                      container sub-type
-	 * @param containeeInit The initialiser corresponding to the statement that will
+	 * @param containerCls A statement list container sub-type
+	 * @param containeeCls A statement sub-type, an instance of which will
 	 *                      be added to the container
+	 * 
+	 * @see {@link #testBody(Class, Class, int, int)} for more information
 	 */
-	@SuppressWarnings("unchecked")
 	@ParameterizedTest
 	@MethodSource("genTestParams")
 	public void test_StatementPosition_MalfunctioningStatementRetrieval(String displayName,
-			IStatementListContainerInitialiser containerInit, IStatementInitialiser containeeInit) {
+			Class<? extends StatementListContainer> containerCls, Class<? extends Statement> containeeCls) {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
-				this.testBody(
-						(Class<? extends StatementListContainer>) containerInit.getInstanceClassOfInitialiser(),
-						(Class<? extends Statement>) containeeInit.getInstanceClassOfInitialiser(), i, j);
+				this.testBody(containerCls, containeeCls, i, j);
 			}
 		}
 	}
