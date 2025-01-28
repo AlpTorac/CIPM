@@ -12,6 +12,7 @@ import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
+import org.splevo.jamopp.diffing.util.JaMoPPNullCheckUtil;
 
 /**
  * Similarity decisions for object instantiation elements.
@@ -98,9 +99,9 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 		TypeReference tref2 = call2.getTypeReference();
 
 		// Null check to avoid NullPointerExceptions
-		if (tref1 == null ^ tref2 == null) {
+		if (JaMoPPNullCheckUtil.onlyOneIsNull(tref1, tref2)) {
 			return Boolean.FALSE;
-		} else if (tref1 != null && tref2 != null) {
+		} else if (JaMoPPNullCheckUtil.allNonNull(tref1, tref2)) {
 			Type type1 = tref1.getTarget();
 			Type type2 = tref2.getTarget();
 			Boolean typeSimilarity = this.isSimilar(type1, type2);
