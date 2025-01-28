@@ -91,7 +91,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 		this.logInfoMessage("caseDecimalFloatLiteral");
 
 		DecimalFloatLiteral float2 = (DecimalFloatLiteral) this.getCompareElement();
-		return compareDouble(float1.getDecimalValue(), float2.getDecimalValue());
+		return compareFloat(float1.getDecimalValue(), float2.getDecimalValue());
 	}
 
 	/**
@@ -108,7 +108,7 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 		this.logInfoMessage("caseHexFloatLiteral");
 
 		HexFloatLiteral float2 = (HexFloatLiteral) this.getCompareElement();
-		return compareDouble(float1.getHexValue(), float2.getHexValue());
+		return compareFloat(float1.getHexValue(), float2.getHexValue());
 	}
 
 	/**
@@ -150,6 +150,13 @@ public class LiteralsSimilaritySwitch extends LiteralsSwitch<Boolean>
 	 */
 	private boolean compareDouble(double d1, double d2) {
 		return d1 == d2 || Double.isNaN(d1) && Double.isNaN(d2);
+	}
+
+	/**
+	 * @return True if the given float values are equal or if they are both NaN. False otherwise.
+	 */
+	private boolean compareFloat(float f1, float f2) {
+		return f1 == f2 || Float.isNaN(f1) && Float.isNaN(f2);
 	}
 
 	/**
