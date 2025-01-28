@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.jamopp.unittests.complextests;
 
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -165,6 +166,7 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest
 		fieldInit.addAdditionalField(field1, af1);
 
 		var conOfCon = init.instantiate();
+		Assertions.assertTrue(init.initialise(conOfCon));
 		init.addMember(conOfCon, field1);
 
 		this.testSimilarity(af1, af2, false);
@@ -203,6 +205,7 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest
 		fieldInit.addAdditionalField(field2, af2);
 
 		var conOfCon = init.instantiate();
+		Assertions.assertTrue(init.initialise(conOfCon));
 		init.addMember(conOfCon, field1);
 
 		this.testSimilarity(af1, af2, false);
