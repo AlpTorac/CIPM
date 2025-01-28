@@ -69,6 +69,11 @@ public interface IInitialiserBase extends IInitialiser {
 	 * are meant to be used.</b> <br>
 	 * <br>
 	 * {@inheritDoc}
+	 * 
+	 * @return Whether all initialiser adaptation strategies in this were applied
+	 *         successfully.
+	 * 
+	 * @see {@link IInitialiserAdapterStrategy}
 	 */
 	@Override
 	public default boolean initialise(Object obj) {
