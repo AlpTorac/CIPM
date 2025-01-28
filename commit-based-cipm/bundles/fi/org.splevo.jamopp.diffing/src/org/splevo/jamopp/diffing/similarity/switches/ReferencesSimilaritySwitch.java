@@ -86,8 +86,8 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 		ReferenceableElement target2 = ref2.getTarget();
 
 		// target identity similarity
-		Boolean similarity = this.isSimilar(target1, target2);
-		if (JaMoPPBooleanUtil.isFalse(similarity)) {
+		Boolean targetSimilarity = this.isSimilar(target1, target2);
+		if (JaMoPPBooleanUtil.isFalse(targetSimilarity)) {
 			return Boolean.FALSE;
 		}
 
