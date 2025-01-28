@@ -85,6 +85,8 @@ public interface IInitialiser {
 	 * 
 	 * @param obj The object that will be made valid
 	 * 
+	 * @return Whether the initialisation of obj was successful.
+	 * 
 	 * @see {@link IInitialiserBase}
 	 * @see {@link IInitialiserAdapterStrategy}
 	 */
