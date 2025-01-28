@@ -14,6 +14,7 @@ import org.splevo.jamopp.diffing.similarity.IJavaSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
+import org.splevo.jamopp.diffing.util.JaMoPPNullCheckUtil;
 import org.splevo.jamopp.diffing.util.JaMoPPStringUtil;
 import org.splevo.jamopp.util.JaMoPPElementUtil;
 
@@ -117,9 +118,9 @@ public class ReferencesSimilaritySwitch extends ReferencesSwitch<Boolean>
 		var arrSels2 = ref2.getArraySelectors();
 
 		// Null check to avoid NullPointerExceptions
-		if (arrSels1 == null ^ arrSels2 == null) {
+		if (JaMoPPNullCheckUtil.onlyOneIsNull(arrSels1, arrSels2)) {
 			return Boolean.FALSE;
-		} else if (arrSels1 != null && arrSels2 != null) {
+		} else if (JaMoPPNullCheckUtil.allNonNull(arrSels1, arrSels2)) {
 			if (arrSels1.size() != arrSels2.size()) {
 				return Boolean.FALSE;
 			}
