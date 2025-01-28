@@ -71,7 +71,8 @@ public interface IInitialiserBase extends IInitialiser {
 	 * {@inheritDoc}
 	 * 
 	 * @return Whether all initialiser adaptation strategies in this were applied
-	 *         successfully.
+	 *         successfully. If there are no such strategies; returns true, since no
+	 *         strategy was attempted to be applied and failed.
 	 * 
 	 * @see {@link IInitialiserAdapterStrategy}
 	 */
