@@ -63,7 +63,14 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 		var clsMock1 = this.mockEObject(cls);
 		var clsMock2 = this.mockEObject(cls);
 
-		// FIXME: Remove the null check and assert that the result is true once fixed
+		/*
+		 * FIXME Remove the null check once the issue is fixed.
+		 * 
+		 * Currently, attempting to similarity check certain EObject sub-type instances
+		 * results in null being returned, even though said instances should be equal and
+		 * true should be returned. Until those cases are handled properly, the assertion
+		 * is guarded by a null check.
+		 */
 		var res = this.isSimilar(clsMock1, clsMock2);
 		if (res != null) {
 			Assertions.assertTrue(res);
