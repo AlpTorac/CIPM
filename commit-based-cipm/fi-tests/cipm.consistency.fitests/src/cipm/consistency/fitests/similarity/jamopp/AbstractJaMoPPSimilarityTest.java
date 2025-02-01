@@ -13,6 +13,8 @@ import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPInitialiserParame
 import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPSimilarityValues;
 import cipm.consistency.fitests.similarity.params.IInitialiserParameters;
 import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvider;
+import cipm.consistency.initialisers.IInitialiser;
+import cipm.consistency.initialisers.IInitialiserBase;
 import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
 
 /**
@@ -80,12 +82,13 @@ public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimila
 	}
 
 	/**
+	 * @return Arguments containing pairs in form of (desired initialiser, display
+	 *         name for initialiser)
 	 * @see {@link IInitialiserParameters#getEachInitialiserOnceBySuper(Class)}
 	 */
 	public static Stream<Arguments> getEachInitialiserArgumentsOnceFor(
 			Class<? extends IJaMoPPEObjectInitialiser> superType) {
-		return getEachInitialiserOnceFor(superType)
-				.stream().map((i) -> Arguments.of(i));
+		return getEachInitialiserOnceFor(superType).stream().map((i) -> Arguments.of(i, generateDisplayNameForInit(i)));
 	}
 
 	/**
@@ -96,12 +99,13 @@ public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimila
 	}
 
 	/**
+	 * @return Arguments containing pairs in form of (desired initialiser, display
+	 *         name for initialiser)
 	 * @see {@link IInitialiserParameters#getAllInitialisersBySuper(Class)}
 	 */
 	public static Stream<Arguments> getAllInitialiserArgumentsFor(
 			Class<? extends IJaMoPPEObjectInitialiser> superType) {
-		return getAllInitialisersFor(superType).stream()
-				.map((i) -> Arguments.of(i));
+		return getAllInitialisersFor(superType).stream().map((i) -> Arguments.of(i, generateDisplayNameForInit(i)));
 	}
 
 	/**
@@ -112,12 +116,13 @@ public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimila
 	}
 
 	/**
+	 * @return Arguments containing pairs in form of (desired initialiser, display
+	 *         name for initialiser)
 	 * @see {@link IInitialiserParameters#getAdaptedInitialisersBySuper(Class)}
 	 */
 	public static <T extends IJaMoPPEObjectInitialiser> Stream<Arguments> getAdaptedInitialiserArgumentsFor(
 			Class<T> superType) {
-		return getAdaptedInitialisersFor(superType)
-				.stream().map((i) -> Arguments.of(i));
+		return getAdaptedInitialisersFor(superType).stream().map((i) -> Arguments.of(i, generateDisplayNameForInit(i)));
 	}
 
 	/**
@@ -128,11 +133,28 @@ public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimila
 	}
 
 	/**
+	 * @return Arguments containing pairs in form of (desired initialiser, display
+	 *         name for initialiser)
 	 * @see {@link IInitialiserParameters#getNonAdaptedInitialisersBySuper(Class)}
 	 */
 	public static Stream<Arguments> getNonAdaptedInitialiserArgumentsFor(
 			Class<? extends IJaMoPPEObjectInitialiser> superType) {
-		return getNonAdaptedInitialisersFor(superType)
-				.stream().map((i) -> Arguments.of(i));
+		return getNonAdaptedInitialisersFor(superType).stream()
+				.map((i) -> Arguments.of(i, generateDisplayNameForInit(i)));
+	}
+
+	/**
+	 * Used by the static get...InitialiserArgumentsFor methods within this
+	 * class.
+	 * 
+	 * @return A display name associated with the given initialiser, which
+	 * can be used by parameterised tests.
+	 */
+	public static String generateDisplayNameForInit(IInitialiser init) {
+		var displayName = init.getClass().getSimpleName();
+		if (init instanceof IInitialiserBase && ((IInitialiserBase) init).isAdapted()) {
+			displayName += " (adapted)";
+		}
+		return displayName;
 	}
 }
