@@ -38,9 +38,9 @@ public class MethodParameterTRefTest extends AbstractJaMoPPSimilarityTest
 	 * @param metInit The initialiser that will instantiate the {@link Method}
 	 *                implementor under test
 	 */
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("getTestParams")
-	public void test_SimilarParameters_OneParameterNullTypeReference(IMethodInitialiser metInit) {
+	public void test_SimilarParameters_OneParameterNullTypeReference(IMethodInitialiser metInit, String displayName) {
 		var met1 = metInit.instantiate();
 		Assertions.assertTrue(metInit.initialise(met1));
 		var met2 = metInit.instantiate();
@@ -70,9 +70,9 @@ public class MethodParameterTRefTest extends AbstractJaMoPPSimilarityTest
 	 * @param metInit The initialiser that will instantiate the {@link Method}
 	 *                implementor under test
 	 */
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("getTestParams")
-	public void test_SimilarParameters_SameTypeReference_DifferentArrayDimension(IMethodInitialiser metInit) {
+	public void test_SimilarParameters_SameTypeReference_DifferentArrayDimension(IMethodInitialiser metInit, String displayName) {
 		var met1 = metInit.instantiate();
 		Assertions.assertTrue(metInit.initialise(met1));
 		var met2 = metInit.instantiate();

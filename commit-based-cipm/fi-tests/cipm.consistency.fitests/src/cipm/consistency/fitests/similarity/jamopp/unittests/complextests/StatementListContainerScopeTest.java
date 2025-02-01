@@ -47,8 +47,7 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 		for (var nestedCon : nestedConInits) {
 			var displayName = nestedCon.getClass().getSimpleName() + " (nestedCon) in ";
 			for (var placeholderCon : placeholderConInits) {
-				args.add(Arguments.of(displayName + placeholderCon.getClass().getSimpleName() + " (placeholderCon)",
-						nestedCon, placeholderCon));
+				args.add(Arguments.of(nestedCon, placeholderCon, displayName + placeholderCon.getClass().getSimpleName() + " (placeholderCon)"));
 			}
 		}
 		return args.stream();
@@ -222,10 +221,10 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 	 * @param placeholderConInit The initialiser responsible for instantiating the
 	 *                           placeholderCon
 	 */
-	@ParameterizedTest(name = "{0}")
+	@ParameterizedTest(name = "{2}")
 	@MethodSource("genTestParams")
-	public void testStatementListContainingStatementScope(String displayName,
-			IStatementListContainerInitialiser nestedConInit, IStatementListContainerInitialiser placeholderConInit) {
+	public void testStatementListContainingStatementScope(IStatementListContainerInitialiser nestedConInit,
+			IStatementListContainerInitialiser placeholderConInit, String displayName) {
 
 		/*
 		 * Block causes issues, because block instances are always assumed to be

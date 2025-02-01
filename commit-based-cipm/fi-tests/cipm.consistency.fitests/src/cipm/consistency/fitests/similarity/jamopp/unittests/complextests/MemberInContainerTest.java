@@ -54,10 +54,11 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 		for (var memInit : getNonAdaptedInitialisersFor(IMemberInitialiser.class)) {
 			for (var memConInit1 : getNonAdaptedInitialisersFor(IMemberContainerInitialiser.class)) {
 				for (var memConInit2 : getNonAdaptedInitialisersFor(IMemberContainerInitialiser.class)) {
-					var displayName = "Member " + memInit.getClass().getSimpleName() + " used with containers ("
-							+ memConInit1.getClass().getSimpleName() + ", " + memConInit2.getClass().getSimpleName()
-							+ ")";
-					res.add(Arguments.of(displayName, memInit, memConInit1, memConInit2));
+					res.add(Arguments.of(memInit, memConInit1, memConInit2,
+							String.format("%s inside different containers (%s vs %s)",
+									memInit.getInstanceClassOfInitialiser().getSimpleName(),
+									memConInit1.getInstanceClassOfInitialiser().getSimpleName(),
+									memConInit2.getInstanceClassOfInitialiser().getSimpleName())));
 				}
 			}
 		}
@@ -68,10 +69,10 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	/**
 	 * @see {@link MemberInContainerTest}
 	 */
-	@ParameterizedTest(name = "{0}")
+	@ParameterizedTest(name = "Member: {3}")
 	@MethodSource("genTestParams")
-	public void testMembersInContainers(String displayName, IMemberInitialiser memInit,
-			IMemberContainerInitialiser memConInit1, IMemberContainerInitialiser memConInit2) {
+	public void testMembersInContainers(IMemberInitialiser memInit, IMemberContainerInitialiser memConInit1,
+			IMemberContainerInitialiser memConInit2, String displayName) {
 		var member1 = memInit.instantiate();
 		var member2 = memInit.instantiate();
 
@@ -88,10 +89,10 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	/**
 	 * @see {@link MemberInContainerTest}
 	 */
-	@ParameterizedTest(name = "{0}")
+	@ParameterizedTest(name = "Default member: {3}")
 	@MethodSource("genTestParams")
-	public void testDefaultMembersInContainers(String displayName, IMemberInitialiser memInit,
-			IMemberContainerInitialiser memConInit1, IMemberContainerInitialiser memConInit2) {
+	public void testDefaultMembersInContainers(IMemberInitialiser memInit, IMemberContainerInitialiser memConInit1,
+			IMemberContainerInitialiser memConInit2, String displayName) {
 		var member1 = memInit.instantiate();
 		var member2 = memInit.instantiate();
 

@@ -61,7 +61,9 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 		var params = new ArrayList<Arguments>();
 		for (var init1 : getNonAdaptedInitialisersFor(IReferenceInitialiser.class)) {
 			for (var init2 : getNonAdaptedInitialisersFor(IReferenceInitialiser.class)) {
-				params.add(Arguments.of(init1, init2));
+				params.add(Arguments.of(init1, init2,
+						String.format("%s, %s", init1.getInstanceClassOfInitialiser().getSimpleName(),
+								init2.getInstanceClassOfInitialiser().getSimpleName())));
 			}
 		}
 		return params.stream();
@@ -76,7 +78,10 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 		for (var init1 : getNonAdaptedInitialisersFor(IReferenceInitialiser.class)) {
 			for (var init2 : getNonAdaptedInitialisersFor(IReferenceInitialiser.class)) {
 				for (var init3 : getNonAdaptedInitialisersFor(IReferenceInitialiser.class)) {
-					params.add(Arguments.of(init1, init2, init3));
+					params.add(Arguments.of(init1, init2, init3,
+							String.format("%s, %s, %s", init1.getInstanceClassOfInitialiser().getSimpleName(),
+									init2.getInstanceClassOfInitialiser().getSimpleName(),
+									init3.getInstanceClassOfInitialiser().getSimpleName())));
 				}
 			}
 		}
@@ -139,9 +144,9 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * similar to a reference instance ref2 referencing nextRef2, if types of ref1
 	 * and ref2 are equal and types of nextRef1 and nextRef2 are equal.
 	 */
-	@ParameterizedTest
+	@ParameterizedTest(name = "{2}")
 	@MethodSource("genTestParams_ForTwo")
-	public void test_ReferenceCombinations_SimilarNext(IReferenceInitialiser init1, IReferenceInitialiser init2) {
+	public void test_ReferenceCombinations_SimilarNext(IReferenceInitialiser init1, IReferenceInitialiser init2, String displayName) {
 		var ref1 = init1.instantiate();
 		var nextRef1 = init2.instantiate();
 		init1.setNext(ref1, nextRef1);
@@ -164,10 +169,10 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * asserts that both references should be similar, the assertion here is more
 	 * advanced.
 	 */
-	@ParameterizedTest
+	@ParameterizedTest(name = "{3}")
 	@MethodSource("genTestParams_ForThree")
 	public void test_ReferenceCombinations_DifferentNext(IReferenceInitialiser init1, IReferenceInitialiser init2,
-			IReferenceInitialiser init3) {
+			IReferenceInitialiser init3, String displayName) {
 		var ref1 = init1.instantiate();
 		var nextRef1 = init2.instantiate();
 		init1.setNext(ref1, nextRef1);
@@ -193,9 +198,9 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * Performs this check for each sub-type of {@link Reference}.
 	 */
 	@Disabled("Until cycle checking mechanisms are implemented")
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("genTestParams_ForOne")
-	public void test_ReferenceCycles_OneReferenceCycle(IReferenceInitialiser init) {
+	public void test_ReferenceCycles_OneReferenceCycle(IReferenceInitialiser init, String displayName) {
 		var ref = init.instantiate();
 		init.setNext(ref, ref);
 		this.cycleAssertionsFor(new Reference[] { ref }, new Reference[] { ref });
@@ -210,9 +215,9 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * Performs this check for each combination of sub-type of {@link Reference}.
 	 */
 	@Disabled("Until cycle checking mechanisms are implemented")
-	@ParameterizedTest
+	@ParameterizedTest(name = "{2}")
 	@MethodSource("genTestParams_ForTwo")
-	public void test_ReferenceCycles_TwoReferencesCycle(IReferenceInitialiser init1, IReferenceInitialiser init2) {
+	public void test_ReferenceCycles_TwoReferencesCycle(IReferenceInitialiser init1, IReferenceInitialiser init2, String displayName) {
 		var ref11 = init1.instantiate();
 		var ref12 = init2.instantiate();
 
@@ -244,10 +249,10 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * Performs this check for each combination of sub-type of {@link Reference}.
 	 */
 	@Disabled("Until cycle checking mechanisms are implemented")
-	@ParameterizedTest
+	@ParameterizedTest(name = "{3}")
 	@MethodSource("genTestParams_ForThree")
 	public void test_ReferenceCycles_ThreeReferencesCycle(IReferenceInitialiser init1, IReferenceInitialiser init2,
-			IReferenceInitialiser init3) {
+			IReferenceInitialiser init3, String displayName) {
 		var ref11 = init1.instantiate();
 		var ref12 = init2.instantiate();
 		var ref13 = init3.instantiate();
@@ -282,10 +287,10 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * Performs this check for each combination of sub-type of {@link Reference}.
 	 */
 	@Disabled("Until cycle checking mechanisms are implemented")
-	@ParameterizedTest
+	@ParameterizedTest(name = "{3}")
 	@MethodSource("genTestParams_ForThree")
 	public void test_ReferenceCycles_OneRefLeadingToTwoRefCycle(IReferenceInitialiser init1,
-			IReferenceInitialiser init2, IReferenceInitialiser init3) {
+			IReferenceInitialiser init2, IReferenceInitialiser init3, String displayName) {
 		var ref11 = init1.instantiate();
 		var ref12 = init2.instantiate();
 		var ref13 = init3.instantiate();

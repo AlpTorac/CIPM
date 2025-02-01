@@ -38,9 +38,9 @@ public class StatementPositionTest extends AbstractJaMoPPSimilarityTest
 
 		for (var stInit : getEachInitialiserOnceFor(IStatementInitialiser.class)) {
 			for (var slcInit : getEachInitialiserOnceFor(IStatementListContainerInitialiser.class)) {
-				var displayName = stInit.getClass().getSimpleName() + " in " + slcInit.getClass().getSimpleName();
-
-				res.add(Arguments.of(displayName, slcInit, stInit));
+				res.add(Arguments.of(stInit, slcInit,
+						String.format("%s inside %s", stInit.getInstanceClassOfInitialiser().getSimpleName(),
+								slcInit.getInstanceClassOfInitialiser().getSimpleName())));
 			}
 		}
 
@@ -59,10 +59,10 @@ public class StatementPositionTest extends AbstractJaMoPPSimilarityTest
 	 *                      statement that will be added to the constructed
 	 *                      container
 	 */
-	@ParameterizedTest(name = "{0}")
+	@ParameterizedTest(name = "Statement in middle: {2}")
 	@MethodSource("genTestParams")
-	public void test_SamePredecessor_SameSuccessor(String displayName, IStatementListContainerInitialiser containerInit,
-			IStatementInitialiser containeeInit) {
+	public void test_SamePredecessor_SameSuccessor(IStatementInitialiser containeeInit,
+			IStatementListContainerInitialiser containerInit, String displayName) {
 		var slc1 = containerInit.instantiate();
 		Assertions.assertTrue(containerInit.initialise(slc1));
 		var slc2 = containerInit.instantiate();
@@ -115,10 +115,10 @@ public class StatementPositionTest extends AbstractJaMoPPSimilarityTest
 	 *                      statement that will be added to the constructed
 	 *                      container
 	 */
-	@ParameterizedTest(name = "{0}")
+	@ParameterizedTest(name = "Statement in middle: {2}")
 	@MethodSource("genTestParams")
-	public void test_DifferentPredecessor_SameSuccessor(String displayName,
-			IStatementListContainerInitialiser containerInit, IStatementInitialiser containeeInit) {
+	public void test_DifferentPredecessor_SameSuccessor(IStatementInitialiser containeeInit,
+			IStatementListContainerInitialiser containerInit, String displayName) {
 		var slc1 = containerInit.instantiate();
 		Assertions.assertTrue(containerInit.initialise(slc1));
 		var slc2 = containerInit.instantiate();
@@ -175,10 +175,10 @@ public class StatementPositionTest extends AbstractJaMoPPSimilarityTest
 	 *                      statement that will be added to the constructed
 	 *                      container
 	 */
-	@ParameterizedTest(name = "{0}")
+	@ParameterizedTest(name = "Statement in middle: {2}")
 	@MethodSource("genTestParams")
-	public void test_SamePredecessor_DifferentSuccessor(String displayName,
-			IStatementListContainerInitialiser containerInit, IStatementInitialiser containeeInit) {
+	public void test_SamePredecessor_DifferentSuccessor(IStatementInitialiser containeeInit,
+			IStatementListContainerInitialiser containerInit, String displayName) {
 		var slc1 = containerInit.instantiate();
 		Assertions.assertTrue(containerInit.initialise(slc1));
 		var slc2 = containerInit.instantiate();
@@ -235,10 +235,10 @@ public class StatementPositionTest extends AbstractJaMoPPSimilarityTest
 	 *                      statement that will be added to the constructed
 	 *                      container
 	 */
-	@ParameterizedTest
+	@ParameterizedTest(name = "Statement in middle: {2}")
 	@MethodSource("genTestParams")
-	public void test_DifferentPredecessor_DifferentSuccessor(String displayName,
-			IStatementListContainerInitialiser containerInit, IStatementInitialiser containeeInit) {
+	public void test_DifferentPredecessor_DifferentSuccessor(IStatementInitialiser containeeInit,
+			IStatementListContainerInitialiser containerInit, String displayName) {
 		var containeeCls = containeeInit.getInstanceClassOfInitialiser();
 
 		var slc1 = containerInit.instantiate();

@@ -98,8 +98,8 @@ public class SelfReferenceTest extends AbstractJaMoPPSimilarityTest implements I
 					this.setValueOf(objs1.get(objs1.size() - 1), attr, objs1CycleStart);
 					this.setValueOf(objs2.get(objs2.size() - 1), attr, objs2CycleStart);
 
-					tests.add(DynamicTest.dynamicTest(objCls.getSimpleName() + "." + attr.getName()
-							+ " with (length, offset): (" + cycleLength + ", " + cycleOffset + ")", () -> {
+					tests.add(DynamicTest.dynamicTest(String.format("%s.%s cyclic with (length=%d, offset=%d)",
+							objCls.getSimpleName(), attr.getName(), cycleLength, cycleOffset), () -> {
 								for (int i = 0; i < objs1.size(); i++) {
 									final var idx = i;
 									Assertions.assertDoesNotThrow(() -> this.isSimilar(objs1.get(idx), objs2.get(idx)));

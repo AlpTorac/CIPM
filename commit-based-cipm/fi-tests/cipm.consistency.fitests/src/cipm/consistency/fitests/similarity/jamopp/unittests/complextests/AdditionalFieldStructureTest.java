@@ -152,9 +152,9 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest
 	 * @param init The initialiser that constructs the container of the container of
 	 *             the {@link AdditionalField} instance (MC_i).
 	 */
-	@ParameterizedTest
+	@ParameterizedTest(name = "ConOfConInit = {1}")
 	@MethodSource("genTestParams")
-	public void testDifferentConOfCon_OneContainer_IsNull(IMemberContainerInitialiser init) {
+	public void testDifferentConOfCon_OneContainer_IsNull(IMemberContainerInitialiser init, String displayName) {
 		var afInit = new AdditionalFieldInitialiser();
 		var fieldInit = new FieldInitialiser();
 
@@ -189,9 +189,9 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest
 	 * @param init The initialiser that constructs the container of the container of
 	 *             the {@link AdditionalField} instance (MC_i).
 	 */
-	@ParameterizedTest
+	@ParameterizedTest(name = "ConOfConInit = {1}")
 	@MethodSource("genTestParams")
-	public void testDifferentConOfCon_OneConOfCon_IsNull(IMemberContainerInitialiser init) {
+	public void testDifferentConOfCon_OneConOfCon_IsNull(IMemberContainerInitialiser init, String displayName) {
 		var afInit = new AdditionalFieldInitialiser();
 		var fieldInit = new FieldInitialiser();
 
