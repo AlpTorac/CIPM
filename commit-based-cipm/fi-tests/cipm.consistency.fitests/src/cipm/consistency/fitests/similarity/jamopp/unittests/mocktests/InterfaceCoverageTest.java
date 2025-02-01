@@ -31,14 +31,14 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 	 * @return Class object of each Java element type present in {@link JavaPackage}.
 	 */
 	private static Stream<Arguments> genTestParams() {
-		return IMockTest.getAllClasses().stream().map(Arguments::of);
+		return IMockTest.getAllClasses().stream().map((cls) -> Arguments.of(cls, cls.getSimpleName()));
 	}
 
 	/**
 	 * @return Class object of each Java element type present in {@link JavaPackage}, which is concrete.
 	 */
 	private static Stream<Arguments> genConcreteTestParams() {
-		return IMockTest.getAllClasses((eCls) -> !eCls.isAbstract()).stream().map(Arguments::of);
+		return IMockTest.getAllClasses((eCls) -> !eCls.isAbstract()).stream().map((cls) -> Arguments.of(cls, cls.getSimpleName()));
 	}
 
 	/**
@@ -51,9 +51,9 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 	 * 
 	 * @param cls The type extending {@link EObject} that will be mocked.
 	 */
-	@ParameterizedTest
+	@ParameterizedTest(name = "Mocked class: {1}")
 	@MethodSource("genTestParams")
-	public void testInterfaceCoverage_BothSidesMocked(Class<? extends EObject> cls) {
+	public void testInterfaceCoverage_BothSidesMocked(Class<? extends EObject> cls, String displayName) {
 		/*
 		 * Mock the given class and make sure that the mocks return their corresponding
 		 * EClass, so that method calls till reaching similarity checking process do not
@@ -89,9 +89,9 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 	 * a concrete class {@code xImpl} that directly inherits from {@code x}.
 	 */
 	@SuppressWarnings("unchecked")
-	@ParameterizedTest
+	@ParameterizedTest(name = "Mocked class: {1}")
 	@MethodSource("genConcreteTestParams")
-	public <T extends EObject> void testInterfaceCoverage_OneSideMocked_AllMethodsDelegated(Class<T> cls) {
+	public <T extends EObject> void testInterfaceCoverage_OneSideMocked_AllMethodsDelegated(Class<T> cls, String displayName) {
 		var init = this.getUsedInitialiserPackage().getInitialiserInstanceFor(cls);
 		var wrapee = (T) init.instantiate();
 		var wrapeeCls = (Class<T>) wrapee.getClass();
@@ -135,9 +135,9 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 	 * a concrete class {@code xImpl} that directly inherits from {@code x}.
 	 */
 	@SuppressWarnings("unchecked")
-	@ParameterizedTest
+	@ParameterizedTest(name = "Mocked class: {1}")
 	@MethodSource("genConcreteTestParams")
-	public <T extends EObject> void testInterfaceCoverage_OneSideMocked_MethodsRestricted(Class<T> cls) {
+	public <T extends EObject> void testInterfaceCoverage_OneSideMocked_MethodsRestricted(Class<T> cls, String displayName) {
 		var init = this.getUsedInitialiserPackage().getInitialiserInstanceFor(cls);
 		var wrapee = (T) init.instantiate();
 

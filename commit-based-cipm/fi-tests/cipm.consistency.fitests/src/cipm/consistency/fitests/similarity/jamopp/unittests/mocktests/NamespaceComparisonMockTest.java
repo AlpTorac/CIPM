@@ -26,7 +26,7 @@ public class NamespaceComparisonMockTest extends AbstractJaMoPPSimilarityTest im
 	private static Stream<Arguments> genTestParams() {
 		return IMockTest.getAllClasses(
 				(cls) -> NamespaceAwareElement.class.isAssignableFrom(cls.getInstanceClass()) && !cls.isAbstract())
-				.stream().map(Arguments::of);
+				.stream().map((cls) -> Arguments.of(cls, cls.getSimpleName()));
 	}
 
 	/**
@@ -36,9 +36,9 @@ public class NamespaceComparisonMockTest extends AbstractJaMoPPSimilarityTest im
 	 * @param cls A {@link NamespaceAwareElement} sub-type to be spied on.
 	 */
 	@SuppressWarnings("unchecked")
-	@ParameterizedTest
+	@ParameterizedTest(name = "Mocked class: {1}")
 	@MethodSource("genTestParams")
-	public <T extends NamespaceAwareElement> void testNamespaceComparison_BothSides_JustSentinel(Class<T> cls) {
+	public <T extends NamespaceAwareElement> void testNamespaceComparison_BothSides_JustSentinel(Class<T> cls, String displayName) {
 		var init = this.getUsedInitialiserPackage().getInitialiserInstanceFor(cls);
 
 		var spy1 = this.spyEObject((T) init.instantiate());
@@ -58,9 +58,9 @@ public class NamespaceComparisonMockTest extends AbstractJaMoPPSimilarityTest im
 	 * @param cls A {@link NamespaceAwareElement} sub-type to be spied on.
 	 */
 	@SuppressWarnings("unchecked")
-	@ParameterizedTest
+	@ParameterizedTest(name = "Mocked class: {1}")
 	@MethodSource("genTestParams")
-	public <T extends NamespaceAwareElement> void testNamespaceComparison_OneSide_JustSentinel(Class<T> cls) {
+	public <T extends NamespaceAwareElement> void testNamespaceComparison_OneSide_JustSentinel(Class<T> cls, String displayName) {
 		var init = this.getUsedInitialiserPackage().getInitialiserInstanceFor(cls);
 
 		var spy1 = this.spyEObject((T) init.instantiate());
@@ -79,9 +79,9 @@ public class NamespaceComparisonMockTest extends AbstractJaMoPPSimilarityTest im
 	 * @param cls A {@link NamespaceAwareElement} sub-type to be spied on.
 	 */
 	@SuppressWarnings("unchecked")
-	@ParameterizedTest
+	@ParameterizedTest(name = "Mocked class: {1}")
 	@MethodSource("genTestParams")
-	public <T extends NamespaceAwareElement> void testNamespaceComparison_BothSides_WithoutDot(Class<T> cls) {
+	public <T extends NamespaceAwareElement> void testNamespaceComparison_BothSides_WithoutDot(Class<T> cls, String displayName) {
 		var init = this.getUsedInitialiserPackage().getInitialiserInstanceFor(cls);
 
 		var spy1 = this.spyEObject((T) init.instantiate());
@@ -101,9 +101,9 @@ public class NamespaceComparisonMockTest extends AbstractJaMoPPSimilarityTest im
 	 * @param cls A {@link NamespaceAwareElement} sub-type to be spied on.
 	 */
 	@SuppressWarnings("unchecked")
-	@ParameterizedTest
+	@ParameterizedTest(name = "Mocked class: {1}")
 	@MethodSource("genTestParams")
-	public <T extends NamespaceAwareElement> void testNamespaceComparison_OneSide_WithoutDot(Class<T> cls) {
+	public <T extends NamespaceAwareElement> void testNamespaceComparison_OneSide_WithoutDot(Class<T> cls, String displayName) {
 		var init = this.getUsedInitialiserPackage().getInitialiserInstanceFor(cls);
 
 		var spy1 = this.spyEObject((T) init.instantiate());

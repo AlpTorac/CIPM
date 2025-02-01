@@ -45,9 +45,7 @@ public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
 
 		for (var stCls : IMockTest.getAllClasses().stream().filter((cls) -> Statement.class.isAssignableFrom(cls)).toArray(Class<?>[]::new)) {
 			for (var slcCls : IMockTest.getAllClasses().stream().filter((cls) -> StatementListContainer.class.isAssignableFrom(cls)).toArray(Class<?>[]::new)) {
-				var displayName = stCls.getSimpleName() + " in " + slcCls.getSimpleName();
-
-				res.add(Arguments.of(displayName, slcCls, stCls));
+				res.add(Arguments.of(stCls, slcCls, String.format("%s inside %s", stCls.getSimpleName(), slcCls.getSimpleName())));
 			}
 		}
 
@@ -98,13 +96,14 @@ public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
 	 * 
 	 * @see {@link #testBody(Class, Class, int, int)} for more information
 	 */
-	@ParameterizedTest
+	@ParameterizedTest(name = "Mocked statement in middle: {2}")
 	@MethodSource("genTestParams")
-	public void test_StatementPosition_MalfunctioningStatementRetrieval(String displayName,
-			Class<? extends StatementListContainer> containerCls, Class<? extends Statement> containeeCls) {
+	public void test_StatementPosition_MalfunctioningStatementRetrieval(Class<? extends Statement> containeeCls,
+			Class<? extends StatementListContainer> containerCls,
+			String displayName) {
 		for (int i = 0; i < 4; i++) {
 			for (int j = 0; j < 4; j++) {
-				this.testBody(containerCls, containeeCls, i, j);
+				this.testBody(containeeCls, containerCls, i, j);
 			}
 		}
 	}
@@ -114,12 +113,11 @@ public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
 	 * {@link StatementListContainer} mocks are similar, if
 	 * {@code statementListContainer.getStatements()} malfunctions for both sides at
 	 * some point.
-	 * 
+	 * @param containeeCls               The class of the statement that will be
+	 *                                   placed into the mocked container
 	 * @param containerCls               The class of the statement list container
 	 *                                   sub-type, which will be mocked and used as
 	 *                                   the container
-	 * @param containeeCls               The class of the statement that will be
-	 *                                   placed into the mocked container
 	 * @param lhsStatementRetrievalCount The amount of times the left hand side
 	 *                                   statement list container's
 	 *                                   {@code getStatements()} method works as
@@ -131,7 +129,7 @@ public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
 	 *                                   intended. Once this count drops to 0, the
 	 *                                   said method will return null instead.
 	 */
-	public void testBody(Class<? extends StatementListContainer> containerCls, Class<? extends Statement> containeeCls,
+	public void testBody(Class<? extends Statement> containeeCls, Class<? extends StatementListContainer> containerCls,
 			int lhsStatementRetrievalCount, int rhsStatementRetrievalCount) {
 		var slc1 = this.mockEObject(containerCls);
 		var slc2 = this.mockEObject(containerCls);
