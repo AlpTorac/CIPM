@@ -142,18 +142,26 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	/**
 	 * Ensures that a {@link Reference} instance ref1 referencing nextRef1 is
 	 * similar to a reference instance ref2 referencing nextRef2, if types of ref1
-	 * and ref2 are equal and types of nextRef1 and nextRef2 are equal.
+	 * and ref2 are equal and types of nextRef1 and nextRef2 are equal: <br>
+	 * <br>
+	 * {@code ref1 -> nextRef1} <br>
+	 * ----------VS----------<br>
+	 * {@code ref2 -> nextRef2}
+	 * 
+	 * @param refInit     Initialiser of ref1 and ref2
+	 * @param nextRefInit Initialiser of nextRef1 and nextRef2
 	 */
 	@ParameterizedTest(name = "{2}")
 	@MethodSource("genTestParams_ForTwo")
-	public void test_ReferenceCombinations_SimilarNext(IReferenceInitialiser init1, IReferenceInitialiser init2, String displayName) {
-		var ref1 = init1.instantiate();
-		var nextRef1 = init2.instantiate();
-		init1.setNext(ref1, nextRef1);
+	public void test_ReferenceCombinations_SimilarNext(IReferenceInitialiser refInit, IReferenceInitialiser nextRefInit,
+			String displayName) {
+		var ref1 = refInit.instantiate();
+		var nextRef1 = nextRefInit.instantiate();
+		refInit.setNext(ref1, nextRef1);
 
-		var ref2 = init1.instantiate();
-		var nextRef2 = init2.instantiate();
-		init1.setNext(ref2, nextRef2);
+		var ref2 = refInit.instantiate();
+		var nextRef2 = nextRefInit.instantiate();
+		refInit.setNext(ref2, nextRef2);
 
 		Assertions.assertTrue(this.isSimilar(ref1, ref2));
 	}
@@ -161,25 +169,32 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	/**
 	 * Tests cases, where 2 {@link Reference} instances ref1 and ref2 each reference
 	 * nextRef1 and nextRef2 respectively, with types of nextRef1 and nextRef2 being
-	 * potentially different.<br>
+	 * potentially different:<br>
 	 * <br>
-	 * 
+	 * {@code ref1 -> nextRef1} <br>
+	 * -----------VS-----------<br>
+	 * {@code ref2 -> nextRef2} <br>
+	 * <br>
 	 * Note: While
 	 * {@link #test_ReferenceCombinations_SimilarNext(IReferenceInitialiser, IReferenceInitialiser)}
 	 * asserts that both references should be similar, the assertion here is more
 	 * advanced.
+	 * 
+	 * @param refXInit     Initialiser of ref1 and ref2
+	 * @param nextRef1Init Initialiser of nextRef1
+	 * @param nextRef2Init Initialiser of nextRef2
 	 */
 	@ParameterizedTest(name = "{3}")
 	@MethodSource("genTestParams_ForThree")
-	public void test_ReferenceCombinations_DifferentNext(IReferenceInitialiser init1, IReferenceInitialiser init2,
-			IReferenceInitialiser init3, String displayName) {
-		var ref1 = init1.instantiate();
-		var nextRef1 = init2.instantiate();
-		init1.setNext(ref1, nextRef1);
+	public void test_ReferenceCombinations_DifferentNext(IReferenceInitialiser refXInit,
+			IReferenceInitialiser nextRef1Init, IReferenceInitialiser nextRef2Init, String displayName) {
+		var ref1 = refXInit.instantiate();
+		var nextRef1 = nextRef1Init.instantiate();
+		refXInit.setNext(ref1, nextRef1);
 
-		var ref2 = init1.instantiate();
-		var nextRef2 = init3.instantiate();
-		init1.setNext(ref2, nextRef2);
+		var ref2 = refXInit.instantiate();
+		var nextRef2 = nextRef2Init.instantiate();
+		refXInit.setNext(ref2, nextRef2);
 
 		var nextClssSimilar = nextRef1.getClass().equals(nextRef2.getClass());
 		var breaksSimilarity = this.getExpectedSimilarityResult(ref1.getClass(),
@@ -196,13 +211,15 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * {@code ref -> ref} <br>
 	 * <br>
 	 * Performs this check for each sub-type of {@link Reference}.
+	 * 
+	 * @param refInit Initialiser of ref
 	 */
 	@Disabled("Until cycle checking mechanisms are implemented")
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("genTestParams_ForOne")
-	public void test_ReferenceCycles_OneReferenceCycle(IReferenceInitialiser init, String displayName) {
-		var ref = init.instantiate();
-		init.setNext(ref, ref);
+	public void test_ReferenceCycles_OneReferenceCycle(IReferenceInitialiser refInit, String displayName) {
+		var ref = refInit.instantiate();
+		refInit.setNext(ref, ref);
 		this.cycleAssertionsFor(new Reference[] { ref }, new Reference[] { ref });
 	}
 
@@ -210,25 +227,31 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * Tests whether similarity checking can detect and handle cycles of
 	 * {@link Reference} instances with a length of 2:<br>
 	 * <br>
-	 * {@code ref1 -> ref2 -> ref1} <br>
+	 * {@code ref11 -> ref12 -> ref11} <br>
+	 * ----------------VS----------------<br>
+	 * {@code ref21 -> ref22 -> ref21} <br>
 	 * <br>
 	 * Performs this check for each combination of sub-type of {@link Reference}.
+	 * 
+	 * @param refX1Init Initialiser of ref11 and ref21
+	 * @param refX2Init Initialiser of ref12 and ref22
 	 */
 	@Disabled("Until cycle checking mechanisms are implemented")
 	@ParameterizedTest(name = "{2}")
 	@MethodSource("genTestParams_ForTwo")
-	public void test_ReferenceCycles_TwoReferencesCycle(IReferenceInitialiser init1, IReferenceInitialiser init2, String displayName) {
-		var ref11 = init1.instantiate();
-		var ref12 = init2.instantiate();
+	public void test_ReferenceCycles_TwoReferencesCycle(IReferenceInitialiser refX1Init,
+			IReferenceInitialiser refX2Init, String displayName) {
+		var ref11 = refX1Init.instantiate();
+		var ref12 = refX2Init.instantiate();
 
-		init1.setNext(ref11, ref12);
-		init2.setNext(ref12, ref11);
+		refX1Init.setNext(ref11, ref12);
+		refX2Init.setNext(ref12, ref11);
 
-		var ref21 = init1.instantiate();
-		var ref22 = init2.instantiate();
+		var ref21 = refX1Init.instantiate();
+		var ref22 = refX2Init.instantiate();
 
-		init1.setNext(ref21, ref22);
-		init2.setNext(ref22, ref21);
+		refX1Init.setNext(ref21, ref22);
+		refX2Init.setNext(ref22, ref21);
 
 		this.cycleAssertionsFor(new Reference[] { ref11, ref12 }, new Reference[] { ref21, ref22 });
 	}
@@ -237,7 +260,9 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * Tests whether similarity checking can detect and handle cycles of
 	 * {@link Reference} instances, which has a length of 3: <br>
 	 * <br>
-	 * {@code ref1 -> ref2 -> ref3 -> ref1} <br>
+	 * {@code ref11 -> ref12 -> ref13 -> ref11} <br>
+	 * ----------------------VS----------------------<br>
+	 * {@code ref21 -> ref22 -> ref23 -> ref21} <br>
 	 * <br>
 	 * Note: Only testing for cycles with a length smaller than 3 is not enough,
 	 * since they can be easily accounted for, due to both {@link Reference}
@@ -247,27 +272,31 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * instances. <br>
 	 * <br>
 	 * Performs this check for each combination of sub-type of {@link Reference}.
+	 * 
+	 * @param refX1Init Initialiser of ref11 and ref21
+	 * @param refX2Init Initialiser of ref12 and ref22
+	 * @param refX3Init Initialiser of ref13 and ref23
 	 */
 	@Disabled("Until cycle checking mechanisms are implemented")
 	@ParameterizedTest(name = "{3}")
 	@MethodSource("genTestParams_ForThree")
-	public void test_ReferenceCycles_ThreeReferencesCycle(IReferenceInitialiser init1, IReferenceInitialiser init2,
-			IReferenceInitialiser init3, String displayName) {
-		var ref11 = init1.instantiate();
-		var ref12 = init2.instantiate();
-		var ref13 = init3.instantiate();
+	public void test_ReferenceCycles_ThreeReferencesCycle(IReferenceInitialiser refX1Init,
+			IReferenceInitialiser refX2Init, IReferenceInitialiser refX3Init, String displayName) {
+		var ref11 = refX1Init.instantiate();
+		var ref12 = refX2Init.instantiate();
+		var ref13 = refX3Init.instantiate();
 
-		init1.setNext(ref11, ref12);
-		init2.setNext(ref12, ref13);
-		init3.setNext(ref13, ref11);
+		refX1Init.setNext(ref11, ref12);
+		refX2Init.setNext(ref12, ref13);
+		refX3Init.setNext(ref13, ref11);
 
-		var ref21 = init1.instantiate();
-		var ref22 = init2.instantiate();
-		var ref23 = init3.instantiate();
+		var ref21 = refX1Init.instantiate();
+		var ref22 = refX2Init.instantiate();
+		var ref23 = refX3Init.instantiate();
 
-		init1.setNext(ref21, ref22);
-		init2.setNext(ref22, ref23);
-		init3.setNext(ref23, ref21);
+		refX1Init.setNext(ref21, ref22);
+		refX2Init.setNext(ref22, ref23);
+		refX3Init.setNext(ref23, ref21);
 
 		this.cycleAssertionsFor(new Reference[] { ref11, ref12, ref13 }, new Reference[] { ref21, ref22, ref23 });
 	}
@@ -277,7 +306,9 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * {@link Reference} instances, where the cycle (of length 2) does not include
 	 * the first reference: <br>
 	 * <br>
-	 * {@code ref1 -> ref2 -> ref3 -> ref2 -> ...} <br>
+	 * {@code ref11 -> ref12 -> ref13 -> ref12 -> ref13} <br>
+	 * -----------------------------VS-----------------------------<br>
+	 * {@code ref21 -> ref22 -> ref23 -> ref22 -> ref23} <br>
 	 * <br>
 	 * Note: Only testing for cycles, which consist of the entire reference chain is
 	 * not enough, since such cases do not necessarily cover the scenario presented
@@ -285,27 +316,31 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * repeat and not the other ones. <br>
 	 * <br>
 	 * Performs this check for each combination of sub-type of {@link Reference}.
+	 * 
+	 * @param refX1Init Initialiser of ref11 and ref21
+	 * @param refX2Init Initialiser of ref12 and ref22
+	 * @param refX3Init Initialiser of ref13 and ref23
 	 */
 	@Disabled("Until cycle checking mechanisms are implemented")
 	@ParameterizedTest(name = "{3}")
 	@MethodSource("genTestParams_ForThree")
-	public void test_ReferenceCycles_OneRefLeadingToTwoRefCycle(IReferenceInitialiser init1,
-			IReferenceInitialiser init2, IReferenceInitialiser init3, String displayName) {
-		var ref11 = init1.instantiate();
-		var ref12 = init2.instantiate();
-		var ref13 = init3.instantiate();
+	public void test_ReferenceCycles_OneRefLeadingToTwoRefCycle(IReferenceInitialiser refX1Init,
+			IReferenceInitialiser refX2Init, IReferenceInitialiser refX3Init, String displayName) {
+		var ref11 = refX1Init.instantiate();
+		var ref12 = refX2Init.instantiate();
+		var ref13 = refX3Init.instantiate();
 
-		init1.setNext(ref11, ref12);
-		init2.setNext(ref12, ref13);
-		init3.setNext(ref13, ref12);
+		refX1Init.setNext(ref11, ref12);
+		refX2Init.setNext(ref12, ref13);
+		refX3Init.setNext(ref13, ref12);
 
-		var ref21 = init1.instantiate();
-		var ref22 = init2.instantiate();
-		var ref23 = init3.instantiate();
+		var ref21 = refX1Init.instantiate();
+		var ref22 = refX2Init.instantiate();
+		var ref23 = refX3Init.instantiate();
 
-		init1.setNext(ref21, ref22);
-		init2.setNext(ref22, ref23);
-		init3.setNext(ref23, ref22);
+		refX1Init.setNext(ref21, ref22);
+		refX2Init.setNext(ref22, ref23);
+		refX3Init.setNext(ref23, ref22);
 
 		/*
 		 * Directly use isSimilar to avoid cloning ref, so that the underlying cloning
