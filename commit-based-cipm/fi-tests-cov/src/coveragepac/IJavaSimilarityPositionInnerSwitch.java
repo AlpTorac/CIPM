@@ -9,7 +9,7 @@ package coveragepac;
  * and {@link IPositionInnerSwitch} interfaces. Contains methods, which are
  * specific to computing similarity in the context of Java model elements.
  * 
- * @author atora
+ * @author Alp Torac Genc
  *
  */
 public interface IJavaSimilarityPositionInnerSwitch extends IJavaSimilarityInnerSwitch, IPositionInnerSwitch {

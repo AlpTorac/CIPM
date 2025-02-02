@@ -14,7 +14,7 @@ import org.emftext.language.java.arrays.util.ArraysSwitch;
 public class ArraysSimilaritySwitch extends ArraysSwitch<Boolean> implements ILoggableJavaSwitch {
 	@Override
     public Boolean defaultCase(EObject object) {
-		this.logMessage("defaultCase for Array");
+		this.logInfoMessage("defaultCase for Array");
 		
         return Boolean.TRUE;
     }

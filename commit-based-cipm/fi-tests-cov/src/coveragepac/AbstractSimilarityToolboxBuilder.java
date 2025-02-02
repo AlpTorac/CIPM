@@ -1,11 +1,11 @@
 package coveragepac;
 
 /**
- * An abstract class for concrete similarity {@link ISimilarityToolbox} builders
- * to extend. Complements {@link ISimilarityToolboxBuilder} with the integration
- * of {@link ISimilarityToolboxFactory}.
+ * An abstract class for concrete {@link ISimilarityToolbox} builders to extend.
+ * Complements {@link ISimilarityToolboxBuilder} with the integration of
+ * {@link ISimilarityToolboxFactory}.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public abstract class AbstractSimilarityToolboxBuilder implements ISimilarityToolboxBuilder {
 	/**
@@ -19,13 +19,6 @@ public abstract class AbstractSimilarityToolboxBuilder implements ISimilarityToo
 	 * The current version of the {@link ISimilarityToolbox} instance being built.
 	 */
 	private ISimilarityToolbox st;
-
-	/**
-	 * Constructs an instance.
-	 */
-	public AbstractSimilarityToolboxBuilder() {
-		super();
-	}
 
 	@Override
 	public void setSimilarityToolboxFactory(ISimilarityToolboxFactory stf) {

@@ -2,12 +2,17 @@ package coveragepac;
 
 
 
+
 /**
  * An {@link ISimilarityRequest}, which contains a flag (checkStatementPosition)
  * that denotes, whether the new similarity switch created by processing this
- * request should care about positions of statements while computing similarity.
+ * request should care about positions of statements while computing
+ * similarity.<br>
+ * <br>
+ * Instances can be passed to a matching {@link ISimilarityRequestHandler} for
+ * the creation of a new similarity switch ({@link JavaSimilaritySwitch}).
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class NewSimilaritySwitchRequest implements ISimilarityRequest {
 	/**

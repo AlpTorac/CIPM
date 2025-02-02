@@ -16,7 +16,7 @@ import org.emftext.language.java.commons.NamespaceAwareElement;
  * These methods can be used to spare code duplication in inner switches, which
  * need them.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public interface IJavaSimilarityInnerSwitch extends IInnerSwitch {
 	/**

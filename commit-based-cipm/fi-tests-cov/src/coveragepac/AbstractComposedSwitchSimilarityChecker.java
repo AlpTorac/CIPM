@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EObject;
  * A version of {@link AbstractSimilarityChecker}, which is adapted for
  * {@link EObject}.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public abstract class AbstractComposedSwitchSimilarityChecker extends AbstractSimilarityChecker {
 	/**

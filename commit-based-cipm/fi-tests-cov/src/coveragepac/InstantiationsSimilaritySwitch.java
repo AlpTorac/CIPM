@@ -13,6 +13,7 @@ import org.emftext.language.java.types.TypeReference;
 
 
 
+
 /**
  * Similarity decisions for object instantiation elements.
  */
@@ -56,7 +57,7 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 	 */
 	@Override
 	public Boolean caseExplicitConstructorCall(ExplicitConstructorCall call1) {
-		this.logMessage("caseExplicitConstructorCall");
+		this.logInfoMessage("caseExplicitConstructorCall");
 
 		ExplicitConstructorCall call2 = (ExplicitConstructorCall) this.getCompareElement();
 
@@ -90,7 +91,7 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 	 */
 	@Override
 	public Boolean caseNewConstructorCall(NewConstructorCall call1) {
-		this.logMessage("caseNewConstructorCall");
+		this.logInfoMessage("caseNewConstructorCall");
 
 		NewConstructorCall call2 = (NewConstructorCall) this.getCompareElement();
 
@@ -98,9 +99,9 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 		TypeReference tref2 = call2.getTypeReference();
 
 		// Null check to avoid NullPointerExceptions
-		if (tref1 == null ^ tref2 == null) {
+		if (JaMoPPNullCheckUtil.onlyOneIsNull(tref1, tref2)) {
 			return Boolean.FALSE;
-		} else if (tref1 != null && tref2 != null) {
+		} else if (JaMoPPNullCheckUtil.allNonNull(tref1, tref2)) {
 			Type type1 = tref1.getTarget();
 			Type type2 = tref2.getTarget();
 			Boolean typeSimilarity = this.isSimilar(type1, type2);
@@ -117,7 +118,7 @@ public class InstantiationsSimilaritySwitch extends InstantiationsSwitch<Boolean
 
 	@Override
 	public Boolean defaultCase(EObject object) {
-		this.logMessage("defaultCase for Instantiation");
+		this.logInfoMessage("defaultCase for Instantiation");
 
 		return Boolean.TRUE;
 	}

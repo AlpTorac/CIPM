@@ -11,7 +11,7 @@ import org.emftext.commons.layout.util.LayoutSwitch;
 public class LayoutSimilaritySwitch extends LayoutSwitch<Boolean> implements ILoggableJavaSwitch {
     @Override
     public Boolean defaultCase(EObject object) {
-    	this.logMessage("defaultCase for Layout");
+    	this.logInfoMessage("defaultCase for Layout");
     	
         return Boolean.TRUE;
     }

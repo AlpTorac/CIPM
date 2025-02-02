@@ -9,10 +9,13 @@ package coveragepac;
  * especially if the concrete similarity requests are planned to be extended.
  * 
  * @see {@link ISimilarityToolbox}, {@link ISimilarityRequestHandler}
- * @author atora
+ * @author Alp Torac Genc
  */
 public interface ISimilarityRequest {
 	/**
+	 * See the constructor of the complete implementor for more information on the
+	 * returned parameters.
+	 * 
 	 * @return All parameters encapsulated by this instance. Unless specified
 	 *         otherwise, the return type is an Object array of all parameters
 	 *         passed to the constructor of the concrete implementation in the same

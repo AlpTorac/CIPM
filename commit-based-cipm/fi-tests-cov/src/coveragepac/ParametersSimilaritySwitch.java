@@ -42,9 +42,9 @@ public class ParametersSimilaritySwitch extends ParametersSwitch<Boolean> implem
      */
 	@Override
     public Boolean caseParameter(Parameter param1) {
-		this.logMessage("caseParameter");
+		this.logInfoMessage("caseParameter");
 		
         Parameter param2 = (Parameter) this.getCompareElement();
-        return JaMoPPComparisonUtil.namesEqual(param1, param2);
+        return JaMoPPNameComparisonUtil.namesEqual(param1, param2);
     }
 }

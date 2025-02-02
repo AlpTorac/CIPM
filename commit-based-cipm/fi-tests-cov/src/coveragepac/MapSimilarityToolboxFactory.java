@@ -3,7 +3,7 @@ package coveragepac;
 /**
  * A factory that creates {@link MapSimilarityToolbox} instances.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class MapSimilarityToolboxFactory implements ISimilarityToolboxFactory {
 	@Override

@@ -7,7 +7,6 @@ import org.emftext.language.java.classifiers.util.ClassifiersSwitch;
 
 
 
-import com.google.common.base.Strings;
 
 /**
  * Similarity decisions for classifier elements.
@@ -52,15 +51,14 @@ public class ClassifiersSimilaritySwitch extends ClassifiersSwitch<Boolean> impl
      */
     @Override
     public Boolean caseConcreteClassifier(ConcreteClassifier classifier1) {
-    	this.logMessage("caseConcreteClassifier");
+    	this.logInfoMessage("caseConcreteClassifier");
     	
         ConcreteClassifier classifier2 = (ConcreteClassifier) this.getCompareElement();
 
-        String name1 = Strings.nullToEmpty(classifier1.getQualifiedName());
-        name1 = Strings.nullToEmpty(this.normalizeClassifier(name1));
-        String name2 = Strings.nullToEmpty(classifier2.getQualifiedName());
+        String name1 = this.normalizeClassifier(classifier1.getQualifiedName());
+        String name2 = this.normalizeClassifier(classifier2.getQualifiedName());
 
-        return (name1.equals(name2));
+        return JaMoPPStringUtil.stringsEqual(name1, name2);
     }
     
     /**
@@ -73,7 +71,7 @@ public class ClassifiersSimilaritySwitch extends ClassifiersSwitch<Boolean> impl
      */
     @Override
     public Boolean caseAnonymousClass(AnonymousClass anon) {
-    	this.logMessage("caseAnonymousClass");
+    	this.logInfoMessage("caseAnonymousClass");
     	
     	return Boolean.TRUE;
     }

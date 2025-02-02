@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EObject;
  * A {@link ISimilarityRequestHandler} that processes
  * {@link MultipleSimilarityCheckRequest} instances.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class MultipleSimilarityCheckHandler implements ISimilarityRequestHandler {
 	/**

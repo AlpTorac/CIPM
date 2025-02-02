@@ -10,7 +10,7 @@ import org.eclipse.emf.ecore.EObject;
  * {@link org.eclipse.emf.ecore.util.ComposedSwitch}. This interface contains
  * getters and delegation methods that are mutual among its implementors.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public interface IInnerSwitch extends ISimilarityRequestHandler {
 	/**
@@ -20,7 +20,7 @@ public interface IInnerSwitch extends ISimilarityRequestHandler {
 	public ISimilarityRequestHandler getSimilarityRequestHandler();
 
 	/**
-	 * @return The {@link IComposedSwitchAdapter} containing this switch
+	 * @return The ComposedSwitch that contains this switch.
 	 */
 	public IComposedSwitchAdapter getContainingSwitch();
 

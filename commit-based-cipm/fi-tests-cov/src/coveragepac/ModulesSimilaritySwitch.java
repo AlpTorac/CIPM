@@ -52,7 +52,7 @@ public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> implements I
      */
 	@Override
 	public Boolean caseModuleReference(ModuleReference modRef1) {
-		this.logMessage("caseModuleReference");
+		this.logInfoMessage("caseModuleReference");
 		
 		ModuleReference modRef2 = (ModuleReference) this.getCompareElement();
 		return JaMoPPBooleanUtil.isTrue(this.compareNamespacesByPart(modRef1, modRef2));
@@ -72,7 +72,7 @@ public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> implements I
      */
 	@Override
 	public Boolean caseAccessProvidingModuleDirective(AccessProvidingModuleDirective dir1) {
-		this.logMessage("caseAccessProvidingModuleDirective");
+		this.logInfoMessage("caseAccessProvidingModuleDirective");
 		
 		AccessProvidingModuleDirective dir2 = (AccessProvidingModuleDirective) this.getCompareElement();
 		return JaMoPPBooleanUtil.isTrue(this.compareNamespacesByPart(dir1, dir2));
@@ -92,7 +92,7 @@ public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> implements I
      */
 	@Override
 	public Boolean caseRequiresModuleDirective(RequiresModuleDirective dir1) {
-		this.logMessage("caseRequiresModuleDirective");
+		this.logInfoMessage("caseRequiresModuleDirective");
 		
 		RequiresModuleDirective dir2 = (RequiresModuleDirective) this.getCompareElement();
 		return this.isSimilar(dir1.getRequiredModule(), dir2.getRequiredModule());
@@ -112,7 +112,7 @@ public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> implements I
      */
 	@Override
 	public Boolean caseProvidesModuleDirective(ProvidesModuleDirective dir1) {
-		this.logMessage("caseProvidesModuleDirective");
+		this.logInfoMessage("caseProvidesModuleDirective");
 		
 		ProvidesModuleDirective dir2 = (ProvidesModuleDirective) this.getCompareElement();
 		return this.isSimilar(dir1.getTypeReference(), dir2.getTypeReference());
@@ -132,7 +132,7 @@ public class ModulesSimilaritySwitch extends ModulesSwitch<Boolean> implements I
      */
 	@Override
 	public Boolean caseUsesModuleDirective(UsesModuleDirective dir1) {
-		this.logMessage("caseUsesModuleDirective");
+		this.logInfoMessage("caseUsesModuleDirective");
 		
 		UsesModuleDirective dir2 = (UsesModuleDirective) this.getCompareElement();
 		return this.isSimilar(dir1.getTypeReference(), dir2.getTypeReference());

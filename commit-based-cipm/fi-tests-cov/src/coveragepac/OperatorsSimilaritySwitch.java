@@ -15,7 +15,7 @@ import org.emftext.language.java.operators.util.OperatorsSwitch;
 public class OperatorsSimilaritySwitch extends OperatorsSwitch<Boolean> implements ILoggableJavaSwitch {
     @Override
     public Boolean defaultCase(EObject object) {
-    	this.logMessage("defaultCase for Operator");
+    	this.logInfoMessage("defaultCase for Operator");
     	
         return Boolean.TRUE;
     }

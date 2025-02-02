@@ -3,30 +3,37 @@ package coveragepac;
 import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.commons.NamespaceAwareElement;
 
-import com.google.common.base.Strings;
-
+/**
+ * A utility class for checking namespaces of {@link NamespaceAwareElement}
+ * instances. <br>
+ * <br>
+ * The methods of this class can handle null parameters without throwing
+ * NullPointerExceptions.
+ * 
+ * @author Alp Torac Genc
+ */
 public class JaMoPPNamespaceUtil {
 	/**
 	 * Compares the namespaces of the given {@link NamespaceAwareElement}s part by
 	 * part.
 	 * 
-	 * @return False if namespaces have parts different parts, true if not.
+	 * @return False if namespaces have parts different parts, true if not. If only
+	 *         one parameter is null, returns false. If both parameters are null,
+	 *         returns true.
 	 */
-	public static Boolean compareNamespacesByPart(NamespaceAwareElement nae1, NamespaceAwareElement nae2) {
-		// Null check to avoid NullPointerExceptions
-		if (nae1 == nae2) {
+	public static boolean compareNamespacesByPart(NamespaceAwareElement nae1, NamespaceAwareElement nae2) {
+		if (JaMoPPNullCheckUtil.allNull(nae1, nae2)) {
 			return true;
-		} else if (nae1 == null ^ nae2 == null) {
+		} else if (JaMoPPNullCheckUtil.onlyOneIsNull(nae1, nae2)) {
 			return false;
 		}
 
 		var nss1 = nae1.getNamespaces();
 		var nss2 = nae2.getNamespaces();
 
-		// Null check to avoid NullPointerExceptions
-		if (nss1 == nss2) {
+		if (JaMoPPNullCheckUtil.allNull(nss1, nss2)) {
 			return true;
-		} else if (nss1 == null ^ nss2 == null) {
+		} else if (JaMoPPNullCheckUtil.onlyOneIsNull(nss1, nss2)) {
 			return false;
 		}
 
@@ -34,7 +41,7 @@ public class JaMoPPNamespaceUtil {
 			return false;
 		}
 		for (int idx = 0; idx < nss1.size(); idx++) {
-			if (!nss1.get(idx).equals(nss2.get(idx))) {
+			if (!JaMoPPStringUtil.stringsEqual(nss1.get(idx), nss2.get(idx))) {
 				return false;
 			}
 		}
@@ -46,7 +53,8 @@ public class JaMoPPNamespaceUtil {
 	 * aware of it's name space or the closest aware container is used.
 	 *
 	 * @param element The element to get the package for.
-	 * @return The identified name space or null if none could be found.
+	 * @return The identified name space or null if none could be found. Returns
+	 *         null, if the parameter is null.
 	 */
 	public static String buildNamespacePath(EObject element) {
 
@@ -74,16 +82,20 @@ public class JaMoPPNamespaceUtil {
 		return null;
 	}
 
-	public static Boolean compareNamespacesAsString(NamespaceAwareElement nae1, NamespaceAwareElement nae2) {
-		// Null check to avoid NullPointerExceptions
-		if (nae1 == nae2) {
+	/**
+	 * Compares the namespaces of the given {@link NamespaceAwareElement}s as a
+	 * whole (i.e. all namespace parts concatenated together).
+	 * 
+	 * @return False if namespaces are different, true if not. If only one parameter
+	 *         is null, returns false. If both parameters are null, returns true.
+	 */
+	public static boolean compareNamespacesAsString(NamespaceAwareElement nae1, NamespaceAwareElement nae2) {
+		if (JaMoPPNullCheckUtil.allNull(nae1, nae2)) {
 			return true;
-		} else if (nae1 == null ^ nae2 == null) {
+		} else if (JaMoPPNullCheckUtil.onlyOneIsNull(nae1, nae2)) {
 			return false;
 		}
-		
-		String namespace1 = Strings.nullToEmpty(nae1.getNamespacesAsString());
-		String namespace2 = Strings.nullToEmpty(nae2.getNamespacesAsString());
-		return (namespace1.equals(namespace2));
+
+		return JaMoPPStringUtil.stringsEqual(nae1.getNamespacesAsString(), nae2.getNamespacesAsString());
 	}
 }

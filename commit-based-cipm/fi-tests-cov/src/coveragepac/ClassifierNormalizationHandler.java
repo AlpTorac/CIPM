@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
  * An {@link ISimilarityRequestHandler} that processes incoming
  * {@link ClassifierNormalizationRequest} instances.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class ClassifierNormalizationHandler implements ISimilarityRequestHandler {
 	/**

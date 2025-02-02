@@ -15,7 +15,7 @@ import org.emftext.language.java.modifiers.util.ModifiersSwitch;
 public class ModifiersSimilaritySwitch extends ModifiersSwitch<Boolean> implements ILoggableJavaSwitch {
     @Override
     public Boolean defaultCase(EObject object) {
-    	this.logMessage("defaultCase for Modifier");
+    	this.logInfoMessage("defaultCase for Modifier");
     	
         return Boolean.TRUE;
     }

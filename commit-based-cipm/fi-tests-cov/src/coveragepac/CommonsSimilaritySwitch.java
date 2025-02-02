@@ -46,9 +46,9 @@ public class CommonsSimilaritySwitch extends CommonsSwitch<Boolean> implements I
      */
     @Override
     public Boolean caseNamedElement(NamedElement element1) {
-    	this.logMessage("caseNamedElement");
+    	this.logInfoMessage("caseNamedElement");
     	
         NamedElement element2 = (NamedElement) this.getCompareElement();
-        return JaMoPPComparisonUtil.namesEqual(element1, element2);
+        return JaMoPPNameComparisonUtil.namesEqual(element1, element2);
     }
 }

@@ -1,8 +1,5 @@
 package coveragepac;
 
-import java.util.Collection;
-
-import org.eclipse.emf.ecore.util.Switch;
 
 
 
@@ -13,7 +10,7 @@ import org.eclipse.emf.ecore.util.Switch;
  * {@link ISimilarityRequest} instances to their proper
  * {@link ISimilarityRequestHandler} instance.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public abstract class AbstractComposedSimilaritySwitch extends AbstractComposedSwitchAdapter
 		implements ISimilarityRequestHandler {
@@ -32,30 +29,6 @@ public abstract class AbstractComposedSimilaritySwitch extends AbstractComposedS
 	 */
 	public AbstractComposedSimilaritySwitch(ISimilarityRequestHandler srh) {
 		super();
-		this.srh = srh;
-	}
-
-	/**
-	 * Variation of
-	 * {@link #AbstractComposedSimilaritySwitch(ISimilarityRequestHandler)} that
-	 * constructs an instance with the given switches.
-	 * 
-	 * @see {@link AbstractComposedSwitchAdapter#AbstractComposedSwitchWrapper(Collection)}
-	 */
-	protected AbstractComposedSimilaritySwitch(ISimilarityRequestHandler srh, Collection<Switch<Boolean>> switches) {
-		super(switches);
-		this.srh = srh;
-	}
-
-	/**
-	 * Variation of
-	 * {@link #AbstractComposedSimilaritySwitch(ISimilarityRequestHandler)} that
-	 * constructs an instance with the given switches.
-	 * 
-	 * @see {@link AbstractComposedSwitchAdapter#AbstractComposedSwitchWrapper(Switch[])}
-	 */
-	protected AbstractComposedSimilaritySwitch(ISimilarityRequestHandler srh, Switch<Boolean>[] switches) {
-		super(switches);
 		this.srh = srh;
 	}
 

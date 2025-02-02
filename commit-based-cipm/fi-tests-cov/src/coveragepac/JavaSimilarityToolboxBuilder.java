@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
  * constructing {@link ISimilarityToolbox} instances for computing similarity of
  * Java model elements.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class JavaSimilarityToolboxBuilder extends AbstractSimilarityToolboxBuilder {
 	@Override
@@ -66,8 +66,8 @@ public class JavaSimilarityToolboxBuilder extends AbstractSimilarityToolboxBuild
 
 	/**
 	 * Adds the handlers needed to handle normalisation related
-	 * {@link ISimilarityRequest} instances. Does so without any normalisation
-	 * parameters.
+	 * {@link ISimilarityRequest} instances. Does so without any provided
+	 * normalisation parameters.
 	 * 
 	 * @return this
 	 * @see {@link #buildNormalizationHandlers(Map, Map, Map)}

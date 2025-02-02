@@ -9,7 +9,7 @@ package coveragepac;
  * An {@link ISimilarityRequestHandler} that processes incoming
  * {@link NewSimilaritySwitchRequest} instances.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public class NewSimilaritySwitchHandler implements ISimilarityRequestHandler {
 	/**

@@ -11,7 +11,7 @@ package coveragepac;
  * call to similarity checking methods, such as
  * {@link #isSimilar(Object, Object)}, at the start.
  * 
- * @author atora
+ * @author Alp Torac Genc
  */
 public abstract class AbstractSimilarityChecker implements ISimilarityChecker {
 	/**
@@ -23,7 +23,7 @@ public abstract class AbstractSimilarityChecker implements ISimilarityChecker {
 	/**
 	 * Constructs an {@link AbstractSimilarityChecker} instance with an
 	 * {@link ISimilarityComparer}, which delegates all incoming
-	 * {@link ISimilarityRequest} to the given parameter.
+	 * {@link ISimilarityRequest} to the given parameter {@code st}.
 	 * 
 	 * @param st {@link ISimilarityToolbox} to which all incoming
 	 *           {@link ISimilarityRequest} instances will be delegated to.
