@@ -47,13 +47,11 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 		ClassifierImport import2 = (ClassifierImport) this.getCompareElement();
 
 		Boolean similarity = this.isSimilar(import1.getClassifier(), import2.getClassifier());
-		if (similarity == Boolean.FALSE) {
+		if (JaMoPPBooleanUtil.isFalse(similarity)) {
 			return Boolean.FALSE;
 		}
 
-		String namespace1 = Strings.nullToEmpty(import1.getNamespacesAsString());
-		String namespace2 = Strings.nullToEmpty(import2.getNamespacesAsString());
-		return (namespace1.equals(namespace2));
+		return JaMoPPNamespaceUtil.compareNamespacesAsString(import1, import2);
 	}
 
 	@Override
