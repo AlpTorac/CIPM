@@ -9,6 +9,8 @@ import org.splevo.jamopp.diffing.similarity.ILoggableJavaSwitch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 
 import com.google.common.base.Strings;
+import org.splevo.jamopp.diffing.util.JaMoPPBooleanUtil;
+import org.splevo.jamopp.diffing.util.JaMoPPNamespaceUtil;
 
 /**
  * Similarity decisions for the import elements.
@@ -62,6 +64,13 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 
 		var stMems1 = import1.getStaticMembers();
 		var stMems2 = import2.getStaticMembers();
+		var stMemsSimilarity = this.areSimilar(stMems1, stMems2);
+		if (JaMoPPBooleanUtil.isFalse(stMemsSimilarity)) {
+			return Boolean.FALSE;
+		}
+
+		return JaMoPPNamespaceUtil.compareNamespacesAsString(import1, import2);
+	}
 
 		// Null check to avoid NullPointerExceptions
 		if (stMems1 == null ^ stMems2 == null) {
