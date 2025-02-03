@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
+import org.splevo.jamopp.diffing.util.JaMoPPNullCheckUtil;
 
 /**
  * An interface that extends {@link IInnerSwitch} with methods, which are mutual
@@ -81,6 +82,16 @@ public interface IPositionInnerSwitch extends IInnerSwitch {
 	public default Boolean areSimilar(Collection<? extends EObject> eos1, Collection<? extends EObject> eos2) {
 
 		var csps = new ArrayList<Boolean>();
+
+		if (JaMoPPNullCheckUtil.allNull(eos1, eos2)) {
+			return Boolean.TRUE;
+		} else if (JaMoPPNullCheckUtil.onlyOneIsNull(eos1, eos2)) {
+			return Boolean.FALSE;
+		}
+
+		if (eos1.size() != eos2.size()) {
+			return Boolean.FALSE;
+		}
 
 		for (int i = 0; i < eos1.size(); i++) {
 			csps.add(this.shouldCheckStatementPosition());
