@@ -70,21 +70,7 @@ public class ImportsSimilaritySwitch extends ImportsSwitch<Boolean>
 		return JaMoPPNamespaceUtil.compareNamespacesAsString(import1, import2);
 	}
 
-		// Null check to avoid NullPointerExceptions
-		if (stMems1 == null ^ stMems2 == null) {
 			return Boolean.FALSE;
-		} else if (stMems1 != null && stMems2 != null) {
-			if (stMems1.size() != stMems2.size()) {
-				return Boolean.FALSE;
-			}
-			for (int i = 0; i < stMems1.size(); i++) {
-				ReferenceableElement member1 = stMems1.get(i);
-				ReferenceableElement member2 = stMems2.get(i);
-				Boolean similarity = this.isSimilar(member1, member2);
-				if (similarity == Boolean.FALSE) {
-					return Boolean.FALSE;
-				}
-			}
 		}
 
 		String namespace1 = Strings.nullToEmpty(import1.getNamespacesAsString());
