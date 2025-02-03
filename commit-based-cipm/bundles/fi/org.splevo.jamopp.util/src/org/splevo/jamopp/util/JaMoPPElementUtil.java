@@ -400,7 +400,7 @@ public final class JaMoPPElementUtil {
 	 */
 	public static int getPositionInContainer(Statement statement) {
 
-		if (statement.eContainer() instanceof StatementListContainer) {
+		if (statement != null && statement.eContainer() instanceof StatementListContainer) {
 			StatementListContainer container = (StatementListContainer) statement.eContainer();
 			var sts = container.getStatements();
 			return sts != null ? sts.indexOf(statement) : -1;
