@@ -23,23 +23,24 @@ public class StaticImportTest extends AbstractJaMoPPSimilarityTest implements Us
 
 	protected StaticImport initElement(IStaticImportInitialiser init, Static st) {
 		StaticImport result = init.instantiate();
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.setStatic(result, st));
 		return result;
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testStatic(IStaticImportInitialiser init) {
+	public void testStatic(IStaticImportInitialiser init, String displayName) {
 		var objOne = this.initElement(init, this.createStatic());
 		var objTwo = this.initElement(init, null);
 
 		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.STATIC_IMPORT__STATIC);
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testStaticNullCheck(IStaticImportInitialiser init) {
-		this.testSimilarityNullCheck(this.initElement(init, this.createStatic()), init, false,
+	public void testStaticNullCheck(IStaticImportInitialiser init, String displayName) {
+		this.testSimilarityNullCheck(this.initElement(init, this.createStatic()), init, true,
 				ImportsPackage.Literals.STATIC_IMPORT__STATIC);
 	}
 }

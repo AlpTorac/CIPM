@@ -22,24 +22,24 @@ public class PrimitiveTypeTest extends AbstractJaMoPPSimilarityTest implements U
 
 	protected PrimitiveType initElement(IPrimitiveTypeInitialiser init, Classifier target) {
 		var res = init.instantiate();
-
-		Assertions.assertFalse(init.setTarget(res, target));
+		Assertions.assertTrue(init.initialise(res));
+		Assertions.assertEquals(init.canSetTargetTo(res, target), init.setTarget(res, target));
 		return res;
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testTarget(IPrimitiveTypeInitialiser init) {
+	public void testTarget(IPrimitiveTypeInitialiser init, String displayName) {
 		var objOne = this.initElement(init, this.createMinimalClass("cls"));
 		var objTwo = init.instantiate();
 
 		this.testSimilarity(objOne, objTwo, PrimitiveType.class, TypesPackage.Literals.CLASSIFIER_REFERENCE__TARGET);
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testTargetNullCheck(IPrimitiveTypeInitialiser init) {
-		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalClass("cls1")), init, false,
+	public void testTargetNullCheck(IPrimitiveTypeInitialiser init, String displayName) {
+		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalClass("cls1")), init, true,
 				PrimitiveType.class, TypesPackage.Literals.CLASSIFIER_REFERENCE__TARGET);
 	}
 }

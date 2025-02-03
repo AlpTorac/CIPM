@@ -22,7 +22,7 @@ public class AnnotableAndModifiableTest extends AbstractJaMoPPSimilarityTest
 	private static Stream<Arguments> provideArguments() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IAnnotableAndModifiableInitialiser.class);
 	}
-	
+
 	protected AnnotableAndModifiable initElement(IAnnotableAndModifiableInitialiser init, Modifier[] modifs,
 			AnnotationInstance[] ais) {
 
@@ -34,19 +34,19 @@ public class AnnotableAndModifiableTest extends AbstractJaMoPPSimilarityTest
 		return result;
 	}
 
-	@ParameterizedTest()
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testModifier(IAnnotableAndModifiableInitialiser init) {
-		var objOne = this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null);
-		var objTwo = this.initElement(init, new Modifier[] { this.createVolatile(), this.createProtected() }, null);
+	public void testModifier(IAnnotableAndModifiableInitialiser init, String displayName) {
+		var objOne = this.initElement(init, new Modifier[] { this.createAbstract() }, null);
+		var objTwo = this.initElement(init, new Modifier[] { this.createVolatile() }, null);
 
 		this.testSimilarity(objOne, objTwo,
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 
-	@ParameterizedTest()
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testModifierSize(IAnnotableAndModifiableInitialiser init) {
+	public void testModifierSize(IAnnotableAndModifiableInitialiser init, String displayName) {
 		var objOne = this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null);
 		var objTwo = this.initElement(init, new Modifier[] { this.createAbstract() }, null);
 
@@ -54,17 +54,16 @@ public class AnnotableAndModifiableTest extends AbstractJaMoPPSimilarityTest
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 
-	@ParameterizedTest()
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testModifierNullCheck(IAnnotableAndModifiableInitialiser init) {
-		this.testSimilarityNullCheck(
-				this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null), init,
-				true, ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
+	public void testModifierNullCheck(IAnnotableAndModifiableInitialiser init, String displayName) {
+		this.testSimilarityNullCheck(this.initElement(init, new Modifier[] { this.createAbstract() }, null), init, true,
+				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 
-	@ParameterizedTest()
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testAnnotationInstance(IAnnotableAndModifiableInitialiser init) {
+	public void testAnnotationInstance(IAnnotableAndModifiableInitialiser init, String displayName) {
 		var objOne = this.initElement(init, null,
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") });
 		var objTwo = this.initElement(init, null,
@@ -74,9 +73,9 @@ public class AnnotableAndModifiableTest extends AbstractJaMoPPSimilarityTest
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 
-	@ParameterizedTest()
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testAnnotationInstanceSize(IAnnotableAndModifiableInitialiser init) {
+	public void testAnnotationInstanceSize(IAnnotableAndModifiableInitialiser init, String displayName) {
 		var objOne = this.initElement(init, null,
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") });
 		var objTwo = this.initElement(init, null,
@@ -87,18 +86,18 @@ public class AnnotableAndModifiableTest extends AbstractJaMoPPSimilarityTest
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 
-	@ParameterizedTest()
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testAnnotationInstanceNullCheck(IAnnotableAndModifiableInitialiser init) {
+	public void testAnnotationInstanceNullCheck(IAnnotableAndModifiableInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(
 				this.initElement(init, null,
 						new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") }),
 				init, true, ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 
-	@ParameterizedTest()
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testPrivate(IAnnotableAndModifiableInitialiser init) {
+	public void testPrivate(IAnnotableAndModifiableInitialiser init, String displayName) {
 		var objOne = this.initElement(init, null, null);
 		init.makePrivate(objOne);
 
@@ -109,9 +108,9 @@ public class AnnotableAndModifiableTest extends AbstractJaMoPPSimilarityTest
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 
-	@ParameterizedTest()
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testPrivateNullCheck(IAnnotableAndModifiableInitialiser init) {
+	public void testPrivateNullCheck(IAnnotableAndModifiableInitialiser init, String displayName) {
 		var objOne = this.initElement(init, null, null);
 		init.makePrivate(objOne);
 
@@ -119,9 +118,9 @@ public class AnnotableAndModifiableTest extends AbstractJaMoPPSimilarityTest
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 
-	@ParameterizedTest()
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testProtected(IAnnotableAndModifiableInitialiser init) {
+	public void testProtected(IAnnotableAndModifiableInitialiser init, String displayName) {
 		var objOne = this.initElement(init, null, null);
 		init.makeProtected(objOne);
 
@@ -132,9 +131,9 @@ public class AnnotableAndModifiableTest extends AbstractJaMoPPSimilarityTest
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 
-	@ParameterizedTest()
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testProtectedNullCheck(IAnnotableAndModifiableInitialiser init) {
+	public void testProtectedNullCheck(IAnnotableAndModifiableInitialiser init, String displayName) {
 		var objOne = this.initElement(init, null, null);
 		init.makeProtected(objOne);
 
@@ -142,9 +141,9 @@ public class AnnotableAndModifiableTest extends AbstractJaMoPPSimilarityTest
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 
-	@ParameterizedTest()
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testPublic(IAnnotableAndModifiableInitialiser init) {
+	public void testPublic(IAnnotableAndModifiableInitialiser init, String displayName) {
 		var objOne = this.initElement(init, null, null);
 		init.makePublic(objOne);
 
@@ -155,9 +154,9 @@ public class AnnotableAndModifiableTest extends AbstractJaMoPPSimilarityTest
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
 	}
 
-	@ParameterizedTest()
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testPublicNullCheck(IAnnotableAndModifiableInitialiser init) {
+	public void testPublicNullCheck(IAnnotableAndModifiableInitialiser init, String displayName) {
 		var objOne = this.initElement(init, null, null);
 		init.makePublic(objOne);
 

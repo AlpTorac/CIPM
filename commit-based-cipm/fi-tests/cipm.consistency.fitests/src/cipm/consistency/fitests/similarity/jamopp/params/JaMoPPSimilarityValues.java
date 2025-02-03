@@ -20,7 +20,6 @@ import org.emftext.language.java.generics.GenericsPackage;
 import org.emftext.language.java.generics.QualifiedTypeArgument;
 import org.emftext.language.java.imports.ClassifierImport;
 import org.emftext.language.java.imports.ImportsPackage;
-import org.emftext.language.java.imports.PackageImport;
 import org.emftext.language.java.imports.StaticClassifierImport;
 import org.emftext.language.java.instantiations.Instantiation;
 import org.emftext.language.java.instantiations.InstantiationsPackage;
@@ -101,9 +100,9 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 	}
 
 	public void addCommonsSimilarityEntries() {
-		this.addSimilarityEntry(new Class[] { AdditionalField.class, Package.class, Block.class },
-				CommonsPackage.Literals.NAMED_ELEMENT__NAME, Boolean.TRUE);
-		this.addSimilarityEntry(new Class[] { PackageImport.class, StaticClassifierImport.class, Module.class },
+		this.addSimilarityEntry(new Class[] { Package.class, Block.class }, CommonsPackage.Literals.NAMED_ELEMENT__NAME,
+				Boolean.TRUE);
+		this.addSimilarityEntry(new Class[] { Module.class },
 				CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, Boolean.TRUE);
 		this.addSimilarityEntry(new Class[] { EmptyModel.class, PackageReference.class },
 				new EStructuralFeature[] { CommonsPackage.Literals.NAMED_ELEMENT__NAME,
@@ -161,6 +160,8 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 		this.addSimilarityEntry(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS, Boolean.TRUE);
 		this.addSimilarityEntry(ImportsPackage.Literals.IMPORT__CLASSIFIER, Boolean.TRUE);
 		this.addSimilarityEntry(ImportsPackage.Literals.STATIC_IMPORT__STATIC, Boolean.TRUE);
+		this.addSimilarityEntry(StaticClassifierImport.class, ImportsPackage.Literals.IMPORT__CLASSIFIER,
+				Boolean.FALSE);
 		this.addSimilarityEntry(ClassifierImport.class, ImportsPackage.Literals.IMPORT__CLASSIFIER, Boolean.FALSE);
 	}
 
@@ -241,9 +242,9 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 		this.addSimilarityEntry(TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS, Boolean.TRUE);
 		this.addSimilarityEntry(TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE, Boolean.TRUE);
 		this.addSimilarityEntry(
-				new Class[] { InstanceOfExpression.class, QualifiedTypeArgument.class, NewConstructorCall.class,
-						NewConstructorCallWithInferredTypeArguments.class, ProvidesModuleDirective.class,
-						UsesModuleDirective.class },
+				new Class[] { AdditionalField.class, InstanceOfExpression.class, QualifiedTypeArgument.class,
+						NewConstructorCall.class, NewConstructorCallWithInferredTypeArguments.class,
+						ProvidesModuleDirective.class, UsesModuleDirective.class },
 				TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE, Boolean.FALSE);
 	}
 
@@ -255,9 +256,13 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 		this.setDefaultSimilarityResult(Boolean.FALSE);
 	}
 
-	public JaMoPPSimilarityValues() {
-		this.setDefaultSimilarityResult();
-
+	/**
+	 * Adds similarity entries, which have a one-to-one connection
+	 * to certain attributes of certain object types. This means that the results
+	 * contained within these similarity entries are tied to only one attribute
+	 * of an object type per entry.
+	 */
+	public void addFixedSimilarityEntries() {
 		this.addAnnotationsSimilarityEntries();
 		this.addArraysSimilarityEntries();
 		this.addContainersSimilarityEntries();
@@ -277,20 +282,23 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 		this.addVariablesSimilarityEntries();
 	}
 
+	public JaMoPPSimilarityValues() {
+		this.setDefaultSimilarityResult();
+		this.addFixedSimilarityEntries();
+	}
+
 	/**
 	 * @return The type of the class that has the attribute attr.
 	 */
-	protected Class<? extends Object> getClassFromStructuralFeature(Object attr) {
-		return (Class<? extends Object>) ((EStructuralFeature) attr).getContainerClass();
+	protected Class<?> getClassFromStructuralFeature(EStructuralFeature attr) {
+		return attr.getContainerClass();
 	}
 
-	@Override
-	public void addSimilarityEntry(Object attr, Boolean expectedSimResult) {
+	/**
+	 * A variant of {@link #addSimilarityEntry(Class, Object, Boolean)}, where
+	 * the second parameter is attr and the first parameter is derived from attr.
+	 */
+	public void addSimilarityEntry(EStructuralFeature attr, Boolean expectedSimResult) {
 		this.addSimilarityEntry(this.getClassFromStructuralFeature(attr), attr, expectedSimResult);
-	}
-
-	@Override
-	public Boolean getExpectedSimilarityResult(Object attr) {
-		return this.getExpectedSimilarityResult(this.getClassFromStructuralFeature(attr), attr);
 	}
 }

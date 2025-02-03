@@ -22,22 +22,23 @@ public class ImplementorTest extends AbstractJaMoPPSimilarityTest implements Use
 
 	protected Implementor initElement(IImplementorInitialiser init, TypeReference[] impls) {
 		Implementor result = init.instantiate();
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.addImplements(result, impls));
 		return result;
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testImplements(IImplementorInitialiser init) {
+	public void testImplements(IImplementorInitialiser init, String displayName) {
 		var objOne = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") });
 		var objTwo = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls2") });
 
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testImplementsSize(IImplementorInitialiser init) {
+	public void testImplementsSize(IImplementorInitialiser init, String displayName) {
 		var objOne = this.initElement(init,
 				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
 		var objTwo = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") });
@@ -45,10 +46,10 @@ public class ImplementorTest extends AbstractJaMoPPSimilarityTest implements Use
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testImplementsNullCheck(IImplementorInitialiser init) {
+	public void testImplementsNullCheck(IImplementorInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") }),
-				init, false, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
+				init, true, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
 	}
 }

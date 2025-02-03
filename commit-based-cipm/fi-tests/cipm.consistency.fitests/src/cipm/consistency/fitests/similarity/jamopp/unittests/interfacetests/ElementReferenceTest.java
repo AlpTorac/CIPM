@@ -29,19 +29,19 @@ public class ElementReferenceTest extends AbstractJaMoPPSimilarityTest implement
 		return result;
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testTarget(IElementReferenceInitialiser init) {
+	public void testTarget(IElementReferenceInitialiser init, String displayName) {
 		var objOne = this.initElement(init, this.createMinimalClass("cls1"), null);
 		var objTwo = this.initElement(init, this.createMinimalClass("cls2"), null);
 
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__TARGET);
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testTargetNullCheck(IElementReferenceInitialiser init) {
-		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalClass("cls1"), null), init, false,
+	public void testTargetNullCheck(IElementReferenceInitialiser init, String displayName) {
+		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalClass("cls1"), null), init, true,
 				ReferencesPackage.Literals.ELEMENT_REFERENCE__TARGET);
 	}
 
@@ -49,9 +49,9 @@ public class ElementReferenceTest extends AbstractJaMoPPSimilarityTest implement
 	 * Makes sure that not providing a container for the created element reference
 	 * does not result in an exception.
 	 */
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testTargetNoException(IElementReferenceInitialiser init) {
+	public void testTargetNoException(IElementReferenceInitialiser init, String displayName) {
 		var objOne = this.initElement(init, this.createMinimalClass("cls1"), null);
 		var objTwo = this.initElement(init, this.createMinimalClass("cls2"), null);
 
@@ -64,29 +64,30 @@ public class ElementReferenceTest extends AbstractJaMoPPSimilarityTest implement
 	 * does not result in an exception, if it is compared to an uninitialised
 	 * element reference.
 	 */
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testTargetNoExceptionNullCheck(IElementReferenceInitialiser init) {
+	public void testTargetNoExceptionNullCheck(IElementReferenceInitialiser init, String displayName) {
 		var objOne = this.initElement(init, this.createMinimalClass("cls1"), null);
 		var objTwo = init.instantiate();
+		Assertions.assertTrue(init.initialise(objTwo));
 
 		Assertions.assertDoesNotThrow(
 				() -> this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__TARGET));
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testContainedTarget(IElementReferenceInitialiser init) {
+	public void testContainedTarget(IElementReferenceInitialiser init, String displayName) {
 		var objOne = this.initElement(init, null, this.createMinimalClass("cls1"));
 		var objTwo = this.initElement(init, null, this.createMinimalClass("cls2"));
 
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ELEMENT_REFERENCE__CONTAINED_TARGET);
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testContainedTargetNullCheck(IElementReferenceInitialiser init) {
-		this.testSimilarityNullCheck(this.initElement(init, null, this.createMinimalClass("cls1")), init, false,
+	public void testContainedTargetNullCheck(IElementReferenceInitialiser init, String displayName) {
+		this.testSimilarityNullCheck(this.initElement(init, null, this.createMinimalClass("cls1")), init, true,
 				ReferencesPackage.Literals.ELEMENT_REFERENCE__CONTAINED_TARGET);
 	}
 }

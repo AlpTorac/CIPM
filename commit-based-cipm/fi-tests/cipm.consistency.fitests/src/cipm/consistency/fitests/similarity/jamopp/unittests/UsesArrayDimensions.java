@@ -9,8 +9,7 @@ import cipm.consistency.initialisers.jamopp.arrays.ArrayDimensionInitialiser;
  * An interface that can be implemented by tests, which work with
  * {@link ArrayDimension} instances. <br>
  * <br>
- * Contains methods that can be used to create {@link ArrayDimension}
- * instances.
+ * Contains methods that can be used to create {@link ArrayDimension} instances.
  */
 public interface UsesArrayDimensions extends UsesAnnotationInstances {
 	/**
@@ -23,7 +22,8 @@ public interface UsesArrayDimensions extends UsesAnnotationInstances {
 	}
 
 	/**
-	 * @return An {@link ArrayDimension} instance with the given {@link AnnotationInstance} array.
+	 * @return An {@link ArrayDimension} instance with the given
+	 *         {@link AnnotationInstance} array.
 	 */
 	public default ArrayDimension createArrayDimension(AnnotationInstance[] ais) {
 		var result = this.createMinimalArrayDimension();
@@ -33,12 +33,30 @@ public interface UsesArrayDimensions extends UsesAnnotationInstances {
 	}
 
 	/**
-	 * @return An {@link ArrayDimension} instance that has an {@link AnnotationInstance} with
-	 * the given namespace and instance name.
+	 * @return An {@link ArrayDimension} instance that has an
+	 *         {@link AnnotationInstance} with the given namespace and instance
+	 *         name.
 	 */
 	public default ArrayDimension createArrayDimension(String[] annotationInstanceNamespaces,
 			String annotationInstanceName) {
 		return this.createArrayDimension(new AnnotationInstance[] {
 				this.createMinimalAI(annotationInstanceNamespaces, annotationInstanceName) });
+	}
+
+	/**
+	 * @return An {@link ArrayDimension} instance that has an array of
+	 *         {@link AnnotationInstance}s with the given namespace and instance
+	 *         names (k-th AnnotationInstance will have the k-th namespace and the
+	 *         k-th name).
+	 */
+	public default ArrayDimension createArrayDimension(String[][] annotationInstanceNamespaces,
+			String[] annotationInstanceName) {
+		var ais = new AnnotationInstance[annotationInstanceName.length];
+
+		for (int i = 0; i < annotationInstanceName.length; i++) {
+			ais[i] = this.createMinimalAI(annotationInstanceNamespaces[i], annotationInstanceName[i]);
+		}
+
+		return this.createArrayDimension(ais);
 	}
 }

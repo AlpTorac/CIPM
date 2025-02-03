@@ -21,16 +21,17 @@ public class TypeReferenceTest extends AbstractJaMoPPSimilarityTest implements U
 
 	protected TypeReference initElement(ITypeReferenceInitialiser init, Classifier target) {
 		var res = init.instantiate();
-
+		Assertions.assertTrue(init.initialise(res));
 		Assertions.assertEquals(init.canSetTargetTo(res, target), init.setTarget(res, target));
 		return res;
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testTargetNullCheck(ITypeReferenceInitialiser init) {
+	public void testTargetNullCheck(ITypeReferenceInitialiser init, String displayName) {
 		var objOne = this.initElement(init, this.createMinimalClass("cls"));
 		var objTwo = init.instantiate();
+		Assertions.assertTrue(init.initialise(objTwo));
 
 		// No expected result, because TypeReference does not have the "target"
 		// attribute, yet some of its implementors do.

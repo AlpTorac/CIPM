@@ -25,24 +25,25 @@ public class ArrayInstantiationByValuesTest extends AbstractJaMoPPSimilarityTest
 	protected ArrayInstantiationByValues initElement(IArrayInstantiationByValuesInitialiser init,
 			ArrayInitializer arrInit) {
 		ArrayInstantiationByValues result = init.instantiate();
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.setArrayInitializer(result, arrInit));
 		return result;
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testArrayInitialiser(IArrayInstantiationByValuesInitialiser init) {
+	public void testArrayInitialiser(IArrayInstantiationByValuesInitialiser init, String displayName) {
 		var objOne = this.initElement(init, this.createMinimalArrayInitializer(this.createDecimalIntegerLiteral(0)));
 		var objTwo = this.initElement(init, this.createMinimalArrayInitializer(this.createDecimalIntegerLiteral(1)));
 
 		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER);
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testArrayInitialiserNullCheck(IArrayInstantiationByValuesInitialiser init) {
+	public void testArrayInitialiserNullCheck(IArrayInstantiationByValuesInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(
 				this.initElement(init, this.createMinimalArrayInitializer(this.createDecimalIntegerLiteral(0))), init,
-				false, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER);
+				true, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER);
 	}
 }

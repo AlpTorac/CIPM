@@ -27,23 +27,24 @@ public class AccessProvidingModuleDirectiveTest extends AbstractJaMoPPSimilarity
 	protected AccessProvidingModuleDirective initElement(IAccessProvidingModuleDirectiveInitialiser init,
 			ModuleReference[] modRefs, Package accessablePac) {
 		var result = init.instantiate();
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.addModules(result, modRefs));
 		Assertions.assertTrue(init.setAccessablePackage(result, accessablePac));
 		return result;
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testModule(IAccessProvidingModuleDirectiveInitialiser init) {
+	public void testModule(IAccessProvidingModuleDirectiveInitialiser init, String displayName) {
 		var objOne = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod1") }, null);
 		var objTwo = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod2") }, null);
 
 		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__MODULES);
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testModuleSize(IAccessProvidingModuleDirectiveInitialiser init) {
+	public void testModuleSize(IAccessProvidingModuleDirectiveInitialiser init, String displayName) {
 		var objOne = this.initElement(init,
 				new ModuleReference[] { this.createMinimalMR("mod1"), this.createMinimalMR("mod2") }, null);
 		var objTwo = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod1") }, null);
@@ -51,17 +52,17 @@ public class AccessProvidingModuleDirectiveTest extends AbstractJaMoPPSimilarity
 		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__MODULES);
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testModuleNullCheck(IAccessProvidingModuleDirectiveInitialiser init) {
+	public void testModuleNullCheck(IAccessProvidingModuleDirectiveInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(
-				this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod1") }, null), init, false,
+				this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod1") }, null), init, true,
 				ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__MODULES);
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testAccessablePackage(IAccessProvidingModuleDirectiveInitialiser init) {
+	public void testAccessablePackage(IAccessProvidingModuleDirectiveInitialiser init, String displayName) {
 		var objOne = this.initElement(init, null, this.createMinimalPackage(new String[] { "ns1", "ns2" }));
 		var objTwo = this.initElement(init, null, this.createMinimalPackage(new String[] { "ns3", "ns4" }));
 
@@ -69,11 +70,11 @@ public class AccessProvidingModuleDirectiveTest extends AbstractJaMoPPSimilarity
 				ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__ACCESSABLE_PACKAGE);
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testAccessablePackageNullCheck(IAccessProvidingModuleDirectiveInitialiser init) {
+	public void testAccessablePackageNullCheck(IAccessProvidingModuleDirectiveInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(
-				this.initElement(init, null, this.createMinimalPackage(new String[] { "ns1", "ns2" })), init, false,
+				this.initElement(init, null, this.createMinimalPackage(new String[] { "ns1", "ns2" })), init, true,
 				ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__ACCESSABLE_PACKAGE);
 	}
 }

@@ -22,14 +22,15 @@ public class ArrayTypeableTest extends AbstractJaMoPPSimilarityTest implements U
 	protected ArrayTypeable initElement(IArrayTypeableInitialiser init, ArrayDimension[] arrDimsBefore,
 			ArrayDimension[] arrDimsAfter) {
 		ArrayTypeable result = init.instantiate();
+		Assertions.assertTrue(init.initialise(result));
 		Assertions.assertTrue(init.addArrayDimensionsBefore(result, arrDimsBefore));
 		Assertions.assertTrue(init.addArrayDimensionsAfter(result, arrDimsAfter));
 		return result;
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testArrayDimensionsBefore(IArrayTypeableInitialiser init) {
+	public void testArrayDimensionsBefore(IArrayTypeableInitialiser init, String displayName) {
 		var objOne = this.initElement(init,
 				new ArrayDimension[] { this.createArrayDimension(new String[] { "ns1" }, "ai1") }, null);
 		var objTwo = this.initElement(init,
@@ -38,9 +39,9 @@ public class ArrayTypeableTest extends AbstractJaMoPPSimilarityTest implements U
 		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_BEFORE);
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testArrayDimensionsBeforeSize(IArrayTypeableInitialiser init) {
+	public void testArrayDimensionsBeforeSize(IArrayTypeableInitialiser init, String displayName) {
 		var objOne = this.initElement(init,
 				new ArrayDimension[] { this.createArrayDimension(new String[] { "ns1" }, "ai1"),
 						this.createArrayDimension(new String[] { "ns2" }, "ai2") },
@@ -51,18 +52,18 @@ public class ArrayTypeableTest extends AbstractJaMoPPSimilarityTest implements U
 		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_BEFORE);
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testArrayDimensionsBeforeNullCheck(IArrayTypeableInitialiser init) {
+	public void testArrayDimensionsBeforeNullCheck(IArrayTypeableInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(
 				this.initElement(init,
 						new ArrayDimension[] { this.createArrayDimension(new String[] { "ns1" }, "ai1") }, null),
-				init, false, ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_BEFORE);
+				init, true, ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_BEFORE);
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testArrayDimensionsAfter(IArrayTypeableInitialiser init) {
+	public void testArrayDimensionsAfter(IArrayTypeableInitialiser init, String displayName) {
 		var objOne = this.initElement(init, null,
 				new ArrayDimension[] { this.createArrayDimension(new String[] { "ns1" }, "ai1") });
 		var objTwo = this.initElement(init, null,
@@ -71,9 +72,9 @@ public class ArrayTypeableTest extends AbstractJaMoPPSimilarityTest implements U
 		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER);
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testArrayDimensionsAfterSize(IArrayTypeableInitialiser init) {
+	public void testArrayDimensionsAfterSize(IArrayTypeableInitialiser init, String displayName) {
 		var objOne = this.initElement(init, null,
 				new ArrayDimension[] { this.createArrayDimension(new String[] { "ns1" }, "ai1"),
 						this.createArrayDimension(new String[] { "ns2" }, "ai2") });
@@ -83,12 +84,12 @@ public class ArrayTypeableTest extends AbstractJaMoPPSimilarityTest implements U
 		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER);
 	}
 
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testArrayDimensionsAfterNullCheck(IArrayTypeableInitialiser init) {
+	public void testArrayDimensionsAfterNullCheck(IArrayTypeableInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(
 				this.initElement(init, null,
 						new ArrayDimension[] { this.createArrayDimension(new String[] { "ns1" }, "ai1") }),
-				init, false, ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER);
+				init, true, ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER);
 	}
 }
