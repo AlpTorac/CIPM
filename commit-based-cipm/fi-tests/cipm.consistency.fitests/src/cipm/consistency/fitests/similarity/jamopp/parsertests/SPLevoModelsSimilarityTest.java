@@ -46,13 +46,13 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 	}
 
 	@Override
-	protected boolean isModelDirectory(File f) {
-		return f.getName().equals(model1Name) || f.getName().equals(model2Name);
+	protected boolean isModelDirectoryName(String s) {
+		return s.equals(model1Name) || s.equals(model2Name);
 	}
 
 	@Override
-	protected Predicate<Resource> getResourceFilter() {
-		return (r) -> r.getURI().path().contains(splevoModelImplDirName);
+	protected Predicate<String> getResourceNameFilter() {
+		return (s) -> s.contains(splevoModelImplDirName);
 	}
 
 	/**
@@ -72,10 +72,10 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 			var res2 = parseModelsDir(model2Path);
 
 			var dt1 = DynamicTest.dynamicTest(getDisplayNameForModelDir(model1Path), () -> {
-				this.testSimilarity(res1, res1, true);
+				this.testSimilarityOfAllContents(res1, res1, true);
 			});
 			var dt2 = DynamicTest.dynamicTest(getDisplayNameForModelDir(model2Path), () -> {
-				this.testSimilarity(res2, res2, true);
+				this.testSimilarityOfAllContents(res2, res2, true);
 			});
 
 			tests.add(DynamicContainer.dynamicContainer(getModelsParentDirName(md), List.of(dt1, dt2)));
@@ -103,10 +103,10 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 			var res22 = parseModelsDir(model2Path);
 
 			var dt1 = DynamicTest.dynamicTest(getDisplayNameForModelDir(model1Path), () -> {
-				this.testSimilarity(res11, res12, true);
+				this.testSimilarityOfAllContents(res11, res12, true);
 			});
 			var dt2 = DynamicTest.dynamicTest(getDisplayNameForModelDir(model2Path), () -> {
-				this.testSimilarity(res21, res22, true);
+				this.testSimilarityOfAllContents(res21, res22, true);
 			});
 
 			tests.add(DynamicContainer.dynamicContainer(getModelsParentDirName(md), List.of(dt1, dt2)));
@@ -123,7 +123,7 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 	public Collection<DynamicNode> differentFileSimilarityTest() {
 		var tests = new ArrayList<DynamicNode>();
 
-		this.getModelParentDirsWithin(splevoModelImplPath).forEach((md) -> {
+		this.getModelParentDirsWithinRoot().forEach((md) -> {
 			var modelDirName = this.getModelsParentDirName(md);
 
 			var model1Path = Paths.get(md.toString(), model1Name);
@@ -137,7 +137,7 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 			var res2 = parseModelsDir(model2Path);
 
 			tests.add(DynamicTest.dynamicTest(modelDirName + " (" + model1Name + " and " + model2Name + ")", () -> {
-				this.testSimilarity(res1, res2, expectedResult);
+				this.testSimilarityOfAllContents(res1, res2, expectedResult);
 			}));
 		});
 
