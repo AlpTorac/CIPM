@@ -63,6 +63,14 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
+	 * A variant of {@link #getModelParentDirsWithin(String)} that uses
+	 * {@link #getRootDir()}.
+	 */
+	protected Collection<Path> getModelParentDirsWithinRoot() {
+		return this.getModelParentDirsWithin(this.getRootDir().toString());
+	}
+
+	/**
 	 * Parses all Java-Model files under the given directory into a {@link Resource}
 	 * instance. <br>
 	 * <br>
@@ -107,11 +115,15 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * Checks whether the given {@link Resource} instances are similar, based on
 	 * {@code res_i.getAllContents()}. <br>
 	 * <br>
-	 * <b>It is important to use this method over other similarity testing methods,
-	 * due to the Java models in these tests being potentially fragmented. Hence the
-	 * use of {@code res_i.getAllContents()}. </b>
+	 * It is important to use this method over other similarity testing methods, due
+	 * to the Java models in these tests being potentially fragmented. Hence the use
+	 * of {@code res_i.getAllContents()}. <br>
+	 * <br>
+	 * <b><i>!!! It is important to note that the result of the similarity checking
+	 * in this method will differ from others, because it compares all contents
+	 * within the resources and not just root contents. !!!</i></b>
 	 */
-	protected void testSimilarity(Resource res1, Resource res2, Boolean expectedResult) {
+	protected void testSimilarityOfAllContents(Resource res1, Resource res2, Boolean expectedResult) {
 		var list1 = new ArrayList<EObject>();
 		var list2 = new ArrayList<EObject>();
 
@@ -124,6 +136,14 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		res2.getAllContents().forEachRemaining((o) -> list2.add(o));
 
 		Assertions.assertEquals(expectedResult, this.areSimilar(list1, list2));
+	}
+
+	/**
+	 * Asserts that the result of similarity checking the root contents
+	 * ({@code res.getContents()}) of the given resources is as expected.
+	 */
+	protected void testSimilarity(Resource res1, Resource res2, Boolean expectedResult) {
+		Assertions.assertEquals(expectedResult, this.areSimilar(res1.getContents(), res2.getContents()));
 	}
 
 	/**
@@ -146,6 +166,17 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	protected String getModelsParentDirName(Path modelParentDirPath) {
 		return modelParentDirPath.getName(modelParentDirPath.getNameCount() - 1).toString();
+	}
+
+	protected Collection<File> getAllModelDirsUnder(Path modelParentDirPath) {
+		var result = new ArrayList<File>();
+		var dirs = modelParentDirPath.toFile().listFiles();
+		for (var dir : dirs) {
+			if (this.isModelDirectory(dir)) {
+				result.add(dir);
+			}
+		}
+		return result;
 	}
 
 	/**
@@ -272,13 +303,25 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
+	 * Defaults to using {@link #isModelDirectoryName(String)} on the file name.
+	 * 
 	 * @return Whether a given directory contains any Java elements, from which a
 	 *         Java model can be parsed.
 	 */
-	protected abstract boolean isModelDirectory(File f);
+	protected boolean isModelDirectory(File f) {
+		return this.isModelDirectoryName(f.getName());
+	}
+
+	protected abstract boolean isModelDirectoryName(String s);
 
 	/**
+	 * Defaults to filtering the URI path using {@link #getResourceNameFilter()}.
+	 * 
 	 * @return The filter, which will be used to filter out unwanted Java models.
 	 */
-	protected abstract Predicate<Resource> getResourceFilter();
+	protected Predicate<Resource> getResourceFilter() {
+		return (r) -> this.getResourceNameFilter().test(r.getURI().path());
+	}
+
+	protected abstract Predicate<String> getResourceNameFilter();
 }
