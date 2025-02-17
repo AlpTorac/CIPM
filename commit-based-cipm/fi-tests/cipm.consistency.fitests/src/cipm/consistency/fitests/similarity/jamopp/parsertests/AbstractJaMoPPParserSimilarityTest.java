@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TreeSet;
@@ -64,10 +65,10 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 	/**
 	 * A variant of {@link #getModelParentDirsWithin(String)} that uses
-	 * {@link #getRootDir()}.
+	 * {@link #getRootDirPath()}.
 	 */
 	protected Collection<Path> getModelParentDirsWithinRoot() {
-		return this.getModelParentDirsWithin(this.getRootDir().toString());
+		return this.getModelParentDirsWithin(this.getRootDirPath().toString());
 	}
 
 	/**
@@ -92,7 +93,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		parser.setResourceSet(new ResourceSetImpl());
 		ResourceSet resourceSet = parser.parseDirectory(modelDir);
 		var resCount = resourceSet.getResources().size();
-		this.getLogger().info(String.format("%d resources have been parsed under %s", resCount,
+		this.getLogger().debug(String.format("%d resources have been parsed under %s", resCount,
 				this.getDisplayNameForModelDir(modelDir)));
 
 		ResourceSet next = new ResourceSetImpl();
@@ -102,7 +103,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		resourceSet.getResources().stream().filter(this.getResourceFilter()).forEach((r) -> filteredResources.add(r));
 		var filteredResCount = filteredResources.size();
 
-		this.getLogger().info(String.format("%d/%d resources are being used", filteredResCount, resCount));
+		this.getLogger().debug(String.format("%d/%d resources are being used", filteredResCount, resCount));
 
 		for (Resource r : filteredResources) {
 			// Filter Resources in ResourceSet that belong in the modelDir (based on URI)
@@ -289,21 +290,45 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
+	 * Defaults to {@link #getAbsoluteCurrentDirectory()}.
+	 * 
 	 * @return Path to the root folder of the models, whose sub-directories will be
 	 *         discovered for Java elements.
 	 */
-	protected abstract Path getRootDir();
+	protected Path getRootDirPath() {
+		return Paths.get(this.getAbsoluteCurrentDirectory().getAbsolutePath());
+	}
 
 	/**
-	 * The path, at which the parsed resource files' URI will point at, should they
-	 * be saved.
+	 * @return The current position within the file system.
+	 */
+	protected File getAbsoluteCurrentDirectory() {
+		return new File("").getAbsoluteFile();
+	}
+
+	/**
+	 * @return The root directory, under which generated test resources will be
+	 *         saved.
+	 */
+	protected File getTargetRootDirectory() {
+		return new File(this.getAbsoluteCurrentDirectory(), "testModels");
+	}
+
+	/**
+	 * @return The path, at which the parsed resource files' URI will point at,
+	 *         should they be saved.
 	 */
 	protected Path getTargetPath() {
-		return Path.of(new File("").getAbsoluteFile().getAbsolutePath() + File.separator + "testModels");
+		var targetDir = new File(this.getTargetRootDirectory(),
+				this.getAbsoluteCurrentDirectory().toPath().relativize(this.getRootDirPath()).toString());
+		return targetDir.toPath();
 	}
 
 	/**
 	 * Defaults to using {@link #isModelDirectoryName(String)} on the file name.
+	 * Check the concrete implementation for more details.
+	 * 
+	 * @param f The file object representing the directory
 	 * 
 	 * @return Whether a given directory contains any Java elements, from which a
 	 *         Java model can be parsed.
@@ -312,10 +337,19 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return this.isModelDirectoryName(f.getName());
 	}
 
+	/**
+	 * Check the concrete implementation for more details.
+	 * 
+	 * @param s The name of the directory
+	 * 
+	 * @return Whether a given directory contains any Java elements, from which a
+	 *         Java model can be parsed.
+	 */
 	protected abstract boolean isModelDirectoryName(String s);
 
 	/**
 	 * Defaults to filtering the URI path using {@link #getResourceNameFilter()}.
+	 * Check the concrete implementation for more details.
 	 * 
 	 * @return The filter, which will be used to filter out unwanted Java models.
 	 */
@@ -323,5 +357,11 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return (r) -> this.getResourceNameFilter().test(r.getURI().path());
 	}
 
+	/**
+	 * Check the concrete implementation for more details.
+	 * 
+	 * @return A predicate that encapsulates the algorithm that will be used to
+	 *         filter the relevant resources based on their name.
+	 */
 	protected abstract Predicate<String> getResourceNameFilter();
 }
