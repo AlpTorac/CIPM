@@ -1,6 +1,5 @@
 package cipm.consistency.fitests.similarity.jamopp.parsertests;
 
-import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -25,11 +24,6 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 	 * The name of the root directory of the models from SPLevo
 	 */
 	private static final String splevoModelImplDirName = "splevo-testmodels";
-	/**
-	 * Path to the root folder of the models from SPLevo
-	 */
-	private static final String splevoModelImplPath = new File("").getAbsoluteFile().getAbsolutePath() + File.separator
-			+ splevoModelImplDirName;
 
 	/**
 	 * The first model to parse.
@@ -41,8 +35,8 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 	private static final String model2Name = "b";
 
 	@Override
-	protected Path getRootDir() {
-		return Paths.get(splevoModelImplPath);
+	protected Path getRootDirPath() {
+		return Paths.get(super.getRootDirPath().toString(), splevoModelImplDirName);
 	}
 
 	@Override
@@ -64,7 +58,7 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 	public Collection<DynamicNode> sameResourceSimilarityTest() {
 		var tests = new ArrayList<DynamicNode>();
 
-		this.getModelParentDirsWithin(splevoModelImplPath).forEach((md) -> {
+		this.getModelParentDirsWithinRoot().forEach((md) -> {
 			var model1Path = Paths.get(md.toString(), model1Name);
 			var model2Path = Paths.get(md.toString(), model2Name);
 
@@ -92,7 +86,7 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 	public Collection<DynamicNode> sameFileSimilarityTest() {
 		var tests = new ArrayList<DynamicNode>();
 
-		this.getModelParentDirsWithin(splevoModelImplPath).forEach((md) -> {
+		this.getModelParentDirsWithinRoot().forEach((md) -> {
 			var model1Path = Paths.get(md.toString(), model1Name);
 			var model2Path = Paths.get(md.toString(), model2Name);
 
