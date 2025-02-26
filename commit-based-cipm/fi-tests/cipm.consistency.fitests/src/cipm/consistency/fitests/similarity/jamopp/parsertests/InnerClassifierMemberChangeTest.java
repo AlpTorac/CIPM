@@ -1,0 +1,20 @@
+package cipm.consistency.fitests.similarity.jamopp.parsertests;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.eclipse.emf.ecore.resource.Resource;
+
+public class InnerClassifierMemberChangeTest extends AbstractJaMoPPComplexParserSimilarityTest {
+	private final static Path modelsDirSubpath = Paths.get("classifier", "innerClassifier", "memberChange");
+
+	@Override
+	protected Path getRootDirPath() {
+		return Paths.get(super.getRootDirPath().toString(), modelsDirSubpath.toString());
+	}
+
+	@Override
+	protected boolean isResourceRelevant(Path sourcePath, Resource r) {
+		return sourcePath.toString().contains(modelsDirSubpath.toString());
+	}
+}
