@@ -35,12 +35,21 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 	}
 
 	/**
-	 * @param lhs Left-hand side resource
-	 * @param rhs Right-hand side resource
-	 * @return The expected result of similarity checking the given resources:
-	 *         {@code areSimilar(lhs, rhs)}
+	 * Defaults to comparing the source file paths.
+	 * 
+	 * @param lhs               Left-hand side resource
+	 * @param lhsSourceFilePath The path that the resource lhs was parsed from
+	 * @param rhs               Right-hand side resource
+	 * @param rhsSourceFilePath The path that the resource rhs was parsed from
+	 * @return The expected result of similarity checking the given resources by using
+	 * model comparison
+	 * 
+	 * @see {@link #testSimilarityWithModelComparison(Resource, Resource, Boolean)}
 	 */
-	public abstract Boolean getExpectedContentSimilarityResultFor(Resource lhs, Resource rhs);
+	public Boolean getExpectedSimilarityResultForModelComparison(Resource lhs, Path lhsSourceFilePath, Resource rhs,
+			Path rhsSourceFilePath) {
+		return lhsSourceFilePath.toString().equals(rhsSourceFilePath.toString());
+	}
 
 	@TestFactory
 	public Collection<DynamicNode> testAllContentsSimilarity() {
@@ -81,7 +90,7 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 	 * the similarity of res1 with res2.
 	 */
 	@TestFactory
-	public Collection<DynamicNode> testContentsSimilarity() {
+	public Collection<DynamicNode> testSimilarityWithModelComparison() {
 		var tests = new ArrayList<DynamicNode>();
 
 		this.getModelParentDirsWithinRoot().forEach((md) -> {
@@ -99,7 +108,8 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 
 					modelTests.add(DynamicTest
 							.dynamicTest(String.format("%s vs %s", path1.getFileName(), path2.getFileName()), () -> {
-								this.testSimilarity(res1, res2, this.getExpectedContentSimilarityResultFor(res1, res2));
+								this.testSimilarityWithModelComparison(res1, res2,
+										this.getExpectedSimilarityResultForModelComparison(res1, path1, res2, path2));
 							}));
 				}
 			}
