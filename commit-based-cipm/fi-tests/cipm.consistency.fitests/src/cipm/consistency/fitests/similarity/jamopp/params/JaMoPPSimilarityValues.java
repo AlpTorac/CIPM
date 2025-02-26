@@ -26,7 +26,9 @@ import org.emftext.language.java.instantiations.InstantiationsPackage;
 import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.emftext.language.java.instantiations.NewConstructorCallWithInferredTypeArguments;
 import org.emftext.language.java.members.AdditionalField;
+import org.emftext.language.java.members.EmptyMember;
 import org.emftext.language.java.members.EnumConstant;
+import org.emftext.language.java.members.Field;
 import org.emftext.language.java.members.MembersPackage;
 import org.emftext.language.java.modifiers.ModifiersPackage;
 import org.emftext.language.java.modules.ModulesPackage;
@@ -100,11 +102,11 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 	}
 
 	public void addCommonsSimilarityEntries() {
-		this.addSimilarityEntry(new Class[] { Package.class, Block.class }, CommonsPackage.Literals.NAMED_ELEMENT__NAME,
+		this.addSimilarityEntry(new Class[] { Package.class }, CommonsPackage.Literals.NAMED_ELEMENT__NAME,
 				Boolean.TRUE);
-		this.addSimilarityEntry(new Class[] { Module.class },
+		this.addSimilarityEntry(new Class[] { EmptyMember.class, Field.class, Module.class },
 				CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, Boolean.TRUE);
-		this.addSimilarityEntry(new Class[] { EmptyModel.class, PackageReference.class },
+		this.addSimilarityEntry(new Class[] { Block.class, EmptyModel.class, PackageReference.class },
 				new EStructuralFeature[] { CommonsPackage.Literals.NAMED_ELEMENT__NAME,
 						CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES },
 				new Boolean[] { Boolean.TRUE, Boolean.TRUE });
