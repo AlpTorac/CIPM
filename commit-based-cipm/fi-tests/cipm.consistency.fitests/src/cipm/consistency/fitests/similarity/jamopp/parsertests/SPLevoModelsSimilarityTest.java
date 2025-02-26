@@ -5,7 +5,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.function.Predicate;
 
 import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.jupiter.api.DynamicContainer;
@@ -45,8 +44,8 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 	}
 
 	@Override
-	protected Predicate<String> getResourceNameFilter() {
-		return (s) -> s.contains(splevoModelImplDirName);
+	protected boolean isResourceRelevant(Path path, Resource r) {
+		return path.toString().contains(splevoModelImplDirName);
 	}
 
 	/**

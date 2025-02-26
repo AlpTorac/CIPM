@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TreeSet;
-import java.util.function.Predicate;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -17,6 +16,7 @@ import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.junit.jupiter.api.Assertions;
 
+import cipm.consistency.commitintegration.diff.util.JavaModelComparator;
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import jamopp.options.ParserOptions;
 import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
@@ -80,7 +80,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * 
 	 * @param modelDir A directory that directly contains the Java-model files
 	 * 
-	 * @see {@link #getResourceFilter()}
+	 * @see {@link #isResourceRelevant()}
 	 */
 	protected Resource parseModelsDir(Path modelDir) {
 		// Leave out commented options
@@ -100,13 +100,14 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		Resource all = next.createResource(URI.createFileURI(this.getTargetPath().toAbsolutePath().toString()));
 
 		var filteredResources = new ArrayList<Resource>();
-		resourceSet.getResources().stream().filter(this.getResourceFilter()).forEach((r) -> filteredResources.add(r));
+		resourceSet.getResources().stream().filter((r) -> this.isResourceRelevant(modelDir, r))
+				.forEach((r) -> filteredResources.add(r));
 		var filteredResCount = filteredResources.size();
 
 		this.getLogger().debug(String.format("%d/%d resources are being used", filteredResCount, resCount));
 
 		for (Resource r : filteredResources) {
-			// Filter Resources in ResourceSet that belong in the modelDir (based on URI)
+			// Filter Resources in ResourceSet that belong in the modelDir
 			all.getContents().addAll(r.getContents());
 		}
 		return all;
@@ -143,8 +144,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * Asserts that the result of similarity checking the root contents
 	 * ({@code res.getContents()}) of the given resources is as expected.
 	 */
-	protected void testSimilarity(Resource res1, Resource res2, Boolean expectedResult) {
-		Assertions.assertEquals(expectedResult, this.areSimilar(res1.getContents(), res2.getContents()));
+	protected void testSimilarityWithModelComparison(Resource res1, Resource res2, Boolean expectedResult) {
+		var cmp = JavaModelComparator.compareJavaModels(res1, res2, null, null, null);
+		Assertions.assertEquals(expectedResult, cmp.getDifferences().size() == 0);
 	}
 
 	/**
@@ -348,20 +350,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	protected abstract boolean isModelDirectoryName(String s);
 
 	/**
-	 * Defaults to filtering the URI path using {@link #getResourceNameFilter()}.
-	 * Check the concrete implementation for more details.
-	 * 
-	 * @return The filter, which will be used to filter out unwanted Java models.
+	 * @return Whether the resource r (parsed from the given path) is relevant for
+	 *         the tests.
 	 */
-	protected Predicate<Resource> getResourceFilter() {
-		return (r) -> this.getResourceNameFilter().test(r.getURI().path());
-	}
-
-	/**
-	 * Check the concrete implementation for more details.
-	 * 
-	 * @return A predicate that encapsulates the algorithm that will be used to
-	 *         filter the relevant resources based on their name.
-	 */
-	protected abstract Predicate<String> getResourceNameFilter();
+	protected abstract boolean isResourceRelevant(Path sourcePath, Resource r);
 }
