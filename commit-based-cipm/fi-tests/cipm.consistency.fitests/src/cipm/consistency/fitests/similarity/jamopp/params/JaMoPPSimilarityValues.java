@@ -259,10 +259,10 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 	}
 
 	/**
-	 * Adds similarity entries, which have a one-to-one connection
-	 * to certain attributes of certain object types. This means that the results
-	 * contained within these similarity entries are tied to only one attribute
-	 * of an object type per entry.
+	 * Adds similarity entries, which have a one-to-one connection to certain
+	 * attributes of certain object types. This means that the results contained
+	 * within these similarity entries are tied to only one attribute of an object
+	 * type per entry.
 	 */
 	public void addFixedSimilarityEntries() {
 		this.addAnnotationsSimilarityEntries();
@@ -297,8 +297,8 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 	}
 
 	/**
-	 * A variant of {@link #addSimilarityEntry(Class, Object, Boolean)}, where
-	 * the second parameter is attr and the first parameter is derived from attr.
+	 * A variant of {@link #addSimilarityEntry(Class, Object, Boolean)}, where the
+	 * second parameter is attr and the first parameter is derived from attr.
 	 */
 	public void addSimilarityEntry(EStructuralFeature attr, Boolean expectedSimResult) {
 		this.addSimilarityEntry(this.getClassFromStructuralFeature(attr), attr, expectedSimResult);
