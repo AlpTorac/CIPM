@@ -150,7 +150,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 	/**
 	 * Checks whether the given {@link Resource} instances are similar, based on
-	 * {@code res_i.getAllContents()}. <br>
+	 * {@code res_i.getAllContents()}. The order of the contents is also considered
+	 * and will impact the result. <br>
 	 * <br>
 	 * It is important to use this method over other similarity testing methods, due
 	 * to the Java models in these tests being potentially fragmented. Hence the use
@@ -207,8 +208,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 *                           contain Java-model files.
 	 * @return The test display name for the given modelParentDirPath
 	 */
-	protected String getModelsParentDirName(Path modelParentDirPath) {
-		return modelParentDirPath.getName(modelParentDirPath.getNameCount() - 1).toString();
+	protected String getModelsParentDirDisplayName(Path modelParentDirPath) {
+		return this.getRootDirPath().relativize(modelParentDirPath).toString();
 	}
 
 	protected Collection<File> getAllModelDirsUnder(Path modelParentDirPath) {
