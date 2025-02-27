@@ -61,8 +61,8 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 			var model1Path = Paths.get(md.toString(), model1Name);
 			var model2Path = Paths.get(md.toString(), model2Name);
 
-			var res1 = parseModelsDir(model1Path);
-			var res2 = parseModelsDir(model2Path);
+			var res1 = parseModelsDirWithCaching(model1Path);
+			var res2 = parseModelsDirWithCaching(model2Path);
 
 			var dt1 = DynamicTest.dynamicTest(getDisplayNameForModelDir(model1Path), () -> {
 				this.testSimilarityOfAllContents(res1, res1, true);
@@ -89,11 +89,11 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 			var model1Path = Paths.get(md.toString(), model1Name);
 			var model2Path = Paths.get(md.toString(), model2Name);
 
-			var res11 = parseModelsDir(model1Path);
-			var res12 = parseModelsDir(model1Path);
+			var res11 = parseModelsDirWithCaching(model1Path);
+			var res12 = parseModelsDirWithCaching(model1Path);
 
-			var res21 = parseModelsDir(model2Path);
-			var res22 = parseModelsDir(model2Path);
+			var res21 = parseModelsDirWithCaching(model2Path);
+			var res22 = parseModelsDirWithCaching(model2Path);
 
 			var dt1 = DynamicTest.dynamicTest(getDisplayNameForModelDir(model1Path), () -> {
 				this.testSimilarityOfAllContents(res11, res12, true);
@@ -126,8 +126,8 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 
 			this.getLogger().debug(md.getFileName() + " contents equal: " + expectedResult);
 
-			var res1 = parseModelsDir(model1Path);
-			var res2 = parseModelsDir(model2Path);
+			var res1 = parseModelsDirWithCaching(model1Path);
+			var res2 = parseModelsDirWithCaching(model2Path);
 
 			tests.add(DynamicTest.dynamicTest(modelDirName + " (" + model1Name + " and " + model2Name + ")", () -> {
 				this.testSimilarityOfAllContents(res1, res2, expectedResult);

@@ -4,8 +4,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -19,8 +17,6 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 	 * The name of the root directory of the models
 	 */
 	private static final String complexModelImplDirName = "complex-testmodels";
-
-	private static final Map<String, Resource> resourceCache = new HashMap<>();
 
 	@Override
 	protected Path getRootDirPath() {
@@ -37,72 +33,6 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 		} catch (NumberFormatException e) {
 			return false;
 		}
-	}
-
-	/**
-	 * Adds the given resource with the given key to the cache. Replaces the
-	 * resource, if the key is already in the cache.
-	 * 
-	 * @param key The key associated with the given resource
-	 * @param res A given resource
-	 */
-	protected void addToCache(String key, Resource res) {
-		resourceCache.put(key, res);
-	}
-
-	/**
-	 * @return Gets the resource associated with the given key from the cache. Null,
-	 *         if there is no such key in the cache.
-	 */
-	protected Resource getFromCache(String key) {
-		return resourceCache.get(key);
-	}
-
-	/**
-	 * @return Whether the given key is present in the cache.
-	 */
-	protected boolean isInCache(String key) {
-		return resourceCache.containsKey(key);
-	}
-
-	/**
-	 * Removes the cached resource associated with the given key.
-	 */
-	protected void removeFromCache(String key) {
-		resourceCache.remove(key);
-	}
-
-	/**
-	 * Removes all entries from the cache.
-	 */
-	protected void cleanCache() {
-		resourceCache.clear();
-	}
-
-	/**
-	 * @return Generates a cache key from the given path.
-	 */
-	protected String pathToCacheKey(Path path) {
-		return path.toString();
-	}
-
-	/**
-	 * {@inheritDoc} <br>
-	 * <br>
-	 * <b><i>Checks the cache first for previously parsed resources. If a resource
-	 * from the given path was previously parsed and cached, returns the cached
-	 * resource instead. If there were no cached resources for the given path, adds
-	 * the parsed resource to the cache.</i></b>
-	 */
-	@Override
-	protected Resource parseModelsDir(Path modelDir) {
-		var key = this.pathToCacheKey(modelDir);
-		if (this.isInCache(key)) {
-			return this.getFromCache(key);
-		}
-		var res = super.parseModelsDir(modelDir);
-		this.addToCache(key, res);
-		return res;
 	}
 
 	/**
@@ -236,11 +166,11 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 			var modelTests = new ArrayList<DynamicNode>();
 			for (var it1 = modelDirs.iterator(); it1.hasNext();) {
 				var path1 = it1.next().toPath();
-				var res1 = this.parseModelsDir(path1);
+				var res1 = this.parseModelsDirWithCaching(path1);
 
 				for (var it2 = modelDirs.iterator(); it2.hasNext();) {
 					var path2 = it2.next().toPath();
-					var res2 = this.parseModelsDir(path2);
+					var res2 = this.parseModelsDirWithCaching(path2);
 
 					modelTests.add(DynamicTest
 							.dynamicTest(String.format("%s vs %s", path1.getFileName(), path2.getFileName()), () -> {
@@ -274,11 +204,11 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 			var modelTests = new ArrayList<DynamicNode>();
 			for (var it1 = modelDirs.iterator(); it1.hasNext();) {
 				var path1 = it1.next().toPath();
-				var res1 = this.parseModelsDir(path1);
+				var res1 = this.parseModelsDirWithCaching(path1);
 
 				for (var it2 = modelDirs.iterator(); it2.hasNext();) {
 					var path2 = it2.next().toPath();
-					var res2 = this.parseModelsDir(path2);
+					var res2 = this.parseModelsDirWithCaching(path2);
 
 					modelTests.add(DynamicTest
 							.dynamicTest(String.format("%s vs %s", path1.getFileName(), path2.getFileName()), () -> {
