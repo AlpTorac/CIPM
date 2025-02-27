@@ -18,11 +18,17 @@ public class InnerClassifierImplementsChangeTest extends AbstractJaMoPPComplexPa
 		return sourcePath.toString().contains(modelsDirSubpath.toString());
 	}
 
-//	@Override
-//	public Boolean getExpectedSimilarityResultForModelComparison(Resource lhs, Path lhsSourceFilePath, Resource rhs,
-//			Path rhsSourceFilePath) {
-//		// TODO Fix by checking whether the same interfaces are implemented instead
-//		// Look for Implementor instances in lhs and rhs
-//		return null;
-//	}
+	/**
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * The order of implemented interfaces does not matter in similarity checking.
+	 */
+	@Override
+	public Boolean getExpectedSimilarityResultForModelComparison(Resource lhs, Path lhsSourceFilePath, Resource rhs,
+			Path rhsSourceFilePath) {
+		if (super.getExpectedSimilarityResultForModelComparison(lhs, lhsSourceFilePath, rhs, rhsSourceFilePath)) {
+			return true;
+		}
+		return this.allContentSimilar(lhs, rhs);
+	}
 }
