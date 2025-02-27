@@ -1,15 +1,10 @@
 package cipm.consistency.fitests.similarity.jamopp.parsertests;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.TreeSet;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -30,72 +25,41 @@ import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
  * @author Alp Torac Genc
  */
 public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPSimilarityTest {
-	private static final Map<String, Resource> resourceCache = new HashMap<>();
-
 	/**
-	 * Adds the given resource with the given key to the cache. Replaces the
-	 * resource, if the key is already in the cache.
+	 * An object that caches and grants access to the parsed models, which were
+	 * cached after being parsed. <br>
+	 * <br>
+	 * Make sure that it persists throughout tests, which are supposed to make use
+	 * of it.
 	 * 
-	 * @param key The key associated with the given resource
-	 * @param res A given resource
+	 * @see {@link #parseModelsDirWithoutCaching(Path)}
+	 * @see {@link #parseModelsDirWithCaching(Path)}
 	 */
-	protected void addToCache(String key, Resource res) {
-		resourceCache.put(key, res);
+	private static final CacheUtil resourceCache = new CacheUtil();
+
+	/**
+	 * @return A utility object that can be used to perform file operations.
+	 */
+	protected FileUtil getFileUtil() {
+		return new FileUtil();
 	}
 
 	/**
-	 * @return Gets the resource associated with the given key from the cache. Null,
-	 *         if there is no such key in the cache.
+	 * @return A utility object, which encapsulates caching logic (for parsed
+	 *         models) and can be used to hasten tests.
 	 */
-	protected Resource getFromCache(String key) {
-		return resourceCache.get(key);
+	protected CacheUtil getCacheUtil() {
+		return resourceCache;
 	}
 
 	/**
-	 * @return Whether the given key is present in the cache.
-	 */
-	protected boolean isInCache(String key) {
-		return resourceCache.containsKey(key);
-	}
-
-	/**
-	 * Removes the cached resource associated with the given key.
-	 */
-	protected void removeFromCache(String key) {
-		resourceCache.remove(key);
-	}
-
-	/**
-	 * Removes all entries from the cache.
-	 */
-	protected void cleanCache() {
-		resourceCache.clear();
-	}
-
-	/**
+	 * Intended to be used for caching parsed models. Can be overridden to allow
+	 * custom cache keys in implementing test classes.
+	 * 
 	 * @return Generates a cache key from the given path.
 	 */
 	protected String pathToCacheKey(Path path) {
 		return path.toString();
-	}
-
-	/**
-	 * @return Whether the content of both dirs are similar.
-	 * 
-	 * @see {@link #filesEqual(File, File)}
-	 * @see {@link #dirsEqual(File, File)}
-	 */
-	protected boolean areContentsEqual(Path path1, Path path2) {
-		var contentEquality = false;
-
-		try {
-			contentEquality = dirsEqual(path1.toFile(), path2.toFile());
-		} catch (IOException e) {
-			this.getLogger().debug("Could not read paths: " + path1.toString() + " and " + path2.toString());
-			Assertions.fail();
-		}
-
-		return contentEquality;
 	}
 
 	/**
@@ -174,12 +138,13 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * the parsed resource to the cache.</i></b>
 	 */
 	protected Resource parseModelsDirWithCaching(Path modelDir) {
+		var cache = this.getCacheUtil();
 		var key = this.pathToCacheKey(modelDir);
-		if (this.isInCache(key)) {
-			return this.getFromCache(key);
+		if (cache.isInCache(key)) {
+			return cache.getFromCache(key);
 		}
 		var res = this.parseModelsDirWithoutCaching(modelDir);
-		this.addToCache(key, res);
+		cache.addToCache(key, res);
 		return res;
 	}
 
@@ -211,12 +176,17 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
-	 * Asserts that the result of similarity checking the root contents
-	 * ({@code res.getContents()}) of the given resources is as expected.
+	 * Asserts that the result of similarity checking via model comparison results
+	 * in differences or not (denoted by expectedResult). <br>
+	 * <br>
+	 * Compares res1 and res2, as well as res2 and res1; in order to ensure that the
+	 * comparison is symmetric.
 	 */
 	protected void testSimilarityWithModelComparison(Resource res1, Resource res2, Boolean expectedResult) {
-		var cmp = JavaModelComparator.compareJavaModels(res1, res2, null, null, null);
-		Assertions.assertEquals(expectedResult, cmp.getDifferences().size() == 0);
+		var cmp1To2 = JavaModelComparator.compareJavaModels(res1, res2, null, null, null);
+		var cmp2To1 = JavaModelComparator.compareJavaModels(res2, res1, null, null, null);
+		Assertions.assertEquals(expectedResult, cmp1To2.getDifferences().size() == 0);
+		Assertions.assertEquals(expectedResult, cmp2To1.getDifferences().size() == 0);
 	}
 
 	/**
@@ -285,80 +255,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 			discovered.forEach((d) -> discoverFiles(d, foundModelDirs));
 		}
-	}
-
-	/**
-	 * Reads the given file and removes line breaks and whitespaces.
-	 */
-	protected String readEffectiveCode(File f) throws IOException {
-		var content = Files.readString(f.toPath());
-
-		return content.replaceAll("\\n", "").replaceAll("\\r", "").replaceAll("\\s", "");
-	}
-
-	/**
-	 * Compares the equality of the given files based on their effective content.
-	 * 
-	 * @see {@link #readEffectiveCode(File)}
-	 */
-	protected boolean filesEqual(File f1, File f2) throws IOException {
-		var f1Content = readEffectiveCode(f1);
-		var f2Content = readEffectiveCode(f2);
-
-		return f1Content.equals(f2Content);
-	}
-
-	/**
-	 * Recursively checks the equality of the given directories, based on their
-	 * content (i.e. the files/sub-directories they contain and the contents of
-	 * those files).
-	 * 
-	 * @see {@link #filesEqual(File, File)}, {@link #readEffectiveCode(File)}
-	 */
-	protected boolean dirsEqual(File dir1, File dir2) throws IOException {
-		this.getLogger().debug("Comparing: " + dir1.getName() + " and " + dir2.getName());
-
-		// There cannot be 2 files with the same path, name and extension
-		// so using TreeSet, which sorts the files spares doing so here
-		var files1 = new TreeSet<File>();
-		var files2 = new TreeSet<File>();
-
-		for (var f : dir1.listFiles()) {
-			files1.add(f);
-		}
-
-		for (var f : dir2.listFiles()) {
-			files2.add(f);
-		}
-
-		if (files1.size() != files2.size()) {
-			return false;
-		}
-
-		var fileIter1 = files1.iterator();
-		var fileIter2 = files2.iterator();
-
-		for (int i = 0; i < files1.size(); i++) {
-			var f1 = fileIter1.next();
-			var f2 = fileIter2.next();
-
-			if (f1.isDirectory() && f2.isDirectory()) {
-				if (!dirsEqual(f1, f2)) {
-					this.getLogger().debug("Directories " + f1.getName() + " and " + f2.getName() + " are not equal");
-					return false;
-				}
-			} else if (f1.isFile() && f2.isFile()) {
-				if (!filesEqual(f1, f2)) {
-					this.getLogger().debug("Files " + f1.getName() + " and " + f2.getName() + " are not equal");
-					return false;
-				}
-			} else {
-				this.getLogger().debug("Unexpected case there is a file and a directory");
-				return false;
-			}
-		}
-
-		return true;
 	}
 
 	/**
