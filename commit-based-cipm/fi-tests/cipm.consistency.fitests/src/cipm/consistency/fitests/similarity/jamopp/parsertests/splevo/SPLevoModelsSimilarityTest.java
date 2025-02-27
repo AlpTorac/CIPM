@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.jamopp.parsertests;
+package cipm.consistency.fitests.similarity.jamopp.parsertests.splevo;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,6 +11,8 @@ import org.junit.jupiter.api.DynamicContainer;
 import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
+
+import cipm.consistency.fitests.similarity.jamopp.parsertests.AbstractJaMoPPParserSimilarityTest;
 
 /**
  * A test class that attempts to parse and check similarity of {@link Resource}
@@ -122,7 +124,7 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 			var model1Path = Paths.get(md.toString(), model1Name);
 			var model2Path = Paths.get(md.toString(), model2Name);
 
-			final var expectedResult = this.areContentsEqual(model1Path, model2Path);
+			final var expectedResult = this.getFileUtil().areContentsEqual(model1Path, model2Path);
 
 			this.getLogger().debug(md.getFileName() + " contents equal: " + expectedResult);
 

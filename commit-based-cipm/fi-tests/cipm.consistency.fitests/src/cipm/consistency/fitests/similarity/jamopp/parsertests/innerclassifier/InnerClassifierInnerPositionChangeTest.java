@@ -1,12 +1,14 @@
-package cipm.consistency.fitests.similarity.jamopp.parsertests;
+package cipm.consistency.fitests.similarity.jamopp.parsertests.innerclassifier;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
-public class InnerClassifierImplementsChangeTest extends AbstractJaMoPPComplexParserSimilarityTest {
-	private final static Path modelsDirSubpath = Paths.get("classifier", "innerClassifier", "implementsChange");
+import cipm.consistency.fitests.similarity.jamopp.parsertests.AbstractJaMoPPComplexParserSimilarityTest;
+
+public class InnerClassifierInnerPositionChangeTest extends AbstractJaMoPPComplexParserSimilarityTest {
+	private final static Path modelsDirSubpath = Paths.get("classifier", "innerClassifier", "innerPositionChange");
 
 	@Override
 	protected Path getRootDirPath() {
@@ -21,14 +23,12 @@ public class InnerClassifierImplementsChangeTest extends AbstractJaMoPPComplexPa
 	/**
 	 * {@inheritDoc} <br>
 	 * <br>
-	 * The order of implemented interfaces does not matter in similarity checking.
+	 * Inner classifiers are considered members, whose position within their
+	 * containing classifier does not matter.
 	 */
 	@Override
 	public Boolean getExpectedSimilarityResultForModelComparison(Resource lhs, Path lhsSourceFilePath, Resource rhs,
 			Path rhsSourceFilePath) {
-		if (super.getExpectedSimilarityResultForModelComparison(lhs, lhsSourceFilePath, rhs, rhsSourceFilePath)) {
-			return true;
-		}
-		return this.allContentSimilar(lhs, rhs);
+		return true;
 	}
 }

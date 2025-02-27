@@ -174,7 +174,7 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 
 					modelTests.add(DynamicTest
 							.dynamicTest(String.format("%s vs %s", path1.getFileName(), path2.getFileName()), () -> {
-								this.testSimilarityOfAllContents(res1, res2, this.areContentsEqual(path1, path2));
+								this.testSimilarityOfAllContents(res1, res2, this.getFileUtil().areContentsEqual(path1, path2));
 							}));
 				}
 			}
