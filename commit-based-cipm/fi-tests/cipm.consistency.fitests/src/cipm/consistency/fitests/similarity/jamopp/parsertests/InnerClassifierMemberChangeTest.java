@@ -17,4 +17,18 @@ public class InnerClassifierMemberChangeTest extends AbstractJaMoPPComplexParser
 	protected boolean isResourceRelevant(Path sourcePath, Resource r) {
 		return sourcePath.toString().contains(modelsDirSubpath.toString());
 	}
+
+	/**
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * The order of members does not matter in similarity checking.
+	 */
+	@Override
+	public Boolean getExpectedSimilarityResultForModelComparison(Resource lhs, Path lhsSourceFilePath, Resource rhs,
+			Path rhsSourceFilePath) {
+		if (super.getExpectedSimilarityResultForModelComparison(lhs, lhsSourceFilePath, rhs, rhsSourceFilePath)) {
+			return true;
+		}
+		return this.allContentSimilar(lhs, rhs);
+	}
 }
