@@ -31,6 +31,6 @@ public class InnerClassifierImplementsChangeTest extends AbstractJaMoPPComplexPa
 		if (super.getExpectedSimilarityResultForModelComparison(lhs, lhsSourceFilePath, rhs, rhsSourceFilePath)) {
 			return true;
 		}
-		return this.allContentSimilar(lhs, rhs);
+		return this.contentwiseSimilar(lhs, rhs);
 	}
 }
