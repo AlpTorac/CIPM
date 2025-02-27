@@ -53,108 +53,78 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 	}
 
 	/**
-	 * @return whether both sides' contents ({@code res.getAllContents()}) have the
-	 *         same size.
-	 */
-	public boolean allContentSizeEqual(Resource lhs, Resource rhs) {
-		var lhsIt = lhs.getAllContents();
-		var rhsIt = rhs.getAllContents();
-		while (lhsIt.hasNext() && rhsIt.hasNext()) {
-			lhsIt.next();
-			rhsIt.next();
-		}
-		return !lhsIt.hasNext() && !rhsIt.hasNext();
-	}
-
-	/**
-	 * @return whether both sides' contents ({@code res.getAllContents()}) have the
-	 *         same size.
-	 */
-	public boolean allContentSizeEqual(EObject lhs, EObject rhs) {
-		var lhsIt = lhs.eAllContents();
-		var rhsIt = rhs.eAllContents();
-		while (lhsIt.hasNext() && rhsIt.hasNext()) {
-			lhsIt.next();
-			rhsIt.next();
-		}
-		return !lhsIt.hasNext() && !rhsIt.hasNext();
-	}
-
-	/**
 	 * Checks if both sides' contents ({@code res.getAllContents()}) are similar, if
-	 * their order does not matter. Also checks whether their contents have the same
-	 * size.
+	 * their order does not matter. Makes sure that the result is the same as
+	 * {@code allContentSimilar(rhs, lhs)}.
 	 * 
 	 * @return Whether all contents of lhs and rhs are similar, i.e. if all contents
 	 *         of lhs have a corresponding similar content on rhs.
 	 */
-	public boolean allContentSimilar(Resource lhs, Resource rhs) {
-		// Contents cannot be equal, if one side has more contents
-		if (!this.allContentSizeEqual(lhs, rhs)) {
-			return false;
-		}
+	public boolean contentwiseSimilar(Resource lhs, Resource rhs) {
+		var lhsContent = new ArrayList<EObject>();
+		lhs.getAllContents().forEachRemaining((e) -> lhsContent.add(e));
+		var rhsContent = new ArrayList<EObject>();
+		rhs.getAllContents().forEachRemaining((e) -> rhsContent.add(e));
 
-		var lhsIt = lhs.getAllContents();
-		while (lhsIt.hasNext()) {
-			var lhsElem = lhsIt.next();
-			final var res = new Boolean[] { null };
-			var rhsIt = rhs.getAllContents();
-			while (res[0] == null && rhsIt.hasNext()) {
-				var rhsElem = rhsIt.next();
-				// Make sure that all their nested content is similar as well
-				if (this.isSimilar(lhsElem, rhsElem) && this.allContentSimilar(lhsElem, rhsElem)) {
-					lhsElem.eAllContents();
-					// Similar content found, go back to the outer while-loop
-					res[0] = Boolean.TRUE;
-					break;
-				}
-			}
-			if (res[0] != Boolean.TRUE) {
-				// No similar content found, resources' contents are not equal
-				return false;
-			}
-		}
-		return true;
+		return this.contentwiseSimilar(lhsContent, rhsContent) && this.contentwiseSimilar(rhsContent, lhsContent);
 	}
 
 	/**
-	 * Checks if both sides' contents ({@code res.getAllContents()}) are similar, if
-	 * their order does not matter. Also checks whether their contents have the same
-	 * size. <br>
-	 * <br>
-	 * <b>!!! DOES NOT check the similarity of lhs and rhs !!!<b>
+	 * Checks if both sides' contents ({@code obj.eAllContents()}) are similar, if
+	 * their order does not matter. Makes sure that the result is the same as
+	 * {@code allContentSimilar(rhs, lhs)}.
 	 * 
 	 * @return Whether all contents of lhs and rhs are similar, i.e. if all contents
 	 *         of lhs have a corresponding similar content on rhs.
 	 */
-	public boolean allContentSimilar(EObject lhs, EObject rhs) {
-		// Contents cannot be equal, if one side has more contents
-		if (!this.allContentSizeEqual(lhs, rhs)) {
+	public boolean contentwiseSimilar(EObject lhs, EObject rhs) {
+		if (!this.isSimilar(lhs, rhs) || !this.isSimilar(rhs, lhs)) {
 			return false;
 		}
 
-		var lhsIt = lhs.eAllContents();
-		while (lhsIt.hasNext()) {
-			var lhsElem = lhsIt.next();
-			final var res = new Boolean[] { null };
-			var rhsIt = rhs.eAllContents();
-			while (res[0] == null && rhsIt.hasNext()) {
-				var rhsElem = rhsIt.next();
-				if (this.isSimilar(lhsElem, rhsElem)) {
-					lhsElem.eAllContents();
-					// Similar content found, go back to the outer while-loop
-					res[0] = Boolean.TRUE;
+		var lhsContent = new ArrayList<EObject>();
+		lhs.eAllContents().forEachRemaining((e) -> lhsContent.add(e));
+		var rhsContent = new ArrayList<EObject>();
+		rhs.eAllContents().forEachRemaining((e) -> rhsContent.add(e));
+
+		return this.contentwiseSimilar(lhsContent, rhsContent) && this.contentwiseSimilar(rhsContent, lhsContent);
+	}
+
+	/**
+	 * Variant of {@link #contentwiseSimilar(EObject, EObject)} for collections.
+	 */
+	public boolean contentwiseSimilar(Collection<EObject> lhs, Collection<EObject> rhs) {
+		var lhsContent = new ArrayList<EObject>(lhs);
+		var rhsContent = new ArrayList<EObject>(rhs);
+
+		if (lhsContent.size() != rhsContent.size()) {
+			return false;
+		}
+
+		while (!lhsContent.isEmpty() && !rhsContent.isEmpty()) {
+			var lhsElem = lhsContent.get(0);
+			final var rhsElem = new EObject[] { null };
+			for (var e : rhsContent) {
+				if (this.contentwiseSimilar(lhsElem, e)) {
+					rhsElem[0] = e;
 					break;
 				}
 			}
-			if (res[0] != Boolean.TRUE) {
-				// No similar content found, resources' contents are not equal
+			if (rhsElem[0] != null) {
+				lhsContent.remove(lhsElem);
+				rhsContent.remove(rhsElem[0]);
+			} else {
 				return false;
 			}
 		}
-		return true;
+		return lhsContent.isEmpty() && rhsContent.isEmpty();
 	}
 
+	/**
+	 * Ensures that all contents of the parsed models are only then similar
+	 * (accounting for their order too), if the content of their source files are
+	 * equal (in terms of code, not whitespace nor comments etc.).
+	 */
 	@TestFactory
 	public Collection<DynamicNode> testAllContentsSimilarity() {
 		var tests = new ArrayList<DynamicNode>();
@@ -174,7 +144,8 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 
 					modelTests.add(DynamicTest
 							.dynamicTest(String.format("%s vs %s", path1.getFileName(), path2.getFileName()), () -> {
-								this.testSimilarityOfAllContents(res1, res2, this.getFileUtil().areContentsEqual(path1, path2));
+								this.testSimilarityOfAllContents(res1, res2,
+										this.getFileUtil().areContentsEqual(path1, path2));
 							}));
 				}
 			}
