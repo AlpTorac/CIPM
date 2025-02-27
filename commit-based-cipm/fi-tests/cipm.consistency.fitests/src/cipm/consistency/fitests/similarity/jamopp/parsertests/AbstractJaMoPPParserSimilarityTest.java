@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.TreeSet;
 
 import org.eclipse.emf.common.util.URI;
@@ -28,6 +30,55 @@ import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
  * @author Alp Torac Genc
  */
 public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPSimilarityTest {
+	private static final Map<String, Resource> resourceCache = new HashMap<>();
+
+	/**
+	 * Adds the given resource with the given key to the cache. Replaces the
+	 * resource, if the key is already in the cache.
+	 * 
+	 * @param key The key associated with the given resource
+	 * @param res A given resource
+	 */
+	protected void addToCache(String key, Resource res) {
+		resourceCache.put(key, res);
+	}
+
+	/**
+	 * @return Gets the resource associated with the given key from the cache. Null,
+	 *         if there is no such key in the cache.
+	 */
+	protected Resource getFromCache(String key) {
+		return resourceCache.get(key);
+	}
+
+	/**
+	 * @return Whether the given key is present in the cache.
+	 */
+	protected boolean isInCache(String key) {
+		return resourceCache.containsKey(key);
+	}
+
+	/**
+	 * Removes the cached resource associated with the given key.
+	 */
+	protected void removeFromCache(String key) {
+		resourceCache.remove(key);
+	}
+
+	/**
+	 * Removes all entries from the cache.
+	 */
+	protected void cleanCache() {
+		resourceCache.clear();
+	}
+
+	/**
+	 * @return Generates a cache key from the given path.
+	 */
+	protected String pathToCacheKey(Path path) {
+		return path.toString();
+	}
+
 	/**
 	 * @return Whether the content of both dirs are similar.
 	 * 
@@ -73,7 +124,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 	/**
 	 * Parses all Java-Model files under the given directory into a {@link Resource}
-	 * instance. <br>
+	 * instance. Uses no means of caching. <br>
 	 * <br>
 	 * <b>Note: This method will parse ALL such files. Therefore, the given model
 	 * directory should only contain one Java-Model.</b>
@@ -82,7 +133,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * 
 	 * @see {@link #isResourceRelevant()}
 	 */
-	protected Resource parseModelsDir(Path modelDir) {
+	protected Resource parseModelsDirWithoutCaching(Path modelDir) {
 		// Leave out commented options
 		ParserOptions.CREATE_LAYOUT_INFORMATION.setValue(Boolean.FALSE);
 		ParserOptions.REGISTER_LOCAL.setValue(Boolean.TRUE);
@@ -111,6 +162,25 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			all.getContents().addAll(r.getContents());
 		}
 		return all;
+	}
+
+	/**
+	 * Works similar to {@link #parseModelsDirWithCaching(Path)}, except for the
+	 * caching part: <br>
+	 * <br>
+	 * <b><i>Checks the cache first for previously parsed resources. If a resource
+	 * from the given path was previously parsed and cached, returns the cached
+	 * resource instead. If there were no cached resources for the given path, adds
+	 * the parsed resource to the cache.</i></b>
+	 */
+	protected Resource parseModelsDirWithCaching(Path modelDir) {
+		var key = this.pathToCacheKey(modelDir);
+		if (this.isInCache(key)) {
+			return this.getFromCache(key);
+		}
+		var res = this.parseModelsDirWithoutCaching(modelDir);
+		this.addToCache(key, res);
+		return res;
 	}
 
 	/**
