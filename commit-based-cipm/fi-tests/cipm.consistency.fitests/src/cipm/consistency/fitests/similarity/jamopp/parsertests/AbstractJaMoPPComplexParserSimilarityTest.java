@@ -130,8 +130,6 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 		var tests = new ArrayList<DynamicNode>();
 
 		this.getModelParentDirsWithinRoot().forEach((md) -> {
-			var modelDirName = this.getModelsParentDirName(md);
-
 			final var modelDirs = this.getAllModelDirsUnder(md);
 			var modelTests = new ArrayList<DynamicNode>();
 			for (var it1 = modelDirs.iterator(); it1.hasNext();) {
@@ -150,7 +148,7 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 				}
 			}
 
-			tests.add(DynamicContainer.dynamicContainer(String.format("model = %s (eAllContents)", modelDirName),
+			tests.add(DynamicContainer.dynamicContainer(String.format("model = %s (eAllContents)", this.getModelsParentDirDisplayName(md)),
 					modelTests));
 		});
 
@@ -169,8 +167,6 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 		var tests = new ArrayList<DynamicNode>();
 
 		this.getModelParentDirsWithinRoot().forEach((md) -> {
-			var modelDirName = this.getModelsParentDirName(md);
-
 			final var modelDirs = this.getAllModelDirsUnder(md);
 			var modelTests = new ArrayList<DynamicNode>();
 			for (var it1 = modelDirs.iterator(); it1.hasNext();) {
@@ -189,8 +185,8 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 				}
 			}
 
-			tests.add(DynamicContainer.dynamicContainer(String.format("model = %s (eContents)", modelDirName),
-					modelTests));
+			tests.add(DynamicContainer.dynamicContainer(
+					String.format("model dir = %s (Java model comparison)", this.getModelsParentDirDisplayName(md)), modelTests));
 		});
 
 		var result = new ArrayList<DynamicNode>();

@@ -73,7 +73,7 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 				this.testSimilarityOfAllContents(res2, res2, true);
 			});
 
-			tests.add(DynamicContainer.dynamicContainer(getModelsParentDirName(md), List.of(dt1, dt2)));
+			tests.add(DynamicContainer.dynamicContainer(getModelsParentDirDisplayName(md), List.of(dt1, dt2)));
 		});
 
 		return tests;
@@ -104,7 +104,7 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 				this.testSimilarityOfAllContents(res21, res22, true);
 			});
 
-			tests.add(DynamicContainer.dynamicContainer(getModelsParentDirName(md), List.of(dt1, dt2)));
+			tests.add(DynamicContainer.dynamicContainer(getModelsParentDirDisplayName(md), List.of(dt1, dt2)));
 		});
 
 		return tests;
@@ -119,7 +119,7 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 		var tests = new ArrayList<DynamicNode>();
 
 		this.getModelParentDirsWithinRoot().forEach((md) -> {
-			var modelDirName = this.getModelsParentDirName(md);
+			var modelDirName = this.getModelsParentDirDisplayName(md);
 
 			var model1Path = Paths.get(md.toString(), model1Name);
 			var model2Path = Paths.get(md.toString(), model2Name);
