@@ -1,0 +1,6 @@
+public class Cls {
+	public void met() {
+		int a = 2;
+		int b = 3;
+	}
+}
