@@ -204,12 +204,34 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
+	 * Defaults to the relative path between the root directory
+	 * ({@link #getRootDirPath()}) and the given path. If both paths are the same,
+	 * returns the last name in the parameter.
+	 * 
 	 * @param modelParentDirPath A directory, which contains other directories that
 	 *                           contain Java-model files.
 	 * @return The test display name for the given modelParentDirPath
 	 */
 	protected String getModelsParentDirDisplayName(Path modelParentDirPath) {
-		return this.getRootDirPath().relativize(modelParentDirPath).toString();
+		var rootPath = this.getRootDirPath();
+		var relPath = rootPath.relativize(modelParentDirPath);
+		var result = relPath.toString();
+		if (result.isBlank()) {
+			return modelParentDirPath.getFileName().toString();
+		}
+		return result;
+	}
+
+	/**
+	 * Defaults to the relative path between the current directory
+	 * ({@link #getAbsoluteCurrentDirectory()}) and the root directory
+	 * ({@link #getRootDirPath()}).
+	 * 
+	 * @return The display name for the root directory.
+	 * @see {@link #getRootDirPath()}
+	 */
+	protected String getRootDirDisplayName() {
+		return this.getAbsoluteCurrentDirectory().toPath().relativize(this.getRootDirPath()).toString();
 	}
 
 	protected Collection<File> getAllModelDirsUnder(Path modelParentDirPath) {

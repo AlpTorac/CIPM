@@ -154,7 +154,7 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 
 		var result = new ArrayList<DynamicNode>();
 		result.add(DynamicContainer
-				.dynamicContainer(String.format("root = %s", getRootDirPath().getFileName().toString()), tests));
+				.dynamicContainer(String.format("root = %s", this.getRootDirDisplayName()), tests));
 		return result;
 	}
 
@@ -191,7 +191,7 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 
 		var result = new ArrayList<DynamicNode>();
 		result.add(DynamicContainer
-				.dynamicContainer(String.format("root = %s", getRootDirPath().getFileName().toString()), tests));
+				.dynamicContainer(String.format("root = %s", this.getRootDirDisplayName()), tests));
 		return result;
 	}
 }
