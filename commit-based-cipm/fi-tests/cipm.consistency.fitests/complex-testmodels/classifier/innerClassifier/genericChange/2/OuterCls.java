@@ -1,4 +1,4 @@
-public class OuterCls<T> {
+public class OuterCls<T1> {
 	public class InnerCls {
 		
 	}
