@@ -1,5 +1,5 @@
-public class OuterCls<T> {
-	public class InnerCls<T> {
+public class OuterCls<T1> {
+	public class InnerCls<T1> {
 		
 	}
 }
