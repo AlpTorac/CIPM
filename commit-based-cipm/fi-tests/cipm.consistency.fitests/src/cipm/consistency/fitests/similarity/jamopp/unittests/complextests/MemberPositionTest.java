@@ -26,58 +26,26 @@ import cipm.consistency.initialisers.jamopp.members.IMemberInitialiser;
  * are added as members) and default members (member instances that are added as
  * default members).
  * 
+ * TODO Refactor and clean up
+ * 
  * @author Alp Torac Genc
  */
 public class MemberPositionTest extends AbstractJaMoPPSimilarityTest {
+	private Member[] createMembers(IMemberInitialiser memInit) {
+		var member1 = memInit.instantiate();
+		memInit.setName(member1, "mem1");
+		var member2 = memInit.instantiate();
+		memInit.setName(member2, "mem2");
+		return new Member[] { member1, member2 };
+	}
 
-	@TestFactory
-	public Collection<DynamicNode> test() {
-		var tests = new ArrayList<DynamicNode>();
-
-		var allInits = this.getUsedInitialiserPackage().getAllInitialiserInstances();
-		var memInits = List.of(
-				allInits.stream().filter((i) -> i instanceof IMemberInitialiser).toArray(IMemberInitialiser[]::new));
-		var memConInits = List.of(allInits.stream().filter((i) -> i instanceof IMemberContainerInitialiser)
-				.toArray(IMemberContainerInitialiser[]::new));
-
-		for (var memInit : memInits) {
-			var memTestList = new ArrayList<DynamicNode>();
-
-			var member11 = memInit.instantiate();
-			memInit.setName(member11, "mem1");
-			var member12 = memInit.instantiate();
-			memInit.setName(member12, "mem2");
-			var member21 = memInit.instantiate();
-			memInit.setName(member21, "mem1");
-			var member22 = memInit.instantiate();
-			memInit.setName(member22, "mem2");
-
-			for (var memConInit : memConInits) {
-				var memConTestList = new ArrayList<DynamicNode>();
-				memConTestList.add(this.testMemberOrder_SameOrder_NoNesting(this.cloneEObj(member11),
-						this.cloneEObj(member12), this.cloneEObj(member21), this.cloneEObj(member22), memConInit));
-				memConTestList.add(this.testMemberOrder_DifferentOrder_NoNesting(this.cloneEObj(member11),
-						this.cloneEObj(member12), this.cloneEObj(member21), this.cloneEObj(member22), memConInit));
-				if (memConInit instanceof IMemberInitialiser) {
-					memConTestList.add(this.testMemberOrder_DifferentOrder_OneSide_Nested(this.cloneEObj(member11),
-							this.cloneEObj(member12), this.cloneEObj(member21), this.cloneEObj(member22), memConInit));
-					memConTestList.add(this.testMemberOrder_DifferentOrder_BothSides_Nested(this.cloneEObj(member11),
-							this.cloneEObj(member12), this.cloneEObj(member21), this.cloneEObj(member22), memConInit));
-					memConTestList.add(this.testMemberOrder_SameOrder_OneSide_Nested(this.cloneEObj(member11),
-							this.cloneEObj(member12), this.cloneEObj(member21), this.cloneEObj(member22), memConInit));
-					memConTestList.add(this.testMemberOrder_SameOrder_BothSides_Nested(this.cloneEObj(member11),
-							this.cloneEObj(member12), this.cloneEObj(member21), this.cloneEObj(member22), memConInit));
-				}
-				var memConTestNode = DynamicContainer.dynamicContainer(
-						String.format("Container: %s", memConInit.getInstanceClassOfInitialiser().getSimpleName()),
-						memConTestList);
-				memTestList.add(memConTestNode);
-			}
-			var memTestNode = DynamicContainer.dynamicContainer(
-					String.format("Member: %s", memInit.getInstanceClassOfInitialiser().getSimpleName()), memTestList);
-			tests.add(memTestNode);
+	private Member[] createMembersInverted(IMemberInitialiser memInit) {
+		var mems = this.createMembers(memInit);
+		var result = new Member[mems.length];
+		for (int i = 0; i < mems.length; i++) {
+			result[i] = mems[mems.length - i - 1];
 		}
-		return tests;
+		return result;
 	}
 
 	/**
@@ -193,14 +161,54 @@ public class MemberPositionTest extends AbstractJaMoPPSimilarityTest {
 	/**
 	 * TODO Add commentary
 	 */
-	public DynamicTest testMemberOrder_DifferentOrder_NoNesting(Member member11, Member member12, Member member21,
-			Member member22, IMemberContainerInitialiser memConInit) {
-		return DynamicTest.dynamicTest("a", () -> {
+	@TestFactory
+	public Collection<DynamicNode> testMemberPosition() {
+		var tests = new ArrayList<DynamicNode>();
+
+		var allInits = this.getUsedInitialiserPackage().getAllInitialiserInstances();
+		var memInits = List.of(
+				allInits.stream().filter((i) -> i instanceof IMemberInitialiser).toArray(IMemberInitialiser[]::new));
+		var memConInits = List.of(allInits.stream().filter((i) -> i instanceof IMemberContainerInitialiser)
+				.toArray(IMemberContainerInitialiser[]::new));
+
+		for (var memInit : memInits) {
+			var memTestList = new ArrayList<DynamicNode>();
+
+			for (var memConInit : memConInits) {
+				var memConTestList = new ArrayList<DynamicNode>();
+				memConTestList.addAll(this.testMemberOrder_NoNesting(memInit, memConInit));
+				memConTestList.addAll(this.testDefaultMemberOrder_NoNesting(memInit, memConInit));
+				if (memConInit instanceof IMemberInitialiser) {
+					memConTestList.addAll(this.testMemberOrder_OneSideNested(memInit, memConInit));
+					memConTestList.addAll(this.testMemberOrder_BothSidesNested(memInit, memConInit));
+					memConTestList.addAll(this.testDefaultMemberOrder_OneSideNested(memInit, memConInit));
+					memConTestList.addAll(this.testDefaultMemberOrder_BothSidesNested(memInit, memConInit));
+				}
+				var memConTestNode = DynamicContainer.dynamicContainer(
+						String.format("Container: %s", memConInit.getInstanceClassOfInitialiser().getSimpleName()),
+						memConTestList);
+				memTestList.add(memConTestNode);
+			}
+			var memTestNode = DynamicContainer.dynamicContainer(
+					String.format("Member: %s", memInit.getInstanceClassOfInitialiser().getSimpleName()), memTestList);
+			tests.add(memTestNode);
+		}
+		return tests;
+	}
+
+	/**
+	 * TODO Add commentary
+	 * 
+	 * Test member position in container, without involving inner containers
+	 */
+	public Collection<DynamicTest> testMemberOrder_NoNesting(IMemberInitialiser memInit,
+			IMemberContainerInitialiser memConInit) {
+		return List.of(DynamicTest.dynamicTest("DifferentOrder_NoNesting", () -> {
 			var memCon1 = memConInit.instantiate();
 			var memCon2 = memConInit.instantiate();
 
-			Assertions.assertTrue(memConInit.addMembers(memCon1, new Member[] { member11, member12 }));
-			Assertions.assertTrue(memConInit.addMembers(memCon2, new Member[] { member22, member21 }));
+			Assertions.assertTrue(memConInit.addMembers(memCon1, this.createMembers(memInit)));
+			Assertions.assertTrue(memConInit.addMembers(memCon2, this.createMembersInverted(memInit)));
 
 			/*
 			 * Ensure that member containers of the same level (inner/outer) are similar
@@ -210,21 +218,37 @@ public class MemberPositionTest extends AbstractJaMoPPSimilarityTest {
 
 			Assertions.assertTrue(this.areOrdinaryMembersSimilar(memCon1, memCon2));
 			Assertions.assertFalse(this.areOrdinaryMemberOrdersSimilar(memCon1, memCon2));
-		});
+		}), DynamicTest.dynamicTest("SameOrder_NoNesting", () -> {
+			var memCon1 = memConInit.instantiate();
+			var memCon2 = memConInit.instantiate();
+
+			Assertions.assertTrue(memConInit.addMembers(memCon1, this.createMembers(memInit)));
+			Assertions.assertTrue(memConInit.addMembers(memCon2, this.createMembers(memInit)));
+
+			/*
+			 * Ensure that member containers of the same level (inner/outer) are similar
+			 * amongst themselves.
+			 */
+			this.testSimilarity(memCon1, memCon2, true);
+
+			Assertions.assertTrue(this.areOrdinaryMemberOrdersSimilar(memCon1, memCon2));
+		}));
 	}
 
 	/**
 	 * TODO Add commentary
+	 * 
+	 * Test member position in container, using inner container only on one side
 	 */
-	public DynamicTest testMemberOrder_DifferentOrder_OneSide_Nested(Member member11, Member member12, Member member21,
-			Member member22, IMemberContainerInitialiser memConInit) {
-		return DynamicTest.dynamicTest("a", () -> {
+	public Collection<DynamicTest> testMemberOrder_OneSideNested(IMemberInitialiser memInit,
+			IMemberContainerInitialiser memConInit) {
+		return List.of(DynamicTest.dynamicTest("DifferentOrder_OneSideNested", () -> {
 			var memCon1Outer = memConInit.instantiate();
 			var memCon1Inner = memConInit.instantiate();
 			var memCon2 = memConInit.instantiate();
 
-			Assertions.assertTrue(memConInit.addMembers(memCon1Inner, new Member[] { member11, member12 }));
-			Assertions.assertTrue(memConInit.addMembers(memCon2, new Member[] { member22, member21 }));
+			Assertions.assertTrue(memConInit.addMembers(memCon1Inner, this.createMembers(memInit)));
+			Assertions.assertTrue(memConInit.addMembers(memCon2, this.createMembersInverted(memInit)));
 			Assertions.assertTrue(memConInit.addMember(memCon1Outer, (Member) memCon1Inner));
 
 			/*
@@ -243,26 +267,56 @@ public class MemberPositionTest extends AbstractJaMoPPSimilarityTest {
 			 * their namespaces and by extension their qualified name.
 			 */
 			Assertions.assertEquals(
-					this.getExpectedSimilarityResult(member11,
+					this.getExpectedSimilarityResult(memCon1Inner.getMembers().get(0),
 							CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES),
 					this.areOrdinaryMembersSimilar(memCon1Inner, memCon2));
 			Assertions.assertFalse(this.areOrdinaryMemberOrdersSimilar(memCon1Inner, memCon2));
-		});
+		}), DynamicTest.dynamicTest("SameOrder_OneSideNested", () -> {
+			var memCon1Outer = memConInit.instantiate();
+			var memCon1Inner = memConInit.instantiate();
+			var memCon2 = memConInit.instantiate();
+
+			Assertions.assertTrue(memConInit.addMembers(memCon1Inner, this.createMembers(memInit)));
+			Assertions.assertTrue(memConInit.addMembers(memCon2, this.createMembers(memInit)));
+			Assertions.assertTrue(memConInit.addMember(memCon1Outer, (Member) memCon1Inner));
+
+			/*
+			 * Ensure that member containers of the same level (inner/outer) are similar
+			 * amongst themselves.
+			 */
+			this.testSimilarity(memCon1Outer, memCon2, true);
+			this.testSimilarity(memCon1Inner, memCon2, false);
+
+			Assertions.assertFalse(this.areOrdinaryMembersSimilar(memCon1Outer, memCon1Inner));
+			Assertions.assertFalse(this.areOrdinaryMembersSimilar(memCon1Outer, memCon2));
+
+			/*
+			 * Although the members are similar in a vacuum, they may be different because
+			 * of memCon1Inner being nested in another member container, which influences
+			 * their namespaces and by extension their qualified name.
+			 */
+			Assertions.assertEquals(
+					this.getExpectedSimilarityResult(memCon1Inner.getMembers().get(0),
+							CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES),
+					this.areOrdinaryMemberOrdersSimilar(memCon1Inner, memCon2));
+		}));
 	}
 
 	/**
 	 * TODO Add commentary
+	 * 
+	 * Test member position in container, using inner container on both sides
 	 */
-	public DynamicTest testMemberOrder_DifferentOrder_BothSides_Nested(Member member11, Member member12,
-			Member member21, Member member22, IMemberContainerInitialiser memConInit) {
-		return DynamicTest.dynamicTest("a", () -> {
+	public Collection<DynamicTest> testMemberOrder_BothSidesNested(IMemberInitialiser memInit,
+			IMemberContainerInitialiser memConInit) {
+		return List.of(DynamicTest.dynamicTest("DifferentOrder_BothSidesNested", () -> {
 			var memCon1Outer = memConInit.instantiate();
 			var memCon1Inner = memConInit.instantiate();
 			var memCon2Outer = memConInit.instantiate();
 			var memCon2Inner = memConInit.instantiate();
 
-			Assertions.assertTrue(memConInit.addMembers(memCon1Inner, new Member[] { member11, member12 }));
-			Assertions.assertTrue(memConInit.addMembers(memCon2Inner, new Member[] { member22, member21 }));
+			Assertions.assertTrue(memConInit.addMembers(memCon1Inner, this.createMembers(memInit)));
+			Assertions.assertTrue(memConInit.addMembers(memCon2Inner, this.createMembersInverted(memInit)));
 			Assertions.assertTrue(memConInit.addMember(memCon1Outer, (Member) memCon1Inner));
 			Assertions.assertTrue(memConInit.addMember(memCon2Outer, (Member) memCon2Inner));
 
@@ -283,80 +337,14 @@ public class MemberPositionTest extends AbstractJaMoPPSimilarityTest {
 
 			Assertions.assertTrue(this.areOrdinaryMembersSimilar(memCon1Inner, memCon2Inner));
 			Assertions.assertFalse(this.areOrdinaryMemberOrdersSimilar(memCon1Inner, memCon2Inner));
-		});
-	}
-
-	/**
-	 * TODO Add commentary
-	 */
-	public DynamicTest testMemberOrder_SameOrder_NoNesting(Member member11, Member member12, Member member21,
-			Member member22, IMemberContainerInitialiser memConInit) {
-		return DynamicTest.dynamicTest("a", () -> {
-			var memCon1 = memConInit.instantiate();
-			var memCon2 = memConInit.instantiate();
-
-			Assertions.assertTrue(memConInit.addMembers(memCon1, new Member[] { member11, member12 }));
-			Assertions.assertTrue(memConInit.addMembers(memCon2, new Member[] { member21, member22 }));
-
-			/*
-			 * Ensure that member containers of the same level (inner/outer) are similar
-			 * amongst themselves.
-			 */
-			this.testSimilarity(memCon1, memCon2, true);
-
-			Assertions.assertTrue(this.areOrdinaryMemberOrdersSimilar(memCon1, memCon2));
-		});
-	}
-
-	/**
-	 * TODO Add commentary
-	 */
-	public DynamicTest testMemberOrder_SameOrder_OneSide_Nested(Member member11, Member member12, Member member21,
-			Member member22, IMemberContainerInitialiser memConInit) {
-		return DynamicTest.dynamicTest("a", () -> {
-			var memCon1Outer = memConInit.instantiate();
-			var memCon1Inner = memConInit.instantiate();
-			var memCon2 = memConInit.instantiate();
-
-			Assertions.assertTrue(memConInit.addMembers(memCon1Inner, new Member[] { member11, member12 }));
-			Assertions.assertTrue(memConInit.addMembers(memCon2, new Member[] { member21, member22 }));
-			Assertions.assertTrue(memConInit.addMember(memCon1Outer, (Member) memCon1Inner));
-
-			/*
-			 * Ensure that member containers of the same level (inner/outer) are similar
-			 * amongst themselves.
-			 */
-			this.testSimilarity(memCon1Outer, memCon2, true);
-			this.testSimilarity(memCon1Inner, memCon2, false);
-
-			Assertions.assertFalse(this.areOrdinaryMembersSimilar(memCon1Outer, memCon1Inner));
-			Assertions.assertFalse(this.areOrdinaryMembersSimilar(memCon1Outer, memCon2));
-
-			/*
-			 * Although the members are similar in a vacuum, they may be different because
-			 * of memCon1Inner being nested in another member container, which influences
-			 * their namespaces and by extension their qualified name.
-			 */
-			Assertions.assertEquals(
-					this.getExpectedSimilarityResult(member11,
-							CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES),
-					this.areOrdinaryMemberOrdersSimilar(memCon1Inner, memCon2));
-		});
-	}
-
-	/**
-	 * TODO Add commentary
-	 */
-	public DynamicTest testMemberOrder_SameOrder_BothSides_Nested(Member member11, Member member12, Member member21,
-			Member member22, IMemberContainerInitialiser memConInit) {
-		return DynamicTest.dynamicTest("a", () -> {
+		}), DynamicTest.dynamicTest("SameOrder_BothSidesNested", () -> {
 			var memCon1Outer = memConInit.instantiate();
 			var memCon1Inner = memConInit.instantiate();
 			var memCon2Outer = memConInit.instantiate();
 			var memCon2Inner = memConInit.instantiate();
 
-			Assertions.assertTrue(memConInit.addMembers(memCon1Inner, new Member[] { member11, member12 }));
-			Assertions.assertTrue(memConInit.addMembers(memCon2Inner, new Member[] { member21, member22 }));
+			Assertions.assertTrue(memConInit.addMembers(memCon1Inner, this.createMembers(memInit)));
+			Assertions.assertTrue(memConInit.addMembers(memCon2Inner, this.createMembers(memInit)));
 			Assertions.assertTrue(memConInit.addMember(memCon1Outer, (Member) memCon1Inner));
 			Assertions.assertTrue(memConInit.addMember(memCon2Outer, (Member) memCon2Inner));
 
@@ -376,6 +364,179 @@ public class MemberPositionTest extends AbstractJaMoPPSimilarityTest {
 
 			Assertions.assertTrue(this.areOrdinaryMemberOrdersSimilar(memCon1Outer, memCon2Outer));
 			Assertions.assertTrue(this.areOrdinaryMemberOrdersSimilar(memCon1Inner, memCon2Inner));
-		});
+		}));
+	}
+
+	/**
+	 * TODO Add commentary
+	 * 
+	 * Test default member position in container, without inner containers
+	 */
+	public Collection<DynamicTest> testDefaultMemberOrder_NoNesting(IMemberInitialiser memInit,
+			IMemberContainerInitialiser memConInit) {
+		return List.of(DynamicTest.dynamicTest("DifferentOrder_NoNesting (as default member)", () -> {
+			var memCon1 = memConInit.instantiate();
+			var memCon2 = memConInit.instantiate();
+
+			Assertions.assertTrue(memConInit.addDefaultMembers(memCon1, this.createMembers(memInit)));
+			Assertions.assertTrue(memConInit.addDefaultMembers(memCon2, this.createMembersInverted(memInit)));
+
+			/*
+			 * Ensure that member containers of the same level (inner/outer) are similar
+			 * amongst themselves.
+			 */
+			this.testSimilarity(memCon1, memCon2, true);
+
+			Assertions.assertTrue(this.areDefaultMembersSimilar(memCon1, memCon2));
+			Assertions.assertFalse(this.areDefaultMemberOrdersSimilar(memCon1, memCon2));
+		}), DynamicTest.dynamicTest("SameOrder_NoNesting (as default member)", () -> {
+			var memCon1 = memConInit.instantiate();
+			var memCon2 = memConInit.instantiate();
+
+			Assertions.assertTrue(memConInit.addDefaultMembers(memCon1, this.createMembers(memInit)));
+			Assertions.assertTrue(memConInit.addDefaultMembers(memCon2, this.createMembers(memInit)));
+
+			/*
+			 * Ensure that member containers of the same level (inner/outer) are similar
+			 * amongst themselves.
+			 */
+			this.testSimilarity(memCon1, memCon2, true);
+
+			Assertions.assertTrue(this.areDefaultMemberOrdersSimilar(memCon1, memCon2));
+		}));
+	}
+
+	/**
+	 * TODO Add commentary
+	 * 
+	 * Test default member position in container, using inner container only on one
+	 * side
+	 */
+	public Collection<DynamicTest> testDefaultMemberOrder_OneSideNested(IMemberInitialiser memInit,
+			IMemberContainerInitialiser memConInit) {
+		return List.of(DynamicTest.dynamicTest("DifferentOrder_OneSideNested (as default member)", () -> {
+			var memCon1Outer = memConInit.instantiate();
+			var memCon1Inner = memConInit.instantiate();
+			var memCon2 = memConInit.instantiate();
+
+			Assertions.assertTrue(memConInit.addDefaultMembers(memCon1Inner, this.createMembers(memInit)));
+			Assertions.assertTrue(memConInit.addDefaultMembers(memCon2, this.createMembersInverted(memInit)));
+			Assertions.assertTrue(memConInit.addDefaultMember(memCon1Outer, (Member) memCon1Inner));
+
+			/*
+			 * Ensure that member containers of the same level (inner/outer) are similar
+			 * amongst themselves.
+			 */
+			this.testSimilarity(memCon1Outer, memCon2, true);
+			this.testSimilarity(memCon1Inner, memCon2, false);
+
+			Assertions.assertFalse(this.areDefaultMembersSimilar(memCon1Outer, memCon1Inner));
+			Assertions.assertFalse(this.areDefaultMembersSimilar(memCon1Outer, memCon2));
+
+			/*
+			 * Although the members are similar in a vacuum, they may be different because
+			 * of memCon1Inner being nested in another member container, which influences
+			 * their namespaces and by extension their qualified name.
+			 */
+			Assertions.assertEquals(
+					this.getExpectedSimilarityResult(memCon1Inner.getDefaultMembers().get(0),
+							CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES),
+					this.areDefaultMembersSimilar(memCon1Inner, memCon2));
+			Assertions.assertFalse(this.areDefaultMemberOrdersSimilar(memCon1Inner, memCon2));
+		}), DynamicTest.dynamicTest("SameOrder_OneSideNested (as default member)", () -> {
+			var memCon1Outer = memConInit.instantiate();
+			var memCon1Inner = memConInit.instantiate();
+			var memCon2 = memConInit.instantiate();
+
+			Assertions.assertTrue(memConInit.addDefaultMembers(memCon1Inner, this.createMembers(memInit)));
+			Assertions.assertTrue(memConInit.addDefaultMembers(memCon2, this.createMembers(memInit)));
+			Assertions.assertTrue(memConInit.addDefaultMember(memCon1Outer, (Member) memCon1Inner));
+
+			/*
+			 * Ensure that member containers of the same level (inner/outer) are similar
+			 * amongst themselves.
+			 */
+			this.testSimilarity(memCon1Outer, memCon2, true);
+			this.testSimilarity(memCon1Inner, memCon2, false);
+
+			Assertions.assertFalse(this.areDefaultMembersSimilar(memCon1Outer, memCon1Inner));
+			Assertions.assertFalse(this.areDefaultMembersSimilar(memCon1Outer, memCon2));
+
+			/*
+			 * Although the members are similar in a vacuum, they may be different because
+			 * of memCon1Inner being nested in another member container, which influences
+			 * their namespaces and by extension their qualified name.
+			 */
+			Assertions.assertEquals(
+					this.getExpectedSimilarityResult(memCon1Inner.getDefaultMembers().get(0),
+							CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES),
+					this.areDefaultMemberOrdersSimilar(memCon1Inner, memCon2));
+		}));
+	}
+
+	/**
+	 * TODO Add commentary
+	 * 
+	 * Test default member position in container, using inner container on both
+	 * sides
+	 */
+	public Collection<DynamicTest> testDefaultMemberOrder_BothSidesNested(IMemberInitialiser memInit,
+			IMemberContainerInitialiser memConInit) {
+		return List.of(DynamicTest.dynamicTest("DifferentOrder_BothSidesNested (as default member)", () -> {
+			var memCon1Outer = memConInit.instantiate();
+			var memCon1Inner = memConInit.instantiate();
+			var memCon2Outer = memConInit.instantiate();
+			var memCon2Inner = memConInit.instantiate();
+
+			Assertions.assertTrue(memConInit.addDefaultMembers(memCon1Inner, this.createMembers(memInit)));
+			Assertions.assertTrue(memConInit.addDefaultMembers(memCon2Inner, this.createMembersInverted(memInit)));
+			Assertions.assertTrue(memConInit.addDefaultMember(memCon1Outer, (Member) memCon1Inner));
+			Assertions.assertTrue(memConInit.addDefaultMember(memCon2Outer, (Member) memCon2Inner));
+
+			/*
+			 * Ensure that member containers of the same level (inner/outer) are similar
+			 * amongst themselves.
+			 */
+			this.testSimilarity(memCon1Outer, memCon2Outer, true);
+			this.testSimilarity(memCon1Inner, memCon2Inner, true);
+			this.testSimilarity(memCon1Outer, memCon1Inner, false);
+			this.testSimilarity(memCon2Outer, memCon2Inner, false);
+
+			Assertions.assertTrue(this.areDefaultMembersSimilar(memCon1Outer, memCon2Outer));
+			Assertions.assertTrue(this.areDefaultMemberOrdersSimilar(memCon1Outer, memCon2Outer));
+
+			Assertions.assertFalse(this.areDefaultMembersSimilar(memCon1Outer, memCon2Inner));
+			Assertions.assertFalse(this.areDefaultMembersSimilar(memCon2Outer, memCon1Inner));
+
+			Assertions.assertTrue(this.areDefaultMembersSimilar(memCon1Inner, memCon2Inner));
+			Assertions.assertFalse(this.areDefaultMemberOrdersSimilar(memCon1Inner, memCon2Inner));
+		}), DynamicTest.dynamicTest("SameOrder_BothSidesNested (as default member)", () -> {
+			var memCon1Outer = memConInit.instantiate();
+			var memCon1Inner = memConInit.instantiate();
+			var memCon2Outer = memConInit.instantiate();
+			var memCon2Inner = memConInit.instantiate();
+
+			Assertions.assertTrue(memConInit.addDefaultMembers(memCon1Inner, this.createMembers(memInit)));
+			Assertions.assertTrue(memConInit.addDefaultMembers(memCon2Inner, this.createMembers(memInit)));
+			Assertions.assertTrue(memConInit.addDefaultMember(memCon1Outer, (Member) memCon1Inner));
+			Assertions.assertTrue(memConInit.addDefaultMember(memCon2Outer, (Member) memCon2Inner));
+
+			/*
+			 * Ensure that member containers of the same level (inner/outer) are similar
+			 * amongst themselves.
+			 */
+			this.testSimilarity(memCon1Outer, memCon2Outer, true);
+			this.testSimilarity(memCon1Inner, memCon2Inner, true);
+			this.testSimilarity(memCon1Outer, memCon1Inner, false);
+			this.testSimilarity(memCon2Outer, memCon2Inner, false);
+
+			Assertions.assertFalse(this.areDefaultMembersSimilar(memCon1Outer, memCon1Inner));
+			Assertions.assertFalse(this.areDefaultMembersSimilar(memCon1Outer, memCon2Inner));
+			Assertions.assertFalse(this.areDefaultMembersSimilar(memCon2Outer, memCon1Inner));
+			Assertions.assertFalse(this.areDefaultMembersSimilar(memCon2Outer, memCon2Inner));
+
+			Assertions.assertTrue(this.areDefaultMemberOrdersSimilar(memCon1Outer, memCon2Outer));
+			Assertions.assertTrue(this.areDefaultMemberOrdersSimilar(memCon1Inner, memCon2Inner));
+		}));
 	}
 }
