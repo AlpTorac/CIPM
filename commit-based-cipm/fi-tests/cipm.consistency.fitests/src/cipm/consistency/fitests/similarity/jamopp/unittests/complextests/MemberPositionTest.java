@@ -1,15 +1,18 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.complextests;
 
 import java.util.ArrayList;
-import java.util.stream.Stream;
+import java.util.Collection;
+import java.util.List;
 
-import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.common.util.EList;
 import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.members.Member;
+import org.emftext.language.java.members.MemberContainer;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.api.DynamicContainer;
+import org.junit.jupiter.api.DynamicNode;
+import org.junit.jupiter.api.DynamicTest;
+import org.junit.jupiter.api.TestFactory;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.initialisers.jamopp.members.IMemberContainerInitialiser;
@@ -26,765 +29,353 @@ import cipm.consistency.initialisers.jamopp.members.IMemberInitialiser;
  * @author Alp Torac Genc
  */
 public class MemberPositionTest extends AbstractJaMoPPSimilarityTest {
-	/**
-	 * See the tests in this class for more information.
-	 * 
-	 * @return All combinations of {@link IMemberInitialiser} and
-	 *         {@link IMemberContainerInitialiser} implementors, along with a
-	 *         display name for the tests that use these parameters.
-	 */
-	private static Stream<Arguments> genMemXMemCon() {
-		var res = new ArrayList<Arguments>();
 
-		for (var memInit : getNonAdaptedInitialisersFor(IMemberInitialiser.class)) {
-			for (var memConInit : getNonAdaptedInitialisersFor(IMemberContainerInitialiser.class)) {
-				res.add(Arguments.of(memInit, memConInit,
-						String.format("%s instances in %s", memInit.getInstanceClassOfInitialiser().getSimpleName(),
-								memConInit.getInstanceClassOfInitialiser().getSimpleName())));
-			}
-		}
+	@TestFactory
+	public Collection<DynamicNode> test() {
+		var tests = new ArrayList<DynamicNode>();
 
-		return res.stream();
-	}
+		var allInits = this.getUsedInitialiserPackage().getAllInitialiserInstances();
+		var memInits = List.of(
+				allInits.stream().filter((i) -> i instanceof IMemberInitialiser).toArray(IMemberInitialiser[]::new));
+		var memConInits = List.of(allInits.stream().filter((i) -> i instanceof IMemberContainerInitialiser)
+				.toArray(IMemberContainerInitialiser[]::new));
 
-	/**
-	 * See the tests in this class for more information.
-	 * 
-	 * @return All combinations of {@link IMemberInitialiser} implementors with
-	 *         implementors of both {@link IMemberInitialiser} and
-	 *         {@link IMemberContainerInitialiser}, along with a display name for
-	 *         the tests that use these parameters.
-	 */
-	private static Stream<Arguments> genMemXMemConMem() {
-		var res = new ArrayList<Arguments>();
+		for (var memInit : memInits) {
+			var memTestList = new ArrayList<DynamicNode>();
 
-		for (var memInit : getNonAdaptedInitialisersFor(IMemberInitialiser.class)) {
-			for (var memConInit : getNonAdaptedInitialisersFor(IMemberContainerInitialiser.class)) {
+			var member11 = memInit.instantiate();
+			memInit.setName(member11, "mem1");
+			var member12 = memInit.instantiate();
+			memInit.setName(member12, "mem2");
+			var member21 = memInit.instantiate();
+			memInit.setName(member21, "mem1");
+			var member22 = memInit.instantiate();
+			memInit.setName(member22, "mem2");
+
+			for (var memConInit : memConInits) {
+				var memConTestList = new ArrayList<DynamicNode>();
+				memConTestList.add(this.testMemberOrder_SameOrder_NoNesting(this.cloneEObj(member11),
+						this.cloneEObj(member12), this.cloneEObj(member21), this.cloneEObj(member22), memConInit));
+				memConTestList.add(this.testMemberOrder_DifferentOrder_NoNesting(this.cloneEObj(member11),
+						this.cloneEObj(member12), this.cloneEObj(member21), this.cloneEObj(member22), memConInit));
 				if (memConInit instanceof IMemberInitialiser) {
-					res.add(Arguments.of(memInit, memConInit,
-							String.format("%s instances in %s", memInit.getInstanceClassOfInitialiser().getSimpleName(),
-									memConInit.getInstanceClassOfInitialiser().getSimpleName())));
+					memConTestList.add(this.testMemberOrder_DifferentOrder_OneSide_Nested(this.cloneEObj(member11),
+							this.cloneEObj(member12), this.cloneEObj(member21), this.cloneEObj(member22), memConInit));
+					memConTestList.add(this.testMemberOrder_DifferentOrder_BothSides_Nested(this.cloneEObj(member11),
+							this.cloneEObj(member12), this.cloneEObj(member21), this.cloneEObj(member22), memConInit));
+					memConTestList.add(this.testMemberOrder_SameOrder_OneSide_Nested(this.cloneEObj(member11),
+							this.cloneEObj(member12), this.cloneEObj(member21), this.cloneEObj(member22), memConInit));
+					memConTestList.add(this.testMemberOrder_SameOrder_BothSides_Nested(this.cloneEObj(member11),
+							this.cloneEObj(member12), this.cloneEObj(member21), this.cloneEObj(member22), memConInit));
 				}
+				var memConTestNode = DynamicContainer.dynamicContainer(
+						String.format("Container: %s", memConInit.getInstanceClassOfInitialiser().getSimpleName()),
+						memConTestList);
+				memTestList.add(memConTestNode);
 			}
+			var memTestNode = DynamicContainer.dynamicContainer(
+					String.format("Member: %s", memInit.getInstanceClassOfInitialiser().getSimpleName()), memTestList);
+			tests.add(memTestNode);
 		}
-
-		return res.stream();
+		return tests;
 	}
 
 	/**
-	 * @return Whether all contents (i.e. {@code eAllContents()}) of given objects
-	 *         are similar with respect to {@link #isSimilar(Object, Object)}.
+	 * Checks the given parameters' member similarity first (uses the underlying
+	 * similarity checking mechanisms for this part). <br>
+	 * <br>
+	 * <b>!!! USES MEMBER NAMES TO CHECK FOR THEIR ORDER !!!</b> <br>
+	 * <br>
+	 * Since there are member types, which do not care about name changes, order
+	 * comparison is hard-coded to use member names AND NOT SIMILARITY CHECKING
+	 * MECHANISMS.
+	 * 
+	 * @return Whether the order of members of the given parameters is the same.
 	 */
-	private boolean checkSimilarityContentWise(EObject obj1, EObject obj2) {
-		var it1 = obj1.eAllContents();
-		var it2 = obj2.eAllContents();
-		while (it1.hasNext() && it2.hasNext()) {
-			var elem1 = it1.next();
-			var elem2 = it2.next();
-			var res1 = this.isSimilar(elem1, elem2);
-			if (res1 == null || !res1) {
-				return false;
-			}
-			var res2 = this.isSimilar(elem2, elem1);
-			if (res2 == null || !res2) {
-				return false;
-			}
-		}
-
-		// Check if all contents on both sides are covered
-		if (it1.hasNext() ^ it2.hasNext()) {
+	private boolean areMemberOrdersSimilar(EList<Member> mems1, EList<Member> mems2) {
+		if (!this.areMembersSimilar(mems1, mems2)) {
 			return false;
 		}
+
+		for (int i = 0; i < mems1.size(); i++) {
+			var mem1 = mems1.get(i);
+			var mem2 = mems2.get(i);
+			var mem1Name = mem1.getName();
+			var mem2Name = mem2.getName();
+			if (mem1Name == null && mem2Name == null) {
+				continue;
+			}
+			if ((mem1Name == null ^ mem2Name == null) || !mem1Name.equals(mem2Name)) {
+				return false;
+			}
+		}
+
 		return true;
 	}
 
 	/**
-	 * Ensures that positioning of {@link Member}s added to {@link MemberContainer}
-	 * is not detected as a difference, when comparing member containers. Said
-	 * members are added as ordinary members to member containers.
-	 * 
-	 * @param memInit     Initialiser that will be used to instantiate members
-	 * @param memConInit  Initialiser that will be used to instantiate member
-	 *                    containers, which will contain the members
-	 * @param displayName Parameter dependent part of the display name
+	 * @return Whether the order of ordinary members of the given parameters is the
+	 *         same.
 	 */
-	@ParameterizedTest(name = "Member: {2}")
-	@MethodSource("genMemXMemCon")
-	public void testMemberOrder_DifferentOrder_NoNesting(IMemberInitialiser memInit,
-			IMemberContainerInitialiser memConInit, String displayName) {
-		// Use the name attribute as the difference factor between elements
-		var member11 = memInit.instantiate();
-		memInit.setName(member11, "mem1");
-		var member12 = memInit.instantiate();
-		memInit.setName(member12, "mem2");
-		var member21 = memInit.instantiate();
-		memInit.setName(member21, "mem1");
-		var member22 = memInit.instantiate();
-		memInit.setName(member22, "mem2");
-
-		/*
-		 * Since there are members that are currently impossible to make different (ex:
-		 * Block), there is no way to always assert false. Therefore, use the expected
-		 * similarity result instead.
-		 */
-		var nameDoesNotMatter = this.getExpectedSimilarityResult(memInit.instantiate(),
-				CommonsPackage.Literals.NAMED_ELEMENT__NAME);
-
-		// Make sure the setup is correct
-		Assertions.assertTrue(this.isSimilar(member11, member21));
-		Assertions.assertTrue(this.isSimilar(member12, member22));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member11, member12));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member21, member22));
-
-		var memCon1 = memConInit.instantiate();
-		var memCon2 = memConInit.instantiate();
-
-		memConInit.addMembers(memCon1, new Member[] { member11, member12 });
-		memConInit.addMembers(memCon2, new Member[] { member22, member21 });
-
-		// Ensure that the order of members is as intended
-		Assertions.assertEquals(nameDoesNotMatter, this.areSimilar(memCon1.getMembers(), memCon2.getMembers()));
-
-		// Ensure that both member containers (on their own) are similar
-		this.testSimilarity(memCon1, memCon2, true);
-
-		// Ensure that both member containers are different based on content
-		Assertions.assertEquals(nameDoesNotMatter, this.checkSimilarityContentWise(memCon1, memCon2));
+	private boolean areOrdinaryMemberOrdersSimilar(MemberContainer memCon1, MemberContainer memCon2) {
+		return this.areMemberOrdersSimilar(memCon1.getMembers(), memCon2.getMembers())
+				&& this.areMemberOrdersSimilar(memCon2.getMembers(), memCon1.getMembers());
 	}
 
 	/**
-	 * TODO Add commentary
-	 * 
-	 * @param memInit     Initialiser that will be used to instantiate members
-	 * @param memConInit  Initialiser that will be used to instantiate member
-	 *                    containers, which will contain the members
-	 * @param displayName Parameter dependent part of the display name
+	 * @return Whether the order of default members of the given parameters is the
+	 *         same.
 	 */
-	@ParameterizedTest(name = "Member: {2}")
-	@MethodSource("genMemXMemConMem")
-	public void testMemberOrder_DifferentOrder_OneSide_Nested(IMemberInitialiser memInit,
-			IMemberContainerInitialiser memConInit, String displayName) {
-		// Use the name attribute as the difference factor between elements
-		var member11 = memInit.instantiate();
-		memInit.setName(member11, "mem1");
-		var member12 = memInit.instantiate();
-		memInit.setName(member12, "mem2");
-		var member21 = memInit.instantiate();
-		memInit.setName(member21, "mem1");
-		var member22 = memInit.instantiate();
-		memInit.setName(member22, "mem2");
+	private boolean areDefaultMemberOrdersSimilar(MemberContainer memCon1, MemberContainer memCon2) {
+		return this.areMemberOrdersSimilar(memCon1.getDefaultMembers(), memCon2.getDefaultMembers())
+				&& this.areMemberOrdersSimilar(memCon2.getDefaultMembers(), memCon1.getDefaultMembers());
+	}
+
+	/**
+	 * @return Whether the given parameters' members are similar regardless of their
+	 *         order, according to the underlying similarity checking mechanism.
+	 */
+	private boolean areMembersSimilar(EList<Member> mems1, EList<Member> mems2) {
+		if (mems1.size() != mems2.size()) {
+			return false;
+		}
 
 		/*
-		 * Since there are members that are currently impossible to make different (ex:
-		 * Block), there is no way to always assert false. Therefore, use the expected
-		 * similarity result instead.
-		 */
-		var nameDoesNotMatter = this.getExpectedSimilarityResult(memInit.instantiate(),
-				CommonsPackage.Literals.NAMED_ELEMENT__NAME);
-
-		// Make sure the setup is correct
-		Assertions.assertTrue(this.isSimilar(member11, member21));
-		Assertions.assertTrue(this.isSimilar(member12, member22));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member11, member12));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member21, member22));
-
-		var memCon1Outer = memConInit.instantiate();
-		var memCon1Inner = memConInit.instantiate();
-		var memCon2 = memConInit.instantiate();
-
-		memConInit.addMembers(memCon1Inner, new Member[] { member11, member12 });
-		memConInit.addMembers(memCon2, new Member[] { member22, member21 });
-		memConInit.addMember(memCon1Outer, (Member) memCon1Inner);
-
-		// Ensure that the order of members is as intended
-		Assertions.assertEquals(nameDoesNotMatter, this.areSimilar(memCon1Inner.getMembers(), memCon2.getMembers()));
-
-		// Ensure that the members are in correct containers
-		Assertions.assertEquals(1, memCon1Outer.getMembers().size());
-		Assertions.assertEquals(2, memCon1Inner.getMembers().size());
-		Assertions.assertEquals(2, memCon2.getMembers().size());
-
-		/*
-		 * Ensure that memCon1Outer and memCon2 (on their own) are similar, while
-		 * memCon1Inner and memCon2 are not similar, due to memCon1Inner being nested
-		 * within memCon1Outer.
-		 */
-		this.testSimilarity(memCon1Outer, memCon2, true);
-		this.testSimilarity(memCon1Inner, memCon2, false);
-
-		/*
-		 * Ensure that outside member containers are different based on content
+		 * Eliminate already matched elements, in order to avoid matching an element
+		 * with the same element over and over.
 		 * 
-		 * Note: They have to be different, because of memCon1Inner being nested in
-		 * memCon1Outer.
+		 * Put all elements into another list, so that list modifications will not be
+		 * reflected to mems2.
 		 */
-		Assertions.assertFalse(this.checkSimilarityContentWise(memCon1Outer, memCon2));
+		var unmatchedMems = new ArrayList<Member>(mems2);
+
+		/*
+		 * Iterate over mems2 instead of unmatchedMems, so that removing matched
+		 * elements becomes possible.
+		 */
+		for (var mem1 : mems1) {
+			// Look for a similar element regardless of its order
+			for (var mem2 : mems2) {
+				// Make sure the element is currently unmatched
+				// If it is matched, go to the next element
+				if (!unmatchedMems.contains(mem2)) {
+					continue;
+				}
+
+				if (this.isSimilar(mem1, mem2) && this.isSimilar(mem2, mem1)) {
+					// Match found, remove from unmatchedMems
+					unmatchedMems.remove(mem2);
+					break;
+				}
+			}
+		}
+		return unmatchedMems.isEmpty();
+	}
+
+	/**
+	 * Variant of {@link #areMembersSimilar(EList, EList)} for ordinary members of
+	 * member containers
+	 */
+	private boolean areOrdinaryMembersSimilar(MemberContainer memCon1, MemberContainer memCon2) {
+		return this.areMembersSimilar(memCon1.getMembers(), memCon2.getMembers())
+				&& this.areMembersSimilar(memCon2.getMembers(), memCon1.getMembers());
+	}
+
+	/**
+	 * Variant of {@link #areMembersSimilar(EList, EList)} for default members of
+	 * member containers
+	 */
+	private boolean areDefaultMembersSimilar(MemberContainer memCon1, MemberContainer memCon2) {
+		return this.areMembersSimilar(memCon1.getDefaultMembers(), memCon2.getDefaultMembers())
+				&& this.areMembersSimilar(memCon2.getDefaultMembers(), memCon1.getDefaultMembers());
 	}
 
 	/**
 	 * TODO Add commentary
-	 * 
-	 * @param memInit     Initialiser that will be used to instantiate members
-	 * @param memConInit  Initialiser that will be used to instantiate member
-	 *                    containers, which will contain the members
-	 * @param displayName Parameter dependent part of the display name
 	 */
-	@ParameterizedTest(name = "Member: {2}")
-	@MethodSource("genMemXMemConMem")
-	public void testMemberOrder_DifferentOrder_BothSides_Nested(IMemberInitialiser memInit,
-			IMemberContainerInitialiser memConInit, String displayName) {
-		// Use the name attribute as the difference factor between elements
-		var member11 = memInit.instantiate();
-		memInit.setName(member11, "mem1");
-		var member12 = memInit.instantiate();
-		memInit.setName(member12, "mem2");
-		var member21 = memInit.instantiate();
-		memInit.setName(member21, "mem1");
-		var member22 = memInit.instantiate();
-		memInit.setName(member22, "mem2");
+	public DynamicTest testMemberOrder_DifferentOrder_NoNesting(Member member11, Member member12, Member member21,
+			Member member22, IMemberContainerInitialiser memConInit) {
+		return DynamicTest.dynamicTest("a", () -> {
+			var memCon1 = memConInit.instantiate();
+			var memCon2 = memConInit.instantiate();
 
-		/*
-		 * Since there are members that are currently impossible to make different (ex:
-		 * Block), there is no way to always assert false. Therefore, use the expected
-		 * similarity result instead.
-		 */
-		var nameDoesNotMatter = this.getExpectedSimilarityResult(memInit.instantiate(),
-				CommonsPackage.Literals.NAMED_ELEMENT__NAME);
+			Assertions.assertTrue(memConInit.addMembers(memCon1, new Member[] { member11, member12 }));
+			Assertions.assertTrue(memConInit.addMembers(memCon2, new Member[] { member22, member21 }));
 
-		// Make sure the setup is correct
-		Assertions.assertTrue(this.isSimilar(member11, member21));
-		Assertions.assertTrue(this.isSimilar(member12, member22));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member11, member12));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member21, member22));
+			/*
+			 * Ensure that member containers of the same level (inner/outer) are similar
+			 * amongst themselves.
+			 */
+			this.testSimilarity(memCon1, memCon2, true);
 
-		var memCon1Outer = memConInit.instantiate();
-		var memCon1Inner = memConInit.instantiate();
-		var memCon2Outer = memConInit.instantiate();
-		var memCon2Inner = memConInit.instantiate();
-
-		memConInit.addMembers(memCon1Inner, new Member[] { member11, member12 });
-		memConInit.addMembers(memCon2Inner, new Member[] { member22, member21 });
-		memConInit.addMember(memCon1Outer, (Member) memCon1Inner);
-		memConInit.addMember(memCon2Outer, (Member) memCon2Inner);
-
-		// Ensure that the order of members is as intended
-		Assertions.assertEquals(nameDoesNotMatter,
-				this.areSimilar(memCon1Inner.getMembers(), memCon2Inner.getMembers()));
-
-		// Ensure that the members are in correct containers
-		Assertions.assertEquals(1, memCon1Outer.getMembers().size());
-		Assertions.assertEquals(1, memCon2Outer.getMembers().size());
-		Assertions.assertEquals(2, memCon1Inner.getMembers().size());
-		Assertions.assertEquals(2, memCon2Inner.getMembers().size());
-
-		/*
-		 * Ensure that member containers of the same level (inner/outer) are similar
-		 * amongst themselves.
-		 */
-		this.testSimilarity(memCon1Outer, memCon2Outer, true);
-		this.testSimilarity(memCon1Inner, memCon2Inner, true);
-		this.testSimilarity(memCon1Outer, memCon1Inner, false);
-		this.testSimilarity(memCon2Outer, memCon2Inner, false);
-
-		// Ensure that member containers are different based on content, if names matter
-		Assertions.assertEquals(nameDoesNotMatter, this.checkSimilarityContentWise(memCon1Outer, memCon2Outer));
-		Assertions.assertEquals(nameDoesNotMatter, this.checkSimilarityContentWise(memCon1Inner, memCon2Inner));
+			Assertions.assertTrue(this.areOrdinaryMembersSimilar(memCon1, memCon2));
+			Assertions.assertFalse(this.areOrdinaryMemberOrdersSimilar(memCon1, memCon2));
+		});
 	}
 
 	/**
 	 * TODO Add commentary
-	 * 
-	 * @param memInit     Initialiser that will be used to instantiate members
-	 * @param memConInit  Initialiser that will be used to instantiate member
-	 *                    containers, which will contain the members
-	 * @param displayName Parameter dependent part of the display name
 	 */
-	@ParameterizedTest(name = "Member: {2}")
-	@MethodSource("genMemXMemConMem")
-	public void testMemberOrder_SameOrder_OneSide_Nested(IMemberInitialiser memInit,
-			IMemberContainerInitialiser memConInit, String displayName) {
-		// Use the name attribute as the difference factor between elements
-		var member11 = memInit.instantiate();
-		memInit.setName(member11, "mem1");
-		var member12 = memInit.instantiate();
-		memInit.setName(member12, "mem2");
-		var member21 = memInit.instantiate();
-		memInit.setName(member21, "mem1");
-		var member22 = memInit.instantiate();
-		memInit.setName(member22, "mem2");
+	public DynamicTest testMemberOrder_DifferentOrder_OneSide_Nested(Member member11, Member member12, Member member21,
+			Member member22, IMemberContainerInitialiser memConInit) {
+		return DynamicTest.dynamicTest("a", () -> {
+			var memCon1Outer = memConInit.instantiate();
+			var memCon1Inner = memConInit.instantiate();
+			var memCon2 = memConInit.instantiate();
 
-		/*
-		 * Since there are members that are currently impossible to make different (ex:
-		 * Block), there is no way to always assert false. Therefore, use the expected
-		 * similarity result instead.
-		 */
-		var nameDoesNotMatter = this.getExpectedSimilarityResult(memInit.instantiate(),
-				CommonsPackage.Literals.NAMED_ELEMENT__NAME);
-		/**
-		 * There are members and member containers that care about namespaces in
-		 * similarity checking, which is relevant here, since there are nested
-		 * classifiers (memCon1Inner).
-		 */
-		var namespaceDoesNotMatterForMembers = this.getExpectedSimilarityResult(memInit.instantiate(),
-				CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
+			Assertions.assertTrue(memConInit.addMembers(memCon1Inner, new Member[] { member11, member12 }));
+			Assertions.assertTrue(memConInit.addMembers(memCon2, new Member[] { member22, member21 }));
+			Assertions.assertTrue(memConInit.addMember(memCon1Outer, (Member) memCon1Inner));
 
-		// Make sure the setup is correct
-		Assertions.assertTrue(this.isSimilar(member11, member21));
-		Assertions.assertTrue(this.isSimilar(member12, member22));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member11, member12));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member21, member22));
+			/*
+			 * Ensure that member containers of the same level (inner/outer) are similar
+			 * amongst themselves.
+			 */
+			this.testSimilarity(memCon1Outer, memCon2, true);
+			this.testSimilarity(memCon1Inner, memCon2, false);
 
-		var memCon1Outer = memConInit.instantiate();
-		var memCon1Inner = memConInit.instantiate();
-		var memCon2 = memConInit.instantiate();
+			Assertions.assertFalse(this.areOrdinaryMembersSimilar(memCon1Outer, memCon1Inner));
+			Assertions.assertFalse(this.areOrdinaryMembersSimilar(memCon1Outer, memCon2));
 
-		memConInit.addMembers(memCon1Inner, new Member[] { member11, member12 });
-		memConInit.addMembers(memCon2, new Member[] { member21, member22 });
-		memConInit.addMember(memCon1Outer, (Member) memCon1Inner);
-
-		// Ensure that the order of members is as intended
-		var expectedMembersSimilarityResult = namespaceDoesNotMatterForMembers;
-		Assertions.assertEquals(expectedMembersSimilarityResult,
-				this.areSimilar(memCon1Inner.getMembers(), memCon2.getMembers()));
-
-		// Ensure that the members are in correct containers
-		Assertions.assertEquals(1, memCon1Outer.getMembers().size());
-		Assertions.assertEquals(2, memCon1Inner.getMembers().size());
-		Assertions.assertEquals(2, memCon2.getMembers().size());
-
-		/*
-		 * Ensure that memCon1Outer and memCon2 (as member containers, without their
-		 * members) are similar, while memCon1Inner and memCon2 are not similar, due to
-		 * memCon1Inner being nested within memCon1Outer.
-		 */
-		this.testSimilarity(memCon1Outer, memCon2, true);
-		this.testSimilarity(memCon1Inner, memCon2, false);
-
-		/*
-		 * Ensure that outside member containers are different based on content
-		 * 
-		 * Note: They have to be different, because of memCon1Inner being nested in
-		 * memCon1Outer.
-		 */
-		Assertions.assertFalse(this.checkSimilarityContentWise(memCon1Outer, memCon2));
-
-		// Ensure that memCon1Inner and memCon2 are similar based on content
-		Assertions.assertEquals(expectedMembersSimilarityResult,
-				this.checkSimilarityContentWise(memCon1Inner, memCon2));
+			/*
+			 * Although the members are similar in a vacuum, they may be different because
+			 * of memCon1Inner being nested in another member container, which influences
+			 * their namespaces and by extension their qualified name.
+			 */
+			Assertions.assertEquals(
+					this.getExpectedSimilarityResult(member11,
+							CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES),
+					this.areOrdinaryMembersSimilar(memCon1Inner, memCon2));
+			Assertions.assertFalse(this.areOrdinaryMemberOrdersSimilar(memCon1Inner, memCon2));
+		});
 	}
 
 	/**
 	 * TODO Add commentary
-	 * 
-	 * @param memInit     Initialiser that will be used to instantiate members
-	 * @param memConInit  Initialiser that will be used to instantiate member
-	 *                    containers, which will contain the members
-	 * @param displayName Parameter dependent part of the display name
 	 */
-	@ParameterizedTest(name = "Member: {2}")
-	@MethodSource("genMemXMemConMem")
-	public void testMemberOrder_SameOrder_BothSides_Nested(IMemberInitialiser memInit,
-			IMemberContainerInitialiser memConInit, String displayName) {
-		// Use the name attribute as the difference factor between elements
-		var member11 = memInit.instantiate();
-		memInit.setName(member11, "mem1");
-		var member12 = memInit.instantiate();
-		memInit.setName(member12, "mem2");
-		var member21 = memInit.instantiate();
-		memInit.setName(member21, "mem1");
-		var member22 = memInit.instantiate();
-		memInit.setName(member22, "mem2");
+	public DynamicTest testMemberOrder_DifferentOrder_BothSides_Nested(Member member11, Member member12,
+			Member member21, Member member22, IMemberContainerInitialiser memConInit) {
+		return DynamicTest.dynamicTest("a", () -> {
+			var memCon1Outer = memConInit.instantiate();
+			var memCon1Inner = memConInit.instantiate();
+			var memCon2Outer = memConInit.instantiate();
+			var memCon2Inner = memConInit.instantiate();
 
-		/*
-		 * Since there are members that are currently impossible to make different (ex:
-		 * Block), there is no way to always assert false. Therefore, use the expected
-		 * similarity result instead.
-		 */
-		var nameDoesNotMatter = this.getExpectedSimilarityResult(memInit.instantiate(),
-				CommonsPackage.Literals.NAMED_ELEMENT__NAME);
+			Assertions.assertTrue(memConInit.addMembers(memCon1Inner, new Member[] { member11, member12 }));
+			Assertions.assertTrue(memConInit.addMembers(memCon2Inner, new Member[] { member22, member21 }));
+			Assertions.assertTrue(memConInit.addMember(memCon1Outer, (Member) memCon1Inner));
+			Assertions.assertTrue(memConInit.addMember(memCon2Outer, (Member) memCon2Inner));
 
-		// Make sure the setup is correct
-		Assertions.assertTrue(this.isSimilar(member11, member21));
-		Assertions.assertTrue(this.isSimilar(member12, member22));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member11, member12));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member21, member22));
+			/*
+			 * Ensure that member containers of the same level (inner/outer) are similar
+			 * amongst themselves.
+			 */
+			this.testSimilarity(memCon1Outer, memCon2Outer, true);
+			this.testSimilarity(memCon1Inner, memCon2Inner, true);
+			this.testSimilarity(memCon1Outer, memCon1Inner, false);
+			this.testSimilarity(memCon2Outer, memCon2Inner, false);
 
-		var memCon1Outer = memConInit.instantiate();
-		var memCon1Inner = memConInit.instantiate();
-		var memCon2Outer = memConInit.instantiate();
-		var memCon2Inner = memConInit.instantiate();
+			Assertions.assertTrue(this.areOrdinaryMembersSimilar(memCon1Outer, memCon2Outer));
+			Assertions.assertTrue(this.areOrdinaryMemberOrdersSimilar(memCon1Outer, memCon2Outer));
 
-		memConInit.addMembers(memCon1Inner, new Member[] { member11, member12 });
-		memConInit.addMembers(memCon2Inner, new Member[] { member21, member22 });
-		memConInit.addMember(memCon1Outer, (Member) memCon1Inner);
-		memConInit.addMember(memCon2Outer, (Member) memCon2Inner);
+			Assertions.assertFalse(this.areOrdinaryMembersSimilar(memCon1Outer, memCon2Inner));
+			Assertions.assertFalse(this.areOrdinaryMembersSimilar(memCon2Outer, memCon1Inner));
 
-		// Ensure that the order of members is as intended
-		Assertions.assertTrue(this.areSimilar(memCon1Inner.getMembers(), memCon2Inner.getMembers()));
-
-		// Ensure that the members are in correct containers
-		Assertions.assertEquals(1, memCon1Outer.getMembers().size());
-		Assertions.assertEquals(1, memCon2Outer.getMembers().size());
-		Assertions.assertEquals(2, memCon1Inner.getMembers().size());
-		Assertions.assertEquals(2, memCon2Inner.getMembers().size());
-
-		/*
-		 * Ensure that member containers of the same level (inner/outer) are similar
-		 * amongst themselves.
-		 */
-		this.testSimilarity(memCon1Outer, memCon2Outer, true);
-		this.testSimilarity(memCon1Inner, memCon2Inner, true);
-		this.testSimilarity(memCon1Outer, memCon1Inner, false);
-		this.testSimilarity(memCon2Outer, memCon2Inner, false);
-
-		// Ensure that member containers are different based on content, if names matter
-		Assertions.assertTrue(this.checkSimilarityContentWise(memCon1Outer, memCon2Outer));
-		Assertions.assertTrue(this.checkSimilarityContentWise(memCon1Inner, memCon2Inner));
-	}
-
-	/**
-	 * Ensures that positioning of {@link Member}s added to {@link MemberContainer}
-	 * is not detected as a difference, when comparing member containers. Said
-	 * members are added as default members to member containers.
-	 * 
-	 * @param memInit     Initialiser that will be used to instantiate members
-	 * @param memConInit  Initialiser that will be used to instantiate member
-	 *                    containers, which will contain the members
-	 * @param displayName Parameter dependent part of the display name
-	 */
-	@ParameterizedTest(name = "Default member: {2}")
-	@MethodSource("genMemXMemCon")
-	public void testDefaultMemberOrder_DifferentOrder_NoNesting(IMemberInitialiser memInit,
-			IMemberContainerInitialiser memConInit, String displayName) {
-		// Use the name attribute as the difference factor between elements
-		var member11 = memInit.instantiate();
-		memInit.setName(member11, "mem1");
-		var member12 = memInit.instantiate();
-		memInit.setName(member12, "mem2");
-		var member21 = memInit.instantiate();
-		memInit.setName(member21, "mem1");
-		var member22 = memInit.instantiate();
-		memInit.setName(member22, "mem2");
-
-		/*
-		 * Since there are members that are currently impossible to make different (ex:
-		 * Block), there is no way to always assert false. Therefore, use the expected
-		 * similarity result instead.
-		 */
-		var nameDoesNotMatter = this.getExpectedSimilarityResult(memInit.instantiate(),
-				CommonsPackage.Literals.NAMED_ELEMENT__NAME);
-
-		// Make sure the setup is correct
-		Assertions.assertTrue(this.isSimilar(member11, member21));
-		Assertions.assertTrue(this.isSimilar(member12, member22));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member11, member12));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member21, member22));
-
-		var memCon1 = memConInit.instantiate();
-		var memCon2 = memConInit.instantiate();
-
-		memConInit.addDefaultMembers(memCon1, new Member[] { member11, member12 });
-		memConInit.addDefaultMembers(memCon2, new Member[] { member22, member21 });
-
-		// Ensure that the order of default members is as intended
-		Assertions.assertEquals(nameDoesNotMatter,
-				this.areSimilar(memCon1.getDefaultMembers(), memCon2.getDefaultMembers()));
-
-		// Ensure that both member containers (on their own) are similar
-		this.testSimilarity(memCon1, memCon2, true);
-
-		// Ensure that both member containers are different based on content
-		Assertions.assertEquals(nameDoesNotMatter, this.checkSimilarityContentWise(memCon1, memCon2));
+			Assertions.assertTrue(this.areOrdinaryMembersSimilar(memCon1Inner, memCon2Inner));
+			Assertions.assertFalse(this.areOrdinaryMemberOrdersSimilar(memCon1Inner, memCon2Inner));
+		});
 	}
 
 	/**
 	 * TODO Add commentary
-	 * 
-	 * @param memInit     Initialiser that will be used to instantiate members
-	 * @param memConInit  Initialiser that will be used to instantiate member
-	 *                    containers, which will contain the members
-	 * @param displayName Parameter dependent part of the display name
 	 */
-	@ParameterizedTest(name = "Member: {2}")
-	@MethodSource("genMemXMemConMem")
-	public void testDefaultMemberOrder_DifferentOrder_OneSide_Nested(IMemberInitialiser memInit,
-			IMemberContainerInitialiser memConInit, String displayName) {
-		// Use the name attribute as the difference factor between elements
-		var member11 = memInit.instantiate();
-		memInit.setName(member11, "mem1");
-		var member12 = memInit.instantiate();
-		memInit.setName(member12, "mem2");
-		var member21 = memInit.instantiate();
-		memInit.setName(member21, "mem1");
-		var member22 = memInit.instantiate();
-		memInit.setName(member22, "mem2");
+	public DynamicTest testMemberOrder_SameOrder_NoNesting(Member member11, Member member12, Member member21,
+			Member member22, IMemberContainerInitialiser memConInit) {
+		return DynamicTest.dynamicTest("a", () -> {
+			var memCon1 = memConInit.instantiate();
+			var memCon2 = memConInit.instantiate();
 
-		/*
-		 * Since there are members that are currently impossible to make different (ex:
-		 * Block), there is no way to always assert false. Therefore, use the expected
-		 * similarity result instead.
-		 */
-		var nameDoesNotMatter = this.getExpectedSimilarityResult(memInit.instantiate(),
-				CommonsPackage.Literals.NAMED_ELEMENT__NAME);
+			Assertions.assertTrue(memConInit.addMembers(memCon1, new Member[] { member11, member12 }));
+			Assertions.assertTrue(memConInit.addMembers(memCon2, new Member[] { member21, member22 }));
 
-		// Make sure the setup is correct
-		Assertions.assertTrue(this.isSimilar(member11, member21));
-		Assertions.assertTrue(this.isSimilar(member12, member22));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member11, member12));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member21, member22));
+			/*
+			 * Ensure that member containers of the same level (inner/outer) are similar
+			 * amongst themselves.
+			 */
+			this.testSimilarity(memCon1, memCon2, true);
 
-		var memCon1Outer = memConInit.instantiate();
-		var memCon1Inner = memConInit.instantiate();
-		var memCon2 = memConInit.instantiate();
-
-		memConInit.addDefaultMembers(memCon1Inner, new Member[] { member11, member12 });
-		memConInit.addDefaultMembers(memCon2, new Member[] { member22, member21 });
-		memConInit.addDefaultMember(memCon1Outer, (Member) memCon1Inner);
-
-		// Ensure that the order of default members is as intended
-		Assertions.assertEquals(nameDoesNotMatter,
-				this.areSimilar(memCon1Inner.getDefaultMembers(), memCon2.getDefaultMembers()));
-
-		// Ensure that the default members are in correct containers
-		Assertions.assertEquals(1, memCon1Outer.getDefaultMembers().size());
-		Assertions.assertEquals(2, memCon1Inner.getDefaultMembers().size());
-		Assertions.assertEquals(2, memCon2.getDefaultMembers().size());
-
-		/*
-		 * Ensure that memCon1Outer and memCon2 (on their own) are similar, while
-		 * memCon1Inner and memCon2 are not similar, due to memCon1Inner being nested
-		 * within memCon1Outer.
-		 */
-		this.testSimilarity(memCon1Outer, memCon2, true);
-		this.testSimilarity(memCon1Inner, memCon2, false);
-
-		/*
-		 * Ensure that outside member containers are different based on content
-		 * 
-		 * Note: They have to be different, because of memCon1Inner being nested in
-		 * memCon1Outer.
-		 */
-		Assertions.assertFalse(this.checkSimilarityContentWise(memCon1Outer, memCon2));
+			Assertions.assertTrue(this.areOrdinaryMemberOrdersSimilar(memCon1, memCon2));
+		});
 	}
 
 	/**
 	 * TODO Add commentary
-	 * 
-	 * @param memInit     Initialiser that will be used to instantiate members
-	 * @param memConInit  Initialiser that will be used to instantiate member
-	 *                    containers, which will contain the members
-	 * @param displayName Parameter dependent part of the display name
 	 */
-	@ParameterizedTest(name = "Member: {2}")
-	@MethodSource("genMemXMemConMem")
-	public void testDefaultMemberOrder_DifferentOrder_BothSides_Nested(IMemberInitialiser memInit,
-			IMemberContainerInitialiser memConInit, String displayName) {
-		// Use the name attribute as the difference factor between elements
-		var member11 = memInit.instantiate();
-		memInit.setName(member11, "mem1");
-		var member12 = memInit.instantiate();
-		memInit.setName(member12, "mem2");
-		var member21 = memInit.instantiate();
-		memInit.setName(member21, "mem1");
-		var member22 = memInit.instantiate();
-		memInit.setName(member22, "mem2");
+	public DynamicTest testMemberOrder_SameOrder_OneSide_Nested(Member member11, Member member12, Member member21,
+			Member member22, IMemberContainerInitialiser memConInit) {
+		return DynamicTest.dynamicTest("a", () -> {
+			var memCon1Outer = memConInit.instantiate();
+			var memCon1Inner = memConInit.instantiate();
+			var memCon2 = memConInit.instantiate();
 
-		/*
-		 * Since there are members that are currently impossible to make different (ex:
-		 * Block), there is no way to always assert false. Therefore, use the expected
-		 * similarity result instead.
-		 */
-		var nameDoesNotMatter = this.getExpectedSimilarityResult(memInit.instantiate(),
-				CommonsPackage.Literals.NAMED_ELEMENT__NAME);
+			Assertions.assertTrue(memConInit.addMembers(memCon1Inner, new Member[] { member11, member12 }));
+			Assertions.assertTrue(memConInit.addMembers(memCon2, new Member[] { member21, member22 }));
+			Assertions.assertTrue(memConInit.addMember(memCon1Outer, (Member) memCon1Inner));
 
-		// Make sure the setup is correct
-		Assertions.assertTrue(this.isSimilar(member11, member21));
-		Assertions.assertTrue(this.isSimilar(member12, member22));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member11, member12));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member21, member22));
+			/*
+			 * Ensure that member containers of the same level (inner/outer) are similar
+			 * amongst themselves.
+			 */
+			this.testSimilarity(memCon1Outer, memCon2, true);
+			this.testSimilarity(memCon1Inner, memCon2, false);
 
-		var memCon1Outer = memConInit.instantiate();
-		var memCon1Inner = memConInit.instantiate();
-		var memCon2Outer = memConInit.instantiate();
-		var memCon2Inner = memConInit.instantiate();
+			Assertions.assertFalse(this.areOrdinaryMembersSimilar(memCon1Outer, memCon1Inner));
+			Assertions.assertFalse(this.areOrdinaryMembersSimilar(memCon1Outer, memCon2));
 
-		memConInit.addDefaultMembers(memCon1Inner, new Member[] { member11, member12 });
-		memConInit.addDefaultMembers(memCon2Inner, new Member[] { member22, member21 });
-		memConInit.addDefaultMember(memCon1Outer, (Member) memCon1Inner);
-		memConInit.addDefaultMember(memCon2Outer, (Member) memCon2Inner);
-
-		// Ensure that the order of default members is as intended
-		Assertions.assertEquals(nameDoesNotMatter,
-				this.areSimilar(memCon1Inner.getDefaultMembers(), memCon2Inner.getDefaultMembers()));
-
-		// Ensure that the default members are in correct containers
-		Assertions.assertEquals(1, memCon1Outer.getDefaultMembers().size());
-		Assertions.assertEquals(1, memCon2Outer.getDefaultMembers().size());
-		Assertions.assertEquals(2, memCon1Inner.getDefaultMembers().size());
-		Assertions.assertEquals(2, memCon2Inner.getDefaultMembers().size());
-
-		/*
-		 * Ensure that member containers of the same level (inner/outer) are similar
-		 * amongst themselves.
-		 */
-		this.testSimilarity(memCon1Outer, memCon2Outer, true);
-		this.testSimilarity(memCon1Inner, memCon2Inner, true);
-		this.testSimilarity(memCon1Outer, memCon1Inner, false);
-		this.testSimilarity(memCon2Outer, memCon2Inner, false);
-
-		// Ensure that member containers are different based on content, if names matter
-		Assertions.assertEquals(nameDoesNotMatter, this.checkSimilarityContentWise(memCon1Outer, memCon2Outer));
-		Assertions.assertEquals(nameDoesNotMatter, this.checkSimilarityContentWise(memCon1Inner, memCon2Inner));
+			/*
+			 * Although the members are similar in a vacuum, they may be different because
+			 * of memCon1Inner being nested in another member container, which influences
+			 * their namespaces and by extension their qualified name.
+			 */
+			Assertions.assertEquals(
+					this.getExpectedSimilarityResult(member11,
+							CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES),
+					this.areOrdinaryMemberOrdersSimilar(memCon1Inner, memCon2));
+		});
 	}
 
 	/**
 	 * TODO Add commentary
-	 * 
-	 * @param memInit     Initialiser that will be used to instantiate members
-	 * @param memConInit  Initialiser that will be used to instantiate member
-	 *                    containers, which will contain the members
-	 * @param displayName Parameter dependent part of the display name
 	 */
-	@ParameterizedTest(name = "Member: {2}")
-	@MethodSource("genMemXMemConMem")
-	public void testDefaultMemberOrder_SameOrder_OneSide_Nested(IMemberInitialiser memInit,
-			IMemberContainerInitialiser memConInit, String displayName) {
-		// Use the name attribute as the difference factor between elements
-		var member11 = memInit.instantiate();
-		memInit.setName(member11, "mem1");
-		var member12 = memInit.instantiate();
-		memInit.setName(member12, "mem2");
-		var member21 = memInit.instantiate();
-		memInit.setName(member21, "mem1");
-		var member22 = memInit.instantiate();
-		memInit.setName(member22, "mem2");
+	public DynamicTest testMemberOrder_SameOrder_BothSides_Nested(Member member11, Member member12, Member member21,
+			Member member22, IMemberContainerInitialiser memConInit) {
+		return DynamicTest.dynamicTest("a", () -> {
+			var memCon1Outer = memConInit.instantiate();
+			var memCon1Inner = memConInit.instantiate();
+			var memCon2Outer = memConInit.instantiate();
+			var memCon2Inner = memConInit.instantiate();
 
-		/*
-		 * Since there are members that are currently impossible to make different (ex:
-		 * Block), there is no way to always assert false. Therefore, use the expected
-		 * similarity result instead.
-		 */
-		var nameDoesNotMatter = this.getExpectedSimilarityResult(memInit.instantiate(),
-				CommonsPackage.Literals.NAMED_ELEMENT__NAME);
-		/**
-		 * There are members and member containers that care about namespaces in
-		 * similarity checking, which is relevant here, since there are nested
-		 * classifiers (memCon1Inner).
-		 */
-		var namespaceDoesNotMatterForMembers = this.getExpectedSimilarityResult(memInit.instantiate(),
-				CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
+			Assertions.assertTrue(memConInit.addMembers(memCon1Inner, new Member[] { member11, member12 }));
+			Assertions.assertTrue(memConInit.addMembers(memCon2Inner, new Member[] { member21, member22 }));
+			Assertions.assertTrue(memConInit.addMember(memCon1Outer, (Member) memCon1Inner));
+			Assertions.assertTrue(memConInit.addMember(memCon2Outer, (Member) memCon2Inner));
 
-		// Make sure the setup is correct
-		Assertions.assertTrue(this.isSimilar(member11, member21));
-		Assertions.assertTrue(this.isSimilar(member12, member22));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member11, member12));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member21, member22));
+			/*
+			 * Ensure that member containers of the same level (inner/outer) are similar
+			 * amongst themselves.
+			 */
+			this.testSimilarity(memCon1Outer, memCon2Outer, true);
+			this.testSimilarity(memCon1Inner, memCon2Inner, true);
+			this.testSimilarity(memCon1Outer, memCon1Inner, false);
+			this.testSimilarity(memCon2Outer, memCon2Inner, false);
 
-		var memCon1Outer = memConInit.instantiate();
-		var memCon1Inner = memConInit.instantiate();
-		var memCon2 = memConInit.instantiate();
+			Assertions.assertFalse(this.areOrdinaryMembersSimilar(memCon1Outer, memCon1Inner));
+			Assertions.assertFalse(this.areOrdinaryMembersSimilar(memCon1Outer, memCon2Inner));
+			Assertions.assertFalse(this.areOrdinaryMembersSimilar(memCon2Outer, memCon1Inner));
+			Assertions.assertFalse(this.areOrdinaryMembersSimilar(memCon2Outer, memCon2Inner));
 
-		memConInit.addDefaultMembers(memCon1Inner, new Member[] { member11, member12 });
-		memConInit.addDefaultMembers(memCon2, new Member[] { member21, member22 });
-		memConInit.addDefaultMember(memCon1Outer, (Member) memCon1Inner);
-
-		// Ensure that the order of default members is as intended
-		var expectedMembersSimilarityResult = namespaceDoesNotMatterForMembers;
-		Assertions.assertEquals(expectedMembersSimilarityResult,
-				this.areSimilar(memCon1Inner.getDefaultMembers(), memCon2.getDefaultMembers()));
-
-		// Ensure that the default members are in correct containers
-		Assertions.assertEquals(1, memCon1Outer.getDefaultMembers().size());
-		Assertions.assertEquals(2, memCon1Inner.getDefaultMembers().size());
-		Assertions.assertEquals(2, memCon2.getDefaultMembers().size());
-
-		/*
-		 * Ensure that memCon1Outer and memCon2 (as member containers, without their
-		 * members) are similar, while memCon1Inner and memCon2 are not similar, due to
-		 * memCon1Inner being nested within memCon1Outer.
-		 */
-		this.testSimilarity(memCon1Outer, memCon2, true);
-		this.testSimilarity(memCon1Inner, memCon2, false);
-
-		/*
-		 * Ensure that outside member containers are different based on content
-		 * 
-		 * Note: They have to be different, because of memCon1Inner being nested in
-		 * memCon1Outer.
-		 */
-		Assertions.assertFalse(this.checkSimilarityContentWise(memCon1Outer, memCon2));
-
-		// Ensure that memCon1Inner and memCon2 are similar based on content
-		Assertions.assertEquals(expectedMembersSimilarityResult,
-				this.checkSimilarityContentWise(memCon1Inner, memCon2));
-	}
-
-	/**
-	 * TODO Add commentary
-	 * 
-	 * @param memInit     Initialiser that will be used to instantiate members
-	 * @param memConInit  Initialiser that will be used to instantiate member
-	 *                    containers, which will contain the members
-	 * @param displayName Parameter dependent part of the display name
-	 */
-	@ParameterizedTest(name = "Member: {2}")
-	@MethodSource("genMemXMemConMem")
-	public void testDefaultMemberOrder_SameOrder_BothSides_Nested(IMemberInitialiser memInit,
-			IMemberContainerInitialiser memConInit, String displayName) {
-		// Use the name attribute as the difference factor between elements
-		var member11 = memInit.instantiate();
-		memInit.setName(member11, "mem1");
-		var member12 = memInit.instantiate();
-		memInit.setName(member12, "mem2");
-		var member21 = memInit.instantiate();
-		memInit.setName(member21, "mem1");
-		var member22 = memInit.instantiate();
-		memInit.setName(member22, "mem2");
-
-		/*
-		 * Since there are members that are currently impossible to make different (ex:
-		 * Block), there is no way to always assert false. Therefore, use the expected
-		 * similarity result instead.
-		 */
-		var nameDoesNotMatter = this.getExpectedSimilarityResult(memInit.instantiate(),
-				CommonsPackage.Literals.NAMED_ELEMENT__NAME);
-
-		// Make sure the setup is correct
-		Assertions.assertTrue(this.isSimilar(member11, member21));
-		Assertions.assertTrue(this.isSimilar(member12, member22));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member11, member12));
-		Assertions.assertEquals(nameDoesNotMatter, this.isSimilar(member21, member22));
-
-		var memCon1Outer = memConInit.instantiate();
-		var memCon1Inner = memConInit.instantiate();
-		var memCon2Outer = memConInit.instantiate();
-		var memCon2Inner = memConInit.instantiate();
-
-		memConInit.addDefaultMembers(memCon1Inner, new Member[] { member11, member12 });
-		memConInit.addDefaultMembers(memCon2Inner, new Member[] { member21, member22 });
-		memConInit.addDefaultMember(memCon1Outer, (Member) memCon1Inner);
-		memConInit.addDefaultMember(memCon2Outer, (Member) memCon2Inner);
-
-		// Ensure that the order of default members is as intended
-		Assertions.assertTrue(this.areSimilar(memCon1Inner.getDefaultMembers(), memCon2Inner.getDefaultMembers()));
-
-		// Ensure that the default members are in correct containers
-		Assertions.assertEquals(1, memCon1Outer.getDefaultMembers().size());
-		Assertions.assertEquals(1, memCon2Outer.getDefaultMembers().size());
-		Assertions.assertEquals(2, memCon1Inner.getDefaultMembers().size());
-		Assertions.assertEquals(2, memCon2Inner.getDefaultMembers().size());
-
-		/*
-		 * Ensure that member containers of the same level (inner/outer) are similar
-		 * amongst themselves.
-		 */
-		this.testSimilarity(memCon1Outer, memCon2Outer, true);
-		this.testSimilarity(memCon1Inner, memCon2Inner, true);
-		this.testSimilarity(memCon1Outer, memCon1Inner, false);
-		this.testSimilarity(memCon2Outer, memCon2Inner, false);
-
-		// Ensure that member containers are different based on content, if names matter
-		Assertions.assertTrue(this.checkSimilarityContentWise(memCon1Outer, memCon2Outer));
-		Assertions.assertTrue(this.checkSimilarityContentWise(memCon1Inner, memCon2Inner));
+			Assertions.assertTrue(this.areOrdinaryMemberOrdersSimilar(memCon1Outer, memCon2Outer));
+			Assertions.assertTrue(this.areOrdinaryMemberOrdersSimilar(memCon1Inner, memCon2Inner));
+		});
 	}
 }
