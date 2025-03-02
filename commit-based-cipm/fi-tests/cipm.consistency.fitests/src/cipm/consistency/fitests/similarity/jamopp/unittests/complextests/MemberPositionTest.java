@@ -234,82 +234,153 @@ public class MemberPositionTest extends AbstractJaMoPPSimilarityTest {
 			MemberContainer memCon2) {
 		var tests = new ArrayList<DynamicTest>();
 
-//		Member memberSample = null;
-//		if (!memCon1.getMembers().isEmpty()) {
-//			memberSample = memCon1.getMembers().get(0);
-//		} else if (!memCon2.getMembers().isEmpty()) {
-//			memberSample = memCon2.getMembers().get(0);
-//		} else {
-//			return tests;
-//		}
-//		
-//		final var namespaceDoesNotMatter = this.getExpectedSimilarityResult(memberSample,
-//				CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
-		final var sameNestingLevel = this.sameNestLevel(memCon1, memCon2);
+		/*
+		 * Ordinary members and default members are separated due to scalability
+		 * reasons.
+		 */
 
-		for (int i1 = 0; i1 < memCon1.getMembers().size(); i1++) {
-			for (int i2 = 0; i2 < memCon1.getMembers().size(); i2++) {
-				for (int j1 = 0; j1 < memCon2.getMembers().size(); j1++) {
-					for (int j2 = 0; j2 < memCon2.getMembers().size(); j2++) {
+		var mems1Size = memCon1.getMembers().size();
+		var mems2Size = memCon2.getMembers().size();
 
-						/*
-						 * Clone member containers for each test, in order to spare "undoing" the
-						 * position changes.
-						 * 
-						 * Make sure to clone the member containers along with their own containers, so
-						 * that cases with inner containers can also be accounted for
-						 */
-						var memCon1Clone = this.cloneEObjWithContainers(memCon1);
-						var memCon2Clone = this.cloneEObjWithContainers(memCon2);
+		var defMems1Size = memCon1.getDefaultMembers().size();
+		var defMems2Size = memCon2.getDefaultMembers().size();
 
-						var mems1 = memCon1Clone.getMembers();
-						var mems2 = memCon2Clone.getMembers();
+		/*
+		 * Exclude the symmetric cases, since test methods within this class are
+		 * symmetric already.
+		 */
 
-						final var mem11Pos = i1;
-						final var mem11 = mems1.get(mem11Pos);
-						final var mem11NewPos = i2;
+		// Indices for ordinary members of memCon1
+		for (int i1 = 0; i1 < mems1Size; i1++) {
+			for (int i2 = i1; i2 < mems1Size; i2++) {
 
-						final var mem21Pos = j1;
-						final var mem21 = mems2.get(mem21Pos);
-						final var mem21NewPos = j2;
+				// Indices for default members of memCon1
+				for (int di1 = 0; di1 < defMems1Size; di1++) {
+					for (int di2 = di1; di2 < defMems1Size; di2++) {
 
-						tests.add(DynamicTest.dynamicTest(String.format("%s (%d, %d) vs %s (%d, %d)",
-								memCon1Clone.eContainer(), i1, i2, memCon2Clone.eContainer(), j1, j2), () -> {
-									Assertions.assertTrue(memConInit.changeAttributeValuePosition(mem11, mem11NewPos));
-									Assertions.assertTrue(memConInit.changeAttributeValuePosition(mem21, mem21NewPos));
+						// Indices for ordinary members of memCon1
+						for (int j1 = 0; j1 < mems2Size; j1++) {
+							for (int j2 = j1; j2 < mems2Size; j2++) {
 
-									// Nothing moves on both sides
-									var moveInPlace = mem11Pos == mem11NewPos && mem21Pos == mem21NewPos;
-									// Same move on both sides
-									var mimicedMove = mem11Pos == mem21Pos && mem11NewPos == mem21NewPos;
-									/*
-									 * Swap with neighbour (adjacent element):
-									 * 
-									 * {A, B, C} -> {A, C, B} is either possible by moving B to C's position or
-									 * moving C to B's position. Only works for adjacent elements, as illustrated.
-									 */
-									var swapMove = 
-											(mem11Pos == mem21NewPos && mem21Pos == mem11NewPos) &&
-											((mem11NewPos == mem11Pos + 1 && mem21NewPos == mem21Pos - 1)
-											|| (mem11NewPos == mem11Pos - 1 && mem21NewPos == mem21Pos + 1));
+								// Indices for default members of memCon2
+								for (int dj1 = 0; dj1 < defMems2Size; dj1++) {
+									for (int dj2 = dj1; dj2 < defMems2Size; dj2++) {
+										/*
+										 * Make sure to clone the member containers along with their own containers, so
+										 * that cases with inner containers can also be accounted for.
+										 */
 
-									var sameMovement = moveInPlace || mimicedMove || swapMove;
-
-									/*
-									 * Members are similar only if both containers are nested the same way, because
-									 * otherwise one of the containers is an outer container and has an inner
-									 * container, which is also a member.
-									 */
-									Assertions.assertEquals(sameNestingLevel,
-											this.areOrdinaryMembersSimilar(memCon1Clone, memCon2Clone));
-									Assertions.assertEquals(sameNestingLevel && sameMovement,
-											this.areOrdinaryMemberOrdersSimilar(memCon1Clone, memCon2Clone));
-								}));
+										var memCon1Clone = this.cloneEObjWithContainers(memCon1);
+										var memCon2Clone = this.cloneEObjWithContainers(memCon2);
+										tests.add(this.genTest(memConInit, memCon1Clone, i1, i2, di1, di2, memCon2Clone,
+												j1, j2, dj1, dj2));
+									}
+								}
+							}
+						}
 					}
 				}
 			}
 		}
 
 		return tests;
+	}
+
+	private DynamicTest genTest(IMemberContainerInitialiser memConInit, MemberContainer memCon1Clone, int i1, int i2,
+			int di1, int di2, MemberContainer memCon2Clone, int j1, int j2, int dj1, int dj2) {
+		var mems1 = memCon1Clone.getMembers();
+		var mems2 = memCon2Clone.getMembers();
+
+		var defMems1 = memCon1Clone.getDefaultMembers();
+		var defMems2 = memCon2Clone.getDefaultMembers();
+
+		final var mem11Pos = i1;
+		final var mem11 = mems1.get(mem11Pos);
+		final var mem11NewPos = i2;
+
+		final var mem21Pos = j1;
+		final var mem21 = mems2.get(mem21Pos);
+		final var mem21NewPos = j2;
+
+		final var defMem11Pos = di1;
+		final var defMem11 = defMems1.get(defMem11Pos);
+		final var defMem11NewPos = di2;
+
+		final var defMem21Pos = dj1;
+		final var defMem21 = defMems2.get(defMem21Pos);
+		final var defMem21NewPos = dj2;
+
+		final var namespaceDoesNotMatterForDefMems = this.getExpectedSimilarityResult(defMem11,
+				CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
+
+		var sameNestingLevel = this.sameNestLevel(memCon1Clone, memCon2Clone);
+
+		/*
+		 * Members are similar only if both containers are nested the same way, because
+		 * otherwise one of the containers is an outer container and has an inner
+		 * container, which is also a member.
+		 * 
+		 * Since the containers always have to be nested the same way, this implicitly
+		 * handles cases, where namespaces could influence similarity checking.
+		 */
+		final var membersSimilar = sameNestingLevel;
+		/*
+		 * Default members do not include the nested container, therefore namespaces
+		 * have to be accounted for as well. If namespaces matter, both containers have
+		 * to be nested the same way.
+		 */
+		final var defMembersSimilar = sameNestingLevel || namespaceDoesNotMatterForDefMems;
+
+		return DynamicTest.dynamicTest(String.format("(%d, %d) <-> (%d, %d); (%d, %d) <-> (%d, %d) %s vs %s", mem11Pos,
+				mem11NewPos, mem21Pos, mem21NewPos, defMem11Pos, defMem11NewPos, defMem21Pos, defMem21NewPos,
+				memCon1Clone.eContainer(), memCon2Clone.eContainer()), () -> {
+
+					/*
+					 * Ordinary and default members are kept in separate containers. Therefore,
+					 * moving ordinary members or default members first does not matter.
+					 */
+
+					Assertions.assertTrue(memConInit.changeAttributeValuePosition(mem11, mem11NewPos));
+					Assertions.assertTrue(memConInit.changeAttributeValuePosition(mem21, mem21NewPos));
+
+					Assertions.assertTrue(memConInit.changeAttributeValuePosition(defMem11, defMem11NewPos));
+					Assertions.assertTrue(memConInit.changeAttributeValuePosition(defMem21, defMem21NewPos));
+
+					var sameMemMovement = this.moveLeadsToSameResult(mem11Pos, mem11NewPos, mem21Pos, mem21NewPos);
+					var sameDefMemMovement = this.moveLeadsToSameResult(defMem11Pos, defMem11NewPos, defMem21Pos,
+							defMem21NewPos);
+
+					/*
+					 * These assertions are symmetric for both sides, i.e. swapping parameters
+					 * yields the same result.
+					 */
+
+					Assertions.assertEquals(membersSimilar, this.areOrdinaryMembersSimilar(memCon1Clone, memCon2Clone));
+					Assertions.assertEquals(membersSimilar && sameMemMovement,
+							this.areOrdinaryMemberOrdersSimilar(memCon1Clone, memCon2Clone));
+
+					Assertions.assertEquals(defMembersSimilar,
+							this.areDefaultMembersSimilar(memCon1Clone, memCon2Clone));
+					Assertions.assertEquals(defMembersSimilar && sameDefMemMovement,
+							this.areDefaultMemberOrdersSimilar(memCon1Clone, memCon2Clone));
+				});
+	}
+
+	private boolean moveLeadsToSameResult(int mem11Pos, int mem11NewPos, int mem21Pos, int mem21NewPos) {
+		// Nothing moves on both sides
+		var moveInPlace = mem11Pos == mem11NewPos && mem21Pos == mem21NewPos;
+		// Same move on both sides
+		var mimicedMove = mem11Pos == mem21Pos && mem11NewPos == mem21NewPos;
+		/*
+		 * Swap with neighbour (adjacent element):
+		 * 
+		 * {A, B, C} -> {A, C, B} is either possible by moving B to C's position or
+		 * moving C to B's position. Only works for adjacent elements, as illustrated.
+		 */
+		var swapMove = (mem11Pos == mem21NewPos && mem21Pos == mem11NewPos)
+				&& ((mem11NewPos == mem11Pos + 1 && mem21NewPos == mem21Pos - 1)
+						|| (mem11NewPos == mem11Pos - 1 && mem21NewPos == mem21Pos + 1));
+
+		return moveInPlace || mimicedMove || swapMove;
 	}
 }
