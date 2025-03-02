@@ -44,6 +44,8 @@ import java.util.function.BiFunction;
  * <br>
  * This interface also contains some static utility methods.
  * 
+ * TODO Adapt once modifications are done
+ * 
  * @author Alp Torac Genc
  * @see {@link IInitialiserBase}
  * @see {@link IInitialiserAdapterStrategy}
