@@ -234,28 +234,37 @@ public class MemberPositionTest extends AbstractJaMoPPSimilarityTest {
 			MemberContainer memCon2) {
 		var tests = new ArrayList<DynamicTest>();
 
-		var memCon1Clone = this.cloneEObjWithContainers(memCon1);
-		var memCon2Clone = this.cloneEObjWithContainers(memCon2);
+//		Member memberSample = null;
+//		if (!memCon1.getMembers().isEmpty()) {
+//			memberSample = memCon1.getMembers().get(0);
+//		} else if (!memCon2.getMembers().isEmpty()) {
+//			memberSample = memCon2.getMembers().get(0);
+//		} else {
+//			return tests;
+//		}
+//		
+//		final var namespaceDoesNotMatter = this.getExpectedSimilarityResult(memberSample,
+//				CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
+		final var sameNestingLevel = this.sameNestLevel(memCon1, memCon2);
 
-		var mems1 = memCon1Clone.getMembers();
-		var mems2 = memCon2Clone.getMembers();
+		for (int i1 = 0; i1 < memCon1.getMembers().size(); i1++) {
+			for (int i2 = 0; i2 < memCon1.getMembers().size(); i2++) {
+				for (int j1 = 0; j1 < memCon2.getMembers().size(); j1++) {
+					for (int j2 = 0; j2 < memCon2.getMembers().size(); j2++) {
 
-		Member memberSample = null;
-		if (!mems1.isEmpty()) {
-			memberSample = mems1.get(0);
-		} else if (!mems2.isEmpty()) {
-			memberSample = mems2.get(0);
-		} else {
-			return tests;
-		}
+						/*
+						 * Clone member containers for each test, in order to spare "undoing" the
+						 * position changes.
+						 * 
+						 * Make sure to clone the member containers along with their own containers, so
+						 * that cases with inner containers can also be accounted for
+						 */
+						var memCon1Clone = this.cloneEObjWithContainers(memCon1);
+						var memCon2Clone = this.cloneEObjWithContainers(memCon2);
 
-		final var namespaceDoesNotMatter = this.getExpectedSimilarityResult(memberSample,
-				CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
+						var mems1 = memCon1Clone.getMembers();
+						var mems2 = memCon2Clone.getMembers();
 
-		for (int i1 = 0; i1 < mems1.size(); i1++) {
-			for (int i2 = 0; i2 < mems1.size(); i2++) {
-				for (int j1 = 0; j1 < mems2.size(); j1++) {
-					for (int j2 = 0; j2 < mems2.size(); j2++) {
 						final var mem11Pos = i1;
 						final var mem11 = mems1.get(mem11Pos);
 						final var mem11NewPos = i2;
@@ -269,27 +278,32 @@ public class MemberPositionTest extends AbstractJaMoPPSimilarityTest {
 									Assertions.assertTrue(memConInit.changeAttributeValuePosition(mem11, mem11NewPos));
 									Assertions.assertTrue(memConInit.changeAttributeValuePosition(mem21, mem21NewPos));
 
-									var sameMovement =
-											// Nothing is moved
-											(mem11Pos == mem11NewPos && mem21Pos == mem21NewPos) ||
-									// Same movement
-													(mem11Pos == mem21Pos && mem11NewPos == mem21NewPos) ||
-									// Swap
-													(mem11Pos == mem21NewPos && mem21Pos == mem11NewPos);
+									// Nothing moves on both sides
+									var moveInPlace = mem11Pos == mem11NewPos && mem21Pos == mem21NewPos;
+									// Same move on both sides
+									var mimicedMove = mem11Pos == mem21Pos && mem11NewPos == mem21NewPos;
+									/*
+									 * Swap with neighbour (adjacent element):
+									 * 
+									 * {A, B, C} -> {A, C, B} is either possible by moving B to C's position or
+									 * moving C to B's position. Only works for adjacent elements, as illustrated.
+									 */
+									var swapMove = 
+											(mem11Pos == mem21NewPos && mem21Pos == mem11NewPos) &&
+											((mem11NewPos == mem11Pos + 1 && mem21NewPos == mem21Pos - 1)
+											|| (mem11NewPos == mem11Pos - 1 && mem21NewPos == mem21Pos + 1));
+
+									var sameMovement = moveInPlace || mimicedMove || swapMove;
 
 									/*
 									 * Members are similar only if both containers are nested the same way, because
 									 * otherwise one of the containers is an outer container and has an inner
 									 * container, which is also a member.
 									 */
-									Assertions.assertEquals(
-											this.sameNestLevel(memCon1Clone, memCon2Clone),
+									Assertions.assertEquals(sameNestingLevel,
 											this.areOrdinaryMembersSimilar(memCon1Clone, memCon2Clone));
-//							Assertions.assertEquals(mem11Pos == mem21Pos && mem11NewPos == mem21NewPos
-//									&& (this.sameNestLevel(memCon1Clone, memCon2Clone)
-//											|| this.getExpectedSimilarityResult(memSam,
-//													CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES)),
-//									this.areOrdinaryMembersSimilar(memCon1Clone, memCon2Clone));
+									Assertions.assertEquals(sameNestingLevel && sameMovement,
+											this.areOrdinaryMemberOrdersSimilar(memCon1Clone, memCon2Clone));
 								}));
 					}
 				}
@@ -297,19 +311,5 @@ public class MemberPositionTest extends AbstractJaMoPPSimilarityTest {
 		}
 
 		return tests;
-
-//		var defMems1 = memCon1Clone.getDefaultMembers();
-//		var defMems2 = memCon2Clone.getDefaultMembers();
-//
-//		Member defMemberSample = null;
-//		if (!defMems1.isEmpty()) {
-//			defMemberSample = defMems1.get(0);
-//		} else if (!defMems2.isEmpty()) {
-//			defMemberSample = defMems2.get(0);
-//		} else {
-//			return tests;
-//		}
-//
-//		return tests;
 	}
 }
