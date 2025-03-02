@@ -57,7 +57,7 @@ public interface IEObjectInitialiser extends IInitialiser {
 	 * predecessor). {@code oldElem}'s index will be {@code newElemPos}, as
 	 * intended. <br>
 	 * <br>
-	 * It is suggested to use {@link #changeAttributePosition(EObject, int)}
+	 * It is suggested to use {@link #changeAttributeValuePosition(EObject, int)}
 	 * instead, since the potential attribute containing {@code elemList} may not
 	 * allow it to be changed, for which the said method accounts. If this is the
 	 * case, <b>THIS METHOD MAY RESULT IN EXCEPTIONS</b>. Otherwise, if the given
@@ -74,7 +74,7 @@ public interface IEObjectInitialiser extends IInitialiser {
 	 *         the ones between the given positions) are re-arranged successfully.
 	 *         Always returns true, if oldElemPos == newElemPos.
 	 */
-	public default boolean changeAttributePosition(EList<?> elemList, int oldElemPos, int newElemPos) {
+	public default boolean changeAttributeValuePosition(EList<?> elemList, int oldElemPos, int newElemPos) {
 		if (oldElemPos == newElemPos) {
 			// There are no position changes to be performed
 			// regardless of the given positions
@@ -137,7 +137,7 @@ public interface IEObjectInitialiser extends IInitialiser {
 	}
 
 	/**
-	 * A variant of {@link #changeAttributePosition(EList, int, int)}, where the
+	 * A variant of {@link #changeAttributeValuePosition(EList, int, int)}, where the
 	 * given elem's containing list, as well as its position within, are derived.
 	 * <br>
 	 * <br>
@@ -146,13 +146,13 @@ public interface IEObjectInitialiser extends IInitialiser {
 	 * 
 	 * @param elemToMove An element, which is in vals
 	 */
-	public default <T extends EObject> boolean changeAttributePosition(T elemToMove, int newElemPos) {
+	public default <T extends EObject> boolean changeAttributeValuePosition(T elemToMove, int newElemPos) {
 		var con = elemToMove.eContainer();
 		var feat = elemToMove.eContainingFeature();
 		if (con != null && feat != null && feat.isMany() && feat.isChangeable()) {
 			@SuppressWarnings("unchecked")
 			var list = (EList<T>) con.eGet(feat);
-			return this.changeAttributePosition(list, list.indexOf(elemToMove), newElemPos);
+			return this.changeAttributeValuePosition(list, list.indexOf(elemToMove), newElemPos);
 		}
 		return false;
 	}
@@ -160,7 +160,7 @@ public interface IEObjectInitialiser extends IInitialiser {
 	/**
 	 * Swaps the elements at the given positions in the given list. <br>
 	 * <br>
-	 * It is suggested to use {@link #swapAttributePosition(EObject, EObject)}
+	 * It is suggested to use {@link #swapAttributeValuePosition(EObject, EObject)}
 	 * instead, since the potential attribute containing {@code elemList} may not
 	 * allow it to be changed, for which the said method accounts. If this is the
 	 * case, <b>THIS METHOD MAY RESULT IN EXCEPTIONS</b>. Otherwise, if the given
@@ -174,9 +174,9 @@ public interface IEObjectInitialiser extends IInitialiser {
 	 * @return Whether the swap operation was successful. Always returns true, if
 	 *         both positions are equal.
 	 * 
-	 * @see {@link #changeAttributePosition(EList, int, int)}
+	 * @see {@link #changeAttributeValuePosition(EList, int, int)}
 	 */
-	public default boolean swapAttributePosition(EList<?> elemList, int elem1Pos, int elem2Pos) {
+	public default boolean swapAttributeValuePosition(EList<?> elemList, int elem1Pos, int elem2Pos) {
 		if (elem1Pos == elem2Pos) {
 			// There are no position changes to be performed
 			// regardless of the given positions
@@ -203,13 +203,13 @@ public interface IEObjectInitialiser extends IInitialiser {
 		var minIdx = elem1Pos < elem2Pos ? elem1Pos : elem2Pos;
 		var maxIdx = elem1Pos < elem2Pos ? elem2Pos : elem1Pos;
 
-		return this.changeAttributePosition(elemList, minIdx, maxIdx)
-				&& this.changeAttributePosition(elemList, maxIdx - 1, minIdx) && elemList.indexOf(elem1) == elem2Pos
+		return this.changeAttributeValuePosition(elemList, minIdx, maxIdx)
+				&& this.changeAttributeValuePosition(elemList, maxIdx - 1, minIdx) && elemList.indexOf(elem1) == elem2Pos
 				&& elemList.indexOf(elem2) == elem1Pos;
 	}
 
 	/**
-	 * A variant of {@link #swapAttributePosition(EList, int, int)}, where the given
+	 * A variant of {@link #swapAttributeValuePosition(EList, int, int)}, where the given
 	 * elems' containing lists, as well as their positions within, are derived. <br>
 	 * <br>
 	 * Also makes sure that the attribute containing the said lists allows them to
@@ -218,7 +218,7 @@ public interface IEObjectInitialiser extends IInitialiser {
 	 * @param elem1 An element
 	 * @param elem2 The other element
 	 */
-	public default <T extends EObject> boolean swapAttributePosition(T elem1, T elem2) {
+	public default <T extends EObject> boolean swapAttributeValuePosition(T elem1, T elem2) {
 		var con1 = elem1.eContainer();
 		var feat1 = elem1.eContainingFeature();
 
@@ -232,7 +232,7 @@ public interface IEObjectInitialiser extends IInitialiser {
 		if (con1 != null && feat1 != null && feat1.isMany() && feat1.isChangeable()) {
 			@SuppressWarnings("unchecked")
 			var list = (EList<T>) con1.eGet(feat1);
-			return this.swapAttributePosition(list, list.indexOf(elem1), list.indexOf(elem2));
+			return this.swapAttributeValuePosition(list, list.indexOf(elem1), list.indexOf(elem2));
 		}
 		return false;
 	}
