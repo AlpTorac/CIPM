@@ -36,6 +36,16 @@ public class LocalVariableTest extends AbstractJaMoPPSimilarityTest implements U
 	}
 
 	@Test
+	public void testLocalVariablePosition() {
+		var objOne = this.initElement(
+				new AdditionalLocalVariable[] { this.createMinimalALV("alv1"), this.createMinimalALV("alv2") });
+		var objTwo = this.initElement(
+				new AdditionalLocalVariable[] { this.createMinimalALV("alv2"), this.createMinimalALV("alv1") });
+
+		this.testSimilarity(objOne, objTwo, VariablesPackage.Literals.LOCAL_VARIABLE__ADDITIONAL_LOCAL_VARIABLES);
+	}
+
+	@Test
 	public void testLocalVariableNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(new AdditionalLocalVariable[] { this.createMinimalALV("alv1") }),
 				new LocalVariableInitialiser(), false,

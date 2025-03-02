@@ -37,6 +37,16 @@ public class CompilationUnitTest extends AbstractJaMoPPSimilarityTest implements
 	}
 
 	@Test
+	public void testClassifierPosition() {
+		var objOne = this.initElement(
+				new ConcreteClassifier[] { this.createMinimalClass("cls1"), this.createMinimalClass("cls2") });
+		var objTwo = this.initElement(
+				new ConcreteClassifier[] { this.createMinimalClass("cls2"), this.createMinimalClass("cls1") });
+
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.COMPILATION_UNIT__CLASSIFIERS);
+	}
+
+	@Test
 	public void testClassifierNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(new ConcreteClassifier[] { this.createMinimalClass("cls1") }),
 				new CompilationUnitInitialiser(), false, ContainersPackage.Literals.COMPILATION_UNIT__CLASSIFIERS);

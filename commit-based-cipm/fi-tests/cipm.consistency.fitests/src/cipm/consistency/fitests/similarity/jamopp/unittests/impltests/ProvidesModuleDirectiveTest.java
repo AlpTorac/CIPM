@@ -36,6 +36,16 @@ public class ProvidesModuleDirectiveTest extends AbstractJaMoPPSimilarityTest im
 	}
 
 	@Test
+	public void testServiceProviderPosition() {
+		var objOne = this.initElement(
+				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
+		var objTwo = this.initElement(
+				new TypeReference[] { this.createMinimalClsRef("cls2"), this.createMinimalClsRef("cls1") });
+
+		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.PROVIDES_MODULE_DIRECTIVE__SERVICE_PROVIDERS);
+	}
+
+	@Test
 	public void testServiceProviderNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }),
 				new ProvidesModuleDirectiveInitialiser(), false,

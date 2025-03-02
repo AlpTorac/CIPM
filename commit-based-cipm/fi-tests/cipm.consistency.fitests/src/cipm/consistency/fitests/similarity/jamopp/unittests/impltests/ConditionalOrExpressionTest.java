@@ -36,6 +36,16 @@ public class ConditionalOrExpressionTest extends AbstractJaMoPPSimilarityTest im
 	}
 
 	@Test
+	public void testChildPosition() {
+		this.testSimilarity(
+				this.initElement(new ConditionalOrExpressionChild[] { this.createDecimalIntegerLiteral(1),
+						this.createDecimalIntegerLiteral(2) }),
+				this.initElement(new ConditionalOrExpressionChild[] { this.createDecimalIntegerLiteral(2),
+						this.createDecimalIntegerLiteral(1) }),
+				ExpressionsPackage.Literals.CONDITIONAL_OR_EXPRESSION__CHILDREN);
+	}
+
+	@Test
 	public void testChildNullCheck() {
 		this.testSimilarityNullCheck(
 				this.initElement(new ConditionalOrExpressionChild[] { this.createDecimalIntegerLiteral(1) }),

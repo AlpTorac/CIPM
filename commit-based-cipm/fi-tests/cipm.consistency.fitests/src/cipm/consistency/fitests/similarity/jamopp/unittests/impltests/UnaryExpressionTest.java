@@ -50,6 +50,16 @@ public class UnaryExpressionTest extends AbstractJaMoPPSimilarityTest implements
 	}
 
 	@Test
+	public void testOperatorPosition() {
+		this.testSimilarity(
+				this.initElement(null,
+						new UnaryOperator[] { this.createAdditionOperator(), this.createSubtractionOperator() }),
+				this.initElement(null,
+						new UnaryOperator[] { this.createSubtractionOperator(), this.createAdditionOperator() }),
+				ExpressionsPackage.Literals.UNARY_EXPRESSION__OPERATORS);
+	}
+
+	@Test
 	public void testOperatorNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(null, new UnaryOperator[] { this.createAdditionOperator() }),
 				new UnaryExpressionInitialiser(), false, ExpressionsPackage.Literals.UNARY_EXPRESSION__OPERATORS);

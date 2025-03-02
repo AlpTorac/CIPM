@@ -39,6 +39,16 @@ public class MultiplicativeExpressionTest extends AbstractJaMoPPSimilarityTest i
 	}
 
 	@Test
+	public void testChildPosition() {
+		this.testSimilarity(
+				this.initElement(new MultiplicativeExpressionChild[] { this.createDecimalIntegerLiteral(1),
+						this.createDecimalIntegerLiteral(2) }, null),
+				this.initElement(new MultiplicativeExpressionChild[] { this.createDecimalIntegerLiteral(2),
+						this.createDecimalIntegerLiteral(1) }, null),
+				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__CHILDREN);
+	}
+
+	@Test
 	public void testChildNullCheck() {
 		this.testSimilarityNullCheck(
 				this.initElement(new MultiplicativeExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
@@ -57,8 +67,21 @@ public class MultiplicativeExpressionTest extends AbstractJaMoPPSimilarityTest i
 	public void testMultiplicativeOperatorSize() {
 		this.testSimilarity(
 				this.initElement(null,
-						new MultiplicativeOperator[] { this.createDivisionOperator(), this.createMultiplicationOperator() }),
+						new MultiplicativeOperator[] { this.createDivisionOperator(),
+								this.createMultiplicationOperator() }),
 				this.initElement(null, new MultiplicativeOperator[] { this.createDivisionOperator() }),
+				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__MULTIPLICATIVE_OPERATORS);
+	}
+
+	@Test
+	public void testMultiplicativeOperatorPosition() {
+		this.testSimilarity(
+				this.initElement(null,
+						new MultiplicativeOperator[] { this.createDivisionOperator(),
+								this.createMultiplicationOperator() }),
+				this.initElement(null,
+						new MultiplicativeOperator[] { this.createMultiplicationOperator(),
+								this.createDivisionOperator() }),
 				ExpressionsPackage.Literals.MULTIPLICATIVE_EXPRESSION__MULTIPLICATIVE_OPERATORS);
 	}
 

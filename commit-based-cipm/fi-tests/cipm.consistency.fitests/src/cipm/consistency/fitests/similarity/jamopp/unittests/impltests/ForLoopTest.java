@@ -52,6 +52,16 @@ public class ForLoopTest extends AbstractJaMoPPSimilarityTest implements UsesExp
 	}
 
 	@Test
+	public void testUpdatePosition() {
+		var objOne = this.initElement(null,
+				new Expression[] { this.createMinimalFalseEE(), this.createMinimalTrueNEE() });
+		var objTwo = this.initElement(null,
+				new Expression[] { this.createMinimalTrueNEE(), this.createMinimalFalseEE() });
+
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.FOR_LOOP__UPDATES);
+	}
+
+	@Test
 	public void testUpdateNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(null, new Expression[] { this.createMinimalFalseEE() }),
 				new ForLoopInitialiser(), false, StatementsPackage.Literals.FOR_LOOP__UPDATES);

@@ -36,6 +36,16 @@ public class ArrayInstantiationBySizeTest extends AbstractJaMoPPSimilarityTest i
 	}
 
 	@Test
+	public void testSizePosition() {
+		var objOne = this.initElement(
+				new Expression[] { this.createDecimalIntegerLiteral(1), this.createDecimalIntegerLiteral(2) });
+		var objTwo = this.initElement(
+				new Expression[] { this.createDecimalIntegerLiteral(2), this.createDecimalIntegerLiteral(1) });
+
+		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_SIZE__SIZES);
+	}
+
+	@Test
 	public void testSizeNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(new Expression[] { this.createDecimalIntegerLiteral(1) }),
 				new ArrayInstantiationBySizeInitialiser(), false,

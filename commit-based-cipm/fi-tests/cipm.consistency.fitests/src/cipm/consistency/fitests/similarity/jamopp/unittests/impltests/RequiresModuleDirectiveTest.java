@@ -12,7 +12,8 @@ import cipm.consistency.fitests.similarity.jamopp.unittests.UsesLiterals;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesModuleReferences;
 import cipm.consistency.initialisers.jamopp.modules.RequiresModuleDirectiveInitialiser;
 
-public class RequiresModuleDirectiveTest extends AbstractJaMoPPSimilarityTest implements UsesLiterals, UsesModuleReferences {
+public class RequiresModuleDirectiveTest extends AbstractJaMoPPSimilarityTest
+		implements UsesLiterals, UsesModuleReferences {
 	protected RequiresModuleDirective initElement(ModuleRequiresModifier modif, ModuleReference reqMod) {
 		var rmdInit = new RequiresModuleDirectiveInitialiser();
 		var rmd = rmdInit.instantiate();

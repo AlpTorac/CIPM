@@ -38,6 +38,16 @@ public class RelationExpressionTest extends AbstractJaMoPPSimilarityTest impleme
 	}
 
 	@Test
+	public void testChildPosition() {
+		this.testSimilarity(
+				this.initElement(new RelationExpressionChild[] { this.createDecimalIntegerLiteral(1),
+						this.createDecimalIntegerLiteral(2) }, null),
+				this.initElement(new RelationExpressionChild[] { this.createDecimalIntegerLiteral(2),
+						this.createDecimalIntegerLiteral(1) }, null),
+				ExpressionsPackage.Literals.RELATION_EXPRESSION__CHILDREN);
+	}
+
+	@Test
 	public void testChildNullCheck() {
 		this.testSimilarityNullCheck(
 				this.initElement(new RelationExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
@@ -57,6 +67,16 @@ public class RelationExpressionTest extends AbstractJaMoPPSimilarityTest impleme
 				this.initElement(null,
 						new RelationOperator[] { this.createGreaterThanOperator(), this.createLessThanOperator() }),
 				this.initElement(null, new RelationOperator[] { this.createGreaterThanOperator() }),
+				ExpressionsPackage.Literals.RELATION_EXPRESSION__RELATION_OPERATORS);
+	}
+
+	@Test
+	public void testRelationOperatorPosition() {
+		this.testSimilarity(
+				this.initElement(null,
+						new RelationOperator[] { this.createGreaterThanOperator(), this.createLessThanOperator() }),
+				this.initElement(null,
+						new RelationOperator[] { this.createLessThanOperator(), this.createGreaterThanOperator() }),
 				ExpressionsPackage.Literals.RELATION_EXPRESSION__RELATION_OPERATORS);
 	}
 

@@ -45,6 +45,16 @@ public class CastExpressionTest extends AbstractJaMoPPSimilarityTest implements 
 	}
 
 	@Test
+	public void testAdditionalBoundPosition() {
+		this.testSimilarity(this.initElement(
+				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") }, null),
+				this.initElement(
+						new TypeReference[] { this.createMinimalClsRef("cls2"), this.createMinimalClsRef("cls1") },
+						null),
+				ExpressionsPackage.Literals.CAST_EXPRESSION__ADDITIONAL_BOUNDS);
+	}
+
+	@Test
 	public void testAdditionalBoundNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null),
 				new CastExpressionInitialiser(), false, ExpressionsPackage.Literals.CAST_EXPRESSION__ADDITIONAL_BOUNDS);

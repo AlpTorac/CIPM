@@ -37,6 +37,14 @@ public class SwitchTest extends AbstractJaMoPPSimilarityTest implements UsesSwit
 	}
 
 	@Test
+	public void testCasePosition() {
+		var objOne = this.initElement(new SwitchCase[] { this.createEmptyNSC(), this.createMinimalNSC() }, null);
+		var objTwo = this.initElement(new SwitchCase[] { this.createMinimalNSC(), this.createEmptyNSC() }, null);
+
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.SWITCH__CASES);
+	}
+
+	@Test
 	public void testCaseNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(new SwitchCase[] { this.createEmptyNSC() }, null),
 				new SwitchInitialiser(), false, StatementsPackage.Literals.SWITCH__CASES);

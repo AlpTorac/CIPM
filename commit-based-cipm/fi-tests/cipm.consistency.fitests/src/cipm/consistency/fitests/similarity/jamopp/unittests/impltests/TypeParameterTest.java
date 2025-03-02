@@ -38,6 +38,16 @@ public class TypeParameterTest extends AbstractJaMoPPSimilarityTest implements U
 	}
 
 	@Test
+	public void testExtendTypePosition() {
+		var objOne = this.initElement(
+				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
+		var objTwo = this.initElement(
+				new TypeReference[] { this.createMinimalClsRef("cls2"), this.createMinimalClsRef("cls1") });
+
+		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.TYPE_PARAMETER__EXTEND_TYPES);
+	}
+
+	@Test
 	public void testExtendTypeNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }),
 				new TypeParameterInitialiser(), false, GenericsPackage.Literals.TYPE_PARAMETER__EXTEND_TYPES);

@@ -37,6 +37,16 @@ public class InterfaceTest extends AbstractJaMoPPSimilarityTest implements UsesT
 	}
 
 	@Test
+	public void testDefaultExtendsPosition() {
+		var objOne = this.initElement(
+				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") }, null);
+		var objTwo = this.initElement(
+				new TypeReference[] { this.createMinimalClsRef("cls2"), this.createMinimalClsRef("cls1") }, null);
+
+		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.INTERFACE__DEFAULT_EXTENDS);
+	}
+
+	@Test
 	public void testDefaultExtendsNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null),
 				new InterfaceInitialiser(), false, ClassifiersPackage.Literals.INTERFACE__DEFAULT_EXTENDS);
@@ -55,6 +65,16 @@ public class InterfaceTest extends AbstractJaMoPPSimilarityTest implements UsesT
 		var objOne = this.initElement(null,
 				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
 		var objTwo = this.initElement(null, new TypeReference[] { this.createMinimalClsRef("cls1") });
+
+		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.INTERFACE__EXTENDS);
+	}
+
+	@Test
+	public void testExtendsPosition() {
+		var objOne = this.initElement(null,
+				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
+		var objTwo = this.initElement(null,
+				new TypeReference[] { this.createMinimalClsRef("cls2"), this.createMinimalClsRef("cls1") });
 
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.INTERFACE__EXTENDS);
 	}

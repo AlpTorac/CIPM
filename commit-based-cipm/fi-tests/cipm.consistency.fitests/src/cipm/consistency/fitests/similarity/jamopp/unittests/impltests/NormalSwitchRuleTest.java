@@ -35,6 +35,14 @@ public class NormalSwitchRuleTest extends AbstractJaMoPPSimilarityTest implement
 	}
 
 	@Test
+	public void testAdditionalConditionPosition() {
+		var objOne = this.initElement(new Expression[] { this.createMinimalFalseEE(), this.createMinimalTrueNEE() });
+		var objTwo = this.initElement(new Expression[] { this.createMinimalTrueNEE(), this.createMinimalFalseEE() });
+
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.NORMAL_SWITCH_RULE__ADDITIONAL_CONDITIONS);
+	}
+
+	@Test
 	public void testAdditionalConditionNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(new Expression[] { this.createMinimalFalseEE() }),
 				new NormalSwitchRuleInitialiser(), false,

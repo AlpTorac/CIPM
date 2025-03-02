@@ -38,6 +38,16 @@ public class AdditiveExpressionTest extends AbstractJaMoPPSimilarityTest impleme
 	}
 
 	@Test
+	public void testChildPosition() {
+		this.testSimilarity(
+				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(1),
+						this.createDecimalIntegerLiteral(2) }, null),
+				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(2),
+						this.createDecimalIntegerLiteral(1) }, null),
+				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__CHILDREN);
+	}
+
+	@Test
 	public void testChildNullCheck() {
 		this.testSimilarityNullCheck(
 				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
@@ -57,6 +67,16 @@ public class AdditiveExpressionTest extends AbstractJaMoPPSimilarityTest impleme
 				this.initElement(null,
 						new AdditiveOperator[] { this.createAdditionOperator(), this.createSubtractionOperator() }),
 				this.initElement(null, new AdditiveOperator[] { this.createAdditionOperator() }),
+				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__ADDITIVE_OPERATORS);
+	}
+
+	@Test
+	public void testAdditiveOperatorPosition() {
+		this.testSimilarity(
+				this.initElement(null,
+						new AdditiveOperator[] { this.createAdditionOperator(), this.createSubtractionOperator() }),
+				this.initElement(null,
+						new AdditiveOperator[] { this.createSubtractionOperator(), this.createAdditionOperator() }),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__ADDITIVE_OPERATORS);
 	}
 

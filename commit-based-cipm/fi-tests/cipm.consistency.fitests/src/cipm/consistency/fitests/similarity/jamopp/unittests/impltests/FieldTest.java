@@ -36,6 +36,16 @@ public class FieldTest extends AbstractJaMoPPSimilarityTest implements UsesAddit
 	}
 
 	@Test
+	public void testAdditionalFieldPosition() {
+		var objOne = this
+				.initElement(new AdditionalField[] { this.createMinimalAF("af1"), this.createMinimalAF("af2") });
+		var objTwo = this
+				.initElement(new AdditionalField[] { this.createMinimalAF("af2"), this.createMinimalAF("af1") });
+
+		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.FIELD__ADDITIONAL_FIELDS);
+	}
+
+	@Test
 	public void testAdditionalFieldNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(new AdditionalField[] { this.createMinimalAF("af1") }),
 				new FieldInitialiser(), false, MembersPackage.Literals.FIELD__ADDITIONAL_FIELDS);

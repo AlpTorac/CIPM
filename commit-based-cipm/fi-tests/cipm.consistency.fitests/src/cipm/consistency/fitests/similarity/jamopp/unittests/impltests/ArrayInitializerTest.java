@@ -36,6 +36,16 @@ public class ArrayInitializerTest extends AbstractJaMoPPSimilarityTest implement
 	}
 
 	@Test
+	public void testInitialValuesPosition() {
+		var objOne = this.initElement(new ArrayInitializationValue[] { this.createDecimalIntegerLiteral(1),
+				this.createDecimalIntegerLiteral(2) });
+		var objTwo = this.initElement(new ArrayInitializationValue[] { this.createDecimalIntegerLiteral(2),
+				this.createDecimalIntegerLiteral(1) });
+
+		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_INITIALIZER__INITIAL_VALUES);
+	}
+
+	@Test
 	public void testInitialValuesNullCheck() {
 		this.testSimilarityNullCheck(
 				this.initElement(new ArrayInitializationValue[] { this.createDecimalIntegerLiteral(1) }),

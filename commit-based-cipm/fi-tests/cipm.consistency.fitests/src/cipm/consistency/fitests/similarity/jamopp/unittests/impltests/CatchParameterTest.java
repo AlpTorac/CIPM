@@ -36,6 +36,16 @@ public class CatchParameterTest extends AbstractJaMoPPSimilarityTest implements 
 	}
 
 	@Test
+	public void testTypeReferencePosition() {
+		var objOne = this.initElement(
+				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
+		var objTwo = this.initElement(
+				new TypeReference[] { this.createMinimalClsRef("cls2"), this.createMinimalClsRef("cls1") });
+
+		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.CATCH_PARAMETER__TYPE_REFERENCES);
+	}
+
+	@Test
 	public void testTypeReferenceNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }),
 				new CatchParameterInitialiser(), false, ParametersPackage.Literals.CATCH_PARAMETER__TYPE_REFERENCES);

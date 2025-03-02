@@ -35,6 +35,14 @@ public class ExpressionListTest extends AbstractJaMoPPSimilarityTest implements 
 	}
 
 	@Test
+	public void testExpressionPosition() {
+		var objOne = this.initElement(new Expression[] { this.createMinimalFalseEE(), this.createMinimalTrueNEE() });
+		var objTwo = this.initElement(new Expression[] { this.createMinimalTrueNEE(), this.createMinimalFalseEE() });
+
+		this.testSimilarity(objOne, objTwo, ExpressionsPackage.Literals.EXPRESSION_LIST__EXPRESSIONS);
+	}
+
+	@Test
 	public void testExpressionNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(new Expression[] { this.createMinimalFalseEE() }),
 				new ExpressionListInitialiser(), false, ExpressionsPackage.Literals.EXPRESSION_LIST__EXPRESSIONS);

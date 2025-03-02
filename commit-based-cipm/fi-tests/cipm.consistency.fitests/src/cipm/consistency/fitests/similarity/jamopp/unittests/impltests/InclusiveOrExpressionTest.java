@@ -35,6 +35,16 @@ public class InclusiveOrExpressionTest extends AbstractJaMoPPSimilarityTest impl
 	}
 
 	@Test
+	public void testChildPosition() {
+		this.testSimilarity(
+				this.initElement(new InclusiveOrExpressionChild[] { this.createDecimalIntegerLiteral(1),
+						this.createDecimalIntegerLiteral(2) }),
+				this.initElement(new InclusiveOrExpressionChild[] { this.createDecimalIntegerLiteral(2),
+						this.createDecimalIntegerLiteral(1) }),
+				ExpressionsPackage.Literals.INCLUSIVE_OR_EXPRESSION__CHILDREN);
+	}
+
+	@Test
 	public void testChildNullCheck() {
 		this.testSimilarityNullCheck(
 				this.initElement(new InclusiveOrExpressionChild[] { this.createDecimalIntegerLiteral(1) }),

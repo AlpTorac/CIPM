@@ -36,6 +36,16 @@ public class EnumerationTest extends AbstractJaMoPPSimilarityTest implements Use
 	}
 
 	@Test
+	public void testConstantPosition() {
+		var objOne = this.initElement(
+				new EnumConstant[] { this.createMinimalEnumConstant("cst1"), this.createMinimalEnumConstant("cst2") });
+		var objTwo = this.initElement(
+				new EnumConstant[] { this.createMinimalEnumConstant("cst2"), this.createMinimalEnumConstant("cst1") });
+
+		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.ENUMERATION__CONSTANTS);
+	}
+
+	@Test
 	public void testConstantNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(new EnumConstant[] { this.createMinimalEnumConstant("cst1") }),
 				new EnumerationInitialiser(), false, ClassifiersPackage.Literals.ENUMERATION__CONSTANTS);

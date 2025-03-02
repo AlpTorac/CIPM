@@ -57,6 +57,17 @@ public class NamespaceClassifierReferenceTest extends AbstractJaMoPPSimilarityTe
 	}
 
 	@Test
+	public void testClassifierReferencePosition() {
+		var objOne = this.initElement(null,
+				new ClassifierReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
+		var objTwo = this.initElement(null,
+				new ClassifierReference[] { this.createMinimalClsRef("cls2"), this.createMinimalClsRef("cls1") });
+
+		this.testSimilarity(objOne, objTwo,
+				TypesPackage.Literals.NAMESPACE_CLASSIFIER_REFERENCE__CLASSIFIER_REFERENCES);
+	}
+
+	@Test
 	public void testClassifierReferenceNullCheck() {
 		this.testSimilarityNullCheck(
 				this.initElement(null, new ClassifierReference[] { this.createMinimalClsRef("cls1") }),

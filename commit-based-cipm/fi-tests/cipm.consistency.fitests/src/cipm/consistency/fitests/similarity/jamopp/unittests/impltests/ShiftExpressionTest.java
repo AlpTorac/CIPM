@@ -37,6 +37,16 @@ public class ShiftExpressionTest extends AbstractJaMoPPSimilarityTest implements
 	}
 
 	@Test
+	public void testChildPosition() {
+		this.testSimilarity(
+				this.initElement(new ShiftExpressionChild[] { this.createDecimalIntegerLiteral(1),
+						this.createDecimalIntegerLiteral(2) }, null),
+				this.initElement(new ShiftExpressionChild[] { this.createDecimalIntegerLiteral(2),
+						this.createDecimalIntegerLiteral(1) }, null),
+				ExpressionsPackage.Literals.SHIFT_EXPRESSION__CHILDREN);
+	}
+
+	@Test
 	public void testChildNullCheck() {
 		this.testSimilarityNullCheck(
 				this.initElement(new ShiftExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
@@ -56,6 +66,16 @@ public class ShiftExpressionTest extends AbstractJaMoPPSimilarityTest implements
 				this.initElement(null,
 						new ShiftOperator[] { this.createLeftShiftOperator(), this.createRightShiftOperator() }),
 				this.initElement(null, new ShiftOperator[] { this.createLeftShiftOperator() }),
+				ExpressionsPackage.Literals.SHIFT_EXPRESSION__SHIFT_OPERATORS);
+	}
+
+	@Test
+	public void testShiftOperatorPosition() {
+		this.testSimilarity(
+				this.initElement(null,
+						new ShiftOperator[] { this.createLeftShiftOperator(), this.createRightShiftOperator() }),
+				this.initElement(null,
+						new ShiftOperator[] { this.createRightShiftOperator(), this.createLeftShiftOperator() }),
 				ExpressionsPackage.Literals.SHIFT_EXPRESSION__SHIFT_OPERATORS);
 	}
 

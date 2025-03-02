@@ -14,7 +14,8 @@ import cipm.consistency.fitests.similarity.jamopp.unittests.UsesLocalVariables;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
 import cipm.consistency.initialisers.jamopp.statements.TryBlockInitialiser;
 
-public class TryBlockTest extends AbstractJaMoPPSimilarityTest implements UsesCatchBlocks, UsesStatements, UsesLocalVariables {
+public class TryBlockTest extends AbstractJaMoPPSimilarityTest
+		implements UsesCatchBlocks, UsesStatements, UsesLocalVariables {
 	protected TryBlock initElement(Resource[] ress, CatchBlock[] catchBlocks, Block finallyBlock) {
 		var tbInit = new TryBlockInitialiser();
 		var tb = tbInit.instantiate();
@@ -42,6 +43,16 @@ public class TryBlockTest extends AbstractJaMoPPSimilarityTest implements UsesCa
 	}
 
 	@Test
+	public void testResourcePosition() {
+		var objOne = this.initElement(new Resource[] { this.createMinimalLV("lv1"), this.createMinimalLV("lv2") }, null,
+				null);
+		var objTwo = this.initElement(new Resource[] { this.createMinimalLV("lv2"), this.createMinimalLV("lv1") }, null,
+				null);
+
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__RESOURCES);
+	}
+
+	@Test
 	public void testResourceNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(new Resource[] { this.createMinimalLV("lv1") }, null, null),
 				new TryBlockInitialiser(), false, StatementsPackage.Literals.TRY_BLOCK__RESOURCES);
@@ -60,6 +71,16 @@ public class TryBlockTest extends AbstractJaMoPPSimilarityTest implements UsesCa
 		var objOne = this.initElement(null,
 				new CatchBlock[] { this.createMinimalCB("p1", "t1"), this.createMinimalCB("p2", "t2") }, null);
 		var objTwo = this.initElement(null, new CatchBlock[] { this.createMinimalCB("p1", "t1") }, null);
+
+		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__CATCH_BLOCKS);
+	}
+
+	@Test
+	public void testCatchBlockPosition() {
+		var objOne = this.initElement(null,
+				new CatchBlock[] { this.createMinimalCB("p1", "t1"), this.createMinimalCB("p2", "t2") }, null);
+		var objTwo = this.initElement(null,
+				new CatchBlock[] { this.createMinimalCB("p2", "t2"), this.createMinimalCB("p1", "t1") }, null);
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__CATCH_BLOCKS);
 	}

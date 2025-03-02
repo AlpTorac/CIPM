@@ -38,6 +38,16 @@ public class EqualityExpressionTest extends AbstractJaMoPPSimilarityTest impleme
 	}
 
 	@Test
+	public void testChildPosition() {
+		this.testSimilarity(
+				this.initElement(new EqualityExpressionChild[] { this.createDecimalIntegerLiteral(1),
+						this.createDecimalIntegerLiteral(2) }, null),
+				this.initElement(new EqualityExpressionChild[] { this.createDecimalIntegerLiteral(2),
+						this.createDecimalIntegerLiteral(1) }, null),
+				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__CHILDREN);
+	}
+
+	@Test
 	public void testChildNullCheck() {
 		this.testSimilarityNullCheck(
 				this.initElement(new EqualityExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
@@ -57,6 +67,16 @@ public class EqualityExpressionTest extends AbstractJaMoPPSimilarityTest impleme
 				this.initElement(null,
 						new EqualityOperator[] { this.createEqualityOperator(), this.createNotEqualOperator() }),
 				this.initElement(null, new EqualityOperator[] { this.createEqualityOperator() }),
+				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__EQUALITY_OPERATORS);
+	}
+
+	@Test
+	public void testEqualityOperatorPosition() {
+		this.testSimilarity(
+				this.initElement(null,
+						new EqualityOperator[] { this.createEqualityOperator(), this.createNotEqualOperator() }),
+				this.initElement(null,
+						new EqualityOperator[] { this.createNotEqualOperator(), this.createEqualityOperator() }),
 				ExpressionsPackage.Literals.EQUALITY_EXPRESSION__EQUALITY_OPERATORS);
 	}
 

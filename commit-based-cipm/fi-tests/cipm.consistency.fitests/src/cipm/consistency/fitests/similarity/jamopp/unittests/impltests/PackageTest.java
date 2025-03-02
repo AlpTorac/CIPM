@@ -54,6 +54,16 @@ public class PackageTest extends AbstractJaMoPPSimilarityTest implements UsesMod
 	}
 
 	@Test
+	public void testClassifiersPosition() {
+		var objOne = this.initElement(null,
+				new ConcreteClassifier[] { this.createMinimalClass("cls1"), this.createMinimalClass("cls2") });
+		var objTwo = this.initElement(null,
+				new ConcreteClassifier[] { this.createMinimalClass("cls2"), this.createMinimalClass("cls1") });
+
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.PACKAGE__CLASSIFIERS);
+	}
+
+	@Test
 	public void testClassifiersNullCheck() {
 		this.testSimilarityNullCheck(
 				this.initElement(null, new ConcreteClassifier[] { this.createMinimalClass("cls1") }),

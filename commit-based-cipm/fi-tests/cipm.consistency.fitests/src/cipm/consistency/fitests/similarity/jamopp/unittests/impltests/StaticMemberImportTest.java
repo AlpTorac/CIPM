@@ -36,6 +36,16 @@ public class StaticMemberImportTest extends AbstractJaMoPPSimilarityTest impleme
 	}
 
 	@Test
+	public void testStaticMemberPosition() {
+		var objOne = this.initElement(new ReferenceableElement[] { this.createMinimalClsMethodWithNullReturn("met1"),
+				this.createMinimalClsMethodWithNullReturn("met2") });
+		var objTwo = this.initElement(new ReferenceableElement[] { this.createMinimalClsMethodWithNullReturn("met2"),
+				this.createMinimalClsMethodWithNullReturn("met1") });
+
+		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.STATIC_MEMBER_IMPORT__STATIC_MEMBERS);
+	}
+
+	@Test
 	public void testStaticMemberNullCheck() {
 		this.testSimilarityNullCheck(
 				this.initElement(new ReferenceableElement[] { this.createMinimalClsMethodWithNullReturn("met1") }),

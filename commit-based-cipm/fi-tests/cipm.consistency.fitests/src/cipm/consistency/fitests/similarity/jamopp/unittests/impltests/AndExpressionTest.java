@@ -34,6 +34,15 @@ public class AndExpressionTest extends AbstractJaMoPPSimilarityTest implements U
 	}
 
 	@Test
+	public void testChildPosition() {
+		this.testSimilarity(this.initElement(
+				new AndExpressionChild[] { this.createDecimalIntegerLiteral(1), this.createDecimalIntegerLiteral(2) }),
+				this.initElement(new AndExpressionChild[] { this.createDecimalIntegerLiteral(2),
+						this.createDecimalIntegerLiteral(1) }),
+				ExpressionsPackage.Literals.AND_EXPRESSION__CHILDREN);
+	}
+
+	@Test
 	public void testChildNullCheck() {
 		this.testSimilarityNullCheck(this.initElement(new AndExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
 				new AndExpressionInitialiser(), false, ExpressionsPackage.Literals.AND_EXPRESSION__CHILDREN);

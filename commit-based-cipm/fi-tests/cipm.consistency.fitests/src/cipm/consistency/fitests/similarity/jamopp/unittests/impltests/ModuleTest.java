@@ -59,6 +59,16 @@ public class ModuleTest extends AbstractJaMoPPSimilarityTest implements UsesModu
 	}
 
 	@Test
+	public void testPackagesPosition() {
+		var objOne = this.initElement(new Package[] { this.createMinimalPackage(new String[] { "ns1" }),
+				this.createMinimalPackage(new String[] { "ns2" }) }, null, false);
+		var objTwo = this.initElement(new Package[] { this.createMinimalPackage(new String[] { "ns2" }),
+				this.createMinimalPackage(new String[] { "ns1" }) }, null, false);
+
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__PACKAGES);
+	}
+
+	@Test
 	public void testPackagesNullCheck() {
 		this.testSimilarityNullCheck(
 				this.initElement(new Package[] { this.createMinimalPackage(new String[] { "ns1" }) }, null, false),
@@ -81,6 +91,16 @@ public class ModuleTest extends AbstractJaMoPPSimilarityTest implements UsesModu
 				this.createMinimalEMD(new String[] { "ns2" }) }, false);
 		var objTwo = this.initElement(null, new ModuleDirective[] { this.createMinimalEMD(new String[] { "ns1" }) },
 				false);
+
+		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__TARGET);
+	}
+
+	@Test
+	public void testTargetsPosition() {
+		var objOne = this.initElement(null, new ModuleDirective[] { this.createMinimalEMD(new String[] { "ns1" }),
+				this.createMinimalEMD(new String[] { "ns2" }) }, false);
+		var objTwo = this.initElement(null, new ModuleDirective[] { this.createMinimalEMD(new String[] { "ns2" }),
+				this.createMinimalEMD(new String[] { "ns1" }) }, false);
 
 		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__TARGET);
 	}
