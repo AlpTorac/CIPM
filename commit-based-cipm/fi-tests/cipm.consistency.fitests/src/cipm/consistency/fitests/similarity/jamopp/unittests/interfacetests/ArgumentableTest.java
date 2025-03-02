@@ -18,11 +18,11 @@ import cipm.consistency.initialisers.jamopp.references.IArgumentableInitialiser;
 
 public class ArgumentableTest extends AbstractJaMoPPSimilarityTest
 		implements UsesConcreteClassifiers, UsesExpressions, UsesLiterals {
-	
+
 	private static Stream<Arguments> provideArguments() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IArgumentableInitialiser.class);
 	}
-	
+
 	protected Argumentable initElement(IArgumentableInitialiser init, Expression[] args) {
 		var result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
@@ -45,6 +45,17 @@ public class ArgumentableTest extends AbstractJaMoPPSimilarityTest
 		var objOne = this.initElement(init,
 				new Expression[] { this.createDecimalIntegerLiteral(1), this.createDecimalIntegerLiteral(2) });
 		var objTwo = this.initElement(init, new Expression[] { this.createDecimalIntegerLiteral(1) });
+
+		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
+	public void testArgumentsPosition(IArgumentableInitialiser init, String displayName) {
+		var objOne = this.initElement(init,
+				new Expression[] { this.createDecimalIntegerLiteral(1), this.createDecimalIntegerLiteral(2) });
+		var objTwo = this.initElement(init,
+				new Expression[] { this.createDecimalIntegerLiteral(2), this.createDecimalIntegerLiteral(1) });
 
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS);
 	}

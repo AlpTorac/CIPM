@@ -56,6 +56,16 @@ public class AnnotableAndModifiableTest extends AbstractJaMoPPSimilarityTest
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
+	public void testModifierPosition(IAnnotableAndModifiableInitialiser init, String displayName) {
+		var objOne = this.initElement(init, new Modifier[] { this.createAbstract(), this.createSynchronized() }, null);
+		var objTwo = this.initElement(init, new Modifier[] { this.createSynchronized(), this.createAbstract() }, null);
+
+		this.testSimilarity(objOne, objTwo,
+				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
 	public void testModifierNullCheck(IAnnotableAndModifiableInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(this.initElement(init, new Modifier[] { this.createAbstract() }, null), init, true,
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
@@ -77,10 +87,24 @@ public class AnnotableAndModifiableTest extends AbstractJaMoPPSimilarityTest
 	@MethodSource("provideArguments")
 	public void testAnnotationInstanceSize(IAnnotableAndModifiableInitialiser init, String displayName) {
 		var objOne = this.initElement(init, null,
-				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") });
-		var objTwo = this.initElement(init, null,
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1"),
 						this.createMinimalAI(new String[] { "ns2" }, "anno2") });
+		var objTwo = this.initElement(init, null,
+				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") });
+
+		this.testSimilarity(objOne, objTwo,
+				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
+	public void testAnnotationInstancePosition(IAnnotableAndModifiableInitialiser init, String displayName) {
+		var objOne = this.initElement(init, null,
+				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1"),
+						this.createMinimalAI(new String[] { "ns2" }, "anno2") });
+		var objTwo = this.initElement(init, null,
+				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns2" }, "anno2"),
+						this.createMinimalAI(new String[] { "ns1" }, "anno1"), });
 
 		this.testSimilarity(objOne, objTwo,
 				ModifiersPackage.Literals.ANNOTABLE_AND_MODIFIABLE__ANNOTATIONS_AND_MODIFIERS);

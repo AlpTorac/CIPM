@@ -48,6 +48,17 @@ public class CallTypeArgumentableTest extends AbstractJaMoPPSimilarityTest imple
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
+	public void testCallTypeArgumentsPosition(ICallTypeArgumentableInitialiser init, String displayName) {
+		var objOne = this.initElement(init, new TypeArgument[] { this.createMinimalExtendsTAWithCls("cls1"),
+				this.createMinimalExtendsTAWithCls("cls2") });
+		var objTwo = this.initElement(init, new TypeArgument[] { this.createMinimalExtendsTAWithCls("cls2"),
+				this.createMinimalExtendsTAWithCls("cls1") });
+
+		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.CALL_TYPE_ARGUMENTABLE__CALL_TYPE_ARGUMENTS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
 	public void testCallTypeArgumentsNullCheck(ICallTypeArgumentableInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(
 				this.initElement(init, new TypeArgument[] { this.createMinimalExtendsTAWithCls("cls1") }), init, true,

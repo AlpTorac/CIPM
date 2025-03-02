@@ -47,6 +47,15 @@ public class ModifiableTest extends AbstractJaMoPPSimilarityTest implements Uses
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
+	public void testModifierPosition(IModifiableInitialiser init, String displayName) {
+		var objOne = this.initElement(init, new Modifier[] { this.createFinal(), this.createAbstract() });
+		var objTwo = this.initElement(init, new Modifier[] { this.createAbstract(), this.createFinal() });
+
+		this.testSimilarity(objOne, objTwo, ModifiersPackage.Literals.MODIFIABLE__MODIFIERS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
 	public void testModifierNullCheck(IModifiableInitialiser init, String displayName) {
 		var objOne = this.initElement(init, new Modifier[] { this.createFinal() });
 		var objTwo = init.instantiate();

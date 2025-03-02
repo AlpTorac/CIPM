@@ -15,11 +15,11 @@ import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
 import cipm.consistency.initialisers.jamopp.statements.IBlockContainerInitialiser;
 
 public class BlockContainerTest extends AbstractJaMoPPSimilarityTest implements UsesStatements {
-	
+
 	private static Stream<Arguments> provideArguments() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IBlockContainerInitialiser.class);
 	}
-	
+
 	protected BlockContainer initElement(IBlockContainerInitialiser init, Block bl) {
 		BlockContainer result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));

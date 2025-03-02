@@ -65,6 +65,19 @@ public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements Uses
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
+	public void testImportsPosition(IClassifierInitialiser init, String displayName) {
+		var objOne = this.initElement(init,
+				new Import[] { this.createMinimalClsImport("cls1"), this.createMinimalClsImport("cls2") }, null);
+		var objTwo = this.initElement(init,
+				new Import[] { this.createMinimalClsImport("cls2"), this.createMinimalClsImport("cls1") }, null);
+
+		this.testSimilarity(objOne, objTwo,
+				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
+						|| (!init.canAddImports(objOne) && !init.canAddImports(objTwo)));
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
 	public void testImportsNullCheck(IClassifierInitialiser init, String displayName) {
 		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }, null);
 
@@ -97,6 +110,21 @@ public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements Uses
 						this.createMinimalPackageImport(new String[] { "ns3", "ns4" }) });
 		var objTwo = this.initElement(init, null,
 				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }) });
+
+		this.testSimilarity(objOne, objTwo,
+				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
+						|| (!init.canAddImports(objOne) && !init.canAddImports(objTwo)));
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
+	public void testPackageImportsPosition(IClassifierInitialiser init, String displayName) {
+		var objOne = this.initElement(init, null,
+				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }),
+						this.createMinimalPackageImport(new String[] { "ns3", "ns4" }) });
+		var objTwo = this.initElement(init, null,
+				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns3", "ns4" }),
+						this.createMinimalPackageImport(new String[] { "ns1", "ns2" }) });
 
 		this.testSimilarity(objOne, objTwo,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()

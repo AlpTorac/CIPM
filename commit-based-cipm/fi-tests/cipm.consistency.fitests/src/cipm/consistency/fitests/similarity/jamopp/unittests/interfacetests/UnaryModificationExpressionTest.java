@@ -18,7 +18,8 @@ import cipm.consistency.initialisers.jamopp.expressions.IUnaryModificationExpres
 public class UnaryModificationExpressionTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IUnaryModificationExpressionInitialiser.class);
+		return AbstractJaMoPPSimilarityTest
+				.getAllInitialiserArgumentsFor(IUnaryModificationExpressionInitialiser.class);
 	}
 
 	protected UnaryModificationExpression initElement(IUnaryModificationExpressionInitialiser init,

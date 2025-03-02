@@ -49,6 +49,17 @@ public class ExceptionThrowerTest extends AbstractJaMoPPSimilarityTest implement
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
+	public void testExceptionsPosition(IExceptionThrowerInitialiser init, String displayName) {
+		var objOne = this.initElement(init,
+				new NamespaceClassifierReference[] { this.createMinimalCNR("cls1"), this.createMinimalCNR("cls2") });
+		var objTwo = this.initElement(init,
+				new NamespaceClassifierReference[] { this.createMinimalCNR("cls2"), this.createMinimalCNR("cls1") });
+
+		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.EXCEPTION_THROWER__EXCEPTIONS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
 	public void testExceptionsNullCheck(IExceptionThrowerInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(
 				this.initElement(init, new NamespaceClassifierReference[] { this.createMinimalCNR("cls1") }), init,

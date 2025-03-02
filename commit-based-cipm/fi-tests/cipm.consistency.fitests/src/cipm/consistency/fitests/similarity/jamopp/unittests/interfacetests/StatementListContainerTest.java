@@ -59,6 +59,19 @@ public class StatementListContainerTest extends AbstractJaMoPPSimilarityTest imp
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
+	public void testStatementsPosition(IStatementListContainerInitialiser init, String displayName) {
+		var objOne = this.initElement(init,
+				new Statement[] { this.createMinimalTrivialAssert(), this.createMinimalNullReturn() });
+		var objTwo = this.initElement(init,
+				new Statement[] { this.createMinimalNullReturn(), this.createMinimalTrivialAssert() });
+
+		this.testSimilarity(objOne, objTwo,
+				this.getExpectedSimilarityResult(StatementsPackage.Literals.BLOCK__STATEMENTS).booleanValue()
+						|| (!init.canContainStatements(objOne) && !init.canContainStatements(objTwo)));
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
 	public void testStatementsNullCheck(IStatementListContainerInitialiser init, String displayName) {
 		var objOne = this.initElement(init, new Statement[] { this.createMinimalNullReturn() });
 

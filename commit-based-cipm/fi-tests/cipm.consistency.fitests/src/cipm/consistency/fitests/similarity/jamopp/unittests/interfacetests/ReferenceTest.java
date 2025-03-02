@@ -66,6 +66,17 @@ public class ReferenceTest extends AbstractJaMoPPSimilarityTest implements UsesR
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
+	public void testArraySelectorPosition(IReferenceInitialiser init, String displayName) {
+		var objOne = this.initElement(init, null,
+				new ArraySelector[] { this.createMinimalAS(0), this.createMinimalAS(1) });
+		var objTwo = this.initElement(init, null,
+				new ArraySelector[] { this.createMinimalAS(1), this.createMinimalAS(0) });
+
+		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
 	public void testArraySelectorNullCheck(IReferenceInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(0) }),
 				init, true, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);

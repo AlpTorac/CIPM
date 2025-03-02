@@ -52,6 +52,17 @@ public class MemberContainerTest extends AbstractJaMoPPSimilarityTest
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
+	public void testMemberPosition(IMemberContainerInitialiser init, String displayName) {
+		var objOne = this.initElement(init,
+				new Member[] { this.createMinimalClass("cls1"), this.createMinimalClass("cls2") }, null);
+		var objTwo = this.initElement(init,
+				new Member[] { this.createMinimalClass("cls2"), this.createMinimalClass("cls1") }, null);
+
+		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
 	public void testMemberNullCheck(IMemberContainerInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(this.initElement(init, new Member[] { this.createMinimalClass("cls1") }, null),
 				init, true, MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
@@ -72,6 +83,17 @@ public class MemberContainerTest extends AbstractJaMoPPSimilarityTest
 		var objOne = this.initElement(init, null,
 				new Member[] { this.createMinimalClass("cls1"), this.createMinimalClass("cls2") });
 		var objTwo = this.initElement(init, null, new Member[] { this.createMinimalClass("cls1") });
+
+		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
+	public void testDefaultMemberPosition(IMemberContainerInitialiser init, String displayName) {
+		var objOne = this.initElement(init, null,
+				new Member[] { this.createMinimalClass("cls1"), this.createMinimalClass("cls2") });
+		var objTwo = this.initElement(init, null,
+				new Member[] { this.createMinimalClass("cls2"), this.createMinimalClass("cls1") });
 
 		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
 	}

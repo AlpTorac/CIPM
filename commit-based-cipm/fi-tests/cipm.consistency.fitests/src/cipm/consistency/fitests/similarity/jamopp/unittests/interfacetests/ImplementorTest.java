@@ -48,6 +48,17 @@ public class ImplementorTest extends AbstractJaMoPPSimilarityTest implements Use
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
+	public void testImplementsPosition(IImplementorInitialiser init, String displayName) {
+		var objOne = this.initElement(init,
+				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
+		var objTwo = this.initElement(init,
+				new TypeReference[] { this.createMinimalClsRef("cls2"), this.createMinimalClsRef("cls1") });
+
+		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
 	public void testImplementsNullCheck(IImplementorInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") }),
 				init, true, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);

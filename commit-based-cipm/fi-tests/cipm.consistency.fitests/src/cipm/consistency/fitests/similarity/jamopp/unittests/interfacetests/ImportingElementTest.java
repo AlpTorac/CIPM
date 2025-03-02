@@ -49,6 +49,17 @@ public class ImportingElementTest extends AbstractJaMoPPSimilarityTest implement
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
+	public void testImportsPosition(IImportingElementInitialiser init, String displayName) {
+		var objOne = this.initElement(init,
+				new Import[] { this.createMinimalClsImport("cls1"), this.createMinimalClsImport("cls2") });
+		var objTwo = this.initElement(init,
+				new Import[] { this.createMinimalClsImport("cls2"), this.createMinimalClsImport("cls1") });
+
+		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
 	public void testImportsNullCheck(IImportingElementInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }), init,
 				true, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);

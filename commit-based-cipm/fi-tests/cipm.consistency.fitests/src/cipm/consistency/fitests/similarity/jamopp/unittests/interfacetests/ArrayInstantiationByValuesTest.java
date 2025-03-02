@@ -17,11 +17,11 @@ import cipm.consistency.initialisers.jamopp.arrays.IArrayInstantiationByValuesIn
 
 public class ArrayInstantiationByValuesTest extends AbstractJaMoPPSimilarityTest
 		implements UsesArrayInitializers, UsesLiterals {
-	
+
 	private static Stream<Arguments> provideArguments() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IArrayInstantiationByValuesInitialiser.class);
 	}
-	
+
 	protected ArrayInstantiationByValues initElement(IArrayInstantiationByValuesInitialiser init,
 			ArrayInitializer arrInit) {
 		ArrayInstantiationByValues result = init.instantiate();

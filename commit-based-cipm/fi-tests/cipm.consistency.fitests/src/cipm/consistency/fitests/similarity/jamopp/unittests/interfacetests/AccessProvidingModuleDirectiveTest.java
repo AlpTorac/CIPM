@@ -21,7 +21,8 @@ public class AccessProvidingModuleDirectiveTest extends AbstractJaMoPPSimilarity
 		implements UsesModuleReferences, UsesPackages {
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IAccessProvidingModuleDirectiveInitialiser.class);
+		return AbstractJaMoPPSimilarityTest
+				.getAllInitialiserArgumentsFor(IAccessProvidingModuleDirectiveInitialiser.class);
 	}
 
 	protected AccessProvidingModuleDirective initElement(IAccessProvidingModuleDirectiveInitialiser init,
@@ -48,6 +49,17 @@ public class AccessProvidingModuleDirectiveTest extends AbstractJaMoPPSimilarity
 		var objOne = this.initElement(init,
 				new ModuleReference[] { this.createMinimalMR("mod1"), this.createMinimalMR("mod2") }, null);
 		var objTwo = this.initElement(init, new ModuleReference[] { this.createMinimalMR("mod1") }, null);
+
+		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__MODULES);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
+	public void testModulePosition(IAccessProvidingModuleDirectiveInitialiser init, String displayName) {
+		var objOne = this.initElement(init,
+				new ModuleReference[] { this.createMinimalMR("mod1"), this.createMinimalMR("mod2") }, null);
+		var objTwo = this.initElement(init,
+				new ModuleReference[] { this.createMinimalMR("mod2"), this.createMinimalMR("mod1") }, null);
 
 		this.testSimilarity(objOne, objTwo, ModulesPackage.Literals.ACCESS_PROVIDING_MODULE_DIRECTIVE__MODULES);
 	}

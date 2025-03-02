@@ -48,6 +48,17 @@ public class TypeArgumentableTest extends AbstractJaMoPPSimilarityTest implement
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
+	public void testTypeArgumentPosition(ITypeArgumentableInitialiser init, String displayName) {
+		var objOne = this.initElement(init, new TypeArgument[] { this.createMinimalExtendsTAWithCls("cls1"),
+				this.createMinimalSuperTAWithCls("cls2") });
+		var objTwo = this.initElement(init, new TypeArgument[] { this.createMinimalSuperTAWithCls("cls2"),
+				this.createMinimalExtendsTAWithCls("cls1") });
+
+		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.TYPE_ARGUMENTABLE__TYPE_ARGUMENTS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
 	public void testTypeArgumentNullCheck(ITypeArgumentableInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(
 				this.initElement(init, new TypeArgument[] { this.createMinimalExtendsTAWithCls("cls1") }), init, true,

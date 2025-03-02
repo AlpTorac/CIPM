@@ -48,6 +48,17 @@ public class TypeParametrizableTest extends AbstractJaMoPPSimilarityTest impleme
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
+	public void testTypeParametersPosition(ITypeParametrizableInitialiser init, String displayName) {
+		var objOne = this.initElement(init, new TypeParameter[] { this.createMinimalTypeParamWithClsRef("cls1"),
+				this.createMinimalTypeParamWithClsRef("cls2") });
+		var objTwo = this.initElement(init, new TypeParameter[] { this.createMinimalTypeParamWithClsRef("cls2"),
+				this.createMinimalTypeParamWithClsRef("cls1") });
+
+		this.testSimilarity(objOne, objTwo, GenericsPackage.Literals.TYPE_PARAMETRIZABLE__TYPE_PARAMETERS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
 	public void testTypeParametersNullCheck(ITypeParametrizableInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(
 				this.initElement(init, new TypeParameter[] { this.createMinimalTypeParamWithClsRef("cls1") }), init,

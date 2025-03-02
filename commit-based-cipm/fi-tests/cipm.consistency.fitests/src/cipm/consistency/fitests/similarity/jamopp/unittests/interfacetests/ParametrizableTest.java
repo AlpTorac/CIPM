@@ -48,6 +48,17 @@ public class ParametrizableTest extends AbstractJaMoPPSimilarityTest implements 
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
+	public void testParametersPosition(IParametrizableInitialiser init, String displayName) {
+		var objOne = this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p1", "t1"),
+				this.createMinimalOrdParamWithClsTarget("p2", "t2") });
+		var objTwo = this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p2", "t2"),
+				this.createMinimalOrdParamWithClsTarget("p1", "t1") });
+
+		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
 	public void testParametersNullCheck(IParametrizableInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(
 				this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p1", "t1") }), init,

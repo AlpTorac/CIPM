@@ -54,6 +54,21 @@ public class ArrayTypeableTest extends AbstractJaMoPPSimilarityTest implements U
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
+	public void testArrayDimensionsBeforePosition(IArrayTypeableInitialiser init, String displayName) {
+		var objOne = this.initElement(init,
+				new ArrayDimension[] { this.createArrayDimension(new String[] { "ns1" }, "ai1"),
+						this.createArrayDimension(new String[] { "ns2" }, "ai2") },
+				null);
+		var objTwo = this.initElement(init,
+				new ArrayDimension[] { this.createArrayDimension(new String[] { "ns2" }, "ai2"),
+						this.createArrayDimension(new String[] { "ns1" }, "ai1") },
+				null);
+
+		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_BEFORE);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
 	public void testArrayDimensionsBeforeNullCheck(IArrayTypeableInitialiser init, String displayName) {
 		this.testSimilarityNullCheck(
 				this.initElement(init,
@@ -80,6 +95,19 @@ public class ArrayTypeableTest extends AbstractJaMoPPSimilarityTest implements U
 						this.createArrayDimension(new String[] { "ns2" }, "ai2") });
 		var objTwo = this.initElement(init, null,
 				new ArrayDimension[] { this.createArrayDimension(new String[] { "ns1" }, "ai1") });
+
+		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
+	public void testArrayDimensionsAfterPosition(IArrayTypeableInitialiser init, String displayName) {
+		var objOne = this.initElement(init, null,
+				new ArrayDimension[] { this.createArrayDimension(new String[] { "ns1" }, "ai1"),
+						this.createArrayDimension(new String[] { "ns2" }, "ai2") });
+		var objTwo = this.initElement(init, null,
+				new ArrayDimension[] { this.createArrayDimension(new String[] { "ns2" }, "ai2"),
+						this.createArrayDimension(new String[] { "ns1" }, "ai1") });
 
 		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER);
 	}

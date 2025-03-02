@@ -15,11 +15,11 @@ import cipm.consistency.fitests.similarity.jamopp.unittests.UsesAnnotationInstan
 import cipm.consistency.initialisers.jamopp.annotations.IAnnotableInitialiser;
 
 public class AnnotableTest extends AbstractJaMoPPSimilarityTest implements UsesAnnotationInstances {
-	
+
 	private static Stream<Arguments> provideArguments() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IAnnotableInitialiser.class);
 	}
-	
+
 	protected Annotable initElement(IAnnotableInitialiser init, AnnotationInstance[] annotations) {
 		Annotable result = init.instantiate();
 		Assertions.assertTrue(init.initialise(result));
@@ -46,6 +46,19 @@ public class AnnotableTest extends AbstractJaMoPPSimilarityTest implements UsesA
 						this.createMinimalAI(new String[] { "ns2" }, "anno2") });
 		var objTwo = this.initElement(init,
 				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1") });
+
+		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTABLE__ANNOTATIONS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
+	public void testAnnotationPosition(IAnnotableInitialiser init, String displayName) {
+		var objOne = this.initElement(init,
+				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns1" }, "anno1"),
+						this.createMinimalAI(new String[] { "ns2" }, "anno2") });
+		var objTwo = this.initElement(init,
+				new AnnotationInstance[] { this.createMinimalAI(new String[] { "ns2" }, "anno2"),
+						this.createMinimalAI(new String[] { "ns1" }, "anno1") });
 
 		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTABLE__ANNOTATIONS);
 	}

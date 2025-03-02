@@ -38,10 +38,21 @@ public class TypedElementExtensionTest extends AbstractJaMoPPSimilarityTest impl
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testActualTargets(ITypedElementExtensionInitialiser init, String displayName) {
+	public void testActualTargetSize(ITypedElementExtensionInitialiser init, String displayName) {
 		var objOne = this.initElement(init,
 				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
 		var objTwo = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") });
+
+		this.testSimilarity(objOne, objTwo, TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
+	public void testActualTargetPosition(ITypedElementExtensionInitialiser init, String displayName) {
+		var objOne = this.initElement(init,
+				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
+		var objTwo = this.initElement(init,
+				new TypeReference[] { this.createMinimalClsRef("cls2"), this.createMinimalClsRef("cls1") });
 
 		this.testSimilarity(objOne, objTwo, TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
 	}
