@@ -168,6 +168,8 @@ public class MemberPositionTest extends AbstractJaMoPPSimilarityTest {
 		for (var memInit : memInits) {
 			var memTestList = new ArrayList<DynamicNode>();
 			for (var memConInit : memConInits) {
+				var memConTestList = new ArrayList<DynamicNode>();
+
 				var memCon1Outer = memConInit.instantiate();
 				var memCon1Inner = memConInit.instantiate();
 				var memCon2Outer = memConInit.instantiate();
@@ -187,8 +189,18 @@ public class MemberPositionTest extends AbstractJaMoPPSimilarityTest {
 				Assertions.assertTrue(
 						memConInit.addDefaultMembers(memCon2Inner, this.createMembers(memInit, "defMem", 2)));
 
+				// No need to test if both sides neither have a nested element nor are nested in
+				// another container themselves. Such cases are already covered on other tests.
+
 				if (memConInit instanceof IMemberInitialiser) {
 					Assertions.assertTrue(memConInit.addMember(memCon1Outer, (Member) memCon1Inner));
+
+					// Only memCon1Inner nested in memCon1Outer, memCon2Inner is not nested yet
+					memConTestList.addAll(this.generateTestsFor(memConInit, memCon1Outer, memCon1Inner));
+					memConTestList.addAll(this.generateTestsFor(memConInit, memCon1Inner, memCon2Outer));
+					memConTestList.addAll(this.generateTestsFor(memConInit, memCon1Inner, memCon2Inner));
+					memConTestList.addAll(this.generateTestsFor(memConInit, memCon1Outer, memCon2Outer));
+
 					Assertions.assertTrue(memConInit.addMember(memCon2Outer, (Member) memCon2Inner));
 					this.testSimilarity(memCon1Outer, memCon1Inner, false);
 					this.testSimilarity(memCon2Outer, memCon2Inner, false);
@@ -196,8 +208,6 @@ public class MemberPositionTest extends AbstractJaMoPPSimilarityTest {
 
 				this.testSimilarity(memCon1Outer, memCon2Outer, true);
 				this.testSimilarity(memCon1Inner, memCon2Inner, true);
-
-				var memConTestList = new ArrayList<DynamicNode>();
 
 				memConTestList.addAll(this.generateTestsFor(memConInit, memCon1Outer, memCon1Inner));
 				memConTestList.addAll(this.generateTestsFor(memConInit, memCon1Outer, memCon2Outer));
@@ -254,13 +264,13 @@ public class MemberPositionTest extends AbstractJaMoPPSimilarityTest {
 		for (int i1 = 0; i1 < mems1Size; i1++) {
 			for (int i2 = i1; i2 < mems1Size; i2++) {
 
-				// Indices for default members of memCon1
-				for (int di1 = 0; di1 < defMems1Size; di1++) {
-					for (int di2 = di1; di2 < defMems1Size; di2++) {
+				// Indices for ordinary members of memCon2
+				for (int j1 = 0; j1 < mems2Size; j1++) {
+					for (int j2 = j1; j2 < mems2Size; j2++) {
 
-						// Indices for ordinary members of memCon1
-						for (int j1 = 0; j1 < mems2Size; j1++) {
-							for (int j2 = j1; j2 < mems2Size; j2++) {
+						// Indices for default members of memCon1
+						for (int di1 = 0; di1 < defMems1Size; di1++) {
+							for (int di2 = di1; di2 < defMems1Size; di2++) {
 
 								// Indices for default members of memCon2
 								for (int dj1 = 0; dj1 < defMems2Size; dj1++) {
@@ -310,26 +320,22 @@ public class MemberPositionTest extends AbstractJaMoPPSimilarityTest {
 		final var defMem21 = defMems2.get(defMem21Pos);
 		final var defMem21NewPos = dj2;
 
+		final var namespaceDoesNotMatterForMems = this.getExpectedSimilarityResult(mem11,
+				CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
 		final var namespaceDoesNotMatterForDefMems = this.getExpectedSimilarityResult(defMem11,
 				CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
 
 		var sameNestingLevel = this.sameNestLevel(memCon1Clone, memCon2Clone);
 
 		/*
-		 * Members are similar only if both containers are nested the same way, because
-		 * otherwise one of the containers is an outer container and has an inner
-		 * container, which is also a member.
-		 * 
-		 * Since the containers always have to be nested the same way, this implicitly
-		 * handles cases, where namespaces could influence similarity checking.
+		 * There are member types, whose namespace becomes relevant in similarity
+		 * checking. Therefore, the container of a member being nested in another
+		 * container has to be accounted for, if its namespace is matters.
 		 */
-		final var membersSimilar = sameNestingLevel;
-		/*
-		 * Default members do not include the nested container, therefore namespaces
-		 * have to be accounted for as well. If namespaces matter, both containers have
-		 * to be nested the same way.
-		 */
-		final var defMembersSimilar = sameNestingLevel || namespaceDoesNotMatterForDefMems;
+		final var membersSimilar = (sameNestingLevel || namespaceDoesNotMatterForMems)
+				&& (mems1.size() == mems2.size());
+		final var defMembersSimilar = (sameNestingLevel || namespaceDoesNotMatterForDefMems)
+				&& (defMems1.size() == defMems2.size());
 
 		return DynamicTest.dynamicTest(String.format("(%d, %d) <-> (%d, %d); (%d, %d) <-> (%d, %d) %s vs %s", mem11Pos,
 				mem11NewPos, mem21Pos, mem21NewPos, defMem11Pos, defMem11NewPos, defMem21Pos, defMem21NewPos,
