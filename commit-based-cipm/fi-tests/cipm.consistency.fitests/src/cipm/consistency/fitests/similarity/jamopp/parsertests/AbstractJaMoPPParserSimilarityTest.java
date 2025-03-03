@@ -149,9 +149,25 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
+	 * Recursively explores obj for nested contents.
+	 * 
+	 * @param obj A given EObject instance
+	 * @return Collection that contains obj and all further EObject instances, which
+	 *         are nested in obj as content.
+	 */
+	protected Collection<EObject> getAllEObjectsRecursively(EObject obj) {
+		var allContents = new ArrayList<EObject>();
+		allContents.add(obj);
+		obj.eAllContents().forEachRemaining((c) -> {
+			allContents.addAll(this.getAllEObjectsRecursively(c));
+		});
+		return allContents;
+	}
+
+	/**
 	 * Checks whether the given {@link Resource} instances are similar, based on
-	 * {@code res_i.getAllContents()}. The order of the contents is also considered
-	 * and will impact the result. <br>
+	 * {@code res_i.getAllContents()}. The order of the contents, as well as nested
+	 * contents, is also considered and will impact the result. <br>
 	 * <br>
 	 * It is important to use this method over other similarity testing methods, due
 	 * to the Java models in these tests being potentially fragmented. Hence the use
@@ -161,17 +177,18 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * in this method will differ from others, because it compares all contents
 	 * within the resources and not just root contents. !!!</i></b>
 	 */
-	protected void testSimilarityOfAllContents(Resource res1, Resource res2, Boolean expectedResult) {
+	protected void testSimilarityOfAllContentsRecursively(Resource res1, Resource res2, Boolean expectedResult) {
 		var list1 = new ArrayList<EObject>();
 		var list2 = new ArrayList<EObject>();
 
-		// Java files, which are not in proper project settings,
-		// can result in similarity checking issues, if resource.getContents()
-		// is used to return the EObject contents.
-		// getAllContents() bypasses this, as it makes sure that everything
-		// is visited.
-		res1.getAllContents().forEachRemaining((o) -> list1.add(o));
-		res2.getAllContents().forEachRemaining((o) -> list2.add(o));
+		/*
+		 * Only adding all contents as is can yield unexpected results, because doing so
+		 * does not necessarily account for the nested contents' order. This is a
+		 * problem, because it may lead to comparisons that are not performed by
+		 * similarity checking.
+		 */
+		res1.getAllContents().forEachRemaining((o) -> list1.addAll(this.getAllEObjectsRecursively(o)));
+		res2.getAllContents().forEachRemaining((o) -> list2.addAll(this.getAllEObjectsRecursively(o)));
 
 		Assertions.assertEquals(expectedResult, this.areSimilar(list1, list2));
 	}

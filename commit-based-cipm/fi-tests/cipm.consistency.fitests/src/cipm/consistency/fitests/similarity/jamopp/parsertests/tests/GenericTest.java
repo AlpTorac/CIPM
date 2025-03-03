@@ -5,8 +5,8 @@ import java.nio.file.Paths;
 
 import cipm.consistency.fitests.similarity.jamopp.parsertests.AbstractJaMoPPComplexParserSimilarityTest;
 
-public class ClassifierCyclicTypeDependencyTest extends AbstractJaMoPPComplexParserSimilarityTest {
-	private final static Path modelsDirSubpath = Paths.get("classifier", "cyclicTypeDependency");
+public class GenericTest extends AbstractJaMoPPComplexParserSimilarityTest {
+	private final static Path modelsDirSubpath = Paths.get("generic");
 
 	@Override
 	protected Path getModelsDirSubpath() {

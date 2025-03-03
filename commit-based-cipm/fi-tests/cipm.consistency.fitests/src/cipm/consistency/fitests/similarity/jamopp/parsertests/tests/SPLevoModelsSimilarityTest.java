@@ -67,10 +67,10 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 			var res2 = parseModelsDirWithCaching(model2Path);
 
 			var dt1 = DynamicTest.dynamicTest(getDisplayNameForModelDir(model1Path), () -> {
-				this.testSimilarityOfAllContents(res1, res1, true);
+				this.testSimilarityOfAllContentsRecursively(res1, res1, true);
 			});
 			var dt2 = DynamicTest.dynamicTest(getDisplayNameForModelDir(model2Path), () -> {
-				this.testSimilarityOfAllContents(res2, res2, true);
+				this.testSimilarityOfAllContentsRecursively(res2, res2, true);
 			});
 
 			tests.add(DynamicContainer.dynamicContainer(getModelsParentDirDisplayName(md), List.of(dt1, dt2)));
@@ -98,10 +98,10 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 			var res22 = parseModelsDirWithCaching(model2Path);
 
 			var dt1 = DynamicTest.dynamicTest(getDisplayNameForModelDir(model1Path), () -> {
-				this.testSimilarityOfAllContents(res11, res12, true);
+				this.testSimilarityOfAllContentsRecursively(res11, res12, true);
 			});
 			var dt2 = DynamicTest.dynamicTest(getDisplayNameForModelDir(model2Path), () -> {
-				this.testSimilarityOfAllContents(res21, res22, true);
+				this.testSimilarityOfAllContentsRecursively(res21, res22, true);
 			});
 
 			tests.add(DynamicContainer.dynamicContainer(getModelsParentDirDisplayName(md), List.of(dt1, dt2)));
@@ -132,7 +132,7 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 			var res2 = parseModelsDirWithCaching(model2Path);
 
 			tests.add(DynamicTest.dynamicTest(modelDirName + " (" + model1Name + " and " + model2Name + ")", () -> {
-				this.testSimilarityOfAllContents(res1, res2, expectedResult);
+				this.testSimilarityOfAllContentsRecursively(res1, res2, expectedResult);
 			}));
 		});
 

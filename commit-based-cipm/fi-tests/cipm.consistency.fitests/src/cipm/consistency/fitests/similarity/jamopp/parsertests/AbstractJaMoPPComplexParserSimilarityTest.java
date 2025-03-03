@@ -20,7 +20,8 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 
 	@Override
 	protected Path getRootDirPath() {
-		return Paths.get(super.getRootDirPath().toString(), complexModelImplDirName);
+		var pathToComplexModels = Paths.get(super.getRootDirPath().toString(), complexModelImplDirName);
+		return Paths.get(pathToComplexModels.toString(), this.getModelsDirSubpath().toString());
 	}
 
 	@Override
@@ -34,6 +35,26 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 			return false;
 		}
 	}
+
+	/**
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * Defaults to checking whether the source path contains
+	 * {@link #getModelsDirSubpath()}.
+	 */
+	@Override
+	protected boolean isResourceRelevant(Path sourcePath, Resource r) {
+		return sourcePath.toString().contains(this.getModelsDirSubpath().toString());
+	}
+
+	/**
+	 * Override in concrete tests with the path to the topmost directory, which
+	 * contains the model files that will be used by the test.
+	 * 
+	 * @return The path to the directory, from which onward model directories will
+	 *         be searched for this particular test.
+	 */
+	protected abstract Path getModelsDirSubpath();
 
 	/**
 	 * Defaults to comparing the source file paths.
@@ -142,19 +163,19 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 
 					modelTests.add(DynamicTest
 							.dynamicTest(String.format("%s vs %s", path1.getFileName(), path2.getFileName()), () -> {
-								this.testSimilarityOfAllContents(res1, res2,
+								this.testSimilarityOfAllContentsRecursively(res1, res2,
 										this.getFileUtil().areContentsEqual(path1, path2));
 							}));
 				}
 			}
 
-			tests.add(DynamicContainer.dynamicContainer(String.format("model = %s (eAllContents)", this.getModelsParentDirDisplayName(md)),
-					modelTests));
+			tests.add(DynamicContainer
+					.dynamicContainer(String.format("model = %s (areSimilar on eAllContents [recursively])",
+							this.getModelsParentDirDisplayName(md)), modelTests));
 		});
 
 		var result = new ArrayList<DynamicNode>();
-		result.add(DynamicContainer
-				.dynamicContainer(String.format("root = %s", this.getRootDirDisplayName()), tests));
+		result.add(DynamicContainer.dynamicContainer(String.format("root = %s", this.getRootDirDisplayName()), tests));
 		return result;
 	}
 
@@ -185,13 +206,13 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 				}
 			}
 
-			tests.add(DynamicContainer.dynamicContainer(
-					String.format("model dir = %s (Java model comparison)", this.getModelsParentDirDisplayName(md)), modelTests));
+			tests.add(DynamicContainer
+					.dynamicContainer(String.format("model dir = %s (Java model comparison on both sides)",
+							this.getModelsParentDirDisplayName(md)), modelTests));
 		});
 
 		var result = new ArrayList<DynamicNode>();
-		result.add(DynamicContainer
-				.dynamicContainer(String.format("root = %s", this.getRootDirDisplayName()), tests));
+		result.add(DynamicContainer.dynamicContainer(String.format("root = %s", this.getRootDirDisplayName()), tests));
 		return result;
 	}
 }
