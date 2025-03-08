@@ -5,15 +5,26 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.compare.Comparison;
+import org.eclipse.emf.compare.EMFCompare;
+import org.eclipse.emf.compare.diff.DefaultDiffEngine;
+import org.eclipse.emf.compare.diff.DiffBuilder;
+import org.eclipse.emf.compare.diff.FeatureFilter;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.emftext.language.java.JavaPackage;
 import org.junit.jupiter.api.Assertions;
+import org.splevo.jamopp.diffing.diff.JaMoPPFeatureFilter;
+import org.splevo.jamopp.diffing.scope.PackageIgnoreChecker;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
 
-import cipm.consistency.commitintegration.diff.util.JavaModelComparator;
+import cipm.consistency.commitintegration.diff.util.HierarchicalMatchEngineFactoryGenerator;
+import cipm.consistency.commitintegration.diff.util.ResourceListFilteringComparisonScope;
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import jamopp.options.ParserOptions;
 import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
@@ -194,6 +205,55 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
+	 * Compares the given {@link Resource} instances representing Java models. Uses
+	 * the underlying similarity checking mechanisms for identifying changes. <br>
+	 * <br>
+	 * Note that the order of the given parameters matters and will influence the
+	 * result, since reaching from one side to the other will require "opposite"
+	 * operations.
+	 * 
+	 * @param res1 The new state
+	 * @param res2 The old state
+	 * @return Result of comparing {@code res2} to {@code res1}, i.e. what needs to
+	 *         be done to {@code res2} to get to {@code res1}.
+	 * 
+	 * @see {@link #getSCC()}
+	 */
+	protected Comparison compareModels(Resource res1, Resource res2) {
+
+		var scope = new ResourceListFilteringComparisonScope(res1, res2, null, null);
+		scope.getNsURIs().add(JavaPackage.eNS_URI);
+
+		var jamoppFeatureFilter = new JaMoPPFeatureFilter(new PackageIgnoreChecker(List.of()));
+		var diffProcessor = new DiffBuilder();
+		var diffEngine = new DefaultDiffEngine(diffProcessor) {
+			@Override
+			protected FeatureFilter createFeatureFilter() {
+				return jamoppFeatureFilter;
+			}
+		};
+
+		var engineRegistry = HierarchicalMatchEngineFactoryGenerator.generateMatchEngineRegistry(
+				HierarchicalMatchEngineFactoryGenerator.generateMatchEngineFactory(new ISimilarityChecker() {
+
+					@Override
+					public Boolean isSimilar(Object element1, Object element2) {
+						return getSCC().isSimilar(element1, element2);
+					}
+
+					@Override
+					public Boolean areSimilar(Collection<Object> elements1, Collection<Object> elements2) {
+						return getSCC().areSimilar(elements1, elements2);
+					}
+
+				}, this.getResourceFileExtension()));
+
+		var builder = EMFCompare.builder().setMatchEngineFactoryRegistry(engineRegistry).setDiffEngine(diffEngine);
+
+		return builder.build().compare(scope);
+	}
+
+	/**
 	 * Asserts that the result of similarity checking via model comparison results
 	 * in differences or not (denoted by expectedResult). <br>
 	 * <br>
@@ -201,8 +261,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * comparison is symmetric.
 	 */
 	protected void testSimilarityWithModelComparison(Resource res1, Resource res2, Boolean expectedResult) {
-		var cmp1To2 = JavaModelComparator.compareJavaModels(res1, res2, null, null, null);
-		var cmp2To1 = JavaModelComparator.compareJavaModels(res2, res1, null, null, null);
+		var cmp1To2 = this.compareModels(res1, res2);
+		var cmp2To1 = this.compareModels(res2, res1);
 		Assertions.assertEquals(expectedResult, cmp1To2.getDifferences().size() == 0);
 		Assertions.assertEquals(expectedResult, cmp2To1.getDifferences().size() == 0);
 	}
