@@ -1,7 +1,6 @@
 package cipm.consistency.fitests.similarity.jamopp.parsertests;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -13,8 +12,7 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 
 	@Override
 	protected Path getRootDirPath() {
-		var pathToComplexModels = Paths.get(super.getRootDirPath().toString(), complexModelImplDirName);
-		return Paths.get(pathToComplexModels.toString(), this.getModelsDirSubpath().toString());
+		return super.getRootDirPath().resolve(complexModelImplDirName).resolve(this.getModelsDirSubpath());
 	}
 
 	@Override

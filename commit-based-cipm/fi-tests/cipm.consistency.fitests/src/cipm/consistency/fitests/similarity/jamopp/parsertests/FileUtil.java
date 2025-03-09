@@ -4,9 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
+import org.junit.jupiter.api.Assertions;
 
 /**
  * A utility class that contains file-related operations.
@@ -140,5 +142,83 @@ public class FileUtil {
 		}
 
 		return true;
+	}
+
+	/**
+	 * Recursively cleans files, which have been used in tests.
+	 * 
+	 * @param path The path to the directory to clean
+	 */
+	public void cleanModels(Path path) {
+		var file = path.toFile();
+
+		if (file.exists()) {
+			if (file.isFile()) {
+				file.delete();
+				return;
+			}
+
+			if (file.isDirectory()) {
+				var children = file.listFiles();
+
+				if (children != null) {
+					for (File cf : children) {
+						this.cleanModels(cf.toPath());
+					}
+				}
+
+				file.delete();
+			}
+		}
+	}
+
+	/**
+	 * Recursively copies files from the given parent parameter to the path given
+	 * via copyPath. Replaces files, which already exist.
+	 * 
+	 * @param parentPath The directory to copy
+	 * @param copyPath   The path, where everything under parentPath will be copied.
+	 */
+	public void copyModels(Path parentPath, Path copyPath) throws IOException {
+		File parent = parentPath.toFile();
+		this.getLogger().debug("Copying the contents of " + parent.getAbsolutePath() + " into " + copyPath);
+		for (File f : parent.listFiles()) {
+			var fileName = f.getName();
+
+			// Skip non-java files, since they are irrelevant
+			if ((f.isDirectory() && fileName.contains(".git")) || (f.isFile() && !fileName.contains(".java"))) {
+				continue;
+			}
+
+			if (f.isDirectory()) {
+				this.getLogger().debug("Directory found: " + fileName);
+				String newCopyAddress = copyPath + File.separator + fileName;
+				this.getLogger().debug("Copy address changed to " + newCopyAddress);
+				File tmpDir = new File(newCopyAddress);
+
+				this.copyModels(f.toPath(), tmpDir.toPath());
+			}
+			if (f.isFile()) {
+				this.getLogger().debug("File found: " + fileName);
+				File tmpFile = new File(copyPath + File.separator + fileName);
+
+				if (tmpFile.exists()) {
+					this.getLogger().debug("Existing file will be replaced");
+				} else {
+					this.getLogger().debug("Creating file");
+					tmpFile.mkdirs();
+					this.getLogger().debug("Created file");
+				}
+
+				this.getLogger().debug("Copying original file into new file");
+				Files.copy(f.toPath(), tmpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+				this.getLogger().debug("Copied original file into new file: " + fileName);
+
+				this.getLogger().debug("Verifying equality of file content");
+				Assertions.assertTrue(Files.readString(f.toPath()).equals(Files.readString(tmpFile.toPath())));
+				this.getLogger().debug("Verified equality of file content");
+			}
+		}
+		this.getLogger().debug("Parent directory " + parent.getName() + " has been copied");
 	}
 }

@@ -1,11 +1,14 @@
 package cipm.consistency.fitests.similarity.jamopp.parsertests;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
@@ -17,8 +20,12 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.JavaPackage;
+import org.emftext.language.java.containers.JavaRoot;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.splevo.jamopp.diffing.diff.JaMoPPFeatureFilter;
 import org.splevo.jamopp.diffing.scope.PackageIgnoreChecker;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
@@ -47,6 +54,53 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @see {@link #parseModelsDirWithCaching(Path)}
 	 */
 	private static final CacheUtil resourceCache = new CacheUtil();
+
+	private static final String cacheSaveDirName = "testmodel-cache";
+
+	private static Map<URI, URI> oldJavaClasspathEntries;
+
+	@BeforeAll
+	public static void setUpBeforeAll() {
+		oldJavaClasspathEntries = new HashMap<>(JavaClasspath.get().getURIMap());
+		JavaClasspath.get().registerStdLib();
+	}
+
+	@AfterAll
+	public static void tearDownAfterAll() {
+		var contents = resourceCache.getAllCacheContent();
+
+		// Save the cached resources
+		for (var e : contents.entrySet()) {
+			var res = e.getValue();
+			var uri = res.getURI();
+			if (uri.isFile() && !new File(uri.toFileString()).exists()) {
+				try {
+
+					// TODO Fix types not being saved as intended
+
+					res.save(null);
+				} catch (IOException excep) {
+					excep.printStackTrace();
+					Assertions.fail();
+				}
+			}
+		}
+
+		// Restore previous JavaClasspath state
+		JavaClasspath.get().getURIMap().clear();
+		JavaClasspath.get().getURIMap().putAll(oldJavaClasspathEntries);
+	}
+
+	protected void addToClasspath(Resource res) {
+		res.getContents().stream().filter(c -> c instanceof JavaRoot)
+				.forEach(content -> JavaClasspath.get().registerJavaRoot((JavaRoot) content, res.getURI()));
+	}
+
+	protected void removeFromClasspath(Resource res) {
+		JavaClasspath.get().getURIMap().entrySet().stream().filter(entry -> entry.getValue() == res.getURI())
+				.map(Map.Entry::getKey).collect(Collectors.toList())
+				.forEach(u -> JavaClasspath.get().getURIMap().remove(u));
+	}
 
 	/**
 	 * @return A utility object that can be used to perform file operations.
@@ -97,6 +151,16 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return this.getModelParentDirsWithin(this.getRootDirPath().toString());
 	}
 
+	protected String getResourcePathFor(Path modelDir) {
+		var modelSubPath = this.getAbsoluteCurrentDirectory().relativize(modelDir);
+		var resPath = this.getTargetRootDirectory().resolve(modelSubPath);
+		return resPath.toString();
+	}
+
+	protected URI getResourceURI(Path modelDir) {
+		return URI.createFileURI(this.getResourcePathFor(modelDir));
+	}
+
 	/**
 	 * Parses all Java-Model files under the given directory into a {@link Resource}
 	 * instance. Uses no means of caching. <br>
@@ -118,12 +182,13 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		JaMoPPJDTSingleFileParser parser = new JaMoPPJDTSingleFileParser();
 		parser.setResourceSet(new ResourceSetImpl());
 		ResourceSet resourceSet = parser.parseDirectory(modelDir);
+
 		var resCount = resourceSet.getResources().size();
 		this.getLogger().debug(String.format("%d resources have been parsed under %s", resCount,
 				this.getDisplayNameForModelDir(modelDir)));
 
 		ResourceSet next = new ResourceSetImpl();
-		Resource all = next.createResource(URI.createFileURI(this.getTargetPath().toAbsolutePath().toString()));
+		Resource all = next.createResource(this.getResourceURI(modelDir));
 
 		var filteredResources = new ArrayList<Resource>();
 		resourceSet.getResources().stream().filter((r) -> this.isResourceRelevant(modelDir, r))
@@ -136,6 +201,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			// Filter Resources in ResourceSet that belong in the modelDir
 			all.getContents().addAll(r.getContents());
 		}
+
+		this.addToClasspath(all);
 		return all;
 	}
 
@@ -151,11 +218,38 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	protected Resource parseModelsDirWithCaching(Path modelDir) {
 		var cache = this.getCacheUtil();
 		var key = this.pathToCacheKey(modelDir);
+		var modelName = this.getDisplayNameForModelDir(modelDir);
+
+		Resource res = null;
+
+		// Search for the resource in the cache
 		if (cache.isInCache(key)) {
-			return cache.getFromCache(key);
+			this.getLogger().debug(String.format("%s is in cache, using cached version", modelName));
+			res = cache.getFromCache(key);
 		}
-		var res = this.parseModelsDirWithoutCaching(modelDir);
+
+		// Search for the resource file in cache save location
+		if (res == null) {
+			var uri = this.getResourceURI(modelDir);
+			if (uri.isFile() && new File(uri.toFileString()).exists()) {
+				this.getLogger().debug(String.format("%s resource file is present, loading it", modelName));
+				res = new ResourceSetImpl().createResource(uri);
+				try {
+					res.load(null);
+				} catch (IOException e) {
+					e.printStackTrace();
+					Assertions.fail();
+				}
+			}
+		}
+
+		// Resource is completely new, parse it from scratch
+		if (res == null) {
+			res = this.parseModelsDirWithoutCaching(modelDir);
+		}
+
 		cache.addToCache(key, res);
+		this.addToClasspath(res);
 		return res;
 	}
 
@@ -308,7 +402,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @see {@link #getRootDirPath()}
 	 */
 	protected String getRootDirDisplayName() {
-		return this.getAbsoluteCurrentDirectory().toPath().relativize(this.getRootDirPath()).toString();
+		return this.getAbsoluteCurrentDirectory().relativize(this.getRootDirPath()).toString();
 	}
 
 	protected Collection<File> getAllModelDirsUnder(Path modelParentDirPath) {
@@ -364,22 +458,22 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 *         discovered for Java elements.
 	 */
 	protected Path getRootDirPath() {
-		return Paths.get(this.getAbsoluteCurrentDirectory().getAbsolutePath());
+		return this.getAbsoluteCurrentDirectory();
 	}
 
 	/**
 	 * @return The current position within the file system.
 	 */
-	protected File getAbsoluteCurrentDirectory() {
-		return new File("").getAbsoluteFile();
+	protected Path getAbsoluteCurrentDirectory() {
+		return new File("").getAbsoluteFile().toPath();
 	}
 
 	/**
 	 * @return The root directory, under which generated test resources will be
 	 *         saved.
 	 */
-	protected File getTargetRootDirectory() {
-		return new File(this.getAbsoluteCurrentDirectory(), "testModels");
+	protected Path getTargetRootDirectory() {
+		return this.getAbsoluteCurrentDirectory().resolve(cacheSaveDirName);
 	}
 
 	/**
@@ -387,9 +481,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 *         should they be saved.
 	 */
 	protected Path getTargetPath() {
-		var targetDir = new File(this.getTargetRootDirectory(),
-				this.getAbsoluteCurrentDirectory().toPath().relativize(this.getRootDirPath()).toString());
-		return targetDir.toPath();
+		return this.getTargetRootDirectory()
+				.resolve(this.getAbsoluteCurrentDirectory().relativize(this.getRootDirPath()));
 	}
 
 	/**

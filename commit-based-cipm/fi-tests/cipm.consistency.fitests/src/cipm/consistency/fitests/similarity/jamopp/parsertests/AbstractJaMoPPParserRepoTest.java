@@ -2,12 +2,8 @@ package cipm.consistency.fitests.similarity.jamopp.parsertests;
 
 import cipm.consistency.commitintegration.GitRepositoryWrapper;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import org.eclipse.emf.ecore.resource.Resource;
@@ -96,7 +92,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 				this.getLogger().debug(String.format("Checked out"));
 				this.getLogger().debug(String.format("Copying for: %s", commit));
 				this.copyModels(gitWrapper.getRootDirectory().toPath(),
-						Paths.get(this.getRootDirPath().toString(), commit));
+						this.getRootDirPath().resolve(commit));
 
 			} catch (Exception e) {
 				e.printStackTrace();
@@ -123,26 +119,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 * @param path The path to the directory to clean
 	 */
 	protected void cleanModels(Path path) {
-		var file = path.toFile();
-
-		if (file.exists()) {
-			if (file.isFile()) {
-				file.delete();
-				return;
-			}
-
-			if (file.isDirectory()) {
-				var children = file.listFiles();
-
-				if (children != null) {
-					for (File cf : children) {
-						this.cleanModels(cf.toPath());
-					}
-				}
-
-				file.delete();
-			}
-		}
+		this.getFileUtil().cleanModels(path);
 	}
 
 	/**
@@ -153,51 +130,12 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 * @param copyPath   The path, where everything under parentPath will be copied.
 	 */
 	protected void copyModels(Path parentPath, Path copyPath) throws IOException {
-		File parent = parentPath.toFile();
-		this.getLogger().debug("Copying the contents of " + parent.getAbsolutePath() + " into " + copyPath);
-		for (File f : parent.listFiles()) {
-			var fileName = f.getName();
-
-			// Skip non-java files, since they are irrelevant
-			if ((f.isDirectory() && fileName.contains(".git")) || (f.isFile() && !fileName.contains(".java"))) {
-				continue;
-			}
-
-			if (f.isDirectory()) {
-				this.getLogger().debug("Directory found: " + fileName);
-				String newCopyAddress = copyPath + File.separator + fileName;
-				this.getLogger().debug("Copy address changed to " + newCopyAddress);
-				File tmpDir = new File(newCopyAddress);
-
-				this.copyModels(f.toPath(), tmpDir.toPath());
-			}
-			if (f.isFile()) {
-				this.getLogger().debug("File found: " + fileName);
-				File tmpFile = new File(copyPath + File.separator + fileName);
-
-				if (tmpFile.exists()) {
-					this.getLogger().debug("Existing file will be replaced");
-				} else {
-					this.getLogger().debug("Creating file");
-					tmpFile.mkdirs();
-					this.getLogger().debug("Created file");
-				}
-
-				this.getLogger().debug("Copying original file into new file");
-				Files.copy(f.toPath(), tmpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-				this.getLogger().debug("Copied original file into new file: " + fileName);
-
-				this.getLogger().debug("Verifying equality of file content");
-				Assertions.assertTrue(Files.readString(f.toPath()).equals(Files.readString(tmpFile.toPath())));
-				this.getLogger().debug("Verified equality of file content");
-			}
-		}
-		this.getLogger().debug("Parent directory " + parent.getName() + " has been copied");
+		this.getFileUtil().copyModels(parentPath, copyPath);
 	}
 
 	@Override
 	protected Path getRootDirPath() {
-		return Paths.get(super.getRootDirPath().toString(), repoModelImplDirName, this.getRepoName());
+		return super.getRootDirPath().resolve(repoModelImplDirName).resolve(this.getRepoName());
 	}
 
 	@Override
@@ -211,6 +149,24 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		return this.getCommitIDs().stream().anyMatch((c) -> pathString.contains(c));
 	}
 
+	/**
+	 * Defaults to {@code rootDirPath/copyDirName}.
+	 * 
+	 * @return The path, at which the repository clone resides, OR the path, where
+	 *         the repository will be cloned to.
+	 * 
+	 * @see {@link #getRootDirPath()}
+	 */
+	protected Path getRepoClonePath() {
+		return this.getRootDirPath().resolve(copyDirName);
+	}
+
+	/**
+	 * @return A list of all commits from the repository of this test, which are
+	 *         relevant.
+	 * 
+	 * @see {@link #getRepoURI()}
+	 */
 	protected abstract List<String> getCommitIDs();
 
 	/**
@@ -223,15 +179,4 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 */
 	protected abstract String getRepoName();
 
-	/**
-	 * Defaults to {@code rootDirPath/copyDirName}.
-	 * 
-	 * @return The path, at which the repository clone resides, OR the path, where
-	 *         the repository will be cloned to.
-	 * 
-	 * @see {@link #getRootDirPath()}
-	 */
-	protected Path getRepoClonePath() {
-		return Paths.get(this.getRootDirPath().toString(), copyDirName);
-	}
 }

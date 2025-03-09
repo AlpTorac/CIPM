@@ -56,6 +56,13 @@ public class CacheUtil {
 	}
 
 	/**
+	 * @return All contents of the underlying cache
+	 */
+	public Map<String, Resource> getAllCacheContent() {
+		return new HashMap<String, Resource>(this.getResourceCache());
+	}
+
+	/**
 	 * @return Whether the given key is present in the cache.
 	 */
 	public boolean isInCache(String key) {
