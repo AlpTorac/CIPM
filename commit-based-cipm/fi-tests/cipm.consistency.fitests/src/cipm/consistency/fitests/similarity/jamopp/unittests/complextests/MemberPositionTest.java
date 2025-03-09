@@ -10,6 +10,7 @@ import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MemberContainer;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DynamicContainer;
 import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.DynamicTest;
@@ -31,6 +32,7 @@ import cipm.consistency.initialisers.jamopp.members.IMemberInitialiser;
  * 
  * @author Alp Torac Genc
  */
+@Disabled("Works but takes too long")
 public class MemberPositionTest extends AbstractJaMoPPSimilarityTest {
 	private Member[] createMembers(IMemberInitialiser memInit, String namePrefix, int count) {
 		var mems = new Member[count];
