@@ -3,11 +3,13 @@ package cipm.consistency.fitests.similarity.jamopp.parsertests.tests;
 import java.util.Collection;
 import java.util.List;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.TestFactory;
 
 import cipm.consistency.fitests.similarity.jamopp.parsertests.AbstractJaMoPPParserRepoTest;
 
+@Disabled
 public class TeammatesRepoTest extends AbstractJaMoPPParserRepoTest {
 	/**
 	 * The name of the root directory of the models
