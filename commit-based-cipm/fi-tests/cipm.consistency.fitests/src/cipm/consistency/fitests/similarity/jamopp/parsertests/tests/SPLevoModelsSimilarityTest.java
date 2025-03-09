@@ -1,7 +1,6 @@
 package cipm.consistency.fitests.similarity.jamopp.parsertests.tests;
 
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -37,7 +36,7 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 
 	@Override
 	protected Path getRootDirPath() {
-		return Paths.get(super.getRootDirPath().toString(), splevoModelImplDirName);
+		return super.getRootDirPath().resolve(splevoModelImplDirName);
 	}
 
 	@Override
@@ -60,8 +59,8 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 		var tests = new ArrayList<DynamicNode>();
 
 		this.getModelParentDirsWithinRoot().forEach((md) -> {
-			var model1Path = Paths.get(md.toString(), model1Name);
-			var model2Path = Paths.get(md.toString(), model2Name);
+			var model1Path = md.resolve(model1Name);
+			var model2Path = md.resolve(model2Name);
 
 			var res1 = parseModelsDirWithCaching(model1Path);
 			var res2 = parseModelsDirWithCaching(model2Path);
@@ -88,8 +87,8 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 		var tests = new ArrayList<DynamicNode>();
 
 		this.getModelParentDirsWithinRoot().forEach((md) -> {
-			var model1Path = Paths.get(md.toString(), model1Name);
-			var model2Path = Paths.get(md.toString(), model2Name);
+			var model1Path = md.resolve(model1Name);
+			var model2Path = md.resolve(model2Name);
 
 			var res11 = parseModelsDirWithCaching(model1Path);
 			var res12 = parseModelsDirWithCaching(model1Path);
@@ -121,8 +120,8 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 		this.getModelParentDirsWithinRoot().forEach((md) -> {
 			var modelDirName = this.getModelsParentDirDisplayName(md);
 
-			var model1Path = Paths.get(md.toString(), model1Name);
-			var model2Path = Paths.get(md.toString(), model2Name);
+			var model1Path = md.resolve(model1Name);
+			var model2Path = md.resolve(model2Name);
 
 			final var expectedResult = this.getFileUtil().areContentsEqual(model1Path, model2Path);
 
