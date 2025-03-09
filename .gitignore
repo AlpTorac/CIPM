@@ -112,3 +112,4 @@ tmp/
 
 # Parser tests under fitests
 /commit-based-cipm/fi-tests/cipm.consistency.fitests/repo-testmodels
+/commit-based-cipm/fi-tests/cipm.consistency.fitests/testmodel-cache
