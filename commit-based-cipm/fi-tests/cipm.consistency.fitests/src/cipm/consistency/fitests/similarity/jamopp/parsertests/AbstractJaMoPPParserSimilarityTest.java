@@ -5,10 +5,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.compare.Comparison;
@@ -20,12 +17,9 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.JavaPackage;
-import org.emftext.language.java.containers.JavaRoot;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.splevo.jamopp.diffing.diff.JaMoPPFeatureFilter;
 import org.splevo.jamopp.diffing.scope.PackageIgnoreChecker;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
@@ -35,6 +29,7 @@ import cipm.consistency.commitintegration.diff.util.ResourceListFilteringCompari
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import jamopp.options.ParserOptions;
 import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
+import jamopp.recovery.trivial.TrivialRecovery;
 
 /**
  * An abstract test class, which can be used for implementing tests that involve
@@ -57,14 +52,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 	private static final String cacheSaveDirName = "testmodel-cache";
 
-	private static Map<URI, URI> oldJavaClasspathEntries;
-
-	@BeforeAll
-	public static void setUpBeforeAll() {
-		oldJavaClasspathEntries = new HashMap<>(JavaClasspath.get().getURIMap());
-		JavaClasspath.get().registerStdLib();
-	}
-
 	@AfterAll
 	public static void tearDownAfterAll() {
 		var contents = resourceCache.getAllCacheContent();
@@ -85,21 +72,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 				}
 			}
 		}
-
-		// Restore previous JavaClasspath state
-		JavaClasspath.get().getURIMap().clear();
-		JavaClasspath.get().getURIMap().putAll(oldJavaClasspathEntries);
-	}
-
-	protected void addToClasspath(Resource res) {
-		res.getContents().stream().filter(c -> c instanceof JavaRoot)
-				.forEach(content -> JavaClasspath.get().registerJavaRoot((JavaRoot) content, res.getURI()));
-	}
-
-	protected void removeFromClasspath(Resource res) {
-		JavaClasspath.get().getURIMap().entrySet().stream().filter(entry -> entry.getValue() == res.getURI())
-				.map(Map.Entry::getKey).collect(Collectors.toList())
-				.forEach(u -> JavaClasspath.get().getURIMap().remove(u));
 	}
 
 	/**
@@ -173,15 +145,34 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @see {@link #isResourceRelevant()}
 	 */
 	protected Resource parseModelsDirWithoutCaching(Path modelDir) {
-		// Leave out commented options
 		ParserOptions.CREATE_LAYOUT_INFORMATION.setValue(Boolean.FALSE);
 		ParserOptions.REGISTER_LOCAL.setValue(Boolean.TRUE);
-//		ParserOptions.RESOLVE_EVERYTHING.setValue(Boolean.TRUE);
-//		ParserOptions.RESOLVE_ALL_BINDINGS.setValue(Boolean.TRUE);
+		ParserOptions.RESOLVE_EVERYTHING.setValue(Boolean.FALSE);
+		ParserOptions.RESOLVE_ALL_BINDINGS.setValue(Boolean.FALSE);
+
+//		ParserOptions.CREATE_LAYOUT_INFORMATION.setValue(Boolean.FALSE);
+//		ParserOptions.PREFER_BINDING_CONVERSION.setValue(Boolean.TRUE);
+//		ParserOptions.REGISTER_LOCAL.setValue(Boolean.FALSE);
+//		ParserOptions.RESOLVE_BINDINGS.setValue(Boolean.TRUE);
+//		ParserOptions.RESOLVE_BINDINGS_OF_INFERABLE_TYPES.setValue(Boolean.TRUE);
+//		ParserOptions.RESOLVE_ALL_BINDINGS.setValue(Boolean.FALSE);
+//		ParserOptions.RESOLVE_EVERYTHING.setValue(Boolean.FALSE);
 
 		JaMoPPJDTSingleFileParser parser = new JaMoPPJDTSingleFileParser();
-		parser.setResourceSet(new ResourceSetImpl());
+		var rSet = new ResourceSetImpl();
+		parser.setResourceSet(rSet);
 		ResourceSet resourceSet = parser.parseDirectory(modelDir);
+
+		// Wrap all primitive types to ensure that their wrapper classes are loaded.
+//		for (var resource : new ArrayList<>(resourceSet.getResources())) {
+//			resource.getAllContents().forEachRemaining(obj -> {
+//				if (obj instanceof PrimitiveType) {
+//					var type = (PrimitiveType) obj;
+//					type.wrapPrimitiveType();
+//				}
+//			});
+//		}
+//		new TrivialRecovery(resourceSet).recover();
 
 		var resCount = resourceSet.getResources().size();
 		this.getLogger().debug(String.format("%d resources have been parsed under %s", resCount,
@@ -202,7 +193,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			all.getContents().addAll(r.getContents());
 		}
 
-		this.addToClasspath(all);
 		return all;
 	}
 
@@ -249,7 +239,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		}
 
 		cache.addToCache(key, res);
-		this.addToClasspath(res);
 		return res;
 	}
 
