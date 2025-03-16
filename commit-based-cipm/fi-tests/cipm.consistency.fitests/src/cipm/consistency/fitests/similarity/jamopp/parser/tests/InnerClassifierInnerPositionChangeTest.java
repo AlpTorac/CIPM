@@ -1,11 +1,9 @@
-package cipm.consistency.fitests.similarity.jamopp.parsertests.tests;
+package cipm.consistency.fitests.similarity.jamopp.parser.tests;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.eclipse.emf.ecore.resource.Resource;
-
-import cipm.consistency.fitests.similarity.jamopp.parsertests.AbstractJaMoPPComplexParserSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPComplexParserSimilarityTest;
 
 public class InnerClassifierInnerPositionChangeTest extends AbstractJaMoPPComplexParserSimilarityTest {
 	private final static Path modelsDirSubpath = Paths.get("classifier", "innerClassifier", "innerPositionChange");
@@ -22,8 +20,7 @@ public class InnerClassifierInnerPositionChangeTest extends AbstractJaMoPPComple
 	 * containing classifier does not matter.
 	 */
 	@Override
-	public Boolean getExpectedSimilarityResultForModelComparison(Resource lhs, Path lhsSourceFilePath, Resource rhs,
-			Path rhsSourceFilePath) {
-		return true;
+	protected boolean doesContentOrderMatter() {
+		return false;
 	}
 }

@@ -1,31 +1,23 @@
-package cipm.consistency.fitests.similarity.jamopp.parsertests;
+package cipm.consistency.fitests.similarity.jamopp.parser;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
+import java.util.HashMap;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.compare.Comparison;
-import org.eclipse.emf.compare.EMFCompare;
-import org.eclipse.emf.compare.diff.DefaultDiffEngine;
-import org.eclipse.emf.compare.diff.DiffBuilder;
-import org.eclipse.emf.compare.diff.FeatureFilter;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.emftext.language.java.JavaPackage;
+import org.emftext.language.java.types.PrimitiveType;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
-import org.splevo.jamopp.diffing.diff.JaMoPPFeatureFilter;
-import org.splevo.jamopp.diffing.scope.PackageIgnoreChecker;
-import org.splevo.jamopp.diffing.similarity.base.ISimilarityChecker;
+import org.junit.jupiter.api.DynamicContainer;
+import org.junit.jupiter.api.DynamicNode;
+import org.junit.jupiter.api.TestFactory;
 
-import cipm.consistency.commitintegration.diff.util.HierarchicalMatchEngineFactoryGenerator;
-import cipm.consistency.commitintegration.diff.util.ResourceListFilteringComparisonScope;
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import jamopp.options.ParserOptions;
 import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
@@ -36,6 +28,8 @@ import jamopp.recovery.trivial.TrivialRecovery;
  * parsing models from Java-related files and checking their similarity.
  * 
  * @author Alp Torac Genc
+ * 
+ * @see {@link #createTests()}
  */
 public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	/**
@@ -243,114 +237,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
-	 * Recursively explores obj for nested contents.
-	 * 
-	 * @param obj A given EObject instance
-	 * @return Collection that contains obj and all further EObject instances, which
-	 *         are nested in obj as content.
-	 */
-	protected Collection<EObject> getAllEObjectsRecursively(EObject obj) {
-		var allContents = new ArrayList<EObject>();
-		allContents.add(obj);
-		obj.eAllContents().forEachRemaining((c) -> {
-			allContents.addAll(this.getAllEObjectsRecursively(c));
-		});
-		return allContents;
-	}
-
-	/**
-	 * Checks whether the given {@link Resource} instances are similar, based on
-	 * {@code res_i.getAllContents()}. The order of the contents, as well as nested
-	 * contents, is also considered and will impact the result. <br>
-	 * <br>
-	 * It is important to use this method over other similarity testing methods, due
-	 * to the Java models in these tests being potentially fragmented. Hence the use
-	 * of {@code res_i.getAllContents()}. <br>
-	 * <br>
-	 * <b><i>!!! It is important to note that the result of the similarity checking
-	 * in this method will differ from others, because it compares all contents
-	 * within the resources and not just root contents. !!!</i></b>
-	 */
-	protected void testSimilarityOfAllContentsRecursively(Resource res1, Resource res2, Boolean expectedResult) {
-		var list1 = new ArrayList<EObject>();
-		var list2 = new ArrayList<EObject>();
-
-		/*
-		 * Only adding all contents as is can yield unexpected results, because doing so
-		 * does not necessarily account for the nested contents' order. This is a
-		 * problem, because it may lead to comparisons that are not performed by
-		 * similarity checking.
-		 */
-		res1.getAllContents().forEachRemaining((o) -> list1.addAll(this.getAllEObjectsRecursively(o)));
-		res2.getAllContents().forEachRemaining((o) -> list2.addAll(this.getAllEObjectsRecursively(o)));
-
-		Assertions.assertEquals(expectedResult, this.areSimilar(list1, list2));
-	}
-
-	/**
-	 * Compares the given {@link Resource} instances representing Java models. Uses
-	 * the underlying similarity checking mechanisms for identifying changes. <br>
-	 * <br>
-	 * Note that the order of the given parameters matters and will influence the
-	 * result, since reaching from one side to the other will require "opposite"
-	 * operations.
-	 * 
-	 * @param res1 The new state
-	 * @param res2 The old state
-	 * @return Result of comparing {@code res2} to {@code res1}, i.e. what needs to
-	 *         be done to {@code res2} to get to {@code res1}.
-	 * 
-	 * @see {@link #getSCC()}
-	 */
-	protected Comparison compareModels(Resource res1, Resource res2) {
-
-		var scope = new ResourceListFilteringComparisonScope(res1, res2, null, null);
-		scope.getNsURIs().add(JavaPackage.eNS_URI);
-
-		var jamoppFeatureFilter = new JaMoPPFeatureFilter(new PackageIgnoreChecker(List.of()));
-		var diffProcessor = new DiffBuilder();
-		var diffEngine = new DefaultDiffEngine(diffProcessor) {
-			@Override
-			protected FeatureFilter createFeatureFilter() {
-				return jamoppFeatureFilter;
-			}
-		};
-
-		var engineRegistry = HierarchicalMatchEngineFactoryGenerator.generateMatchEngineRegistry(
-				HierarchicalMatchEngineFactoryGenerator.generateMatchEngineFactory(new ISimilarityChecker() {
-
-					@Override
-					public Boolean isSimilar(Object element1, Object element2) {
-						return getSCC().isSimilar(element1, element2);
-					}
-
-					@Override
-					public Boolean areSimilar(Collection<Object> elements1, Collection<Object> elements2) {
-						return getSCC().areSimilar(elements1, elements2);
-					}
-
-				}, this.getResourceFileExtension()));
-
-		var builder = EMFCompare.builder().setMatchEngineFactoryRegistry(engineRegistry).setDiffEngine(diffEngine);
-
-		return builder.build().compare(scope);
-	}
-
-	/**
-	 * Asserts that the result of similarity checking via model comparison results
-	 * in differences or not (denoted by expectedResult). <br>
-	 * <br>
-	 * Compares res1 and res2, as well as res2 and res1; in order to ensure that the
-	 * comparison is symmetric.
-	 */
-	protected void testSimilarityWithModelComparison(Resource res1, Resource res2, Boolean expectedResult) {
-		var cmp1To2 = this.compareModels(res1, res2);
-		var cmp2To1 = this.compareModels(res2, res1);
-		Assertions.assertEquals(expectedResult, cmp1To2.getDifferences().size() == 0);
-		Assertions.assertEquals(expectedResult, cmp2To1.getDifferences().size() == 0);
-	}
-
-	/**
 	 * @param modelDir A directory that directly contains the Java-model files
 	 * @return The test display name for the given modelPath
 	 */
@@ -394,6 +280,13 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return this.getAbsoluteCurrentDirectory().relativize(this.getRootDirPath()).toString();
 	}
 
+	/**
+	 * @param modelParentDirPath A directory, which potentially contains model
+	 *                           directories
+	 * @return All model directories under the given path
+	 * 
+	 * @see {@link #isModelDirectory(File)}
+	 */
 	protected Collection<File> getAllModelDirsUnder(Path modelParentDirPath) {
 		var result = new ArrayList<File>();
 		var dirs = modelParentDirPath.toFile().listFiles();
@@ -488,88 +381,76 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
-	 * Defaults to comparing the source file paths.
+	 * Generates dynamic tests for each model directories based on the registered
+	 * {@link AbstractJaMoPPParserSimilarityTestFactory} instances. Implemented here
+	 * in efforts to have a unified template for dynamic test generation. <br>
+	 * <br>
+	 * <b>Can be overridden in implementors; in order to add preparatory actions,
+	 * clean up actions or to change the default test generation. <i> DUE TO HOW
+	 * JUNIT WORKS, GENERATED TESTS WILL NOT REGISTER UNLESS ANNOTED AS
+	 * {@code TestFactory} IN OVERRIDING VERSIONS TOO. </i></b> <br>
+	 * <br>
+	 * Unless overridden in implementors, JUnit will detect this method as a
+	 * {@link TestFactory}, which will run the tests generated here.
 	 * 
-	 * @param lhs               Left-hand side resource
-	 * @param lhsSourceFilePath The path that the resource lhs was parsed from
-	 * @param rhs               Right-hand side resource
-	 * @param rhsSourceFilePath The path that the resource rhs was parsed from
-	 * @return The expected result of similarity checking the given resources by
-	 *         using model comparison
-	 * 
-	 * @see {@link #testSimilarityWithModelComparison(Resource, Resource, Boolean)}
+	 * @see {@link #getModelParentDirsWithinRoot()} and
+	 *      {@link #getAllModelDirsUnder(Path)} for locating model directories
+	 * @see {@link TestFactory} for what tests are to be generated
 	 */
-	public Boolean getExpectedSimilarityResultForModelComparison(Resource lhs, Path lhsSourceFilePath, Resource rhs,
-			Path rhsSourceFilePath) {
-		return lhsSourceFilePath.toString().equals(rhsSourceFilePath.toString());
-	}
+	@TestFactory
+	public Collection<DynamicNode> createTests() {
+		var tests = new ArrayList<DynamicNode>();
+		var testFactories = this.getTestFactories();
 
-	/**
-	 * Checks if both sides' contents ({@code res.getAllContents()}) are similar, if
-	 * their order does not matter. Makes sure that the result is the same as
-	 * {@code allContentSimilar(rhs, lhs)}.
-	 * 
-	 * @return Whether all contents of lhs and rhs are similar, i.e. if all contents
-	 *         of lhs have a corresponding similar content on rhs.
-	 */
-	public boolean contentwiseSimilar(Resource lhs, Resource rhs) {
-		var lhsContent = new ArrayList<EObject>();
-		lhs.getAllContents().forEachRemaining((e) -> lhsContent.add(e));
-		var rhsContent = new ArrayList<EObject>();
-		rhs.getAllContents().forEachRemaining((e) -> rhsContent.add(e));
+		var modelParentDirs = this.getModelParentDirsWithinRoot();
+		var modelDirMap = new HashMap<Path, Collection<File>>();
 
-		return this.contentwiseSimilar(lhsContent, rhsContent) && this.contentwiseSimilar(rhsContent, lhsContent);
-	}
-
-	/**
-	 * Checks if both sides' contents ({@code obj.eAllContents()}) are similar, if
-	 * their order does not matter. Makes sure that the result is the same as
-	 * {@code allContentSimilar(rhs, lhs)}.
-	 * 
-	 * @return Whether all contents of lhs and rhs are similar, i.e. if all contents
-	 *         of lhs have a corresponding similar content on rhs.
-	 */
-	public boolean contentwiseSimilar(EObject lhs, EObject rhs) {
-		if (!this.isSimilar(lhs, rhs) || !this.isSimilar(rhs, lhs)) {
-			return false;
+		for (var parentDir : modelParentDirs) {
+			modelDirMap.put(parentDir, this.getAllModelDirsUnder(parentDir));
 		}
 
-		var lhsContent = new ArrayList<EObject>();
-		lhs.eAllContents().forEachRemaining((e) -> lhsContent.add(e));
-		var rhsContent = new ArrayList<EObject>();
-		rhs.eAllContents().forEachRemaining((e) -> rhsContent.add(e));
+		testFactories.forEach((tf) -> {
+			var testsForModelParentDirs = new ArrayList<DynamicNode>();
+			modelParentDirs.forEach((md) -> {
+				final var modelDirs = modelDirMap.get(md);
+				var testsForModelDirs = new ArrayList<DynamicNode>();
+				for (var it1 = modelDirs.iterator(); it1.hasNext();) {
+					var path1 = it1.next().toPath();
+					var res1 = this.parseModelsDirWithCaching(path1);
 
-		return this.contentwiseSimilar(lhsContent, rhsContent) && this.contentwiseSimilar(rhsContent, lhsContent);
-	}
+					for (var it2 = modelDirs.iterator(); it2.hasNext();) {
+						var path2 = it2.next().toPath();
+						var res2 = this.parseModelsDirWithCaching(path2);
 
-	/**
-	 * Variant of {@link #contentwiseSimilar(EObject, EObject)} for collections.
-	 */
-	public boolean contentwiseSimilar(Collection<EObject> lhs, Collection<EObject> rhs) {
-		var lhsContent = new ArrayList<EObject>(lhs);
-		var rhsContent = new ArrayList<EObject>(rhs);
-
-		if (lhsContent.size() != rhsContent.size()) {
-			return false;
-		}
-
-		while (!lhsContent.isEmpty() && !rhsContent.isEmpty()) {
-			var lhsElem = lhsContent.get(0);
-			final var rhsElem = new EObject[] { null };
-			for (var e : rhsContent) {
-				if (this.contentwiseSimilar(lhsElem, e)) {
-					rhsElem[0] = e;
-					break;
+						testsForModelDirs.add(tf.createTestsFor(res1, path1, res2, path2));
+					}
 				}
-			}
-			if (rhsElem[0] != null) {
-				lhsContent.remove(lhsElem);
-				rhsContent.remove(rhsElem[0]);
-			} else {
-				return false;
-			}
-		}
-		return lhsContent.isEmpty() && rhsContent.isEmpty();
+
+				testsForModelParentDirs.add(DynamicContainer.dynamicContainer(
+						String.format("model = %s", this.getModelsParentDirDisplayName(md)), testsForModelDirs));
+			});
+
+			tests.add(DynamicContainer.dynamicContainer(
+					String.format("root = %s (%s)", this.getRootDirDisplayName(), tf.getTestDescription()),
+					testsForModelParentDirs));
+		});
+
+		return tests;
+	}
+
+	/**
+	 * Defaults to all {@link AbstractJaMoPPParserSimilarityTestFactory} instances
+	 * generated by {@link AllJaMoPPParserTestFactories}. <br>
+	 * <br>
+	 * Can be overridden in implementors to modify the generated tests. Therefore,
+	 * refer to the overriding version (if existent) for more information.
+	 * 
+	 * @return Factories of tests that should be generated for each relevant model
+	 *         directories.
+	 */
+	protected Collection<AbstractJaMoPPParserSimilarityTestFactory> getTestFactories() {
+		return new AllJaMoPPParserTestFactories().createFactoriesFor(this.getSCC(), this.getResourceFileExtension(),
+				this.doesContentOrderMatter());
 	}
 
 	/**
@@ -587,4 +468,17 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 *         the tests.
 	 */
 	protected abstract boolean isResourceRelevant(Path sourcePath, Resource r);
+
+	/**
+	 * Defaults to true. <br>
+	 * <br>
+	 * Can be overridden in implementors, if necessary.
+	 * 
+	 * @return Whether the order of model resource contents (i.e. all EObject
+	 *         instances nested directly or indirectly within) matters and should be
+	 *         accounted for in the expected results.
+	 */
+	protected boolean doesContentOrderMatter() {
+		return true;
+	}
 }

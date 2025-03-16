@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.jamopp.parsertests;
+package cipm.consistency.fitests.similarity.jamopp.parser;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,10 +1,10 @@
-package cipm.consistency.fitests.similarity.jamopp.parsertests;
+package cipm.consistency.fitests.similarity.jamopp.parser;
 
 import java.nio.file.Path;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
-public abstract class AbstractJaMoPPComplexParserSimilarityTest extends AbstractJaMoPPParserSimilarityTestFactory {
+public abstract class AbstractJaMoPPComplexParserSimilarityTest extends AbstractJaMoPPParserSimilarityTest {
 	/**
 	 * The name of the root directory of the models
 	 */

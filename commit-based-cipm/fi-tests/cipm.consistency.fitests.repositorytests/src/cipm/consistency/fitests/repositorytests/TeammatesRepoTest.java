@@ -1,15 +1,15 @@
-package cipm.consistency.fitests.similarity.jamopp.parsertests.tests;
+package cipm.consistency.fitests.repositorytests;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.TestFactory;
 
-import cipm.consistency.fitests.similarity.jamopp.parsertests.AbstractJaMoPPParserRepoTest;
+import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSimilarityTestFactory;
+import cipm.consistency.fitests.similarity.jamopp.parser.EAllContentSimilarityTestFactory;
 
-@Disabled
 public class TeammatesRepoTest extends AbstractJaMoPPParserRepoTest {
 	/**
 	 * The name of the root directory of the models
@@ -33,17 +33,24 @@ public class TeammatesRepoTest extends AbstractJaMoPPParserRepoTest {
 	protected String getRepoName() {
 		return repoName;
 	}
-	
+
 	@Override
-	public Collection<DynamicNode> testAllContentsSimilarity() {
-		this.prepareLocalRepoClones();
-		return super.testAllContentsSimilarity();
+	protected Collection<AbstractJaMoPPParserSimilarityTestFactory> getTestFactories() {
+		var res = new ArrayList<AbstractJaMoPPParserSimilarityTestFactory>();
+		res.add(new EAllContentSimilarityTestFactory(this.getSCC()));
+		return res;
 	}
 
+	/**
+	 * Extends the super method by preparing repository clones before generating
+	 * dynamic tests. <br>
+	 * <br>
+	 * {@inheritDoc}
+	 */
 	@TestFactory
 	@Override
-	public Collection<DynamicNode> testSimilarityWithModelComparison() {
+	public Collection<DynamicNode> createTests() {
 		this.prepareLocalRepoClones();
-		return super.testSimilarityWithModelComparison();
+		return super.createTests();
 	}
 }

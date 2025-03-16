@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.similarity.jamopp.parsertests;
+package cipm.consistency.fitests.similarity.jamopp.parser;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,36 +57,42 @@ public class FileUtil {
 	 * @see {@link #dirsEqual(File, File)}
 	 */
 	public boolean areContentsEqual(Path path1, Path path2) {
-		var contentEquality = false;
-
-		try {
-			contentEquality = dirsEqual(path1.toFile(), path2.toFile());
-		} catch (IOException e) {
-			var msg = "Could not read paths: " + path1.toString() + " and " + path2.toString();
-			this.logMessage(msg);
-			throw new IllegalArgumentException(msg);
-		}
-
-		return contentEquality;
+		return dirsEqual(path1.toFile(), path2.toFile());
 	}
 
 	/**
-	 * Reads the given file and removes line breaks and whitespaces.
+	 * Reads the given file and removes line breaks and whitespaces. <br>
+	 * <br>
+	 * If the given file cannot be read (due to IOException), returns an empty
+	 * string.
 	 */
-	public String readEffectiveCode(File f) throws IOException {
-		var content = Files.readString(f.toPath());
+	public String readEffectiveCode(File f) {
+		var content = "";
+
+		try {
+			content = Files.readString(f.toPath());
+		} catch (IOException e) {
+			this.logMessage(String.format("Could not read: %s, returning empty string", f.toPath().toString()));
+		}
 
 		return content.replaceAll("\\n", "").replaceAll("\\r", "").replaceAll("\\s", "");
 	}
 
 	/**
 	 * Compares the equality of the given files based on their effective content.
+	 * <br>
+	 * <br>
+	 * If both files cannot be read, they are ignored and this method returns true.
 	 * 
 	 * @see {@link #readEffectiveCode(File)}
 	 */
-	public boolean filesEqual(File f1, File f2) throws IOException {
+	public boolean filesEqual(File f1, File f2) {
 		var f1Content = readEffectiveCode(f1);
 		var f2Content = readEffectiveCode(f2);
+
+		if (f1Content.isBlank() && f2Content.isBlank()) {
+			return true;
+		}
 
 		return f1Content.equals(f2Content);
 	}
@@ -98,7 +104,7 @@ public class FileUtil {
 	 * 
 	 * @see {@link #filesEqual(File, File)}, {@link #readEffectiveCode(File)}
 	 */
-	public boolean dirsEqual(File dir1, File dir2) throws IOException {
+	public boolean dirsEqual(File dir1, File dir2) {
 		this.logMessage("Comparing: " + dir1.getName() + " and " + dir2.getName());
 
 		// There cannot be 2 files with the same path, name and extension
@@ -179,12 +185,13 @@ public class FileUtil {
 	 * @param parentPath The directory to copy
 	 * @param copyPath   The path, where everything under parentPath will be copied.
 	 */
-	public void copyModels(Path parentPath, Path copyPath) throws IOException {
+	public void copyModels(Path parentPath, Path copyPath) {
 		File parent = parentPath.toFile();
 		this.getLogger().debug("Copying the contents of " + parent.getAbsolutePath() + " into " + copyPath);
 		for (File f : parent.listFiles()) {
 			var fileName = f.getName();
 
+			// TODO Decide what files to ignore
 			// Skip non-java files, since they are irrelevant
 			if ((f.isDirectory() && fileName.contains(".git")) || (f.isFile() && !fileName.contains(".java"))) {
 				continue;
@@ -211,11 +218,25 @@ public class FileUtil {
 				}
 
 				this.getLogger().debug("Copying original file into new file");
-				Files.copy(f.toPath(), tmpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+				try {
+					Files.copy(f.toPath(), tmpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+				} catch (IOException e) {
+					this.getLogger()
+							.debug(String.format("Error while copying: %s to %s", f.toPath(), tmpFile.toPath()));
+					throw new IllegalArgumentException(e);
+				}
 				this.getLogger().debug("Copied original file into new file: " + fileName);
 
 				this.getLogger().debug("Verifying equality of file content");
-				Assertions.assertTrue(Files.readString(f.toPath()).equals(Files.readString(tmpFile.toPath())));
+				boolean verificationSuccessful = false;
+				try {
+					verificationSuccessful = Files.readString(f.toPath()).equals(Files.readString(tmpFile.toPath()));
+				} catch (IOException e) {
+					this.getLogger().debug(String.format("Error while verifying content equality between: %s and %s",
+							f.toPath(), tmpFile.toPath()));
+					throw new IllegalArgumentException(e);
+				}
+				Assertions.assertTrue(verificationSuccessful);
 				this.getLogger().debug("Verified equality of file content");
 			}
 		}

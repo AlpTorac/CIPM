@@ -1,10 +1,13 @@
-package cipm.consistency.fitests.similarity.jamopp.parsertests.tests;
+package cipm.consistency.fitests.similarity.jamopp.parser.tests;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import cipm.consistency.fitests.similarity.jamopp.parsertests.AbstractJaMoPPComplexParserSimilarityTest;
+import org.junit.jupiter.api.Disabled;
 
+import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPComplexParserSimilarityTest;
+
+@Disabled
 public class DisabledComplexTests extends AbstractJaMoPPComplexParserSimilarityTest {
 	private final static Path modelsDirSubpath = Paths.get("DISABLED");
 
