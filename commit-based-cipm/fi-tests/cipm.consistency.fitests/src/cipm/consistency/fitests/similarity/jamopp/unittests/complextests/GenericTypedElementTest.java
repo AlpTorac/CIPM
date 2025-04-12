@@ -45,7 +45,7 @@ public class GenericTypedElementTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("genTestParams")
-	public void testGenericTypedElement(ITypedElementInitialiser typedElemInit) {
+	public void testGenericTypedElement(ITypedElementInitialiser typedElemInit, String displayName) {
 		var clsInit = new ClassInitialiser();
 		var clsRefInit = new ClassifierReferenceInitialiser();
 		var tpInit = new TypeParameterInitialiser();
