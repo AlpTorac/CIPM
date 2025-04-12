@@ -21,7 +21,8 @@ Require-Bundle: junit-jupiter-api,
  org.mockito,
  jamopp.resolution,
  jamopp.parser,
- jamopp.parser.jdt.singlefile
+ jamopp.parser.jdt.singlefile,
+ jamopp.resource
 Export-Package: cipm.consistency.fitests.similarity,
  cipm.consistency.fitests.similarity.eobject,
  cipm.consistency.fitests.similarity.jamopp,
