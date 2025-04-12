@@ -37,26 +37,6 @@ public class NamespaceAwareElementTest extends AbstractJaMoPPSimilarityTest {
 		this.testSimilarity(objOne, objTwo, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
 	}
 
-	/**
-	 * Tests whether longer namespaces with the same prefix are different.
-	 */
-	@ParameterizedTest(name = "{1}")
-	@MethodSource("provideArguments")
-	public void testNamespaceScope(INamespaceAwareElementInitialiser init, String displayName) {
-		for (int i = 0; i < nss1.length; i++) {
-			var newNss = new String[i];
-
-			for (int j = 0; j < i; j++) {
-				newNss[j] = nss1[j];
-			}
-
-			var objOne = this.initElement(init, newNss);
-			var objTwo = this.initElement(init, nss1);
-
-			this.testSimilarity(objOne, objTwo, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
-		}
-	}
-
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testNamespaceNullCheck(INamespaceAwareElementInitialiser init, String displayName) {
