@@ -43,7 +43,7 @@ public class GenericTypedElementTest extends AbstractJaMoPPSimilarityTest {
 	 * 
 	 * TODO: Change similarity values accordingly once fixed
 	 */
-	@ParameterizedTest
+	@ParameterizedTest(name = "{1}")
 	@MethodSource("genTestParams")
 	public void testGenericTypedElement(ITypedElementInitialiser typedElemInit) {
 		var clsInit = new ClassInitialiser();
