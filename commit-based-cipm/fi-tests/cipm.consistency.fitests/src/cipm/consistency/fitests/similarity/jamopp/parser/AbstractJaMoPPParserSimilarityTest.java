@@ -9,9 +9,6 @@ import java.util.HashMap;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.emftext.language.java.types.PrimitiveType;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DynamicContainer;
@@ -56,9 +53,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			var uri = res.getURI();
 			if (uri.isFile() && !new File(uri.toFileString()).exists()) {
 				try {
-
-					// TODO Fix types not being saved as intended
-
 					res.save(null);
 				} catch (IOException excep) {
 					excep.printStackTrace();
@@ -81,16 +75,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	protected CacheUtil getCacheUtil() {
 		return resourceCache;
-	}
-
-	/**
-	 * Intended to be used for caching parsed models. Can be overridden to allow
-	 * custom cache keys in implementing test classes.
-	 * 
-	 * @return Generates a cache key from the given path.
-	 */
-	protected String pathToCacheKey(Path path) {
-		return path.toString();
 	}
 
 	/**
@@ -144,36 +128,19 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		ParserOptions.RESOLVE_EVERYTHING.setValue(Boolean.FALSE);
 		ParserOptions.RESOLVE_ALL_BINDINGS.setValue(Boolean.FALSE);
 
-//		ParserOptions.CREATE_LAYOUT_INFORMATION.setValue(Boolean.FALSE);
-//		ParserOptions.PREFER_BINDING_CONVERSION.setValue(Boolean.TRUE);
-//		ParserOptions.REGISTER_LOCAL.setValue(Boolean.FALSE);
-//		ParserOptions.RESOLVE_BINDINGS.setValue(Boolean.TRUE);
-//		ParserOptions.RESOLVE_BINDINGS_OF_INFERABLE_TYPES.setValue(Boolean.TRUE);
-//		ParserOptions.RESOLVE_ALL_BINDINGS.setValue(Boolean.FALSE);
-//		ParserOptions.RESOLVE_EVERYTHING.setValue(Boolean.FALSE);
-
 		JaMoPPJDTSingleFileParser parser = new JaMoPPJDTSingleFileParser();
-		var rSet = new ResourceSetImpl();
-		parser.setResourceSet(rSet);
-		ResourceSet resourceSet = parser.parseDirectory(modelDir);
+		var rSet = this.createResourceSet();
 
-		// Wrap all primitive types to ensure that their wrapper classes are loaded.
-//		for (var resource : new ArrayList<>(resourceSet.getResources())) {
-//			resource.getAllContents().forEachRemaining(obj -> {
-//				if (obj instanceof PrimitiveType) {
-//					var type = (PrimitiveType) obj;
-//					type.wrapPrimitiveType();
-//				}
-//			});
-//		}
-//		new TrivialRecovery(resourceSet).recover();
+		parser.setResourceSet(rSet);
+		var resourceSet = parser.parseDirectory(modelDir);
+
+		new TrivialRecovery(resourceSet).recover();
 
 		var resCount = resourceSet.getResources().size();
 		this.getLogger().debug(String.format("%d resources have been parsed under %s", resCount,
 				this.getDisplayNameForModelDir(modelDir)));
 
-		ResourceSet next = new ResourceSetImpl();
-		Resource all = next.createResource(this.getResourceURI(modelDir));
+		var mergedResource = this.createResource(this.getResourceURI(modelDir));
 
 		var filteredResources = new ArrayList<Resource>();
 		resourceSet.getResources().stream().filter((r) -> this.isResourceRelevant(modelDir, r))
@@ -182,47 +149,51 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 		this.getLogger().debug(String.format("%d/%d resources are being used", filteredResCount, resCount));
 
-		for (Resource r : filteredResources) {
+		for (var r : filteredResources) {
 			// Filter Resources in ResourceSet that belong in the modelDir
-			all.getContents().addAll(r.getContents());
+			mergedResource.getContents().addAll(r.getContents());
 		}
 
-		return all;
+		return mergedResource;
+	}
+
+	/**
+	 * A variant of {@link #parseModelsDirWithCaching(Path, String)} that uses the
+	 * given path as cache key (converts it to string via {@code path.toString()})
+	 */
+	protected Resource parseModelsDirWithCaching(Path modelDir) {
+		return this.parseModelsDirWithCaching(modelDir, modelDir.toString());
 	}
 
 	/**
 	 * Works similar to {@link #parseModelsDirWithCaching(Path)}, except for the
 	 * caching part: <br>
 	 * <br>
-	 * <b><i>Checks the cache first for previously parsed resources. If a resource
-	 * from the given path was previously parsed and cached, returns the cached
-	 * resource instead. If there were no cached resources for the given path, adds
-	 * the parsed resource to the cache.</i></b>
+	 * Checks the cache first for previously parsed resources, if cacheKey is not
+	 * null. If a resource from the given path was previously parsed and cached
+	 * under cacheKey, returns the cached resource instead. If there were no cached
+	 * resources for the given path, adds the parsed resource to the cache under
+	 * cacheKey.
 	 */
-	protected Resource parseModelsDirWithCaching(Path modelDir) {
+	protected Resource parseModelsDirWithCaching(Path modelDir, String cacheKey) {
 		var cache = this.getCacheUtil();
-		var key = this.pathToCacheKey(modelDir);
 		var modelName = this.getDisplayNameForModelDir(modelDir);
 
 		Resource res = null;
 
-		// Search for the resource in the cache
-		if (cache.isInCache(key)) {
-			this.getLogger().debug(String.format("%s is in cache, using cached version", modelName));
-			res = cache.getFromCache(key);
-		}
+		if (cacheKey != null) {
+			// Search for the resource in the cache
+			if (cache.isInCache(cacheKey)) {
+				this.getLogger().debug(String.format("%s is in cache, using cached version", modelName));
+				res = cache.getFromCache(cacheKey);
+			}
 
-		// Search for the resource file in cache save location
-		if (res == null) {
-			var uri = this.getResourceURI(modelDir);
-			if (uri.isFile() && new File(uri.toFileString()).exists()) {
-				this.getLogger().debug(String.format("%s resource file is present, loading it", modelName));
-				res = new ResourceSetImpl().createResource(uri);
-				try {
-					res.load(null);
-				} catch (IOException e) {
-					e.printStackTrace();
-					Assertions.fail();
+			// Search for the resource file in cache save location
+			if (res == null) {
+				res = this.loadResource(this.getResourceURI(modelDir));
+				if (res != null) {
+					this.getLogger().debug(
+							String.format("Loaded %s from its resource file", modelName));
 				}
 			}
 		}
@@ -232,8 +203,30 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			res = this.parseModelsDirWithoutCaching(modelDir);
 		}
 
+		var key = cacheKey != null ? cacheKey : modelDir.toString();
 		cache.addToCache(key, res);
 		return res;
+	}
+
+	protected Resource loadResource(URI resourceURI) {
+		Resource res = null;
+
+		if (resourceURI.isFile() && new File(resourceURI.toFileString()).exists()) {
+			this.getLogger().debug(String.format("Loading resource at: %s", resourceURI.toFileString()));
+			res = this.createResource(resourceURI);
+			try {
+				res.load(null);
+			} catch (IOException e) {
+				e.printStackTrace();
+				Assertions.fail();
+			}
+		}
+
+		return res;
+	}
+
+	protected Resource loadResource(Path resourcePath) {
+		return this.loadResource(URI.createFileURI(resourcePath.toString()));
 	}
 
 	/**
@@ -380,6 +373,49 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return this.isModelDirectoryName(f.getName());
 	}
 
+	public Collection<DynamicNode> createTests(Resource[] resArr) {
+		var pathArr = new Path[resArr.length];
+
+		for (int i = 0; i < pathArr.length; i++) {
+			pathArr[i] = Path.of(resArr[i].getURI().path());
+		}
+
+		return this.createTests(pathArr, resArr);
+	}
+
+	public Collection<DynamicNode> createTests(Path[] pathArr) {
+		var resArr = new Resource[pathArr.length];
+
+		for (int i = 0; i < resArr.length; i++) {
+			resArr[i] = this.parseModelsDirWithCaching(pathArr[i]);
+		}
+
+		return this.createTests(pathArr, resArr);
+	}
+
+	public Collection<DynamicNode> createTests(Path[] pathArr, Resource[] resArr) {
+		if (pathArr.length != resArr.length) {
+			Assertions.fail("Lengths of path and resource arrays do not match");
+		}
+
+		var tests = new ArrayList<DynamicNode>();
+		this.getTestFactories().forEach((tf) -> {
+			var testsForModelDirs = new ArrayList<DynamicNode>();
+			for (int i = 0; i < pathArr.length; i++) {
+				var path1 = pathArr[i];
+				var res1 = resArr[i];
+				for (int j = 0; j < pathArr.length; j++) {
+					var path2 = pathArr[j];
+					var res2 = resArr[j];
+					testsForModelDirs.add(tf.createTestsFor(res1, path1, res2, path2));
+				}
+			}
+			tests.add(DynamicContainer.dynamicContainer(tf.getTestDescription(), testsForModelDirs));
+		});
+
+		return tests;
+	}
+
 	/**
 	 * Generates dynamic tests for each model directories based on the registered
 	 * {@link AbstractJaMoPPParserSimilarityTestFactory} instances. Implemented here
@@ -400,7 +436,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	@TestFactory
 	public Collection<DynamicNode> createTests() {
 		var tests = new ArrayList<DynamicNode>();
-		var testFactories = this.getTestFactories();
 
 		var modelParentDirs = this.getModelParentDirsWithinRoot();
 		var modelDirMap = new HashMap<Path, Collection<File>>();
@@ -409,31 +444,18 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			modelDirMap.put(parentDir, this.getAllModelDirsUnder(parentDir));
 		}
 
-		testFactories.forEach((tf) -> {
-			var testsForModelParentDirs = new ArrayList<DynamicNode>();
-			modelParentDirs.forEach((md) -> {
-				final var modelDirs = modelDirMap.get(md);
-				var testsForModelDirs = new ArrayList<DynamicNode>();
-				for (var it1 = modelDirs.iterator(); it1.hasNext();) {
-					var path1 = it1.next().toPath();
-					var res1 = this.parseModelsDirWithCaching(path1);
+		var testsForModelParentDirs = new ArrayList<DynamicNode>();
+		modelParentDirs.forEach((md) -> {
+			final var modelDirs = modelDirMap.get(md);
 
-					for (var it2 = modelDirs.iterator(); it2.hasNext();) {
-						var path2 = it2.next().toPath();
-						var res2 = this.parseModelsDirWithCaching(path2);
+			var testsForModelDirs = this.createTests(modelDirs.stream().map(d -> d.toPath()).toArray(Path[]::new));
 
-						testsForModelDirs.add(tf.createTestsFor(res1, path1, res2, path2));
-					}
-				}
-
-				testsForModelParentDirs.add(DynamicContainer.dynamicContainer(
-						String.format("model = %s", this.getModelsParentDirDisplayName(md)), testsForModelDirs));
-			});
-
-			tests.add(DynamicContainer.dynamicContainer(
-					String.format("root = %s (%s)", this.getRootDirDisplayName(), tf.getTestDescription()),
-					testsForModelParentDirs));
+			testsForModelParentDirs.add(DynamicContainer.dynamicContainer(
+					String.format("model = %s", this.getModelsParentDirDisplayName(md)), testsForModelDirs));
 		});
+
+		tests.add(DynamicContainer.dynamicContainer(String.format("root = %s", this.getRootDirDisplayName()),
+				testsForModelParentDirs));
 
 		return tests;
 	}
@@ -464,10 +486,15 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	protected abstract boolean isModelDirectoryName(String s);
 
 	/**
+	 * Defaults to checking whether r was parsed from a file, in order to exclude
+	 * standard library resources.
+	 * 
 	 * @return Whether the resource r (parsed from the given path) is relevant for
 	 *         the tests.
 	 */
-	protected abstract boolean isResourceRelevant(Path sourcePath, Resource r);
+	protected boolean isResourceRelevant(Path sourcePath, Resource r) {
+		return r.getURI().isFile();
+	}
 
 	/**
 	 * Defaults to true. <br>
@@ -480,5 +507,27 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	protected boolean doesContentOrderMatter() {
 		return true;
+	}
+
+	/**
+	 * Parser tests require the created resource files to persist across tests, as
+	 * they are cached. <br>
+	 * <br>
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean shouldDeleteAllResources() {
+		return false;
+	}
+
+	/**
+	 * Parser tests require the created resource files to persist across tests, as
+	 * they are cached. <br>
+	 * <br>
+	 * {@inheritDoc}
+	 */
+	@Override
+	public boolean shouldUnloadAllResources() {
+		return false;
 	}
 }

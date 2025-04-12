@@ -75,12 +75,17 @@ public class RecursiveEAllContentSimilarityTestFactory extends AbstractJaMoPPPar
 	@Override
 	public DynamicNode createTestsFor(Resource res1, Path path1, Resource res2, Path path2) {
 		return DynamicTest.dynamicTest(String.format("%s vs %s", path1.getFileName(), path2.getFileName()), () -> {
-			this.testSimilarityOfAllContents(res1, res2, fileUtil.areContentsEqual(path1, path2));
+			this.testSimilarityOfAllContents(res1, res2, this.getExpectedResultFor(res1, path1, res2, path2));
 		});
 	}
 
 	@Override
 	public String getTestDescription() {
 		return description;
+	}
+
+	@Override
+	public boolean getExpectedResultFor(Resource res1, Path path1, Resource res2, Path path2) {
+		return fileUtil.areContentsEqual(path1, path2);
 	}
 }

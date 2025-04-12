@@ -112,12 +112,18 @@ public class FileUtil {
 		var files1 = new TreeSet<File>();
 		var files2 = new TreeSet<File>();
 
-		for (var f : dir1.listFiles()) {
-			files1.add(f);
+		var dir1Files = dir1.listFiles();
+		if (dir1Files != null) {
+			for (var f : dir1Files) {
+				files1.add(f);
+			}
 		}
 
-		for (var f : dir2.listFiles()) {
-			files2.add(f);
+		var dir2Files = dir2.listFiles();
+		if (dir2Files != null) {
+			for (var f : dir2Files) {
+				files2.add(f);
+			}
 		}
 
 		if (files1.size() != files2.size()) {
@@ -151,31 +157,36 @@ public class FileUtil {
 	}
 
 	/**
-	 * Recursively cleans files, which have been used in tests.
+	 * Recursively cleans files, which have been used in tests. If a file or
+	 * directory cannot be deleted, requests its deletion upon termination of JVM.
 	 * 
-	 * @param path The path to the directory to clean
+	 * @param file The file or directory to delete
+	 * @see {@link File#deleteOnExit()}
 	 */
-	public void cleanModels(Path path) {
-		var file = path.toFile();
-
+	public void cleanModels(File file) {
 		if (file.exists()) {
-			if (file.isFile()) {
-				file.delete();
-				return;
-			}
-
 			if (file.isDirectory()) {
 				var children = file.listFiles();
 
 				if (children != null) {
-					for (File cf : children) {
-						this.cleanModels(cf.toPath());
+					for (var cf : children) {
+						this.cleanModels(cf);
 					}
 				}
+			}
 
-				file.delete();
+			if (!file.delete()) {
+				file.deleteOnExit();
 			}
 		}
+	}
+
+	/**
+	 * A variant of {@link #cleanModels(File)} that converts the given path to a
+	 * file.
+	 */
+	public void cleanModels(Path path) {
+		this.cleanModels(path.toFile());
 	}
 
 	/**

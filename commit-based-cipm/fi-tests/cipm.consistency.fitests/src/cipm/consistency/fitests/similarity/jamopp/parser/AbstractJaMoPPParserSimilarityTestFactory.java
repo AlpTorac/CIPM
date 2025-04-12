@@ -9,4 +9,6 @@ public abstract class AbstractJaMoPPParserSimilarityTestFactory {
 	public abstract String getTestDescription();
 
 	public abstract DynamicNode createTestsFor(Resource res1, Path path1, Resource res2, Path path2);
+
+	public abstract boolean getExpectedResultFor(Resource res1, Path path1, Resource res2, Path path2);
 }

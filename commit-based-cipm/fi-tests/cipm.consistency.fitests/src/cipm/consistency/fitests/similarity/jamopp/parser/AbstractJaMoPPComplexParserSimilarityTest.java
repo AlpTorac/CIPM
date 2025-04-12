@@ -30,12 +30,13 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 	/**
 	 * {@inheritDoc} <br>
 	 * <br>
-	 * Defaults to checking whether the source path contains
+	 * Additionally checks whether the source path contains
 	 * {@link #getModelsDirSubpath()}.
 	 */
 	@Override
 	protected boolean isResourceRelevant(Path sourcePath, Resource r) {
-		return sourcePath.toString().contains(this.getModelsDirSubpath().toString());
+		return super.isResourceRelevant(sourcePath, r)
+				&& sourcePath.toString().contains(this.getModelsDirSubpath().toString());
 	}
 
 	/**
