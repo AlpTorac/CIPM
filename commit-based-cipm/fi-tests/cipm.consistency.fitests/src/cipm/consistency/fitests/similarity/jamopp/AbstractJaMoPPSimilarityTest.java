@@ -1,6 +1,7 @@
 package cipm.consistency.fitests.similarity.jamopp;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.Collection;
 import java.util.stream.Stream;
 
@@ -26,19 +27,21 @@ import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
  * @author Alp Torac Genc
  */
 public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimilarityTest {
+	private static final String jamoppTestModelsPath = "testModels";
+
+	@Override
+	protected JaMoPPResourceHelper getInitialResourceHelper() {
+		return new JaMoPPResourceHelper();
+	}
+
 	@Override
 	protected ISimilarityCheckerContainer initSCC() {
 		return new JavaSimilarityCheckerContainer();
 	}
 
 	@Override
-	public String getAbsoluteResourceRootPath() {
-		return new File("").getAbsoluteFile().getAbsolutePath() + File.separator + "testModels";
-	}
-
-	@Override
-	public String getResourceFileExtension() {
-		return "javaxmi";
+	public Path getAbsoluteResourceRootPath() {
+		return new File("").getAbsoluteFile().toPath().resolve(jamoppTestModelsPath);
 	}
 
 	/**
@@ -144,11 +147,10 @@ public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimila
 	}
 
 	/**
-	 * Used by the static get...InitialiserArgumentsFor methods within this
-	 * class.
+	 * Used by the static get...InitialiserArgumentsFor methods within this class.
 	 * 
-	 * @return A display name associated with the given initialiser, which
-	 * can be used by parameterised tests.
+	 * @return A display name associated with the given initialiser, which can be
+	 *         used by parameterised tests.
 	 */
 	public static String generateDisplayNameForInit(IInitialiser init) {
 		var displayName = init.getClass().getSimpleName();

@@ -38,7 +38,7 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	public void setUp(TestInfo info) {
 		super.setUp(info);
 
-		this.setEcoreUtilHelper(new EcoreUtilHelper());
+		this.setEcoreUtilHelper(this.getInitialEcoreUtilHelper());
 	}
 
 	/**
@@ -64,6 +64,15 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	 *         tests.
 	 */
 	public abstract InitialiserTestSettingsProvider getInitialiserTestSettingsProvider();
+
+	/**
+	 * Override in implementors to change the return value, if needed.
+	 * 
+	 * @return An {@link EcoreUtilHelper} instance, which will be initially used.
+	 */
+	protected EcoreUtilHelper getInitialEcoreUtilHelper() {
+		return new EcoreUtilHelper();
+	}
 
 	/**
 	 * Sets up the {@link EcoreUtilHelper} instance that will be used with the given
