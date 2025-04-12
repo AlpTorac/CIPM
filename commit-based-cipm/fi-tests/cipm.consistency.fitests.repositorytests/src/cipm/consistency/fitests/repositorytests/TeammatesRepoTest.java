@@ -1,9 +1,11 @@
 package cipm.consistency.fitests.repositorytests;
 
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.TestFactory;
 
@@ -37,7 +39,12 @@ public class TeammatesRepoTest extends AbstractJaMoPPParserRepoTest {
 	@Override
 	protected Collection<AbstractJaMoPPParserSimilarityTestFactory> getTestFactories() {
 		var res = new ArrayList<AbstractJaMoPPParserSimilarityTestFactory>();
-		res.add(new EAllContentSimilarityTestFactory(this.getSCC()));
+		res.add(new EAllContentSimilarityTestFactory(this.getSCC()) {
+			@Override
+			public boolean getExpectedResultFor(Resource res1, Path path1, Resource res2, Path path2) {
+				return res1 == res2;
+			}
+		});
 		return res;
 	}
 
@@ -50,7 +57,7 @@ public class TeammatesRepoTest extends AbstractJaMoPPParserRepoTest {
 	@TestFactory
 	@Override
 	public Collection<DynamicNode> createTests() {
-		this.prepareLocalRepoClones();
-		return super.createTests();
+		var resArr = this.cacheCommitResources().toArray(Resource[]::new);
+		return super.createTests(resArr);
 	}
 }

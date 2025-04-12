@@ -4,8 +4,11 @@ import cipm.consistency.commitintegration.GitRepositoryWrapper;
 import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSimilarityTest;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.jupiter.api.Assertions;
@@ -21,29 +24,50 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	private static final String copyDirName = "Copy";
 
 	/**
-	 * Prepares local repository clones for all commits relevant for this test. Must
-	 * be executed before all tests. <br>
-	 * <br>
-	 * Does nothing, if the desired repository clones are already there.
+	 * Adds model resources to cache for all commits relevant for this test. Must be
+	 * executed before all tests.
 	 * 
 	 * @see {@link #getCommitIDs()}
 	 */
-	protected void prepareLocalRepoClones() {
-		var rootDir = this.getRootDirPath().toFile();
-		if (!rootDir.exists() || rootDir.list().length == 0) {
-			this.getLogger().debug(String.format("Repository clones do not exist under %s ... preparing them now",
+	protected Collection<Resource> cacheCommitResources() {
+
+		var commitResources = new ArrayList<Resource>();
+		var commitResourcesExist = true;
+
+		for (var cID : this.getCommitIDs()) {
+			var targetPath = this.getTargetPathForCommit(cID);
+			if (!targetPath.toFile().exists()) {
+				this.getLogger().debug(String.format("Model resource missing for %s", cID));
+				commitResourcesExist = false;
+				break;
+			}
+		}
+
+		if (!commitResourcesExist) {
+			this.getLogger().debug(String.format("Some model resources are missing ... preparing them now",
 					this.getRootDirPath().toString()));
 			var wrapper = this.cloneRemoteRepo();
-			this.prepareReposForCommits(this.getCommitIDs(), wrapper);
+
+			commitResources.addAll(this.prepareReposForCommits(this.getCommitIDs(), wrapper));
+
 			this.closeGitWrapper(wrapper);
 			var mainLocalClonePath = wrapper.getRootDirectory().toPath();
+
 			this.getLogger().debug(
 					String.format("Cleaning main local repository clone under: %s", mainLocalClonePath.toString()));
 			this.cleanModels(mainLocalClonePath);
 			this.getLogger().debug("Cleaned main local repository clone");
-			this.getLogger().debug("Repository clones have been successfully prepared");
+		} else {
+			for (var cID : this.getCommitIDs()) {
+				var targetPath = this.getTargetPathForCommit(cID);
+				var res = this.loadResource(targetPath);
+				this.getCacheUtil().addToCache(targetPath.toString(), res);
+				commitResources.add(this.getCacheUtil().getFromCache(targetPath.toString()));
+			}
 		}
-		this.getLogger().debug("Repository clones are ready");
+
+		this.getLogger().debug("Repository model resources are cached");
+		return commitResources;
 	}
 
 	/**
@@ -71,19 +95,24 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	}
 
 	/**
-	 * Prepares local repository copies for each given commit. Requires the remote
-	 * repository to be cloned first (see parameter descriptions).
+	 * Adds model resources to cache model resources for each given commit. Requires
+	 * the remote repository to be cloned first (see parameter descriptions). <br>
+	 * <br>
+	 * <b><i>MODIFIES THE URI OF THE PARSED MODEL RESOURCES</i></b>
 	 * 
-	 * @param commits    Commits, for which the repository will be cloned
+	 * @param commits    Commits for which a model resource will be parsed
 	 * @param gitWrapper The object that can be used to perform GIT operations on
 	 *                   the "main" repository clone, which should be created with
 	 *                   {@link #cloneRemoteRepo()}.
 	 */
-	protected void prepareReposForCommits(List<String> commits, GitRepositoryWrapper gitWrapper) {
+	protected Collection<Resource> prepareReposForCommits(List<String> commits, GitRepositoryWrapper gitWrapper) {
+
+		var commitResources = new ArrayList<Resource>();
+
 		// Checkout and copy local repository clone for each
 		// commit except the last one. For the last one, just checkout to that commit to
 		// spare 1 copy operation
-		this.getLogger().debug("Preparing local repository copies");
+		this.getLogger().debug("Caching model resources for commits");
 		var commitCount = commits.size();
 		for (int i = 0; i < commitCount; i++) {
 			var commit = commits.get(i);
@@ -97,13 +126,33 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 				throw new IllegalArgumentException(e);
 			}
 
-			this.getLogger().debug(String.format("Checked out"));
-			this.getLogger().debug(String.format("Copying for: %s", commit));
-			this.copyModels(gitWrapper.getRootDirectory().toPath(), this.getRootDirPath().resolve(commit));
+			this.getLogger().debug(String.format("Checked out: %s", commit));
+			this.getLogger().debug(String.format("Caching resource for: %s", commit));
 
-			this.getLogger().debug(String.format("Successfully copied"));
+			var targetPath = this.getTargetPathForCommit(commit);
+			Resource commitRes = null;
+
+			if (targetPath.toFile().exists()) {
+				commitRes = this.parseModelsDirWithCaching(targetPath);
+			} else {
+				commitRes = this.parseModelsDirWithCaching(gitWrapper.getRootDirectory().toPath(),
+						targetPath.toString());
+				commitRes.setURI(this.getTargetURIForCommit(commit));
+			}
+
+			commitResources.add(commitRes);
+			this.getLogger().debug(String.format("Cached resource for: %s", commit));
 		}
-		this.getLogger().debug("Local repository copies are ready");
+		this.getLogger().debug("Cached model resources for commits");
+		return commitResources;
+	}
+
+	protected Path getTargetPathForCommit(String commitID) {
+		return this.getRootDirPath().resolve(commitID);
+	}
+
+	protected URI getTargetURIForCommit(String commitID) {
+		return URI.createFileURI(this.getTargetPathForCommit(commitID).toString());
 	}
 
 	/**
@@ -125,17 +174,6 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		this.getFileUtil().cleanModels(path);
 	}
 
-	/**
-	 * Recursively copies files from the given parent parameter to the path given
-	 * via copyPath. Replaces files, which already exist.
-	 * 
-	 * @param parentPath The directory to copy
-	 * @param copyPath   The path, where everything under parentPath will be copied.
-	 */
-	protected void copyModels(Path parentPath, Path copyPath) {
-		this.getFileUtil().copyModels(parentPath, copyPath);
-	}
-
 	@Override
 	protected Path getRootDirPath() {
 		return super.getRootDirPath().resolve(repoModelImplDirName).resolve(this.getRepoName());
@@ -144,12 +182,6 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	@Override
 	protected boolean isModelDirectoryName(String s) {
 		return this.getCommitIDs().stream().anyMatch((c) -> s.equals(c));
-	}
-
-	@Override
-	protected boolean isResourceRelevant(Path sourcePath, Resource r) {
-		var pathString = sourcePath.toString();
-		return this.getCommitIDs().stream().anyMatch((c) -> pathString.contains(c));
 	}
 
 	/**
