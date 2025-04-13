@@ -28,13 +28,23 @@
  * and eo2 contain different amounts of elements: X of one eo contains 2
  * elements elem1 and elem2 (elem1 and elem2 are NOT similar), whereas the X of
  * other eo only contains elem1: {@code eo1.eGet(X) = [elem1, elem2];
- * eo2.eGet(X) = [elem1]}. Notice that elem1 is mutual in both and is the first
- * element in both cases. This helps ensure that:
+ * eo2.eGet(X) = [elem1]}. Notice that elem1 is mutual (it is still cloned, as
+ * it would otherwise shift its container during construction) in both and is
+ * the first element in both cases. This helps ensure that:
  * <ol>
  * <li>Array lengths are accounted for,
  * <li>Elements are being compared in the correct order (i.e. elem1 with elem1
  * and not elem2 with elem1).
  * </ol>
+ * <li><b>testXPosition</b>: Similar to testXSize, where elem1 and elem2 are
+ * cloned and present in both eo1 and eo2, but in reverse order:
+ * {@code eo1.eGet(X) = [elem1, elem2];
+ * eo2.eGet(X) = [elem2, elem1]}. This further helps ensure that elements are
+ * being compared in the correct order.
+ * <li><b>testXDuplication</b>: Same as textXSize, where elem2 is a clone of
+ * elem1: {@code eo1.eGet(X) = [elem1, elem2] = [elem1, clone(elem1)];
+ * eo2.eGet(X) = [elem1]}. This helps ensure that duplicates are handled as
+ * expected.
  * <li><b>testXNullCheck</b>: Same as testX, where eo1's X attribute is set and
  * eo2's X attribute is not. These test methods ensure that no exceptions are
  * thrown while performing similarity checking on EObject instances that are not

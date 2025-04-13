@@ -1,34 +1,55 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
 import org.emftext.language.java.classifiers.AnonymousClass;
+import org.emftext.language.java.classifiers.impl.AnonymousClassImpl;
 import org.emftext.language.java.instantiations.NewConstructorCall;
 import org.emftext.language.java.instantiations.InstantiationsPackage;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesAnonymousClasses;
 import cipm.consistency.initialisers.jamopp.instantiations.NewConstructorCallInitialiser;
 
 public class NewConstructorCallTest extends AbstractJaMoPPSimilarityTest implements UsesAnonymousClasses {
-	protected NewConstructorCall initElement(AnonymousClass anonymousCls) {
+	private AnonymousClass anonCls1;
+	private AnonymousClass anonCls2;
+
+	protected NewConstructorCall initElement(AnonymousClass anonCls) {
 		var nccInit = new NewConstructorCallInitialiser();
 		var ncc = nccInit.instantiate();
-		Assertions.assertTrue(nccInit.setAnonymousClass(ncc, anonymousCls));
+		Assertions.assertTrue(nccInit.setAnonymousClass(ncc, anonCls));
 		return ncc;
+	}
+
+	@BeforeEach
+	@Override
+	public void setUp(TestInfo info) {
+		super.setUp(info);
+
+		anonCls1 = this.createMinimalAnonymousClass();
+		/*
+		 * Ensure that anonClss are different. There is currently no other way to make
+		 * them different.
+		 */
+		anonCls2 = new AnonymousClassImpl() {
+		};
+		Assertions.assertFalse(this.isSimilar(anonCls1, anonCls2));
 	}
 
 	@Test
 	public void testAnonymousClass() {
-		var objOne = this.initElement(this.createMinimalAnonymousClassWithMethod("met1"));
-		var objTwo = this.initElement(this.createMinimalAnonymousClassWithMethod("met2"));
+		var objOne = this.initElement(this.cloneEObjWithContainers(anonCls1));
+		var objTwo = this.initElement(this.cloneEObjWithContainers(anonCls2));
 
 		this.testSimilarity(objOne, objTwo, InstantiationsPackage.Literals.NEW_CONSTRUCTOR_CALL__ANONYMOUS_CLASS);
 	}
 
 	@Test
 	public void testAnonymousClassNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createMinimalAnonymousClassWithMethod("met1")),
+		this.testSimilarityNullCheck(this.initElement(this.cloneEObjWithContainers(anonCls1)),
 				new NewConstructorCallInitialiser(), false,
 				InstantiationsPackage.Literals.NEW_CONSTRUCTOR_CALL__ANONYMOUS_CLASS);
 	}
