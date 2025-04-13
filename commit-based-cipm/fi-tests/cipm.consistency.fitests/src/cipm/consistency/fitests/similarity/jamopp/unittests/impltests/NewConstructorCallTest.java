@@ -31,8 +31,8 @@ public class NewConstructorCallTest extends AbstractJaMoPPSimilarityTest impleme
 
 		anonCls1 = this.createMinimalAnonymousClass();
 		/*
-		 * Ensure that anonClss are different. There is currently no other way to make
-		 * them different.
+		 * Since there is currently no way to make AnonymousClass instances different,
+		 * use an anonymous class instance to force difference.
 		 */
 		anonCls2 = new AnonymousClassImpl() {
 		};

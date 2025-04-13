@@ -50,8 +50,8 @@ public class TryBlockTest extends AbstractJaMoPPSimilarityTest
 
 		fb1 = this.createMinimalBlock();
 		/*
-		 * Since there is currently no other way to make 2 Block instances different,
-		 * use an anonymous class instance.
+		 * Since there is currently no way to make Block instances different, use an
+		 * anonymous class instance to force difference.
 		 */
 		fb2 = new BlockImpl() {
 		};

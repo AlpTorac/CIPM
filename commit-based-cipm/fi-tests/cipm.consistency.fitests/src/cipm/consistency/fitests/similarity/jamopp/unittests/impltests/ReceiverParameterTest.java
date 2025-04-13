@@ -36,8 +36,8 @@ public class ReceiverParameterTest extends AbstractJaMoPPSimilarityTest implemen
 
 		thisRef1 = this.createThis();
 		/*
-		 * Since only one possible value is possible as thisRef, creating different This
-		 * instances is not possible otherwise.
+		 * Since there is currently no way to make This instances different, use an
+		 * anonymous class instance to force difference.
 		 */
 		thisRef2 = new ThisImpl() {
 		};

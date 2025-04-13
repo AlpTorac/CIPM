@@ -50,8 +50,8 @@ public class ModuleTest extends AbstractJaMoPPSimilarityTest implements UsesModu
 
 		open1 = this.createOpen();
 		/*
-		 * Since there is only one possible value, it is not possible to create a
-		 * different Open instance otherwise.
+		 * Since there is currently no way to make Open instances different, use an
+		 * anonymous class instance to force difference.
 		 */
 		open2 = new OpenImpl() {
 		};
