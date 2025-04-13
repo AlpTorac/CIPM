@@ -1,8 +1,10 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests;
 
+import org.emftext.language.java.annotations.AnnotationParameterList;
 import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.annotations.SingleAnnotationParameter;
 
+import cipm.consistency.initialisers.jamopp.annotations.AnnotationParameterListInitialiser;
 import cipm.consistency.initialisers.jamopp.annotations.SingleAnnotationParameterInitialiser;
 
 /**
@@ -45,4 +47,10 @@ public interface UsesAnnotationParameters extends UsesAnnotationValues {
 		return this.createSingleAnnoParam(this.createNullLiteral());
 	}
 
+	/**
+	 * @return An empty {@link AnnotationParameterList} instance.
+	 */
+	public default AnnotationParameterList createMinimalAnnoParamList() {
+		return new AnnotationParameterListInitialiser().instantiate();
+	}
 }

@@ -1,8 +1,10 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests;
 
 import org.emftext.language.java.containers.Module;
+import org.emftext.language.java.modifiers.Open;
 
 import cipm.consistency.initialisers.jamopp.containers.ModuleInitialiser;
+import cipm.consistency.initialisers.jamopp.modifiers.OpenInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with {@link Module}
@@ -32,4 +34,15 @@ public interface UsesModules {
 		return this.createMinimalModule(modName, null);
 	}
 
+	/**
+	 * Implemented in this interface despite being in
+	 * org.emftext.language.java.modifiers, because {@link Open} does not implement
+	 * {@link Modifier}.
+	 * 
+	 * @return An {@link Open} instance that can be used to make a {@link Module}
+	 *         instance open.
+	 */
+	public default Open createOpen() {
+		return new OpenInitialiser().instantiate();
+	}
 }

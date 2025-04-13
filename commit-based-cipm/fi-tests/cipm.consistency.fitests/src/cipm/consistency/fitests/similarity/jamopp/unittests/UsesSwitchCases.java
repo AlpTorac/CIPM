@@ -1,8 +1,10 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests;
 
 import org.emftext.language.java.expressions.Expression;
+import org.emftext.language.java.statements.DefaultSwitchCase;
 import org.emftext.language.java.statements.NormalSwitchCase;
 
+import cipm.consistency.initialisers.jamopp.statements.DefaultSwitchCaseInitialiser;
 import cipm.consistency.initialisers.jamopp.statements.NormalSwitchCaseInitialiser;
 
 /**
@@ -37,5 +39,12 @@ public interface UsesSwitchCases extends UsesExpressions {
 	 */
 	public default NormalSwitchCase createEmptyNSC() {
 		return this.createMinimalNSC(null);
+	}
+
+	/**
+	 * @return A {@link DefaultSwitchCase} instance
+	 */
+	public default DefaultSwitchCase createMinimalDSC() {
+		return new DefaultSwitchCaseInitialiser().instantiate();
 	}
 }

@@ -151,4 +151,11 @@ public interface UsesStatements extends UsesLiterals, UsesLocalVariables {
 	public default Block createMinimalBlockWithTrivialAssert() {
 		return this.createMinimalBlock(new Statement[] { this.createMinimalTrivialAssert() });
 	}
+
+	/**
+	 * @return An empty {@link Block} instance.
+	 */
+	public default Block createMinimalBlock() {
+		return new BlockInitialiser().instantiate();
+	}
 }

@@ -1,9 +1,11 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests;
 
 import org.emftext.language.java.expressions.ExplicitlyTypedLambdaParameters;
+import org.emftext.language.java.expressions.ImplicitlyTypedLambdaParameters;
 import org.emftext.language.java.parameters.Parameter;
 
 import cipm.consistency.initialisers.jamopp.expressions.ExplicitlyTypedLambdaParametersInitialiser;
+import cipm.consistency.initialisers.jamopp.expressions.ImplicitlyTypedLambdaParametersInitialiser;
 
 /**
  * An interface that can be implemented by tests, which work with
@@ -38,5 +40,32 @@ public interface UsesLambdaParameters extends UsesParameters {
 	 */
 	public default ExplicitlyTypedLambdaParameters createMinimalETLP(String paramName, String targetName) {
 		return this.createETLP(new Parameter[] { this.createMinimalOrdParamWithClsTarget(paramName, targetName) });
+	}
+
+	/**
+	 * A variant of {@link #createITLP(Parameter[])}, where a single
+	 * {@link Parameter} instance is constructed and used.
+	 * 
+	 * @param paramName  See
+	 *                   {@link #createMinimalOrdParamWithClsTarget(String, String)}
+	 * @param targetName See
+	 *                   {@link #createMinimalOrdParamWithClsTarget(String, String)}
+	 */
+	public default ImplicitlyTypedLambdaParameters createMinimalITLP(String paramName, String targetName) {
+		return this.createITLP(new Parameter[] { this.createMinimalOrdParamWithClsTarget(paramName, targetName) });
+	}
+
+	/**
+	 * @param params The parameters that will be added to the constructed instance
+	 * @return An {@link ImplicitlyTypedLambdaParameters} instance with the given
+	 *         parameters
+	 */
+	public default ImplicitlyTypedLambdaParameters createITLP(Parameter[] params) {
+		var init = new ImplicitlyTypedLambdaParametersInitialiser();
+
+		var result = init.instantiate();
+		init.addParameters(result, params);
+
+		return result;
 	}
 }
