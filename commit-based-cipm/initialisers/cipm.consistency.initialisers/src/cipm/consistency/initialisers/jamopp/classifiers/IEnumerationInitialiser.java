@@ -10,7 +10,7 @@ public interface IEnumerationInitialiser extends IConcreteClassifierInitialiser,
 	public default boolean addConstant(Enumeration enm, EnumConstant cnst) {
 		if (cnst != null) {
 			enm.getConstants().add(cnst);
-			return enm.getConstants().contains(cnst) && enm.getContainedConstant(cnst.getName()).equals(cnst);
+			return enm.getConstants().contains(cnst) && enm.getConstants().stream().anyMatch((c) -> c.equals(cnst));
 		}
 		return true;
 	}
