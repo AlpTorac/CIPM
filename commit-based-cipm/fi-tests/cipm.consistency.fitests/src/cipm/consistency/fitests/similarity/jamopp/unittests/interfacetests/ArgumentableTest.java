@@ -6,6 +6,8 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.references.Argumentable;
 import org.emftext.language.java.references.ReferencesPackage;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -18,6 +20,8 @@ import cipm.consistency.initialisers.jamopp.references.IArgumentableInitialiser;
 
 public class ArgumentableTest extends AbstractJaMoPPSimilarityTest
 		implements UsesConcreteClassifiers, UsesExpressions, UsesLiterals {
+	private Expression arg1;
+	private Expression arg2;
 
 	private static Stream<Arguments> provideArguments() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IArgumentableInitialiser.class);
@@ -30,11 +34,21 @@ public class ArgumentableTest extends AbstractJaMoPPSimilarityTest
 		return result;
 	}
 
+	@BeforeEach
+	@Override
+	public void setUp(TestInfo info) {
+		super.setUp(info);
+
+		arg1 = this.createDecimalIntegerLiteral(1);
+		arg2 = this.createDecimalIntegerLiteral(2);
+		Assertions.assertFalse(this.isSimilar(arg1, arg2));
+	}
+
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testArguments(IArgumentableInitialiser init, String displayName) {
-		var objOne = this.initElement(init, new Expression[] { this.createDecimalIntegerLiteral(1) });
-		var objTwo = this.initElement(init, new Expression[] { this.createDecimalIntegerLiteral(0) });
+		var objOne = this.initElement(init, new Expression[] { this.cloneEObjWithContainers(arg1) });
+		var objTwo = this.initElement(init, new Expression[] { this.cloneEObjWithContainers(arg2) });
 
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS);
 	}
@@ -43,8 +57,8 @@ public class ArgumentableTest extends AbstractJaMoPPSimilarityTest
 	@MethodSource("provideArguments")
 	public void testArgumentsSize(IArgumentableInitialiser init, String displayName) {
 		var objOne = this.initElement(init,
-				new Expression[] { this.createDecimalIntegerLiteral(1), this.createDecimalIntegerLiteral(2) });
-		var objTwo = this.initElement(init, new Expression[] { this.createDecimalIntegerLiteral(1) });
+				new Expression[] { this.cloneEObjWithContainers(arg1), this.cloneEObjWithContainers(arg2) });
+		var objTwo = this.initElement(init, new Expression[] { this.cloneEObjWithContainers(arg1) });
 
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS);
 	}
@@ -53,9 +67,19 @@ public class ArgumentableTest extends AbstractJaMoPPSimilarityTest
 	@MethodSource("provideArguments")
 	public void testArgumentsPosition(IArgumentableInitialiser init, String displayName) {
 		var objOne = this.initElement(init,
-				new Expression[] { this.createDecimalIntegerLiteral(1), this.createDecimalIntegerLiteral(2) });
+				new Expression[] { this.cloneEObjWithContainers(arg1), this.cloneEObjWithContainers(arg2) });
 		var objTwo = this.initElement(init,
-				new Expression[] { this.createDecimalIntegerLiteral(2), this.createDecimalIntegerLiteral(1) });
+				new Expression[] { this.cloneEObjWithContainers(arg2), this.cloneEObjWithContainers(arg1) });
+
+		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
+	public void testArgumentsDuplication(IArgumentableInitialiser init, String displayName) {
+		var objOne = this.initElement(init,
+				new Expression[] { this.cloneEObjWithContainers(arg1), this.cloneEObjWithContainers(arg1) });
+		var objTwo = this.initElement(init, new Expression[] { this.cloneEObjWithContainers(arg1) });
 
 		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS);
 	}
@@ -63,7 +87,7 @@ public class ArgumentableTest extends AbstractJaMoPPSimilarityTest
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testArgumentsNullCheck(IArgumentableInitialiser init, String displayName) {
-		this.testSimilarityNullCheck(this.initElement(init, new Expression[] { this.createDecimalIntegerLiteral(1) }),
+		this.testSimilarityNullCheck(this.initElement(init, new Expression[] { this.cloneEObjWithContainers(arg1) }),
 				init, true, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS);
 	}
 }

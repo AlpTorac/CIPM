@@ -6,6 +6,8 @@ import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypedElement;
 import org.emftext.language.java.types.TypesPackage;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -15,6 +17,8 @@ import cipm.consistency.fitests.similarity.jamopp.unittests.UsesTypeReferences;
 import cipm.consistency.initialisers.jamopp.types.ITypedElementInitialiser;
 
 public class TypedElementTest extends AbstractJaMoPPSimilarityTest implements UsesTypeReferences {
+	private TypeReference tref1;
+	private TypeReference tref2;
 
 	private static Stream<Arguments> provideArguments() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(ITypedElementInitialiser.class);
@@ -27,11 +31,21 @@ public class TypedElementTest extends AbstractJaMoPPSimilarityTest implements Us
 		return result;
 	}
 
+	@BeforeEach
+	@Override
+	public void setUp(TestInfo info) {
+		super.setUp(info);
+
+		tref1 = this.createMinimalClsRef("cls1");
+		tref2 = this.createMinimalClsRef("cls2");
+		Assertions.assertFalse(this.isSimilar(tref1, tref2));
+	}
+
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testTypeReference(ITypedElementInitialiser init, String displayName) {
-		var objOne = this.initElement(init, this.createMinimalClsRef("cls1"));
-		var objTwo = this.initElement(init, this.createMinimalClsRef("cls2"));
+		var objOne = this.initElement(init, this.cloneEObjWithContainers(tref1));
+		var objTwo = this.initElement(init, this.cloneEObjWithContainers(tref2));
 
 		this.testSimilarity(objOne, objTwo, TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE);
 	}
@@ -39,7 +53,7 @@ public class TypedElementTest extends AbstractJaMoPPSimilarityTest implements Us
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testTypeReferenceNullCheck(ITypedElementInitialiser init, String displayName) {
-		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalClsRef("cls1")), init, true,
+		this.testSimilarityNullCheck(this.initElement(init, this.cloneEObjWithContainers(tref1)), init, true,
 				TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE);
 	}
 }

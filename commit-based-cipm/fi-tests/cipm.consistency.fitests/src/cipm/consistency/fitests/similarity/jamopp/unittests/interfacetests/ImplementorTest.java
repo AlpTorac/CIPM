@@ -6,6 +6,8 @@ import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.classifiers.Implementor;
 import org.emftext.language.java.types.TypeReference;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -15,6 +17,8 @@ import cipm.consistency.fitests.similarity.jamopp.unittests.UsesTypeReferences;
 import cipm.consistency.initialisers.jamopp.classifiers.IImplementorInitialiser;
 
 public class ImplementorTest extends AbstractJaMoPPSimilarityTest implements UsesTypeReferences {
+	private TypeReference impl1;
+	private TypeReference impl2;
 
 	private static Stream<Arguments> provideArguments() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IImplementorInitialiser.class);
@@ -27,11 +31,21 @@ public class ImplementorTest extends AbstractJaMoPPSimilarityTest implements Use
 		return result;
 	}
 
+	@BeforeEach
+	@Override
+	public void setUp(TestInfo info) {
+		super.setUp(info);
+
+		impl1 = this.createMinimalClsRef("cls1");
+		impl2 = this.createMinimalClsRef("cls2");
+		Assertions.assertFalse(this.isSimilar(impl1, impl2));
+	}
+
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testImplements(IImplementorInitialiser init, String displayName) {
-		var objOne = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") });
-		var objTwo = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls2") });
+		var objOne = this.initElement(init, new TypeReference[] { this.cloneEObjWithContainers(impl1) });
+		var objTwo = this.initElement(init, new TypeReference[] { this.cloneEObjWithContainers(impl2) });
 
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
 	}
@@ -40,8 +54,8 @@ public class ImplementorTest extends AbstractJaMoPPSimilarityTest implements Use
 	@MethodSource("provideArguments")
 	public void testImplementsSize(IImplementorInitialiser init, String displayName) {
 		var objOne = this.initElement(init,
-				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
-		var objTwo = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") });
+				new TypeReference[] { this.cloneEObjWithContainers(impl1), this.cloneEObjWithContainers(impl2) });
+		var objTwo = this.initElement(init, new TypeReference[] { this.cloneEObjWithContainers(impl1) });
 
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
 	}
@@ -50,9 +64,19 @@ public class ImplementorTest extends AbstractJaMoPPSimilarityTest implements Use
 	@MethodSource("provideArguments")
 	public void testImplementsPosition(IImplementorInitialiser init, String displayName) {
 		var objOne = this.initElement(init,
-				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
+				new TypeReference[] { this.cloneEObjWithContainers(impl1), this.cloneEObjWithContainers(impl2) });
 		var objTwo = this.initElement(init,
-				new TypeReference[] { this.createMinimalClsRef("cls2"), this.createMinimalClsRef("cls1") });
+				new TypeReference[] { this.cloneEObjWithContainers(impl2), this.cloneEObjWithContainers(impl1) });
+
+		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
+	public void testImplementsDuplication(IImplementorInitialiser init, String displayName) {
+		var objOne = this.initElement(init,
+				new TypeReference[] { this.cloneEObjWithContainers(impl1), this.cloneEObjWithContainers(impl1) });
+		var objTwo = this.initElement(init, new TypeReference[] { this.cloneEObjWithContainers(impl1) });
 
 		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
 	}
@@ -60,7 +84,8 @@ public class ImplementorTest extends AbstractJaMoPPSimilarityTest implements Use
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testImplementsNullCheck(IImplementorInitialiser init, String displayName) {
-		this.testSimilarityNullCheck(this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") }),
-				init, true, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
+		this.testSimilarityNullCheck(
+				this.initElement(init, new TypeReference[] { this.cloneEObjWithContainers(impl1) }), init, true,
+				ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
 	}
 }

@@ -1,6 +1,8 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.interfacetests;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -16,6 +18,8 @@ import cipm.consistency.fitests.similarity.jamopp.unittests.UsesImportingElement
 import cipm.consistency.initialisers.jamopp.imports.IImportingElementInitialiser;
 
 public class ImportingElementTest extends AbstractJaMoPPSimilarityTest implements UsesImportingElements {
+	private Import imp1;
+	private Import imp2;
 
 	private static Stream<Arguments> provideArguments() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IImportingElementInitialiser.class);
@@ -28,11 +32,21 @@ public class ImportingElementTest extends AbstractJaMoPPSimilarityTest implement
 		return result;
 	}
 
+	@BeforeEach
+	@Override
+	public void setUp(TestInfo info) {
+		super.setUp(info);
+
+		imp1 = this.createMinimalClsImport("cls1");
+		imp2 = this.createMinimalClsImport("cls2");
+		Assertions.assertFalse(this.isSimilar(imp1, imp2));
+	}
+
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testImports(IImportingElementInitialiser init, String displayName) {
-		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") });
-		var objTwo = this.initElement(init, new Import[] { this.createMinimalClsImport("cls2") });
+		var objOne = this.initElement(init, new Import[] { this.cloneEObjWithContainers(imp1) });
+		var objTwo = this.initElement(init, new Import[] { this.cloneEObjWithContainers(imp2) });
 
 		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
 	}
@@ -41,8 +55,8 @@ public class ImportingElementTest extends AbstractJaMoPPSimilarityTest implement
 	@MethodSource("provideArguments")
 	public void testImportsSize(IImportingElementInitialiser init, String displayName) {
 		var objOne = this.initElement(init,
-				new Import[] { this.createMinimalClsImport("cls1"), this.createMinimalClsImport("cls2") });
-		var objTwo = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") });
+				new Import[] { this.cloneEObjWithContainers(imp1), this.cloneEObjWithContainers(imp2) });
+		var objTwo = this.initElement(init, new Import[] { this.cloneEObjWithContainers(imp1) });
 
 		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
 	}
@@ -51,9 +65,19 @@ public class ImportingElementTest extends AbstractJaMoPPSimilarityTest implement
 	@MethodSource("provideArguments")
 	public void testImportsPosition(IImportingElementInitialiser init, String displayName) {
 		var objOne = this.initElement(init,
-				new Import[] { this.createMinimalClsImport("cls1"), this.createMinimalClsImport("cls2") });
+				new Import[] { this.cloneEObjWithContainers(imp1), this.cloneEObjWithContainers(imp2) });
 		var objTwo = this.initElement(init,
-				new Import[] { this.createMinimalClsImport("cls2"), this.createMinimalClsImport("cls1") });
+				new Import[] { this.cloneEObjWithContainers(imp2), this.cloneEObjWithContainers(imp1) });
+
+		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
+	public void testImportsDuplication(IImportingElementInitialiser init, String displayName) {
+		var objOne = this.initElement(init,
+				new Import[] { this.cloneEObjWithContainers(imp1), this.cloneEObjWithContainers(imp1) });
+		var objTwo = this.initElement(init, new Import[] { this.cloneEObjWithContainers(imp1) });
 
 		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
 	}
@@ -61,7 +85,7 @@ public class ImportingElementTest extends AbstractJaMoPPSimilarityTest implement
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testImportsNullCheck(IImportingElementInitialiser init, String displayName) {
-		this.testSimilarityNullCheck(this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }), init,
+		this.testSimilarityNullCheck(this.initElement(init, new Import[] { this.cloneEObjWithContainers(imp1) }), init,
 				true, ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS);
 	}
 }

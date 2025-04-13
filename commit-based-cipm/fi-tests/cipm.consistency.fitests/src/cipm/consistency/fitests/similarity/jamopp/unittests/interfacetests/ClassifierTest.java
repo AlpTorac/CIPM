@@ -7,6 +7,8 @@ import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.imports.ImportsPackage;
 import org.emftext.language.java.imports.PackageImport;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -22,6 +24,10 @@ import cipm.consistency.initialisers.jamopp.classifiers.IClassifierInitialiser;
  * @author Alp Torac Genc
  */
 public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements UsesImports, UsesPackageImports {
+	private Import imp1;
+	private Import imp2;
+	private PackageImport pImp1;
+	private PackageImport pImp2;
 
 	private static Stream<Arguments> provideArguments() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IClassifierInitialiser.class);
@@ -40,11 +46,25 @@ public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements Uses
 		return result;
 	}
 
+	@BeforeEach
+	@Override
+	public void setUp(TestInfo info) {
+		super.setUp(info);
+
+		imp1 = this.createMinimalClsImport("cls1");
+		imp2 = this.createMinimalClsImport("cls2");
+		Assertions.assertFalse(this.isSimilar(imp1, imp2));
+
+		pImp1 = this.createMinimalPackageImport(new String[] { "ns1", "ns2" });
+		pImp2 = this.createMinimalPackageImport(new String[] { "ns3", "ns4" });
+		Assertions.assertFalse(this.isSimilar(pImp1, pImp2));
+	}
+
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testImports(IClassifierInitialiser init, String displayName) {
-		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }, null);
-		var objTwo = this.initElement(init, new Import[] { this.createMinimalClsImport("cls2") }, null);
+		var objOne = this.initElement(init, new Import[] { this.cloneEObjWithContainers(imp1) }, null);
+		var objTwo = this.initElement(init, new Import[] { this.cloneEObjWithContainers(imp2) }, null);
 
 		this.testSimilarity(objOne, objTwo,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
@@ -55,8 +75,8 @@ public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements Uses
 	@MethodSource("provideArguments")
 	public void testImportsSize(IClassifierInitialiser init, String displayName) {
 		var objOne = this.initElement(init,
-				new Import[] { this.createMinimalClsImport("cls1"), this.createMinimalClsImport("cls2") }, null);
-		var objTwo = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }, null);
+				new Import[] { this.cloneEObjWithContainers(imp1), this.cloneEObjWithContainers(imp2) }, null);
+		var objTwo = this.initElement(init, new Import[] { this.cloneEObjWithContainers(imp1) }, null);
 
 		this.testSimilarity(objOne, objTwo,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
@@ -67,9 +87,21 @@ public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements Uses
 	@MethodSource("provideArguments")
 	public void testImportsPosition(IClassifierInitialiser init, String displayName) {
 		var objOne = this.initElement(init,
-				new Import[] { this.createMinimalClsImport("cls1"), this.createMinimalClsImport("cls2") }, null);
+				new Import[] { this.cloneEObjWithContainers(imp1), this.cloneEObjWithContainers(imp2) }, null);
 		var objTwo = this.initElement(init,
-				new Import[] { this.createMinimalClsImport("cls2"), this.createMinimalClsImport("cls1") }, null);
+				new Import[] { this.cloneEObjWithContainers(imp2), this.cloneEObjWithContainers(imp1) }, null);
+
+		this.testSimilarity(objOne, objTwo,
+				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
+						|| (!init.canAddImports(objOne) && !init.canAddImports(objTwo)));
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
+	public void testImportsDuplication(IClassifierInitialiser init, String displayName) {
+		var objOne = this.initElement(init,
+				new Import[] { this.cloneEObjWithContainers(imp1), this.cloneEObjWithContainers(imp1) }, null);
+		var objTwo = this.initElement(init, new Import[] { this.cloneEObjWithContainers(imp1) }, null);
 
 		this.testSimilarity(objOne, objTwo,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
@@ -79,7 +111,7 @@ public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements Uses
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testImportsNullCheck(IClassifierInitialiser init, String displayName) {
-		var objOne = this.initElement(init, new Import[] { this.createMinimalClsImport("cls1") }, null);
+		var objOne = this.initElement(init, new Import[] { this.cloneEObjWithContainers(imp1) }, null);
 
 		this.testSimilarityNullCheck(objOne, init, true,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
@@ -92,10 +124,8 @@ public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements Uses
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testPackageImports(IClassifierInitialiser init, String displayName) {
-		var objOne = this.initElement(init, null,
-				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }) });
-		var objTwo = this.initElement(init, null,
-				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns3", "ns4" }) });
+		var objOne = this.initElement(init, null, new PackageImport[] { this.cloneEObjWithContainers(pImp1) });
+		var objTwo = this.initElement(init, null, new PackageImport[] { this.cloneEObjWithContainers(pImp2) });
 
 		this.testSimilarity(objOne, objTwo,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
@@ -106,10 +136,8 @@ public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements Uses
 	@MethodSource("provideArguments")
 	public void testPackageImportsSize(IClassifierInitialiser init, String displayName) {
 		var objOne = this.initElement(init, null,
-				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }),
-						this.createMinimalPackageImport(new String[] { "ns3", "ns4" }) });
-		var objTwo = this.initElement(init, null,
-				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }) });
+				new PackageImport[] { this.cloneEObjWithContainers(pImp1), this.cloneEObjWithContainers(pImp2) });
+		var objTwo = this.initElement(init, null, new PackageImport[] { this.cloneEObjWithContainers(pImp1) });
 
 		this.testSimilarity(objOne, objTwo,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
@@ -120,11 +148,21 @@ public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements Uses
 	@MethodSource("provideArguments")
 	public void testPackageImportsPosition(IClassifierInitialiser init, String displayName) {
 		var objOne = this.initElement(init, null,
-				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }),
-						this.createMinimalPackageImport(new String[] { "ns3", "ns4" }) });
+				new PackageImport[] { this.cloneEObjWithContainers(pImp1), this.cloneEObjWithContainers(pImp2) });
 		var objTwo = this.initElement(init, null,
-				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns3", "ns4" }),
-						this.createMinimalPackageImport(new String[] { "ns1", "ns2" }) });
+				new PackageImport[] { this.cloneEObjWithContainers(pImp2), this.cloneEObjWithContainers(pImp1) });
+
+		this.testSimilarity(objOne, objTwo,
+				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
+						|| (!init.canAddImports(objOne) && !init.canAddImports(objTwo)));
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
+	public void testPackageImportsDuplication(IClassifierInitialiser init, String displayName) {
+		var objOne = this.initElement(init, null,
+				new PackageImport[] { this.cloneEObjWithContainers(pImp1), this.cloneEObjWithContainers(pImp1) });
+		var objTwo = this.initElement(init, null, new PackageImport[] { this.cloneEObjWithContainers(pImp1) });
 
 		this.testSimilarity(objOne, objTwo,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()
@@ -134,8 +172,7 @@ public class ClassifierTest extends AbstractJaMoPPSimilarityTest implements Uses
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testPackageImportsNullCheck(IClassifierInitialiser init, String displayName) {
-		var objOne = this.initElement(init, null,
-				new PackageImport[] { this.createMinimalPackageImport(new String[] { "ns1", "ns2" }) });
+		var objOne = this.initElement(init, null, new PackageImport[] { this.cloneEObjWithContainers(pImp1) });
 
 		this.testSimilarityNullCheck(objOne, init, true,
 				this.getExpectedSimilarityResult(ImportsPackage.Literals.IMPORTING_ELEMENT__IMPORTS).booleanValue()

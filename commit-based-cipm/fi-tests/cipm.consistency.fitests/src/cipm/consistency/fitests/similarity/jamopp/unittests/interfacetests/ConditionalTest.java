@@ -6,6 +6,8 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.statements.Conditional;
 import org.emftext.language.java.statements.StatementsPackage;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -15,6 +17,8 @@ import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
 import cipm.consistency.initialisers.jamopp.statements.IConditionalInitialiser;
 
 public class ConditionalTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions {
+	private Expression cond1;
+	private Expression cond2;
 
 	private static Stream<Arguments> provideArguments() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IConditionalInitialiser.class);
@@ -27,11 +31,21 @@ public class ConditionalTest extends AbstractJaMoPPSimilarityTest implements Use
 		return result;
 	}
 
+	@BeforeEach
+	@Override
+	public void setUp(TestInfo info) {
+		super.setUp(info);
+
+		cond1 = this.createMinimalTrueEE();
+		cond2 = this.createMinimalTrueNEE();
+		Assertions.assertFalse(this.isSimilar(cond1, cond2));
+	}
+
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testCondition(IConditionalInitialiser init, String displayName) {
-		var objOne = this.initElement(init, this.createMinimalTrueEE());
-		var objTwo = this.initElement(init, this.createMinimalTrueNEE());
+		var objOne = this.initElement(init, this.cloneEObjWithContainers(cond1));
+		var objTwo = this.initElement(init, this.cloneEObjWithContainers(cond2));
 
 		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.CONDITIONAL__CONDITION);
 	}
@@ -39,7 +53,7 @@ public class ConditionalTest extends AbstractJaMoPPSimilarityTest implements Use
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testConditionNullCheck(IConditionalInitialiser init, String displayName) {
-		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalTrueEE()), init, true,
+		this.testSimilarityNullCheck(this.initElement(init, this.cloneEObjWithContainers(cond1)), init, true,
 				StatementsPackage.Literals.CONDITIONAL__CONDITION);
 	}
 }

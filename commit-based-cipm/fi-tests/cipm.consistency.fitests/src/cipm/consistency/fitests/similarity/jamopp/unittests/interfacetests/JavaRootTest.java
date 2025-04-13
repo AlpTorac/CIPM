@@ -14,7 +14,6 @@ import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.initialisers.jamopp.containers.IJavaRootInitialiser;
 
 public class JavaRootTest extends AbstractJaMoPPSimilarityTest {
-
 	private static Stream<Arguments> provideArguments() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IJavaRootInitialiser.class);
 	}

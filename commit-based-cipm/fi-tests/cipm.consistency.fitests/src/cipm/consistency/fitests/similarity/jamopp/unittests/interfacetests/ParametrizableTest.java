@@ -6,6 +6,8 @@ import org.emftext.language.java.parameters.Parameter;
 import org.emftext.language.java.parameters.ParametersPackage;
 import org.emftext.language.java.parameters.Parametrizable;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -15,6 +17,8 @@ import cipm.consistency.fitests.similarity.jamopp.unittests.UsesParameters;
 import cipm.consistency.initialisers.jamopp.parameters.IParametrizableInitialiser;
 
 public class ParametrizableTest extends AbstractJaMoPPSimilarityTest implements UsesParameters {
+	private Parameter param1;
+	private Parameter param2;
 
 	private static Stream<Arguments> provideArguments() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IParametrizableInitialiser.class);
@@ -27,11 +31,21 @@ public class ParametrizableTest extends AbstractJaMoPPSimilarityTest implements 
 		return result;
 	}
 
+	@BeforeEach
+	@Override
+	public void setUp(TestInfo info) {
+		super.setUp(info);
+
+		param1 = this.createMinimalOrdParamWithClsTarget("p1", "t1");
+		param2 = this.createMinimalOrdParamWithClsTarget("p2", "t2");
+		Assertions.assertFalse(this.isSimilar(param1, param2));
+	}
+
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testParameters(IParametrizableInitialiser init, String displayName) {
-		var objOne = this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p1", "t1") });
-		var objTwo = this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p2", "t2") });
+		var objOne = this.initElement(init, new Parameter[] { this.cloneEObjWithContainers(param1) });
+		var objTwo = this.initElement(init, new Parameter[] { this.cloneEObjWithContainers(param2) });
 
 		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS);
 	}
@@ -39,9 +53,9 @@ public class ParametrizableTest extends AbstractJaMoPPSimilarityTest implements 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testParametersSize(IParametrizableInitialiser init, String displayName) {
-		var objOne = this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p1", "t1"),
-				this.createMinimalOrdParamWithClsTarget("p2", "t2") });
-		var objTwo = this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p1", "t1") });
+		var objOne = this.initElement(init,
+				new Parameter[] { this.cloneEObjWithContainers(param1), this.cloneEObjWithContainers(param2) });
+		var objTwo = this.initElement(init, new Parameter[] { this.cloneEObjWithContainers(param1) });
 
 		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS);
 	}
@@ -49,10 +63,20 @@ public class ParametrizableTest extends AbstractJaMoPPSimilarityTest implements 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testParametersPosition(IParametrizableInitialiser init, String displayName) {
-		var objOne = this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p1", "t1"),
-				this.createMinimalOrdParamWithClsTarget("p2", "t2") });
-		var objTwo = this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p2", "t2"),
-				this.createMinimalOrdParamWithClsTarget("p1", "t1") });
+		var objOne = this.initElement(init,
+				new Parameter[] { this.cloneEObjWithContainers(param1), this.cloneEObjWithContainers(param2) });
+		var objTwo = this.initElement(init,
+				new Parameter[] { this.cloneEObjWithContainers(param2), this.cloneEObjWithContainers(param1) });
+
+		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
+	public void testParametersDuplication(IParametrizableInitialiser init, String displayName) {
+		var objOne = this.initElement(init,
+				new Parameter[] { this.cloneEObjWithContainers(param1), this.cloneEObjWithContainers(param1) });
+		var objTwo = this.initElement(init, new Parameter[] { this.cloneEObjWithContainers(param1) });
 
 		this.testSimilarity(objOne, objTwo, ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS);
 	}
@@ -60,8 +84,7 @@ public class ParametrizableTest extends AbstractJaMoPPSimilarityTest implements 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testParametersNullCheck(IParametrizableInitialiser init, String displayName) {
-		this.testSimilarityNullCheck(
-				this.initElement(init, new Parameter[] { this.createMinimalOrdParamWithClsTarget("p1", "t1") }), init,
-				true, ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS);
+		this.testSimilarityNullCheck(this.initElement(init, new Parameter[] { this.cloneEObjWithContainers(param1) }),
+				init, true, ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS);
 	}
 }

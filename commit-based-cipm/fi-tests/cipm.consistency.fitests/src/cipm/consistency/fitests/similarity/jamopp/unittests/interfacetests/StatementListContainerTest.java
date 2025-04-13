@@ -6,6 +6,8 @@ import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.emftext.language.java.statements.StatementsPackage;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -20,6 +22,8 @@ import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerIn
  * @author Alp Torac Genc
  */
 public class StatementListContainerTest extends AbstractJaMoPPSimilarityTest implements UsesStatements {
+	private Statement st1;
+	private Statement st2;
 
 	private static Stream<Arguments> provideArguments() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IStatementListContainerInitialiser.class);
@@ -34,11 +38,21 @@ public class StatementListContainerTest extends AbstractJaMoPPSimilarityTest imp
 		return result;
 	}
 
+	@BeforeEach
+	@Override
+	public void setUp(TestInfo info) {
+		super.setUp(info);
+
+		st1 = this.createMinimalNullReturn();
+		st2 = this.createMinimalTrivialAssert();
+		Assertions.assertFalse(this.isSimilar(st1, st2));
+	}
+
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testStatements(IStatementListContainerInitialiser init, String displayName) {
-		var objOne = this.initElement(init, new Statement[] { this.createMinimalNullReturn() });
-		var objTwo = this.initElement(init, new Statement[] { this.createMinimalTrivialAssert() });
+		var objOne = this.initElement(init, new Statement[] { this.cloneEObjWithContainers(st1) });
+		var objTwo = this.initElement(init, new Statement[] { this.cloneEObjWithContainers(st2) });
 
 		this.testSimilarity(objOne, objTwo,
 				this.getExpectedSimilarityResult(StatementsPackage.Literals.BLOCK__STATEMENTS).booleanValue()
@@ -49,8 +63,8 @@ public class StatementListContainerTest extends AbstractJaMoPPSimilarityTest imp
 	@MethodSource("provideArguments")
 	public void testStatementsSize(IStatementListContainerInitialiser init, String displayName) {
 		var objOne = this.initElement(init,
-				new Statement[] { this.createMinimalTrivialAssert(), this.createMinimalNullReturn() });
-		var objTwo = this.initElement(init, new Statement[] { this.createMinimalTrivialAssert() });
+				new Statement[] { this.cloneEObjWithContainers(st1), this.cloneEObjWithContainers(st2) });
+		var objTwo = this.initElement(init, new Statement[] { this.cloneEObjWithContainers(st1) });
 
 		this.testSimilarity(objOne, objTwo,
 				this.getExpectedSimilarityResult(StatementsPackage.Literals.BLOCK__STATEMENTS).booleanValue()
@@ -61,9 +75,21 @@ public class StatementListContainerTest extends AbstractJaMoPPSimilarityTest imp
 	@MethodSource("provideArguments")
 	public void testStatementsPosition(IStatementListContainerInitialiser init, String displayName) {
 		var objOne = this.initElement(init,
-				new Statement[] { this.createMinimalTrivialAssert(), this.createMinimalNullReturn() });
+				new Statement[] { this.cloneEObjWithContainers(st1), this.cloneEObjWithContainers(st2) });
 		var objTwo = this.initElement(init,
-				new Statement[] { this.createMinimalNullReturn(), this.createMinimalTrivialAssert() });
+				new Statement[] { this.cloneEObjWithContainers(st2), this.cloneEObjWithContainers(st1) });
+
+		this.testSimilarity(objOne, objTwo,
+				this.getExpectedSimilarityResult(StatementsPackage.Literals.BLOCK__STATEMENTS).booleanValue()
+						|| (!init.canContainStatements(objOne) && !init.canContainStatements(objTwo)));
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
+	public void testStatementsDuplication(IStatementListContainerInitialiser init, String displayName) {
+		var objOne = this.initElement(init,
+				new Statement[] { this.cloneEObjWithContainers(st1), this.cloneEObjWithContainers(st1) });
+		var objTwo = this.initElement(init, new Statement[] { this.cloneEObjWithContainers(st1) });
 
 		this.testSimilarity(objOne, objTwo,
 				this.getExpectedSimilarityResult(StatementsPackage.Literals.BLOCK__STATEMENTS).booleanValue()
@@ -73,7 +99,7 @@ public class StatementListContainerTest extends AbstractJaMoPPSimilarityTest imp
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testStatementsNullCheck(IStatementListContainerInitialiser init, String displayName) {
-		var objOne = this.initElement(init, new Statement[] { this.createMinimalNullReturn() });
+		var objOne = this.initElement(init, new Statement[] { this.cloneEObjWithContainers(st1) });
 
 		this.testSimilarityNullCheck(objOne, init, true,
 				this.getExpectedSimilarityResult(StatementsPackage.Literals.BLOCK__STATEMENTS).booleanValue()

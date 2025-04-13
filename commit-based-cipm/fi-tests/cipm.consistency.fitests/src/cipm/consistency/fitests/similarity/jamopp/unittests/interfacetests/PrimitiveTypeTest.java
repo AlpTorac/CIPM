@@ -6,6 +6,8 @@ import org.emftext.language.java.classifiers.Classifier;
 import org.emftext.language.java.types.PrimitiveType;
 import org.emftext.language.java.types.TypesPackage;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -15,6 +17,8 @@ import cipm.consistency.fitests.similarity.jamopp.unittests.UsesConcreteClassifi
 import cipm.consistency.initialisers.jamopp.types.IPrimitiveTypeInitialiser;
 
 public class PrimitiveTypeTest extends AbstractJaMoPPSimilarityTest implements UsesConcreteClassifiers {
+	private Classifier target1;
+	private Classifier target2;
 
 	private static Stream<Arguments> provideArguments() {
 		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IPrimitiveTypeInitialiser.class);
@@ -27,11 +31,21 @@ public class PrimitiveTypeTest extends AbstractJaMoPPSimilarityTest implements U
 		return res;
 	}
 
+	@BeforeEach
+	@Override
+	public void setUp(TestInfo info) {
+		super.setUp(info);
+
+		target1 = this.createMinimalClass("cls1");
+		target2 = this.createMinimalClass("cls2");
+		Assertions.assertFalse(this.isSimilar(target1, target2));
+	}
+
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testTarget(IPrimitiveTypeInitialiser init, String displayName) {
-		var objOne = this.initElement(init, this.createMinimalClass("cls"));
-		var objTwo = init.instantiate();
+		var objOne = this.initElement(init, this.cloneEObjWithContainers(target1));
+		var objTwo = this.initElement(init, this.cloneEObjWithContainers(target2));
 
 		this.testSimilarity(objOne, objTwo, PrimitiveType.class, TypesPackage.Literals.CLASSIFIER_REFERENCE__TARGET);
 	}
@@ -39,7 +53,7 @@ public class PrimitiveTypeTest extends AbstractJaMoPPSimilarityTest implements U
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testTargetNullCheck(IPrimitiveTypeInitialiser init, String displayName) {
-		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalClass("cls1")), init, true,
+		this.testSimilarityNullCheck(this.initElement(init, this.cloneEObjWithContainers(target1)), init, true,
 				PrimitiveType.class, TypesPackage.Literals.CLASSIFIER_REFERENCE__TARGET);
 	}
 }
