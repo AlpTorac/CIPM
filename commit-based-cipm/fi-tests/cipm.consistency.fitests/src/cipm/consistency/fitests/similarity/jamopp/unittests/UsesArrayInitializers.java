@@ -33,4 +33,11 @@ public interface UsesArrayInitializers {
 	public default ArrayInitializer createMinimalArrayInitializer(Expression aiv) {
 		return this.createMinimalArrayInitializer(new ArrayInitializationValue[] { aiv });
 	}
+
+	/**
+	 * @return An empty {@link ArrayInitializer} instance
+	 */
+	public default ArrayInitializer createEmptyArrayInitializer() {
+		return new ArrayInitializerInitialiser().instantiate();
+	}
 }

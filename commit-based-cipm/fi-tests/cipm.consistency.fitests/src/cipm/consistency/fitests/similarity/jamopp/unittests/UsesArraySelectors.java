@@ -30,4 +30,11 @@ public interface UsesArraySelectors extends UsesExpressions {
 	public default ArraySelector createMinimalAS(int asPos) {
 		return this.createAS(this.createDecimalIntegerLiteral(asPos));
 	}
+
+	/**
+	 * @return An empty {@link ArraySelector} instance
+	 */
+	public default ArraySelector createEmptyAS() {
+		return new ArraySelectorInitialiser().instantiate();
+	}
 }
