@@ -94,8 +94,9 @@ public class NamespaceClassifierReferenceTest extends AbstractJaMoPPSimilarityTe
 				this.cloneEObjWithContainers(clsRef1) });
 		var objTwo = this.initElement(null, new ClassifierReference[] { this.cloneEObjWithContainers(clsRef1) });
 
-		// Classifier references are not duplicated for NamespaceClassifierReference
-		this.testSimilarity(objOne, objTwo, Boolean.TRUE);
+		// TODO Clarify what to do with cases where last elements are similar
+		this.testSimilarity(objOne, objTwo,
+				TypesPackage.Literals.NAMESPACE_CLASSIFIER_REFERENCE__CLASSIFIER_REFERENCES);
 	}
 
 	@Test
