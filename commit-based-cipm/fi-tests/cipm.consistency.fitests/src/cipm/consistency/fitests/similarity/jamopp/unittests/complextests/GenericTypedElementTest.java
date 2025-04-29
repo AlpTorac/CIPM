@@ -16,7 +16,7 @@ import cipm.consistency.initialisers.jamopp.generics.TypeParameterInitialiser;
 import cipm.consistency.initialisers.jamopp.types.ClassifierReferenceInitialiser;
 import cipm.consistency.initialisers.jamopp.types.ITypedElementInitialiser;
 
-@Disabled("Until the case given here is handled properly")
+@Disabled("Not all case methods are supposed to care about type arguments")
 public class GenericTypedElementTest extends AbstractJaMoPPSimilarityTest {
 	/**
 	 * @return An instance of each sub-type of ITypedElementInitialiser as Arguments
