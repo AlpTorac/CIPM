@@ -56,16 +56,13 @@ public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityT
 	 * that each test method has a fresh instance.
 	 */
 	protected void cleanUpResourceHelper() {
-		if (this.shouldCleanResourceRegistry()) {
-			this.getResourceHelper().cleanRegistry();
-		}
-
 		if (this.shouldDeleteAllResources()) {
 			this.getResourceHelper().cleanAllResources();
 		} else if (this.shouldUnloadAllResources()) {
 			this.getResourceHelper().unloadAllResources();
 		}
 
+		this.getResourceHelper().cleanRegistry();
 		this.resHelper = null;
 	}
 
@@ -170,14 +167,6 @@ public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityT
 		if (this.getResourceHelper().areRequiredResourceRegistriesPresent()) {
 			this.getResourceHelper().setInitialResourceRegistries();
 		}
-	}
-
-	/**
-	 * @return Whether resource registry modifications should be undone after each
-	 *         test. Override in implementors, if necessary.
-	 */
-	public boolean shouldCleanResourceRegistry() {
-		return true;
 	}
 
 	/**

@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DynamicContainer;
 import org.junit.jupiter.api.DynamicNode;
@@ -43,23 +43,24 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 	private static final String cacheSaveDirName = "testmodel-cache";
 
-	@AfterAll
-	public static void tearDownAfterAll() {
-		var contents = resourceCache.getAllCacheContent();
-
-		// Save the cached resources
-		for (var e : contents.entrySet()) {
-			var res = e.getValue();
-			var uri = res.getURI();
-			if (uri.isFile() && !new File(uri.toFileString()).exists()) {
-				try {
-					res.save(null);
-				} catch (IOException excep) {
-					excep.printStackTrace();
-					Assertions.fail();
-				}
-			}
+	@AfterEach
+	@Override
+	public void tearDown() {
+		if (this.shouldSaveCachedResources()) {
+			resourceCache.saveCachedResources();
 		}
+
+		if (this.shouldDeleteAllResources()) {
+			resourceCache.deleteCachedResources();
+		} else if (this.shouldUnloadAllResources()) {
+			resourceCache.unloadCachedResources();
+		}
+
+		if (this.shouldRemoveResourcesFromCache()) {
+			resourceCache.cleanCache();
+		}
+
+		super.tearDown();
 	}
 
 	/**
@@ -186,14 +187,15 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			if (cache.isInCache(cacheKey)) {
 				this.getLogger().debug(String.format("%s is in cache, using cached version", modelName));
 				res = cache.getFromCache(cacheKey);
+				if (!res.isLoaded())
+					this.loadResource(res);
 			}
 
 			// Search for the resource file in cache save location
 			if (res == null) {
 				res = this.loadResource(this.getResourceURI(modelDir));
 				if (res != null) {
-					this.getLogger().debug(
-							String.format("Loaded %s from its resource file", modelName));
+					this.getLogger().debug(String.format("Loaded %s from its resource file", modelName));
 				}
 			}
 		}
@@ -208,18 +210,22 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return res;
 	}
 
+	protected void loadResource(Resource res) {
+		this.getLogger().debug(String.format("Loading resource at: %s", res.getURI().toFileString()));
+		try {
+			res.load(null);
+		} catch (IOException e) {
+			e.printStackTrace();
+			Assertions.fail();
+		}
+	}
+
 	protected Resource loadResource(URI resourceURI) {
 		Resource res = null;
 
 		if (resourceURI.isFile() && new File(resourceURI.toFileString()).exists()) {
-			this.getLogger().debug(String.format("Loading resource at: %s", resourceURI.toFileString()));
 			res = this.createResource(resourceURI);
-			try {
-				res.load(null);
-			} catch (IOException e) {
-				e.printStackTrace();
-				Assertions.fail();
-			}
+			this.loadResource(res);
 		}
 
 		return res;
@@ -528,6 +534,24 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	@Override
 	public boolean shouldUnloadAllResources() {
+		return false;
+	}
+
+	/**
+	 * Override in implementors, if necessary.
+	 * 
+	 * @return Whether the cached resources should be saved after each test.
+	 */
+	public boolean shouldSaveCachedResources() {
+		return true;
+	}
+
+	/**
+	 * Override in implementors, if necessary.
+	 * 
+	 * @return Whether cached resources should be removed after each test.
+	 */
+	public boolean shouldRemoveResourcesFromCache() {
 		return false;
 	}
 }
