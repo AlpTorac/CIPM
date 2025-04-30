@@ -101,8 +101,10 @@ public class TeammatesJGITTest {
 		} catch (RevisionSyntaxException | GitAPIException | IOException e) {
 		}
 
-		for (int i = 1; i < listOfCommits.size(); i++) {
-			for (int j = 1; j < listOfCommits.size(); j++) {
+		int commitCount = listOfCommits.size();
+		
+		for (int i = 0; i < commitCount; i++) {
+			for (int j = 0; j < commitCount; j++) {
 				var reader = git.getRepository().newObjectReader();
 
 				var oldTreeIter = new CanonicalTreeParser();
