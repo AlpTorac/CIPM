@@ -63,6 +63,10 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		super.tearDown();
 	}
 
+	protected long getElapsedSeconds(long startInNanoseconds) {
+		return ((System.nanoTime() - startInNanoseconds) / 1000000000);
+	}
+
 	/**
 	 * @return A utility object that can be used to perform file operations.
 	 */
@@ -124,6 +128,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @see {@link #isResourceRelevant()}
 	 */
 	protected Resource parseModelsDirWithoutCaching(Path modelDir) {
+		var parseStartTime = System.nanoTime();
+
 		ParserOptions.CREATE_LAYOUT_INFORMATION.setValue(Boolean.FALSE);
 		ParserOptions.REGISTER_LOCAL.setValue(Boolean.TRUE);
 		ParserOptions.RESOLVE_EVERYTHING.setValue(Boolean.FALSE);
@@ -155,6 +161,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			mergedResource.getContents().addAll(r.getContents());
 		}
 
+		this.getLogger().debug(String.format("%s parsed (uncached, %s seconds)",
+				this.getDisplayNameForModelDir(modelDir), this.getElapsedSeconds(parseStartTime)));
+
 		return mergedResource;
 	}
 
@@ -177,6 +186,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * cacheKey.
 	 */
 	protected Resource parseModelsDirWithCaching(Path modelDir, String cacheKey) {
+		var parseStartTime = System.nanoTime();
+
 		var cache = this.getCacheUtil();
 		var modelName = this.getDisplayNameForModelDir(modelDir);
 
@@ -207,6 +218,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 		var key = cacheKey != null ? cacheKey : modelDir.toString();
 		cache.addToCache(key, res);
+
+		this.getLogger().debug(String.format("%s parsed (with caching, %s seconds)",
+				this.getDisplayNameForModelDir(modelDir), this.getElapsedSeconds(parseStartTime)));
 		return res;
 	}
 
@@ -221,6 +235,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	protected Resource loadResource(URI resourceURI) {
+		var loadStartTime = System.nanoTime();
+
 		Resource res = null;
 
 		if (resourceURI.isFile() && new File(resourceURI.toFileString()).exists()) {
@@ -228,6 +244,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			this.loadResource(res);
 		}
 
+		this.getLogger().debug(String.format("Loaded %s (%s seconds)", resourceURI.toFileString(),
+				this.getElapsedSeconds(loadStartTime)));
 		return res;
 	}
 

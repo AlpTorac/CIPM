@@ -30,6 +30,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 * @see {@link #getCommitIDs()}
 	 */
 	protected Collection<Resource> cacheCommitResources() {
+		var cachingStartTime = System.nanoTime();
 
 		var commitResources = new ArrayList<Resource>();
 		var commitResourcesExist = true;
@@ -66,7 +67,8 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			}
 		}
 
-		this.getLogger().debug("Repository model resources are cached");
+		this.getLogger().debug(String.format("Repository model resources are cached (%s seconds)",
+				this.getElapsedSeconds(cachingStartTime)));
 		return commitResources;
 	}
 
@@ -77,6 +79,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 *         repository clone.
 	 */
 	protected GitRepositoryWrapper cloneRemoteRepo() {
+		var cloningStartTime = System.nanoTime();
 		this.getLogger().debug("Creating repository wrapper");
 		var gitWrapper = new GitRepositoryWrapper(this.getRepoClonePath().toFile());
 		this.getLogger().debug("Created repository wrapper");
@@ -85,7 +88,8 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			this.getLogger().debug(String.format("Cloning remote repository (%s) to: %s", this.getRepoURI(),
 					gitWrapper.getRootDirectory().toString()));
 			gitWrapper.initFromRemoteRepository(this.getRepoURI());
-			this.getLogger().debug("Cloning successful");
+			this.getLogger()
+					.debug(String.format("Cloning successful (%s seconds)", this.getElapsedSeconds(cloningStartTime)));
 		} catch (Exception e) {
 			e.printStackTrace();
 			Assertions.fail();
@@ -106,6 +110,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 *                   {@link #cloneRemoteRepo()}.
 	 */
 	protected Collection<Resource> prepareReposForCommits(List<String> commits, GitRepositoryWrapper gitWrapper) {
+		var repoPreparationStart = System.nanoTime();
 
 		var commitResources = new ArrayList<Resource>();
 
@@ -117,6 +122,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		for (int i = 0; i < commitCount; i++) {
 			var commit = commits.get(i);
 
+			var checkoutStartTime = System.nanoTime();
 			this.getLogger().debug(String.format("Checking out: %s", commit));
 
 			try {
@@ -126,8 +132,11 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 				throw new IllegalArgumentException(e);
 			}
 
-			this.getLogger().debug(String.format("Checked out: %s", commit));
+			this.getLogger().debug(
+					String.format("Checked out: %s (%s seconds)", commit, this.getElapsedSeconds(checkoutStartTime)));
+
 			this.getLogger().debug(String.format("Caching resource for: %s", commit));
+			var cachingStartTime = System.nanoTime();
 
 			var targetPath = this.getTargetPathForCommit(commit);
 			Resource commitRes = null;
@@ -141,9 +150,11 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			}
 
 			commitResources.add(commitRes);
-			this.getLogger().debug(String.format("Cached resource for: %s", commit));
+			this.getLogger().debug(String.format("Cached resource for: %s (%s seconds)", commit,
+					this.getElapsedSeconds(cachingStartTime)));
 		}
-		this.getLogger().debug("Cached model resources for commits");
+		this.getLogger().debug(String.format("Prepared model resources for commits (%s seconds)",
+				this.getElapsedSeconds(repoPreparationStart)));
 		return commitResources;
 	}
 
@@ -161,8 +172,10 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 */
 	protected void closeGitWrapper(GitRepositoryWrapper gitWrapper) {
 		this.getLogger().debug("Closing repository wrapper");
+		var repoCloseTime = System.nanoTime();
 		gitWrapper.closeRepository();
-		this.getLogger().debug("Closed repository wrapper");
+		this.getLogger()
+				.debug(String.format("Closed repository wrapper (%s seconds)", this.getElapsedSeconds(repoCloseTime)));
 	}
 
 	/**
