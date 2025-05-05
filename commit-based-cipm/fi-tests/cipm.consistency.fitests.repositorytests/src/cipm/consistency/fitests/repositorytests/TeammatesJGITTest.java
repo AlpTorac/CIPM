@@ -147,25 +147,10 @@ public class TeammatesJGITTest {
 		}
 
 		var osOutputLines = new ArrayList<String>();
-
-		for (var l : osOutput.split("\\n")) {
-			// Skip file names and comments
-			if (fileNamePattern.matcher(l).matches()) {
-				continue;
-			} else if (commentPattern.matcher(l).matches()) {
-				continue;
-			}
-
-			var match = changeDiffPattern.matcher(l);
-			if (match.matches()) {
-				var change = match.group(1);
-				if (change != null) {
-					change = change.strip();
-					if (!change.isEmpty()) {
-						osOutputLines.add(change);
-					}
-				}
-			}
+		var commitAnalyser = new CommentRemover();
+		
+		for (var l : commitAnalyser.removeCommentary(osOutput)) {
+			System.out.println(l);
 		}
 
 		System.out.println(osOutputLines.stream().reduce("", (l1, l2) -> l1 + l2));

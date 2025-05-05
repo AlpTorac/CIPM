@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.repositorytests;
 
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,7 +8,7 @@ public class CommentRemover {
 	private static final String diffCommandPattern = "diff --git .*";
 	private static final String diffLocationPattern = "@@ .* @@";
 	private static final String diffIndexPattern = "index .*";
-	private static final String diffFileAddPattern = "+++ .*\\.\\w*";
+	private static final String diffFileAddPattern = "\\+\\+\\+ .*\\.\\w*";
 	private static final String diffFileRemovePattern = "--- .*\\.\\w*";
 
 	private final List<String> addLines = new ArrayList<String>();
@@ -54,21 +55,25 @@ public class CommentRemover {
 		}
 	}
 
-	private String[] removeIrrelevantLines(String diff) {
-		var relevantLines = new ArrayList<String>();
+	private List<String> splitLines(String diff) {
+		var lines = new ArrayList<String>();
 
-		var diffLines = diff.split("\\n");
+		var diffLines = diff.split(System.lineSeparator());
 
 		for (var l : diffLines) {
-			if (isContentLine(l)) {
-				relevantLines.add(l);
-			}
+			lines.add(l);
 		}
-
-		return relevantLines.toArray(String[]::new);
+		
+		return lines;
+	}
+	
+	private List<String> removeIrrelevantLines(String diff) {
+		var lines = this.splitLines(diff);
+		lines.removeIf((l) -> !isContentLine(l));
+		return lines;
 	}
 
-	private List<String> removeCommentary(String diff) {
+	public List<String> removeCommentary(String diff) {
 		var lines = this.removeIrrelevantLines(diff);
 		var linesWithoutCommentary = new ArrayList<String>();
 
@@ -82,28 +87,37 @@ public class CommentRemover {
 			// TODO: Account for "//" being a string rather than commentary
 			if (!inBlockComment) {
 				if (singleLineCommentIdx != -1) {
-					linesWithoutCommentary.add(l.substring(0, singleLineCommentIdx));
+					if (singleLineCommentIdx > 0) {
+						linesWithoutCommentary.add(l.substring(0, singleLineCommentIdx));
+					}
 					continue;
 				}
 
-				if (blockCommentStartIdx != -1 && blockCommentEndIdx != 1) {
-					linesWithoutCommentary.add(
-							l.substring(0, blockCommentStartIdx) + l.substring(blockCommentEndIdx + 2, l.length()));
+				if (blockCommentStartIdx != -1 && blockCommentEndIdx != -1) {
+					if (blockCommentStartIdx > 0 || blockCommentEndIdx + 2 < l.length()) {
+						linesWithoutCommentary.add(
+								l.substring(0, blockCommentStartIdx) + l.substring(blockCommentEndIdx + 2, l.length()));
+					}
 					continue;
 				}
 
 				if (blockCommentStartIdx != -1) {
 					inBlockComment = true;
-					linesWithoutCommentary.add(l.substring(0, blockCommentStartIdx));
+					if (blockCommentStartIdx > 0) {
+						linesWithoutCommentary.add(l.substring(0, blockCommentStartIdx));
+					}
 					continue;
 				}
 			} else {
 				if (blockCommentEndIdx != -1) {
-					linesWithoutCommentary.add(l.substring(blockCommentEndIdx + 2, l.length()));
 					inBlockComment = false;
+					if (blockCommentEndIdx + 2 < l.length()) {
+						linesWithoutCommentary.add(l.substring(blockCommentEndIdx + 2, l.length()));
+					}
 					continue;
 				}
 			}
+			linesWithoutCommentary.add(l);
 		}
 
 		return linesWithoutCommentary;
