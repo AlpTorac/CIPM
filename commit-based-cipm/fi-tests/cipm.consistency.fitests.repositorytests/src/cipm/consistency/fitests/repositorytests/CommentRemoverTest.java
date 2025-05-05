@@ -1,23 +1,9 @@
 package cipm.consistency.fitests.repositorytests;
 
-import java.util.stream.Stream;
-
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.provider.Arguments;
 
 public class CommentRemoverTest {
-//	private static String[][] generateParamFor(String[] lines, String[] precedingCode, String[] followingCode, String[] expectedFilteredText) {
-//		var result = new String[lines.length][2];
-//		
-//		for (int i = 0; i < lines.length; i++) {
-//			result[i][0] = precedingCode[i] + lines[i] + followingCode[i];
-//			result[i][1] = expectedFilteredText[i];
-//		}
-//
-//		return result;
-//	}
-
 	private static String concatLines(String... lines) {
 		var result = "";
 
