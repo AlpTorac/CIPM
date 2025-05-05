@@ -125,22 +125,22 @@ public class TeammatesJGITTest {
 	}
 
 	private void outputRelevantDiffs(Git git, AbstractTreeIterator oldTreeIter, AbstractTreeIterator newTreeIter) {
-		var os = new ByteArrayOutputStream();
+		var osOutput = "";
 
-		DiffFormatter df = new DiffFormatter(os); // Use NullOutputStream.INSTANCE if output does not matter
-		df.setRepository(git.getRepository());
-		
-//		df.setPathFilter(PathSuffixFilter.create(".java"));
-		
-		try {
+		try (
+				var os = new ByteArrayOutputStream();
+				DiffFormatter df = new DiffFormatter(os)
+			) {
+			df.setRepository(git.getRepository());
+			df.setContext(1000);
+//			df.setPathFilter(PathSuffixFilter.create(".java"));
+			
 			// Include to get patches
 			df.format(oldTreeIter, newTreeIter);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		var osOutput = os.toString();
-		df.close();
-		try {
+//			var entries = df.scan(oldTreeIter, newTreeIter);
+			
+			osOutput = os.toString();
+			df.close();
 			os.close();
 		} catch (IOException e) {
 			e.printStackTrace();
