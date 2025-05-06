@@ -37,47 +37,6 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fitests.similarity.jamopp.parser.FileUtil;
 
 public class TeammatesJGITTest {
-	/**
-	 * Matches the sign of the diff ("+" or "-")
-	 */
-	private final static String diffSignPattern = "^+|-";
-
-	/**
-	 * Group 1: Content change (in diff)
-	 */
-	private final static Pattern changeDiffPattern = Pattern.compile(diffSignPattern + "\\s*(.*)$");
-
-	/**
-	 * Group 1: File name Group 2: File extension
-	 */
-	private final static Pattern fileNamePattern = Pattern.compile("^--- (.*)\\.(\\w+)$");
-
-	/**
-	 * Group 1: Comment line (// ...)
-	 */
-	private final static String singleLineCommentPattern = diffSignPattern + "\\s*//(.*)$";
-	/**
-	 * Group 1: First JavaDoc line (/** ...)
-	 */
-	private final static String javadocCommentStartPattern = diffSignPattern + "\\s*/\\*\\*(.*)";
-	/**
-	 * Group 1: First line of block comment (/* ..., explicitly not JavaDoc)
-	 */
-	private final static String blockCommentStartPattern = diffSignPattern + "\\s*/\\*(?!\\*)(.*)";
-	/**
-	 * Group 1: Line in block comment (* ...)
-	 */
-	private final static String blockCommentBodyPattern = diffSignPattern + "\\s*\\*(.*)";
-	/**
-	 * Group 1: Last line of comment before the end of the block comment (... / *
-	 * [split since otherwise JavaDoc breaks])
-	 */
-	private final static String blockCommentEndPattern = "(.*)\\*/";
-
-	private final static Pattern commentPattern = Pattern.compile(
-			String.format("(?:%s)|(?:%s)|(?:%s)|(?:%s)|(?:%s)", singleLineCommentPattern, javadocCommentStartPattern,
-					blockCommentStartPattern, blockCommentBodyPattern, blockCommentEndPattern));
-
 	@Test
 	public void test() throws Exception {
 		/*
@@ -148,11 +107,14 @@ public class TeammatesJGITTest {
 
 		var osOutputLines = new ArrayList<String>();
 		var commitAnalyser = new CommentRemover();
+		var filteredLines = commitAnalyser.removeCommentary(osOutput);
+		filteredLines = new DiffFilter().filterIrrelevantLines(filteredLines);
 		
-		for (var l : commitAnalyser.removeCommentary(osOutput)) {
+		for (var l : filteredLines) {
+			osOutputLines.add(l);
 			System.out.println(l);
 		}
 
-		System.out.println(osOutputLines.stream().reduce("", (l1, l2) -> l1 + l2));
+		var filteredOutput = osOutputLines.stream().reduce("", (l1, l2) -> l1 + l2);
 	}
 }

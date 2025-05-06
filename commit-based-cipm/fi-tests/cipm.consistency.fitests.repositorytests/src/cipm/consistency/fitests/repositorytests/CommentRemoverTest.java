@@ -1,5 +1,8 @@
 package cipm.consistency.fitests.repositorytests;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -33,14 +36,14 @@ public class CommentRemoverTest {
 //	@ParameterizedTest(name="{0}")
 //	@MethodSource("genParams")
 //	public void removeComment(String display, List<String[]> params) {
-//		var cr = new CommentRemover();
+//		var cr = new CommentRemoverLexer();
 //
 //		var lines = params.stream().map((arr) -> arr[0]).toArray(String[]::new);
 //		var expLines = params.stream().map((arr) -> arr[1]).toArray(String[]::new);
 //		
 //		var text = concatLines(lines);
 //
-//		var filteredText = cr.removeCommentary(text);
+//		var filteredText = this.splitLines(cr.removeCommentary(text));
 //
 //		int filteredTextLength = 0;
 //		
@@ -54,7 +57,19 @@ public class CommentRemoverTest {
 //		
 //		Assertions.assertEquals(filteredTextLength, filteredText.size());
 //	}
+	
+	private List<String> splitLines(String diff) {
+		var lines = new ArrayList<String>();
 
+		var diffLines = diff.split(System.lineSeparator());
+
+		for (var l : diffLines) {
+			lines.add(l);
+		}
+
+		return lines;
+	}
+	
 	private static String concatLines(String... lines) {
 		var result = "";
 
@@ -68,61 +83,61 @@ public class CommentRemoverTest {
 
 	@Test
 	public void removeSingleLineComment_PrecedingCode() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var code = "def ";
 		var line1 = code + "// abc";
 
 		var text = concatLines(line1);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
 
 	@Test
 	public void removeSingleLineComment_NoContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "// abc";
 
 		var text = concatLines(line1);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(0, filteredText.size());
 	}
 
 	@Test
 	public void removeSingleLineComment_PrecedingContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "def ";
 		var line2 = "// abc ";
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
 
 	@Test
 	public void removeSingleLineComment_FollowingContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "// abc ";
 		var line2 = "def ";
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line2, filteredText.get(0));
 	}
 
 	@Test
 	public void removeSingleLineComment_SurroundingContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "def ";
 		var line2 = "// abc ";
@@ -130,7 +145,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
@@ -139,20 +154,20 @@ public class CommentRemoverTest {
 
 //	@Test
 //	public void removeSingleLineComment_MultipleLines_NoContext() {
-//		var cr = new CommentRemover();
+//		var cr = new CommentRemoverLexer();
 //
 //		var line1 = "// abc ";
 //		var line2 = "// def";
 //
 //		var text = concatLines(line1, line2);
 //
-//		var filteredText = cr.removeCommentary(text);
+//		var filteredText = this.splitLines(cr.removeCommentary(text));
 //		Assertions.assertEquals(0, filteredText.size());
 //	}
 //
 //	@Test
 //	public void removeSingleLineComment_MultipleLines_SandwitchedContext() {
-//		var cr = new CommentRemover();
+//		var cr = new CommentRemoverLexer();
 //
 //		var line1 = "// abc ";
 //		var line2 = "123 ";
@@ -160,42 +175,42 @@ public class CommentRemoverTest {
 //
 //		var text = concatLines(line1, line2, line3);
 //
-//		var filteredText = cr.removeCommentary(text);
+//		var filteredText = this.splitLines(cr.removeCommentary(text));
 //		Assertions.assertEquals(1, filteredText.size());
 //		Assertions.assertEquals(line2, filteredText.get(0));
 //	}
 
 	@Test
 	public void removeBlockComment_SingleLine_PrecedingCode() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var code = "def ";
 		var line1 = code + "/* abc */";
 
 		var text = concatLines(line1);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
 
 	@Test
 	public void removeBlockComment_SingleLine_FollowingCode() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var code = "def ";
 		var line1 = "/* abc */" + code;
 
 		var text = concatLines(line1);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
 
 	@Test
 	public void removeBlockComment_SingleLine_SurroundingCode() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var code1 = "def ";
 		var code2 = "hgf ";
@@ -203,54 +218,54 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code1 + code2, filteredText.get(0));
 	}
 
 	@Test
 	public void removeBlockComment_SingleLine_NoContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "/* abc */";
 
 		var text = concatLines(line1);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(0, filteredText.size());
 	}
 
 	@Test
 	public void removeBlockComment_SingleLine_PrecedingContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "def ";
 		var line2 = "/* abc */";
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
 
 	@Test
 	public void removeBlockComment_SingleLine_FollowingContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "/* abc */";
 		var line2 = "def ";
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line2, filteredText.get(0));
 	}
 
 	@Test
 	public void removeBlockComment_SingleLine_SurroundingContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "def ";
 		var line2 = "/* abc */";
@@ -258,7 +273,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
@@ -267,20 +282,20 @@ public class CommentRemoverTest {
 
 	// @Test
 	// public void removeSingleLineComment_MultipleLines_NoContext() {
-	// var cr = new CommentRemover();
+	// var cr = new CommentRemoverLexer();
 	//
 	// var line1 = "// abc ";
 	// var line2 = "// def";
 	//
 	// var text = concatLines(line1, line2);
 	//
-	// var filteredText = cr.removeCommentary(text);
+	// var filteredText = this.splitLines(cr.removeCommentary(text));
 	// Assertions.assertEquals(0, filteredText.size());
 	// }
 	//
 	// @Test
 	// public void removeSingleLineComment_MultipleLines_SandwitchedContext() {
-	// var cr = new CommentRemover();
+	// var cr = new CommentRemoverLexer();
 	//
 	// var line1 = "// abc ";
 	// var line2 = "123 ";
@@ -288,27 +303,27 @@ public class CommentRemoverTest {
 	//
 	// var text = concatLines(line1, line2, line3);
 	//
-	// var filteredText = cr.removeCommentary(text);
+	// var filteredText = this.splitLines(cr.removeCommentary(text));
 	// Assertions.assertEquals(1, filteredText.size());
 	// Assertions.assertEquals(line2, filteredText.get(0));
 	// }
 
 	// @Test
 	// public void removeSingleLineComment_MultipleLines_NoContext() {
-	// var cr = new CommentRemover();
+	// var cr = new CommentRemoverLexer();
 	//
 	// var line1 = "// abc ";
 	// var line2 = "// def";
 	//
 	// var text = concatLines(line1, line2);
 	//
-	// var filteredText = cr.removeCommentary(text);
+	// var filteredText = this.splitLines(cr.removeCommentary(text));
 	// Assertions.assertEquals(0, filteredText.size());
 	// }
 	//
 	// @Test
 	// public void removeSingleLineComment_MultipleLines_SandwitchedContext() {
-	// var cr = new CommentRemover();
+	// var cr = new CommentRemoverLexer();
 	//
 	// var line1 = "// abc ";
 	// var line2 = "123 ";
@@ -316,14 +331,14 @@ public class CommentRemoverTest {
 	//
 	// var text = concatLines(line1, line2, line3);
 	//
-	// var filteredText = cr.removeCommentary(text);
+	// var filteredText = this.splitLines(cr.removeCommentary(text));
 	// Assertions.assertEquals(1, filteredText.size());
 	// Assertions.assertEquals(line2, filteredText.get(0));
 	// }
 
 	@Test
 	public void removeBlockComment_MultipleLine_PrecedingCode() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var code = "def ";
 		var line1 = code + "/*";
@@ -331,14 +346,14 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
 
 	@Test
 	public void removeBlockComment_MultipleLine_FollowingCode() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var code = "def ";
 		var line1 = "/* abc ";
@@ -346,14 +361,14 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
 
 	@Test
 	public void removeBlockComment_MultipleLine_SurroundingCode() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var code1 = "def ";
 		var code2 = "hgf ";
@@ -363,7 +378,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(code1, filteredText.get(0));
 		Assertions.assertEquals(code2, filteredText.get(1));
@@ -371,7 +386,7 @@ public class CommentRemoverTest {
 
 	@Test
 	public void removeBlockComment_MultipleLine_NoContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "/* ";
 		var line2 = "abc";
@@ -379,13 +394,13 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(0, filteredText.size());
 	}
 
 	@Test
 	public void removeBlockComment_MultipleLine_NoContext_WithStarInBody() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "/*";
 		var line2 = " * abc";
@@ -393,13 +408,13 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(0, filteredText.size());
 	}
 
 	@Test
 	public void removeBlockComment_MultipleLine_PrecedingContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "def ";
 		var line2 = "/* ";
@@ -408,14 +423,14 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3, line4);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
 
 	@Test
 	public void removeBlockComment_MultipleLine_FollowingContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "/*";
 		var line2 = "abc";
@@ -424,14 +439,14 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3, line4);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line4, filteredText.get(0));
 	}
 
 	@Test
 	public void removeBlockComment_MultipleLine_SurroundingContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "def ";
 		var line2 = "/*";
@@ -441,7 +456,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3, line4, line5);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
@@ -450,7 +465,7 @@ public class CommentRemoverTest {
 
 	@Test
 	public void removeJavaDoc_SingleLine_PrecedingCode() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var code = "def ";
 
@@ -458,14 +473,14 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
 
 	@Test
 	public void removeJavaDoc_SingleLine_FollowingCode() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var code = "def ";
 
@@ -473,14 +488,14 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
 
 	@Test
 	public void removeJavaDoc_SingleLine_SurroundingCode() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var code1 = "def ";
 		var code2 = "hgf ";
@@ -489,54 +504,54 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code1 + code2, filteredText.get(0));
 	}
 
 	@Test
 	public void removeJavaDoc_SingleLine_NoContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "/** abc */";
 
 		var text = concatLines(line1);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(0, filteredText.size());
 	}
 
 	@Test
 	public void removeJavaDoc_SingleLine_PrecedingContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "def ";
 		var line2 = "/** abc */";
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
 
 	@Test
 	public void removeJavaDoc_SingleLine_FollowingContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "/** abc */";
 		var line2 = "def ";
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line2, filteredText.get(0));
 	}
 
 	@Test
 	public void removeJavaDoc_SingleLine_SurroundingContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "def ";
 		var line2 = "/** abc */";
@@ -544,7 +559,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
@@ -553,7 +568,7 @@ public class CommentRemoverTest {
 
 	@Test
 	public void removeJavaDoc_MultipleLine_PrecedingCode() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var code = "def ";
 
@@ -563,14 +578,14 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
 
 	@Test
 	public void removeJavaDoc_MultipleLine_FollowingCode() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var code = "def ";
 
@@ -580,14 +595,14 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
 
 	@Test
 	public void removeJavaDoc_MultipleLine_SurroundingCode() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var code1 = "def ";
 		var code2 = "hgf ";
@@ -598,7 +613,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(code1, filteredText.get(0));
 		Assertions.assertEquals(code2, filteredText.get(1));
@@ -606,7 +621,7 @@ public class CommentRemoverTest {
 
 	@Test
 	public void removeJavaDoc_MultipleLine_NoContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "/**";
 		var line2 = "abc";
@@ -614,13 +629,13 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(0, filteredText.size());
 	}
 
 	@Test
 	public void removeJavaDoc_MultipleLine_PrecedingContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "def ";
 		var line2 = "/**";
@@ -629,14 +644,14 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3, line4);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
 
 	@Test
 	public void removeJavaDoc_MultipleLine_FollowingContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "/**";
 		var line2 = "abc";
@@ -645,14 +660,14 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3, line4);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line4, filteredText.get(0));
 	}
 
 	@Test
 	public void removeJavaDoc_MultipleLine_SurroundingContext() {
-		var cr = new CommentRemover();
+		var cr = new CommentRemoverLexer();
 
 		var line1 = "def ";
 		var line2 = "/**";
@@ -662,7 +677,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3, line4, line5);
 
-		var filteredText = cr.removeCommentary(text);
+		var filteredText = this.splitLines(cr.removeCommentary(text));
 
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
