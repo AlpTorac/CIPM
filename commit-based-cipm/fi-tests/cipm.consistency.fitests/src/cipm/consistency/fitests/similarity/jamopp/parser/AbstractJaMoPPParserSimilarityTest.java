@@ -43,6 +43,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 	private static final String cacheSaveDirName = "testmodel-cache";
 
+	private static final String packageInfoFileName = "package-info.java";
+	private static final String artificialResourceFileName = "ArtificialResource.java";
+
 	@AfterEach
 	@Override
 	public void tearDown() {
@@ -510,14 +513,30 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	protected abstract boolean isModelDirectoryName(String s);
 
 	/**
-	 * Defaults to checking whether r was parsed from a file, in order to exclude
-	 * standard library resources.
+	 * Defaults to checking whether
+	 * 
+	 * <ul>
+	 * <li>r was parsed from a file OR
+	 * <li>r is for {@code package-info.java} (parsed and required by JaMoPP) OR
+	 * <li>r is for {@code ArtificialResource.java} (parsed and required by JaMoPP)
+	 * </ul>
+	 * 
+	 * in order to exclude standard library resources.
 	 * 
 	 * @return Whether the resource r (parsed from the given path) is relevant for
 	 *         the tests.
+	 * 
+	 * @see {@link TrivialRecovery}
 	 */
 	protected boolean isResourceRelevant(Path sourcePath, Resource r) {
-		return r.getURI().isFile();
+		var uri = r.getURI();
+
+		if (uri.isFile())
+			return true;
+
+		var uriString = uri.toString();
+
+		return uriString.contains(packageInfoFileName) || uriString.contains(artificialResourceFileName);
 	}
 
 	/**
