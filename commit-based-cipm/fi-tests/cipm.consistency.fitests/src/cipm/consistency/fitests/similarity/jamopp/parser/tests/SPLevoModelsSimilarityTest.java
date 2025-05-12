@@ -42,16 +42,6 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 		return s.equals(model1Name) || s.equals(model2Name);
 	}
 
-	/**
-	 * {@inheritDoc} <br>
-	 * <br>
-	 * Additionally checks whether the given path contains SPLevo test model folder.
-	 */
-	@Override
-	protected boolean isResourceRelevant(Path path, Resource r) {
-		return super.isResourceRelevant(path, r) && path.toString().contains(splevoModelImplDirName);
-	}
-
 	@Override
 	protected Collection<AbstractJaMoPPParserSimilarityTestFactory> getTestFactories() {
 		var res = new ArrayList<AbstractJaMoPPParserSimilarityTestFactory>();
