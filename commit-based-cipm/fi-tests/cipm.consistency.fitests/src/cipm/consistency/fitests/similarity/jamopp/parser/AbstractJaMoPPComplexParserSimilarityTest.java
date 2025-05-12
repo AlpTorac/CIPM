@@ -2,8 +2,6 @@ package cipm.consistency.fitests.similarity.jamopp.parser;
 
 import java.nio.file.Path;
 
-import org.eclipse.emf.ecore.resource.Resource;
-
 public abstract class AbstractJaMoPPComplexParserSimilarityTest extends AbstractJaMoPPParserSimilarityTest {
 	/**
 	 * The name of the root directory of the models
@@ -25,18 +23,6 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 		} catch (NumberFormatException e) {
 			return false;
 		}
-	}
-
-	/**
-	 * {@inheritDoc} <br>
-	 * <br>
-	 * Additionally checks whether the source path contains
-	 * {@link #getModelsDirSubpath()}.
-	 */
-	@Override
-	protected boolean isResourceRelevant(Path sourcePath, Resource r) {
-		return super.isResourceRelevant(sourcePath, r)
-				&& sourcePath.toString().contains(this.getModelsDirSubpath().toString());
 	}
 
 	/**
