@@ -85,13 +85,12 @@ public class TeammatesJGITTest {
 
 	private void outputRelevantDiffs(Git git, AbstractTreeIterator oldTreeIter, AbstractTreeIterator newTreeIter) {
 		var osOutput = "";
-
 		try (
 				var os = new ByteArrayOutputStream();
 				DiffFormatter df = new DiffFormatter(os)
 			) {
 			df.setRepository(git.getRepository());
-			df.setContext(1000);
+			df.setContext(10);
 //			df.setPathFilter(PathSuffixFilter.create(".java"));
 			
 			// Include to get patches
