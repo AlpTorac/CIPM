@@ -62,7 +62,7 @@ public class TeammatesJGITTest {
 		}
 
 		int commitCount = listOfCommits.size();
-		
+
 		for (int i = 0; i < commitCount; i++) {
 			for (int j = 0; j < commitCount; j++) {
 				var reader = git.getRepository().newObjectReader();
@@ -86,18 +86,15 @@ public class TeammatesJGITTest {
 
 	private void outputRelevantDiffs(Git git, AbstractTreeIterator oldTreeIter, AbstractTreeIterator newTreeIter) {
 		var osOutput = "";
-		try (
-				var os = new ByteArrayOutputStream();
-				DiffFormatter df = new DiffFormatter(os)
-			) {
+		try (var os = new ByteArrayOutputStream(); DiffFormatter df = new DiffFormatter(os)) {
 			df.setRepository(git.getRepository());
 			df.setContext(10);
 //			df.setPathFilter(PathSuffixFilter.create(".java"));
-			
+
 			// Include to get patches
 			df.format(oldTreeIter, newTreeIter);
 //			var entries = df.scan(oldTreeIter, newTreeIter);
-			
+
 			osOutput = os.toString();
 			df.close();
 			os.close();
@@ -105,16 +102,19 @@ public class TeammatesJGITTest {
 			e.printStackTrace();
 		}
 
-//		var osOutputLines = new ArrayList<String>();
-//		var commitAnalyser = new CommentRemoverLexer();
-//		var filteredLines = commitAnalyser.removeCommentary(osOutput);
-//		filteredLines = new DiffFilter().filterIrrelevantLines(filteredLines);
-//		
-//		for (var l : filteredLines) {
-//			osOutputLines.add(l);
-//			System.out.println(l);
-//		}
-//
-//		var filteredOutput = osOutputLines.stream().reduce("", (l1, l2) -> l1 + l2);
+		var osOutputLines = new ArrayList<String>();
+		var commitAnalyser = new CommentRemoverLexer();
+		var commentlessLines = commitAnalyser.removeCommentary(osOutput);
+
+		var filter = new DiffFilter();
+		var filteredLines = filter.filterIrrelevantLines(commentlessLines);
+		filteredLines = filter.removeBlankLines(filteredLines);
+
+		for (var l : new DiffFilter().filterIrrelevantLines(commentlessLines)) {
+			osOutputLines.add(l);
+			System.out.println(l);
+		}
+
+		var filteredOutput = osOutputLines.stream().reduce("", (l1, l2) -> l1 + l2);
 	}
 }
