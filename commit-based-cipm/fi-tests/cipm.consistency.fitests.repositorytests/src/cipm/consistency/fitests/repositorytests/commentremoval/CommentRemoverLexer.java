@@ -1,6 +1,9 @@
 package cipm.consistency.fitests.repositorytests.commentremoval;
 
 public class CommentRemoverLexer {
+
+	// TODO Use Pattern and Matcher to optimise
+
 	private static final char quotationMark = '\"';
 	private static final char backslash = '\\';
 

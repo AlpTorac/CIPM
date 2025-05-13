@@ -12,7 +12,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
@@ -26,7 +26,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -41,7 +41,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -57,7 +57,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(3, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -73,7 +73,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -89,7 +89,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(3, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -106,7 +106,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(3, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -124,7 +124,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3, line4);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(4, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -141,7 +141,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
@@ -156,7 +156,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
@@ -170,7 +170,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(start, filteredText.get(0));
 	}
@@ -184,7 +184,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(start, filteredText.get(0));
 	}
@@ -198,7 +198,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(start, filteredText.get(0));
 	}
@@ -211,7 +211,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
@@ -225,7 +225,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -240,7 +240,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -256,7 +256,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(3, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -271,7 +271,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
@@ -285,7 +285,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -300,7 +300,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -316,7 +316,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(3, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -331,7 +331,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
@@ -345,7 +345,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -360,7 +360,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -376,7 +376,7 @@ public class CommentRemoverMultiLineStringTest extends CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(3, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
