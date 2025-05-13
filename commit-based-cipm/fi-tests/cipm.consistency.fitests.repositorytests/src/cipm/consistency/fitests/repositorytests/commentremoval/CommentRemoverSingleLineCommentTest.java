@@ -150,4 +150,65 @@ public class CommentRemoverSingleLineCommentTest extends CommentRemoverTest {
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line4, filteredText.get(1));
 	}
+
+	@Test
+	public void removeSingleLineComment_RepeatingSlashes() {
+		var cr = new CommentRemoverLexer();
+
+		var line1 = "// // abc";
+
+		var text = concatLines(line1);
+
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		Assertions.assertEquals(0, filteredText.size());
+	}
+
+	@Test
+	public void removeSingleLineComment_SurroundingSlashes() {
+		var cr = new CommentRemoverLexer();
+
+		var line1 = "// abc //";
+
+		var text = concatLines(line1);
+
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		Assertions.assertEquals(0, filteredText.size());
+	}
+
+	@Test
+	public void handleStringLiteralInComment_SingleLineStringLiteral() {
+		var cr = new CommentRemoverLexer();
+
+		var line1 = "// \"abc\"";
+
+		var text = concatLines(line1);
+
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		Assertions.assertEquals(0, filteredText.size());
+	}
+
+	@Test
+	public void handleStringLiteralInComment_MultiLineStringLiteral() {
+		var cr = new CommentRemoverLexer();
+
+		var line1 = "// \"\"\"abc\"\"\"";
+
+		var text = concatLines(line1);
+
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		Assertions.assertEquals(0, filteredText.size());
+	}
+
+	@Test
+	public void handleStringLiteralInComment_MultiLineStringLiteral_Split() {
+		var cr = new CommentRemoverLexer();
+
+		var line1 = "// \"\"\"abc";
+		var line2 = "// \"\"\"";
+
+		var text = concatLines(line1, line2);
+
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+		Assertions.assertEquals(0, filteredText.size());
+	}
 }

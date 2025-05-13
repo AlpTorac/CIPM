@@ -31,8 +31,4 @@ public abstract class CommentRemoverTest {
 
 		return result;
 	}
-
-	// TODO Add tests for commentary tokens in string literals
-	// TODO Add tests for multiple commentaries in a single line
-
 }

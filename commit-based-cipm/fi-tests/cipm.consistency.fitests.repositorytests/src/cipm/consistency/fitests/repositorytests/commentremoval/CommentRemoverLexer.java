@@ -156,9 +156,9 @@ public class CommentRemoverLexer {
 			 * 3) Single line comments (can only end with the line)
 			 */
 
-			if ((parseEndIdx = this.parseSingleLineStringLiteral(currentCharIdx, text)) != -1) {
+			if ((parseEndIdx = this.parseMultiLineStringLiteral(currentCharIdx, text)) != -1) {
 				result += text.substring(currentCharIdx, parseEndIdx);
-			} else if ((parseEndIdx = this.parseMultiLineStringLiteral(currentCharIdx, text)) != -1) {
+			} else if ((parseEndIdx = this.parseSingleLineStringLiteral(currentCharIdx, text)) != -1) {
 				result += text.substring(currentCharIdx, parseEndIdx);
 			} else if ((parseEndIdx = this.parseBlockComment(currentCharIdx, text)) != -1) {
 			} else if ((parseEndIdx = this.parseSingleLineComment(currentCharIdx, text)) != -1) {
