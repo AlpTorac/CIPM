@@ -2,18 +2,25 @@ package cipm.consistency.fitests.repositorytests;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class DiffFilter {
-	private static final String diffCommandPattern = "diff --git .*";
-	private static final String diffLocationPattern = "@@ .* @@";
-	private static final String diffIndexPattern = "index .*";
-	private static final String diffFileAddPattern = "\\+\\+\\+ .*\\.\\w*";
-	private static final String diffFileRemovePattern = "--- .*\\.\\w*";
-	
+	private static final Pattern diffCommandPattern = Pattern.compile("^\\s*diff --git .*");
+	private static final Pattern diffLocationPattern = Pattern.compile("^\\s*@@ .* @@\\s*");
+	private static final Pattern diffIndexPattern = Pattern.compile("^\\s*index .*");
+	private static final Pattern diffFileAddPattern = Pattern.compile("^\\s*\\+\\+\\+ .*\\.\\w*");
+	private static final Pattern diffFileRemovePattern = Pattern.compile("^\\s*--- .*\\.\\w*");
+
+	private static final Pattern diffNoNewLinePattern = Pattern.compile("\\ No newline at end of file");
+
+	private static final String unixNewLine = "\\n";
+
 	private List<String> splitLines(String diff) {
 		var lines = new ArrayList<String>();
 
-		var diffLines = diff.split(System.lineSeparator());
+		// Do not use System.lineSeparator since GIT uses UNIX terminal
+		// UNIX terminal uses "\n" for new line
+		var diffLines = diff.split(unixNewLine);
 
 		for (var l : diffLines) {
 			lines.add(l);
@@ -21,29 +28,34 @@ public class DiffFilter {
 
 		return lines;
 	}
-	
+
 	public List<String> filterIrrelevantLines(List<String> lines) {
-		var result = lines.subList(0, lines.size());
-		result.removeIf((l) -> !isContentLine(l));
-		return result;
-	}
-	
-	public List<String> filterIrrelevantLines(String diff) {
-		var lines = this.splitLines(diff);
-		lines = filterIrrelevantLines(lines);
+		lines.removeIf((l) -> !isContentLine(l));
 		return lines;
 	}
-	
+
+	public List<String> filterIrrelevantLines(String diff) {
+		var lines = this.splitLines(diff);
+		return filterIrrelevantLines(lines);
+	}
+
+	public List<String> removeBlankLines(List<String> lines) {
+		lines.removeIf((l) -> l.isBlank());
+		return lines;
+	}
+
 	public boolean isContentLine(String line) {
-		if (line.matches(diffCommandPattern)) {
+		if (diffCommandPattern.matcher(line).find()) {
 			return false;
-		} else if (line.matches(diffFileAddPattern)) {
+		} else if (diffFileAddPattern.matcher(line).find()) {
 			return false;
-		} else if (line.matches(diffFileRemovePattern)) {
+		} else if (diffFileRemovePattern.matcher(line).find()) {
 			return false;
-		} else if (line.matches(diffLocationPattern)) {
+		} else if (diffIndexPattern.matcher(line).find()) {
 			return false;
-		} else if (line.matches(diffIndexPattern)) {
+		} else if (diffLocationPattern.matcher(line).find()) {
+			return false;
+		} else if (diffNoNewLinePattern.matcher(line).find()) {
 			return false;
 		} else {
 			return true;
