@@ -149,11 +149,13 @@ public class CommentRemoverLexer {
 			/*
 			 * Check order:
 			 * 
-			 * 1) String literals (can contain tokens of others)
+			 * 1) Multi-line string literals (can contain tokens of others)
 			 * 
-			 * 2) Block comments (may start and end in a single line, JavaDoc included)
+			 * 2) Single line string literals (can contain tokens of others)
 			 * 
-			 * 3) Single line comments (can only end with the line)
+			 * 3) Block comments (may start and end in a single line, JavaDoc included)
+			 * 
+			 * 4) Single line comments (can only end with the line)
 			 */
 
 			if ((parseEndIdx = this.parseMultiLineStringLiteral(currentCharIdx, text)) != -1) {
