@@ -34,6 +34,7 @@ import org.eclipse.jgit.treewalk.filter.PathSuffixFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.junit.jupiter.api.Test;
 
+import cipm.consistency.fitests.repositorytests.commentremoval.CommentRemoverLexer;
 import cipm.consistency.fitests.similarity.jamopp.parser.FileUtil;
 
 public class TeammatesJGITTest {
@@ -104,16 +105,16 @@ public class TeammatesJGITTest {
 			e.printStackTrace();
 		}
 
-		var osOutputLines = new ArrayList<String>();
-		var commitAnalyser = new CommentRemover();
-		var filteredLines = commitAnalyser.removeCommentary(osOutput);
-		filteredLines = new DiffFilter().filterIrrelevantLines(filteredLines);
-		
-		for (var l : filteredLines) {
-			osOutputLines.add(l);
-			System.out.println(l);
-		}
-
-		var filteredOutput = osOutputLines.stream().reduce("", (l1, l2) -> l1 + l2);
+//		var osOutputLines = new ArrayList<String>();
+//		var commitAnalyser = new CommentRemoverLexer();
+//		var filteredLines = commitAnalyser.removeCommentary(osOutput);
+//		filteredLines = new DiffFilter().filterIrrelevantLines(filteredLines);
+//		
+//		for (var l : filteredLines) {
+//			osOutputLines.add(l);
+//			System.out.println(l);
+//		}
+//
+//		var filteredOutput = osOutputLines.stream().reduce("", (l1, l2) -> l1 + l2);
 	}
 }

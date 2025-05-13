@@ -1,0 +1,38 @@
+package cipm.consistency.fitests.repositorytests.commentremoval;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public abstract class CommentRemoverTest {
+	protected List<String> removeEmptyLines(List<String> lines) {
+		lines.removeIf((l) -> l.isBlank());
+		return lines;
+	}
+
+	protected List<String> splitLines(String diff) {
+		var lines = new ArrayList<String>();
+
+		var diffLines = diff.split(System.lineSeparator());
+
+		for (var l : diffLines) {
+			lines.add(l);
+		}
+
+		return lines;
+	}
+
+	protected String concatLines(String... lines) {
+		var result = "";
+
+		for (int i = 0; i < lines.length - 1; i++)
+			result += lines[i] + System.lineSeparator();
+
+		result += lines[lines.length - 1];
+
+		return result;
+	}
+
+	// TODO Add tests for commentary tokens in string literals
+	// TODO Add tests for multiple commentaries in a single line
+
+}

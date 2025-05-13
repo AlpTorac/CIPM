@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.repositorytests;
+package cipm.consistency.fitests.repositorytests.commentremoval;
 
 public class CommentRemoverLexer {
 	private static final char quotationMark = '\"';
@@ -36,7 +36,7 @@ public class CommentRemoverLexer {
 
 		// Skip quotationIdx, since the starting and ending tokens (") are the same
 		for (int i = quotationIdx + 1; i < text.length(); i++) {
-			if (text.charAt(i) == quotationMark) {
+			if (text.charAt(i) == quotationMark && text.charAt(i - 1) != backslash) {
 				// End of the string literal found, return index after closing quotation mark
 				return i + 1;
 			}
