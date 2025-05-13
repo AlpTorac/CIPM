@@ -43,7 +43,7 @@ public class CommentRemoverTest {
 //		
 //		var text = concatLines(lines);
 //
-//		var filteredText = this.splitLines(cr.removeCommentary(text));
+//		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 //
 //		int filteredTextLength = 0;
 //		
@@ -57,7 +57,12 @@ public class CommentRemoverTest {
 //		
 //		Assertions.assertEquals(filteredTextLength, filteredText.size());
 //	}
-	
+
+	private List<String> removeEmptyLines(List<String> lines) {
+		lines.removeIf((l) -> l.isBlank());
+		return lines;
+	}
+
 	private List<String> splitLines(String diff) {
 		var lines = new ArrayList<String>();
 
@@ -69,7 +74,7 @@ public class CommentRemoverTest {
 
 		return lines;
 	}
-	
+
 	private static String concatLines(String... lines) {
 		var result = "";
 
@@ -90,7 +95,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
@@ -103,7 +108,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(0, filteredText.size());
 	}
 
@@ -116,7 +121,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
@@ -130,7 +135,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line2, filteredText.get(0));
 	}
@@ -145,7 +150,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
@@ -161,7 +166,7 @@ public class CommentRemoverTest {
 //
 //		var text = concatLines(line1, line2);
 //
-//		var filteredText = this.splitLines(cr.removeCommentary(text));
+//		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 //		Assertions.assertEquals(0, filteredText.size());
 //	}
 //
@@ -175,7 +180,7 @@ public class CommentRemoverTest {
 //
 //		var text = concatLines(line1, line2, line3);
 //
-//		var filteredText = this.splitLines(cr.removeCommentary(text));
+//		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 //		Assertions.assertEquals(1, filteredText.size());
 //		Assertions.assertEquals(line2, filteredText.get(0));
 //	}
@@ -189,7 +194,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
@@ -203,7 +208,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
@@ -218,7 +223,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code1 + code2, filteredText.get(0));
 	}
@@ -231,7 +236,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(0, filteredText.size());
 	}
 
@@ -244,7 +249,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
@@ -258,7 +263,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line2, filteredText.get(0));
 	}
@@ -273,7 +278,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
@@ -289,7 +294,8 @@ public class CommentRemoverTest {
 	//
 	// var text = concatLines(line1, line2);
 	//
-	// var filteredText = this.splitLines(cr.removeCommentary(text));
+	// var filteredText =
+	// this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 	// Assertions.assertEquals(0, filteredText.size());
 	// }
 	//
@@ -303,7 +309,8 @@ public class CommentRemoverTest {
 	//
 	// var text = concatLines(line1, line2, line3);
 	//
-	// var filteredText = this.splitLines(cr.removeCommentary(text));
+	// var filteredText =
+	// this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 	// Assertions.assertEquals(1, filteredText.size());
 	// Assertions.assertEquals(line2, filteredText.get(0));
 	// }
@@ -317,7 +324,8 @@ public class CommentRemoverTest {
 	//
 	// var text = concatLines(line1, line2);
 	//
-	// var filteredText = this.splitLines(cr.removeCommentary(text));
+	// var filteredText =
+	// this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 	// Assertions.assertEquals(0, filteredText.size());
 	// }
 	//
@@ -331,7 +339,8 @@ public class CommentRemoverTest {
 	//
 	// var text = concatLines(line1, line2, line3);
 	//
-	// var filteredText = this.splitLines(cr.removeCommentary(text));
+	// var filteredText =
+	// this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 	// Assertions.assertEquals(1, filteredText.size());
 	// Assertions.assertEquals(line2, filteredText.get(0));
 	// }
@@ -346,7 +355,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
@@ -361,7 +370,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
@@ -378,10 +387,11 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
-		Assertions.assertEquals(2, filteredText.size());
-		Assertions.assertEquals(code1, filteredText.get(0));
-		Assertions.assertEquals(code2, filteredText.get(1));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+
+		// New line was the part of the commentary
+		Assertions.assertEquals(1, filteredText.size());
+		Assertions.assertEquals(code1 + code2, filteredText.get(0));
 	}
 
 	@Test
@@ -394,7 +404,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(0, filteredText.size());
 	}
 
@@ -408,7 +418,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(0, filteredText.size());
 	}
 
@@ -423,7 +433,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3, line4);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
@@ -439,7 +449,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3, line4);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line4, filteredText.get(0));
 	}
@@ -456,7 +466,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3, line4, line5);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
@@ -473,7 +483,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
@@ -488,7 +498,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
@@ -504,7 +514,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code1 + code2, filteredText.get(0));
 	}
@@ -517,7 +527,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(0, filteredText.size());
 	}
 
@@ -530,7 +540,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
@@ -544,7 +554,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line2, filteredText.get(0));
 	}
@@ -559,7 +569,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
@@ -578,7 +588,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
@@ -595,7 +605,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(code, filteredText.get(0));
 	}
@@ -613,10 +623,11 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
-		Assertions.assertEquals(2, filteredText.size());
-		Assertions.assertEquals(code1, filteredText.get(0));
-		Assertions.assertEquals(code2, filteredText.get(1));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
+
+		// New lines were inside the commentary
+		Assertions.assertEquals(1, filteredText.size());
+		Assertions.assertEquals(code1 + code2, filteredText.get(0));
 	}
 
 	@Test
@@ -629,7 +640,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(0, filteredText.size());
 	}
 
@@ -644,7 +655,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3, line4);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
@@ -660,7 +671,7 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3, line4);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line4, filteredText.get(0));
 	}
@@ -677,14 +688,14 @@ public class CommentRemoverTest {
 
 		var text = concatLines(line1, line2, line3, line4, line5);
 
-		var filteredText = this.splitLines(cr.removeCommentary(text));
+		var filteredText = this.removeEmptyLines(this.splitLines(cr.removeCommentary(text)));
 
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line5, filteredText.get(1));
 	}
-	
+
 	// TODO Add tests for commentary tokens in string literals
 	// TODO Add tests for multiple commentaries in a single line
-	
+
 }
