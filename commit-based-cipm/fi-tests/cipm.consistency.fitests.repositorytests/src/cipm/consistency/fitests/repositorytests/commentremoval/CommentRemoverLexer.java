@@ -214,12 +214,9 @@ public class CommentRemoverLexer {
 				brokenCommentaryFound = true;
 			}
 
-			var multiLineStringPattern = Pattern.compile("\"\"\"");
+			var multiLineStringPattern = Pattern.compile(multiLineStringToken);
 
-			// The first matching multi-line string token is the most important one
-			// So reverse postCommentEnd and see if there is a multi-line string start
-			var reversedPostCommentEnd = new StringBuilder(postCommentEnd).reverse().toString();
-			var multiLineStringMatcher = multiLineStringPattern.matcher(reversedPostCommentEnd);
+			var multiLineStringMatcher = multiLineStringPattern.matcher(tillCommentEnd);
 
 			// See if there is a broken multi-line string too
 			var inMultiLineString = false;
@@ -230,7 +227,9 @@ public class CommentRemoverLexer {
 			// that comment is encased in a multi-line string and is actually
 			// a part of the string
 
-			if (brokenCommentaryFound && !inMultiLineString) {
+			if (brokenCommentaryFound &&
+			// TODO Clarify which token has priority
+					(!inMultiLineString || !postCommentEnd.contains(multiLineStringToken))) {
 				return true;
 			}
 		}
@@ -252,7 +251,7 @@ public class CommentRemoverLexer {
 			 * postCommentStart: After commentary end {@code def}
 			 */
 
-			var tillCommentStart = text.substring(lastBlockCommentStartIdx + blockCommentStart.length());
+			var tillCommentStart = text.substring(0, lastBlockCommentStartIdx + blockCommentStart.length());
 			var postCommentStart = text.substring(lastBlockCommentStartIdx + blockCommentStart.length(), text.length());
 
 			if (!postCommentStart.contains(blockCommentEnd)) {
@@ -265,13 +264,17 @@ public class CommentRemoverLexer {
 
 			var inMultiLineString = false;
 			while (multiLineStringMatcher.find())
+				// Multi-line strings use the same token to mark their start and end
+				// use a boolean and invert it to indicate being inside a multi-line string
 				inMultiLineString = !inMultiLineString;
 
 			// If there is a multi-line string end after the broken comment
 			// that comment is encased in a multi-line string and is actually
 			// a part of the string
 
-			if (brokenCommentaryFound && !inMultiLineString) {
+			if (brokenCommentaryFound &&
+			// TODO Clarify which token has priority
+					(!inMultiLineString || !postCommentStart.contains(multiLineStringToken))) {
 				return true;
 			}
 		}
