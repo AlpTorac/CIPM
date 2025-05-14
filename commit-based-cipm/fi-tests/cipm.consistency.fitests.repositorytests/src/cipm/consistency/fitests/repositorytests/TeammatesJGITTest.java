@@ -35,6 +35,7 @@ import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.repositorytests.commentremoval.CommentRemoverLexer;
+import cipm.consistency.fitests.repositorytests.difffilter.DiffFilter;
 import cipm.consistency.fitests.similarity.jamopp.parser.FileUtil;
 
 public class TeammatesJGITTest {
@@ -63,23 +64,44 @@ public class TeammatesJGITTest {
 
 		int commitCount = listOfCommits.size();
 
-		for (int i = 0; i < commitCount; i++) {
-			for (int j = 0; j < commitCount; j++) {
-				var reader = git.getRepository().newObjectReader();
+		// From final commit towards initial commit
+		for (int i = 1; i < commitCount; i++) {
+			int j = i - 1;
+			var reader = git.getRepository().newObjectReader();
 
-				var oldTreeIter = new CanonicalTreeParser();
-				var oldTree = git.getRepository().resolve("HEAD~" + (i) + "^{tree}");
-				var oldCommit = git.getRepository().resolve("HEAD~" + (i));
-				oldTreeIter.reset(reader, oldTree);
+			var oldTreeIter = new CanonicalTreeParser();
+			var oldTree = git.getRepository().resolve("HEAD~" + (j) + "^{tree}");
+			var oldCommit = git.getRepository().resolve("HEAD~" + (j));
+			oldTreeIter.reset(reader, oldTree);
 
-				var newTreeIter = new CanonicalTreeParser();
-				var newTree = git.getRepository().resolve("HEAD~" + j + "^{tree}");
-				var newCommit = git.getRepository().resolve("HEAD~" + j);
-				newTreeIter.reset(reader, newTree);
+			var newTreeIter = new CanonicalTreeParser();
+			var newTree = git.getRepository().resolve("HEAD~" + i + "^{tree}");
+			var newCommit = git.getRepository().resolve("HEAD~" + i);
+			newTreeIter.reset(reader, newTree);
 
-				System.out.println(String.format("old: %s (%s), new: %s (%s)", i, oldCommit, j, newCommit));
-				this.outputRelevantDiffs(git, oldTreeIter, newTreeIter);
-			}
+			System.out.println(String.format("old: %s (%s), new: %s (%s)", j, oldCommit, i, newCommit));
+			this.outputRelevantDiffs(git, oldTreeIter, newTreeIter);
+		}
+
+		// From initial commit towards final commit
+		for (int i = 1; i < commitCount; i++) {
+			int idx = commitCount - i;
+			int j = commitCount - i - 1;
+			
+			var reader = git.getRepository().newObjectReader();
+
+			var oldTreeIter = new CanonicalTreeParser();
+			var oldTree = git.getRepository().resolve("HEAD~" + (j) + "^{tree}");
+			var oldCommit = git.getRepository().resolve("HEAD~" + (j));
+			oldTreeIter.reset(reader, oldTree);
+
+			var newTreeIter = new CanonicalTreeParser();
+			var newTree = git.getRepository().resolve("HEAD~" + idx + "^{tree}");
+			var newCommit = git.getRepository().resolve("HEAD~" + idx);
+			newTreeIter.reset(reader, newTree);
+
+			System.out.println(String.format("old: %s (%s), new: %s (%s)", j, oldCommit, idx, newCommit));
+			this.outputRelevantDiffs(git, oldTreeIter, newTreeIter);
 		}
 
 	}
@@ -103,18 +125,21 @@ public class TeammatesJGITTest {
 		}
 
 		var osOutputLines = new ArrayList<String>();
+		var filter = new DiffFilter();
+		
 		var commitAnalyser = new CommentRemoverLexer();
 		var commentlessLines = commitAnalyser.removeCommentary(osOutput);
 
-		var filter = new DiffFilter();
 		var filteredLines = filter.filterIrrelevantLines(commentlessLines);
 		filteredLines = filter.removeBlankLines(filteredLines);
 
-		for (var l : new DiffFilter().filterIrrelevantLines(commentlessLines)) {
+		for (var l : filteredLines) {
 			osOutputLines.add(l);
 			System.out.println(l);
 		}
 
-		var filteredOutput = osOutputLines.stream().reduce("", (l1, l2) -> l1 + l2);
+//		osOutputLines.addAll(filter.splitLines(osOutput));
+//		var filteredOutput = osOutputLines.stream().reduce("", (l1, l2) -> l1 + l2);
+//		System.out.println(filteredOutput);
 	}
 }
