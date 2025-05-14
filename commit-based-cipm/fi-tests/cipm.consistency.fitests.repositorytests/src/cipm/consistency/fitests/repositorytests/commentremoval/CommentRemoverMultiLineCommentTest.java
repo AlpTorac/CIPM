@@ -339,6 +339,55 @@ public class CommentRemoverMultiLineCommentTest extends AbstractJaMoPPParserRepo
 	}
 
 	@Test
+	public void removeBlockComment_MultipleLine_LeadingBrokenComment() {
+		var cr = new CommentRemoverLexer();
+
+		var line1 = "abc";
+		var line2 = "*/";
+
+		var text = concatLines(line1, line2);
+
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
+		Assertions.assertEquals(0, filteredText.size());
+		Assertions.assertTrue(cr.checkForLeadingBrokenBlockCommentary(text));
+		Assertions.assertFalse(cr.checkForTrailingBrokenBlockCommentary(text));
+	}
+
+	@Test
+	public void removeBlockComment_MultipleLine_TrailingBrokenComment() {
+		var cr = new CommentRemoverLexer();
+
+		var line1 = "/*";
+		var line2 = "abc";
+
+		var text = concatLines(line1, line2);
+
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
+		Assertions.assertEquals(0, filteredText.size());
+		Assertions.assertFalse(cr.checkForLeadingBrokenBlockCommentary(text));
+		Assertions.assertTrue(cr.checkForTrailingBrokenBlockCommentary(text));
+	}
+
+	@Test
+	public void removeBlockComment_MultipleLine_LeadingAndTrailingBrokenComments() {
+		var cr = new CommentRemoverLexer();
+
+		var line1 = "abc";
+		var line2 = "*/";
+		var line3 = "def";
+		var line4 = "/*";
+		var line5 = "hgf";
+
+		var text = concatLines(line1, line2, line3, line4, line5);
+
+		var filteredText = this.removeBlankLines(this.splitLines(cr.removeCommentary(text)));
+		Assertions.assertEquals(1, filteredText.size());
+		Assertions.assertEquals(line3, filteredText.get(0));
+		Assertions.assertTrue(cr.checkForLeadingBrokenBlockCommentary(text));
+		Assertions.assertTrue(cr.checkForTrailingBrokenBlockCommentary(text));
+	}
+
+	@Test
 	public void handleStringLiteralInComment_SingleLineStringLiteral() {
 		var cr = new CommentRemoverLexer();
 
