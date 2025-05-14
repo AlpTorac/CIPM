@@ -1,5 +1,7 @@
 package cipm.consistency.fitests.repositorytests.commentremoval;
 
+import java.util.regex.Pattern;
+
 public class CommentRemoverLexer {
 
 	// TODO Use Pattern and Matcher to optimise
@@ -178,6 +180,102 @@ public class CommentRemoverLexer {
 			}
 		}
 
+		if (this.checkForLeadingBrokenBlockCommentary(result)) {
+			// There is leading broken commentary, cut it out
+			result = result.substring(result.indexOf(blockCommentEnd) + blockCommentEnd.length());
+		}
+		if (this.checkForTrailingBrokenBlockCommentary(result)) {
+			// There is trailing broken commentary, cut it out
+			result = result.substring(0, result.lastIndexOf(blockCommentStart));
+		}
+
 		return result;
+	}
+
+	public boolean checkForLeadingBrokenBlockCommentary(String text) {
+		var blockCommentEndIdx = text.indexOf(blockCommentEnd);
+
+		if (blockCommentEndIdx != -1) {
+			var brokenCommentaryFound = false;
+
+			/*
+			 * Assume {@code text = "abc * / def"}
+			 *
+			 * tillCommentEnd: Till commentary end {@code abc * /}
+			 * 
+			 * postCommentEnd: After commentary end {@code def}
+			 */
+
+			var tillCommentEnd = text.substring(0, blockCommentEndIdx + blockCommentEnd.length());
+			var postCommentEnd = text.substring(blockCommentEndIdx + blockCommentEnd.length(), text.length());
+
+			if (!tillCommentEnd.contains(blockCommentStart)) {
+				// No block comment start found, potentially broken commentary
+				brokenCommentaryFound = true;
+			}
+
+			var multiLineStringPattern = Pattern.compile("\"\"\"");
+
+			// The first matching multi-line string token is the most important one
+			// So reverse postCommentEnd and see if there is a multi-line string start
+			var reversedPostCommentEnd = new StringBuilder(postCommentEnd).reverse().toString();
+			var multiLineStringMatcher = multiLineStringPattern.matcher(reversedPostCommentEnd);
+
+			// See if there is a broken multi-line string too
+			var inMultiLineString = false;
+			while (multiLineStringMatcher.find())
+				inMultiLineString = !inMultiLineString;
+
+			// If there is a multi-line string end after the broken comment
+			// that comment is encased in a multi-line string and is actually
+			// a part of the string
+
+			if (brokenCommentaryFound && !inMultiLineString) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public boolean checkForTrailingBrokenBlockCommentary(String text) {
+		var lastBlockCommentStartIdx = text.lastIndexOf(blockCommentStart);
+
+		if (lastBlockCommentStartIdx != -1) {
+			var brokenCommentaryFound = false;
+
+			/*
+			 * Assume {@code text = "abc /* def"}
+			 *
+			 * tillCommentStart: Till commentary end {@code abc /*}
+			 * 
+			 * postCommentStart: After commentary end {@code def}
+			 */
+
+			var tillCommentStart = text.substring(lastBlockCommentStartIdx + blockCommentStart.length());
+			var postCommentStart = text.substring(lastBlockCommentStartIdx + blockCommentStart.length(), text.length());
+
+			if (!postCommentStart.contains(blockCommentEnd)) {
+				// No block comment end found, potentially broken commentary
+				brokenCommentaryFound = true;
+			}
+
+			var multiLineStringPattern = Pattern.compile(multiLineStringToken);
+			var multiLineStringMatcher = multiLineStringPattern.matcher(tillCommentStart);
+
+			var inMultiLineString = false;
+			while (multiLineStringMatcher.find())
+				inMultiLineString = !inMultiLineString;
+
+			// If there is a multi-line string end after the broken comment
+			// that comment is encased in a multi-line string and is actually
+			// a part of the string
+
+			if (brokenCommentaryFound && !inMultiLineString) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 }
