@@ -1,9 +1,9 @@
-package cipm.consistency.fitests.repositorytests.commentremoval;
+package cipm.consistency.fitests.repositorytests;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class CommentRemoverTest {
+public abstract class AbstractJaMoPPParserRepoUtilTest {
 	protected List<String> removeBlankLines(List<String> lines) {
 		lines.removeIf((l) -> l.isBlank());
 		return lines;

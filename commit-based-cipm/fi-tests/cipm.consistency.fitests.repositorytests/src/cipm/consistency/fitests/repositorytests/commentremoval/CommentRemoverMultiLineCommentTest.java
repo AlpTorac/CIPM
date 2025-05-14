@@ -3,7 +3,9 @@ package cipm.consistency.fitests.repositorytests.commentremoval;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class CommentRemoverMultiLineCommentTest extends CommentRemoverTest {
+import cipm.consistency.fitests.repositorytests.AbstractJaMoPPParserRepoUtilTest;
+
+public class CommentRemoverMultiLineCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 	@Test
 	public void removeBlockComment_SingleLine_PrecedingCode() {
 		var cr = new CommentRemoverLexer();
