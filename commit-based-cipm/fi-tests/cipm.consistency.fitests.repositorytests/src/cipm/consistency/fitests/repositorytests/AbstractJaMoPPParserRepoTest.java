@@ -2,6 +2,7 @@ package cipm.consistency.fitests.repositorytests;
 
 import cipm.consistency.commitintegration.GitRepositoryWrapper;
 import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSimilarityTest;
+import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.jupiter.api.Assertions;
 
 public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserSimilarityTest {
+	private static final String gradleWrapperJarPathPattern = ".*?/gradle-wrapper\\.jar";
 	/**
 	 * The name of the root directory of the models
 	 */
@@ -207,6 +209,11 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 */
 	protected Path getRepoClonePath() {
 		return this.getRootDirPath().resolve(copyDirName);
+	}
+
+	@Override
+	protected void setUpModelParser(JaMoPPJDTSingleFileParser parser) {
+		parser.setExclusionPatterns(gradleWrapperJarPathPattern);
 	}
 
 	/**

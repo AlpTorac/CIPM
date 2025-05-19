@@ -49,19 +49,31 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	@AfterEach
 	@Override
 	public void tearDown() {
+		this.getLogger().debug("Tearing down after parser test");
+
 		if (this.shouldSaveCachedResources()) {
+			this.getLogger().debug("Saving all cached resources after parser test");
 			resourceCache.saveCachedResources();
+			this.getLogger().debug("Saved all cached resources after parser test");
 		}
 
 		if (this.shouldDeleteAllResources()) {
+			this.getLogger().debug("Deleting all cached resources after parser test");
 			resourceCache.deleteCachedResources();
+			this.getLogger().debug("Deleted all cached resources after parser test");
 		} else if (this.shouldUnloadAllResources()) {
+			this.getLogger().debug("Unloading all cached resources after parser test");
 			resourceCache.unloadCachedResources();
+			this.getLogger().debug("Unloaded all cached resources after parser test");
 		}
 
 		if (this.shouldRemoveResourcesFromCache()) {
+			this.getLogger().debug("Removing all cached resources from cache after parser test");
 			resourceCache.cleanCache();
+			this.getLogger().debug("Removed all cached resources from cache after parser test");
 		}
+
+		this.getLogger().debug("Tore down after parser test");
 
 		super.tearDown();
 	}
@@ -119,6 +131,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return URI.createFileURI(this.getResourcePathFor(modelDir));
 	}
 
+	protected void setUpModelParser(JaMoPPJDTSingleFileParser parser) {
+	}
+
 	/**
 	 * Parses all Java-Model files under the given directory into a {@link Resource}
 	 * instance. Uses no means of caching. <br>
@@ -139,6 +154,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		ParserOptions.RESOLVE_ALL_BINDINGS.setValue(Boolean.FALSE);
 
 		JaMoPPJDTSingleFileParser parser = new JaMoPPJDTSingleFileParser();
+		this.setUpModelParser(parser);
 		var rSet = this.createResourceSet();
 
 		parser.setResourceSet(rSet);
