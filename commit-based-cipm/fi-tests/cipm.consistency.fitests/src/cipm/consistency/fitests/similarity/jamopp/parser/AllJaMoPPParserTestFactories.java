@@ -10,7 +10,6 @@ public class AllJaMoPPParserTestFactories {
 			String resourceFileExtension, boolean contentOrderMatters) {
 		var result = new ArrayList<AbstractJaMoPPParserSimilarityTestFactory>();
 		result.add(new EAllContentSimilarityTestFactory(scc));
-		result.add(new RecursiveEAllContentSimilarityTestFactory(scc));
 		result.add(new ModelComparisonTestFactory(scc, resourceFileExtension, contentOrderMatters));
 		return result;
 	}

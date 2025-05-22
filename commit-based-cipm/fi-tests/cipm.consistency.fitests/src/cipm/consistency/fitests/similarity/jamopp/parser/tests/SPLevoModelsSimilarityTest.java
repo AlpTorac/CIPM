@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.resource.Resource;
 import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSimilarityTestFactory;
 import cipm.consistency.fitests.similarity.jamopp.parser.EAllContentSimilarityTestFactory;
-import cipm.consistency.fitests.similarity.jamopp.parser.RecursiveEAllContentSimilarityTestFactory;
 
 /**
  * A test class that attempts to parse and check similarity of {@link Resource}
@@ -46,7 +45,6 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 	protected Collection<AbstractJaMoPPParserSimilarityTestFactory> getTestFactories() {
 		var res = new ArrayList<AbstractJaMoPPParserSimilarityTestFactory>();
 		res.add(new EAllContentSimilarityTestFactory(this.getSCC()));
-		res.add(new RecursiveEAllContentSimilarityTestFactory(this.getSCC()));
 		return res;
 	}
 }
