@@ -7,7 +7,6 @@ import cipm.consistency.fitests.repositorytests.util.AbstractJaMoPPParserRepoUti
 
 public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 	private static final DiffFilter filter = new DiffFilter();
-	private static final String lineSeparator = System.lineSeparator();
 
 	@Test
 	public void filterDiffHeader_IsolatedOnOneLine() {
@@ -17,7 +16,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(2, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -32,7 +31,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -48,7 +47,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(2, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -63,7 +62,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -79,7 +78,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(2, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -94,7 +93,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -110,7 +109,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(2, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -125,7 +124,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -141,7 +140,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(2, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -156,7 +155,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -172,7 +171,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(2, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -187,7 +186,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -203,7 +202,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -219,7 +218,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -235,7 +234,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(2, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -250,7 +249,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -266,7 +265,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(2, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -281,7 +280,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -297,7 +296,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(2, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -312,7 +311,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -328,7 +327,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(2, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -343,7 +342,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -359,7 +358,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(2, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -374,7 +373,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -390,7 +389,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(2, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -405,7 +404,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -421,7 +420,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(2, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -436,7 +435,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -452,7 +451,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(2, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -467,7 +466,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -483,7 +482,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(2, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -498,7 +497,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -514,7 +513,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(2, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -529,7 +528,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -545,7 +544,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(2, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));
@@ -560,7 +559,7 @@ public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 
 		var text = this.concatLines(linePred, cmdLine, lineSucc);
 
-		var lines = filter.filterIrrelevantLines(text, lineSeparator);
+		var lines = filter.removeNonPatchScript(filter.splitLines(text));
 
 		Assertions.assertEquals(3, lines.size());
 		Assertions.assertEquals(linePred, lines.get(0));

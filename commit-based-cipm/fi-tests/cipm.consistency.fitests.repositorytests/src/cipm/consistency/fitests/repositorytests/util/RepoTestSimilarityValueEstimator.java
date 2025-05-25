@@ -19,12 +19,14 @@ public class RepoTestSimilarityValueEstimator {
 
 		try (var os = new ByteArrayOutputStream(); var df = new DiffFormatter(os)) {
 			df.setRepository(git.getRepository());
-			df.setContext(10);
+			df.setContext(3);
 //			df.setPathFilter(PathSuffixFilter.create(".java"));
 
 			// Include to get patches
 			df.format(oldTreeIter, newTreeIter);
-			osOutput = os.toString();
+
+			// Adapt all UNIX new lines to the current system
+			osOutput = os.toString().replaceAll("\\n", System.lineSeparator());
 
 //			var entries = df.scan(oldTreeIter, newTreeIter);
 //
@@ -39,11 +41,12 @@ public class RepoTestSimilarityValueEstimator {
 			e.printStackTrace();
 		}
 
-		var lines = filter.filterIrrelevantLines(osOutput);
-		var text = lines.stream().reduce("", (l1, l2) -> String.format("%s%s%s", l1, System.lineSeparator(), l2));
-		text = cr.removeComments(text);
-		text = filter.removeBlankLines(filter.removeContextLines(filter.splitLines(text, System.lineSeparator())))
-				.stream().reduce("", (l1, l2) -> String.format("%s%s%s", l1, System.lineSeparator(), l2));
+		var text = cr.removeComments(osOutput);
+		var lines = filter.splitLines(text);
+		lines = filter.removeContextLines(lines);
+		lines = filter.removeNonPatchScript(lines);
+		lines = filter.removeBlankLines(lines);
+		text = lines.stream().reduce("", (l1, l2) -> String.format("%s%s%s", l1, System.lineSeparator(), l2));
 
 		System.out.println(text);
 		return text.isBlank();

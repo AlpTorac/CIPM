@@ -30,23 +30,18 @@ public class DiffFilter {
 	 */
 	private static final String diffNoNewLineMessage = "\\ No newline at end of file";
 
-	private static final String unixNewLine = "\\n";
+	private static final String lineSeparator = System.lineSeparator();
 
 	/**
-	 * A variant of {@link #splitLines(String, String)} that uses the new line
-	 * character for UNIX ( {@code "\\n"} ). Implemented as a convenience method,
-	 * since GIT internally uses a UNIX terminal.
+	 * @return Splits the given (multi-line) text into its lines, where lines are
+	 *         separated via the given lineSeparator.
 	 */
-	public List<String> splitLines(String diff) {
-		return splitLines(diff, unixNewLine);
-	}
-
-	public List<String> splitLines(String diff, String lineSeparator) {
+	public List<String> splitLines(String text) {
 		var lines = new ArrayList<String>();
 
 		// Do not use System.lineSeparator since GIT uses UNIX terminal
 		// UNIX terminal uses "\n" for new line
-		var diffLines = diff.split(lineSeparator);
+		var diffLines = text.split(lineSeparator);
 
 		for (var l : diffLines) {
 			lines.add(l);
@@ -55,23 +50,9 @@ public class DiffFilter {
 		return lines;
 	}
 
-	public List<String> filterIrrelevantLines(List<String> lines) {
+	public List<String> removeNonPatchScript(List<String> lines) {
 		lines.removeIf((l) -> !isContentLine(l));
 		return lines;
-	}
-
-	/**
-	 * A variant of {@link #filterIrrelevantLines(String, String)} that uses the new
-	 * line character for UNIX ( {@code "\\n"} ). Implemented as a convenience
-	 * method, since GIT internally uses a UNIX terminal.
-	 */
-	public List<String> filterIrrelevantLines(String diff) {
-		return filterIrrelevantLines(diff, unixNewLine);
-	}
-
-	public List<String> filterIrrelevantLines(String diff, String lineSeparator) {
-		var lines = this.splitLines(diff, lineSeparator);
-		return filterIrrelevantLines(lines);
 	}
 
 	public List<String> removeBlankLines(List<String> lines) {
