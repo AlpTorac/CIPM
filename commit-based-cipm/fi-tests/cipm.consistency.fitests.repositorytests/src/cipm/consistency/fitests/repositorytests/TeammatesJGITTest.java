@@ -34,7 +34,7 @@ import org.eclipse.jgit.treewalk.filter.PathSuffixFilter;
 import org.eclipse.jgit.treewalk.filter.TreeFilter;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.repositorytests.commentremoval.CommentRemoverLexer;
+import cipm.consistency.fitests.repositorytests.commentremoval.QuickCommentRemover;
 import cipm.consistency.fitests.repositorytests.difffilter.DiffFilter;
 import cipm.consistency.fitests.similarity.jamopp.parser.FileUtil;
 
@@ -127,8 +127,8 @@ public class TeammatesJGITTest {
 		var osOutputLines = new ArrayList<String>();
 		var filter = new DiffFilter();
 		
-		var commitAnalyser = new CommentRemoverLexer();
-		var commentlessLines = commitAnalyser.removeCommentary(osOutput);
+		var commitAnalyser = new QuickCommentRemover();
+		var commentlessLines = commitAnalyser.removeComments(osOutput);
 
 		var filteredLines = filter.filterIrrelevantLines(commentlessLines);
 		filteredLines = filter.removeBlankLines(filteredLines);

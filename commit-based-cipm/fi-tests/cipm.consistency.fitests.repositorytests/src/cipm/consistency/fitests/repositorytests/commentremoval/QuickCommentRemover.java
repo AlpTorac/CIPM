@@ -1,8 +1,16 @@
 package cipm.consistency.fitests.repositorytests.commentremoval;
 
-import java.util.regex.Pattern;
-
-public class CommentRemoverLexer {
+/**
+ * A comment remover that gives precedence to block-comment tokens (such as
+ * {@code /*, * /}) over string tokens (i.e. {@code " and """}), unless the
+ * comment is guaranteed to be a part of a string literal. That means, all
+ * potentially broken block-comments are removed, even if they are a part of a
+ * string literal in reality. <b><i>The comment removal offered by this class is
+ * an approximation</i></b>.
+ * 
+ * @author Alp Torac Genc
+ */
+public class QuickCommentRemover implements ICommentRemover {
 
 	// TODO Use Pattern and Matcher to optimise
 
@@ -144,7 +152,7 @@ public class CommentRemoverLexer {
 		}
 	}
 
-	public String removeCommentary(String text) {
+	public String removeComments(String text) {
 		var result = "";
 
 		var currentCharIdx = 0;
@@ -154,9 +162,9 @@ public class CommentRemoverLexer {
 			/*
 			 * Check order:
 			 * 
-			 * 1) Multi-line string literals (can contain tokens of others)
+			 * 1) Multi-line string literals (can contain tokens of comments)
 			 * 
-			 * 2) Single line string literals (can contain tokens of others)
+			 * 2) Single line string literals (can contain tokens of comments)
 			 * 
 			 * 3) Block comments (may start and end in a single line, JavaDoc included)
 			 * 
@@ -180,11 +188,12 @@ public class CommentRemoverLexer {
 			}
 		}
 
-		if (this.checkForLeadingBrokenBlockCommentary(result)) {
+		if (this.hasLeadingBrokenComment(result)) {
 			// There is leading broken commentary, cut it out
-			result = result.substring(result.indexOf(blockCommentEnd) + blockCommentEnd.length());
+			var blockCommentEndIdx = result.indexOf(blockCommentEnd);
+			result = result.substring(blockCommentEndIdx + blockCommentEnd.length(), result.length());
 		}
-		if (this.checkForTrailingBrokenBlockCommentary(result)) {
+		if (this.hasTrailingBrokenComment(result)) {
 			// There is trailing broken commentary, cut it out
 			result = result.substring(0, result.lastIndexOf(blockCommentStart));
 		}
@@ -192,93 +201,28 @@ public class CommentRemoverLexer {
 		return result;
 	}
 
-	public boolean checkForLeadingBrokenBlockCommentary(String text) {
+	/**
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * Does not account for the broken comments to be a part of a multi-line string.
+	 */
+	public boolean hasLeadingBrokenComment(String text) {
+		var blockCommentStartIdx = text.indexOf(blockCommentStart);
 		var blockCommentEndIdx = text.indexOf(blockCommentEnd);
 
-		if (blockCommentEndIdx != -1) {
-			var brokenCommentaryFound = false;
+		return blockCommentEndIdx != -1 && (blockCommentStartIdx == -1 || blockCommentStartIdx > blockCommentEndIdx);
 
-			/*
-			 * Assume {@code text = "abc * / def"}
-			 *
-			 * tillCommentEnd: Till commentary end {@code abc * /}
-			 * 
-			 * postCommentEnd: After commentary end {@code def}
-			 */
-
-			var tillCommentEnd = text.substring(0, blockCommentEndIdx + blockCommentEnd.length());
-			var postCommentEnd = text.substring(blockCommentEndIdx + blockCommentEnd.length(), text.length());
-
-			if (!tillCommentEnd.contains(blockCommentStart)) {
-				// No block comment start found, potentially broken commentary
-				brokenCommentaryFound = true;
-			}
-
-			var multiLineStringPattern = Pattern.compile(multiLineStringToken);
-
-			var multiLineStringMatcher = multiLineStringPattern.matcher(tillCommentEnd);
-
-			// See if there is a broken multi-line string too
-			var inMultiLineString = false;
-			while (multiLineStringMatcher.find())
-				inMultiLineString = !inMultiLineString;
-
-			// If there is a multi-line string end after the broken comment
-			// that comment is encased in a multi-line string and is actually
-			// a part of the string
-
-			if (brokenCommentaryFound &&
-			// TODO Clarify which token has priority
-					(!inMultiLineString || !postCommentEnd.contains(multiLineStringToken))) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 
-	public boolean checkForTrailingBrokenBlockCommentary(String text) {
-		var lastBlockCommentStartIdx = text.lastIndexOf(blockCommentStart);
+	/**
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * Does not account for the broken comments to be a part of a multi-line string.
+	 */
+	public boolean hasTrailingBrokenComment(String text) {
+		var blockCommentStartIdx = text.lastIndexOf(blockCommentStart);
+		var blockCommentEndIdx = text.lastIndexOf(blockCommentEnd);
 
-		if (lastBlockCommentStartIdx != -1) {
-			var brokenCommentaryFound = false;
-
-			/*
-			 * Assume {@code text = "abc /* def"}
-			 *
-			 * tillCommentStart: Till commentary end {@code abc /*}
-			 * 
-			 * postCommentStart: After commentary end {@code def}
-			 */
-
-			var tillCommentStart = text.substring(0, lastBlockCommentStartIdx + blockCommentStart.length());
-			var postCommentStart = text.substring(lastBlockCommentStartIdx + blockCommentStart.length(), text.length());
-
-			if (!postCommentStart.contains(blockCommentEnd)) {
-				// No block comment end found, potentially broken commentary
-				brokenCommentaryFound = true;
-			}
-
-			var multiLineStringPattern = Pattern.compile(multiLineStringToken);
-			var multiLineStringMatcher = multiLineStringPattern.matcher(tillCommentStart);
-
-			var inMultiLineString = false;
-			while (multiLineStringMatcher.find())
-				// Multi-line strings use the same token to mark their start and end
-				// use a boolean and invert it to indicate being inside a multi-line string
-				inMultiLineString = !inMultiLineString;
-
-			// If there is a multi-line string end after the broken comment
-			// that comment is encased in a multi-line string and is actually
-			// a part of the string
-
-			if (brokenCommentaryFound &&
-			// TODO Clarify which token has priority
-					(!inMultiLineString || !postCommentStart.contains(multiLineStringToken))) {
-				return true;
-			}
-		}
-
-		return false;
+		return blockCommentStartIdx != -1 && (blockCommentEndIdx == -1 || blockCommentStartIdx > blockCommentEndIdx);
 	}
 }
