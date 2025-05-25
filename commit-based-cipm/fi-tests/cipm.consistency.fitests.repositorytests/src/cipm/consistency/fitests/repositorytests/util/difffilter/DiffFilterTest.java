@@ -1,9 +1,9 @@
-package cipm.consistency.fitests.repositorytests.difffilter;
+package cipm.consistency.fitests.repositorytests.util.difffilter;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.repositorytests.AbstractJaMoPPParserRepoUtilTest;
+import cipm.consistency.fitests.repositorytests.util.AbstractJaMoPPParserRepoUtilTest;
 
 public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 	private static final DiffFilter filter = new DiffFilter();

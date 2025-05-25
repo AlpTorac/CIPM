@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.repositorytests.commentremoval;
+package cipm.consistency.fitests.repositorytests.util.commentremoval;
 
 /**
  * An interface for classes that are meant to remove (Java) comments from code

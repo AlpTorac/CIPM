@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.repositorytests;
+package cipm.consistency.fitests.repositorytests.util;
 
 import java.util.ArrayList;
 import java.util.List;

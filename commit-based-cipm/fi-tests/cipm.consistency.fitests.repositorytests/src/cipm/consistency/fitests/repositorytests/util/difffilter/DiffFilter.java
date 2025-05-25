@@ -1,10 +1,14 @@
-package cipm.consistency.fitests.repositorytests.difffilter;
+package cipm.consistency.fitests.repositorytests.util.difffilter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
 public class DiffFilter {
+	private static final Pattern diffLineSignPattern = Pattern.compile("^(?:\\+|-)");
+	private static final Pattern diffLineWhitespacePattern = Pattern
+			.compile(String.format("%s?\\s*$", diffLineSignPattern.pattern()));
+
 	private static final Pattern diffHeaderPattern = Pattern.compile("^\\s*diff --git .*");
 	private static final Pattern diffHunkHeaderPattern = Pattern.compile("^@@ .* @@$");
 
@@ -71,7 +75,12 @@ public class DiffFilter {
 	}
 
 	public List<String> removeBlankLines(List<String> lines) {
-		lines.removeIf((l) -> l.isBlank());
+		lines.removeIf((l) -> diffLineWhitespacePattern.matcher(l).matches());
+		return lines;
+	}
+
+	public List<String> removeContextLines(List<String> lines) {
+		lines.removeIf((l) -> !diffLineSignPattern.matcher(l).find());
 		return lines;
 	}
 

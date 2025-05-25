@@ -1,9 +1,9 @@
-package cipm.consistency.fitests.repositorytests.commentremoval;
+package cipm.consistency.fitests.repositorytests.util.commentremoval;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.repositorytests.AbstractJaMoPPParserRepoUtilTest;
+import cipm.consistency.fitests.repositorytests.util.AbstractJaMoPPParserRepoUtilTest;
 
 public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 	private ICommentRemover cr = new QuickCommentRemover();

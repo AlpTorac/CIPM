@@ -1,4 +1,4 @@
-package cipm.consistency.fitests.repositorytests.commentremoval;
+package cipm.consistency.fitests.repositorytests.util.commentremoval;
 
 /**
  * A comment remover that gives precedence to block-comment tokens (such as
