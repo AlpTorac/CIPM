@@ -26,29 +26,50 @@ public class QuickCommentRemover implements ICommentRemover {
 	/**
 	 * Single line string literals (such as {@code "abc"}) cannot be nested. Start
 	 * from quotationIdx and look for the next quotation mark, which marks the end
-	 * of the string literal. Exclude escaped quotation marks (i.e. {@code \"}) and
-	 * multi-line string declarations (i.e. {@code """ ... """}) in the process.
+	 * of the string literal. Exclude escaped quotation marks (i.e. {@code \"}) in
+	 * the process. <br>
+	 * <br>
+	 * <b><i>Does not account for potential multi-line string declarations
+	 * {@code """..."""}. Multi-line string declarations are handled, as if they
+	 * were consecutive single line string literals</i></b>. This means, multi-line
+	 * strings that are declared on the same line are still detected as string
+	 * literals. However, multi-line strings that are declared over multiple lines
+	 * are detected as faulty string literals, i.e. this method returns -1.
 	 * 
 	 * @param quotationIdx The index of the quotation mark, which starts the string
 	 *                     literal. In {@code "abc"}, it is 0.
 	 * @param text         The text that should be analysed for single line string
 	 *                     literals
 	 * @return The first index at the end of the single line string literal. In
-	 *         {@code "abc"}, it is 4.
+	 *         {@code "abc"}, it is 4. Returns -1 if the string literal never ends.
 	 */
 	private int parseSingleLineStringLiteral(int quotationIdx, String text) {
 		if (text.length() <= quotationIdx + 1 || text.charAt(quotationIdx) != quotationMark ||
 		// Check for escaped quotation
-				(quotationIdx > 0 && text.charAt(quotationIdx - 1) == backslash) ||
-				// Check for multi-line string declaration
-				(text.length() >= quotationIdx + multiLineStringToken.length()
-						&& text.substring(quotationIdx, quotationIdx + multiLineStringToken.length())
-								.equals(multiLineStringToken)))
+				(quotationIdx > 0 && text.charAt(quotationIdx - 1) == backslash)
+
+//				||
+// 				Check for multi-line string declaration
+//				(text.length() >= quotationIdx + multiLineStringToken.length()
+//						&& text.substring(quotationIdx, quotationIdx + multiLineStringToken.length())
+//								.equals(multiLineStringToken))
+
+		)
 			// quotationIdx does not mark the start of a single line string literal
 			return -1;
 
-		// Skip quotationIdx, since the starting and ending tokens (") are the same
-		for (int i = quotationIdx + 1; i < text.length(); i++) {
+		/*
+		 * Skip quotationIdx, since the starting and ending tokens (") are the same.
+		 * 
+		 * Single line strings have to start and end on the same line, so only consider
+		 * the char sequence between the starting quotation mark and the end of the line
+		 * (either line break or end of text).
+		 */
+
+		var newLineIdx = text.indexOf(lineSeparator, quotationIdx);
+		var rangeEnd = newLineIdx != -1 ? newLineIdx : text.length();
+
+		for (int i = quotationIdx + 1; i < rangeEnd; i++) {
 			if (text.charAt(i) == quotationMark && text.charAt(i - 1) != backslash) {
 				// End of the string literal found, return index after closing quotation mark
 				return i + 1;
@@ -69,8 +90,10 @@ public class QuickCommentRemover implements ICommentRemover {
 	 * @param text         The text that should be analysed for multi line string
 	 *                     literals
 	 * @return The first index at the end of the multi line string literal. . In
-	 *         {@code """abc"""}, it is 8.
+	 *         {@code """abc"""}, it is 8. Returns -1 if the string literal never
+	 *         ends.
 	 */
+	@SuppressWarnings("unused")
 	private int parseMultiLineStringLiteral(int quotationIdx, String text) {
 		var mlstLen = multiLineStringToken.length();
 
@@ -131,7 +154,8 @@ public class QuickCommentRemover implements ICommentRemover {
 	 * 
 	 * @param slashStarIdx The starting index of the multi line comment
 	 * @param text         The text that should be analysed for multi line comments
-	 * @return The first index at the end of the multi line comment.
+	 * @return The first index at the end of the multi line comment. Returns -1 if
+	 *         the comment never ends.
 	 */
 	private int parseBlockComment(int slashStarIdx, String text) {
 		var commentEndLen = blockCommentEnd.length(); // Length of "*/"
@@ -171,9 +195,11 @@ public class QuickCommentRemover implements ICommentRemover {
 			 * 4) Single line comments (can only end with the line)
 			 */
 
-			if ((parseEndIdx = this.parseMultiLineStringLiteral(currentCharIdx, text)) != -1) {
-				result += text.substring(currentCharIdx, parseEndIdx);
-			} else if ((parseEndIdx = this.parseSingleLineStringLiteral(currentCharIdx, text)) != -1) {
+//			if ((parseEndIdx = this.parseMultiLineStringLiteral(currentCharIdx, text)) != -1) {
+//				result += text.substring(currentCharIdx, parseEndIdx);
+//			}
+
+			if ((parseEndIdx = this.parseSingleLineStringLiteral(currentCharIdx, text)) != -1) {
 				result += text.substring(currentCharIdx, parseEndIdx);
 			} else if ((parseEndIdx = this.parseBlockComment(currentCharIdx, text)) != -1) {
 			} else if ((parseEndIdx = this.parseSingleLineComment(currentCharIdx, text)) != -1) {
