@@ -442,19 +442,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		}
 
 		var tests = new ArrayList<DynamicNode>();
-		this.getTestFactories().forEach((tf) -> {
-			var testsForModelDirs = new ArrayList<DynamicNode>();
-			for (int i = 0; i < pathArr.length; i++) {
-				var path1 = pathArr[i];
-				var res1 = resArr[i];
-				for (int j = 0; j < pathArr.length; j++) {
-					var path2 = pathArr[j];
-					var res2 = resArr[j];
-					testsForModelDirs.add(tf.createTestsFor(res1, path1, res2, path2));
-				}
-			}
-			tests.add(DynamicContainer.dynamicContainer(tf.getTestDescription(), testsForModelDirs));
-		});
+
+		this.getTestGenerationStrategies().stream().map((s) -> s.createTests(pathArr, resArr, getTestFactories()))
+				.forEach((col) -> tests.addAll(col));
 
 		return tests;
 	}
@@ -527,6 +517,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 *         Java model can be parsed.
 	 */
 	protected abstract boolean isModelDirectoryName(String s);
+
+	protected abstract Collection<IJaMoPPParserTestGenerationStrategy> getTestGenerationStrategies();
 
 	/**
 	 * Defaults to checking whether

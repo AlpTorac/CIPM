@@ -1,6 +1,8 @@
 package cipm.consistency.fitests.similarity.jamopp.parser;
 
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.Collection;
 
 public abstract class AbstractJaMoPPComplexParserSimilarityTest extends AbstractJaMoPPParserSimilarityTest {
 	/**
@@ -23,6 +25,13 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 		} catch (NumberFormatException e) {
 			return false;
 		}
+	}
+
+	@Override
+	protected Collection<IJaMoPPParserTestGenerationStrategy> getTestGenerationStrategies() {
+		var strats = new ArrayList<IJaMoPPParserTestGenerationStrategy>();
+		strats.add(new CombinationTestGenerationStrategy());
+		return strats;
 	}
 
 	/**

@@ -2,6 +2,8 @@ package cipm.consistency.fitests.repositorytests;
 
 import cipm.consistency.commitintegration.GitRepositoryWrapper;
 import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.parser.IJaMoPPParserTestGenerationStrategy;
+import cipm.consistency.fitests.similarity.jamopp.parser.IterativeTestGenerationStrategy;
 import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
 
 import java.nio.file.Path;
@@ -234,4 +236,25 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 */
 	protected abstract String getRepoName();
 
+	@Override
+	public boolean shouldSaveCachedResources() {
+		return false;
+	}
+
+	@Override
+	public boolean shouldUnloadAllResources() {
+		return true;
+	}
+
+	@Override
+	public boolean shouldDeleteAllResources() {
+		return true;
+	}
+
+	@Override
+	protected Collection<IJaMoPPParserTestGenerationStrategy> getTestGenerationStrategies() {
+		var strats = new ArrayList<IJaMoPPParserTestGenerationStrategy>();
+		strats.add(new IterativeTestGenerationStrategy());
+		return strats;
+	}
 }
