@@ -128,7 +128,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	protected URI getResourceURI(Path modelDir) {
-		return URI.createFileURI(this.getResourcePathFor(modelDir));
+		return URI.createFileURI(this.getResourcePathFor(modelDir)).appendFileExtension(getResourceFileExtension());
 	}
 
 	protected void setUpModelParser(JaMoPPJDTSingleFileParser parser) {
