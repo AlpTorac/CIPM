@@ -14,6 +14,7 @@ import java.util.List;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.jgit.api.errors.GitAPIException;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 
 public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserSimilarityTest {
@@ -21,11 +22,17 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	/**
 	 * The name of the root directory of the models
 	 */
-	private static final String repoModelImplDirName = "repo-testmodels";
-	/**
-	 * The name of the directory, where the main local repository clone will reside
-	 */
-	private static final String copyDirName = "Copy";
+	private static final String repoModelImplDirName = "repo-clones";
+
+	@AfterEach
+	@Override
+	public void tearDown() {
+		if (this.shouldDeleteRepositoryClones()) {
+			this.getFileUtil().deleteAll(this.getRepoClonePath());
+		}
+
+		super.tearDown();
+	}
 
 	/**
 	 * Adds model resources to cache for all commits relevant for this test. Must be
@@ -40,7 +47,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		var commitResourcesExist = true;
 
 		for (var cID : this.getCommitIDs()) {
-			var targetPath = this.getTargetPathForCommit(cID);
+			var targetPath = this.getRepoClonePathForCommit(cID);
 			if (!targetPath.toFile().exists()) {
 				this.getLogger().debug(String.format("Model resource missing for %s", cID));
 				commitResourcesExist = false;
@@ -51,20 +58,27 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		if (!commitResourcesExist) {
 			this.getLogger().debug(String.format("Some model resources are missing ... preparing them now",
 					this.getRootDirPath().toString()));
-			var wrapper = this.cloneRemoteRepo();
+			var wrapper = this.cloneRepo();
 
 			commitResources.addAll(this.prepareReposForCommits(this.getCommitIDs(), wrapper));
 
-			this.closeGitWrapper(wrapper);
+			this.getLogger().debug("Closing repository wrapper");
+			var repoCloseTime = System.nanoTime();
+			wrapper.closeRepository();
+			this.getLogger().debug(
+					String.format("Closed repository wrapper (%s seconds)", this.getElapsedSeconds(repoCloseTime)));
+
 			var mainLocalClonePath = wrapper.getRootDirectory().toPath();
 
 			this.getLogger().debug(
 					String.format("Cleaning main local repository clone under: %s", mainLocalClonePath.toString()));
-			this.cleanModels(mainLocalClonePath);
+
+			this.getFileUtil().deleteAll(mainLocalClonePath);
+
 			this.getLogger().debug("Cleaned main local repository clone");
 		} else {
 			for (var cID : this.getCommitIDs()) {
-				var targetPath = this.getTargetPathForCommit(cID);
+				var targetPath = this.getRepoClonePathForCommit(cID);
 				var res = this.loadResource(targetPath);
 				this.getCacheUtil().addToCache(targetPath.toString(), res);
 				commitResources.add(this.getCacheUtil().getFromCache(targetPath.toString()));
@@ -77,21 +91,26 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	}
 
 	/**
-	 * Clones the remote repository desired by this test.
+	 * Clones the repository desired by this test.
+	 * 
+	 * @param repoToCloneURI URI to the repository, which should be cloned (local or
+	 *                       remote)
+	 * @param clonePath      The path to the folder, where the repository under
+	 *                       repoToCloneURI will be cloned
 	 * 
 	 * @return An object that can be used to perform GIT operations on the
 	 *         repository clone.
 	 */
-	protected GitRepositoryWrapper cloneRemoteRepo() {
+	protected GitRepositoryWrapper cloneRepo(String repoToCloneURI, Path clonePath) {
 		var cloningStartTime = System.nanoTime();
 		this.getLogger().debug("Creating repository wrapper");
-		var gitWrapper = new GitRepositoryWrapper(this.getRepoClonePath().toFile());
+		var gitWrapper = new GitRepositoryWrapper(clonePath.toFile());
 		this.getLogger().debug("Created repository wrapper");
 
 		try {
-			this.getLogger().debug(String.format("Cloning remote repository (%s) to: %s", this.getRepoURI(),
+			this.getLogger().debug(String.format("Cloning remote repository (%s) to: %s", repoToCloneURI,
 					gitWrapper.getRootDirectory().toString()));
-			gitWrapper.initFromRemoteRepository(this.getRepoURI());
+			gitWrapper.initFromRemoteRepository(repoToCloneURI);
 			this.getLogger()
 					.debug(String.format("Cloning successful (%s seconds)", this.getElapsedSeconds(cloningStartTime)));
 		} catch (Exception e) {
@@ -100,6 +119,10 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		}
 
 		return gitWrapper;
+	}
+
+	protected GitRepositoryWrapper cloneRepo() {
+		return this.cloneRepo(this.getRepoURI(), this.getRepoClonePath());
 	}
 
 	/**
@@ -111,7 +134,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 * @param commits    Commits for which a model resource will be parsed
 	 * @param gitWrapper The object that can be used to perform GIT operations on
 	 *                   the "main" repository clone, which should be created with
-	 *                   {@link #cloneRemoteRepo()}.
+	 *                   {@link #cloneRepo()}.
 	 */
 	protected Collection<Resource> prepareReposForCommits(List<String> commits, GitRepositoryWrapper gitWrapper) {
 		var repoPreparationStart = System.nanoTime();
@@ -142,7 +165,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			this.getLogger().debug(String.format("Caching resource for: %s", commit));
 			var cachingStartTime = System.nanoTime();
 
-			var targetPath = this.getTargetPathForCommit(commit);
+			var targetPath = this.getRepoClonePathForCommit(commit);
 			Resource commitRes = null;
 
 			if (targetPath.toFile().exists()) {
@@ -150,7 +173,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			} else {
 				commitRes = this.parseModelsDirWithCaching(gitWrapper.getRootDirectory().toPath(),
 						targetPath.toString());
-				commitRes.setURI(this.getTargetURIForCommit(commit));
+				commitRes.setURI(this.getTestModelSaveURIForCommit(commit));
 			}
 
 			commitResources.add(commitRes);
@@ -162,33 +185,26 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		return commitResources;
 	}
 
-	protected Path getTargetPathForCommit(String commitID) {
+	/**
+	 * @return The URI, at which the parsed commit's resource will point at.
+	 */
+	protected URI getTestModelSaveURIForCommit(String commitID) {
+		return URI.createFileURI(this.getTestModelSaveRootDirectory().toString()).appendSegment(this.getRepoName())
+				.appendSegment(commitID).appendFileExtension(this.getResourceFileExtension());
+	}
+
+	/**
+	 * @return The path, where the given commit should be cloned
+	 */
+	protected Path getRepoClonePathForCommit(String commitID) {
 		return this.getRootDirPath().resolve(commitID);
 	}
 
-	protected URI getTargetURIForCommit(String commitID) {
-		return URI.createFileURI(this.getTargetPathForCommit(commitID).toString());
-	}
-
 	/**
-	 * Closes the wrapper object, which enabled executing commands on the "main"
-	 * local repository clone (created by {@link #cloneRemoteRepo()}.
+	 * @return The URI to the folder, where the given commit should be cloned
 	 */
-	protected void closeGitWrapper(GitRepositoryWrapper gitWrapper) {
-		this.getLogger().debug("Closing repository wrapper");
-		var repoCloseTime = System.nanoTime();
-		gitWrapper.closeRepository();
-		this.getLogger()
-				.debug(String.format("Closed repository wrapper (%s seconds)", this.getElapsedSeconds(repoCloseTime)));
-	}
-
-	/**
-	 * Recursively cleans files, which have been used in tests.
-	 * 
-	 * @param path The path to the directory to clean
-	 */
-	protected void cleanModels(Path path) {
-		this.getFileUtil().cleanModels(path);
+	protected URI getRepoCloneURIForCommit(String commitID) {
+		return URI.createFileURI(this.getRepoClonePathForCommit(commitID).toString());
 	}
 
 	@Override
@@ -202,7 +218,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	}
 
 	/**
-	 * Defaults to {@code rootDirPath/copyDirName}.
+	 * Defaults to {@code rootDirPath/repoName}.
 	 * 
 	 * @return The path, at which the repository clone resides, OR the path, where
 	 *         the repository will be cloned to.
@@ -210,7 +226,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 * @see {@link #getRootDirPath()}
 	 */
 	protected Path getRepoClonePath() {
-		return this.getRootDirPath().resolve(copyDirName);
+		return this.getRootDirPath().resolve(this.getRepoName());
 	}
 
 	@Override
@@ -236,18 +252,13 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 */
 	protected abstract String getRepoName();
 
-	@Override
-	public boolean shouldSaveCachedResources() {
-		return false;
-	}
-
-	@Override
-	public boolean shouldUnloadAllResources() {
-		return true;
-	}
-
-	@Override
-	public boolean shouldDeleteAllResources() {
+	/**
+	 * Defaults to true.
+	 * 
+	 * @return Whether all cloned repositories that are used by this test class
+	 *         should be removed.
+	 */
+	public boolean shouldDeleteRepositoryClones() {
 		return true;
 	}
 

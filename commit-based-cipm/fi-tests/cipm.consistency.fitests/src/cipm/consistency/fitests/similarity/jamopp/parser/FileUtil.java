@@ -157,20 +157,20 @@ public class FileUtil {
 	}
 
 	/**
-	 * Recursively cleans files, which have been used in tests. If a file or
-	 * directory cannot be deleted, requests its deletion upon termination of JVM.
+	 * Recursively cleans files. If a file or directory cannot be deleted, requests
+	 * its deletion upon termination of JVM.
 	 * 
 	 * @param file The file or directory to delete
 	 * @see {@link File#deleteOnExit()}
 	 */
-	public void cleanModels(File file) {
+	public void deleteAll(File file) {
 		if (file.exists()) {
 			if (file.isDirectory()) {
 				var children = file.listFiles();
 
 				if (children != null) {
 					for (var cf : children) {
-						this.cleanModels(cf);
+						this.deleteAll(cf);
 					}
 				}
 			}
@@ -182,11 +182,10 @@ public class FileUtil {
 	}
 
 	/**
-	 * A variant of {@link #cleanModels(File)} that converts the given path to a
-	 * file.
+	 * A variant of {@link #deleteAll(File)} that converts the given path to a file.
 	 */
-	public void cleanModels(Path path) {
-		this.cleanModels(path.toFile());
+	public void deleteAll(Path path) {
+		this.deleteAll(path.toFile());
 	}
 
 	/**

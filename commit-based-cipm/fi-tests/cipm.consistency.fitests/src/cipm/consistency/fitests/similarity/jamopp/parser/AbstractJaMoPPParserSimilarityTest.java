@@ -123,11 +123,11 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 	protected String getResourcePathFor(Path modelDir) {
 		var modelSubPath = this.getAbsoluteCurrentDirectory().relativize(modelDir);
-		var resPath = this.getTargetRootDirectory().resolve(modelSubPath);
+		var resPath = this.getTestModelSaveRootDirectory().resolve(modelSubPath);
 		return resPath.toString();
 	}
 
-	protected URI getResourceURI(Path modelDir) {
+	protected URI getModelResourceURI(Path modelDir) {
 		return URI.createFileURI(this.getResourcePathFor(modelDir)).appendFileExtension(getResourceFileExtension());
 	}
 
@@ -166,7 +166,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		this.getLogger().debug(String.format("%d resources have been parsed under %s", resCount,
 				this.getDisplayNameForModelDir(modelDir)));
 
-		var mergedResource = this.createResource(this.getResourceURI(modelDir));
+		var mergedResource = this.createResource(this.getModelResourceURI(modelDir));
 
 		var filteredResources = new ArrayList<Resource>();
 		resourceSet.getResources().stream().filter((r) -> this.isResourceRelevant(modelDir, r))
@@ -223,7 +223,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 			// Search for the resource file in cache save location
 			if (res == null) {
-				res = this.loadResource(this.getResourceURI(modelDir));
+				res = this.loadResource(this.getModelResourceURI(modelDir));
 				if (res != null) {
 					this.getLogger().debug(String.format("Loaded %s from its resource file", modelName));
 				}
@@ -390,7 +390,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @return The root directory, under which generated test resources will be
 	 *         saved.
 	 */
-	protected Path getTargetRootDirectory() {
+	protected Path getTestModelSaveRootDirectory() {
 		return this.getAbsoluteCurrentDirectory().resolve(cacheSaveDirName);
 	}
 
@@ -398,8 +398,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @return The path, at which the parsed resource files' URI will point at,
 	 *         should they be saved.
 	 */
-	protected Path getTargetPath() {
-		return this.getTargetRootDirectory()
+	protected Path getTestModelSavePath() {
+		return this.getTestModelSaveRootDirectory()
 				.resolve(this.getAbsoluteCurrentDirectory().relativize(this.getRootDirPath()));
 	}
 
