@@ -1,7 +1,6 @@
 package cipm.consistency.fitests.similarity.jamopp.parser;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -52,20 +51,34 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	@Override
 	public void tearDown() {
 		this.getLogger().debug("Tearing down after parser test");
+		var cachedResources = resourceCache.getCachedResources();
 
+		// TODO Fix parser repo tests
 		if (this.shouldSaveCachedResources()) {
 			this.getLogger().debug("Saving all cached resources after parser test");
-			resourceCache.saveCachedResources();
+			for (var res : cachedResources) {
+				Assertions.assertTrue(this.getResourceHelper().saveResource(res),
+						String.format("Could not save %s", res.getURI()));
+				this.saveArtificialResource(res);
+			}
 			this.getLogger().debug("Saved all cached resources after parser test");
 		}
 
 		if (this.shouldDeleteAllResources()) {
 			this.getLogger().debug("Deleting all cached resources after parser test");
-			resourceCache.deleteCachedResources();
+			for (var res : cachedResources) {
+				Assertions.assertTrue(this.getResourceHelper().deleteResource(res),
+						String.format("Could not delete %s", res.getURI()));
+				this.saveArtificialResource(res);
+			}
 			this.getLogger().debug("Deleted all cached resources after parser test");
 		} else if (this.shouldUnloadAllResources()) {
 			this.getLogger().debug("Unloading all cached resources after parser test");
-			resourceCache.unloadCachedResources();
+			for (var res : cachedResources) {
+				Assertions.assertTrue(this.getResourceHelper().unloadResource(res),
+						String.format("Could not delete %s", res.getURI()));
+				this.saveArtificialResource(res);
+			}
 			this.getLogger().debug("Unloaded all cached resources after parser test");
 		}
 
@@ -192,6 +205,16 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return artificialResource;
 	}
 
+	protected void saveArtificialResource(Resource modelResource) {
+		var artificialResource = this.getArtificialResource(modelResource.getResourceSet());
+		if (artificialResource != null) {
+			this.getLogger().debug(String.format("Saving ArtificialResource"));
+			Assertions.assertTrue(this.getResourceHelper().saveResource(artificialResource),
+					"Failed to save artificial resource");
+			this.getLogger().debug(String.format("Saved ArtificialResource"));
+		}
+	}
+
 	/**
 	 * Parses all Java-Model files under the given directory into a {@link Resource}
 	 * instance. Uses no means of caching. <br>
@@ -265,17 +288,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		var artificialResource = this.prepareArtificialResource(rSet, modelRes,
 				this.getArtificialResourceURI(mergedResURI));
 
-		if (artificialResource != null) {
-			try {
-				this.getLogger().debug(String.format("Saving ArtificialResource"));
-				artificialResource.save(null);
-				this.getLogger().debug(String.format("Saved ArtificialResource"));
-			} catch (IOException e) {
-				e.printStackTrace();
-				Assertions.fail("Failed to save artificial resource");
-			}
-		}
-
 		this.getLogger().debug(String.format("Merging non-ArtificialResources"));
 
 		for (var r : resourceSet.getResources()) {
@@ -291,7 +303,11 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		this.getLogger().debug(String.format("%s parsed (uncached, %s seconds)",
 				this.getDisplayNameForModelDir(modelDir), this.getElapsedSeconds(parseStartTime)));
 
-		EcoreUtil.resolveAll(mergedResource);
+		// Add ArtificialResource to mergedResource's resource set, so that finding it
+		// becomes easier
+		if (artificialResource != null) {
+			mergedResource.getResourceSet().getResources().add(artificialResource);
+		}
 
 		return mergedResource;
 	}
@@ -328,12 +344,12 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 				this.getLogger().debug(String.format("%s is in cache, using cached version", modelName));
 				res = cache.getFromCache(cacheKey);
 				if (!res.isLoaded())
-					this.loadResource(res);
+					this.getResourceHelper().loadResource(res);
 			}
 
 			// Search for the resource file in cache save location
 			if (res == null) {
-				res = this.loadResource(this.getModelResourceURI(modelDir));
+				res = this.getResourceHelper().loadResource(this.getModelResourceURI(modelDir));
 				if (res != null) {
 					this.getLogger().debug(String.format("Loaded %s from its resource file", modelName));
 				}
@@ -351,35 +367,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		this.getLogger().debug(String.format("%s parsed (with caching, %s seconds)",
 				this.getDisplayNameForModelDir(modelDir), this.getElapsedSeconds(parseStartTime)));
 		return res;
-	}
-
-	protected void loadResource(Resource res) {
-		this.getLogger().debug(String.format("Loading resource at: %s", res.getURI().toFileString()));
-		try {
-			res.load(null);
-		} catch (IOException e) {
-			e.printStackTrace();
-			Assertions.fail();
-		}
-	}
-
-	protected Resource loadResource(URI resourceURI) {
-		var loadStartTime = System.nanoTime();
-
-		Resource res = null;
-
-		if (resourceURI.isFile() && new File(resourceURI.toFileString()).exists()) {
-			res = this.createResource(resourceURI);
-			this.loadResource(res);
-		}
-
-		this.getLogger().debug(String.format("Loaded %s (%s seconds)", resourceURI.toFileString(),
-				this.getElapsedSeconds(loadStartTime)));
-		return res;
-	}
-
-	protected Resource loadResource(Path resourcePath) {
-		return this.loadResource(URI.createFileURI(resourcePath.toString()));
 	}
 
 	/**

@@ -1,12 +1,11 @@
 package cipm.consistency.fitests.similarity.jamopp.parser;
 
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.resource.Resource;
-import org.junit.jupiter.api.Assertions;
 
 /**
  * A utility object, which encapsulates caching logic (for parsed models) and
@@ -63,7 +62,16 @@ public class CacheUtil {
 	}
 
 	/**
-	 * @return All contents of the underlying cache
+	 * @return All cached resources, without their corresponding keys
+	 * @see {@link #getAllCacheContent()}
+	 */
+	public Collection<Resource> getCachedResources() {
+		return new ArrayList<Resource>(this.getResourceCache().values());
+	}
+
+	/**
+	 * @return All contents of the underlying cache (i.e. cached resources and their
+	 *         corresponding keys)
 	 */
 	public Map<String, Resource> getAllCacheContent() {
 		return new HashMap<String, Resource>(this.getResourceCache());
@@ -88,62 +96,5 @@ public class CacheUtil {
 	 */
 	public void cleanCache() {
 		this.getResourceCache().clear();
-	}
-
-	public void saveResource(String key) {
-		var res = this.getFromCache(key);
-		var uri = res.getURI();
-		if (uri.isFile() && !new File(uri.toFileString()).exists()) {
-			try {
-				res.save(null);
-			} catch (IOException excep) {
-				excep.printStackTrace();
-				Assertions.fail();
-			}
-		}
-	}
-
-	public void saveCachedResources() {
-		for (var e : this.getResourceCache().entrySet()) {
-			var res = e.getValue();
-			var uri = res.getURI();
-			if (uri.isFile() && !new File(uri.toFileString()).exists()) {
-				try {
-					res.save(null);
-				} catch (IOException excep) {
-					excep.printStackTrace();
-					Assertions.fail();
-				}
-			}
-		}
-	}
-
-	public void unloadResource(String key) {
-		this.getFromCache(key).unload();
-	}
-
-	public void unloadCachedResources() {
-		this.getResourceCache().forEach((k, v) -> v.unload());
-	}
-
-	public void deleteResource(String key) {
-		try {
-			this.getFromCache(key).delete(resourceCache);
-		} catch (IOException e) {
-			e.printStackTrace();
-			Assertions.fail();
-		}
-	}
-
-	public void deleteCachedResources() {
-		this.unloadCachedResources();
-		for (var res : this.getResourceCache().values()) {
-			try {
-				res.delete(null);
-			} catch (IOException e) {
-				e.printStackTrace();
-				Assertions.fail();
-			}
-		}
 	}
 }

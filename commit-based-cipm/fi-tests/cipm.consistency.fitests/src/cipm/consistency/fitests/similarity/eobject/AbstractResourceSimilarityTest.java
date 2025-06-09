@@ -57,7 +57,7 @@ public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityT
 	 */
 	protected void cleanUpResourceHelper() {
 		if (this.shouldDeleteAllResources()) {
-			this.getResourceHelper().cleanAllResources();
+			this.getResourceHelper().deleteAllResources();
 		} else if (this.shouldUnloadAllResources()) {
 			this.getResourceHelper().unloadAllResources();
 		}

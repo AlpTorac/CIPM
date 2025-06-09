@@ -283,13 +283,17 @@ public abstract class AbstractResourceHelper {
 	 * returns true/false to indicate success/failure.
 	 */
 	public boolean saveResource(Resource res) {
-		try {
-			res.save(null);
-			return true;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return false;
+		var uri = res.getURI();
+		if (uri.isFile() && !new File(uri.toFileString()).exists()) {
+			try {
+				res.save(null);
+				return this.resourceFileExists(uri);
+			} catch (IOException excep) {
+				excep.printStackTrace();
+				return this.resourceFileExists(uri);
+			}
 		}
+		return this.resourceFileExists(uri);
 	}
 
 	/**
@@ -310,10 +314,65 @@ public abstract class AbstractResourceHelper {
 	}
 
 	/**
+	 * Loads the given resource
+	 */
+	public void loadResource(Resource res) {
+		try {
+			this.getLogger().debug(String.format("Loading resource at: %s", res.getURI().toFileString()));
+			res.load(null);
+			this.getLogger().debug(String.format("Loaded %s", res.getURI().toFileString()));
+		} catch (IOException e) {
+			e.printStackTrace();
+			this.getLogger().debug(String.format("Could not load resource at: %s", res.getURI().toFileString()));
+		}
+	}
+
+	/**
+	 * @return A resource instance, which has the contents of the saved resource
+	 *         file at the given URI
+	 */
+	public Resource loadResource(URI resourceURI) {
+		Resource res = null;
+
+		if (resourceURI.isFile() && new File(resourceURI.toFileString()).exists()) {
+			res = this.createResource(resourceURI);
+			this.loadResource(res);
+		}
+
+		return res;
+	}
+
+	/**
+	 * @return The loaded resource located at the given path
+	 */
+	public Resource loadResource(Path resourcePath) {
+		return this.loadResource(URI.createFileURI(resourcePath.toString()));
+	}
+
+	/**
+	 * @param resSet      The resource ste, which will contain the created resource
+	 * @param resourceURI The URI, where the resource points at
+	 * @return An empty resource inside the given resource set, with the given URI
+	 */
+	public Resource createResource(ResourceSet resSet, URI resourceURI) {
+		return this.createResource(null, resSet, resourceURI);
+	}
+
+	/**
+	 * @param resourceURI The URI, where the resource points at
+	 * @return An empty resource, inside a freshly created resource set, with the
+	 *         given URI
+	 */
+	public Resource createResource(URI resourceURI) {
+		return this.createResource(this.createResourceSet(), resourceURI);
+	}
+
+	/**
 	 * Unloads the given {@link Resource} instance.
 	 */
-	public void unloadResource(Resource res) {
+	public boolean unloadResource(Resource res) {
 		res.unload();
+		return !res.isLoaded();
 	}
 
 	/**
@@ -323,20 +382,44 @@ public abstract class AbstractResourceHelper {
 		this.createdResources.forEach((r) -> this.unloadResource(r));
 	}
 
+	public boolean resourceFileExists(URI resURI) {
+		return resURI.isFile() && new File(resURI.toFileString()).exists();
+	}
+
+	/**
+	 * Deletes the given resource
+	 */
+	public boolean deleteResource(Resource res) {
+		var uri = res.getURI();
+		if (this.resourceFileExists(uri)) {
+			try {
+				res.delete(null);
+				return !this.resourceFileExists(uri);
+			} catch (IOException e) {
+				e.printStackTrace();
+				this.getLogger().debug("Could not delete resource: " + res.getURI().toString());
+				return !this.resourceFileExists(uri);
+			}
+		}
+		return !this.resourceFileExists(uri);
+	}
+
 	/**
 	 * Unloads and deletes all created {@link Resource} instances, if they are
 	 * created with {@link #createResource(Collection)}. Stops tracking them as
 	 * well.
 	 */
-	public void cleanAllResources() {
+	public void deleteAllResources() {
 		this.createdResources.forEach((r) -> {
 			this.unloadResource(r);
 
-			try {
-				r.delete(null);
-			} catch (IOException e) {
-				this.getLogger().debug("Resource either was not created as a file or has already been deleted: "
-						+ r.getURI().toString());
+			if (r.getURI().isFile() && new File(r.getURI().toFileString()).exists()) {
+				try {
+					r.delete(null);
+				} catch (IOException e) {
+					e.printStackTrace();
+					this.getLogger().debug("Could not delete resource: " + r.getURI().toString());
+				}
 			}
 		});
 

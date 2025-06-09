@@ -79,7 +79,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		} else {
 			for (var cID : this.getCommitIDs()) {
 				var targetPath = this.getRepoClonePathForCommit(cID);
-				var res = this.loadResource(targetPath);
+				var res = this.getResourceHelper().loadResource(targetPath);
 				this.getCacheUtil().addToCache(targetPath.toString(), res);
 				commitResources.add(this.getCacheUtil().getFromCache(targetPath.toString()));
 			}
@@ -173,7 +173,12 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			} else {
 				commitRes = this.parseModelsDirWithCaching(gitWrapper.getRootDirectory().toPath(),
 						targetPath.toString());
-				commitRes.setURI(this.getTestModelSaveURIForCommit(commit));
+				var commitResURI = this.getTestModelSaveURIForCommit(commit);
+				commitRes.setURI(commitResURI);
+				var artificialResource = this.getArtificialResource(commitRes.getResourceSet());
+				if (artificialResource != null) {
+					artificialResource.setURI(this.getArtificialResourceURI(commitResURI));
+				}
 			}
 
 			commitResources.add(commitRes);
