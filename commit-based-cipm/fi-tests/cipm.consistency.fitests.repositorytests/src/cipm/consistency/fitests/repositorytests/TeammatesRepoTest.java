@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.TestFactory;
@@ -13,11 +14,6 @@ import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSim
 import cipm.consistency.fitests.similarity.jamopp.parser.EAllContentSimilarityTestFactory;
 
 public class TeammatesRepoTest extends AbstractJaMoPPParserRepoTest {
-	/**
-	 * The name of the root directory of the models
-	 */
-	private static final String repoName = "Teammates";
-
 	private static final List<String> commitIDs = List.of("648425746bb9434051647c8266dfab50a8f2d6a3",
 			"48b67bae03babf5a5e578aefce47f0285e8de8b4");
 
@@ -27,13 +23,8 @@ public class TeammatesRepoTest extends AbstractJaMoPPParserRepoTest {
 	}
 
 	@Override
-	protected String getRepoURI() {
-		return "https://github.com/TEAMMATES/teammates";
-	}
-
-	@Override
-	protected String getRepoName() {
-		return repoName;
+	protected URI getRepoURI() {
+		return URI.createURI("https://github.com/TEAMMATES/teammates");
 	}
 
 	@Override

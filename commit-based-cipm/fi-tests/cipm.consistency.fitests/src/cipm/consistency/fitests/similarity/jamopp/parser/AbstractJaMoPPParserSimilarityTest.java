@@ -334,6 +334,20 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * cacheKey.
 	 */
 	protected Resource parseModelsDirWithCaching(Path modelDir, String cacheKey) {
+		return this.parseModelsDirWithCaching(modelDir, this.getModelResourceURI(modelDir), cacheKey);
+	}
+
+	/**
+	 * Works similar to {@link #parseModelsDirWithCaching(Path)}, except for the
+	 * caching part: <br>
+	 * <br>
+	 * Checks the cache first for previously parsed resources, if cacheKey is not
+	 * null. If a resource from the given path was previously parsed and cached
+	 * under cacheKey, returns the cached resource (at cachedModelURI) instead. If
+	 * there were no cached resources for the given path, adds the parsed resource
+	 * to the cache under cacheKey.
+	 */
+	protected Resource parseModelsDirWithCaching(Path modelDir, URI cachedModelURI, String cacheKey) {
 		var parseStartTime = System.nanoTime();
 
 		var cache = this.getCacheUtil();
@@ -352,7 +366,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 			// Search for the resource file in cache save location
 			if (res == null) {
-				res = this.getResourceHelper().loadResource(this.getModelResourceURI(modelDir));
+				res = this.getResourceHelper().loadResource(cachedModelURI);
 				if (res != null) {
 					this.getLogger().debug(String.format("Loaded %s from its resource file", modelName));
 				}
