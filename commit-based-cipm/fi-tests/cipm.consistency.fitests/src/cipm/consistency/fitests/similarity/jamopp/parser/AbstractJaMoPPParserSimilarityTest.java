@@ -9,6 +9,8 @@ import java.util.HashMap;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DynamicContainer;
@@ -43,8 +45,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 	private static final String cacheSaveDirName = "testmodel-cache";
 
-	private static final String packageInfoFileName = "package-info.java";
-	private static final String artificialResourceFileName = "ArtificialResource.java";
+	private static final String artificialResourceName = "ArtificialResource";
+	private static final String artificialResourceFileName = artificialResourceName + ".java";
 
 	@AfterEach
 	@Override
@@ -134,6 +136,62 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	protected void setUpModelParser(JaMoPPJDTSingleFileParser parser) {
 	}
 
+	protected String getArtificialResourceFileName(String correspondingResourceFileNameWithoutExt) {
+		return correspondingResourceFileNameWithoutExt + artificialResourceName + "." + getResourceFileExtension();
+	}
+
+	protected URI getArtificialResourceURI(URI correspondingResourceURI) {
+		var fileNameWithoutExt = correspondingResourceURI.trimFileExtension().lastSegment();
+		var arName = this.getArtificialResourceFileName(fileNameWithoutExt);
+		var arURI = correspondingResourceURI.trimSegments(1);
+		return arURI.appendSegment(arName);
+	}
+
+	protected Resource getArtificialResource(ResourceSet rSet) {
+		return rSet.getResources().stream().filter((r) -> r.getURI().toString().contains(artificialResourceFileName))
+				.findFirst().orElse(null);
+	}
+
+	protected Resource prepareArtificialResource(ResourceSet modelResourceSet, Resource modelResource,
+			URI artificialResourceURI) {
+		new TrivialRecovery(modelResourceSet).recover();
+
+		var artificialResource = modelResourceSet.getResources().stream()
+				.filter((r) -> r.getURI().toString().contains(artificialResourceFileName)).findFirst()
+				.orElseGet(() -> null);
+
+		if (artificialResource != null) {
+			artificialResource.setURI(artificialResourceURI);
+
+			this.getLogger().debug(String.format("ArtificialResource is parsed and has its URI set to %s",
+					artificialResource.getURI()));
+
+			var resArr = modelResourceSet.getResources().toArray(Resource[]::new);
+
+			for (int i = 0; i < resArr.length; i++) {
+				var r = resArr[i];
+				if (!r.getURI().isFile() && r != artificialResource && r != modelResource) {
+					this.getLogger().debug(String.format("Adding Resource %s to ArtificialResource", r.getURI()));
+					artificialResource.getContents().addAll(r.getContents());
+					this.getLogger().debug(String.format("Added Resource %s to ArtificialResource", r.getURI()));
+					modelResourceSet.getResources().remove(r);
+					this.getLogger().debug(String.format("Removed (empty) Resource %s from ResourceSet", r.getURI()));
+				}
+			}
+
+			// Exclude modelResource and artificialResource from resource count
+			this.getLogger().debug(String.format("%d/%d resources have been added to ArtificialResource",
+					(resArr.length - modelResourceSet.getResources().size()) - 2, resArr.length - 2));
+
+			// Do not handle potential proxies in ArtificialResource, because they belong to
+			// internals of native classes, which are irrelevant for the model. Normally
+			// there should be no proxies, if the code represented in Resource files is
+			// valid.
+		}
+
+		return artificialResource;
+	}
+
 	/**
 	 * Parses all Java-Model files under the given directory into a {@link Resource}
 	 * instance. Uses no means of caching. <br>
@@ -148,6 +206,20 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	protected Resource parseModelsDirWithoutCaching(Path modelDir) {
 		var parseStartTime = System.nanoTime();
 
+		/*
+		 * Default values of ParserOptions are:
+		 * 
+		 * RESOLVE_ALL_BINDINGS = true
+		 * 
+		 * RESOLVE_BINDINGS = true
+		 * 
+		 * RESOLVE_BINDINGS_OF_INFERABLE_TYPES = true
+		 * 
+		 * CREATE_LAYOUT_INFORMATION = true
+		 * 
+		 * PREFER_BINDING_CONVERSION = true
+		 */
+
 		ParserOptions.CREATE_LAYOUT_INFORMATION.setValue(Boolean.FALSE);
 		ParserOptions.REGISTER_LOCAL.setValue(Boolean.TRUE);
 		ParserOptions.RESOLVE_EVERYTHING.setValue(Boolean.FALSE);
@@ -160,28 +232,66 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		parser.setResourceSet(rSet);
 		var resourceSet = parser.parseDirectory(modelDir);
 
-		new TrivialRecovery(resourceSet).recover();
-
 		var resCount = resourceSet.getResources().size();
 		this.getLogger().debug(String.format("%d resources have been parsed under %s", resCount,
 				this.getDisplayNameForModelDir(modelDir)));
 
-		var mergedResource = this.createResource(this.getModelResourceURI(modelDir));
+		var modelRes = resourceSet.getResources().stream()
+				.filter((r) -> r.getURI().toFileString().contains(modelDir.toString())).findFirst().get();
 
-		var filteredResources = new ArrayList<Resource>();
-		resourceSet.getResources().stream().filter((r) -> this.isResourceRelevant(modelDir, r))
-				.forEach((r) -> filteredResources.add(r));
-		var filteredResCount = filteredResources.size();
+		/*
+		 * Attempt to resolve potential proxies that can be resolved prior to
+		 * TrivialRecovery, so that it constructs less synthetic elements that are
+		 * redundant.
+		 * 
+		 * This is necessary, because synthetic elements' type can vary and can cause
+		 * typing issues during similarity checking, as the (cached) model resource will
+		 * use the synthetic elements, even though they are present directly in the
+		 * model resource.
+		 * 
+		 * Examples to this are LocalVariableStatements; which are declared within the
+		 * model, are accessible and referenced by IdentifierReferences. Due to the
+		 * absence of context information during parsing, they are considered Fields,
+		 * unless they are resolved (via EcoreUtil.resolveAll(...) for instance)
+		 * directly after being parsed. Not resolving them causes the
+		 * IdentifierReferences to point at their synthetic element correspondents
+		 * (Fields), as opposed to their declaration in the model resource.
+		 */
+		EcoreUtil.resolveAll(modelRes);
 
-		this.getLogger().debug(String.format("%d/%d resources are being used", filteredResCount, resCount));
+		var mergedResURI = this.getModelResourceURI(modelDir);
+		var mergedResource = this.createResource(mergedResURI);
 
-		for (var r : filteredResources) {
-			// Filter Resources in ResourceSet that belong in the modelDir
-			mergedResource.getContents().addAll(r.getContents());
+		var artificialResource = this.prepareArtificialResource(rSet, modelRes,
+				this.getArtificialResourceURI(mergedResURI));
+
+		if (artificialResource != null) {
+			try {
+				this.getLogger().debug(String.format("Saving ArtificialResource"));
+				artificialResource.save(null);
+				this.getLogger().debug(String.format("Saved ArtificialResource"));
+			} catch (IOException e) {
+				e.printStackTrace();
+				Assertions.fail("Failed to save artificial resource");
+			}
 		}
+
+		this.getLogger().debug(String.format("Merging non-ArtificialResources"));
+
+		for (var r : resourceSet.getResources()) {
+			if (r != artificialResource) {
+				this.getLogger().debug(String.format("Including %s into the merged resource", r.getURI()));
+				mergedResource.getContents().addAll(r.getContents());
+				this.getLogger().debug(String.format("Included %s into the merged resource", r.getURI()));
+			}
+		}
+
+		this.getLogger().debug(String.format("Merged non-ArtificialResources"));
 
 		this.getLogger().debug(String.format("%s parsed (uncached, %s seconds)",
 				this.getDisplayNameForModelDir(modelDir), this.getElapsedSeconds(parseStartTime)));
+
+		EcoreUtil.resolveAll(mergedResource);
 
 		return mergedResource;
 	}
@@ -519,33 +629,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	protected abstract boolean isModelDirectoryName(String s);
 
 	protected abstract Collection<IJaMoPPParserTestGenerationStrategy> getTestGenerationStrategies();
-
-	/**
-	 * Defaults to checking whether
-	 * 
-	 * <ul>
-	 * <li>r was parsed from a file OR
-	 * <li>r is for {@code package-info.java} (parsed and required by JaMoPP) OR
-	 * <li>r is for {@code ArtificialResource.java} (parsed and required by JaMoPP)
-	 * </ul>
-	 * 
-	 * in order to exclude standard library resources.
-	 * 
-	 * @return Whether the resource r (parsed from the given path) is relevant for
-	 *         the tests.
-	 * 
-	 * @see {@link TrivialRecovery}
-	 */
-	protected boolean isResourceRelevant(Path sourcePath, Resource r) {
-		var uri = r.getURI();
-
-		if (uri.isFile())
-			return true;
-
-		var uriString = uri.toString();
-
-		return uriString.contains(packageInfoFileName) || uriString.contains(artificialResourceFileName);
-	}
 
 	/**
 	 * Defaults to true. <br>
