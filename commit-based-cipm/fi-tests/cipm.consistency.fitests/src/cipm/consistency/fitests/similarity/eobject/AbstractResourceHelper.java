@@ -284,7 +284,7 @@ public abstract class AbstractResourceHelper {
 	 */
 	public boolean saveResource(Resource res) {
 		var uri = res.getURI();
-		if (uri.isFile() && !new File(uri.toFileString()).exists()) {
+		if (uri.isFile()) {
 			try {
 				res.save(null);
 				return this.resourceFileExists(uri);
@@ -318,12 +318,12 @@ public abstract class AbstractResourceHelper {
 	 */
 	public void loadResource(Resource res) {
 		try {
-			this.getLogger().debug(String.format("Loading resource at: %s", res.getURI().toFileString()));
+			this.getLogger().debug(String.format("Loading resource at: %s", res.getURI()));
 			res.load(null);
-			this.getLogger().debug(String.format("Loaded %s", res.getURI().toFileString()));
+			this.getLogger().debug(String.format("Loaded %s", res.getURI()));
 		} catch (IOException e) {
 			e.printStackTrace();
-			this.getLogger().debug(String.format("Could not load resource at: %s", res.getURI().toFileString()));
+			this.getLogger().debug(String.format("Could not load resource at: %s", res.getURI()));
 		}
 	}
 
