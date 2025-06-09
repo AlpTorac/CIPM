@@ -57,9 +57,14 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		if (this.shouldSaveCachedResources()) {
 			this.getLogger().debug("Saving all cached resources after parser test");
 			for (var res : cachedResources) {
-				Assertions.assertTrue(this.getResourceHelper().saveResource(res),
+				Assertions.assertTrue(this.getResourceHelper().saveResourceIfNotSaved(res),
 						String.format("Could not save %s", res.getURI()));
-				this.saveArtificialResource(res);
+				if (res.getResourceSet() != null && this.getArtificialResource(res.getResourceSet()) != null) {
+					Assertions.assertTrue(
+							this.getResourceHelper()
+									.saveResourceIfNotSaved(this.getArtificialResource(res.getResourceSet())),
+							String.format("Could not save %s", res.getURI()));
+				}
 			}
 			this.getLogger().debug("Saved all cached resources after parser test");
 		}
@@ -69,7 +74,11 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			for (var res : cachedResources) {
 				Assertions.assertTrue(this.getResourceHelper().deleteResource(res),
 						String.format("Could not delete %s", res.getURI()));
-				this.saveArtificialResource(res);
+				if (res.getResourceSet() != null && this.getArtificialResource(res.getResourceSet()) != null) {
+					Assertions.assertTrue(
+							this.getResourceHelper().deleteResource(this.getArtificialResource(res.getResourceSet())),
+							String.format("Could not delete %s", res.getURI()));
+				}
 			}
 			this.getLogger().debug("Deleted all cached resources after parser test");
 		} else if (this.shouldUnloadAllResources()) {
@@ -77,7 +86,11 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			for (var res : cachedResources) {
 				Assertions.assertTrue(this.getResourceHelper().unloadResource(res),
 						String.format("Could not delete %s", res.getURI()));
-				this.saveArtificialResource(res);
+				if (res.getResourceSet() != null && this.getArtificialResource(res.getResourceSet()) != null) {
+					Assertions.assertTrue(
+							this.getResourceHelper().unloadResource(this.getArtificialResource(res.getResourceSet())),
+							String.format("Could not delete %s", res.getURI()));
+				}
 			}
 			this.getLogger().debug("Unloaded all cached resources after parser test");
 		}
@@ -203,16 +216,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		}
 
 		return artificialResource;
-	}
-
-	protected void saveArtificialResource(Resource modelResource) {
-		var artificialResource = this.getArtificialResource(modelResource.getResourceSet());
-		if (artificialResource != null) {
-			this.getLogger().debug(String.format("Saving ArtificialResource"));
-			Assertions.assertTrue(this.getResourceHelper().saveResource(artificialResource),
-					"Failed to save artificial resource");
-			this.getLogger().debug(String.format("Saved ArtificialResource"));
-		}
 	}
 
 	/**

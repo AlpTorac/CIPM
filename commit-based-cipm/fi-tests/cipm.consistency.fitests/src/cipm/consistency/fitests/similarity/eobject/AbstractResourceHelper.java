@@ -297,6 +297,18 @@ public abstract class AbstractResourceHelper {
 	}
 
 	/**
+	 * Attempts to save the given resource instance. Instead of throwing exceptions,
+	 * returns true/false to indicate success/failure.
+	 */
+	public boolean saveResourceIfNotSaved(Resource res) {
+		var uri = res.getURI();
+		if (uri.isFile() && !this.resourceFileExists(uri)) {
+			return this.saveResource(res);
+		}
+		return this.resourceFileExists(uri);
+	}
+
+	/**
 	 * Attempts to save all resources created by this instance. Instead of throwing
 	 * exceptions, returns true/false to indicate success/failure. Stops early, if
 	 * saving a resource fails.
