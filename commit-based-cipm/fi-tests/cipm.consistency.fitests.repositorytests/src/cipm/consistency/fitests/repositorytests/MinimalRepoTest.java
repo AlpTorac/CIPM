@@ -34,7 +34,11 @@ public class MinimalRepoTest extends AbstractJaMoPPParserRepoTest {
 		res.add(new EAllContentSimilarityTestFactory(this.getSCC()) {
 			@Override
 			public boolean getExpectedResultFor(Resource res1, Path path1, Resource res2, Path path2) {
-				return res1 == res2;
+				// The last segment of the resource URI is: commitID.ext
+				// Remove the extension to get the commitID
+				var result = getExpectedResult(res1.getURI().trimFileExtension().lastSegment(),
+						res2.getURI().trimFileExtension().lastSegment());
+				return result != null ? result : false;
 			}
 		});
 		return res;
