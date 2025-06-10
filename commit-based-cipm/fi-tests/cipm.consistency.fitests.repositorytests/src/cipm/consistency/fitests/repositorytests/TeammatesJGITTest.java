@@ -28,7 +28,7 @@ public class TeammatesJGITTest {
 		var cloneDir = new File("C:\\Users\\sdq-l\\OneDrive\\Desktop\\testRepoClone");
 
 		if (cloneDir.exists()) {
-			new FileUtil().cleanModels(cloneDir);
+			new FileUtil().deleteAll(cloneDir);
 		}
 
 		var git = Git.cloneRepository().setURI(repoFile.toURI().toString()).setDirectory(cloneDir).call();
