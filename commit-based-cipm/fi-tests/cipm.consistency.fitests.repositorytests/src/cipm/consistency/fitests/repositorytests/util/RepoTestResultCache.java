@@ -6,12 +6,43 @@ import java.util.Collection;
 public class RepoTestResultCache {
 	private final Collection<SimilarityResultEntry> similarityResults = new ArrayList<SimilarityResultEntry>();
 
-	public void addResult(String commitID1, String commitID2, Boolean expectedResult) {
+	/**
+	 * Constructs an instance with no similarity results.
+	 */
+	public RepoTestResultCache() {
+	}
+
+	/**
+	 * Constructs an instance and copies the contents of the given cache into this
+	 * cache.
+	 */
+	public RepoTestResultCache(RepoTestResultCache cache) {
+		this.copyResultsOf(cache, true);
+	}
+
+	/**
+	 * Copies all expected similarity results into this cache.
+	 * 
+	 * @param overrideResultIfPresent Whether the copied expected similarity results
+	 *                                should override any potentially existing ones
+	 */
+	public void copyResultsOf(RepoTestResultCache cache, boolean overrideResultIfPresent) {
+		this.similarityResults.addAll(cache.similarityResults);
+	}
+
+	/**
+	 * Adds the expected similarity result denoted by the parameters:
+	 * {@code isSimilar(commitID1, commitID2) = expectedResult}
+	 * 
+	 * @param overrideResultIfPresent Whether the potentially existing result should
+	 *                                be overridden
+	 */
+	public void addResult(String commitID1, String commitID2, Boolean expectedResult, boolean overrideResultIfPresent) {
 		if (commitID1.equals(commitID2))
 			return;
 
 		var duplEntry1 = this.getEntryFor(commitID1, commitID2);
-		if (duplEntry1 != null) {
+		if (overrideResultIfPresent && duplEntry1 != null) {
 			if (duplEntry1.expectedResultEquals(expectedResult)) {
 				return;
 			}
@@ -19,14 +50,26 @@ public class RepoTestResultCache {
 		}
 
 		var duplEntry2 = this.getEntryFor(commitID2, commitID1);
-		if (duplEntry2 != null) {
+		if (overrideResultIfPresent && duplEntry2 != null) {
 			if (duplEntry2.expectedResultEquals(expectedResult)) {
 				return;
 			}
 			this.similarityResults.remove(duplEntry2);
 		}
 
-		this.similarityResults.add(new SimilarityResultEntry(commitID1, commitID2, expectedResult));
+		if (overrideResultIfPresent || (duplEntry1 == null && duplEntry2 == null)) {
+			this.similarityResults.add(new SimilarityResultEntry(commitID1, commitID2, expectedResult));
+		}
+	}
+
+	/**
+	 * Adds the expected similarity result denoted by the parameters, overrides any
+	 * potentially existing result.
+	 * 
+	 * @see #addResult(String, String, Boolean, boolean)
+	 */
+	public void addResult(String commitID1, String commitID2, Boolean expectedResult) {
+		this.addResult(commitID1, commitID2, expectedResult, true);
 	}
 
 	public Boolean getResult(String commitID1, String commitID2) {
