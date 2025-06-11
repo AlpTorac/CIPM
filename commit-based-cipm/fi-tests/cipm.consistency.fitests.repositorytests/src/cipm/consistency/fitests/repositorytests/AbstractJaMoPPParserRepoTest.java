@@ -7,7 +7,10 @@ import cipm.consistency.fitests.similarity.jamopp.parser.IJaMoPPParserTestGenera
 import cipm.consistency.fitests.similarity.jamopp.parser.IterativeTestGenerationStrategy;
 import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,9 +22,14 @@ import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.TestInfo;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserSimilarityTest {
-	private static final RepoTestResultCache resultCache = new RepoTestResultCache();
+	private static RepoTestResultCache resultCache = new RepoTestResultCache();
 
 	private static final String gradleWrapperJarPathPattern = ".*?/gradle-wrapper\\.jar";
 	/**
@@ -35,14 +43,83 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 */
 	private static final String repoURICommitSegment = "commit";
 
+	private static final String expectedSimilarityResultCacheDirName = "results-cache";
+	private static final String expectedSimilarityResultCacheFileName = "resultsCache.json";
+
+	@BeforeEach
+	@Override
+	public void setUp(TestInfo info) {
+		super.setUp(getCurrentTestInfo());
+
+		var resultCachePath = this.getExpectedSimilarityResultCachePath();
+		if (this.shouldUseCachedExpectedSimilarityResults()) {
+
+			this.getLogger().debug(String.format("Checking for cached expected similarity results for %s at %s",
+					this.getCurrentTestClassName(), resultCachePath));
+			if (resultCachePath.toFile().exists()) {
+				this.getLogger().debug(String.format("Cached expected similarity results exist"));
+				try (BufferedReader reader = Files.newBufferedReader(resultCachePath)) {
+					this.getLogger().debug(String.format("Reading cached expected similarity results"));
+					resultCache = new RepoTestResultCache(new Gson().fromJson(reader, resultCache.getClass()));
+					this.getLogger().debug(String.format("Read cached expected similarity results"));
+				} catch (IOException e) {
+					this.getLogger()
+							.debug(String.format("Could not read cached expected similarity results for %s at %s",
+									this.getCurrentTestClassName(), resultCachePath));
+				}
+			}
+		} else {
+			this.getLogger().debug(String.format("No saved expected similarity results found for %s at %s",
+					this.getCurrentTestClassName(), resultCachePath));
+		}
+	}
+
 	@AfterEach
 	@Override
 	public void tearDown() {
+		if (this.shouldSaveCachedExpectedSimilarityResults()) {
+			var gson = new GsonBuilder().setPrettyPrinting().create();
+
+			var resultCachePath = this.getExpectedSimilarityResultCachePath();
+			var resultCacheFile = resultCachePath.toFile();
+
+			this.getLogger().debug(String.format("Saving cached expected similarity results for %s at %s",
+					this.getCurrentTestClassName(), resultCachePath));
+
+			// Re-write expected similarity results
+
+			if (resultCacheFile.exists()) {
+				resultCacheFile.delete();
+			}
+			resultCacheFile.getParentFile().mkdirs();
+			try {
+				resultCacheFile.createNewFile();
+			} catch (IOException e) {
+				Assertions.fail(String.format("Could not create a file for result cache at %s", resultCachePath), e);
+			}
+
+			try (BufferedWriter writer = Files.newBufferedWriter(resultCachePath);
+					var gsonWriter = gson.newJsonWriter(writer)) {
+				gson.toJson(resultCache, resultCache.getClass(), gsonWriter);
+			} catch (IOException e) {
+				Assertions.fail(String.format("Could not save the expected similarity results at %s", resultCachePath),
+						e);
+			}
+
+			this.getLogger().debug(String.format("Saved cached expected similarity results for %s at %s",
+					this.getCurrentTestClassName(), resultCachePath));
+		}
+
 		if (this.shouldDeleteRepositoryClones()) {
 			this.getFileUtil().deleteAll(this.getRootDirPath());
 		}
 
 		super.tearDown();
+	}
+
+	protected Path getExpectedSimilarityResultCachePath() {
+		return this.getAbsoluteCurrentDirectory().resolve(expectedSimilarityResultCacheDirName)
+				.resolve(this.getRepoName()).resolve(expectedSimilarityResultCacheFileName);
 	}
 
 	protected boolean isExpectedResultPresent(String lhsCommit, String rhsCommit) {
@@ -93,8 +170,8 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		Git git = null;
 
 		if (!expectedResultsExist || !commitResourcesExist) {
-			this.getLogger().debug("Missing expected similarity results and/or model resources detected, "
-					+ "remote repository must be cloned");
+			this.getLogger()
+					.debug("Remote repository must be cloned due to missing resources / expected similarity results");
 			git = this.cloneRepo();
 		}
 
@@ -380,6 +457,14 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 *         should be removed.
 	 */
 	public boolean shouldDeleteRepositoryClones() {
+		return true;
+	}
+
+	public boolean shouldSaveCachedExpectedSimilarityResults() {
+		return true;
+	}
+
+	public boolean shouldUseCachedExpectedSimilarityResults() {
 		return true;
 	}
 
