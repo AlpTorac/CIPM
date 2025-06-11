@@ -23,4 +23,5 @@ Require-Bundle: junit-jupiter-api,
  org.eclipse.jgit,
  cipm.consistency.initialisers,
  jamopp.resolution,
- cipm.consistency.fitests
+ cipm.consistency.fitests,
+ com.google.gson
