@@ -5,7 +5,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -30,6 +29,19 @@ import jamopp.recovery.trivial.TrivialRecovery;
  * @see {@link #createTests()}
  */
 public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPSimilarityTest {
+	// TODO Extract model discovery logic
+
+	// TODO Extract parsing logic and only use parseModelsDir(...)
+
+	// TODO Make a class to manage all relevant resources of one model, so that
+	// ArtificialResource is not hard-coded here
+
+	// TODO Allow overriding expected results of tests
+
+	// TODO Simplify methods that return paths and URIs
+
+	// TODO Improve time measuring
+
 	/**
 	 * An object that caches and grants access to the parsed models, which were
 	 * cached after being parsed. <br>
@@ -42,10 +54,19 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	private static final CacheUtil resourceCache = new CacheUtil();
 
+	/**
+	 * The name of the top-level directory, where the cached model resources should
+	 * be saved.
+	 * 
+	 * @see {@link #resourceCache}
+	 */
 	private static final String cacheSaveDirName = "testmodel-cache";
 
+	/**
+	 * The name of the ArtificialResource (i.e. the last segment of its URI) without
+	 * file extension
+	 */
 	private static final String artificialResourceName = "ArtificialResource";
-	private static final String artificialResourceFileName = artificialResourceName + ".java";
 
 	@AfterEach
 	@Override
@@ -149,23 +170,67 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return this.getModelParentDirsWithin(this.getRootDirPath().toString());
 	}
 
+	/**
+	 * @param modelDir The path to a directory, which has files for one (and only
+	 *                 one) model
+	 * @return The path (as String), where the parsed model resource (for the model
+	 *         under the given path) should be saved, if desired.
+	 */
 	protected String getResourcePathFor(Path modelDir) {
 		var modelSubPath = this.getAbsoluteCurrentDirectory().relativize(modelDir);
 		var resPath = this.getTestModelSaveRootDirectory().resolve(modelSubPath);
-		return resPath.toString();
+
+		var resPathString = resPath.toString();
+
+		// Check if the resource path has a file extension
+		// If not, append the file extension for it
+		if (!resPath.getFileName().toString().contains(".")) {
+			resPathString += this.getResourceFileExtension();
+		}
+
+		return resPathString;
 	}
 
+	/**
+	 * @param modelDir The path to a directory, which has files for one (and only
+	 *                 one) model
+	 * @return The physical URI of the model resource parsed from the model at the
+	 *         given path.
+	 */
 	protected URI getModelResourceURI(Path modelDir) {
-		return URI.createFileURI(this.getResourcePathFor(modelDir)).appendFileExtension(getResourceFileExtension());
+		return URI.createFileURI(this.getResourcePathFor(modelDir));
 	}
 
+	/**
+	 * Prepares the given parser for parsing model resources. Can be overridden in
+	 * sub-types to modify, if needed. <br>
+	 * <br>
+	 * Does nothing by default.
+	 * 
+	 * @param parser The parser to use for parsing model resources
+	 */
 	protected void setUpModelParser(JaMoPPJDTSingleFileParser parser) {
 	}
 
+	/**
+	 * @param correspondingResourceFileNameWithoutExt The name of the model
+	 *                                                resource, whose corresponding
+	 *                                                ArtificialResource's name
+	 *                                                (without file extension) is to
+	 *                                                be computed
+	 * @return The name of the ArtificialResource corresponding to the model
+	 *         resource with the given name.
+	 */
 	protected String getArtificialResourceFileName(String correspondingResourceFileNameWithoutExt) {
 		return correspondingResourceFileNameWithoutExt + artificialResourceName + "." + getResourceFileExtension();
 	}
 
+	/**
+	 * @param correspondingResourceURI The URI of the model resource, whose
+	 *                                 ArtificialResource's URI is to be computed
+	 * @return The URI of the ArtificialResource of the model resource with the
+	 *         given URI
+	 */
 	protected URI getArtificialResourceURI(URI correspondingResourceURI) {
 		var fileNameWithoutExt = correspondingResourceURI.trimFileExtension().lastSegment();
 		var arName = this.getArtificialResourceFileName(fileNameWithoutExt);
@@ -173,18 +238,42 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return arURI.appendSegment(arName);
 	}
 
-	protected Resource getArtificialResource(ResourceSet rSet) {
-		return rSet.getResources().stream().filter((r) -> r.getURI().toString().contains(artificialResourceFileName))
-				.findFirst().orElse(null);
+	/**
+	 * @param modelResourceSet The ResourceSet of the corresponding parsed model
+	 *                         resource, which also contains the ArtificialResource
+	 * @return The ArtificialResource within the given ResourceSet
+	 */
+	protected Resource getArtificialResource(ResourceSet modelResourceSet) {
+		return modelResourceSet.getResources().stream()
+				.filter((r) -> r.getURI().toString().contains(artificialResourceName)).findFirst().orElse(null);
 	}
 
-	protected Resource prepareArtificialResource(ResourceSet modelResourceSet, Resource modelResource,
-			URI artificialResourceURI) {
+	/**
+	 * Creates and prepares the ArtificialResource of the given model resource,
+	 * under the same ResourceSet (i.e. the ResourceSet of the given model
+	 * resource). The created ArtificialResource will contain synthetic model
+	 * elements for the proxy objects within the given model resource, as well as
+	 * the native Java library resources that are needed by the given model
+	 * resource. <br>
+	 * <br>
+	 * Separating said model elements from the model resource allows its actual
+	 * contents (i.e. the code that is directly present in the model files) to be
+	 * compared more efficiently, by excluding the imported dependencies, which are
+	 * the same for each model resource.
+	 * 
+	 * @param modelResource         The model resource, for which an
+	 *                              ArtificialResource should be created
+	 * @param artificialResourceURI The URI, which the created ArtificialResource
+	 *                              will have
+	 * @return The created ArtificialResource
+	 */
+	protected Resource prepareArtificialResource(Resource modelResource, URI artificialResourceURI) {
+		var modelResourceSet = modelResource.getResourceSet();
+
+		// Create the ArtificialResource
 		new TrivialRecovery(modelResourceSet).recover();
 
-		var artificialResource = modelResourceSet.getResources().stream()
-				.filter((r) -> r.getURI().toString().contains(artificialResourceFileName)).findFirst()
-				.orElseGet(() -> null);
+		var artificialResource = this.getArtificialResource(modelResourceSet);
 
 		if (artificialResource != null) {
 			artificialResource.setURI(artificialResourceURI);
@@ -192,8 +281,17 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			this.getLogger().debug(String.format("ArtificialResource is parsed and has its URI set to %s",
 					artificialResource.getURI()));
 
+			// Use an array to avoid modifications while iterating, which lead to exceptions
 			var resArr = modelResourceSet.getResources().toArray(Resource[]::new);
 
+			/*
+			 * Iterate over all resources under modelResourceSet and look for resources of
+			 * native Java libraries. Place each such resource's contents into the
+			 * ArtificialResource and remove the native Java library resource from
+			 * modelResourceSet (as it will be empty afterward). This moves all
+			 * CompilationUnits housing the Classifiers required by the parsed model
+			 * resource into ArtificialResource.
+			 */
 			for (int i = 0; i < resArr.length; i++) {
 				var r = resArr[i];
 				if (!r.getURI().isFile() && r != artificialResource && r != modelResource) {
@@ -205,13 +303,13 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 				}
 			}
 
-			// Exclude modelResource and artificialResource from resource count
+			// "-2" to exclude modelResource and artificialResource from resource count
 			this.getLogger().debug(String.format("%d/%d resources have been added to ArtificialResource",
 					(resArr.length - modelResourceSet.getResources().size()) - 2, resArr.length - 2));
 
 			// Do not handle potential proxies in ArtificialResource, because they belong to
 			// internals of native classes, which are irrelevant for the model. Normally
-			// there should be no proxies, if the code represented in Resource files is
+			// there should be no proxies, if the code represented in the model resource is
 			// valid.
 		}
 
@@ -225,9 +323,10 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * <b>Note: This method will parse ALL such files. Therefore, the given model
 	 * directory should only contain one Java-Model.</b>
 	 * 
-	 * @param modelDir A directory that directly contains the Java-model files
+	 * @param modelDir A directory that contains all files of a model
 	 * 
 	 * @see {@link #isResourceRelevant()}
+	 * @see {@link #prepareArtificialResource(Resource, URI)}
 	 */
 	protected Resource parseModelsDirWithoutCaching(Path modelDir) {
 		var parseStartTime = System.nanoTime();
@@ -253,16 +352,22 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 		JaMoPPJDTSingleFileParser parser = new JaMoPPJDTSingleFileParser();
 		this.setUpModelParser(parser);
-		var rSet = this.createResourceSet();
 
-		parser.setResourceSet(rSet);
-		var resourceSet = parser.parseDirectory(modelDir);
+		var modelResourceSet = this.createResourceSet();
 
-		var resCount = resourceSet.getResources().size();
+		parser.setResourceSet(modelResourceSet);
+
+		// Parser returns the same ResourceSet it was previously given
+		// via setResourceSet(...)
+		modelResourceSet = parser.parseDirectory(modelDir);
+
+		var resCount = modelResourceSet.getResources().size();
 		this.getLogger().debug(String.format("%d resources have been parsed under %s", resCount,
 				this.getDisplayNameForModelDir(modelDir)));
 
-		var modelRes = resourceSet.getResources().stream()
+		// Find the model resource (i.e. the resource that contains the direct contents
+		// of model files)
+		var modelRes = modelResourceSet.getResources().stream()
 				.filter((r) -> r.getURI().toFileString().contains(modelDir.toString())).findFirst().get();
 
 		/*
@@ -288,12 +393,11 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		var mergedResURI = this.getModelResourceURI(modelDir);
 		var mergedResource = this.createResource(mergedResURI);
 
-		var artificialResource = this.prepareArtificialResource(rSet, modelRes,
-				this.getArtificialResourceURI(mergedResURI));
+		var artificialResource = this.prepareArtificialResource(modelRes, this.getArtificialResourceURI(mergedResURI));
 
 		this.getLogger().debug(String.format("Merging non-ArtificialResources"));
 
-		for (var r : resourceSet.getResources()) {
+		for (var r : modelResourceSet.getResources()) {
 			if (r != artificialResource) {
 				this.getLogger().debug(String.format("Including %s into the merged resource", r.getURI()));
 				mergedResource.getContents().addAll(r.getContents());
@@ -306,8 +410,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		this.getLogger().debug(String.format("%s parsed (uncached, %s seconds)",
 				this.getDisplayNameForModelDir(modelDir), this.getElapsedSeconds(parseStartTime)));
 
-		// Add ArtificialResource to mergedResource's resource set, so that finding it
-		// becomes easier
+		// Add ArtificialResource to mergedResource's resource set, so that it can be
+		// found by the model resource's contents that have been moved
 		if (artificialResource != null) {
 			mergedResource.getResourceSet().getResources().add(artificialResource);
 		}
@@ -316,22 +420,17 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
-	 * A variant of {@link #parseModelsDirWithCaching(Path, String)} that uses the
-	 * given path as cache key (converts it to string via {@code path.toString()})
+	 * A variant of {@link #parseModelsDirWithCaching(Path, URI, String)} that uses
+	 * the given path as cache key (converts it to string via
+	 * {@code path.toString()})
 	 */
 	protected Resource parseModelsDirWithCaching(Path modelDir) {
 		return this.parseModelsDirWithCaching(modelDir, modelDir.toString());
 	}
 
 	/**
-	 * Works similar to {@link #parseModelsDirWithCaching(Path)}, except for the
-	 * caching part: <br>
-	 * <br>
-	 * Checks the cache first for previously parsed resources, if cacheKey is not
-	 * null. If a resource from the given path was previously parsed and cached
-	 * under cacheKey, returns the cached resource instead. If there were no cached
-	 * resources for the given path, adds the parsed resource to the cache under
-	 * cacheKey.
+	 * A variant of {@link #parseModelsDirWithCaching(Path, URI, String)} that uses
+	 * {@code this.getModelResourceURI(modelDir)} as cached model URI.
 	 */
 	protected Resource parseModelsDirWithCaching(Path modelDir, String cacheKey) {
 		return this.parseModelsDirWithCaching(modelDir, this.getModelResourceURI(modelDir), cacheKey);
@@ -341,11 +440,11 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * Works similar to {@link #parseModelsDirWithCaching(Path)}, except for the
 	 * caching part: <br>
 	 * <br>
-	 * Checks the cache first for previously parsed resources, if cacheKey is not
-	 * null. If a resource from the given path was previously parsed and cached
-	 * under cacheKey, returns the cached resource (at cachedModelURI) instead. If
-	 * there were no cached resources for the given path, adds the parsed resource
-	 * to the cache under cacheKey.
+	 * Checks the cache first for previously parsed model resources, if cacheKey is
+	 * not null. If a model resource from the given path was previously parsed and
+	 * cached under cacheKey, returns the cached model resource (at cachedModelURI)
+	 * instead. If there were no cached model resources for the given path, adds the
+	 * parsed model resource to the cache under cacheKey.
 	 */
 	protected Resource parseModelsDirWithCaching(Path modelDir, URI cachedModelURI, String cacheKey) {
 		var parseStartTime = System.nanoTime();
@@ -354,6 +453,12 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		var modelName = this.getDisplayNameForModelDir(modelDir);
 
 		Resource res = null;
+
+		/*
+		 * If it exists, Loading the model resource alone is sufficient, because
+		 * potentially required contents that are stored externally will be
+		 * automatically loaded in the background when needed.
+		 */
 
 		if (cacheKey != null) {
 			// Search for the resource in the cache
@@ -404,8 +509,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * ({@link #getRootDirPath()}) and the given path. If both paths are the same,
 	 * returns the last name in the parameter.
 	 * 
-	 * @param modelParentDirPath A directory, which contains other directories that
-	 *                           contain Java-model files.
+	 * @param modelParentDirPath The parent directory for a group of models, which
+	 *                           contains other directories that contain model
+	 *                           files.
 	 * @return The test display name for the given modelParentDirPath
 	 */
 	protected String getModelsParentDirDisplayName(Path modelParentDirPath) {
@@ -530,6 +636,13 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return this.isModelDirectoryName(f.getName());
 	}
 
+	/**
+	 * Derives the path to the model resources from their URI.
+	 * 
+	 * @param resArr An array of parsed model resources
+	 * @return Dynamic test instances for the given model resources
+	 * @see {@link #createTests()}
+	 */
 	public Collection<DynamicNode> createTests(Resource[] resArr) {
 		var pathArr = new Path[resArr.length];
 
@@ -540,6 +653,13 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return this.createTests(pathArr, resArr);
 	}
 
+	/**
+	 * Parses model resources (with caching) for each given path.
+	 * 
+	 * @param pathArr An array of paths to model directories
+	 * @return Dynamic test instances for the models under the given paths
+	 * @see {@link #createTests()}
+	 */
 	public Collection<DynamicNode> createTests(Path[] pathArr) {
 		var resArr = new Resource[pathArr.length];
 
@@ -550,6 +670,12 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return this.createTests(pathArr, resArr);
 	}
 
+	/**
+	 * @param pathArr An array of paths to model directories
+	 * @param resArr  An array of parsed model resources
+	 * @return Dynamic test instances for the given model resources
+	 * @see {@link #createTests()}
+	 */
 	public Collection<DynamicNode> createTests(Path[] pathArr, Resource[] resArr) {
 		if (pathArr.length != resArr.length) {
 			Assertions.fail("Lengths of path and resource arrays do not match");
@@ -625,12 +751,13 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	/**
 	 * Check the concrete implementation for more details.
 	 * 
-	 * @param s The name of the directory
+	 * @param dirName The name of the directory, which potentially contains files of
+	 *                a model
 	 * 
 	 * @return Whether a given directory contains any Java elements, from which a
 	 *         Java model can be parsed.
 	 */
-	protected abstract boolean isModelDirectoryName(String s);
+	protected abstract boolean isModelDirectoryName(String dirName);
 
 	protected abstract Collection<IJaMoPPParserTestGenerationStrategy> getTestGenerationStrategies();
 

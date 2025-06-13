@@ -28,10 +28,34 @@ import org.junit.jupiter.api.TestInfo;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+/**
+ * An abstract test class, which can be used for implementing tests that involve
+ * parsing models from GIT repositories and checking their similarity.
+ * 
+ * @author Alp Torac Genc
+ * 
+ * @see {@link AbstractJaMoPPParserSimilarityTest#createTests()}
+ */
 public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserSimilarityTest {
+	// TODO Extract parsing logic
+
+	// TODO Allow overriding expected results of tests
+
+	// TODO Simplify methods that return paths and URIs
+
+	// TODO Improve time measuring
+
+	/**
+	 * Contains expected results of comparing model resources
+	 */
 	private static RepoTestResultCache resultCache = new RepoTestResultCache();
 
+	/**
+	 * The pattern of "gradle-wrapper.jar" file path, which should be excluded when
+	 * parsing model resources to avoid IOExceptions.
+	 */
 	private static final String gradleWrapperJarPathPattern = ".*?/gradle-wrapper\\.jar";
+
 	/**
 	 * The name of the root directory of the models
 	 */
@@ -43,7 +67,19 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 */
 	private static final String repoURICommitSegment = "commit";
 
+	/**
+	 * The name of the folder, where contents of {@link #resultCache} should be
+	 * saved. <br>
+	 * <br>
+	 * Note: This folder does not have to directly contain the contents of
+	 * {@link #resultCache}. They may be saved in sub-directories as well.
+	 */
 	private static final String expectedSimilarityResultCacheDirName = "results-cache";
+
+	/**
+	 * The name of the file (with extension), where contents of {@link #resultCache}
+	 * should be saved.
+	 */
 	private static final String expectedSimilarityResultCacheFileName = "resultsCache.json";
 
 	@BeforeEach
@@ -117,22 +153,36 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		super.tearDown();
 	}
 
+	/**
+	 * @return The path to the saved contents of {@link #resultCache}
+	 */
 	protected Path getExpectedSimilarityResultCachePath() {
 		return this.getAbsoluteCurrentDirectory().resolve(expectedSimilarityResultCacheDirName)
 				.resolve(this.getRepoName()).resolve(expectedSimilarityResultCacheFileName);
 	}
 
+	/**
+	 * @return Whether the expected similarity checking result for the given commits
+	 *         it present in {@link #resultCache}. Note that similarity checking is
+	 *         symmetric, meaning that swapping lhs and rhs commits should not
+	 *         change the return value.
+	 */
 	protected boolean isExpectedResultPresent(String lhsCommit, String rhsCommit) {
 		return resultCache.isInCache(lhsCommit, rhsCommit);
 	}
 
+	/**
+	 * @return The expected similarity checking result for the given commits. Note
+	 *         that similarity checking is symmetric, meaning that swapping lhs and
+	 *         rhs commits should not change the return value.
+	 */
 	protected Boolean getExpectedResult(String lhsCommit, String rhsCommit) {
 		return resultCache.getResult(lhsCommit, rhsCommit);
 	}
 
 	/**
-	 * Adds model resources to cache for all commits relevant for this test. Must be
-	 * executed before all tests.
+	 * Adds model resources to {@link #resultCache} for all commits relevant for
+	 * this test. Must be executed before all tests.
 	 * 
 	 * @see {@link #getCommitIDs()}
 	 */
@@ -224,7 +274,18 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		return commitResources;
 	}
 
+	/**
+	 * 
+	 * @param git          The GIT object associated with the in-memory
+	 *                     representation of the GIT repository
+	 * @param commitIDList A list of commit hashes, for which expected similarity
+	 *                     results should be computed.
+	 */
 	protected void computeExpectedSimilarityResults(Git git, List<String> commitIDList) {
+
+		// TODO Account for other test generation strategies (not just for
+		// IterativeTestGenerationStrategy)
+
 		var expectedValueEstimator = new RepoTestSimilarityValueEstimator();
 
 		for (int i = 0; i < commitIDList.size() - 1; i++) {
@@ -293,12 +354,22 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		return git;
 	}
 
+	/**
+	 * Calls {@link #cloneRepo()} with default parameters.
+	 * 
+	 * @see {@link #cloneRepo()}
+	 */
 	protected Git cloneRepo() {
 		// Do not explicitly add a folder for this repository, since GIT will do that
 		// implicitly
 		return this.cloneRepo(this.getRepoURIAsString(), this.getRootDirPath());
 	}
 
+	/**
+	 * @return The cache key for the model resource parsed from the given commit
+	 *         hash of the repository, when its model resource is inserted into the
+	 *         cache via {@link #parseModelsDirWithCaching(Path, URI, String)}.
+	 */
 	protected String getCacheKeyForCommit(URI repoURI, String commitID) {
 		return repoURI.appendSegment(repoURICommitSegment).appendSegment(commitID).toString();
 	}
@@ -347,6 +418,10 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			var targetPath = this.getRepoClonePathForCommit(commitID);
 			Resource commitRes = null;
 
+			/*
+			 * Load the cached model resource for the commit, if it exists. Otherwise parse
+			 * it.
+			 */
 			if (targetPath.toFile().exists()) {
 				commitRes = this.parseModelsDirWithCaching(targetPath, commitResURI,
 						getCacheKeyForCommit(this.getRepoURI(), commitID));
@@ -392,8 +467,8 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	}
 
 	/**
-	 * Use this method for root directory in {@link GitRepositoryWrapper}, so that
-	 * the top-most folder of the repository is not duplicated.
+	 * Use this method for root directory, so that the top-most folder of the
+	 * repository is not duplicated.
 	 * 
 	 * @return The top-most directory, where the repositories will be cloned to
 	 */
@@ -402,25 +477,31 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	}
 
 	/**
-	 * Meant to be used for accessing the local repository clone. Pass
-	 * {@link #getRepoClonesDirPath()} to {@link GitRepositoryWrapper} instead, so
-	 * that the top-most folder of the repository is not duplicated.
-	 * 
-	 * @return The path, at which the repository clone resides, OR the path, where
-	 *         the repository will be cloned to.
-	 * 
-	 * @see {@link #getRootDirPath()}
+	 * @implSpec Returns The path, at which the repository clone resides. Meant to
+	 *           be used for accessing the local repository clone. Use
+	 *           {@link #getRepoClonesDirPath()} while cloning instead, so that the
+	 *           top-most folder of the repository is not duplicated.
 	 */
 	@Override
 	protected Path getRootDirPath() {
 		return this.getRepoClonesDirPath().resolve(this.getRepoName());
 	}
 
+	/**
+	 * @implSpec Checks whether the given directory name matches any of the commit
+	 *           hashes featured in tests.
+	 */
 	@Override
-	protected boolean isModelDirectoryName(String s) {
-		return this.getCommitIDs().stream().anyMatch((c) -> s.equals(c));
+	protected boolean isModelDirectoryName(String dirName) {
+		return this.getCommitIDs().stream().anyMatch((c) -> dirName.equals(c));
 	}
 
+	/**
+	 * @implSpec Adds {@value #gradleWrapperJarPathPattern} to exclusion patterns of
+	 *           the given parser, in order for that file to not be locked during
+	 *           tests. If it were locked, trying to delete it (while deleting the
+	 *           local repository clone) does not work and may lead to IOExceptions.
+	 */
 	@Override
 	protected void setUpModelParser(JaMoPPJDTSingleFileParser parser) {
 		parser.setExclusionPatterns(gradleWrapperJarPathPattern);
@@ -441,10 +522,13 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		return this.getRepoURI().toString();
 	}
 
+	/**
+	 * @return The URI to the repository, which will be used in tests.
+	 */
 	protected abstract URI getRepoURI();
 
 	/**
-	 * @return The name of the repository that is relevant for this test.
+	 * @return The name of the repository that is used in this test.
 	 */
 	protected String getRepoName() {
 		return this.getRepoURI().lastSegment();
@@ -460,10 +544,22 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		return true;
 	}
 
+	/**
+	 * Defaults to true.
+	 * 
+	 * @return Whether the cached expected similarity results in
+	 *         {@link #resultCache} should be saved.
+	 */
 	public boolean shouldSaveCachedExpectedSimilarityResults() {
 		return true;
 	}
 
+	/**
+	 * Defaults to true.
+	 * 
+	 * @return Whether the cached expected similarity results in
+	 *         {@link #resultCache} should actually be used.
+	 */
 	public boolean shouldUseCachedExpectedSimilarityResults() {
 		return true;
 	}
