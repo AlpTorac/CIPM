@@ -74,7 +74,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		this.getLogger().debug("Tearing down after parser test");
 		var cachedResources = resourceCache.getCachedResources();
 
-		// TODO Fix parser repo tests
 		if (this.shouldSaveCachedResources()) {
 			this.getLogger().debug("Saving all cached resources after parser test");
 			for (var res : cachedResources) {
@@ -144,30 +143,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	protected CacheUtil getCacheUtil() {
 		return resourceCache;
-	}
-
-	/**
-	 * Explores sub-directories of rootPath recursively for models' parent
-	 * directories. Model parent directories are directories, which contain model
-	 * directories. <br>
-	 * <br>
-	 * There is a distinction between a model parent directory and a model
-	 * directory, because a model parent directory may contain multiple model
-	 * directories.
-	 * 
-	 * @return A collection of paths to all models' parent directories that can be
-	 *         found under root path.
-	 */
-	protected Collection<Path> getModelParentDirsWithin(String rootPath) {
-		return new ArrayList<Path>(this.discoverFiles(new File(rootPath)));
-	}
-
-	/**
-	 * A variant of {@link #getModelParentDirsWithin(String)} that uses
-	 * {@link #getRootDirPath()}.
-	 */
-	protected Collection<Path> getModelParentDirsWithinRoot() {
-		return this.getModelParentDirsWithin(this.getRootDirPath().toString());
 	}
 
 	/**
@@ -537,59 +512,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
-	 * @param modelParentDirPath A directory, which potentially contains model
-	 *                           directories
-	 * @return All model directories under the given path
-	 * 
-	 * @see {@link #isModelDirectory(File)}
-	 */
-	protected Collection<File> getAllModelDirsUnder(Path modelParentDirPath) {
-		var result = new ArrayList<File>();
-		var dirs = modelParentDirPath.toFile().listFiles();
-		for (var dir : dirs) {
-			if (this.isModelDirectory(dir)) {
-				result.add(dir);
-			}
-		}
-		return result;
-	}
-
-	/**
-	 * Recursively searches for directories containing Java-Model files, starting
-	 * from the given directory, and returns a list of all such directories.
-	 */
-	protected Collection<Path> discoverFiles(File dirToDiscover) {
-		var foundModelDirs = new ArrayList<Path>();
-		discoverFiles(dirToDiscover, foundModelDirs);
-		return foundModelDirs;
-	}
-
-	/**
-	 * Recursively searches for directories that contain Java-model files. All
-	 * directories with pre-defined model names (currently {@link #model1Name} and
-	 * {@link #model2name}) will be added to foundModelDirs, if not already there.
-	 * 
-	 * @param dirToDiscover  The directory, where the recursive search will begin
-	 * @param foundModelDirs A collection of directories that contain Java-model
-	 *                       files
-	 */
-	protected void discoverFiles(File dirToDiscover, Collection<Path> foundModelDirs) {
-		if (dirToDiscover != null && dirToDiscover.isDirectory()) {
-			var discovered = new ArrayList<File>();
-
-			for (var f : dirToDiscover.listFiles()) {
-				if (!this.isModelDirectory(f)) {
-					discovered.add(f);
-				} else if (!foundModelDirs.contains(dirToDiscover.toPath())) {
-					foundModelDirs.add(dirToDiscover.toPath());
-				}
-			}
-
-			discovered.forEach((d) -> discoverFiles(d, foundModelDirs));
-		}
-	}
-
-	/**
 	 * Defaults to {@link #getAbsoluteCurrentDirectory()}.
 	 * 
 	 * @return Path to the root folder of the models, whose sub-directories will be
@@ -702,26 +624,26 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * Unless overridden in implementors, JUnit will detect this method as a
 	 * {@link TestFactory}, which will run the tests generated here.
 	 * 
-	 * @see {@link #getModelParentDirsWithinRoot()} and
-	 *      {@link #getAllModelDirsUnder(Path)} for locating model directories
+	 * @see {@link #discoverModelDirsAt(Path)} and
+	 *      {@link #discoverModelParentDirsAt(Path)} for locating model directories
 	 * @see {@link TestFactory} for what tests are to be generated
 	 */
 	@TestFactory
 	public Collection<DynamicNode> createTests() {
 		var tests = new ArrayList<DynamicNode>();
 
-		var modelParentDirs = this.getModelParentDirsWithinRoot();
-		var modelDirMap = new HashMap<Path, Collection<File>>();
+		var modelParentDirs = this.discoverModelParentDirsAt(this.getRootDirPath());
+		var modelDirMap = new HashMap<Path, Collection<Path>>();
 
 		for (var parentDir : modelParentDirs) {
-			modelDirMap.put(parentDir, this.getAllModelDirsUnder(parentDir));
+			modelDirMap.put(parentDir, this.discoverModelDirsAt(parentDir));
 		}
 
 		var testsForModelParentDirs = new ArrayList<DynamicNode>();
 		modelParentDirs.forEach((md) -> {
 			final var modelDirs = modelDirMap.get(md);
 
-			var testsForModelDirs = this.createTests(modelDirs.stream().map(d -> d.toPath()).toArray(Path[]::new));
+			var testsForModelDirs = this.createTests(modelDirs.toArray(Path[]::new));
 
 			testsForModelParentDirs.add(DynamicContainer.dynamicContainer(
 					String.format("model = %s", this.getModelsParentDirDisplayName(md)), testsForModelDirs));
@@ -746,6 +668,26 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	protected Collection<AbstractJaMoPPParserSimilarityTestFactory> getTestFactories() {
 		return new AllJaMoPPParserTestFactories().createFactoriesFor(this.getSCC(), this.getResourceFileExtension(),
 				this.doesContentOrderMatter());
+	}
+
+	/**
+	 * @param rootPath The top-most directory, whose contents should be scanned for
+	 *                 model directories
+	 * @return A collection of model directory paths under rootPath
+	 */
+	protected Collection<Path> discoverModelDirsAt(Path rootPath) {
+		return new ModelDirDiscoveryStrategy((f) -> this.isModelDirectory(f)).discoverModelDirs(rootPath.toFile());
+	}
+
+	/**
+	 * @param rootPath The top-most directory, whose contents should be scanned for
+	 *                 directories containing model directories.
+	 * @return A collection of paths of directories containing model directory under
+	 *         rootPath
+	 */
+	protected Collection<Path> discoverModelParentDirsAt(Path rootPath) {
+		return new ModelDirDiscoveryStrategy((f) -> this.isModelDirectory(f))
+				.discoverModelParentDirs(rootPath.toFile());
 	}
 
 	/**
