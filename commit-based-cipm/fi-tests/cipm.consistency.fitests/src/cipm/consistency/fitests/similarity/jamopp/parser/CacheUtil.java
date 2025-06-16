@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.resource.Resource;
  * @author Alp Torac Genc
  */
 public class CacheUtil {
-	private Map<String, Resource> resourceCache;
+	private Map<String, ModelResourceWrapper> resourceCache;
 
 	public CacheUtil() {
 		this.resourceCache = this.initResourceCache();
@@ -29,7 +29,7 @@ public class CacheUtil {
 	 * 
 	 * @return The underlying map, which will be used to store the parsed models.
 	 */
-	protected Map<String, Resource> initResourceCache() {
+	protected Map<String, ModelResourceWrapper> initResourceCache() {
 		return new HashMap<>();
 	}
 
@@ -38,7 +38,7 @@ public class CacheUtil {
 	 * 
 	 * @return The underlying data structure that is used for caching.
 	 */
-	protected Map<String, Resource> getResourceCache() {
+	protected Map<String, ModelResourceWrapper> getResourceCache() {
 		return this.resourceCache;
 	}
 
@@ -49,7 +49,7 @@ public class CacheUtil {
 	 * @param key The key associated with the given resource
 	 * @param res A given resource
 	 */
-	public void addToCache(String key, Resource res) {
+	public void addToCache(String key, ModelResourceWrapper res) {
 		this.getResourceCache().put(key, res);
 	}
 
@@ -57,7 +57,7 @@ public class CacheUtil {
 	 * @return Gets the resource associated with the given key from the cache. Null,
 	 *         if there is no such key in the cache.
 	 */
-	public Resource getFromCache(String key) {
+	public ModelResourceWrapper getFromCache(String key) {
 		return this.getResourceCache().get(key);
 	}
 
@@ -65,16 +65,16 @@ public class CacheUtil {
 	 * @return All cached resources, without their corresponding keys
 	 * @see {@link #getAllCacheContent()}
 	 */
-	public Collection<Resource> getCachedResources() {
-		return new ArrayList<Resource>(this.getResourceCache().values());
+	public Collection<ModelResourceWrapper> getCachedResources() {
+		return new ArrayList<ModelResourceWrapper>(this.getResourceCache().values());
 	}
 
 	/**
 	 * @return All contents of the underlying cache (i.e. cached resources and their
 	 *         corresponding keys)
 	 */
-	public Map<String, Resource> getAllCacheContent() {
-		return new HashMap<String, Resource>(this.getResourceCache());
+	public Map<String, ModelResourceWrapper> getAllCacheContent() {
+		return new HashMap<String, ModelResourceWrapper>(this.getResourceCache());
 	}
 
 	/**

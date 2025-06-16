@@ -5,6 +5,7 @@ import cipm.consistency.fitests.repositorytests.util.RepoTestSimilarityValueEsti
 import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.parser.IJaMoPPParserTestGenerationStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.IterativeTestGenerationStrategy;
+import cipm.consistency.fitests.similarity.jamopp.parser.ModelResourceWrapper;
 import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
 
 import java.io.BufferedReader;
@@ -242,9 +243,11 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		} else {
 			for (var cID : commitIDList) {
 				var cachedCommitURI = this.getTestModelSaveURIForCommit(cID);
-				var res = this.getResourceHelper().loadResource(cachedCommitURI);
+				var res = new ModelResourceWrapper(this.getResourceHelper());
+				res.loadModelResource(cachedCommitURI);
 				this.getCacheUtil().addToCache(cachedCommitURI.toString(), res);
-				commitResources.add(this.getCacheUtil().getFromCache(cachedCommitURI.toString()));
+				commitResources
+						.add(this.getCacheUtil().getFromCache(cachedCommitURI.toString()).getModelResource());
 			}
 		}
 
@@ -416,7 +419,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			var cachingStartTime = System.nanoTime();
 
 			var targetPath = this.getRepoClonePathForCommit(commitID);
-			Resource commitRes = null;
+			ModelResourceWrapper commitRes = null;
 
 			/*
 			 * Load the cached model resource for the commit, if it exists. Otherwise parse
@@ -428,14 +431,10 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			} else {
 				commitRes = this.parseModelsDirWithCaching(git.getRepository().getDirectory().getParentFile().toPath(),
 						commitResURI, getCacheKeyForCommit(this.getRepoURI(), commitID));
-				commitRes.setURI(commitResURI);
-				var artificialResource = this.getArtificialResource(commitRes.getResourceSet());
-				if (artificialResource != null) {
-					artificialResource.setURI(this.getArtificialResourceURI(commitResURI));
-				}
+				commitRes.setModelResourcesURI(commitResURI);
 			}
 
-			commitResources.add(commitRes);
+			commitResources.add(commitRes.getModelResource());
 			this.getLogger().debug(String.format("Cached resource for: %s (%s seconds)", commitID,
 					this.getElapsedSeconds(cachingStartTime)));
 		}
@@ -504,6 +503,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 */
 	@Override
 	protected void setUpModelParser(JaMoPPJDTSingleFileParser parser) {
+		super.setUpModelParser(parser);
 		parser.setExclusionPatterns(gradleWrapperJarPathPattern);
 	}
 
