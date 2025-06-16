@@ -4,6 +4,7 @@ import cipm.consistency.fitests.repositorytests.util.RepoTestResultCache;
 import cipm.consistency.fitests.repositorytests.util.RepoTestSimilarityValueEstimator;
 import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.parser.IJaMoPPParserTestGenerationStrategy;
+import cipm.consistency.fitests.similarity.jamopp.parser.IModelResourceWrapper;
 import cipm.consistency.fitests.similarity.jamopp.parser.IterativeTestGenerationStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.ModelResourceWrapper;
 import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
@@ -197,7 +198,6 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		var commitIDList = this.getCommitIDs();
 
 		// TODO Refactor
-		// TODO Save expected similarity results using GSON library
 
 		for (int i = 0; i < commitIDList.size() - 1; i++) {
 			var commitID1 = commitIDList.get(i);
@@ -246,8 +246,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 				var res = new ModelResourceWrapper(this.getResourceHelper());
 				res.loadModelResource(cachedCommitURI);
 				this.getCacheUtil().addToCache(cachedCommitURI.toString(), res);
-				commitResources
-						.add(this.getCacheUtil().getFromCache(cachedCommitURI.toString()).getModelResource());
+				commitResources.add(this.getCacheUtil().getFromCache(cachedCommitURI.toString()).getModelResource());
 			}
 		}
 
@@ -419,7 +418,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			var cachingStartTime = System.nanoTime();
 
 			var targetPath = this.getRepoClonePathForCommit(commitID);
-			ModelResourceWrapper commitRes = null;
+			IModelResourceWrapper commitRes = null;
 
 			/*
 			 * Load the cached model resource for the commit, if it exists. Otherwise parse

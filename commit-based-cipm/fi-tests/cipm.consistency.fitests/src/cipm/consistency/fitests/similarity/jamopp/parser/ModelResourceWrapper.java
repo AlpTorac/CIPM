@@ -27,7 +27,7 @@ import jamopp.recovery.trivial.TrivialRecovery;
  * 
  * @author Alp Torac Genc
  */
-public class ModelResourceWrapper {
+public class ModelResourceWrapper implements IModelResourceWrapper {
 	private AbstractResourceHelper resHelper;
 	private static final Logger logger = Logger.getLogger(ModelResourceWrapper.class);
 
@@ -36,6 +36,11 @@ public class ModelResourceWrapper {
 	 * file extension
 	 */
 	private static final String artificialResourceName = "ArtificialResource";
+
+	/**
+	 * @see {@link #ModelResourceWrapper(AbstractResourceHelper, JaMoPPJDTSingleFileParser)}
+	 */
+	private JaMoPPJDTSingleFileParser parser;
 
 	/**
 	 * @see {@link #getModelResource()}
@@ -47,8 +52,25 @@ public class ModelResourceWrapper {
 	 */
 	private Resource artificialResource;
 
-	public ModelResourceWrapper(AbstractResourceHelper resHelper) {
+	/**
+	 * Constructs an instance.
+	 * 
+	 * @param resHelper An object that helps with Resource-related operations
+	 * @param parser    The parser that will be used to parse the model resource and
+	 *                  all other necessary resources
+	 */
+	public ModelResourceWrapper(AbstractResourceHelper resHelper, JaMoPPJDTSingleFileParser parser) {
 		this.resHelper = resHelper;
+		this.parser = parser;
+	}
+
+	/**
+	 * Constructs an instance.
+	 * 
+	 * @param resHelper An object that helps with Resource-related operations
+	 */
+	public ModelResourceWrapper(AbstractResourceHelper resHelper) {
+		this(resHelper, null);
 	}
 
 	/**
@@ -148,6 +170,20 @@ public class ModelResourceWrapper {
 	}
 
 	/**
+	 * @return The parser that is currently used to parse model resources
+	 */
+	public JaMoPPJDTSingleFileParser getModelResourceParser() {
+		return this.parser;
+	}
+
+	/**
+	 * Sets the parser that will be used to parse model resources
+	 */
+	public void setModelResourceParser(JaMoPPJDTSingleFileParser parser) {
+		this.parser = parser;
+	}
+
+	/**
 	 * Parses all Java-Model files under the given directory into a {@link Resource}
 	 * instance (merged model resource). Uses no means of caching. The parsed merged
 	 * model resource can be accessed via {@link #getModelResource()}. <br>
@@ -155,13 +191,12 @@ public class ModelResourceWrapper {
 	 * <b>Note: This method will parse ALL such files. Therefore, the given model
 	 * directory should only contain one Java-Model.</b>
 	 * 
-	 * @param modelDir          A directory that contains all files of a model
-	 * @param mergedResourceURI The URI that the parsed model resource will reside
-	 *                          at, once saved
-	 * @param parser            The parser that will be used to parse the model
-	 *                          resource and all other necessary resources
+	 * @param modelDir         A directory that contains all files of a model
+	 * @param modelResourceURI The URI that the parsed model resource will reside
+	 *                         at, once saved
 	 */
-	public void parseModelResource(Path modelDir, URI mergedResourceURI, JaMoPPJDTSingleFileParser parser) {
+	@Override
+	public void parseModelResource(Path modelDir, URI modelResourceURI) {
 		var modelResourceSet = this.resHelper.createResourceSet();
 
 		parser.setResourceSet(modelResourceSet);
@@ -198,10 +233,10 @@ public class ModelResourceWrapper {
 		 */
 		EcoreUtil.resolveAll(modelResource);
 
-		mergedModelResource = this.resHelper.createResource(mergedResourceURI);
+		mergedModelResource = this.resHelper.createResource(modelResourceURI);
 
 		artificialResource = this.prepareArtificialResource(modelResource,
-				this.getArtificialResourceURI(mergedResourceURI));
+				this.getArtificialResourceURI(modelResourceURI));
 
 		logger.debug(String.format("Merging non-ArtificialResources"));
 
@@ -227,11 +262,11 @@ public class ModelResourceWrapper {
 	/**
 	 * Loads the merged model resource that was previously parsed.
 	 * 
-	 * @param mergedResourceURI The URI, at which a previously parsed merged model
-	 *                          resource resides
+	 * @param modelResourceURI The URI, at which a previously parsed merged model
+	 *                         resource resides
 	 */
-	public void loadModelResource(URI mergedResourceURI) {
-		this.mergedModelResource = this.resHelper.loadResource(mergedResourceURI);
+	public void loadModelResource(URI modelResourceURI) {
+		this.mergedModelResource = this.resHelper.loadResource(modelResourceURI);
 	}
 
 	/**

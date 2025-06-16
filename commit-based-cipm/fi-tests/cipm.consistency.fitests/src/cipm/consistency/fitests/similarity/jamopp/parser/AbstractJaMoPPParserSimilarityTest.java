@@ -166,6 +166,12 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		ParserOptions.RESOLVE_ALL_BINDINGS.setValue(Boolean.FALSE);
 	}
 
+	protected JaMoPPJDTSingleFileParser getModelResourceParser() {
+		var parser = new JaMoPPJDTSingleFileParser();
+		this.setUpModelParser(parser);
+		return parser;
+	}
+
 	/**
 	 * Parses all Java-Model files under the given directory into a {@link Resource}
 	 * instance. Uses no means of caching. <br>
@@ -178,11 +184,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @see {@link #isResourceRelevant()}
 	 * @see {@link #prepareArtificialResource(Resource, URI)}
 	 */
-	protected ModelResourceWrapper parseModelsDirWithoutCaching(Path modelDir) {
-		var parser = new JaMoPPJDTSingleFileParser();
-		this.setUpModelParser(parser);
-		var wrapper = new ModelResourceWrapper(this.getResourceHelper());
-		wrapper.parseModelResource(modelDir, this.getModelResourceURI(modelDir), parser);
+	protected IModelResourceWrapper parseModelsDirWithoutCaching(Path modelDir) {
+		var wrapper = new ModelResourceWrapper(this.getResourceHelper(), this.getModelResourceParser());
+		wrapper.parseModelResource(modelDir, this.getModelResourceURI(modelDir));
 		return wrapper;
 	}
 
@@ -191,7 +195,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * the given path as cache key (converts it to string via
 	 * {@code path.toString()})
 	 */
-	protected ModelResourceWrapper parseModelsDirWithCaching(Path modelDir) {
+	protected IModelResourceWrapper parseModelsDirWithCaching(Path modelDir) {
 		return this.parseModelsDirWithCaching(modelDir, modelDir.toString());
 	}
 
@@ -199,7 +203,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * A variant of {@link #parseModelsDirWithCaching(Path, URI, String)} that uses
 	 * {@code this.getModelResourceURI(modelDir)} as cached model URI.
 	 */
-	protected ModelResourceWrapper parseModelsDirWithCaching(Path modelDir, String cacheKey) {
+	protected IModelResourceWrapper parseModelsDirWithCaching(Path modelDir, String cacheKey) {
 		return this.parseModelsDirWithCaching(modelDir, this.getModelResourceURI(modelDir), cacheKey);
 	}
 
@@ -213,13 +217,13 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * instead. If there were no cached model resources for the given path, adds the
 	 * parsed model resource to the cache under cacheKey.
 	 */
-	protected ModelResourceWrapper parseModelsDirWithCaching(Path modelDir, URI cachedModelURI, String cacheKey) {
+	protected IModelResourceWrapper parseModelsDirWithCaching(Path modelDir, URI cachedModelURI, String cacheKey) {
 		var parseStartTime = System.nanoTime();
 
 		var cache = this.getCacheUtil();
 		var modelName = this.getDisplayNameForModelDir(modelDir);
 
-		ModelResourceWrapper resWrapper = null;
+		IModelResourceWrapper resWrapper = null;
 
 		/*
 		 * If it exists, Loading the model resource alone is sufficient, because
@@ -327,15 +331,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	protected Path getTestModelSaveRootDirectory() {
 		return this.getAbsoluteCurrentDirectory().resolve(cacheSaveDirName);
-	}
-
-	/**
-	 * @return The path, at which the parsed resource files' URI will point at,
-	 *         should they be saved.
-	 */
-	protected Path getTestModelSavePath() {
-		return this.getTestModelSaveRootDirectory()
-				.resolve(this.getAbsoluteCurrentDirectory().relativize(this.getRootDirPath()));
 	}
 
 	/**
@@ -494,6 +489,10 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	protected abstract boolean isModelDirectoryName(String dirName);
 
+	/**
+	 * @return A collection of test generation strategies, which encapsulate how
+	 *         model resources are iterated and what dynamic tests are generated.
+	 */
 	protected abstract Collection<IJaMoPPParserTestGenerationStrategy> getTestGenerationStrategies();
 
 	/**

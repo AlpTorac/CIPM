@@ -18,7 +18,7 @@ import org.eclipse.emf.ecore.resource.Resource;
  * @author Alp Torac Genc
  */
 public class CacheUtil {
-	private Map<String, ModelResourceWrapper> resourceCache;
+	private Map<String, IModelResourceWrapper> resourceCache;
 
 	public CacheUtil() {
 		this.resourceCache = this.initResourceCache();
@@ -29,7 +29,7 @@ public class CacheUtil {
 	 * 
 	 * @return The underlying map, which will be used to store the parsed models.
 	 */
-	protected Map<String, ModelResourceWrapper> initResourceCache() {
+	protected Map<String, IModelResourceWrapper> initResourceCache() {
 		return new HashMap<>();
 	}
 
@@ -38,43 +38,42 @@ public class CacheUtil {
 	 * 
 	 * @return The underlying data structure that is used for caching.
 	 */
-	protected Map<String, ModelResourceWrapper> getResourceCache() {
+	protected Map<String, IModelResourceWrapper> getResourceCache() {
 		return this.resourceCache;
 	}
 
 	/**
-	 * Adds the given resource with the given key to the cache. Replaces the
+	 * Adds the given resource wrapper with the given key to the cache. Replaces the
 	 * resource, if the key is already in the cache.
 	 * 
-	 * @param key The key associated with the given resource
+	 * @param key The key associated with the given resource wrapper
 	 * @param res A given resource
 	 */
-	public void addToCache(String key, ModelResourceWrapper res) {
+	public void addToCache(String key, IModelResourceWrapper res) {
 		this.getResourceCache().put(key, res);
 	}
 
 	/**
-	 * @return Gets the resource associated with the given key from the cache. Null,
-	 *         if there is no such key in the cache.
+	 * @return Gets the wrapper of the resource associated with the given key from
+	 *         the cache. Null, if there is no such key in the cache.
 	 */
-	public ModelResourceWrapper getFromCache(String key) {
+	public IModelResourceWrapper getFromCache(String key) {
 		return this.getResourceCache().get(key);
 	}
 
 	/**
-	 * @return All cached resources, without their corresponding keys
-	 * @see {@link #getAllCacheContent()}
+	 * @return Wrappers of all cached resources, without their corresponding keys
 	 */
-	public Collection<ModelResourceWrapper> getCachedResources() {
-		return new ArrayList<ModelResourceWrapper>(this.getResourceCache().values());
+	public Collection<IModelResourceWrapper> getCachedResources() {
+		return new ArrayList<IModelResourceWrapper>(this.getResourceCache().values());
 	}
 
 	/**
 	 * @return All contents of the underlying cache (i.e. cached resources and their
 	 *         corresponding keys)
 	 */
-	public Map<String, ModelResourceWrapper> getAllCacheContent() {
-		return new HashMap<String, ModelResourceWrapper>(this.getResourceCache());
+	public Map<String, IModelResourceWrapper> getAllCacheContent() {
+		return new HashMap<String, IModelResourceWrapper>(this.getResourceCache());
 	}
 
 	/**
