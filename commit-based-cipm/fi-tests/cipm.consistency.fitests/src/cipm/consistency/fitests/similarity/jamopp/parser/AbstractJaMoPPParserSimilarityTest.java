@@ -393,8 +393,20 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 		var tests = new ArrayList<DynamicNode>();
 
-		this.getTestGenerationStrategies().stream().map((s) -> s.createTests(pathArr, resArr, getTestFactories()))
-				.forEach((col) -> tests.addAll(col));
+		this.getTestGenerationStrategies().forEach((testStrat) -> {
+			this.getTestFactories().forEach((tf) -> {
+				var testsForModelDirs = new ArrayList<DynamicNode>();
+				testStrat.getTestResourceIterator(resArr.length).forEachRemaining((idxs) -> {
+					var path1 = pathArr[idxs[0]];
+					var res1 = resArr[idxs[0]];
+					var path2 = pathArr[idxs[1]];
+					var res2 = resArr[idxs[1]];
+					testsForModelDirs.add(tf.createTestsFor(res1, path1, res2, path2));
+				});
+				tests.add(DynamicContainer.dynamicContainer(String.format("%s (with %s)", tf.getTestDescription(),
+						testStrat.getTestGenerationStrategyDescription()), testsForModelDirs));
+			});
+		});
 
 		return tests;
 	}

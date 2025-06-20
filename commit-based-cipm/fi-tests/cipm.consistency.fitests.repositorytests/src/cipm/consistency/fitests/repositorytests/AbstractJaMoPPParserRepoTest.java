@@ -5,7 +5,7 @@ import cipm.consistency.fitests.repositorytests.util.RepoTestSimilarityValueEsti
 import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.parser.IJaMoPPParserTestGenerationStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.IModelResourceWrapper;
-import cipm.consistency.fitests.similarity.jamopp.parser.IterativeTestGenerationStrategy;
+import cipm.consistency.fitests.similarity.jamopp.parser.ReflexiveSymmetricIterationTestGenerationStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.ModelResourceWrapper;
 import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
 
@@ -193,22 +193,27 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 
 		var commitResources = new ArrayList<Resource>();
 		var commitResourcesExist = true;
-		var expectedResultsExist = true;
+		final var expectedResultsExist = new boolean[] { true };
 
 		var commitIDList = this.getCommitIDs();
+		var testStrats = this.getTestGenerationStrategies();
 
 		// TODO Refactor
 
-		for (int i = 0; i < commitIDList.size() - 1; i++) {
-			var commitID1 = commitIDList.get(i);
-			var commitID2 = commitIDList.get(i + 1);
+		/*
+		 * Determine whether all required expected results are in the cache based on
+		 * what commits are compared to one another in the tests
+		 */
+		testStrats.forEach((ts) -> ts.getTestResourceIterator(commitIDList.size()).forEachRemaining((idxs) -> {
+			var commitID1 = commitIDList.get(idxs[0]);
+			var commitID2 = commitIDList.get(idxs[1]);
 			if (!resultCache.isInCache(commitID1, commitID2)) {
 				this.getLogger()
 						.debug(String.format("Expected similarity result missing for: %s vs %s", commitID1, commitID2));
-				expectedResultsExist = false;
+				expectedResultsExist[0] = false;
 				// Check for the other ones as well, for debugging purposes
 			}
-		}
+		}));
 
 		for (var cID : commitIDList) {
 			if (!this.getResourceHelper().resourceFileExists(this.getTestModelSaveURIForCommit(cID))) {
@@ -220,13 +225,13 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 
 		Git git = null;
 
-		if (!expectedResultsExist || !commitResourcesExist) {
+		if (!expectedResultsExist[0] || !commitResourcesExist) {
 			this.getLogger()
 					.debug("Remote repository must be cloned due to missing resources / expected similarity results");
 			git = this.cloneRepo();
 		}
 
-		if (!expectedResultsExist) {
+		if (!expectedResultsExist[0]) {
 			this.getLogger().debug(String.format("Computing missing expected similarity results"));
 
 			this.computeExpectedSimilarityResults(git, commitIDList);
@@ -566,7 +571,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	@Override
 	protected Collection<IJaMoPPParserTestGenerationStrategy> getTestGenerationStrategies() {
 		var strats = new ArrayList<IJaMoPPParserTestGenerationStrategy>();
-		strats.add(new IterativeTestGenerationStrategy());
+		strats.add(new ReflexiveSymmetricIterationTestGenerationStrategy());
 		return strats;
 	}
 }
