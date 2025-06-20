@@ -3,6 +3,28 @@ package cipm.consistency.fitests.repositorytests.util;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * A class that stores expected similarity checking results of the commits with
+ * the given IDs.
+ * 
+ * Assumptions on similarity checking:
+ * <ul>
+ * <li>Reflexivity: Same commits are similar with respect to similarity checking
+ * <li>Symmetry: Similarity is symmetric (i.e. swapping commitID1 and commitID2
+ * does not change the similarity result)
+ * <li>TODO Account for the transitivity of similarity results. Transitivity:
+ * Assuming C1, C2 and C3 are different commits; if C1 and C2 are similar, C2
+ * and C3 are similar; then C1 and C3 should also be similar. Transitivity is
+ * currently NOT supported.
+ * </ul>
+ * 
+ * The expected similarity result for commits C_X and C_Y can be determined by
+ * using the assumptions above, without explicitly added expected similarity
+ * results. In such cases, there may not be any expected similarity result for
+ * C_X and C_Y in this cache.
+ * 
+ * @author Alp Torac Genc
+ */
 public class RepoTestResultCache {
 	private final Collection<SimilarityResultEntry> similarityResults = new ArrayList<SimilarityResultEntry>();
 
@@ -35,7 +57,9 @@ public class RepoTestResultCache {
 	 * {@code isSimilar(commitID1, commitID2) = expectedResult}
 	 * 
 	 * @param overrideResultIfPresent Whether the potentially existing result should
-	 *                                be overridden
+	 *                                be overridden. Note that the existing result
+	 *                                could be stored in an entry, where the given
+	 *                                commit IDs are swapped.
 	 */
 	public void addResult(String commitID1, String commitID2, Boolean expectedResult, boolean overrideResultIfPresent) {
 		if (commitID1.equals(commitID2))
@@ -72,6 +96,12 @@ public class RepoTestResultCache {
 		this.addResult(commitID1, commitID2, expectedResult, true);
 	}
 
+	/**
+	 * @return The expected similarity result of the commits with the given IDs.
+	 *         Returns null, if there is either no entry for the given commit IDs,
+	 *         or the entry for the given commit IDs has the expected similarity
+	 *         value null.
+	 */
 	public Boolean getResult(String commitID1, String commitID2) {
 		if (commitID1.equals(commitID2))
 			return true;
@@ -85,6 +115,9 @@ public class RepoTestResultCache {
 		}
 	}
 
+	/**
+	 * Removes the expected similarity result for the given commit IDs.
+	 */
 	public void removeResult(String commitID1, String commitID2) {
 		var entry = this.getEntryFor(commitID1, commitID2);
 		if (entry != null) {
@@ -92,18 +125,44 @@ public class RepoTestResultCache {
 		}
 	}
 
+	/**
+	 * Replaces the expected similarity result for the given commit IDs with the
+	 * given expectedResult.
+	 */
 	public void replaceResult(String commitID1, String commitID2, Boolean expectedResult) {
 		this.addResult(commitID1, commitID2, expectedResult);
 	}
 
-	public boolean isInCache(String commitID1, String commitID2) {
+	/**
+	 * Assumptions:
+	 * <ul>
+	 * <li>Same commits are similar with respect to similarity checking
+	 * <li>Similarity is symmetric (i.e. swapping commitID1 and commitID2 does not
+	 * change the similarity result)
+	 * </ul>
+	 * 
+	 * @param commitID1 The left hand side commit
+	 * @param commitID2 The right hand side commit
+	 * @return Whether the expected similarity result for the given commits can be
+	 *         determined by the contents of this cache
+	 */
+	public boolean isResultInCache(String commitID1, String commitID2) {
+		if (commitID1.equals(commitID2))
+			return true;
+
 		return this.getEntryFor(commitID1, commitID2) != null || this.getEntryFor(commitID2, commitID1) != null;
 	}
 
+	/**
+	 * Removes all expected similarity results saved in this instance.
+	 */
 	public void clear() {
 		this.similarityResults.clear();
 	}
 
+	/**
+	 * @return The entry for the commits with the given commit IDs.
+	 */
 	protected SimilarityResultEntry getEntryFor(String commitID1, String commitID2) {
 		var entryOpt = this.similarityResults.stream().filter((e) -> e.isEntryFor(commitID1, commitID2)).findFirst();
 		if (entryOpt.isPresent()) {
