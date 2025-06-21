@@ -164,16 +164,6 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	}
 
 	/**
-	 * @return Whether the expected similarity checking result for the given commits
-	 *         it present in {@link #resultCache}. Note that similarity checking is
-	 *         symmetric, meaning that swapping lhs and rhs commits should not
-	 *         change the return value.
-	 */
-	protected boolean isExpectedResultPresent(String lhsCommit, String rhsCommit) {
-		return resultCache.isResultInCache(lhsCommit, rhsCommit);
-	}
-
-	/**
 	 * @return The expected similarity checking result for the given commits. Note
 	 *         that similarity checking is symmetric, meaning that swapping lhs and
 	 *         rhs commits should not change the return value.
@@ -207,7 +197,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		testStrats.forEach((ts) -> ts.getTestResourceIterator(commitIDList.size()).forEachRemaining((idxs) -> {
 			var commitID1 = commitIDList.get(idxs[0]);
 			var commitID2 = commitIDList.get(idxs[1]);
-			if (!resultCache.isResultInCache(commitID1, commitID2)) {
+			if (resultCache.getResult(commitID1, commitID2) == null) {
 				this.getLogger()
 						.debug(String.format("Expected similarity result missing for: %s vs %s", commitID1, commitID2));
 				expectedResultsExist[0] = false;
@@ -289,16 +279,17 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 *                     results should be computed.
 	 */
 	protected void computeExpectedSimilarityResults(Git git, List<String> commitIDList) {
-
-		// TODO Account for other test generation strategies (not just for
-		// IterativeTestGenerationStrategy)
-
+		var testStrats = this.getTestGenerationStrategies();
 		var expectedValueEstimator = new RepoTestSimilarityValueEstimator();
 
-		for (int i = 0; i < commitIDList.size() - 1; i++) {
-			var commitID1 = commitIDList.get(i);
-			var commitID2 = commitIDList.get(i + 1);
-			if (!resultCache.isResultInCache(commitID1, commitID2)) {
+		/*
+		 * Determine whether all required expected results are in the cache based on
+		 * what commits are compared to one another in the tests
+		 */
+		testStrats.forEach((ts) -> ts.getTestResourceIterator(commitIDList.size()).forEachRemaining((idxs) -> {
+			var commitID1 = commitIDList.get(idxs[0]);
+			var commitID2 = commitIDList.get(idxs[1]);
+			if (resultCache.getResult(commitID1, commitID2) == null) {
 				this.getLogger().debug(
 						String.format("Computing expected similarity result for: %s vs %s", commitID1, commitID2));
 				var result = expectedValueEstimator.getExpectedSimilarityValueFor(git, commitID1, commitID2);
@@ -308,7 +299,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 				this.getLogger().debug(String.format("Computed expected similarity result (%s) for: %s vs %s", result,
 						commitID1, commitID2));
 			}
-		}
+		}));
 	}
 
 	/**
