@@ -4,11 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.TreeSet;
 
 import org.apache.log4j.Logger;
-import org.junit.jupiter.api.Assertions;
 
 /**
  * A utility class that contains file-related operations.
@@ -66,7 +64,7 @@ public class FileUtil {
 	 * If the given file cannot be read (due to IOException), returns an empty
 	 * string.
 	 */
-	public String readEffectiveCode(File f) {
+	public String readEffectiveText(File f) {
 		var content = "";
 
 		try {
@@ -79,16 +77,16 @@ public class FileUtil {
 	}
 
 	/**
-	 * Compares the equality of the given files based on their effective content.
-	 * <br>
+	 * Compares the equality of the given files based on their effective content,
+	 * i.e. their content without whitespaces. <br>
 	 * <br>
 	 * If both files cannot be read, they are ignored and this method returns true.
 	 * 
-	 * @see {@link #readEffectiveCode(File)}
+	 * @see {@link #readEffectiveText(File)}
 	 */
 	public boolean filesEqual(File f1, File f2) {
-		var f1Content = readEffectiveCode(f1);
-		var f2Content = readEffectiveCode(f2);
+		var f1Content = readEffectiveText(f1);
+		var f2Content = readEffectiveText(f2);
 
 		if (f1Content.isBlank() && f2Content.isBlank()) {
 			return true;
@@ -99,10 +97,10 @@ public class FileUtil {
 
 	/**
 	 * Recursively checks the equality of the given directories, based on their
-	 * content (i.e. the files/sub-directories they contain and the contents of
-	 * those files).
+	 * effective content (i.e. the files/sub-directories they contain and the
+	 * contents of those files without whitespaces).
 	 * 
-	 * @see {@link #filesEqual(File, File)}, {@link #readEffectiveCode(File)}
+	 * @see {@link #filesEqual(File, File)}, {@link #readEffectiveText(File)}
 	 */
 	public boolean dirsEqual(File dir1, File dir2) {
 		this.logMessage("Comparing: " + dir1.getName() + " and " + dir2.getName());
@@ -186,70 +184,5 @@ public class FileUtil {
 	 */
 	public void deleteAll(Path path) {
 		this.deleteAll(path.toFile());
-	}
-
-	/**
-	 * Recursively copies files from the given parent parameter to the path given
-	 * via copyPath. Replaces files, which already exist.
-	 * 
-	 * @param parentPath The directory to copy
-	 * @param copyPath   The path, where everything under parentPath will be copied.
-	 */
-	public void copyModels(Path parentPath, Path copyPath) {
-		File parent = parentPath.toFile();
-		this.getLogger().debug("Copying the contents of " + parent.getAbsolutePath() + " into " + copyPath);
-		for (File f : parent.listFiles()) {
-			var fileName = f.getName();
-
-			// TODO Decide what files to ignore
-			// Skip non-java files, since they are irrelevant
-			if ((f.isDirectory() && fileName.contains(".git")) || (f.isFile() && !fileName.contains(".java"))) {
-				continue;
-			}
-
-			if (f.isDirectory()) {
-				this.getLogger().debug("Directory found: " + fileName);
-				String newCopyAddress = copyPath + File.separator + fileName;
-				this.getLogger().debug("Copy address changed to " + newCopyAddress);
-				File tmpDir = new File(newCopyAddress);
-
-				this.copyModels(f.toPath(), tmpDir.toPath());
-			}
-			if (f.isFile()) {
-				this.getLogger().debug("File found: " + fileName);
-				File tmpFile = new File(copyPath + File.separator + fileName);
-
-				if (tmpFile.exists()) {
-					this.getLogger().debug("Existing file will be replaced");
-				} else {
-					this.getLogger().debug("Creating file");
-					tmpFile.mkdirs();
-					this.getLogger().debug("Created file");
-				}
-
-				this.getLogger().debug("Copying original file into new file");
-				try {
-					Files.copy(f.toPath(), tmpFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-				} catch (IOException e) {
-					this.getLogger()
-							.debug(String.format("Error while copying: %s to %s", f.toPath(), tmpFile.toPath()));
-					throw new IllegalArgumentException(e);
-				}
-				this.getLogger().debug("Copied original file into new file: " + fileName);
-
-				this.getLogger().debug("Verifying equality of file content");
-				boolean verificationSuccessful = false;
-				try {
-					verificationSuccessful = Files.readString(f.toPath()).equals(Files.readString(tmpFile.toPath()));
-				} catch (IOException e) {
-					this.getLogger().debug(String.format("Error while verifying content equality between: %s and %s",
-							f.toPath(), tmpFile.toPath()));
-					throw new IllegalArgumentException(e);
-				}
-				Assertions.assertTrue(verificationSuccessful);
-				this.getLogger().debug("Verified equality of file content");
-			}
-		}
-		this.getLogger().debug("Parent directory " + parent.getName() + " has been copied");
 	}
 }
