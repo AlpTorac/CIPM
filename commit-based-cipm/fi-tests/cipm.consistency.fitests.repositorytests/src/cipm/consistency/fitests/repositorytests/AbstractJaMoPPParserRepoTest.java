@@ -1,8 +1,10 @@
 package cipm.consistency.fitests.repositorytests;
 
+import cipm.consistency.fitests.repositorytests.util.RepoCacheSimilarityResultProvider;
 import cipm.consistency.fitests.repositorytests.util.RepoTestResultCache;
 import cipm.consistency.fitests.repositorytests.util.RepoTestSimilarityValueEstimator;
 import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.parser.IExpectedSimilarityResultProvider;
 import cipm.consistency.fitests.similarity.jamopp.parser.IJaMoPPParserTestGenerationStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.IModelResourceWrapper;
 import cipm.consistency.fitests.similarity.jamopp.parser.ReflexiveSymmetricIterationTestGenerationStrategy;
@@ -527,6 +529,14 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 */
 	protected String getRepoName() {
 		return this.getRepoURI().lastSegment();
+	}
+
+	/**
+	 * @return An object that provides expected similarity results for parsed
+	 *         commits in tests.
+	 */
+	protected IExpectedSimilarityResultProvider getExpectedSimilarityResultProviderForCommits() {
+		return new RepoCacheSimilarityResultProvider(resultCache);
 	}
 
 	/**

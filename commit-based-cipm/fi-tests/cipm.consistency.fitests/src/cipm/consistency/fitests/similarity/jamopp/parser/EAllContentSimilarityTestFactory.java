@@ -13,7 +13,6 @@ import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
 
 public class EAllContentSimilarityTestFactory extends AbstractJaMoPPParserSimilarityTestFactory {
 	private static final String description = "areSimilar on eAllContents";
-	private static final FileUtil fileUtil = new FileUtil();
 
 	private ISimilarityCheckerContainer scc;
 
@@ -44,7 +43,7 @@ public class EAllContentSimilarityTestFactory extends AbstractJaMoPPParserSimila
 	@Override
 	public DynamicNode createTestsFor(Resource res1, Path path1, Resource res2, Path path2) {
 		return DynamicTest.dynamicTest(String.format("%s vs %s", path1.getFileName(), path2.getFileName()), () -> {
-			this.testSimilarityOfAllContents(res1, res2, this.getExpectedResultFor(res1, path1, res2, path2));
+			this.testSimilarityOfAllContents(res1, res2, this.getExpectedSimilarityResultFor(res1, path1, res2, path2));
 		});
 	}
 
@@ -54,7 +53,7 @@ public class EAllContentSimilarityTestFactory extends AbstractJaMoPPParserSimila
 	}
 
 	@Override
-	public boolean getExpectedResultFor(Resource res1, Path path1, Resource res2, Path path2) {
-		return fileUtil.areContentsEqual(path1, path2);
+	public IExpectedSimilarityResultProvider getDefaultExpectedSimilarityResultProvider() {
+		return new FileContentSimilarityResultProvider();
 	}
 }

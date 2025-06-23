@@ -1,6 +1,5 @@
 package cipm.consistency.fitests.repositorytests;
 
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -30,16 +29,8 @@ public class TeammatesRepoTest extends AbstractJaMoPPParserRepoTest {
 	@Override
 	protected Collection<AbstractJaMoPPParserSimilarityTestFactory> getTestFactories() {
 		var res = new ArrayList<AbstractJaMoPPParserSimilarityTestFactory>();
-		res.add(new EAllContentSimilarityTestFactory(this.getSCC()) {
-			@Override
-			public boolean getExpectedResultFor(Resource res1, Path path1, Resource res2, Path path2) {
-				// The last segment of the resource URI is: commitID.ext
-				// Remove the extension to get the commitID
-				var result = getExpectedResult(res1.getURI().trimFileExtension().lastSegment(),
-						res2.getURI().trimFileExtension().lastSegment());
-				return result != null ? result : false;
-			}
-		});
+		res.add(new EAllContentSimilarityTestFactory(this.getSCC()));
+		res.forEach((tf) -> tf.setExpectedSimilarityResultProvider(getExpectedSimilarityResultProviderForCommits()));
 		return res;
 	}
 
