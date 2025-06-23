@@ -14,7 +14,13 @@ import java.util.Stack;
  * <ul>
  * <li>Reflexivity: Same commits are similar with respect to similarity checking
  * <li>Symmetry: Similarity is symmetric (i.e. swapping commitID1 and commitID2
- * does not change the similarity result)
+ * does not change the similarity result).
+ * <ul>
+ * <li>The expected similarity results stored here are also symmetric, i.e. the
+ * result for (commitID1, commitID2) is always the same as the result for
+ * (commitID2, commitID1). Therefore, there is only one result stored for
+ * (commitID1, commitID2) and (commitID2, commitID1).
+ * </ul>
  * <li>Transitivity: Assuming C1, C2 and C3 are different commits; if C1 and C2
  * are similar, C2 and C3 are similar; then C1 and C3 should also be similar.
  * <ul>
@@ -33,10 +39,11 @@ import java.util.Stack;
  * </ul>
  * </ul>
  * 
- * The expected similarity result for commits C_X and C_Y can be determined by
- * using the assumptions above, without explicitly added expected similarity
- * results. In such cases, there may not be any expected similarity result for
- * C_X and C_Y in this cache.
+ * It is possible to determine the expected similarity result for commits C_X
+ * and C_Y by using the assumptions above, without explicitly added expected
+ * similarity results, by utilising transitivity for instance. In such cases,
+ * there may not be an explicitly added expected similarity result for C_X and
+ * C_Y in this cache.
  * 
  * @author Alp Torac Genc
  */
@@ -81,6 +88,7 @@ public class RepoTestResultCache {
 		if (commitID1.equals(commitID2))
 			return;
 
+		// Check of there is a duplicated entry, override its content if desired
 		var duplEntry = this.getEntryFor(commitID1, commitID2);
 		if (overrideResultIfPresent && duplEntry != null) {
 			if (duplEntry.expectedResultEquals(expectedResult)) {
@@ -115,7 +123,7 @@ public class RepoTestResultCache {
 	 * commits.
 	 * 
 	 * @return The expected similarity result of the commits with the given IDs
-	 *         (Boolean.TRUE or Boolean.FALSE). Returns null, if there neither a
+	 *         (Boolean.TRUE or Boolean.FALSE). Returns null, if neither there is a
 	 *         result for the given commit IDs nor is it computable via
 	 *         transitivity.
 	 */
@@ -167,7 +175,12 @@ public class RepoTestResultCache {
 	 * property. Accounts for there being a direct entry between the given commits.
 	 * Account for reflexivity property. <br>
 	 * <br>
-	 * Uses Boolean instead of boolean, because it is only possible to determine
+	 * In particular, looks for an entry chain starting with commitID1 and ending
+	 * with commitID2, such that each entry indicates similarity. <b><i>Returns true
+	 * upon finding any such entry chain, even if there are further chains, which
+	 * include entries indicating non-similarity.</i></b> <br>
+	 * <br>
+	 * Returns Boolean instead of boolean, because it is only possible to determine
 	 * similarity by using transitivity. In case of non-similarity, this method
 	 * returns NULL instead of FALSE, to signal that transitivity yields no accurate
 	 * result.
@@ -195,57 +208,6 @@ public class RepoTestResultCache {
 		}
 	}
 
-//	/**
-//	 * See {@link #getTransitiveResult(String, String)} for more information.
-//	 * 
-//	 * @param entryChain      The stack, which will contain the entry chain, if
-//	 *                        present. THIS ATTRIBUTE WILL BE MODIFIED
-//	 * @param visitedElements The set, which will contain all visited entries, while
-//	 *                        computing entryChain. THIS ATTRIBUTE WILL BE MODIFIED
-//	 */
-//	private Boolean getTransitiveResult(String commitID1, String commitID2, Stack<SimilarityResultEntry> entryChain,
-//			Set<SimilarityResultEntry> visitedElements) {
-//		if (entryChain.isEmpty()) {
-//			// No entry chain found => Result cannot be determined via transitivity
-//			return null;
-//		}
-//
-//		/*
-//		 * Check whether all entries indicate similarity. If there is an entry at some
-//		 * point, which indicates non-similarity, transitivity does not hold.
-//		 * 
-//		 * Do not use entryChain.forEach(...) as it will pop all the entries.
-//		 */
-//		SimilarityResultEntry breakingEntry = null;
-//		for (int i = 0; i < entryChain.size(); i++) {
-//			var e = entryChain.get(i);
-//			if (!e.getExpectedResult()) {
-//				breakingEntry = e;
-//				break;
-//			}
-//		}
-//
-//		if (breakingEntry == null) {
-//			// All entries point at similarity, return true
-//			return Boolean.TRUE;
-//		} else {
-//			// Pop entryChain till breakingEntry, remove all popped elements from
-//			// visitedElements
-//			while (entryChain.peek() != breakingEntry) {
-//				visitedElements.remove(entryChain.pop());
-//			}
-//
-//			// Pop breakingEntry, but leave it in visitedElements, so that the next attempt
-//			// at finding a transitive entry chain does not visit it
-//			entryChain.pop();
-//
-//			// Re-try to compute expected similarity result with another entry chain
-//			// Due to breakingEntry being left in visitedElements, this always terminates
-//			this.findTransitiveEntryChain(commitID1, commitID2, entryChain, visitedElements);
-//			return this.getTransitiveResult(commitID1, commitID2, entryChain, visitedElements);
-//		}
-//	}
-
 	/**
 	 * Attempts find an entry chain between commitID1 and commitID2, in order to
 	 * make use of the transitivity property. Uses depth-first search starting from
@@ -267,6 +229,8 @@ public class RepoTestResultCache {
 				currentEntryChain.add(entry);
 				visitedElements.add(entry);
 			}
+			// There is one such entry, which indicates non-similarity
+			// Transitivity cannot be used
 			return;
 		}
 		// There are no direct entries, try to find an entry chain
@@ -279,44 +243,48 @@ public class RepoTestResultCache {
 			}
 
 			/*
-			 * Since this is a depth-first search, the resulting chain will always be
-			 * cycle-free and lead from commitID1 to commitID2. Therefore, cycles indicate
-			 * that e is the wrong entry in the chain.
+			 * Since this resembles depth-first search, the resulting chain will always be
+			 * cycle-free and lead from commitID1 to commitID2, if there is a transitive
+			 * entry chain between them. Therefore, cycles indicate that e is the wrong
+			 * entry in the chain.
 			 */
 			if (visitedElements.contains(e)) {
 				continue;
 			}
 
-			if (!currentEntryChain.isEmpty()) {
-				// Check whether e and the top-most entry in currentEntryChain can be linked
-				var linkingCommit = currentEntryChain.peek().getLinkingCommit(e);
-				if (linkingCommit != null) {
-					currentEntryChain.add(e);
-					visitedElements.add(e);
-					this.findTransitiveEntryChain(linkingCommit, commitID2, currentEntryChain, visitedElements);
-				}
+			// Check whether e and the top-most entry in currentEntryChain can be linked
+			// in order to continue building the entry chain. If currentEntryChain is empty,
+			// the entry chain has been reset, check if e contains commitID1 and
+			// re-try to reach commitID2 by trying to build another entry chain.
 
-				if (!currentEntryChain.isEmpty()) {
-					if (currentEntryChain.peek().hasCommitID(commitID2)) {
-						// Transitive entry chain is closed, return
-						return;
-					} else {
-						/*
-						 * The last entry does not lead to commitID2, so it cannot be a part of the
-						 * transitive entry chain, per the definition of depth-first search.
-						 * 
-						 * Remove it the last entry and try anew.
-						 */
-						currentEntryChain.pop();
-					}
-				}
+			var nextCommitID = !currentEntryChain.isEmpty() ? currentEntryChain.peek().getLinkingCommit(e) : null;
+			if (nextCommitID == null && e.hasCommitID(commitID1)) {
+				nextCommitID = commitID1;
+			}
+
+			if (nextCommitID != null) {
+				currentEntryChain.add(e);
+				visitedElements.add(e);
+				this.findTransitiveEntryChain(e.getOtherCommitID(nextCommitID), commitID2, currentEntryChain,
+						visitedElements);
+			}
+		}
+
+		// The end of the current recursion is reached, check if commitID2 has been
+		// reached. If not, pop currentEntryChain and look for another path to
+		// commitID2.
+		if (!currentEntryChain.isEmpty()) {
+			if (currentEntryChain.peek().hasCommitID(commitID2)) {
+				// An entry chain between commitID1 and commitID2 has been found
+				return;
 			} else {
-				if (e.hasCommitID(commitID1)) {
-					currentEntryChain.add(e);
-					visitedElements.add(e);
-					this.findTransitiveEntryChain(e.getOtherCommitID(commitID1), commitID2, currentEntryChain,
-							visitedElements);
-				}
+				/*
+				 * The last entry does not lead to commitID2, so it cannot be a part of the
+				 * transitive entry chain, per the definition of depth-first search.
+				 * 
+				 * Remove it the last entry and try anew.
+				 */
+				currentEntryChain.pop();
 			}
 		}
 	}
@@ -346,7 +314,7 @@ public class RepoTestResultCache {
 	 * @return Whether the expected similarity result for the given commits can be
 	 *         determined by the direct contents of this cache. Therefore, this
 	 *         method will return false, even if the desired result can be computed
-	 *         using the transitivity assumption.
+	 *         using the transitivity or reflexivity assumptions.
 	 */
 	public boolean isInCache(String commitID1, String commitID2) {
 		return this.getEntryFor(commitID1, commitID2) != null;
@@ -376,22 +344,22 @@ public class RepoTestResultCache {
 	}
 
 	private class SimilarityResultEntry {
-		private final String lhsCommitID;
-		private final String rhsCommitID;
+		private final String commitID1;
+		private final String commitID2;
 		private final boolean expectedResult;
 
-		private SimilarityResultEntry(String lhsCommitID, String rhsCommitID, boolean expectedResult) {
-			this.lhsCommitID = lhsCommitID;
-			this.rhsCommitID = rhsCommitID;
+		private SimilarityResultEntry(String commitID1, String commitID2, boolean expectedResult) {
+			this.commitID1 = commitID1;
+			this.commitID2 = commitID2;
 			this.expectedResult = expectedResult;
 		}
 
-		public String getLhsCommitID() {
-			return lhsCommitID;
+		public String getCommitID1() {
+			return commitID1;
 		}
 
-		public String getRhsCommitID() {
-			return rhsCommitID;
+		public String getCommitID2() {
+			return commitID2;
 		}
 
 		public boolean getExpectedResult() {
@@ -399,7 +367,7 @@ public class RepoTestResultCache {
 		}
 
 		public boolean hasCommitID(String commitID) {
-			return this.getLhsCommitID().equals(commitID) || this.getRhsCommitID().equals(commitID);
+			return this.getCommitID1().equals(commitID) || this.getCommitID2().equals(commitID);
 		}
 
 		/**
@@ -411,21 +379,21 @@ public class RepoTestResultCache {
 			if (!this.hasCommitID(commitID))
 				return null;
 
-			return this.getLhsCommitID().equals(commitID) ? this.getRhsCommitID() : this.getLhsCommitID();
+			return this.getCommitID1().equals(commitID) ? this.getCommitID2() : this.getCommitID1();
 		}
 
 		public String getLinkingCommit(SimilarityResultEntry entry) {
-			if (this.hasCommitID(entry.getLhsCommitID())) {
-				return entry.getLhsCommitID();
-			} else if (this.hasCommitID(entry.getRhsCommitID())) {
-				return entry.getRhsCommitID();
+			if (this.hasCommitID(entry.getCommitID1())) {
+				return entry.getCommitID1();
+			} else if (this.hasCommitID(entry.getCommitID2())) {
+				return entry.getCommitID2();
 			} else {
 				return null;
 			}
 		}
 
-		public boolean isEntryFor(String lhsCommitID, String rhsCommitID) {
-			return this.getLhsCommitID().equals(lhsCommitID) && this.getRhsCommitID().equals(rhsCommitID);
+		public boolean isEntryFor(String commitID1, String commitID2) {
+			return this.getCommitID1().equals(commitID1) && this.getCommitID2().equals(commitID2);
 		}
 
 		public boolean expectedResultEquals(boolean expectedResult) {
