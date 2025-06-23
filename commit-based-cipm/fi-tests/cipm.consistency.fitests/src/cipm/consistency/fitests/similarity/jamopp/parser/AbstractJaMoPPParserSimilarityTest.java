@@ -28,8 +28,6 @@ import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
 public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	// TODO Extract parsing logic and only use parseModelsDir(...)
 
-	// TODO Allow overriding expected results of tests
-
 	// TODO Simplify methods that return paths and URIs
 
 	// TODO Improve time measuring
@@ -502,6 +500,14 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	protected abstract boolean isModelDirectoryName(String dirName);
 
 	/**
+	 * Override to define how to iterate through model resources, while generating
+	 * dynamic tests. One or more test generation strategies can be provided.
+	 * Dynamic tests will be generated for each strategy in the returned collection,
+	 * regardless of what dynamic tests where generated previously. <br>
+	 * <br>
+	 * This method allows splitting dynamic test generation; with respect to what
+	 * model resources will be compared to which ones, and in what order.
+	 * 
 	 * @return A collection of test generation strategies, which encapsulate how
 	 *         model resources are iterated and what dynamic tests are generated.
 	 */

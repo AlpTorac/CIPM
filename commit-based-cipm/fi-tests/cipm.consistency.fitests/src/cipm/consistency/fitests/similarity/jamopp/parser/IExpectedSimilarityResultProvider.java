@@ -9,8 +9,10 @@ import org.eclipse.emf.ecore.resource.Resource;
  * similarity checking results to tests, where model resources are being
  * compared. <br>
  * <br>
- * How the expected similarity results are derived and provided depends on the
- * concrete implementor.
+ * Concrete implementations of this interface may also nest
+ * {@link IExpectedSimilarityResultProvider}s or have certain ones override the
+ * expected similarity results of others. How the expected similarity results
+ * are derived and provided depends on the concrete implementor.
  * 
  * @author Alp Torac Genc
  */

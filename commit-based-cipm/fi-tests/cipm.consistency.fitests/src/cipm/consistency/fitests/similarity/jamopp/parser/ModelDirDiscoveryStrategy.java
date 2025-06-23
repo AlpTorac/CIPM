@@ -8,8 +8,9 @@ import java.util.function.Predicate;
 
 /**
  * A model directory discovery strategy, which considers one top-most directory
- * and discovers its contents for model directories. Uses a given filter to
- * determine whether a given directory encompasses one (and only one) model.
+ * and discovers its contents for model directories, similar to depth first
+ * search but with a single start point. Uses a given filter to determine
+ * whether a given directory encompasses one (and only one) model.
  * 
  * @author Alp Torac Genc
  */
