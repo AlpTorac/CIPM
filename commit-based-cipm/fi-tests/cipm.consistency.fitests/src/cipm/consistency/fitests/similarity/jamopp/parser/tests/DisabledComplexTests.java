@@ -12,7 +12,7 @@ public class DisabledComplexTests extends AbstractJaMoPPComplexParserSimilarityT
 	private final static Path modelsDirSubpath = Paths.get("DISABLED");
 
 	@Override
-	protected Path getModelsDirSubpath() {
+	protected Path getModelSourceFileDirSubpath() {
 		return modelsDirSubpath;
 	}
 }

@@ -9,7 +9,7 @@ public class LocalVariableTest extends AbstractJaMoPPComplexParserSimilarityTest
 	private final static Path modelsDirSubpath = Paths.get("localVariable");
 
 	@Override
-	protected Path getModelsDirSubpath() {
+	protected Path getModelSourceFileDirSubpath() {
 		return modelsDirSubpath;
 	}
 }

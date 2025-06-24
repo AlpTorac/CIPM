@@ -11,12 +11,13 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 	private static final String complexModelImplDirName = "complex-testmodels";
 
 	@Override
-	protected Path getRootDirPath() {
-		return super.getRootDirPath().resolve(complexModelImplDirName).resolve(this.getModelsDirSubpath());
+	protected Path getModelSourceFileRootDirPath() {
+		return super.getModelSourceFileRootDirPath().resolve(complexModelImplDirName)
+				.resolve(this.getModelSourceFileDirSubpath());
 	}
 
 	@Override
-	protected boolean isModelDirectoryName(String s) {
+	protected boolean isModelSourceFileDirectoryName(String s) {
 		// TODO Replace once a better method is found for this
 
 		try {
@@ -41,5 +42,5 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 	 * @return The path to the directory, from which onward model directories will
 	 *         be searched for this particular test.
 	 */
-	protected abstract Path getModelsDirSubpath();
+	protected abstract Path getModelSourceFileDirSubpath();
 }

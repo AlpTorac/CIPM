@@ -151,7 +151,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		}
 
 		if (this.shouldDeleteRepositoryClones()) {
-			this.getFileUtil().deleteAll(this.getRootDirPath());
+			this.getFileUtil().deleteAll(this.getModelSourceFileRootDirPath());
 		}
 
 		super.tearDown();
@@ -259,7 +259,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 					String.format("Closed repository wrapper (%s seconds)", this.getElapsedSeconds(repoCloseTime)));
 		}
 
-		var mainLocalClonePath = this.getRootDirPath();
+		var mainLocalClonePath = this.getModelSourceFileRootDirPath();
 
 		this.getLogger()
 				.debug(String.format("Cleaning main local repository clone under: %s", mainLocalClonePath.toString()));
@@ -362,7 +362,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	protected Git cloneRepo() {
 		// Do not explicitly add a folder for this repository, since GIT will do that
 		// implicitly
-		return this.cloneRepo(this.getRepoURIAsString(), this.getRootDirPath());
+		return this.cloneRepo(this.getRepoURIAsString(), this.getModelSourceFileRootDirPath());
 	}
 
 	/**
@@ -444,7 +444,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 * @return The URI, at which the parsed commit's resource will point at.
 	 */
 	protected URI getTestModelSaveURIForCommit(String commitID) {
-		return URI.createFileURI(this.getTestModelSaveRootDirectory().toString()).appendSegment(this.getRepoName())
+		return URI.createFileURI(this.getModelResourceSaveRootDirectory().toString()).appendSegment(this.getRepoName())
 				.appendSegment(commitID).appendFileExtension(this.getResourceFileExtension());
 	}
 
@@ -452,7 +452,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 * @return The path, where the given commit should be cloned
 	 */
 	protected Path getRepoClonePathForCommit(String commitID) {
-		return this.getRootDirPath().resolve(commitID);
+		return this.getModelSourceFileRootDirPath().resolve(commitID);
 	}
 
 	/**
@@ -479,7 +479,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 *           top-most folder of the repository is not duplicated.
 	 */
 	@Override
-	protected Path getRootDirPath() {
+	protected Path getModelSourceFileRootDirPath() {
 		return this.getRepoClonesDirPath().resolve(this.getRepoName());
 	}
 
@@ -488,7 +488,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 *           hashes featured in tests.
 	 */
 	@Override
-	protected boolean isModelDirectoryName(String dirName) {
+	protected boolean isModelSourceFileDirectoryName(String dirName) {
 		return this.getCommitIDs().stream().anyMatch((c) -> dirName.equals(c));
 	}
 

@@ -9,7 +9,7 @@ public class ClassifierInheritanceTest extends AbstractJaMoPPComplexParserSimila
 	private final static Path modelsDirSubpath = Paths.get("classifier", "inheritance");
 
 	@Override
-	protected Path getModelsDirSubpath() {
+	protected Path getModelSourceFileDirSubpath() {
 		return modelsDirSubpath;
 	}
 }

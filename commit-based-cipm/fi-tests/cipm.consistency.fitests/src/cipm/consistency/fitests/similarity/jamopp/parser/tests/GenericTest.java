@@ -9,7 +9,7 @@ public class GenericTest extends AbstractJaMoPPComplexParserSimilarityTest {
 	private final static Path modelsDirSubpath = Paths.get("generic");
 
 	@Override
-	protected Path getModelsDirSubpath() {
+	protected Path getModelSourceFileDirSubpath() {
 		return modelsDirSubpath;
 	}
 }

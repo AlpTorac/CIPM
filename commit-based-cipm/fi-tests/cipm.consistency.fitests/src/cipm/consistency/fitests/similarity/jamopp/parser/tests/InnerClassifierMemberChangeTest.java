@@ -9,7 +9,7 @@ public class InnerClassifierMemberChangeTest extends AbstractJaMoPPComplexParser
 	private final static Path modelsDirSubpath = Paths.get("classifier", "innerClassifier", "memberChange");
 
 	@Override
-	protected Path getModelsDirSubpath() {
+	protected Path getModelSourceFileDirSubpath() {
 		return modelsDirSubpath;
 	}
 

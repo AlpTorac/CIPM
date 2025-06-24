@@ -9,7 +9,7 @@ public class FieldStackingTest extends AbstractJaMoPPComplexParserSimilarityTest
 	private final static Path modelsDirSubpath = Paths.get("member", "field", "stackAndSplit");
 
 	@Override
-	protected Path getModelsDirSubpath() {
+	protected Path getModelSourceFileDirSubpath() {
 		return modelsDirSubpath;
 	}
 }

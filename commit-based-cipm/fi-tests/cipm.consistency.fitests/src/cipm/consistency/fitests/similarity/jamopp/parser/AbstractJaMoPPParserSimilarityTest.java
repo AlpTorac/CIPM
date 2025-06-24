@@ -110,9 +110,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @return The path (as String), where the parsed model resource (for the model
 	 *         under the given path) should be saved, if desired.
 	 */
-	protected String getResourcePathFor(Path modelDir) {
+	protected String getModelResourcePathFor(Path modelDir) {
 		var modelSubPath = this.getAbsoluteCurrentDirectory().relativize(modelDir);
-		var resPath = this.getTestModelSaveRootDirectory().resolve(modelSubPath);
+		var resPath = this.getModelResourceSaveRootDirectory().resolve(modelSubPath);
 
 		var resPathString = resPath.toString();
 
@@ -132,7 +132,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 *         given path.
 	 */
 	protected URI getModelResourceURI(Path modelDir) {
-		return URI.createFileURI(this.getResourcePathFor(modelDir));
+		return URI.createFileURI(this.getModelResourcePathFor(modelDir));
 	}
 
 	/**
@@ -276,16 +276,16 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 	/**
 	 * Defaults to the relative path between the root directory
-	 * ({@link #getRootDirPath()}) and the given path. If both paths are the same,
-	 * returns the last name in the parameter.
+	 * ({@link #getModelSourceFileRootDirPath()}) and the given path. If both paths
+	 * are the same, returns the last name in the parameter.
 	 * 
 	 * @param modelParentDirPath The parent directory for a group of models, which
 	 *                           contains other directories that contain model
 	 *                           files.
 	 * @return The test display name for the given modelParentDirPath
 	 */
-	protected String getModelsParentDirDisplayName(Path modelParentDirPath) {
-		var rootPath = this.getRootDirPath();
+	protected String getModelSourceParentDirDisplayName(Path modelParentDirPath) {
+		var rootPath = this.getModelSourceFileRootDirPath();
 		var relPath = rootPath.relativize(modelParentDirPath);
 		var result = relPath.toString();
 		if (result.isBlank()) {
@@ -297,22 +297,21 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	/**
 	 * Defaults to the relative path between the current directory
 	 * ({@link #getAbsoluteCurrentDirectory()}) and the root directory
-	 * ({@link #getRootDirPath()}).
+	 * ({@link #getModelSourceFileRootDirPath()}).
 	 * 
 	 * @return The display name for the root directory.
-	 * @see {@link #getRootDirPath()}
+	 * @see {@link #getModelSourceFileRootDirPath()}
 	 */
-	protected String getRootDirDisplayName() {
-		return this.getAbsoluteCurrentDirectory().relativize(this.getRootDirPath()).toString();
+	protected String getModelSourceFileRootDirDisplayName() {
+		return this.getAbsoluteCurrentDirectory().relativize(this.getModelSourceFileRootDirPath()).toString();
 	}
 
 	/**
 	 * Defaults to {@link #getAbsoluteCurrentDirectory()}.
 	 * 
-	 * @return Path to the root folder of the models, whose sub-directories will be
-	 *         discovered for Java elements.
+	 * @return Path to the root folder of the model source file directories
 	 */
-	protected Path getRootDirPath() {
+	protected Path getModelSourceFileRootDirPath() {
 		return this.getAbsoluteCurrentDirectory();
 	}
 
@@ -327,21 +326,21 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @return The root directory, under which generated test resources will be
 	 *         saved.
 	 */
-	protected Path getTestModelSaveRootDirectory() {
+	protected Path getModelResourceSaveRootDirectory() {
 		return this.getAbsoluteCurrentDirectory().resolve(cacheSaveDirName);
 	}
 
 	/**
-	 * Defaults to using {@link #isModelDirectoryName(String)} on the file name.
-	 * Check the concrete implementation for more details.
+	 * Defaults to using {@link #isModelSourceFileDirectoryName(String)} on the file
+	 * name. Check the concrete implementation for more details.
 	 * 
 	 * @param f The file object representing the directory
 	 * 
 	 * @return Whether a given directory contains any Java elements, from which a
 	 *         Java model can be parsed.
 	 */
-	protected boolean isModelDirectory(File f) {
-		return this.isModelDirectoryName(f.getName());
+	protected boolean isModelSourceFileDirectory(File f) {
+		return this.isModelSourceFileDirectoryName(f.getName());
 	}
 
 	/**
@@ -422,19 +421,20 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * Unless overridden in implementors, JUnit will detect this method as a
 	 * {@link TestFactory}, which will run the tests generated here.
 	 * 
-	 * @see {@link #discoverModelDirsAt(Path)} and
-	 *      {@link #discoverModelParentDirsAt(Path)} for locating model directories
+	 * @see {@link #discoverModelSourceFileDirsAt(Path)} and
+	 *      {@link #discoverModelSourceParentDirsAt(Path)} for locating model
+	 *      directories
 	 * @see {@link TestFactory} for what tests are to be generated
 	 */
 	@TestFactory
 	public Collection<DynamicNode> createTests() {
 		var tests = new ArrayList<DynamicNode>();
 
-		var modelParentDirs = this.discoverModelParentDirsAt(this.getRootDirPath());
+		var modelParentDirs = this.discoverModelSourceParentDirsAt(this.getModelSourceFileRootDirPath());
 		var modelDirMap = new HashMap<Path, Collection<Path>>();
 
 		for (var parentDir : modelParentDirs) {
-			modelDirMap.put(parentDir, this.discoverModelDirsAt(parentDir));
+			modelDirMap.put(parentDir, this.discoverModelSourceFileDirsAt(parentDir));
 		}
 
 		var testsForModelParentDirs = new ArrayList<DynamicNode>();
@@ -444,11 +444,11 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			var testsForModelDirs = this.createTests(modelDirs.toArray(Path[]::new));
 
 			testsForModelParentDirs.add(DynamicContainer.dynamicContainer(
-					String.format("model = %s", this.getModelsParentDirDisplayName(md)), testsForModelDirs));
+					String.format("model = %s", this.getModelSourceParentDirDisplayName(md)), testsForModelDirs));
 		});
 
-		tests.add(DynamicContainer.dynamicContainer(String.format("root = %s", this.getRootDirDisplayName()),
-				testsForModelParentDirs));
+		tests.add(DynamicContainer.dynamicContainer(
+				String.format("root = %s", this.getModelSourceFileRootDirDisplayName()), testsForModelParentDirs));
 
 		return tests;
 	}
@@ -473,8 +473,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 *                 model directories
 	 * @return A collection of model directory paths under rootPath
 	 */
-	protected Collection<Path> discoverModelDirsAt(Path rootPath) {
-		return new ModelDirDiscoveryStrategy((f) -> this.isModelDirectory(f)).discoverModelDirs(rootPath.toFile());
+	protected Collection<Path> discoverModelSourceFileDirsAt(Path rootPath) {
+		return new ModelDirDiscoveryStrategy((f) -> this.isModelSourceFileDirectory(f))
+				.discoverModelSourceDirs(rootPath.toFile());
 	}
 
 	/**
@@ -483,9 +484,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @return A collection of paths of directories containing model directory under
 	 *         rootPath
 	 */
-	protected Collection<Path> discoverModelParentDirsAt(Path rootPath) {
-		return new ModelDirDiscoveryStrategy((f) -> this.isModelDirectory(f))
-				.discoverModelParentDirs(rootPath.toFile());
+	protected Collection<Path> discoverModelSourceParentDirsAt(Path rootPath) {
+		return new ModelDirDiscoveryStrategy((f) -> this.isModelSourceFileDirectory(f))
+				.discoverModelSourceParentDirs(rootPath.toFile());
 	}
 
 	/**
@@ -497,7 +498,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @return Whether a given directory contains any Java elements, from which a
 	 *         Java model can be parsed.
 	 */
-	protected abstract boolean isModelDirectoryName(String dirName);
+	protected abstract boolean isModelSourceFileDirectoryName(String dirName);
 
 	/**
 	 * Override to define how to iterate through model resources, while generating

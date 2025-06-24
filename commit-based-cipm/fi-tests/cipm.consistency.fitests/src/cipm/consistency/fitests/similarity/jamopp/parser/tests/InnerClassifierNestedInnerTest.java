@@ -9,7 +9,7 @@ public class InnerClassifierNestedInnerTest extends AbstractJaMoPPComplexParserS
 	private final static Path modelsDirSubpath = Paths.get("classifier", "innerClassifier", "nestedInner");
 
 	@Override
-	protected Path getModelsDirSubpath() {
+	protected Path getModelSourceFileDirSubpath() {
 		return modelsDirSubpath;
 	}
 }

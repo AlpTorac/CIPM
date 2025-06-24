@@ -9,7 +9,7 @@ public class ClassifierCyclicTypeDependencyTest extends AbstractJaMoPPComplexPar
 	private final static Path modelsDirSubpath = Paths.get("classifier", "cyclicTypeDependency");
 
 	@Override
-	protected Path getModelsDirSubpath() {
+	protected Path getModelSourceFileDirSubpath() {
 		return modelsDirSubpath;
 	}
 }

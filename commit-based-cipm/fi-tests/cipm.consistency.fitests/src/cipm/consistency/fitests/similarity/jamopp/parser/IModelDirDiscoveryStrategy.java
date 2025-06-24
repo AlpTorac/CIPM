@@ -5,9 +5,9 @@ import java.nio.file.Path;
 import java.util.Collection;
 
 /**
- * An interface for classes meant to find model directories. How model
- * directories are discovered and filtered depends on the concrete implementor.
- * <br>
+ * An interface for classes meant to find model directories. How models' source
+ * files' directories are discovered and filtered depends on the concrete
+ * implementor. <br>
  * <br>
  * Implemented minimally, as discovering model directories may span across
  * multiple "root" directories, and may have to be adapted heavily for concrete
@@ -17,32 +17,32 @@ import java.util.Collection;
  */
 public interface IModelDirDiscoveryStrategy {
 	/**
-	 * Finds and returns paths to all directories that contain model directories.
-	 * Use {@link #discoverModelDirs(File)} on the directories found here to get the
-	 * actual model directories.
+	 * Finds and returns paths to all parent directories, which have nested model
+	 * source file directories. Use {@link #discoverModelSourceDirs(File)} on the
+	 * directories found here to get the actual model source file directories.
 	 * 
 	 * @param dirToDiscover The top-most directory, whose contents will be scanned
 	 * 
-	 * @return All directories containing model directories that are found according
-	 *         to the concrete implementor.
+	 * @return All parent directories containing model source file directories that
+	 *         are found according to the concrete implementor.
 	 */
-	public Collection<Path> discoverModelParentDirs(File dirToDiscover);
+	public Collection<Path> discoverModelSourceParentDirs(File dirToDiscover);
 
 	/**
-	 * Finds and returns paths to all model directories.
+	 * Finds and returns paths to all model source file directories.
 	 * 
 	 * @param dirToDiscover The top-most directory, whose contents will be scanned
 	 * 
-	 * @return All model directories that are found according to the concrete
-	 *         implementor
+	 * @return All model source file directories that are found according to the
+	 *         concrete implementor
 	 */
-	public Collection<Path> discoverModelDirs(File dirToDiscover);
+	public Collection<Path> discoverModelSourceDirs(File dirToDiscover);
 
 	/**
-	 * @param dir A directory that potentially contains files of one (and only one)
-	 *            model
-	 * @return Whether the given directory is contains files of one (and only one)
-	 *         model
+	 * @param dir A directory that potentially contains source files of one (and
+	 *            only one) model
+	 * @return Whether the given directory is contains source files of one (and only
+	 *         one) model
 	 */
-	public boolean isModelDirectory(File dir);
+	public boolean isModelSourceDirectory(File dir);
 }

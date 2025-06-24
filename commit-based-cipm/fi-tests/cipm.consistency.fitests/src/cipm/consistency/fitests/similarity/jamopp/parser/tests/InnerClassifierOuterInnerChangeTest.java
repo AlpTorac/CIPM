@@ -9,7 +9,7 @@ public class InnerClassifierOuterInnerChangeTest extends AbstractJaMoPPComplexPa
 	private final static Path modelsDirSubpath = Paths.get("classifier", "innerClassifier", "outerInnerChange");
 
 	@Override
-	protected Path getModelsDirSubpath() {
+	protected Path getModelSourceFileDirSubpath() {
 		return modelsDirSubpath;
 	}
 }

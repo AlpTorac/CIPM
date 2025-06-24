@@ -9,7 +9,7 @@ public class InnerClassifierAnnotationChangeTest extends AbstractJaMoPPComplexPa
 	private final static Path modelsDirSubpath = Paths.get("classifier", "innerClassifier", "annotationChange");
 
 	@Override
-	protected Path getModelsDirSubpath() {
+	protected Path getModelSourceFileDirSubpath() {
 		return modelsDirSubpath;
 	}
 

@@ -28,17 +28,17 @@ public class ModelDirDiscoveryStrategy implements IModelDirDiscoveryStrategy {
 	}
 
 	/**
-	 * @param modelParentDirPath A directory, which potentially contains model
-	 *                           directories
-	 * @return All model directories under the given path
+	 * @param modelParentDirPath A parent directory, which potentially contains
+	 *                           model source file directories
+	 * @return All model source file directories under the given path
 	 * 
-	 * @see {@link #isModelDirectory(File)}
+	 * @see {@link #isModelSourceDirectory(File)}
 	 */
 	protected Collection<Path> getAllModelDirsUnder(Path modelParentDirPath) {
 		var result = new ArrayList<Path>();
 		var dirs = modelParentDirPath.toFile().listFiles();
 		for (var dir : dirs) {
-			if (this.isModelDirectory(dir)) {
+			if (this.isModelSourceDirectory(dir)) {
 				result.add(dir.toPath());
 			}
 		}
@@ -46,15 +46,15 @@ public class ModelDirDiscoveryStrategy implements IModelDirDiscoveryStrategy {
 	}
 
 	/**
-	 * @implSpec Determines whether a discovered directory is a model directory
-	 *           using the filter from the constructor
+	 * @implSpec Determines whether a discovered directory is a model source file
+	 *           directory using the filter from the constructor
 	 *           ({@link #ModelDirDiscoveryStrategy(Path, Predicate)}). Any
-	 *           directory that is considered a model directory is assumed to
-	 *           contain one (and only one) model, even if it has multiple models in
-	 *           reality.
+	 *           directory that is considered a model source file directory is
+	 *           assumed to encapsulate one (and only one) model, even if it
+	 *           contains multiple models in reality.
 	 */
 	@Override
-	public boolean isModelDirectory(File dir) {
+	public boolean isModelSourceDirectory(File dir) {
 		if (this.modelDirFilter == null) {
 			return true;
 		} else {
@@ -73,21 +73,20 @@ public class ModelDirDiscoveryStrategy implements IModelDirDiscoveryStrategy {
 	}
 
 	/**
-	 * Recursively searches for directories that contain Java-model files. All
+	 * Recursively searches for directories that contain model source files. All
 	 * directories containing models (determined via
-	 * {@link #isModelDirectory(File)}) will be added to foundModelDirs, if not
-	 * already there.
+	 * {@link #isModelSourceDirectory(File)}) will be added to foundModelDirs, if
+	 * not already there.
 	 * 
 	 * @param dirToDiscover  The directory, where the recursive search will begin
-	 * @param foundModelDirs A collection of directories that contain Java-model
-	 *                       files
+	 * @param foundModelDirs A collection of model source file directories
 	 */
 	protected void discoverModels(File dirToDiscover, Collection<Path> foundModelDirs) {
 		if (dirToDiscover != null && dirToDiscover.isDirectory()) {
 			var discovered = new ArrayList<File>();
 
 			for (var f : dirToDiscover.listFiles()) {
-				if (!this.isModelDirectory(f)) {
+				if (!this.isModelSourceDirectory(f)) {
 					discovered.add(f);
 				} else if (!foundModelDirs.contains(dirToDiscover.toPath())) {
 					foundModelDirs.add(dirToDiscover.toPath());
@@ -99,20 +98,20 @@ public class ModelDirDiscoveryStrategy implements IModelDirDiscoveryStrategy {
 	}
 
 	/**
-	 * @implSpec Check {@link #isModelDirectory(File)} for more details on how model
-	 *           directories are filtered.
+	 * @implSpec Check {@link #isModelSourceDirectory(File)} for more details on how
+	 *           model directories are filtered.
 	 */
 	@Override
-	public Collection<Path> discoverModelDirs(File dirToDiscover) {
+	public Collection<Path> discoverModelSourceDirs(File dirToDiscover) {
 		return this.getAllModelDirsUnder(dirToDiscover.toPath());
 	}
 
 	/**
-	 * @implSpec Check {@link #isModelDirectory(File)} for more details on how model
-	 *           directories are filtered.
+	 * @implSpec Check {@link #isModelSourceDirectory(File)} for more details on how
+	 *           model directories are filtered.
 	 */
 	@Override
-	public Collection<Path> discoverModelParentDirs(File dirToDiscover) {
+	public Collection<Path> discoverModelSourceParentDirs(File dirToDiscover) {
 		return this.discoverModels(dirToDiscover);
 	}
 }

@@ -34,12 +34,12 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 	private static final String model2Name = "b";
 
 	@Override
-	protected Path getRootDirPath() {
-		return super.getRootDirPath().resolve(splevoModelImplDirName);
+	protected Path getModelSourceFileRootDirPath() {
+		return super.getModelSourceFileRootDirPath().resolve(splevoModelImplDirName);
 	}
 
 	@Override
-	protected boolean isModelDirectoryName(String s) {
+	protected boolean isModelSourceFileDirectoryName(String s) {
 		return s.equals(model1Name) || s.equals(model2Name);
 	}
 
