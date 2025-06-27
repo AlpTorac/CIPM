@@ -43,10 +43,6 @@ import com.google.gson.GsonBuilder;
 public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserSimilarityTest {
 	// TODO Extract parsing logic
 
-	// TODO Allow overriding expected results of tests
-
-	// TODO Simplify methods that return paths and URIs
-
 	// TODO Improve time measuring
 
 	/**
