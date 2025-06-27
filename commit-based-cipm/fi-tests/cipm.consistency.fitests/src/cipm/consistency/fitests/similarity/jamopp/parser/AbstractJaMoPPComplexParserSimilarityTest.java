@@ -8,11 +8,11 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 	/**
 	 * The name of the root directory of the models
 	 */
-	private static final String complexModelImplDirName = "complex-testmodels";
+	private static final Path complexModelImplDirPath = Path.of("testmodels", "complex-models");
 
 	@Override
 	protected Path getModelSourceFileRootDirPath() {
-		return super.getModelSourceFileRootDirPath().resolve(complexModelImplDirName)
+		return super.getModelSourceFileRootDirPath().resolve(complexModelImplDirPath)
 				.resolve(this.getModelSourceFileDirSubpath());
 	}
 

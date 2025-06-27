@@ -161,8 +161,9 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 * @return The path to the saved contents of {@link #resultCache}
 	 */
 	protected Path getExpectedSimilarityResultCachePath() {
-		return this.getAbsoluteCurrentDirectory().resolve(expectedSimilarityResultCacheDirName)
-				.resolve(this.getRepoName()).resolve(expectedSimilarityResultCacheFileName);
+		return this.getAbsoluteCurrentDirectory().resolve(this.getTestFilesSavePath())
+				.resolve(expectedSimilarityResultCacheDirName).resolve(this.getRepoName())
+				.resolve(expectedSimilarityResultCacheFileName);
 	}
 
 	/**
@@ -208,7 +209,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		}));
 
 		for (var cID : commitIDList) {
-			if (!this.getResourceHelper().resourceFileExists(this.getTestModelSaveURIForCommit(cID))) {
+			if (!this.getResourceHelper().resourceFileExists(this.getModelResourceSaveURIForCommit(cID))) {
 				this.getLogger().debug(String.format("Model resource missing for: %s", cID));
 				commitResourcesExist = false;
 				// Check for the other ones as well, for debugging purposes
@@ -239,7 +240,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			this.getLogger().debug(String.format("Prepared missing model resources"));
 		} else {
 			for (var cID : commitIDList) {
-				var cachedCommitURI = this.getTestModelSaveURIForCommit(cID);
+				var cachedCommitURI = this.getModelResourceSaveURIForCommit(cID);
 				var res = new ModelResourceWrapper(this.getResourceHelper());
 				res.loadModelResource(cachedCommitURI);
 				this.getCacheUtil().addToCache(cachedCommitURI.toString(), res);
@@ -397,7 +398,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		var commitCount = commits.size();
 		for (int i = 0; i < commitCount; i++) {
 			var commitID = commits.get(i);
-			var commitResURI = this.getTestModelSaveURIForCommit(commitID);
+			var commitResURI = this.getModelResourceSaveURIForCommit(commitID);
 
 			var checkoutStartTime = System.nanoTime();
 			this.getLogger().debug(String.format("Checking out: %s", commitID));
@@ -443,7 +444,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	/**
 	 * @return The URI, at which the parsed commit's resource will point at.
 	 */
-	protected URI getTestModelSaveURIForCommit(String commitID) {
+	protected URI getModelResourceSaveURIForCommit(String commitID) {
 		return URI.createFileURI(this.getModelResourceSaveRootDirectory().toString()).appendSegment(this.getRepoName())
 				.appendSegment(commitID).appendFileExtension(this.getResourceFileExtension());
 	}
@@ -469,7 +470,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 * @return The top-most directory, where the repositories will be cloned to
 	 */
 	protected Path getRepoClonesDirPath() {
-		return this.getAbsoluteCurrentDirectory().resolve(repoModelImplDirName);
+		return this.getAbsoluteCurrentDirectory().resolve(this.getTestFilesSavePath()).resolve(repoModelImplDirName);
 	}
 
 	/**

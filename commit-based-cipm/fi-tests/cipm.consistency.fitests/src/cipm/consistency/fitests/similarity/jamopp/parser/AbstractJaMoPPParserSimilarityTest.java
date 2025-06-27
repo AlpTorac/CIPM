@@ -19,7 +19,13 @@ import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
 
 /**
  * An abstract test class, which can be used for implementing tests that involve
- * parsing models from Java-related files and checking their similarity.
+ * parsing models from Java-related files and checking their similarity. <br>
+ * <br>
+ * It does not include any hard-coded model source file directory to allow
+ * models at different locations to be usable in tests. If there is a group of
+ * model source file directories, it is recommended to make an abstract test
+ * class for them, in order to store details about the common sub-path of those
+ * models and details on what directories contain model source files.
  * 
  * @author Alp Torac Genc
  * 
@@ -27,8 +33,6 @@ import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
  */
 public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	// TODO Extract parsing logic and only use parseModelsDir(...)
-
-	// TODO Simplify methods that return paths and URIs
 
 	// TODO Improve time measuring
 
@@ -43,6 +47,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @see {@link #parseModelsDirWithCaching(Path)}
 	 */
 	private static final CacheUtil resourceCache = new CacheUtil();
+
+	private static final Path testFilesSaveDirPath = Path.of("target", "testResources");
 
 	/**
 	 * The name of the top-level directory, where the cached model resources should
@@ -102,6 +108,10 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	protected CacheUtil getCacheUtil() {
 		return resourceCache;
+	}
+
+	protected Path getTestFilesSavePath() {
+		return testFilesSaveDirPath;
 	}
 
 	/**
@@ -327,7 +337,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 *         saved.
 	 */
 	protected Path getModelResourceSaveRootDirectory() {
-		return this.getAbsoluteCurrentDirectory().resolve(cacheSaveDirName);
+		return this.getAbsoluteCurrentDirectory().resolve(testFilesSaveDirPath).resolve(cacheSaveDirName);
 	}
 
 	/**

@@ -22,7 +22,7 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 	/**
 	 * The name of the root directory of the models from SPLevo
 	 */
-	private static final String splevoModelImplDirName = "splevo-testmodels";
+	private static final Path splevoModelImplDirPath = Path.of("testmodels", "splevo-models");
 
 	/**
 	 * The first model to parse.
@@ -35,7 +35,7 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 
 	@Override
 	protected Path getModelSourceFileRootDirPath() {
-		return super.getModelSourceFileRootDirPath().resolve(splevoModelImplDirName);
+		return super.getModelSourceFileRootDirPath().resolve(splevoModelImplDirPath);
 	}
 
 	@Override
