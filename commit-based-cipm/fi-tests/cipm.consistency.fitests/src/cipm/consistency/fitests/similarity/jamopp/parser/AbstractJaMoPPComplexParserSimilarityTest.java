@@ -18,8 +18,6 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 
 	@Override
 	protected boolean isModelSourceFileDirectoryName(String s) {
-		// TODO Replace once a better method is found for this
-
 		try {
 			Integer.parseInt(s);
 			return true;
