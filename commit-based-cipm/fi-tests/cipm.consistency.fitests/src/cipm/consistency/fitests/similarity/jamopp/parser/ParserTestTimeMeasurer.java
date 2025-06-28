@@ -37,7 +37,7 @@ public class ParserTestTimeMeasurer {
 	private Long overallRunTime;
 
 	@Expose
-	private final Map<ITimeMeasurementDataTag, Long> measurementTagSummary = new HashMap<ITimeMeasurementDataTag, Long>();
+	private final Map<ITimeMeasurementTag, Long> measurementTagSummary = new HashMap<ITimeMeasurementTag, Long>();
 
 	@Expose
 	private final Map<String, Long> measurementKeySummary = new HashMap<String, Long>();
@@ -66,7 +66,7 @@ public class ParserTestTimeMeasurer {
 		return instance;
 	}
 
-	public void startTimeMeasurement(String key, ITimeMeasurementDataTag tag) {
+	public void startTimeMeasurement(String key, ITimeMeasurementTag tag) {
 		if (this.startTime == null) {
 			this.startTime = timeFormatter.format(LocalDateTime.now());
 		}
@@ -171,9 +171,9 @@ public class ParserTestTimeMeasurer {
 		@Expose
 		private final String key;
 		@Expose
-		private final ITimeMeasurementDataTag tag;
+		private final ITimeMeasurementTag tag;
 
-		private TimeMeasurementEntry(StopWatch watch, String key, ITimeMeasurementDataTag tag) {
+		private TimeMeasurementEntry(StopWatch watch, String key, ITimeMeasurementTag tag) {
 			this.watch = watch;
 			this.tag = tag;
 			this.key = key;
@@ -187,7 +187,7 @@ public class ParserTestTimeMeasurer {
 			return key;
 		}
 
-		public ITimeMeasurementDataTag getTag() {
+		public ITimeMeasurementTag getTag() {
 			return tag;
 		}
 

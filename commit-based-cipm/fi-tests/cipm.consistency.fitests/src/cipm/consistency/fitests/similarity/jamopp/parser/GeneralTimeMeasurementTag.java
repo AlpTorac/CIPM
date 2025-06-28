@@ -1,6 +1,6 @@
 package cipm.consistency.fitests.similarity.jamopp.parser;
 
-public enum GeneralTimeMeasurementTag implements ITimeMeasurementDataTag {
+public enum GeneralTimeMeasurementTag implements ITimeMeasurementTag {
 	/**
 	 * 
 	 */
@@ -29,15 +29,6 @@ public enum GeneralTimeMeasurementTag implements ITimeMeasurementDataTag {
 	 * 
 	 */
 	MODEL_RESOURCE_CACHE_ACCESS,
-
-	/**
-	 * 
-	 */
-	CLONE_REPOSITORY,
-	/**
-	 * 
-	 */
-	CHECKOUT_TO_COMMIT,
 
 	/**
 	 * 
