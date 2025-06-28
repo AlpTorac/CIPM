@@ -5,13 +5,16 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicContainer;
 import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.TestFactory;
+import org.junit.jupiter.api.TestInfo;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import jamopp.options.ParserOptions;
@@ -34,6 +37,8 @@ import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
 public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	// TODO Extract parsing logic and only use parseModelsDir(...)
 
+	// TODO Revise path and URI related methods
+
 	// TODO Improve time measuring
 
 	/**
@@ -48,15 +53,19 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	private static final CacheUtil resourceCache = new CacheUtil();
 
-	private static final Path testFilesSaveDirPath = Path.of("target", "testResources");
+	private static final Path testModelResourceFilesSaveDirPath = Path.of("target", "testResources");
 
-	/**
-	 * The name of the top-level directory, where the cached model resources should
-	 * be saved.
-	 * 
-	 * @see {@link #resourceCache}
-	 */
-	private static final String cacheSaveDirName = "testmodel-cache";
+	private static final Path cacheSaveDirPath = testModelResourceFilesSaveDirPath.resolve("testmodel-cache");
+
+	private static final Path timeMeasurementsFileSavePath = Path.of("target", "timeMeasurements");
+
+	@BeforeEach
+	@Override
+	public void setUp(TestInfo info) {
+		this.startTimeMeasurement(GeneralTimeMeasurementTag.TEST_BEFOREEACH);
+		super.setUp(info);
+		this.stopTimeMeasurement();
+	}
 
 	@AfterEach
 	@Override
@@ -66,33 +75,67 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 		if (this.shouldSaveCachedResources()) {
 			this.getLogger().debug("Saving all cached resources after parser test");
+			this.startTimeMeasurement(GeneralTimeMeasurementTag.SAVE_MODEL_RESOURCE);
 			cachedResources.forEach((res) -> res.saveResources());
+			this.stopTimeMeasurement();
 			this.getLogger().debug("Saved all cached resources after parser test");
 		}
 
 		if (this.shouldDeleteAllResources()) {
 			this.getLogger().debug("Deleting all cached resources after parser test");
+			this.startTimeMeasurement(GeneralTimeMeasurementTag.DELETE_MODEL_RESOURCE);
 			cachedResources.forEach((res) -> res.deleteResources());
+			this.stopTimeMeasurement();
 			this.getLogger().debug("Deleted all cached resources after parser test");
 		} else if (this.shouldUnloadAllResources()) {
 			this.getLogger().debug("Unloading all cached resources after parser test");
+			this.startTimeMeasurement(GeneralTimeMeasurementTag.UNLOAD_MODEL_RESOURCE);
 			cachedResources.forEach((res) -> res.unloadResources());
+			this.stopTimeMeasurement();
 			this.getLogger().debug("Unloaded all cached resources after parser test");
 		}
 
 		if (this.shouldRemoveResourcesFromCache()) {
 			this.getLogger().debug("Removing all cached resources from cache after parser test");
+			this.startTimeMeasurement(GeneralTimeMeasurementTag.MODEL_RESOURCE_CACHE_ACCESS);
 			resourceCache.cleanCache();
+			this.stopTimeMeasurement();
 			this.getLogger().debug("Removed all cached resources from cache after parser test");
 		}
 
 		this.getLogger().debug("Tore down after parser test");
 
+		this.getLogger().debug("Tearing down after all parser tests");
+		ParserTestTimeMeasurer.getInstance()
+				.save(this.getAbsoluteCurrentDirectory().resolve(timeMeasurementsFileSavePath));
+		this.getLogger().debug("Tore down after all parser tests");
+
 		super.tearDown();
 	}
 
-	protected long getElapsedSeconds(long startInNanoseconds) {
-		return ((System.nanoTime() - startInNanoseconds) / 1000000000);
+	/**
+	 * @param modelDir The path to the model source file directory
+	 * @return The key, with which the model resource parsed under the given path
+	 *         will be added to the cache.
+	 */
+	protected String getCacheKeyForModelSourceFileDir(Path modelDir) {
+		return this.getAbsoluteCurrentDirectory().relativize(modelDir).toString();
+	}
+
+	protected void startTimeMeasurement(Path modelDir, ITimeMeasurementDataTag tag) {
+		this.startTimeMeasurement(modelDir != null ? this.getCacheKeyForModelSourceFileDir(modelDir) : null, tag);
+	}
+
+	protected void startTimeMeasurement(String key, ITimeMeasurementDataTag tag) {
+		ParserTestTimeMeasurer.getInstance().startTimeMeasurement(key, tag);
+	}
+
+	protected void startTimeMeasurement(ITimeMeasurementDataTag tag) {
+		ParserTestTimeMeasurer.getInstance().startTimeMeasurement(this.getCurrentTestClassName(), tag);
+	}
+
+	protected void stopTimeMeasurement() {
+		ParserTestTimeMeasurer.getInstance().stopTimeMeasurement();
 	}
 
 	/**
@@ -111,7 +154,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	protected Path getTestFilesSavePath() {
-		return testFilesSaveDirPath;
+		return testModelResourceFilesSaveDirPath;
 	}
 
 	/**
@@ -193,8 +236,10 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @see {@link #prepareArtificialResource(Resource, URI)}
 	 */
 	protected IModelResourceWrapper parseModelsDirWithoutCaching(Path modelDir) {
+		this.startTimeMeasurement(GeneralTimeMeasurementTag.PARSE_MODEL_RESOURCE);
 		var wrapper = new ModelResourceWrapper(this.getResourceHelper(), this.getModelResourceParser());
 		wrapper.parseModelResource(modelDir, this.getModelResourceURI(modelDir));
+		this.stopTimeMeasurement();
 		return wrapper;
 	}
 
@@ -226,8 +271,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * parsed model resource to the cache under cacheKey.
 	 */
 	protected IModelResourceWrapper parseModelsDirWithCaching(Path modelDir, URI cachedModelURI, String cacheKey) {
-		var parseStartTime = System.nanoTime();
-
+		this.startTimeMeasurement(GeneralTimeMeasurementTag.MODEL_RESOURCE_CACHE_ACCESS);
 		var cache = this.getCacheUtil();
 		var modelName = this.getDisplayNameForModelDir(modelDir);
 
@@ -244,14 +288,19 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			if (cache.isInCache(cacheKey)) {
 				this.getLogger().debug(String.format("%s is in cache, using cached version", modelName));
 				resWrapper = cache.getFromCache(cacheKey);
-				if (!resWrapper.isModelResourceLoaded())
+				if (!resWrapper.isModelResourceLoaded()) {
+					this.startTimeMeasurement(GeneralTimeMeasurementTag.LOAD_MODEL_RESOURCE);
 					resWrapper.loadParsedResources();
+					this.stopTimeMeasurement();
+				}
 			}
 
 			// Search for the resource file in cache save location
 			if (resWrapper == null) {
 				resWrapper = new ModelResourceWrapper(this.getResourceHelper());
+				this.startTimeMeasurement(GeneralTimeMeasurementTag.LOAD_MODEL_RESOURCE);
 				resWrapper.loadModelResource(cachedModelURI);
+				this.stopTimeMeasurement();
 				if (resWrapper.isModelResourceLoaded()) {
 					this.getLogger().debug(String.format("Loaded %s from its resource file", modelName));
 				}
@@ -265,9 +314,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 		var key = cacheKey != null ? cacheKey : modelDir.toString();
 		cache.addToCache(key, resWrapper);
+		this.stopTimeMeasurement();
 
-		this.getLogger().debug(String.format("%s parsed (with caching, %s seconds)",
-				this.getDisplayNameForModelDir(modelDir), this.getElapsedSeconds(parseStartTime)));
+		this.getLogger().debug(String.format("%s parsed (with caching)", this.getDisplayNameForModelDir(modelDir)));
 		return resWrapper;
 	}
 
@@ -337,7 +386,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 *         saved.
 	 */
 	protected Path getModelResourceSaveRootDirectory() {
-		return this.getAbsoluteCurrentDirectory().resolve(testFilesSaveDirPath).resolve(cacheSaveDirName);
+		return this.getAbsoluteCurrentDirectory().resolve(cacheSaveDirPath);
 	}
 
 	/**
@@ -438,9 +487,13 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	@TestFactory
 	public Collection<DynamicNode> createTests() {
+		var modelSourceFileRootDirPath = this.getModelSourceFileRootDirPath();
+
+		this.startTimeMeasurement(GeneralTimeMeasurementTag.DYNAMIC_TEST_CREATION);
+
 		var tests = new ArrayList<DynamicNode>();
 
-		var modelParentDirs = this.discoverModelSourceParentDirsAt(this.getModelSourceFileRootDirPath());
+		var modelParentDirs = this.discoverModelSourceParentDirsAt(modelSourceFileRootDirPath);
 		var modelDirMap = new HashMap<Path, Collection<Path>>();
 
 		for (var parentDir : modelParentDirs) {
@@ -460,6 +513,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		tests.add(DynamicContainer.dynamicContainer(
 				String.format("root = %s", this.getModelSourceFileRootDirDisplayName()), testsForModelParentDirs));
 
+		this.stopTimeMeasurement();
 		return tests;
 	}
 
@@ -484,8 +538,11 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @return A collection of model directory paths under rootPath
 	 */
 	protected Collection<Path> discoverModelSourceFileDirsAt(Path rootPath) {
-		return new ModelDirDiscoveryStrategy((f) -> this.isModelSourceFileDirectory(f))
+		this.startTimeMeasurement(GeneralTimeMeasurementTag.DISCOVER_MODEL_RESOURCES);
+		var result = new ModelDirDiscoveryStrategy((f) -> this.isModelSourceFileDirectory(f))
 				.discoverModelSourceDirs(rootPath.toFile());
+		this.stopTimeMeasurement();
+		return result;
 	}
 
 	/**
@@ -495,8 +552,11 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 *         rootPath
 	 */
 	protected Collection<Path> discoverModelSourceParentDirsAt(Path rootPath) {
-		return new ModelDirDiscoveryStrategy((f) -> this.isModelSourceFileDirectory(f))
+		this.startTimeMeasurement(GeneralTimeMeasurementTag.DISCOVER_MODEL_RESOURCES);
+		var result = new ModelDirDiscoveryStrategy((f) -> this.isModelSourceFileDirectory(f))
 				.discoverModelSourceParentDirs(rootPath.toFile());
+		this.stopTimeMeasurement();
+		return result;
 	}
 
 	/**

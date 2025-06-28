@@ -26,13 +26,18 @@ public class EAllContentSimilarityTestFactory extends AbstractJaMoPPParserSimila
 	 * considered and will impact the result.
 	 */
 	protected void testSimilarityOfAllContents(Resource res1, Resource res2, Boolean expectedResult) {
+		ParserTestTimeMeasurer.getInstance().startTimeMeasurement(description, GeneralTimeMeasurementTag.TEST_OVERHEAD);
 		var list1 = new ArrayList<EObject>();
 		var list2 = new ArrayList<EObject>();
 
 		res1.getAllContents().forEachRemaining((o) -> list1.add(o));
 		res2.getAllContents().forEachRemaining((o) -> list2.add(o));
 
+		ParserTestTimeMeasurer.getInstance().startTimeMeasurement(description,
+				GeneralTimeMeasurementTag.SIMILARITY_CHECKING);
 		Assertions.assertEquals(expectedResult, this.scc.areSimilar(list1, list2));
+		ParserTestTimeMeasurer.getInstance().stopTimeMeasurement();
+		ParserTestTimeMeasurer.getInstance().stopTimeMeasurement();
 	}
 
 	/**
