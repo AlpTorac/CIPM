@@ -122,15 +122,15 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return this.getAbsoluteCurrentDirectory().relativize(modelDir).toString();
 	}
 
-	protected void startTimeMeasurement(Path modelDir, ITimeMeasurementDataTag tag) {
+	protected void startTimeMeasurement(Path modelDir, ITimeMeasurementTag tag) {
 		this.startTimeMeasurement(modelDir != null ? this.getCacheKeyForModelSourceFileDir(modelDir) : null, tag);
 	}
 
-	protected void startTimeMeasurement(String key, ITimeMeasurementDataTag tag) {
+	protected void startTimeMeasurement(String key, ITimeMeasurementTag tag) {
 		ParserTestTimeMeasurer.getInstance().startTimeMeasurement(key, tag);
 	}
 
-	protected void startTimeMeasurement(ITimeMeasurementDataTag tag) {
+	protected void startTimeMeasurement(ITimeMeasurementTag tag) {
 		ParserTestTimeMeasurer.getInstance().startTimeMeasurement(this.getCurrentTestClassName(), tag);
 	}
 
@@ -487,9 +487,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	@TestFactory
 	public Collection<DynamicNode> createTests() {
-		var modelSourceFileRootDirPath = this.getModelSourceFileRootDirPath();
-
 		this.startTimeMeasurement(GeneralTimeMeasurementTag.DYNAMIC_TEST_CREATION);
+
+		var modelSourceFileRootDirPath = this.getModelSourceFileRootDirPath();
 
 		var tests = new ArrayList<DynamicNode>();
 

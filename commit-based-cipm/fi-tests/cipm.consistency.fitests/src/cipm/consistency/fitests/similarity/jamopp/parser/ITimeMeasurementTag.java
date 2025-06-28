@@ -1,5 +1,5 @@
 package cipm.consistency.fitests.similarity.jamopp.parser;
 
-public interface ITimeMeasurementDataTag {
+public interface ITimeMeasurementTag {
 
 }

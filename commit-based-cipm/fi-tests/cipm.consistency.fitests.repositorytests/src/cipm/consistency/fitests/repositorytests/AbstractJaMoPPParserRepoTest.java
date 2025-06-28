@@ -4,6 +4,7 @@ import cipm.consistency.fitests.repositorytests.util.RepoCacheSimilarityResultPr
 import cipm.consistency.fitests.repositorytests.util.RepoTestResultCache;
 import cipm.consistency.fitests.repositorytests.util.RepoTestSimilarityValueEstimator;
 import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSimilarityTest;
+import cipm.consistency.fitests.similarity.jamopp.parser.GeneralTimeMeasurementTag;
 import cipm.consistency.fitests.similarity.jamopp.parser.IExpectedSimilarityResultProvider;
 import cipm.consistency.fitests.similarity.jamopp.parser.IJaMoPPParserTestGenerationStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.IModelResourceWrapper;
@@ -27,6 +28,8 @@ import org.eclipse.jgit.api.errors.GitAPIException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DynamicNode;
+import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.TestInfo;
 
 import com.google.gson.Gson;
@@ -42,6 +45,8 @@ import com.google.gson.GsonBuilder;
  */
 public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserSimilarityTest {
 	// TODO Extract parsing logic
+
+	// TODO Revise path and URI related methods
 
 	// TODO Improve time measuring
 
@@ -89,7 +94,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 
 		var resultCachePath = this.getExpectedSimilarityResultCachePath();
 		if (this.shouldUseCachedExpectedSimilarityResults()) {
-
+			this.startTimeMeasurement(RepoTimeMeasurementTag.LOAD_EXPECTED_SIMILARITY_RESULTS);
 			this.getLogger().debug(String.format("Checking for cached expected similarity results for %s at %s",
 					this.getCurrentTestClassName(), resultCachePath));
 			if (resultCachePath.toFile().exists()) {
@@ -104,6 +109,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 									this.getCurrentTestClassName(), resultCachePath));
 				}
 			}
+			this.stopTimeMeasurement();
 		} else {
 			this.getLogger().debug(String.format("No saved expected similarity results found for %s at %s",
 					this.getCurrentTestClassName(), resultCachePath));
@@ -114,6 +120,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	@Override
 	public void tearDown() {
 		if (this.shouldSaveCachedExpectedSimilarityResults()) {
+			this.startTimeMeasurement(RepoTimeMeasurementTag.SAVE_EXPECTED_SIMILARITY_RESULTS);
 			var gson = new GsonBuilder().setPrettyPrinting().create();
 
 			var resultCachePath = this.getExpectedSimilarityResultCachePath();
@@ -144,10 +151,13 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 
 			this.getLogger().debug(String.format("Saved cached expected similarity results for %s at %s",
 					this.getCurrentTestClassName(), resultCachePath));
+			this.stopTimeMeasurement();
 		}
 
 		if (this.shouldDeleteRepositoryClones()) {
+			this.startTimeMeasurement(RepoTimeMeasurementTag.DELETE_LOCAL_REPO_CLONE);
 			this.getFileUtil().deleteAll(this.getModelSourceFileRootDirPath());
+			this.stopTimeMeasurement();
 		}
 
 		super.tearDown();
@@ -236,7 +246,9 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			for (var cID : commitIDList) {
 				var cachedCommitURI = this.getModelResourceSaveURIForCommit(cID);
 				var res = new ModelResourceWrapper(this.getResourceHelper());
+				this.startTimeMeasurement(GeneralTimeMeasurementTag.LOAD_MODEL_RESOURCE);
 				res.loadModelResource(cachedCommitURI);
+				this.stopTimeMeasurement();
 				this.getCacheUtil().addToCache(cachedCommitURI.toString(), res);
 				commitResources.add(this.getCacheUtil().getFromCache(cachedCommitURI.toString()).getModelResource());
 			}
@@ -245,8 +257,10 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		if (git != null) {
 			this.getLogger().debug("Closing repository wrapper");
 
+			this.startTimeMeasurement(RepoTimeMeasurementTag.CLOSE_REPOSITORY);
 			git.getRepository().close();
 			git.close();
+			this.stopTimeMeasurement();
 
 			this.getLogger().debug(String.format("Closed repository wrapper"));
 		}
@@ -256,11 +270,14 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		this.getLogger()
 				.debug(String.format("Cleaning main local repository clone under: %s", mainLocalClonePath.toString()));
 
+		this.startTimeMeasurement(RepoTimeMeasurementTag.DELETE_LOCAL_REPO_CLONE);
 		this.getFileUtil().deleteAll(mainLocalClonePath);
+		this.stopTimeMeasurement();
 
 		this.getLogger().debug("Cleaned main local repository clone");
 
 		this.getLogger().debug(String.format("Repository model resources are cached"));
+
 		return commitResources;
 	}
 
@@ -272,6 +289,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 *                     results should be computed.
 	 */
 	protected void computeExpectedSimilarityResults(Git git, List<String> commitIDList) {
+		this.startTimeMeasurement(GeneralTimeMeasurementTag.EXPECTED_SIMILARITY_RESULT_COMPUTATION);
 		var testStrats = this.getTestGenerationStrategies();
 		var expectedValueEstimator = new RepoTestSimilarityValueEstimator();
 
@@ -293,6 +311,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 						commitID1, commitID2));
 			}
 		}));
+		this.stopTimeMeasurement();
 	}
 
 	/**
@@ -307,6 +326,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 *         repository clone.
 	 */
 	protected Git cloneRepo(String repoToCloneURI, Path clonePath) {
+		this.startTimeMeasurement(RepoTimeMeasurementTag.CLONE_REPOSITORY);
 		Git git = null;
 
 		// Repository clone does not exist, clone it
@@ -339,6 +359,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			}
 		}
 
+		this.stopTimeMeasurement();
 		return git;
 	}
 
@@ -388,12 +409,14 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 
 			this.getLogger().debug(String.format("Checking out: %s", commitID));
 
+			this.startTimeMeasurement(RepoTimeMeasurementTag.CHECKOUT_TO_COMMIT);
 			try {
 				git.checkout().setName(commitID).call();
 			} catch (GitAPIException e) {
 				this.getLogger().debug(String.format("Error while checking out: %s", commitID));
 				throw new IllegalArgumentException(e);
 			}
+			this.stopTimeMeasurement();
 
 			this.getLogger().debug(String.format("Checked out: %s", commitID));
 
@@ -556,5 +579,20 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		var strats = new ArrayList<IJaMoPPParserTestGenerationStrategy>();
 		strats.add(new ReflexiveSymmetricIterationTestGenerationStrategy());
 		return strats;
+	}
+
+	/**
+	 * Extends the super method by preparing repository clones before generating
+	 * dynamic tests. <br>
+	 * <br>
+	 * {@inheritDoc}
+	 */
+	@TestFactory
+	@Override
+	public Collection<DynamicNode> createTests() {
+		this.startTimeMeasurement(GeneralTimeMeasurementTag.TEST_OVERHEAD);
+		var resArr = this.cacheCommitResources().toArray(Resource[]::new);
+		this.stopTimeMeasurement();
+		return super.createTests(resArr);
 	}
 }

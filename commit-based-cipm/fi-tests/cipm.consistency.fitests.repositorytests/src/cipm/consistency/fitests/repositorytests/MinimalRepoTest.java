@@ -5,9 +5,6 @@ import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.junit.jupiter.api.DynamicNode;
-import org.junit.jupiter.api.TestFactory;
 
 import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSimilarityTestFactory;
 import cipm.consistency.fitests.similarity.jamopp.parser.CombinationTestGenerationStrategy;
@@ -43,18 +40,5 @@ public class MinimalRepoTest extends AbstractJaMoPPParserRepoTest {
 		res.add(new EAllContentSimilarityTestFactory(this.getSCC()));
 		res.forEach((tf) -> tf.setExpectedSimilarityResultProvider(getExpectedSimilarityResultProviderForCommits()));
 		return res;
-	}
-
-	/**
-	 * Extends the super method by preparing repository clones before generating
-	 * dynamic tests. <br>
-	 * <br>
-	 * {@inheritDoc}
-	 */
-	@TestFactory
-	@Override
-	public Collection<DynamicNode> createTests() {
-		var resArr = this.cacheCommitResources().toArray(Resource[]::new);
-		return super.createTests(resArr);
 	}
 }
