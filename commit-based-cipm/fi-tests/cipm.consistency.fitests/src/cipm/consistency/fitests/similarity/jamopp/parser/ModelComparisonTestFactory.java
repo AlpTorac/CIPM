@@ -86,8 +86,14 @@ public class ModelComparisonTestFactory extends AbstractJaMoPPParserSimilarityTe
 				}, this.resourceFileExtension));
 
 		var builder = EMFCompare.builder().setMatchEngineFactoryRegistry(engineRegistry).setDiffEngine(diffEngine);
+		var comparer = builder.build();
 
-		return builder.build().compare(scope);
+		ParserTestTimeMeasurer.getInstance().startTimeMeasurement(description,
+				GeneralTimeMeasurementTag.MODEL_RESOURCE_COMPARISON);
+		var result = comparer.compare(scope);
+		ParserTestTimeMeasurer.getInstance().stopTimeMeasurement();
+
+		return result;
 	}
 
 	/**
@@ -98,10 +104,14 @@ public class ModelComparisonTestFactory extends AbstractJaMoPPParserSimilarityTe
 	 * comparison is symmetric.
 	 */
 	protected void testSimilarityWithModelComparison(Resource res1, Resource res2, Boolean expectedResult) {
+		ParserTestTimeMeasurer.getInstance().startTimeMeasurement(description, GeneralTimeMeasurementTag.TEST_OVERHEAD);
+
 		var cmp1To2 = this.compareModels(res1, res2);
 		var cmp2To1 = this.compareModels(res2, res1);
 		Assertions.assertEquals(expectedResult, cmp1To2.getDifferences().size() == 0);
 		Assertions.assertEquals(expectedResult, cmp2To1.getDifferences().size() == 0);
+
+		ParserTestTimeMeasurer.getInstance().stopTimeMeasurement();
 	}
 
 	/**

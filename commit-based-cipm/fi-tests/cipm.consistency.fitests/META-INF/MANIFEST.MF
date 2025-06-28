@@ -22,7 +22,9 @@ Require-Bundle: junit-jupiter-api,
  jamopp.resolution,
  jamopp.parser,
  jamopp.parser.jdt.singlefile,
- jamopp.resource
+ jamopp.resource,
+ org.apache.commons.lang,
+ com.google.gson
 Export-Package: cipm.consistency.fitests.similarity,
  cipm.consistency.fitests.similarity.eobject,
  cipm.consistency.fitests.similarity.jamopp,

@@ -83,8 +83,13 @@ public abstract class AbstractJaMoPPParserSimilarityTestFactory {
 	 * @see {@link #getExpectedSimilarityResultProvider()}
 	 */
 	public boolean getExpectedSimilarityResultFor(Resource lhsRes, Path lhsResPath, Resource rhsRes, Path rhsResPath) {
-		return this.getExpectedSimilarityResultProvider().getExpectedSimilarityResultFor(lhsRes, lhsResPath, rhsRes,
-				rhsResPath);
+		ParserTestTimeMeasurer.getInstance().startTimeMeasurement(
+				this.getExpectedSimilarityResultProvider().getClass().getSimpleName(),
+				GeneralTimeMeasurementTag.EXPECTED_SIMILARITY_RESULT_COMPUTATION);
+		var result = this.getExpectedSimilarityResultProvider().getExpectedSimilarityResultFor(lhsRes, lhsResPath,
+				rhsRes, rhsResPath);
+		ParserTestTimeMeasurer.getInstance().stopTimeMeasurement();
+		return result;
 	}
 
 	/**

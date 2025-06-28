@@ -178,8 +178,6 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 * @see {@link #getCommitIDs()}
 	 */
 	protected Collection<Resource> cacheCommitResources() {
-		var cachingStartTime = System.nanoTime();
-
 		var commitResources = new ArrayList<Resource>();
 		var commitResourcesExist = true;
 		final var expectedResultsExist = new boolean[] { true };
@@ -247,13 +245,10 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		if (git != null) {
 			this.getLogger().debug("Closing repository wrapper");
 
-			var repoCloseTime = System.nanoTime();
-
 			git.getRepository().close();
 			git.close();
 
-			this.getLogger().debug(
-					String.format("Closed repository wrapper (%s seconds)", this.getElapsedSeconds(repoCloseTime)));
+			this.getLogger().debug(String.format("Closed repository wrapper"));
 		}
 
 		var mainLocalClonePath = this.getModelSourceFileRootDirPath();
@@ -265,8 +260,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 
 		this.getLogger().debug("Cleaned main local repository clone");
 
-		this.getLogger().debug(String.format("Repository model resources are cached (%s seconds)",
-				this.getElapsedSeconds(cachingStartTime)));
+		this.getLogger().debug(String.format("Repository model resources are cached"));
 		return commitResources;
 	}
 
@@ -313,8 +307,6 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 *         repository clone.
 	 */
 	protected Git cloneRepo(String repoToCloneURI, Path clonePath) {
-		var cloningStartTime = System.nanoTime();
-
 		Git git = null;
 
 		// Repository clone does not exist, clone it
@@ -325,8 +317,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 						String.format("Cloning remote repository (%s) to: %s", repoToCloneURI, clonePath.toString()));
 				git = Git.cloneRepository().setURI(repoToCloneURI).setDirectory(clonePath.toFile())
 						.setCloneAllBranches(true).call();
-				this.getLogger().debug(
-						String.format("Cloning successful (%s seconds)", this.getElapsedSeconds(cloningStartTime)));
+				this.getLogger().debug(String.format("Cloning successful"));
 			} catch (GitAPIException e) {
 				e.printStackTrace();
 				Assertions.fail("Could not clone repository");
@@ -383,7 +374,6 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 *                   {@link #cloneRepo()}.
 	 */
 	protected Collection<Resource> prepareReposForCommits(List<String> commits, Git git) {
-		var repoPreparationStart = System.nanoTime();
 
 		var commitResources = new ArrayList<Resource>();
 
@@ -396,7 +386,6 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			var commitID = commits.get(i);
 			var commitResURI = this.getModelResourceSaveURIForCommit(commitID);
 
-			var checkoutStartTime = System.nanoTime();
 			this.getLogger().debug(String.format("Checking out: %s", commitID));
 
 			try {
@@ -406,11 +395,9 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 				throw new IllegalArgumentException(e);
 			}
 
-			this.getLogger().debug(
-					String.format("Checked out: %s (%s seconds)", commitID, this.getElapsedSeconds(checkoutStartTime)));
+			this.getLogger().debug(String.format("Checked out: %s", commitID));
 
 			this.getLogger().debug(String.format("Caching resource for: %s", commitID));
-			var cachingStartTime = System.nanoTime();
 
 			var targetPath = this.getRepoClonePathForCommit(commitID);
 			IModelResourceWrapper commitRes = null;
@@ -429,11 +416,9 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			}
 
 			commitResources.add(commitRes.getModelResource());
-			this.getLogger().debug(String.format("Cached resource for: %s (%s seconds)", commitID,
-					this.getElapsedSeconds(cachingStartTime)));
+			this.getLogger().debug(String.format("Cached resource for: %s", commitID));
 		}
-		this.getLogger().debug(String.format("Prepared model resources for commits (%s seconds)",
-				this.getElapsedSeconds(repoPreparationStart)));
+		this.getLogger().debug(String.format("Prepared model resources for commits"));
 		return commitResources;
 	}
 
