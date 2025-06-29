@@ -44,11 +44,6 @@ import com.google.gson.GsonBuilder;
  * @see {@link AbstractJaMoPPParserSimilarityTest#createTests()}
  */
 public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserSimilarityTest {
-	// TODO Extract parsing logic
-
-	// TODO Revise path and URI related methods
-
-	// TODO Improve time measuring
 
 	/**
 	 * Contains expected results of comparing model resources
@@ -87,10 +82,16 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 */
 	private static final String expectedSimilarityResultCacheFileName = "resultsCache.json";
 
+	/**
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * Loads expected similarity checking results, if their file exists.
+	 */
 	@BeforeEach
 	@Override
 	public void setUp(TestInfo info) {
-		super.setUp(getCurrentTestInfo());
+		this.startTimeMeasurement(GeneralTimeMeasurementTag.TEST_BEFOREEACH);
+		super.setUp(info);
 
 		var resultCachePath = this.getExpectedSimilarityResultCachePath();
 		if (this.shouldUseCachedExpectedSimilarityResults()) {
@@ -114,11 +115,19 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			this.getLogger().debug(String.format("No saved expected similarity results found for %s at %s",
 					this.getCurrentTestClassName(), resultCachePath));
 		}
+		this.stopTimeMeasurement();
 	}
 
+	/**
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * Saves the computed expected similarity results and deletes the local
+	 * repository clone, if desired.
+	 */
 	@AfterEach
 	@Override
 	public void tearDown() {
+		this.startTimeMeasurement(GeneralTimeMeasurementTag.TEST_AFTEREACH);
 		if (this.shouldSaveCachedExpectedSimilarityResults()) {
 			this.startTimeMeasurement(RepoTimeMeasurementTag.SAVE_EXPECTED_SIMILARITY_RESULTS);
 			var gson = new GsonBuilder().setPrettyPrinting().create();
@@ -160,6 +169,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			this.stopTimeMeasurement();
 		}
 
+		this.stopTimeMeasurement();
 		super.tearDown();
 	}
 
@@ -167,8 +177,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 * @return The path to the saved contents of {@link #resultCache}
 	 */
 	protected Path getExpectedSimilarityResultCachePath() {
-		return this.getAbsoluteCurrentDirectory().resolve(this.getTestFilesSavePath())
-				.resolve(expectedSimilarityResultCacheDirName).resolve(this.getRepoName())
+		return this.getTestFilesSavePath().resolve(expectedSimilarityResultCacheDirName).resolve(this.getRepoName())
 				.resolve(expectedSimilarityResultCacheFileName);
 	}
 
@@ -474,7 +483,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 * @return The top-most directory, where the repositories will be cloned to
 	 */
 	protected Path getRepoClonesDirPath() {
-		return this.getAbsoluteCurrentDirectory().resolve(this.getTestFilesSavePath()).resolve(repoModelImplDirName);
+		return this.getTestFilesSavePath().resolve(repoModelImplDirName);
 	}
 
 	/**

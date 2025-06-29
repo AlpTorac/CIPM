@@ -18,7 +18,7 @@ public class InnerClassifierInnerPositionChangeTest extends AbstractJaMoPPComple
 	 * containing classifier does not matter.
 	 */
 	@Override
-	protected boolean doesContentOrderMatter() {
+	public boolean doesContentOrderMatter() {
 		return false;
 	}
 }

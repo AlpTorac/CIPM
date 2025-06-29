@@ -17,7 +17,7 @@ public class InnerClassifierImplementsChangeTest extends AbstractJaMoPPComplexPa
 	 * The order of implemented interfaces does not matter in similarity checking.
 	 */
 	@Override
-	protected boolean doesContentOrderMatter() {
+	public boolean doesContentOrderMatter() {
 		return false;
 	}
 }
