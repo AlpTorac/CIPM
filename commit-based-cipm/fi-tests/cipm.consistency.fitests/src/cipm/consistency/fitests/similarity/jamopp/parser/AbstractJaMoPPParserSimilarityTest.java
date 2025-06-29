@@ -35,11 +35,6 @@ import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
  * @see {@link #createTests()}
  */
 public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPSimilarityTest {
-	// TODO Extract parsing logic and only use parseModelsDir(...)
-
-	// TODO Revise path and URI related methods
-
-	// TODO Improve time measuring
 
 	/**
 	 * An object that caches and grants access to the parsed models, which were
@@ -53,10 +48,22 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	private static final CacheUtil resourceCache = new CacheUtil();
 
+	/**
+	 * The relative path to the directory, where parsed model resource files are to
+	 * be saved (if desired).
+	 */
 	private static final Path testModelResourceFilesSaveDirPath = Path.of("target", "testResources");
 
+	/**
+	 * The relative path to the directory, where the contents of
+	 * {@link #resourceCache} are to be saved (if desired).
+	 */
 	private static final Path cacheSaveDirPath = testModelResourceFilesSaveDirPath.resolve("testmodel-cache");
 
+	/**
+	 * The relative path to the directory, where time measurements are to be saved
+	 * (if desired).
+	 */
 	private static final Path timeMeasurementsFileSavePath = Path.of("target", "timeMeasurements");
 
 	@BeforeEach
@@ -67,6 +74,19 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		this.stopTimeMeasurement();
 	}
 
+	/**
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * Performs various operations on the model resource files that were parsed in
+	 * the dynamic tests, according to the preferences that are encoded in the
+	 * methods of this test, such as
+	 * {@link AbstractJaMoPPParserSimilarityTest#shouldSaveCachedResources()}. It
+	 * then saves the time measurements taken during the tests. <b><i>Note: Since
+	 * dynamic tests are used here, this method will be triggered only once at the
+	 * end of each test method annotated with
+	 * {@link org.junit.jupiter.api.TestFactory}, as opposed to after each dynamic
+	 * test. </i></b>
+	 */
 	@AfterEach
 	@Override
 	public void tearDown() {
@@ -113,10 +133,20 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		this.getLogger().debug("Tore down after parser test");
 	}
 
+	/**
+	 * @return The absolute path, at which taken time measurements are to be saved.
+	 */
+	protected Path getTimeMeasurementsFileSavePath() {
+		return this.getAbsoluteCurrentDirectory().resolve(timeMeasurementsFileSavePath);
+	}
+
+	/**
+	 * Saves the time measurements taken during tests via
+	 * {@code startTimeMeasurement} and {@code stopTimeMeasurement} calls.
+	 */
 	protected void saveTimeMeasurements() {
 		this.getLogger().debug("Saving time measurements");
-		ParserTestTimeMeasurer.getInstance()
-				.save(this.getAbsoluteCurrentDirectory().resolve(timeMeasurementsFileSavePath));
+		ParserTestTimeMeasurer.getInstance().save(this.getTimeMeasurementsFileSavePath());
 		this.getLogger().debug("Saved time measurements");
 	}
 
@@ -129,18 +159,53 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return this.getAbsoluteCurrentDirectory().relativize(modelDir).toString();
 	}
 
+	/**
+	 * A variant of {@link #startTimeMeasurement(String, ITimeMeasurementTag)} for
+	 * individual model source file directories.
+	 */
 	protected void startTimeMeasurement(Path modelDir, ITimeMeasurementTag tag) {
 		this.startTimeMeasurement(modelDir != null ? this.getCacheKeyForModelSourceFileDir(modelDir) : null, tag);
 	}
 
+	/**
+	 * Delegates to the time measuring mechanism and signals that a time measurement
+	 * with the given parameters should be started. <br>
+	 * <br>
+	 * Refer to the documentation of {@link ParserTestTimeMeasurer} for more
+	 * information.
+	 * 
+	 * @param key The key of the taken time measurement, which describes what the
+	 *            time measurement is taken from
+	 * @param tag The tag of the time measurement, which is used to group time
+	 *            measurements
+	 */
 	protected void startTimeMeasurement(String key, ITimeMeasurementTag tag) {
 		ParserTestTimeMeasurer.getInstance().startTimeMeasurement(key, tag);
 	}
 
+	/**
+	 * A variant of {@link #startTimeMeasurement(String, ITimeMeasurementTag)} for
+	 * the current concrete test class.
+	 */
 	protected void startTimeMeasurement(ITimeMeasurementTag tag) {
-		ParserTestTimeMeasurer.getInstance().startTimeMeasurement(this.getCurrentTestClassName(), tag);
+		this.startTimeMeasurement(this.getCurrentTestClassName(), tag);
 	}
 
+	/**
+	 * Delegates to the time measuring mechanism and signals that the most recently
+	 * started time measurement (via
+	 * {@link #startTimeMeasurement(String, ITimeMeasurementTag)}) should be
+	 * stopped. <br>
+	 * <br>
+	 * This method is to be seen as the closing bracket for the opening bracket
+	 * {@link #startTimeMeasurement(String, ITimeMeasurementTag)}, such that the
+	 * time elapsed while executing the lines between that method call and this
+	 * method call is the time measurement. Not using them similar to brackets will
+	 * result in inaccurate measurements. <br>
+	 * <br>
+	 * Refer to the documentation of {@link ParserTestTimeMeasurer} for more
+	 * information.
+	 */
 	protected void stopTimeMeasurement() {
 		ParserTestTimeMeasurer.getInstance().stopTimeMeasurement();
 	}
@@ -160,8 +225,12 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return resourceCache;
 	}
 
+	/**
+	 * @return The absolute path, at which all files generated througout the tests
+	 *         should be saved.
+	 */
 	protected Path getTestFilesSavePath() {
-		return testModelResourceFilesSaveDirPath;
+		return this.getAbsoluteCurrentDirectory().resolve(testModelResourceFilesSaveDirPath);
 	}
 
 	/**
@@ -197,9 +266,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 	/**
 	 * Prepares the given parser for parsing model resources. Can be overridden in
-	 * sub-types to modify, if needed. <br>
-	 * <br>
-	 * Does nothing by default.
+	 * sub-types to modify, if needed.
 	 * 
 	 * @param parser The parser to use for parsing model resources
 	 */
@@ -224,6 +291,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		ParserOptions.RESOLVE_ALL_BINDINGS.setValue(Boolean.FALSE);
 	}
 
+	/**
+	 * @return The model resource parser that will be used througout the tests.
+	 */
 	protected JaMoPPJDTSingleFileParser getModelResourceParser() {
 		var parser = new JaMoPPJDTSingleFileParser();
 		this.setUpModelParser(parser);
@@ -600,7 +670,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 *         instances nested directly or indirectly within) matters and should be
 	 *         accounted for in the expected results.
 	 */
-	protected boolean doesContentOrderMatter() {
+	public boolean doesContentOrderMatter() {
 		return true;
 	}
 

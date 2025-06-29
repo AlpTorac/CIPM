@@ -17,7 +17,7 @@ public class InnerClassifierMemberChangeTest extends AbstractJaMoPPComplexParser
 	 * The order of members does not matter in similarity checking.
 	 */
 	@Override
-	protected boolean doesContentOrderMatter() {
+	public boolean doesContentOrderMatter() {
 		return false;
 	}
 }

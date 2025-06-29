@@ -17,7 +17,7 @@ public class InnerClassifierGenericChangeTest extends AbstractJaMoPPComplexParse
 	 * The order of generic parameters does not matter in similarity checking.
 	 */
 	@Override
-	protected boolean doesContentOrderMatter() {
+	public boolean doesContentOrderMatter() {
 		return false;
 	}
 }
