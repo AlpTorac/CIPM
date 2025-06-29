@@ -37,6 +37,10 @@ public enum GeneralTimeMeasurementTag implements ITimeMeasurementTag {
 	/**
 	 * 
 	 */
+	TEST_AFTEREACH,
+	/**
+	 * 
+	 */
 	DYNAMIC_TEST_CREATION,
 	/**
 	 * 

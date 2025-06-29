@@ -71,6 +71,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	@Override
 	public void tearDown() {
 		this.getLogger().debug("Tearing down after parser test");
+
+		this.startTimeMeasurement(GeneralTimeMeasurementTag.TEST_AFTEREACH);
 		var cachedResources = resourceCache.getCachedResources();
 
 		if (this.shouldSaveCachedResources()) {
@@ -103,14 +105,19 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			this.getLogger().debug("Removed all cached resources from cache after parser test");
 		}
 
-		this.getLogger().debug("Tore down after parser test");
+		super.tearDown();
+		this.stopTimeMeasurement();
 
-		this.getLogger().debug("Tearing down after all parser tests");
+		this.saveTimeMeasurements();
+
+		this.getLogger().debug("Tore down after parser test");
+	}
+
+	protected void saveTimeMeasurements() {
+		this.getLogger().debug("Saving time measurements");
 		ParserTestTimeMeasurer.getInstance()
 				.save(this.getAbsoluteCurrentDirectory().resolve(timeMeasurementsFileSavePath));
-		this.getLogger().debug("Tore down after all parser tests");
-
-		super.tearDown();
+		this.getLogger().debug("Saved time measurements");
 	}
 
 	/**
