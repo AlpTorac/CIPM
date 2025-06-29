@@ -11,6 +11,9 @@ import cipm.consistency.fitests.similarity.jamopp.parser.CombinationTestGenerati
 import cipm.consistency.fitests.similarity.jamopp.parser.EAllContentSimilarityTestFactory;
 import cipm.consistency.fitests.similarity.jamopp.parser.IJaMoPPParserTestGenerationStrategy;
 
+/**
+ * TODO Remove prior to publishing the changes (due to local repository)
+ */
 public class MinimalRepoTest extends AbstractJaMoPPParserRepoTest {
 	private static final List<String> commitIDs = List.of("364155e24b21122e980cad73da2d0b09c1c994aa",
 			"9eda56eaa52c2d5e47aade7a688e9ebda2645bde", "21ae1643905898a29470157de076942a7be05698",

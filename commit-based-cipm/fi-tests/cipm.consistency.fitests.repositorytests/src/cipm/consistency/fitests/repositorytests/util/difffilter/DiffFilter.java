@@ -4,32 +4,78 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+/**
+ * A class that can filter out the non-script parts of a given diff patch.
+ * 
+ * @author Alp Torac Genc
+ */
 public class DiffFilter {
+	/**
+	 * Pattern for the beginning of a diff script line.
+	 */
 	private static final Pattern diffLineSignPattern = Pattern.compile("^(?:\\+|-)");
+	/**
+	 * Pattern for a diff script line, which only contains whitespace characters,
+	 * i.e. an empty diff script line.
+	 */
 	private static final Pattern diffLineWhitespacePattern = Pattern
 			.compile(String.format("%s?\\s*$", diffLineSignPattern.pattern()));
 
+	/**
+	 * Pattern for a diff header, i.e. the line that contains the diff command.
+	 */
 	private static final Pattern diffHeaderPattern = Pattern.compile("^\\s*diff --git .*");
+	/**
+	 * Pattern for a hunk header in a diff patch, i.e. the part where a hunk is
+	 * located.
+	 */
 	private static final Pattern diffHunkHeaderPattern = Pattern.compile("^@@ .* @@$");
 
+	/**
+	 * Pattern for file metadata pattern in a diff patch.
+	 */
 	private static final Pattern diffFileMetadataPattern = Pattern.compile("^index .*");
 
+	/**
+	 * Pattern for mode lines in a diff patch.
+	 */
 	private static final Pattern diffModePattern = Pattern.compile("^(?:old|new|new file|deleted file) mode .*");
+	/**
+	 * Pattern for rename lines in a diff patch.
+	 */
 	private static final Pattern diffRenamePattern = Pattern.compile("^rename (?:to|from) .*\\.\\w*");
+	/**
+	 * Pattern for copy lines in a diff patch.
+	 */
 	private static final Pattern diffCopyPattern = Pattern.compile("^copy (?:to|from) .*\\.\\w*");
 
+	/**
+	 * Pattern for a new file state line in a diff patch.
+	 */
 	private static final Pattern diffNewFileStatePattern = Pattern.compile("^\\+\\+\\+ (?:.*\\.\\w*|/.*)");
+	/**
+	 * Pattern for an old file state line in a diff patch.
+	 */
 	private static final Pattern diffOldFileStatePattern = Pattern.compile("^--- (?:.*\\.\\w*|/.*)");
 
+	/**
+	 * Pattern for similarity index line in a diff patch.
+	 */
 	private static final Pattern diffSimilarityIndexPattern = Pattern.compile("^similarity index \\d*\\.?\\d+%");
+	/**
+	 * Pattern for dissimilarity index line in a diff patch.
+	 */
 	private static final Pattern diffDissimilarityIndexPattern = Pattern.compile("^dissimilarity index \\d*\\.?\\d+%");
 
-	/*
-	 * TODO Find out why using "^\\ No newline at end of file$" as a pattern does
-	 * not work
+	/**
+	 * The line in a diff patch that indicates the absence of a newline character at
+	 * the end of a file.
 	 */
 	private static final String diffNoNewLineMessage = "\\ No newline at end of file";
 
+	/**
+	 * The line separator used by the current OS.
+	 */
 	private static final String lineSeparator = System.lineSeparator();
 
 	/**
@@ -50,22 +96,41 @@ public class DiffFilter {
 		return lines;
 	}
 
+	/**
+	 * Modifies and returns the given list.
+	 * 
+	 * @return The given list with only diff patch script lines.
+	 */
 	public List<String> removeNonPatchScript(List<String> lines) {
-		lines.removeIf((l) -> !isContentLine(l));
+		lines.removeIf((l) -> !isPatchScriptLine(l));
 		return lines;
 	}
 
+	/**
+	 * Modifies and returns the given list.
+	 * 
+	 * @return The given list without blank diff patch script lines.
+	 */
 	public List<String> removeBlankLines(List<String> lines) {
 		lines.removeIf((l) -> diffLineWhitespacePattern.matcher(l).matches());
 		return lines;
 	}
 
+	/**
+	 * Modifies and returns the given list.
+	 * 
+	 * @return The given list without context lines, i.e. lines in the diff patch
+	 *         script that are only there to provide context.
+	 */
 	public List<String> removeContextLines(List<String> lines) {
 		lines.removeIf((l) -> !diffLineSignPattern.matcher(l).find());
 		return lines;
 	}
 
-	public boolean isContentLine(String line) {
+	/**
+	 * @return Whether the given line is a part of the diff patch script.
+	 */
+	public boolean isPatchScriptLine(String line) {
 		if (diffHeaderPattern.matcher(line).find()) {
 			return false;
 		} else if (diffNewFileStatePattern.matcher(line).find()) {

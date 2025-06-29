@@ -3,6 +3,12 @@ package cipm.consistency.fitests.repositorytests.util;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * TODO Write proper commentary
+ * 
+ * 
+ * TODO Re-think the methods declared here, re-use existing ones if possible
+ */
 public abstract class AbstractJaMoPPParserRepoUtilTest {
 	protected List<String> removeBlankLines(List<String> lines) {
 		lines.removeIf((l) -> l.isBlank());

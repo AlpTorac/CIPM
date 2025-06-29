@@ -20,6 +20,7 @@ import java.util.Stack;
  * result for (commitID1, commitID2) is always the same as the result for
  * (commitID2, commitID1). Therefore, there is only one result stored for
  * (commitID1, commitID2) and (commitID2, commitID1).
+ * <li>This also implies that it does not matter on what side the 2 commits are.
  * </ul>
  * <li>Transitivity: Assuming C1, C2 and C3 are different commits; if C1 and C2
  * are similar, C2 and C3 are similar; then C1 and C3 should also be similar.
@@ -35,7 +36,6 @@ import java.util.Stack;
  * all such entry chains will. <i>If this is not fulfilled, expected result
  * computation via transitivity may produce different results and not work as
  * intended. It is the caller's responsibility to ensure this.</i></b>
- * <li>TODO Clarify if this assumption is correct here
  * </ul>
  * </ul>
  * 
@@ -343,6 +343,13 @@ public class RepoTestResultCache {
 		return null;
 	}
 
+	/**
+	 * A class that encapsulates an expected similarity result added to the cache.
+	 * Commits are not distinguished based on which side they are
+	 * {@code isSimilar(commit1, commit2) = isSimilar(commit2, commit1)}.
+	 * 
+	 * @author Alp Torac Genc
+	 */
 	private class SimilarityResultEntry {
 		private final String commitID1;
 		private final String commitID2;
@@ -366,6 +373,9 @@ public class RepoTestResultCache {
 			return expectedResult;
 		}
 
+		/**
+		 * @return Whether this instance has the given commit
+		 */
 		public boolean hasCommitID(String commitID) {
 			return this.getCommitID1().equals(commitID) || this.getCommitID2().equals(commitID);
 		}
@@ -382,6 +392,11 @@ public class RepoTestResultCache {
 			return this.getCommitID1().equals(commitID) ? this.getCommitID2() : this.getCommitID1();
 		}
 
+		/**
+		 * @return The commit, which potentially links this entry with the given one.
+		 *         One such commit is mutual in both entries. If there is no such
+		 *         commit, returns null.
+		 */
 		public String getLinkingCommit(SimilarityResultEntry entry) {
 			if (this.hasCommitID(entry.getCommitID1())) {
 				return entry.getCommitID1();
@@ -392,10 +407,18 @@ public class RepoTestResultCache {
 			}
 		}
 
+		/**
+		 * @return Whether this entry contains both given commits, and therefore
+		 *         encapsulates an expected similarity result for them.
+		 */
 		public boolean isEntryFor(String commitID1, String commitID2) {
 			return this.getCommitID1().equals(commitID1) && this.getCommitID2().equals(commitID2);
 		}
 
+		/**
+		 * @return Whether the expected similarity result stored in this entry is the
+		 *         same as the given one.
+		 */
 		public boolean expectedResultEquals(boolean expectedResult) {
 			return expectedResult == this.expectedResult;
 		}

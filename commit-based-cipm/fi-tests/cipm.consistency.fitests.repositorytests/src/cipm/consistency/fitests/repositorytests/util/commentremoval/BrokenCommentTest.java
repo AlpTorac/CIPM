@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.repositorytests.util.AbstractJaMoPPParserRepoUtilTest;
 
+/**
+ * TODO Write proper commentary
+ */
 public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 	private ICommentRemover cr = new QuickCommentRemover();
 

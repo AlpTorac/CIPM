@@ -6,6 +6,9 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fitests.repositorytests.util.commentremoval.QuickCommentRemover;
 import cipm.consistency.fitests.repositorytests.util.difffilter.DiffFilter;
 
+/**
+ * TODO Write proper commentary
+ */
 public class UtilityClassesRealCodeTest extends AbstractJaMoPPParserRepoUtilTest {
 	private static final QuickCommentRemover qr = new QuickCommentRemover();
 	private static final DiffFilter filter = new DiffFilter();

@@ -4,6 +4,11 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+/**
+ * TODO Write proper commentary
+ * 
+ * TODO Check if the current test methods cover all foreseen cases
+ */
 public class RepoTestResultCacheTest {
 	private static final String cID1 = "cID1";
 	private static final String cID2 = "cID2";

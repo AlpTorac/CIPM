@@ -5,6 +5,15 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.repositorytests.util.AbstractJaMoPPParserRepoUtilTest;
 
+/**
+ * Contains tests for filtering out non-patch-script lines from diffs. <br>
+ * <br>
+ * Each test method starts with the construction of an exemplary diff (as
+ * String) with some lines that should be removed. This diff is then processed
+ * via {@link DiffFilter} and the result is tested.
+ * 
+ * @author Alp Torac Genc
+ */
 public class DiffFilterTest extends AbstractJaMoPPParserRepoUtilTest {
 	private static final DiffFilter filter = new DiffFilter();
 

@@ -16,6 +16,9 @@ import org.eclipse.jgit.treewalk.filter.PathSuffixFilter;
 import cipm.consistency.fitests.repositorytests.util.commentremoval.QuickCommentRemover;
 import cipm.consistency.fitests.repositorytests.util.difffilter.DiffFilter;
 
+/**
+ * TODO Write proper commentary
+ */
 public class RepoTestSimilarityValueEstimator {
 	public boolean getExpectedSimilarityValueFor(OutputStream os, DiffFormatter df, List<DiffEntry> diffEntries) {
 		try (var outputStream = os; var diffFormatter = df) {
