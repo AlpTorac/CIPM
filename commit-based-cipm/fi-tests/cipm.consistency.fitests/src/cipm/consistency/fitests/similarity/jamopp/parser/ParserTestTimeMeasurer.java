@@ -37,9 +37,15 @@ import com.google.gson.annotations.Expose;
  */
 public class ParserTestTimeMeasurer {
 	/**
-	 * The pattern that will be used to transform a date to a string.
+	 * The pattern that will be used to transform a date to a string, which will be
+	 * used in the name of the saved measurements file.
 	 */
-	private final static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");
+	private final static DateTimeFormatter filenameTimeFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");
+	/**
+	 * The pattern that will be used to transform a date to a string, which will be
+	 * written into the saved measurements file.
+	 */
+	private final static DateTimeFormatter fileContentTimeFormatter = DateTimeFormatter.ISO_DATE_TIME;
 	/**
 	 * The only instance of this class.
 	 */
@@ -49,15 +55,27 @@ public class ParserTestTimeMeasurer {
 	 * The time, when the first time measurement starts via
 	 * {@link #startTimeMeasurement(String, ITimeMeasurementTag)}.
 	 */
-	@Expose
-	private String startTime;
+	private LocalDateTime startTime;
 
 	/**
 	 * The time, when taking time measurements ends via
 	 * {@link #finishTimeMeasuring()}.
 	 */
+	private LocalDateTime endTime;
+
+	/**
+	 * The string representation of {@link #startTime}, which will be written into
+	 * the saved measurements file.
+	 */
 	@Expose
-	private String endTime;
+	private String startTimeString;
+
+	/**
+	 * The string representation of {@link #endTime}, which will be written into the
+	 * saved measurements file.
+	 */
+	@Expose
+	private String endTimeString;
 
 	/**
 	 * The name of the tool that is used for taking time measurements. Only declared
@@ -146,7 +164,8 @@ public class ParserTestTimeMeasurer {
 	 */
 	public void startTimeMeasurement(String key, ITimeMeasurementTag tag) {
 		if (this.startTime == null) {
-			this.startTime = timeFormatter.format(LocalDateTime.now());
+			this.startTime = LocalDateTime.now();
+			this.startTimeString = fileContentTimeFormatter.format(this.startTime);
 		}
 
 		/*
@@ -203,7 +222,8 @@ public class ParserTestTimeMeasurer {
 	 */
 	public void finishTimeMeasuring() {
 		if (this.endTime == null) {
-			this.endTime = timeFormatter.format(LocalDateTime.now());
+			this.endTime = LocalDateTime.now();
+			this.endTimeString = fileContentTimeFormatter.format(LocalDateTime.now());
 		}
 
 		this.measurements.forEach((m) -> m.computeTime());
@@ -222,9 +242,7 @@ public class ParserTestTimeMeasurer {
 		this.finishTimeMeasuring();
 		this.summariseTimeMeasurements();
 
-		var fileExtension = ".json";
-		var filename = String.format("%s___%s%s", this.startTime, this.endTime, fileExtension);
-		var filePath = measurementsSavePath.resolve(filename);
+		var filePath = measurementsSavePath.resolve(this.getFullFileName());
 
 		// Ensure that all necessary parent directories exist prior to saving
 		measurementsSavePath.toFile().mkdirs();
@@ -243,6 +261,16 @@ public class ParserTestTimeMeasurer {
 		 * will contain duplicated measurements otherwise.
 		 */
 		this.clearSummaryMaps();
+	}
+
+	/**
+	 * @return The name (with file extension) of the measurements file that will be
+	 *         saved.
+	 */
+	private String getFullFileName() {
+		var fileExtension = ".json";
+		return String.format("%s___%s%s", filenameTimeFormatter.format(this.startTime),
+				filenameTimeFormatter.format(this.endTime), fileExtension);
 	}
 
 	/**
@@ -268,7 +296,7 @@ public class ParserTestTimeMeasurer {
 	private <K> void summariseTimeMeasurements(Map<K, Long> summaryMap, Function<TimeMeasurementEntry, K> keyAccess) {
 		for (var measurementEntry : this.measurements) {
 			var key = keyAccess.apply(measurementEntry);
-			var measurement = measurementEntry.getMilis();
+			var measurement = measurementEntry.getMillis();
 
 			if (summaryMap.containsKey(key)) {
 				var summaryEntry = summaryMap.get(key);
@@ -301,7 +329,7 @@ public class ParserTestTimeMeasurer {
 		private StopWatch watch;
 
 		@Expose
-		private Long milis;
+		private Long millis;
 
 		@Expose
 		private final String key;
@@ -325,8 +353,8 @@ public class ParserTestTimeMeasurer {
 			this.key = key;
 		}
 
-		public Long getMilis() {
-			return milis;
+		public Long getMillis() {
+			return millis;
 		}
 
 		public String getKey() {
@@ -347,7 +375,7 @@ public class ParserTestTimeMeasurer {
 		 */
 		public void computeTime() {
 			if (this.watch != null) {
-				this.milis = Long.valueOf(this.watch.getTime());
+				this.millis = Long.valueOf(this.watch.getTime());
 				this.watch = null;
 			}
 		}
