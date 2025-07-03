@@ -1,5 +1,7 @@
 package cipm.consistency.fitests.repositorytests.util.commentremoval;
 
+import java.util.regex.Pattern;
+
 /**
  * A comment remover that gives precedence to block-comment tokens (such as
  * {@code /*, * /}) over string tokens (i.e. {@code " and """}), unless the
@@ -11,13 +13,27 @@ package cipm.consistency.fitests.repositorytests.util.commentremoval;
  * @author Alp Torac Genc
  */
 public class QuickCommentRemover implements ICommentRemover {
+	/**
+	 * Pattern that matches a single line string literal's start or end, i.e. an
+	 * unescaped quotation mark.
+	 */
+	private static final Pattern singleLineStringLiteralQuotation = Pattern.compile("(?<!\\\\)\"");
+	/**
+	 * Pattern that matches the start of a single line comment, i.e. double forward
+	 * slashes.
+	 */
+	private static final Pattern singleLineComment = Pattern.compile("//");
+	/**
+	 * Pattern that matches the start of a block comment (and JavaDoc), i.e. a
+	 * forward slash followed by a star (this also includes JavaDoc starts).
+	 */
+	private static final Pattern multiLineBlockCommentStart = Pattern.compile("/\\*");
+	/*
+	 * Pattern that matches the end of a block comment (and JavaDoc), i.e. a star
+	 * followed by a forward slash (this also includes JavaDoc ends).
+	 */
+	private static final Pattern multiLineBlockCommentEnd = Pattern.compile("\\*/");
 
-	// TODO Use Pattern and Matcher to optimise
-
-	private static final char quotationMark = '\"';
-	private static final char backslash = '\\';
-
-	private static final String doubleSlash = "//";
 	private static final String multiLineStringToken = "\"\"\"";
 	private static final String blockCommentStart = "/*";
 	private static final String blockCommentEnd = "*/";
@@ -44,40 +60,32 @@ public class QuickCommentRemover implements ICommentRemover {
 	 *         {@code "abc"}, it is 4. Returns -1 if the string literal never ends.
 	 */
 	private int parseSingleLineStringLiteral(int quotationIdx, String text) {
-		if (text.length() <= quotationIdx + 1 || text.charAt(quotationIdx) != quotationMark ||
-		// Check for escaped quotation
-				(quotationIdx > 0 && text.charAt(quotationIdx - 1) == backslash)
-
-//				||
-// 				Check for multi-line string declaration
-//				(text.length() >= quotationIdx + multiLineStringToken.length()
-//						&& text.substring(quotationIdx, quotationIdx + multiLineStringToken.length())
-//								.equals(multiLineStringToken))
-
-		)
+		var matcher = singleLineStringLiteralQuotation.matcher(text);
+		if (!matcher.find(quotationIdx) || matcher.start() != quotationIdx)
 			// quotationIdx does not mark the start of a single line string literal
 			return -1;
 
 		/*
-		 * Skip quotationIdx, since the starting and ending tokens (") are the same.
+		 * If this line is not the last line of the text, limit the matcher's range to
+		 * the index of the line separator, since single line string literals have to
+		 * start and end on the same line.
+		 */
+		var newLineIdx = text.indexOf(lineSeparator, quotationIdx);
+		var rangeEnd = newLineIdx != -1 ? newLineIdx : text.length();
+
+		/*
+		 * Start from quotationIdx + 1 to not re-match the starting quotation mark,
+		 * since the starting and ending tokens (") are the same.
 		 * 
 		 * Single line strings have to start and end on the same line, so only consider
 		 * the char sequence between the starting quotation mark and the end of the line
 		 * (either line break or end of text).
 		 */
-
-		var newLineIdx = text.indexOf(lineSeparator, quotationIdx);
-		var rangeEnd = newLineIdx != -1 ? newLineIdx : text.length();
-
-		for (int i = quotationIdx + 1; i < rangeEnd; i++) {
-			if (text.charAt(i) == quotationMark && text.charAt(i - 1) != backslash) {
-				// End of the string literal found, return index after closing quotation mark
-				return i + 1;
-			}
-		}
-
-		// Single line string literal is never closed => Problem with text
-		return -1;
+		return matcher.region(quotationIdx + 1, rangeEnd).find() ?
+		// End of the string literal found, return index after closing quotation mark
+				matcher.end() :
+				// Single line string literal is never closed => Problem with text
+				-1;
 	}
 
 	/**
@@ -127,22 +135,18 @@ public class QuickCommentRemover implements ICommentRemover {
 	 *         beginning of the next line.
 	 */
 	private int parseSingleLineComment(int doubleSlashIdx, String text) {
-		var lineSepLen = lineSeparator.length();
-		if (text.length() < doubleSlashIdx + lineSepLen
-				|| !text.substring(doubleSlashIdx, doubleSlashIdx + lineSepLen).equals(doubleSlash)) {
-			return -1;
-		} else {
-			for (int i = doubleSlashIdx; i <= text.length() - lineSepLen; i++) {
-				// Look for the closest line break
-				if (text.substring(i, i + lineSepLen).equals(lineSeparator)) {
-					// Line break found, return index after comment but before line break
-					return i;
-				}
-			}
+		var matcher = singleLineComment.matcher(text);
 
-			// No line break found, single line comment goes till the end of the text
-			return text.length();
+		if (!matcher.find(doubleSlashIdx) || matcher.start() != doubleSlashIdx) {
+			return -1;
 		}
+
+		var lineSepIdx = text.indexOf(lineSeparator, doubleSlashIdx);
+		if (lineSepIdx != -1)
+			return lineSepIdx;
+
+		// No line break found, single line comment goes till the end of the text
+		return text.length();
 	}
 
 	/**
@@ -158,22 +162,20 @@ public class QuickCommentRemover implements ICommentRemover {
 	 *         the comment never ends.
 	 */
 	private int parseBlockComment(int slashStarIdx, String text) {
-		var commentEndLen = blockCommentEnd.length(); // Length of "*/"
-		if (text.length() < slashStarIdx + commentEndLen
-				|| !text.substring(slashStarIdx, slashStarIdx + commentEndLen).equals(blockCommentStart)) {
-			return -1;
-		} else {
-			for (int i = slashStarIdx; i <= text.length() - commentEndLen; i++) {
-				// Look for the closest comment end
-				if (text.substring(i, i + commentEndLen).equals(blockCommentEnd)) {
-					// Comment end found, return index after comment
-					return i + commentEndLen;
-				}
-			}
+		var startMatcher = multiLineBlockCommentStart.matcher(text);
 
-			// Block comment never closed => Problem with text
+		if (!startMatcher.find(slashStarIdx) || startMatcher.start() != slashStarIdx) {
 			return -1;
 		}
+
+		var endMatcher = multiLineBlockCommentEnd.matcher(text);
+		if (endMatcher.find(startMatcher.end())) {
+			// Comment end found, return index after comment
+			return endMatcher.end();
+		}
+
+		// Block comment never closed => Problem with text
+		return -1;
 	}
 
 	public String removeComments(String text) {
@@ -186,18 +188,17 @@ public class QuickCommentRemover implements ICommentRemover {
 			/*
 			 * Check order:
 			 * 
-			 * 1) Multi-line string literals (can contain tokens of comments)
+			 * 1) Single line string literals: Can contain tokens of comments, which turns
+			 * them into substrings as opposed to commentary tokens
 			 * 
-			 * 2) Single line string literals (can contain tokens of comments)
+			 * 2) Block comments: May start and end in a single line (can end before the end
+			 * of the line), includes JavaDocs as well. Could contain single line comment
+			 * token "//", which makes it a part of the block comment as opposed to making
+			 * the rest of the line commentary. In this case, the commentary ends with the
+			 * end of the block comment and not with the end of the line.
 			 * 
-			 * 3) Block comments (may start and end in a single line, JavaDoc included)
-			 * 
-			 * 4) Single line comments (can only end with the line)
+			 * 3) Single line comments (can only end with newline)
 			 */
-
-//			if ((parseEndIdx = this.parseMultiLineStringLiteral(currentCharIdx, text)) != -1) {
-//				result += text.substring(currentCharIdx, parseEndIdx);
-//			}
 
 			if ((parseEndIdx = this.parseSingleLineStringLiteral(currentCharIdx, text)) != -1) {
 				result += text.substring(currentCharIdx, parseEndIdx);
