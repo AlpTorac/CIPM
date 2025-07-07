@@ -16,9 +16,8 @@ import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.TestInfo;
 
+import cipm.consistency.fitests.similarity.eobject.ResourceTestOptions;
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import jamopp.options.ParserOptions;
-import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
 
 /**
  * An abstract test class, which can be used for implementing tests that involve
@@ -102,7 +101,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		this.startTimeMeasurement(GeneralTimeMeasurementTag.TEST_AFTEREACH);
 		var cachedResources = resourceCache.getCachedResources();
 
-		if (this.shouldSaveCachedResources()) {
+		if (this.getResourceTestOptions().shouldSaveCachedResources()) {
 			this.getLogger().debug("Saving all cached resources after parser test");
 			this.startTimeMeasurement(GeneralTimeMeasurementTag.SAVE_MODEL_RESOURCE);
 			cachedResources.forEach((res) -> res.saveResources());
@@ -110,13 +109,13 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			this.getLogger().debug("Saved all cached resources after parser test");
 		}
 
-		if (this.shouldDeleteAllResources()) {
+		if (this.getResourceTestOptions().shouldDeleteAllResources()) {
 			this.getLogger().debug("Deleting all cached resources after parser test");
 			this.startTimeMeasurement(GeneralTimeMeasurementTag.DELETE_MODEL_RESOURCE);
 			cachedResources.forEach((res) -> res.deleteResources());
 			this.stopTimeMeasurement();
 			this.getLogger().debug("Deleted all cached resources after parser test");
-		} else if (this.shouldUnloadAllResources()) {
+		} else if (this.getResourceTestOptions().shouldUnloadAllResources()) {
 			this.getLogger().debug("Unloading all cached resources after parser test");
 			this.startTimeMeasurement(GeneralTimeMeasurementTag.UNLOAD_MODEL_RESOURCE);
 			cachedResources.forEach((res) -> res.unloadResources());
@@ -124,7 +123,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			this.getLogger().debug("Unloaded all cached resources after parser test");
 		}
 
-		if (this.shouldRemoveResourcesFromCache()) {
+		if (this.getResourceTestOptions().shouldRemoveResourcesFromCache()) {
 			this.getLogger().debug("Removing all cached resources from cache after parser test");
 			this.startTimeMeasurement(GeneralTimeMeasurementTag.MODEL_RESOURCE_CACHE_ACCESS);
 			resourceCache.cleanCache();
@@ -232,42 +231,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
-	 * Prepares the given parser for parsing model resources. Can be overridden in
-	 * sub-types to modify, if needed.
-	 * 
-	 * @param parser The parser to use for parsing model resources
-	 */
-	protected void setUpModelParser(JaMoPPJDTSingleFileParser parser) {
-		/*
-		 * Default values of ParserOptions are:
-		 * 
-		 * RESOLVE_ALL_BINDINGS = true
-		 * 
-		 * RESOLVE_BINDINGS = true
-		 * 
-		 * RESOLVE_BINDINGS_OF_INFERABLE_TYPES = true
-		 * 
-		 * CREATE_LAYOUT_INFORMATION = true
-		 * 
-		 * PREFER_BINDING_CONVERSION = true
-		 */
-
-		ParserOptions.CREATE_LAYOUT_INFORMATION.setValue(Boolean.FALSE);
-		ParserOptions.REGISTER_LOCAL.setValue(Boolean.TRUE);
-		ParserOptions.RESOLVE_EVERYTHING.setValue(Boolean.FALSE);
-		ParserOptions.RESOLVE_ALL_BINDINGS.setValue(Boolean.FALSE);
-	}
-
-	/**
-	 * @return The model resource parser that will be used througout the tests.
-	 */
-	protected JaMoPPJDTSingleFileParser getModelResourceParser() {
-		var parser = new JaMoPPJDTSingleFileParser();
-		this.setUpModelParser(parser);
-		return parser;
-	}
-
-	/**
 	 * Parses all Java-Model files under the given directory into a {@link Resource}
 	 * instance. Uses no means of caching. <br>
 	 * <br>
@@ -281,7 +244,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	protected IModelResourceWrapper parseModelsDirWithoutCaching(Path modelDir) {
 		this.startTimeMeasurement(GeneralTimeMeasurementTag.PARSE_MODEL_RESOURCE);
-		var wrapper = new ModelResourceWrapper(this.getResourceHelper(), this.getModelResourceParser());
+		var wrapper = new JaMoPPModelResourceWrapper(this.getResourceHelper(), this.getResourceParsingStrategy());
 		wrapper.parseModelResource(modelDir, this.layout.getModelResourceURI(modelDir));
 		this.stopTimeMeasurement();
 		return wrapper;
@@ -341,7 +304,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 			// Search for the resource file in cache save location
 			if (resWrapper == null) {
-				resWrapper = new ModelResourceWrapper(this.getResourceHelper());
+				resWrapper = new JaMoPPModelResourceWrapper(this.getResourceHelper());
 				this.startTimeMeasurement(GeneralTimeMeasurementTag.LOAD_MODEL_RESOURCE);
 				resWrapper.loadModelResource(cachedModelURI);
 				this.stopTimeMeasurement();
@@ -574,6 +537,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	protected abstract Collection<IJaMoPPParserTestGenerationStrategy> getTestGenerationStrategies();
 
+	// TODO Move doesContentOrderMatter to expected similarity result provider
+	// (maybe override results)
+
 	/**
 	 * Defaults to true. <br>
 	 * <br>
@@ -587,43 +553,19 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return true;
 	}
 
-	/**
-	 * Parser tests require the created resource files to persist across tests, as
-	 * they are cached. <br>
-	 * <br>
-	 * {@inheritDoc}
-	 */
 	@Override
-	public boolean shouldDeleteAllResources() {
-		return false;
-	}
+	protected ResourceTestOptions setResourceTestOptions() {
+		var opts = new ResourceTestOptions();
 
-	/**
-	 * Parser tests require the created resource files to persist across tests, as
-	 * they are cached. <br>
-	 * <br>
-	 * {@inheritDoc}
-	 */
-	@Override
-	public boolean shouldUnloadAllResources() {
-		return false;
-	}
+		/*
+		 * Parser tests require the created resource files to persist across tests, as
+		 * they are cached.
+		 */
+		opts.setShouldDeleteAllResources(false);
+		opts.setShouldUnloadAllResources(false);
 
-	/**
-	 * Override in implementors, if necessary.
-	 * 
-	 * @return Whether the cached resources should be saved after each test.
-	 */
-	public boolean shouldSaveCachedResources() {
-		return true;
-	}
-
-	/**
-	 * Override in implementors, if necessary.
-	 * 
-	 * @return Whether cached resources should be removed after each test.
-	 */
-	public boolean shouldRemoveResourcesFromCache() {
-		return false;
+		opts.setShouldSaveCachedResources(true);
+		opts.setShouldRemoveResourcesFromCache(false);
+		return opts;
 	}
 }

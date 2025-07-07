@@ -8,8 +8,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import cipm.consistency.fitests.similarity.eobject.AbstractResourceHelper;
-import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
-import jamopp.recovery.trivial.TrivialRecovery;
+import cipm.consistency.fitests.similarity.jamopp.JaMoPPModelResourceParsingStrategy;
 
 /**
  * A class that wraps a model resource, which is either already parsed or is to
@@ -27,9 +26,9 @@ import jamopp.recovery.trivial.TrivialRecovery;
  * 
  * @author Alp Torac Genc
  */
-public class ModelResourceWrapper implements IModelResourceWrapper {
+public class JaMoPPModelResourceWrapper implements IModelResourceWrapper {
 	private AbstractResourceHelper resHelper;
-	private static final Logger logger = Logger.getLogger(ModelResourceWrapper.class);
+	private static final Logger logger = Logger.getLogger(JaMoPPModelResourceWrapper.class);
 
 	/**
 	 * The name of the ArtificialResource (i.e. the last segment of its URI) without
@@ -38,9 +37,9 @@ public class ModelResourceWrapper implements IModelResourceWrapper {
 	private static final String artificialResourceName = "ArtificialResource";
 
 	/**
-	 * @see {@link #ModelResourceWrapper(AbstractResourceHelper, JaMoPPJDTSingleFileParser)}
+	 * @see {@link #JaMoPPModelResourceWrapper(AbstractResourceHelper, JaMoPPModelResourceParsingStrategy)}
 	 */
-	private JaMoPPJDTSingleFileParser parser;
+	private JaMoPPModelResourceParsingStrategy parsingStrat;
 
 	/**
 	 * @see {@link #getModelResource()}
@@ -55,13 +54,14 @@ public class ModelResourceWrapper implements IModelResourceWrapper {
 	/**
 	 * Constructs an instance.
 	 * 
-	 * @param resHelper An object that helps with Resource-related operations
-	 * @param parser    The parser that will be used to parse the model resource and
-	 *                  all other necessary resources
+	 * @param resHelper    An object that helps with Resource-related operations
+	 * @param parsingStrat The parser that will be used to parse the model resource
+	 *                     and all other necessary resources
 	 */
-	public ModelResourceWrapper(AbstractResourceHelper resHelper, JaMoPPJDTSingleFileParser parser) {
+	public JaMoPPModelResourceWrapper(AbstractResourceHelper resHelper,
+			JaMoPPModelResourceParsingStrategy parsingStrat) {
 		this.resHelper = resHelper;
-		this.parser = parser;
+		this.parsingStrat = parsingStrat;
 	}
 
 	/**
@@ -69,7 +69,7 @@ public class ModelResourceWrapper implements IModelResourceWrapper {
 	 * 
 	 * @param resHelper An object that helps with Resource-related operations
 	 */
-	public ModelResourceWrapper(AbstractResourceHelper resHelper) {
+	public JaMoPPModelResourceWrapper(AbstractResourceHelper resHelper) {
 		this(resHelper, null);
 	}
 
@@ -123,7 +123,7 @@ public class ModelResourceWrapper implements IModelResourceWrapper {
 		var modelResourceSet = modelResource.getResourceSet();
 
 		// Create the ArtificialResource
-		new TrivialRecovery(modelResourceSet).recover();
+		parsingStrat.performTrivialRecovery(modelResourceSet);
 
 		var artificialResource = modelResourceSet.getResources().stream()
 				.filter((r) -> r.getURI().toString().contains(artificialResourceName)).findFirst().orElse(null);
@@ -170,20 +170,6 @@ public class ModelResourceWrapper implements IModelResourceWrapper {
 	}
 
 	/**
-	 * @return The parser that is currently used to parse model resources
-	 */
-	public JaMoPPJDTSingleFileParser getModelResourceParser() {
-		return this.parser;
-	}
-
-	/**
-	 * Sets the parser that will be used to parse model resources
-	 */
-	public void setModelResourceParser(JaMoPPJDTSingleFileParser parser) {
-		this.parser = parser;
-	}
-
-	/**
 	 * Parses all Java-Model files under the given directory into a {@link Resource}
 	 * instance (merged model resource). Uses no means of caching. The parsed merged
 	 * model resource can be accessed via {@link #getModelResource()}. <br>
@@ -199,11 +185,9 @@ public class ModelResourceWrapper implements IModelResourceWrapper {
 	public void parseModelResource(Path modelDir, URI modelResourceURI) {
 		var modelResourceSet = this.resHelper.createResourceSet();
 
-		parser.setResourceSet(modelResourceSet);
-
 		// Parser returns the same ResourceSet it was previously given
 		// via setResourceSet(...)
-		modelResourceSet = parser.parseDirectory(modelDir);
+		modelResourceSet = parsingStrat.parseModelResource(modelDir);
 
 		var resCount = modelResourceSet.getResources().size();
 		logger.debug(String.format("%d resources have been parsed under %s", resCount, modelDir));

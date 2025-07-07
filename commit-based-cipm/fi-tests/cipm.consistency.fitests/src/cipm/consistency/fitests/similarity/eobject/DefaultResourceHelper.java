@@ -8,10 +8,10 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
  * 
  * @author Alp Torac Genc
  */
-public class ResourceHelper extends AbstractResourceHelper {
+public class DefaultResourceHelper extends AbstractResourceHelper {
 	private static final String defaultFactoryKey = "*";
 
-	public ResourceHelper() {
+	public DefaultResourceHelper() {
 		super();
 		this.setResourceFileExtension(defaultFactoryKey);
 	}

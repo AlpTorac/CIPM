@@ -25,6 +25,10 @@ public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityT
 	 */
 	private AbstractResourceHelper resHelper;
 
+	private AbstractModelResourceParsingStrategy parsingStrat;
+
+	private ResourceTestOptions resourceTestOptions;
+
 	@BeforeEach
 	@Override
 	public void setUp(TestInfo info) {
@@ -32,6 +36,9 @@ public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityT
 
 		this.setResourceHelper(this.getInitialResourceHelper());
 		this.getResourceHelper().setResourceSaveRootPath(this.getAbsoluteResourceRootPath());
+
+		this.parsingStrat = this.setResourceParsingStrategy();
+		this.resourceTestOptions = this.setResourceTestOptions();
 	}
 
 	@AfterEach
@@ -48,17 +55,17 @@ public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityT
 	 * @return The {@link AbstractResourceHelper} that will be initially used.
 	 */
 	protected AbstractResourceHelper getInitialResourceHelper() {
-		return new ResourceHelper();
+		return new DefaultResourceHelper();
 	}
 
 	/**
-	 * Cleans and sets the used {@link ResourceHelper} to null, in order to ensure
-	 * that each test method has a fresh instance.
+	 * Cleans and sets the used {@link DefaultResourceHelper} to null, in order to
+	 * ensure that each test method has a fresh instance.
 	 */
 	protected void cleanUpResourceHelper() {
-		if (this.shouldDeleteAllResources()) {
+		if (this.getResourceTestOptions().shouldDeleteAllResources()) {
 			this.getResourceHelper().deleteAllResources();
-		} else if (this.shouldUnloadAllResources()) {
+		} else if (this.getResourceTestOptions().shouldUnloadAllResources()) {
 			this.getResourceHelper().unloadAllResources();
 		}
 
@@ -67,15 +74,15 @@ public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityT
 	}
 
 	/**
-	 * Sets up the {@link ResourceHelper} instance that will be used with the given
-	 * one.
+	 * Sets up the {@link DefaultResourceHelper} instance that will be used with the
+	 * given one.
 	 */
 	protected void setResourceHelper(AbstractResourceHelper resHelper) {
 		this.resHelper = resHelper;
 	}
 
 	/**
-	 * The {@link ResourceHelper} instance that can be used for creating
+	 * The {@link DefaultResourceHelper} instance that can be used for creating
 	 * {@link Resource} instances.
 	 */
 	protected AbstractResourceHelper getResourceHelper() {
@@ -146,6 +153,10 @@ public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityT
 		return this.getResourceHelper().createResourceSet();
 	}
 
+	protected AbstractModelResourceParsingStrategy getResourceParsingStrategy() {
+		return this.parsingStrat;
+	}
+
 	/**
 	 * Uses the currently run test class and method to compute a name for the file
 	 * of the {@link Resource} instance, should it be saved.
@@ -170,30 +181,21 @@ public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityT
 	}
 
 	/**
-	 * Can be used to clean up memory, if the created resource files cause memory
-	 * issues. Override in implementors, if necessary.
-	 * 
-	 * @return Whether all created resource instances should be unloaded after each
-	 *         test. Defaults to true.
-	 */
-	public boolean shouldUnloadAllResources() {
-		return true;
-	}
-
-	/**
-	 * Can be used to remove all created resource files, if they are not needed.
-	 * Override in implementors, if necessary.
-	 * 
-	 * @return Whether all created resource files should be deleted after each test.
-	 *         Defaults to false.
-	 */
-	public boolean shouldDeleteAllResources() {
-		return false;
-	}
-
-	/**
 	 * @return The absolute path, under which the {@link Resource} files will be
 	 *         saved.
 	 */
 	public abstract Path getAbsoluteResourceRootPath();
+
+	protected abstract AbstractModelResourceParsingStrategy setResourceParsingStrategy();
+
+	protected ResourceTestOptions setResourceTestOptions() {
+		var opts = new ResourceTestOptions();
+		opts.setShouldUnloadAllResources(true);
+		opts.setShouldDeleteAllResources(false);
+		return opts;
+	}
+
+	protected ResourceTestOptions getResourceTestOptions() {
+		return this.resourceTestOptions;
+	}
 }

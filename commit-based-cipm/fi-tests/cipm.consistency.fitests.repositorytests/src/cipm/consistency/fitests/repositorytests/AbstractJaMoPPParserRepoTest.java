@@ -3,14 +3,14 @@ package cipm.consistency.fitests.repositorytests;
 import cipm.consistency.fitests.repositorytests.util.RepoCacheSimilarityResultProvider;
 import cipm.consistency.fitests.repositorytests.util.RepoTestResultCache;
 import cipm.consistency.fitests.repositorytests.util.RepoTestSimilarityValueEstimator;
+import cipm.consistency.fitests.similarity.jamopp.JaMoPPModelResourceParsingStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.parser.GeneralTimeMeasurementTag;
 import cipm.consistency.fitests.similarity.jamopp.parser.IExpectedSimilarityResultProvider;
 import cipm.consistency.fitests.similarity.jamopp.parser.IJaMoPPParserTestGenerationStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.IModelResourceWrapper;
 import cipm.consistency.fitests.similarity.jamopp.parser.ReflexiveSymmetricIterationTestGenerationStrategy;
-import cipm.consistency.fitests.similarity.jamopp.parser.ModelResourceWrapper;
-import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
+import cipm.consistency.fitests.similarity.jamopp.parser.JaMoPPModelResourceWrapper;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -263,7 +263,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		} else {
 			for (var cID : commitIDList) {
 				var cachedCommitURI = this.getTestFileLayout().getModelResourceSaveURIForCommit(cID);
-				var res = new ModelResourceWrapper(this.getResourceHelper());
+				var res = new JaMoPPModelResourceWrapper(this.getResourceHelper());
 				this.startTimeMeasurement(GeneralTimeMeasurementTag.LOAD_MODEL_RESOURCE);
 				res.loadModelResource(cachedCommitURI);
 				this.stopTimeMeasurement();
@@ -479,9 +479,10 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 *           local repository clone) does not work and may lead to IOExceptions.
 	 */
 	@Override
-	protected void setUpModelParser(JaMoPPJDTSingleFileParser parser) {
-		super.setUpModelParser(parser);
-		parser.setExclusionPatterns(gradleWrapperJarPathPattern);
+	protected JaMoPPModelResourceParsingStrategy setResourceParsingStrategy() {
+		var strat = super.setResourceParsingStrategy();
+		strat.addExclusionPattern(gradleWrapperJarPathPattern);
+		return strat;
 	}
 
 	/**
@@ -509,6 +510,8 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	protected IExpectedSimilarityResultProvider getExpectedSimilarityResultProviderForCommits() {
 		return new RepoCacheSimilarityResultProvider(resultCache);
 	}
+
+	// TODO Extract test preferences
 
 	/**
 	 * Defaults to true.
