@@ -9,10 +9,12 @@ import cipm.consistency.fitests.repositorytests.util.AbstractJaMoPPParserRepoUti
  * Contains tests for (approximative) commentary removal from code snippets that
  * are provided in form of Strings. <br>
  * <br>
- * Tests within this class are supposed to simulate cases, where the text is
- * only a snippet of the code and string declarations are broken. Since there
- * are different ways to interpret the given code without having access to all
- * of it, adaptations to test results may be necessary in the future. <br>
+ * Tests within this class are supposed to simulate cases; where the text is
+ * only a snippet of the code containing commentary, which is placed in a
+ * multi-line string literal. Since there are different ways to interpret the
+ * given code without having access to all of it (ex: the multi-line string
+ * tokens may belong to other preceding/proceeding string literals), adaptations
+ * to test results may be necessary in the future. <br>
  * <br>
  * Each test method consists of a beginning, where the exemplary code snippet is
  * constructed (in form of text), then processed with an {@link ICommentRemover}
@@ -40,7 +42,7 @@ public class SurroundedMultiLineCommentTest extends AbstractJaMoPPParserRepoUtil
 	@Test
 	public void handleStringLiteral_SingleLineComment_EndAndStringOnSameLine() {
 		var line1 = multiLineStringToken;
-		var line2 = "//abc\"\"\"";
+		var line2 = "//abc" + multiLineStringToken;
 
 		var text = concatLines(line1, line2);
 
@@ -65,7 +67,7 @@ public class SurroundedMultiLineCommentTest extends AbstractJaMoPPParserRepoUtil
 
 	@Test
 	public void handleStringLiteral_MultiLineComment_OnSameLine() {
-		var line1 = "\"\"\"/*abc*/\"\"\"";
+		var line1 = multiLineStringToken + "/*abc*/" + multiLineStringToken;
 
 		var text = concatLines(line1);
 
@@ -116,7 +118,7 @@ public class SurroundedMultiLineCommentTest extends AbstractJaMoPPParserRepoUtil
 
 	@Test
 	public void handleStringLiteral_JavaDoc_OnSameLine() {
-		var line1 = "\"\"\"/**abc*/\"\"\"";
+		var line1 = multiLineStringToken + "/**abc*/" + multiLineStringToken;
 
 		var text = concatLines(line1);
 

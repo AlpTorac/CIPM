@@ -6,9 +6,23 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fitests.repositorytests.util.AbstractJaMoPPParserRepoUtilTest;
 
 /**
- * TODO Write proper commentary
+ * Contains tests for (approximative) commentary removal from code snippets that
+ * are provided in form of Strings. <br>
+ * <br>
+ * Tests within this class are supposed to simulate cases; where the text is
+ * only a snippet of the code containing commentary and string literals, some of
+ * which have been cut off. Since there are different ways to interpret the
+ * given code without having access to all of it, adaptations to test results
+ * may be necessary in the future. <br>
+ * <br>
+ * Each test method consists of a beginning, where the exemplary code snippet is
+ * constructed (in form of text), then processed with an {@link ICommentRemover}
+ * and tested.
+ * 
+ * @author Alp Torac Genc
  */
 public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
+	private static final String multiLineStringToken = "\"\"\"";
 	private ICommentRemover cr = new QuickCommentRemover();
 
 	@Test
@@ -28,7 +42,7 @@ public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 	public void handleBlockComment_LeadingBrokenComment_BeforeMultiLineStringLiteral() {
 		var line1 = "abc";
 		var line2 = "*/";
-		var line3 = "\"\"\"";
+		var line3 = multiLineStringToken;
 
 		var text = concatLines(line1, line2, line3);
 
@@ -42,7 +56,7 @@ public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 	@Test
 	public void handleBlockComment_LeadingBrokenComment_AfterMultiLineStringLiteral() {
 		var line1 = "abc";
-		var line2 = "\"\"\"";
+		var line2 = multiLineStringToken;
 		var line3 = "*/";
 
 		var text = concatLines(line1, line2, line3);
@@ -55,9 +69,9 @@ public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 
 	@Test
 	public void handleBlockComment_LeadingBrokenComment_AfterFullMultiLineStringLiteral() {
-		var line1 = "\"\"\"";
+		var line1 = multiLineStringToken;
 		var line2 = "abc";
-		var line3 = "\"\"\"";
+		var line3 = multiLineStringToken;
 		var line4 = "*/";
 
 		var text = concatLines(line1, line2, line3, line4);
@@ -71,9 +85,9 @@ public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 	@Test
 	public void handleBlockComment_LeadingBrokenComment_InMultiLineStringLiteral() {
 		var line1 = "abc";
-		var line2 = "\"\"\"";
+		var line2 = multiLineStringToken;
 		var line3 = "*/";
-		var line4 = "\"\"\"";
+		var line4 = multiLineStringToken;
 
 		var text = concatLines(line1, line2, line3, line4);
 
@@ -86,11 +100,11 @@ public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 
 	@Test
 	public void handleBlockComment_LeadingBrokenComment_MultiLineStringTokenCheck() {
-		var line1 = "\"\"\"";
+		var line1 = multiLineStringToken;
 		var line2 = "abc";
-		var line3 = "\"\"\"";
+		var line3 = multiLineStringToken;
 		var line4 = "*/";
-		var line5 = "\"\"\"";
+		var line5 = multiLineStringToken;
 
 		var text = concatLines(line1, line2, line3, line4, line5);
 
@@ -117,7 +131,7 @@ public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 	@Test
 	public void handleBlockComment_TrailingBrokenComment_BeforeMultiLineStringLiteral() {
 		var line1 = "/*";
-		var line2 = "\"\"\"";
+		var line2 = multiLineStringToken;
 		var line3 = "abc";
 
 		var text = concatLines(line1, line2, line3);
@@ -131,9 +145,9 @@ public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 	@Test
 	public void handleBlockComment_TrailingBrokenComment_BeforeFullMultiLineStringLiteral() {
 		var line1 = "/*";
-		var line2 = "\"\"\"";
+		var line2 = multiLineStringToken;
 		var line3 = "abc";
-		var line4 = "\"\"\"";
+		var line4 = multiLineStringToken;
 
 		var text = concatLines(line1, line2, line3, line4);
 
@@ -145,7 +159,7 @@ public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 
 	@Test
 	public void handleBlockComment_TrailingBrokenComment_AfterMultiLineStringLiteral() {
-		var line1 = "\"\"\"";
+		var line1 = multiLineStringToken;
 		var line2 = "/*";
 		var line3 = "abc";
 
@@ -160,9 +174,9 @@ public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 
 	@Test
 	public void handleBlockComment_TrailingBrokenComment_InMultiLineStringLiteral() {
-		var line1 = "\"\"\"";
+		var line1 = multiLineStringToken;
 		var line2 = "/*";
-		var line3 = "\"\"\"";
+		var line3 = multiLineStringToken;
 		var line4 = "abc";
 
 		var text = concatLines(line1, line2, line3, line4);
@@ -176,11 +190,11 @@ public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 
 	@Test
 	public void handleBlockComment_TrailingBrokenComment_MultiLineStringLiteralTokenCheck() {
-		var line1 = "\"\"\"";
+		var line1 = multiLineStringToken;
 		var line2 = "/*";
-		var line3 = "\"\"\"";
+		var line3 = multiLineStringToken;
 		var line4 = "abc";
-		var line5 = "\"\"\"";
+		var line5 = multiLineStringToken;
 
 		var text = concatLines(line1, line2, line3, line4, line5);
 
@@ -214,7 +228,7 @@ public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 		var line2 = "*/";
 		var line3 = "def";
 		var line4 = "/*";
-		var line5 = "\"\"\"";
+		var line5 = multiLineStringToken;
 		var line6 = "hgf";
 
 		var text = concatLines(line1, line2, line3, line4, line5, line6);
@@ -229,7 +243,7 @@ public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 	@Test
 	public void handleBlockComment_LeadingAndTrailingBrokenComments_AfterMultiLineStringLiteral() {
 		var line1 = "abc";
-		var line2 = "\"\"\"";
+		var line2 = multiLineStringToken;
 		var line3 = "*/";
 		var line4 = "def";
 		var line5 = "/*";
@@ -249,7 +263,7 @@ public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 		var line1 = "abc";
 		var line2 = "*/";
 		var line3 = "def";
-		var line4 = "\"\"\"";
+		var line4 = multiLineStringToken;
 		var line5 = "/*";
 		var line6 = "hgf";
 
@@ -266,9 +280,9 @@ public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 	@Test
 	public void handleBlockComment_LeadingAndTrailingBrokenComments_LeadingCommentSurroundedByMultiLineStringLiteral() {
 		var line1 = "abc";
-		var line2 = "\"\"\"";
+		var line2 = multiLineStringToken;
 		var line3 = "*/";
-		var line4 = "\"\"\"";
+		var line4 = multiLineStringToken;
 		var line5 = "def";
 		var line6 = "/*";
 		var line7 = "hgf";
@@ -288,9 +302,9 @@ public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 		var line1 = "abc";
 		var line2 = "*/";
 		var line3 = "def";
-		var line4 = "\"\"\"";
+		var line4 = multiLineStringToken;
 		var line5 = "/*";
-		var line6 = "\"\"\"";
+		var line6 = multiLineStringToken;
 		var line7 = "hgf";
 
 		var text = concatLines(line1, line2, line3, line4, line5, line6, line7);
@@ -306,11 +320,11 @@ public class BrokenCommentTest extends AbstractJaMoPPParserRepoUtilTest {
 	@Test
 	public void handleBlockComment_LeadingAndTrailingBrokenComments_AllCommentsSurroundedByMultiLineStringLiteral() {
 		var line1 = "abc";
-		var line2 = "\"\"\"";
+		var line2 = multiLineStringToken;
 		var line3 = "*/";
 		var line4 = "def";
 		var line5 = "/*";
-		var line6 = "\"\"\"";
+		var line6 = multiLineStringToken;
 		var line7 = "hgf";
 
 		var text = concatLines(line1, line2, line3, line4, line5, line6, line7);

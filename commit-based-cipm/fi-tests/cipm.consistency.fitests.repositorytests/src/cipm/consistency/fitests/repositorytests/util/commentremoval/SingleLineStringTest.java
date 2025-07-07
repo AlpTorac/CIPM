@@ -6,9 +6,21 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fitests.repositorytests.util.AbstractJaMoPPParserRepoUtilTest;
 
 /**
- * TODO Write proper commentary
+ * Contains tests for (approximative) commentary removal from code snippets that
+ * are provided in form of Strings. <br>
+ * <br>
+ * Tests within this class are supposed to simulate cases; where the text is
+ * only a snippet of the code containing string literals, some of which
+ * containing commentary tokens. <br>
+ * <br>
+ * Each test method consists of a beginning, where the exemplary code snippet is
+ * constructed (in form of text), then processed with an {@link ICommentRemover}
+ * and tested.
+ * 
+ * @author Alp Torac Genc
  */
 public class SingleLineStringTest extends AbstractJaMoPPParserRepoUtilTest {
+	private static final String multiLineStringToken = "\"\"\"";
 	private ICommentRemover cr = new QuickCommentRemover();
 
 	@Test
@@ -46,7 +58,7 @@ public class SingleLineStringTest extends AbstractJaMoPPParserRepoUtilTest {
 
 	@Test
 	public void handleStringLiteral_MultiLineStringAsSingleLineString() {
-		var line1 = "\"\"\"//abc\"\"\"";
+		var line1 = multiLineStringToken + "//abc" + multiLineStringToken;
 
 		var text = concatLines(line1);
 

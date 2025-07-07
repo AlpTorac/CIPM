@@ -6,14 +6,28 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fitests.repositorytests.util.AbstractJaMoPPParserRepoUtilTest;
 
 /**
- * TODO Write proper commentary
+ * Contains tests for (approximative) commentary removal from code snippets that
+ * are provided in form of Strings. <br>
+ * <br>
+ * Tests within this class are supposed to simulate cases; where the text is
+ * only a snippet of the code containing commentary and string literals, some of
+ * which have been cut off. Since there are different ways to interpret the
+ * given code without having access to all of it, adaptations to test results
+ * may be necessary in the future. <br>
+ * <br>
+ * Each test method consists of a beginning, where the exemplary code snippet is
+ * constructed (in form of text), then processed with an {@link ICommentRemover}
+ * and tested.
+ * 
+ * @author Alp Torac Genc
  */
 public class BrokenMultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest {
+	private static final String multiLineStringToken = "\"\"\"";
 	private ICommentRemover cr = new QuickCommentRemover();
 
 	@Test
 	public void handleUnclosedMultiLineStringLiteral() {
-		var start = "\"\"\"";
+		var start = multiLineStringToken;
 		var line1 = start + "abc";
 
 		var text = concatLines(line1);
@@ -25,7 +39,7 @@ public class BrokenMultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest 
 
 	@Test
 	public void handleUnclosedMultiLineStringLiteral_FaultyEnd() {
-		var start = "\"\"\"";
+		var start = multiLineStringToken;
 		var end = "\"\"";
 		var line1 = start + "abc" + end;
 
@@ -38,7 +52,7 @@ public class BrokenMultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest 
 
 	@Test
 	public void handleUnclosedStringLiteral_WithSingleLineComment() {
-		var start = "\"\"\"";
+		var start = multiLineStringToken;
 		var line1 = start + "//abc";
 
 		var text = concatLines(line1);
@@ -50,7 +64,7 @@ public class BrokenMultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest 
 
 	@Test
 	public void handleUnclosedStringLiteral_WithMultiLineComment() {
-		var start = "\"\"\"";
+		var start = multiLineStringToken;
 		var line1 = start + "/*abc*/";
 
 		var text = concatLines(line1);
@@ -62,7 +76,7 @@ public class BrokenMultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest 
 
 	@Test
 	public void handleUnclosedStringLiteral_WithJavaDoc() {
-		var start = "\"\"\"";
+		var start = multiLineStringToken;
 		var line1 = start + "/**abc*/";
 
 		var text = concatLines(line1);

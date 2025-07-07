@@ -6,9 +6,24 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fitests.repositorytests.util.AbstractJaMoPPParserRepoUtilTest;
 
 /**
- * TODO Write proper commentary
+ * Contains tests for (approximative) commentary removal from code snippets that
+ * are provided in form of Strings. <br>
+ * <br>
+ * Tests within this class are supposed to simulate cases; where the text is
+ * only a snippet of the code containing JavaDoc commentary, which potentially
+ * contains string tokens. Since there are different ways to interpret the given
+ * code without having access to all of it (ex: the JavaDoc comment could in
+ * reality be a part of a preceding/proceeding string literal), adaptations to
+ * test results may be necessary in the future. <br>
+ * <br>
+ * Each test method consists of a beginning, where the exemplary code snippet is
+ * constructed (in form of text), then processed with an {@link ICommentRemover}
+ * and tested.
+ * 
+ * @author Alp Torac Genc
  */
 public class JavaDocTest extends AbstractJaMoPPParserRepoUtilTest {
+	private static final String multiLineStringToken = "\"\"\"";
 	private ICommentRemover cr = new QuickCommentRemover();
 
 	@Test
@@ -307,7 +322,7 @@ public class JavaDocTest extends AbstractJaMoPPParserRepoUtilTest {
 
 	@Test
 	public void handleStringLiteralInComment_MultiLineStringLiteral() {
-		var line1 = "/** \"\"\"abc\"\"\" */";
+		var line1 = "/** " + multiLineStringToken + "abc" + multiLineStringToken + " */";
 
 		var text = concatLines(line1);
 
@@ -317,8 +332,8 @@ public class JavaDocTest extends AbstractJaMoPPParserRepoUtilTest {
 
 	@Test
 	public void handleStringLiteralInComment_MultiLineStringLiteral_Split() {
-		var line1 = "/** \"\"\"abc";
-		var line2 = "\"\"\" */";
+		var line1 = "/** " + multiLineStringToken + "abc";
+		var line2 = multiLineStringToken + " */";
 
 		var text = concatLines(line1, line2);
 

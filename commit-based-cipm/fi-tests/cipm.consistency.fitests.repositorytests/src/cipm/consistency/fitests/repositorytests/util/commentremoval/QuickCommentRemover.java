@@ -8,7 +8,16 @@ import java.util.regex.Pattern;
  * comment is guaranteed to be a part of a string literal. That means, all
  * potentially broken block-comments are removed, even if they are a part of a
  * string literal in reality. <b><i>The comment removal offered by this class is
- * an approximation</i></b>.
+ * an approximation</i></b>. <br>
+ * <br>
+ * Note: <b><i>Currently does not support parsing multi-line strings as
+ * is</i></b>; due to them having the same token mark their start and end, as
+ * well as potentially spanning over multiple lines. This makes it so that one
+ * cannot determine whether a multi-line string token is supposed to mark the
+ * start or the end of the string literal better than guessing, unlike tokens
+ * from block commentaries that are different. Therefore; <b><i>multi-line
+ * strings are interpreted as 3 consecutive, single-line strings, where the
+ * first and the last single-line strings are blank</i></b>.
  * 
  * @author Alp Torac Genc
  */
@@ -178,6 +187,11 @@ public class QuickCommentRemover implements ICommentRemover {
 		return -1;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * 
+	 * @see {@link QuickCommentRemover} for more information.
+	 */
 	public String removeComments(String text) {
 		var result = "";
 
