@@ -7,6 +7,7 @@ import java.util.Collection;
 import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.parser.CombinationTestGenerationStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.IJaMoPPParserTestGenerationStrategy;
+import cipm.consistency.fitests.similarity.jamopp.parser.ParserTestFileLayout;
 
 /**
  * Extension of {@link AbstractJaMoPPParserSimilarityTest} for complex models.
@@ -20,9 +21,11 @@ public abstract class AbstractJaMoPPComplexParserSimilarityTest extends Abstract
 	private static final Path complexModelImplDirPath = Path.of("testmodels", "complex-models");
 
 	@Override
-	protected Path getModelSourceFileRootDirPath() {
-		return super.getModelSourceFileRootDirPath().resolve(complexModelImplDirPath)
-				.resolve(this.getModelSourceFileDirSubpath());
+	protected ParserTestFileLayout initParserTestFileLayout() {
+		var layout = super.initParserTestFileLayout();
+		layout.setModelSourceFileRootDirPath(layout.getModelSourceFileRootDirPath().resolve(complexModelImplDirPath)
+				.resolve(this.getModelSourceFileDirSubpath()));
+		return layout;
 	}
 
 	@Override

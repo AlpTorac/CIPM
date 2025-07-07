@@ -11,6 +11,7 @@ import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSim
 import cipm.consistency.fitests.similarity.jamopp.parser.CombinationTestGenerationStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.EAllContentSimilarityTestFactory;
 import cipm.consistency.fitests.similarity.jamopp.parser.IJaMoPPParserTestGenerationStrategy;
+import cipm.consistency.fitests.similarity.jamopp.parser.ParserTestFileLayout;
 
 /**
  * A test class that attempts to parse and check similarity of {@link Resource}
@@ -34,8 +35,10 @@ public class SPLevoModelsSimilarityTest extends AbstractJaMoPPParserSimilarityTe
 	private static final String model2Name = "b";
 
 	@Override
-	protected Path getModelSourceFileRootDirPath() {
-		return super.getModelSourceFileRootDirPath().resolve(splevoModelImplDirPath);
+	protected ParserTestFileLayout initParserTestFileLayout() {
+		var layout = super.initParserTestFileLayout();
+		layout.setModelSourceFileRootDirPath(layout.getModelSourceFileRootDirPath().resolve(splevoModelImplDirPath));
+		return layout;
 	}
 
 	@Override

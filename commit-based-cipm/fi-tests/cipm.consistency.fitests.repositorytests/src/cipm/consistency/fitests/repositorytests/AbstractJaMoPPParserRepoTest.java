@@ -93,7 +93,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		this.startTimeMeasurement(GeneralTimeMeasurementTag.TEST_BEFOREEACH);
 		super.setUp(info);
 
-		var resultCachePath = this.getExpectedSimilarityResultCachePath();
+		var resultCachePath = this.getTestFileLayout().getExpectedSimilarityResultCachePath();
 		if (this.shouldUseCachedExpectedSimilarityResults()) {
 			this.startTimeMeasurement(RepoTimeMeasurementTag.LOAD_EXPECTED_SIMILARITY_RESULTS);
 			this.getLogger().debug(String.format("Checking for cached expected similarity results for %s at %s",
@@ -132,7 +132,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			this.startTimeMeasurement(RepoTimeMeasurementTag.SAVE_EXPECTED_SIMILARITY_RESULTS);
 			var gson = new GsonBuilder().setPrettyPrinting().create();
 
-			var resultCachePath = this.getExpectedSimilarityResultCachePath();
+			var resultCachePath = this.getTestFileLayout().getExpectedSimilarityResultCachePath();
 			var resultCacheFile = resultCachePath.toFile();
 
 			this.getLogger().debug(String.format("Saving cached expected similarity results for %s at %s",
@@ -165,7 +165,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 
 		if (this.shouldDeleteRepositoryClones()) {
 			this.startTimeMeasurement(RepoTimeMeasurementTag.DELETE_LOCAL_REPO_CLONE);
-			this.getFileUtil().deleteAll(this.getModelSourceFileRootDirPath());
+			this.getFileUtil().deleteAll(this.getTestFileLayout().getModelSourceFileRootDirPath());
 			this.stopTimeMeasurement();
 		}
 
@@ -173,12 +173,20 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		super.tearDown();
 	}
 
-	/**
-	 * @return The path to the saved contents of {@link #resultCache}
-	 */
-	protected Path getExpectedSimilarityResultCachePath() {
-		return this.getTestFilesSavePath().resolve(expectedSimilarityResultCacheDirName).resolve(this.getRepoName())
-				.resolve(expectedSimilarityResultCacheFileName);
+	@Override
+	protected RepoParserTestFileLayout initParserTestFileLayout() {
+		var parserTestLayout = super.initParserTestFileLayout();
+		var layout = new RepoParserTestFileLayout(parserTestLayout);
+		layout.setRepoName(this.getRepoName());
+		layout.setExpectedSimilarityResultCacheDirName(expectedSimilarityResultCacheDirName);
+		layout.setExpectedSimilarityResultCacheFileName(expectedSimilarityResultCacheFileName);
+		layout.setRepoModelImplDirName(repoModelImplDirName);
+		return layout;
+	}
+
+	@Override
+	protected RepoParserTestFileLayout getTestFileLayout() {
+		return (RepoParserTestFileLayout) super.getTestFileLayout();
 	}
 
 	/**
@@ -222,7 +230,8 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		}));
 
 		for (var cID : commitIDList) {
-			if (!this.getResourceHelper().resourceFileExists(this.getModelResourceSaveURIForCommit(cID))) {
+			if (!this.getResourceHelper()
+					.resourceFileExists(this.getTestFileLayout().getModelResourceSaveURIForCommit(cID))) {
 				this.getLogger().debug(String.format("Model resource missing for: %s", cID));
 				commitResourcesExist = false;
 				// Check for the other ones as well, for debugging purposes
@@ -253,7 +262,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			this.getLogger().debug(String.format("Prepared missing model resources"));
 		} else {
 			for (var cID : commitIDList) {
-				var cachedCommitURI = this.getModelResourceSaveURIForCommit(cID);
+				var cachedCommitURI = this.getTestFileLayout().getModelResourceSaveURIForCommit(cID);
 				var res = new ModelResourceWrapper(this.getResourceHelper());
 				this.startTimeMeasurement(GeneralTimeMeasurementTag.LOAD_MODEL_RESOURCE);
 				res.loadModelResource(cachedCommitURI);
@@ -274,7 +283,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			this.getLogger().debug(String.format("Closed repository wrapper"));
 		}
 
-		var mainLocalClonePath = this.getModelSourceFileRootDirPath();
+		var mainLocalClonePath = this.getTestFileLayout().getModelSourceFileRootDirPath();
 
 		this.getLogger()
 				.debug(String.format("Cleaning main local repository clone under: %s", mainLocalClonePath.toString()));
@@ -380,7 +389,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	protected Git cloneRepo() {
 		// Do not explicitly add a folder for this repository, since GIT will do that
 		// implicitly
-		return this.cloneRepo(this.getRepoURIAsString(), this.getModelSourceFileRootDirPath());
+		return this.cloneRepo(this.getRepoURIAsString(), this.getTestFileLayout().getModelSourceFileRootDirPath());
 	}
 
 	/**
@@ -414,7 +423,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		var commitCount = commits.size();
 		for (int i = 0; i < commitCount; i++) {
 			var commitID = commits.get(i);
-			var commitResURI = this.getModelResourceSaveURIForCommit(commitID);
+			var commitResURI = this.getTestFileLayout().getModelResourceSaveURIForCommit(commitID);
 
 			this.getLogger().debug(String.format("Checking out: %s", commitID));
 
@@ -431,7 +440,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 
 			this.getLogger().debug(String.format("Caching resource for: %s", commitID));
 
-			var targetPath = this.getRepoClonePathForCommit(commitID);
+			var targetPath = this.getTestFileLayout().getRepoClonePathForCommit(commitID);
 			IModelResourceWrapper commitRes = null;
 
 			/*
@@ -452,49 +461,6 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		}
 		this.getLogger().debug(String.format("Prepared model resources for commits"));
 		return commitResources;
-	}
-
-	/**
-	 * @return The URI, at which the parsed commit's resource will point at.
-	 */
-	protected URI getModelResourceSaveURIForCommit(String commitID) {
-		return URI.createFileURI(this.getModelResourceSaveRootDirectory().toString()).appendSegment(this.getRepoName())
-				.appendSegment(commitID).appendFileExtension(this.getResourceFileExtension());
-	}
-
-	/**
-	 * @return The path, where the given commit should be cloned
-	 */
-	protected Path getRepoClonePathForCommit(String commitID) {
-		return this.getModelSourceFileRootDirPath().resolve(commitID);
-	}
-
-	/**
-	 * @return The URI to the folder, where the given commit should be cloned
-	 */
-	protected URI getRepoCloneURIForCommit(String commitID) {
-		return URI.createFileURI(this.getRepoClonePathForCommit(commitID).toString());
-	}
-
-	/**
-	 * Use this method for root directory, so that the top-most folder of the
-	 * repository is not duplicated.
-	 * 
-	 * @return The top-most directory, where the repositories will be cloned to
-	 */
-	protected Path getRepoClonesDirPath() {
-		return this.getTestFilesSavePath().resolve(repoModelImplDirName);
-	}
-
-	/**
-	 * @implSpec Returns The path, at which the repository clone resides. Meant to
-	 *           be used for accessing the local repository clone. Use
-	 *           {@link #getRepoClonesDirPath()} while cloning instead, so that the
-	 *           top-most folder of the repository is not duplicated.
-	 */
-	@Override
-	protected Path getModelSourceFileRootDirPath() {
-		return this.getRepoClonesDirPath().resolve(this.getRepoName());
 	}
 
 	/**

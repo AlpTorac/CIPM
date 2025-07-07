@@ -36,6 +36,8 @@ import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
  */
 public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPSimilarityTest {
 
+	// TODO Refactor test preferences (should...() methods)
+
 	/**
 	 * An object that caches and grants access to the parsed models, which were
 	 * cached after being parsed. <br>
@@ -47,6 +49,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @see {@link #parseModelsDirWithCaching(Path)}
 	 */
 	private static final CacheUtil resourceCache = new CacheUtil();
+
+	private ParserTestFileLayout layout;
 
 	/**
 	 * The relative path to the directory, where parsed model resource files are to
@@ -71,6 +75,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	public void setUp(TestInfo info) {
 		this.startTimeMeasurement(GeneralTimeMeasurementTag.TEST_BEFOREEACH);
 		super.setUp(info);
+
+		this.layout = this.initParserTestFileLayout();
+
 		this.stopTimeMeasurement();
 	}
 
@@ -133,11 +140,18 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		this.getLogger().debug("Tore down after parser test");
 	}
 
-	/**
-	 * @return The absolute path, at which taken time measurements are to be saved.
-	 */
-	protected Path getTimeMeasurementsFileSavePath() {
-		return this.getAbsoluteCurrentDirectory().resolve(timeMeasurementsFileSavePath);
+	protected ParserTestFileLayout initParserTestFileLayout() {
+		var layout = new ParserTestFileLayout();
+		layout.setModelSourceFileRootDirPath(new File("").getAbsoluteFile().toPath());
+		layout.setTestModelResourceFilesSaveDirPath(testModelResourceFilesSaveDirPath);
+		layout.setCacheSaveDirPath(cacheSaveDirPath);
+		layout.setTimeMeasurementsFileSavePath(timeMeasurementsFileSavePath);
+		layout.setModelResourceFileExtension(this.getResourceFileExtension());
+		return layout;
+	}
+
+	protected ParserTestFileLayout getTestFileLayout() {
+		return this.layout;
 	}
 
 	/**
@@ -146,17 +160,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	protected void saveTimeMeasurements() {
 		this.getLogger().debug("Saving time measurements");
-		ParserTestTimeMeasurer.getInstance().save(this.getTimeMeasurementsFileSavePath());
+		ParserTestTimeMeasurer.getInstance().save(this.layout.getTimeMeasurementsFileSavePath());
 		this.getLogger().debug("Saved time measurements");
-	}
-
-	/**
-	 * @param modelDir The path to the model source file directory
-	 * @return The key, with which the model resource parsed under the given path
-	 *         will be added to the cache.
-	 */
-	protected String getCacheKeyForModelSourceFileDir(Path modelDir) {
-		return this.getAbsoluteCurrentDirectory().relativize(modelDir).toString();
 	}
 
 	/**
@@ -164,7 +169,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * individual model source file directories.
 	 */
 	protected void startTimeMeasurement(Path modelDir, ITimeMeasurementTag tag) {
-		this.startTimeMeasurement(modelDir != null ? this.getCacheKeyForModelSourceFileDir(modelDir) : null, tag);
+		this.startTimeMeasurement(modelDir != null ? this.layout.getCacheKeyForModelSourceFileDir(modelDir) : null,
+				tag);
 	}
 
 	/**
@@ -226,45 +232,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
-	 * @return The absolute path, at which all files generated througout the tests
-	 *         should be saved.
-	 */
-	protected Path getTestFilesSavePath() {
-		return this.getAbsoluteCurrentDirectory().resolve(testModelResourceFilesSaveDirPath);
-	}
-
-	/**
-	 * @param modelDir The path to a directory, which has files for one (and only
-	 *                 one) model
-	 * @return The path (as String), where the parsed model resource (for the model
-	 *         under the given path) should be saved, if desired.
-	 */
-	protected String getModelResourcePathFor(Path modelDir) {
-		var modelSubPath = this.getAbsoluteCurrentDirectory().relativize(modelDir);
-		var resPath = this.getModelResourceSaveRootDirectory().resolve(modelSubPath);
-
-		var resPathString = resPath.toString();
-
-		// Check if the resource path has a file extension
-		// If not, append the file extension for it
-		if (!resPath.getFileName().toString().contains(".")) {
-			resPathString += "." + this.getResourceFileExtension();
-		}
-
-		return resPathString;
-	}
-
-	/**
-	 * @param modelDir The path to a directory, which has files for one (and only
-	 *                 one) model
-	 * @return The physical URI of the model resource parsed from the model at the
-	 *         given path.
-	 */
-	protected URI getModelResourceURI(Path modelDir) {
-		return URI.createFileURI(this.getModelResourcePathFor(modelDir));
-	}
-
-	/**
 	 * Prepares the given parser for parsing model resources. Can be overridden in
 	 * sub-types to modify, if needed.
 	 * 
@@ -315,7 +282,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	protected IModelResourceWrapper parseModelsDirWithoutCaching(Path modelDir) {
 		this.startTimeMeasurement(GeneralTimeMeasurementTag.PARSE_MODEL_RESOURCE);
 		var wrapper = new ModelResourceWrapper(this.getResourceHelper(), this.getModelResourceParser());
-		wrapper.parseModelResource(modelDir, this.getModelResourceURI(modelDir));
+		wrapper.parseModelResource(modelDir, this.layout.getModelResourceURI(modelDir));
 		this.stopTimeMeasurement();
 		return wrapper;
 	}
@@ -334,7 +301,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * {@code this.getModelResourceURI(modelDir)} as cached model URI.
 	 */
 	protected IModelResourceWrapper parseModelsDirWithCaching(Path modelDir, String cacheKey) {
-		return this.parseModelsDirWithCaching(modelDir, this.getModelResourceURI(modelDir), cacheKey);
+		return this.parseModelsDirWithCaching(modelDir, this.layout.getModelResourceURI(modelDir), cacheKey);
 	}
 
 	/**
@@ -421,7 +388,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @return The test display name for the given modelParentDirPath
 	 */
 	protected String getModelSourceParentDirDisplayName(Path modelParentDirPath) {
-		var rootPath = this.getModelSourceFileRootDirPath();
+		var rootPath = this.layout.getModelSourceFileRootDirPath();
 		var relPath = rootPath.relativize(modelParentDirPath);
 		var result = relPath.toString();
 		if (result.isBlank()) {
@@ -439,31 +406,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @see {@link #getModelSourceFileRootDirPath()}
 	 */
 	protected String getModelSourceFileRootDirDisplayName() {
-		return this.getAbsoluteCurrentDirectory().relativize(this.getModelSourceFileRootDirPath()).toString();
-	}
-
-	/**
-	 * Defaults to {@link #getAbsoluteCurrentDirectory()}.
-	 * 
-	 * @return Path to the root folder of the model source file directories
-	 */
-	protected Path getModelSourceFileRootDirPath() {
-		return this.getAbsoluteCurrentDirectory();
-	}
-
-	/**
-	 * @return The current position within the file system.
-	 */
-	protected Path getAbsoluteCurrentDirectory() {
-		return new File("").getAbsoluteFile().toPath();
-	}
-
-	/**
-	 * @return The root directory, under which generated test resources will be
-	 *         saved.
-	 */
-	protected Path getModelResourceSaveRootDirectory() {
-		return this.getAbsoluteCurrentDirectory().resolve(cacheSaveDirPath);
+		return this.layout.getAbsoluteCurrentDirectory().relativize(this.layout.getModelSourceFileRootDirPath())
+				.toString();
 	}
 
 	/**
@@ -566,7 +510,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	public Collection<DynamicNode> createTests() {
 		this.startTimeMeasurement(GeneralTimeMeasurementTag.DYNAMIC_TEST_CREATION);
 
-		var modelSourceFileRootDirPath = this.getModelSourceFileRootDirPath();
+		var modelSourceFileRootDirPath = this.layout.getModelSourceFileRootDirPath();
 
 		var tests = new ArrayList<DynamicNode>();
 
