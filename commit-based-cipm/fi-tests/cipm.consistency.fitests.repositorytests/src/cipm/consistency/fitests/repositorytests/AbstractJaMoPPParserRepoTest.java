@@ -389,7 +389,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	protected Git cloneRepo() {
 		// Do not explicitly add a folder for this repository, since GIT will do that
 		// implicitly
-		return this.cloneRepo(this.getRepoURIAsString(), this.getTestFileLayout().getModelSourceFileRootDirPath());
+		return this.cloneRepo(this.getRepoURI().toString(), this.getTestFileLayout().getModelSourceFileRootDirPath());
 	}
 
 	/**
@@ -487,17 +487,8 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	/**
 	 * @return A list of all commits from the repository of this test, which are
 	 *         relevant.
-	 * 
-	 * @see {@link #getRepoURIAsString()}
 	 */
 	protected abstract List<String> getCommitIDs();
-
-	/**
-	 * @return The URI to the repository to be cloned (as String).
-	 */
-	protected String getRepoURIAsString() {
-		return this.getRepoURI().toString();
-	}
 
 	/**
 	 * @return The URI to the repository, which will be used in tests.

@@ -8,14 +8,16 @@ import org.eclipse.emf.common.util.URI;
 public class ParserTestFileLayout {
 	private Path modelSourceFileRootDirPath;
 	/**
-	 * The relative path to the directory, where parsed model resource files are to
-	 * be saved (if desired).
+	 * The relative path to the {@link #getAbsoluteCurrentDirectory()} directory,
+	 * where parsed model resource files are to be saved (if desired).
 	 */
 	private Path testModelResourceFilesSaveDirPath;
 
 	/**
-	 * The relative path to the directory, where the contents of
-	 * {@link #resourceCache} are to be saved (if desired).
+	 * The relative path to the directory, where the contents of the resource cache
+	 * are to be saved (if desired).
+	 * 
+	 * @see {@link CacheUtil}
 	 */
 	private Path cacheSaveDirPath;
 
@@ -126,7 +128,7 @@ public class ParserTestFileLayout {
 	}
 
 	/**
-	 * @return The current position within the file system.
+	 * @return The current (absolute) position within the file system.
 	 */
 	public Path getAbsoluteCurrentDirectory() {
 		return new File("").getAbsoluteFile().toPath();
@@ -138,5 +140,32 @@ public class ParserTestFileLayout {
 	 */
 	public Path getModelResourceSaveRootDirectory() {
 		return this.getAbsoluteCurrentDirectory().resolve(cacheSaveDirPath);
+	}
+
+	/**
+	 * @return The relative path between the current directory
+	 *         ({@link #getAbsoluteCurrentDirectory()}) and the root directory
+	 *         ({@link #getModelSourceFileRootDirPath()}).
+	 * @see {@link #getModelSourceFileRootDirPath()}
+	 */
+	public Path getRelativeModelSourceFileRootDirPath() {
+		return this.getAbsoluteCurrentDirectory().relativize(this.getModelSourceFileRootDirPath());
+	}
+
+	/**
+	 * @param modelParentDirPath The parent directory for a group of models, which
+	 *                           contains other directories that contain model
+	 *                           files.
+	 * @return The relative path between ({@link #getModelSourceFileRootDirPath()})
+	 *         and the given path. If both paths are the same, returns the file name
+	 *         (without extension) in the parameter.
+	 */
+	public Path getRelativeModelSourceParentDirPath(Path modelParentDirPath) {
+		var rootPath = this.getModelSourceFileRootDirPath();
+		var relPath = rootPath.relativize(modelParentDirPath);
+		if (relPath.getParent() == null) {
+			return modelParentDirPath.getFileName();
+		}
+		return relPath;
 	}
 }

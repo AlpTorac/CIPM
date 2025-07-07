@@ -378,39 +378,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
-	 * Defaults to the relative path between the root directory
-	 * ({@link #getModelSourceFileRootDirPath()}) and the given path. If both paths
-	 * are the same, returns the last name in the parameter.
-	 * 
-	 * @param modelParentDirPath The parent directory for a group of models, which
-	 *                           contains other directories that contain model
-	 *                           files.
-	 * @return The test display name for the given modelParentDirPath
-	 */
-	protected String getModelSourceParentDirDisplayName(Path modelParentDirPath) {
-		var rootPath = this.layout.getModelSourceFileRootDirPath();
-		var relPath = rootPath.relativize(modelParentDirPath);
-		var result = relPath.toString();
-		if (result.isBlank()) {
-			return modelParentDirPath.getFileName().toString();
-		}
-		return result;
-	}
-
-	/**
-	 * Defaults to the relative path between the current directory
-	 * ({@link #getAbsoluteCurrentDirectory()}) and the root directory
-	 * ({@link #getModelSourceFileRootDirPath()}).
-	 * 
-	 * @return The display name for the root directory.
-	 * @see {@link #getModelSourceFileRootDirPath()}
-	 */
-	protected String getModelSourceFileRootDirDisplayName() {
-		return this.layout.getAbsoluteCurrentDirectory().relativize(this.layout.getModelSourceFileRootDirPath())
-				.toString();
-	}
-
-	/**
 	 * Defaults to using {@link #isModelSourceFileDirectoryName(String)} on the file
 	 * name. Check the concrete implementation for more details.
 	 * 
@@ -528,11 +495,13 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			var testsForModelDirs = this.createTests(modelDirs.toArray(Path[]::new));
 
 			testsForModelParentDirs.add(DynamicContainer.dynamicContainer(
-					String.format("model = %s", this.getModelSourceParentDirDisplayName(md)), testsForModelDirs));
+					String.format("model = %s", this.getTestFileLayout().getRelativeModelSourceParentDirPath(md)),
+					testsForModelDirs));
 		});
 
 		tests.add(DynamicContainer.dynamicContainer(
-				String.format("root = %s", this.getModelSourceFileRootDirDisplayName()), testsForModelParentDirs));
+				String.format("root = %s", this.getTestFileLayout().getRelativeModelSourceFileRootDirPath()),
+				testsForModelParentDirs));
 
 		this.stopTimeMeasurement();
 		return tests;
