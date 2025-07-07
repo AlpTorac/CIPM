@@ -534,9 +534,6 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	protected abstract Collection<IJaMoPPParserTestGenerationStrategy> getTestGenerationStrategies();
 
-	// TODO Move doesContentOrderMatter to expected similarity result provider
-	// (maybe override results)
-
 	/**
 	 * Defaults to true. <br>
 	 * <br>
