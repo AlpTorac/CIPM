@@ -10,7 +10,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
 import cipm.consistency.fitests.similarity.base.JavaSimilarityCheckerContainer;
 import cipm.consistency.fitests.similarity.eobject.AbstractEObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.AbstractModelResourceParsingStrategy;
 import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPInitialiserParameters;
 import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPSimilarityValues;
 import cipm.consistency.fitests.similarity.params.IInitialiserParameters;
@@ -162,12 +161,12 @@ public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimila
 	}
 
 	@Override
-	protected JaMoPPModelResourceParsingStrategy setResourceParsingStrategy() {
-		return new JaMoPPModelResourceParsingStrategy();
+	protected JaMoPPResourceParsingStrategy initResourceParsingStrategy() {
+		return new JaMoPPResourceParsingStrategy();
 	}
 
 	@Override
-	protected JaMoPPModelResourceParsingStrategy getResourceParsingStrategy() {
-		return (JaMoPPModelResourceParsingStrategy) super.getResourceParsingStrategy();
+	protected JaMoPPResourceParsingStrategy getResourceParsingStrategy() {
+		return (JaMoPPResourceParsingStrategy) super.getResourceParsingStrategy();
 	}
 }

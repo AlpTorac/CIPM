@@ -3,7 +3,7 @@ package cipm.consistency.fitests.repositorytests;
 import cipm.consistency.fitests.repositorytests.util.RepoCacheSimilarityResultProvider;
 import cipm.consistency.fitests.repositorytests.util.RepoTestResultCache;
 import cipm.consistency.fitests.repositorytests.util.RepoTestSimilarityValueEstimator;
-import cipm.consistency.fitests.similarity.jamopp.JaMoPPModelResourceParsingStrategy;
+import cipm.consistency.fitests.similarity.jamopp.JaMoPPResourceParsingStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.parser.GeneralTimeMeasurementTag;
 import cipm.consistency.fitests.similarity.jamopp.parser.IExpectedSimilarityResultProvider;
@@ -94,7 +94,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		super.setUp(info);
 
 		var resultCachePath = this.getTestFileLayout().getExpectedSimilarityResultCachePath();
-		if (this.shouldUseCachedExpectedSimilarityResults()) {
+		if (this.getResourceTestOptions().shouldUseCachedExpectedSimilarityResults()) {
 			this.startTimeMeasurement(RepoTimeMeasurementTag.LOAD_EXPECTED_SIMILARITY_RESULTS);
 			this.getLogger().debug(String.format("Checking for cached expected similarity results for %s at %s",
 					this.getCurrentTestClassName(), resultCachePath));
@@ -128,7 +128,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	@Override
 	public void tearDown() {
 		this.startTimeMeasurement(GeneralTimeMeasurementTag.TEST_AFTEREACH);
-		if (this.shouldSaveCachedExpectedSimilarityResults()) {
+		if (this.getResourceTestOptions().shouldSaveCachedExpectedSimilarityResults()) {
 			this.startTimeMeasurement(RepoTimeMeasurementTag.SAVE_EXPECTED_SIMILARITY_RESULTS);
 			var gson = new GsonBuilder().setPrettyPrinting().create();
 
@@ -163,7 +163,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			this.stopTimeMeasurement();
 		}
 
-		if (this.shouldDeleteRepositoryClones()) {
+		if (this.getResourceTestOptions().shouldDeleteRepositoryClones()) {
 			this.startTimeMeasurement(RepoTimeMeasurementTag.DELETE_LOCAL_REPO_CLONE);
 			this.getFileUtil().deleteAll(this.getTestFileLayout().getModelSourceFileRootDirPath());
 			this.stopTimeMeasurement();
@@ -479,8 +479,8 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 *           local repository clone) does not work and may lead to IOExceptions.
 	 */
 	@Override
-	protected JaMoPPModelResourceParsingStrategy setResourceParsingStrategy() {
-		var strat = super.setResourceParsingStrategy();
+	protected JaMoPPResourceParsingStrategy initResourceParsingStrategy() {
+		var strat = super.initResourceParsingStrategy();
 		strat.addExclusionPattern(gradleWrapperJarPathPattern);
 		return strat;
 	}
@@ -511,38 +511,6 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		return new RepoCacheSimilarityResultProvider(resultCache);
 	}
 
-	// TODO Extract test preferences
-
-	/**
-	 * Defaults to true.
-	 * 
-	 * @return Whether all cloned repositories that are used by this test class
-	 *         should be removed.
-	 */
-	public boolean shouldDeleteRepositoryClones() {
-		return true;
-	}
-
-	/**
-	 * Defaults to true.
-	 * 
-	 * @return Whether the cached expected similarity results in
-	 *         {@link #resultCache} should be saved.
-	 */
-	public boolean shouldSaveCachedExpectedSimilarityResults() {
-		return true;
-	}
-
-	/**
-	 * Defaults to true.
-	 * 
-	 * @return Whether the cached expected similarity results in
-	 *         {@link #resultCache} should actually be used.
-	 */
-	public boolean shouldUseCachedExpectedSimilarityResults() {
-		return true;
-	}
-
 	@Override
 	protected Collection<IJaMoPPParserTestGenerationStrategy> getTestGenerationStrategies() {
 		var strats = new ArrayList<IJaMoPPParserTestGenerationStrategy>();
@@ -563,5 +531,23 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		var resArr = this.cacheCommitResources().toArray(Resource[]::new);
 		this.stopTimeMeasurement();
 		return super.createTests(resArr);
+	}
+
+	@Override
+	protected RepoParserTestOptions getResourceTestOptions() {
+		return (RepoParserTestOptions) super.getResourceTestOptions();
+	}
+
+	@Override
+	protected RepoParserTestOptions initResourceTestOptions() {
+		var superOpts = super.initResourceTestOptions();
+		var opts = new RepoParserTestOptions();
+
+		opts.copyOptionsFrom(superOpts);
+
+		opts.setShouldDeleteRepositoryClones(true);
+		opts.setShouldSaveCachedExpectedSimilarityResults(true);
+		opts.setShouldUseCachedExpectedSimilarityResults(true);
+		return opts;
 	}
 }

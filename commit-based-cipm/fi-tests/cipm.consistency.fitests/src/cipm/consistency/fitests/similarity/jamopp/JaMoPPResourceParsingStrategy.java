@@ -4,15 +4,15 @@ import java.nio.file.Path;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
-import cipm.consistency.fitests.similarity.eobject.AbstractModelResourceParsingStrategy;
+import cipm.consistency.fitests.similarity.eobject.AbstractResourceParsingStrategy;
 import jamopp.options.ParserOptions;
 import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
 import jamopp.recovery.trivial.TrivialRecovery;
 
-public class JaMoPPModelResourceParsingStrategy extends AbstractModelResourceParsingStrategy {
+public class JaMoPPResourceParsingStrategy extends AbstractResourceParsingStrategy {
 	private final JaMoPPJDTSingleFileParser parser;
 
-	public JaMoPPModelResourceParsingStrategy() {
+	public JaMoPPResourceParsingStrategy() {
 		super();
 		this.parser = new JaMoPPJDTSingleFileParser();
 		this.setUpModelParser();

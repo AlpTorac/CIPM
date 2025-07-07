@@ -16,7 +16,6 @@ import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.TestFactory;
 import org.junit.jupiter.api.TestInfo;
 
-import cipm.consistency.fitests.similarity.eobject.ResourceTestOptions;
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 
 /**
@@ -34,8 +33,6 @@ import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
  * @see {@link #createTests()}
  */
 public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPSimilarityTest {
-
-	// TODO Refactor test preferences (should...() methods)
 
 	/**
 	 * An object that caches and grants access to the parsed models, which were
@@ -554,8 +551,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	@Override
-	protected ResourceTestOptions setResourceTestOptions() {
-		var opts = new ResourceTestOptions();
+	protected ParserTestOptions initResourceTestOptions() {
+		var opts = new ParserTestOptions();
 
 		/*
 		 * Parser tests require the created resource files to persist across tests, as
@@ -567,5 +564,10 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		opts.setShouldSaveCachedResources(true);
 		opts.setShouldRemoveResourcesFromCache(false);
 		return opts;
+	}
+
+	@Override
+	protected ParserTestOptions getResourceTestOptions() {
+		return (ParserTestOptions) super.getResourceTestOptions();
 	}
 }

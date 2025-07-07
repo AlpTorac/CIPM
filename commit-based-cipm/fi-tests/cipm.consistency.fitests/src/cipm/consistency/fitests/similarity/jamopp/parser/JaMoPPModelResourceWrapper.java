@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import cipm.consistency.fitests.similarity.eobject.AbstractResourceHelper;
-import cipm.consistency.fitests.similarity.jamopp.JaMoPPModelResourceParsingStrategy;
+import cipm.consistency.fitests.similarity.jamopp.JaMoPPResourceParsingStrategy;
 
 /**
  * A class that wraps a model resource, which is either already parsed or is to
@@ -37,9 +37,9 @@ public class JaMoPPModelResourceWrapper implements IModelResourceWrapper {
 	private static final String artificialResourceName = "ArtificialResource";
 
 	/**
-	 * @see {@link #JaMoPPModelResourceWrapper(AbstractResourceHelper, JaMoPPModelResourceParsingStrategy)}
+	 * @see {@link #JaMoPPModelResourceWrapper(AbstractResourceHelper, JaMoPPResourceParsingStrategy)}
 	 */
-	private JaMoPPModelResourceParsingStrategy parsingStrat;
+	private JaMoPPResourceParsingStrategy parsingStrat;
 
 	/**
 	 * @see {@link #getModelResource()}
@@ -59,7 +59,7 @@ public class JaMoPPModelResourceWrapper implements IModelResourceWrapper {
 	 *                     and all other necessary resources
 	 */
 	public JaMoPPModelResourceWrapper(AbstractResourceHelper resHelper,
-			JaMoPPModelResourceParsingStrategy parsingStrat) {
+			JaMoPPResourceParsingStrategy parsingStrat) {
 		this.resHelper = resHelper;
 		this.parsingStrat = parsingStrat;
 	}

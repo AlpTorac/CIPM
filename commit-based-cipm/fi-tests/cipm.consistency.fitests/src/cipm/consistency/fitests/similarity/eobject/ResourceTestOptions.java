@@ -3,30 +3,18 @@ package cipm.consistency.fitests.similarity.eobject;
 /**
  * TODO Write proper commentary
  * 
- * Use Boolean instead of boolean to indicate that an option has not been set.
- * 
  * @author Alp Torac Genc
  */
 public class ResourceTestOptions {
-	private Boolean shouldUnloadAllResources;
-	private Boolean shouldDeleteAllResources;
-	private Boolean shouldSaveCachedResources;
-	private Boolean shouldRemoveResourcesFromCache;
+	private boolean shouldUnloadAllResources;
+	private boolean shouldDeleteAllResources;
 
-	public void setShouldUnloadAllResources(Boolean shouldUnloadAllResources) {
+	public void setShouldUnloadAllResources(boolean shouldUnloadAllResources) {
 		this.shouldUnloadAllResources = shouldUnloadAllResources;
 	}
 
-	public void setShouldDeleteAllResources(Boolean shouldDeleteAllResources) {
+	public void setShouldDeleteAllResources(boolean shouldDeleteAllResources) {
 		this.shouldDeleteAllResources = shouldDeleteAllResources;
-	}
-
-	public void setShouldSaveCachedResources(Boolean shouldSaveCachedResources) {
-		this.shouldSaveCachedResources = shouldSaveCachedResources;
-	}
-
-	public void setShouldRemoveResourcesFromCache(Boolean shouldRemoveResourcesFromCache) {
-		this.shouldRemoveResourcesFromCache = shouldRemoveResourcesFromCache;
 	}
 
 	/**
@@ -36,7 +24,7 @@ public class ResourceTestOptions {
 	 * @return Whether all created resource instances should be unloaded after each
 	 *         test. Defaults to true.
 	 */
-	public Boolean shouldUnloadAllResources() {
+	public boolean shouldUnloadAllResources() {
 		return shouldUnloadAllResources;
 	}
 
@@ -47,25 +35,12 @@ public class ResourceTestOptions {
 	 * @return Whether all created resource files should be deleted after each test.
 	 *         Defaults to false.
 	 */
-	public Boolean shouldDeleteAllResources() {
+	public boolean shouldDeleteAllResources() {
 		return shouldDeleteAllResources;
 	}
 
-	/**
-	 * Override if necessary.
-	 * 
-	 * @return Whether the cached resources should be saved after each test.
-	 */
-	public Boolean shouldSaveCachedResources() {
-		return shouldSaveCachedResources;
-	}
-
-	/**
-	 * Override if necessary.
-	 * 
-	 * @return Whether cached resources should be removed after each test.
-	 */
-	public Boolean shouldRemoveResourcesFromCache() {
-		return shouldRemoveResourcesFromCache;
+	public void copyOptionsFrom(ResourceTestOptions opts) {
+		this.shouldUnloadAllResources = opts.shouldUnloadAllResources;
+		this.shouldDeleteAllResources = opts.shouldDeleteAllResources;
 	}
 }

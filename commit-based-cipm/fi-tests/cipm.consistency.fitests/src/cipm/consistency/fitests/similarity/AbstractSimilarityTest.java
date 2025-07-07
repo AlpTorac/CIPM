@@ -205,8 +205,6 @@ public abstract class AbstractSimilarityTest {
 	/**
 	 * @return The prefix of the {@link Resource} file names created from within the
 	 *         current test class. Defaults to the name of the current test class.
-	 * 
-	 * @see {@link #getResourceFileName()}
 	 */
 	public String getCurrentTestClassName() {
 		return this.getClass().getSimpleName();

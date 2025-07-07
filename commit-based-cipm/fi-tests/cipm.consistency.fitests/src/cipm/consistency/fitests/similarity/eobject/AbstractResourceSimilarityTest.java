@@ -25,7 +25,7 @@ public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityT
 	 */
 	private AbstractResourceHelper resHelper;
 
-	private AbstractModelResourceParsingStrategy parsingStrat;
+	private AbstractResourceParsingStrategy parsingStrat;
 
 	private ResourceTestOptions resourceTestOptions;
 
@@ -37,8 +37,8 @@ public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityT
 		this.setResourceHelper(this.getInitialResourceHelper());
 		this.getResourceHelper().setResourceSaveRootPath(this.getAbsoluteResourceRootPath());
 
-		this.parsingStrat = this.setResourceParsingStrategy();
-		this.resourceTestOptions = this.setResourceTestOptions();
+		this.parsingStrat = this.initResourceParsingStrategy();
+		this.resourceTestOptions = this.initResourceTestOptions();
 	}
 
 	@AfterEach
@@ -153,7 +153,7 @@ public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityT
 		return this.getResourceHelper().createResourceSet();
 	}
 
-	protected AbstractModelResourceParsingStrategy getResourceParsingStrategy() {
+	protected AbstractResourceParsingStrategy getResourceParsingStrategy() {
 		return this.parsingStrat;
 	}
 
@@ -186,9 +186,9 @@ public abstract class AbstractResourceSimilarityTest extends AbstractSimilarityT
 	 */
 	public abstract Path getAbsoluteResourceRootPath();
 
-	protected abstract AbstractModelResourceParsingStrategy setResourceParsingStrategy();
+	protected abstract AbstractResourceParsingStrategy initResourceParsingStrategy();
 
-	protected ResourceTestOptions setResourceTestOptions() {
+	protected ResourceTestOptions initResourceTestOptions() {
 		var opts = new ResourceTestOptions();
 		opts.setShouldUnloadAllResources(true);
 		opts.setShouldDeleteAllResources(false);
