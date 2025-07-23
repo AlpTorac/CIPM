@@ -5,7 +5,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
-import org.eclipse.emf.ecore.resource.Resource;
+
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
@@ -40,7 +40,7 @@ public class ImFacade implements ModelFacade {
 		FileBackedModelUtil.synchronize(this.getModel(), dirLayout.getImFilePath().toFile(),
 				InstrumentationModel.class);
 		try {
-			this.getModel().eResource().save(null);
+			this.imResourceSet.getResources().get(0).save(null);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -55,22 +55,21 @@ public class ImFacade implements ModelFacade {
 		this.saveToDisk();
 	}
 
-	private Resource getResourceInResourceSet() {
-		return this.imResourceSet.getResources().get(0);
-	}
-
 	private void prepareFacade(InstrumentationModel im) {
 		if (imResourceSet == null) {
 			imResourceSet = new ResourceSetImpl();
 		}
 
-		// Unload and remove potential past resources
-		imResourceSet.getResources().forEach((r) -> r.unload());
-		imResourceSet.getResources().clear();
+		if (imResourceSet.getResources().isEmpty()) {
+			var imRes = imResourceSet.createResource(dirLayout.getImFileUri());
+			imRes.getContents().add(im);
+		}
 
-		// Add a new resource
-		var imRes = imResourceSet.createResource(dirLayout.getImFileUri());
-		imRes.getContents().add(im);
+		var res = imResourceSet.getResources().get(0);
+
+		if (!res.getContents().contains(im)) {
+			res.getContents().add(im);
+		}
 	}
 
 	private void createModel() {
@@ -101,7 +100,7 @@ public class ImFacade implements ModelFacade {
 	}
 
 	public InstrumentationModel getModel() {
-		return (InstrumentationModel) this.getResourceInResourceSet().getContents().get(0);
+		return (InstrumentationModel) this.imResourceSet.getResources().get(0).getContents().get(0);
 	}
 
 	@Override
