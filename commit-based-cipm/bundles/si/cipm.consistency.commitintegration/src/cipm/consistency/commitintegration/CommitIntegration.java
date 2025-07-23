@@ -1,7 +1,7 @@
 package cipm.consistency.commitintegration;
 
 import cipm.consistency.commitintegration.git.GitRepositoryWrapper;
-import cipm.consistency.models.code.CodeModelFacade;
+import cipm.consistency.models.ModelFacade;
 
 import com.google.common.base.Supplier;
 import java.io.IOException;
@@ -20,7 +20,7 @@ import tools.vitruv.framework.views.changederivation.StateBasedChangeResolutionS
  * 
  * @author Lukas Burgey
  */
-public interface CommitIntegration<CM extends CodeModelFacade> {
+public interface CommitIntegration<CM extends ModelFacade> {
     /**
      * 
      * @return The root path of this commit integration. All other paths should be resolved to this

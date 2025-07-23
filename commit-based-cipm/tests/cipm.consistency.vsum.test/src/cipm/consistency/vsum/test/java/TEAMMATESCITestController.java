@@ -217,7 +217,7 @@ public class TEAMMATESCITestController {
             Assert.fail("PropagatedChanges may not be null");
         }
 
-        var evaluator = new PropagationEvaluator<>(propagation, this.teammatesController, this.manualModelsPath);
+        var evaluator = new PropagationEvaluator<JavaModelFacade>(propagation, this.teammatesController, this.manualModelsPath);
 
         var result = evaluator.evaluate();
 

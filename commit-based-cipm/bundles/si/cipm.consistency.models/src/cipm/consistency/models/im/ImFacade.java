@@ -2,7 +2,9 @@ package cipm.consistency.models.im;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
@@ -78,7 +80,7 @@ public class ImFacade implements ModelFacade {
 	}
 
 	private void loadModel() {
-		this.prepareFacade(ModelUtil.readFromFile(dirLayout.getImFilePath().toFile(), InstrumentationModel.class));
+		this.parseModel(dirLayout.getImFilePath());
 	}
 
 	public void loadOrCreateModelResources() {
@@ -103,7 +105,25 @@ public class ImFacade implements ModelFacade {
 	}
 
 	@Override
-	public ResourceSet getResource() {
+	public ResourceSet getResourceSet() {
+		return imResourceSet;
+	}
+
+	@Override
+	public List<Path> createNamedCopy(String name) throws IOException {
+		var path = getDirLayout().getImFilePath();
+		var copyPath = path.resolveSibling(
+				String.format("%s-%s%s", ImDirLayout.getImFileName(), name, ImDirLayout.getImFileExtension()));
+
+		FileUtils.copyFile(path.toFile(), copyPath.toFile());
+
+		return List.of(copyPath);
+	}
+
+	@Override
+	public ResourceSet parseModel(Path modelDirPath) {
+		dirLayout.initialize(modelDirPath);
+		this.prepareFacade(ModelUtil.readFromFile(dirLayout.getImFilePath().toFile(), InstrumentationModel.class));
 		return imResourceSet;
 	}
 }

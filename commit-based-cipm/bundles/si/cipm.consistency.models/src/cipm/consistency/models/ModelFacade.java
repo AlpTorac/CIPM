@@ -1,5 +1,6 @@
 package cipm.consistency.models;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import org.eclipse.emf.ecore.resource.Resource;
@@ -14,14 +15,14 @@ public interface ModelFacade {
 	/**
 	 * @return The resource set, which contains all resources of the model.
 	 */
-	public ResourceSet getResource();
+	public ResourceSet getResourceSet();
 
 	/**
 	 * @return All resources of the model.
-	 * @see {@link #getResource()}
+	 * @see {@link #getResourceSet()}
 	 */
 	public default List<Resource> getResources() {
-		var res = this.getResource();
+		var res = this.getResourceSet();
 		if (res != null) {
 			return List.copyOf(res.getResources());
 		}
@@ -32,6 +33,17 @@ public interface ModelFacade {
 	 * Reload models from disk
 	 */
 	public void reload();
+
+	/**
+	 * TODO Discuss whether this method here is OK
+	 * 
+	 * @param name The unique part (i.e. no common prefix or suffix in name schemes)
+	 *             of this model's name
+	 * @return The list of paths to the resources of this model.
+	 */
+	public List<Path> createNamedCopy(String name) throws IOException;
+
+	public ResourceSet parseModel(Path modelDirPath);
 
 //    public List<Resource> createModelResources();
 

@@ -7,8 +7,7 @@ Automatic-Module-Name: cipm.consistency.models
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: cipm.consistency.models,
  cipm.consistency.models.im,
- cipm.consistency.models.pcm,
- cipm.consistency.models.code
+ cipm.consistency.models.pcm
 Import-Package: cipm.consistency.base.models.instrumentation.InstrumentationModel
 Require-Bundle: org.eclipse.emf.ecore,
  cipm.consistency.base.shared,

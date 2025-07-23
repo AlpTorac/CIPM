@@ -3,7 +3,8 @@ package cipm.consistency.vsum.test.evaluator;
 import java.util.Set;
 
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
+
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.emftext.language.java.statements.Return;
 import org.emftext.language.java.statements.Statement;
 import org.palladiosimulator.pcm.repository.OperationSignature;
@@ -11,7 +12,8 @@ import org.palladiosimulator.pcm.repository.OperationSignature;
 import cipm.consistency.base.models.instrumentation.InstrumentationModel.InstrumentationModel;
 import cipm.consistency.commitintegration.CommitIntegrationController;
 import cipm.consistency.commitintegration.CommitIntegrationState;
-import cipm.consistency.models.code.CodeModelFacade;
+import cipm.consistency.models.ModelFacade;
+
 import cipm.consistency.tools.evaluation.data.EvaluationDataContainer;
 import cipm.consistency.tools.evaluation.data.InstrumentationEvaluationData;
 import tools.vitruv.change.correspondence.Correspondence;
@@ -23,79 +25,63 @@ import tools.vitruv.change.correspondence.view.CorrespondenceModelView;
 /**
  * Evaluates the instrumentation.
  * 
- * @param <CM>
- *            The code model which is instrumented
+ * @param <CM> The code model which is instrumented
  * 
  * @author Martin Armbruster
  * @author Lukas Burgey
  */
-public class InstrumentationEvaluator<CM extends CodeModelFacade> extends CommitIntegrationController<CM> {
-    private final int numberAdditionalStatements = 10;
-    private final int numberServiceStatements = 7;
-    private final int numberStatementsPerParameter = 1;
-    private final int numberExternalCallStatements = 1;
-    private final int numberBranchStatements = 1;
-    private final int numberLoopStatements = 3;
-    private final int numberInternalActionStatements = 2;
-    private final int numberInternalActionStatementsPerReturnStatement = 2;
+public class InstrumentationEvaluator<CM extends ModelFacade> extends CommitIntegrationController<CM> {
+	private final int numberAdditionalStatements = 10;
+	private final int numberServiceStatements = 7;
+	private final int numberStatementsPerParameter = 1;
+	private final int numberExternalCallStatements = 1;
+	private final int numberBranchStatements = 1;
+	private final int numberLoopStatements = 3;
+	private final int numberInternalActionStatements = 2;
+	private final int numberInternalActionStatementsPerReturnStatement = 2;
 
 //    private CM codeModel;
 //    private CM instrumentedModel;
 
-    /**
-     * Evaluates the instrumented code model. It is assumed to be executed directly after the
-     * instrumentation.
-     * 
-     * @param state
-     *            The commit integration state.
-     * @param instrumentedCodeModel
-     *            The instrumented code model. The actual code model is still contained in the
-     *            state.
-     */
-    // TODO what does evaluating "dependently" mean?
-    public void evaluateInstrumentationDependently(CommitIntegrationState<CM> state,
-            CodeModelFacade instrumentedCodeModel) {
-        if (instrumentedCodeModel == null || instrumentedCodeModel.getResource()
-            .getContents()
-            .isEmpty()) {
-            return;
-        }
-        // count statements in the
-        InstrumentationEvaluationData insEvalData = EvaluationDataContainer.get()
-            .getInstrumentationData();
-        int codeModelStatements = countStatements(state.getCodeModelFacade()
-            .getResource());
-        int instrumStatements = countStatements(instrumentedCodeModel.getResource());
-        insEvalData.setStatementDifferenceCount(instrumStatements - codeModelStatements);
+	/**
+	 * Evaluates the instrumented code model. It is assumed to be executed directly
+	 * after the instrumentation.
+	 * 
+	 * @param state                 The commit integration state.
+	 * @param instrumentedCodeModel The instrumented code model. The actual code
+	 *                              model is still contained in the state.
+	 */
+	// TODO what does evaluating "dependently" mean?
+	public void evaluateInstrumentationDependently(CommitIntegrationState<CM> state,
+			ModelFacade instrumentedCodeModel) {
+		if (instrumentedCodeModel == null || instrumentedCodeModel.getResourceSet().getResources().isEmpty()) {
+			return;
+		}
+		// count statements in the
+		InstrumentationEvaluationData insEvalData = EvaluationDataContainer.get().getInstrumentationData();
+		int codeModelStatements = countStatements(state.getCodeModelFacade().getResourceSet());
+		int instrumStatements = countStatements(instrumentedCodeModel.getResourceSet());
+		insEvalData.setStatementDifferenceCount(instrumStatements - codeModelStatements);
 
-        var lowerDifferenceCount = countExpectedStatements(state.getImFacade()
-            .getModel(),
-                state.getVsumFacade()
-                    .getCorrespondenceView(),
-                true);
-        insEvalData.setExpectedLowerStatementDifferenceCount(lowerDifferenceCount);
+		var lowerDifferenceCount = countExpectedStatements(state.getImFacade().getModel(),
+				state.getVsumFacade().getCorrespondenceView(), true);
+		insEvalData.setExpectedLowerStatementDifferenceCount(lowerDifferenceCount);
 
-        var upperDifferenceCount = countExpectedStatements(state.getImFacade()
-            .getModel(),
-                state.getVsumFacade()
-                    .getCorrespondenceView(),
-                false);
-        insEvalData.setExpectedUpperStatementDifferenceCount(upperDifferenceCount);
-    }
+		var upperDifferenceCount = countExpectedStatements(state.getImFacade().getModel(),
+				state.getVsumFacade().getCorrespondenceView(), false);
+		insEvalData.setExpectedUpperStatementDifferenceCount(upperDifferenceCount);
+	}
 
-    /**
-     * Reloads the instrumented code and evaluates it.
-     * 
-     * @param im
-     *            the extended IM.
-     * @param javaModel
-     *            the original Java model.
-     * @param fileLayout
-     *            the Java file layout.
-     * @param cm
-     *            the correspondence model.
-     */
-    // TODO this method duplicates some code from the previous method. We could add a parameter "dependent" and merge them into one
+	/**
+	 * Reloads the instrumented code and evaluates it.
+	 * 
+	 * @param im         the extended IM.
+	 * @param javaModel  the original Java model.
+	 * @param fileLayout the Java file layout.
+	 * @param cm         the correspondence model.
+	 */
+	// TODO this method duplicates some code from the previous method. We could add
+	// a parameter "dependent" and merge them into one
 //    public void evaluateInstrumentationIndependently(CommitIntegrationState<CM> state) {
 //
 ////    public void evaluateInstrumentationIndependently(InstrumentationModel im, Resource javaModel,
@@ -164,60 +150,60 @@ public class InstrumentationEvaluator<CM extends CodeModelFacade> extends Commit
 //
 //    }
 
-    private static int countStatements(Resource model) {
-        int statements = 0;
-        for (var iter = model.getAllContents(); iter.hasNext();) {
-            EObject obj = iter.next();
-            if (obj instanceof Statement) {
-                statements++;
-            }
-        }
-        return statements;
-    }
+	private static int countStatements(ResourceSet modelResourceSet) {
+		int statements = 0;
+		for (var res : modelResourceSet.getResources()) {
+			for (var iter = res.getAllContents(); iter.hasNext();) {
+				EObject obj = iter.next();
+				if (obj instanceof Statement) {
+					statements++;
+				}
+			}
+		}
+		return statements;
+	}
 
-    private int countExpectedStatements(InstrumentationModel im, CorrespondenceModelView<Correspondence> cmv,
-            boolean lowerCount) {
-        int statements = numberAdditionalStatements;
-        for (var sip : im.getPoints()) {
-            statements += numberServiceStatements;
-            statements += ((OperationSignature) sip.getService()
-                .getDescribedService__SEFF()).getParameters__OperationSignature()
-                    .size() * numberStatementsPerParameter;
-            for (var aip : sip.getActionInstrumentationPoints()) {
-                if (!aip.isActive()) {
-                    continue;
-                }
-                switch (aip.getType()) {
-                case BRANCH:
-                    statements += numberBranchStatements;
-                    break;
-                case INTERNAL:
-                case INTERNAL_CALL:
-                    statements += numberInternalActionStatements;
-                    if (!lowerCount) {
-                        Set<EObject> stats = cmv.getCorrespondingEObjects(aip.getAction(), null);
-                        for (EObject s : stats) {
-                            if (s instanceof Return) {
-                                statements += numberInternalActionStatementsPerReturnStatement;
-                            }
-                            statements += numberInternalActionStatementsPerReturnStatement
-                                    * ((Statement) s).getChildrenByType(Return.class)
-                                        .size();
-                        }
-                    }
-                    break;
-                case EXTERNAL_CALL:
-                    statements += numberExternalCallStatements;
-                    break;
-                case LOOP:
-                default:
-                    statements += numberLoopStatements;
-                    break;
-                }
-            }
-        }
-        return statements;
-    }
+	private int countExpectedStatements(InstrumentationModel im, CorrespondenceModelView<Correspondence> cmv,
+			boolean lowerCount) {
+		int statements = numberAdditionalStatements;
+		for (var sip : im.getPoints()) {
+			statements += numberServiceStatements;
+			statements += ((OperationSignature) sip.getService().getDescribedService__SEFF())
+					.getParameters__OperationSignature().size() * numberStatementsPerParameter;
+			for (var aip : sip.getActionInstrumentationPoints()) {
+				if (!aip.isActive()) {
+					continue;
+				}
+				switch (aip.getType()) {
+				case BRANCH:
+					statements += numberBranchStatements;
+					break;
+				case INTERNAL:
+				case INTERNAL_CALL:
+					statements += numberInternalActionStatements;
+					if (!lowerCount) {
+						Set<EObject> stats = cmv.getCorrespondingEObjects(aip.getAction(), null);
+						for (EObject s : stats) {
+							if (s instanceof Return) {
+								statements += numberInternalActionStatementsPerReturnStatement;
+							}
+							statements += numberInternalActionStatementsPerReturnStatement
+									* ((Statement) s).getChildrenByType(Return.class).size();
+						}
+					}
+					break;
+				case EXTERNAL_CALL:
+					statements += numberExternalCallStatements;
+					break;
+				case LOOP:
+				default:
+					statements += numberLoopStatements;
+					break;
+				}
+			}
+		}
+		return statements;
+	}
 
 //    private String convertToString(Method method) {
 //        StringBuilder builder = new StringBuilder();

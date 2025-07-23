@@ -7,6 +7,7 @@ import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.Diagnostic;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
@@ -16,10 +17,10 @@ import org.eclipse.emf.ecore.util.Diagnostician;
 import cipm.consistency.commitintegration.lang.detection.ComponentDetector;
 import cipm.consistency.commitintegration.lang.detection.ComponentDetectorImpl;
 import cipm.consistency.commitintegration.lang.detection.strategy.ComponentDetectionStrategy;
-import cipm.consistency.models.code.CodeModelDirLayout;
-import cipm.consistency.models.code.CodeModelFacade;
+import cipm.consistency.models.ModelDirLayout;
+import cipm.consistency.models.ModelFacade;
 
-public class JavaModelFacade implements CodeModelFacade {
+public class JavaModelFacade implements ModelFacade {
 	// TODO: Check this class and Lua's part. Several duplicated parts can be
 	// extracted.
 	private static final Logger LOGGER = Logger.getLogger(JavaModelFacade.class.getName());
@@ -43,11 +44,11 @@ public class JavaModelFacade implements CodeModelFacade {
 	}
 
 	@Override
-	public Resource parseSourceCodeDir(Path sourceCodeDir) {
+	public ResourceSet parseModel(Path modelDirPath) {
 		LOGGER.debug("Propagating the current worktree");
 
-		var javaResource = JavaParserAndPropagatorUtils.parseJavaCodeIntoOneModel(sourceCodeDir,
-				this.dirLayout.getParsedCodePath(), this.dirLayout.getModuleConfiguration(), this.componentDetector);
+		var javaResource = JavaParserAndPropagatorUtils.parseJavaCodeIntoOneModel(modelDirPath,
+				this.dirLayout.getRootDirPath(), this.dirLayout.getModuleConfiguration(), this.componentDetector);
 
 		// TODO: Add option to configure storing the Java model.
 		try {
@@ -65,7 +66,7 @@ public class JavaModelFacade implements CodeModelFacade {
 		}
 
 		this.currentResourceSet = javaResourceSet;
-		return javaResource;
+		return this.currentResourceSet;
 	}
 
 	private static boolean validateResourceSet(ResourceSet resourceSet) {
@@ -107,30 +108,34 @@ public class JavaModelFacade implements CodeModelFacade {
 	}
 
 	public boolean existsOnDisk() {
-		return dirLayout.getParsedCodePath().toFile().exists();
+		return dirLayout.getRootDirPath().toFile().exists();
 	}
 
 	private void loadParsedFile() {
 		this.currentResourceSet = new ResourceSetImpl();
-		this.currentResourceSet.getResource(dirLayout.getParsedCodeURI(), true);
+		this.currentResourceSet.getResource(getParsedCodeURI(), true);
+	}
+
+	private URI getParsedCodeURI() {
+		return URI.createFileURI(dirLayout.getRootDirPath().toAbsolutePath().toString());
 	}
 
 	@Override
-	public CodeModelDirLayout getDirLayout() {
+	public ModelDirLayout getDirLayout() {
 		return dirLayout;
 	}
 
 	@Override
-	public ResourceSet getResource() {
+	public ResourceSet getResourceSet() {
 		return currentResourceSet;
 	}
 
 	@Override
-	public Path createNamedCopyOfParsedModel(String name) throws IOException {
-		var path = getDirLayout().getParsedCodePath();
+	public List<Path> createNamedCopy(String name) throws IOException {
+		var path = getDirLayout().getRootDirPath();
 		var copyPath = path.resolveSibling("parsed-" + name + ".code.javaxmi");
 		FileUtils.copyFile(path.toFile(), copyPath.toFile());
-		return copyPath;
+		return List.of(copyPath);
 	}
 
 	@Override

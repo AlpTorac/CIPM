@@ -7,16 +7,18 @@ import org.eclipse.xtend.lib.annotations.Accessors
 
 @Accessors
 class ImDirLayout extends ModelDirLayoutImpl {
-	static final String imFileName = "imm.imm"
-	
+	@Accessors
+	static final String imFileExtension = ".imm"
+	@Accessors
+	static final String imFileName = "imm"
+
 	Path imFilePath
 	URI imFileUri
-	
-	
+
 	override void initialize(Path rootDirPath) {
 		super.initialize(rootDirPath)
 
-		imFilePath = rootDirPath.resolve(imFileName)
+		imFilePath = rootDirPath.resolve(imFileName + imFileExtension)
 		imFileUri = URI.createFileURI(imFilePath.toAbsolutePath().toString())
 	}
 }

@@ -131,7 +131,9 @@ public class PcmFacade implements ModelFacade {
 				ModelUtil.readFromFile(files.getResourceEnvironmentFile(), ResourceEnvironment.class),
 				ModelUtil.readFromFile(files.getUsageModelFile(), UsageModel.class),
 				ModelUtil.readFromFile(files.getAllocationModelFile(), Allocation.class));
-		saveToDisk();
+
+		// TODO Is saving to disk necessary, even if we freshly load the model?
+		// saveToDisk();
 	}
 
 	public void saveToDisk() {
@@ -139,7 +141,7 @@ public class PcmFacade implements ModelFacade {
 	}
 
 	@Override
-	public ResourceSet getResource() {
+	public ResourceSet getResourceSet() {
 		return pcmResourceSet;
 	}
 
@@ -153,10 +155,81 @@ public class PcmFacade implements ModelFacade {
 
 	public Path createNamedCopyOfRepositoryModel(String name) throws IOException {
 		var path = getDirLayout().getPcmRepositoryPath();
-		var copyPath = path.resolveSibling("Repository-" + name + ".repository");
+		var copyPath = path.resolveSibling(String.format("%s-%s%s", PcmDirLayout.getPcmRepositoryFileName(), name,
+				PcmDirLayout.getPcmRepositoryFileExtension()));
 
 		FileUtils.copyFile(path.toFile(), copyPath.toFile());
 
 		return copyPath;
+	}
+
+	public Path createNamedCopyOfSystemModel(String name) throws IOException {
+		var path = getDirLayout().getPcmSystemPath();
+		var copyPath = path.resolveSibling(String.format("%s-%s%s", PcmDirLayout.getPcmSystemFileName(), name,
+				PcmDirLayout.getPcmSystemFileExtension()));
+
+		FileUtils.copyFile(path.toFile(), copyPath.toFile());
+
+		return copyPath;
+	}
+
+	public Path createNamedCopyOfResourceEnvironmentModel(String name) throws IOException {
+		var path = getDirLayout().getPcmResourceEnvironmentPath();
+		var copyPath = path.resolveSibling(String.format("%s-%s%s", PcmDirLayout.getPcmResourceEnvironmentFileName(),
+				name, PcmDirLayout.getPcmResourceEnvironmentFileExtension()));
+
+		FileUtils.copyFile(path.toFile(), copyPath.toFile());
+
+		return copyPath;
+	}
+
+	public Path createNamedCopyOfAllocationModel(String name) throws IOException {
+		var path = getDirLayout().getPcmAllocationPath();
+		var copyPath = path.resolveSibling(String.format("%s-%s%s", PcmDirLayout.getPcmAllocationFileName(), name,
+				PcmDirLayout.getPcmAllocationFileExtension()));
+
+		FileUtils.copyFile(path.toFile(), copyPath.toFile());
+
+		return copyPath;
+	}
+
+	public Path createNamedCopyOfUsageModel(String name) throws IOException {
+		var path = getDirLayout().getPcmUsageModelPath();
+		var copyPath = path.resolveSibling(String.format("%s-%s%s", PcmDirLayout.getPcmUsageModelFileName(), name,
+				PcmDirLayout.getPcmUsageModelFileExtension()));
+
+		FileUtils.copyFile(path.toFile(), copyPath.toFile());
+
+		return copyPath;
+	}
+
+	@Override
+	public List<Path> createNamedCopy(String name) throws IOException {
+		return List.of(this.createNamedCopyOfRepositoryModel(name), this.createNamedCopyOfSystemModel(name),
+				this.createNamedCopyOfResourceEnvironmentModel(name), this.createNamedCopyOfAllocationModel(name),
+				this.createNamedCopyOfUsageModel(name));
+	}
+
+	@Override
+	public ResourceSet parseModel(Path modelDirPath) {
+		// using createFromFilesystem causes strange errors when propagating the
+		// resource
+		// -> so we don't use it
+		// pcm = InMemoryPCM.createFromFilesystem(filePcm);
+
+		LOGGER.debug("Parsing PCM");
+
+		fileLayout.initialize(modelDirPath);
+		var files = fileLayout.getFilePCM();
+		this.prepareFacade(ModelUtil.readFromFile(files.getSystemFile(), System.class),
+				ModelUtil.readFromFile(files.getRepositoryFile(), Repository.class),
+				ModelUtil.readFromFile(files.getResourceEnvironmentFile(), ResourceEnvironment.class),
+				ModelUtil.readFromFile(files.getUsageModelFile(), UsageModel.class),
+				ModelUtil.readFromFile(files.getAllocationModelFile(), Allocation.class));
+
+		// TODO Is saving to disk necessary, even if we freshly parse the model?
+		// saveToDisk();
+
+		return this.pcmResourceSet;
 	}
 }
