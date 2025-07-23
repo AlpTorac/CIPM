@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.Diagnostic;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.Diagnostician;
 
@@ -19,116 +20,120 @@ import cipm.consistency.models.code.CodeModelDirLayout;
 import cipm.consistency.models.code.CodeModelFacade;
 
 public class JavaModelFacade implements CodeModelFacade {
-	// TODO: Check this class and Lua's part. Several duplicated parts can be extracted.
-    private static final Logger LOGGER = Logger.getLogger(JavaModelFacade.class.getName());
-    private JavaFileSystemLayout dirLayout = new JavaFileSystemLayout();
-    private ComponentDetector componentDetector = new ComponentDetectorImpl();
+	// TODO: Check this class and Lua's part. Several duplicated parts can be
+	// extracted.
+	private static final Logger LOGGER = Logger.getLogger(JavaModelFacade.class.getName());
+	private JavaFileSystemLayout dirLayout = new JavaFileSystemLayout();
+	private ComponentDetector componentDetector = new ComponentDetectorImpl();
 
-    private Resource currentResource;
+	private ResourceSet currentResourceSet;
 
-    @Override
-    public void initialize(Path dirPath) {
-        this.dirLayout.initialize(dirPath);
-        if (existsOnDisk()) {
-            loadParsedFile();
-        }
-    }
+	@Override
+	public void initialize(Path dirPath) {
+		this.dirLayout.initialize(dirPath);
+		if (existsOnDisk()) {
+			loadParsedFile();
+		}
+	}
 
-    public void setComponentDetectionStrategies(List<ComponentDetectionStrategy> strategies) {
-        for (var strat : strategies) {
-            this.componentDetector.addComponentDetectionStrategy(strat);
-        }
-    }
+	public void setComponentDetectionStrategies(List<ComponentDetectionStrategy> strategies) {
+		for (var strat : strategies) {
+			this.componentDetector.addComponentDetectionStrategy(strat);
+		}
+	}
 
-    @Override
-    public Resource parseSourceCodeDir(Path sourceCodeDir) {
-        LOGGER.debug("Propagating the current worktree");
-        
-        var javaResource = JavaParserAndPropagatorUtils.parseJavaCodeIntoOneModel(
-        		sourceCodeDir, this.dirLayout.getParsedCodePath(), this.dirLayout.getModuleConfiguration(), this.componentDetector);
+	@Override
+	public Resource parseSourceCodeDir(Path sourceCodeDir) {
+		LOGGER.debug("Propagating the current worktree");
 
-        // TODO: Add option to configure storing the Java model.
-         try {
+		var javaResource = JavaParserAndPropagatorUtils.parseJavaCodeIntoOneModel(sourceCodeDir,
+				this.dirLayout.getParsedCodePath(), this.dirLayout.getModuleConfiguration(), this.componentDetector);
+
+		// TODO: Add option to configure storing the Java model.
+		try {
 			javaResource.save(null);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-        if (!validateResource(javaResource)) {
-            LOGGER.error("Code model is invalid!");
-            return null;
-        }
-        
-        this.currentResource = javaResource;
-        return javaResource;
-    }
-    
-    private static boolean validateResource(Resource resource) {
-    	var resourceValid = true;
-    	for (var rootElement : resource.getContents()) {
-    		resourceValid &= validateEObject(rootElement);
-    	}
-    	return resourceValid;
-    }
+		var javaResourceSet = javaResource.getResourceSet();
 
-    /**
-     * Validates a given EObject and all of its children.
-     */
-    private static boolean validateEObject(EObject rootEObject) {
-        var result = Diagnostician.INSTANCE.validate(rootEObject);
-        var contentsValid = isValidDiagnostic(result);
-        for (var childResult : result.getChildren()) {
-            contentsValid &= isValidDiagnostic(childResult);
-        }
-        if (!contentsValid) {
-        	LOGGER.warn(result.getMessage());
-            for (var diag : result.getChildren()) {
-                LOGGER.warn(diag.getMessage());
-            }
-        }
-        return contentsValid;
-    }
-    
-    private static boolean isValidDiagnostic(Diagnostic diagnostic) {
-    	return diagnostic.getSeverity() != Diagnostic.CANCEL && diagnostic.getSeverity() != Diagnostic.ERROR;
-    }
+		if (!validateResourceSet(javaResourceSet)) {
+			LOGGER.error("Code model is invalid!");
+			return null;
+		}
 
-    public boolean existsOnDisk() {
-        return dirLayout.getParsedCodePath()
-            .toFile()
-            .exists();
-    }
+		this.currentResourceSet = javaResourceSet;
+		return javaResource;
+	}
 
-    private void loadParsedFile() {
-        var resourceSet = new ResourceSetImpl();
-        currentResource = resourceSet.getResource(dirLayout.getParsedCodeURI(), true);
-    }
+	private static boolean validateResourceSet(ResourceSet resourceSet) {
+		var resourceValid = true;
+		for (var resource : resourceSet.getResources()) {
+			resourceValid &= validateResource(resource);
+		}
+		return resourceValid;
+	}
 
-    @Override
-    public CodeModelDirLayout getDirLayout() {
-        return dirLayout;
-    }
+	private static boolean validateResource(Resource resource) {
+		var resourceValid = true;
+		for (var rootElement : resource.getContents()) {
+			resourceValid &= validateEObject(rootElement);
+		}
+		return resourceValid;
+	}
 
-    @Override
-    public List<Resource> getResources() {
-        return null;
-    }
+	/**
+	 * Validates a given EObject and all of its children.
+	 */
+	private static boolean validateEObject(EObject rootEObject) {
+		var result = Diagnostician.INSTANCE.validate(rootEObject);
+		var contentsValid = isValidDiagnostic(result);
+		for (var childResult : result.getChildren()) {
+			contentsValid &= isValidDiagnostic(childResult);
+		}
+		if (!contentsValid) {
+			LOGGER.warn(result.getMessage());
+			for (var diag : result.getChildren()) {
+				LOGGER.warn(diag.getMessage());
+			}
+		}
+		return contentsValid;
+	}
 
-    @Override
-    public Resource getResource() {
-        return currentResource;
-    }
+	private static boolean isValidDiagnostic(Diagnostic diagnostic) {
+		return diagnostic.getSeverity() != Diagnostic.CANCEL && diagnostic.getSeverity() != Diagnostic.ERROR;
+	}
 
-    @Override
-    public Path createNamedCopyOfParsedModel(String name) throws IOException {
-        var path = getDirLayout().getParsedCodePath();
-        var copyPath = path.resolveSibling("parsed-" + name + ".code.javaxmi");
-        FileUtils.copyFile(path.toFile(), copyPath.toFile());
-        return copyPath;
-    }
+	public boolean existsOnDisk() {
+		return dirLayout.getParsedCodePath().toFile().exists();
+	}
 
-    @Override
-    public void reload() {
-    }
+	private void loadParsedFile() {
+		this.currentResourceSet = new ResourceSetImpl();
+		this.currentResourceSet.getResource(dirLayout.getParsedCodeURI(), true);
+	}
+
+	@Override
+	public CodeModelDirLayout getDirLayout() {
+		return dirLayout;
+	}
+
+	@Override
+	public ResourceSet getResource() {
+		return currentResourceSet;
+	}
+
+	@Override
+	public Path createNamedCopyOfParsedModel(String name) throws IOException {
+		var path = getDirLayout().getParsedCodePath();
+		var copyPath = path.resolveSibling("parsed-" + name + ".code.javaxmi");
+		FileUtils.copyFile(path.toFile(), copyPath.toFile());
+		return copyPath;
+	}
+
+	@Override
+	public void reload() {
+	}
 }
