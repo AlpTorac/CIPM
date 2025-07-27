@@ -21,12 +21,6 @@ import cipm.consistency.fitests.similarity.ILoggable;
  */
 public abstract class AbstractResourceHelper implements ILoggable {
 	/**
-	 * The directory, where the created {@link Resource} instances will be stored,
-	 * if they are saved.
-	 */
-	private Path resourceSaveRootPath;
-
-	/**
 	 * The extension of {@link Resource} files, if they are saved.
 	 */
 	private String resourceFileExtension;
@@ -48,18 +42,9 @@ public abstract class AbstractResourceHelper implements ILoggable {
 	}
 
 	/**
-	 * Sets all resource registries foreseen for this instance. They are tracked and
-	 * can be cleaned using {@link #cleanRegistry()}, if needed.
+	 * Sets all resource registries foreseen for this instance.
 	 */
 	public abstract void setInitialResourceRegistries();
-
-	/**
-	 * Sets the directory, where the created {@link Resource} instances will be
-	 * stored, if they are saved.
-	 */
-	public void setResourceSaveRootPath(Path resourceSaveRootPath) {
-		this.resourceSaveRootPath = resourceSaveRootPath;
-	}
 
 	/**
 	 * Sets the extension of {@link Resource} files, if they are saved.
@@ -76,14 +61,6 @@ public abstract class AbstractResourceHelper implements ILoggable {
 	}
 
 	/**
-	 * @return The directory, where the created {@link Resource} instances will be
-	 *         stored, if they are saved.
-	 */
-	public Path getResourceSaveRootPath() {
-		return resourceSaveRootPath;
-	}
-
-	/**
 	 * @return An empty {@link ResourceSetImpl}
 	 */
 	public ResourceSet createResourceSet() {
@@ -92,11 +69,8 @@ public abstract class AbstractResourceHelper implements ILoggable {
 
 	/**
 	 * Creates a {@link Resource} instance within the given resource set rSet, for
-	 * the given EObject instances eos (can be null), with the given URI resURI. The
-	 * Resource instances created with this method are tracked, so that they can be
-	 * deleted later if necessary.<br>
+	 * the given EObject instances eos (can be null), with the given URI resURI.
 	 * <br>
-	 * Note: The given URI will override {@link #getResourceSaveRootPath()} <br>
 	 * <br>
 	 * <b>!!! IMPORTANT !!!</b> <br>
 	 * <br>
@@ -128,9 +102,8 @@ public abstract class AbstractResourceHelper implements ILoggable {
 	}
 
 	/**
-	 * Adds the extension to factory mapping into {@link Resource.Factory.Registry}.
-	 * The added entry will be tracked by this instance, allowing it to be removed
-	 * if necessary. <br>
+	 * Adds the extension to factory mapping into
+	 * {@link Resource.Factory.Registry}.<br>
 	 * <br>
 	 * Said entry denotes that resources with the given extension are saved using
 	 * the given factory.
@@ -265,8 +238,7 @@ public abstract class AbstractResourceHelper implements ILoggable {
 
 	/**
 	 * Removes the entry matching to the given {@code resourceFileExtension} from
-	 * the resource factory, if it was added by this instance. Stops tracking the
-	 * said entry.
+	 * the resource factory.
 	 */
 	public void removeFromRegistry(String resourceFileExtension) {
 		if (resourceFileExtension == null)

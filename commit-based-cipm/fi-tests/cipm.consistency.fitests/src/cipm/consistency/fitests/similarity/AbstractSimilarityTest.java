@@ -4,7 +4,6 @@ import java.util.Collection;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.TestInfo;
 
 /**
  * An abstract class for similarity checking tests to extend. <br>
@@ -19,10 +18,6 @@ public abstract class AbstractSimilarityTest implements ILoggable {
 	 * @see {@link #getSCC()}
 	 */
 	private ISimilarityCheckerContainer scc;
-	/**
-	 * @see {@link #getCurrentTestInfo()}
-	 */
-	private TestInfo currentTestInfo;
 
 	/**
 	 * Sets up the necessary variables before tests are run. The {@link TestInfo}
@@ -36,10 +31,8 @@ public abstract class AbstractSimilarityTest implements ILoggable {
 	 *             run (ex: the test method instance, test class, ...)
 	 */
 	@BeforeEach
-	public void setUp(TestInfo info) {
+	public void setUp() {
 		ILoggable.setUpLogger();
-
-		this.setTestInfo(info);
 
 		this.setSCC(this.initSCC());
 	}
@@ -55,23 +48,6 @@ public abstract class AbstractSimilarityTest implements ILoggable {
 	@AfterEach
 	public void tearDown() {
 		this.cleanUpSCC();
-		this.cleanUpTestInfo();
-	}
-
-	/**
-	 * Sets the {@link TestInfo} belonging to the currently running test method to
-	 * null. Used by {@link #tearDown()}, in order to make sure that the underlying
-	 * {@link TestInfo} does not get carried over.
-	 */
-	protected void cleanUpTestInfo() {
-		this.currentTestInfo = null;
-	}
-
-	/**
-	 * Sets the information object belonging to the currently running test method.
-	 */
-	protected void setTestInfo(TestInfo info) {
-		this.currentTestInfo = info;
 	}
 
 	/**
@@ -92,32 +68,6 @@ public abstract class AbstractSimilarityTest implements ILoggable {
 	 */
 	protected void cleanUpSCC() {
 		this.scc = null;
-	}
-
-	/**
-	 * @return An object that contains information on the currently running test.
-	 */
-	protected TestInfo getCurrentTestInfo() {
-		return this.currentTestInfo;
-	}
-
-	/**
-	 * @param info An object that contains information on a test.
-	 * 
-	 * @return The name of the test method, to whom the info parameter belongs.
-	 *         Returns an empty String, if info is null or info does not contain a
-	 *         test method.
-	 */
-	private String getCurrentTestMethodName(TestInfo info) {
-		if (info != null) {
-			var met = info.getTestMethod().orElseGet(() -> null);
-
-			if (met != null) {
-				return met.getName();
-			}
-		}
-
-		return "";
 	}
 
 	/**
@@ -165,12 +115,4 @@ public abstract class AbstractSimilarityTest implements ILoggable {
 	public String getCurrentTestClassName() {
 		return this.getClass().getSimpleName();
 	}
-
-	/**
-	 * @return The name of the currently running test method
-	 */
-	public String getCurrentTestMethodName() {
-		return this.getCurrentTestMethodName(this.getCurrentTestInfo());
-	}
-
 }

@@ -14,7 +14,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicContainer;
 import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.TestFactory;
-import org.junit.jupiter.api.TestInfo;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 
@@ -68,9 +67,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 	@BeforeEach
 	@Override
-	public void setUp(TestInfo info) {
+	public void setUp() {
 		this.startTimeMeasurement(GeneralTimeMeasurementTag.TEST_BEFOREEACH);
-		super.setUp(info);
+		super.setUp();
 
 		this.layout = this.initParserTestFileLayout();
 

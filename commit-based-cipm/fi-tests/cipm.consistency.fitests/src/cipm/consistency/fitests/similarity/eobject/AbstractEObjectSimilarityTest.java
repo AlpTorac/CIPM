@@ -1,11 +1,8 @@
 package cipm.consistency.fitests.similarity.eobject;
 
-import java.nio.file.Path;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.TestInfo;
 
 import cipm.consistency.fitests.similarity.AbstractSimilarityTest;
 
@@ -32,11 +29,10 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractSimilarityTe
 
 	@BeforeEach
 	@Override
-	public void setUp(TestInfo info) {
-		super.setUp(info);
+	public void setUp() {
+		super.setUp();
 
 		this.setResourceHelper(this.initResourceHelper());
-		this.getResourceHelper().setResourceSaveRootPath(this.getAbsoluteResourceRootPath());
 
 		this.setResourceParsingStrategy(this.initResourceParsingStrategy());
 		this.setResourceTestOptions(this.initResourceTestOptions());
@@ -60,7 +56,7 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractSimilarityTe
 	}
 
 	/**
-	 * The {@link DefaultResourceHelper} instance that can be used for creating
+	 * The {@link AbstractResourceHelper} instance that can be used for creating
 	 * {@link Resource} instances.
 	 */
 	protected AbstractResourceHelper getResourceHelper() {
@@ -68,8 +64,8 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractSimilarityTe
 	}
 
 	/**
-	 * Sets up the {@link DefaultResourceHelper} instance that will be used with the
-	 * given one.
+	 * Sets up the {@link AbstractResourceHelper} instance that will be used with
+	 * the given one.
 	 */
 	protected void setResourceHelper(AbstractResourceHelper resHelper) {
 		this.resHelper = resHelper;
@@ -120,10 +116,4 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractSimilarityTe
 	protected abstract ResourceTestOptions initResourceTestOptions();
 
 	protected abstract AbstractResourceParsingStrategy initResourceParsingStrategy();
-
-	/**
-	 * @return The absolute path, under which the {@link Resource} files will be
-	 *         saved.
-	 */
-	public abstract Path getAbsoluteResourceRootPath();
 }

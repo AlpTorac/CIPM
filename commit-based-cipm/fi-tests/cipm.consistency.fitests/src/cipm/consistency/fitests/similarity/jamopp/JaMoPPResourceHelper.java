@@ -25,6 +25,7 @@ public class JaMoPPResourceHelper extends AbstractResourceHelper {
 
 	public JaMoPPResourceHelper() {
 		super();
+		this.setResourceFileExtension(resFileExt);
 		this.setInitialResourceRegistries();
 	}
 

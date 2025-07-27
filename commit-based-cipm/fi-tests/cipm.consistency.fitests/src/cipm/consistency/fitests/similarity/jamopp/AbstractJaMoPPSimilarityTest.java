@@ -1,8 +1,5 @@
 package cipm.consistency.fitests.similarity.jamopp;
 
-import java.io.File;
-import java.nio.file.Path;
-
 import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
 import cipm.consistency.fitests.similarity.eobject.AbstractEObjectSimilarityTest;
 
@@ -15,8 +12,6 @@ import cipm.consistency.fitests.similarity.eobject.AbstractEObjectSimilarityTest
  * @author Alp Torac Genc
  */
 public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimilarityTest {
-	private static final String jamoppTestModelsPath = "testModels";
-
 	@Override
 	protected JaMoPPResourceHelper initResourceHelper() {
 		return new JaMoPPResourceHelper();
@@ -25,11 +20,6 @@ public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimila
 	@Override
 	protected ISimilarityCheckerContainer initSCC() {
 		return new JaMoPPSimilarityCheckerContainer();
-	}
-
-	@Override
-	public Path getAbsoluteResourceRootPath() {
-		return new File("").getAbsoluteFile().toPath().resolve(jamoppTestModelsPath);
 	}
 
 	@Override
