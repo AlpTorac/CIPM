@@ -1,2 +1,0 @@
-TrivialRecovery.recover() bug: If nothing implicitly extends Object,
-it cannot be found and NoSuchElementException is thrown

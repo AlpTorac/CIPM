@@ -1,1 +1,0 @@
-public class Cls<T extends Cls> {}

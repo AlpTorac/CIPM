@@ -1,1 +1,0 @@
-Do not consider recursive eAllContents similarity for localVariable/multiVariableScope
