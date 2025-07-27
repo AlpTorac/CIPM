@@ -3,7 +3,7 @@ package cipm.consistency.fitests.repositorytests.util.commentremoval;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.repositorytests.util.AbstractJaMoPPParserRepoUtilTest;
+import cipm.consistency.fitests.repositorytests.util.difffilter.DiffFilter;
 
 /**
  * Contains tests for (approximative) commentary removal from code snippets that
@@ -21,8 +21,10 @@ import cipm.consistency.fitests.repositorytests.util.AbstractJaMoPPParserRepoUti
  * 
  * @author Alp Torac Genc
  */
-public class BrokenMultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest {
+public class BrokenMultiLineStringTest {
 	private static final String multiLineStringToken = "\"\"\"";
+	private static final DiffFilter filter = new DiffFilter();
+
 	private ICommentRemover cr = new QuickCommentRemover();
 
 	@Test
@@ -30,9 +32,9 @@ public class BrokenMultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest 
 		var start = multiLineStringToken;
 		var line1 = start + "abc";
 
-		var text = concatLines(line1);
+		var text = filter.concatLines(line1);
 
-		var filteredText = this.removeBlankLines(this.splitLines(cr.removeComments(text)));
+		var filteredText = filter.removeBlankLines(filter.splitLines(cr.removeComments(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
@@ -43,9 +45,9 @@ public class BrokenMultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest 
 		var end = "\"\"";
 		var line1 = start + "abc" + end;
 
-		var text = concatLines(line1);
+		var text = filter.concatLines(line1);
 
-		var filteredText = this.removeBlankLines(this.splitLines(cr.removeComments(text)));
+		var filteredText = filter.removeBlankLines(filter.splitLines(cr.removeComments(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
@@ -55,9 +57,9 @@ public class BrokenMultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest 
 		var start = multiLineStringToken;
 		var line1 = start + "//abc";
 
-		var text = concatLines(line1);
+		var text = filter.concatLines(line1);
 
-		var filteredText = this.removeBlankLines(this.splitLines(cr.removeComments(text)));
+		var filteredText = filter.removeBlankLines(filter.splitLines(cr.removeComments(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(start, filteredText.get(0));
 	}
@@ -67,9 +69,9 @@ public class BrokenMultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest 
 		var start = multiLineStringToken;
 		var line1 = start + "/*abc*/";
 
-		var text = concatLines(line1);
+		var text = filter.concatLines(line1);
 
-		var filteredText = this.removeBlankLines(this.splitLines(cr.removeComments(text)));
+		var filteredText = filter.removeBlankLines(filter.splitLines(cr.removeComments(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(start, filteredText.get(0));
 	}
@@ -79,9 +81,9 @@ public class BrokenMultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest 
 		var start = multiLineStringToken;
 		var line1 = start + "/**abc*/";
 
-		var text = concatLines(line1);
+		var text = filter.concatLines(line1);
 
-		var filteredText = this.removeBlankLines(this.splitLines(cr.removeComments(text)));
+		var filteredText = filter.removeBlankLines(filter.splitLines(cr.removeComments(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(start, filteredText.get(0));
 	}

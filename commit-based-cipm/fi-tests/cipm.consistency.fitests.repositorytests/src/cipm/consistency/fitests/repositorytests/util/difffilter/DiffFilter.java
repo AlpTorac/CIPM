@@ -80,7 +80,7 @@ public class DiffFilter {
 
 	/**
 	 * @return Splits the given (multi-line) text into its lines, where lines are
-	 *         separated via the given lineSeparator.
+	 *         separated via the line separator used by the system.
 	 */
 	public List<String> splitLines(String text) {
 		var lines = new ArrayList<String>();
@@ -94,6 +94,39 @@ public class DiffFilter {
 		}
 
 		return lines;
+	}
+
+	/**
+	 * Concatenates the given lines into a single String by gluing them with the
+	 * line separator used by the system.
+	 * 
+	 * @return All lines as one String. Returns empty String if lines is null.
+	 */
+	public String concatLines(String... lines) {
+		var result = "";
+
+		if (lines == null)
+			return result;
+
+		for (int i = 0; i < lines.length - 1; i++)
+			result += lines[i] + lineSeparator;
+
+		result += lines[lines.length - 1];
+
+		return result;
+	}
+
+	/**
+	 * Concatenates the given lines into a single String by gluing them with the
+	 * line separator used by the system.
+	 * 
+	 * @return All lines as one String. Returns empty String if lines is null.
+	 */
+	public String concatLines(List<String> lines) {
+		if (lines == null)
+			return "";
+
+		return this.concatLines(lines.toArray(String[]::new));
 	}
 
 	/**

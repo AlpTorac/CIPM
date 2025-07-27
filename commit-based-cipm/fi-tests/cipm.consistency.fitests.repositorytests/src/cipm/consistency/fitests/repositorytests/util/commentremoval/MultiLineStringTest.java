@@ -3,7 +3,7 @@ package cipm.consistency.fitests.repositorytests.util.commentremoval;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fitests.repositorytests.util.AbstractJaMoPPParserRepoUtilTest;
+import cipm.consistency.fitests.repositorytests.util.difffilter.DiffFilter;
 
 /**
  * Contains tests for (approximative) commentary removal from code snippets that
@@ -24,16 +24,17 @@ import cipm.consistency.fitests.repositorytests.util.AbstractJaMoPPParserRepoUti
  * 
  * @author Alp Torac Genc
  */
-public class MultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest {
+public class MultiLineStringTest {
 	private ICommentRemover cr = new QuickCommentRemover();
+	private static final DiffFilter filter = new DiffFilter();
 
 	@Test
 	public void handleStringLiteral_SingleLineString_OnSameLine() {
 		var line1 = "\"\"\"abc\"\"\"";
 
-		var text = concatLines(line1);
+		var text = filter.concatLines(line1);
 
-		var filteredText = this.removeBlankLines(this.splitLines(cr.removeComments(text)));
+		var filteredText = filter.removeBlankLines(filter.splitLines(cr.removeComments(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}
@@ -43,9 +44,9 @@ public class MultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest {
 		var line1 = "\"\"\"abc";
 		var line2 = "\"\"\"";
 
-		var text = concatLines(line1, line2);
+		var text = filter.concatLines(line1, line2);
 
-		var filteredText = this.removeBlankLines(this.splitLines(cr.removeComments(text)));
+		var filteredText = filter.removeBlankLines(filter.splitLines(cr.removeComments(text)));
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -56,9 +57,9 @@ public class MultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest {
 		var line1 = "\"\"\"";
 		var line2 = "abc\"\"\"";
 
-		var text = concatLines(line1, line2);
+		var text = filter.concatLines(line1, line2);
 
-		var filteredText = this.removeBlankLines(this.splitLines(cr.removeComments(text)));
+		var filteredText = filter.removeBlankLines(filter.splitLines(cr.removeComments(text)));
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -70,9 +71,9 @@ public class MultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest {
 		var line2 = "abc";
 		var line3 = "\"\"\"";
 
-		var text = concatLines(line1, line2, line3);
+		var text = filter.concatLines(line1, line2, line3);
 
-		var filteredText = this.removeBlankLines(this.splitLines(cr.removeComments(text)));
+		var filteredText = filter.removeBlankLines(filter.splitLines(cr.removeComments(text)));
 		Assertions.assertEquals(3, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -84,9 +85,9 @@ public class MultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest {
 		var line1 = "\"\"\"abc";
 		var line2 = "def\"\"\"";
 
-		var text = concatLines(line1, line2);
+		var text = filter.concatLines(line1, line2);
 
-		var filteredText = this.removeBlankLines(this.splitLines(cr.removeComments(text)));
+		var filteredText = filter.removeBlankLines(filter.splitLines(cr.removeComments(text)));
 		Assertions.assertEquals(2, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -98,9 +99,9 @@ public class MultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest {
 		var line2 = "def";
 		var line3 = "\"\"\"";
 
-		var text = concatLines(line1, line2, line3);
+		var text = filter.concatLines(line1, line2, line3);
 
-		var filteredText = this.removeBlankLines(this.splitLines(cr.removeComments(text)));
+		var filteredText = filter.removeBlankLines(filter.splitLines(cr.removeComments(text)));
 		Assertions.assertEquals(3, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -113,9 +114,9 @@ public class MultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest {
 		var line2 = "abc";
 		var line3 = "def\"\"\"";
 
-		var text = concatLines(line1, line2, line3);
+		var text = filter.concatLines(line1, line2, line3);
 
-		var filteredText = this.removeBlankLines(this.splitLines(cr.removeComments(text)));
+		var filteredText = filter.removeBlankLines(filter.splitLines(cr.removeComments(text)));
 		Assertions.assertEquals(3, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -129,9 +130,9 @@ public class MultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest {
 		var line3 = "def";
 		var line4 = "\"\"\"";
 
-		var text = concatLines(line1, line2, line3, line4);
+		var text = filter.concatLines(line1, line2, line3, line4);
 
-		var filteredText = this.removeBlankLines(this.splitLines(cr.removeComments(text)));
+		var filteredText = filter.removeBlankLines(filter.splitLines(cr.removeComments(text)));
 		Assertions.assertEquals(4, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 		Assertions.assertEquals(line2, filteredText.get(1));
@@ -143,9 +144,9 @@ public class MultiLineStringTest extends AbstractJaMoPPParserRepoUtilTest {
 	public void handleStringLiteral_SingleLineComment_OnSameLine() {
 		var line1 = "\"\"\"//abc\"\"\"";
 
-		var text = concatLines(line1);
+		var text = filter.concatLines(line1);
 
-		var filteredText = this.removeBlankLines(this.splitLines(cr.removeComments(text)));
+		var filteredText = filter.removeBlankLines(filter.splitLines(cr.removeComments(text)));
 		Assertions.assertEquals(1, filteredText.size());
 		Assertions.assertEquals(line1, filteredText.get(0));
 	}

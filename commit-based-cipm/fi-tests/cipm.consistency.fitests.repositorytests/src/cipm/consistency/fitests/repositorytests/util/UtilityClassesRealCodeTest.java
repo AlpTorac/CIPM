@@ -7,14 +7,17 @@ import cipm.consistency.fitests.repositorytests.util.commentremoval.QuickComment
 import cipm.consistency.fitests.repositorytests.util.difffilter.DiffFilter;
 
 /**
- * TODO Write proper commentary
+ * A test class that tests {@link QuickCommentRemover} and {@link DiffFilter} on
+ * real GIT diff patches.
+ * 
+ * @author Alp Torac Genc
  */
-public class UtilityClassesRealCodeTest extends AbstractJaMoPPParserRepoUtilTest {
+public class UtilityClassesRealCodeTest {
 	private static final QuickCommentRemover qr = new QuickCommentRemover();
 	private static final DiffFilter filter = new DiffFilter();
 
 	@Test
-	public void parserTestRepo_9eda56eaa_vs_21ae1643() {
+	public void parserTestRepo_Test1() {
 		var classDecl = "public class Cls1 {";
 		var methodDecl = "public void met1() {";
 
@@ -48,7 +51,7 @@ public class UtilityClassesRealCodeTest extends AbstractJaMoPPParserRepoUtilTest
 	}
 
 	@Test
-	public void parserTestRepo_21ae1643_vs_9eda56eaa() {
+	public void parserTestRepo_Test2() {
 		var classDecl = "public class Cls1 {";
 		var methodDecl = "public void met1() {";
 
