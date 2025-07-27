@@ -2,11 +2,11 @@ package cipm.consistency.fitests.similarity.jamopp.parser;
 
 import java.nio.file.Path;
 
-import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import cipm.consistency.fitests.similarity.ILoggable;
 import cipm.consistency.fitests.similarity.eobject.AbstractResourceHelper;
 import cipm.consistency.fitests.similarity.jamopp.JaMoPPResourceParsingStrategy;
 
@@ -26,9 +26,8 @@ import cipm.consistency.fitests.similarity.jamopp.JaMoPPResourceParsingStrategy;
  * 
  * @author Alp Torac Genc
  */
-public class JaMoPPModelResourceWrapper implements IModelResourceWrapper {
+public class JaMoPPModelResourceWrapper implements IModelResourceWrapper, ILoggable {
 	private AbstractResourceHelper resHelper;
-	private static final Logger logger = Logger.getLogger(JaMoPPModelResourceWrapper.class);
 
 	/**
 	 * The name of the ArtificialResource (i.e. the last segment of its URI) without
@@ -58,8 +57,7 @@ public class JaMoPPModelResourceWrapper implements IModelResourceWrapper {
 	 * @param parsingStrat The parser that will be used to parse the model resource
 	 *                     and all other necessary resources
 	 */
-	public JaMoPPModelResourceWrapper(AbstractResourceHelper resHelper,
-			JaMoPPResourceParsingStrategy parsingStrat) {
+	public JaMoPPModelResourceWrapper(AbstractResourceHelper resHelper, JaMoPPResourceParsingStrategy parsingStrat) {
 		this.resHelper = resHelper;
 		this.parsingStrat = parsingStrat;
 	}
@@ -131,7 +129,7 @@ public class JaMoPPModelResourceWrapper implements IModelResourceWrapper {
 		if (artificialResource != null) {
 			artificialResource.setURI(artificialResourceURI);
 
-			logger.debug(String.format("ArtificialResource is parsed and has its URI set to %s",
+			this.logDebugMsg(String.format("ArtificialResource is parsed and has its URI set to %s",
 					artificialResource.getURI()));
 
 			// Use an array to avoid modifications while iterating, which lead to exceptions
@@ -148,16 +146,16 @@ public class JaMoPPModelResourceWrapper implements IModelResourceWrapper {
 			for (int i = 0; i < resArr.length; i++) {
 				var r = resArr[i];
 				if (!r.getURI().isFile() && r != artificialResource && r != modelResource) {
-					logger.debug(String.format("Adding Resource %s to ArtificialResource", r.getURI()));
+					this.logDebugMsg(String.format("Adding Resource %s to ArtificialResource", r.getURI()));
 					artificialResource.getContents().addAll(r.getContents());
-					logger.debug(String.format("Added Resource %s to ArtificialResource", r.getURI()));
+					this.logDebugMsg(String.format("Added Resource %s to ArtificialResource", r.getURI()));
 					modelResourceSet.getResources().remove(r);
-					logger.debug(String.format("Removed (empty) Resource %s from ResourceSet", r.getURI()));
+					this.logDebugMsg(String.format("Removed (empty) Resource %s from ResourceSet", r.getURI()));
 				}
 			}
 
 			// "-2" to exclude modelResource and artificialResource from resource count
-			logger.debug(String.format("%d/%d resources have been added to ArtificialResource",
+			this.logDebugMsg(String.format("%d/%d resources have been added to ArtificialResource",
 					(resArr.length - modelResourceSet.getResources().size()) - 2, resArr.length - 2));
 
 			// Do not handle potential proxies in ArtificialResource, because they belong to
@@ -190,7 +188,7 @@ public class JaMoPPModelResourceWrapper implements IModelResourceWrapper {
 		modelResourceSet = parsingStrat.parseModelResource(modelDir);
 
 		var resCount = modelResourceSet.getResources().size();
-		logger.debug(String.format("%d resources have been parsed under %s", resCount, modelDir));
+		this.logDebugMsg(String.format("%d resources have been parsed under %s", resCount, modelDir));
 
 		// Find the model resource (i.e. the resource that contains the direct contents
 		// of model files)
@@ -222,19 +220,19 @@ public class JaMoPPModelResourceWrapper implements IModelResourceWrapper {
 		artificialResource = this.prepareArtificialResource(modelResource,
 				this.getArtificialResourceURI(modelResourceURI));
 
-		logger.debug(String.format("Merging non-ArtificialResources"));
+		this.logDebugMsg(String.format("Merging non-ArtificialResources"));
 
 		for (var r : modelResourceSet.getResources()) {
 			if (r != artificialResource) {
-				logger.debug(String.format("Including %s into the merged resource", r.getURI()));
+				this.logDebugMsg(String.format("Including %s into the merged resource", r.getURI()));
 				mergedModelResource.getContents().addAll(r.getContents());
-				logger.debug(String.format("Included %s into the merged resource", r.getURI()));
+				this.logDebugMsg(String.format("Included %s into the merged resource", r.getURI()));
 			}
 		}
 
-		logger.debug(String.format("Merged non-ArtificialResources"));
+		this.logDebugMsg(String.format("Merged non-ArtificialResources"));
 
-		logger.debug(String.format("%s parsed (uncached)", modelDir));
+		this.logDebugMsg(String.format("%s parsed (uncached)", modelDir));
 
 		// Add ArtificialResource to mergedResource's resource set, so that it can be
 		// found by the model resource's contents that have been moved
@@ -260,15 +258,15 @@ public class JaMoPPModelResourceWrapper implements IModelResourceWrapper {
 	public boolean saveResources() {
 		var result = true;
 		if (mergedModelResource != null) {
-			logger.debug("Merged model resource exists, saving it now");
+			this.logDebugMsg("Merged model resource exists, saving it now");
 			result = this.resHelper.saveResourceIfNotSaved(mergedModelResource);
-			logger.debug(String.format("%s merged model resource at %s", result ? "Saved" : "Could not save",
+			this.logDebugMsg(String.format("%s merged model resource at %s", result ? "Saved" : "Could not save",
 					mergedModelResource.getURI()));
 		}
 		if (artificialResource != null) {
-			logger.debug("Artificial resource exists, saving it now");
+			this.logDebugMsg("Artificial resource exists, saving it now");
 			result = result && this.resHelper.saveResourceIfNotSaved(artificialResource);
-			logger.debug(String.format("%s artificial resource at %s", result ? "Saved" : "Could not save",
+			this.logDebugMsg(String.format("%s artificial resource at %s", result ? "Saved" : "Could not save",
 					artificialResource.getURI()));
 		}
 		return result;
@@ -281,16 +279,16 @@ public class JaMoPPModelResourceWrapper implements IModelResourceWrapper {
 	public boolean deleteResources() {
 		var result = false;
 		if (mergedModelResource != null) {
-			logger.debug("Merged model resource exists, deleting it now");
+			this.logDebugMsg("Merged model resource exists, deleting it now");
 			result = this.resHelper.deleteResource(mergedModelResource);
-			logger.debug(String.format("%s merged model resource at %s", result ? "Deleted" : "Could not delete",
+			this.logDebugMsg(String.format("%s merged model resource at %s", result ? "Deleted" : "Could not delete",
 					mergedModelResource.getURI()));
 
 		}
 		if (artificialResource != null) {
-			logger.debug("Artificial resource exists, deleting it now");
+			this.logDebugMsg("Artificial resource exists, deleting it now");
 			result = result && this.resHelper.deleteResource(artificialResource);
-			logger.debug(String.format("%s artificial resource at %s", result ? "Saved" : "Could not save",
+			this.logDebugMsg(String.format("%s artificial resource at %s", result ? "Saved" : "Could not save",
 					artificialResource.getURI()));
 		}
 		return result;
@@ -303,16 +301,16 @@ public class JaMoPPModelResourceWrapper implements IModelResourceWrapper {
 	public boolean unloadResources() {
 		var result = false;
 		if (mergedModelResource != null) {
-			logger.debug("Merged model resource exists, unloading it now");
+			this.logDebugMsg("Merged model resource exists, unloading it now");
 			result = this.resHelper.unloadResource(mergedModelResource);
-			logger.debug(String.format("%s merged model resource at %s", result ? "Unloaded" : "Could not unload",
+			this.logDebugMsg(String.format("%s merged model resource at %s", result ? "Unloaded" : "Could not unload",
 					mergedModelResource.getURI()));
 
 		}
 		if (artificialResource != null) {
-			logger.debug("Artificial resource exists, unloading it now");
+			this.logDebugMsg("Artificial resource exists, unloading it now");
 			result = result && this.resHelper.unloadResource(artificialResource);
-			logger.debug(String.format("%s artificial resource at %s", result ? "Unloaded" : "Could not unload",
+			this.logDebugMsg(String.format("%s artificial resource at %s", result ? "Unloaded" : "Could not unload",
 					artificialResource.getURI()));
 		}
 		return result;
@@ -335,16 +333,16 @@ public class JaMoPPModelResourceWrapper implements IModelResourceWrapper {
 	public boolean loadParsedResources() {
 		var result = true;
 		if (mergedModelResource != null && !this.mergedModelResource.isLoaded()) {
-			logger.debug("Merged model resource exists, loading it now");
+			this.logDebugMsg("Merged model resource exists, loading it now");
 			result = this.resHelper.unloadResource(mergedModelResource);
-			logger.debug(String.format("%s merged model resource at %s", result ? "Loaded" : "Could not load",
+			this.logDebugMsg(String.format("%s merged model resource at %s", result ? "Loaded" : "Could not load",
 					mergedModelResource.getURI()));
 
 		}
 		if (artificialResource != null && !this.artificialResource.isLoaded()) {
-			logger.debug("Artificial resource exists, unloading it now");
+			this.logDebugMsg("Artificial resource exists, unloading it now");
 			result = result && this.resHelper.unloadResource(artificialResource);
-			logger.debug(String.format("%s artificial resource at %s", result ? "Loaded" : "Could not load",
+			this.logDebugMsg(String.format("%s artificial resource at %s", result ? "Loaded" : "Could not load",
 					artificialResource.getURI()));
 		}
 		return result;

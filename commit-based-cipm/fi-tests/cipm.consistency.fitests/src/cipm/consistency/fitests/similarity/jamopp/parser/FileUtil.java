@@ -6,48 +6,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.TreeSet;
 
-import org.apache.log4j.Logger;
+import cipm.consistency.fitests.similarity.ILoggable;
 
 /**
  * A utility class that contains file-related operations.
  * 
  * @author Alp Torac Genc
  */
-public class FileUtil {
-	private Logger logger;
-
-	public FileUtil() {
-	}
-
-	/**
-	 * Constructs an instance with the given logger and logs messages, as its
-	 * methods are called.
-	 */
-	public FileUtil(Logger logger) {
-		this.logger = logger;
-	}
-
-	/**
-	 * Intended to be called from its future sub-classes (if any).
-	 * 
-	 * @return The logger this instance has.
-	 * @see {@link FileUtil#FileUtil(Logger)}
-	 */
-	protected Logger getLogger() {
-		return this.logger;
-	}
-
-	/**
-	 * Logs the given message, if it has a logger. Can be overridden in conjunction
-	 * with {@link #getLogger()}, in order to change the way messages are logged.
-	 */
-	protected void logMessage(String msg) {
-		var logger = this.getLogger();
-		if (logger != null) {
-			logger.debug(msg);
-		}
-	}
-
+public class FileUtil implements ILoggable {
 	/**
 	 * @return Whether the content of both dirs are similar.
 	 * 
@@ -70,7 +36,7 @@ public class FileUtil {
 		try {
 			content = Files.readString(f.toPath());
 		} catch (IOException e) {
-			this.logMessage(String.format("Could not read: %s, returning empty string", f.toPath().toString()));
+			this.logDebugMsg(String.format("Could not read: %s, returning empty string", f.toPath().toString()));
 		}
 
 		return content.replaceAll("\\n", "").replaceAll("\\r", "").replaceAll("\\s", "");
@@ -103,7 +69,7 @@ public class FileUtil {
 	 * @see {@link #filesEqual(File, File)}, {@link #readEffectiveText(File)}
 	 */
 	public boolean dirsEqual(File dir1, File dir2) {
-		this.logMessage("Comparing: " + dir1.getName() + " and " + dir2.getName());
+		this.logDebugMsg("Comparing: " + dir1.getName() + " and " + dir2.getName());
 
 		// There cannot be 2 files with the same path, name and extension
 		// so using TreeSet, which sorts the files spares doing so here
@@ -137,16 +103,16 @@ public class FileUtil {
 
 			if (f1.isDirectory() && f2.isDirectory()) {
 				if (!dirsEqual(f1, f2)) {
-					this.logMessage("Directories " + f1.getName() + " and " + f2.getName() + " are not equal");
+					this.logDebugMsg("Directories " + f1.getName() + " and " + f2.getName() + " are not equal");
 					return false;
 				}
 			} else if (f1.isFile() && f2.isFile()) {
 				if (!filesEqual(f1, f2)) {
-					this.logMessage("Files " + f1.getName() + " and " + f2.getName() + " are not equal");
+					this.logDebugMsg("Files " + f1.getName() + " and " + f2.getName() + " are not equal");
 					return false;
 				}
 			} else {
-				this.logMessage("Unexpected case there is a file and a directory");
+				this.logErrorMsg("Unexpected case there is a file and a directory");
 				return false;
 			}
 		}

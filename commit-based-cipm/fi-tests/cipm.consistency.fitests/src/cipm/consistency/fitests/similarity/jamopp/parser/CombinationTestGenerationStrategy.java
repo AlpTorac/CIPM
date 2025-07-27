@@ -2,6 +2,11 @@ package cipm.consistency.fitests.similarity.jamopp.parser;
 
 import java.util.Iterator;
 
+/**
+ * TODO Delete before creating pull request
+ * 
+ * @author Alp Torac Genc
+ */
 public class CombinationTestGenerationStrategy implements IJaMoPPParserTestGenerationStrategy {
 	private final static String description = "combination strategy";
 

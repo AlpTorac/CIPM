@@ -10,11 +10,22 @@ import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
 import jamopp.recovery.trivial.TrivialRecovery;
 
 /**
- * TODO Write commentary
+ * A class that uses {@link JaMoPPJDTSingleFileParser} to parse Java model
+ * Resources. Provides methods for performing {@link TrivialRecovery} in cases,
+ * where bindings are used. <br>
+ * <br>
+ * <ul>
+ * <li>Given model paths should point at the top-most directory of the Java
+ * project
+ * <li>Supports Regex expressions for model paths as exclusion patterns
+ * </ul>
  * 
  * @author Alp Torac Genc
  */
 public class JaMoPPResourceParsingStrategy extends AbstractResourceParsingStrategy {
+	/**
+	 * @see {@link #getParser()}
+	 */
 	private final JaMoPPJDTSingleFileParser parser;
 
 	public JaMoPPResourceParsingStrategy() {
@@ -23,13 +34,20 @@ public class JaMoPPResourceParsingStrategy extends AbstractResourceParsingStrate
 		this.setUpModelParser();
 	}
 
+	/**
+	 * Declared as protected to allow sub-types to access the underlying parser. Not
+	 * meant to be used in non-sub-types.
+	 * 
+	 * @return The parser that is used for parsing Java model Resources.
+	 */
 	protected JaMoPPJDTSingleFileParser getParser() {
 		return parser;
 	}
 
 	/**
-	 * Prepares the parser for parsing model resources. Can be overridden in
-	 * sub-types to modify, if needed.
+	 * Prepares the parser for parsing model resources. <br>
+	 * <br>
+	 * Can be overridden in sub-types to modify if needed.
 	 */
 	protected void setUpModelParser() {
 		/*
@@ -58,10 +76,16 @@ public class JaMoPPResourceParsingStrategy extends AbstractResourceParsingStrate
 		return parser.parseDirectory(modelDir);
 	}
 
+	/**
+	 * Performs {@link TrivialRecovery} on the current ResourceSet of this instance.
+	 */
 	public void performTrivialRecovery() {
 		this.performTrivialRecovery(this.getResourceSet());
 	}
 
+	/**
+	 * Performs {@link TrivialRecovery} on the given ResourceSet.
+	 */
 	public void performTrivialRecovery(ResourceSet resourceSet) {
 		new TrivialRecovery(resourceSet).recover();
 	}
