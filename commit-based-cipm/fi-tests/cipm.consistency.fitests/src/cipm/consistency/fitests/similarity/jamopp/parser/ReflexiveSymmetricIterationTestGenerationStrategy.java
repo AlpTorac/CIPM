@@ -2,6 +2,13 @@ package cipm.consistency.fitests.similarity.jamopp.parser;
 
 import java.util.Iterator;
 
+/**
+ * An implementation of {@link IJaMoPPParserTestGenerationStrategy} that
+ * provides an iterator, which denotes a linear and symmetric index sequence for
+ * test resources.
+ * 
+ * @author Alp Torac Genc
+ */
 public class ReflexiveSymmetricIterationTestGenerationStrategy implements IJaMoPPParserTestGenerationStrategy {
 	private final static String description = "reflexive symmetric iteration strategy";
 

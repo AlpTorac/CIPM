@@ -65,6 +65,12 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	private static final Path timeMeasurementsFileSavePath = Path.of("target", "timeMeasurements");
 
+	/**
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * {@link AbstractJaMoPPParserSimilarityTest}: Sets up the file layout
+	 * {@link ParserTestFileLayout}
+	 */
 	@BeforeEach
 	@Override
 	public void setUp() {
@@ -79,9 +85,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	/**
 	 * {@inheritDoc} <br>
 	 * <br>
-	 * Performs various operations on the model resource files that were parsed in
-	 * the dynamic tests, according to the preferences that are encoded in the
-	 * methods of this test, such as
+	 * {@link AbstractJaMoPPParserSimilarityTest}: Performs various operations on
+	 * the model resource files that were parsed in the dynamic tests, according to
+	 * the preferences that are encoded in the methods of this test, such as
 	 * {@link AbstractJaMoPPParserSimilarityTest#shouldSaveCachedResources()}. It
 	 * then saves the time measurements taken during the tests. <b><i>Note: Since
 	 * dynamic tests are used here, this method will be triggered only once at the

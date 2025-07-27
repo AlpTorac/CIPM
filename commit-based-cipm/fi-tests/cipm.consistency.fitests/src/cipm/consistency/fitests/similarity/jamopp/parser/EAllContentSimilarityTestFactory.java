@@ -11,6 +11,13 @@ import org.junit.jupiter.api.DynamicTest;
 
 import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
 
+/**
+ * A test class factory, which generates dynamic tests that check the similarity
+ * of all contents ({@code res.getAllContents()}) of the given Resources
+ * {@code res1, res2} pairwise.
+ * 
+ * @author Alp Torac Genc
+ */
 public class EAllContentSimilarityTestFactory extends AbstractJaMoPPParserSimilarityTestFactory {
 	private static final String description = "areSimilar on eAllContents";
 
@@ -26,7 +33,8 @@ public class EAllContentSimilarityTestFactory extends AbstractJaMoPPParserSimila
 	 * considered and will impact the result.
 	 */
 	protected void testSimilarityOfAllContents(Resource res1, Resource res2, Boolean expectedResult) {
-		ParserTestTimeMeasurer.getInstance().startTimeMeasurement(this.getClass().getSimpleName(), GeneralTimeMeasurementTag.TEST_OVERHEAD);
+		ParserTestTimeMeasurer.getInstance().startTimeMeasurement(this.getClass().getSimpleName(),
+				GeneralTimeMeasurementTag.TEST_OVERHEAD);
 		var list1 = new ArrayList<EObject>();
 		var list2 = new ArrayList<EObject>();
 

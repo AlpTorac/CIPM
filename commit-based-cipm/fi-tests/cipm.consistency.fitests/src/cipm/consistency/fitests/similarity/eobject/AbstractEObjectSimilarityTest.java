@@ -27,6 +27,13 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractSimilarityTe
 	 */
 	private ResourceTestOptions resourceTestOptions;
 
+	/**
+	 * {@inheritDoc} <br>
+	 * <br>
+	 * {@link AbstractEObjectSimilarityTest}: Sets up Resource-related helper
+	 * classes and options {@link AbstractResourceHelper},
+	 * {@link AbstractResourceParsingStrategy}, {@link ResourceTestOptions}.
+	 */
 	@BeforeEach
 	@Override
 	public void setUp() {
@@ -41,9 +48,9 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractSimilarityTe
 	/**
 	 * {@inheritDoc} <br>
 	 * <br>
-	 * Sets {@link #getResourceHelper()}, {@link #getResourceParsingStrategy()} and
-	 * {@link #getResourceTestOptions()} to null; in order to ensure that each test
-	 * has freshly created instances.
+	 * {@link AbstractEObjectSimilarityTest}: Sets {@link #getResourceHelper()},
+	 * {@link #getResourceParsingStrategy()} and {@link #getResourceTestOptions()}
+	 * to null, in order to ensure that each test has freshly created instances.
 	 */
 	@AfterEach
 	@Override

@@ -20,12 +20,16 @@ public abstract class AbstractSimilarityTest implements ILoggable {
 	private ISimilarityCheckerContainer scc;
 
 	/**
-	 * Sets up the necessary variables before tests are run. The {@link TestInfo}
-	 * parameter is included, so that test-specific set up can be performed. <br>
+	 * Sets up the necessary variables before tests are run. <br>
 	 * <br>
 	 * It is suggested to have a call to {@code super.setUp()} as the FIRST
 	 * statement in overriding implementations. Doing so circumvents potential
-	 * errors caused by the order of set up operations.
+	 * errors caused by the order of set up operations. <br>
+	 * <br>
+	 * {@link AbstractSimilarityTest}: Sets up the underlying
+	 * {@link ISimilarityCheckerContainer}, which will be used for
+	 * {@link #isSimilar(Object, Object)} and
+	 * {@link #areSimilar(Collection, Collection)}.
 	 * 
 	 * @param info An object that contains information about the current test to be
 	 *             run (ex: the test method instance, test class, ...)
@@ -38,12 +42,15 @@ public abstract class AbstractSimilarityTest implements ILoggable {
 	}
 
 	/**
-	 * Cleans up the variables set up with {@link #setUp(TestInfo)} and performs
-	 * other necessary clean up operations. <br>
+	 * Cleans up the variables set up with {@link #setUp()} and performs other
+	 * necessary clean up operations. <br>
 	 * <br>
 	 * It is suggested to have a call to {@code super.tearDown()} as the LAST
 	 * statement in overriding implementations. Doing so circumvents potential
-	 * errors caused by the order of clean up operations.
+	 * errors caused by the order of clean up operations. <br>
+	 * <br>
+	 * {@link AbstractSimilarityTest}: Cleans up the underlying
+	 * {@link ISimilarityCheckerContainer}
 	 */
 	@AfterEach
 	public void tearDown() {

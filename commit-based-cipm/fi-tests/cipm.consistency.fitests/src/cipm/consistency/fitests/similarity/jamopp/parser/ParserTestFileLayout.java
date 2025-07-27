@@ -5,33 +5,43 @@ import java.nio.file.Path;
 
 import org.eclipse.emf.common.util.URI;
 
+/**
+ * Contains layout-related information for the corresponding parser test.
+ * 
+ * @author Alp Torac Genc
+ */
 public class ParserTestFileLayout {
+	/**
+	 * @see {@link #getModelSourceFileRootDirPath()}
+	 */
 	private Path modelSourceFileRootDirPath;
 	/**
-	 * The relative path to the {@link #getAbsoluteCurrentDirectory()} directory,
-	 * where parsed model resource files are to be saved (if desired).
+	 * @see {@link #setTestModelResourceFilesSaveDirPath(Path)}
 	 */
 	private Path testModelResourceFilesSaveDirPath;
 
 	/**
-	 * The relative path to the directory, where the contents of the resource cache
-	 * are to be saved (if desired).
-	 * 
-	 * @see {@link CacheUtil}
+	 * @see {@link #setCacheSaveDirPath(Path)}
 	 */
 	private Path cacheSaveDirPath;
 
 	/**
-	 * The relative path to the directory, where time measurements are to be saved
-	 * (if desired).
+	 * @see {@link #getTimeMeasurementsFileSavePath()}
 	 */
 	private Path timeMeasurementsFileSavePath;
 
+	/**
+	 * @see {@link #getModelResourceFileExtension()}
+	 */
 	private String modelResourceFileExtension;
 
 	public ParserTestFileLayout() {
 	}
 
+	/**
+	 * Constructs a new instance and copies the attributes of the given layout
+	 * instance.
+	 */
 	public ParserTestFileLayout(ParserTestFileLayout layout) {
 		this.testModelResourceFilesSaveDirPath = layout.testModelResourceFilesSaveDirPath;
 		this.cacheSaveDirPath = layout.cacheSaveDirPath;
@@ -39,26 +49,49 @@ public class ParserTestFileLayout {
 		this.modelResourceFileExtension = layout.modelResourceFileExtension;
 	}
 
+	/**
+	 * Sets the path to the root folder of the model source file directories, under
+	 * which all models' source file directories reside
+	 */
 	public void setModelSourceFileRootDirPath(Path modelSourceFileRootDirPath) {
 		this.modelSourceFileRootDirPath = modelSourceFileRootDirPath;
 	}
 
+	/**
+	 * Sets the file extension of the Resource files (if desired to be saved)
+	 */
 	public void setModelResourceFileExtension(String modelResourceFileExtension) {
 		this.modelResourceFileExtension = modelResourceFileExtension;
 	}
 
+	/**
+	 * @return The file extension of the Resource files (if desired to be saved)
+	 */
 	public String getModelResourceFileExtension() {
 		return this.modelResourceFileExtension;
 	}
 
+	/**
+	 * Sets the absolute path, at which taken time measurements are to be saved.
+	 */
 	public void setTimeMeasurementsFileSavePath(Path timeMeasurementsFileSavePath) {
 		this.timeMeasurementsFileSavePath = timeMeasurementsFileSavePath;
 	}
 
+	/**
+	 * Sets up the relative path to the directory, where the contents of the
+	 * resource cache are to be saved (if desired).
+	 * 
+	 * @see {@link CacheUtil}
+	 */
 	public void setCacheSaveDirPath(Path cacheSaveDirPath) {
 		this.cacheSaveDirPath = cacheSaveDirPath;
 	}
 
+	/**
+	 * Sets up the relative path to the {@link #getAbsoluteCurrentDirectory()}
+	 * directory, where parsed model resource files are to be saved (if desired).
+	 */
 	public void setTestModelResourceFilesSaveDirPath(Path testModelResourceFilesSaveDirPath) {
 		this.testModelResourceFilesSaveDirPath = testModelResourceFilesSaveDirPath;
 	}
@@ -121,17 +154,11 @@ public class ParserTestFileLayout {
 	/**
 	 * Defaults to {@link #getAbsoluteCurrentDirectory()}.
 	 * 
-	 * @return Path to the root folder of the model source file directories
+	 * @return Path to the root folder of the model source file directories, under
+	 *         which all models' source file directories reside
 	 */
 	public Path getModelSourceFileRootDirPath() {
 		return this.modelSourceFileRootDirPath;
-	}
-
-	/**
-	 * @return The current (absolute) position within the file system.
-	 */
-	public Path getAbsoluteCurrentDirectory() {
-		return new File("").getAbsoluteFile().toPath();
 	}
 
 	/**
@@ -143,9 +170,8 @@ public class ParserTestFileLayout {
 	}
 
 	/**
-	 * @return The relative path between the current directory
-	 *         ({@link #getAbsoluteCurrentDirectory()}) and the root directory
-	 *         ({@link #getModelSourceFileRootDirPath()}).
+	 * @return The relative path between the current directory and the root
+	 *         directory ({@link #getModelSourceFileRootDirPath()}).
 	 * @see {@link #getModelSourceFileRootDirPath()}
 	 */
 	public Path getRelativeModelSourceFileRootDirPath() {
@@ -167,5 +193,12 @@ public class ParserTestFileLayout {
 			return modelParentDirPath.getFileName();
 		}
 		return relPath;
+	}
+
+	/**
+	 * @return The current (absolute) position within the file system.
+	 */
+	private Path getAbsoluteCurrentDirectory() {
+		return new File("").getAbsoluteFile().toPath();
 	}
 }
