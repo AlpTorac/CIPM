@@ -3,39 +3,23 @@ package cipm.consistency.fitests.similarity.eobject;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 
+import cipm.consistency.fitests.similarity.ILoggable;
+
 /**
- * An abstract class that is meant to be implemented by classes; which
- * encapsulate the means to modify {@link Resource} instances.
+ * An abstract class that is meant to be implemented by classes, which
+ * encapsulate basic operations on {@link Resource} instances.
  * 
  * @author Alp Torac Genc
  */
-public abstract class AbstractResourceHelper {
-	/**
-	 * The map that keeps track of the mapping inserted into
-	 * {@link Resource.Factory.Registry}. Can be used to clean such mappings from
-	 * the registry at the end of tests.
-	 */
-	private final Map<String, Object> registryMappings = new HashMap<String, Object>();
-
-	/**
-	 * The list of created {@link Resource} instances. Can be used to perform clean
-	 * up after tests.
-	 */
-	private final List<Resource> createdResources = new ArrayList<Resource>();
-
+public abstract class AbstractResourceHelper implements ILoggable {
 	/**
 	 * The directory, where the created {@link Resource} instances will be stored,
 	 * if they are saved.
@@ -64,66 +48,10 @@ public abstract class AbstractResourceHelper {
 	}
 
 	/**
-	 * @param key The registry key
-	 * @param val The value of the corresponding registry (can be null)
-	 * @return Whether the given resource registry key has been registered and has
-	 *         the given value.
-	 */
-	public boolean resourceRegistryPresent(String key, Object val) {
-		var regMap = this.getResourceRegistry().getExtensionToFactoryMap();
-		var isKeyPresent = regMap.containsKey(key);
-
-		Object valForKey = null;
-		if (isKeyPresent) {
-			valForKey = regMap.get(key);
-		}
-
-		return isKeyPresent && (valForKey == val || valForKey.equals(val));
-	}
-
-	/**
-	 * @param key The registry key
-	 * @return Whether the given resource registry key has been registered
-	 */
-	public boolean resourceRegistryPresent(String key) {
-		return this.getResourceRegistry().getExtensionToFactoryMap().containsKey(key);
-	}
-
-	/**
-	 * @return The {@link Logger} that can be used to log happenings in this
-	 *         instance.
-	 */
-	protected Logger getLogger() {
-		return Logger.getLogger("cipm." + this.getClass().getSimpleName());
-	}
-
-	/**
-	 * Creates and returns a {@link Resource} instance, whose URI will be the given
-	 * one. <br>
-	 * <br>
-	 * Does not save the created {@link Resource} instance.
-	 */
-	protected Resource initResource(URI resUri) {
-		ResourceSet rSet = new ResourceSetImpl();
-		return rSet.createResource(resUri);
-	}
-
-	/**
 	 * Sets all resource registries foreseen for this instance. They are tracked and
 	 * can be cleaned using {@link #cleanRegistry()}, if needed.
 	 */
 	public abstract void setInitialResourceRegistries();
-
-	/**
-	 * This method should indicate whether {@link #setInitialResourceRegistries()}
-	 * has been called, or the desired resource registry state has been achieved
-	 * without it.
-	 * 
-	 * @return Whether the necessary resource registries have been added
-	 * 
-	 * @see {@link #setInitialResourceRegistries()}
-	 */
-	public abstract boolean areRequiredResourceRegistriesPresent();
 
 	/**
 	 * Sets the directory, where the created {@link Resource} instances will be
@@ -156,58 +84,6 @@ public abstract class AbstractResourceHelper {
 	}
 
 	/**
-	 * Complements {@link #getResourceSaveRootPath()} with the {@link Resource} file
-	 * name and extension. The said file will only be created, if the
-	 * {@link Resource} file is saved.
-	 * 
-	 * @param resourceFileName      The name of the file
-	 * @param resourceFileExtension The extension of the file
-	 * @return The {@link URI} for a {@link Resource} instance.
-	 */
-	protected URI createURI(String resourceFileName, String resourceFileExtension) {
-		return URI.createFileURI(
-				this.getResourceSaveRootPath() + File.separator + resourceFileName + "." + resourceFileExtension);
-	}
-
-	/**
-	 * The variant of {@link #createURI(String, String)}, which uses
-	 * {@link #getResourceFileExtension()}.
-	 */
-	protected URI createURI(String resourceName) {
-		return this.createURI(resourceName, this.getResourceFileExtension());
-	}
-
-	/**
-	 * @return The name of the {@link Resource} file with the count parameter added
-	 *         to it.
-	 */
-	protected String getResourceNameWithCount(String resourceName, int count) {
-		return resourceName + "-" + count;
-	}
-
-	/**
-	 * @return Computes a unique name for the {@link Resource} file, so that it is
-	 *         not overwritten if another resource file with the same name is to be
-	 *         created.
-	 */
-	protected String computeEffectiveResourceName(String resourceName) {
-		var resourceRoot = this.getResourceSaveRootPath().toFile();
-
-		var count = 0;
-
-		if (resourceRoot.exists()) {
-			var files = List.of(
-					List.of(resourceRoot.listFiles()).stream().map((file) -> file.getName()).toArray(String[]::new));
-
-			while (files.contains(this.getResourceNameWithCount(resourceName, count))) {
-				count++;
-			}
-		}
-
-		return this.getResourceNameWithCount(resourceName, count);
-	}
-
-	/**
 	 * @return An empty {@link ResourceSetImpl}
 	 */
 	public ResourceSet createResourceSet() {
@@ -232,7 +108,6 @@ public abstract class AbstractResourceHelper {
 	 */
 	public Resource createResource(Collection<? extends EObject> eos, ResourceSet rSet, URI resURI) {
 		var res = rSet.createResource(resURI);
-		this.createdResources.add(res);
 
 		if (eos != null) {
 			for (var eo : eos) {
@@ -243,24 +118,13 @@ public abstract class AbstractResourceHelper {
 				 * it to the second one.
 				 */
 				if (eo.eResource() != null) {
-					this.getLogger().error("An EObject's resource was set and shifted during resource creation");
+					this.logErrorMsg("An EObject's resource was set and shifted during resource creation");
 				}
 				res.getContents().add(eo);
 			}
 		}
 
 		return res;
-	}
-
-	/**
-	 * A variant of {@link #createResource(Collection, ResourceSet, URI)}, which
-	 * computes the URI from given resourceName.
-	 * 
-	 * @see {@link #createURI(String)}
-	 * @see {@link #computeEffectiveResourceName(String)}
-	 */
-	public Resource createResource(Collection<? extends EObject> eos, ResourceSet rSet, String resourceName) {
-		return this.createResource(eos, rSet, this.createURI(this.computeEffectiveResourceName(resourceName)));
 	}
 
 	/**
@@ -274,7 +138,6 @@ public abstract class AbstractResourceHelper {
 	 * @see {@link #setDefaultResourceRegistry()}
 	 */
 	public void setResourceRegistry(String extension, Object factory) {
-		this.registryMappings.put(extension, factory);
 		this.getResourceRegistry().getExtensionToFactoryMap().put(extension, factory);
 	}
 
@@ -309,33 +172,16 @@ public abstract class AbstractResourceHelper {
 	}
 
 	/**
-	 * Attempts to save all resources created by this instance. Instead of throwing
-	 * exceptions, returns true/false to indicate success/failure. Stops early, if
-	 * saving a resource fails.
-	 */
-	public boolean saveAllResources() {
-		var result = true;
-
-		for (var res : this.createdResources) {
-			if (result) {
-				result = result && this.saveResource(res);
-			}
-		}
-
-		return result;
-	}
-
-	/**
 	 * Loads the given resource
 	 */
 	public void loadResource(Resource res) {
 		try {
-			this.getLogger().debug(String.format("Loading resource at: %s", res.getURI()));
+			this.logDebugMsg(String.format("Loading resource at: %s", res.getURI()));
 			res.load(null);
-			this.getLogger().debug(String.format("Loaded %s", res.getURI()));
+			this.logDebugMsg(String.format("Loaded %s", res.getURI()));
 		} catch (IOException e) {
 			e.printStackTrace();
-			this.getLogger().debug(String.format("Could not load resource at: %s", res.getURI()));
+			this.logInfoMsg(String.format("Could not load resource at: %s", res.getURI()));
 		}
 	}
 
@@ -388,18 +234,18 @@ public abstract class AbstractResourceHelper {
 	}
 
 	/**
-	 * Unloads all resources created by this instance.
+	 * @param resURI The URI that points at the potentially existing resource file.
+	 * @return Whether the resource file exists. Will return false if the given URI
+	 *         does not point at a file, regardless of whether the resource exists.
 	 */
-	public void unloadAllResources() {
-		this.createdResources.forEach((r) -> this.unloadResource(r));
-	}
-
 	public boolean resourceFileExists(URI resURI) {
 		return resURI.isFile() && new File(resURI.toFileString()).exists();
 	}
 
 	/**
 	 * Deletes the given resource
+	 * 
+	 * @return Whether the file of the given resource is deleted.
 	 */
 	public boolean deleteResource(Resource res) {
 		var uri = res.getURI();
@@ -408,42 +254,13 @@ public abstract class AbstractResourceHelper {
 				res.delete(null);
 				return !this.resourceFileExists(uri);
 			} catch (IOException e) {
-				e.printStackTrace();
-				this.getLogger().debug("Could not delete resource: " + res.getURI().toString());
-				return !this.resourceFileExists(uri);
+				var isResourceDeleted = !this.resourceFileExists(uri);
+				this.logInfoMsg(String.format("Could not delete resource as expected: %s (is deleted: %s) %s %s",
+						res.getURI().toString(), isResourceDeleted, System.lineSeparator(), e.getMessage()));
+				return isResourceDeleted;
 			}
 		}
 		return !this.resourceFileExists(uri);
-	}
-
-	/**
-	 * Unloads and deletes all created {@link Resource} instances, if they are
-	 * created with {@link #createResource(Collection)}. Stops tracking them as
-	 * well.
-	 */
-	public void deleteAllResources() {
-		this.createdResources.forEach((r) -> {
-			this.unloadResource(r);
-
-			if (r.getURI().isFile() && new File(r.getURI().toFileString()).exists()) {
-				try {
-					r.delete(null);
-				} catch (IOException e) {
-					e.printStackTrace();
-					this.getLogger().debug("Could not delete resource: " + r.getURI().toString());
-				}
-			}
-		});
-
-		this.createdResources.clear();
-	}
-
-	/**
-	 * Deletes the directory that contains all {@link Resource} instances, if it is
-	 * empty.
-	 */
-	public void deleteResourceDir() {
-		this.getResourceSaveRootPath().toFile().delete();
 	}
 
 	/**
@@ -456,30 +273,6 @@ public abstract class AbstractResourceHelper {
 			return;
 
 		var regMap = this.getResourceRegistry().getExtensionToFactoryMap();
-
-		if (regMap.containsKey(resourceFileExtension)) {
-			var val = regMap.get(resourceFileExtension);
-
-			if (this.registryMappings.containsKey(resourceFileExtension)) {
-				var valTracked = this.registryMappings.get(resourceFileExtension);
-
-				if (val.equals(valTracked)) {
-					regMap.remove(val);
-					this.registryMappings.remove(valTracked);
-				}
-			}
-		}
-	}
-
-	/**
-	 * Cleans the mapping(s) in {@link Resource.Factory.Registry} inserted by
-	 * {@link #setResourceRegistry(String)}. Stops tracking them as well.
-	 */
-	public void cleanRegistry() {
-		for (var key : this.registryMappings.keySet()) {
-			this.getResourceRegistry().getExtensionToFactoryMap().remove(key);
-		}
-
-		this.registryMappings.clear();
+		regMap.remove(resourceFileExtension);
 	}
 }

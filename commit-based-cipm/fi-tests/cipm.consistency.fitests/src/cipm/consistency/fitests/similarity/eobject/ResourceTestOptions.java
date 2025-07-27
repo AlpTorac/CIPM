@@ -9,6 +9,9 @@ package cipm.consistency.fitests.similarity.eobject;
  * <li>shouldDeleteAllResources: Whether all created resource files should be
  * deleted after each test
  * </ul>
+ * <b><i>Note: This class is only responsible for containing Resource-related
+ * options. Giving these options meanings and applying them is not the concern
+ * of this class. </i></b>
  * 
  * @author Alp Torac Genc
  */

@@ -2,10 +2,6 @@ package cipm.consistency.fitests.similarity;
 
 import java.util.Collection;
 
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-import org.apache.log4j.PatternLayout;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
@@ -18,7 +14,7 @@ import org.junit.jupiter.api.TestInfo;
  * 
  * @author Alp Torac Genc
  */
-public abstract class AbstractSimilarityTest {
+public abstract class AbstractSimilarityTest implements ILoggable {
 	/**
 	 * @see {@link #getSCC()}
 	 */
@@ -41,9 +37,9 @@ public abstract class AbstractSimilarityTest {
 	 */
 	@BeforeEach
 	public void setUp(TestInfo info) {
-		this.setTestInfo(info);
+		ILoggable.setUpLogger();
 
-		this.setUpLogger();
+		this.setTestInfo(info);
 
 		this.setSCC(this.initSCC());
 	}
@@ -122,46 +118,6 @@ public abstract class AbstractSimilarityTest {
 		}
 
 		return "";
-	}
-
-	/**
-	 * @return The logger of the current test class.
-	 */
-	protected Logger getLogger() {
-		return Logger.getLogger("cipm." + this.getClass().getSimpleName());
-	}
-
-	/**
-	 * Prepares loggers. <br>
-	 * <br>
-	 * <b>Enabling too many loggers (without limiting the console size) can cause
-	 * Java memory issues.</b>
-	 */
-	protected void setUpLogger() {
-		/*
-		 * Order of precedence in logging levels:
-		 * 
-		 * OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL
-		 */
-
-		Logger logger = Logger.getLogger("cipm");
-		logger.setLevel(Level.DEBUG);
-
-		// Enable to receive log messages from similarity switches
-		// logger = Logger.getLogger("javaswitch");
-		// logger.setLevel(Level.ALL);
-
-		// logger = Logger.getLogger("jamopp");
-		// logger.setLevel(Level.ALL);
-
-		// TODO Re-think how logging should work
-
-		logger = Logger.getRootLogger();
-		logger.setLevel(Level.OFF);
-		logger.removeAllAppenders();
-		ConsoleAppender ap = new ConsoleAppender(new PatternLayout("[%d{DATE}] %-5p: %c - %m%n"),
-				ConsoleAppender.SYSTEM_OUT);
-		logger.addAppender(ap);
 	}
 
 	/**

@@ -6,6 +6,12 @@ import cipm.consistency.fitests.similarity.eobject.AbstractResourceHelper;
 
 import jamopp.resource.JavaResource2Factory;
 
+/**
+ * A class that can be used for operations on Resource instances in JaMoPP
+ * context.
+ * 
+ * @author Alp Torac Genc
+ */
 public class JaMoPPResourceHelper extends AbstractResourceHelper {
 	/**
 	 * The extension of Java source code files.
@@ -19,7 +25,7 @@ public class JaMoPPResourceHelper extends AbstractResourceHelper {
 
 	public JaMoPPResourceHelper() {
 		super();
-		this.setResourceFileExtension(resFileExt);
+		this.setInitialResourceRegistries();
 	}
 
 	/**
@@ -31,10 +37,5 @@ public class JaMoPPResourceHelper extends AbstractResourceHelper {
 	public void setInitialResourceRegistries() {
 		this.setResourceRegistry(javaSrcExt, new JavaResource2Factory());
 		this.setResourceRegistry(resFileExt, new JavaResource2Factory());
-	}
-
-	@Override
-	public boolean areRequiredResourceRegistriesPresent() {
-		return this.resourceRegistryPresent(javaSrcExt) && this.resourceRegistryPresent(resFileExt);
 	}
 }

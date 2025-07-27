@@ -9,6 +9,11 @@ import jamopp.options.ParserOptions;
 import jamopp.parser.jdt.singlefile.JaMoPPJDTSingleFileParser;
 import jamopp.recovery.trivial.TrivialRecovery;
 
+/**
+ * TODO Write commentary
+ * 
+ * @author Alp Torac Genc
+ */
 public class JaMoPPResourceParsingStrategy extends AbstractResourceParsingStrategy {
 	private final JaMoPPJDTSingleFileParser parser;
 

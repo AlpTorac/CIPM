@@ -2,21 +2,9 @@ package cipm.consistency.fitests.similarity.jamopp;
 
 import java.io.File;
 import java.nio.file.Path;
-import java.util.Collection;
-import java.util.stream.Stream;
-
-import org.junit.jupiter.params.provider.Arguments;
 
 import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
-import cipm.consistency.fitests.similarity.base.JavaSimilarityCheckerContainer;
 import cipm.consistency.fitests.similarity.eobject.AbstractEObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPInitialiserParameters;
-import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPSimilarityValues;
-import cipm.consistency.fitests.similarity.params.IInitialiserParameters;
-import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvider;
-import cipm.consistency.initialisers.IInitialiser;
-import cipm.consistency.initialisers.IInitialiserBase;
-import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
 
 /**
  * An abstract test class that extends {@link AbstractEObjectSimilarityTest}
@@ -30,134 +18,18 @@ public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimila
 	private static final String jamoppTestModelsPath = "testModels";
 
 	@Override
-	protected JaMoPPResourceHelper getInitialResourceHelper() {
+	protected JaMoPPResourceHelper initResourceHelper() {
 		return new JaMoPPResourceHelper();
 	}
 
 	@Override
 	protected ISimilarityCheckerContainer initSCC() {
-		return new JavaSimilarityCheckerContainer();
+		return new JaMoPPSimilarityCheckerContainer();
 	}
 
 	@Override
 	public Path getAbsoluteResourceRootPath() {
 		return new File("").getAbsoluteFile().toPath().resolve(jamoppTestModelsPath);
-	}
-
-	/**
-	 * @return The {@link InitialiserTestSettingsProvider} that will be used in
-	 *         tests. Initialises the instance to be returned, if not properly
-	 *         initialised.
-	 */
-	public static InitialiserTestSettingsProvider getClassesInitialiserTestSettingsProvider() {
-		var instance = InitialiserTestSettingsProvider.getInstance();
-
-		if (instance == null) {
-			InitialiserTestSettingsProvider.initialise();
-			instance = InitialiserTestSettingsProvider.getInstance();
-		}
-
-		if (instance.getParameters() == null) {
-			instance.setParameters(new JaMoPPInitialiserParameters());
-		}
-
-		if (instance.getSimilarityValues() == null) {
-			instance.setSimilarityValues(new JaMoPPSimilarityValues());
-		}
-
-		return instance;
-	}
-
-	@Override
-	public InitialiserTestSettingsProvider getInitialiserTestSettingsProvider() {
-		return getClassesInitialiserTestSettingsProvider();
-	}
-
-	public static IInitialiserParameters getInitialiserTestParameters() {
-		return getClassesInitialiserTestSettingsProvider().getParameters();
-	}
-
-	/**
-	 * @see {@link IInitialiserParameters#getEachInitialiserOnceBySuper(Class)}
-	 */
-	public static <T extends IJaMoPPEObjectInitialiser> Collection<T> getEachInitialiserOnceFor(Class<T> superType) {
-		return getInitialiserTestParameters().getEachInitialiserOnceBySuper(superType);
-	}
-
-	/**
-	 * @return Arguments containing pairs in form of (desired initialiser, display
-	 *         name for initialiser)
-	 * @see {@link IInitialiserParameters#getEachInitialiserOnceBySuper(Class)}
-	 */
-	public static Stream<Arguments> getEachInitialiserArgumentsOnceFor(
-			Class<? extends IJaMoPPEObjectInitialiser> superType) {
-		return getEachInitialiserOnceFor(superType).stream().map((i) -> Arguments.of(i, generateDisplayNameForInit(i)));
-	}
-
-	/**
-	 * @see {@link IInitialiserParameters#getAllInitialisersBySuper(Class)}
-	 */
-	public static <T extends IJaMoPPEObjectInitialiser> Collection<T> getAllInitialisersFor(Class<T> superType) {
-		return getInitialiserTestParameters().getAllInitialisersBySuper(superType);
-	}
-
-	/**
-	 * @return Arguments containing pairs in form of (desired initialiser, display
-	 *         name for initialiser)
-	 * @see {@link IInitialiserParameters#getAllInitialisersBySuper(Class)}
-	 */
-	public static Stream<Arguments> getAllInitialiserArgumentsFor(
-			Class<? extends IJaMoPPEObjectInitialiser> superType) {
-		return getAllInitialisersFor(superType).stream().map((i) -> Arguments.of(i, generateDisplayNameForInit(i)));
-	}
-
-	/**
-	 * @see {@link IInitialiserParameters#getAdaptedInitialisersBySuper(Class)}
-	 */
-	public static <T extends IJaMoPPEObjectInitialiser> Collection<T> getAdaptedInitialisersFor(Class<T> superType) {
-		return getInitialiserTestParameters().getAdaptedInitialisersBySuper(superType);
-	}
-
-	/**
-	 * @return Arguments containing pairs in form of (desired initialiser, display
-	 *         name for initialiser)
-	 * @see {@link IInitialiserParameters#getAdaptedInitialisersBySuper(Class)}
-	 */
-	public static <T extends IJaMoPPEObjectInitialiser> Stream<Arguments> getAdaptedInitialiserArgumentsFor(
-			Class<T> superType) {
-		return getAdaptedInitialisersFor(superType).stream().map((i) -> Arguments.of(i, generateDisplayNameForInit(i)));
-	}
-
-	/**
-	 * @see {@link IInitialiserParameters#getAdaptedInitialisersBySuper(Class)}
-	 */
-	public static <T extends IJaMoPPEObjectInitialiser> Collection<T> getNonAdaptedInitialisersFor(Class<T> superType) {
-		return getInitialiserTestParameters().getNonAdaptedInitialisersBySuper(superType);
-	}
-
-	/**
-	 * @return Arguments containing pairs in form of (desired initialiser, display
-	 *         name for initialiser)
-	 * @see {@link IInitialiserParameters#getNonAdaptedInitialisersBySuper(Class)}
-	 */
-	public static Stream<Arguments> getNonAdaptedInitialiserArgumentsFor(
-			Class<? extends IJaMoPPEObjectInitialiser> superType) {
-		return getNonAdaptedInitialisersFor(superType).stream()
-				.map((i) -> Arguments.of(i, generateDisplayNameForInit(i)));
-	}
-
-	/**
-	 * Used by the static get...InitialiserArgumentsFor methods within this class.
-	 * 
-	 * @return A display name associated with the given initialiser, which can be
-	 *         used by parameterised tests.
-	 */
-	public static String generateDisplayNameForInit(IInitialiser init) {
-		var displayName = init.getClass().getSimpleName();
-		if (init instanceof IInitialiserBase && ((IInitialiserBase) init).isAdapted()) {
-			displayName += " (adapted)";
-		}
-		return displayName;
 	}
 
 	@Override

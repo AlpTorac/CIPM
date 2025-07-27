@@ -6,6 +6,11 @@ import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.ResourceSet;
 
+/**
+ * TODO Write commentary
+ * @author Alp Torac Genc
+ *
+ */
 public abstract class AbstractResourceParsingStrategy {
 	private ResourceSet resourceSet;
 	private final Set<String> exclusionPatterns = new HashSet<>();

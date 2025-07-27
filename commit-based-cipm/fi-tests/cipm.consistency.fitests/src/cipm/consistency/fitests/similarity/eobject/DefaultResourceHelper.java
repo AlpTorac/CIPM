@@ -5,10 +5,17 @@ import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
 
 /**
  * A class that encapsulates the means to create {@link Resource} instances.
+ * <br>
+ * <br>
+ * Uses {@link XMIResourceFactoryImpl} as Resource factory for all Resource
+ * extensions.
  * 
  * @author Alp Torac Genc
  */
 public class DefaultResourceHelper extends AbstractResourceHelper {
+	/**
+	 * Pattern that matches all Resource file extensions
+	 */
 	private static final String defaultFactoryKey = "*";
 
 	public DefaultResourceHelper() {
@@ -25,10 +32,5 @@ public class DefaultResourceHelper extends AbstractResourceHelper {
 	@Override
 	public void setInitialResourceRegistries() {
 		this.setResourceRegistry(defaultFactoryKey, new XMIResourceFactoryImpl());
-	}
-
-	@Override
-	public boolean areRequiredResourceRegistriesPresent() {
-		return this.resourceRegistryPresent(defaultFactoryKey);
 	}
 }
