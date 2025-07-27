@@ -6,27 +6,31 @@ import org.eclipse.emf.common.util.URI;
 
 import cipm.consistency.fitests.similarity.jamopp.parser.ParserTestFileLayout;
 
+/**
+ * Extension of {@link ParserTestFileLayout} with GIT-Repository-related
+ * options.
+ * 
+ * @author Alp Torac Genc
+ */
 public class RepoParserTestFileLayout extends ParserTestFileLayout {
 	/**
-	 * The name of the root directory of the models
+	 * @see {@link #setRepoModelImplDirName(String)}
 	 */
 	private String repoModelImplDirName;
 
 	/**
-	 * The name of the folder, where contents of {@link #resultCache} should be
-	 * saved. <br>
-	 * <br>
-	 * Note: This folder does not have to directly contain the contents of
-	 * {@link #resultCache}. They may be saved in sub-directories as well.
+	 * @see {@link #setExpectedSimilarityResultCacheDirName(String)}
 	 */
 	private String expectedSimilarityResultCacheDirName;
 
 	/**
-	 * The name of the file (with extension), where contents of {@link #resultCache}
-	 * should be saved.
+	 * @see {@link #setExpectedSimilarityResultCacheFileName(String)}
 	 */
 	private String expectedSimilarityResultCacheFileName;
 
+	/**
+	 * @see {@link #setRepoName(String)}
+	 */
 	private String repoName;
 
 	public RepoParserTestFileLayout() {
@@ -37,24 +41,39 @@ public class RepoParserTestFileLayout extends ParserTestFileLayout {
 		super(layout);
 	}
 
+	/**
+	 * Sets the name of the repository
+	 */
 	public void setRepoName(String repoName) {
 		this.repoName = repoName;
 	}
 
+	/**
+	 * Sets the name of the root directory of the models
+	 */
 	public void setRepoModelImplDirName(String repoModelImplDirName) {
 		this.repoModelImplDirName = repoModelImplDirName;
 	}
 
+	/**
+	 * Sets the name of the folder, where contents of {@link #resultCache} should be
+	 * saved. Note: This folder does not have to directly contain the contents of
+	 * {@link RepoTestResultCache}. They may be saved in sub-directories as well.
+	 */
 	public void setExpectedSimilarityResultCacheDirName(String expectedSimilarityResultCacheDirName) {
 		this.expectedSimilarityResultCacheDirName = expectedSimilarityResultCacheDirName;
 	}
 
+	/**
+	 * Sets the name of the file (with extension), where contents of
+	 * {@link RepoTestResultCache} should be saved.
+	 */
 	public void setExpectedSimilarityResultCacheFileName(String expectedSimilarityResultCacheFileName) {
 		this.expectedSimilarityResultCacheFileName = expectedSimilarityResultCacheFileName;
 	}
 
 	/**
-	 * @return The path to the saved contents of {@link #resultCache}
+	 * @return The path to the saved contents of {@link RepoTestResultCache}
 	 */
 	public Path getExpectedSimilarityResultCachePath() {
 		return this.getTestFilesSavePath().resolve(expectedSimilarityResultCacheDirName).resolve(this.repoName)
@@ -103,5 +122,4 @@ public class RepoParserTestFileLayout extends ParserTestFileLayout {
 	public Path getModelSourceFileRootDirPath() {
 		return this.getRepoClonesDirPath().resolve(this.repoName);
 	}
-
 }

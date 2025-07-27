@@ -15,7 +15,6 @@ import cipm.consistency.fitests.similarity.jamopp.parser.ParserTestOptions;
  * similarity results should actually be used in tests
  * </ul>
  * 
- * @see {@link ParserTestOptions} for other options
  * @author Alp Torac Genc
  */
 public class RepoParserTestOptions extends ParserTestOptions {

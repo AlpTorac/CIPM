@@ -9,6 +9,11 @@ import org.eclipse.emf.common.util.URI;
 import cipm.consistency.fitests.similarity.jamopp.parser.AbstractJaMoPPParserSimilarityTestFactory;
 import cipm.consistency.fitests.similarity.jamopp.parser.EAllContentSimilarityTestFactory;
 
+/**
+ * Contains repository parser tests for the "Teammates" repository
+ * 
+ * @author Alp Torac Genc
+ */
 public class TeammatesRepoTest extends AbstractJaMoPPParserRepoTest {
 	private static final List<String> commitIDs = List.of("648425746bb9434051647c8266dfab50a8f2d6a3",
 			"48b67bae03babf5a5e578aefce47f0285e8de8b4");
