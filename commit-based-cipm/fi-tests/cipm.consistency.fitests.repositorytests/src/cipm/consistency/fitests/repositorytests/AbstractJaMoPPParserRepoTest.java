@@ -30,7 +30,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.TestFactory;
-import org.junit.jupiter.api.TestInfo;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -85,34 +84,34 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	/**
 	 * {@inheritDoc} <br>
 	 * <br>
-	 * Loads expected similarity checking results, if their file exists.
+	 * {@link AbstractJaMoPPParserRepoTest}: Loads expected similarity checking
+	 * results, if their file exists.
 	 */
 	@BeforeEach
 	@Override
-	public void setUp(TestInfo info) {
+	public void setUp() {
 		this.startTimeMeasurement(GeneralTimeMeasurementTag.TEST_BEFOREEACH);
-		super.setUp(info);
+		super.setUp();
 
 		var resultCachePath = this.getTestFileLayout().getExpectedSimilarityResultCachePath();
 		if (this.getResourceTestOptions().shouldUseCachedExpectedSimilarityResults()) {
 			this.startTimeMeasurement(RepoTimeMeasurementTag.LOAD_EXPECTED_SIMILARITY_RESULTS);
-			this.getLogger().debug(String.format("Checking for cached expected similarity results for %s at %s",
+			this.logDebugMsg(String.format("Checking for cached expected similarity results for %s at %s",
 					this.getCurrentTestClassName(), resultCachePath));
 			if (resultCachePath.toFile().exists()) {
-				this.getLogger().debug(String.format("Cached expected similarity results exist"));
+				this.logDebugMsg(String.format("Cached expected similarity results exist"));
 				try (BufferedReader reader = Files.newBufferedReader(resultCachePath)) {
-					this.getLogger().debug(String.format("Reading cached expected similarity results"));
+					this.logDebugMsg(String.format("Reading cached expected similarity results"));
 					resultCache = new RepoTestResultCache(new Gson().fromJson(reader, resultCache.getClass()));
-					this.getLogger().debug(String.format("Read cached expected similarity results"));
+					this.logDebugMsg(String.format("Read cached expected similarity results"));
 				} catch (IOException e) {
-					this.getLogger()
-							.debug(String.format("Could not read cached expected similarity results for %s at %s",
-									this.getCurrentTestClassName(), resultCachePath));
+					this.logDebugMsg(String.format("Could not read cached expected similarity results for %s at %s",
+							this.getCurrentTestClassName(), resultCachePath));
 				}
 			}
 			this.stopTimeMeasurement();
 		} else {
-			this.getLogger().debug(String.format("No saved expected similarity results found for %s at %s",
+			this.logDebugMsg(String.format("No saved expected similarity results found for %s at %s",
 					this.getCurrentTestClassName(), resultCachePath));
 		}
 		this.stopTimeMeasurement();
@@ -121,8 +120,8 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	/**
 	 * {@inheritDoc} <br>
 	 * <br>
-	 * Saves the computed expected similarity results and deletes the local
-	 * repository clone, if desired.
+	 * {@link AbstractJaMoPPParserRepoTest}: Saves the computed expected similarity
+	 * results and deletes the local repository clone, if desired.
 	 */
 	@AfterEach
 	@Override
@@ -135,7 +134,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			var resultCachePath = this.getTestFileLayout().getExpectedSimilarityResultCachePath();
 			var resultCacheFile = resultCachePath.toFile();
 
-			this.getLogger().debug(String.format("Saving cached expected similarity results for %s at %s",
+			this.logDebugMsg(String.format("Saving cached expected similarity results for %s at %s",
 					this.getCurrentTestClassName(), resultCachePath));
 
 			// Re-write expected similarity results
@@ -158,7 +157,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 						e);
 			}
 
-			this.getLogger().debug(String.format("Saved cached expected similarity results for %s at %s",
+			this.logDebugMsg(String.format("Saved cached expected similarity results for %s at %s",
 					this.getCurrentTestClassName(), resultCachePath));
 			this.stopTimeMeasurement();
 		}
@@ -212,8 +211,6 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		var commitIDList = this.getCommitIDs();
 		var testStrats = this.getTestGenerationStrategies();
 
-		// TODO Refactor
-
 		/*
 		 * Determine whether all required expected results are in the cache based on
 		 * what commits are compared to one another in the tests
@@ -222,8 +219,8 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			var commitID1 = commitIDList.get(idxs[0]);
 			var commitID2 = commitIDList.get(idxs[1]);
 			if (resultCache.getResult(commitID1, commitID2) == null) {
-				this.getLogger()
-						.debug(String.format("Expected similarity result missing for: %s vs %s", commitID1, commitID2));
+				this.logDebugMsg(
+						String.format("Expected similarity result missing for: %s vs %s", commitID1, commitID2));
 				expectedResultsExist[0] = false;
 				// Check for the other ones as well, for debugging purposes
 			}
@@ -232,7 +229,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		for (var cID : commitIDList) {
 			if (!this.getResourceHelper()
 					.resourceFileExists(this.getTestFileLayout().getModelResourceSaveURIForCommit(cID))) {
-				this.getLogger().debug(String.format("Model resource missing for: %s", cID));
+				this.logDebugMsg(String.format("Model resource missing for: %s", cID));
 				commitResourcesExist = false;
 				// Check for the other ones as well, for debugging purposes
 			}
@@ -241,25 +238,24 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		Git git = null;
 
 		if (!expectedResultsExist[0] || !commitResourcesExist) {
-			this.getLogger()
-					.debug("Remote repository must be cloned due to missing resources / expected similarity results");
+			this.logDebugMsg("Remote repository must be cloned due to missing resources / expected similarity results");
 			git = this.cloneRepo();
 		}
 
 		if (!expectedResultsExist[0]) {
-			this.getLogger().debug(String.format("Computing missing expected similarity results"));
+			this.logDebugMsg(String.format("Computing missing expected similarity results"));
 
 			this.computeExpectedSimilarityResults(git, commitIDList);
 
-			this.getLogger().debug(String.format("Computed missing similarity results"));
+			this.logDebugMsg(String.format("Computed missing similarity results"));
 		}
 
 		if (!commitResourcesExist) {
-			this.getLogger().debug(String.format("Preparing missing model resources"));
+			this.logDebugMsg(String.format("Preparing missing model resources"));
 
 			commitResources.addAll(this.prepareReposForCommits(commitIDList, git));
 
-			this.getLogger().debug(String.format("Prepared missing model resources"));
+			this.logDebugMsg(String.format("Prepared missing model resources"));
 		} else {
 			for (var cID : commitIDList) {
 				var cachedCommitURI = this.getTestFileLayout().getModelResourceSaveURIForCommit(cID);
@@ -273,28 +269,28 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		}
 
 		if (git != null) {
-			this.getLogger().debug("Closing repository wrapper");
+			this.logDebugMsg("Closing repository wrapper");
 
 			this.startTimeMeasurement(RepoTimeMeasurementTag.CLOSE_REPOSITORY);
 			git.getRepository().close();
 			git.close();
 			this.stopTimeMeasurement();
 
-			this.getLogger().debug(String.format("Closed repository wrapper"));
+			this.logDebugMsg(String.format("Closed repository wrapper"));
 		}
 
 		var mainLocalClonePath = this.getTestFileLayout().getModelSourceFileRootDirPath();
 
-		this.getLogger()
-				.debug(String.format("Cleaning main local repository clone under: %s", mainLocalClonePath.toString()));
+		this.logDebugMsg(
+				String.format("Cleaning main local repository clone under: %s", mainLocalClonePath.toString()));
 
 		this.startTimeMeasurement(RepoTimeMeasurementTag.DELETE_LOCAL_REPO_CLONE);
 		this.getFileUtil().deleteAll(mainLocalClonePath);
 		this.stopTimeMeasurement();
 
-		this.getLogger().debug("Cleaned main local repository clone");
+		this.logDebugMsg("Cleaned main local repository clone");
 
-		this.getLogger().debug(String.format("Repository model resources are cached"));
+		this.logDebugMsg(String.format("Repository model resources are cached"));
 
 		return commitResources;
 	}
@@ -319,13 +315,13 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			var commitID1 = commitIDList.get(idxs[0]);
 			var commitID2 = commitIDList.get(idxs[1]);
 			if (resultCache.getResult(commitID1, commitID2) == null) {
-				this.getLogger().debug(
+				this.logDebugMsg(
 						String.format("Computing expected similarity result for: %s vs %s", commitID1, commitID2));
 				var result = expectedValueEstimator.getExpectedSimilarityValueFor(git, commitID1, commitID2);
 
 				resultCache.addResult(commitID1, commitID2, result);
 
-				this.getLogger().debug(String.format("Computed expected similarity result (%s) for: %s vs %s", result,
+				this.logDebugMsg(String.format("Computed expected similarity result (%s) for: %s vs %s", result,
 						commitID1, commitID2));
 			}
 		}));
@@ -351,11 +347,11 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		if (!clonePath.toFile().exists() || clonePath.toFile().list() == null
 				|| clonePath.toFile().list().length == 0) {
 			try {
-				this.getLogger().debug(
+				this.logDebugMsg(
 						String.format("Cloning remote repository (%s) to: %s", repoToCloneURI, clonePath.toString()));
 				git = Git.cloneRepository().setURI(repoToCloneURI).setDirectory(clonePath.toFile())
 						.setCloneAllBranches(true).call();
-				this.getLogger().debug(String.format("Cloning successful"));
+				this.logDebugMsg(String.format("Cloning successful"));
 			} catch (GitAPIException e) {
 				e.printStackTrace();
 				Assertions.fail("Could not clone repository");
@@ -368,7 +364,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 				git = Git.open(clonePath.toFile());
 			} catch (IOException e) {
 				// Faulty repository clone, delete and re-try
-				this.getLogger().debug("Could not open existing repository, deleting it and re-cloning");
+				this.logDebugMsg("Could not open existing repository, deleting it and re-cloning");
 				this.getFileUtil().deleteAll(clonePath);
 				if (clonePath.toFile().exists() && clonePath.toFile().list().length != 0) {
 					throw new IllegalStateException("Could not delete faulty repository clone");
@@ -419,26 +415,26 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		// Checkout and copy local repository clone for each
 		// commit except the last one. For the last one, just checkout to that commit to
 		// spare 1 copy operation
-		this.getLogger().debug("Caching model resources for commits");
+		this.logDebugMsg("Caching model resources for commits");
 		var commitCount = commits.size();
 		for (int i = 0; i < commitCount; i++) {
 			var commitID = commits.get(i);
 			var commitResURI = this.getTestFileLayout().getModelResourceSaveURIForCommit(commitID);
 
-			this.getLogger().debug(String.format("Checking out: %s", commitID));
+			this.logDebugMsg(String.format("Checking out: %s", commitID));
 
 			this.startTimeMeasurement(RepoTimeMeasurementTag.CHECKOUT_TO_COMMIT);
 			try {
 				git.checkout().setName(commitID).call();
 			} catch (GitAPIException e) {
-				this.getLogger().debug(String.format("Error while checking out: %s", commitID));
+				this.logDebugMsg(String.format("Error while checking out: %s", commitID));
 				throw new IllegalArgumentException(e);
 			}
 			this.stopTimeMeasurement();
 
-			this.getLogger().debug(String.format("Checked out: %s", commitID));
+			this.logDebugMsg(String.format("Checked out: %s", commitID));
 
-			this.getLogger().debug(String.format("Caching resource for: %s", commitID));
+			this.logDebugMsg(String.format("Caching resource for: %s", commitID));
 
 			var targetPath = this.getTestFileLayout().getRepoClonePathForCommit(commitID);
 			IModelResourceWrapper commitRes = null;
@@ -457,9 +453,9 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			}
 
 			commitResources.add(commitRes.getModelResource());
-			this.getLogger().debug(String.format("Cached resource for: %s", commitID));
+			this.logDebugMsg(String.format("Cached resource for: %s", commitID));
 		}
-		this.getLogger().debug(String.format("Prepared model resources for commits"));
+		this.logDebugMsg(String.format("Prepared model resources for commits"));
 		return commitResources;
 	}
 
