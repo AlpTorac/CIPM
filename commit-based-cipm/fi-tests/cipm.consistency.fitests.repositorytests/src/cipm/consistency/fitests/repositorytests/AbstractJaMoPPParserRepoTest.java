@@ -525,8 +525,9 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	public Collection<DynamicNode> createTests() {
 		this.startTimeMeasurement(GeneralTimeMeasurementTag.TEST_OVERHEAD);
 		var resArr = this.cacheCommitResources().toArray(Resource[]::new);
+		var tests = super.createTests(resArr);
 		this.stopTimeMeasurement();
-		return super.createTests(resArr);
+		return tests;
 	}
 
 	@Override
