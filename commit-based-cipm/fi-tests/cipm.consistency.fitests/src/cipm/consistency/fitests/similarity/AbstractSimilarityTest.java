@@ -113,8 +113,7 @@ public abstract class AbstractSimilarityTest implements ILoggable {
 	}
 
 	/**
-	 * @return The prefix of the {@link Resource} file names created from within the
-	 *         current test class. Defaults to the name of the current test class.
+	 * @return The name of the currently running test class.
 	 */
 	public String getCurrentTestClassName() {
 		return this.getClass().getSimpleName();
