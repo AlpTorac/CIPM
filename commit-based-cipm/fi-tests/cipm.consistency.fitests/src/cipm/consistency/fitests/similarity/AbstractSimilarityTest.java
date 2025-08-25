@@ -30,9 +30,6 @@ public abstract class AbstractSimilarityTest implements ILoggable {
 	 * {@link ISimilarityCheckerContainer}, which will be used for
 	 * {@link #isSimilar(Object, Object)} and
 	 * {@link #areSimilar(Collection, Collection)}.
-	 * 
-	 * @param info An object that contains information about the current test to be
-	 *             run (ex: the test method instance, test class, ...)
 	 */
 	@BeforeEach
 	public void setUp() {
