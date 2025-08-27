@@ -1,43 +1,42 @@
 package cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement;
 
-import java.time.temporal.TemporalAccessor;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
-import com.google.gson.annotations.Expose;
-
+/**
+ * TODO Commentary
+ * 
+ * @author Alp Torac Genc
+ */
 public class GSONDataStructure implements ITimeMeasurementDataStructure {
 	/**
-	 * The time when time measurement has begun
+	 * @see {@link #getEndTime()}
 	 */
-	private TemporalAccessor startTime;
+	private LocalDateTime startTime;
 	/**
-	 * The time when time measurement has ended
+	 * @see {@link #getStartTime()}
 	 */
-	private TemporalAccessor endTime;
-
-	/**
-	 * The sum of all taken time measurements.
-	 */
-	@Expose
-	private Long overallRunTime;
-
-	/**
-	 * The time unit in time measurements. Only declared in order to include it to
-	 * the time measurement file.
-	 */
-	@Expose
-	private String timeUnit;
+	private LocalDateTime endTime;
 
 	/**
 	 * The name of the tool that is used for taking time measurements. Only declared
 	 * in order to include it to the time measurement file.
 	 */
-	@Expose
-	private String timeMeasurer;
+	private String timeMeasurerDescription;
+	/**
+	 * The time unit in time measurements. Only declared in order to include it to
+	 * the time measurement file.
+	 */
+	private TimeUnit timeUnit;
+	/**
+	 * The sum of all taken time measurements.
+	 */
+	private Long overallRunTime;
 
 	/**
 	 * Contains the sum of time measurements for individual tags in
@@ -45,7 +44,6 @@ public class GSONDataStructure implements ITimeMeasurementDataStructure {
 	 * measurement file. Should be reset after saving all time measurements, so that
 	 * the values here are not duplicated.
 	 */
-	@Expose
 	private final Map<ITimeMeasurementTag, Long> measurementTagSummary = new HashMap<ITimeMeasurementTag, Long>();
 
 	/**
@@ -54,24 +52,26 @@ public class GSONDataStructure implements ITimeMeasurementDataStructure {
 	 * to the time measurement file. Should be reset after saving all time
 	 * measurements, so that the values here are not duplicated.
 	 */
-	@Expose
 	private final Map<ITimeMeasurementTag, String> measurementTagPercentageSummary = new HashMap<ITimeMeasurementTag, String>();
 
 	/**
 	 * Contains all time measurements taken.
 	 */
-	@Expose
 	private final Collection<ITimeMeasurementDataStructureEntry> measurements = new ArrayList<ITimeMeasurementDataStructureEntry>();
 
 	@Override
-	public void timeMeasuringStarted(TemporalAccessor startTime) {
-		this.startTime = startTime;
+	public void timeMeasuringStarted(LocalDateTime startTime) {
+		if (this.getStartTime() == null) {
+			this.startTime = startTime;
+		}
 	}
 
 	@Override
-	public void timeMeasuringFinished(TemporalAccessor endTime) {
-		this.endTime = endTime;
-		this.summariseTimeMeasurements();
+	public void timeMeasuringFinished(LocalDateTime endTime) {
+		if (this.getStartTime() != null && this.getEndTime() == null) {
+			this.endTime = endTime;
+			this.summariseTimeMeasurements();
+		}
 	}
 
 	@Override
@@ -81,8 +81,11 @@ public class GSONDataStructure implements ITimeMeasurementDataStructure {
 		this.endTime = null;
 
 		this.overallRunTime = null;
-		this.timeMeasurer = null;
+		this.timeMeasurerDescription = null;
 		this.timeUnit = null;
+
+		this.clearSummaryMaps();
+		this.measurements.clear();
 	}
 
 	/**
@@ -147,12 +150,51 @@ public class GSONDataStructure implements ITimeMeasurementDataStructure {
 	}
 
 	@Override
-	public TemporalAccessor getStartTime() {
+	public LocalDateTime getStartTime() {
 		return this.startTime;
 	}
 
 	@Override
-	public TemporalAccessor getEndTime() {
+	public LocalDateTime getEndTime() {
 		return this.endTime;
+	}
+
+	@Override
+	public String getTimeMeasurerDescription() {
+		return this.timeMeasurerDescription;
+	}
+
+	@Override
+	public void setTimeMeasurerDescription(String description) {
+		this.timeMeasurerDescription = description;
+	}
+
+	@Override
+	public TimeUnit getTimeUnit() {
+		return this.timeUnit;
+	}
+
+	@Override
+	public void setTimeUnit(TimeUnit unit) {
+		this.timeUnit = unit;
+	}
+
+	@Override
+	public Collection<ITimeMeasurementDataStructureEntry> getTimeMeasurementEntries() {
+		return new ArrayList<ITimeMeasurementDataStructureEntry>(this.measurements);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof GSONDataStructure)) {
+			return false;
+		}
+		var castedO = (GSONDataStructure) obj;
+
+		return this.getStartTime().isEqual(castedO.getStartTime()) && this.getEndTime().isEqual(castedO.getEndTime())
+				&& this.getTimeUnit().equals(castedO.getTimeUnit())
+				&& this.getTimeMeasurerDescription().equals(castedO.getTimeMeasurerDescription())
+				&& this.getTimeMeasurementEntries().size() == castedO.getTimeMeasurementEntries().size()
+				&& this.getTimeMeasurementEntries().containsAll(castedO.getTimeMeasurementEntries());
 	}
 }

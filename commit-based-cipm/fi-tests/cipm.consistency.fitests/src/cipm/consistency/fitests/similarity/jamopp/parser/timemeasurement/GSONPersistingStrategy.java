@@ -2,13 +2,23 @@ package cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
 
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
+/**
+ * TODO Commentary
+ * 
+ * @author Alp Torac Genc
+ */
 public class GSONPersistingStrategy implements ITimeMeasurementPersistingStrategy {
 	/**
 	 * @see {@link #GSONPersistingStrategy(String, DateTimeFormatter)}
@@ -42,9 +52,10 @@ public class GSONPersistingStrategy implements ITimeMeasurementPersistingStrateg
 		// TODO Register type adapter for dates (use fileContentTimePattern somehow)
 		// TODO Register type adapter for tags
 
-		var gson = new GsonBuilder().setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
+		var gson = new GsonBuilder().setPrettyPrinting()
+				.registerTypeHierarchyAdapter(LocalDateTime.class, this.getDateAdapter()).create();
 		try (BufferedWriter writer = Files.newBufferedWriter(filePath); var gsonWriter = gson.newJsonWriter(writer)) {
-			gson.toJson(this, this.getClass(), gsonWriter);
+			gson.toJson(dataStructure, dataStructure.getClass(), gsonWriter);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new IllegalArgumentException(
@@ -52,11 +63,20 @@ public class GSONPersistingStrategy implements ITimeMeasurementPersistingStrateg
 		}
 	}
 
+	private JsonSerializer<LocalDateTime> getDateAdapter() {
+		return new JsonSerializer<LocalDateTime>() {
+			@Override
+			public JsonElement serialize(LocalDateTime src, Type typeOfSrc, JsonSerializationContext context) {
+				return new JsonPrimitive(fileContentTimePattern.format(src));
+			}
+		};
+	}
+
 	/**
 	 * @return The name (with file extension) of the measurements file that will be
 	 *         saved.
 	 */
-	private String getFullFileName(TemporalAccessor startTime, TemporalAccessor endTime) {
+	private String getFullFileName(LocalDateTime startTime, LocalDateTime endTime) {
 		var fileExtension = ".json";
 		return String.format("%s___%s%s", filenameTimeFormatter.format(startTime),
 				filenameTimeFormatter.format(endTime), fileExtension);

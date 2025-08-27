@@ -1,8 +1,13 @@
 package cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement;
 
-import java.time.temporal.TemporalAccessor;
+import java.time.LocalDateTime;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * TODO Commentary
+ * 
+ * @author Alp Torac Genc
+ */
 public interface ITimeMeasuringStrategy {
 	/**
 	 * Starts measuring the time for a certain purpose given via the parameters. If
@@ -44,8 +49,17 @@ public interface ITimeMeasuringStrategy {
 	 */
 	public ITimeMeasurementDataStructureEntry stopTimeMeasurement();
 
+	/**
+	 * Signals to the concrete implementor that time measuring has started. Calling
+	 * this multiple times before calling {@link #timeMeasuringFinished()} should
+	 * have no effect past the first call.
+	 */
 	public void timeMeasuringStarted();
 
+	/**
+	 * Signals to the concrete implementor that time measuring has ended. Calling
+	 * this before calling {@link #timeMeasuringStarted()} should have no effect.
+	 */
 	public void timeMeasuringFinished();
 
 	/**
@@ -72,7 +86,13 @@ public interface ITimeMeasuringStrategy {
 	 */
 	public TimeUnit getTimeUnit();
 
-	public TemporalAccessor getStartTime();
+	/**
+	 * @return The time when time measurement has begun
+	 */
+	public LocalDateTime getStartTime();
 
-	public TemporalAccessor getEndTime();
+	/**
+	 * @return The time when time measurement has ended
+	 */
+	public LocalDateTime getEndTime();
 }

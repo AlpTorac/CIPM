@@ -14,6 +14,7 @@ import cipm.consistency.fitests.similarity.jamopp.parser.testfactory.ReflexiveSy
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.GeneralTimeMeasurementTag;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ITimeMeasurementTag;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ParserTestTimeMeasurementKey;
+import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ParserTestTimeMeasurer;
 import cipm.consistency.fitests.similarity.jamopp.parser.JaMoPPModelResourceWrapper;
 
 import java.io.BufferedReader;
@@ -94,6 +95,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	@BeforeEach
 	@Override
 	public void setUp() {
+		ParserTestTimeMeasurer.getInstance().startTimeMeasuring();
 		this.startTimeMeasurement(GeneralTimeMeasurementTag.TEST_BEFOREEACH);
 		super.setUp();
 

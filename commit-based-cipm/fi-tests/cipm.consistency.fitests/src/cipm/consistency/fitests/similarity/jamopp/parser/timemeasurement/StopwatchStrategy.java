@@ -1,7 +1,6 @@
 package cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement;
 
 import java.time.LocalDateTime;
-import java.time.temporal.TemporalAccessor;
 import java.util.Stack;
 import java.util.concurrent.TimeUnit;
 
@@ -20,11 +19,11 @@ public class StopwatchStrategy implements ITimeMeasuringStrategy {
 	/**
 	 * The time when time measurement has begun
 	 */
-	private TemporalAccessor startTime;
+	private LocalDateTime startTime;
 	/**
 	 * The time when time measurement has ended
 	 */
-	private TemporalAccessor endTime;
+	private LocalDateTime endTime;
 
 	/**
 	 * A stack that contains all StopWatch instances that are used during
@@ -80,26 +79,36 @@ public class StopwatchStrategy implements ITimeMeasuringStrategy {
 
 	@Override
 	public void timeMeasuringFinished() {
-		this.endTime = LocalDateTime.now();
+		if (this.hasTimeMeasurementStarted() && !this.hasTimeMeasurementFinished()) {
+			this.endTime = LocalDateTime.now();
+		}
 	}
 
 	@Override
 	public void timeMeasuringStarted() {
-		this.startTime = LocalDateTime.now();
+		if (!this.hasTimeMeasurementStarted()) {
+			this.startTime = LocalDateTime.now();
 
-		// Reset the end time, since time measuring just started
-		this.endTime = null;
+			// Reset the end time, since time measuring just started
+			this.endTime = null;
+		}
 	}
 
 	/**
-	 * Time measurements are assumed to be taken, if {@link #timeMeasuringStarted()}
-	 * has been called but {@link #timeMeasuringFinished()} is not called yet.
+	 * Time measurement is assumed to have started, if
+	 * {@link #timeMeasuringStarted()} has been called but
+	 * {@link #timeMeasuringFinished()} is not called yet.
 	 */
 	@Override
 	public boolean hasTimeMeasurementStarted() {
 		return this.getStartTime() != null && this.getEndTime() == null;
 	}
 
+	/**
+	 * Time measurement is assumed to have finished, if both
+	 * {@link #timeMeasuringStarted()} and {@link #timeMeasuringFinished()} have
+	 * been called.
+	 */
 	@Override
 	public boolean hasTimeMeasurementFinished() {
 		return this.getStartTime() != null && this.getEndTime() != null;
@@ -121,29 +130,29 @@ public class StopwatchStrategy implements ITimeMeasuringStrategy {
 	}
 
 	@Override
-	public TemporalAccessor getStartTime() {
+	public LocalDateTime getStartTime() {
 		return this.startTime;
 	}
 
 	@Override
-	public TemporalAccessor getEndTime() {
+	public LocalDateTime getEndTime() {
 		return this.endTime;
 	}
 
-	protected class StopWatchEntryPair {
+	private class StopWatchEntryPair {
 		private final StopWatch watch;
 		private final ITimeMeasurementDataStructureEntry entry;
 
-		protected StopWatchEntryPair(StopWatch watch, ITimeMeasurementDataStructureEntry entry) {
+		private StopWatchEntryPair(StopWatch watch, ITimeMeasurementDataStructureEntry entry) {
 			this.watch = watch;
 			this.entry = entry;
 		}
 
-		protected StopWatch getWatch() {
+		private StopWatch getWatch() {
 			return watch;
 		}
 
-		protected ITimeMeasurementDataStructureEntry getEntry() {
+		private ITimeMeasurementDataStructureEntry getEntry() {
 			return entry;
 		}
 	}

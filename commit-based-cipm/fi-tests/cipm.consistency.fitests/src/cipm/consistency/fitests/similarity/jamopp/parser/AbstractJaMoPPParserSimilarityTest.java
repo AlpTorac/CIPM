@@ -81,6 +81,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	@BeforeEach
 	@Override
 	public void setUp() {
+		ParserTestTimeMeasurer.getInstance().startTimeMeasuring();
 		this.startTimeMeasurement(GeneralTimeMeasurementTag.TEST_BEFOREEACH);
 		super.setUp();
 
@@ -156,9 +157,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 		super.tearDown();
 		this.stopTimeMeasurement();
+		ParserTestTimeMeasurer.getInstance().finishTimeMeasuring();
 
 		this.saveTimeMeasurements();
-
 		SimilarityTestLogger.logDebugMsg("Tore down after parser test", this.getClass());
 	}
 
@@ -183,6 +184,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	protected void saveTimeMeasurements() {
 		SimilarityTestLogger.logDebugMsg("Saving time measurements", this.getClass());
 		ParserTestTimeMeasurer.getInstance().save(this.layout.getTimeMeasurementsFileSavePath());
+		ParserTestTimeMeasurer.getInstance().reset();
 		SimilarityTestLogger.logDebugMsg("Saved time measurements", this.getClass());
 	}
 

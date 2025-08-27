@@ -34,4 +34,15 @@ public class TimeMeasurementEntry implements ITimeMeasurementDataStructureEntry 
 	public ITimeMeasurementTag getTag() {
 		return tag;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof TimeMeasurementEntry)) {
+			return false;
+		}
+		var castedO = (TimeMeasurementEntry) obj;
+
+		return this.getTag().equals(castedO.getTag()) && this.getKey().equals(castedO.getKey())
+				&& this.getTimeUnitCount() == castedO.getTimeUnitCount();
+	}
 }

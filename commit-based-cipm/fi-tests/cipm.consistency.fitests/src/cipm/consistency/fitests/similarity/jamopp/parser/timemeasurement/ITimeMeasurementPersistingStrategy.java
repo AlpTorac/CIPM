@@ -2,6 +2,11 @@ package cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement;
 
 import java.nio.file.Path;
 
+/**
+ * TODO Commentary
+ * 
+ * @author Alp Torac Genc
+ */
 public interface ITimeMeasurementPersistingStrategy {
 	/**
 	 * Saves the given dataStructure according to the concrete implementation.

@@ -3,8 +3,6 @@ package cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gson.annotations.Expose;
-
 /**
  * A class that contains information about time measurements. Instances of this
  * class can be filled in by using the {@code with...(...)} methods it offers.
@@ -15,8 +13,21 @@ import com.google.gson.annotations.Expose;
  * @author Alp Torac Genc
  */
 public class ParserTestTimeMeasurementKey {
-	@Expose
 	private final Map<ParserTestTimeMeasurerKeyType, String> keyMap = new HashMap<ParserTestTimeMeasurerKeyType, String>();
+
+	public ParserTestTimeMeasurementKey fromKeyMap(Map<ParserTestTimeMeasurerKeyType, String> anotherKeyMap) {
+		for (var e : anotherKeyMap.entrySet()) {
+			this.keyMap.put(e.getKey(), e.getValue());
+		}
+		return this;
+	}
+
+	public ParserTestTimeMeasurementKey fromStringKeyMap(Map<String, String> anotherKeyMap) {
+		for (var e : anotherKeyMap.entrySet()) {
+			this.keyMap.put(ParserTestTimeMeasurerKeyType.valueOf(e.getKey()), e.getValue());
+		}
+		return this;
+	}
 
 	/**
 	 * The class name of the instance, which is used for hierarchical model
@@ -249,30 +260,14 @@ public class ParserTestTimeMeasurementKey {
 		return this;
 	}
 
-	public enum ParserTestTimeMeasurerKeyType {
-		MODEL_DISCOVERY_PATH,
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof ParserTestTimeMeasurementKey)) {
+			return false;
+		}
+		var castedO = (ParserTestTimeMeasurementKey) obj;
 
-		MODEL_DISCOVERY_CLASS_NAME,
-
-		ORIGINAL_MODEL_LOCATION, PARSED_MODEL_LOCATION,
-
-		ORIGINAL_LEFT_MODEL_LOCATION, PARSED_LEFT_MODEL_LOCATION, ORIGINAL_RIGHT_MODEL_LOCATION,
-		PARSED_RIGHT_MODEL_LOCATION,
-
-		RESOURCE_PARSING_STRATEGY_CLASS_NAME,
-
-		MODEL_COMPARISON_CLASS_NAME,
-
-		TEST_CLASS_NAME, TEST_FACTORY_CLASS_NAME,
-
-		EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME,
-
-		REPOSITORY_NAME, REPOSITORY_URI, COMMIT_ID,
-
-		LEFT_REPOSITORY_NAME, LEFT_REPOSITORY_URI,
-
-		RIGHT_REPOSITORY_NAME, RIGHT_REPOSITORY_URI,
-
-		LEFT_COMMIT_ID, RIGHT_COMMIT_ID;
+		return this.keyMap.size() == castedO.keyMap.size()
+				&& this.keyMap.entrySet().containsAll(castedO.keyMap.entrySet());
 	}
 }

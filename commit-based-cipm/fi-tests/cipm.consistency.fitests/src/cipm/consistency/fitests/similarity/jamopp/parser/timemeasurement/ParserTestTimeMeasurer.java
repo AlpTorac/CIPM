@@ -57,7 +57,8 @@ public class ParserTestTimeMeasurer {
 	 * Not using them similar to brackets will result in problems. <br>
 	 * <br>
 	 * A call to {@link #startTimeMeasuring()} is necessary before using this
-	 * method.
+	 * method. If time measuring should start anew, additionally {@link #reset()}
+	 * should be called.
 	 * 
 	 * @param key The key of the taken time measurement, which describes what the
 	 *            time measurement is taken from
@@ -92,8 +93,10 @@ public class ParserTestTimeMeasurer {
 	 */
 	public void startTimeMeasuring() {
 		this.measuringStrat.timeMeasuringStarted();
-		var time = this.measuringStrat.getStartTime();
-		this.dataStructure.timeMeasuringStarted(time);
+
+		this.dataStructure.setTimeMeasurerDescription(this.measuringStrat.getTimeMeasurerDescription());
+		this.dataStructure.setTimeUnit(this.measuringStrat.getTimeUnit());
+		this.dataStructure.timeMeasuringStarted(this.measuringStrat.getStartTime());
 	}
 
 	/**
