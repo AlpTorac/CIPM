@@ -1,0 +1,5 @@
+package cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement;
+
+public interface ITimeMeasurementLoadingStrategy {
+
+}
