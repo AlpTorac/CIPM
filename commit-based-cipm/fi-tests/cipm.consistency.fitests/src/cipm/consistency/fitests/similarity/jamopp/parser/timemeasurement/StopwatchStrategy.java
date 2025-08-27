@@ -65,7 +65,7 @@ public class StopwatchStrategy implements ITimeMeasuringStrategy {
 		var entry = currentMethodPair.getEntry();
 
 		watch.stop();
-		entry.setTimeUnitCount(watch.getTime());
+		entry.setTimeElapsed(watch.getTime());
 
 		/*
 		 * Resumes the potential outer method's Stopwatch, which was previously

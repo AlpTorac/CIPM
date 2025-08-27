@@ -43,14 +43,15 @@ public class GSONPersistingStrategy implements ITimeMeasurementPersistingStrateg
 	}
 
 	public void save(ITimeMeasurementDataStructure dataStructure, Path measurementsSavePath) {
+
+		// TODO Include file name to measurementsSavePath, remove getFullFileName()
+		// TODO Maybe add the currently running test class name to file name
+
 		var filePath = measurementsSavePath
 				.resolve(this.getFullFileName(dataStructure.getStartTime(), dataStructure.getEndTime()));
 
 		// Ensure that all necessary parent directories exist prior to saving
 		measurementsSavePath.toFile().mkdirs();
-
-		// TODO Register type adapter for dates (use fileContentTimePattern somehow)
-		// TODO Register type adapter for tags
 
 		var gson = new GsonBuilder().setPrettyPrinting()
 				.registerTypeHierarchyAdapter(LocalDateTime.class, this.getDateAdapter()).create();

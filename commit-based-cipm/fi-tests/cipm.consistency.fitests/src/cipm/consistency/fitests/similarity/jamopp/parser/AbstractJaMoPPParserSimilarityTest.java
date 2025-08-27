@@ -2,6 +2,7 @@ package cipm.consistency.fitests.similarity.jamopp.parser;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -19,10 +20,13 @@ import cipm.consistency.fitests.similarity.SimilarityTestLogger;
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.parser.testfactory.AbstractJaMoPPParserSimilarityTestFactory;
 import cipm.consistency.fitests.similarity.jamopp.parser.testfactory.IJaMoPPParserTestGenerationStrategy;
+import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.GSONDataStructure;
+import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.GSONPersistingStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.GeneralTimeMeasurementTag;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ITimeMeasurementTag;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ParserTestTimeMeasurementKey;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ParserTestTimeMeasurer;
+import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.StopwatchStrategy;
 
 /**
  * An abstract test class, which can be used for implementing tests that involve
@@ -81,6 +85,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	@BeforeEach
 	@Override
 	public void setUp() {
+		this.setupForTimeMeasurements();
 		ParserTestTimeMeasurer.getInstance().startTimeMeasuring();
 		this.startTimeMeasurement(GeneralTimeMeasurementTag.TEST_BEFOREEACH);
 		super.setUp();
@@ -175,6 +180,13 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 
 	protected ParserTestFileLayout getTestFileLayout() {
 		return this.layout;
+	}
+
+	protected void setupForTimeMeasurements() {
+		ParserTestTimeMeasurer.getInstance().setDataStructure(new GSONDataStructure());
+		ParserTestTimeMeasurer.getInstance().setMeasuringStrat(new StopwatchStrategy());
+		ParserTestTimeMeasurer.getInstance().setPersistingStrat(new GSONPersistingStrategy(
+				DateTimeFormatter.ISO_DATE_TIME, DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss")));
 	}
 
 	/**

@@ -6,7 +6,7 @@ package cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement;
  * @author Alp Torac Genc
  */
 public class TimeMeasurementEntry implements ITimeMeasurementDataStructureEntry {
-	private long timeUnitCount;
+	private long timeElapsed;
 	private final ParserTestTimeMeasurementKey key;
 	private final ITimeMeasurementTag tag;
 
@@ -19,12 +19,12 @@ public class TimeMeasurementEntry implements ITimeMeasurementDataStructureEntry 
 		this.key = key;
 	}
 
-	public long getTimeUnitCount() {
-		return timeUnitCount;
+	public long getTimeElapsed() {
+		return timeElapsed;
 	}
 
-	public void setTimeUnitCount(long timeUnitCount) {
-		this.timeUnitCount = timeUnitCount;
+	public void setTimeElapsed(long timeElapsed) {
+		this.timeElapsed = timeElapsed;
 	}
 
 	public ParserTestTimeMeasurementKey getKey() {
@@ -43,6 +43,6 @@ public class TimeMeasurementEntry implements ITimeMeasurementDataStructureEntry 
 		var castedO = (TimeMeasurementEntry) obj;
 
 		return this.getTag().equals(castedO.getTag()) && this.getKey().equals(castedO.getKey())
-				&& this.getTimeUnitCount() == castedO.getTimeUnitCount();
+				&& this.getTimeElapsed() == castedO.getTimeElapsed();
 	}
 }

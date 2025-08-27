@@ -120,7 +120,7 @@ public class GSONDataStructure implements ITimeMeasurementDataStructure {
 			Function<ITimeMeasurementDataStructureEntry, K> keyAccess) {
 		for (var measurementEntry : this.measurements) {
 			var key = keyAccess.apply(measurementEntry);
-			var measurement = measurementEntry.getTimeUnitCount();
+			var measurement = measurementEntry.getTimeElapsed();
 
 			if (summaryMap.containsKey(key)) {
 				var summaryEntry = summaryMap.get(key);
@@ -189,6 +189,7 @@ public class GSONDataStructure implements ITimeMeasurementDataStructure {
 		if (!(obj instanceof GSONDataStructure)) {
 			return false;
 		}
+
 		var castedO = (GSONDataStructure) obj;
 
 		return this.getStartTime().isEqual(castedO.getStartTime()) && this.getEndTime().isEqual(castedO.getEndTime())

@@ -29,6 +29,9 @@ import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ITimeMe
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ParserTestTimeMeasurementKey;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.TimeMeasurementEntry;
 
+/**
+ * TODO Either remove or deal with magic strings before pushing
+ */
 public class GSONTest {
 	private Gson gson = null;
 	private Path newJsonPath;
@@ -53,7 +56,7 @@ public class GSONTest {
 				.registerTypeHierarchyAdapter(ITimeMeasurementTag.class, getTagDeserializer()).create();
 
 		var formerFile = new File(
-				"C:\\Users\\sdq-l\\CIPM2\\commit-based-cipm\\fi-tests\\cipm.consistency.fitests.repositorytests\\target\\timeMeasurements\\27-08-2025_17-21-00___27-08-2025_17-21-49.json");
+				"C:\\Users\\sdq-l\\CIPM2\\commit-based-cipm\\fi-tests\\cipm.consistency.fitests.repositorytests\\target\\timeMeasurements\\27-08-2025_21-07-21___27-08-2025_21-08-11.json");
 
 		String formerFileContent = null;
 		try {
@@ -72,11 +75,12 @@ public class GSONTest {
 
 		var newFile = new File("").getAbsoluteFile();
 		persistingStrat.save(formerJson, newFile.toPath());
-		newJsonPath = newFile.toPath().resolve("27-08-2025_17-21-00___27-08-2025_17-21-49.json");
+		newJsonPath = newFile.toPath().resolve("27-08-2025_21-07-21___27-08-2025_21-08-11.json");
 
 		String newFileContent = null;
 		try {
 			newFileContent = Files.readString(newJsonPath);
+//			newFileContent = newFileContent.replaceAll("\\.0,", ",");
 		} catch (IOException e) {
 			e.printStackTrace();
 			Assertions.fail(e);
@@ -140,7 +144,7 @@ public class GSONTest {
 			public ITimeMeasurementDataStructureEntry deserialize(JsonElement json, Type typeOfT,
 					JsonDeserializationContext context) throws JsonParseException {
 				var entryObj = json.getAsJsonObject();
-				var time = gson.fromJson(entryObj.get("timeUnitCount"), Long.class);
+				var time = gson.fromJson(entryObj.get("timeElapsed"), Long.class);
 
 //				var keyMap = gson.fromJson(entryObj.getAsJsonObject("key").get("keyMap"), HashMap.class);
 //				var key = new ParserTestTimeMeasurementKey().fromStringKeyMap(keyMap);
@@ -149,7 +153,7 @@ public class GSONTest {
 
 				var tag = gson.fromJson(entryObj.get("tag"), ITimeMeasurementTag.class);
 				var entry = new TimeMeasurementEntry(key, tag);
-				entry.setTimeUnitCount(time);
+				entry.setTimeElapsed(time);
 
 				return entry;
 			}

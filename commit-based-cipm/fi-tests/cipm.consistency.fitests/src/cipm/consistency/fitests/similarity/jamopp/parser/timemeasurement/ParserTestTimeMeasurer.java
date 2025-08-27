@@ -132,4 +132,28 @@ public class ParserTestTimeMeasurer {
 	public void reset() {
 		this.dataStructure.reset();
 	}
+
+	public ITimeMeasurementDataStructure getDataStructure() {
+		return dataStructure;
+	}
+
+	public void setDataStructure(ITimeMeasurementDataStructure dataStructure) {
+		this.dataStructure = dataStructure;
+	}
+
+	public ITimeMeasurementPersistingStrategy getPersistingStrat() {
+		return persistingStrat;
+	}
+
+	public void setPersistingStrat(ITimeMeasurementPersistingStrategy persistingStrat) {
+		this.persistingStrat = persistingStrat;
+	}
+
+	public ITimeMeasuringStrategy getMeasuringStrat() {
+		return measuringStrat;
+	}
+
+	public void setMeasuringStrat(ITimeMeasuringStrategy measuringStrat) {
+		this.measuringStrat = measuringStrat;
+	}
 }

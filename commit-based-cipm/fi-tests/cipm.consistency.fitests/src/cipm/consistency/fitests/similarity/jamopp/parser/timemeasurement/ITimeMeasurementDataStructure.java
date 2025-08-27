@@ -30,9 +30,8 @@ public interface ITimeMeasurementDataStructure {
 
 	/**
 	 * Signals the data structure that time measuring started. Calling this method
-	 * multiple times before calling
-	 * {@link #timeMeasuringFinished(LocalDateTime)} or {@link #reset()} should
-	 * have no effect.
+	 * multiple times before calling {@link #timeMeasuringFinished(LocalDateTime)}
+	 * or {@link #reset()} should have no effect.
 	 */
 	public void timeMeasuringStarted(LocalDateTime startTime);
 
