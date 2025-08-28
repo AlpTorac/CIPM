@@ -13,7 +13,7 @@ import java.util.function.Function;
  * 
  * @author Alp Torac Genc
  */
-public class GSONDataStructure implements ITimeMeasurementDataStructure {
+public class DefaultTimeMeasurementDataStructure implements ITimeMeasurementDataStructure {
 	/**
 	 * @see {@link #getEndTime()}
 	 */
@@ -185,11 +185,11 @@ public class GSONDataStructure implements ITimeMeasurementDataStructure {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (!(obj instanceof GSONDataStructure)) {
+		if (!(obj instanceof DefaultTimeMeasurementDataStructure)) {
 			return false;
 		}
 
-		var castedO = (GSONDataStructure) obj;
+		var castedO = (DefaultTimeMeasurementDataStructure) obj;
 
 		return this.getStartTime().isEqual(castedO.getStartTime()) && this.getEndTime().isEqual(castedO.getEndTime())
 				&& this.getTimeUnit().equals(castedO.getTimeUnit())

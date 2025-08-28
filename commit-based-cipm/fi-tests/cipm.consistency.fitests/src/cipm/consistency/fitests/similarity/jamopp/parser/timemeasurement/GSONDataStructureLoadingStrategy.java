@@ -89,13 +89,13 @@ public class GSONDataStructureLoadingStrategy implements ITimeMeasurementLoading
 	}
 
 	/**
-	 * @implSpec Attempts to parse a {@link GSONDataStructure} instance from the
+	 * @implSpec Attempts to parse a {@link DefaultTimeMeasurementDataStructure} instance from the
 	 *           file at the given absolute path. Throws
 	 *           {@link IllegalArgumentException} if an {@link IOException} occurs
 	 *           in the process.
 	 */
 	@Override
-	public GSONDataStructure load(Path pathToDataStructureFile) {
+	public DefaultTimeMeasurementDataStructure load(Path pathToDataStructureFile) {
 		String fileContent;
 		try {
 			fileContent = Files.readString(pathToDataStructureFile);
@@ -103,7 +103,7 @@ public class GSONDataStructureLoadingStrategy implements ITimeMeasurementLoading
 			throw new IllegalArgumentException(e);
 		}
 
-		return this.buildGSON().fromJson(fileContent, GSONDataStructure.class);
+		return this.buildGSON().fromJson(fileContent, DefaultTimeMeasurementDataStructure.class);
 	}
 
 	/**

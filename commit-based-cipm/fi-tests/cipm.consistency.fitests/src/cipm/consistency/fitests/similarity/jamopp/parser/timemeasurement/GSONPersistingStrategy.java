@@ -20,7 +20,7 @@ import com.google.gson.JsonSerializer;
  * of {@link ITimeMeasurementDataStructure} containing time measurements will be
  * translated to JSON objects and then written to a file. <br>
  * <br>
- * This class is meant for saving {@link GSONDataStructure} instances. It can
+ * This class is meant for saving {@link DefaultTimeMeasurementDataStructure} instances. It can
  * still be used in conjunction with other concrete implementations of
  * {@link ITimeMeasurementDataStructure}, as long as {@link Gson} can parse them
  * without further assistance.

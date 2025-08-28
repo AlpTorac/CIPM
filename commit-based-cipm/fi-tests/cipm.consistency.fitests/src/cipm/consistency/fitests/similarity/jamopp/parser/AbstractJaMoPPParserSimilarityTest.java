@@ -20,7 +20,7 @@ import cipm.consistency.fitests.similarity.SimilarityTestLogger;
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.parser.testfactory.AbstractJaMoPPParserSimilarityTestFactory;
 import cipm.consistency.fitests.similarity.jamopp.parser.testfactory.IJaMoPPParserTestGenerationStrategy;
-import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.GSONDataStructure;
+import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.DefaultTimeMeasurementDataStructure;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.GSONPersistingStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.GeneralTimeMeasurementTag;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ITimeMeasurementTag;
@@ -206,7 +206,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	protected void setupForTimeMeasurements() {
-		ParserTestTimeMeasurer.getInstance().setDataStructure(new GSONDataStructure());
+		ParserTestTimeMeasurer.getInstance().setDataStructure(new DefaultTimeMeasurementDataStructure());
 		ParserTestTimeMeasurer.getInstance().setMeasuringStrat(new StopwatchStrategy());
 		ParserTestTimeMeasurer.getInstance()
 				.setPersistingStrat(new GSONPersistingStrategy(DateTimeFormatter.ISO_DATE_TIME));
