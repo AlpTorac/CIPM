@@ -18,6 +18,17 @@ import com.google.gson.JsonParseException;
 
 /**
  * TODO Rename and Commentary
+ * 
+ * TODO Add methods for adding type adapters (leave current type adapters here)
+ * 
+ * Note: {@link Gson} may require type adapters (especially
+ * {@link JsonDeserializer}) for cases, where the data structure to be parsed
+ * internally declares attributes with non-constructible types (abstract classes
+ * or interfaces). In such cases, either the necessary type adapters should be
+ * provided manually or this class has to be extended. Not providing the
+ * necessary type adapters will result in exceptions.
+ * 
+ * @author Alp Torac Genc
  */
 public class GSONDataStructureLoadingStrategy implements ITimeMeasurementLoadingStrategy {
 	/**
