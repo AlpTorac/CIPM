@@ -275,10 +275,11 @@ public class ParserTestTimeMeasurementKeyBuilder {
 
 	/**
 	 * Resets the building process of a {@link ParserTestTimeMeasurementKey}
-	 * instance by initialising all status information of this instance.<br>
+	 * instance by initialising all status information of this instance, effectively
+	 * resetting them.<br>
 	 * <br>
-	 * If this method is called before {@link #createKey()}, the construction
-	 * process will be reset and must be started anew.
+	 * If this method is called before {@link #createKey()}, the building process
+	 * will be reset and must be started anew.
 	 */
 	public ParserTestTimeMeasurementKeyBuilder reset() {
 		this.keyMap = new HashMap<ParserTestTimeMeasurerKeyType, String>();
@@ -286,13 +287,14 @@ public class ParserTestTimeMeasurementKeyBuilder {
 	}
 
 	/**
-	 * Finalises the current building process and resets (via {@link #reset()}) all
-	 * status information in this instance. <br>
+	 * Finalises the current building process by actually creating the
+	 * {@link ParserTestTimeMeasurementKey} instance. Resets (via {@link #reset()})
+	 * all status information in this instance afterward. <br>
 	 * <br>
 	 * If this method is overridden, {@link #reset()} should be called after the key
 	 * instance is created.
 	 * 
-	 * @return The constructed {@link ParserTestTimeMeasurementKey} instance
+	 * @return The built {@link ParserTestTimeMeasurementKey} instance
 	 */
 	public ParserTestTimeMeasurementKey createKey() {
 		var key = new ParserTestTimeMeasurementKey(this.keyMap);

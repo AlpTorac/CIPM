@@ -3,21 +3,7 @@ package cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement;
 import java.nio.file.Path;
 
 /**
- * TODO Revise commentary
- * 
- * A class for taking time measurements using
- * {@link org.apache.commons.lang.time.StopWatch}, and saving them. <br>
- * <br>
- * The time measurements taken here are contain no duplications; i.e. if another
- * time measurement is taken while a previous time measurement continues (for
- * instance, while a method's run time is measured, a new time measurement
- * starts for one of its inner method calls), they will be separate. <br>
- * <br>
- * Also contains the means to save the time measurements to JSON files using the
- * GSON library. While saving the time measurements, the (non-static) attributes
- * of this class annotated with {@link com.google.gson.annotations.Expose} will
- * be translated to JSON objects and then written to a JSON file. This way, only
- * the desired attributes of this class are saved, as opposed to all of them.
+ * A utility class for taking time measurements during tests.
  * 
  * @author Alp Torac Genc
  */
@@ -44,25 +30,18 @@ public class ParserTestTimeMeasurer {
 	}
 
 	/**
-	 * Starts measuring the time for a certain purpose given via the parameters. If
-	 * another time measurement is ongoing (i.e. if this method is called multiple
-	 * times without {@link #stopTimeMeasurement()} calls in between), the previous
-	 * time measurement is paused until the new time measurement is stopped via
-	 * {@link #stopTimeMeasurement()}. <br>
+	 * Starts measuring the time using the underlying time measuring strategy for a
+	 * certain purpose denoted in the parameters. <br>
 	 * <br>
-	 * This method is to be seen as the opening bracket for the closing bracket
-	 * {@link #stopTimeMeasurement()} such that the time elapsed while executing the
-	 * lines between this method call and that method call is the time measurement.
-	 * Not using them similar to brackets will result in problems. <br>
-	 * <br>
-	 * A call to {@link #startTimeMeasuring()} is necessary before using this
-	 * method. If time measuring should start anew, additionally {@link #reset()}
-	 * should be called.
+	 * Time measuring should have been started via {@link #startTimeMeasuring()}
+	 * prior to calling this method.
 	 * 
 	 * @param key The key of the taken time measurement, which describes what the
 	 *            time measurement is taken from
 	 * @param tag The tag of the time measurement, which is used to group time
 	 *            measurements
+	 * 
+	 * @see {@link #getMeasuringStrat()}
 	 */
 	public void startTimeMeasurement(ParserTestTimeMeasurementKey key, ITimeMeasurementTag tag) {
 		this.measuringStrat.startTimeMeasurement(key, tag);
@@ -70,25 +49,28 @@ public class ParserTestTimeMeasurer {
 
 	/**
 	 * Stops the most recently started time measurement (via
-	 * {@link #startTimeMeasurement(String, ITimeMeasurementTag)}). If the most
-	 * recent time measurement paused a previous time measurement, it is resumed.
-	 * <br>
-	 * <br>
-	 * This method is to be seen as the closing bracket for the opening bracket
-	 * {@link #startTimeMeasurement(String, ITimeMeasurementTag)}, such that the
-	 * time elapsed while executing the lines between that method call and this
-	 * method call is the time measurement. Not using them similar to brackets will
-	 * result in inaccurate measurements. <br>
+	 * {@link #startTimeMeasurement(String, ITimeMeasurementTag)}) and saves it in
+	 * the underlying data structure. <br>
 	 * <br>
 	 * If taking time measurements should end altogether, use
 	 * {@link #finishTimeMeasuring()} instead.
+	 * 
+	 * @see {@link #getMeasuringStrat()}
+	 * @see {@link #getDataStructure()}
 	 */
 	public void stopTimeMeasurement() {
 		this.dataStructure.addTimeMeasurement(this.measuringStrat.stopTimeMeasurement());
 	}
 
 	/**
-	 * Signals that taking time measurements should start.
+	 * Signals that taking time measurements should start and prepares the
+	 * underlying mechanisms for time measuring. <br>
+	 * <br>
+	 * Use {@link #finishTimeMeasuring()} for ending time measuring. Re-call this
+	 * method to start anew.
+	 * 
+	 * @see {@link #getDataStructure()}
+	 * @see {@link #getMeasuringStrat()}
 	 */
 	public void startTimeMeasuring() {
 		this.measuringStrat.timeMeasuringStarted();
@@ -100,10 +82,14 @@ public class ParserTestTimeMeasurer {
 
 	/**
 	 * Signals that taking time measurements is over and the taken time measurements
-	 * should be processed. <br>
+	 * should be processed.<br>
 	 * <br>
-	 * If a singular time measurement should be stopped, use
-	 * {@link #stopTimeMeasurement()} instead.
+	 * If taking time measurements is to start anew, call
+	 * {@link #startTimeMeasuring()} before
+	 * {@link #startTimeMeasurement(ParserTestTimeMeasurementKey, ITimeMeasurementTag)}.
+	 * 
+	 * @see {@link #getDataStructure()}
+	 * @see {@link #getMeasuringStrat()}
 	 */
 	public void finishTimeMeasuring() {
 		this.measuringStrat.timeMeasuringFinished();
@@ -112,13 +98,16 @@ public class ParserTestTimeMeasurer {
 	}
 
 	/**
-	 * Ends taking time measurements, if not already done, then processes all taken
-	 * time measurements. Finally, saves all taken time measurements, as well as
-	 * their summaries represented by certain attributes of this instance, at the
-	 * given path, in a JSON file.
+	 * Ends taking time measurements (if not already done), then processes all taken
+	 * time measurements. Finally, saves the underlying data structure that was
+	 * collecting all time measurements according to the underlying persisting
+	 * strategy.
 	 * 
 	 * @param measurementsSavePath The absolute path, at which all taken time
 	 *                             measurements should be saved.
+	 * 
+	 * @see {@link #getDataStructure()}
+	 * @see {@link #getPersistingStrat()}
 	 */
 	public void save(Path measurementsSavePath) {
 		this.finishTimeMeasuring();
@@ -128,30 +117,51 @@ public class ParserTestTimeMeasurer {
 		this.dataStructure.dataStructureSaved();
 	}
 
+	/**
+	 * Resets all collected time measurements.
+	 */
 	public void reset() {
 		this.dataStructure.reset();
 	}
 
+	/**
+	 * @return The data structure that will collect all time measurements taken
+	 */
 	public ITimeMeasurementDataStructure getDataStructure() {
 		return dataStructure;
 	}
 
+	/**
+	 * @param dataStructure {@link #getDataStructure()}
+	 */
 	public void setDataStructure(ITimeMeasurementDataStructure dataStructure) {
 		this.dataStructure = dataStructure;
 	}
 
+	/**
+	 * @return The strategy for persisting all time measurements
+	 */
 	public ITimeMeasurementPersistingStrategy getPersistingStrat() {
 		return persistingStrat;
 	}
 
+	/**
+	 * @param persistingStrat {@link #getPersistingStrat()}
+	 */
 	public void setPersistingStrat(ITimeMeasurementPersistingStrategy persistingStrat) {
 		this.persistingStrat = persistingStrat;
 	}
 
+	/**
+	 * @return The mechanism that will be used to take time measurements
+	 */
 	public ITimeMeasuringStrategy getMeasuringStrat() {
 		return measuringStrat;
 	}
 
+	/**
+	 * @param measuringStrat {@link #getMeasuringStrat()}
+	 */
 	public void setMeasuringStrat(ITimeMeasuringStrategy measuringStrat) {
 		this.measuringStrat = measuringStrat;
 	}

@@ -7,21 +7,24 @@ import java.util.concurrent.TimeUnit;
 import org.apache.commons.lang.time.StopWatch;
 
 /**
- * TODO Revise commentary
- * 
  * A class for taking time measurements using
- * {@link org.apache.commons.lang.time.StopWatch}
+ * {@link org.apache.commons.lang.time.StopWatch}, and saving them. <br>
+ * <br>
+ * The time measurements taken here are contain no duplications; i.e. if another
+ * time measurement is taken while a previous time measurement continues (for
+ * instance, while a method's run time is measured, a new time measurement
+ * starts for one of its inner method calls), they will be separate.
  * 
  * @author Alp Torac Genc
  */
 public class StopwatchStrategy implements ITimeMeasuringStrategy {
 
 	/**
-	 * The time when time measurement has begun
+	 * {@link #getStartTime()}
 	 */
 	private LocalDateTime startTime;
 	/**
-	 * The time when time measurement has ended
+	 * {@link #getEndTime()}
 	 */
 	private LocalDateTime endTime;
 
@@ -41,6 +44,19 @@ public class StopwatchStrategy implements ITimeMeasuringStrategy {
 	 */
 	private final Stack<StopWatchEntryPair> watchEntryPairs = new Stack<StopWatchEntryPair>();
 
+	/**
+	 * @implSpec If another time measurement is ongoing (i.e. if this method is
+	 *           called multiple times without {@link #stopTimeMeasurement()} calls
+	 *           in between), the previous time measurement is paused until the new
+	 *           time measurement is stopped via {@link #stopTimeMeasurement()}.
+	 *           <br>
+	 *           <br>
+	 *           This method is to be seen as the opening bracket for the closing
+	 *           bracket {@link #stopTimeMeasurement()} such that the time elapsed
+	 *           while executing the lines between this method call and that method
+	 *           call is the time measurement. Not using them similar to brackets
+	 *           will result in problems.
+	 */
 	public void startTimeMeasurement(ParserTestTimeMeasurementKey key, ITimeMeasurementTag tag) {
 		/*
 		 * Suspends the potential outer method's Stopwatch, so that time measurements do
@@ -59,6 +75,16 @@ public class StopwatchStrategy implements ITimeMeasuringStrategy {
 		currentMethodWatch.start();
 	}
 
+	/**
+	 * @implSpec If the most recent time measurement paused a previous time
+	 *           measurement, it is resumed. <br>
+	 *           <br>
+	 *           This method is to be seen as the closing bracket for the opening
+	 *           bracket {@link #startTimeMeasurement(String, ITimeMeasurementTag)},
+	 *           such that the time elapsed while executing the lines between that
+	 *           method call and this method call is the time measurement. Not using
+	 *           them similar to brackets will result in inaccurate measurements.
+	 */
 	public TimeMeasurementEntry stopTimeMeasurement() {
 		var currentMethodPair = watchEntryPairs.pop();
 		var watch = currentMethodPair.getWatch();

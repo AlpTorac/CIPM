@@ -44,6 +44,10 @@ public class ParserTestTimeMeasurementKey {
 		return new HashMap<ParserTestTimeMeasurerKeyType, String>(keyMap);
 	}
 
+	/**
+	 * Two instances of this class are similar, if their contents
+	 * ({@link #getKeys()} in this case) are equal.
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof ParserTestTimeMeasurementKey)) {

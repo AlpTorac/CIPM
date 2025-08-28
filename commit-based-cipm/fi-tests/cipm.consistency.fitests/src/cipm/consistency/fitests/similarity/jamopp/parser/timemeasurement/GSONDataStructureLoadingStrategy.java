@@ -17,7 +17,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParseException;
 
 /**
- * TODO Commentary
+ * TODO Rename and Commentary
  */
 public class GSONDataStructureLoadingStrategy implements ITimeMeasurementLoadingStrategy {
 	/**

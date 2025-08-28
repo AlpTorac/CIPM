@@ -5,26 +5,46 @@ import java.util.Collection;
 import java.util.concurrent.TimeUnit;
 
 /**
- * TODO Commentary
+ * An interface for classes that encapsulate the means to store time
+ * measurements within {@link TimeMeasurementEntry} instances, which were taken
+ * via {@link ITimeMeasuringStrategy}.
  * 
  * @author Alp Torac Genc
  */
 public interface ITimeMeasurementDataStructure {
+	/**
+	 * @return {@link ITimeMeasuringStrategy#getTimeMeasurerDescription()}
+	 */
 	public String getTimeMeasurerDescription();
 
+	/**
+	 * @param description {@link ITimeMeasuringStrategy#getTimeMeasurerDescription()}
+	 */
 	public void setTimeMeasurerDescription(String description);
 
+	/**
+	 * @return {@link ITimeMeasuringStrategy#getTimeUnit()}
+	 */
 	public TimeUnit getTimeUnit();
 
+	/**
+	 * @param unit {@link ITimeMeasuringStrategy#getTimeUnit()}
+	 */
 	public void setTimeUnit(TimeUnit unit);
 
 	/**
-	 * @return The time when time measurement has begun
+	 * Use {@link #timeMeasuringStarted(LocalDateTime)} to set the start time, reset
+	 * it via {@link #reset()}.
+	 * 
+	 * @return {@link ITimeMeasuringStrategy#getStartTime()}
 	 */
 	public LocalDateTime getStartTime();
 
 	/**
-	 * @return The time when time measurement has ended
+	 * Use {@link #timeMeasuringFinished(LocalDateTime)} to set the end time, reset
+	 * it via {@link #reset()}.
+	 * 
+	 * @return {@link ITimeMeasuringStrategy#getEndTime()}
 	 */
 	public LocalDateTime getEndTime();
 
@@ -64,9 +84,9 @@ public interface ITimeMeasurementDataStructure {
 
 	/**
 	 * The underlying collection, which stores all entries, should not be returned
-	 * as is, since that may result in unforeseen modifications from outside. The
-	 * returned entries are allowed to the original ones, so that no unnecessary
-	 * copies of the entries are made.
+	 * as is, since that may result in unforeseen modifications from outside.
+	 * However, the entries within are allowed to be the original ones, so that no
+	 * unnecessary copies are made.
 	 * 
 	 * @return All time measurement entries added to this instance.
 	 */

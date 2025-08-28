@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 /**
- * TODO Commentary
+ * TODO Rename and Commentary
  * 
  * @author Alp Torac Genc
  */
