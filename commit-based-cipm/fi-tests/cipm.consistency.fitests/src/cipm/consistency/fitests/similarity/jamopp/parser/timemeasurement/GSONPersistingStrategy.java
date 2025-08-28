@@ -8,6 +8,7 @@ import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
@@ -20,8 +21,7 @@ import com.google.gson.JsonSerializer;
  * of {@link ITimeMeasurementDataStructure} containing time measurements will be
  * translated to JSON objects and then written to a file. <br>
  * <br>
- * This class is meant for saving {@link DefaultTimeMeasurementDataStructure} instances. It can
- * still be used in conjunction with other concrete implementations of
+ * It can be used in conjunction with concrete sub-types of
  * {@link ITimeMeasurementDataStructure}, as long as {@link Gson} can parse them
  * without further assistance.
  * 
