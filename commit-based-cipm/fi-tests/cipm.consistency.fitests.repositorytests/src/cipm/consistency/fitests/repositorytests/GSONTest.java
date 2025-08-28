@@ -1,6 +1,5 @@
 package cipm.consistency.fitests.repositorytests;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -24,7 +23,8 @@ import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ITimeMe
  */
 public class GSONTest {
 	private static final DateTimeFormatter fileContentTimePattern = DateTimeFormatter.ISO_DATE_TIME;
-	private static final Path timeMeasurementsRootPath = Path.of("target", "timeMeasurements").toAbsolutePath();
+	private static final Path targetRootPath = Path.of("target").toAbsolutePath();
+	private static final Path timeMeasurementsRootPath = targetRootPath.resolve("timeMeasurements");
 	@SuppressWarnings("unchecked")
 	private static final ITimeMeasurementLoadingStrategy loadingStrat = new GSONDataStructureLoadingStrategy(
 			fileContentTimePattern, new Class[] { GeneralTimeMeasurementTag.class, RepoTimeMeasurementTag.class });
@@ -43,8 +43,7 @@ public class GSONTest {
 							+ timeMeasurementsRootPath.toString());
 		} else {
 			formerTimeMeasurementPath = timeMeasurementsRootDir.listFiles()[0].toPath().toAbsolutePath();
-			newTimeMeasurementPath = new File("").toPath().toAbsolutePath()
-					.resolve(formerTimeMeasurementPath.getFileName());
+			newTimeMeasurementPath = targetRootPath.resolve(formerTimeMeasurementPath.getFileName()).toAbsolutePath();
 		}
 	}
 
@@ -110,10 +109,9 @@ public class GSONTest {
 		var formerFileContent = this.readTimeMeasurement(formerTimeMeasurementPath);
 		var formerTimeMeasurements = this.loadTimeMeasurement(formerTimeMeasurementPath);
 
-		var newFilePath = new File("").getAbsoluteFile().toPath();
-		// TODO Change to "newTimeMeasurementPath" after extracting file name from
+		// TODO Remove ".getParent()" after extracting file name from
 		// persisting strategy
-		this.persistTimeMeasurement(formerTimeMeasurements, newFilePath);
+		this.persistTimeMeasurement(formerTimeMeasurements, newTimeMeasurementPath.getParent());
 
 		var newFileContent = this.readTimeMeasurement(newTimeMeasurementPath);
 		// Enable if GSON serialises Long instances with trailing zeroes (".0")
