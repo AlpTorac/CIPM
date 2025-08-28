@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO Revise all commentary regarding this class
- * 
  * A class that contains information about time measurements. There is no
  * mandatory information that should be given to this class. <br>
  * <br>
@@ -18,15 +16,31 @@ import java.util.Map;
 public class ParserTestTimeMeasurementKey {
 	private final Map<ParserTestTimeMeasurerKeyType, String> keyMap;
 
+	/**
+	 * Constructs an instance with the given (key, value) pairs in keyMap. For
+	 * performance reasons, keyMap will not be copied. It will be directly assigned
+	 * to this instance, meaning that modifications to keyMap from outside will be
+	 * reflected to this instance.
+	 * 
+	 * @param keyMap (key, value) pairs that this class should store. Although it is
+	 *               allowed to be null, passing null here will most likely render
+	 *               this instance useless
+	 */
 	public ParserTestTimeMeasurementKey(Map<ParserTestTimeMeasurerKeyType, String> keyMap) {
 		this.keyMap = keyMap;
 	}
 
 	/**
+	 * Can be used to copy the contents of this instance (while creating a clone for
+	 * instance).
+	 * 
 	 * @return A copy of all added keys and their values. Modifying the return value
 	 *         will not affect this instance.
 	 */
 	public Map<ParserTestTimeMeasurerKeyType, String> getKeys() {
+		if (keyMap == null) {
+			return new HashMap<ParserTestTimeMeasurerKeyType, String>();
+		}
 		return new HashMap<ParserTestTimeMeasurerKeyType, String>(keyMap);
 	}
 
@@ -37,7 +51,14 @@ public class ParserTestTimeMeasurementKey {
 		}
 		var castedO = (ParserTestTimeMeasurementKey) obj;
 
-		return (this.keyMap == null && castedO.keyMap == null) || (this.keyMap.size() == castedO.keyMap.size()
-				&& this.keyMap.entrySet().containsAll(castedO.keyMap.entrySet()));
+		// Avoid NullPointerExceptions
+		if (this.keyMap == null && castedO.keyMap == null) {
+			return true;
+		} else if (this.keyMap == null ^ castedO.keyMap == null) {
+			return false;
+		}
+
+		return this.keyMap.size() == castedO.keyMap.size()
+				&& this.keyMap.entrySet().containsAll(castedO.keyMap.entrySet());
 	}
 }
