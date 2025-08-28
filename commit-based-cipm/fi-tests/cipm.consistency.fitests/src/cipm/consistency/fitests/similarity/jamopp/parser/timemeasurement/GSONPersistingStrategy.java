@@ -24,43 +24,33 @@ public class GSONPersistingStrategy implements ITimeMeasurementPersistingStrateg
 	 * @see {@link #GSONPersistingStrategy(String, DateTimeFormatter)}
 	 */
 	private DateTimeFormatter fileContentTimePattern;
-	/**
-	 * @see {@link #GSONPersistingStrategy(String, DateTimeFormatter)}
-	 */
-	private DateTimeFormatter filenameTimeFormatter;
 
 	/**
 	 * @param fileContentTimePattern The pattern that will be used to transform a
 	 *                               date to a string, which will be written into
 	 *                               the saved measurements file.
-	 * @param filenameTimeFormatter  The pattern that will be used to transform a
-	 *                               date to a string, which will be used in the
-	 *                               name of the saved measurements file.
 	 */
-	public GSONPersistingStrategy(DateTimeFormatter fileContentTimePattern, DateTimeFormatter filenameTimeFormatter) {
+	public GSONPersistingStrategy(DateTimeFormatter fileContentTimePattern) {
 		this.fileContentTimePattern = fileContentTimePattern;
-		this.filenameTimeFormatter = filenameTimeFormatter;
 	}
 
 	public void save(ITimeMeasurementDataStructure dataStructure, Path measurementsSavePath) {
-
-		// TODO Include file name to measurementsSavePath, remove getFullFileName()
-		// TODO Maybe add the currently running test class name to file name
-
-		var filePath = measurementsSavePath
-				.resolve(this.getFullFileName(dataStructure.getStartTime(), dataStructure.getEndTime()));
-
 		// Ensure that all necessary parent directories exist prior to saving
-		measurementsSavePath.toFile().mkdirs();
+		var measurementsFile = measurementsSavePath.toFile();
+		var measurementsFileParent = measurementsFile.getParentFile();
+		if (measurementsFileParent != null) {
+			measurementsFileParent.mkdirs();
+		}
 
 		var gson = new GsonBuilder().setPrettyPrinting()
 				.registerTypeHierarchyAdapter(LocalDateTime.class, this.getDateAdapter()).create();
-		try (BufferedWriter writer = Files.newBufferedWriter(filePath); var gsonWriter = gson.newJsonWriter(writer)) {
+		try (BufferedWriter writer = Files.newBufferedWriter(measurementsSavePath);
+				var gsonWriter = gson.newJsonWriter(writer)) {
 			gson.toJson(dataStructure, dataStructure.getClass(), gsonWriter);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new IllegalArgumentException(
-					String.format("Could not save the expected similarity results at %s", filePath), e);
+					String.format("Could not save the expected similarity results at %s", measurementsSavePath), e);
 		}
 	}
 
@@ -71,15 +61,5 @@ public class GSONPersistingStrategy implements ITimeMeasurementPersistingStrateg
 				return new JsonPrimitive(fileContentTimePattern.format(src));
 			}
 		};
-	}
-
-	/**
-	 * @return The name (with file extension) of the measurements file that will be
-	 *         saved.
-	 */
-	private String getFullFileName(LocalDateTime startTime, LocalDateTime endTime) {
-		var fileExtension = ".json";
-		return String.format("%s___%s%s", filenameTimeFormatter.format(startTime),
-				filenameTimeFormatter.format(endTime), fileExtension);
 	}
 }

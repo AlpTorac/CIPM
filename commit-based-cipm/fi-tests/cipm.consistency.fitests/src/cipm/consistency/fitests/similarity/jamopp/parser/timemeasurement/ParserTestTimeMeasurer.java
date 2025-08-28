@@ -1,7 +1,6 @@
 package cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement;
 
 import java.nio.file.Path;
-import java.time.format.DateTimeFormatter;
 
 /**
  * TODO Revise commentary
@@ -23,10 +22,10 @@ import java.time.format.DateTimeFormatter;
  * @author Alp Torac Genc
  */
 public class ParserTestTimeMeasurer {
-	private ITimeMeasurementDataStructure dataStructure = new GSONDataStructure();
-	private ITimeMeasurementPersistingStrategy persistingStrat = new GSONPersistingStrategy(
-			DateTimeFormatter.ISO_DATE_TIME, DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss"));
-	private ITimeMeasuringStrategy measuringStrat = new StopwatchStrategy();
+	private ITimeMeasurementDataStructure dataStructure;
+	private ITimeMeasurementPersistingStrategy persistingStrat;
+	private ITimeMeasuringStrategy measuringStrat;
+
 	/**
 	 * The only instance of this class.
 	 */

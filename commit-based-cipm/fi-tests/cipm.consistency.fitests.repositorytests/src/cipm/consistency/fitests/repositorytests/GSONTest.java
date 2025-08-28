@@ -31,7 +31,7 @@ public class GSONTest {
 	private static final ITimeMeasurementLoadingStrategy loadingStrat = new GSONDataStructureLoadingStrategy(
 			fileContentTimePattern, new Class[] { GeneralTimeMeasurementTag.class, RepoTimeMeasurementTag.class });
 	private static final ITimeMeasurementPersistingStrategy persistingStrat = new GSONPersistingStrategy(
-			fileContentTimePattern, DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss"));
+			fileContentTimePattern);
 
 	private Path formerTimeMeasurementPath;
 	private Path newTimeMeasurementPath;
@@ -127,9 +127,7 @@ public class GSONTest {
 	@Test
 	public void testSavedDataStructureLoading() {
 		var timeMeasurements = this.loadTimeMeasurement(formerTimeMeasurementPath);
-		// TODO Remove ".getParent()" after extracting file name from
-		// persisting strategy
-		this.persistTimeMeasurement(timeMeasurements, newTimeMeasurementPath.getParent());
+		this.persistTimeMeasurement(timeMeasurements, newTimeMeasurementPath);
 		var persistedTimeMeasurements = this.loadTimeMeasurement(newTimeMeasurementPath);
 		this.assertDataStructureIntact(persistedTimeMeasurements);
 	}
@@ -142,10 +140,7 @@ public class GSONTest {
 	public void testSavedDataStructureLoading_ContentEquality() {
 		var formerFileContent = this.readTimeMeasurement(formerTimeMeasurementPath);
 		var formerTimeMeasurements = this.loadTimeMeasurement(formerTimeMeasurementPath);
-
-		// TODO Remove ".getParent()" after extracting file name from
-		// persisting strategy
-		this.persistTimeMeasurement(formerTimeMeasurements, newTimeMeasurementPath.getParent());
+		this.persistTimeMeasurement(formerTimeMeasurements, newTimeMeasurementPath);
 
 		var newFileContent = this.readTimeMeasurement(newTimeMeasurementPath);
 		// Enable if GSON serialises Long instances with trailing zeroes (".0")

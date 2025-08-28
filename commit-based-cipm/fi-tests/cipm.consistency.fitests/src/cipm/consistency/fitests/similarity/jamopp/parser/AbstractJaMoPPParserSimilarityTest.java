@@ -44,7 +44,6 @@ import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.Stopwat
  * @see {@link #createTests()}
  */
 public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPSimilarityTest {
-
 	/**
 	 * An object that caches and grants access to the parsed models, which were
 	 * cached after being parsed. <br>
@@ -190,11 +189,27 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		return this.layout;
 	}
 
+	/**
+	 * Can be overridden in sub-classes.
+	 * 
+	 * @return The path, at which time measurements of the currently running test
+	 *         class will be saved.
+	 */
+	protected Path getTimeMeasurementSavePathForCurrentTestClass() {
+		var dateFormatInFileName = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");
+		var startTime = ParserTestTimeMeasurer.getInstance().getDataStructure().getStartTime();
+		var endTime = ParserTestTimeMeasurer.getInstance().getDataStructure().getEndTime();
+
+		var fileName = String.format("%s___%s-%s.%s", dateFormatInFileName.format(startTime),
+				dateFormatInFileName.format(endTime), this.getCurrentTestClassName(), "json");
+		return this.getTestFileLayout().getTimeMeasurementsFileSavePath().resolve(fileName);
+	}
+
 	protected void setupForTimeMeasurements() {
 		ParserTestTimeMeasurer.getInstance().setDataStructure(new GSONDataStructure());
 		ParserTestTimeMeasurer.getInstance().setMeasuringStrat(new StopwatchStrategy());
-		ParserTestTimeMeasurer.getInstance().setPersistingStrat(new GSONPersistingStrategy(
-				DateTimeFormatter.ISO_DATE_TIME, DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss")));
+		ParserTestTimeMeasurer.getInstance()
+				.setPersistingStrat(new GSONPersistingStrategy(DateTimeFormatter.ISO_DATE_TIME));
 	}
 
 	/**
@@ -203,7 +218,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	protected void saveTimeMeasurements() {
 		SimilarityTestLogger.logDebugMsg("Saving time measurements", this.getClass());
-		ParserTestTimeMeasurer.getInstance().save(this.layout.getTimeMeasurementsFileSavePath());
+		ParserTestTimeMeasurer.getInstance().save(this.getTimeMeasurementSavePathForCurrentTestClass());
 		ParserTestTimeMeasurer.getInstance().reset();
 		SimilarityTestLogger.logDebugMsg("Saved time measurements", this.getClass());
 	}
