@@ -22,7 +22,10 @@ import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ITimeMe
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ParserTestTimeMeasurerKeyType;
 
 /**
- * TODO Commentary
+ * Contains tests for GSON-based, time measurement related classes that ensure
+ * they work as intended.
+ * 
+ * @author Alp Torac Genc
  */
 public class GSONTest {
 	private static final DateTimeFormatter fileContentTimePattern = DateTimeFormatter.ISO_DATE_TIME;

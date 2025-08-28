@@ -9,7 +9,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 
 /**
- * TODO Rename and Commentary
+ * A class that can store various information on time measurements taken from
+ * tests. The redundant attributes of this class are only declared for
+ * persisting technologies to serialise and save them in data files.
  * 
  * @author Alp Torac Genc
  */
@@ -22,10 +24,9 @@ public class DefaultTimeMeasurementDataStructure implements ITimeMeasurementData
 	 * @see {@link #getStartTime()}
 	 */
 	private LocalDateTime endTime;
-
 	/**
-	 * The name of the tool that is used for taking time measurements. Only declared
-	 * in order to include it to the time measurement file.
+	 * The description of the tool that is used for taking time measurements. Only
+	 * declared in order to include it to the time measurement file.
 	 */
 	private String timeMeasurerDescription;
 	/**
