@@ -1,8 +1,8 @@
 package cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -30,7 +30,7 @@ import com.google.gson.JsonParseException;
  * 
  * @author Alp Torac Genc
  */
-public class GSONDataStructureLoadingStrategy implements ITimeMeasurementLoadingStrategy {
+public class GSONLoadingStrategy implements ITimeMeasurementLoadingStrategy {
 	/**
 	 * @see {@link #GSONLoadingStrategy(DateTimeFormatter, Class[])}
 	 */
@@ -39,22 +39,26 @@ public class GSONDataStructureLoadingStrategy implements ITimeMeasurementLoading
 	 * @see {@link #GSONLoadingStrategy(DateTimeFormatter, Class[])}
 	 */
 	private final Set<ITimeMeasurementTag> possibleTags = new HashSet<ITimeMeasurementTag>();
-
 	/**
-	 * {@link #GSONDataStructureLoadingStrategy(DateTimeFormatter, Class[])} without
-	 * any class parameters
+	 * @see {@link #getDataStructureClassToParse()}
 	 */
-	public GSONDataStructureLoadingStrategy(DateTimeFormatter fileContentDateFormatter) {
-		this(fileContentDateFormatter, null);
+	private final Class<? extends ITimeMeasurementDataStructure> dataStructureClassToParse;
+
+	public GSONLoadingStrategy(DateTimeFormatter fileContentDateFormatter,
+			Class<? extends ITimeMeasurementDataStructure> dataStructureClassToParse) {
+		this(fileContentDateFormatter, dataStructureClassToParse, null);
 	}
 
 	/**
-	 * @param fileContentDateFormatter See {@link #getFileContentDateFormatter()}
-	 * @param possibleTagSubclasses    See {@link #addTagSubclass(Class)}
+	 * @param fileContentDateFormatter  {@link #getFileContentDateFormatter()}
+	 * @param dataStructureClassToParse {@link #getDataStructureClassToParse()}
+	 * @param possibleTagSubclasses     {@link #addTagSubclass(Class)}
 	 */
-	public GSONDataStructureLoadingStrategy(DateTimeFormatter fileContentDateFormatter,
+	public GSONLoadingStrategy(DateTimeFormatter fileContentDateFormatter,
+			Class<? extends ITimeMeasurementDataStructure> dataStructureClassToParse,
 			Class<ITimeMeasurementTag>[] possibleTagSubclasses) {
 		this.fileContentDateFormatter = fileContentDateFormatter;
+		this.dataStructureClassToParse = dataStructureClassToParse;
 
 		if (possibleTagSubclasses != null) {
 			for (var ts : possibleTagSubclasses) {
@@ -89,21 +93,21 @@ public class GSONDataStructureLoadingStrategy implements ITimeMeasurementLoading
 	}
 
 	/**
-	 * @implSpec Attempts to parse a {@link DefaultTimeMeasurementDataStructure} instance from the
-	 *           file at the given absolute path. Throws
-	 *           {@link IllegalArgumentException} if an {@link IOException} occurs
-	 *           in the process.
+	 * @implSpec Attempts to parse an instance of
+	 *           {@link #getDataStructureClassToParse()} from the file at the given
+	 *           absolute path. Throws {@link IllegalArgumentException} if an
+	 *           {@link IOException} occurs in the process.
 	 */
 	@Override
-	public DefaultTimeMeasurementDataStructure load(Path pathToDataStructureFile) {
-		String fileContent;
-		try {
-			fileContent = Files.readString(pathToDataStructureFile);
+	public ITimeMeasurementDataStructure load(Path pathToDataStructureFile) {
+		var gson = this.buildGSON();
+		ITimeMeasurementDataStructure result = null;
+		try (var r = new FileReader(pathToDataStructureFile.toFile())) {
+			result = gson.fromJson(gson.newJsonReader(r), this.getDataStructureClassToParse());
 		} catch (IOException e) {
-			throw new IllegalArgumentException(e);
+			throw new IllegalArgumentException("Could not read the file at: " + pathToDataStructureFile.toString(), e);
 		}
-
-		return this.buildGSON().fromJson(fileContent, DefaultTimeMeasurementDataStructure.class);
+		return result;
 	}
 
 	/**
@@ -111,6 +115,17 @@ public class GSONDataStructureLoadingStrategy implements ITimeMeasurementLoading
 	 */
 	public DateTimeFormatter getFileContentDateFormatter() {
 		return this.fileContentDateFormatter;
+	}
+
+	/**
+	 * {@link Gson} must know the type of the instance it is attempting to parse,
+	 * hence the need for the underlying attribute.
+	 * 
+	 * @return A concrete sub-type of {@link ITimeMeasurementDataStructure} that
+	 *         will be attempted to be parsed from its file.
+	 */
+	public Class<? extends ITimeMeasurementDataStructure> getDataStructureClassToParse() {
+		return this.dataStructureClassToParse;
 	}
 
 	private JsonDeserializer<LocalDateTime> getDateDeserializer() {
