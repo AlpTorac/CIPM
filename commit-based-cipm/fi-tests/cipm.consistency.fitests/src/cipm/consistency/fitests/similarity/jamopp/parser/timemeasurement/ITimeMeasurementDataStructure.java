@@ -57,10 +57,10 @@ public interface ITimeMeasurementDataStructure {
 	public void dataStructureSaved();
 
 	/**
-	 * Adds the given time measurement entry (as
-	 * {@link ITimeMeasurementDataStructureEntry} instance) to this data structure.
+	 * Adds the given time measurement entry (as {@link TimeMeasurementEntry}
+	 * instance) to this data structure.
 	 */
-	public void addTimeMeasurement(ITimeMeasurementDataStructureEntry entry);
+	public void addTimeMeasurement(TimeMeasurementEntry entry);
 
 	/**
 	 * The underlying collection, which stores all entries, should not be returned
@@ -70,5 +70,5 @@ public interface ITimeMeasurementDataStructure {
 	 * 
 	 * @return All time measurement entries added to this instance.
 	 */
-	public Collection<ITimeMeasurementDataStructureEntry> getTimeMeasurementEntries();
+	public Collection<TimeMeasurementEntry> getTimeMeasurementEntries();
 }

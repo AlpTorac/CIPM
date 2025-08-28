@@ -57,7 +57,7 @@ public class GSONDataStructure implements ITimeMeasurementDataStructure {
 	/**
 	 * Contains all time measurements taken.
 	 */
-	private final Collection<ITimeMeasurementDataStructureEntry> measurements = new ArrayList<ITimeMeasurementDataStructureEntry>();
+	private final Collection<TimeMeasurementEntry> measurements = new ArrayList<TimeMeasurementEntry>();
 
 	@Override
 	public void timeMeasuringStarted(LocalDateTime startTime) {
@@ -116,8 +116,7 @@ public class GSONDataStructure implements ITimeMeasurementDataStructure {
 	 * @param keyAccess  A function for deriving the key, which will be used to
 	 *                   split taken time measurements, from their entries.
 	 */
-	private <K> void summariseTimeMeasurements(Map<K, Long> summaryMap,
-			Function<ITimeMeasurementDataStructureEntry, K> keyAccess) {
+	private <K> void summariseTimeMeasurements(Map<K, Long> summaryMap, Function<TimeMeasurementEntry, K> keyAccess) {
 		for (var measurementEntry : this.measurements) {
 			var key = keyAccess.apply(measurementEntry);
 			var measurement = measurementEntry.getTimeElapsed();
@@ -136,7 +135,7 @@ public class GSONDataStructure implements ITimeMeasurementDataStructure {
 	 * foreseen Map-based attributes of this class.
 	 */
 	private void summariseTimeMeasurements() {
-		this.summariseTimeMeasurements(this.measurementTagSummary, ITimeMeasurementDataStructureEntry::getTag);
+		this.summariseTimeMeasurements(this.measurementTagSummary, TimeMeasurementEntry::getTag);
 
 		this.overallRunTime = this.measurementTagSummary.values().stream().reduce(Long.valueOf(0), (t1, t2) -> t1 + t2);
 
@@ -145,7 +144,7 @@ public class GSONDataStructure implements ITimeMeasurementDataStructure {
 	}
 
 	@Override
-	public void addTimeMeasurement(ITimeMeasurementDataStructureEntry entry) {
+	public void addTimeMeasurement(TimeMeasurementEntry entry) {
 		this.measurements.add(entry);
 	}
 
@@ -180,8 +179,8 @@ public class GSONDataStructure implements ITimeMeasurementDataStructure {
 	}
 
 	@Override
-	public Collection<ITimeMeasurementDataStructureEntry> getTimeMeasurementEntries() {
-		return new ArrayList<ITimeMeasurementDataStructureEntry>(this.measurements);
+	public Collection<TimeMeasurementEntry> getTimeMeasurementEntries() {
+		return new ArrayList<TimeMeasurementEntry>(this.measurements);
 	}
 
 	@Override

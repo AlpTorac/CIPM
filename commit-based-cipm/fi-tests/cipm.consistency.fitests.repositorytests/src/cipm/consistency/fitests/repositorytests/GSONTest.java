@@ -24,7 +24,7 @@ import com.google.gson.JsonParseException;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.GSONDataStructure;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.GSONPersistingStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.GeneralTimeMeasurementTag;
-import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ITimeMeasurementDataStructureEntry;
+//import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ITimeMeasurementDataStructureEntry;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ITimeMeasurementTag;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ParserTestTimeMeasurementKey;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.TimeMeasurementEntry;
@@ -52,7 +52,7 @@ public class GSONTest {
 	@Test
 	public void deserialiseAndSerialiseJSON() {
 		gson = new GsonBuilder().registerTypeHierarchyAdapter(LocalDateTime.class, this.getDateDeserializer())
-				.registerTypeHierarchyAdapter(ITimeMeasurementDataStructureEntry.class, getEntryDeserializer())
+//				.registerTypeHierarchyAdapter(TimeMeasurementEntry.class, getEntryDeserializer())
 				.registerTypeHierarchyAdapter(ITimeMeasurementTag.class, getTagDeserializer()).create();
 
 		var formerFile = new File(
@@ -138,25 +138,25 @@ public class GSONTest {
 		};
 	}
 
-	private JsonDeserializer<ITimeMeasurementDataStructureEntry> getEntryDeserializer() {
-		return new JsonDeserializer<ITimeMeasurementDataStructureEntry>() {
-			@Override
-			public ITimeMeasurementDataStructureEntry deserialize(JsonElement json, Type typeOfT,
-					JsonDeserializationContext context) throws JsonParseException {
-				var entryObj = json.getAsJsonObject();
-				var time = gson.fromJson(entryObj.get("timeElapsed"), Long.class);
-
-//				var keyMap = gson.fromJson(entryObj.getAsJsonObject("key").get("keyMap"), HashMap.class);
-//				var key = new ParserTestTimeMeasurementKey().fromStringKeyMap(keyMap);
-
-				var key = gson.fromJson(entryObj.get("key"), ParserTestTimeMeasurementKey.class);
-
-				var tag = gson.fromJson(entryObj.get("tag"), ITimeMeasurementTag.class);
-				var entry = new TimeMeasurementEntry(key, tag);
-				entry.setTimeElapsed(time);
-
-				return entry;
-			}
-		};
-	}
+//	private JsonDeserializer<ITimeMeasurementDataStructureEntry> getEntryDeserializer() {
+//		return new JsonDeserializer<ITimeMeasurementDataStructureEntry>() {
+//			@Override
+//			public ITimeMeasurementDataStructureEntry deserialize(JsonElement json, Type typeOfT,
+//					JsonDeserializationContext context) throws JsonParseException {
+//				var entryObj = json.getAsJsonObject();
+//				var time = gson.fromJson(entryObj.get("timeElapsed"), Long.class);
+//
+////				var keyMap = gson.fromJson(entryObj.getAsJsonObject("key").get("keyMap"), HashMap.class);
+////				var key = new ParserTestTimeMeasurementKey().fromStringKeyMap(keyMap);
+//
+//				var key = gson.fromJson(entryObj.get("key"), ParserTestTimeMeasurementKey.class);
+//
+//				var tag = gson.fromJson(entryObj.get("tag"), ITimeMeasurementTag.class);
+//				var entry = new TimeMeasurementEntry(key, tag);
+//				entry.setTimeElapsed(time);
+//
+//				return entry;
+//			}
+//		};
+//	}
 }

@@ -59,7 +59,7 @@ public class StopwatchStrategy implements ITimeMeasuringStrategy {
 		currentMethodWatch.start();
 	}
 
-	public ITimeMeasurementDataStructureEntry stopTimeMeasurement() {
+	public TimeMeasurementEntry stopTimeMeasurement() {
 		var currentMethodPair = watchEntryPairs.pop();
 		var watch = currentMethodPair.getWatch();
 		var entry = currentMethodPair.getEntry();
@@ -141,9 +141,9 @@ public class StopwatchStrategy implements ITimeMeasuringStrategy {
 
 	private class StopWatchEntryPair {
 		private final StopWatch watch;
-		private final ITimeMeasurementDataStructureEntry entry;
+		private final TimeMeasurementEntry entry;
 
-		private StopWatchEntryPair(StopWatch watch, ITimeMeasurementDataStructureEntry entry) {
+		private StopWatchEntryPair(StopWatch watch, TimeMeasurementEntry entry) {
 			this.watch = watch;
 			this.entry = entry;
 		}
@@ -152,7 +152,7 @@ public class StopwatchStrategy implements ITimeMeasuringStrategy {
 			return watch;
 		}
 
-		private ITimeMeasurementDataStructureEntry getEntry() {
+		private TimeMeasurementEntry getEntry() {
 			return entry;
 		}
 	}

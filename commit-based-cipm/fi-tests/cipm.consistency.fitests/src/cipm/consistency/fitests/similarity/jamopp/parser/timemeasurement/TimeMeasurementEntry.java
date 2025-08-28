@@ -5,7 +5,7 @@ package cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement;
  * 
  * @author Alp Torac Genc
  */
-public class TimeMeasurementEntry implements ITimeMeasurementDataStructureEntry {
+public class TimeMeasurementEntry {
 	private long timeElapsed;
 	private final ParserTestTimeMeasurementKey key;
 	private final ITimeMeasurementTag tag;

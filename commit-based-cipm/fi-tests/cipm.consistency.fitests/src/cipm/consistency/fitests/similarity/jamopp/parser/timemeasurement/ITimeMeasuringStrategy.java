@@ -47,7 +47,7 @@ public interface ITimeMeasuringStrategy {
 	 * @return The time measurement entry that is generated for the stopped time
 	 *         measurement.
 	 */
-	public ITimeMeasurementDataStructureEntry stopTimeMeasurement();
+	public TimeMeasurementEntry stopTimeMeasurement();
 
 	/**
 	 * Signals to the concrete implementor that time measuring has started. Calling
