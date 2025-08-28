@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.format.DateTimeFormatter;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -17,6 +18,7 @@ import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ITimeMe
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ITimeMeasurementLoadingStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ITimeMeasurementPersistingStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ITimeMeasurementTag;
+import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ParserTestTimeMeasurerKeyType;
 
 /**
  * TODO Commentary
@@ -82,30 +84,62 @@ public class GSONTest {
 		persistingStrat.save(dataStructure, savePath);
 	}
 
-	@Test
-	public void loadDataStructure() {
-		var timeMeasurements = this.loadTimeMeasurement(formerTimeMeasurementPath);
-
+	private void assertDataStructureIntact(ITimeMeasurementDataStructure timeMeasurements) {
 		Assertions.assertNotNull(timeMeasurements.getTimeMeasurerDescription());
 
 		Assertions.assertNotNull(timeMeasurements.getEndTime());
 
 		Assertions.assertNotNull(timeMeasurements.getStartTime());
 
-		Assertions.assertNotNull(timeMeasurements.getTimeMeasurementEntries());
-		Assertions.assertFalse(timeMeasurements.getTimeMeasurementEntries().isEmpty());
+		var entries = timeMeasurements.getTimeMeasurementEntries();
+		Assertions.assertNotNull(entries);
+		Assertions.assertFalse(entries.isEmpty());
+
 		timeMeasurements.getTimeMeasurementEntries().forEach((e) -> {
-			Assertions.assertNotNull(e.getKey());
-			// TODO Assertions about the key
+			var key = e.getKey();
+			Assertions.assertNotNull(key);
+			key.getKeys().entrySet().forEach((ke) -> {
+				Assertions.assertNotNull(ke.getKey());
+				Assertions.assertTrue(ParserTestTimeMeasurerKeyType.class.isAssignableFrom(ke.getKey().getClass()));
+				Assertions.assertNotNull(ke.getValue());
+			});
 			Assertions.assertNotNull(e.getTag());
 			Assertions.assertTrue(ITimeMeasurementTag.class.isAssignableFrom(e.getTag().getClass()));
 		});
 
-		Assertions.assertNotNull(timeMeasurements.getTimeUnit());
+		var tu = timeMeasurements.getTimeUnit();
+		Assertions.assertNotNull(tu);
+		Assertions.assertTrue(TimeUnit.class.isAssignableFrom(tu.getClass()));
 	}
 
+	/**
+	 * Ensures that loading previously saved time measurements works as intended
+	 */
 	@Test
-	public void loadAndSaveDataStructure() {
+	public void testDataStructureLoading() {
+		var timeMeasurements = this.loadTimeMeasurement(formerTimeMeasurementPath);
+		this.assertDataStructureIntact(timeMeasurements);
+	}
+
+	/**
+	 * Ensures that loaded and re-saved time measurements can be parsed as intended
+	 */
+	@Test
+	public void testSavedDataStructureLoading() {
+		var timeMeasurements = this.loadTimeMeasurement(formerTimeMeasurementPath);
+		// TODO Remove ".getParent()" after extracting file name from
+		// persisting strategy
+		this.persistTimeMeasurement(timeMeasurements, newTimeMeasurementPath.getParent());
+		var persistedTimeMeasurements = this.loadTimeMeasurement(newTimeMeasurementPath);
+		this.assertDataStructureIntact(persistedTimeMeasurements);
+	}
+
+	/**
+	 * Ensures that loaded and re-saved time measurements can be parsed as intended
+	 * and the content of their files are equal
+	 */
+	@Test
+	public void testSavedDataStructureLoading_ContentEquality() {
 		var formerFileContent = this.readTimeMeasurement(formerTimeMeasurementPath);
 		var formerTimeMeasurements = this.loadTimeMeasurement(formerTimeMeasurementPath);
 
