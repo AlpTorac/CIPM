@@ -10,8 +10,6 @@ import org.eclipse.emf.common.util.URI;
  * 
  * TODO Rename parameters and methods
  * 
- * TODO Refer to the commentary under this class to spare parameter descriptions
- * 
  * @author Alp Torac Genc
  */
 public class ParserTestFileLayout {
@@ -54,7 +52,7 @@ public class ParserTestFileLayout {
 	}
 
 	/**
-	 * {@link #setModelSourceFileRootDirPath(Path)}
+	 * {@link #getModelSourceFileRootDirPath(Path)}
 	 */
 	public void setModelSourceFileRootDirPath(Path modelSourceFileRootDirPath) {
 		this.modelSourceFileRootDirPath = modelSourceFileRootDirPath;
@@ -75,7 +73,9 @@ public class ParserTestFileLayout {
 	}
 
 	/**
-	 * Sets the absolute path, at which taken time measurements are to be saved.
+	 * Sets the relative path to the directory, where time measurements are to be
+	 * saved (if desired). {@link #getTimeMeasurementsFileSavePath()} will return
+	 * the derived absolute path.
 	 */
 	public void setTimeMeasurementsFileSavePath(Path timeMeasurementsFileSavePath) {
 		this.timeMeasurementsFileSavePath = timeMeasurementsFileSavePath;
@@ -92,8 +92,8 @@ public class ParserTestFileLayout {
 	}
 
 	/**
-	 * Sets up the relative path to the {@link #getAbsoluteCurrentDirectory()}
-	 * directory, where parsed model resource files are to be saved (if desired).
+	 * Sets up the relative path to the directory, where parsed model resource files
+	 * are to be saved (if desired).
 	 */
 	public void setTestModelResourceFilesSaveDirPath(Path testModelResourceFilesSaveDirPath) {
 		this.testModelResourceFilesSaveDirPath = testModelResourceFilesSaveDirPath;

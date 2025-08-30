@@ -68,7 +68,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	private static final String gradleWrapperJarPathPattern = ".*?/gradle-wrapper\\.jar";
 
 	/**
-	 * The name of the root directory of local repository clones
+	 * @see {@link RepoParserTestFileLayout#setRepoModelImplDirName(String)}
 	 */
 	private static final String repoModelImplDirName = "repo-clones";
 
@@ -79,17 +79,12 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	private static final String repoURICommitSegment = "commit";
 
 	/**
-	 * The name of the folder, where contents of {@link #resultCache} should be
-	 * saved. <br>
-	 * <br>
-	 * Note: Contents of {@link #resultCache} may be saved in nested
-	 * sub-directories.
+	 * @see {@link RepoParserTestFileLayout#setExpectedSimilarityResultCacheDirName(String)}
 	 */
 	private static final String expectedSimilarityResultCacheDirName = "results-cache";
 
 	/**
-	 * The name of the file (with extension), where contents of {@link #resultCache}
-	 * should be saved.
+	 * @see {@link RepoParserTestFileLayout#setExpectedSimilarityResultCacheFileName(String)}
 	 */
 	private static final String expectedSimilarityResultCacheFileName = "resultsCache.json";
 

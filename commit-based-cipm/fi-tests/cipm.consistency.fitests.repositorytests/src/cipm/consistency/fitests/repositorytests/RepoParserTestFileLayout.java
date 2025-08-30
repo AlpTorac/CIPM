@@ -10,8 +10,6 @@ import cipm.consistency.fitests.similarity.jamopp.parser.ParserTestFileLayout;
  * Extension of {@link ParserTestFileLayout} with GIT-Repository-related
  * options.
  * 
- * TODO Refer to the commentary under this class to spare parameter descriptions
- * 
  * @author Alp Torac Genc
  */
 public class RepoParserTestFileLayout extends ParserTestFileLayout {

@@ -72,20 +72,17 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	private ParserTestFileLayout layout;
 
 	/**
-	 * The relative path to the directory, where parsed model resource files are to
-	 * be saved (if desired).
+	 * @see {@link ParserTestFileLayout#setTestModelResourceFilesSaveDirPath(Path)}
 	 */
 	private static final Path testModelResourceFilesSaveDirPath = Path.of("target", "testResources");
 
 	/**
-	 * The relative path to the directory, where the contents of
-	 * {@link #resourceCache} are to be saved (if desired).
+	 * @see {@link ParserTestFileLayout#setTestModelResourceFilesSaveDirPath(Path)}
 	 */
 	private static final Path cacheSaveDirPath = testModelResourceFilesSaveDirPath.resolve("testmodel-cache");
 
 	/**
-	 * The relative path to the directory, where time measurements are to be saved
-	 * (if desired).
+	 * @see {@link ParserTestFileLayout#setTimeMeasurementsFileSavePath(Path)}
 	 */
 	private static final Path timeMeasurementsFileSavePath = Path.of("target", "timeMeasurements");
 
