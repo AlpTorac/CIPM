@@ -1,7 +1,7 @@
 package cipm.consistency.fitests.repositorytests;
 
 import cipm.consistency.fitests.repositorytests.util.RepoCacheSimilarityResultProvider;
-import cipm.consistency.fitests.repositorytests.util.RepoTestResultCache;
+import cipm.consistency.fitests.repositorytests.util.RepoTestSimilarityResultCache;
 import cipm.consistency.fitests.repositorytests.util.RepoTestSimilarityValueEstimator;
 import cipm.consistency.fitests.similarity.SimilarityTestLogger;
 import cipm.consistency.fitests.similarity.eobject.ResourceHelper;
@@ -43,6 +43,10 @@ import com.google.gson.GsonBuilder;
  * An abstract test class, which can be used for implementing tests that involve
  * parsing models from GIT repositories and checking their similarity. <br>
  * <br>
+ * Here, model source file directories and model source parent directories are
+ * both equal to the local repository clone directory. This means, all Java
+ * models are assumed to be stored in their respective repository clones. <br>
+ * <br>
  * Note: Since dynamic tests are used here, the
  * {@link org.junit.jupiter.api.BeforeEach} and
  * {@link org.junit.jupiter.api.AfterEach} methods will be triggered <b><i> only
@@ -60,7 +64,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	/**
 	 * Contains expected similarity results needed by tests
 	 */
-	private static RepoTestResultCache resultCache = new RepoTestResultCache();
+	private static RepoTestSimilarityResultCache similarityResultCache = new RepoTestSimilarityResultCache();
 
 	/**
 	 * The pattern of "gradle-wrapper.jar" file path, which should be excluded when
@@ -69,9 +73,9 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	private static final String gradleWrapperJarPathPattern = ".*?/gradle-wrapper\\.jar";
 
 	/**
-	 * @see {@link RepoParserTestFileLayout#setRepoModelImplDirName(String)}
+	 * @see {@link RepoParserTestFileLayout#setRepoCloneRootDirName(String)}
 	 */
-	private static final String repoModelImplDirName = "repo-clones";
+	private static final String repoCloneRootDirName = "repo-clones";
 
 	/**
 	 * The segment in remote GIT repository URLs, which are followed by the commit
@@ -113,7 +117,8 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 				try (BufferedReader reader = Files.newBufferedReader(resultCachePath)) {
 					SimilarityTestLogger.logDebugMsg(String.format("Reading cached expected similarity results"),
 							this.getClass());
-					resultCache = new RepoTestResultCache(new Gson().fromJson(reader, resultCache.getClass()));
+					similarityResultCache = new RepoTestSimilarityResultCache(
+							new Gson().fromJson(reader, similarityResultCache.getClass()));
 					SimilarityTestLogger.logDebugMsg(String.format("Read cached expected similarity results"),
 							this.getClass());
 				} catch (IOException e) {
@@ -164,7 +169,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 
 			try (BufferedWriter writer = Files.newBufferedWriter(resultCachePath);
 					var gsonWriter = gson.newJsonWriter(writer)) {
-				gson.toJson(resultCache, resultCache.getClass(), gsonWriter);
+				gson.toJson(similarityResultCache, similarityResultCache.getClass(), gsonWriter);
 			} catch (IOException e) {
 				Assertions.fail(String.format("Could not save the expected similarity results at %s", resultCachePath),
 						e);
@@ -199,7 +204,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		layout.setRepoName(this.getRepoName());
 		layout.setExpectedSimilarityResultCacheDirName(expectedSimilarityResultCacheDirName);
 		layout.setExpectedSimilarityResultCacheFileName(expectedSimilarityResultCacheFileName);
-		layout.setRepoModelImplDirName(repoModelImplDirName);
+		layout.setRepoCloneRootDirName(repoCloneRootDirName);
 		return layout;
 	}
 
@@ -209,21 +214,20 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	}
 
 	/**
-	 * Refer to {@link RepoTestResultCache} for more information on expected
-	 * similarity results.
+	 * Refer to {@link RepoTestSimilarityResultCache} for more information on
+	 * expected similarity results.
 	 * 
 	 * @return The expected similarity checking result for the given commits.
 	 */
 	protected Boolean getExpectedResult(String lhsCommit, String rhsCommit) {
-		return resultCache.getResult(lhsCommit, rhsCommit);
+		return similarityResultCache.getResult(lhsCommit, rhsCommit);
 	}
 
 	/**
-	 * TODO Rename to prepareTestResources or something similar
-	 * 
 	 * Prepares model resources and expected similarity results needed by tests and
 	 * caches them. Must be executed before all tests.
 	 * 
+	 * @return The cached model resources parsed from {@link #getCommitIDs()}
 	 * @see {@link #getCommitIDs()}
 	 */
 	protected Collection<Resource> cacheCommitResources() {
@@ -241,7 +245,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		testStrats.forEach((ts) -> ts.getTestResourceIterator(commitIDList.size()).forEachRemaining((idxs) -> {
 			var commitID1 = commitIDList.get(idxs[0]);
 			var commitID2 = commitIDList.get(idxs[1]);
-			if (resultCache.getResult(commitID1, commitID2) == null) {
+			if (similarityResultCache.getResult(commitID1, commitID2) == null) {
 				SimilarityTestLogger.logDebugMsg(
 						String.format("Expected similarity result missing for: %s vs %s", commitID1, commitID2),
 						this.getClass());
@@ -343,7 +347,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		testStrats.forEach((ts) -> ts.getTestResourceIterator(commitIDList.size()).forEachRemaining((idxs) -> {
 			var commitID1 = commitIDList.get(idxs[0]);
 			var commitID2 = commitIDList.get(idxs[1]);
-			if (resultCache.getResult(commitID1, commitID2) == null) {
+			if (similarityResultCache.getResult(commitID1, commitID2) == null) {
 				SimilarityTestLogger.logDebugMsg(
 						String.format("Computing expected similarity result for: %s vs %s", commitID1, commitID2),
 						this.getClass());
@@ -352,7 +356,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 						GeneralTimeMeasurementTag.EXPECTED_SIMILARITY_RESULT_COMPUTATION);
 				var result = expectedValueEstimator.getExpectedSimilarityValueFor(git, commitID1, commitID2);
 
-				resultCache.addResult(commitID1, commitID2, result);
+				similarityResultCache.addResult(commitID1, commitID2, result);
 				this.stopTimeMeasurement();
 
 				SimilarityTestLogger.logDebugMsg(String.format("Computed expected similarity result (%s) for: %s vs %s",
@@ -364,26 +368,25 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	/**
 	 * Clones the repository desired by this test.
 	 * 
-	 * @param repoToCloneURI URI to the repository, which should be cloned (local or
-	 *                       remote)
-	 * @param clonePath      The path to the folder, where the repository under
-	 *                       repoToCloneURI will be cloned
+	 * @param repoToCloneURI URI to the (remote) repository, which should be locally
+	 *                       cloned
+	 * @param repoClonePath  The path to the folder, where the repository clone will
+	 *                       reside
 	 * 
 	 * @return An object that can be used to perform GIT operations on the
 	 *         repository clone.
 	 */
-	protected Git cloneRepo(String repoToCloneURI, Path clonePath) {
+	protected Git cloneRepo(String repoToCloneURI, Path repoClonePath) {
 		this.startTimeMeasurement(RepoTimeMeasurementTag.CLONE_REPOSITORY);
 		Git git = null;
 
 		// Repository clone does not exist, clone it
-		if (!clonePath.toFile().exists() || clonePath.toFile().list() == null
-				|| clonePath.toFile().list().length == 0) {
+		if (!repoClonePath.toFile().exists() || repoClonePath.toFile().list() == null
+				|| repoClonePath.toFile().list().length == 0) {
 			try {
-				SimilarityTestLogger.logDebugMsg(
-						String.format("Cloning remote repository (%s) to: %s", repoToCloneURI, clonePath.toString()),
-						this.getClass());
-				git = Git.cloneRepository().setURI(repoToCloneURI).setDirectory(clonePath.toFile())
+				SimilarityTestLogger.logDebugMsg(String.format("Cloning remote repository (%s) to: %s", repoToCloneURI,
+						repoClonePath.toString()), this.getClass());
+				git = Git.cloneRepository().setURI(repoToCloneURI).setDirectory(repoClonePath.toFile())
 						.setCloneAllBranches(true).call();
 				SimilarityTestLogger.logDebugMsg(String.format("Cloning successful"), this.getClass());
 			} catch (GitAPIException e) {
@@ -395,16 +398,16 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 		// If it does not open, delete it and re-try
 		else {
 			try {
-				git = Git.open(clonePath.toFile());
+				git = Git.open(repoClonePath.toFile());
 			} catch (IOException e) {
 				// Faulty repository clone, delete and re-try
 				SimilarityTestLogger.logDebugMsg("Could not open existing repository, deleting it and re-cloning",
 						this.getClass());
-				FileUtil.deleteAll(clonePath);
-				if (clonePath.toFile().exists() && clonePath.toFile().list().length != 0) {
+				FileUtil.deleteAll(repoClonePath);
+				if (repoClonePath.toFile().exists() && repoClonePath.toFile().list().length != 0) {
 					throw new IllegalStateException("Could not delete faulty repository clone");
 				}
-				git = this.cloneRepo(repoToCloneURI, clonePath);
+				git = this.cloneRepo(repoToCloneURI, repoClonePath);
 			}
 		}
 
@@ -440,7 +443,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 * 
 	 * @param commits    Commits for which a model resource will be parsed
 	 * @param gitWrapper The object that can be used to perform GIT operations on
-	 *                   the "main" repository clone, which should be created with
+	 *                   the local repository clone, which should be created with
 	 *                   {@link #cloneRepo()}.
 	 */
 	protected Collection<Resource> prepareReposForCommits(List<String> commits, Git git) {
@@ -543,7 +546,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	 *         resources parsed from commits in tests.
 	 */
 	protected IExpectedSimilarityResultProvider getExpectedSimilarityResultProviderForCommits() {
-		return new RepoCacheSimilarityResultProvider(resultCache);
+		return new RepoCacheSimilarityResultProvider(similarityResultCache);
 	}
 
 	@Override

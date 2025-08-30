@@ -14,9 +14,9 @@ import cipm.consistency.fitests.similarity.jamopp.parser.ParserTestFileLayout;
  */
 public class RepoParserTestFileLayout extends ParserTestFileLayout {
 	/**
-	 * @see {@link #setRepoModelImplDirName(String)}
+	 * @see {@link #setRepoCloneRootDirName(String)}
 	 */
-	private String repoModelImplDirName;
+	private String repoCloneRootDirName;
 
 	/**
 	 * @see {@link #setExpectedSimilarityResultCacheDirName(String)}
@@ -52,8 +52,8 @@ public class RepoParserTestFileLayout extends ParserTestFileLayout {
 	 * Sets the name of the root directory of local repository clones that will be
 	 * used in tests
 	 */
-	public void setRepoModelImplDirName(String repoModelImplDirName) {
-		this.repoModelImplDirName = repoModelImplDirName;
+	public void setRepoCloneRootDirName(String repoCloneRootDirName) {
+		this.repoCloneRootDirName = repoCloneRootDirName;
 	}
 
 	/**
@@ -108,18 +108,19 @@ public class RepoParserTestFileLayout extends ParserTestFileLayout {
 	 * 
 	 * @return The top-most directory, where the repositories will be cloned to
 	 */
-	public Path getRepoClonesDirPath() {
-		return this.getTestFilesSavePath().resolve(repoModelImplDirName);
+	public Path getRepoCloneRootDirPath() {
+		return this.getTestFilesSavePath().resolve(repoCloneRootDirName);
 	}
 
 	/**
-	 * @implSpec Returns The path, at which the local repository clone resides.
-	 *           Meant to be used for accessing the local repository clone. Use
-	 *           {@link #getRepoClonesDirPath()} while cloning instead, so that the
-	 *           top-most folder of the repository is not duplicated.
+	 * @implSpec Returns The path, at which the local repository clone of
+	 *           {@link #setRepoName(String)} resides. Meant to be used for
+	 *           accessing the local repository clone. Use
+	 *           {@link #getRepoCloneRootDirPath()} while cloning instead, so that
+	 *           the top-most folder of the repository is not duplicated.
 	 */
 	@Override
 	public Path getModelSourceParentRootDirPath() {
-		return this.getRepoClonesDirPath().resolve(this.repoName);
+		return this.getRepoCloneRootDirPath().resolve(this.repoName);
 	}
 }
