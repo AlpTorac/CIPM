@@ -561,11 +561,11 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * @return A collection of model source file directory paths under rootPath
 	 */
 	protected Collection<Path> discoverModelSourceFileDirsAt(Path rootPath) {
-		var discoveryStrat = new ModelDirDiscoveryStrategy((f) -> this.isModelSourceFileDirectory(f));
+		var discoveryStrat = new ModelDiscoveryStrategy((f) -> this.isModelSourceFileDirectory(f));
 		this.startTimeMeasurement(getTimeMeasurementKeyBuilder().withModelDiscoveryPath(rootPath.toString())
 				.withModelDiscoveryClassName(discoveryStrat.getClass().getSimpleName()),
 				GeneralTimeMeasurementTag.DISCOVER_MODEL_RESOURCES);
-		var result = discoveryStrat.discoverModelSourceDirs(rootPath.toFile());
+		var result = discoveryStrat.discoverModelSourceFileDirs(rootPath.toFile());
 		this.stopTimeMeasurement();
 		return result;
 	}
@@ -577,7 +577,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 *         rootPath
 	 */
 	protected Collection<Path> discoverModelSourceParentDirsAt(Path rootPath) {
-		var discoveryStrat = new ModelDirDiscoveryStrategy((f) -> this.isModelSourceFileDirectory(f));
+		var discoveryStrat = new ModelDiscoveryStrategy((f) -> this.isModelSourceFileDirectory(f));
 		this.startTimeMeasurement(getTimeMeasurementKeyBuilder().withModelDiscoveryPath(rootPath.toString())
 				.withModelDiscoveryClassName(discoveryStrat.getClass().getSimpleName()),
 				GeneralTimeMeasurementTag.DISCOVER_MODEL_RESOURCES);
