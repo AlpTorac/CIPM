@@ -8,6 +8,8 @@ import org.eclipse.emf.common.util.URI;
 /**
  * Contains layout-related information for the corresponding parser test.
  * 
+ * TODO Rename paramters and methods
+ * 
  * @author Alp Torac Genc
  */
 public class ParserTestFileLayout {
@@ -50,15 +52,14 @@ public class ParserTestFileLayout {
 	}
 
 	/**
-	 * Sets the path to the root folder of the model source file directories, under
-	 * which all models' source file directories reside
+	 * {@link #setModelSourceFileRootDirPath(Path)}
 	 */
 	public void setModelSourceFileRootDirPath(Path modelSourceFileRootDirPath) {
 		this.modelSourceFileRootDirPath = modelSourceFileRootDirPath;
 	}
 
 	/**
-	 * Sets the file extension of the Resource files (if desired to be saved)
+	 * {@link #getModelResourceFileExtension()}
 	 */
 	public void setModelResourceFileExtension(String modelResourceFileExtension) {
 		this.modelResourceFileExtension = modelResourceFileExtension;
@@ -154,15 +155,15 @@ public class ParserTestFileLayout {
 	/**
 	 * Defaults to {@link #getAbsoluteCurrentDirectory()}.
 	 * 
-	 * @return Path to the root folder of the model source file directories, under
-	 *         which all models' source file directories reside
+	 * @return Path to the top-most model source parent directory, under which all
+	 *         models' source file directories reside
 	 */
 	public Path getModelSourceFileRootDirPath() {
 		return this.modelSourceFileRootDirPath;
 	}
 
 	/**
-	 * @return The root directory, under which generated test resources will be
+	 * @return The root directory, under which generated model resources will be
 	 *         saved.
 	 */
 	public Path getModelResourceSaveRootDirectory() {
@@ -170,8 +171,8 @@ public class ParserTestFileLayout {
 	}
 
 	/**
-	 * @return The relative path between the current directory and the root
-	 *         directory ({@link #getModelSourceFileRootDirPath()}).
+	 * @return The relative path between the current directory and
+	 *         ({@link #getModelSourceFileRootDirPath()}).
 	 * @see {@link #getModelSourceFileRootDirPath()}
 	 */
 	public Path getRelativeModelSourceFileRootDirPath() {
@@ -179,12 +180,10 @@ public class ParserTestFileLayout {
 	}
 
 	/**
-	 * @param modelParentDirPath The parent directory for a group of models, which
-	 *                           contains other directories that contain model
-	 *                           files.
+	 * @param modelParentDirPath A model source parent directory path
 	 * @return The relative path between ({@link #getModelSourceFileRootDirPath()})
-	 *         and the given path. If both paths are the same, returns the file name
-	 *         (without extension) in the parameter.
+	 *         and the given model source parent path. If both paths are the same,
+	 *         returns the file name (without extension) in the parameter.
 	 */
 	public Path getRelativeModelSourceParentDirPath(Path modelParentDirPath) {
 		var rootPath = this.getModelSourceFileRootDirPath();
