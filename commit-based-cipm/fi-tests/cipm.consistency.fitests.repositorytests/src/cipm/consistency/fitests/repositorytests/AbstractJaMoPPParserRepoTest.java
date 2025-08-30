@@ -175,7 +175,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			this.stopTimeMeasurement();
 		}
 
-		var localRepoPath = this.getTestFileLayout().getModelSourceFileRootDirPath();
+		var localRepoPath = this.getTestFileLayout().getModelSourceParentRootDirPath();
 		if (this.getResourceTestOptions().shouldDeleteRepositoryClones() && localRepoPath.toFile().exists()) {
 			this.startTimeMeasurement(RepoTimeMeasurementTag.DELETE_LOCAL_REPO_CLONE);
 			FileUtil.deleteAll(localRepoPath);
@@ -307,7 +307,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			SimilarityTestLogger.logDebugMsg(String.format("Closed repository wrapper"), this.getClass());
 		}
 
-		var mainLocalClonePath = this.getTestFileLayout().getModelSourceFileRootDirPath();
+		var mainLocalClonePath = this.getTestFileLayout().getModelSourceParentRootDirPath();
 
 		SimilarityTestLogger.logDebugMsg(
 				String.format("Cleaning main local repository clone under: %s", mainLocalClonePath.toString()),
@@ -420,13 +420,13 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	protected Git cloneRepo() {
 		// Do not explicitly add a folder for this repository, since GIT will do that
 		// implicitly
-		return this.cloneRepo(this.getRepoURI().toString(), this.getTestFileLayout().getModelSourceFileRootDirPath());
+		return this.cloneRepo(this.getRepoURI().toString(), this.getTestFileLayout().getModelSourceParentRootDirPath());
 	}
 
 	/**
 	 * @return The cache key for the model resource parsed from the given commit
 	 *         hash of the repository, when its model resource is inserted into the
-	 *         cache via {@link #parseModelsDirWithCaching(Path, URI, String)}.
+	 *         cache via {@link #parseModelWithCaching(Path, URI, String)}.
 	 */
 	protected String getCacheKeyForCommit(URI repoURI, String commitID) {
 		return repoURI.appendSegment(repoURICommitSegment).appendSegment(commitID).toString();
@@ -481,10 +481,10 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 			 * it.
 			 */
 			if (targetPath.toFile().exists()) {
-				commitRes = this.parseModelsDirWithCaching(targetPath, commitResURI,
+				commitRes = this.parseModelWithCaching(targetPath, commitResURI,
 						getCacheKeyForCommit(this.getRepoURI(), commitID));
 			} else {
-				commitRes = this.parseModelsDirWithCaching(git.getRepository().getDirectory().getParentFile().toPath(),
+				commitRes = this.parseModelWithCaching(git.getRepository().getDirectory().getParentFile().toPath(),
 						commitResURI, getCacheKeyForCommit(this.getRepoURI(), commitID));
 				commitRes.setModelResourcesURI(commitResURI);
 			}

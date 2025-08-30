@@ -92,7 +92,7 @@ public class RepoParserTestFileLayout extends ParserTestFileLayout {
 	 * @return The path, where the given commit should be cloned
 	 */
 	public Path getRepoClonePathForCommit(String commitID) {
-		return this.getModelSourceFileRootDirPath().resolve(commitID);
+		return this.getModelSourceParentRootDirPath().resolve(commitID);
 	}
 
 	/**
@@ -119,7 +119,7 @@ public class RepoParserTestFileLayout extends ParserTestFileLayout {
 	 *           top-most folder of the repository is not duplicated.
 	 */
 	@Override
-	public Path getModelSourceFileRootDirPath() {
+	public Path getModelSourceParentRootDirPath() {
 		return this.getRepoClonesDirPath().resolve(this.repoName);
 	}
 }
