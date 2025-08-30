@@ -17,4 +17,7 @@ TODO
 	- Model resource content: An in-memory representation of a model element, which is a part of a model.
 	- Model resource: An in-memory representation of a model (usually in form of a Resource instance). If multiple model resources are involved, their in-memory representation may be an object that aggregates individual model resources (such as a ResourceSet instance). Model resources consist of model resource contents and may include other metadata.
 	- Parsed model file / model resource file: A file containing parts of or information about a parsed model. These files persist the parsed in-memory models, allowing them to be loaded for speeding up tests. If all necessary parsed model files for a model are present, parsing the model from scratch is not necessary, as the resulting parsed model should have the same content as parsed model files. Keep in mind that the order of contents may differ, if model parsing methods are not fully deterministic.
-	- Model comparison: Comparison of 2 or more model resources based on their contents
+
+- Model comparison
+	- Model comparison: Thorough comparison of 2 or more model resources based on their contents. The result of this operation is a model comparison result.
+	- Model comparison result: (typically) an object, which yields all details about the comparison process, such as the concrete differences (if any) and which model resource contents were matched. It is more elaborate compared to a similarity checking result, as it provides more than whether multiple objects are similar, such as the means to locate the detected difference.

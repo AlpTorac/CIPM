@@ -8,7 +8,9 @@ import org.eclipse.emf.common.util.URI;
 /**
  * Contains layout-related information for the corresponding parser test.
  * 
- * TODO Rename paramters and methods
+ * TODO Rename parameters and methods
+ * 
+ * TODO Refer to the commentary under this class to spare parameter descriptions
  * 
  * @author Alp Torac Genc
  */

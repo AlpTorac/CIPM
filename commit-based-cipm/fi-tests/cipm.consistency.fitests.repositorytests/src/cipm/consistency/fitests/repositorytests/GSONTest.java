@@ -68,6 +68,11 @@ public class GSONTest {
 		newTimeMeasurementPath = null;
 	}
 
+	/**
+	 * Asserts that the content of the file under the given path is not blank
+	 * 
+	 * @return Contents of the given path as a string instance
+	 */
 	private String readTimeMeasurement(Path pathToTimeMeasurementToRead) {
 		String content = null;
 		try {
@@ -81,14 +86,24 @@ public class GSONTest {
 		return content;
 	}
 
+	/**
+	 * @return The data structure parsed from the file at the given path
+	 */
 	private ITimeMeasurementDataStructure loadTimeMeasurement(Path pathToTimeMeasurementToLoad) {
 		return loadingStrat.load(pathToTimeMeasurementToLoad);
 	}
 
+	/**
+	 * Persists the given data structure under the given path
+	 */
 	private void persistTimeMeasurement(ITimeMeasurementDataStructure dataStructure, Path savePath) {
 		persistingStrat.save(dataStructure, savePath);
 	}
 
+	/**
+	 * Asserts that the given data structure is parsed correctly and does not have
+	 * any unexpected empty fields.
+	 */
 	private void assertDataStructureIntact(ITimeMeasurementDataStructure timeMeasurements) {
 		Assertions.assertNotNull(timeMeasurements.getTimeMeasurerDescription());
 
