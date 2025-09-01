@@ -112,7 +112,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * {@link AbstractJaMoPPParserSimilarityTest}: Performs various operations on
 	 * model resources that were parsed in the dynamic tests, according to the
 	 * preferences that are encoded in the methods of this test, such as
-	 * {@link AbstractJaMoPPParserSimilarityTest#shouldSaveCachedResources()}. It
+	 * {@link AbstractJaMoPPParserSimilarityTest#shouldSaveCachedModelResources()}. It
 	 * then saves the time measurements taken during the tests. See
 	 * {@link AbstractJaMoPPParserSimilarityTest} for more information.
 	 */
@@ -124,7 +124,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		this.startTimeMeasurement(GeneralTimeMeasurementTag.TEST_AFTEREACH);
 		var cachedResources = resourceCache.getCachedResources();
 
-		if (this.getResourceTestOptions().shouldSaveCachedResources()) {
+		if (this.getResourceTestOptions().shouldSaveCachedModelResources()) {
 			SimilarityTestLogger.logDebugMsg("Saving all cached resources after parser test", this.getClass());
 			cachedResources.forEach((res) -> {
 				this.startTimeMeasurement(
@@ -137,7 +137,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			SimilarityTestLogger.logDebugMsg("Saved all cached resources after parser test", this.getClass());
 		}
 
-		if (this.getResourceTestOptions().shouldDeleteAllResources()) {
+		if (this.getResourceTestOptions().shouldDeleteAllModelResources()) {
 			SimilarityTestLogger.logDebugMsg("Deleting all cached resources after parser test", this.getClass());
 			cachedResources.forEach((res) -> {
 				this.startTimeMeasurement(
@@ -148,7 +148,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 				this.stopTimeMeasurement();
 			});
 			SimilarityTestLogger.logDebugMsg("Deleted all cached resources after parser test", this.getClass());
-		} else if (this.getResourceTestOptions().shouldUnloadAllResources()) {
+		} else if (this.getResourceTestOptions().shouldUnloadAllModelResources()) {
 			SimilarityTestLogger.logDebugMsg("Unloading all cached resources after parser test", this.getClass());
 			cachedResources.forEach((res) -> {
 				this.startTimeMeasurement(
@@ -161,7 +161,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 			SimilarityTestLogger.logDebugMsg("Unloaded all cached resources after parser test", this.getClass());
 		}
 
-		if (this.getResourceTestOptions().shouldRemoveResourcesFromCache()) {
+		if (this.getResourceTestOptions().shouldRemoveModelResourcesFromCache()) {
 			SimilarityTestLogger.logDebugMsg("Removing all cached resources from cache after parser test",
 					this.getClass());
 			this.startTimeMeasurement(GeneralTimeMeasurementTag.MODEL_RESOURCE_CACHE_ACCESS);
@@ -648,11 +648,11 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		 * Parser tests require the created resource files to persist across tests, as
 		 * they are cached.
 		 */
-		opts.setShouldDeleteAllResources(false);
-		opts.setShouldUnloadAllResources(false);
+		opts.setShouldDeleteAllModelResources(false);
+		opts.setShouldUnloadAllModelResources(false);
 
-		opts.setShouldSaveCachedResources(true);
-		opts.setShouldRemoveResourcesFromCache(false);
+		opts.setShouldSaveCachedModelResources(true);
+		opts.setShouldRemoveModelResourcesFromCache(false);
 		return opts;
 	}
 
