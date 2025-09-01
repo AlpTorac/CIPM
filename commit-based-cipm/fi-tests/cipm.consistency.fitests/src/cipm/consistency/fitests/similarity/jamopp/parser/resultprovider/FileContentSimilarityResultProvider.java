@@ -1,6 +1,7 @@
 package cipm.consistency.fitests.similarity.jamopp.parser.resultprovider;
 
 import java.nio.file.Path;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
@@ -13,6 +14,10 @@ import cipm.consistency.fitests.similarity.jamopp.parser.FileUtil;
  * @author Alp Torac Genc
  */
 public class FileContentSimilarityResultProvider implements IExpectedSimilarityResultProvider {
+	private static final String javaExtensionPattern = "\\.java";
+	private static final Set<String> incPatterns = Set.of(javaExtensionPattern);
+	private static final Set<String> excPatterns = Set.of();
+
 	/**
 	 * @implSpec Determines the expected similarity result purely based on the given
 	 *           model source file (or model source file directory) paths. Compares
@@ -24,6 +29,7 @@ public class FileContentSimilarityResultProvider implements IExpectedSimilarityR
 	@Override
 	public boolean getExpectedSimilarityResultFor(Resource lhsModelResource, Path lhsModelSourceFileDirPath,
 			Resource rhsModelResource, Path rhsModelSourceFileDirPath) {
-		return FileUtil.areContentsEqual(lhsModelSourceFileDirPath, rhsModelSourceFileDirPath);
+		return FileUtil.areContentsEqual(lhsModelSourceFileDirPath, rhsModelSourceFileDirPath, incPatterns,
+				excPatterns);
 	}
 }
