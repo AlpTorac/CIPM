@@ -24,13 +24,17 @@ import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ParserT
 /**
  * Contains tests for GSON-based, time measurement related classes that ensure
  * they work as intended.
+ * <p>
+ * Note: Make sure to keep the time measurement file at
+ * {@link #gsonTestResourceRootPath} up to date, if there are format changes, as
+ * this test otherwise does not account for new format changes within time
+ * sample files.
  * 
  * @author Alp Torac Genc
  */
 public class GSONTest {
 	private static final DateTimeFormatter fileContentTimePattern = DateTimeFormatter.ISO_DATE_TIME;
-	private static final Path targetRootPath = Path.of("target").toAbsolutePath();
-	private static final Path timeMeasurementsRootPath = targetRootPath.resolve("timeMeasurements");
+
 	@SuppressWarnings("unchecked")
 	private static final ITimeMeasurementLoadingStrategy loadingStrat = new GSONLoadingStrategy(fileContentTimePattern,
 			DefaultTimeMeasurementDataStructure.class,
@@ -38,19 +42,17 @@ public class GSONTest {
 	private static final ITimeMeasurementPersistingStrategy persistingStrat = new GSONPersistingStrategy(
 			fileContentTimePattern);
 
-	private Path formerTimeMeasurementPath;
-	private Path newTimeMeasurementPath;
+	private static final Path gsonTestResourceRootPath = Path.of("gsonTestResource").toAbsolutePath();
+	private static final Path formerTimeMeasurementPath = gsonTestResourceRootPath
+			.resolve("timeMeasurementSample.json");
+	private static final Path newTimeMeasurementPath = gsonTestResourceRootPath
+			.resolve("gsonTestNewTimeMeasurement.json");
 
 	@BeforeEach
 	public void setUp() {
-		var timeMeasurementsRootDir = timeMeasurementsRootPath.toFile();
+		var timeMeasurementsRootDir = gsonTestResourceRootPath.toFile();
 		if (!timeMeasurementsRootDir.exists() || timeMeasurementsRootDir.listFiles().length == 0) {
-			Assertions.fail(
-					"There are no time measurement files to use in tests, make sure to provide at least one time measurement file in JSON format under: "
-							+ timeMeasurementsRootPath.toString());
-		} else {
-			formerTimeMeasurementPath = timeMeasurementsRootDir.listFiles()[0].toPath().toAbsolutePath();
-			newTimeMeasurementPath = targetRootPath.resolve(formerTimeMeasurementPath.getFileName()).toAbsolutePath();
+			Assertions.fail("Test file missing at " + formerTimeMeasurementPath.toString());
 		}
 	}
 
@@ -64,8 +66,6 @@ public class GSONTest {
 				Assertions.fail(e);
 			}
 		}
-		formerTimeMeasurementPath = null;
-		newTimeMeasurementPath = null;
 	}
 
 	/**
