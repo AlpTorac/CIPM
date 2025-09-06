@@ -15,6 +15,7 @@ import cipm.consistency.fitests.similarity.jamopp.parser.testfactory.ReflexiveSy
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.GeneralTimeMeasurementTag;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ITimeMeasurementTag;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ParserTestTimeMeasurementKeyBuilder;
+import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ParserTestTimeMeasurementKeyUtil;
 import cipm.consistency.fitests.similarity.jamopp.parser.JaMoPPModelResourceWrapper;
 
 import java.io.BufferedReader;
@@ -198,8 +199,11 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	}
 
 	@Override
-	protected RepoParserTestFileLayout initParserTestFileLayout() {
-		var parserTestLayout = super.initParserTestFileLayout();
+	protected RepoParserTestFileLayout initOrReuseParserTestFileLayout() {
+		var parserTestLayout = super.initOrReuseParserTestFileLayout();
+		if (parserTestLayout instanceof RepoParserTestFileLayout)
+			return (RepoParserTestFileLayout) parserTestLayout;
+
 		var layout = new RepoParserTestFileLayout(parserTestLayout);
 		layout.setRepoName(this.getRepoName());
 		layout.setExpectedSimilarityResultCacheDirName(expectedSimilarityResultCacheDirName);
@@ -291,7 +295,8 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 				var cachedCommitURI = this.getTestFileLayout().getModelResourceSaveURIForCommit(cID);
 				var res = new JaMoPPModelResourceWrapper();
 				this.startTimeMeasurement(
-						getTimeMeasurementKeyBuilder().withParsedModelLocation(cachedCommitURI.toString()),
+						getTimeMeasurementKeyBuilder().withParsedModelLocation(
+								ParserTestTimeMeasurementKeyUtil.getAdaptedURIString(cachedCommitURI)),
 						GeneralTimeMeasurementTag.LOAD_MODEL_RESOURCE);
 				res.loadModelResource(cachedCommitURI);
 				this.stopTimeMeasurement();

@@ -26,9 +26,15 @@ public class ParserTestFileLayout {
 	private Path cacheSaveDirPath;
 
 	/**
+	 * TODO Rename to timeMeasurementsSaveRootPath
+	 * 
 	 * @see {@link #getTimeMeasurementsFileSavePath()}
 	 */
 	private Path timeMeasurementsFileSavePath;
+	/**
+	 * @see {@link #getTimeMeasurementFileExtension()}
+	 */
+	private String timeMeasurementFileExtension;
 
 	/**
 	 * @see {@link #getModelResourceFileExtension()}
@@ -46,6 +52,7 @@ public class ParserTestFileLayout {
 		this.testModelResourceFilesSaveDirPath = layout.testModelResourceFilesSaveDirPath;
 		this.cacheSaveDirPath = layout.cacheSaveDirPath;
 		this.timeMeasurementsFileSavePath = layout.timeMeasurementsFileSavePath;
+		this.timeMeasurementFileExtension = layout.timeMeasurementFileExtension;
 		this.modelResourceFileExtension = layout.modelResourceFileExtension;
 	}
 
@@ -119,6 +126,20 @@ public class ParserTestFileLayout {
 	 */
 	public Path getTestFilesSavePath() {
 		return this.getAbsoluteCurrentDirectory().resolve(testModelResourceFilesSaveDirPath);
+	}
+
+	/**
+	 * @return The extension of the time measurement files
+	 */
+	public String getTimeMeasurementFileExtension() {
+		return timeMeasurementFileExtension;
+	}
+
+	/**
+	 * @param timeMeasurementFileExtension {@link #getTimeMeasurementFileExtension()}
+	 */
+	public void setTimeMeasurementFileExtension(String timeMeasurementFileExtension) {
+		this.timeMeasurementFileExtension = timeMeasurementFileExtension;
 	}
 
 	/**
