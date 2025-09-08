@@ -4,8 +4,6 @@ package cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement;
  * An enum that can be used to associate time measurement related information
  * with descriptions, in form of enum constants.
  * 
- * TODO Rename the keys (and follow-up methods to match terminology)
- * 
  * TODO Decide whether this should mirror ITimeMeasurementTag for flexibility
  * 
  * @author Alp Torac Genc
@@ -26,37 +24,37 @@ public enum ParserTestTimeMeasurerKeyType {
 	 * A key type meant for model source file directory locations. Use this, if time
 	 * measurement is from an operation involving one model resource.
 	 */
-	ORIGINAL_MODEL_LOCATION,
+	MODEL_SOURCE_FILE_DIR_LOCATION,
 	/**
 	 * A key type meant for model resource locations. Use this, if time measurement
 	 * is from an operation involving one model resource.
 	 */
-	PARSED_MODEL_LOCATION,
+	MODEL_RESOURCE_LOCATION,
 
 	/**
 	 * A key type meant for model source file directory locations for the left hand
 	 * side model resource. Use this, if time measurement is from an operation
 	 * involving two model resources.
 	 */
-	ORIGINAL_LEFT_MODEL_LOCATION,
+	LEFT_MODEL_SOURCE_FILE_DIR_LOCATION,
 	/**
 	 * A key type meant for model resource locations for the left hand side model
 	 * resource. Use this, if time measurement is from an operation involving two
 	 * model resources.
 	 */
-	PARSED_LEFT_MODEL_LOCATION,
+	LEFT_MODEL_RESOURCE_LOCATION,
 	/**
 	 * A key type meant for model source file directory locations for the right hand
 	 * side model resource. Use this, if time measurement is from an operation
 	 * involving two model resources.
 	 */
-	ORIGINAL_RIGHT_MODEL_LOCATION,
+	RIGHT_MODEL_SOURCE_FILE_DIR_LOCATION,
 	/**
 	 * A key type meant for model resource locations for the right hand side model
 	 * resource. Use this, if time measurement is from an operation involving two
 	 * model resources.
 	 */
-	PARSED_RIGHT_MODEL_LOCATION,
+	RIGHT_MODEL_RESOURCE_LOCATION,
 
 	/**
 	 * A key type meant for the name of the concrete resource parsing strategy
