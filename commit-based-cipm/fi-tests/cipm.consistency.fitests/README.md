@@ -1,8 +1,26 @@
 # Introduction
 
-TODO
+cipm.consistency.fitests ("fitests" for short) plug-in contains tests for various aspects of similarity checking and model comparison. fitests is structured in a way that minimises dependencies to outside plug-ins. To this end, there are several abstract test classes that extend one another. This way, many different parts of fitests can be re-used in the future to implement further tests for EMF-based models. The "package-info.java" files under packages of fitests contain more information on their respective packages.
+
+# Contained Tests
+
+## Unittests
+
+TODO Write once the corresponding pull request is adapted
+
+## Parser Tests
+
+Tests under cipm.consistency.fitests.similarity.jamopp.parser package and its sub-packages are referred to as parser tests. They consider Java models and perform similarity checking and model comparison on them, according to concrete test classes. Throughout those tests, Java models in form of Java source files are parsed with JaMoPP, resulting in EMF-based Java model Resource instances. These Resource instances are then used in dynamic tests created by parser tests, in order to test various aspects of CIPM.
+
+The main difference between parser tests and the tests in the cipm.consistency.vsum.test package is, the latter runs commits from repositories through the entire CIPM pipeline, whereas the former only perform similarity checking and model comparison. Since CIPM pipeline additionally considers change propagation, code instrumentation and performance parameter calibration; parser tests are more lightweight in comparison. Therefore, parser tests are better suited to cover isolated cases in model comparison.
+
+### Repository Parser Tests
+
+Refer to the README of [cipm.consistency.fitests.repositorytests](../cipm.consistency.fitests.repositorytests/README.md) and the "package-info.java" files of packages under cipm.consistency.fitests.repositorytests plug-in for more information.
 
 # Terminology
+
+There are numerous terms that are commonly used across fitests, which are defined below:
 
 - Similarity checking
 	- Similarity result / Similarity checking result: (usually) a Boolean that indicates whether 2 or more objects are similar: Similar if the result is true, not similar if the result is false, undecidable if the result is null. Under normal circumstances, the result should not be null.
