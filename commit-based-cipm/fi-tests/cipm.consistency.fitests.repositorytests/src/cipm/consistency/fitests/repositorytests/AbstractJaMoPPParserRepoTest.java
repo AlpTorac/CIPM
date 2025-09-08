@@ -57,8 +57,6 @@ import com.google.gson.GsonBuilder;
  * versions {@link org.junit.jupiter.api.BeforeAll} and
  * {@link org.junit.jupiter.api.AfterAll} method.
  * 
- * TODO Revise commentary
- * 
  * @author Alp Torac Genc
  * 
  * @see {@link AbstractJaMoPPParserSimilarityTest#createTests()}
@@ -71,7 +69,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 
 	/**
 	 * The pattern of "gradle-wrapper.jar" file path, which should be excluded when
-	 * parsing model resources to avoid IOExceptions.
+	 * parsing Java model resources to avoid IOExceptions.
 	 */
 	private static final String gradleWrapperJarPathPattern = ".*?/gradle-wrapper\\.jar";
 
@@ -228,7 +226,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 
 	/**
 	 * Prepares model resources and expected similarity results needed by tests and
-	 * caches them. Must be executed before all tests.
+	 * caches them. Must be executed before dynamic tests.
 	 * 
 	 * @return The cached model resources parsed from {@link #getCommitIDs()}
 	 * @see {@link #getCommitIDs()}
@@ -561,8 +559,8 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	}
 
 	/**
-	 * Extends the super method by preparing repository clones before generating
-	 * dynamic tests. <br>
+	 * Extends the super method by parsing and caching model resources from the
+	 * local repository clone before generating dynamic tests. <br>
 	 * <br>
 	 * {@inheritDoc}
 	 */

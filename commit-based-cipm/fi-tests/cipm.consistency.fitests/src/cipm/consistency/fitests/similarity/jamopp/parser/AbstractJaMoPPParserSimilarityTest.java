@@ -50,22 +50,13 @@ import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.Stopwat
  * versions {@link org.junit.jupiter.api.BeforeAll} and
  * {@link org.junit.jupiter.api.AfterAll} method.
  * 
- * TODO Revise commentary
- * 
  * @author Alp Torac Genc
  * 
  * @see {@link #createTests()}
  */
 public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	/**
-	 * An object that caches and grants access to parsed models, which were cached
-	 * after being parsed. <br>
-	 * <br>
-	 * Make sure that the {@link CacheUtil} instance persists throughout tests,
-	 * which are supposed to make use of it.
-	 * 
-	 * @see {@link #parseModelWithoutCaching(Path)}
-	 * @see {@link #parseModelWithCaching(Path)}
+	 * @see {@link #getCacheUtil()}
 	 */
 	private static final CacheUtil resourceCache = new CacheUtil();
 
@@ -75,23 +66,24 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	private ParserTestFileLayout layout;
 
 	/**
-	 * The parent path of time measurement files. Used to compute
+	 * The parent path of all time measurement files. Used to compute
 	 * {@link ParserTestFileLayout#setTimeMeasurementsFileSavePath(Path)}
 	 */
 	private static final Path timeMeasurementsSaveRootPath = Path.of("target", "timeMeasurements");
 	/**
-	 * The prefix of the directory name, under which the time measurement file is to
-	 * be saved. {@link #previousTimeMeasurementCount} is appended to the end of
-	 * this to get the full directory name.
+	 * The prefix of the directory name, under which all time measurement files from
+	 * the entirety of this test run are to be saved.
+	 * {@link #previousTimeMeasurementCount} is appended to the end of this to get
+	 * the full directory name.
 	 */
 	private static final String timeMeasurementSaveFolderPrefix = "Test run - ";
 	/**
-	 * The amount of previously saved time measurements under
-	 * {@link #timeMeasurementsSaveRootPath}. Used to compute
-	 * {@link ParserTestFileLayout#setTimeMeasurementsFileSavePath(Path)}
+	 * The amount of saved time measurement folders under
+	 * {@link #timeMeasurementsSaveRootPath} from previous test runs. Used to
+	 * compute {@link ParserTestFileLayout#setTimeMeasurementsFileSavePath(Path)}
 	 * <p>
 	 * Computed here as a static final variable, so that the current test run uses
-	 * the same folder
+	 * the same folder across all concrete test classes
 	 */
 	private static final int previousTimeMeasurementCount = timeMeasurementsSaveRootPath.toFile().list().length + 1;
 	/**
@@ -113,10 +105,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * {@inheritDoc} <br>
 	 * <br>
 	 * {@link AbstractJaMoPPParserSimilarityTest}: Sets up the file layout for the
-	 * test {@link ParserTestFileLayout}. See
+	 * test {@link #getTestFileLayout()} and the time measuring mechanism
+	 * {@link #setupForTimeMeasurements()}. See
 	 * {@link AbstractJaMoPPParserSimilarityTest} for more information.
-	 * 
-	 * TODO Mention Time measurement taking
 	 */
 	@BeforeEach
 	@Override
@@ -139,12 +130,10 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * <br>
 	 * {@link AbstractJaMoPPParserSimilarityTest}: Performs various operations on
 	 * model resources that were parsed in the dynamic tests, according to the
-	 * preferences that are encoded in the methods of this test, such as
-	 * {@link AbstractJaMoPPParserSimilarityTest#shouldSaveCachedModelResources()}.
-	 * It then saves the time measurements taken during the tests. See
-	 * {@link AbstractJaMoPPParserSimilarityTest} for more information.
-	 * 
-	 * TODO Mention Time measurement taking
+	 * preferences that are encoded in {@link #getResourceTestOptions()}, such as
+	 * {@link ParserTestOptions#shouldSaveCachedModelResources()}. It then finishes
+	 * time measurement taking and saves the time measurements from the current test
+	 * class. See {@link AbstractJaMoPPParserSimilarityTest} for more information.
 	 */
 	@AfterEach
 	@Override
@@ -246,14 +235,12 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
-	 * TODO Rename to getTimeMeasurementFileSavePathForCurrentTestClass
-	 * 
 	 * Can be overridden in sub-classes.
 	 * 
 	 * @return The path, at which time measurements of the currently running test
 	 *         class will be saved.
 	 */
-	protected Path getTimeMeasurementSavePathForCurrentTestClass() {
+	protected Path getTimeMeasurementFileSavePathForCurrentTestClass() {
 		var dateFormatInFileName = DateTimeFormatter.ofPattern("dd-MM-yyyy_HH-mm-ss");
 		var startTime = ParserTestTimeMeasurer.getInstance().getDataStructure().getStartTime();
 		var endTime = ParserTestTimeMeasurer.getInstance().getDataStructure().getEndTime();
@@ -281,7 +268,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 */
 	protected void saveTimeMeasurements() {
 		SimilarityTestLogger.logDebugMsg("Saving time measurements", this.getClass());
-		ParserTestTimeMeasurer.getInstance().save(this.getTimeMeasurementSavePathForCurrentTestClass());
+		ParserTestTimeMeasurer.getInstance().save(this.getTimeMeasurementFileSavePathForCurrentTestClass());
 		ParserTestTimeMeasurer.getInstance().reset();
 		SimilarityTestLogger.logDebugMsg("Saved time measurements", this.getClass());
 	}
@@ -316,8 +303,18 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
+	 * An object that caches and grants access to parsed models, which were cached
+	 * after being parsed. <br>
+	 * <br>
+	 * Make sure that the {@link CacheUtil} instance persists and the same instance
+	 * is used across all concrete test classes. That way, previously parsed model
+	 * resource instances can be re-used.
+	 * 
 	 * @return A utility object, which encapsulates caching logic (for parsed
 	 *         models) and can be used to hasten tests.
+	 * 
+	 * @see {@link #parseModelWithoutCaching(Path)}
+	 * @see {@link #parseModelWithCaching(Path)}
 	 */
 	protected CacheUtil getCacheUtil() {
 		return resourceCache;

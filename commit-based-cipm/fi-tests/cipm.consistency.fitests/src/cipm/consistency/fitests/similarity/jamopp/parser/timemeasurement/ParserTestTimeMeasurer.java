@@ -29,11 +29,6 @@ public class ParserTestTimeMeasurer {
 		return instance;
 	}
 
-	public static boolean isSetUp() {
-		return instance != null && instance.dataStructure != null && instance.persistingStrat != null
-				&& instance.measuringStrat != null;
-	}
-
 	/**
 	 * Starts measuring the time using the underlying time measuring strategy for a
 	 * certain purpose denoted in the parameters. <br>
