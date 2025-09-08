@@ -57,6 +57,8 @@ import com.google.gson.GsonBuilder;
  * versions {@link org.junit.jupiter.api.BeforeAll} and
  * {@link org.junit.jupiter.api.AfterAll} method.
  * 
+ * TODO Revise commentary
+ * 
  * @author Alp Torac Genc
  * 
  * @see {@link AbstractJaMoPPParserSimilarityTest#createTests()}
@@ -199,11 +201,8 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 	}
 
 	@Override
-	protected RepoParserTestFileLayout initOrReuseParserTestFileLayout() {
-		var parserTestLayout = super.initOrReuseParserTestFileLayout();
-		if (parserTestLayout instanceof RepoParserTestFileLayout)
-			return (RepoParserTestFileLayout) parserTestLayout;
-
+	protected RepoParserTestFileLayout initParserTestFileLayout() {
+		var parserTestLayout = super.initParserTestFileLayout();
 		var layout = new RepoParserTestFileLayout(parserTestLayout);
 		layout.setRepoName(this.getRepoName());
 		layout.setExpectedSimilarityResultCacheDirName(expectedSimilarityResultCacheDirName);

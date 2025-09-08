@@ -26,8 +26,6 @@ public class ParserTestFileLayout {
 	private Path cacheSaveDirPath;
 
 	/**
-	 * TODO Rename to timeMeasurementsSaveRootPath
-	 * 
 	 * @see {@link #getTimeMeasurementsFileSavePath()}
 	 */
 	private Path timeMeasurementsFileSavePath;

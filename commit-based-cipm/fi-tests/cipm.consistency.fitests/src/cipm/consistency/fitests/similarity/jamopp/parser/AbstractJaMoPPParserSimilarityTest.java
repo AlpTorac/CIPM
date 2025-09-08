@@ -50,6 +50,8 @@ import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.Stopwat
  * versions {@link org.junit.jupiter.api.BeforeAll} and
  * {@link org.junit.jupiter.api.AfterAll} method.
  * 
+ * TODO Revise commentary
+ * 
  * @author Alp Torac Genc
  * 
  * @see {@link #createTests()}
@@ -68,21 +70,34 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	private static final CacheUtil resourceCache = new CacheUtil();
 
 	/**
-	 * TODO Make non-static once time measurement folder naming is decoupled
-	 * 
 	 * @see {@link #getTestFileLayout()}
 	 */
-	private static ParserTestFileLayout layout;
+	private ParserTestFileLayout layout;
 
+	/**
+	 * The parent path of time measurement files. Used to compute
+	 * {@link ParserTestFileLayout#setTimeMeasurementsFileSavePath(Path)}
+	 */
+	private static final Path timeMeasurementsSaveRootPath = Path.of("target", "timeMeasurements");
+	/**
+	 * The prefix of the directory name, under which the time measurement file is to
+	 * be saved. {@link #previousTimeMeasurementCount} is appended to the end of
+	 * this to get the full directory name.
+	 */
+	private static final String timeMeasurementSaveFolderPrefix = "Test run - ";
+	/**
+	 * The amount of previously saved time measurements under
+	 * {@link #timeMeasurementsSaveRootPath}. Used to compute
+	 * {@link ParserTestFileLayout#setTimeMeasurementsFileSavePath(Path)}
+	 * <p>
+	 * Computed here as a static final variable, so that the current test run uses
+	 * the same folder
+	 */
+	private static final int previousTimeMeasurementCount = timeMeasurementsSaveRootPath.toFile().list().length + 1;
 	/**
 	 * @see {@link ParserTestFileLayout#getTimeMeasurementFileExtension()}
 	 */
 	private static final String timeMeasurementFileExtension = "json";
-
-	/**
-	 * TODO Move to layout
-	 */
-	private static final String timeMeasurementSaveFolderPrefix = "Test run - ";
 
 	/**
 	 * @see {@link ParserTestFileLayout#setTestModelResourceFilesSaveDirPath(Path)}
@@ -95,16 +110,13 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	private static final Path cacheSaveDirPath = testModelResourceFilesSaveDirPath.resolve("testmodel-cache");
 
 	/**
-	 * @see {@link ParserTestFileLayout#setTimeMeasurementsFileSavePath(Path)}
-	 */
-	private static final Path timeMeasurementsFileSavePath = Path.of("target", "timeMeasurements");
-
-	/**
 	 * {@inheritDoc} <br>
 	 * <br>
 	 * {@link AbstractJaMoPPParserSimilarityTest}: Sets up the file layout for the
 	 * test {@link ParserTestFileLayout}. See
 	 * {@link AbstractJaMoPPParserSimilarityTest} for more information.
+	 * 
+	 * TODO Mention Time measurement taking
 	 */
 	@BeforeEach
 	@Override
@@ -115,7 +127,7 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 		this.startTimeMeasurement(GeneralTimeMeasurementTag.TEST_BEFOREEACH);
 		super.setUp();
 
-		layout = this.initOrReuseParserTestFileLayout();
+		this.layout = this.initParserTestFileLayout();
 		ParserTestTimeMeasurementKeyUtil.setRelativizationPath(this.getTestFileLayout().getTestFilesSavePath());
 
 		this.stopTimeMeasurement();
@@ -131,6 +143,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * {@link AbstractJaMoPPParserSimilarityTest#shouldSaveCachedModelResources()}.
 	 * It then saves the time measurements taken during the tests. See
 	 * {@link AbstractJaMoPPParserSimilarityTest} for more information.
+	 * 
+	 * TODO Mention Time measurement taking
 	 */
 	@AfterEach
 	@Override
@@ -207,30 +221,20 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
-	 * If a layout object exists, its value will be re-used. Otherwise, a new one
-	 * will be created.
-	 * 
-	 * @return Creates or re-uses the current value of {@link #getTestFileLayout()}
+	 * @return Creates the value of {@link #getTestFileLayout()}
 	 */
-	protected ParserTestFileLayout initOrReuseParserTestFileLayout() {
-		var layout = this.getTestFileLayout();
-		if (layout == null) {
-			layout = new ParserTestFileLayout();
-			layout.setModelSourceParentRootDirPath(new File("").getAbsoluteFile().toPath());
-			layout.setTestModelResourceFilesSaveDirPath(testModelResourceFilesSaveDirPath);
-			layout.setCacheSaveDirPath(cacheSaveDirPath);
+	protected ParserTestFileLayout initParserTestFileLayout() {
+		var layout = new ParserTestFileLayout();
+		layout.setModelSourceParentRootDirPath(new File("").getAbsoluteFile().toPath());
+		layout.setTestModelResourceFilesSaveDirPath(testModelResourceFilesSaveDirPath);
+		layout.setCacheSaveDirPath(cacheSaveDirPath);
 
-			// TODO Extract this part and determine the count on previous measurements in
-			// static final variables instead
-			var timeMeasurementsPath = timeMeasurementsFileSavePath;
-			var timeMeasurementCount = timeMeasurementsPath.toFile().list().length + 1;
-			timeMeasurementsPath = timeMeasurementsPath.resolve(timeMeasurementSaveFolderPrefix + timeMeasurementCount);
+		layout.setTimeMeasurementsFileSavePath(
+				timeMeasurementsSaveRootPath.resolve(timeMeasurementSaveFolderPrefix + previousTimeMeasurementCount));
+		layout.setTimeMeasurementFileExtension(timeMeasurementFileExtension);
 
-			layout.setTimeMeasurementsFileSavePath(timeMeasurementsPath);
-			layout.setTimeMeasurementFileExtension(timeMeasurementFileExtension);
+		layout.setModelResourceFileExtension(this.getResourceParsingStrategy().getResourceFileExtension());
 
-			layout.setModelResourceFileExtension(this.getResourceParsingStrategy().getResourceFileExtension());
-		}
 		return layout;
 	}
 
@@ -242,6 +246,8 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	}
 
 	/**
+	 * TODO Rename to getTimeMeasurementFileSavePathForCurrentTestClass
+	 * 
 	 * Can be overridden in sub-classes.
 	 * 
 	 * @return The path, at which time measurements of the currently running test
