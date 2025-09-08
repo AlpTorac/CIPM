@@ -1,234 +1,198 @@
 {
-  "startTime": "2025-09-06T20:08:52.1923015",
-  "endTime": "2025-09-06T20:13:04.8359391",
+  "startTime": "2025-09-08T14:52:53.972324",
+  "endTime": "2025-09-08T14:57:35.3576288",
   "timeMeasurerDescription": "org.apache.commons.lang.time.StopWatch",
   "timeUnit": "MILLISECONDS",
-  "overallRunTime": 252567,
+  "overallRunTime": 281319,
   "measurementTagSummary": {
-    "TEST_BEFOREEACH": 20,
-    "SAVE_MODEL_RESOURCE": 5,
-    "LOAD_EXPECTED_SIMILARITY_RESULTS": 45,
-    "MODEL_RESOURCE_COMPARISON": 238713,
-    "SAVE_EXPECTED_SIMILARITY_RESULTS": 6,
-    "LOAD_MODEL_RESOURCE": 12969,
-    "TEST_OVERHEAD": 806,
-    "EXPECTED_SIMILARITY_RESULT_COMPUTATION": 1,
-    "TEST_AFTEREACH": 1,
-    "DELETE_LOCAL_REPO_CLONE": 1
+    "TEST_AFTEREACH": 4,
+    "TEST_BEFOREEACH": 15,
+    "DELETE_LOCAL_REPO_CLONE": 2,
+    "MODEL_RESOURCE_COMPARISON": 266233,
+    "TEST_OVERHEAD": 879,
+    "SAVE_EXPECTED_SIMILARITY_RESULTS": 7,
+    "LOAD_EXPECTED_SIMILARITY_RESULTS": 77,
+    "LOAD_MODEL_RESOURCE": 14094,
+    "SAVE_MODEL_RESOURCE": 4,
+    "EXPECTED_SIMILARITY_RESULT_COMPUTATION": 4
   },
   "measurementTagPercentageSummary": {
-    "TEST_BEFOREEACH": "0.01",
-    "SAVE_MODEL_RESOURCE": "0.00",
-    "LOAD_EXPECTED_SIMILARITY_RESULTS": "0.02",
-    "MODEL_RESOURCE_COMPARISON": "94.51",
-    "SAVE_EXPECTED_SIMILARITY_RESULTS": "0.00",
-    "LOAD_MODEL_RESOURCE": "5.13",
-    "TEST_OVERHEAD": "0.32",
-    "EXPECTED_SIMILARITY_RESULT_COMPUTATION": "0.00",
     "TEST_AFTEREACH": "0.00",
-    "DELETE_LOCAL_REPO_CLONE": "0.00"
+    "TEST_BEFOREEACH": "0.01",
+    "DELETE_LOCAL_REPO_CLONE": "0.00",
+    "MODEL_RESOURCE_COMPARISON": "94.64",
+    "TEST_OVERHEAD": "0.31",
+    "SAVE_EXPECTED_SIMILARITY_RESULTS": "0.00",
+    "LOAD_EXPECTED_SIMILARITY_RESULTS": "0.03",
+    "LOAD_MODEL_RESOURCE": "5.01",
+    "SAVE_MODEL_RESOURCE": "0.00",
+    "EXPECTED_SIMILARITY_RESULT_COMPUTATION": "0.00"
   },
   "measurements": [
     {
-      "timeElapsed": 20,
+      "timeElapsed": 15,
       "key": {
         "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server"
+          "REPOSITORY_URI": "https://github.com/TEAMMATES/teammates",
+          "TEST_CLASS_NAME": "TeammatesRepoTest",
+          "REPOSITORY_NAME": "teammates"
         }
       },
       "tag": "TEST_BEFOREEACH"
     },
     {
-      "timeElapsed": 45,
+      "timeElapsed": 77,
       "key": {
         "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server"
+          "REPOSITORY_URI": "https://github.com/TEAMMATES/teammates",
+          "TEST_CLASS_NAME": "TeammatesRepoTest",
+          "REPOSITORY_NAME": "teammates"
         }
       },
       "tag": "LOAD_EXPECTED_SIMILARITY_RESULTS"
     },
     {
-      "timeElapsed": 3507,
+      "timeElapsed": 4433,
       "key": {
         "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server",
-          "PARSED_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi"
+          "REPOSITORY_URI": "https://github.com/TEAMMATES/teammates",
+          "TEST_CLASS_NAME": "TeammatesRepoTest",
+          "MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
+          "REPOSITORY_NAME": "teammates"
         }
       },
       "tag": "LOAD_MODEL_RESOURCE"
     },
     {
-      "timeElapsed": 1210,
+      "timeElapsed": 2287,
       "key": {
         "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server",
-          "PARSED_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi"
+          "REPOSITORY_URI": "https://github.com/TEAMMATES/teammates",
+          "TEST_CLASS_NAME": "TeammatesRepoTest",
+          "MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
+          "REPOSITORY_NAME": "teammates"
         }
       },
       "tag": "LOAD_MODEL_RESOURCE"
     },
     {
-      "timeElapsed": 1271,
+      "timeElapsed": 2292,
       "key": {
         "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server",
-          "PARSED_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi"
+          "REPOSITORY_URI": "https://github.com/TEAMMATES/teammates",
+          "TEST_CLASS_NAME": "TeammatesRepoTest",
+          "MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
+          "REPOSITORY_NAME": "teammates"
         }
       },
       "tag": "LOAD_MODEL_RESOURCE"
     },
     {
-      "timeElapsed": 1172,
+      "timeElapsed": 2247,
       "key": {
         "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server",
-          "PARSED_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi"
+          "REPOSITORY_URI": "https://github.com/TEAMMATES/teammates",
+          "TEST_CLASS_NAME": "TeammatesRepoTest",
+          "MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
+          "REPOSITORY_NAME": "teammates"
         }
       },
       "tag": "LOAD_MODEL_RESOURCE"
     },
     {
-      "timeElapsed": 1465,
+      "timeElapsed": 2835,
       "key": {
         "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server",
-          "PARSED_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi"
+          "REPOSITORY_URI": "https://github.com/TEAMMATES/teammates",
+          "TEST_CLASS_NAME": "TeammatesRepoTest",
+          "MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
+          "REPOSITORY_NAME": "teammates"
         }
       },
       "tag": "LOAD_MODEL_RESOURCE"
     },
     {
-      "timeElapsed": 1347,
+      "timeElapsed": 2,
       "key": {
         "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server",
-          "PARSED_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi"
-        }
-      },
-      "tag": "LOAD_MODEL_RESOURCE"
-    },
-    {
-      "timeElapsed": 1297,
-      "key": {
-        "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server",
-          "PARSED_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi"
-        }
-      },
-      "tag": "LOAD_MODEL_RESOURCE"
-    },
-    {
-      "timeElapsed": 1700,
-      "key": {
-        "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server",
-          "PARSED_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi"
-        }
-      },
-      "tag": "LOAD_MODEL_RESOURCE"
-    },
-    {
-      "timeElapsed": 1,
-      "key": {
-        "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server"
+          "REPOSITORY_URI": "https://github.com/TEAMMATES/teammates",
+          "TEST_CLASS_NAME": "TeammatesRepoTest",
+          "REPOSITORY_NAME": "teammates"
         }
       },
       "tag": "DELETE_LOCAL_REPO_CLONE"
     },
     {
-      "timeElapsed": 33,
+      "timeElapsed": 20,
       "key": {
         "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server"
+          "REPOSITORY_URI": "https://github.com/TEAMMATES/teammates",
+          "TEST_CLASS_NAME": "TeammatesRepoTest",
+          "REPOSITORY_NAME": "teammates"
         }
       },
       "tag": "TEST_OVERHEAD"
     },
     {
-      "timeElapsed": 0,
+      "timeElapsed": 3,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
+          "LEFT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi"
         }
       },
       "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
     },
     {
-      "timeElapsed": 4873,
+      "timeElapsed": 7693,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
     },
     {
-      "timeElapsed": 91,
+      "timeElapsed": 133,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
     },
     {
-      "timeElapsed": 3233,
+      "timeElapsed": 5381,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
     },
     {
-      "timeElapsed": 40,
+      "timeElapsed": 84,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
@@ -237,25 +201,25 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
+          "LEFT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi"
         }
       },
       "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
     },
     {
-      "timeElapsed": 11583,
+      "timeElapsed": 18792,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
@@ -264,23 +228,23 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
     },
     {
-      "timeElapsed": 8080,
+      "timeElapsed": 15107,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
@@ -289,10 +253,10 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
@@ -301,25 +265,25 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
+          "LEFT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi"
         }
       },
       "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
     },
     {
-      "timeElapsed": 6685,
+      "timeElapsed": 12863,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
@@ -328,23 +292,23 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
     },
     {
-      "timeElapsed": 6705,
+      "timeElapsed": 13244,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
@@ -353,10 +317,10 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
@@ -365,62 +329,62 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
+          "LEFT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi"
         }
       },
       "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
     },
     {
-      "timeElapsed": 2417,
+      "timeElapsed": 4806,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
     },
     {
-      "timeElapsed": 43,
+      "timeElapsed": 76,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
     },
     {
-      "timeElapsed": 2471,
+      "timeElapsed": 4779,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
     },
     {
-      "timeElapsed": 53,
+      "timeElapsed": 77,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
@@ -429,25 +393,25 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
+          "LEFT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi"
         }
       },
       "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
     },
     {
-      "timeElapsed": 6858,
+      "timeElapsed": 13388,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
@@ -456,23 +420,23 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
     },
     {
-      "timeElapsed": 6651,
+      "timeElapsed": 13419,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
@@ -481,10 +445,10 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
@@ -493,25 +457,25 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
+          "LEFT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi"
         }
       },
       "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
     },
     {
-      "timeElapsed": 6803,
+      "timeElapsed": 13256,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
@@ -520,35 +484,35 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
     },
     {
-      "timeElapsed": 6531,
+      "timeElapsed": 12802,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
     },
     {
-      "timeElapsed": 1,
+      "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
@@ -557,62 +521,62 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
+          "LEFT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi"
         }
       },
       "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
     },
     {
-      "timeElapsed": 2356,
+      "timeElapsed": 5301,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
     },
     {
-      "timeElapsed": 66,
+      "timeElapsed": 75,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
     },
     {
-      "timeElapsed": 2804,
+      "timeElapsed": 4282,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
     },
     {
-      "timeElapsed": 64,
+      "timeElapsed": 77,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
@@ -621,25 +585,25 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
+          "LEFT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi"
         }
       },
       "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
     },
     {
-      "timeElapsed": 7652,
+      "timeElapsed": 12529,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
@@ -648,23 +612,23 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
     },
     {
-      "timeElapsed": 6524,
+      "timeElapsed": 12677,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
@@ -673,10 +637,10 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
@@ -685,25 +649,25 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
+          "LEFT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi"
         }
       },
       "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
     },
     {
-      "timeElapsed": 6575,
+      "timeElapsed": 12667,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
@@ -712,23 +676,23 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
     },
     {
-      "timeElapsed": 6807,
+      "timeElapsed": 12812,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
@@ -737,10 +701,10 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
@@ -749,62 +713,62 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
+          "LEFT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi"
         }
       },
       "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
     },
     {
-      "timeElapsed": 2449,
+      "timeElapsed": 4452,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
     },
     {
-      "timeElapsed": 39,
+      "timeElapsed": 105,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
     },
     {
-      "timeElapsed": 2579,
+      "timeElapsed": 4853,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
     },
     {
-      "timeElapsed": 39,
+      "timeElapsed": 77,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
@@ -813,25 +777,25 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
+          "LEFT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi"
         }
       },
       "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
     },
     {
-      "timeElapsed": 6728,
+      "timeElapsed": 12428,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
@@ -840,23 +804,23 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
     },
     {
-      "timeElapsed": 6510,
+      "timeElapsed": 13154,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
@@ -865,74 +829,10 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi"
-        }
-      },
-      "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
-    },
-    {
-      "timeElapsed": 6767,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 6490,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
@@ -941,62 +841,62 @@
       "timeElapsed": 1,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
+          "LEFT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi"
         }
       },
       "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
     },
     {
-      "timeElapsed": 2540,
+      "timeElapsed": 12968,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
     },
     {
-      "timeElapsed": 40,
+      "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
     },
     {
-      "timeElapsed": 2453,
+      "timeElapsed": 13186,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
     },
     {
-      "timeElapsed": 40,
+      "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
@@ -1005,585 +905,73 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
+          "LEFT_MODEL_SOURCE_FILE_DIR_LOCATION": "testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi"
         }
       },
       "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
     },
     {
-      "timeElapsed": 6922,
+      "timeElapsed": 4802,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
     },
     {
-      "timeElapsed": 0,
+      "timeElapsed": 77,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
     },
     {
-      "timeElapsed": 6930,
+      "timeElapsed": 4592,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
+          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator"
         }
       },
       "tag": "MODEL_RESOURCE_COMPARISON"
     },
     {
-      "timeElapsed": 0,
+      "timeElapsed": 78,
       "key": {
         "keyMap": {
+          "RIGHT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
           "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
           "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi"
+          "LEFT_MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi"
         }
       },
       "tag": "TEST_OVERHEAD"
     },
     {
-      "timeElapsed": 0,
+      "timeElapsed": 7,
       "key": {
         "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi"
-        }
-      },
-      "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
-    },
-    {
-      "timeElapsed": 6825,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 6919,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi"
-        }
-      },
-      "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
-    },
-    {
-      "timeElapsed": 2678,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 40,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 2520,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 42,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi"
-        }
-      },
-      "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
-    },
-    {
-      "timeElapsed": 6698,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 6669,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi"
-        }
-      },
-      "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
-    },
-    {
-      "timeElapsed": 6671,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 6723,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi"
-        }
-      },
-      "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
-    },
-    {
-      "timeElapsed": 2674,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 41,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 2525,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 50,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi"
-        }
-      },
-      "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
-    },
-    {
-      "timeElapsed": 6707,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 6618,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi"
-        }
-      },
-      "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
-    },
-    {
-      "timeElapsed": 6648,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 6744,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi",
-          "ORIGINAL_LEFT_MODEL_LOCATION": "testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi",
-          "ORIGINAL_RIGHT_MODEL_LOCATION": "testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi"
-        }
-      },
-      "tag": "EXPECTED_SIMILARITY_RESULT_COMPUTATION"
-    },
-    {
-      "timeElapsed": 2662,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 42,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 2456,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi",
-          "MODEL_COMPARISON_CLASS_NAME": "JavaModelComparator",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi"
-        }
-      },
-      "tag": "MODEL_RESOURCE_COMPARISON"
-    },
-    {
-      "timeElapsed": 42,
-      "key": {
-        "keyMap": {
-          "TEST_FACTORY_CLASS_NAME": "ModelComparisonTestFactory",
-          "EXPECTED_SIMILARITY_RESULT_PROVIDER_CLASS_NAME": "RepoCacheSimilarityResultProvider",
-          "PARSED_RIGHT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi",
-          "PARSED_LEFT_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi"
-        }
-      },
-      "tag": "TEST_OVERHEAD"
-    },
-    {
-      "timeElapsed": 6,
-      "key": {
-        "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server"
+          "REPOSITORY_URI": "https://github.com/TEAMMATES/teammates",
+          "TEST_CLASS_NAME": "TeammatesRepoTest",
+          "REPOSITORY_NAME": "teammates"
         }
       },
       "tag": "SAVE_EXPECTED_SIMILARITY_RESULTS"
@@ -1592,21 +980,21 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server"
+          "REPOSITORY_URI": "https://github.com/TEAMMATES/teammates",
+          "TEST_CLASS_NAME": "TeammatesRepoTest",
+          "REPOSITORY_NAME": "teammates"
         }
       },
       "tag": "TEST_AFTEREACH"
     },
     {
-      "timeElapsed": 2,
+      "timeElapsed": 1,
       "key": {
         "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server",
-          "PARSED_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/206e8c3b5aa25a99694bd157e0856b7d218ac65d.javaxmi"
+          "REPOSITORY_URI": "https://github.com/TEAMMATES/teammates",
+          "TEST_CLASS_NAME": "TeammatesRepoTest",
+          "MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/83f518e279807dc7eb7023d008a4d1ab290fefee.javaxmi",
+          "REPOSITORY_NAME": "teammates"
         }
       },
       "tag": "SAVE_MODEL_RESOURCE"
@@ -1615,10 +1003,10 @@
       "timeElapsed": 0,
       "key": {
         "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server",
-          "PARSED_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/6e97024a789fa4b68dd3a779ae81dadb3a67ab57.javaxmi"
+          "REPOSITORY_URI": "https://github.com/TEAMMATES/teammates",
+          "TEST_CLASS_NAME": "TeammatesRepoTest",
+          "MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/f33d0bcd5843678b832efd8ee2963e72a95ecfc9.javaxmi",
+          "REPOSITORY_NAME": "teammates"
         }
       },
       "tag": "SAVE_MODEL_RESOURCE"
@@ -1627,22 +1015,10 @@
       "timeElapsed": 1,
       "key": {
         "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server",
-          "PARSED_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/c22f9321075eb1a6754afe1917e149380243c835.javaxmi"
-        }
-      },
-      "tag": "SAVE_MODEL_RESOURCE"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server",
-          "PARSED_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/3977e6b06f72aa9585dee36025df9387eb5e9a7e.javaxmi"
+          "REPOSITORY_URI": "https://github.com/TEAMMATES/teammates",
+          "TEST_CLASS_NAME": "TeammatesRepoTest",
+          "MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/ce4463a8741840fd25a41b14801eab9193c7ed18.javaxmi",
+          "REPOSITORY_NAME": "teammates"
         }
       },
       "tag": "SAVE_MODEL_RESOURCE"
@@ -1651,22 +1027,10 @@
       "timeElapsed": 1,
       "key": {
         "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server",
-          "PARSED_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/7e1b610aa3334afb770eebef79ba60120e2169bc.javaxmi"
-        }
-      },
-      "tag": "SAVE_MODEL_RESOURCE"
-    },
-    {
-      "timeElapsed": 0,
-      "key": {
-        "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server",
-          "PARSED_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/33d1c90d58ddc25d9b596547acdf8246b51c4287.javaxmi"
+          "REPOSITORY_URI": "https://github.com/TEAMMATES/teammates",
+          "TEST_CLASS_NAME": "TeammatesRepoTest",
+          "MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/648425746bb9434051647c8266dfab50a8f2d6a3.javaxmi",
+          "REPOSITORY_NAME": "teammates"
         }
       },
       "tag": "SAVE_MODEL_RESOURCE"
@@ -1675,33 +1039,21 @@
       "timeElapsed": 1,
       "key": {
         "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server",
-          "PARSED_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/94bca6a6cf595ba0c9116d7fe1318fdc495a719f.javaxmi"
+          "REPOSITORY_URI": "https://github.com/TEAMMATES/teammates",
+          "TEST_CLASS_NAME": "TeammatesRepoTest",
+          "MODEL_RESOURCE_LOCATION": "testResources/testmodel-cache/teammates/48b67bae03babf5a5e578aefce47f0285e8de8b4.javaxmi",
+          "REPOSITORY_NAME": "teammates"
         }
       },
       "tag": "SAVE_MODEL_RESOURCE"
     },
     {
-      "timeElapsed": 0,
+      "timeElapsed": 4,
       "key": {
         "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server",
-          "PARSED_MODEL_LOCATION": "testResources/testmodel-cache/cwa-server/9323b87169bd54e5fb0015dcc7791d2fb70aa786.javaxmi"
-        }
-      },
-      "tag": "SAVE_MODEL_RESOURCE"
-    },
-    {
-      "timeElapsed": 1,
-      "key": {
-        "keyMap": {
-          "REPOSITORY_NAME": "cwa-server",
-          "TEST_CLASS_NAME": "CWARepoTest",
-          "REPOSITORY_URI": "https://github.com/corona-warn-app/cwa-server"
+          "REPOSITORY_URI": "https://github.com/TEAMMATES/teammates",
+          "TEST_CLASS_NAME": "TeammatesRepoTest",
+          "REPOSITORY_NAME": "teammates"
         }
       },
       "tag": "TEST_AFTEREACH"
