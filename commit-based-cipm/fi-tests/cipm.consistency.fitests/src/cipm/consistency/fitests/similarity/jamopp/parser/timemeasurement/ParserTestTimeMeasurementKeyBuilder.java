@@ -12,6 +12,8 @@ import java.util.Map;
  * return the key instance that was being built and reset all status information
  * within this class.
  * 
+ * TODO Rename the methods to match terminology
+ * 
  * @author Alp Torac Genc
  */
 public class ParserTestTimeMeasurementKeyBuilder {
