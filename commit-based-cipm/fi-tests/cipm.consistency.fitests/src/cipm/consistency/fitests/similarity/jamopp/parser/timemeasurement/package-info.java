@@ -30,7 +30,5 @@
  * {@link GeneralTimeMeasurementTag}), which enables implementing further tags
  * without having to modify existing tag enums.
  * </ul>
- * 
- * TODO Mention IParserTestTimeMeasurementKeyType (if you implement it)
  */
 package cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement;

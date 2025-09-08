@@ -4,8 +4,6 @@ package cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement;
  * An enum that can be used to associate time measurement related information
  * with descriptions, in form of enum constants.
  * 
- * TODO Decide whether this should mirror ITimeMeasurementTag for flexibility
- * 
  * @author Alp Torac Genc
  */
 public enum ParserTestTimeMeasurerKeyType {
