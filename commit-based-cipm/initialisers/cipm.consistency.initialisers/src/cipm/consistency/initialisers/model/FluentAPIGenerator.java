@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.URI;
@@ -36,6 +37,8 @@ public class FluentAPIGenerator {
 	private static final Path ecoreFilePath = initModelFile.toPath().resolve("initialiserModels.ecore");
 	private static final Path genmodelFilePath = initModelFile.toPath().resolve("initialiserModels.genmodel");
 
+	private static final List<EOperation> allNewOperations = new ArrayList<EOperation>();
+
 	@Test
 	public void generateModelFiles() {
 		if (initModelFile.exists()) {
@@ -63,11 +66,12 @@ public class FluentAPIGenerator {
 		javaPac.setNsPrefix(fluentAPIRootPacName);
 		javaPac.setNsURI(URI.createFileURI(fluentAPIRootPacName).toString());
 
+		// Add the classes for individual model elements
+		javaPac.getEClassifiers().addAll(this.getFluentAPIClasses());
+
 		// Add the Class for composite Initialisation class
 		javaPac.getEClassifiers().add(this.generateFluentAPIGeneratorClass());
 
-		// Add the classes for individual model elements
-		javaPac.getEClassifiers().addAll(this.getFluentAPIClasses());
 		return javaPac;
 	}
 
@@ -76,58 +80,64 @@ public class FluentAPIGenerator {
 		var fluentAPISubClss = new ArrayList<EClass>();
 
 		for (var javaSubPac : javaSubPackages) {
-			var cls = this.getFluentAPIClassFor(javaSubPac);
-			if (cls != null)
-				fluentAPISubClss.add(cls);
+			var clss = this.getFluentAPIClassesFor(javaSubPac);
+			if (clss != null)
+				fluentAPISubClss.addAll(clss);
 		}
 
 		return fluentAPISubClss;
 	}
 
-	private static final String getAPISubClsName(EPackage javaSubPackage) {
-		var pacName = javaSubPackage.getName();
-		return pacName.substring(0, 1).toUpperCase() + pacName.substring(1, pacName.length()) + fluentAPIClassSuffix;
-	}
+	private List<EClass> getFluentAPIClassesFor(EPackage javaSubPackage) {
+		var clss = new ArrayList<EClass>();
 
-	private EClass getFluentAPIClassFor(EPackage javaSubPackage) {
-		var apiSubCls = EcoreFactory.eINSTANCE.createEClass();
-		var apiSubClsName = getAPISubClsName(javaSubPackage);
-		apiSubCls.setName(apiSubClsName);
-
-		var modelElementsToInitialise = new ArrayList<EClass>();
-		javaSubPackage.getEClassifiers().stream().filter((cls) -> cls instanceof EClass)
+		List<EClass> eClssToInit = javaSubPackage.getEClassifiers().stream().filter((cls) -> cls instanceof EClass)
+				.map((cls) -> (EClass) cls).filter((cls) -> !cls.isAbstract() && !cls.isInterface())
 				.filter((cls) -> Commentable.class.isAssignableFrom(cls.getInstanceClass())).map((cls) -> (EClass) cls)
-				.forEach((cls) -> modelElementsToInitialise.add(cls));
-		if (modelElementsToInitialise.isEmpty())
+				.collect(Collectors.toCollection(ArrayList::new));
+		if (eClssToInit.isEmpty())
 			return null;
 
-		// Add an EReference for covered model element types
-		var modelElementsToInitialiseRef = EcoreFactory.eINSTANCE.createEReference();
-		var modelElementsToInitialiseRefName = "initialisedElems";
-		modelElementsToInitialiseRef.setChangeable(true);
-		modelElementsToInitialiseRef.setContainment(false);
-		modelElementsToInitialiseRef.setEType(modelElementsToInitialise.get(0).eClass().eClass());
-//		modelElementsToInitialiseRef.setLowerBound(0);
-		modelElementsToInitialiseRef.setName(modelElementsToInitialiseRefName);
-		modelElementsToInitialiseRef.setUpperBound(org.eclipse.emf.ecore.ETypedElement.UNBOUNDED_MULTIPLICITY);
-		apiSubCls.getEStructuralFeatures().add(modelElementsToInitialiseRef);
+		for (var eCls : eClssToInit) {
+			var apiSubCls = EcoreFactory.eINSTANCE.createEClass();
+			apiSubCls.setName(eCls.getName() + fluentAPIClassSuffix);
 
-		// Add initialisation operations
-		for (var elemToInit : modelElementsToInitialise) {
-			var newOp = getNewOperationFor(elemToInit);
-			if (newOp != null)
+			// Add an EReference for covered model element types
+			var modelElementsToInitialiseRef = EcoreFactory.eINSTANCE.createEReference();
+			var modelElementsToInitialiseRefName = "initialisedClass";
+			modelElementsToInitialiseRef.setChangeable(true);
+			modelElementsToInitialiseRef.setContainment(false);
+			modelElementsToInitialiseRef.setEType(eCls.eClass().eClass());
+			modelElementsToInitialiseRef.setName(modelElementsToInitialiseRefName);
+			modelElementsToInitialiseRef.setLowerBound(1);
+			modelElementsToInitialiseRef.setUpperBound(1);
+			apiSubCls.getEStructuralFeatures().add(modelElementsToInitialiseRef);
+			// TODO Find a way to set the EReference above most likely through a protected
+			// init() method in constructor (?). apiSubCls.eSet(...) does not work
+
+			// Add initialisation operations
+			var newOp = getNewOperationFor(eCls);
+			if (newOp != null) {
+				allNewOperations.add(newOp);
 				apiSubCls.getEOperations().add(newOp);
+			}
 
-			var withOps = getWithOperationsFor(elemToInit);
+			var withOps = getWithOperationsFor(eCls);
 			if (withOps != null)
 				apiSubCls.getEOperations().addAll(withOps);
+
+			clss.add(apiSubCls);
 		}
 
-		return apiSubCls;
+		return clss;
+	}
+
+	private static boolean isConcrete(EClass elemToInit) {
+		return !elemToInit.isAbstract() && !elemToInit.isInterface();
 	}
 
 	private static EOperation getNewOperationFor(EClass elemToInit) {
-		if (elemToInit.isAbstract())
+		if (!isConcrete(elemToInit))
 			return null;
 
 		var op = EcoreFactory.eINSTANCE.createEOperation();
@@ -140,8 +150,8 @@ public class FluentAPIGenerator {
 		anno.setSource(genModelURL);
 		var bodyKey = "body";
 		// TODO Add hooks to creation methods (?)
-		var bodyValue = String.format("return %s.eINSTANCE.create%s();", getFactoryNameFor(elemToInit.getEPackage()),
-				elemInstanceName);
+		var bodyValue = String.format("return %s.eINSTANCE.create%s();",
+				getFactoryNameForEPackage(elemToInit.getEPackage()), elemInstanceName);
 		anno.getDetails().put(bodyKey, bodyValue);
 
 		op.getEAnnotations().add(anno);
@@ -149,7 +159,7 @@ public class FluentAPIGenerator {
 	}
 
 	private static List<EOperation> getWithOperationsFor(EClass elemToInit) {
-		if (elemToInit.isAbstract() || elemToInit.isInterface())
+		if (!isConcrete(elemToInit))
 			return null;
 
 		var ops = new ArrayList<EOperation>();
@@ -199,7 +209,7 @@ public class FluentAPIGenerator {
 						feat.getName());
 			} else {
 				bodyValue = String.format("var val = objToInit.eGet(objToInit.eClass().getEStructuralFeature(\"%s\"));"
-						+ "((List) val).add(addToFeatVal);", feat.getName());
+						+ "((EList) val).add(addToFeatVal);", feat.getName());
 			}
 			anno.getDetails().put(bodyKey, bodyValue);
 
@@ -210,7 +220,7 @@ public class FluentAPIGenerator {
 		return ops;
 	}
 
-	private static String getFactoryNameFor(EPackage pac) {
+	private static String getFactoryNameForEPackage(EPackage pac) {
 		return pac.getEFactoryInstance().getClass().getName().replaceFirst(".impl", "").replace("Impl", "");
 	}
 
