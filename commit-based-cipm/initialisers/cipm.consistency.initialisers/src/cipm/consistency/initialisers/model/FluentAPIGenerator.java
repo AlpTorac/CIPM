@@ -209,7 +209,7 @@ public class FluentAPIGenerator {
 						feat.getName());
 			} else {
 				bodyValue = String.format("var val = objToInit.eGet(objToInit.eClass().getEStructuralFeature(\"%s\"));"
-						+ "((EList) val).add(addToFeatVal);", feat.getName());
+						+ System.lineSeparator() + "((EList) val).add(addToFeatVal);", feat.getName());
 			}
 			anno.getDetails().put(bodyKey, bodyValue);
 
