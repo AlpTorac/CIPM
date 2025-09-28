@@ -109,3 +109,6 @@ tmp/
 
 # polygot
 *.polyglot.META-INF
+
+# FluentJavaAPI
+initModel/
