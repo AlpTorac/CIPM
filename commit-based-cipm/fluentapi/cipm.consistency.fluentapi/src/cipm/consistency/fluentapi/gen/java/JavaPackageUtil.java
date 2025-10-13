@@ -1,4 +1,4 @@
-package cipm.consistency.fluentapi.gen;
+package cipm.consistency.fluentapi.gen.java;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
