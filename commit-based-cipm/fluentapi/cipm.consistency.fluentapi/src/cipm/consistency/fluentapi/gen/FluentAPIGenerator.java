@@ -1,4 +1,4 @@
-package cipm.consistency.initialisers.model;
+package cipm.consistency.fluentapi.gen;
 
 import java.io.File;
 import java.io.IOException;

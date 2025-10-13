@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Fluentapi
+Bundle-SymbolicName: cipm.consistency.fluentapi
+Bundle-Version: 1.0.0.qualifier
+Automatic-Module-Name: cipm.consistency.fluentapi
+Bundle-RequiredExecutionEnvironment: JavaSE-11
+Require-Bundle: junit-jupiter-api,
+ junit-jupiter-engine,
+ junit-jupiter-params,
+ org.apache.log4j,
+ org.eclipse.emf.ecore,
+ org.emftext.language.java
+Export-Package: cipm.consistency.fluentapi.gen
