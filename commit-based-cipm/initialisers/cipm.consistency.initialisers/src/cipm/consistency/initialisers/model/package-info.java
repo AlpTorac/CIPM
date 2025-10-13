@@ -1,1 +1,0 @@
-package cipm.consistency.initialisers.model;
