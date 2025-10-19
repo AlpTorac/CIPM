@@ -11,30 +11,6 @@ import api.AbstractInitialisation;
 import api.FluentEObjectAPI;
 
 public final class FluentEObjectAPIMethods {
-	/*
-	 * - inits : Map<EObject_EClass, AbstractInitialisation_EClass>
-	 * 
-	 * - initStack : Map<EObject_EClass, Stack<AbstractInitialisation>> (to not lose
-	 * ongoing initialisations: Each EObject_EClass has an AbstractInitialisation
-	 * stack that keeps track of all ongoing initialisations, so that switching
-	 * between initialisations becomes possible in all cases. Important for nesting
-	 * EObjects of the same type within one another, such as Java classes and inner
-	 * classes)
-	 * 
-	 * + getInitialisationForX(EObject_EClass) : XInitialisation +
-	 * dropInitialisation(AbstractInitialisation) : FluentEObjectAPI
-	 * 
-	 * + clone(X) : X + deepClone(X) : X
-	 * 
-	 * + modifyElement(X) : XInitialisation + modifyElementClone(X) :
-	 * XInitialisation + modifyElementDeepClone(X) : XInitialisation
-	 * 
-	 * + newXL1() ... newXLN() : XInitialisation + newXK1() ... newXKM() : X extends
-	 * EObject (shorthand for creating EObjects with no changeable features) +
-	 * continueX() : XInitialisation
-	 * 
-	 * + withDefaultInits() : FluentEObjectAPI
-	 */
 
 	@SuppressWarnings("unchecked")
 	public static <T> AbstractInitialisation<T> getInitialisationForX(FluentEObjectAPI me, EClass eobjEClass,

@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * @author Alp Torac Genc
  */
 public final class DefaultInitialisationMethods {
+	
 	/**
 	 * {@code currentElement.feat = featVal}
 	 * <p>
