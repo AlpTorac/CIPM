@@ -9,7 +9,7 @@ import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 public class FluentAPIJavaMetamodelFeatureFilter extends FluentAPITargetMetamodelFeatureFilter {
 	@Override
 	public boolean isFeatureEligible(EClass holderOfFeat, EStructuralFeature feat) {
-		return feat.isChangeable() && !feat.isDerived()
+		return this.isFeatureEligible(feat)
 				&& !feat.getEContainingClass().getInstanceClass().isAssignableFrom(Commentable.class);
 	}
 }

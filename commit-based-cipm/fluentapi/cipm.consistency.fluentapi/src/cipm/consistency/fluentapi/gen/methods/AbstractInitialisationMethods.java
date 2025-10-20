@@ -17,6 +17,11 @@ public final class AbstractInitialisationMethods {
 				FluentAPICurrentElementReferenceGenerator.getCurrentElementReferenceName()), eobj);
 	}
 
+	public static EObject getCurrentElement(EObject me) {
+		return (EObject) me.eGet(me.eClass()
+				.getEStructuralFeature(FluentAPICurrentElementReferenceGenerator.getCurrentElementReferenceName()));
+	}
+
 	public static EClass getInitialisedEClass(EObject me) {
 		return (EClass) me.eGet(me.eClass()
 				.getEStructuralFeature(FluentAPIInitialisedEClassReference.getInitialisedEClassReferenceName()));

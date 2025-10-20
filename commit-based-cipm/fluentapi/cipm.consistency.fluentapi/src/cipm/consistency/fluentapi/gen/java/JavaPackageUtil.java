@@ -49,6 +49,14 @@ public final class JavaPackageUtil {
 		return res;
 	}
 
+	public static Collection<EClass> getAllConcreteEClasses() {
+		var res = new ArrayList<EClass>();
+		var ePacs = JavaPackage.eINSTANCE.getESubpackages();
+		ePacs.forEach((pac) -> pac.getEClassifiers().stream().filter((eClsf) -> eClsf instanceof EClass)
+				.map((c) -> (EClass) c).filter((c) -> !c.isAbstract() && !c.isInterface()).forEach((c) -> res.add(c)));
+		return res;
+	}
+
 	protected static <T extends EObject> Class<? extends EObject> getInstanceClassOfEObject(T obj) {
 		return getInstanceClassOfEClassifier(obj.eClass());
 	}

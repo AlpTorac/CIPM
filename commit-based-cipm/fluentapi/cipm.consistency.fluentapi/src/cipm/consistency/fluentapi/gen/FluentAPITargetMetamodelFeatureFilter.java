@@ -10,4 +10,8 @@ public abstract class FluentAPITargetMetamodelFeatureFilter {
 	public boolean isFeatureEligible(EObject eObj, EStructuralFeature feat) {
 		return this.isFeatureEligible(eObj.eClass(), feat);
 	}
+
+	public static boolean isFeatureEligible(EStructuralFeature feat) {
+		return feat.isChangeable() && !feat.isDerived();
+	}
 }
