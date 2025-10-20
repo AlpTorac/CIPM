@@ -1,5 +1,7 @@
 package cipm.consistency.fluentapi.gen.methods;
 
+import org.eclipse.emf.common.util.EList;
+
 public class FluentAPIMethodsUtil {
 	private static final String whitespace = " ";
 	private static final String semicolon = ";";
@@ -12,7 +14,7 @@ public class FluentAPIMethodsUtil {
 	private static final String thisStatement = "this";
 	private static final String superStatement = "super";
 
-	private static final String eListClassName = "EList";
+	private static final String eListClassName = EList.class.getName();
 
 	private static final String newLine = System.lineSeparator();
 	private static final String endLine = semicolon + newLine;
@@ -33,6 +35,10 @@ public class FluentAPIMethodsUtil {
 	private static final String eSetMetName = "eSet";
 	private static final String eUnsetMetName = "eUnset";
 
+	public static String emptyBrackets() {
+		return lhsBracket + rhsBracket;
+	}
+
 	public static String putInBrackets(String inBracket) {
 		return lhsBracket + inBracket + rhsBracket;
 	}
@@ -49,8 +55,22 @@ public class FluentAPIMethodsUtil {
 		return caller + eContainerMetCall;
 	}
 
-	public static String callMethodWithThisArgumentAndReturnThis(Class<?> fluentAPIMetsCls, String methodName) {
-		return fluentAPIMetsCls.getName() + dot + putInBrackets(thisStatement) + endLine + getReturnSelfMethodBody();
+	public static String getThisArgument() {
+		return thisStatement;
+	}
+
+	public static String callMethodAndReturnThis(Class<?> fluentAPIMetsCls, String methodName) {
+		return fluentAPIMetsCls.getName() + dot + methodName + emptyBrackets() + endLine + getReturnSelfMethodBody();
+	}
+
+	public static String callMethodAndReturnThis(Class<?> fluentAPIMetsCls, String methodName, String... params) {
+		var paramString = "";
+		for (int i = 0; i < params.length - 1; i++) {
+			paramString += params[i] + comma;
+		}
+		paramString += params[params.length - 1];
+		return fluentAPIMetsCls.getName() + dot + methodName + putInBrackets(paramString) + endLine
+				+ getReturnSelfMethodBody();
 	}
 
 	public static String callMethodAndReturnThis(String methodCall) {
@@ -102,7 +122,7 @@ public class FluentAPIMethodsUtil {
 	}
 
 	public static String getEGetAsEList(String caller, String featName) {
-		return castToEList(getEGetStatement(caller, featName));
+		return putInBrackets(castToEList(getEGetStatement(caller, featName)));
 	}
 
 	public static String getShallowCopyEGetAsEList(String caller, String featName) {

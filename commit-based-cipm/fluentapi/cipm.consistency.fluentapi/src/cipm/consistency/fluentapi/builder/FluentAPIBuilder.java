@@ -28,8 +28,9 @@ public class FluentAPIBuilder {
 		var resSet = new ResourceSetImpl();
 		var res = resSet.createResource(URI.createFileURI(ecoreFilePath.toString()));
 
-		res.getContents().add(new FluentAPIRootPackageBuilder().buildRootPackage(
-				new FluentAPIJavaMetamodelPackageProvider(), new FluentAPIJavaMetamodelFeatureFilter()));
+		res.getContents()
+				.add(new FluentAPIRootPackageBuilder().buildRootPackage(new FluentAPIJavaMetamodelPackageProvider(),
+						new FluentAPIJavaMetamodelFeatureFilter()).get(0));
 		try {
 			res.save(null);
 		} catch (IOException e) {

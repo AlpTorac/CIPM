@@ -34,21 +34,27 @@ public class FluentAPIGenerationUtil {
 		return param;
 	}
 
-	public static EOperation generateEOperationWithBody(String name, String genSource, String methodBody,
-			EParameter... params) {
+	public static EOperation generateEOperationWithBody(String name, String genSource, EClassifier returnType,
+			String methodBody) {
 		var op = EcoreFactory.eINSTANCE.createEOperation();
+		op.setEType(returnType);
 		op.setName(name);
-
-		if (params != null) {
-			for (var param : params)
-				op.getEParameters().add(param);
-		}
 
 		// Add the method body
 		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
 		anno.setSource(genSource);
 		anno.getDetails().put(getEOperationBodyKey(), methodBody);
 		op.getEAnnotations().add(anno);
+		return op;
+	}
+
+	public static EOperation generateEOperationWithBody(String name, String genSource, EClassifier returnType,
+			String methodBody, EParameter... params) {
+		var op = generateEOperationWithBody(name, genSource, returnType, methodBody);
+		if (params != null) {
+			for (var param : params)
+				op.getEParameters().add(param);
+		}
 		return op;
 	}
 }

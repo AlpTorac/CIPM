@@ -19,9 +19,10 @@ import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 
 public class FluentAPIRootPackageBuilder {
-	public EPackage buildRootPackage(FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
+	public List<EPackage> buildRootPackage(FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
 			FluentAPITargetMetamodelFeatureFilter filter) {
-		var rootPac = new FluentAPIRootPackageGenerator().generateRootPackage(targetMetamodelPackageProvider);
+		var rootPacs = new FluentAPIRootPackageGenerator().generateRootPackage(targetMetamodelPackageProvider);
+		var rootPac = rootPacs.get(rootPacs.size() - 1);
 
 		var fluentAPICls = addRootAPICls(rootPac);
 
@@ -35,7 +36,7 @@ public class FluentAPIRootPackageBuilder {
 
 		// TODO Add methods once that part is extracted
 
-		return rootPac;
+		return rootPacs;
 	}
 
 	public void addRootAPIClsRefs(EClass rootAPIEClass, EClass initSuperType) {
