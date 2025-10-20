@@ -13,6 +13,7 @@ import cipm.consistency.fluentapi.gen.FluentAPIInitialisationEClassesReferenceGe
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisedEClassReference;
 import cipm.consistency.fluentapi.gen.FluentAPIOngoingInitialisationsReferenceGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPIRootAPINewMethodGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPIReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootPackageGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
@@ -35,6 +36,10 @@ public class FluentAPIRootPackageBuilder {
 		addInitSuperTypeRefs(initSuperType, fluentAPICls);
 
 		// TODO Add methods once that part is extracted
+
+		fluentAPICls.getEOperations()
+				.addAll(new FluentAPIRootAPINewMethodGenerator().getAllRootAPINewOperations(fluentAPICls, initSuperType,
+						initEClss, targetMetamodelPackageProvider.getAllTargetMetamodelConcreteEClasses(), filter));
 
 		return rootPacs;
 	}

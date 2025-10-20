@@ -13,11 +13,15 @@ import cipm.consistency.fluentapi.gen.FluentAPIOngoingInitialisationsReferenceGe
 
 public final class FluentEObjectAPIMethods {
 	public static EObject getInitialisationForX(EObject me, Class<?> eobjCls) {
-		var initEClass = (EClass) getInits(me).stream()
-				.filter((i) -> AbstractInitialisationMethods.isInitialisedClassEqual(i, eobjCls)).findFirst().get();
+		var initEClass = getInitialisationEClassForX(me, eobjCls);
 		var initInstance = initEClass.getEPackage().getEFactoryInstance().create(initEClass);
 		getOngoingInits(me).add(initInstance);
 		return initInstance;
+	}
+
+	public static EClass getInitialisationEClassForX(EObject me, Class<?> eobjCls) {
+		return (EClass) getInits(me).stream()
+				.filter((i) -> AbstractInitialisationMethods.isInitialisedClassEqual(i, eobjCls)).findFirst().get();
 	}
 
 	public static void dropInitialisation(EObject me, EObject init) {
@@ -46,6 +50,8 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	public static void newElement(EObject me, Class<?> eobjCls) {
+		// TODO Return getInitialisationForX value instead, declare a local variable and
+		// use it in method body
 		AbstractInitialisationMethods.newElement(getInitialisationForX(me, eobjCls));
 	}
 
@@ -67,13 +73,13 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	@SuppressWarnings("unchecked")
-	private static EList<EClass> getInits(EObject me) {
+	public static EList<EClass> getInits(EObject me) {
 		return ((EList<EClass>) me.eGet(me.eClass().getEStructuralFeature(
 				FluentAPIInitialisationEClassesReferenceGenerator.getInitialisationsReferenceName())));
 	}
 
 	@SuppressWarnings("unchecked")
-	private static EList<EObject> getOngoingInits(EObject me) {
+	public static EList<EObject> getOngoingInits(EObject me) {
 		return ((EList<EObject>) me.eGet(me.eClass().getEStructuralFeature(
 				FluentAPIOngoingInitialisationsReferenceGenerator.getOngoingInitialisationsReferenceName())));
 	}

@@ -3,6 +3,11 @@ package cipm.consistency.fluentapi.gen.methods;
 import org.eclipse.emf.common.util.EList;
 
 public class FluentAPIMethodsUtil {
+	/*
+	 * TODO Either properly change it into a builder or just type the method bodies
+	 * by hand
+	 */
+
 	private static final String whitespace = " ";
 	private static final String semicolon = ";";
 	private static final String dot = ".";
@@ -23,6 +28,7 @@ public class FluentAPIMethodsUtil {
 
 	private static final String returnSelfStatement = returnStatement + whitespace + "this" + semicolon;
 
+	private static final String classObjCall = dot + "class";
 	private static final String eClassMetCall = dot + "eClass()";
 	private static final String eContainerMetCall = dot + "eContainer()";
 
@@ -34,6 +40,10 @@ public class FluentAPIMethodsUtil {
 	private static final String eGetMetName = "eGet";
 	private static final String eSetMetName = "eSet";
 	private static final String eUnsetMetName = "eUnset";
+
+	public static String getClassLiteral(Class<?> cls) {
+		return cls.getName() + classObjCall;
+	}
 
 	public static String emptyBrackets() {
 		return lhsBracket + rhsBracket;
@@ -59,18 +69,29 @@ public class FluentAPIMethodsUtil {
 		return thisStatement;
 	}
 
-	public static String callMethodAndReturnThis(Class<?> fluentAPIMetsCls, String methodName) {
-		return fluentAPIMetsCls.getName() + dot + methodName + emptyBrackets() + endLine + getReturnSelfMethodBody();
+	public static String callMethodAndReturn(String methodCall, String returnVal) {
+		return methodCall + endLine + returnStatement + whitespace + returnVal + semicolon;
 	}
 
-	public static String callMethodAndReturnThis(Class<?> fluentAPIMetsCls, String methodName, String... params) {
+	public static String callMethod(Class<?> cls, String clsMetName, String... params) {
 		var paramString = "";
 		for (int i = 0; i < params.length - 1; i++) {
 			paramString += params[i] + comma;
 		}
 		paramString += params[params.length - 1];
-		return fluentAPIMetsCls.getName() + dot + methodName + putInBrackets(paramString) + endLine
-				+ getReturnSelfMethodBody();
+		return cls.getName() + dot + clsMetName + putInBrackets(paramString);
+	}
+
+	public static String callMethod(Class<?> fluentAPIMetsCls, String methodName) {
+		return fluentAPIMetsCls.getName() + dot + methodName + emptyBrackets();
+	}
+
+	public static String callMethodAndReturnThis(Class<?> fluentAPIMetsCls, String methodName) {
+		return callMethod(fluentAPIMetsCls, methodName) + endLine + getReturnSelfMethodBody();
+	}
+
+	public static String callMethodAndReturnThis(Class<?> fluentAPIMetsCls, String methodName, String... params) {
+		return callMethod(fluentAPIMetsCls, methodName, params) + endLine + getReturnSelfMethodBody();
 	}
 
 	public static String callMethodAndReturnThis(String methodCall) {
