@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 public class FluentAPIAbstractInitialisationGenerator {
 	private static final String fluentAPISubClassesSuperTypeName = "AbstractInitialisation";
 
-	public EClass generateFluentAPISuperType() {
+	public EClass generateAbstractInitialisationEClass() {
 		var superType = EcoreFactory.eINSTANCE.createEClass();
 		superType.setAbstract(true);
 		superType.setInterface(false);

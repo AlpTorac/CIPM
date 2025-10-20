@@ -6,6 +6,11 @@ import org.eclipse.emf.ecore.EcoreFactory;
 
 public class FluentAPIOngoingInitialisationsReferenceGenerator {
 	private static final String ongoingInitialisationsReferenceName = "ongoingInits";
+
+	public static String getOngoingInitialisationsReferenceName() {
+		return ongoingInitialisationsReferenceName;
+	}
+
 	/**
 	 * {@value #initialisationsReferenceName} is a many-valued, non-containment
 	 * EReference containing AbstractInitialisation instances.
@@ -19,7 +24,7 @@ public class FluentAPIOngoingInitialisationsReferenceGenerator {
 		ongoingInitsRef.setChangeable(true);
 		ongoingInitsRef.setContainment(false);
 		ongoingInitsRef.setEType(initsSuperTypeEClass);
-		ongoingInitsRef.setName(ongoingInitialisationsReferenceName);
+		ongoingInitsRef.setName(getOngoingInitialisationsReferenceName());
 		ongoingInitsRef.setLowerBound(0);
 		ongoingInitsRef.setUpperBound(EReference.UNBOUNDED_MULTIPLICITY);
 		return ongoingInitsRef;

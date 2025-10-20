@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIAbstractInitialisationGenerator;
-import cipm.consistency.fluentapi.gen.FluentAPIClassGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPIRootClassGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPICurrentElementReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationEClassesReferenceGenerator;
@@ -15,23 +15,25 @@ import cipm.consistency.fluentapi.gen.FluentAPIInitialisedEClassReference;
 import cipm.consistency.fluentapi.gen.FluentAPIOngoingInitialisationsReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPIReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootPackageGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 
 public class FluentAPIRootPackageBuilder {
-	public EPackage buildRootPackage(FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider) {
+	public EPackage buildRootPackage(FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
+			FluentAPITargetMetamodelFeatureFilter filter) {
 		var rootPac = new FluentAPIRootPackageGenerator().generateRootPackage(targetMetamodelPackageProvider);
 
 		var fluentAPICls = addRootAPICls(rootPac);
 
 		var initSuperType = addInitialisationSuperType(rootPac);
 
-		var initEClss = addConcreteInitialisations(rootPac, initSuperType, targetMetamodelPackageProvider);
+		var initEClss = addConcreteInitialisations(rootPac, initSuperType, targetMetamodelPackageProvider, filter);
 		addSuperTypeToConcreteInitialisations(initEClss, initSuperType);
 
 		addRootAPIClsRefs(fluentAPICls, initSuperType);
 		addInitSuperTypeRefs(initSuperType, fluentAPICls);
 
-		// TODO Add methods
+		// TODO Add methods once that part is extracted
 
 		return rootPac;
 	}
@@ -59,7 +61,7 @@ public class FluentAPIRootPackageBuilder {
 	}
 
 	public EClass addRootAPICls(EPackage rootPac) {
-		var rootAPICls = new FluentAPIClassGenerator().getFluentAPIClass();
+		var rootAPICls = new FluentAPIRootClassGenerator().getFluentAPIRootClass();
 		rootPac.getEClassifiers().add(rootAPICls);
 		return rootAPICls;
 	}
@@ -83,15 +85,16 @@ public class FluentAPIRootPackageBuilder {
 
 	public EClass addInitialisationSuperType(EPackage rootPac) {
 		var fluentAPIInitialisationSuperType = new FluentAPIAbstractInitialisationGenerator()
-				.generateFluentAPISuperType();
+				.generateAbstractInitialisationEClass();
 		rootPac.getEClassifiers().add(fluentAPIInitialisationSuperType);
 		return fluentAPIInitialisationSuperType;
 	}
 
 	public List<EClass> addConcreteInitialisations(EPackage rootPac, EClass initialisationSuperType,
-			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider) {
+			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
+			FluentAPITargetMetamodelFeatureFilter filter) {
 		var fluentAPIInitialisationClasses = new FluentAPIInitialisationGenerator()
-				.generateFluentAPIInitialisationClasses(targetMetamodelPackageProvider);
+				.generateFluentAPIInitialisationClasses(targetMetamodelPackageProvider, filter);
 		rootPac.getEClassifiers().addAll(fluentAPIInitialisationClasses);
 		return fluentAPIInitialisationClasses;
 	}
