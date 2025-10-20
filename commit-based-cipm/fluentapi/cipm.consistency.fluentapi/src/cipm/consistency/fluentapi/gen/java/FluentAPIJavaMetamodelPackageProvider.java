@@ -1,10 +1,10 @@
-package cipm.consistency.fluentapi.gen;
+package cipm.consistency.fluentapi.gen.java;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EPackage;
 
-import cipm.consistency.fluentapi.gen.java.JavaPackageUtil;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 
 public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamodelPackageProvider {
 	@Override

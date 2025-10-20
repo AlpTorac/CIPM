@@ -1,76 +1,80 @@
 package cipm.consistency.fluentapi.gen.methods;
 
-import java.util.List;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.stream.Collectors;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 
-import api.AbstractInitialisation;
-import api.FluentEObjectAPI;
+import cipm.consistency.fluentapi.gen.FluentAPIInitialisationEClassesReferenceGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPIOngoingInitialisationsReferenceGenerator;
 
 public final class FluentEObjectAPIMethods {
+	public static EObject getInitialisationForX(EObject me, Class<?> eobjCls) {
+		var initEClass = (EClass) getInits(me).stream()
+				.filter((i) -> AbstractInitialisationMethods.isInitialisedClassEqual(i, eobjCls)).findFirst().get();
+		var initInstance = initEClass.getEPackage().getEFactoryInstance().create(initEClass);
+		getOngoingInits(me).add(initInstance);
+		return initInstance;
+	}
+
+	public static void dropInitialisation(EObject me, EObject init) {
+		getOngoingInits(me).remove(init);
+	}
+
+	public static <T extends EObject> T clone(EObject me, T eobj) {
+		return AbstractInitialisationMethods.clone(getInitialisationForX(me, eobj.getClass()), eobj);
+	}
+
+	public static <T extends EObject> T deepClone(EObject me, T eobj) {
+		return AbstractInitialisationMethods.deepClone(getInitialisationForX(me, eobj.getClass()), eobj);
+	}
+
+	public static void modifyElement(EObject me, EObject eobj) {
+		var init = getInitialisationForX(me, eobj.getClass());
+		AbstractInitialisationMethods.setCurrentElement(init, eobj);
+	}
+
+	public static void modifyElementClone(EObject me, EObject eobj) {
+		modifyElement(me, clone(me, eobj));
+	}
+
+	public static void modifyElementDeepClone(EObject me, EObject eobj) {
+		modifyElement(me, deepClone(me, eobj));
+	}
+
+	public static void newElement(EObject me, Class<?> eobjCls) {
+		AbstractInitialisationMethods.newElement(getInitialisationForX(me, eobjCls));
+	}
+
+	public static EObject continueElement(EObject me, Class<?> eobjCls) {
+		var initsOfMatchingType = getOngoingInits(me).stream()
+				.filter((i) -> AbstractInitialisationMethods.isInitialisedClassEqual(i, eobjCls))
+				.collect(Collectors.toCollection(ArrayList::new));
+		return initsOfMatchingType.get(initsOfMatchingType.size() - 1);
+	}
+
+	public static void withInitialisation(EObject me, EClass initEClass) {
+		getInits(me).add(initEClass);
+	}
+
+	public static void withInitialisations(EObject me, EPackage initsPac) {
+		initsPac.getEClassifiers().stream().filter((e) -> e instanceof EClass).map((e) -> (EClass) e)
+				.filter((e) -> AbstractInitialisationMethods.getInitialisedEClass(e) != null)
+				.forEach((e) -> getInits(me).add(e));
+	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> AbstractInitialisation<T> getInitialisationForX(FluentEObjectAPI me, EClass eobjEClass,
-			Class<T> eobjCls) {
-		var init = getInits(me).get(eobjEClass);
-		return (AbstractInitialisation<T>) init.getEPackage().getEFactoryInstance().create(init);
+	private static EList<EClass> getInits(EObject me) {
+		return ((EList<EClass>) me.eGet(me.eClass().getEStructuralFeature(
+				FluentAPIInitialisationEClassesReferenceGenerator.getInitialisationsReferenceName())));
 	}
 
-	public static void dropInitialisation(FluentEObjectAPI me, AbstractInitialisation init) {
-		getInitList(me).get(init.getInitialisedEClass()).remove(init);
-	}
-
-	public static <T extends EObject> T clone(FluentEObjectAPI me, T eobj) {
-		return getInitialisationForX(me, eobj.eClass(), eobj.getClass()).clone(eobj);
-	}
-
-	public static <T extends EObject> T deepClone(FluentEObjectAPI me, T eobj) {
-		return getInitialisationForX(me, eobj.eClass(), eobj.getClass()).deepClone(eobj);
-	}
-
-	public static <T> AbstractInitialisation<T> modifyElement(FluentEObjectAPI me, T eobj) {
-		var init = getInitialisationForX(me, eobj.eClass(), eobj.getClass());
-		init.setCurrentElement(eobj);
-		return init;
-	}
-
-	public static <T> AbstractInitialisation<T> modifyElementClone(FluentEObjectAPI me, T eobj) {
-		return modifyElement(me, clone(eobj));
-	}
-
-	public static <T> AbstractInitialisation<T> modifyElementDeepClone(FluentEObjectAPI me, T eobj) {
-		return modifyElement(me, deepClone(eobj));
-	}
-
-	public static <T> AbstractInitialisation<T> newElement(FluentEObjectAPI me, EClass eobjEClass) {
-		var init = getInitialisationForX(me, eobjEClass, eobjEClass.getInstanceClass());
-		init.newElement();
-		return init;
-	}
-
-	public static <T> AbstractInitialisation<T> continueElement(FluentEObjectAPI me, EClass eobjEClass) {
-		var initList = getInitList(me).get(eobjEClass);
-		return initList.get(initList.size() - 1);
-	}
-
-	public static void withInitPackage(FluentEObjectAPI me, EPackage initPackage) {
-		for (var cls : initPackage.getEClassifiers()) {
-			if (cls instanceof EClass) {
-				var eobjCls = ((AbstractInitialisation) cls.getEPackage().getEFactoryInstance().create(cls))
-						.getInitialisedEClass();
-				getInits(me).put(eobjCls, cls);
-			}
-		}
-	}
-
-	private static Map<EClass, EClass> getInits(FluentEObjectAPI me) {
-		return (Map<EClass, EClass>) me.getInits();
-	}
-
-	private static Map<EClass, List<AbstractInitialisation>> getInitList(FluentEObjectAPI me) {
-		return (Map<EClass, List<AbstractInitialisation>>) me.getInitList();
+	@SuppressWarnings("unchecked")
+	private static EList<EObject> getOngoingInits(EObject me) {
+		return ((EList<EObject>) me.eGet(me.eClass().getEStructuralFeature(
+				FluentAPIOngoingInitialisationsReferenceGenerator.getOngoingInitialisationsReferenceName())));
 	}
 }
