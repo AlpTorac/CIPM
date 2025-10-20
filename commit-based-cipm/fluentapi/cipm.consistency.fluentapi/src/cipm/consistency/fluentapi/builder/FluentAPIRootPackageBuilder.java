@@ -5,7 +5,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 
-import cipm.consistency.fluentapi.gen.FluentAPIAbstractInitialisationGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootClassGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPICurrentElementReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
@@ -84,8 +84,8 @@ public class FluentAPIRootPackageBuilder {
 	}
 
 	public EClass addInitialisationSuperType(EPackage rootPac) {
-		var fluentAPIInitialisationSuperType = new FluentAPIAbstractInitialisationGenerator()
-				.generateAbstractInitialisationEClass();
+		var fluentAPIInitialisationSuperType = new FluentAPISuperInitialisationGenerator()
+				.generateFluentAPISuperInitialisationEClass();
 		rootPac.getEClassifiers().add(fluentAPIInitialisationSuperType);
 		return fluentAPIInitialisationSuperType;
 	}
