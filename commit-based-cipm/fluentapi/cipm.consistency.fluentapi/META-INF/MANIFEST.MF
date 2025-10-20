@@ -1,14 +1,21 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: Fluentapi
-Bundle-SymbolicName: cipm.consistency.fluentapi
+Bundle-Name: %pluginName
+Bundle-SymbolicName: cipm.consistency.fluentapi;singleton:=true
 Bundle-Version: 1.0.0.qualifier
+Bundle-ClassPath: .
+Bundle-Vendor: %providerName
+Bundle-Localization: plugin
 Automatic-Module-Name: cipm.consistency.fluentapi
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: junit-jupiter-api,
  junit-jupiter-engine,
  junit-jupiter-params,
  org.apache.log4j,
- org.eclipse.emf.ecore,
- org.emftext.language.java
+ org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport,
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ org.emftext.language.java;visibility:=reexport,
+ org.apache.commons.lang
+Bundle-ActivationPolicy: lazy
 Export-Package: cipm.consistency.fluentapi.gen

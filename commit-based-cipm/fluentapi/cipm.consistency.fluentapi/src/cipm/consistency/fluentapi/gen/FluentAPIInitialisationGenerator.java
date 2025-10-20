@@ -33,10 +33,11 @@ public class FluentAPIInitialisationGenerator {
 
 		// Extract the part with operations into a builder
 
-		var newOp = new FluentAPINewOperationGenerator().getNewOperationFor(initialisedEClass);
+		var newOp = new FluentAPINewOperationGenerator().getNewOperationFor(xInitEClass, initialisedEClass);
 		xInitEClass.getEOperations().add(newOp);
 
-		var withOps = new FluentAPIWithOperationGenerator().generateAllWithOperationsFor(initialisedEClass, filter);
+		var withOps = new FluentAPIWithOperationGenerator().generateAllWithOperationsFor(xInitEClass, initialisedEClass,
+				filter);
 		xInitEClass.getEOperations().addAll(withOps);
 
 		return xInitEClass;

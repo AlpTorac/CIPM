@@ -3,7 +3,7 @@ package cipm.consistency.fluentapi.gen;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
@@ -46,18 +46,18 @@ public class FluentAPIWithOperationGenerator {
 				.collect(Collectors.toCollection(ArrayList::new));
 	}
 
-	public List<EOperation> generateAllWithOperationsFor(EClass elemToInit,
+	public List<EOperation> generateAllWithOperationsFor(EClass initECls, EClass elemToInit,
 			FluentAPITargetMetamodelFeatureFilter featFilter) {
 		var feats = this.getAllEligibleFeats(elemToInit, featFilter);
 		var ops = new ArrayList<EOperation>();
 
 		for (var feat : feats) {
 			if (!feat.isMany()) {
-				ops.add(this.generateWithXFeat(elemToInit, feat));
-				ops.add(this.generateWithoutXFeat(elemToInit, feat));
+				ops.add(this.generateWithXFeat(initECls, elemToInit, feat));
+				ops.add(this.generateWithoutXFeat(initECls, elemToInit, feat));
 			} else {
-				ops.add(this.generateWithAddedXFeat(elemToInit, feat));
-				ops.add(this.generateWithRemovedXFeat(elemToInit, feat));
+				ops.add(this.generateWithAddedXFeat(initECls, elemToInit, feat));
+				ops.add(this.generateWithRemovedXFeat(initECls, elemToInit, feat));
 			}
 
 			// TODO Add withX_featOfContainer() : This
@@ -66,45 +66,48 @@ public class FluentAPIWithOperationGenerator {
 		return ops;
 	}
 
-	public EOperation generateWithXFeat(EClass elemToInit, EStructuralFeature feat) {
+	public EOperation generateWithXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
 		var objParam = getObjToInitParam(elemToInit);
 		var newFeatValParam = getNewFeatValParam(feat);
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(String.format(withXFeatNameTemplate, feat.getName()),
-				genModelURL, String.format(withXFeatMethodBodyTemplate, objParam.getName(), objParam.getName(),
-						feat.getName(), newFeatValParam.getName()),
+		return FluentAPIGenerationUtil.generateEOperationWithBody(
+				String.format(withXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL, initECls,
+				String.format(withXFeatMethodBodyTemplate, objParam.getName(), objParam.getName(), feat.getName(),
+						newFeatValParam.getName()),
 				objParam, newFeatValParam);
 	}
 
-	public EOperation generateWithoutXFeat(EClass elemToInit, EStructuralFeature feat) {
+	public EOperation generateWithoutXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
 		var objParam = getObjToInitParam(elemToInit);
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(withoutXFeatNameTemplate, feat.getName()), genModelURL,
+				String.format(withoutXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL, initECls,
 				String.format(withoutXFeatMethodBodyTemplate, objParam.getName(), objParam.getName(), feat.getName()),
 				objParam);
 	}
 
-	public EOperation generateWithAddedXFeat(EClass elemToInit, EStructuralFeature feat) {
+	public EOperation generateWithAddedXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
 		var objParam = getObjToInitParam(elemToInit);
 		var addedFeatValParam = getAddedFeatValParam(feat);
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(withAddedXFeatNameTemplate, feat.getName()), genModelURL,
-				String.format(withAddedXFeatMethodBodyTemplate, objParam.getName(), objParam.getName(), feat.getName(),
-						addedFeatValParam.getName()),
-				objParam, addedFeatValParam);
+		return FluentAPIGenerationUtil
+				.generateEOperationWithBody(
+						String.format(withAddedXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL,
+						initECls, String.format(withAddedXFeatMethodBodyTemplate, objParam.getName(),
+								objParam.getName(), feat.getName(), addedFeatValParam.getName()),
+						objParam, addedFeatValParam);
 	}
 
-	public EOperation generateWithRemovedXFeat(EClass elemToInit, EStructuralFeature feat) {
+	public EOperation generateWithRemovedXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
 		var objParam = getObjToInitParam(elemToInit);
 		var removedFeatValParam = getRemovedFeatValParam(feat);
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(withRemovedXFeatNameTemplate, feat.getName()), genModelURL,
-				String.format(withRemovedXFeatMethodBodyTemplate, objParam.getName(), objParam.getName(),
-						feat.getName(), removedFeatValParam.getName()),
-				objParam, removedFeatValParam);
+		return FluentAPIGenerationUtil
+				.generateEOperationWithBody(
+						String.format(withRemovedXFeatNameTemplate, StringUtils.capitalize(feat.getName())),
+						genModelURL, initECls, String.format(withRemovedXFeatMethodBodyTemplate, objParam.getName(),
+								objParam.getName(), feat.getName(), removedFeatValParam.getName()),
+						objParam, removedFeatValParam);
 	}
 
 	public EParameter getObjToInitParam(EClass elemToInit) {
