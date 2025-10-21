@@ -16,6 +16,8 @@ public class FluentAPISuperInitialisationGenerator {
 		superType.setInterface(false);
 		superType.setName(fluentAPISuperInitialisationName);
 
+		var gen = new FluentAPICreateNowMethodGenerator();
+		superType.getEOperations().add(gen.generateCreateNowMethod(FluentAPIGenerationUtil.getEObjectEClass()));
 		return superType;
 	}
 }

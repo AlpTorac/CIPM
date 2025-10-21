@@ -40,6 +40,9 @@ public class FluentAPIInitialisationGenerator {
 				filter);
 		xInitEClass.getEOperations().addAll(withOps);
 
+		var gen = new FluentAPICreateNowMethodGenerator();
+		xInitEClass.getEOperations().add(gen.generateCreateNowMethod(initialisedEClass));
+
 		return xInitEClass;
 	}
 }

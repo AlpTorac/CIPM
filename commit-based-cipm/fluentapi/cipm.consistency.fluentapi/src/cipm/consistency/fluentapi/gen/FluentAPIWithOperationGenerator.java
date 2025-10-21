@@ -19,25 +19,62 @@ public class FluentAPIWithOperationGenerator {
 	private static final String withoutXFeatNameTemplate = "without%s";
 	private static final String withAddedXFeatNameTemplate = "withAdded%s";
 	private static final String withRemovedXFeatNameTemplate = "withRemoved%s";
-//	private static final String withExactXFeatNameTemplate = "withExact%s";
+	private static final String withExactXFeatNameTemplate = "withExact%s";
 
 	private static final String objToInitParamName = "objToInit";
 	private static final String newFeatValParamName = "newFeatVal";
 
 	private static final String addedFeatValParamName = "featValToAdd";
 	private static final String removedFeatValParamName = "featValToRemove";
+	private static final String exactFeatValParamName = "exactFeatVals";
 
-	private static final String withXFeatMethodBodyTemplate = FluentAPIMethodsUtil
-			.callMethodAndReturnThis(FluentAPIMethodsUtil.getESetStatement("%s", "%s", "%s"));
+	// TODO Deal with magic newlines
 
-	private static final String withoutXFeatMethodBodyTemplate = FluentAPIMethodsUtil
-			.callMethodAndReturnThis(FluentAPIMethodsUtil.getEUnsetStatement("%s", "%s"));
+	private static final String withXFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			//
+			"%s.eSet(%s.eClass().getEStructuralFeature(\"%s\"), %s)",
+			//
+			"return this");
 
-	private static final String withAddedXFeatMethodBodyTemplate = FluentAPIMethodsUtil.callMethodAndReturnThis(
-			FluentAPIMethodsUtil.addToEList(FluentAPIMethodsUtil.getEGetAsEList("%s", "%s"), "%s"));
+//	"objToInit.eSet(objToInit.eClass().getEStructuralFeature(\"name\"),newFeatVal);\r\n" +
+//	"return this;";
 
-	private static final String withRemovedXFeatMethodBodyTemplate = FluentAPIMethodsUtil.callMethodAndReturnThis(
-			FluentAPIMethodsUtil.removeFromEList(FluentAPIMethodsUtil.getEGetAsEList("%s", "%s"), "%s"));
+	private static final String withoutXFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			//
+			"%s.eUnset(%s.eClass().getEStructuralFeature(\"%s\"))",
+			//
+			"return this");
+
+//	objToInit.eUnset(objToInit.eClass().getEStructuralFeature("name"));
+//	return this;
+
+	private static final String withAddedXFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			//
+			"((org.eclipse.emf.common.util.EList) %s.eGet(%s.eClass().getEStructuralFeature(\"%s\"))).add(%s)",
+			//
+			"return this");
+
+//	((org.eclipse.emf.common.util.EList) objToInit.eGet(objToInit.eClass().getEStructuralFeature("namespaces"))).add(featValToAdd);
+//	return this;
+
+	private static final String withRemovedXFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			//
+			"((org.eclipse.emf.common.util.EList) %s.eGet(%s.eClass().getEStructuralFeature(\"%s\"))).remove(%s)",
+			//
+			"return this");
+
+//	((org.eclipse.emf.common.util.EList) objToInit.eGet(objToInit.eClass().getEStructuralFeature("namespaces"))).remove(featValToRemove);
+//	return this;
+
+	private static final String withExactXFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			//
+			"var list = (org.eclipse.emf.common.util.EList) %s.eGet(%s.eClass().getEStructuralFeature(\"%s\"))",
+			//
+			"list.clear()",
+			//
+			"list.addAll(%s)",
+			//
+			"return this");
 
 	private List<EStructuralFeature> getAllEligibleFeats(EClass elemToInit,
 			FluentAPITargetMetamodelFeatureFilter featFilter) {
@@ -110,6 +147,18 @@ public class FluentAPIWithOperationGenerator {
 						objParam, removedFeatValParam);
 	}
 
+	public EOperation generateWithExactXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
+		var objParam = getObjToInitParam(elemToInit);
+		var exactFeatValParam = getExactFeatValParam(feat);
+
+		return FluentAPIGenerationUtil
+				.generateEOperationWithBody(
+						String.format(withExactXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL,
+						initECls, String.format(withExactXFeatMethodBodyTemplate, objParam.getName(),
+								objParam.getName(), feat.getName(), exactFeatValParam.getName()),
+						objParam, exactFeatValParam);
+	}
+
 	public EParameter getObjToInitParam(EClass elemToInit) {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(objToInitParamName, elemToInit);
 	}
@@ -126,21 +175,7 @@ public class FluentAPIWithOperationGenerator {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(removedFeatValParamName, feat.getEType());
 	}
 
-	public String getWithXFeatOperationBodyFor(String objParamName, String featureValParamName,
-			EStructuralFeature feat) {
-		/*
-		 * TODO Add hooks to creation methods for validation and assertions
-		 */
-
-		if (!feat.isMany()) {
-
-		} else {
-			return String.format(
-					"var val = %s.eGet(%s.eClass().getEStructuralFeature(\"%s\"));" + System.lineSeparator()
-							+ "((EList) val).add(%s);",
-					objParamName, objParamName, feat.getName(), featureValParamName);
-		}
-		return String.format("%s.eSet(%s.eClass().getEStructuralFeature(\"%s\"), %s);", objParamName, objParamName,
-				feat.getName(), featureValParamName);
+	public EParameter getExactFeatValParam(EStructuralFeature feat) {
+		return FluentAPIGenerationUtil.generateManyValuedEParameter(exactFeatValParamName, feat.getEType());
 	}
 }

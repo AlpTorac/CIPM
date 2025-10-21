@@ -11,18 +11,17 @@ public class FluentAPINewOperationGenerator {
 
 	private static final String newOperationNamePrefix = "new";
 
+	// TODO Deal with magic newlines
+	private static final String newOperationMethodBodyTemplate = AbstractInitialisationMethods.class.getName()
+			+ ".newElement(this);\r\n" + "return this;";
+
 	public EOperation getNewOperationFor(EClass initEClass, EClass elemToInit) {
 		var op = FluentAPIGenerationUtil.generateEOperationWithBody(
 				newOperationNamePrefix + elemToInit.getInstanceClass().getSimpleName(), genModelURL, initEClass,
-				getNewOperationBodyFor(elemToInit));
+				newOperationMethodBodyTemplate);
 
 		op.setEType(initEClass);
 
 		return op;
-	}
-
-	public String getNewOperationBodyFor(EClass elemToInit) {
-		return FluentAPIMethodsUtil.callMethodAndReturnThis(AbstractInitialisationMethods.class, "newElement",
-				FluentAPIMethodsUtil.getThisArgument());
 	}
 }

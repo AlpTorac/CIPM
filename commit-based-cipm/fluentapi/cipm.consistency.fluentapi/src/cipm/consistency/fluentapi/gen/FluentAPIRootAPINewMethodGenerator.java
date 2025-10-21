@@ -11,10 +11,23 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
 public class FluentAPIRootAPINewMethodGenerator {
-	private static final String eClassParamName = "eObjEClass";
-	private static final String topLevelNewMethodName = "newX";
-	private static final String newMethodNameTemplate = "new%s";
 	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
+
+	private static final String eClassParamName = "eObjEClass";
+
+	private static final String topLevelNewMethodName = "newX";
+
+	private static final String newMethodNameTemplate = "new%s";
+
+	private static final String newXMethodBodyTemplate = FluentAPIMethodsUtil
+			.joinLOC("return (FluentAPISuperInitialisation)" + FluentEObjectAPIMethods.class.getName()
+					+ ".newElement(this, %s.getInstanceClass())");
+
+	private static final String newXWithModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil
+			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + ".newElement(this, %s.class)");
+
+	private static final String newXWithoutModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			"return (%s) ((%s)" + FluentEObjectAPIMethods.class.getName() + ".newElement(this, %s.class)).createNow()");
 
 	public List<EOperation> getAllRootAPINewOperations(EClass rootAPICls, EClass initialisationSuperTypeEClass,
 			List<EClass> initEClss, List<EClass> eObjEClss, FluentAPITargetMetamodelFeatureFilter filter) {
@@ -27,7 +40,7 @@ public class FluentAPIRootAPINewMethodGenerator {
 			if (FluentAPIGenerationUtil.hasModifiableFeatures(eObjEClass, filter)) {
 				ops.add(getRootAPINewOperationForEClassWithModifiableFeats(rootAPICls, eObjEClass, initEClass));
 			} else {
-				ops.add(getRootAPINewOperationForEClassWithoutModifiableFeats(rootAPICls, eObjEClass));
+				ops.add(getRootAPINewOperationForEClassWithoutModifiableFeats(rootAPICls, eObjEClass, initEClass));
 			}
 
 		}
@@ -38,11 +51,8 @@ public class FluentAPIRootAPINewMethodGenerator {
 	public EOperation getRootAPITopLevelNewOperation(EClass rootAPICls, EClass initialisationSuperTypeEClass) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(eClassParamName,
 				FluentAPIGenerationUtil.getEClassEClass());
-		return FluentAPIGenerationUtil
-				.generateEOperationWithBody(topLevelNewMethodName, genModelURL, initialisationSuperTypeEClass,
-						"return " + FluentAPIMethodsUtil.callMethod(FluentEObjectAPIMethods.class,
-								"getInitialisationForX", FluentAPIMethodsUtil.getThisArgument(), param.getName()) + ";",
-						param);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(topLevelNewMethodName, genModelURL,
+				initialisationSuperTypeEClass, String.format(newXMethodBodyTemplate, param.getName()), param);
 	}
 
 	public EOperation getRootAPINewOperationForEClassWithModifiableFeats(EClass rootAPICls, EClass eObjEClass,
@@ -50,31 +60,20 @@ public class FluentAPIRootAPINewMethodGenerator {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(newMethodNameTemplate, eObjEClass.getInstanceClass().getSimpleName()), genModelURL,
 				initECls,
-				FluentAPIMethodsUtil.callMethodAndReturn(FluentEObjectAPIMethods.class, "newElement",
-						FluentAPIMethodsUtil.getThisArgument(),
-						FluentAPIMethodsUtil.getClassLiteral(eObjEClass.getInstanceClass()),
-						FluentAPIMethodsUtil.callMethod(FluentEObjectAPIMethods.class, newMethodNameTemplate)
-				// TODO continue by adding initialisation as return value
-				)
+				String.format(newXWithModifiableFeatsMethodBodyTemplate,
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
+						eObjEClass.getInstanceClass().getName())
 
 		);
 	}
 
-	public EOperation getRootAPINewOperationForEClassWithoutModifiableFeats(EClass rootAPICls, EClass eObjEClass) {
+	public EOperation getRootAPINewOperationForEClassWithoutModifiableFeats(EClass rootAPICls, EClass eObjEClass,
+			EClass initECls) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(newMethodNameTemplate, eObjEClass.getInstanceClass().getSimpleName()), genModelURL,
 				eObjEClass,
-				FluentAPIMethodsUtil.callMethodAndReturn(
-						FluentAPIMethodsUtil.callMethod(FluentEObjectAPIMethods.class, "newElement",
-								FluentAPIMethodsUtil.getThisArgument(),
-								FluentAPIMethodsUtil.getClassLiteral(eObjEClass.getInstanceClass())),
-
-						FluentAPIMethodsUtil.castTo(eObjEClass.getInstanceClass().getName(),
-								FluentAPIMethodsUtil.callMethod(AbstractInitialisationMethods.class,
-										"getCurrentElement",
-										FluentAPIMethodsUtil.callMethod(FluentEObjectAPIMethods.class,
-												"getInitialisationForX", FluentAPIMethodsUtil.getThisArgument(),
-												FluentAPIMethodsUtil
-														.getClassLiteral(eObjEClass.getInstanceClass()))))));
+				String.format(newXWithoutModifiableFeatsMethodBodyTemplate, eObjEClass.getInstanceClass().getName(),
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
+						eObjEClass.getInstanceClass().getName()));
 	}
 }
