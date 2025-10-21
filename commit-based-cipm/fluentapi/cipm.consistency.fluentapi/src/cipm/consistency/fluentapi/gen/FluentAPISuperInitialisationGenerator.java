@@ -16,8 +16,10 @@ public class FluentAPISuperInitialisationGenerator {
 		superType.setInterface(false);
 		superType.setName(fluentAPISuperInitialisationName);
 
-		var gen = new FluentAPICreateNowMethodGenerator();
-		superType.getEOperations().add(gen.generateCreateNowMethod(FluentAPIGenerationUtil.getEObjectEClass()));
+		superType.getEOperations().add(new FluentAPICreateNowMethodGenerator()
+				.generateCreateNowMethod(FluentAPIGenerationUtil.getEObjectEClass()));
+
+		superType.getEOperations().add(new FluentAPINewElementMethodGenerator().generateNewElementMethod(superType));
 		return superType;
 	}
 }

@@ -6,14 +6,16 @@ import org.eclipse.emf.ecore.EOperation;
 import cipm.consistency.fluentapi.gen.methods.AbstractInitialisationMethods;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
-public class FluentAPINewOperationGenerator {
+public class FluentAPIInitialisationNewOperationGenerator {
 	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
 
 	private static final String newOperationNamePrefix = "new";
 
-	// TODO Deal with magic newlines
-	private static final String newOperationMethodBodyTemplate = AbstractInitialisationMethods.class.getName()
-			+ ".newElement(this);\r\n" + "return this;";
+	private static final String newOperationMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			//
+			AbstractInitialisationMethods.class.getName() + ".newElement(this)",
+			//
+			"return this");
 
 	public EOperation getNewOperationFor(EClass initEClass, EClass elemToInit) {
 		var op = FluentAPIGenerationUtil.generateEOperationWithBody(
