@@ -8,9 +8,10 @@ public class FluentAPIMethodsUtil {
 
 	public static String joinLOC(String... loc) {
 		var result = "";
-		for (int i = 0; i < loc.length; i++) {
+		for (int i = 0; i < loc.length - 1; i++) {
 			result += loc[i] + endLine;
 		}
+		result += loc[loc.length - 1] + semicolon;
 		return result;
 	}
 }
