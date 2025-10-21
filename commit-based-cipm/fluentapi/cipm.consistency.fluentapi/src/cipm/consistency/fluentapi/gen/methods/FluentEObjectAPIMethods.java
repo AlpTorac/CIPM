@@ -49,10 +49,10 @@ public final class FluentEObjectAPIMethods {
 		modifyElement(me, deepClone(me, eobj));
 	}
 
-	public static void newElement(EObject me, Class<?> eobjCls) {
-		// TODO Return getInitialisationForX value instead, declare a local variable and
-		// use it in method body
-		AbstractInitialisationMethods.newElement(getInitialisationForX(me, eobjCls));
+	public static EObject newElement(EObject me, Class<?> eobjCls) {
+		var init = getInitialisationForX(me, eobjCls);
+		AbstractInitialisationMethods.newElement(init);
+		return init;
 	}
 
 	public static EObject continueElement(EObject me, Class<?> eobjCls) {

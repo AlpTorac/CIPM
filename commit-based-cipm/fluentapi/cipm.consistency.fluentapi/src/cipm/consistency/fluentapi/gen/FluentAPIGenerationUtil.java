@@ -34,12 +34,31 @@ public class FluentAPIGenerationUtil {
 		return EcoreFactory.eINSTANCE.createEClass().eClass();
 	}
 
+	public static String getFullyQualifiedEClassName(EClass eCls) {
+		String result = eCls.getName();
+		var pac = eCls.getEPackage();
+		while (pac != null) {
+			result = pac.getName() + "." + result;
+			pac = pac.getESuperPackage();
+		}
+		return result;
+	}
+
 	public static EParameter generateSingleValuedEParameter(String name, EClassifier type) {
 		var param = EcoreFactory.eINSTANCE.createEParameter();
 		param.setName(name);
 		param.setEType(type);
 		param.setLowerBound(1);
 		param.setUpperBound(1);
+		return param;
+	}
+
+	public static EParameter generateManyValuedEParameter(String name, EClassifier type) {
+		var param = EcoreFactory.eINSTANCE.createEParameter();
+		param.setName(name);
+		param.setEType(type);
+		param.setLowerBound(1);
+		param.setUpperBound(EParameter.UNBOUNDED_MULTIPLICITY);
 		return param;
 	}
 
