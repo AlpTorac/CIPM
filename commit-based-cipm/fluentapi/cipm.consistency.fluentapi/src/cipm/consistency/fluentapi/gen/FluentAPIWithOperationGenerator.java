@@ -95,6 +95,7 @@ public class FluentAPIWithOperationGenerator {
 			} else {
 				ops.add(this.generateWithAddedXFeat(initECls, elemToInit, feat));
 				ops.add(this.generateWithRemovedXFeat(initECls, elemToInit, feat));
+				ops.add(this.generateWithExactXFeat(initECls, elemToInit, feat));
 			}
 
 			// TODO Add withX_featOfContainer() : This
