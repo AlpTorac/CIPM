@@ -19,7 +19,7 @@ public class FluentAPIInitialisationGenerator {
 		for (var pac : allPackages) {
 			for (var eCls : pac.getEClassifiers().stream().filter((c) -> c instanceof EClass).map((c) -> (EClass) c)
 					.filter(FluentAPIGenerationUtil::isConcrete).collect(Collectors.toCollection(ArrayList::new))) {
-				fluentAPISubClss.add(generateFluentAPIInitialisationFor(eCls, filter));
+				fluentAPISubClss.add(generateFluentAPIInitialisationFor(eCls, targetMetamodelPackageProvider, filter));
 			}
 		}
 
@@ -27,6 +27,7 @@ public class FluentAPIInitialisationGenerator {
 	}
 
 	public EClass generateFluentAPIInitialisationFor(EClass initialisedEClass,
+			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
 			FluentAPITargetMetamodelFeatureFilter filter) {
 		var xInitEClass = EcoreFactory.eINSTANCE.createEClass();
 		xInitEClass.setName(initialisedEClass.getName() + fluentAPIClassSuffix);
@@ -37,7 +38,7 @@ public class FluentAPIInitialisationGenerator {
 		xInitEClass.getEOperations().add(newOp);
 
 		var withOps = new FluentAPIWithOperationGenerator().generateAllWithOperationsFor(xInitEClass, initialisedEClass,
-				filter);
+				targetMetamodelPackageProvider, filter);
 		xInitEClass.getEOperations().addAll(withOps);
 
 		var gen = new FluentAPICreateNowMethodGenerator();
