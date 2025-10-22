@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EPackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootClassGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPIContinueMethodGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPICurrentElementReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationEClassesReferenceGenerator;
@@ -18,6 +19,7 @@ import cipm.consistency.fluentapi.gen.FluentAPIRootAPIReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootPackageGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
+import cipm.consistency.fluentapi.gen.FluentAPIToAPIMethodGenerator;
 
 public class FluentAPIRootPackageBuilder {
 	public List<EPackage> buildRootPackage(FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
@@ -37,9 +39,21 @@ public class FluentAPIRootPackageBuilder {
 
 		// TODO Add methods once that part is extracted
 
-		fluentAPICls.getEOperations()
-				.addAll(new FluentAPIRootAPINewMethodGenerator().getAllRootAPINewOperations(fluentAPICls, initSuperType,
-						initEClss, targetMetamodelPackageProvider.getAllTargetMetamodelConcreteEClasses(), filter));
+		var allEClassesToInit = targetMetamodelPackageProvider.getAllTargetMetamodelConcreteEClasses();
+
+		/*
+		 * fluentAPICls
+		 */
+		fluentAPICls.getEOperations().addAll(new FluentAPIRootAPINewMethodGenerator()
+				.getAllRootAPINewOperations(fluentAPICls, initSuperType, initEClss, allEClassesToInit, filter));
+
+		fluentAPICls.getEOperations().addAll(new FluentAPIContinueMethodGenerator()
+				.generateAllContinueMethods(initEClss, allEClassesToInit, filter));
+
+		/*
+		 * initSuperType
+		 */
+		initSuperType.getEOperations().add(new FluentAPIToAPIMethodGenerator().generateToAPIMethod(fluentAPICls));
 
 		return rootPacs;
 	}
