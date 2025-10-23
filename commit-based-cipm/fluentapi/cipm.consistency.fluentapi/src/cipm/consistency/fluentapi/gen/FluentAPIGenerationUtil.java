@@ -69,10 +69,12 @@ public class FluentAPIGenerationUtil {
 		op.setName(name);
 
 		// Add the method body
-		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
-		anno.setSource(genSource);
-		anno.getDetails().put(getEOperationBodyKey(), methodBody);
-		op.getEAnnotations().add(anno);
+		if (methodBody != null) {
+			var anno = EcoreFactory.eINSTANCE.createEAnnotation();
+			anno.setSource(genSource);
+			anno.getDetails().put(getEOperationBodyKey(), methodBody);
+			op.getEAnnotations().add(anno);
+		}
 		return op;
 	}
 

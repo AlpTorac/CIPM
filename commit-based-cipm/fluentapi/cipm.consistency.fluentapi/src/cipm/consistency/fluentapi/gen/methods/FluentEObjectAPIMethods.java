@@ -12,6 +12,16 @@ import cipm.consistency.fluentapi.gen.FluentAPIInitialisationEClassesReferenceGe
 import cipm.consistency.fluentapi.gen.FluentAPIOngoingInitialisationsReferenceGenerator;
 
 public final class FluentEObjectAPIMethods {
+//	/**
+//	 * @return An instance of elementCls
+//	 */
+//	public static void newElement(EObject meInit) {
+//		var currentElementRef = me.eClass()
+//				.getEStructuralFeature(FluentAPICurrentElementReferenceGenerator.getCurrentElementReferenceName());
+//		var elementCls = (EClass) currentElementRef.getEType();
+//		me.eSet(currentElementRef, elementCls.getEPackage().getEFactoryInstance().create(elementCls));
+//	}
+	
 	public static EObject getInitialisationForX(EObject me, Class<?> eobjCls) {
 		var initEClass = getInitialisationEClassForX(me, eobjCls);
 		var initInstance = initEClass.getEPackage().getEFactoryInstance().create(initEClass);
@@ -20,44 +30,29 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	public static EClass getInitialisationEClassForX(EObject me, Class<?> eobjCls) {
-		return (EClass) getInits(me).stream()
-				.filter((i) -> AbstractInitialisationMethods.isInitialisedClassEqual(i, eobjCls)).findFirst().get();
+		me.eClass().getEPackage().getEClassifiers().stream().filter((eCls) -> eCls instanceof EClass)
+				.map((eCls) -> (EClass) eCls).filter((eCls) -> !eCls.isAbstract())
+				.filter((eCls) -> eCls.getName().startsWith(eobjCls.getSimpleName()));
+
+		return (EClass) getInits(me).stream().filter((i) -> isInitialisationFor(i, eobjCls)).findFirst().orElse(null);
+	}
+
+	public static EClass getInitialisationEClassForXFromPackage(EObject me, Class<?> eobjCls) {
+		return me.eClass().getEPackage().getEClassifiers().stream().filter((eCls) -> eCls instanceof EClass)
+				.map((eCls) -> (EClass) eCls).filter((eCls) -> isInitialisationFor(eCls, eobjCls)).findFirst()
+				.orElse(null);
+	}
+
+	public static boolean isInitialisationFor(EClass initECls, Class<?> eobjCls) {
+		return !initECls.isAbstract() && initECls.getName().startsWith(eobjCls.getSimpleName());
 	}
 
 	public static void dropInitialisation(EObject me, EObject init) {
 		getOngoingInits(me).remove(init);
 	}
 
-	public static <T extends EObject> T clone(EObject me, T eobj) {
-		return AbstractInitialisationMethods.clone(getInitialisationForX(me, eobj.getClass()), eobj);
-	}
-
-	public static <T extends EObject> T deepClone(EObject me, T eobj) {
-		return AbstractInitialisationMethods.deepClone(getInitialisationForX(me, eobj.getClass()), eobj);
-	}
-
-	public static void modifyElement(EObject me, EObject eobj) {
-		var init = getInitialisationForX(me, eobj.getClass());
-		AbstractInitialisationMethods.setCurrentElement(init, eobj);
-	}
-
-	public static void modifyElementClone(EObject me, EObject eobj) {
-		modifyElement(me, clone(me, eobj));
-	}
-
-	public static void modifyElementDeepClone(EObject me, EObject eobj) {
-		modifyElement(me, deepClone(me, eobj));
-	}
-
-	public static EObject newElement(EObject me, Class<?> eobjCls) {
-		var init = getInitialisationForX(me, eobjCls);
-		AbstractInitialisationMethods.newElement(init);
-		return init;
-	}
-
 	public static EObject continueElement(EObject me, Class<?> eobjCls) {
-		var initsOfMatchingType = getOngoingInits(me).stream()
-				.filter((i) -> AbstractInitialisationMethods.isInitialisedClassEqual(i, eobjCls))
+		var initsOfMatchingType = getOngoingInits(me).stream().filter((i) -> isInitialisationFor(i.eClass(), eobjCls))
 				.collect(Collectors.toCollection(ArrayList::new));
 		return initsOfMatchingType.get(initsOfMatchingType.size() - 1);
 	}
@@ -68,8 +63,7 @@ public final class FluentEObjectAPIMethods {
 
 	public static void withInitialisations(EObject me, EPackage initsPac) {
 		initsPac.getEClassifiers().stream().filter((e) -> e instanceof EClass).map((e) -> (EClass) e)
-				.filter((e) -> AbstractInitialisationMethods.getInitialisedEClass(e) != null)
-				.forEach((e) -> getInits(me).add(e));
+				.filter((e) -> e.getName().endsWith("Initialisation")).forEach((e) -> getInits(me).add(e));
 	}
 
 	@SuppressWarnings("unchecked")
