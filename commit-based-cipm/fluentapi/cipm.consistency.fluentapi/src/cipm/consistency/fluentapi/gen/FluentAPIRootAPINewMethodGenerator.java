@@ -23,10 +23,10 @@ public class FluentAPIRootAPINewMethodGenerator {
 					+ ".newElement(this, %s.getInstanceClass())");
 
 	private static final String newXWithModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + ".newElement(this, %s.class)");
+			.joinLOC("return (%s) this.getInitialisationFor(%s.class)");
 
-	private static final String newXWithoutModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			"return (%s) ((%s)" + FluentEObjectAPIMethods.class.getName() + ".newElement(this, %s.class)).createNow()");
+	private static final String newXWithoutModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil
+			.joinLOC("return (%s) ((%s) this.getInitialisationFor(%s.class)).createNow()");
 
 	public List<EOperation> getAllRootAPINewOperations(EClass rootAPICls, EClass initialisationSuperTypeEClass,
 			List<EClass> initEClss, List<EClass> eObjEClss, FluentAPITargetMetamodelFeatureFilter filter) {

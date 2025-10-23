@@ -16,10 +16,14 @@ public class FluentAPISuperInitialisationGenerator {
 		superType.setInterface(false);
 		superType.setName(fluentAPISuperInitialisationName);
 
+		superType.getEOperations()
+				.add(new FluentAPIGetInitialisedEClassMethodGenerator().generateGetInitialisedEClassMethod());
+
 		superType.getEOperations().add(new FluentAPICreateNowMethodGenerator()
 				.generateCreateNowMethod(FluentAPIGenerationUtil.getEObjectEClass()));
 
 		superType.getEOperations().add(new FluentAPINewElementMethodGenerator().generateNewElementMethod(superType));
+
 		return superType;
 	}
 }

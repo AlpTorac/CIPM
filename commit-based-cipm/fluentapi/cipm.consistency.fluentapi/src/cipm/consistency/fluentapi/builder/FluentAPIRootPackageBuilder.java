@@ -12,7 +12,6 @@ import cipm.consistency.fluentapi.gen.FluentAPICurrentElementReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationEClassesReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationGenerator;
-import cipm.consistency.fluentapi.gen.FluentAPIInitialisedEClassReference;
 import cipm.consistency.fluentapi.gen.FluentAPIOngoingInitialisationsReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPINewMethodGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPIReferenceGenerator;
@@ -44,6 +43,7 @@ public class FluentAPIRootPackageBuilder {
 		/*
 		 * fluentAPICls
 		 */
+
 		fluentAPICls.getEOperations().addAll(new FluentAPIRootAPINewMethodGenerator()
 				.getAllRootAPINewOperations(fluentAPICls, initSuperType, initEClss, allEClassesToInit, filter));
 
@@ -66,18 +66,12 @@ public class FluentAPIRootPackageBuilder {
 	public void addInitSuperTypeRefs(EClass initSuperType, EClass rootAPIEClass) {
 		addRootAPIReferenceToInitSuperType(rootAPIEClass, initSuperType);
 		addCurrentElementRefToInitSuperTypeRefs(initSuperType);
-		addInitialisedEClassRefToInitSuperTypeRefs(initSuperType);
 	}
 
 	public void addCurrentElementRefToInitSuperTypeRefs(EClass initSuperType) {
 		var currentElemRef = new FluentAPICurrentElementReferenceGenerator()
 				.getCurrentElementReference(FluentAPIGenerationUtil.getEObjectEClass());
 		initSuperType.getEStructuralFeatures().add(currentElemRef);
-	}
-
-	public void addInitialisedEClassRefToInitSuperTypeRefs(EClass initSuperType) {
-		var initialisedEClassRef = new FluentAPIInitialisedEClassReference().getInitialisedEClassReference();
-		initSuperType.getEStructuralFeatures().add(initialisedEClassRef);
 	}
 
 	public EClass addRootAPICls(EPackage rootPac) {
