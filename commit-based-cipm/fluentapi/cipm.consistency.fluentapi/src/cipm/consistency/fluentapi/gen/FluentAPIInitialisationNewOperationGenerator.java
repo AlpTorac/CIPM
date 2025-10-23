@@ -9,7 +9,7 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 public class FluentAPIInitialisationNewOperationGenerator {
 	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
 
-	private static final String newOperationNamePrefix = "new";
+	private static final String newOperationName = "newElement";
 
 	private static final String newOperationMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			//
@@ -19,7 +19,7 @@ public class FluentAPIInitialisationNewOperationGenerator {
 
 	public EOperation getNewOperationFor(EClass initEClass, EClass elemToInit) {
 		var op = FluentAPIGenerationUtil.generateEOperationWithBody(
-				newOperationNamePrefix + elemToInit.getInstanceClass().getSimpleName(), genModelURL, initEClass,
+				newOperationName, genModelURL, initEClass,
 				newOperationMethodBodyTemplate);
 
 		op.setEType(initEClass);
