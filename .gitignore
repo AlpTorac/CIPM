@@ -110,5 +110,6 @@ tmp/
 # polygot
 *.polyglot.META-INF
 
-# FluentJavaAPI
+# FluentAPI
 initModel/
+/commit-based-cipm/fluentapi/cipm.consistency.fluentapi/src/cipm/consistency/fluentapi/api/
