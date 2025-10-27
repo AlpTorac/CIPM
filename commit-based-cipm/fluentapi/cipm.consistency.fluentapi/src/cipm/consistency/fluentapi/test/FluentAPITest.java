@@ -176,6 +176,32 @@ public class FluentAPITest {
 	}
 
 	@Test
+	public void apiTest_BidirectionalReferences_OneToMany() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var modName = "modName";
+		var modNss = toEList("ns1", "ns2");
+
+		var pacName = "pacName";
+
+		var mod = api.newModule().withName(modName).withAddedNamespaces(modNss).createNow();
+		var pac = api.newPackage().withName(pacName).withModule(mod).createNow();
+
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+		Assertions.assertEquals(modName, mod.getName());
+		Assertions.assertEquals(modNss.size(), mod.getNamespaces().size());
+		Assertions.assertFalse(mod.getNamespaces().retainAll(modNss));
+
+		// TODO Check pac.module
+		
+		Assertions.assertEquals(1, mod.getPackages().size());
+		Assertions.assertEquals(pac, mod.getPackages().get(0));
+		Assertions.assertEquals(pacName, pac.getName());
+		Assertions.assertEquals(modNss.size(), pac.getNamespaces().size());
+		Assertions.assertFalse(pac.getNamespaces().retainAll(modNss));
+	}
+
+	@Test
 	public void apiTest_ToAPI() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		Assertions.assertEquals(api.getClass(), api.newAdditionalField().toAPI().getClass());

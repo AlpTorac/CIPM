@@ -5,12 +5,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
+import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
 public class FluentAPIWithOperationGenerator {
 	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
@@ -29,8 +31,11 @@ public class FluentAPIWithOperationGenerator {
 	private static final String exactFeatValParamName = "exactFeatVals";
 
 	private static final String withXFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			//
+			// %s: Feature name
+			// %s: Feature value
 			"this.getCurrentElement().eSet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"), %s)",
+			// %s: Feature value
+			FluentEObjectAPIMethods.class.getName() + ".adaptBidirectionalReference(this.getCurrentElement(), %s)",
 			//
 			"return this");
 
@@ -38,7 +43,7 @@ public class FluentAPIWithOperationGenerator {
 //	"return this;";
 
 	private static final String withoutXFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			//
+			// %s: Feature name
 			"this.getCurrentElement().eUnset(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))",
 			//
 			"return this");
@@ -47,8 +52,11 @@ public class FluentAPIWithOperationGenerator {
 //	return this;
 
 	private static final String withAddedXFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			//
+			// %s: Feature name
+			// %s: Feature value
 			"((org.eclipse.emf.common.util.EList) this.getCurrentElement().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))).add(%s)",
+			// %s: Feature value
+			FluentEObjectAPIMethods.class.getName() + ".adaptBidirectionalReference(this.getCurrentElement(), %s)",
 			//
 			"return this");
 
@@ -56,8 +64,11 @@ public class FluentAPIWithOperationGenerator {
 //	return this;
 
 	private static final String withRemovedXFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			//
+			// %s: Feature name
+			// %s: Feature value
 			"((org.eclipse.emf.common.util.EList) this.getCurrentElement().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))).remove(%s)",
+			// %s: Feature value
+			FluentEObjectAPIMethods.class.getName() + ".adaptBidirectionalReference(this.getCurrentElement(), %s)",
 			//
 			"return this");
 
@@ -65,8 +76,11 @@ public class FluentAPIWithOperationGenerator {
 //	return this;
 
 	private static final String withAddedXListFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			//
+			// %s: Feature name
+			// %s: Feature value
 			"((org.eclipse.emf.common.util.EList) this.getCurrentElement().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))).addAll(%s)",
+			// %s: Feature value
+			FluentEObjectAPIMethods.class.getName() + ".adaptBidirectionalReference(this.getCurrentElement(), %s)",
 			//
 			"return this");
 
@@ -74,8 +88,11 @@ public class FluentAPIWithOperationGenerator {
 //	return this;
 
 	private static final String withRemovedXListFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			//
+			// %s: Feature name
+			// %s: Feature value
 			"((org.eclipse.emf.common.util.EList) this.getCurrentElement().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))).removeAll(%s)",
+			// %s: Feature value
+			FluentEObjectAPIMethods.class.getName() + ".adaptBidirectionalReference(this.getCurrentElement(), %s)",
 			//
 			"return this");
 
@@ -83,24 +100,29 @@ public class FluentAPIWithOperationGenerator {
 //	return this;
 
 	private static final String withExactXFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			//
+			// %s: Feature name
 			"var list = (org.eclipse.emf.common.util.EList) this.getCurrentElement().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))",
 			//
 			"list.clear()",
-			//
+			// %s: Feature value
 			"list.addAll(%s)",
+			//
+			FluentEObjectAPIMethods.class.getName() + ".adaptBidirectionalReference(this.getCurrentElement(), list)",
 			//
 			"return this");
 
 	private static final String withXFeatOfContainerMethodBodyForManyValuedFeatTemplate = FluentAPIMethodsUtil.joinLOC(
-			//
+			// %s: Feature name
+			// %s: Feature name
 			"withExact%s((org.eclipse.emf.common.util.EList) this.getCurrentElement().eContainer().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\")))",
 			//
 			"return this");
 
 	private static final String withXFeatOfContainerMethodBodyForSingleValuedFeatTemplate = FluentAPIMethodsUtil
 			.joinLOC(
-					//
+					// %s: Feature name
+					// %s: Feature value type
+					// %s: Feature name
 					"with%s((%s) this.getCurrentElement().eContainer().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\")))",
 					//
 					"return this");
@@ -123,6 +145,7 @@ public class FluentAPIWithOperationGenerator {
 				ops.add(this.generateWithoutXFeat(initECls, elemToInit, feat));
 
 				if (isEligibleForXOfContainer(elemToInit, feat, eClassProvider)) {
+					// TODO Do not use eContainer(), use eGet(featName) instead
 					ops.add(this.generateWithXFeatOfContainerForSingleValued(initECls, elemToInit, feat));
 				}
 
@@ -138,6 +161,8 @@ public class FluentAPIWithOperationGenerator {
 					// EOpposites are not always clear, especially it is a 1 to many EReference list
 					// Use the list of EReferences you find with isEligibleForXOfContainer and
 					// set the bidirectional reference: pac.withModule(mod) THEN mod.withPackage()
+					//
+					// TODO Do not use eContainer(), use eGet(featName) instead
 					ops.add(this.generateWithXFeatOfContainerForManyValued(initECls, elemToInit, feat));
 				}
 			}
@@ -157,10 +182,26 @@ public class FluentAPIWithOperationGenerator {
 		var allEClasses = eClassProvider.getAllTargetMetamodelConcreteEClasses();
 		return allEClasses.stream().anyMatch((eCls) -> eCls.getEAllReferences().stream().anyMatch((ref) -> {
 			var refType = ref.getEType();
-			var refTypeCls = refType.getInstanceClass();
-			return refType instanceof EClass && refTypeCls.isAssignableFrom(elemToInit.getInstanceClass())
+			return isContainmentReferenceFor(elemToInit, ref)
 					&& ((EClass) refType).getEAllStructuralFeatures().contains(feat);
 		}));
+	}
+
+//	private List<EReference> getContainmentReferences(EClass elemToInit,
+//			FluentAPITargetMetamodelPackageProvider eClassProvider) {
+//		// Ensure that elemToInit instances have the change of having a container
+//		// that supports feat
+//		var allEClasses = eClassProvider.getAllTargetMetamodelConcreteEClasses();
+//		var refs = new ArrayList<EReference>();
+//		allEClasses.stream().forEach((eCls) -> eCls.getEAllReferences().stream()
+//				.filter((ref) -> isContainmentReferenceFor(elemToInit, ref)).forEach(refs::add));
+//		return refs;
+//	}
+
+	private boolean isContainmentReferenceFor(EClass elemToInit, EStructuralFeature potentialContainmentFeat) {
+		var refType = potentialContainmentFeat.getEType();
+		var refTypeCls = refType.getInstanceClass();
+		return refType instanceof EClass && refTypeCls.isAssignableFrom(elemToInit.getInstanceClass());
 	}
 
 	public EOperation generateWithXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
@@ -168,7 +209,9 @@ public class FluentAPIWithOperationGenerator {
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(withXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL, initECls,
-				String.format(withXFeatMethodBodyTemplate, feat.getName(), newFeatValParam.getName()), newFeatValParam);
+				String.format(withXFeatMethodBodyTemplate, feat.getName(), newFeatValParam.getName(),
+						newFeatValParam.getName()),
+				newFeatValParam);
 	}
 
 	public EOperation generateWithoutXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
@@ -182,7 +225,8 @@ public class FluentAPIWithOperationGenerator {
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(withAddedXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL,
-				initECls, String.format(withAddedXFeatMethodBodyTemplate, feat.getName(), addedFeatValParam.getName()),
+				initECls, String.format(withAddedXFeatMethodBodyTemplate, feat.getName(), addedFeatValParam.getName(),
+						addedFeatValParam.getName()),
 				addedFeatValParam);
 	}
 
@@ -191,8 +235,8 @@ public class FluentAPIWithOperationGenerator {
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(withRemovedXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL,
-				initECls,
-				String.format(withRemovedXFeatMethodBodyTemplate, feat.getName(), removedFeatValParam.getName()),
+				initECls, String.format(withRemovedXFeatMethodBodyTemplate, feat.getName(),
+						removedFeatValParam.getName(), removedFeatValParam.getName()),
 				removedFeatValParam);
 	}
 
@@ -201,8 +245,8 @@ public class FluentAPIWithOperationGenerator {
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(withAddedXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL,
-				initECls,
-				String.format(withAddedXListFeatMethodBodyTemplate, feat.getName(), addedFeatValParam.getName()),
+				initECls, String.format(withAddedXListFeatMethodBodyTemplate, feat.getName(),
+						addedFeatValParam.getName(), addedFeatValParam.getName()),
 				addedFeatValParam);
 	}
 
@@ -211,8 +255,8 @@ public class FluentAPIWithOperationGenerator {
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(withRemovedXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL,
-				initECls,
-				String.format(withRemovedXListFeatMethodBodyTemplate, feat.getName(), removedFeatValParam.getName()),
+				initECls, String.format(withRemovedXListFeatMethodBodyTemplate, feat.getName(),
+						removedFeatValParam.getName(), removedFeatValParam.getName()),
 				removedFeatValParam);
 	}
 
