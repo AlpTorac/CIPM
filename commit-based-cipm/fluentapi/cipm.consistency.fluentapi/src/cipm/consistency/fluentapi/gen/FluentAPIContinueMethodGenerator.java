@@ -16,7 +16,7 @@ public class FluentAPIContinueMethodGenerator {
 	private static final String continueMethodNameTemplate = "continue%s";
 
 	private static final String continueMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + ".getInitialisationForX(this, %s.class)");
+			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueElement(this, %s.class)");
 
 	public List<EOperation> generateAllContinueMethods(List<EClass> initEClss, List<EClass> eObjEClss,
 			FluentAPITargetMetamodelFeatureFilter filter) {

@@ -18,15 +18,16 @@ public class FluentAPIRootAPINewMethodGenerator {
 
 	private static final String newMethodNameTemplate = "new%s";
 
-	private static final String newXMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (FluentAPISuperInitialisation)" + FluentEObjectAPIMethods.class.getName()
-					+ ".newElement(this, %s.getInstanceClass())");
+	private static final String newXMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			// %s: Initialisation super type class name
+			// %s: EClass param name
+			"return (%s)" + "this.getInitialisationForX(%s.getInstanceClass())");
 
 	private static final String newXWithModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) this.getInitialisationFor(%s.class)");
+			.joinLOC("return (%s) this.getInitialisationForX(%s.class)");
 
 	private static final String newXWithoutModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) ((%s) this.getInitialisationFor(%s.class)).createNow()");
+			.joinLOC("return (%s) ((%s) this.getInitialisationForX(%s.class)).createNow()");
 
 	public List<EOperation> getAllRootAPINewOperations(EClass rootAPICls, EClass initialisationSuperTypeEClass,
 			List<EClass> initEClss, List<EClass> eObjEClss, FluentAPITargetMetamodelFeatureFilter filter) {
@@ -51,7 +52,11 @@ public class FluentAPIRootAPINewMethodGenerator {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(eClassParamName,
 				FluentAPIGenerationUtil.getEClassEClass());
 		return FluentAPIGenerationUtil.generateEOperationWithBody(topLevelNewMethodName, genModelURL,
-				initialisationSuperTypeEClass, String.format(newXMethodBodyTemplate, param.getName()), param);
+				initialisationSuperTypeEClass,
+				String.format(newXMethodBodyTemplate,
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initialisationSuperTypeEClass),
+						param.getName()),
+				param);
 	}
 
 	public EOperation getRootAPINewOperationForEClassWithModifiableFeats(EClass rootAPICls, EClass eObjEClass,

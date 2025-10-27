@@ -61,6 +61,24 @@ public class FluentAPIWithOperationGenerator {
 			//
 			"return this");
 
+//	objToInit.eUnset(objToInit.eClass().getEStructuralFeature("name"));
+//	return this;
+
+	private static final String withAddedXListFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			//
+			"((org.eclipse.emf.common.util.EList) this.getCurrentElement().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))).addAll(%s)",
+			//
+			"return this");
+
+//	((org.eclipse.emf.common.util.EList) objToInit.eGet(objToInit.eClass().getEStructuralFeature("namespaces"))).add(featValToAdd);
+//	return this;
+
+	private static final String withRemovedXListFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			//
+			"((org.eclipse.emf.common.util.EList) this.getCurrentElement().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))).removeAll(%s)",
+			//
+			"return this");
+
 //	((org.eclipse.emf.common.util.EList) objToInit.eGet(objToInit.eClass().getEStructuralFeature("namespaces"))).remove(featValToRemove);
 //	return this;
 
@@ -110,10 +128,16 @@ public class FluentAPIWithOperationGenerator {
 
 			} else {
 				ops.add(this.generateWithAddedXFeat(initECls, elemToInit, feat));
+				ops.add(this.generateWithAddedXListFeat(initECls, elemToInit, feat));
 				ops.add(this.generateWithRemovedXFeat(initECls, elemToInit, feat));
+				ops.add(this.generateWithRemovedXListFeat(initECls, elemToInit, feat));
 				ops.add(this.generateWithExactXFeat(initECls, elemToInit, feat));
 
 				if (isEligibleForXOfContainer(elemToInit, feat, eClassProvider)) {
+					// TODO Check for container eligibility and set the "EOpposites" as well
+					// EOpposites are not always clear, especially it is a 1 to many EReference list
+					// Use the list of EReferences you find with isEligibleForXOfContainer and
+					// set the bidirectional reference: pac.withModule(mod) THEN mod.withPackage()
 					ops.add(this.generateWithXFeatOfContainerForManyValued(initECls, elemToInit, feat));
 				}
 			}
@@ -172,6 +196,26 @@ public class FluentAPIWithOperationGenerator {
 				removedFeatValParam);
 	}
 
+	public EOperation generateWithAddedXListFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
+		var addedFeatValParam = getAddedListFeatValParam(feat);
+
+		return FluentAPIGenerationUtil.generateEOperationWithBody(
+				String.format(withAddedXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL,
+				initECls,
+				String.format(withAddedXListFeatMethodBodyTemplate, feat.getName(), addedFeatValParam.getName()),
+				addedFeatValParam);
+	}
+
+	public EOperation generateWithRemovedXListFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
+		var removedFeatValParam = getRemovedListFeatValParam(feat);
+
+		return FluentAPIGenerationUtil.generateEOperationWithBody(
+				String.format(withRemovedXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL,
+				initECls,
+				String.format(withRemovedXListFeatMethodBodyTemplate, feat.getName(), removedFeatValParam.getName()),
+				removedFeatValParam);
+	}
+
 	public EOperation generateWithExactXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
 		var exactFeatValParam = getExactFeatValParam(feat);
 
@@ -211,6 +255,14 @@ public class FluentAPIWithOperationGenerator {
 
 	public EParameter getRemovedFeatValParam(EStructuralFeature feat) {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(removedFeatValParamName, feat.getEType());
+	}
+
+	public EParameter getAddedListFeatValParam(EStructuralFeature feat) {
+		return FluentAPIGenerationUtil.generateManyValuedEParameter(addedFeatValParamName, feat.getEType());
+	}
+
+	public EParameter getRemovedListFeatValParam(EStructuralFeature feat) {
+		return FluentAPIGenerationUtil.generateManyValuedEParameter(removedFeatValParamName, feat.getEType());
 	}
 
 	public EParameter getExactFeatValParam(EStructuralFeature feat) {

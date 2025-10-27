@@ -1,8 +1,13 @@
 package cipm.consistency.fluentapi.gen;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
 
@@ -86,5 +91,39 @@ public class FluentAPIGenerationUtil {
 				op.getEParameters().add(param);
 		}
 		return op;
+	}
+
+	public static List<EPackage> generatePackages(URI currentURI, String fullPacName) {
+		var pacs = new ArrayList<EPackage>();
+		var nss = List.of(fullPacName.split("\\."));
+		for (int i = 0; i < nss.size(); i++) {
+			var pacName = nss.get(i);
+			var pacNss = nss.subList(0, i);
+
+			var pac = EcoreFactory.eINSTANCE.createEPackage();
+			pac.setName(pacName);
+			pac.setNsPrefix(pacName);
+
+			var nsUri = currentURI.appendSegments(pacNss.toArray(String[]::new)).appendSegment(pacName);
+			pac.setNsURI(nsUri.toString());
+			pacs.add(pac);
+		}
+
+		for (int i = 1; i < pacs.size(); i++) {
+			pacs.get(i - 1).getESubpackages().add(pacs.get(i));
+		}
+
+		return pacs;
+	}
+
+	public static EPackage generateSubPackage(EPackage parentPac, String subPackageName) {
+		var pac = EcoreFactory.eINSTANCE.createEPackage();
+		pac.setName(subPackageName);
+		pac.setNsPrefix(subPackageName);
+
+		var nsUri = URI.createURI(parentPac.getNsURI()).appendSegment(subPackageName);
+		pac.setNsURI(nsUri.toString());
+		parentPac.getESubpackages().add(pac);
+		return pac;
 	}
 }

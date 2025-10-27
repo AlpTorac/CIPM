@@ -9,9 +9,12 @@ import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootClassGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIContinueMethodGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPICurrentElementReferenceGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPIDropInitialisationMethodGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIGetInitialisationForMethodGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationEClassesReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPIInitialisationsPackageGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIOngoingInitialisationsReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPINewMethodGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPIReferenceGenerator;
@@ -23,14 +26,16 @@ import cipm.consistency.fluentapi.gen.FluentAPIToAPIMethodGenerator;
 public class FluentAPIRootPackageBuilder {
 	public List<EPackage> buildRootPackage(FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
 			FluentAPITargetMetamodelFeatureFilter filter) {
-		var rootPacs = new FluentAPIRootPackageGenerator().generateRootPackage(targetMetamodelPackageProvider);
+		var rootPacs = new FluentAPIRootPackageGenerator().generateRootPackage();
 		var rootPac = rootPacs.get(rootPacs.size() - 1);
+
+		var initPac = new FluentAPIInitialisationsPackageGenerator().generateInitialisationsPackage(rootPac);
 
 		var fluentAPICls = addRootAPICls(rootPac);
 
 		var initSuperType = addInitialisationSuperType(rootPac);
 
-		var initEClss = addConcreteInitialisations(rootPac, initSuperType, targetMetamodelPackageProvider, filter);
+		var initEClss = addConcreteInitialisations(initPac, initSuperType, targetMetamodelPackageProvider, filter);
 		addSuperTypeToConcreteInitialisations(initEClss, initSuperType);
 
 		addRootAPIClsRefs(fluentAPICls, initSuperType);
@@ -49,6 +54,15 @@ public class FluentAPIRootPackageBuilder {
 
 		fluentAPICls.getEOperations().addAll(new FluentAPIContinueMethodGenerator()
 				.generateAllContinueMethods(initEClss, allEClassesToInit, filter));
+
+		fluentAPICls.getEOperations().add(new FluentAPIDropInitialisationMethodGenerator()
+				.generateDropInitialisationMethod(fluentAPICls, initSuperType));
+
+		fluentAPICls.getEOperations()
+				.add(new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForMethod(initSuperType));
+
+		fluentAPICls.getEOperations()
+				.add(new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForClassMethod(initSuperType));
 
 		/*
 		 * initSuperType
@@ -104,12 +118,12 @@ public class FluentAPIRootPackageBuilder {
 		return fluentAPIInitialisationSuperType;
 	}
 
-	public List<EClass> addConcreteInitialisations(EPackage rootPac, EClass initialisationSuperType,
+	public List<EClass> addConcreteInitialisations(EPackage initsPac, EClass initialisationSuperType,
 			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
 			FluentAPITargetMetamodelFeatureFilter filter) {
 		var fluentAPIInitialisationClasses = new FluentAPIInitialisationGenerator()
 				.generateFluentAPIInitialisationClasses(targetMetamodelPackageProvider, filter);
-		rootPac.getEClassifiers().addAll(fluentAPIInitialisationClasses);
+		initsPac.getEClassifiers().addAll(fluentAPIInitialisationClasses);
 		return fluentAPIInitialisationClasses;
 	}
 
