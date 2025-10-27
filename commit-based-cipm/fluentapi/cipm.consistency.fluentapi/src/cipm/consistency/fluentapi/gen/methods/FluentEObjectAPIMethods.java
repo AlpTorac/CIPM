@@ -10,6 +10,8 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationEClassesReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationNewOperationGenerator;
@@ -27,6 +29,37 @@ public final class FluentEObjectAPIMethods {
 //		var elementCls = (EClass) currentElementRef.getEType();
 //		me.eSet(currentElementRef, elementCls.getEPackage().getEFactoryInstance().create(elementCls));
 //	}
+
+	private static List<EReference> getContainmentReference(EObject elemToInit, EObject otherElem) {
+		return otherElem.eClass().getEAllReferences().stream()
+				.filter((ref) -> isContainmentReferenceFor(elemToInit, ref)).collect(Collectors.toList());
+	}
+
+	private static boolean isContainmentReferenceFor(EObject elemToInit, EStructuralFeature potentialContainmentFeat) {
+		var refType = potentialContainmentFeat.getEType();
+		var refTypeCls = refType.getInstanceClass();
+		return refType instanceof EClass && refTypeCls.isAssignableFrom(elemToInit.eClass().getInstanceClass());
+	}
+
+	public static void adaptBidirectionalReference(EObject elemToInit, Object otherElem) {
+		if (otherElem instanceof EObject) {
+			var castedOE = (EObject) otherElem;
+			for (var ref : getContainmentReference(elemToInit, castedOE)) {
+				if (!ref.isMany()) {
+					castedOE.eSet(ref, elemToInit);
+				} else {
+					((EList) castedOE.eGet(ref)).add(elemToInit);
+				}
+			}
+		} else if (otherElem instanceof List) {
+			var castedOE = (List) otherElem;
+			if (!castedOE.isEmpty() && castedOE.get(0) instanceof EObject) {
+				for (var obj : castedOE) {
+					adaptBidirectionalReference(elemToInit, obj);
+				}
+			}
+		}
+	}
 
 	public static EObject getInitialisationForX(EObject me, EClass eCls) {
 		return getInitialisationForX(me, eCls.getInstanceClass());
