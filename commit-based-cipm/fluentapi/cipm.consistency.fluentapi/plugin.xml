@@ -9,8 +9,16 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated initialiserModels -->
       <package
-            uri="file:/C:/Users/sdq-l/CIPM2/commit-based-cipm/fluentapi/cipm.consistency.fluentapi/src/cipm/consistency/fluentapi/api"
+            uri="file:/C:/Users/atora/CIPM2/commit-based-cipm/fluentapi/cipm.consistency.fluentapi/src/cipm/consistency/fluentapi/api"
             class="cipm.consistency.fluentapi.api.ApiPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="file:/C:/Users/atora/CIPM2/commit-based-cipm/fluentapi/cipm.consistency.fluentapi/src/cipm/consistency/fluentapi/api/inits"
+            class="cipm.consistency.fluentapi.api.inits.InitsPackage"
             genModel="initModel/initialiserModels.genmodel"/>
    </extension>
 
