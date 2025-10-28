@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationEClassesReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationNewOperationGenerator;
@@ -20,31 +21,61 @@ import cipm.consistency.fluentapi.gen.FluentAPIOngoingInitialisationsReferenceGe
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPIReferenceGenerator;
 
 public final class FluentEObjectAPIMethods {
-//	/**
-//	 * @return An instance of elementCls
-//	 */
-//	public static void newElement(EObject meInit) {
-//		var currentElementRef = me.eClass()
-//				.getEStructuralFeature(FluentAPICurrentElementReferenceGenerator.getCurrentElementReferenceName());
-//		var elementCls = (EClass) currentElementRef.getEType();
-//		me.eSet(currentElementRef, elementCls.getEPackage().getEFactoryInstance().create(elementCls));
-//	}
+	/**
+	 * @return The containment reference for elemToInit inside otherElem, if there
+	 *         is exactly one containment reference with the matching type. If there
+	 *         are multiple possibilities, returns null. If there is no containment
+	 *         reference, {@code elemToInit.eContainer() == otherElem} is likely and
+	 *         is already set, so this method returns null.
+	 */
+	private static EReference getContainmentReference(EObject elemToInit, EObject otherElem) {
+		var directContainments = otherElem.eClass().getEReferences().stream()
+				.filter((r) -> isContainmentReferenceFor(elemToInit, r)).collect(Collectors.toList());
+		if (!directContainments.isEmpty()) {
+			if (directContainments.size() == 1) {
+				return directContainments.get(0);
+			} else {
+				return null;
+			}
+		}
 
-	private static List<EReference> getContainmentReference(EObject elemToInit, EObject otherElem) {
-		return otherElem.eClass().getEAllReferences().stream()
-				.filter((ref) -> isContainmentReferenceFor(elemToInit, ref)).collect(Collectors.toList());
+		var inheritedContainments = new ArrayList<EReference>(otherElem.eClass().getEAllReferences()).stream()
+				.filter((r) -> !directContainments.contains(r)).filter((r) -> isContainmentReferenceFor(elemToInit, r))
+				.collect(Collectors.toList());
+		if (!inheritedContainments.isEmpty()) {
+			if (inheritedContainments.size() == 1) {
+				return inheritedContainments.get(0);
+			} else {
+				return null;
+			}
+		}
+
+		// TODO Maybe delegate to some "exceptions" class that returns the EReference
+		// for (elemToInit, otherElem)
+
+		return null;
 	}
 
-	private static boolean isContainmentReferenceFor(EObject elemToInit, EStructuralFeature potentialContainmentFeat) {
+	private static boolean isContainmentReferenceFor(EObject elemToInit, EReference potentialContainmentFeat) {
 		var refType = potentialContainmentFeat.getEType();
 		var refTypeCls = refType.getInstanceClass();
 		return refType instanceof EClass && refTypeCls.isAssignableFrom(elemToInit.eClass().getInstanceClass());
 	}
 
+	public static void adaptEOpposite(EObject elemToInit, EStructuralFeature elemToInitFeat, Object otherElem) {
+		if (elemToInitFeat instanceof EReference) {
+			var castedFeat = (EReference) elemToInitFeat;
+			if (castedFeat.getEOpposite() != null && otherElem instanceof EObject) {
+				((EObject) otherElem).eSet(castedFeat.getEOpposite(), elemToInit);
+			}
+		}
+	}
+
 	public static void adaptBidirectionalReference(EObject elemToInit, Object otherElem) {
 		if (otherElem instanceof EObject) {
 			var castedOE = (EObject) otherElem;
-			for (var ref : getContainmentReference(elemToInit, castedOE)) {
+			var ref = getContainmentReference(elemToInit, castedOE);
+			if (ref != null) {
 				if (!ref.isMany()) {
 					castedOE.eSet(ref, elemToInit);
 				} else {
@@ -88,20 +119,6 @@ public final class FluentEObjectAPIMethods {
 		getOngoingInits(me).add(initInstance);
 		return initInstance;
 	}
-
-//	public static EClass getInitialisationEClassForX(EObject me, Class<?> eobjCls) {
-//		me.eClass().getEPackage().getEClassifiers().stream().filter((eCls) -> eCls instanceof EClass)
-//				.map((eCls) -> (EClass) eCls).filter((eCls) -> !eCls.isAbstract())
-//				.filter((eCls) -> eCls.getName().startsWith(eobjCls.getSimpleName()));
-//
-//		return (EClass) getInits(me).stream().filter((i) -> isInitialisationFor(i, eobjCls)).findFirst().orElse(null);
-//	}
-//
-//	public static EClass getInitialisationEClassForXFromPackage(EObject me, Class<?> eobjCls) {
-//		return me.eClass().getEPackage().getEClassifiers().stream().filter((eCls) -> eCls instanceof EClass)
-//				.map((eCls) -> (EClass) eCls).filter((eCls) -> isInitialisationFor(eCls, eobjCls)).findFirst()
-//				.orElse(null);
-//	}
 
 	public static boolean isInitialisationFor(EClass initECls, Class<?> eobjCls) {
 		return !initECls.isAbstract() && initECls.getName().startsWith(eobjCls.getSimpleName());
