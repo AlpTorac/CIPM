@@ -45,6 +45,12 @@ public class FluentAPIInitialisationGenerator {
 		var gen = new FluentAPICreateNowMethodGenerator();
 		xInitEClass.getEOperations().add(gen.generateCreateNowMethod(initialisedEClass));
 
+		xInitEClass.getEOperations()
+				.add(new FluentAPIInitialisationDropOperationGenerator().generateDropInitialisationMethod(xInitEClass));
+
+		xInitEClass.getEOperations().add(
+				new FluentAPIInitialisationResetOperationGenerator().generateResetInitialisationMethod(xInitEClass));
+
 		return xInitEClass;
 	}
 }
