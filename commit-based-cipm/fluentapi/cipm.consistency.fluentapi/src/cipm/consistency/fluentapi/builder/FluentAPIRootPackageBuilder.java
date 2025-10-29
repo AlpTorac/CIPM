@@ -15,6 +15,7 @@ import cipm.consistency.fluentapi.gen.FluentAPIGetInitialisationForMethodGenerat
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationEClassesReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationsPackageGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPIModifyElementMethodGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIOngoingInitialisationsReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPINewMethodGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPIReferenceGenerator;
@@ -52,6 +53,9 @@ public class FluentAPIRootPackageBuilder {
 		fluentAPICls.getEOperations().addAll(new FluentAPIRootAPINewMethodGenerator()
 				.getAllRootAPINewOperations(fluentAPICls, initSuperType, initEClss, allEClassesToInit, filter));
 
+		fluentAPICls.getEOperations().addAll(new FluentAPIModifyElementMethodGenerator()
+				.getAllRootAPIModifyElementOperations(fluentAPICls, initSuperType, initEClss, allEClassesToInit));
+
 		fluentAPICls.getEOperations().addAll(new FluentAPIContinueMethodGenerator()
 				.generateAllContinueMethods(initEClss, allEClassesToInit, filter));
 
@@ -59,10 +63,13 @@ public class FluentAPIRootPackageBuilder {
 				.generateDropInitialisationMethod(fluentAPICls, initSuperType));
 
 		fluentAPICls.getEOperations()
-				.add(new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForMethod(initSuperType));
+				.add(new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForEClassMethod(initSuperType));
 
 		fluentAPICls.getEOperations()
 				.add(new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForClassMethod(initSuperType));
+
+		fluentAPICls.getEOperations().add(
+				new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForEObjectMethod(initSuperType));
 
 		/*
 		 * initSuperType

@@ -22,8 +22,12 @@ public class FluentAPIGetInitialisationForMethodGenerator {
 	private static final String getInitialisationForClassMethodBody = FluentAPIMethodsUtil
 			.joinLOC("return (%s)" + FluentEObjectAPIMethods.class.getName() + ".getInitialisationForX(this, %s)");
 
-	public EOperation getInitialisationForMethod(EClass initsSuperType) {
-		var param = getInitialisationParam();
+	private static final String getInitialisationForEObjectParamName = "eobjToInit";
+	private static final String getInitialisationForEObjectMethodBody = FluentAPIMethodsUtil
+			.joinLOC("return (%s)" + FluentEObjectAPIMethods.class.getName() + ".getInitialisationForX(this, %s)");
+
+	public EOperation getInitialisationForEClassMethod(EClass initsSuperType) {
+		var param = getInitialisationForEClassParam();
 		return FluentAPIGenerationUtil
 				.generateEOperationWithBody(getInitialisationMethodName, genModelURL, initsSuperType,
 						String.format(getInitialisationMethodBody,
@@ -31,7 +35,7 @@ public class FluentAPIGetInitialisationForMethodGenerator {
 						param);
 	}
 
-	public EParameter getInitialisationParam() {
+	public EParameter getInitialisationForEClassParam() {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(getInitialisationParamName,
 				FluentAPIGenerationUtil.getEClassEClass());
 	}
@@ -48,5 +52,19 @@ public class FluentAPIGetInitialisationForMethodGenerator {
 	public EParameter getInitialisationForClassParam() {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(getInitialisationForClassParamName,
 				EcorePackage.Literals.EJAVA_CLASS);
+	}
+
+	public EOperation getInitialisationForEObjectMethod(EClass initsSuperType) {
+		var param = getInitialisationForEObjectParam();
+		return FluentAPIGenerationUtil
+				.generateEOperationWithBody(getInitialisationMethodName, genModelURL, initsSuperType,
+						String.format(getInitialisationForEObjectMethodBody,
+								FluentAPIGenerationUtil.getFullyQualifiedEClassName(initsSuperType), param.getName()),
+						param);
+	}
+
+	public EParameter getInitialisationForEObjectParam() {
+		return FluentAPIGenerationUtil.generateSingleValuedEParameter(getInitialisationForEObjectParamName,
+				EcorePackage.Literals.EOBJECT);
 	}
 }

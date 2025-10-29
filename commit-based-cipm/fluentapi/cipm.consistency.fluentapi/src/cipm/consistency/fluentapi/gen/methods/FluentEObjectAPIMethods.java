@@ -14,6 +14,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 
+import cipm.consistency.fluentapi.gen.FluentAPICurrentElementReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationEClassesReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationNewOperationGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationsPackageGenerator;
@@ -57,6 +58,8 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	private static boolean isContainmentReferenceFor(EObject elemToInit, EReference potentialContainmentFeat) {
+		if (!potentialContainmentFeat.isContainment())
+			return false;
 		var refType = potentialContainmentFeat.getEType();
 		var refTypeCls = refType.getInstanceClass();
 		return refType instanceof EClass && refTypeCls.isAssignableFrom(elemToInit.eClass().getInstanceClass());
@@ -92,11 +95,7 @@ public final class FluentEObjectAPIMethods {
 		}
 	}
 
-	public static EObject getInitialisationForX(EObject me, EClass eCls) {
-		return getInitialisationForX(me, eCls.getInstanceClass());
-	}
-
-	public static EObject getInitialisationForX(EObject me, Class<?> eobjCls) {
+	public static EObject getInitialisationInstanceForX(EObject me, Class<?> eobjCls) {
 		var initsPac = me.eClass().getEPackage().getESubpackages().stream()
 				.filter((pac) -> pac.getName().equals(FluentAPIInitialisationsPackageGenerator.getPackageName()))
 				.findFirst().get();
@@ -104,6 +103,14 @@ public final class FluentEObjectAPIMethods {
 		var initEClass = (EClass) initsPac.getEClassifiers().stream().filter((eCls) -> eCls instanceof EClass)
 				.map((eCls) -> (EClass) eCls).filter((eCls) -> isInitialisationFor(eCls, eobjCls)).findFirst().get();
 		var initInstance = initEClass.getEPackage().getEFactoryInstance().create(initEClass);
+		initInstance.eSet(initInstance.eClass()
+				.getEStructuralFeature(FluentAPIRootAPIReferenceGenerator.getRootAPIReferenceName()), me);
+		getOngoingInits(me).add(initInstance);
+		return initInstance;
+	}
+
+	public static EObject getInitialisationInstanceForXWithNewElement(EObject me, Class<?> eobjCls) {
+		var initInstance = getInitialisationInstanceForX(me, eobjCls);
 		var newElemOp = initInstance.eClass().getEOperations().stream()
 				.filter((op) -> op.getName().equals(FluentAPIInitialisationNewOperationGenerator.getNewOperationName()))
 				.findFirst().get();
@@ -112,11 +119,23 @@ public final class FluentEObjectAPIMethods {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
+		return initInstance;
+	}
 
-		initInstance.eSet(initInstance.eClass()
-				.getEStructuralFeature(FluentAPIRootAPIReferenceGenerator.getRootAPIReferenceName()), me);
+	public static EObject getInitialisationForX(EObject me, EClass eCls) {
+		return getInitialisationForX(me, eCls.getInstanceClass());
+	}
 
-		getOngoingInits(me).add(initInstance);
+	public static EObject getInitialisationForX(EObject me, Class<?> eobjCls) {
+		return getInitialisationInstanceForXWithNewElement(me, eobjCls);
+	}
+
+	public static EObject getInitialisationForX(EObject me, EObject eobjToInit) {
+		var initInstance = getInitialisationInstanceForX(me, eobjToInit.eClass().getInstanceClass());
+
+		initInstance.eSet(initInstance.eClass().getEStructuralFeature(
+				FluentAPICurrentElementReferenceGenerator.getCurrentElementReferenceName()), eobjToInit);
+
 		return initInstance;
 	}
 
@@ -131,7 +150,10 @@ public final class FluentEObjectAPIMethods {
 	public static EObject continueElement(EObject me, Class<?> eobjCls) {
 		var initsOfMatchingType = getOngoingInits(me).stream().filter((i) -> isInitialisationFor(i.eClass(), eobjCls))
 				.collect(Collectors.toCollection(ArrayList::new));
-		return initsOfMatchingType.get(initsOfMatchingType.size() - 1);
+		EObject init = null;
+		if (!initsOfMatchingType.isEmpty())
+			init = initsOfMatchingType.get(initsOfMatchingType.size() - 1);
+		return init;
 	}
 
 	public static void withInitialisation(EObject me, EClass initEClass) {

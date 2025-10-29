@@ -24,6 +24,12 @@ public class FluentAPISuperInitialisationGenerator {
 
 		superType.getEOperations().add(new FluentAPINewElementMethodGenerator().generateNewElementMethod(superType));
 
+		superType.getEOperations()
+				.add(new FluentAPIInitialisationDropOperationGenerator().generateDropInitialisationMethod(superType));
+
+		superType.getEOperations()
+				.add(new FluentAPIInitialisationResetOperationGenerator().generateResetInitialisationMethod(superType));
+
 		return superType;
 	}
 }

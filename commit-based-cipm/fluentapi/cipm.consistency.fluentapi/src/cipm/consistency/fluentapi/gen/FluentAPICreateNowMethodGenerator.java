@@ -10,8 +10,10 @@ public class FluentAPICreateNowMethodGenerator {
 
 	private static final String createNowMethodName = "createNow";
 
-	private static final String createNowMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) this.getCurrentElement()");
+	private static final String createNowMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			"this.toAPI().dropInitialisation(this)",
+			//
+			"return (%s) this.getCurrentElement()");
 
 	public EOperation generateCreateNowMethod(EClass elemToInit) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(createNowMethodName, genModelURL, elemToInit,
