@@ -49,13 +49,9 @@ public class FluentAPIContinueTest {
 	public void continueIndexTest() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
-		var clsOne = "clsOne";
-		var clsTwo = "clsTwo";
-		var clsThree = "clsThree";
-
-		var clsInit1 = api.newClass().withName(clsOne);
-		var clsInit2 = api.newClass().withName(clsTwo);
-		var clsInit3 = api.newClass().withName(clsThree);
+		var clsInit1 = api.newClass();
+		var clsInit2 = api.newClass();
+		var clsInit3 = api.newClass();
 
 		Assertions.assertEquals(clsInit1, api.continueClassFromStart(0));
 		Assertions.assertEquals(clsInit1, api.continueClassFromEnd(2));
@@ -65,5 +61,36 @@ public class FluentAPIContinueTest {
 
 		Assertions.assertEquals(clsInit3, api.continueClassFromStart(2));
 		Assertions.assertEquals(clsInit3, api.continueClassFromEnd(0));
+	}
+
+	@Test
+	public void continueIndexTest_OutOfBounds() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		Assertions.assertNull(api.continueClassFromStart(0));
+		Assertions.assertNull(api.continueClassFromEnd(0));
+	}
+
+	@Test
+	public void continueIndexTest_DifferentTypes() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var init1 = api.newClass();
+		var init2 = api.newInterface();
+		var init3 = api.newClass();
+
+		Assertions.assertEquals(init1, api.continueClassFromStart(0));
+		Assertions.assertEquals(init3, api.continueClassFromStart(1));
+		Assertions.assertNull(api.continueClassFromStart(2));
+
+		Assertions.assertEquals(init3, api.continueClassFromEnd(0));
+		Assertions.assertEquals(init1, api.continueClassFromEnd(1));
+		Assertions.assertNull(api.continueClassFromEnd(2));
+
+		Assertions.assertEquals(init2, api.continueInterfaceFromStart(0));
+		Assertions.assertEquals(init2, api.continueInterfaceFromEnd(0));
+
+		Assertions.assertNull(api.continueInterfaceFromStart(1));
+		Assertions.assertNull(api.continueInterfaceFromEnd(1));
 	}
 }

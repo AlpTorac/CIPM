@@ -51,6 +51,12 @@ public class FluentAPIInitialisationGenerator {
 		xInitEClass.getEOperations().add(
 				new FluentAPIInitialisationResetOperationGenerator().generateResetInitialisationMethod(xInitEClass));
 
+		xInitEClass.getEOperations().add(new FluentAPINextInitialisationMethodGenerator()
+				.getNextInitialisationMethodFor(xInitEClass, initialisedEClass));
+
+		xInitEClass.getEOperations().add(new FluentAPIPreviousInitialisationMethodGenerator()
+				.getPreviousInitialisationMethodFor(xInitEClass, initialisedEClass));
+
 		return xInitEClass;
 	}
 }
