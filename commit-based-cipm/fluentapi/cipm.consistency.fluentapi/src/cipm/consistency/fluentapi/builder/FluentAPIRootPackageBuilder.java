@@ -16,7 +16,9 @@ import cipm.consistency.fluentapi.gen.FluentAPIInitialisationEClassesReferenceGe
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationsPackageGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIModifyElementMethodGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPIPreviousInitialisationMethodGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIOngoingInitialisationsReferenceGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPINextInitialisationMethodGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPINewMethodGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPIReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootPackageGenerator;
@@ -62,8 +64,8 @@ public class FluentAPIRootPackageBuilder {
 		fluentAPICls.getEOperations().add(new FluentAPIDropInitialisationMethodGenerator()
 				.generateDropInitialisationMethod(fluentAPICls, initSuperType));
 
-		fluentAPICls.getEOperations()
-				.add(new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForEClassMethod(initSuperType));
+		fluentAPICls.getEOperations().add(
+				new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForEClassMethod(initSuperType));
 
 		fluentAPICls.getEOperations()
 				.add(new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForClassMethod(initSuperType));
@@ -75,6 +77,12 @@ public class FluentAPIRootPackageBuilder {
 		 * initSuperType
 		 */
 		initSuperType.getEOperations().add(new FluentAPIToAPIMethodGenerator().generateToAPIMethod(fluentAPICls));
+
+		initSuperType.getEOperations().add(new FluentAPINextInitialisationMethodGenerator()
+				.getNextInitialisationMethodFor(initSuperType, FluentAPIGenerationUtil.getEObjectEClass()));
+
+		initSuperType.getEOperations().add(new FluentAPIPreviousInitialisationMethodGenerator()
+				.getPreviousInitialisationMethodFor(initSuperType, FluentAPIGenerationUtil.getEObjectEClass()));
 
 		return rootPacs;
 	}
