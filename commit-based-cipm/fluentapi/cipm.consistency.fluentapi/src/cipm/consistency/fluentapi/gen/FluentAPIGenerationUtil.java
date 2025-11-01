@@ -24,7 +24,7 @@ public class FluentAPIGenerationUtil {
 
 	public static boolean hasModifiableFeatures(EClass eObjEClass) {
 		return eObjEClass.getEAllStructuralFeatures().stream()
-				.anyMatch((f) -> FluentAPITargetMetamodelFeatureFilter.isFeatureEligible(f));
+				.anyMatch((f) -> FluentAPITargetMetamodelFeatureFilter.isFeatureActuallyChangeable(f));
 	}
 
 	public static boolean hasModifiableFeatures(EClass eObjEClass, FluentAPITargetMetamodelFeatureFilter filter) {
