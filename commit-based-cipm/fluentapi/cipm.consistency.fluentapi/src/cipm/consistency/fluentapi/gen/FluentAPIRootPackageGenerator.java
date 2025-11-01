@@ -1,6 +1,7 @@
 package cipm.consistency.fluentapi.gen;
 
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
@@ -13,6 +14,10 @@ public class FluentAPIRootPackageGenerator {
 
 	public static String getRootPackageName() {
 		return rootPacName;
+	}
+
+	public static Path getRootPackageDirectoryPath() {
+		return Path.of(rootPacName, srcDirName);
 	}
 
 	public static URI getRootPackageURI() {

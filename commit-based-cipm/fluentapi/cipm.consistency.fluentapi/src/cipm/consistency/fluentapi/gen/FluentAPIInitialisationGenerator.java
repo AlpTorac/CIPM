@@ -13,7 +13,7 @@ public class FluentAPIInitialisationGenerator {
 	public List<EClass> generateFluentAPIInitialisationClasses(
 			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
 			FluentAPITargetMetamodelFeatureFilter filter) {
-		var allPackages = targetMetamodelPackageProvider.getTargetMetamodelPackages();
+		var allPackages = targetMetamodelPackageProvider.getAllTargetMetamodelSubPackages();
 		var fluentAPISubClss = new ArrayList<EClass>();
 
 		for (var pac : allPackages) {

@@ -16,12 +16,13 @@ Require-Bundle: junit-jupiter-api,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
  org.emftext.language.java;visibility:=reexport,
- org.apache.commons.lang
+ org.apache.commons.lang,
+ org.eclipse.emf.codegen.ecore
 Bundle-ActivationPolicy: lazy
-Export-Package: cipm.consistency.fluentapi.gen,
- cipm.consistency.fluentapi.api,
+Export-Package: cipm.consistency.fluentapi.api,
  cipm.consistency.fluentapi.api.impl,
  cipm.consistency.fluentapi.api.inits,
  cipm.consistency.fluentapi.api.inits.impl,
  cipm.consistency.fluentapi.api.inits.util,
- cipm.consistency.fluentapi.api.util
+ cipm.consistency.fluentapi.api.util,
+ cipm.consistency.fluentapi.gen
