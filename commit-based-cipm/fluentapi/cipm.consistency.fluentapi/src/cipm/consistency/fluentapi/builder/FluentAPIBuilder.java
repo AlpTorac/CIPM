@@ -8,8 +8,10 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.gen.java.FluentAPIJavaMetamodelFeatureFilter;
-import cipm.consistency.fluentapi.gen.java.FluentAPIJavaMetamodelPackageProvider;
+import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
+//import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmRepositoryMetamodelFeatureFilter;
+//import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmRepositoryMetamodelPackageProvider;
 
 public class FluentAPIBuilder {
 	private static final String initModelDirName = "initModel";
@@ -28,8 +30,8 @@ public class FluentAPIBuilder {
 		var resSet = new ResourceSetImpl();
 		var res = resSet.createResource(URI.createFileURI(ecoreFilePath.toString()));
 
-		res.getContents()
-				.add(new FluentAPIRootPackageBuilder().buildRootPackage(new FluentAPIJavaMetamodelPackageProvider(),
+		res.getContents().add(
+				new FluentAPIRootPackageBuilder().buildRootPackage(new FluentAPIJavaMetamodelPackageProvider(),
 						new FluentAPIJavaMetamodelFeatureFilter()).get(0));
 		try {
 			res.save(null);

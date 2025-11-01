@@ -1,4 +1,4 @@
-package cipm.consistency.fluentapi.gen.java;
+package cipm.consistency.fluentapi.gen.metamodels;
 
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
@@ -12,14 +12,13 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
-import org.emftext.language.java.JavaPackage;
 
-public final class JavaPackageUtil {
+public final class MetamodelUtil {
 	/**
 	 * A variant of {@link #getAllClasses(Predicate)} with no given predicate.
 	 */
-	public static Collection<Class<? extends EObject>> getAllClasses() {
-		return getAllClasses(null);
+	public static Collection<Class<? extends EObject>> getAllClasses(EPackage topPac) {
+		return getAllClasses(topPac);
 	}
 
 	/**
@@ -30,28 +29,28 @@ public final class JavaPackageUtil {
 	 *         {@code eClass.getInstanceClass()} will be in the return value, which
 	 *         fulfill the given predicate.
 	 */
-	public static Collection<Class<? extends EObject>> getAllClasses(Predicate<EClass> pred) {
+	public static Collection<Class<? extends EObject>> getAllClasses(Predicate<EClass> pred, EPackage topPac) {
 		var res = new ArrayList<Class<? extends EObject>>();
 		Predicate<EClass> predToUse = pred != null ? pred : (a) -> true;
-		getAllEClasses().stream().filter(predToUse).forEach((eCls) -> res.add(getInstanceClassOfEClassifier(eCls)));
+		getAllEClasses(topPac).stream().filter(predToUse)
+				.forEach((eCls) -> res.add(getInstanceClassOfEClassifier(eCls)));
 		return res;
 	}
 
 	/**
-	 * @return All {@link EClass}es accessible under the sub-packages of
-	 *         {@link JavaPackage}.
+	 * @return All {@link EClass}es accessible under the sub-packages of topPac.
 	 */
-	public static Collection<EClass> getAllEClasses() {
+	public static Collection<EClass> getAllEClasses(EPackage topPac) {
 		var res = new ArrayList<EClass>();
-		var ePacs = JavaPackage.eINSTANCE.getESubpackages();
+		var ePacs = topPac.getESubpackages();
 		ePacs.forEach((pac) -> pac.getEClassifiers().stream().filter((eClsf) -> eClsf instanceof EClass)
 				.forEach((c) -> res.add((EClass) c)));
 		return res;
 	}
 
-	public static Collection<EClass> getAllConcreteEClasses() {
+	public static Collection<EClass> getAllConcreteEClasses(EPackage topPac) {
 		var res = new ArrayList<EClass>();
-		var ePacs = JavaPackage.eINSTANCE.getESubpackages();
+		var ePacs = topPac.getESubpackages();
 		ePacs.forEach((pac) -> pac.getEClassifiers().stream().filter((eClsf) -> eClsf instanceof EClass)
 				.map((c) -> (EClass) c).filter((c) -> !c.isAbstract() && !c.isInterface()).forEach((c) -> res.add(c)));
 		return res;
@@ -66,8 +65,8 @@ public final class JavaPackageUtil {
 		return (Class<? extends EObject>) eClsfier.getInstanceClass();
 	}
 
-	public static List<EPackage> getAllSubPackages() {
-		return new ArrayList<>(JavaPackage.eINSTANCE.getESubpackages());
+	public static List<EPackage> getAllSubPackages(EPackage topPac) {
+		return new ArrayList<>(topPac.getESubpackages());
 	}
 
 	/**
@@ -80,8 +79,8 @@ public final class JavaPackageUtil {
 	 * @return The {@link EClass} corresponding to the class represented by cls.
 	 *         Null, if no such {@link EClass} is found under {@link JavaPackage}.
 	 */
-	public static EClass getEClassForJavaElement(Class<?> cls) {
-		var ePacs = getAllSubPackages();
+	public static EClass getEClassForJavaElement(Class<?> cls, EPackage topPac) {
+		var ePacs = getAllSubPackages(topPac);
 		for (var ePac : ePacs) {
 			var eClss = ePac.getEClassifiers();
 			for (var eCls : eClss) {
@@ -106,10 +105,10 @@ public final class JavaPackageUtil {
 	 *         This means, if cls represents the type xImpl, the returned
 	 *         {@link EClass} will belong to x.</b>
 	 */
-	public static EClass getEClassForJavaElementImpl(Class<?> cls) {
+	public static EClass getEClassForJavaElementImpl(Class<?> cls, EPackage topPac) {
 		var interfaceType = getInterfaceTypeForJavaElementImpl(cls);
 		if (interfaceType != null) {
-			return getEClassForJavaElement(interfaceType);
+			return getEClassForJavaElement(interfaceType, topPac);
 		}
 		return null;
 	}
@@ -148,8 +147,8 @@ public final class JavaPackageUtil {
 	 * @return Types of concrete implementations and interfaces of all Java-Model
 	 *         elements.
 	 */
-	public static Set<Class<? extends EObject>> getAllPossibleTypes() {
-		return getAllPossibleTypes(JavaPackage.eINSTANCE.getESubpackages());
+	public static Set<Class<? extends EObject>> getAllPossibleTypes(EPackage topPac) {
+		return getAllPossibleTypes(topPac.getESubpackages());
 	}
 
 	/**
@@ -162,7 +161,7 @@ public final class JavaPackageUtil {
 	 *         sub-packages. Includes types of interfaces as well as concrete
 	 *         implementation classes.
 	 */
-	public static Set<Class<? extends EObject>> getAllPossibleTypes(EPackage cPac) {
+	public static Set<Class<? extends EObject>> getAllNestedPossibleTypes(EPackage cPac) {
 		var clss = cPac.getEClassifiers();
 		var subPacs = cPac.getESubpackages();
 

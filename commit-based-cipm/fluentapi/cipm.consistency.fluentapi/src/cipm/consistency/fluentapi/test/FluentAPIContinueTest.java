@@ -7,7 +7,7 @@ import cipm.consistency.fluentapi.api.ApiFactory;
 
 public class FluentAPIContinueTest {
 	@Test
-	public void apiTest_Continue_SameElement() {
+	public void sameElement() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
 		var modName = "modName";
@@ -22,7 +22,7 @@ public class FluentAPIContinueTest {
 	}
 
 	@Test
-	public void apiTest_Continue_Switches() {
+	public void differentElement() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
 		var modName = "modName";
@@ -43,5 +43,27 @@ public class FluentAPIContinueTest {
 		Assertions.assertEquals(pacName, mod.getPackages().get(0).getName());
 		Assertions.assertEquals(modNss.size(), mod.getPackages().get(0).getNamespaces().size());
 		Assertions.assertFalse(mod.getPackages().get(0).getNamespaces().retainAll(modNss));
+	}
+
+	@Test
+	public void continueIndexTest() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var clsOne = "clsOne";
+		var clsTwo = "clsTwo";
+		var clsThree = "clsThree";
+
+		var clsInit1 = api.newClass().withName(clsOne);
+		var clsInit2 = api.newClass().withName(clsTwo);
+		var clsInit3 = api.newClass().withName(clsThree);
+
+		Assertions.assertEquals(clsInit1, api.continueClassFromStart(0));
+		Assertions.assertEquals(clsInit1, api.continueClassFromEnd(2));
+
+		Assertions.assertEquals(clsInit2, api.continueClassFromStart(1));
+		Assertions.assertEquals(clsInit2, api.continueClassFromEnd(1));
+
+		Assertions.assertEquals(clsInit3, api.continueClassFromStart(2));
+		Assertions.assertEquals(clsInit3, api.continueClassFromEnd(0));
 	}
 }
