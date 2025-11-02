@@ -1,5 +1,11 @@
 package cipm.consistency.fluentapi.test;
 
+import java.util.List;
+
+import org.emftext.language.java.classifiers.ClassifiersFactory;
+import org.emftext.language.java.classifiers.ClassifiersPackage;
+import org.emftext.language.java.commons.CommonsPackage;
+import org.emftext.language.java.containers.ContainersFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -53,5 +59,117 @@ public class FluentAPIRootAPITest {
 
 		// Ensure that reset() does not remove the Initialisation instance from API
 		Assertions.assertNotNull(api.continueClass());
+	}
+
+	@Test
+	public void withFeat() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var clsName = "cls";
+		var cls = ClassifiersFactory.eINSTANCE.createClass();
+
+		Assertions.assertNotEquals(clsName, cls.getName());
+		api.xWithFeat(cls, CommonsPackage.Literals.NAMED_ELEMENT__NAME, clsName);
+		Assertions.assertEquals(clsName, cls.getName());
+	}
+
+	@Test
+	public void withoutFeat() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var clsName = "cls";
+		var cls = ClassifiersFactory.eINSTANCE.createClass();
+		cls.setName(clsName);
+
+		Assertions.assertEquals(clsName, cls.getName());
+		api.xWithoutFeat(cls, CommonsPackage.Literals.NAMED_ELEMENT__NAME);
+		Assertions.assertNotEquals(clsName, cls.getName());
+	}
+
+	@Test
+	public void withAddedFeat() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var pacNss = List.of("ns1");
+		var nsToAddOne = "ns2";
+		var nsToAddTwo = FluentAPITestUtils.toEList("ns3", "ns4");
+		var pac = ContainersFactory.eINSTANCE.createPackage();
+		pac.getNamespaces().addAll(pacNss);
+
+		Assertions.assertEquals(pacNss.size(), pac.getNamespaces().size());
+		Assertions.assertFalse(pac.getNamespaces().retainAll(pacNss));
+
+		api.xWithAddedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nsToAddOne);
+		Assertions.assertEquals(2, pac.getNamespaces().size());
+		Assertions.assertEquals(nsToAddOne, pac.getNamespaces().get(1));
+
+		api.xWithAddedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nsToAddTwo);
+		Assertions.assertEquals(4, pac.getNamespaces().size());
+		Assertions.assertEquals(nsToAddTwo.get(0), pac.getNamespaces().get(2));
+		Assertions.assertEquals(nsToAddTwo.get(1), pac.getNamespaces().get(3));
+	}
+
+	@Test
+	public void withRemovedFeat() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var pacNss = List.of("ns1", "ns2", "ns3", "ns4");
+		var nsToRemoveOne = "ns2";
+		var nsToRemoveTwo = FluentAPITestUtils.toEList("ns3", "ns4");
+		var pac = ContainersFactory.eINSTANCE.createPackage();
+		pac.getNamespaces().addAll(pacNss);
+
+		Assertions.assertEquals(pacNss.size(), pac.getNamespaces().size());
+		Assertions.assertFalse(pac.getNamespaces().retainAll(pacNss));
+
+		api.xWithRemovedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nsToRemoveOne);
+		Assertions.assertEquals(3, pac.getNamespaces().size());
+		Assertions.assertFalse(pac.getNamespaces().remove(nsToRemoveOne));
+
+		api.xWithRemovedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nsToRemoveTwo);
+		Assertions.assertEquals(1, pac.getNamespaces().size());
+		Assertions.assertEquals(pacNss.get(0), pac.getNamespaces().get(0));
+		Assertions.assertFalse(pac.getNamespaces().contains(nsToRemoveTwo.get(0)));
+		Assertions.assertFalse(pac.getNamespaces().contains(nsToRemoveTwo.get(1)));
+	}
+
+	@Test
+	public void withExactFeat() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var pacNss = List.of("ns1", "ns2");
+		var nsToRemoveOne = FluentAPITestUtils.toEList("ns3");
+		var nsToRemoveTwo = FluentAPITestUtils.toEList("ns4", "ns5");
+		var pac = ContainersFactory.eINSTANCE.createPackage();
+		pac.getNamespaces().addAll(pacNss);
+
+		Assertions.assertEquals(pacNss.size(), pac.getNamespaces().size());
+		Assertions.assertFalse(pac.getNamespaces().retainAll(pacNss));
+
+		api.xWithExactFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nsToRemoveOne);
+		Assertions.assertEquals(nsToRemoveOne.size(), pac.getNamespaces().size());
+		Assertions.assertFalse(pac.getNamespaces().retainAll(nsToRemoveOne));
+
+		api.xWithExactFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nsToRemoveTwo);
+		Assertions.assertEquals(nsToRemoveTwo.size(), pac.getNamespaces().size());
+		Assertions.assertFalse(pac.getNamespaces().retainAll(nsToRemoveTwo));
+	}
+
+	@Test
+	public void withFeatOfContainer() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var cls = ClassifiersFactory.eINSTANCE.createClass();
+		var cu = ContainersFactory.eINSTANCE.createCompilationUnit();
+
+		var cuName = "cu";
+		cu.setName(cuName);
+		Assertions.assertEquals(cuName, cu.getName());
+		cu.getClassifiers().add(cls);
+		Assertions.assertEquals(cu, cls.eContainer());
+		Assertions.assertNull(cls.getName());
+
+		api.xWithFeatOfContainer(cls, CommonsPackage.Literals.NAMED_ELEMENT__NAME);
+		Assertions.assertEquals(cu.getName(), cls.getName());
 	}
 }

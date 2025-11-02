@@ -12,18 +12,25 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 public class FluentAPIModifyElementMethodGenerator {
 	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
 
+	private static final String topLevelModifyElementMethodName = "modifyX";
+	private static final String topLevelModifyElementMethodBody = FluentAPIMethodsUtil.joinLOC(
+			// %s: Fully qualified AbstractInitialisation class name
+			// %s: EObject param name
+			"return (%s) this.getInitialisationForX(%s)");
+
 	private static final String modifyElementMethodNameTemplate = "modify%s";
 
 	private static final String modifyElementMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Initialisation type class name
 			// %s: EObject param name
-			"return (%s)" + "this.getInitialisationForX(%s)");
+			"return (%s) this.getInitialisationForX(%s)");
 
 	private static final String modifyElementEObjectParamName = "eobjToModify";
 
 	public List<EOperation> getAllRootAPIModifyElementOperations(EClass rootAPICls,
 			EClass initialisationSuperTypeEClass, List<EClass> initEClss, List<EClass> eObjEClss) {
 		var ops = new ArrayList<EOperation>();
+		ops.add(getRootAPITopLevelModifyElementOperation(rootAPICls, initialisationSuperTypeEClass));
 
 		for (int i = 0; i < eObjEClss.size(); i++) {
 			var eObjEClass = eObjEClss.get(i);
@@ -40,6 +47,17 @@ public class FluentAPIModifyElementMethodGenerator {
 				String.format(modifyElementMethodNameTemplate, eObjEClass.getInstanceClass().getSimpleName()),
 				genModelURL, initECls, String.format(modifyElementMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls), param.getName()),
+				param);
+	}
+
+	public EOperation getRootAPITopLevelModifyElementOperation(EClass rootAPICls,
+			EClass initialisationSuperTypeEClass) {
+		var param = getEObjectParam(FluentAPIGenerationUtil.getEObjectEClass());
+		return FluentAPIGenerationUtil.generateEOperationWithBody(topLevelModifyElementMethodName, genModelURL,
+				initialisationSuperTypeEClass,
+				String.format(topLevelModifyElementMethodBody,
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initialisationSuperTypeEClass),
+						param.getName()),
 				param);
 	}
 
