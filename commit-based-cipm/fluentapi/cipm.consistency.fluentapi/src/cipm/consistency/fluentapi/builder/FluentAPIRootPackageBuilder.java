@@ -21,6 +21,7 @@ import cipm.consistency.fluentapi.gen.FluentAPIOngoingInitialisationsReferenceGe
 import cipm.consistency.fluentapi.gen.FluentAPINextInitialisationMethodGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPINewMethodGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPIReferenceGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPIRootAPIWithOperationGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootPackageGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
@@ -72,6 +73,9 @@ public class FluentAPIRootPackageBuilder {
 
 		fluentAPICls.getEOperations().add(
 				new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForEObjectMethod(initSuperType));
+
+		fluentAPICls.getEOperations()
+				.addAll(new FluentAPIRootAPIWithOperationGenerator().getAllAPITopLevelWithOperations(fluentAPICls));
 
 		/*
 		 * initSuperType

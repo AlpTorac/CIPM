@@ -268,4 +268,82 @@ public class FluentAPIWithOperationGenerator {
 	public EParameter getExactFeatValParam(EStructuralFeature feat) {
 		return FluentAPIGenerationUtil.generateManyValuedEParameter(exactFeatValParamName, feat.getEType());
 	}
+
+	public static String getWithxfeatnametemplate() {
+		return withXFeatNameTemplate;
+	}
+
+	public static String getWithxfeatofcontainernametemplate() {
+		return withXFeatOfContainerNameTemplate;
+	}
+
+	public static String getWithoutxfeatnametemplate() {
+		return withoutXFeatNameTemplate;
+	}
+
+	public static String getWithaddedxfeatnametemplate() {
+		return withAddedXFeatNameTemplate;
+	}
+
+	public static String getWithremovedxfeatnametemplate() {
+		return withRemovedXFeatNameTemplate;
+	}
+
+	public static String getWithexactxfeatnametemplate() {
+		return withExactXFeatNameTemplate;
+	}
+
+	public static String getNewfeatvalparamname() {
+		return newFeatValParamName;
+	}
+
+	public static String getAddedfeatvalparamname() {
+		return addedFeatValParamName;
+	}
+
+	public static String getRemovedfeatvalparamname() {
+		return removedFeatValParamName;
+	}
+
+	public static String getExactfeatvalparamname() {
+		return exactFeatValParamName;
+	}
+
+	public static String getWithxfeatmethodbodytemplate() {
+		return withXFeatMethodBodyTemplate;
+	}
+
+	public static String getWithoutxfeatmethodbodytemplate() {
+		return withoutXFeatMethodBodyTemplate;
+	}
+
+	public static String getWithaddedxfeatmethodbodytemplate() {
+		return withAddedXFeatMethodBodyTemplate;
+	}
+
+	public static String getWithremovedxfeatmethodbodytemplate() {
+		return withRemovedXFeatMethodBodyTemplate;
+	}
+
+	public static String getWithaddedxlistfeatmethodbodytemplate() {
+		return withAddedXListFeatMethodBodyTemplate;
+	}
+
+	public static String getWithremovedxlistfeatmethodbodytemplate() {
+		return withRemovedXListFeatMethodBodyTemplate;
+	}
+
+	public static String getWithexactxfeatmethodbodytemplate() {
+		return withExactXFeatMethodBodyTemplate;
+	}
+
+	public static String getWithxfeatofcontainermethodbodyformanyvaluedfeattemplate() {
+		return withXFeatOfContainerMethodBodyForManyValuedFeatTemplate;
+	}
+
+	public static String getWithxfeatofcontainermethodbodyforsinglevaluedfeattemplate() {
+		return withXFeatOfContainerMethodBodyForSingleValuedFeatTemplate;
+	}
+	
+	
 }

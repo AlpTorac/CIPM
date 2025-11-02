@@ -2,13 +2,18 @@ package cipm.consistency.fluentapi.gen.methods;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import cipm.consistency.fluentapi.gen.FluentAPICurrentElementReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationEClassesReferenceGenerator;
@@ -16,8 +21,121 @@ import cipm.consistency.fluentapi.gen.FluentAPIInitialisationNewOperationGenerat
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationsPackageGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIOngoingInitialisationsReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPIReferenceGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPIWithOperationGenerator;
 
 public final class FluentEObjectAPIMethods {
+	public static EObject xWithFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
+		var init = getInitialisationForX(api, objToModify);
+		var opName = String.format(FluentAPIWithOperationGenerator.getWithxfeatnametemplate(),
+				StringUtils.capitalize(feat.getName()));
+		var withOp = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName)).findFirst()
+				.get();
+		try {
+			init.eInvoke(withOp, new BasicEList<>(Collections.singleton(featVal)));
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		dropInitialisation(api, init);
+		return api;
+	}
+
+	public static EObject xWithoutFeat(EObject api, EObject objToModify, EStructuralFeature feat) {
+		var init = getInitialisationForX(api, objToModify);
+		var opName = String.format(FluentAPIWithOperationGenerator.getWithoutxfeatnametemplate(),
+				StringUtils.capitalize(feat.getName()));
+		var withoutOp = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName)).findFirst()
+				.get();
+		try {
+			init.eInvoke(withoutOp, new BasicEList<>());
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		dropInitialisation(api, init);
+		return api;
+	}
+
+	public static EObject xWithAddedFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
+		var init = getInitialisationForX(api, objToModify);
+		var opName = String.format(FluentAPIWithOperationGenerator.getWithaddedxfeatnametemplate(),
+				StringUtils.capitalize(feat.getName()));
+		var withAddedOps = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName))
+				.collect(Collectors.toList());
+		EOperation op = null;
+		var argList = new BasicEList<>();
+		if (featVal instanceof Collection) {
+			op = withAddedOps.stream().filter((o) -> o.getEParameters().stream().anyMatch((p) -> p.isMany()))
+					.findFirst().get();
+		} else {
+			op = withAddedOps.stream().filter((o) -> o.getEParameters().stream().noneMatch((p) -> p.isMany()))
+					.findFirst().get();
+		}
+		argList.add(featVal);
+		try {
+			init.eInvoke(op, argList);
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		dropInitialisation(api, init);
+		return api;
+	}
+
+	public static EObject xWithRemovedFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
+		var init = getInitialisationForX(api, objToModify);
+		var opName = String.format(FluentAPIWithOperationGenerator.getWithremovedxfeatnametemplate(),
+				StringUtils.capitalize(feat.getName()));
+		var withRemovedOps = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName))
+				.collect(Collectors.toList());
+		EOperation op = null;
+		var argList = new BasicEList<>();
+		if (featVal instanceof Collection) {
+			op = withRemovedOps.stream().filter((o) -> o.getEParameters().stream().anyMatch((p) -> p.isMany()))
+					.findFirst().get();
+		} else {
+			op = withRemovedOps.stream().filter((o) -> o.getEParameters().stream().noneMatch((p) -> p.isMany()))
+					.findFirst().get();
+		}
+		argList.add(featVal);
+		try {
+			init.eInvoke(op, argList);
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		dropInitialisation(api, init);
+		return api;
+	}
+
+	public static EObject xWithExactFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
+		var init = getInitialisationForX(api, objToModify);
+		var opName = String.format(FluentAPIWithOperationGenerator.getWithexactxfeatnametemplate(),
+				StringUtils.capitalize(feat.getName()));
+		var withExactOp = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName))
+				.findFirst().get();
+		var argList = new BasicEList<>();
+		argList.add(featVal);
+		try {
+			init.eInvoke(withExactOp, argList);
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		dropInitialisation(api, init);
+		return api;
+	}
+
+	public static EObject xWithFeatOfContainer(EObject api, EObject objToModify, EStructuralFeature feat) {
+		var init = getInitialisationForX(api, objToModify);
+		var opName = String.format(FluentAPIWithOperationGenerator.getWithxfeatofcontainernametemplate(),
+				StringUtils.capitalize(feat.getName()));
+		var withFeatOfConOp = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName))
+				.findFirst().get();
+		try {
+			init.eInvoke(withFeatOfConOp, new BasicEList<>());
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		dropInitialisation(api, init);
+		return api;
+	}
+
 	public static EObject getInitialisationInstanceForX(EObject me, Class<?> eobjCls) {
 		var initsPac = me.eClass().getEPackage().getESubpackages().stream()
 				.filter((pac) -> pac.getName().equals(FluentAPIInitialisationsPackageGenerator.getPackageName()))
@@ -38,7 +156,7 @@ public final class FluentEObjectAPIMethods {
 				.filter((op) -> op.getName().equals(FluentAPIInitialisationNewOperationGenerator.getNewOperationName()))
 				.findFirst().get();
 		try {
-			initInstance.eInvoke(newElemOp, new BasicEList());
+			initInstance.eInvoke(newElemOp, new BasicEList<>());
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
