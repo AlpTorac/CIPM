@@ -3,7 +3,6 @@ package cipm.consistency.fluentapi.test;
 import java.util.List;
 
 import org.emftext.language.java.classifiers.ClassifiersFactory;
-import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.containers.ContainersFactory;
 import org.junit.jupiter.api.Assertions;

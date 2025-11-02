@@ -5,14 +5,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
-import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
 public class FluentAPIWithOperationGenerator {
 	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
@@ -344,6 +342,5 @@ public class FluentAPIWithOperationGenerator {
 	public static String getWithxfeatofcontainermethodbodyforsinglevaluedfeattemplate() {
 		return withXFeatOfContainerMethodBodyForSingleValuedFeatTemplate;
 	}
-	
-	
+
 }
