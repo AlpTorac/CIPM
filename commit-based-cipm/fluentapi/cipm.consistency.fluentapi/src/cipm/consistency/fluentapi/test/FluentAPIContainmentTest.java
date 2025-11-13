@@ -1,5 +1,7 @@
 package cipm.consistency.fluentapi.test;
 
+import org.emftext.language.java.containers.ContainersFactory;
+import org.emftext.language.java.containers.ContainersPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
@@ -7,6 +9,23 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fluentapi.api.ApiFactory;
 
 public class FluentAPIContainmentTest {
+	@Test
+	public void testModule() {
+		var mod1 = ContainersFactory.eINSTANCE.createModule();
+		var mod2 = ContainersFactory.eINSTANCE.createModule();
+		
+		var pac1 = ContainersFactory.eINSTANCE.createPackage();
+		var pac2 = ContainersFactory.eINSTANCE.createPackage();
+		
+		mod1.getPackages().add(pac1);
+		mod2.getPackages().add(pac1);
+		
+		Assertions.assertTrue(mod1.getPackages().contains(pac1));
+		Assertions.assertTrue(mod2.getPackages().contains(pac1));
+		System.out.println(pac1.getModule().equals(mod1));
+		System.out.println(pac1.getModule().equals(mod2));
+	}
+
 	@Disabled("Clarify what to do regarding Java Modules being represented inaccurately")
 	@Test
 	public void apiTest_BidirectionalReferences_OneToMany_OneContainmentPossible() {
