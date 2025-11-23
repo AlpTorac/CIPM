@@ -341,10 +341,10 @@ public class PcmToJavaChangePropagationTest {
 
 		// Oracle CRS that automates all other non-addressed user interactions, in order
 		// to fully automate the experiment
-		var bruteForceAutomationCRS = new AutomatingConflictResolutionStrategy(List.of("automated"));
-		PcmUserInteractionManager.addConflictResolutionStrategy(bruteForceAutomationCRS);
-		PcmUserInteractionAutomaticityStatistics.getInstance()
-				.addTestSpecificConflictResolutionStrategy(bruteForceAutomationCRS);
+//		var bruteForceAutomationCRS = new AutomatingConflictResolutionStrategy(List.of("automated"));
+//		PcmUserInteractionManager.addConflictResolutionStrategy(bruteForceAutomationCRS);
+//		PcmUserInteractionAutomaticityStatistics.getInstance()
+//				.addTestSpecificConflictResolutionStrategy(bruteForceAutomationCRS);
 	}
 
 	private void savePropagatedChanges(Propagation prop) {
@@ -513,7 +513,7 @@ public class PcmToJavaChangePropagationTest {
 
 		var pcmToJavaPropTest = new PcmToJavaChangePropagationTest();
 
-		pcmToJavaPropTest.pcmToJavaChangePropagationTestTemplate(new PcmToJavaChangePropagationDirLayout(null,
-				dirLayouts.get(0), Path.of("target", experimentRootDirNamePrefix + 1).toAbsolutePath()));
+		pcmToJavaPropTest.pcmToJavaChangePropagationTestTemplate(new PcmToJavaChangePropagationDirLayout(dirLayouts.get(0),
+				dirLayouts.get(1), Path.of("target", experimentRootDirNamePrefix + 1).toAbsolutePath()));
 	}
 }

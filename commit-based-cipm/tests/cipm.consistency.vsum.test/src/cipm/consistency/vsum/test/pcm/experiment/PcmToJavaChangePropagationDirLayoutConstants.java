@@ -16,6 +16,7 @@ public final class PcmToJavaChangePropagationDirLayoutConstants {
 
 	private static final String imFileName = "imm.imm";
 	private static final String javaFileName = "Java.javaxmi";
+	private static final String vsumJavaFileName = "vsum.code.xmi";
 
 	private static final String copiedRootDirName = "copied";
 	private static final String propagatedRootDirName = "propagated";
@@ -35,6 +36,10 @@ public final class PcmToJavaChangePropagationDirLayoutConstants {
 	
 	public static String getPcmprimitivetypesrepositoryuri() {
 		return pcmPrimitiveTypesRepositoryURI;
+	}
+	
+	public static String getVsumjavafilename() {
+		return vsumJavaFileName;
 	}
 
 	public static String getExperimentresultadaptedmodelsdir() {

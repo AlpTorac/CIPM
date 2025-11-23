@@ -3,6 +3,8 @@ package cipm.consistency.vsum.test.pcm.experiment;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -274,18 +276,33 @@ public class ExperimentResourceWrapper {
 					final var idx = i;
 					var original = iterationList.get(idx);
 
+					URI originalURI = null;
+					if (original.eIsProxy()) {
+						originalURI = ((InternalEObject) original).eProxyURI();
+					} else {
+						originalURI = original.eResource().getURI()
+								.appendFragment(original.eResource().getURIFragment(original));
+					}
+
 					// Since there may be correspondences to Ecore Literals too,
 					// only replace EObjects, if they actually have a replacement
 					// in propagatedX Resources
-					if (original.eResource() == null || !original.eResource().getURI().isFile())
+					if (!originalURI.isFile())
 						continue;
 
-					var replacement = propRess.stream()
-							.map((r) -> r.getEObject(original.eResource().getURIFragment(original)))
-							.filter((r) -> r != null).findFirst().get();
+					final String frag = originalURI.fragment();
+					var replacement = propRess.stream().map((r) -> {
+						try {
+							return r.getEObject(frag);
+						} catch (Exception e) {
+							return null;
+						}
+					}).filter((r) -> r != null).findFirst().orElse(null);
 
-					originalList.add(i, replacement);
-					originalList.remove(original);
+					if (replacement != null) {
+						originalList.add(i, replacement);
+						originalList.remove(original);
+					}
 				}
 			}
 		});
