@@ -15,6 +15,7 @@ import org.palladiosimulator.pcm.seff.ServiceEffectSpecification;
 import cipm.consistency.cpr.pcmjava.preprocessing.ChangeUtil;
 import tools.vitruv.change.atomic.EChange;
 import tools.vitruv.change.atomic.eobject.CreateEObject;
+import tools.vitruv.change.atomic.eobject.DeleteEObject;
 import tools.vitruv.change.atomic.feature.reference.InsertEReference;
 import tools.vitruv.change.atomic.feature.reference.ReplaceSingleValuedEReference;
 
@@ -75,6 +76,11 @@ public class ExperimentPcmChangePreprocessor {
 
 		for (int i = 0; i < changeSequence.size(); i++) {
 			var currentChange = changeSequence.get(i);
+			
+			if (currentChange instanceof DeleteEObject) {
+				continue;
+			}
+			
 			if (currentChange instanceof CreateEObject) {
 				createChange = currentChange;
 				continue;
