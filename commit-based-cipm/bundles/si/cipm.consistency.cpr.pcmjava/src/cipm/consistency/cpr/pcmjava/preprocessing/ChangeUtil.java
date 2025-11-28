@@ -3,13 +3,17 @@ package cipm.consistency.cpr.pcmjava.preprocessing;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.eclipse.core.runtime.URIUtil;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.net4j.util.collection.Pair;
 
 import de.uka.ipd.sdq.identifier.Identifier;
 import tools.vitruv.change.atomic.AdditiveEChange;
@@ -25,12 +29,118 @@ import tools.vitruv.change.atomic.feature.UnsetFeature;
 import tools.vitruv.change.atomic.feature.list.InsertInListEChange;
 import tools.vitruv.change.atomic.feature.list.RemoveFromListEChange;
 import tools.vitruv.change.atomic.feature.list.UpdateSingleListEntryEChange;
+import tools.vitruv.change.atomic.feature.reference.InsertEReference;
+import tools.vitruv.change.atomic.feature.reference.RemoveEReference;
+import tools.vitruv.change.atomic.feature.reference.ReplaceSingleValuedEReference;
 import tools.vitruv.change.atomic.root.InsertRootEObject;
 import tools.vitruv.change.atomic.root.RemoveRootEObject;
 import tools.vitruv.change.atomic.root.RootEChange;
 
 public final class ChangeUtil {
 	private static final String cacheIDPrefix = "cache:/";
+
+	/**
+	 * Check if any EObject ID is a prefix of another one. If it is, there is a
+	 * dependency
+	 * 
+	 * @return
+	 *         <ul>
+	 *         <li>TRUE: changeBefore -> changeAfter
+	 *         <li>FALSE: changeAfter -> changeBefore
+	 *         <li>NULL: Order does not matter
+	 *         </ul>
+	 */
+	public static Boolean shouldChangesHappenInOrder(EChange changeBefore, EChange changeAfter) {
+		var affectedIDBefore = getAffectedEObjectID(changeBefore);
+		var oldIDBefore = getOldValueID(changeBefore);
+		var newIDBefore = getNewValueID(changeBefore);
+		var listBefore = List.of(affectedIDBefore, oldIDBefore, newIDBefore).stream().filter((i) -> i != null)
+				.collect(Collectors.toList());
+
+		var affectedIDAfter = getAffectedEObjectID(changeAfter);
+		var oldIDAfter = getOldValueID(changeAfter);
+		var newIDAfter = getNewValueID(changeAfter);
+		var listAfter = List.of(affectedIDAfter, oldIDAfter, newIDAfter).stream().filter((i) -> i != null)
+				.collect(Collectors.toList());
+
+		var idPairs = new ArrayList<Pair<String, String>>();
+
+		listBefore
+				.forEach((idBefore) -> listAfter.stream().filter((idAfter) -> areIDsDependantInOrder(idBefore, idAfter))
+						.forEach((idAfter) -> idPairs.add(new Pair<>(idBefore, idAfter))));
+
+		if (!idPairs.isEmpty()) {
+
+			return changeAffectsModelStructure(changeBefore);
+		}
+
+		return false;
+	}
+
+	public static boolean areIDsDependantInOrder(String idBefore, String idAfter) {
+		return idAfter.startsWith(idBefore);
+	}
+
+	/**
+	 * @return Whether change inserts an element to model (CreateEObject does not
+	 *         insert an element to a model)
+	 */
+	public static boolean doesChangeInsertModelElement(EChange change) {
+		if (!changeAffectsModelStructure(change))
+			return false;
+
+		if (change instanceof InsertEReference)
+			return true;
+
+		if (change instanceof ReplaceSingleValuedEReference && getOldValueID(change) == null
+				&& getNewValueID(change) != null)
+			return true;
+
+		return false;
+	}
+
+	public static String getInsertedModelElementID(EChange change) {
+		if (!doesChangeInsertModelElement(change))
+			return null;
+
+		return getNewValueID(change);
+	}
+
+	public static String getRemovedModelElementID(EChange change) {
+		if (!doesChangeRemoveModelElement(change))
+			return null;
+
+		return getOldValueID(change);
+	}
+
+	/**
+	 * @return Whether change removes an element to model (DeleteEObject does not
+	 *         remove an element from a model)
+	 */
+	public static boolean doesChangeRemoveModelElement(EChange change) {
+		if (!changeAffectsModelStructure(change))
+			return false;
+
+		// UnsetFeature is not used here, since ID of the removed element is unclear
+		if (change instanceof RemoveEReference)
+			return true;
+
+		if (change instanceof ReplaceSingleValuedEReference && getOldValueID(change) != null
+				&& getNewValueID(change) == null)
+			return true;
+
+		return false;
+	}
+
+	public static boolean changeAffectsModelStructure(EChange change) {
+		return change instanceof RootEChange || isContainmentChange(change);
+	}
+
+	public static boolean isContainmentChange(EChange change) {
+		var feat = ChangeUtil.getAffectedFeature(change);
+		var isFeatERef = feat instanceof EReference;
+		return isFeatERef && ((EReference) feat).isContainment();
+	}
 
 	public static boolean createsEObjectOfType(EChange change, EClass eCls) {
 		return change instanceof CreateEObject
@@ -63,6 +173,38 @@ public final class ChangeUtil {
 		}
 	}
 
+	public static URI changeIndexInID(String idTillIndexToReplace, int changedIdx, boolean indexToBeRemoved) {
+		var uri = URI.createURI(idTillIndexToReplace);
+		var ls = uri.lastSegment();
+		var idxInUri = Integer.valueOf(ls.replaceAll("\\D", "")).intValue();
+		
+		if (changedIdx <= idxInUri) {
+			if (indexToBeRemoved) {
+				
+			}
+		}
+		
+		return uri.trimSegments(1).appendSegment(ls.replaceAll("\\D+", String.valueOf(idxInUri)));
+	}
+	
+	public static void changeIndexInIDs(EChange change, String idTillIndexToReplace, int changedIdx, boolean indexToBeRemoved) {
+		var uri = URI.createURI(idTillIndexToReplace);
+		var trimmedURI = uri.trimSegments(1);
+		
+		var affectedID = getAffectedEObjectID(change);
+		if (affectedID != null) {
+			setAffectedEObjectID(change, affectedID.replaceAll(regexInOldID, replacement));
+		}
+		var oldID = getOldValueID(change);
+		if (oldID != null) {
+			setOldValueID(change, oldID.replaceAll(regexInOldID, replacement));
+		}
+		var newID = getNewValueID(change);
+		if (newID != null) {
+			setNewValueID(change, newID.replaceAll(regexInOldID, replacement));
+		}
+	}
+	
 	public static boolean isCacheURI(URI uri) {
 		return isCacheURI(uri.toString());
 	}
@@ -71,13 +213,14 @@ public final class ChangeUtil {
 		return uri.startsWith(cacheIDPrefix);
 	}
 
-	public static void adaptChangeURIs(Resource changeResource, Resource targetModelResource, List<String> uriPrefixesToSkip) {
+	public static void adaptChangeURIs(Resource changeResource, Resource targetModelResource,
+			List<String> uriPrefixesToSkip) {
 		for (var change : changeResource.getContents()) {
 			if (change instanceof EChange)
 				adaptChangeURIs((EChange) change, targetModelResource, uriPrefixesToSkip);
 		}
 	}
-	
+
 	public static void adaptChangeURIs(Resource changeResource, Resource targetModelResource) {
 		adaptChangeURIs(changeResource, targetModelResource, List.of());
 	}
@@ -85,15 +228,15 @@ public final class ChangeUtil {
 	public static void adaptChangeURIs(EChange change, Resource targetModelResource) {
 		adaptChangeURIs(change, targetModelResource, List.of());
 	}
-	
+
 	public static boolean uriStartsWith(String uri, List<String> prefixes) {
 		return prefixes.stream().anyMatch((p) -> uriStartsWith(uri, p));
 	}
-	
+
 	public static boolean uriStartsWith(String uri, String prefix) {
 		return uri.startsWith(prefix);
 	}
-	
+
 	public static void adaptChangeURIs(EChange change, Resource targetModelResource, List<String> uriPrefixesToSkip) {
 		var affectedID = getAffectedEObjectID(change);
 		if (affectedID != null && !uriStartsWith(affectedID, uriPrefixesToSkip)) {

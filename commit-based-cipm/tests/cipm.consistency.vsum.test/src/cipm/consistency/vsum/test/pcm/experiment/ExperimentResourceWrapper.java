@@ -263,6 +263,28 @@ public class ExperimentResourceWrapper {
 
 	}
 
+	/*
+	 * var original = iterationList.get(idx);
+	 * 
+	 * // Since there may be correspondences to Ecore Literals too, // only replace
+	 * EObjects, if they actually have a replacement // in propagatedX Resources + +
+	 * URI uri = null; + + if (original.eIsProxy()) { + uri = ((InternalEObject)
+	 * original).eProxyURI(); + } else if (original.eResource() != null) { + uri =
+	 * original.eResource().getURI() +
+	 * .appendFragment(original.eResource().getURIFragment(original)); + } else { +
+	 * continue; + } + + if (uri == null || !uri.isFile()) { continue; + } + + final
+	 * var finalURI = uri;
+	 * 
+	 * var replacement = propRess.stream() + // Ensure that resource is of correct
+	 * type + .filter((r) -> r.getContents().stream() + .anyMatch((rContent) ->
+	 * EcoreUtil.equals(original, rContent))) + + // Retrieve EObject at fragment +
+	 * .map((r) -> r.getEObject(finalURI.fragment())) + + // Get EObject +
+	 * .filter((r) -> r != null).findFirst().orElse(null);
+	 * 
+	 * + if (replacement != null) { + originalList.add(i, replacement); + }
+	 * originalList.remove(original); } } });
+	 */
+
 	private void adaptURIsInCorrespondences() {
 		var propRess = List.of(propagatedJavaModel, propagatedPcmRepository, propagatedIm);
 
@@ -276,33 +298,42 @@ public class ExperimentResourceWrapper {
 					final var idx = i;
 					var original = iterationList.get(idx);
 
-					URI originalURI = null;
-					if (original.eIsProxy()) {
-						originalURI = ((InternalEObject) original).eProxyURI();
-					} else {
-						originalURI = original.eResource().getURI()
-								.appendFragment(original.eResource().getURIFragment(original));
-					}
-
 					// Since there may be correspondences to Ecore Literals too,
 					// only replace EObjects, if they actually have a replacement
 					// in propagatedX Resources
-					if (!originalURI.isFile())
-						continue;
 
-					final String frag = originalURI.fragment();
-					var replacement = propRess.stream().map((r) -> {
-						try {
-							return r.getEObject(frag);
-						} catch (Exception e) {
-							return null;
-						}
-					}).filter((r) -> r != null).findFirst().orElse(null);
+					URI uri = null;
+
+					if (original.eIsProxy()) {
+						uri = ((InternalEObject) original).eProxyURI();
+					} else if (original.eResource() != null) {
+						uri = original.eResource().getURI()
+								.appendFragment(original.eResource().getURIFragment(original));
+					} else {
+						continue;
+					}
+
+					if (uri == null || !uri.isFile()) {
+						continue;
+					}
+
+					final var finalURI = uri;
+
+					var replacement = propRess.stream()
+							// Ensure that resource is of correct type
+							.filter((r) -> r.getContents().stream()
+									.anyMatch((rContent) -> EcoreUtil.equals(original, rContent)))
+
+							// Retrieve EObject at fragment
+							.map((r) -> r.getEObject(finalURI.fragment()))
+
+							// Get EObject
+							.filter((r) -> r != null).findFirst().orElse(null);
 
 					if (replacement != null) {
 						originalList.add(i, replacement);
-						originalList.remove(original);
 					}
+					originalList.remove(original);
 				}
 			}
 		});
