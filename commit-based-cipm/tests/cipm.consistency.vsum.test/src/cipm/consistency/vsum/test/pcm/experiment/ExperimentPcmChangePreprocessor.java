@@ -113,8 +113,10 @@ public class ExperimentPcmChangePreprocessor {
 
 			if (nextChange instanceof DeleteEObject) {
 //				deletePairs.add(new Pair<EChange, DeleteEObject<?>>(currentChange, (DeleteEObject<?>) nextChange));
-				changes.get(currentChangeDepth).add(currentChange);
-				changes.get(currentChangeDepth).add(nextChange);
+
+//				changes.get(currentChangeDepth).add(currentChange);
+//				changes.get(currentChangeDepth).add(nextChange);
+				fixIDsUponDeleteChangeRemoval(currentChange, nextChange, changeSequence);
 
 				// Skip both changes, since they are already handled
 				i++;
@@ -141,12 +143,16 @@ public class ExperimentPcmChangePreprocessor {
 		if (prevChange instanceof RemoveRootEObject) {
 			idx = ((RemoveRootEObject<?>) prevChange).getIndex();
 		} else if (prevChange instanceof RemoveEReference) {
-			idx = ((RemoveEReference<?,?>) prevChange).getIndex();
+			idx = ((RemoveEReference<?, ?>) prevChange).getIndex();
 		} else if (prevChange instanceof ReplaceSingleValuedEReference) {
 			idx = 0;
 		} else {
 			throw new IllegalStateException("Unexpected Change -> Delete occurrence");
 		}
+
+		for (int i = changeSeq.indexOf(delChange) + 1; i < changeSeq.size(); i++) {
+			ChangeUtil.changeIndexInIDs(changeSeq.get(i), idToReplace, idx, true);
+		}
 	}
-	
+
 }

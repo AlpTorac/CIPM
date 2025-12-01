@@ -173,38 +173,55 @@ public final class ChangeUtil {
 		}
 	}
 
-	public static URI changeIndexInID(String idTillIndexToReplace, int changedIdx, boolean indexToBeRemoved) {
+	public static String changeIndexInID(String idToAdjust, String idTillIndexToReplace, int changedIdx,
+			boolean wouldChangedIndexBeRemoved) {
 		var uri = URI.createURI(idTillIndexToReplace);
 		var ls = uri.lastSegment();
-		var idxInUri = Integer.valueOf(ls.replaceAll("\\D", "")).intValue();
-		
+		var idxInUri = Integer.valueOf(ls.replaceAll("\\\\D", "")).intValue();
+		var newIndex = idxInUri;
+
+		// Assume [..., X-1, X, X+1, ...], where X is the changed index
+
+		// If element's index < X, unaffected
 		if (changedIdx <= idxInUri) {
-			if (indexToBeRemoved) {
-				
+
+			// If X would normally be removed but actually will not, increment all indices >
+			// X
+			// I.e. X+N becomes X+N+1
+			if (wouldChangedIndexBeRemoved) {
+				newIndex = idxInUri + 1;
+			} else {
+				// If X would normally be added but actually will not, decrement all indices > X
+				// I.e. X+N becomes X+N-1
+				newIndex = idxInUri - 1;
 			}
+
+			return idToAdjust.replaceAll(idTillIndexToReplace,
+					uri.trimSegments(1).appendSegment(ls.replaceAll("\\\\D+", String.valueOf(newIndex))).toString());
+		} else {
+			return idToAdjust;
 		}
-		
-		return uri.trimSegments(1).appendSegment(ls.replaceAll("\\D+", String.valueOf(idxInUri)));
 	}
-	
-	public static void changeIndexInIDs(EChange change, String idTillIndexToReplace, int changedIdx, boolean indexToBeRemoved) {
-		var uri = URI.createURI(idTillIndexToReplace);
-		var trimmedURI = uri.trimSegments(1);
-		
+
+	public static void changeIndexInIDs(EChange change, String idTillIndexToReplace, int changedIdx,
+			boolean wouldChangedIndexBeRemoved) {
 		var affectedID = getAffectedEObjectID(change);
-		if (affectedID != null) {
-			setAffectedEObjectID(change, affectedID.replaceAll(regexInOldID, replacement));
+		if (affectedID != null && affectedID.startsWith(idTillIndexToReplace)) {
+			setAffectedEObjectID(change,
+					changeIndexInID(affectedID, idTillIndexToReplace, changedIdx, wouldChangedIndexBeRemoved).toString());
 		}
 		var oldID = getOldValueID(change);
-		if (oldID != null) {
-			setOldValueID(change, oldID.replaceAll(regexInOldID, replacement));
+		if (oldID != null && oldID.startsWith(idTillIndexToReplace)) {
+			setOldValueID(change,
+					changeIndexInID(oldID, idTillIndexToReplace, changedIdx, wouldChangedIndexBeRemoved).toString());
 		}
 		var newID = getNewValueID(change);
-		if (newID != null) {
-			setNewValueID(change, newID.replaceAll(regexInOldID, replacement));
+		if (newID != null && newID.startsWith(idTillIndexToReplace)) {
+			setNewValueID(change,
+					changeIndexInID(newID, idTillIndexToReplace, changedIdx, wouldChangedIndexBeRemoved).toString());
 		}
 	}
-	
+
 	public static boolean isCacheURI(URI uri) {
 		return isCacheURI(uri.toString());
 	}

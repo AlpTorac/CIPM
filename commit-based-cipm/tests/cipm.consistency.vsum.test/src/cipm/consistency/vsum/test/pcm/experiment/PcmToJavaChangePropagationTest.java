@@ -514,6 +514,6 @@ public class PcmToJavaChangePropagationTest {
 		var pcmToJavaPropTest = new PcmToJavaChangePropagationTest();
 
 		pcmToJavaPropTest.pcmToJavaChangePropagationTestTemplate(new PcmToJavaChangePropagationDirLayout(dirLayouts.get(0),
-				dirLayouts.get(1), Path.of("target", experimentRootDirNamePrefix + 1).toAbsolutePath()));
+				dirLayouts.get(1), Path.of("target", experimentRootDirNamePrefix + 2).toAbsolutePath()));
 	}
 }
