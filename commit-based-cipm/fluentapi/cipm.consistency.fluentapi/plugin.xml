@@ -9,7 +9,7 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated initialiserModels -->
       <package
-            uri="file:/C:/Users/atora/CIPM2/commit-based-cipm/fluentapi/cipm.consistency.fluentapi/src/cipm/consistency/fluentapi/api"
+            uri="file:/C:/Users/sdq-l/CIPM2/commit-based-cipm/fluentapi/cipm.consistency.fluentapi/src/cipm/consistency/fluentapi/api"
             class="cipm.consistency.fluentapi.api.ApiPackage"
             genModel="initModel/initialiserModels.genmodel"/>
    </extension>
@@ -17,8 +17,168 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated initialiserModels -->
       <package
-            uri="file:/C:/Users/atora/CIPM2/commit-based-cipm/fluentapi/cipm.consistency.fluentapi/src/cipm/consistency/fluentapi/api/inits"
+            uri="file:/C:/Users/sdq-l/CIPM2/commit-based-cipm/fluentapi/cipm.consistency.fluentapi/src/cipm/consistency/fluentapi/api/inits"
             class="cipm.consistency.fluentapi.api.inits.InitsPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/literals"
+            class="literals.LiteralsPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/modifiers"
+            class="modifiers.ModifiersPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/operators"
+            class="operators.OperatorsPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/statements"
+            class="statements.StatementsPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/annotations"
+            class="annotations.AnnotationsPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/arrays"
+            class="arrays.ArraysPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/classifiers"
+            class="classifiers.ClassifiersPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/containers"
+            class="containers.ContainersPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/expressions"
+            class="expressions.ExpressionsPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/generics"
+            class="generics.GenericsPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/imports"
+            class="imports.ImportsPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/instantiations"
+            class="instantiations.InstantiationsPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/members"
+            class="members.MembersPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/modules"
+            class="modules.ModulesPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/parameters"
+            class="parameters.ParametersPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/references"
+            class="references.ReferencesPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/types"
+            class="types.TypesPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/variables"
+            class="variables.VariablesPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/java/commons"
+            class="commons.CommonsPackage"
+            genModel="initModel/initialiserModels.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated initialiserModels -->
+      <package
+            uri="http://www.emftext.org/commons/layout"
+            class="layout.LayoutPackage"
             genModel="initModel/initialiserModels.genmodel"/>
    </extension>
 
