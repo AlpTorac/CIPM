@@ -6,13 +6,15 @@ import java.util.stream.Stream;
 
 import org.junit.jupiter.params.provider.Arguments;
 
-import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
+import cipm.consistency.fitests.similarity.OverridingSimilarityCheckerContainer;
 import cipm.consistency.fitests.similarity.base.JavaSimilarityCheckerContainer;
 import cipm.consistency.fitests.similarity.eobject.AbstractEObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPInitialiserParameters;
 import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPSimilarityValues;
 import cipm.consistency.fitests.similarity.params.IInitialiserParameters;
 import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvider;
+import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.api.FluentEObjectAPI;
 import cipm.consistency.initialisers.IInitialiser;
 import cipm.consistency.initialisers.IInitialiserBase;
 import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
@@ -27,8 +29,13 @@ import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
  */
 public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimilarityTest {
 	@Override
-	protected ISimilarityCheckerContainer initSCC() {
-		return new JavaSimilarityCheckerContainer();
+	protected OverridingSimilarityCheckerContainer initSCC() {
+		return new OverridingSimilarityCheckerContainer(new JavaSimilarityCheckerContainer());
+	}
+
+	@Override
+	protected OverridingSimilarityCheckerContainer getSCC() {
+		return (OverridingSimilarityCheckerContainer) super.getSCC();
 	}
 
 	@Override
@@ -144,11 +151,10 @@ public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimila
 	}
 
 	/**
-	 * Used by the static get...InitialiserArgumentsFor methods within this
-	 * class.
+	 * Used by the static get...InitialiserArgumentsFor methods within this class.
 	 * 
-	 * @return A display name associated with the given initialiser, which
-	 * can be used by parameterised tests.
+	 * @return A display name associated with the given initialiser, which can be
+	 *         used by parameterised tests.
 	 */
 	public static String generateDisplayNameForInit(IInitialiser init) {
 		var displayName = init.getClass().getSimpleName();

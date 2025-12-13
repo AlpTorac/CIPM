@@ -172,16 +172,6 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 		this.assertSimilarityResult(elem, elem, Boolean.TRUE);
 	}
 
-	/**
-	 * Compares elem1 with elem2, expects the similarity result to be the same with
-	 * the given expected value. <br>
-	 * <br>
-	 * <b>Note: All given {@link EObject} instances will be cloned before tests to
-	 * make sure that there are no side effects caused by the given {@link EObject}
-	 * instances changing their container. </b>
-	 * {@link #cloneEObjWithContainers(EObject)} is used to make sure that all
-	 * potentially relevant containers are cloned as well.
-	 */
 	public void assertSimilarityResult(EObject elem1, EObject elem2, Boolean expectedSimilarityResult) {
 		if (expectedSimilarityResult == null) {
 			this.getLogger().debug("No expected similarity result present");
@@ -190,14 +180,8 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 					+ " but are similar according to EcoreUtilHelper");
 		}
 
-		var objOne = this.cloneEObjWithContainers(elem1);
-		var objTwo = this.cloneEObjWithContainers(elem2);
-
-		var resOne = this.createResource(List.of(objOne));
-		var resTwo = this.createResource(List.of(objTwo));
-
-		Assertions.assertEquals(expectedSimilarityResult, this.areSimilar(resOne.getContents(), resTwo.getContents()),
-				"EcoreUtilHelper comparison result: " + this.getActualEquality(objOne, objTwo));
+		Assertions.assertEquals(expectedSimilarityResult, this.isSimilar(elem1, elem2),
+				"EcoreUtilHelper comparison result: " + this.getActualEquality(elem1, elem2));
 	}
 
 	/**
