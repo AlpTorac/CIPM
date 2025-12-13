@@ -181,7 +181,10 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	public static boolean isInitialisationFor(EClass initECls, Class<?> eobjCls) {
-		return !initECls.isAbstract() && initECls.getName().startsWith(eobjCls.getSimpleName());
+		// TODO Clean up and do it properly
+		// Trim "Initialisation" from XInitialisation EClass name
+		return !initECls.isAbstract() && initECls.getName()
+				.substring(0, initECls.getName().length() - "Initialisation".length()).equals(eobjCls.getSimpleName());
 	}
 
 	public static void dropInitialisation(EObject me, EObject init) {
