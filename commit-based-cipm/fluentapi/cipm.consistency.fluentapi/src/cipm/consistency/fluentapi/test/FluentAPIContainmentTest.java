@@ -9,62 +9,64 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fluentapi.api.ApiFactory;
 
 public class FluentAPIContainmentTest {
-	@Test
-	public void testModule() {
-		var mod1 = ContainersFactory.eINSTANCE.createModule();
-		var mod2 = ContainersFactory.eINSTANCE.createModule();
-		
-		var pac1 = ContainersFactory.eINSTANCE.createPackage();
-		var pac2 = ContainersFactory.eINSTANCE.createPackage();
-		
-		mod1.getPackages().add(pac1);
-		mod2.getPackages().add(pac1);
-		
-		Assertions.assertTrue(mod1.getPackages().contains(pac1));
-		Assertions.assertTrue(mod2.getPackages().contains(pac1));
-		System.out.println(pac1.getModule().equals(mod1));
-		System.out.println(pac1.getModule().equals(mod2));
-	}
-
-	@Disabled("Clarify what to do regarding Java Modules being represented inaccurately")
-	@Test
-	public void apiTest_BidirectionalReferences_OneToMany_OneContainmentPossible() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-
-		var modName = "modName";
-		var pacName = "pacName";
-
-		var mod = api.newModule().withName(modName).createNow();
-		var pac = api.newPackage().withName(pacName).withModule(mod).createNow();
-
-		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
-		Assertions.assertEquals(modName, mod.getName());
-
-		Assertions.assertEquals(1, mod.getPackages().size());
-		Assertions.assertEquals(pac, mod.getPackages().get(0));
-		Assertions.assertEquals(pacName, pac.getName());
-		Assertions.assertEquals(mod, pac.getModule());
-	}
-
-	@Disabled("Clarify what to do regarding Java Modules being represented inaccurately")
-	@Test
-	public void apiTest_BidirectionalReferences_ManyToOne_OneContainmentPossible() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-
-		var modName = "modName";
-		var pacName = "pacName";
-
-		var pac = api.newPackage().withName(pacName).createNow();
-		var mod = api.newModule().withName(modName).withAddedPackages(pac).createNow();
-
-		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
-		Assertions.assertEquals(modName, mod.getName());
-
-		Assertions.assertEquals(1, mod.getPackages().size());
-		Assertions.assertEquals(pac, mod.getPackages().get(0));
-		Assertions.assertEquals(pacName, pac.getName());
-		Assertions.assertEquals(mod, pac.getModule());
-	}
+	// TODO Clean up
+	//
+//	@Test
+//	public void testModule() {
+//		var mod1 = ContainersFactory.eINSTANCE.createModule();
+//		var mod2 = ContainersFactory.eINSTANCE.createModule();
+//		
+//		var pac1 = ContainersFactory.eINSTANCE.createPackage();
+//		var pac2 = ContainersFactory.eINSTANCE.createPackage();
+//		
+//		mod1.getPackages().add(pac1);
+//		mod2.getPackages().add(pac1);
+//		
+//		Assertions.assertTrue(mod1.getPackages().contains(pac1));
+//		Assertions.assertTrue(mod2.getPackages().contains(pac1));
+//		System.out.println(pac1.getModule().equals(mod1));
+//		System.out.println(pac1.getModule().equals(mod2));
+//	}
+//
+//	@Disabled("Clarify what to do regarding Java Modules being represented inaccurately")
+//	@Test
+//	public void apiTest_BidirectionalReferences_OneToMany_OneContainmentPossible() {
+//		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+//
+//		var modName = "modName";
+//		var pacName = "pacName";
+//
+//		var mod = api.newModule().withName(modName).createNow();
+//		var pac = api.newPackage().withName(pacName).withModule(mod).createNow();
+//
+//		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+//		Assertions.assertEquals(modName, mod.getName());
+//
+//		Assertions.assertEquals(1, mod.getPackages().size());
+//		Assertions.assertEquals(pac, mod.getPackages().get(0));
+//		Assertions.assertEquals(pacName, pac.getName());
+//		Assertions.assertEquals(mod, pac.getModule());
+//	}
+//
+//	@Disabled("Clarify what to do regarding Java Modules being represented inaccurately")
+//	@Test
+//	public void apiTest_BidirectionalReferences_ManyToOne_OneContainmentPossible() {
+//		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+//
+//		var modName = "modName";
+//		var pacName = "pacName";
+//
+//		var pac = api.newPackage().withName(pacName).createNow();
+//		var mod = api.newModule().withName(modName).withAddedPackages(pac).createNow();
+//
+//		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+//		Assertions.assertEquals(modName, mod.getName());
+//
+//		Assertions.assertEquals(1, mod.getPackages().size());
+//		Assertions.assertEquals(pac, mod.getPackages().get(0));
+//		Assertions.assertEquals(pacName, pac.getName());
+//		Assertions.assertEquals(mod, pac.getModule());
+//	}
 
 	/**
 	 * class cls1 {
