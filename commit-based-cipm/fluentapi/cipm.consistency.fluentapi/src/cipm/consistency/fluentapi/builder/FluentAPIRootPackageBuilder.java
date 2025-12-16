@@ -17,6 +17,7 @@ import cipm.consistency.fluentapi.gen.FluentAPIInitialisationGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationsPackageGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIModifyElementMethodGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIPreviousInitialisationMethodGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPIRootAPIMarkMethodGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIOngoingInitialisationsReferenceGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPINextInitialisationMethodGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPINewMethodGenerator;
@@ -64,6 +65,9 @@ public class FluentAPIRootPackageBuilder {
 
 		fluentAPICls.getEOperations().add(new FluentAPIDropInitialisationMethodGenerator()
 				.generateDropInitialisationMethod(fluentAPICls, initSuperType));
+
+		fluentAPICls.getEOperations()
+				.addAll(new FluentAPIRootAPIMarkMethodGenerator().generateAllMarkMethods(fluentAPICls));
 
 		fluentAPICls.getEOperations().add(
 				new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForEClassMethod(initSuperType));
