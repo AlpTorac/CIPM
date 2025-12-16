@@ -30,6 +30,9 @@ public class FluentAPISuperInitialisationGenerator {
 		superType.getEOperations()
 				.add(new FluentAPIInitialisationResetOperationGenerator().generateResetInitialisationMethod(superType));
 
+		superType.getEOperations()
+		.addAll(new FluentAPIInitialisationMarkMethodGenerator().generateAllMarkMethods(superType));
+		
 		return superType;
 	}
 }

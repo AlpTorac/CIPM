@@ -57,6 +57,9 @@ public class FluentAPIInitialisationGenerator {
 		xInitEClass.getEOperations().add(new FluentAPIPreviousInitialisationMethodGenerator()
 				.getPreviousInitialisationMethodFor(xInitEClass, initialisedEClass));
 
+		xInitEClass.getEOperations()
+				.addAll(new FluentAPIInitialisationMarkMethodGenerator().generateAllMarkMethods(xInitEClass));
+
 		return xInitEClass;
 	}
 }
