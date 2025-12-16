@@ -14,11 +14,14 @@ public class FluentAPIMarkExtension {
 		}
 		var con = apiToMarkCon.get(api);
 		con.mark(markKey, markVal);
+		elementMarked(api, markKey, markVal);
 	}
 
 	public static EObject unmark(EObject api, Object markKey) {
 		if (apiToMarkCon.containsKey(api)) {
-			return apiToMarkCon.get(api).unmark(markKey);
+			var unmarked = apiToMarkCon.get(api).unmark(markKey);
+//			elementUnmarked(api, markKey, unmarked);
+			return unmarked;
 		}
 		return null;
 	}
@@ -26,4 +29,12 @@ public class FluentAPIMarkExtension {
 	public static EObject getMarked(EObject api, Object markKey) {
 		return apiToMarkCon.containsKey(api) ? apiToMarkCon.get(api).getMarked(markKey) : null;
 	}
+
+	private static void elementMarked(EObject api, Object markKey, EObject markVal) {
+		FluentAPIOnceExistsExtension.performIfExists(api, markKey);
+	}
+
+//	private static void elementUnmarked(EObject api, Object markKey, EObject markVal) {
+//
+//	}
 }
