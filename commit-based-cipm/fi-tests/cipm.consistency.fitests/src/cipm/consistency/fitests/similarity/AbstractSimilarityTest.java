@@ -144,19 +144,19 @@ public abstract class AbstractSimilarityTest {
 		 * OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL
 		 */
 
-		// Logger logger = Logger.getLogger("cipm");
-		// logger.setLevel(Level.DEBUG);
+		Logger logger = Logger.getLogger("cipm");
+		logger.setLevel(Level.DEBUG);
 
 		// Enable to receive log messages from similarity switches
-		// logger = Logger.getLogger("javaswitch");
-		// logger.setLevel(Level.ALL);
+		logger = Logger.getLogger("javaswitch");
+		logger.setLevel(Level.ALL);
 
 		// logger = Logger.getLogger("jamopp");
 		// logger.setLevel(Level.ALL);
 
 		// TODO Re-think how logging should work
 
-		Logger logger = Logger.getRootLogger();
+		logger = Logger.getRootLogger();
 		logger.setLevel(Level.OFF);
 		logger.removeAllAppenders();
 		ConsoleAppender ap = new ConsoleAppender(new PatternLayout("[%d{DATE}] %-5p: %c - %m%n"),

@@ -12,6 +12,9 @@
  *******************************************************************************/
 package org.splevo.jamopp.diffing.similarity;
 
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.util.Switch;
 import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequestHandler;
 import org.splevo.jamopp.diffing.similarity.base.ecore.AbstractComposedSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.switches.AnnotationsSimilaritySwitch;
@@ -35,6 +38,8 @@ import org.splevo.jamopp.diffing.similarity.switches.StatementsSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.switches.TypesSimilaritySwitch;
 import org.splevo.jamopp.diffing.similarity.switches.VariablesSimilaritySwitch;
 
+import com.google.common.base.Strings;
+
 /**
  * Internal switch class to prove element similarity.
  * 
@@ -50,7 +55,8 @@ import org.splevo.jamopp.diffing.similarity.switches.VariablesSimilaritySwitch;
  * returned.
  * </p>
  */
-public class JavaSimilaritySwitch extends AbstractComposedSimilaritySwitch implements IJavaSimilaritySwitch {
+public class JavaSimilaritySwitch extends AbstractComposedSimilaritySwitch
+		implements IJavaSimilaritySwitch, ILoggableJavaSwitch {
 	/**
 	 * Constructs an instance with the given request handler and the flag. Adds
 	 * default inner switches to the constructed instance.
@@ -85,5 +91,61 @@ public class JavaSimilaritySwitch extends AbstractComposedSimilaritySwitch imple
 		addSwitch(new VariablesSimilaritySwitch(this));
 		addSwitch(new LayoutSimilaritySwitch());
 		addSwitch(new ModulesSimilaritySwitch(this, checkStatementPosition));
+	}
+
+	@Override
+	protected Boolean doSwitch(EClass theEClass, EObject theEObject) {
+		var msg = "doSwitch(ECls: ";
+		if (theEClass != null && theEClass.getName() != null) {
+			msg += Strings.nullToEmpty(theEClass.getName());
+		}
+		msg += ", EObj: ";
+		if (theEObject != null) {
+			msg += theEObject.toString();
+		}
+		msg += ")";
+		this.logInfoMessage(msg);
+		return super.doSwitch(theEClass, theEObject);
+	}
+
+	@Override
+	public Boolean doSwitch(EObject eObject) {
+		var msg = "doSwitch(EObj: ";
+		if (eObject != null) {
+			msg += eObject.toString();
+		}
+		msg += ")";
+		this.logInfoMessage(msg);
+		return super.doSwitch(eObject);
+	}
+
+	@Override
+	protected Boolean doSwitch(int classifierID, EObject eObject) {
+		var msg = "doSwitch(classifierID: " + classifierID + ", EObj: ";
+		if (eObject != null) {
+			msg += eObject.toString();
+		}
+		msg += ")";
+		this.logInfoMessage(msg);
+		return super.doSwitch(classifierID, eObject);
+	}
+
+	@Override
+	protected Boolean delegatedDoSwitch(Switch<Boolean> delegate, EClass theEClass, EObject theEObject) {
+		var msg = "delegatedDoSwitch(delegate: ";
+		if (delegate != null) {
+			msg += delegate.getClass().getSimpleName();
+		}
+		msg += ", ECls: ";
+		if (theEClass != null && theEClass.getName() != null) {
+			msg += Strings.nullToEmpty(theEClass.getName());
+		}
+		msg += ", EObj: ";
+		if (theEObject != null) {
+			msg += theEObject.toString();
+		}
+		msg += ")";
+		this.logInfoMessage(msg);
+		return super.delegatedDoSwitch(delegate, theEClass, theEObject);
 	}
 }
