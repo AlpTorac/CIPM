@@ -45,6 +45,19 @@ public class FluentAPIRootAPITest {
 	}
 
 	@Test
+	public void apiTest_ModifyMarkedElement() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var prevClsName = "prevClsName";
+		api.newClass().withName(prevClsName).markCurrent(prevClsName);
+		Assertions.assertEquals(prevClsName, api.getMarkedClass(prevClsName).getName());
+
+		var newClsName = "newClsName";
+		api.modifyMarkedClass(prevClsName).withName(newClsName);
+		Assertions.assertEquals(newClsName, api.getMarkedClass(prevClsName).getName());
+	}
+
+	@Test
 	public void apiTest_ResetElement() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
