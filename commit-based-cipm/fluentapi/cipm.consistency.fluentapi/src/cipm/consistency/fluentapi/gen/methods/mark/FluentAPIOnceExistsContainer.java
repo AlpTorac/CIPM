@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.function.Consumer;
 
 import org.eclipse.emf.ecore.EObject;
 
 public class FluentAPIOnceExistsContainer {
-	private final Map<EObject, Map<Object, LinkedHashSet<Consumer>>> markToObj = new LinkedHashMap<>();
+	private final Map<EObject, Map<Object, LinkedHashSet<Runnable>>> markToObj = new LinkedHashMap<>();
 
-	public boolean addOnceExists(EObject api, Object markKey, Consumer markVal) {
+	public boolean addOnceExists(EObject api, Object markKey, Runnable markVal) {
 		if (!markToObj.containsKey(api)) {
 			markToObj.put(api, new LinkedHashMap<>());
 		}
@@ -22,7 +21,7 @@ public class FluentAPIOnceExistsContainer {
 		return apiMap.get(markKey).add(markVal);
 	}
 
-	public boolean removeOnceExists(EObject api, Object markKey, Consumer markVal) {
+	public boolean removeOnceExists(EObject api, Object markKey, Runnable markVal) {
 		if (!markToObj.containsKey(api))
 			return false;
 
@@ -52,7 +51,7 @@ public class FluentAPIOnceExistsContainer {
 				final var count = new int[1];
 				if (!list.isEmpty() && markedObj != null) {
 					new ArrayList<>(list).forEach((c) -> {
-						c.accept(markedObj);
+						c.run();
 						list.remove(c);
 						count[0]++;
 					});

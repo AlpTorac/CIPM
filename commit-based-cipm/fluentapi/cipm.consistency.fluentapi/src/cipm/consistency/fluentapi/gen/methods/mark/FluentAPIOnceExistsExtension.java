@@ -2,14 +2,13 @@ package cipm.consistency.fluentapi.gen.methods.mark;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.Consumer;
 
 import org.eclipse.emf.ecore.EObject;
 
 public class FluentAPIOnceExistsExtension {
 	private static final Map<EObject, FluentAPIOnceExistsContainer> apiToOnceExistsCon = new LinkedHashMap<>();
 
-	public static boolean addOnceExists(EObject api, Object markKey, Consumer toPerformOnceExists) {
+	public static boolean addOnceExists(EObject api, Object markKey, Runnable toPerformOnceExists) {
 		if (!apiToOnceExistsCon.containsKey(api)) {
 			apiToOnceExistsCon.put(api, new FluentAPIOnceExistsContainer());
 		}
@@ -22,7 +21,7 @@ public class FluentAPIOnceExistsExtension {
 		return isOnceExistsAdded;
 	}
 
-	public static boolean removeOnceExists(EObject api, Object markKey, Consumer toPerformOnceExists) {
+	public static boolean removeOnceExists(EObject api, Object markKey, Runnable toPerformOnceExists) {
 		if (apiToOnceExistsCon.containsKey(api)) {
 			return apiToOnceExistsCon.get(api).removeOnceExists(api, markKey, toPerformOnceExists);
 		}
