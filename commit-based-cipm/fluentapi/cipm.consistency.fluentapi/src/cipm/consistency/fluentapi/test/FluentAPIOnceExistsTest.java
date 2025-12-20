@@ -25,12 +25,6 @@ public class FluentAPIOnceExistsTest {
 		 * this::somethingToDo))`
 		 */
 
-		// TODO Add api.getMarkedX(markKey) to spare type casting
-
-		// TODO Add api.continueWithOldestX (for continueClassFromStart(0))
-
-		// TODO Add api.continueWithNewestX (for continueClassFromEnd(0))
-
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var outerClsName = "OuterCls";
 		var cls1Name = "Cls1";
@@ -39,26 +33,20 @@ public class FluentAPIOnceExistsTest {
 		api.newClass().withName(outerClsName);
 
 		api.newClass().withName(cls1Name).markCurrent(cls1Name);
-		api.onceExists(cls2Name,
-				(Consumer<org.emftext.language.java.classifiers.Class>) (cls2) -> api.modifyClass(cls2)
-						.withExtends(api.newClassifierReference()
-								.withTarget((org.emftext.language.java.classifiers.Class) api.getMarked(cls1Name))
-								.createNow()));
+		api.onceExists(cls2Name, (Consumer<org.emftext.language.java.classifiers.Class>) (cls2) -> api.modifyClass(cls2)
+				.withExtends(api.newClassifierReference().withTarget(api.getMarkedClass(cls1Name)).createNow()));
 
 //		api.onceExists(cls2Name,
 //				toRunnable((org.emftext.language.java.classifiers.Class) api.getMarked(cls1Name), this::cons));
 
 		api.newClass().withName(cls2Name).markCurrent(cls2Name);
-		api.onceExists(cls1Name,
-				(Consumer<org.emftext.language.java.classifiers.Class>) (cls1) -> api.modifyClass(cls1)
-						.withExtends(api.newClassifierReference()
-								.withTarget((org.emftext.language.java.classifiers.Class) api.getMarked(cls2Name))
-								.createNow()));
+		api.onceExists(cls1Name, (Consumer<org.emftext.language.java.classifiers.Class>) (cls1) -> api.modifyClass(cls1)
+				.withExtends(api.newClassifierReference().withTarget(api.getMarkedClass(cls2Name)).createNow()));
 
-		api.continueClassFromStart(0).withAddedMembers(FluentAPITestUtils
-				.toEList(api.continueClassFromStart(1).createNow(), api.continueClassFromStart(1).createNow()));
+		api.continueOldestClass().withAddedMembers(FluentAPITestUtils.toEList(api.continueClassFromStart(1).createNow(),
+				api.continueClassFromStart(1).createNow()));
 
-		var outerCls = api.continueClassFromStart(0).createNow();
+		var outerCls = api.continueOldestClass().createNow();
 
 		Assertions.assertInstanceOf(org.emftext.language.java.classifiers.Class.class, outerCls);
 		Assertions.assertEquals(2, outerCls.getMembers().size());
@@ -72,10 +60,53 @@ public class FluentAPIOnceExistsTest {
 		Assertions.assertEquals(cls1Name, cls2.getExtends().getPureClassifierReference().getTarget().getName());
 	}
 
-//	public <T> Runnable toRunnable(T arg, Consumer<T> con) {
-//		return () -> con.accept(arg);
-//	}
-//
-//	public void cons(org.emftext.language.java.classifiers.Class cls) {
-//	};
+	@Test
+	public void delayedElementConstruction_Alternative() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var outerClsName = "OuterCls";
+		var cls1Name = "Cls1";
+		var cls2Name = "Cls2";
+
+		api.newClass().withName(outerClsName);
+
+		// TODO Add api.modifyMarkedX
+
+		api.newClass().withName(cls1Name).markCurrent(cls1Name);
+		api.onceExists(cls2Name, (Consumer<org.emftext.language.java.classifiers.Class>) (cls2) -> api.modifyClass(cls2)
+				.withExtends(api.newClassifierReference().withTarget(api.getMarkedClass(cls1Name)).createNow()));
+
+//		api.onceExists(cls2Name, (Runnable) () -> api.modifyClass(api.getMarkedClass(cls2Name))
+//				.withExtends(api.newClassifierReference().withTarget(api.getMarkedClass(cls2Name)).createNow()));
+
+		api.newClass().withName(cls2Name).markCurrent(cls2Name);
+		api.onceExists(cls1Name, toRunnable(api.getMarkedClass(cls2Name), (cls1) -> api.modifyClass(cls1)
+				.withExtends(api.newClassifierReference().withTarget(api.getMarkedClass(cls2Name)).createNow())));
+
+		api.continueOldestClass().withAddedMembers(FluentAPITestUtils.toEList(api.continueClassFromStart(1).createNow(),
+				api.continueClassFromStart(1).createNow()));
+
+		var outerCls = api.continueOldestClass().createNow();
+
+		Assertions.assertInstanceOf(org.emftext.language.java.classifiers.Class.class, outerCls);
+		Assertions.assertEquals(2, outerCls.getMembers().size());
+
+		var cls1 = (org.emftext.language.java.classifiers.Class) outerCls.getMembers().get(0);
+		Assertions.assertEquals(cls1Name, cls1.getName());
+		Assertions.assertEquals(cls2Name, cls1.getExtends().getPureClassifierReference().getTarget().getName());
+
+		var cls2 = (org.emftext.language.java.classifiers.Class) outerCls.getMembers().get(1);
+		Assertions.assertEquals(cls2Name, cls2.getName());
+		Assertions.assertEquals(cls1Name, cls2.getExtends().getPureClassifierReference().getTarget().getName());
+	}
+
+	public <T> Consumer<T> toRunnable(Consumer<T> con) {
+		return con;
+	}
+
+	public <T> Consumer<T> toRunnable(T arg, Consumer<T> con) {
+		return con;
+	}
+
+	public void cons(org.emftext.language.java.classifiers.Class cls) {
+	};
 }

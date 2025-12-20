@@ -29,6 +29,14 @@ public class FluentAPIContinueMethodGenerator {
 	private static final String continueFromEndMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			"return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueElementFromEnd(this, %s.class, %s)");
 
+	private static final String continueWithNewestMethodNameTemplate = "continueNewest%s";
+	private static final String continueWithNewestMethodBodyTemplate = FluentAPIMethodsUtil
+			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueElement(this, %s.class)");
+
+	private static final String continueWithOldestMethodNameTemplate = "continueOldest%s";
+	private static final String continueWithOldestMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			"return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueOldestElement(this, %s.class)");
+
 	public List<EOperation> generateAllContinueMethods(List<EClass> initEClss, List<EClass> eObjEClss,
 			FluentAPITargetMetamodelFeatureFilter filter) {
 
@@ -39,6 +47,8 @@ public class FluentAPIContinueMethodGenerator {
 			var initEClass = initEClss.get(i);
 			if (FluentAPIGenerationUtil.hasModifiableFeatures(eObjEClass, filter)) {
 				ops.add(generateContinueMethod(eObjEClass, initEClass));
+				ops.add(generateContinueNewestMethod(eObjEClass, initEClass));
+				ops.add(generateContinueOldestMethod(eObjEClass, initEClass));
 				ops.add(generateContinueFromStartMethod(eObjEClass, initEClass));
 				ops.add(generateContinueFromEndMethod(eObjEClass, initEClass));
 			}
@@ -47,7 +57,7 @@ public class FluentAPIContinueMethodGenerator {
 		return ops;
 	}
 
-	public EOperation generateContinueMethod(EClass elemToInit, EClass initECls) {
+	private EOperation generateContinueMethod(EClass elemToInit, EClass initECls) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(continueMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())), genModelURL,
 				initECls,
@@ -55,7 +65,25 @@ public class FluentAPIContinueMethodGenerator {
 						elemToInit.getInstanceClass().getName()));
 	}
 
-	public EOperation generateContinueFromStartMethod(EClass elemToInit, EClass initECls) {
+	private EOperation generateContinueNewestMethod(EClass elemToInit, EClass initECls) {
+		return FluentAPIGenerationUtil.generateEOperationWithBody(
+				String.format(continueWithNewestMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())),
+				genModelURL, initECls,
+				String.format(continueWithNewestMethodBodyTemplate,
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
+						elemToInit.getInstanceClass().getName()));
+	}
+
+	private EOperation generateContinueOldestMethod(EClass elemToInit, EClass initECls) {
+		return FluentAPIGenerationUtil.generateEOperationWithBody(
+				String.format(continueWithOldestMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())),
+				genModelURL, initECls,
+				String.format(continueWithOldestMethodBodyTemplate,
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
+						elemToInit.getInstanceClass().getName()));
+	}
+
+	private EOperation generateContinueFromStartMethod(EClass elemToInit, EClass initECls) {
 		var param = this.getIndexParam(indexFromStartParamName);
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(continueFromStartMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())),
@@ -66,7 +94,7 @@ public class FluentAPIContinueMethodGenerator {
 				param);
 	}
 
-	public EOperation generateContinueFromEndMethod(EClass elemToInit, EClass initECls) {
+	private EOperation generateContinueFromEndMethod(EClass elemToInit, EClass initECls) {
 		var param = this.getIndexParam(indexFromEndParamName);
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(continueFromEndMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())),
@@ -77,7 +105,7 @@ public class FluentAPIContinueMethodGenerator {
 				param);
 	}
 
-	public EParameter getIndexParam(String name) {
+	private EParameter getIndexParam(String name) {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(name, EcorePackage.Literals.EINT);
 	}
 }

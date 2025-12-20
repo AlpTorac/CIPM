@@ -207,6 +207,14 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	/**
+	 * @return Oldest initialisation (the first initialisation, idx 0)
+	 */
+	public static EObject continueOldestElement(EObject me, Class<?> eobjCls) {
+		return getOngoingInits(me).stream().filter((i) -> isInitialisationFor(i.eClass(), eobjCls)).findFirst()
+				.orElse(null);
+	}
+
+	/**
 	 * @return Newest idx-th initialisation (idx starts with 0)
 	 */
 	public static EObject continueElementFromEnd(EObject me, Class<?> eobjCls, int idx) {

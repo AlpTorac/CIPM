@@ -1,7 +1,9 @@
 package cipm.consistency.fluentapi.gen;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
@@ -25,8 +27,17 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 			// %s: Mark key parameter name
 			"return " + FluentAPIMarkExtension.class.getName() + ".getMarked(this, %s)");
 
-	public List<EOperation> generateAllMarkMethods(EClass rootAPIECls) {
-		return List.of(generateUnmarkMethod(rootAPIECls), generateGetMarkedMethod());
+	private static final String getMarkedXMethodNameTemplate = "getMarked%s";
+	private static final String getMarkedXMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			// %s: Mark key parameter name
+			"return (%s) " + FluentAPIMarkExtension.class.getName() + ".getMarked(this, %s)");
+
+	public List<EOperation> generateAllMarkMethods(EClass rootAPIECls, List<EClass> allElemsToInit) {
+		var ops = new ArrayList<EOperation>();
+		ops.add(generateUnmarkMethod(rootAPIECls));
+		ops.add(generateGetMarkedMethod());
+		allElemsToInit.forEach((eCls) -> ops.add(generateGetMarkedXMethod(eCls)));
+		return ops;
 	}
 
 	public EOperation generateUnmarkMethod(EClass rootAPIECls) {
@@ -39,6 +50,15 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 		var param = getMarkKeyParam();
 		return FluentAPIGenerationUtil.generateEOperationWithBody(getMarkedMethodNameTemplate, genModelURL,
 				FluentAPIGenerationUtil.getEObjectEClass(), String.format(getMarkedMethodBodyTemplate, param.getName()),
+				param);
+	}
+
+	public EOperation generateGetMarkedXMethod(EClass elemToInit) {
+		var param = getMarkKeyParam();
+		return FluentAPIGenerationUtil.generateEOperationWithBody(
+				String.format(getMarkedXMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())), genModelURL,
+				elemToInit, String.format(getMarkedXMethodBodyTemplate,
+						elemToInit.getInstanceClass().getName(), param.getName()),
 				param);
 	}
 
