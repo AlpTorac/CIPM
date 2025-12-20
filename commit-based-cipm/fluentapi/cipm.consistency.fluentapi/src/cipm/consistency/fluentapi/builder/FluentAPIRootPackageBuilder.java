@@ -67,8 +67,8 @@ public class FluentAPIRootPackageBuilder {
 		fluentAPICls.getEOperations().add(new FluentAPIDropInitialisationMethodGenerator()
 				.generateDropInitialisationMethod(fluentAPICls, initSuperType));
 
-		fluentAPICls.getEOperations()
-				.addAll(new FluentAPIRootAPIMarkMethodGenerator().generateAllMarkMethods(fluentAPICls));
+		fluentAPICls.getEOperations().addAll(
+				new FluentAPIRootAPIMarkMethodGenerator().generateAllMarkMethods(fluentAPICls, allEClassesToInit));
 
 		fluentAPICls.getEOperations()
 				.add(new FluentAPIRootAPIOnceExistsMethodGenerator().generateOnceExistsMethod(fluentAPICls));

@@ -93,4 +93,100 @@ public class FluentAPIContinueTest {
 		Assertions.assertNull(api.continueInterfaceFromStart(1));
 		Assertions.assertNull(api.continueInterfaceFromEnd(1));
 	}
+
+	@Test
+	public void continueOldestTest_SameTypes() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		Assertions.assertNull(api.continueOldestClass());
+
+		var firstInit = api.newClass();
+		var secondInit = api.newClass();
+		var thirdInit = api.newClass();
+
+		Assertions.assertNotEquals(firstInit, secondInit);
+		Assertions.assertNotEquals(firstInit, thirdInit);
+		Assertions.assertNotEquals(secondInit, thirdInit);
+
+		Assertions.assertEquals(firstInit, api.continueOldestClass());
+		firstInit.drop();
+		Assertions.assertEquals(secondInit, api.continueOldestClass());
+		secondInit.drop();
+		Assertions.assertEquals(thirdInit, api.continueOldestClass());
+		thirdInit.drop();
+		Assertions.assertNull(api.continueOldestClass());
+	}
+
+	@Test
+	public void continueOldestTest_DifferentTypes() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		Assertions.assertNull(api.continueOldestClass());
+		Assertions.assertNull(api.continueOldestInterface());
+		Assertions.assertNull(api.continueOldestEnumeration());
+
+		var firstInit = api.newClass();
+		var secondInit = api.newInterface();
+		var thirdInit = api.newEnumeration();
+
+		Assertions.assertNotEquals(firstInit, secondInit);
+		Assertions.assertNotEquals(firstInit, thirdInit);
+		Assertions.assertNotEquals(secondInit, thirdInit);
+
+		Assertions.assertEquals(firstInit, api.continueOldestClass());
+		Assertions.assertEquals(secondInit, api.continueOldestInterface());
+		Assertions.assertEquals(thirdInit, api.continueOldestEnumeration());
+	}
+
+	@Test
+	public void continueOldestTest_NoInitialisation() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		Assertions.assertNull(api.continueOldestClass());
+	}
+
+	@Test
+	public void continueNewestTest_SameTypes() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		Assertions.assertNull(api.continueNewestClass());
+
+		var firstInit = api.newClass();
+		var secondInit = api.newClass();
+		var thirdInit = api.newClass();
+
+		Assertions.assertNotEquals(firstInit, secondInit);
+		Assertions.assertNotEquals(firstInit, thirdInit);
+		Assertions.assertNotEquals(secondInit, thirdInit);
+
+		Assertions.assertEquals(thirdInit, api.continueNewestClass());
+		thirdInit.drop();
+		Assertions.assertEquals(secondInit, api.continueNewestClass());
+		secondInit.drop();
+		Assertions.assertEquals(firstInit, api.continueNewestClass());
+		firstInit.drop();
+		Assertions.assertNull(api.continueNewestClass());
+	}
+
+	@Test
+	public void continueNewestTest_DifferentTypes() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		Assertions.assertNull(api.continueNewestClass());
+		Assertions.assertNull(api.continueNewestInterface());
+		Assertions.assertNull(api.continueNewestEnumeration());
+
+		var firstInit = api.newClass();
+		var secondInit = api.newInterface();
+		var thirdInit = api.newEnumeration();
+
+		Assertions.assertNotEquals(firstInit, secondInit);
+		Assertions.assertNotEquals(firstInit, thirdInit);
+		Assertions.assertNotEquals(secondInit, thirdInit);
+
+		Assertions.assertEquals(firstInit, api.continueNewestClass());
+		Assertions.assertEquals(secondInit, api.continueNewestInterface());
+		Assertions.assertEquals(thirdInit, api.continueNewestEnumeration());
+	}
+
+	@Test
+	public void continueNewestTest_NoInitialisation() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		Assertions.assertNull(api.continueNewestClass());
+	}
 }
