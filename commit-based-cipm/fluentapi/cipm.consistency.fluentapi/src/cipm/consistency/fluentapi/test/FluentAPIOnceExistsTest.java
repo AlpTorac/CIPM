@@ -69,8 +69,6 @@ public class FluentAPIOnceExistsTest {
 
 		api.newClass().withName(outerClsName);
 
-		// TODO Add api.modifyMarkedX
-
 		api.newClass().withName(cls1Name).markCurrent(cls1Name);
 		api.onceExists(cls2Name, (Consumer<org.emftext.language.java.classifiers.Class>) (cls2) -> api.modifyClass(cls2)
 				.withExtends(api.newClassifierReference().withTarget(api.getMarkedClass(cls1Name)).createNow()));
