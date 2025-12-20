@@ -60,6 +60,9 @@ public class FluentAPIInitialisationGenerator {
 		xInitEClass.getEOperations()
 				.addAll(new FluentAPIInitialisationMarkMethodGenerator().generateAllMarkMethods(xInitEClass));
 
+		xInitEClass.getEOperations().addAll(
+				new FluentAPIInitialisationOnceExistsMethodGenerator().generateAllOnceExistsMethods(xInitEClass));
+
 		return xInitEClass;
 	}
 }

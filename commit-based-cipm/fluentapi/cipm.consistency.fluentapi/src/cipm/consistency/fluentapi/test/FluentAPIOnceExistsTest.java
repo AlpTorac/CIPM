@@ -59,6 +59,30 @@ public class FluentAPIOnceExistsTest {
 	}
 
 	/**
+	 * OuterCls {Cls1}
+	 */
+	@Test
+	public void singleOnceExistsTest_ViaInitialisation() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var outerClsName = "OuterCls";
+		var cls1Name = "Cls1";
+
+		var outerCls = api.newClass().withName(outerClsName).markCurrent(outerClsName)
+				//
+				.onceExists(cls1Name,
+						(Runnable) () -> api.modifyMarkedClass(outerClsName)
+								.withAddedMembers(api.getMarkedClass(cls1Name)))
+				//
+				.toAPI().newClass().withName(cls1Name).markCurrent(cls1Name).toAPI().continueOldestClass().createNow();
+
+		var cls1 = (org.emftext.language.java.classifiers.Class) outerCls.getMembers().get(0);
+
+		Assertions.assertEquals(outerClsName, outerCls.getName());
+		Assertions.assertEquals(1, outerCls.getMembers().size());
+		Assertions.assertEquals(cls1Name, cls1.getName());
+	}
+
+	/**
 	 * OuterCls {Cls1, Cls2}
 	 */
 	@Test
@@ -75,6 +99,41 @@ public class FluentAPIOnceExistsTest {
 						(Runnable) () -> api.modifyMarkedClass(outerClsName)
 								.withAddedMembers(api.getMarkedClass(cls2Name)))
 				.newClass().withName(cls2Name).markCurrent(cls2Name).toAPI().continueOldestClass().createNow();
+
+		var cls1 = (org.emftext.language.java.classifiers.Class) outerCls.getMembers().get(0);
+		var cls2 = (org.emftext.language.java.classifiers.Class) outerCls.getMembers().get(1);
+
+		Assertions.assertEquals(outerClsName, outerCls.getName());
+		Assertions.assertEquals(2, outerCls.getMembers().size());
+		Assertions.assertEquals(cls1Name, cls1.getName());
+		Assertions.assertEquals(cls2Name, cls2.getName());
+	}
+
+	/**
+	 * OuterCls {Cls1, Cls2}
+	 */
+	@Test
+	public void sequentialOnceExistsTest_ViaInitialisation() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var outerClsName = "OuterCls";
+		var cls1Name = "Cls1";
+		var cls2Name = "Cls2";
+
+		var outerCls = api.newClass().withName(outerClsName).markCurrent(outerClsName)
+				//
+				.onceExists(cls1Name,
+						(Runnable) () -> api.modifyMarkedClass(outerClsName)
+								.withAddedMembers(api.getMarkedClass(cls1Name)))
+				//
+				.onceExists(cls2Name,
+						(Runnable) () -> api.modifyMarkedClass(outerClsName)
+								.withAddedMembers(api.getMarkedClass(cls2Name)))
+				// Cls1
+				.toAPI().newClass().withName(cls1Name).markCurrent(cls1Name)
+				// Cls2
+				.toAPI().newClass().withName(cls2Name).markCurrent(cls2Name)
+				// OuterCls
+				.toAPI().continueOldestClass().createNow();
 
 		var cls1 = (org.emftext.language.java.classifiers.Class) outerCls.getMembers().get(0);
 		var cls2 = (org.emftext.language.java.classifiers.Class) outerCls.getMembers().get(1);
