@@ -29,6 +29,15 @@ public class FluentAPIBuilder {
 			fluentAPIEcoreModelFile.delete();
 		}
 
+		// TODO Generate API in "src-gen" folder instead of "src" folder
+
+		// TODO Incorporate metamodel name to package and class names to allow
+		// generating multiple APIs
+
+		// TODO Automate GenModel generation
+
+		// TODO Fully automate API generation
+
 		var resSet = new ResourceSetImpl();
 		var res = resSet.createResource(URI.createFileURI(fluentAPIEcoreModelFilePath.toString()));
 
