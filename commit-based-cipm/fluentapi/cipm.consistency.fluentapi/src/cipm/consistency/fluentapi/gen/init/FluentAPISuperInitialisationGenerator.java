@@ -1,7 +1,9 @@
-package cipm.consistency.fluentapi.gen;
+package cipm.consistency.fluentapi.gen.init;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
+
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 
 public class FluentAPISuperInitialisationGenerator {
 	/**

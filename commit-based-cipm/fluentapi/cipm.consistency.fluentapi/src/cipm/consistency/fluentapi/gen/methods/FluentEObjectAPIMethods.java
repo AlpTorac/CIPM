@@ -15,13 +15,9 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import cipm.consistency.fluentapi.gen.FluentAPICurrentElementReferenceGenerator;
-import cipm.consistency.fluentapi.gen.FluentAPIInitialisationEClassesReferenceGenerator;
-import cipm.consistency.fluentapi.gen.FluentAPIInitialisationNewOperationGenerator;
-import cipm.consistency.fluentapi.gen.FluentAPIInitialisationsPackageGenerator;
-import cipm.consistency.fluentapi.gen.FluentAPIOngoingInitialisationsReferenceGenerator;
-import cipm.consistency.fluentapi.gen.FluentAPIRootAPIReferenceGenerator;
-import cipm.consistency.fluentapi.gen.FluentAPIWithOperationGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPIConstants;
+import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationNewOperationGenerator;
+import cipm.consistency.fluentapi.gen.init.FluentAPIWithOperationGenerator;
 
 public final class FluentEObjectAPIMethods {
 	public static EObject xWithFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
@@ -138,14 +134,14 @@ public final class FluentEObjectAPIMethods {
 
 	public static EObject getInitialisationInstanceForX(EObject me, Class<?> eobjCls) {
 		var initsPac = me.eClass().getEPackage().getESubpackages().stream()
-				.filter((pac) -> pac.getName().equals(FluentAPIInitialisationsPackageGenerator.getPackageName()))
+				.filter((pac) -> pac.getName().equals(FluentAPIConstants.getFluentAPIInitialisationsPackageName()))
 				.findFirst().get();
 
 		var initEClass = (EClass) initsPac.getEClassifiers().stream().filter((eCls) -> eCls instanceof EClass)
 				.map((eCls) -> (EClass) eCls).filter((eCls) -> isInitialisationFor(eCls, eobjCls)).findFirst().get();
 		var initInstance = initEClass.getEPackage().getEFactoryInstance().create(initEClass);
 		initInstance.eSet(initInstance.eClass()
-				.getEStructuralFeature(FluentAPIRootAPIReferenceGenerator.getRootAPIReferenceName()), me);
+				.getEStructuralFeature(FluentAPIConstants.getFluentAPISuperInitialisationRootAPIReferenceName()), me);
 		getOngoingInits(me).add(initInstance);
 		return initInstance;
 	}
@@ -175,7 +171,7 @@ public final class FluentEObjectAPIMethods {
 		var initInstance = getInitialisationInstanceForX(me, eobjToInit.eClass().getInstanceClass());
 
 		initInstance.eSet(initInstance.eClass().getEStructuralFeature(
-				FluentAPICurrentElementReferenceGenerator.getCurrentElementReferenceName()), eobjToInit);
+				FluentAPIConstants.getFluentAPISuperInitialisationCurrentElementReferenceName()), eobjToInit);
 
 		return initInstance;
 	}
@@ -248,13 +244,13 @@ public final class FluentEObjectAPIMethods {
 
 	@SuppressWarnings("unchecked")
 	public static EList<EClass> getInits(EObject me) {
-		return ((EList<EClass>) me.eGet(me.eClass().getEStructuralFeature(
-				FluentAPIInitialisationEClassesReferenceGenerator.getInitialisationsReferenceName())));
+		return ((EList<EClass>) me
+				.eGet(me.eClass().getEStructuralFeature(FluentAPIConstants.getRootAPIInitialisationsReferenceName())));
 	}
 
 	@SuppressWarnings("unchecked")
 	public static EList<EObject> getOngoingInits(EObject me) {
-		return ((EList<EObject>) me.eGet(me.eClass().getEStructuralFeature(
-				FluentAPIOngoingInitialisationsReferenceGenerator.getOngoingInitialisationsReferenceName())));
+		return ((EList<EObject>) me.eGet(
+				me.eClass().getEStructuralFeature(FluentAPIConstants.getRootAPIOngoingInitialisationsReferenceName())));
 	}
 }

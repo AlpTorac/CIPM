@@ -1,4 +1,4 @@
-package cipm.consistency.fluentapi.gen;
+package cipm.consistency.fluentapi.gen.init;
 
 import java.util.List;
 
@@ -7,12 +7,12 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
+import cipm.consistency.fluentapi.gen.FluentAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIMarkExtension;
 
 public class FluentAPIInitialisationMarkMethodGenerator {
-	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
-
 	private static final String markKeyParameterName = "markKey";
 
 	private static final String unmarkMethodNameTemplate = "unmark";
@@ -37,21 +37,23 @@ public class FluentAPIInitialisationMarkMethodGenerator {
 
 	public EOperation generateUnmarkMethod(EClass initEClass) {
 		var param = getMarkKeyParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBody(unmarkMethodNameTemplate, genModelURL, initEClass,
+		return FluentAPIGenerationUtil.generateEOperationWithBody(unmarkMethodNameTemplate,
+				FluentAPIConstants.getGenModelURL(), initEClass,
 				String.format(unmarkMethodBodyTemplate, param.getName()), param);
 	}
 
 	public EOperation generateMarkMethod(EClass initEClass) {
 		var param = getMarkKeyParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBody(markMethodNameTemplate, genModelURL, initEClass,
-				String.format(markMethodBodyTemplate, param.getName()), param);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(markMethodNameTemplate,
+				FluentAPIConstants.getGenModelURL(), initEClass, String.format(markMethodBodyTemplate, param.getName()),
+				param);
 	}
 
 	public EOperation generateGetMarkedMethod() {
 		var param = getMarkKeyParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBody(getMarkedMethodNameTemplate, genModelURL,
-				FluentAPIGenerationUtil.getEObjectEClass(), String.format(getMarkedMethodBodyTemplate, param.getName()),
-				param);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(getMarkedMethodNameTemplate,
+				FluentAPIConstants.getGenModelURL(), FluentAPIGenerationUtil.getEObjectEClass(),
+				String.format(getMarkedMethodBodyTemplate, param.getName()), param);
 	}
 
 	private EParameter getMarkKeyParam() {
