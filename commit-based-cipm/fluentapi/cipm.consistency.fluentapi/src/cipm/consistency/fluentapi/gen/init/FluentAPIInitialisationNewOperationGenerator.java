@@ -1,13 +1,13 @@
-package cipm.consistency.fluentapi.gen;
+package cipm.consistency.fluentapi.gen.init;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 
+import cipm.consistency.fluentapi.gen.FluentAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIInitialisationNewOperationGenerator {
-	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
-
 	private static final String newOperationName = "newElement";
 
 	private static final String newOperationMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
@@ -18,15 +18,15 @@ public class FluentAPIInitialisationNewOperationGenerator {
 			"this.setCurrentElement(pac.getEFactoryInstance().create((%s) pac.getEClassifier(\"%s\")))",
 			//
 			"return this");
-	
+
 	public static String getNewOperationName() {
 		return newOperationName;
 	}
 
 	public EOperation getNewOperationFor(EClass initEClass, EClass elemToInit) {
-		var op = FluentAPIGenerationUtil.generateEOperationWithBody(newOperationName, genModelURL, initEClass,
-				String.format(newOperationMethodBodyTemplate, elemToInit.getEPackage().getClass().getName(),
-						EClass.class.getName(), elemToInit.getName()));
+		var op = FluentAPIGenerationUtil.generateEOperationWithBody(newOperationName,
+				FluentAPIConstants.getGenModelURL(), initEClass, String.format(newOperationMethodBodyTemplate,
+						elemToInit.getEPackage().getClass().getName(), EClass.class.getName(), elemToInit.getName()));
 
 		op.setEType(initEClass);
 

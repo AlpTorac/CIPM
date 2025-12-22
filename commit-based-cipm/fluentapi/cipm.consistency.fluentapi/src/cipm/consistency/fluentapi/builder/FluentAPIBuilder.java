@@ -8,31 +8,32 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import cipm.consistency.fluentapi.gen.FluentAPIRootAPIGenerator;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
 //import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmRepositoryMetamodelFeatureFilter;
 //import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmRepositoryMetamodelPackageProvider;
 
 public class FluentAPIBuilder {
-	private static final String initModelDirName = "initModel";
-	private static final File initModelFile = new File(initModelDirName).getAbsoluteFile();
-	private static final Path ecoreFilePath = initModelFile.toPath().resolve("initialiserModels.ecore");
+	private static final String fluentAPIEcoreModelDirName = "initModel";
+	private static final File fluentAPIEcoreModelFile = new File(fluentAPIEcoreModelDirName).getAbsoluteFile();
+	private static final Path fluentAPIEcoreModelFilePath = fluentAPIEcoreModelFile.toPath()
+			.resolve("initialiserModels.ecore");
 
 	@Test
 	public void generateModelFiles() {
-		if (initModelFile.exists()) {
-			for (var file : initModelFile.listFiles()) {
+		if (fluentAPIEcoreModelFile.exists()) {
+			for (var file : fluentAPIEcoreModelFile.listFiles()) {
 				file.delete();
 			}
-			initModelFile.delete();
+			fluentAPIEcoreModelFile.delete();
 		}
 
 		var resSet = new ResourceSetImpl();
-		var res = resSet.createResource(URI.createFileURI(ecoreFilePath.toString()));
+		var res = resSet.createResource(URI.createFileURI(fluentAPIEcoreModelFilePath.toString()));
 
-		res.getContents().add(
-				new FluentAPIRootPackageBuilder().buildRootPackage(new FluentAPIJavaMetamodelPackageProvider(),
-						new FluentAPIJavaMetamodelFeatureFilter()).get(0));
+		res.getContents().add(new FluentAPIRootAPIGenerator().generateRootAPIPackages(
+				new FluentAPIJavaMetamodelPackageProvider(), new FluentAPIJavaMetamodelFeatureFilter()).get(0));
 		try {
 			res.save(null);
 		} catch (IOException e) {

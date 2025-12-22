@@ -1,4 +1,4 @@
-package cipm.consistency.fluentapi.gen;
+package cipm.consistency.fluentapi.gen.init;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,11 +10,13 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import cipm.consistency.fluentapi.gen.FluentAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIWithOperationGenerator {
-	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
-
 	private static final String withXFeatNameTemplate = "with%s";
 	private static final String withXFeatOfContainerNameTemplate = "with%sOfContainer";
 	private static final String withoutXFeatNameTemplate = "without%s";
@@ -165,13 +167,15 @@ public class FluentAPIWithOperationGenerator {
 		var newFeatValParam = getNewFeatValParam(feat);
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(withXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL, initECls,
+				String.format(withXFeatNameTemplate, StringUtils.capitalize(feat.getName())),
+				FluentAPIConstants.getGenModelURL(), initECls,
 				String.format(withXFeatMethodBodyTemplate, feat.getName(), newFeatValParam.getName()), newFeatValParam);
 	}
 
 	public EOperation generateWithoutXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(withoutXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL, initECls,
+				String.format(withoutXFeatNameTemplate, StringUtils.capitalize(feat.getName())),
+				FluentAPIConstants.getGenModelURL(), initECls,
 				String.format(withoutXFeatMethodBodyTemplate, feat.getName()));
 	}
 
@@ -179,8 +183,9 @@ public class FluentAPIWithOperationGenerator {
 		var addedFeatValParam = getAddedFeatValParam(feat);
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(withAddedXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL,
-				initECls, String.format(withAddedXFeatMethodBodyTemplate, feat.getName(), addedFeatValParam.getName()),
+				String.format(withAddedXFeatNameTemplate, StringUtils.capitalize(feat.getName())),
+				FluentAPIConstants.getGenModelURL(), initECls,
+				String.format(withAddedXFeatMethodBodyTemplate, feat.getName(), addedFeatValParam.getName()),
 				addedFeatValParam);
 	}
 
@@ -188,8 +193,8 @@ public class FluentAPIWithOperationGenerator {
 		var removedFeatValParam = getRemovedFeatValParam(feat);
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(withRemovedXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL,
-				initECls,
+				String.format(withRemovedXFeatNameTemplate, StringUtils.capitalize(feat.getName())),
+				FluentAPIConstants.getGenModelURL(), initECls,
 				String.format(withRemovedXFeatMethodBodyTemplate, feat.getName(), removedFeatValParam.getName()),
 				removedFeatValParam);
 	}
@@ -198,9 +203,9 @@ public class FluentAPIWithOperationGenerator {
 		var addedFeatValParam = getAddedListFeatValParam(feat);
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(withAddedXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL,
-				initECls, String.format(withAddedXListFeatMethodBodyTemplate, feat.getName(),
-						addedFeatValParam.getName(), addedFeatValParam.getName()),
+				String.format(withAddedXFeatNameTemplate, StringUtils.capitalize(feat.getName())),
+				FluentAPIConstants.getGenModelURL(), initECls, String.format(withAddedXListFeatMethodBodyTemplate,
+						feat.getName(), addedFeatValParam.getName(), addedFeatValParam.getName()),
 				addedFeatValParam);
 	}
 
@@ -208,9 +213,9 @@ public class FluentAPIWithOperationGenerator {
 		var removedFeatValParam = getRemovedListFeatValParam(feat);
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(withRemovedXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL,
-				initECls, String.format(withRemovedXListFeatMethodBodyTemplate, feat.getName(),
-						removedFeatValParam.getName(), removedFeatValParam.getName()),
+				String.format(withRemovedXFeatNameTemplate, StringUtils.capitalize(feat.getName())),
+				FluentAPIConstants.getGenModelURL(), initECls, String.format(withRemovedXListFeatMethodBodyTemplate,
+						feat.getName(), removedFeatValParam.getName(), removedFeatValParam.getName()),
 				removedFeatValParam);
 	}
 
@@ -218,8 +223,9 @@ public class FluentAPIWithOperationGenerator {
 		var exactFeatValParam = getExactFeatValParam(feat);
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(withExactXFeatNameTemplate, StringUtils.capitalize(feat.getName())), genModelURL,
-				initECls, String.format(withExactXFeatMethodBodyTemplate, feat.getName(), exactFeatValParam.getName()),
+				String.format(withExactXFeatNameTemplate, StringUtils.capitalize(feat.getName())),
+				FluentAPIConstants.getGenModelURL(), initECls,
+				String.format(withExactXFeatMethodBodyTemplate, feat.getName(), exactFeatValParam.getName()),
 				exactFeatValParam);
 	}
 
@@ -228,9 +234,9 @@ public class FluentAPIWithOperationGenerator {
 		var featNameCapitalised = StringUtils.capitalize(feat.getName());
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(withXFeatOfContainerNameTemplate, featNameCapitalised), genModelURL, initECls,
-				String.format(withXFeatOfContainerMethodBodyForManyValuedFeatTemplate, featNameCapitalised,
-						feat.getName()));
+				String.format(withXFeatOfContainerNameTemplate, featNameCapitalised),
+				FluentAPIConstants.getGenModelURL(), initECls, String.format(
+						withXFeatOfContainerMethodBodyForManyValuedFeatTemplate, featNameCapitalised, feat.getName()));
 	}
 
 	public EOperation generateWithXFeatOfContainerForSingleValued(EClass initECls, EClass elemToInit,
@@ -238,7 +244,8 @@ public class FluentAPIWithOperationGenerator {
 		var featNameCapitalised = StringUtils.capitalize(feat.getName());
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(withXFeatOfContainerNameTemplate, featNameCapitalised), genModelURL, initECls,
+				String.format(withXFeatOfContainerNameTemplate, featNameCapitalised),
+				FluentAPIConstants.getGenModelURL(), initECls,
 				String.format(withXFeatOfContainerMethodBodyForSingleValuedFeatTemplate, featNameCapitalised,
 						feat.getEType().getInstanceClass().getName(), feat.getName()));
 	}
