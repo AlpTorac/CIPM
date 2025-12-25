@@ -1,81 +1,39 @@
 package cipm.consistency.similarity.features;
 
 import java.util.List;
-import java.util.function.Function;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-public class TargetFeature {
+public abstract class TargetFeature {
 	private final EClass featEClass;
-	private final EStructuralFeature feat;
 
-	private final List<EStructuralFeature> derivedFeatureComponents;
-	private final String derivedFeatureName;
-	private final Function<EObject, Object> derivedFeatureComputationAlgorithm;
-
-	protected TargetFeature(EClass featEClass, EStructuralFeature feat,
-			List<EStructuralFeature> derivedFeatureComponents,
-			Function<EObject, Object> derivedFeatureComputationAlgorithm, String derivedFeatureName) {
+	protected TargetFeature(EClass featEClass) {
 		this.featEClass = featEClass;
-		this.feat = feat;
-
-		if (derivedFeatureComponents != null) {
-			this.derivedFeatureComponents = List.copyOf(derivedFeatureComponents);
-		} else {
-			this.derivedFeatureComponents = null;
-		}
-
-		this.derivedFeatureName = derivedFeatureName;
-		this.derivedFeatureComputationAlgorithm = derivedFeatureComputationAlgorithm;
 	}
 
-	public TargetFeature(EClass featEClass, EStructuralFeature feat) {
-		this(featEClass, feat, null, null, null);
+	public abstract boolean isDerivedFeature();
+
+	public abstract boolean isManyFeature();
+	
+	public abstract Object computeFeatureValue(EObject obj);
+	
+	public Object computeFeatureValueAtIndex(EObject obj, int index) {
+		if (!isManyFeature())
+			throw new IllegalStateException("Feature must be many-valued");
+		return FeatureUtility.getElementAtIndex(computeFeatureValue(obj), index);
 	}
 
-	public TargetFeature(EClass featEClass, Function<EObject, Object> derivedFeatureComputationAlgorithm,
-			String derivedFeatureName) {
-		this(featEClass, null, null, derivedFeatureComputationAlgorithm, derivedFeatureName);
+	public List<Object> computeAllFeatureValues(EObject obj) {
+		return FeatureUtility.getAllElements(computeFeatureValue(obj));
 	}
-
-	public TargetFeature(EClass featEClass, List<EStructuralFeature> derivedFeatureComponents,
-			Function<EObject, Object> derivedFeatureComputationAlgorithm, String derivedFeatureName) {
-		this(featEClass, null, derivedFeatureComponents, derivedFeatureComputationAlgorithm, derivedFeatureName);
-	}
-
-	public boolean isDerived() {
-		return derivedFeatureName != null && !derivedFeatureName.isBlank();
-	}
-
-	public Object computeFeatureVal(EObject obj) {
-		if (obj.eClass() != featEClass)
-			return null;
-
-		if (!isDerived())
-			return obj.eGet(feat);
-
-		return derivedFeatureComputationAlgorithm.apply(obj);
-	}
-
+	
 	public EClass getFeatEClass() {
 		return featEClass;
 	}
 
-	public EStructuralFeature getFeat() {
-		return feat;
-	}
+	public abstract EStructuralFeature getFeat();
 
-	public List<EStructuralFeature> getDerivedFeatureComponents() {
-		return derivedFeatureComponents;
-	}
-
-	public String getDerivedFeatureName() {
-		return derivedFeatureName;
-	}
-
-	public Function<EObject, Object> getDerivedFeatureComputationAlgorithm() {
-		return derivedFeatureComputationAlgorithm;
-	}
+	public abstract String getFeatName();
 }

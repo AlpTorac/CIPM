@@ -8,5 +8,5 @@ import org.eclipse.emf.ecore.EOperation;
 import cipm.consistency.similarity.features.TargetFeatureGroup;
 
 public final class SimilarityCheckerConfig {
-	private static final Map<TargetFeatureGroup, EOperation> comparisonOps = new LinkedHashMap<>();
+	private static final Map<TargetFeatureGroup, AbstractFeatureComparer> comparisonOps = new LinkedHashMap<>();
 }
