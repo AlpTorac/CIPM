@@ -12,6 +12,10 @@ public class TargetFeatureChain {
 		this.targetFeats = List.copyOf(targetFeats);
 	}
 
+	public TargetFeature getLastFeature() {
+		return targetFeats.get(targetFeats.size() - 1);
+	}
+
 	/**
 	 * @param obj     EObject whose features' values will be used
 	 * @param indices For each many-valued feature (including the derived features)
@@ -19,18 +23,23 @@ public class TargetFeatureChain {
 	 *         operations, while continuing with the given indices for many-valued
 	 *         features
 	 */
-	public Object computeFeatureChainValueAtIndices(EObject obj, int... indices) {
+	public FeatureResultChain computeFeatureChainValueAtIndices(EObject obj, int... indices) {
+		var featVals = new ArrayList<FeatureResult>();
 		Object val = obj;
+		FeatureResult currentFR = null;
+
 		for (int i = 0, j = 0; i < targetFeats.size(); i++) {
 			var currentFeat = targetFeats.get(i);
 			if (currentFeat.isManyFeature()) {
-				val = currentFeat.computeFeatureValueAtIndex((EObject) val, indices[j]);
+				currentFR = currentFeat.computeFeatureValueAtIndex((EObject) val, indices[j]);
 				j++;
 			} else {
-				val = currentFeat.computeFeatureValue((EObject) val);
+				currentFR = currentFeat.computeFeatureValue((EObject) val);
 			}
+			featVals.add(currentFR);
+			val = currentFR.getTargetFeatureValue();
 		}
-		return val;
+		return new FeatureResultChain(featVals);
 	}
 
 	/**
@@ -40,23 +49,29 @@ public class TargetFeatureChain {
 	 *         many-valued features lead to multiple results, computes each possible
 	 *         outcome in order and returns a list thereof.
 	 */
-	public List<Object> computeAllFeatureChainValues(EObject obj) {
-		var val = new ArrayList<>();
-		computeAllFeatureChainValues(obj, 0, val);
-		return val;
+	public List<FeatureResultChain> computeAllFeatureChainValues(EObject obj) {
+		return computeAllFeatureChainValues(obj, 0, List.of());
 	}
 
-	private void computeAllFeatureChainValues(Object currentObj, int currentFeatIdx, List<Object> currentVals) {
-		var currentFeat = targetFeats.get(currentFeatIdx);
-
-		if (targetFeats.size() == currentFeatIdx + 1 || !(currentObj instanceof EObject)) {
-			currentVals.add(currentObj);
-			return;
+	private List<FeatureResultChain> computeAllFeatureChainValues(Object currentFeatureValue, int currentFeatureIndex,
+			List<FeatureResult> featureChainValues) {
+		if (targetFeats.size() == currentFeatureIndex + 1 || !(currentFeatureValue instanceof EObject)) {
+			return List.of(new FeatureResultChain(featureChainValues));
 		}
 
-		var vals = currentFeat.computeAllFeatureValues((EObject) currentObj);
-		for (int i = 0; i < vals.size(); i++) {
-			computeAllFeatureChainValues(vals.get(i), currentFeatIdx + 1, currentVals);
+		var featureResultChains = new ArrayList<FeatureResultChain>();
+
+		var currentFeat = targetFeats.get(currentFeatureIndex);
+		var featureValues = currentFeat.computeAllFeatureValues((EObject) currentFeatureValue);
+
+		for (var fv : featureValues) {
+			var nextFeatureValues = new ArrayList<>(featureChainValues);
+			nextFeatureValues.add(fv);
+			var nextFeatureChainValues = computeAllFeatureChainValues(fv.getTargetFeatureValue(),
+					currentFeatureIndex + 1, nextFeatureValues);
+			featureResultChains.addAll(nextFeatureChainValues);
 		}
+
+		return featureResultChains;
 	}
 }

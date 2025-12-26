@@ -1,5 +1,6 @@
 package cipm.consistency.similarity.features;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
@@ -16,19 +17,33 @@ public abstract class TargetFeature {
 	public abstract boolean isDerivedFeature();
 
 	public abstract boolean isManyFeature();
+
+	protected abstract Object computeFeatureValueForObj(EObject obj);
 	
-	public abstract Object computeFeatureValue(EObject obj);
+	public FeatureResult computeFeatureValue(EObject obj) {
+		if (isManyFeature())
+			throw new IllegalStateException("Feature must be single-valued (not many-valued)");
+		if (obj.eClass() != getFeatEClass())
+			return null;
+		
+		return new FeatureResult(this, obj, computeFeatureValueForObj(obj));
+	}
 	
-	public Object computeFeatureValueAtIndex(EObject obj, int index) {
+	public FeatureResult computeFeatureValueAtIndex(EObject obj, int index) {
 		if (!isManyFeature())
 			throw new IllegalStateException("Feature must be many-valued");
-		return FeatureUtility.getElementAtIndex(computeFeatureValue(obj), index);
+		return new FeatureResult(this, obj, index, FeatureUtility.getElementAtIndex(computeFeatureValueForObj(obj), index));
 	}
 
-	public List<Object> computeAllFeatureValues(EObject obj) {
-		return FeatureUtility.getAllElements(computeFeatureValue(obj));
+	public List<FeatureResult> computeAllFeatureValues(EObject obj) {
+		var results = new ArrayList<FeatureResult>();
+		var featResults = FeatureUtility.getAllElements(computeFeatureValueForObj(obj));
+		for (int i = 0; i < results.size(); i++) {
+			results.add(new FeatureResult(this, obj, i, featResults.get(i)));
+		}
+		return results;
 	}
-	
+
 	public EClass getFeatEClass() {
 		return featEClass;
 	}

@@ -41,10 +41,7 @@ public class DerivedTargetFeature extends TargetFeature {
 	}
 
 	@Override
-	public Object computeFeatureValue(EObject obj) {
-		if (obj.eClass() != getFeatEClass())
-			return null;
-
+	protected Object computeFeatureValueForObj(EObject obj) {
 		return derivedFeatureComputationAlgorithm.apply(obj);
 	}
 

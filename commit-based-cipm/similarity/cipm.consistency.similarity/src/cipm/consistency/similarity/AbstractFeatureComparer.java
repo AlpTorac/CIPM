@@ -3,6 +3,7 @@ package cipm.consistency.similarity;
 import org.eclipse.emf.ecore.EObject;
 
 import cipm.consistency.similarity.features.TargetFeatureChain;
+import cipm.consistency.similarity.templates.SimilarityCheckingTemplateMethods;
 
 public abstract class AbstractFeatureComparer {
 	private TargetFeatureChain targetFeatureChain;
@@ -11,5 +12,5 @@ public abstract class AbstractFeatureComparer {
 		this.targetFeatureChain = targetFeatureChain;
 	}
 
-	public abstract Boolean compareValues(EObject obj1, EObject obj2);
+	public abstract Boolean compareEObjects(EObject obj1, EObject obj2);
 }

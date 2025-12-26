@@ -1,8 +1,5 @@
 package cipm.consistency.similarity.features;
 
-import java.util.List;
-
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -19,10 +16,8 @@ public class OriginalTargetFeature extends TargetFeature {
 		return false;
 	}
 
-	public Object computeFeatureValue(EObject obj) {
-		if (obj.eClass() != getFeatEClass())
-			return null;
-
+	@Override
+	protected Object computeFeatureValueForObj(EObject obj) {
 		return obj.eGet(feat);
 	}
 
