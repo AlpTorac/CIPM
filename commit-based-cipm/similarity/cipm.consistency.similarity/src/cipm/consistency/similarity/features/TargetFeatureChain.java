@@ -3,7 +3,9 @@ package cipm.consistency.similarity.features;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 public class TargetFeatureChain {
 	private final List<TargetFeature> targetFeats;
@@ -12,10 +14,23 @@ public class TargetFeatureChain {
 		this.targetFeats = List.copyOf(targetFeats);
 	}
 
+	public boolean hasTargetFeature(TargetFeature targetFeature) {
+		return targetFeats.stream().anyMatch((feat) -> feat.equals(targetFeature));
+	}
+
+	public boolean hasFeature(EStructuralFeature feat) {
+		return targetFeats.stream().anyMatch((targetFeature) -> targetFeature.getFeat().equals(feat));
+	}
+
+	public boolean hasFeature(EClass eCls, EStructuralFeature feat) {
+		return targetFeats.stream().anyMatch(
+				(targetFeature) -> targetFeature.getFeatEClass().equals(eCls) && targetFeature.getFeat().equals(feat));
+	}
+
 	public TargetFeature getFirstFeature() {
 		return targetFeats.get(0);
 	}
-	
+
 	public TargetFeature getLastFeature() {
 		return targetFeats.get(targetFeats.size() - 1);
 	}
@@ -23,7 +38,7 @@ public class TargetFeatureChain {
 	public FeatureResultChain computeFeatureChainValue(EObject obj) {
 		return computeFeatureChainValueAtIndices(obj);
 	}
-	
+
 	/**
 	 * @param obj     EObject whose features' values will be used
 	 * @param indices For each many-valued feature (including the derived features)

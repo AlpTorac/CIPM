@@ -63,4 +63,14 @@ public class DerivedTargetFeature extends TargetFeature {
 	public boolean isManyFeature() {
 		return isMany;
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof DerivedTargetFeature))
+			return false;
+		var castedO = (DerivedTargetFeature) obj;
+
+		return this.getFeatEClass().equals(castedO.getFeatEClass())
+				&& this.derivedFeatureName.equals(castedO.derivedFeatureName);
+	}
 }

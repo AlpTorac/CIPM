@@ -2,7 +2,9 @@ package cipm.consistency.similarity.features;
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import cipm.consistency.similarity.templates.SimilarityCheckingTemplateMethods;
 
@@ -11,6 +13,18 @@ public class TargetFeatureGroup {
 
 	public TargetFeatureGroup(List<TargetFeatureChain> targetFeatChains) {
 		this.targetFeatChains = List.copyOf(targetFeatChains);
+	}
+
+	public boolean hasTargetFeature(TargetFeature tf) {
+		return this.targetFeatChains.stream().anyMatch((tfc) -> tfc.hasTargetFeature(tf));
+	}
+
+	public boolean hasFeature(EStructuralFeature feat) {
+		return targetFeatChains.stream().anyMatch((tfc) -> tfc.hasFeature(feat));
+	}
+
+	public boolean hasFeature(EClass eCls, EStructuralFeature feat) {
+		return targetFeatChains.stream().anyMatch((tfc) -> tfc.hasFeature(eCls, feat));
 	}
 
 	public boolean compare(EObject obj1, EObject obj2) {

@@ -45,7 +45,21 @@ public final class SimilarityCheckerConfig {
 		return new TargetFeatureChain(List.of(new DerivedTargetFeature(initialECls, derivedFeatureComponents,
 				derivedFeatureComputationAlgorithm, isMany, derivedFeatureName)));
 	}
-	
+
+	public static boolean isFeatureRelevant(EClass eCls, EStructuralFeature feat) {
+		if (!comparisonOps.containsKey(eCls))
+			return false;
+
+		return comparisonOps.get(eCls).hasFeature(eCls, feat);
+	}
+
+	public static boolean isFeatureRelevant(EClass eCls, TargetFeature targetFeat) {
+		if (!comparisonOps.containsKey(eCls))
+			return false;
+
+		return comparisonOps.get(eCls).hasTargetFeature(targetFeat);
+	}
+
 	public static boolean compare(EObject obj1, EObject obj2) {
 		if (!SimilarityCheckingTemplateMethods.typesEqual(obj1, obj2))
 			return false;

@@ -65,7 +65,7 @@ public abstract class TargetFeature {
 	public EClass getFeatEClass() {
 		return featEClass;
 	}
-
+	
 	public abstract EStructuralFeature getFeat();
 
 	public abstract String getFeatName();

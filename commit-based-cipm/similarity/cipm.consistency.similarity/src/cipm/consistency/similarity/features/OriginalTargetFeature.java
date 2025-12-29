@@ -34,4 +34,13 @@ public class OriginalTargetFeature extends TargetFeature {
 	public boolean isManyFeature() {
 		return getFeat().isMany();
 	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof OriginalTargetFeature))
+			return false;
+		var castedO = (OriginalTargetFeature) obj;
+
+		return this.feat.equals(castedO.feat) && this.getFeatEClass().equals(castedO.getFeatEClass());
+	}
 }
