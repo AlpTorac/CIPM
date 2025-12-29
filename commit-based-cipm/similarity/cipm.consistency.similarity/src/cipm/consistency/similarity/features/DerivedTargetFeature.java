@@ -14,6 +14,8 @@ public class DerivedTargetFeature extends TargetFeature {
 
 	private final boolean isMany;
 
+	// TODO Implement a type specific for derivedFeatureComputationAlgorithm
+
 	public DerivedTargetFeature(EClass featEClass, List<EStructuralFeature> derivedFeatureComponents,
 			Function<EObject, Object> derivedFeatureComputationAlgorithm, boolean isMany, String derivedFeatureName) {
 		super(featEClass);
@@ -72,5 +74,11 @@ public class DerivedTargetFeature extends TargetFeature {
 
 		return this.getFeatEClass().equals(castedO.getFeatEClass())
 				&& this.derivedFeatureName.equals(castedO.derivedFeatureName);
+	}
+
+	@Override
+	public boolean isFeatureRelevant(EClass eCls, EStructuralFeature feat) {
+		return this.getFeatEClass().equals(eCls)
+				&& this.derivedFeatureComponents.stream().anyMatch((f) -> f.equals(feat));
 	}
 }

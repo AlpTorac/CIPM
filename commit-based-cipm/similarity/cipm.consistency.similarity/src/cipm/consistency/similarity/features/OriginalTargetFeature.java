@@ -43,4 +43,9 @@ public class OriginalTargetFeature extends TargetFeature {
 
 		return this.feat.equals(castedO.feat) && this.getFeatEClass().equals(castedO.getFeatEClass());
 	}
+
+	@Override
+	public boolean isFeatureRelevant(EClass eCls, EStructuralFeature feat) {
+		return this.getFeatEClass().equals(eCls) && this.getFeat().equals(feat);
+	}
 }

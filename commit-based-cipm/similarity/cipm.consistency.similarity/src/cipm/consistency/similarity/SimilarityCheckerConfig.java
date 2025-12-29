@@ -46,11 +46,18 @@ public final class SimilarityCheckerConfig {
 				derivedFeatureComputationAlgorithm, isMany, derivedFeatureName)));
 	}
 
+	public static boolean isDerivedFeatureRelevant(EClass eCls, String derivedFeatName) {
+		if (!comparisonOps.containsKey(eCls))
+			return false;
+
+		return comparisonOps.get(eCls).isDerivedFeatureRelevant(eCls, derivedFeatName);
+	}
+
 	public static boolean isFeatureRelevant(EClass eCls, EStructuralFeature feat) {
 		if (!comparisonOps.containsKey(eCls))
 			return false;
 
-		return comparisonOps.get(eCls).hasFeature(eCls, feat);
+		return comparisonOps.get(eCls).isFeatureRelevant(eCls, feat);
 	}
 
 	public static boolean isFeatureRelevant(EClass eCls, TargetFeature targetFeat) {
@@ -67,26 +74,6 @@ public final class SimilarityCheckerConfig {
 		var group = comparisonOps.getOrDefault(obj1.eClass(), null);
 		return group != null ? group.compare(obj1, obj2) : true;
 	}
-
-//	public static boolean compare(EObject obj1, EObject obj2, TargetFeatureChain tfc) {
-//		var vals1 = tfc.computeAllFeatureChainValues(obj1);
-//		var vals2 = tfc.computeAllFeatureChainValues(obj2);
-//
-//		if (vals1.size() != vals2.size()) {
-//			return false;
-//		}
-//
-//		for (int i = 0; i < vals1.size(); i++) {
-//			var val1 = vals1.get(i);
-//			var val2 = vals2.get(i);
-//			if (SimilarityCheckingTemplateMethods.compareValue(val1.getLastFeature().getTargetFeatureValue(),
-//					val2.getLastFeature().getTargetFeatureValue()) != Boolean.TRUE) {
-//				return false;
-//			}
-//		}
-//
-//		return true;
-//	}
 
 	private SimilarityCheckerConfig() {
 		init();
@@ -118,10 +105,14 @@ public final class SimilarityCheckerConfig {
 	// ClassifiersSimilaritySwitch
 	private static void initForClassifiers() {
 		// caseConcreteClassifier
-		addTargetFeatureGroup(List.of(getChainWithDerivedTargetFeature(ClassifiersPackage.Literals.CONCRETE_CLASSIFIER,
-				List.of(CommonsPackage.Literals.NAMED_ELEMENT__NAME,
-						CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES),
-				(cls) -> ((ConcreteClassifier) cls).getQualifiedName(), false, "qualifiedName")));
+		for (var eCls : List.of(ClassifiersPackage.Literals.CONCRETE_CLASSIFIER, ClassifiersPackage.Literals.CLASS,
+				ClassifiersPackage.Literals.ENUMERATION, ClassifiersPackage.Literals.ANNOTATION,
+				ClassifiersPackage.Literals.INTERFACE)) {
+			addTargetFeatureGroup(List.of(getChainWithDerivedTargetFeature(eCls,
+					List.of(CommonsPackage.Literals.NAMED_ELEMENT__NAME,
+							CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES),
+					(cls) -> ((ConcreteClassifier) cls).getQualifiedName(), false, "qualifiedName")));
+		}
 	}
 
 	// CommonsSimilaritySwitch (CURRENTLY UNUSED)
@@ -169,8 +160,5 @@ public final class SimilarityCheckerConfig {
 	 * be irrelevant. Keep in mind that expanding all of them till getting a
 	 * non-EObject value is not possible, due to recursive definitions (ex:
 	 * TypeReferences, TypeParameters)
-	 * 
-	 * TODO Implement exemplary AbstractFeatureComparers. Start with non-EObject
-	 * values (i.e. literals)
 	 */
 }

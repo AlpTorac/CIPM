@@ -16,6 +16,12 @@ public abstract class TargetFeature {
 		this.featEClass = featEClass;
 	}
 
+	public abstract boolean isFeatureRelevant(EClass eCls, EStructuralFeature feat);
+
+	public boolean isFeatureRelevant(EStructuralFeature feat) {
+		return isFeatureRelevant(getFeatEClass(), feat);
+	}
+
 	public abstract boolean isDerivedFeature();
 
 	public abstract boolean isManyFeature();
@@ -65,7 +71,7 @@ public abstract class TargetFeature {
 	public EClass getFeatEClass() {
 		return featEClass;
 	}
-	
+
 	public abstract EStructuralFeature getFeat();
 
 	public abstract String getFeatName();

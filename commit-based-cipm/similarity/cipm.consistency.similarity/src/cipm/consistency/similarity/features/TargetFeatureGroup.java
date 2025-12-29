@@ -19,13 +19,23 @@ public class TargetFeatureGroup {
 		return this.targetFeatChains.stream().anyMatch((tfc) -> tfc.hasTargetFeature(tf));
 	}
 
-	public boolean hasFeature(EStructuralFeature feat) {
-		return targetFeatChains.stream().anyMatch((tfc) -> tfc.hasFeature(feat));
+	public boolean isFeatureRelevant(EStructuralFeature feat) {
+		return targetFeatChains.stream().anyMatch((tfc) -> tfc.isFeatureRelevant(feat));
 	}
 
-	public boolean hasFeature(EClass eCls, EStructuralFeature feat) {
-		return targetFeatChains.stream().anyMatch((tfc) -> tfc.hasFeature(eCls, feat));
+	public boolean isFeatureRelevant(EClass eCls, EStructuralFeature feat) {
+		return targetFeatChains.stream().anyMatch((tfc) -> tfc.isFeatureRelevant(eCls, feat));
 	}
+
+	public boolean isDerivedFeatureRelevant(EClass eCls, String derivedFeatName) {
+		return targetFeatChains.stream().anyMatch((tfc) -> tfc.isDerivedFeatureRelevant(eCls, derivedFeatName));
+	}
+
+	/*
+	 * TODO Extract compare operation to its own type "ComparisonResult"
+	 * 
+	 * Enables logging similarity checking
+	 */
 
 	public boolean compare(EObject obj1, EObject obj2) {
 		for (var tfc : targetFeatChains) {

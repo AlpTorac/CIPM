@@ -18,13 +18,16 @@ public class TargetFeatureChain {
 		return targetFeats.stream().anyMatch((feat) -> feat.equals(targetFeature));
 	}
 
-	public boolean hasFeature(EStructuralFeature feat) {
-		return targetFeats.stream().anyMatch((targetFeature) -> targetFeature.getFeat().equals(feat));
+	public boolean isFeatureRelevant(EStructuralFeature feat) {
+		return targetFeats.stream().anyMatch((targetFeature) -> targetFeature.isFeatureRelevant(feat));
 	}
 
-	public boolean hasFeature(EClass eCls, EStructuralFeature feat) {
-		return targetFeats.stream().anyMatch(
-				(targetFeature) -> targetFeature.getFeatEClass().equals(eCls) && targetFeature.getFeat().equals(feat));
+	public boolean isFeatureRelevant(EClass eCls, EStructuralFeature feat) {
+		return targetFeats.stream().anyMatch((targetFeature) -> targetFeature.isFeatureRelevant(eCls, feat));
+	}
+
+	public boolean isDerivedFeatureRelevant(EClass eCls, String derivedFeatName) {
+		return targetFeats.stream().anyMatch((targetFeature) -> targetFeature.getFeatName().equals(derivedFeatName));
 	}
 
 	public TargetFeature getFirstFeature() {
