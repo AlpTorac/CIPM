@@ -16,6 +16,10 @@ public class TargetFeatureChain {
 		return targetFeats.get(targetFeats.size() - 1);
 	}
 
+	public FeatureResultChain computeFeatureChainValue(EObject obj) {
+		return computeFeatureChainValueAtIndices(obj);
+	}
+	
 	/**
 	 * @param obj     EObject whose features' values will be used
 	 * @param indices For each many-valued feature (including the derived features)
@@ -55,7 +59,7 @@ public class TargetFeatureChain {
 
 	private List<FeatureResultChain> computeAllFeatureChainValues(Object currentFeatureValue, int currentFeatureIndex,
 			List<FeatureResult> featureChainValues) {
-		if (targetFeats.size() == currentFeatureIndex + 1 || !(currentFeatureValue instanceof EObject)) {
+		if (targetFeats.size() == currentFeatureIndex) {
 			return List.of(new FeatureResultChain(featureChainValues));
 		}
 

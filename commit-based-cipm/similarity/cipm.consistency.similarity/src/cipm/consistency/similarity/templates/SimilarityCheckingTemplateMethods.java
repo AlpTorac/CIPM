@@ -1,22 +1,43 @@
 package cipm.consistency.similarity.templates;
 
+import java.lang.reflect.ParameterizedType;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public final class SimilarityCheckingTemplateMethods {
 	public static boolean compareSingleValue(Object val1, Object val2) {
+		if (!isSimilarityPossible(val1, val2))
+			return false;
+
+		if (!val1.getClass().isAssignableFrom(val2.getClass()) && !val2.getClass().isAssignableFrom(val1.getClass()))
+			return false;
+
+		return val1.equals(val2);
+	}
+
+	public static boolean isObjectManyValued(Object val) {
+		return val != null && (val.getClass().isArray() || val instanceof Iterable);
+	}
+
+	public static boolean isSimilarityPossible(Object val1, Object val2) {
 		if (val1 == val2)
 			return true;
 		if (val1 == null ^ val2 == null)
 			return false;
 
-		// Both vals != null from now on
+		return true;
+	}
 
-		if (!val1.getClass().isAssignableFrom(val2.getClass()) && !val2.getClass().isAssignableFrom(val1.getClass()))
+	public static Boolean compareValue(Object val1, Object val2) {
+		if (!isSimilarityPossible(val1, val2))
 			return false;
 
-		// Both vals' types are compatible from now on
-
-		return val1.equals(val2);
+		if (isObjectManyValued(val1) && isObjectManyValued(val2)) {
+			return compareManyValues(getAllElements(val1), getAllElements(val2));
+		} else {
+			return compareSingleValue(val1, val2);
+		}
 	}
 
 	public static Boolean compareManyValues(Collection<?> col1, Collection<?> col2) {
@@ -43,5 +64,39 @@ public final class SimilarityCheckingTemplateMethods {
 		}
 
 		return true;
+	}
+
+	public static Object getElementAtIndex(Object val, int index) {
+		if (val.getClass().isArray())
+			return ((Object[]) val)[index];
+		if (val instanceof Iterable) {
+			var it = ((Iterable<?>) val).iterator();
+			for (int i = 0; i < index - 1; i++)
+				it.next();
+			return it.next();
+		}
+		throw new IllegalArgumentException("The given value is neither iterable nor array");
+	}
+
+	public static List<Object> getAllElements(Object val) {
+		if (val instanceof Collection)
+			return List.copyOf((Collection<?>) val);
+		if (val.getClass().isArray())
+			return List.of((Object[]) val);
+		if (val instanceof Iterable) {
+			var list = new ArrayList<Object>();
+			((Iterable<?>) val).forEach((v) -> list.add(v));
+			return List.copyOf(list);
+		}
+		return List.of(val);
+	}
+
+	public static Class<?> getManyElementType(Object val) {
+		if (val.getClass().isArray())
+			return val.getClass().arrayType();
+		if (val instanceof Iterable) {
+			return (Class<?>) ((ParameterizedType) val.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+		}
+		return null;
 	}
 }
