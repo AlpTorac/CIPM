@@ -37,7 +37,7 @@ public class TargetFeatureGroup {
 	 * Enables logging similarity checking
 	 */
 
-	public boolean compare(EObject obj1, EObject obj2) {
+	public Boolean compare(EObject obj1, EObject obj2) {
 		for (var tfc : targetFeatChains) {
 			var vals1 = tfc.computeAllFeatureChainValues(obj1);
 			var vals2 = tfc.computeAllFeatureChainValues(obj2);
@@ -49,9 +49,10 @@ public class TargetFeatureGroup {
 			for (int i = 0; i < vals1.size(); i++) {
 				var val1 = vals1.get(i);
 				var val2 = vals2.get(i);
-				if (SimilarityCheckingTemplateMethods.compareValue(val1.getLastFeature().getTargetFeatureValue(),
-						val2.getLastFeature().getTargetFeatureValue()) != Boolean.TRUE) {
-					return false;
+				var comparisonResult = SimilarityCheckingTemplateMethods.compareValue(
+						val1.getLastFeature().getTargetFeatureValue(), val2.getLastFeature().getTargetFeatureValue());
+				if (comparisonResult != Boolean.TRUE) {
+					return comparisonResult;
 				}
 			}
 
