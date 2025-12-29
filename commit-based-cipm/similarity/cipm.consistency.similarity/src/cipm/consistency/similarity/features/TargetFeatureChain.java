@@ -12,6 +12,10 @@ public class TargetFeatureChain {
 		this.targetFeats = List.copyOf(targetFeats);
 	}
 
+	public TargetFeature getFirstFeature() {
+		return targetFeats.get(0);
+	}
+	
 	public TargetFeature getLastFeature() {
 		return targetFeats.get(targetFeats.size() - 1);
 	}

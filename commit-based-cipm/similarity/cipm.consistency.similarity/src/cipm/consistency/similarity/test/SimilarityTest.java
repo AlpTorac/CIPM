@@ -20,12 +20,9 @@ public class SimilarityTest {
 		var mod2 = ContainersFactory.eINSTANCE.createModule();
 		mod2.setName("mod2");
 
-		var tf = new OriginalTargetFeature(ContainersPackage.Literals.MODULE,
-				CommonsPackage.Literals.NAMED_ELEMENT__NAME);
-		var tfc = new TargetFeatureChain(List.of(tf));
-
-		Assertions.assertFalse(SimilarityCheckerConfig.compare(mod1, mod2, tfc));
+		Assertions.assertFalse(SimilarityCheckerConfig.compare(mod1, mod2));
 	}
+
 	@Test
 	public void originalTargetFeatureComparison_SingleValue_Literal_True() {
 		var mod1 = ContainersFactory.eINSTANCE.createModule();
@@ -33,38 +30,26 @@ public class SimilarityTest {
 		var mod2 = ContainersFactory.eINSTANCE.createModule();
 		mod2.setName(mod1.getName());
 
-		var tf = new OriginalTargetFeature(ContainersPackage.Literals.MODULE,
-				CommonsPackage.Literals.NAMED_ELEMENT__NAME);
-		var tfc = new TargetFeatureChain(List.of(tf));
-
-		Assertions.assertTrue(SimilarityCheckerConfig.compare(mod1, mod2, tfc));
+		Assertions.assertTrue(SimilarityCheckerConfig.compare(mod1, mod2));
 	}
-	
+
 	@Test
 	public void originalTargetFeatureComparison_MultiValue_Literal_False() {
-		var mod1 = ContainersFactory.eINSTANCE.createModule();
-		mod1.getNamespaces().addAll(List.of("ns1", "ns2"));
-		var mod2 = ContainersFactory.eINSTANCE.createModule();
-		mod2.getNamespaces().addAll(List.of("ns3", "ns4"));
+		var pac1 = ContainersFactory.eINSTANCE.createPackage();
+		pac1.getNamespaces().addAll(List.of("ns1", "ns2"));
+		var pac2 = ContainersFactory.eINSTANCE.createPackage();
+		pac2.getNamespaces().addAll(List.of("ns3", "ns4"));
 
-		var tf = new OriginalTargetFeature(ContainersPackage.Literals.MODULE,
-				CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
-		var tfc = new TargetFeatureChain(List.of(tf));
-
-		Assertions.assertFalse(SimilarityCheckerConfig.compare(mod1, mod2, tfc));
+		Assertions.assertFalse(SimilarityCheckerConfig.compare(pac1, pac2));
 	}
 
 	@Test
 	public void originalTargetFeatureComparison_MultiValue_Literal_True() {
-		var mod1 = ContainersFactory.eINSTANCE.createModule();
-		mod1.getNamespaces().addAll(List.of("ns1", "ns2"));
-		var mod2 = ContainersFactory.eINSTANCE.createModule();
-		mod2.getNamespaces().addAll(mod1.getNamespaces());
+		var pac1 = ContainersFactory.eINSTANCE.createPackage();
+		pac1.getNamespaces().addAll(List.of("ns1", "ns2"));
+		var pac2 = ContainersFactory.eINSTANCE.createPackage();
+		pac2.getNamespaces().addAll(pac1.getNamespaces());
 
-		var tf = new OriginalTargetFeature(ContainersPackage.Literals.MODULE,
-				CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
-		var tfc = new TargetFeatureChain(List.of(tf));
-
-		Assertions.assertTrue(SimilarityCheckerConfig.compare(mod1, mod2, tfc));
+		Assertions.assertTrue(SimilarityCheckerConfig.compare(pac1, pac2));
 	}
 }

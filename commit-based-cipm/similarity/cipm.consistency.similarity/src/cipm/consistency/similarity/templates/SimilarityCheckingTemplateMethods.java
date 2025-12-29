@@ -20,6 +20,10 @@ public final class SimilarityCheckingTemplateMethods {
 		return val != null && (val.getClass().isArray() || val instanceof Iterable);
 	}
 
+	public static boolean typesEqual(Object val1, Object val2) {
+		return val1 == val2 || ((val1 != null && val2 != null) && val1.getClass().equals(val2.getClass()));
+	}
+
 	public static boolean isSimilarityPossible(Object val1, Object val2) {
 		if (val1 == val2)
 			return true;
