@@ -9,7 +9,7 @@ public class FeatureResultChain {
 		this.targetFeatureResults = List.copyOf(targetFeats);
 	}
 
-	public FeatureResult getLastFeature() {
+	public FeatureResult getLastFeatureResult() {
 		return targetFeatureResults.get(targetFeatureResults.size() - 1);
 	}
 	

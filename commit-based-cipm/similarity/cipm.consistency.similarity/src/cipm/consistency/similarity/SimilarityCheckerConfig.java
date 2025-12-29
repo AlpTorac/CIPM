@@ -1,5 +1,6 @@
 package cipm.consistency.similarity;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,12 +68,66 @@ public final class SimilarityCheckerConfig {
 		return comparisonOps.get(eCls).hasTargetFeature(targetFeat);
 	}
 
+	private static Boolean compare(EObject obj1, EObject obj2, TargetFeatureGroup tfg, List<EObject> comparedObj1,
+			List<EObject> comparedObj2) {
+		for (int i = 0; i < comparedObj1.size(); i++) {
+			if (comparedObj1.get(i) == obj1 && comparedObj2.get(i) == obj2
+					|| comparedObj1.get(i) == obj2 && comparedObj2.get(i) == obj1)
+				return true;
+		}
+
+		for (var tfc : tfg.getTargetFeatureChains()) {
+			var vals1 = tfc.computeAllFeatureChainValues(obj1);
+			var vals2 = tfc.computeAllFeatureChainValues(obj2);
+
+			if (vals1.size() != vals2.size()) {
+				return false;
+			}
+
+			for (int i = 0; i < vals1.size(); i++) {
+				var val1 = vals1.get(i);
+				var val2 = vals2.get(i);
+
+				var lastFeatVal1 = val1.getLastFeatureResult().getTargetFeatureValue();
+				var lastFeatVal2 = val2.getLastFeatureResult().getTargetFeatureValue();
+
+				if (!SimilarityCheckingTemplateMethods.isSimilarityPossible(lastFeatVal1, lastFeatVal2))
+					return false;
+
+				if (!SimilarityCheckingTemplateMethods.typesEqual(lastFeatVal1, lastFeatVal2))
+					return false;
+
+				if ((lastFeatVal1 != null && lastFeatVal2 != null
+						&& EObject.class.isAssignableFrom(lastFeatVal1.getClass()))) {
+					var subComparisonGroup = comparisonOps.getOrDefault(((EObject) lastFeatVal1).eClass(), null);
+					var subComparisonResult = subComparisonGroup != null
+							? compare((EObject) lastFeatVal1, (EObject) lastFeatVal2, subComparisonGroup, comparedObj1,
+									comparedObj2)
+							: true;
+					if (subComparisonResult != Boolean.TRUE) {
+						return subComparisonResult;
+					}
+				} else {
+					var comparisonResult = SimilarityCheckingTemplateMethods.compareValue(lastFeatVal1, lastFeatVal2);
+					if (comparisonResult != Boolean.TRUE) {
+						return comparisonResult;
+					}
+				}
+
+				comparedObj1.add(obj1);
+				comparedObj2.add(obj2);
+			}
+
+		}
+		return true;
+	}
+
 	public static boolean compare(EObject obj1, EObject obj2) {
 		if (!SimilarityCheckingTemplateMethods.typesEqual(obj1, obj2))
 			return false;
 
 		var group = comparisonOps.getOrDefault(obj1.eClass(), null);
-		return group != null ? group.compare(obj1, obj2) : true;
+		return group != null ? compare(obj1, obj2, group, new ArrayList<>(), new ArrayList<>()) : true;
 	}
 
 	private SimilarityCheckerConfig() {
@@ -105,6 +160,8 @@ public final class SimilarityCheckerConfig {
 	// ClassifiersSimilaritySwitch
 	private static void initForClassifiers() {
 		// caseConcreteClassifier
+
+		// TODO Expand overarching cases
 		for (var eCls : List.of(ClassifiersPackage.Literals.CONCRETE_CLASSIFIER, ClassifiersPackage.Literals.CLASS,
 				ClassifiersPackage.Literals.ENUMERATION, ClassifiersPackage.Literals.ANNOTATION,
 				ClassifiersPackage.Literals.INTERFACE)) {

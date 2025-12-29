@@ -1,5 +1,6 @@
 package cipm.consistency.similarity.features;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
@@ -13,6 +14,10 @@ public class TargetFeatureGroup {
 
 	public TargetFeatureGroup(List<TargetFeatureChain> targetFeatChains) {
 		this.targetFeatChains = List.copyOf(targetFeatChains);
+	}
+
+	public List<TargetFeatureChain> getTargetFeatureChains() {
+		return List.copyOf(targetFeatChains);
 	}
 
 	public boolean hasTargetFeature(TargetFeature tf) {
@@ -37,26 +42,48 @@ public class TargetFeatureGroup {
 	 * Enables logging similarity checking
 	 */
 
-	public Boolean compare(EObject obj1, EObject obj2) {
-		for (var tfc : targetFeatChains) {
-			var vals1 = tfc.computeAllFeatureChainValues(obj1);
-			var vals2 = tfc.computeAllFeatureChainValues(obj2);
-
-			if (vals1.size() != vals2.size()) {
-				return false;
-			}
-
-			for (int i = 0; i < vals1.size(); i++) {
-				var val1 = vals1.get(i);
-				var val2 = vals2.get(i);
-				var comparisonResult = SimilarityCheckingTemplateMethods.compareValue(
-						val1.getLastFeature().getTargetFeatureValue(), val2.getLastFeature().getTargetFeatureValue());
-				if (comparisonResult != Boolean.TRUE) {
-					return comparisonResult;
-				}
-			}
-
-		}
-		return true;
-	}
+//	public SimilarityCheckerComparison compare(EObject obj1, EObject obj2, TargetFeatureChain tfc) {
+//		var vals1 = tfc.computeAllFeatureChainValues(obj1);
+//		var vals2 = tfc.computeAllFeatureChainValues(obj2);
+//
+//		if (vals1.size() != vals2.size()) {
+//			return false;
+//		}
+//
+//		for (int i = 0; i < vals1.size(); i++) {
+//			var val1 = vals1.get(i);
+//			var val2 = vals2.get(i);
+//			var comparisonResult = SimilarityCheckingTemplateMethods.compareValue(
+//					val1.getLastFeatureResult().getTargetFeatureValue(),
+//					val2.getLastFeatureResult().getTargetFeatureValue());
+//			if (comparisonResult != Boolean.TRUE) {
+//				return comparisonResult;
+//			}
+//		}
+//		return true;
+//	}
+//
+//	public Boolean compare(EObject obj1, EObject obj2) {
+//		for (var tfc : targetFeatChains) {
+//			var vals1 = tfc.computeAllFeatureChainValues(obj1);
+//			var vals2 = tfc.computeAllFeatureChainValues(obj2);
+//
+//			if (vals1.size() != vals2.size()) {
+//				return false;
+//			}
+//
+//			for (int i = 0; i < vals1.size(); i++) {
+//				var val1 = vals1.get(i);
+//				var val2 = vals2.get(i);
+//				var comparisonResult = SimilarityCheckingTemplateMethods.compareValue(
+//						val1.getLastFeatureResult().getTargetFeatureValue(),
+//						val2.getLastFeatureResult().getTargetFeatureValue());
+//				if (comparisonResult != Boolean.TRUE) {
+//					return comparisonResult;
+//				}
+//			}
+//
+//		}
+//		return true;
+//	}
 }
