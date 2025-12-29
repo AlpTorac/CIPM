@@ -7,13 +7,10 @@ import java.util.List;
 
 public final class SimilarityCheckingTemplateMethods {
 	public static boolean compareSingleValue(Object val1, Object val2) {
-		if (!isSimilarityPossible(val1, val2))
+		if (!typesEqual(val1, val2))
 			return false;
 
-		if (!val1.getClass().isAssignableFrom(val2.getClass()) && !val2.getClass().isAssignableFrom(val1.getClass()))
-			return false;
-
-		return val1.equals(val2);
+		return val1 == val2 || ((val1 != null && val2 != null) && val1.equals(val2));
 	}
 
 	public static boolean isObjectManyValued(Object val) {

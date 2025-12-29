@@ -16,6 +16,9 @@ import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.ContainersPackage;
 import org.emftext.language.java.expressions.ExpressionsPackage;
+import org.emftext.language.java.statements.Statement;
+import org.emftext.language.java.statements.StatementListContainer;
+import org.emftext.language.java.statements.StatementsPackage;
 
 import cipm.consistency.similarity.features.DerivedTargetFeature;
 import cipm.consistency.similarity.features.OriginalTargetFeature;
@@ -140,6 +143,7 @@ public final class SimilarityCheckerConfig {
 		initForCommons();
 		initForContainers();
 		initForExpressions();
+		initForStatements();
 	}
 
 	// AnnotationsSimilaritySwitch
@@ -210,6 +214,34 @@ public final class SimilarityCheckerConfig {
 						ExpressionsPackage.Literals.ASSIGNMENT_EXPRESSION__VALUE)));
 
 		// caseEqualityExpression
+	}
+
+	private static Statement getPred(Statement st) {
+		if (st.eContainer() == null)
+			return null;
+
+		var con = ((StatementListContainer) st.eContainer());
+		var stIdx = con.getStatements().indexOf(st);
+		return stIdx > 0 ? con.getStatements().get(stIdx - 1) : null;
+	}
+
+	private static Statement getSucc(Statement st) {
+		if (st.eContainer() == null)
+			return null;
+
+		var con = ((StatementListContainer) st.eContainer());
+		var stIdx = con.getStatements().indexOf(st);
+		return stIdx + 1 < con.getStatements().size() ? con.getStatements().get(stIdx + 1) : null;
+	}
+
+	private static void initForStatements() {
+		addTargetFeatureGroup(List.of(
+				getChainWithOriginalTargetFeature(StatementsPackage.Literals.EXPRESSION_STATEMENT,
+						StatementsPackage.Literals.EXPRESSION_STATEMENT__EXPRESSION),
+				getChainWithDerivedTargetFeature(StatementsPackage.Literals.EXPRESSION_STATEMENT, null,
+						(est) -> getPred((Statement) est), false, "predecessor"),
+				getChainWithDerivedTargetFeature(StatementsPackage.Literals.EXPRESSION_STATEMENT, null,
+						(est) -> getSucc((Statement) est), false, "successor")));
 	}
 
 	/*
