@@ -18,23 +18,24 @@ public class FluentAPISuperInitialisationGenerator {
 		superType.setInterface(false);
 		superType.setName(fluentAPISuperInitialisationName);
 
-		superType.getEOperations()
-				.add(new FluentAPIGetInitialisedEClassMethodGenerator().generateGetInitialisedEClassMethod());
+		superType.getEOperations().add(new FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator()
+				.generateGetInitialisedEClassMethod());
 
 		superType.getEOperations().add(new FluentAPICreateNowMethodGenerator()
 				.generateCreateNowMethod(FluentAPIGenerationUtil.getEObjectEClass()));
 
-		superType.getEOperations().add(new FluentAPINewElementMethodGenerator().generateNewElementMethod(superType));
-
 		superType.getEOperations()
-				.add(new FluentAPIInitialisationDropOperationGenerator().generateDropInitialisationMethod(superType));
+				.add(new FluentAPISuperInitialisationNewElementMethodGenerator().generateNewElementMethod(superType));
+
+		superType.getEOperations().add(
+				new FluentAPISuperInitialisationDropOperationGenerator().generateDropInitialisationMethod(superType));
 
 		superType.getEOperations()
 				.add(new FluentAPIInitialisationResetOperationGenerator().generateResetInitialisationMethod(superType));
 
 		superType.getEOperations()
-		.addAll(new FluentAPIInitialisationMarkMethodGenerator().generateAllMarkMethods(superType));
-		
+				.addAll(new FluentAPIInitialisationMarkMethodGenerator().generateAllMarkMethods(superType));
+
 		return superType;
 	}
 }

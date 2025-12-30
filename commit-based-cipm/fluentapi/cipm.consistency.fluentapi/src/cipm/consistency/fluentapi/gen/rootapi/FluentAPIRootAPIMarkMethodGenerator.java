@@ -14,6 +14,8 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIMarkExtension;
 
 public class FluentAPIRootAPIMarkMethodGenerator {
+	// TODO Add documentation
+
 	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
 
 	private static final String markKeyParameterName = "markKey";
@@ -43,13 +45,13 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 
 	public EOperation generateUnmarkMethod(EClass rootAPIECls) {
 		var param = getMarkKeyParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBody(unmarkMethodNameTemplate, genModelURL, rootAPIECls,
+		return FluentAPIGenerationUtil.generateEOperationWithBody(unmarkMethodNameTemplate, rootAPIECls,
 				String.format(unmarkMethodBodyTemplate, param.getName()), param);
 	}
 
 	public EOperation generateGetMarkedMethod() {
 		var param = getMarkKeyParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBody(getMarkedMethodNameTemplate, genModelURL,
+		return FluentAPIGenerationUtil.generateEOperationWithBody(getMarkedMethodNameTemplate,
 				FluentAPIGenerationUtil.getEObjectEClass(), String.format(getMarkedMethodBodyTemplate, param.getName()),
 				param);
 	}
@@ -57,9 +59,8 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 	public EOperation generateGetMarkedXMethod(EClass elemToInit) {
 		var param = getMarkKeyParam();
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(getMarkedXMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())), genModelURL,
-				elemToInit, String.format(getMarkedXMethodBodyTemplate,
-						elemToInit.getInstanceClass().getName(), param.getName()),
+				String.format(getMarkedXMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())), elemToInit,
+				String.format(getMarkedXMethodBodyTemplate, elemToInit.getInstanceClass().getName(), param.getName()),
 				param);
 	}
 

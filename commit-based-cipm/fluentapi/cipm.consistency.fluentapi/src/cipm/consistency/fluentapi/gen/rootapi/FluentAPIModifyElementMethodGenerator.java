@@ -12,6 +12,8 @@ import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIModifyElementMethodGenerator {
+	// TODO Add documentation
+
 	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
 
 	private static final String markKeyParameterName = "markKey";
@@ -59,7 +61,7 @@ public class FluentAPIModifyElementMethodGenerator {
 		var markKeyParam = getMarkKeyParam();
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(modifyMarkedElementMethodNameTemplate, eObjEClass.getInstanceClass().getSimpleName()),
-				genModelURL, initECls,
+				initECls,
 				String.format(modifyMarkedElementMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						eObjEClass.getInstanceClass().getSimpleName(), markKeyParam.getName()),
@@ -69,8 +71,8 @@ public class FluentAPIModifyElementMethodGenerator {
 	public EOperation getRootAPIModifyElementOperationForEClass(EClass rootAPICls, EClass eObjEClass, EClass initECls) {
 		var param = getEObjectParam(eObjEClass);
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(modifyElementMethodNameTemplate, eObjEClass.getInstanceClass().getSimpleName()),
-				genModelURL, initECls, String.format(modifyElementMethodBodyTemplate,
+				String.format(modifyElementMethodNameTemplate, eObjEClass.getInstanceClass().getSimpleName()), initECls,
+				String.format(modifyElementMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls), param.getName()),
 				param);
 	}
@@ -78,7 +80,7 @@ public class FluentAPIModifyElementMethodGenerator {
 	public EOperation getRootAPITopLevelModifyElementOperation(EClass rootAPICls,
 			EClass initialisationSuperTypeEClass) {
 		var param = getEObjectParam(FluentAPIGenerationUtil.getEObjectEClass());
-		return FluentAPIGenerationUtil.generateEOperationWithBody(topLevelModifyElementMethodName, genModelURL,
+		return FluentAPIGenerationUtil.generateEOperationWithBody(topLevelModifyElementMethodName,
 				initialisationSuperTypeEClass,
 				String.format(topLevelModifyElementMethodBody,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initialisationSuperTypeEClass),

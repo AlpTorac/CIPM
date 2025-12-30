@@ -8,9 +8,9 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 import cipm.consistency.fluentapi.gen.init.FluentAPICreateNowMethodGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationDropOperationGenerator;
+import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationDropOperationGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationMarkMethodGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationNewOperationGenerator;
+import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationNewElementOperationGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationOnceExistsMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationResetOperationGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPINextInitialisationMethodGenerator;
@@ -54,7 +54,7 @@ public class FluentAPIInitialisationEClassGenerator {
 			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
 			FluentAPITargetMetamodelFeatureFilter filter) {
 		xInitEClass.getEOperations().add(
-				new FluentAPIInitialisationNewOperationGenerator().getNewOperationFor(xInitEClass, initialisedEClass));
+				new FluentAPIInitialisationNewElementOperationGenerator().getNewElementOperationFor(xInitEClass, initialisedEClass));
 
 		xInitEClass.getEOperations().addAll(new FluentAPIWithOperationGenerator()
 				.generateAllWithOperationsFor(xInitEClass, initialisedEClass, targetMetamodelPackageProvider, filter));
@@ -63,7 +63,7 @@ public class FluentAPIInitialisationEClassGenerator {
 				.add(new FluentAPICreateNowMethodGenerator().generateCreateNowMethod(initialisedEClass));
 
 		xInitEClass.getEOperations()
-				.add(new FluentAPIInitialisationDropOperationGenerator().generateDropInitialisationMethod(xInitEClass));
+				.add(new FluentAPISuperInitialisationDropOperationGenerator().generateDropInitialisationMethod(xInitEClass));
 
 		xInitEClass.getEOperations().add(
 				new FluentAPIInitialisationResetOperationGenerator().generateResetInitialisationMethod(xInitEClass));

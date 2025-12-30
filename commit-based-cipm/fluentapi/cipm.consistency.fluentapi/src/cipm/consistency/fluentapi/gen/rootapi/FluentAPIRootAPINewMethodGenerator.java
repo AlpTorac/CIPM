@@ -11,6 +11,8 @@ import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIRootAPINewMethodGenerator {
+	// TODO Add documentation
+
 	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
 
 	private static final String eClassParamName = "eObjEClass";
@@ -52,8 +54,7 @@ public class FluentAPIRootAPINewMethodGenerator {
 	public EOperation getRootAPITopLevelNewOperation(EClass rootAPICls, EClass initialisationSuperTypeEClass) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(eClassParamName,
 				FluentAPIGenerationUtil.getEClassEClass());
-		return FluentAPIGenerationUtil.generateEOperationWithBody(topLevelNewMethodName, genModelURL,
-				initialisationSuperTypeEClass,
+		return FluentAPIGenerationUtil.generateEOperationWithBody(topLevelNewMethodName, initialisationSuperTypeEClass,
 				String.format(newXMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initialisationSuperTypeEClass),
 						param.getName()),
@@ -63,8 +64,7 @@ public class FluentAPIRootAPINewMethodGenerator {
 	public EOperation getRootAPINewOperationForEClassWithModifiableFeats(EClass rootAPICls, EClass eObjEClass,
 			EClass initECls) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(newMethodNameTemplate, eObjEClass.getInstanceClass().getSimpleName()), genModelURL,
-				initECls,
+				String.format(newMethodNameTemplate, eObjEClass.getInstanceClass().getSimpleName()), initECls,
 				String.format(newXWithModifiableFeatsMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						eObjEClass.getInstanceClass().getName())
@@ -75,8 +75,7 @@ public class FluentAPIRootAPINewMethodGenerator {
 	public EOperation getRootAPINewOperationForEClassWithoutModifiableFeats(EClass rootAPICls, EClass eObjEClass,
 			EClass initECls) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(newMethodNameTemplate, eObjEClass.getInstanceClass().getSimpleName()), genModelURL,
-				eObjEClass,
+				String.format(newMethodNameTemplate, eObjEClass.getInstanceClass().getSimpleName()), eObjEClass,
 				String.format(newXWithoutModifiableFeatsMethodBodyTemplate, eObjEClass.getInstanceClass().getName(),
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						eObjEClass.getInstanceClass().getName()));

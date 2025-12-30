@@ -10,6 +10,7 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
 public class FluentAPIGetInitialisationForMethodGenerator {
+	// TODO Add documentation
 
 	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
 
@@ -30,7 +31,7 @@ public class FluentAPIGetInitialisationForMethodGenerator {
 	public EOperation getInitialisationForEClassMethod(EClass initsSuperType) {
 		var param = getInitialisationForEClassParam();
 		return FluentAPIGenerationUtil
-				.generateEOperationWithBody(getInitialisationMethodName, genModelURL, initsSuperType,
+				.generateEOperationWithBody(getInitialisationMethodName, initsSuperType,
 						String.format(getInitialisationMethodBody,
 								FluentAPIGenerationUtil.getFullyQualifiedEClassName(initsSuperType), param.getName()),
 						param);
@@ -44,7 +45,7 @@ public class FluentAPIGetInitialisationForMethodGenerator {
 	public EOperation getInitialisationForClassMethod(EClass initsSuperType) {
 		var param = getInitialisationForClassParam();
 		return FluentAPIGenerationUtil
-				.generateEOperationWithBody(getInitialisationMethodName, genModelURL, initsSuperType,
+				.generateEOperationWithBody(getInitialisationMethodName, initsSuperType,
 						String.format(getInitialisationForClassMethodBody,
 								FluentAPIGenerationUtil.getFullyQualifiedEClassName(initsSuperType), param.getName()),
 						param);
@@ -58,7 +59,7 @@ public class FluentAPIGetInitialisationForMethodGenerator {
 	public EOperation getInitialisationForEObjectMethod(EClass initsSuperType) {
 		var param = getInitialisationForEObjectParam();
 		return FluentAPIGenerationUtil
-				.generateEOperationWithBody(getInitialisationMethodName, genModelURL, initsSuperType,
+				.generateEOperationWithBody(getInitialisationMethodName, initsSuperType,
 						String.format(getInitialisationForEObjectMethodBody,
 								FluentAPIGenerationUtil.getFullyQualifiedEClassName(initsSuperType), param.getName()),
 						param);
