@@ -22,15 +22,6 @@ public class FluentAPIGenerationUtil {
 		return !elemToInit.isAbstract() && !elemToInit.isInterface();
 	}
 
-	public static boolean hasModifiableFeatures(EClass eObjEClass) {
-		return eObjEClass.getEAllStructuralFeatures().stream()
-				.anyMatch((f) -> FluentAPITargetMetamodelFeatureFilter.isFeatureActuallyChangeable(f));
-	}
-
-	public static boolean hasModifiableFeatures(EClass eObjEClass, FluentAPITargetMetamodelFeatureFilter filter) {
-		return eObjEClass.getEAllStructuralFeatures().stream().anyMatch((f) -> filter.isFeatureEligible(eObjEClass, f));
-	}
-
 	public static EClass getEObjectEClass() {
 		return EcoreFactory.eINSTANCE.createEObject().eClass();
 	}

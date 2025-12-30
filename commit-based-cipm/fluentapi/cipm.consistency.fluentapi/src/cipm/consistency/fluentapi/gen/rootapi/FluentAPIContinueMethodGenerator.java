@@ -47,7 +47,7 @@ public class FluentAPIContinueMethodGenerator {
 		for (int i = 0; i < eObjEClss.size(); i++) {
 			var eObjEClass = eObjEClss.get(i);
 			var initEClass = initEClss.get(i);
-			if (FluentAPIGenerationUtil.hasModifiableFeatures(eObjEClass, filter)) {
+			if (filter.hasModifiableFeatures(eObjEClass)) {
 				ops.add(generateContinueMethod(eObjEClass, initEClass));
 				ops.add(generateContinueNewestMethod(eObjEClass, initEClass));
 				ops.add(generateContinueOldestMethod(eObjEClass, initEClass));
