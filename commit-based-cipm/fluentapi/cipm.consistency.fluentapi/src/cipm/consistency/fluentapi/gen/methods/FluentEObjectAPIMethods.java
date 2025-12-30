@@ -16,10 +16,12 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import cipm.consistency.fluentapi.gen.FluentAPIConstants;
-import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationNewOperationGenerator;
+import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationNewElementOperationGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIWithOperationGenerator;
 
 public final class FluentEObjectAPIMethods {
+	// TODO Add commentary
+	
 	public static EObject xWithFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
 		var init = getInitialisationForX(api, objToModify);
 		var opName = String.format(FluentAPIWithOperationGenerator.getWithxfeatnametemplate(),
@@ -149,7 +151,7 @@ public final class FluentEObjectAPIMethods {
 	public static EObject getInitialisationInstanceForXWithNewElement(EObject me, Class<?> eobjCls) {
 		var initInstance = getInitialisationInstanceForX(me, eobjCls);
 		var newElemOp = initInstance.eClass().getEOperations().stream()
-				.filter((op) -> op.getName().equals(FluentAPIInitialisationNewOperationGenerator.getNewOperationName()))
+				.filter((op) -> op.getName().equals(FluentAPIInitialisationNewElementOperationGenerator.getNewElementOperationName()))
 				.findFirst().get();
 		try {
 			initInstance.eInvoke(newElemOp, new BasicEList<>());

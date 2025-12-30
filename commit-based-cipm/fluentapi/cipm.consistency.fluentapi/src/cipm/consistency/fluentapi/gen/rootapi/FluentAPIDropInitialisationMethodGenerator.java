@@ -9,6 +9,8 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
 public class FluentAPIDropInitialisationMethodGenerator {
+	// TODO Add documentation
+	
 	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
 
 	private static final String dropInitialisationMethodNameTemplate = "dropInitialisation";
@@ -23,8 +25,8 @@ public class FluentAPIDropInitialisationMethodGenerator {
 
 	public EOperation generateDropInitialisationMethod(EClass rootAPIEClass, EClass initSuperType) {
 		var param = getInitialisationParam(initSuperType);
-		return FluentAPIGenerationUtil.generateEOperationWithBody(dropInitialisationMethodNameTemplate, genModelURL,
-				rootAPIEClass, String.format(dropInitialisationMethodBodyTemplate, param.getName()), param);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(dropInitialisationMethodNameTemplate, rootAPIEClass,
+				String.format(dropInitialisationMethodBodyTemplate, param.getName()), param);
 	}
 
 	public EParameter getInitialisationParam(EClass initSuperType) {

@@ -13,6 +13,8 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
 public class FluentAPIRootAPIWithOperationGenerator {
+	// TODO Add documentation
+
 	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
 
 	private static final String eobjParamName = "eobjToModify";
@@ -88,7 +90,7 @@ public class FluentAPIRootAPIWithOperationGenerator {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(xWithFeatMethodName, genModelURL, rootAPICls,
+		return FluentAPIGenerationUtil.generateEOperationWithBody(xWithFeatMethodName, rootAPICls,
 				String.format(xWithFeatMethodBody, eobjParam.getName(), featParam.getName(), featValParam.getName()),
 				eobjParam, featParam, featValParam);
 	}
@@ -97,7 +99,7 @@ public class FluentAPIRootAPIWithOperationGenerator {
 		var eobjParam = getEObjectParam();
 		var featParam = getFeatParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(xWithoutFeatMethodName, genModelURL, rootAPICls,
+		return FluentAPIGenerationUtil.generateEOperationWithBody(xWithoutFeatMethodName, rootAPICls,
 				String.format(xWithoutFeatMethodBody, eobjParam.getName(), featParam.getName()), eobjParam, featParam);
 	}
 
@@ -106,10 +108,11 @@ public class FluentAPIRootAPIWithOperationGenerator {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				xWithAddedFeatMethodName, genModelURL, rootAPICls, String.format(xWithAddedFeatMethodBody,
-						eobjParam.getName(), featParam.getName(), featValParam.getName()),
-				eobjParam, featParam, featValParam);
+		return FluentAPIGenerationUtil
+				.generateEOperationWithBody(
+						xWithAddedFeatMethodName, rootAPICls, String.format(xWithAddedFeatMethodBody,
+								eobjParam.getName(), featParam.getName(), featValParam.getName()),
+						eobjParam, featParam, featValParam);
 	}
 
 	public EOperation getWithRemovedFeatOp(EClass rootAPICls) {
@@ -117,10 +120,11 @@ public class FluentAPIRootAPIWithOperationGenerator {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				xWithRemovedFeatMethodName, genModelURL, rootAPICls, String.format(xWithRemovedFeatMethodBody,
-						eobjParam.getName(), featParam.getName(), featValParam.getName()),
-				eobjParam, featParam, featValParam);
+		return FluentAPIGenerationUtil
+				.generateEOperationWithBody(
+						xWithRemovedFeatMethodName, rootAPICls, String.format(xWithRemovedFeatMethodBody,
+								eobjParam.getName(), featParam.getName(), featValParam.getName()),
+						eobjParam, featParam, featValParam);
 	}
 
 	public EOperation getWithExactFeatOp(EClass rootAPICls) {
@@ -128,19 +132,20 @@ public class FluentAPIRootAPIWithOperationGenerator {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				xWithExactFeatMethodName, genModelURL, rootAPICls, String.format(xWithExactFeatMethodBody,
-						eobjParam.getName(), featParam.getName(), featValParam.getName()),
-				eobjParam, featParam, featValParam);
+		return FluentAPIGenerationUtil
+				.generateEOperationWithBody(
+						xWithExactFeatMethodName, rootAPICls, String.format(xWithExactFeatMethodBody,
+								eobjParam.getName(), featParam.getName(), featValParam.getName()),
+						eobjParam, featParam, featValParam);
 	}
 
 	public EOperation getWithFeatOfContainerOp(EClass rootAPICls) {
 		var eobjParam = getEObjectParam();
 		var featParam = getFeatParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(xWithFeatOfContainerMethodName, genModelURL,
-				rootAPICls, String.format(xWithFeatOfContainerMethodBody, eobjParam.getName(), featParam.getName()),
-				eobjParam, featParam);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(xWithFeatOfContainerMethodName, rootAPICls,
+				String.format(xWithFeatOfContainerMethodBody, eobjParam.getName(), featParam.getName()), eobjParam,
+				featParam);
 	}
 
 	public EParameter getEObjectParam() {

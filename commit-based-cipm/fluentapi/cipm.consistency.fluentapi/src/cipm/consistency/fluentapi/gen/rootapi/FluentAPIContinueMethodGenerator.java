@@ -15,6 +15,8 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
 public class FluentAPIContinueMethodGenerator {
+	// TODO Add documentation
+	
 	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
 
 	private static final String continueMethodNameTemplate = "continue%s";
@@ -61,8 +63,7 @@ public class FluentAPIContinueMethodGenerator {
 
 	private EOperation generateContinueMethod(EClass elemToInit, EClass initECls) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(continueMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())), genModelURL,
-				initECls,
+				String.format(continueMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())), initECls,
 				String.format(continueMethodBodyTemplate, FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						elemToInit.getInstanceClass().getName()));
 	}
@@ -70,8 +71,7 @@ public class FluentAPIContinueMethodGenerator {
 	private EOperation generateContinueNewestMethod(EClass elemToInit, EClass initECls) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(continueWithNewestMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())),
-				genModelURL, initECls,
-				String.format(continueWithNewestMethodBodyTemplate,
+				initECls, String.format(continueWithNewestMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						elemToInit.getInstanceClass().getName()));
 	}
@@ -79,8 +79,7 @@ public class FluentAPIContinueMethodGenerator {
 	private EOperation generateContinueOldestMethod(EClass elemToInit, EClass initECls) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(continueWithOldestMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())),
-				genModelURL, initECls,
-				String.format(continueWithOldestMethodBodyTemplate,
+				initECls, String.format(continueWithOldestMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						elemToInit.getInstanceClass().getName()));
 	}
@@ -89,8 +88,7 @@ public class FluentAPIContinueMethodGenerator {
 		var param = this.getIndexParam(indexFromStartParamName);
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(continueFromStartMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())),
-				genModelURL, initECls,
-				String.format(continueFromStartMethodBodyTemplate,
+				initECls, String.format(continueFromStartMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						elemToInit.getInstanceClass().getName(), param.getName()),
 				param);
@@ -100,8 +98,7 @@ public class FluentAPIContinueMethodGenerator {
 		var param = this.getIndexParam(indexFromEndParamName);
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(continueFromEndMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())),
-				genModelURL, initECls,
-				String.format(continueFromEndMethodBodyTemplate,
+				initECls, String.format(continueFromEndMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						elemToInit.getInstanceClass().getName(), param.getName()),
 				param);

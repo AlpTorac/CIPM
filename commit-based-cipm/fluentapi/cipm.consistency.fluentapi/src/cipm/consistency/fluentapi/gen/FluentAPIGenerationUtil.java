@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EOperation;
@@ -13,9 +14,14 @@ import org.eclipse.emf.ecore.EcoreFactory;
 
 public class FluentAPIGenerationUtil {
 	private static final String eoperationBodyKey = "body";
+	private static final String eoperationDocumentationKey = "documentation";
 
 	public static String getEOperationBodyKey() {
 		return eoperationBodyKey;
+	}
+
+	public static String getEOperationDocumentationKey() {
+		return eoperationDocumentationKey;
 	}
 
 	public static boolean isConcrete(EClass elemToInit) {
@@ -58,25 +64,72 @@ public class FluentAPIGenerationUtil {
 		return param;
 	}
 
-	public static EOperation generateEOperationWithBody(String name, String genSource, EClassifier returnType,
-			String methodBody) {
+	public static EParameter generateSingleValuedEParameterWithDocumentation(String name, EClassifier type,
+			String documentation) {
+		var param = generateSingleValuedEParameter(name, type);
+		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
+		anno.setSource(FluentAPIConstants.getGenModelURL());
+		// Add the documentation
+		anno.getDetails().put(getEOperationDocumentationKey(), documentation);
+		param.getEAnnotations().add(anno);
+		return param;
+	}
+
+	public static EParameter generateManyValuedEParameterWithDocumentation(String name, EClassifier type,
+			String documentation) {
+		var param = generateManyValuedEParameter(name, type);
+		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
+		anno.setSource(FluentAPIConstants.getGenModelURL());
+		// Add the documentation
+		anno.getDetails().put(getEOperationDocumentationKey(), documentation);
+		param.getEAnnotations().add(anno);
+		return param;
+	}
+
+	public static EOperation generateEOperation(String name, EClassifier returnType, EAnnotation anno) {
 		var op = EcoreFactory.eINSTANCE.createEOperation();
 		op.setEType(returnType);
 		op.setName(name);
+		op.getEAnnotations().add(anno);
+		return op;
+	}
+
+	public static EOperation generateEOperationWithBody(String name, EClassifier returnType, String methodBody) {
+		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
+		anno.setSource(FluentAPIConstants.getGenModelURL());
 
 		// Add the method body
-		if (methodBody != null) {
-			var anno = EcoreFactory.eINSTANCE.createEAnnotation();
-			anno.setSource(genSource);
-			anno.getDetails().put(getEOperationBodyKey(), methodBody);
-			op.getEAnnotations().add(anno);
+		anno.getDetails().put(getEOperationBodyKey(), methodBody);
+
+		return generateEOperation(name, returnType, anno);
+	}
+
+	public static EOperation generateEOperationWithBody(String name, EClassifier returnType, String methodBody,
+			EParameter... params) {
+		var op = generateEOperationWithBody(name, returnType, methodBody);
+		if (params != null) {
+			for (var param : params)
+				op.getEParameters().add(param);
 		}
 		return op;
 	}
 
-	public static EOperation generateEOperationWithBody(String name, String genSource, EClassifier returnType,
-			String methodBody, EParameter... params) {
-		var op = generateEOperationWithBody(name, genSource, returnType, methodBody);
+	public static EOperation generateEOperationWithBodyAndDocumentation(String name, EClassifier returnType,
+			String methodBody, String documentation) {
+		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
+		anno.setSource(FluentAPIConstants.getGenModelURL());
+
+		// Add the method body
+		anno.getDetails().put(getEOperationBodyKey(), methodBody);
+		// Add the documentation
+		anno.getDetails().put(getEOperationDocumentationKey(), documentation);
+
+		return generateEOperation(name, returnType, anno);
+	}
+
+	public static EOperation generateEOperationWithBodyAndDocumentation(String name, EClassifier returnType,
+			String methodBody, String documentation, EParameter... params) {
+		var op = generateEOperationWithBodyAndDocumentation(name, returnType, methodBody, documentation);
 		if (params != null) {
 			for (var param : params)
 				op.getEParameters().add(param);

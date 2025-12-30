@@ -8,12 +8,13 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
-import cipm.consistency.fluentapi.gen.FluentAPIConstants;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIOnceExistsExtension;
 
 public class FluentAPIInitialisationOnceExistsMethodGenerator {
+	// TODO Add documentation (for generated methods)
+	
 	private static final String markKeyParameterName = "markKey";
 	private static final String markKeyListParameterName = "markKeyList";
 	private static final String runnableParameterName = "toDoOnceExists";
@@ -37,18 +38,16 @@ public class FluentAPIInitialisationOnceExistsMethodGenerator {
 		var keyParam = getMarkKeyParam();
 		var consumerParam = getRunnableParam();
 		return FluentAPIGenerationUtil.generateEOperationWithBody(onceExistsMethodNameTemplate,
-				FluentAPIConstants.getGenModelURL(), initECls,
-				String.format(onceExistsMethodBodyTemplate, keyParam.getName(), consumerParam.getName()), keyParam,
-				consumerParam);
+				initECls, String.format(onceExistsMethodBodyTemplate, keyParam.getName(), consumerParam.getName()),
+				keyParam, consumerParam);
 	}
 
 	private EOperation generateOnceExistsListMethod(EClass initECls) {
 		var keyParam = getMarkKeyListParam();
 		var consumerParam = getRunnableParam();
 		return FluentAPIGenerationUtil.generateEOperationWithBody(onceExistsMethodNameTemplate,
-				FluentAPIConstants.getGenModelURL(), initECls,
-				String.format(onceExistsMethodBodyTemplate, keyParam.getName(), consumerParam.getName()), keyParam,
-				consumerParam);
+				initECls, String.format(onceExistsMethodBodyTemplate, keyParam.getName(), consumerParam.getName()),
+				keyParam, consumerParam);
 	}
 
 	private EParameter getMarkKeyParam() {
