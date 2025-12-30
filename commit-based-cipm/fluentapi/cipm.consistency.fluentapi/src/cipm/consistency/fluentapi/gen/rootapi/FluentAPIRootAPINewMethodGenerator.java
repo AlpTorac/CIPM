@@ -38,7 +38,7 @@ public class FluentAPIRootAPINewMethodGenerator {
 		for (int i = 0; i < eObjEClss.size(); i++) {
 			var eObjEClass = eObjEClss.get(i);
 			var initEClass = initEClss.get(i);
-			if (FluentAPIGenerationUtil.hasModifiableFeatures(eObjEClass, filter)) {
+			if (filter.hasModifiableFeatures(eObjEClass)) {
 				ops.add(getRootAPINewOperationForEClassWithModifiableFeats(rootAPICls, eObjEClass, initEClass));
 			} else {
 				ops.add(getRootAPINewOperationForEClassWithoutModifiableFeats(rootAPICls, eObjEClass, initEClass));
