@@ -51,12 +51,19 @@ public class JavaMetamodelTest {
 	@Test
 	public void resolveValidDerivedFeature() {
 		var derivedFeat = provider.getTargetMetamodelDerivedFeatures().get(0);
-		Assertions.assertEquals(derivedFeat, resolver.resolveDerivedFeature(derivedFeat.getFeatName()));
+		Assertions.assertEquals(derivedFeat,
+				resolver.resolveDerivedFeature(derivedFeat.getFeatEClass(), derivedFeat.getFeatName()));
 	}
 
 	@Test
-	public void resolveInvalidDerivedFeature() {
-		Assertions.assertNull(resolver.resolveDerivedFeature("someNonExistentDerivedFeature"));
+	public void resolveInvalidDerivedFeature_NonExistentClass() {
+		var derivedFeat = provider.getTargetMetamodelDerivedFeatures().get(0);
+		Assertions.assertNull(resolver.resolveDerivedFeature("someNonExistentClass", derivedFeat.getFeatName()));
+	}
+
+	@Test
+	public void resolveInvalidDerivedFeature_NonExistentClassAndFeature() {
+		Assertions.assertNull(resolver.resolveDerivedFeature("someNonExistentClass", "someNonExistentDerivedFeature"));
 	}
 
 	@Test
@@ -74,11 +81,17 @@ public class JavaMetamodelTest {
 	public void resolveInvalidOriginalTargetFeature() {
 		var concreteClassifierECls = ClassifiersPackage.Literals.CONCRETE_CLASSIFIER;
 		var namespacesFeature = CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES;
-		Assertions.assertNull(resolver.getTargetFeature(concreteClassifierECls.getName(), namespacesFeature.getName()));
+		Assertions.assertThrows(IllegalArgumentException.class,
+				() -> resolver.getTargetFeature(concreteClassifierECls.getName(), namespacesFeature.getName()));
 	}
 
 	@Test
-	public void resolveValidOriginalTargetFeatureChain() {
+	public void resolveValidDerivedTargetFeatureChain() {
+
+		// Method.parameters.typeReference.target
+		// typeReference.target is derived here, since TypeReference does not physically
+		// have a feature for it
+
 		var methodECls = MembersPackage.Literals.METHOD;
 		var paramsFeat = ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS;
 		var typeRefFeat = TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE;
@@ -93,8 +106,52 @@ public class JavaMetamodelTest {
 				paramsFeat.getName(), typeRefFeat.getName(), targetFeat.getName()));
 
 		Assertions.assertTrue(expectedFeatChain.equals(resolvedFeatChain));
+	}
 
-//		- it.parameters.typeReference.target (Type, areSimilar)
-//		- it.parameters.typeReference.arrayDimension
+	@Test
+	public void resolveValidOriginalTargetFeatureChain() {
+
+		// Method.parameters.typeReference
+
+		var methodECls = MembersPackage.Literals.METHOD;
+		var paramsFeat = ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS;
+		var typeRefFeat = TypesPackage.Literals.TYPED_ELEMENT__TYPE_REFERENCE;
+
+		var expectedFeatChain = new TargetFeatureChain(List.of(new OriginalTargetFeature(methodECls, paramsFeat),
+				new OriginalTargetFeature(ParametersPackage.Literals.PARAMETER, typeRefFeat)));
+
+		var resolvedFeatChain = resolver.getTargetFeatureChain(
+				String.format("%s.%s.%s", methodECls.getName(), paramsFeat.getName(), typeRefFeat.getName()));
+
+		Assertions.assertTrue(expectedFeatChain.equals(resolvedFeatChain));
+	}
+
+	@Test
+	public void resolveInvalidOriginalTargetFeatureChain() {
+
+		// Method.parameters.namespaces
+		//
+		// "Parameter.namespaces" here is invalid
+
+		var methodECls = MembersPackage.Literals.METHOD;
+		var paramsFeat = ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS;
+		var namespacesFeat = CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES;
+
+		Assertions.assertThrows(IllegalArgumentException.class, () -> resolver.getTargetFeatureChain(
+				String.format("%s.%s.%s", methodECls.getName(), paramsFeat.getName(), namespacesFeat.getName())));
+	}
+
+	@Test
+	public void resolveInvalidDerivedTargetFeatureChain() {
+
+		// Method.parameters.someFeat
+		//
+		// "Parameter.someFeat" does not exist
+
+		var methodECls = MembersPackage.Literals.METHOD;
+		var paramsFeat = ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS;
+
+		Assertions.assertThrows(IllegalArgumentException.class, () -> resolver
+				.getTargetFeatureChain(String.format("%s.%s.someFeat", methodECls.getName(), paramsFeat.getName())));
 	}
 }

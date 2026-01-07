@@ -38,8 +38,9 @@ public class JavaMetamodelProvider extends MetamodelProvider {
 
 			// Type Reference
 			new DerivedTargetFeature(TypesPackage.Literals.TYPE_REFERENCE, org.emftext.language.java.types.Type.class,
-					null, "target") // Added as derived feature, since it does not physically exist under
-									// TypeReference, but is required by it
+					null, "target"), // Added as derived feature, since it does not physically exist under
+										// TypeReference, but is required by it
+			new DerivedTargetFeature(TypesPackage.Literals.TYPE_REFERENCE, int.class, null, "arrayDimension")
 
 	);
 

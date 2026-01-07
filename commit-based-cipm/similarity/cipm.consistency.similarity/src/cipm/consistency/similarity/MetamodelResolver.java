@@ -31,27 +31,8 @@ public class MetamodelResolver {
 	}
 
 	public EStructuralFeature resolveOriginalFeature(EClass eCls, String featName) {
-//		var featInECls = eCls.getEAllStructuralFeatures().stream().filter((f) -> featName.equals(f.getName()))
-//				.findFirst().orElse(null);
-//
-//		if (featInECls != null)
-//			return featInECls;
-//
-//		provider.getTargetMetamodelEClasses().stream().filter((eClsInPac) -> eCls.isSuperTypeOf(eClsInPac))
-//				.collect(Collectors.toList());
-//
-//		// Check the sub-EClasses too, since some EClasses serve as umbrella types for
-//		// others (such as TypeReference)
-//		var subEClss = provider.getTargetMetamodelEClasses().stream()
-//				.filter((eClsInPac) -> eCls.isSuperTypeOf(eClsInPac)).collect(Collectors.toList());
-//
-//		for (var subECls : subEClss) {
-//			for (var feat : subECls.getEStructuralFeatures()) {
-//				if (feat.getName().equals(featName))
-//					return feat;
-//			}
-//		}
-
+		if (eCls == null)
+			return null;
 		return eCls.getEAllStructuralFeatures().stream().filter((f) -> featName.equals(f.getName())).findFirst()
 				.orElse(null);
 	}
@@ -60,18 +41,32 @@ public class MetamodelResolver {
 		return resolveOriginalFeature(resolveClass(className), featName);
 	}
 
-	public DerivedTargetFeature resolveDerivedFeature(String featName) {
-		return provider.getTargetMetamodelDerivedFeatures().stream().filter((f) -> featName.equals(f.getFeatName()))
-				.findFirst().orElse(null);
+	public DerivedTargetFeature resolveDerivedFeature(EClass eCls, String featName) {
+		if (eCls == null)
+			return null;
+		return provider.getTargetMetamodelDerivedFeatures().stream()
+				.filter((f) -> f.getFeatEClass().isSuperTypeOf(eCls) && featName.equals(f.getFeatName())).findFirst()
+				.orElse(null);
+	}
+
+	public DerivedTargetFeature resolveDerivedFeature(String className, String featName) {
+		return resolveDerivedFeature(resolveClass(className), featName);
 	}
 
 	public TargetFeature getTargetFeature(EClass eCls, String featName) {
 		var feat = resolveOriginalFeature(eCls, featName);
 
 		if (feat != null) {
+			if (!eCls.getEAllStructuralFeatures().contains(feat))
+				throw new IllegalArgumentException(String.format(
+						"The class (%s) does not support the original feature (%s)", eCls.getName(), feat.getName()));
 			return new OriginalTargetFeature(eCls, feat);
 		} else {
-			return resolveDerivedFeature(featName);
+			var derivedFeat = resolveDerivedFeature(eCls, featName);
+			if (derivedFeat == null)
+				throw new IllegalArgumentException(String.format(
+						"No derived feature with name (%s) found for the class (%s)", featName, eCls.getName()));
+			return derivedFeat;
 		}
 	}
 
@@ -97,6 +92,9 @@ public class MetamodelResolver {
 			}
 			feats.add(currentFeat);
 			currentCls = getEClassForClass(currentFeat.getFeatType());
+			if (currentCls == null)
+				throw new IllegalStateException(String.format("Could not find an EClass for feature (%s) in %s",
+						currentFeat.getFeatName(), serialisedTargetFeat));
 		}
 
 		return new TargetFeatureChain(feats);
