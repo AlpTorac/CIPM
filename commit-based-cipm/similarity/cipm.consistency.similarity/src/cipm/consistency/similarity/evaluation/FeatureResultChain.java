@@ -1,4 +1,4 @@
-package cipm.consistency.similarity.features;
+package cipm.consistency.similarity.evaluation;
 
 import java.util.List;
 

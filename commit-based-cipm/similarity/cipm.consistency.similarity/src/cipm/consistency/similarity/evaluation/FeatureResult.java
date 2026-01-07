@@ -1,6 +1,8 @@
-package cipm.consistency.similarity.features;
+package cipm.consistency.similarity.evaluation;
 
 import org.eclipse.emf.ecore.EObject;
+
+import cipm.consistency.similarity.features.TargetFeature;
 
 public class FeatureResult {
 	private final TargetFeature targetFeature;

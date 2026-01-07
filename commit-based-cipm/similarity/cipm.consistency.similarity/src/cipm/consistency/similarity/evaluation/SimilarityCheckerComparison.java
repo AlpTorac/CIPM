@@ -1,11 +1,11 @@
-package cipm.consistency.similarity.features;
+package cipm.consistency.similarity.evaluation;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
 
-import cipm.consistency.similarity.templates.SimilarityCheckingTemplateMethods;
+import cipm.consistency.similarity.features.TargetFeatureGroup;
 
 public class SimilarityCheckerComparison {
 	private final EObject obj1;

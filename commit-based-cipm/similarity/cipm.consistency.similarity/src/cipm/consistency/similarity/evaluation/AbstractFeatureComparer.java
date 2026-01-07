@@ -1,9 +1,8 @@
-package cipm.consistency.similarity;
+package cipm.consistency.similarity.evaluation;
 
 import org.eclipse.emf.ecore.EObject;
 
 import cipm.consistency.similarity.features.TargetFeatureChain;
-import cipm.consistency.similarity.templates.SimilarityCheckingTemplateMethods;
 
 public abstract class AbstractFeatureComparer {
 	private TargetFeatureChain targetFeatureChain;

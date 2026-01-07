@@ -1,7 +1,6 @@
 package cipm.consistency.similarity.features;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 public class OriginalTargetFeature extends TargetFeature {
@@ -16,11 +15,6 @@ public class OriginalTargetFeature extends TargetFeature {
 		return false;
 	}
 
-	@Override
-	protected Object computeFeatureValueForObj(EObject obj) {
-		return obj.eGet(feat);
-	}
-
 	public EStructuralFeature getFeat() {
 		return feat;
 	}
@@ -28,11 +22,6 @@ public class OriginalTargetFeature extends TargetFeature {
 	@Override
 	public String getFeatName() {
 		return getFeat().getName();
-	}
-
-	@Override
-	public boolean isManyFeature() {
-		return getFeat().isMany();
 	}
 
 	@Override
@@ -47,5 +36,10 @@ public class OriginalTargetFeature extends TargetFeature {
 	@Override
 	public boolean isFeatureRelevant(EClass eCls, EStructuralFeature feat) {
 		return this.getFeatEClass().equals(eCls) && this.getFeat().equals(feat);
+	}
+
+	@Override
+	public Class<?> getFeatType() {
+		return getFeat().getEType().getInstanceClass();
 	}
 }

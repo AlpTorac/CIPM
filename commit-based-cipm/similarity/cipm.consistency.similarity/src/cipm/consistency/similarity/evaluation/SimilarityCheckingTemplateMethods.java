@@ -1,4 +1,4 @@
-package cipm.consistency.similarity.templates;
+package cipm.consistency.similarity.evaluation;
 
 import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
@@ -94,7 +94,9 @@ public final class SimilarityCheckingTemplateMethods {
 
 	public static Class<?> getManyElementType(Object val) {
 		if (val.getClass().isArray())
-			return val.getClass().arrayType();
+			// TODO Find out why "val.getClass().arrayType()" is considered a compilation
+			// error by Eclipse, even though it is not
+			return (Class<?>) val.getClass().arrayType();
 		if (val instanceof Iterable) {
 			return (Class<?>) ((ParameterizedType) val.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 		}

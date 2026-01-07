@@ -1,26 +1,20 @@
 package cipm.consistency.similarity.features;
 
 import java.util.List;
-import java.util.function.Function;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 public class DerivedTargetFeature extends TargetFeature {
 	private final List<EStructuralFeature> derivedFeatureComponents;
 	private final String derivedFeatureName;
-	private final Function<EObject, Object> derivedFeatureComputationAlgorithm;
+	private final Class<?> featType;
 
-	private final boolean isMany;
-
-	// TODO Implement a type specific for derivedFeatureComputationAlgorithm
-
-	public DerivedTargetFeature(EClass featEClass, List<EStructuralFeature> derivedFeatureComponents,
-			Function<EObject, Object> derivedFeatureComputationAlgorithm, boolean isMany, String derivedFeatureName) {
+	public DerivedTargetFeature(EClass featEClass, Class<?> featType, List<EStructuralFeature> derivedFeatureComponents,
+			String derivedFeatureName) {
 		super(featEClass);
 
-		this.isMany = isMany;
+		this.featType = featType;
 
 		if (derivedFeatureComponents != null) {
 			this.derivedFeatureComponents = List.copyOf(derivedFeatureComponents);
@@ -29,22 +23,15 @@ public class DerivedTargetFeature extends TargetFeature {
 		}
 
 		this.derivedFeatureName = derivedFeatureName;
-		this.derivedFeatureComputationAlgorithm = derivedFeatureComputationAlgorithm;
 	}
 
-	public DerivedTargetFeature(EClass featEClass, Function<EObject, Object> derivedFeatureComputationAlgorithm,
-			String derivedFeatureName) {
-		this(featEClass, null, derivedFeatureComputationAlgorithm, false, derivedFeatureName);
+	public DerivedTargetFeature(EClass featEClass, Class<?> featType, String derivedFeatureName) {
+		this(featEClass, featType, null, derivedFeatureName);
 	}
 
 	@Override
 	public boolean isDerivedFeature() {
 		return true;
-	}
-
-	@Override
-	protected Object computeFeatureValueForObj(EObject obj) {
-		return derivedFeatureComputationAlgorithm.apply(obj);
 	}
 
 	@Override
@@ -62,11 +49,6 @@ public class DerivedTargetFeature extends TargetFeature {
 	}
 
 	@Override
-	public boolean isManyFeature() {
-		return isMany;
-	}
-
-	@Override
 	public boolean equals(Object obj) {
 		if (!(obj instanceof DerivedTargetFeature))
 			return false;
@@ -80,5 +62,10 @@ public class DerivedTargetFeature extends TargetFeature {
 	public boolean isFeatureRelevant(EClass eCls, EStructuralFeature feat) {
 		return this.getFeatEClass().equals(eCls)
 				&& this.derivedFeatureComponents.stream().anyMatch((f) -> f.equals(feat));
+	}
+
+	@Override
+	public Class<?> getFeatType() {
+		return featType;
 	}
 }
