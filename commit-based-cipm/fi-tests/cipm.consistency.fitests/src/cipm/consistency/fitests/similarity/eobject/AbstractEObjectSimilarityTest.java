@@ -10,8 +10,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.TestInfo;
 
-import cipm.consistency.initialisers.eobject.IEObjectInitialiser;
-import cipm.consistency.initialisers.IInitialiserPackage;
 import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvider;
 
 /**
@@ -32,6 +30,7 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	 * @see {@link #getEcoreUtilHelper()}
 	 */
 	private EcoreUtilHelper ecoreHelper;
+	private EObjectCreator eobjectCreator;
 
 	@BeforeEach
 	@Override
@@ -39,6 +38,7 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 		super.setUp(info);
 
 		this.setEcoreUtilHelper(new EcoreUtilHelper());
+		this.setEObjectCreator(this.initEObjectCreator());
 	}
 
 	/**
@@ -64,6 +64,16 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	 *         tests.
 	 */
 	public abstract InitialiserTestSettingsProvider getInitialiserTestSettingsProvider();
+
+	protected abstract EObjectCreator initEObjectCreator();
+
+	/**
+	 * Sets up the {@link EcoreUtilHelper} instance that will be used with the given
+	 * one.
+	 */
+	protected void setEObjectCreator(EObjectCreator eobjectCreator) {
+		this.eobjectCreator = eobjectCreator;
+	}
 
 	/**
 	 * Sets up the {@link EcoreUtilHelper} instance that will be used with the given
@@ -94,14 +104,6 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	 */
 	protected void resetInitialiserTestSettingsProvider() {
 		this.getInitialiserTestSettingsProvider().reset();
-	}
-
-	/**
-	 * @return The {@link IInitialiserPackage} that is used to generate initialiser
-	 *         parameters for tests.
-	 */
-	public IInitialiserPackage getUsedInitialiserPackage() {
-		return this.getInitialiserTestSettingsProvider().getUsedInitialiserPackage();
 	}
 
 	/**
@@ -249,59 +251,17 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 		this.testSimilarity(elem1, elem2, (Class<? extends EObject>) elem1.eClass().getInstanceClass(), attrKey);
 	}
 
-	/**
-	 * A variant of {@link #testSimilarity(EObject, EObject, Boolean)} that
-	 * constructs a minimal second element with the given initialiser instance init
-	 * and uses it as the second parameter in the said method. <br>
-	 * <br>
-	 * If initialiseSecondElement is set to true, constructs the second element with
-	 * {@code init.initialise(init.instantiate())}. Otherwise uses
-	 * {@code init.instantiate()}. <br>
-	 * <br>
-	 * Can be used to summarise the null check tests.
-	 * 
-	 * @param init                    The initialiser used in the construction of
-	 *                                the second element
-	 * @param initialiseSecondElement Denotes whether {@code init.initialise(...)}
-	 *                                will be used in the construction of the second
-	 *                                element.
-	 */
-	public void testSimilarityNullCheck(EObject elem, IEObjectInitialiser init, boolean initialiseSecondElement,
-			Boolean expectedSimilarityValue) {
-		var elem2 = init.instantiate();
-
-		if (initialiseSecondElement) {
-			Assertions.assertTrue(init.initialise(elem2));
-		}
-
+	public void testSimilarityNullCheck(EObject elem, Boolean expectedSimilarityValue) {
+		var elem2 = this.eobjectCreator.createEObject(elem.getClass());
 		this.testSimilarity(elem, elem2, expectedSimilarityValue);
 	}
 
-	/**
-	 * A variant of
-	 * {@link #testSimilarityNullCheck(EObject, IEObjectInitialiser, boolean, Boolean)},
-	 * where the last parameter is computed using the given attrKey.
-	 * 
-	 * @see {@link #getExpectedSimilarityResult(Class, Object)} for objCls and
-	 *      attrKey.
-	 */
-	public void testSimilarityNullCheck(EObject elem, IEObjectInitialiser init, boolean initialiseSecondElement,
-			Class<? extends EObject> objCls, Object attrKey) {
-		this.testSimilarityNullCheck(elem, init, initialiseSecondElement,
-				this.getExpectedSimilarityResult(objCls, (Object) attrKey));
+	public void testSimilarityNullCheck(EObject elem, Class<? extends EObject> objCls, Object attrKey) {
+		this.testSimilarityNullCheck(elem, this.getExpectedSimilarityResult(objCls, (Object) attrKey));
 	}
 
-	/**
-	 * A variant of
-	 * {@link #testSimilarityNullCheck(EObject, IEObjectInitialiser, boolean, Class, Object)}
-	 * that computes the {@code objCls} parameter from the {@code elem} parameter.
-	 * 
-	 * @see {@link #getExpectedSimilarityResult(Class, Object)} for attrKey.
-	 */
 	@SuppressWarnings("unchecked")
-	public void testSimilarityNullCheck(EObject elem, IEObjectInitialiser init, boolean initialiseSecondElement,
-			Object attrKey) {
-		this.testSimilarityNullCheck(elem, init, initialiseSecondElement,
-				(Class<? extends EObject>) elem.eClass().getInstanceClass(), attrKey);
+	public void testSimilarityNullCheck(EObject elem, Object attrKey) {
+		this.testSimilarityNullCheck(elem, (Class<? extends EObject>) elem.eClass().getInstanceClass(), attrKey);
 	}
 }
