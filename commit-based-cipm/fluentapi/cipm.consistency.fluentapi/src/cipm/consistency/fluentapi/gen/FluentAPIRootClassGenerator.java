@@ -16,8 +16,29 @@ import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIOnceExistsMethodGe
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIWithOperationGenerator;
 
 public class FluentAPIRootClassGenerator {
+
+	// TODO Re-use / link to documentations of mentioned API classes
+
+	// TODO Mention for each method template what it more or less does, re-use or
+	// link to their documentation
+	private static final String rootAPIClassDoc = "<p>" + FluentAPIConstants.getFluentAPIRootAPIClassName()
+			+ " is at the center of the fluent API and enables creation of EObject sub-types within the EMF-based metamodel MM this API targets. To this end, this class offers various methods that lead to underlying Initialisation classes, each being responsible for a concrete element from MM. For more information on what individual EObject sub-types and their features represent, refer to MM's documentation.";
+	private static final String initialisationsReferenceDoc = "<p>"
+			+ FluentAPIConstants.getRootAPIInitialisationsReferenceName()
+			+ " contains references to each concrete Initialisation class within this API. These references are used to create the necessary Initialisation instance, in order to create a certain element. As API generation considers arbitrary EMF-based metamodels, this reference allows systematic access to supported Initialisation classes. The contents of this reference should not be modified post API generation.";
+	private static final String ongoingInitsDoc = "<p>"
+			+ FluentAPIConstants.getRootAPIOngoingInitialisationsReferenceName()
+			+ " contains each Initialisation instance, which encapsulate a non-finished element construction, that this class created. This allows the API to find such Initialisation instances in a systematic way. The contents of this reference should only be modified by the foreseen methods in this class.";
+
 	public EClass generateRootAPIEClass() {
 		var fluentAPICls = EcoreFactory.eINSTANCE.createEClass();
+
+		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
+		anno.setSource(FluentAPIConstants.getGenModelURL());
+		anno.getDetails().put(FluentAPIGenerationUtil.getEOperationDocumentationKey(), rootAPIClassDoc);
+
+		fluentAPICls.getEAnnotations().add(anno);
+
 		fluentAPICls.setAbstract(false);
 		fluentAPICls.setInterface(false);
 		fluentAPICls.setName(FluentAPIConstants.getFluentAPIRootAPIClassName());
@@ -34,6 +55,13 @@ public class FluentAPIRootClassGenerator {
 	 */
 	private EReference getInitialisationEClassesReference() {
 		var initialisationsRef = EcoreFactory.eINSTANCE.createEReference();
+
+		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
+		anno.setSource(FluentAPIConstants.getGenModelURL());
+		anno.getDetails().put(FluentAPIGenerationUtil.getEOperationDocumentationKey(), initialisationsReferenceDoc);
+
+		initialisationsRef.getEAnnotations().add(anno);
+
 		initialisationsRef.setChangeable(true);
 		initialisationsRef.setContainment(false);
 		initialisationsRef.setEType(EcoreFactory.eINSTANCE.createEClass().eClass());
@@ -52,6 +80,13 @@ public class FluentAPIRootClassGenerator {
 	 */
 	private EReference getOngoingInitialisationsReference(EClass initsSuperTypeEClass) {
 		var ongoingInitsRef = EcoreFactory.eINSTANCE.createEReference();
+
+		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
+		anno.setSource(FluentAPIConstants.getGenModelURL());
+		anno.getDetails().put(FluentAPIGenerationUtil.getEOperationDocumentationKey(), ongoingInitsDoc);
+
+		ongoingInitsRef.getEAnnotations().add(anno);
+
 		ongoingInitsRef.setChangeable(true);
 		ongoingInitsRef.setContainment(false);
 		ongoingInitsRef.setEType(initsSuperTypeEClass);
