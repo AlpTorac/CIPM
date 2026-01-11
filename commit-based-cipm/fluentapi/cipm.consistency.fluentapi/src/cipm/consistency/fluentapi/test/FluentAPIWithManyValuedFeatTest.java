@@ -1,5 +1,7 @@
 package cipm.consistency.fluentapi.test;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -7,6 +9,33 @@ import cipm.consistency.fluentapi.api.ApiFactory;
 
 public class FluentAPIWithManyValuedFeatTest {
 
+	@Test
+	public void apiTest_WithManyAddedValuedEAttribute_AsArray() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var modNss = new String[] {"ns1", "ns2", "ns3"};
+		
+		var mod = api.newModule().withAddedNamespaces(modNss).createNow();
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+		Assertions.assertEquals(modNss.length, mod.getNamespaces().size());
+		Assertions.assertFalse(mod.getNamespaces().retainAll(List.of(modNss)));
+	}
+	
+	@Test
+	public void apiTest_WithManyAddedValuedEReference_AsArray() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var pacName1 = "pac1";
+		var pacName2 = "pac2";
+		var pacs = new org.emftext.language.java.containers.Package[] {api.newPackage().withName(pacName1).createNow(),
+				api.newPackage().withName(pacName2).createNow()};
+
+		var mod = api.newModule().withAddedPackages(pacs).createNow();
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+		Assertions.assertEquals(pacs.length, mod.getPackages().size());
+		Assertions.assertFalse(mod.getPackages().retainAll(List.of(pacs)));
+	}
+	
 	@Test
 	public void apiTest_WithManyAddedValuedEAttribute() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
