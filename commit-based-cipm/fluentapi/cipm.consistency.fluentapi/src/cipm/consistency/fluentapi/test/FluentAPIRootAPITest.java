@@ -168,6 +168,75 @@ public class FluentAPIRootAPITest {
 	}
 
 	@Test
+	public void withAddedFeat_AsArray() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var pacNss = List.of("ns1");
+		var nsToAddOne = "ns2";
+		var nsToAddTwo = new String[] { "ns3", "ns4" };
+		var pac = ContainersFactory.eINSTANCE.createPackage();
+		pac.getNamespaces().addAll(pacNss);
+
+		Assertions.assertEquals(pacNss.size(), pac.getNamespaces().size());
+		Assertions.assertFalse(pac.getNamespaces().retainAll(pacNss));
+
+		api.xWithAddedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nsToAddOne);
+		Assertions.assertEquals(2, pac.getNamespaces().size());
+		Assertions.assertEquals(nsToAddOne, pac.getNamespaces().get(1));
+
+		api.xWithAddedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nsToAddTwo);
+		Assertions.assertEquals(4, pac.getNamespaces().size());
+		Assertions.assertEquals(nsToAddTwo[0], pac.getNamespaces().get(2));
+		Assertions.assertEquals(nsToAddTwo[1], pac.getNamespaces().get(3));
+	}
+
+	@Test
+	public void withRemovedFeat_AsArray() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var pacNss = List.of("ns1", "ns2", "ns3", "ns4");
+		var nsToRemoveOne = "ns2";
+		var nsToRemoveTwo = new String[] { "ns3", "ns4" };
+		var pac = ContainersFactory.eINSTANCE.createPackage();
+		pac.getNamespaces().addAll(pacNss);
+
+		Assertions.assertEquals(pacNss.size(), pac.getNamespaces().size());
+		Assertions.assertFalse(pac.getNamespaces().retainAll(pacNss));
+
+		api.xWithRemovedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nsToRemoveOne);
+		Assertions.assertEquals(3, pac.getNamespaces().size());
+		Assertions.assertFalse(pac.getNamespaces().remove(nsToRemoveOne));
+
+		api.xWithRemovedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nsToRemoveTwo);
+		Assertions.assertEquals(1, pac.getNamespaces().size());
+		Assertions.assertEquals(pacNss.get(0), pac.getNamespaces().get(0));
+		Assertions.assertFalse(pac.getNamespaces().contains(nsToRemoveTwo[0]));
+		Assertions.assertFalse(pac.getNamespaces().contains(nsToRemoveTwo[1]));
+	}
+
+	@Test
+	public void withExactFeat_AsArray() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var pacNss = List.of("ns1", "ns2");
+		var nsToRemoveOne = new String[] { "ns3" };
+		var nsToRemoveTwo = new String[] { "ns4", "ns5" };
+		var pac = ContainersFactory.eINSTANCE.createPackage();
+		pac.getNamespaces().addAll(pacNss);
+
+		Assertions.assertEquals(pacNss.size(), pac.getNamespaces().size());
+		Assertions.assertFalse(pac.getNamespaces().retainAll(pacNss));
+
+		api.xWithExactFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nsToRemoveOne);
+		Assertions.assertEquals(nsToRemoveOne.length, pac.getNamespaces().size());
+		Assertions.assertFalse(pac.getNamespaces().retainAll(List.of(nsToRemoveOne)));
+
+		api.xWithExactFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nsToRemoveTwo);
+		Assertions.assertEquals(nsToRemoveTwo.length, pac.getNamespaces().size());
+		Assertions.assertFalse(pac.getNamespaces().retainAll(List.of(nsToRemoveTwo)));
+	}
+
+	@Test
 	public void withFeatOfContainer() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 

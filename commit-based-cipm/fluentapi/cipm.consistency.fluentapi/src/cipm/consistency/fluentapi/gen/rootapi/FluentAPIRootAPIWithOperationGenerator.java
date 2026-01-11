@@ -15,8 +15,6 @@ import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 public class FluentAPIRootAPIWithOperationGenerator {
 	// TODO Add documentation
 
-	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
-
 	private static final String eobjParamName = "eobjToModify";
 	private static final String featParamName = "featToModify";
 	private static final String featValParamName = "featVal";
@@ -80,12 +78,15 @@ public class FluentAPIRootAPIWithOperationGenerator {
 		ops.add(getWithAddedFeatOp(rootAPICls));
 		ops.add(getWithRemovedFeatOp(rootAPICls));
 		ops.add(getWithExactFeatOp(rootAPICls));
+		ops.add(getWithAddedFeatArrayOp(rootAPICls));
+		ops.add(getWithRemovedFeatArrayOp(rootAPICls));
+		ops.add(getWithExactFeatArrayOp(rootAPICls));
 		ops.add(getWithFeatOfContainerOp(rootAPICls));
 
 		return ops;
 	}
 
-	public EOperation getWithFeatOp(EClass rootAPICls) {
+	private EOperation getWithFeatOp(EClass rootAPICls) {
 		var eobjParam = getEObjectParam();
 		var featParam = getFeatParam();
 		var featValParam = getFeatValParam();
@@ -95,7 +96,7 @@ public class FluentAPIRootAPIWithOperationGenerator {
 				eobjParam, featParam, featValParam);
 	}
 
-	public EOperation getWithoutFeatOp(EClass rootAPICls) {
+	private EOperation getWithoutFeatOp(EClass rootAPICls) {
 		var eobjParam = getEObjectParam();
 		var featParam = getFeatParam();
 
@@ -103,7 +104,7 @@ public class FluentAPIRootAPIWithOperationGenerator {
 				String.format(xWithoutFeatMethodBody, eobjParam.getName(), featParam.getName()), eobjParam, featParam);
 	}
 
-	public EOperation getWithAddedFeatOp(EClass rootAPICls) {
+	private EOperation getWithAddedFeatOp(EClass rootAPICls) {
 		var eobjParam = getEObjectParam();
 		var featParam = getFeatParam();
 		var featValParam = getFeatValParam();
@@ -115,7 +116,7 @@ public class FluentAPIRootAPIWithOperationGenerator {
 						eobjParam, featParam, featValParam);
 	}
 
-	public EOperation getWithRemovedFeatOp(EClass rootAPICls) {
+	private EOperation getWithRemovedFeatOp(EClass rootAPICls) {
 		var eobjParam = getEObjectParam();
 		var featParam = getFeatParam();
 		var featValParam = getFeatValParam();
@@ -127,7 +128,7 @@ public class FluentAPIRootAPIWithOperationGenerator {
 						eobjParam, featParam, featValParam);
 	}
 
-	public EOperation getWithExactFeatOp(EClass rootAPICls) {
+	private EOperation getWithExactFeatOp(EClass rootAPICls) {
 		var eobjParam = getEObjectParam();
 		var featParam = getFeatParam();
 		var featValParam = getFeatValParam();
@@ -139,7 +140,43 @@ public class FluentAPIRootAPIWithOperationGenerator {
 						eobjParam, featParam, featValParam);
 	}
 
-	public EOperation getWithFeatOfContainerOp(EClass rootAPICls) {
+	private EOperation getWithAddedFeatArrayOp(EClass rootAPICls) {
+		var eobjParam = getEObjectParam();
+		var featParam = getFeatParam();
+		var featValParam = getFeatValArrayParam();
+
+		return FluentAPIGenerationUtil
+				.generateEOperationWithBody(
+						xWithAddedFeatMethodName, rootAPICls, String.format(xWithAddedFeatMethodBody,
+								eobjParam.getName(), featParam.getName(), featValParam.getName()),
+						eobjParam, featParam, featValParam);
+	}
+
+	private EOperation getWithRemovedFeatArrayOp(EClass rootAPICls) {
+		var eobjParam = getEObjectParam();
+		var featParam = getFeatParam();
+		var featValParam = getFeatValArrayParam();
+
+		return FluentAPIGenerationUtil
+				.generateEOperationWithBody(
+						xWithRemovedFeatMethodName, rootAPICls, String.format(xWithRemovedFeatMethodBody,
+								eobjParam.getName(), featParam.getName(), featValParam.getName()),
+						eobjParam, featParam, featValParam);
+	}
+
+	private EOperation getWithExactFeatArrayOp(EClass rootAPICls) {
+		var eobjParam = getEObjectParam();
+		var featParam = getFeatParam();
+		var featValParam = getFeatValArrayParam();
+
+		return FluentAPIGenerationUtil
+				.generateEOperationWithBody(
+						xWithExactFeatMethodName, rootAPICls, String.format(xWithExactFeatMethodBody,
+								eobjParam.getName(), featParam.getName(), featValParam.getName()),
+						eobjParam, featParam, featValParam);
+	}
+
+	private EOperation getWithFeatOfContainerOp(EClass rootAPICls) {
 		var eobjParam = getEObjectParam();
 		var featParam = getFeatParam();
 
@@ -148,18 +185,23 @@ public class FluentAPIRootAPIWithOperationGenerator {
 				featParam);
 	}
 
-	public EParameter getEObjectParam() {
+	private EParameter getEObjectParam() {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(eobjParamName,
 				FluentAPIGenerationUtil.getEObjectEClass());
 	}
 
-	public EParameter getFeatParam() {
+	private EParameter getFeatParam() {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(featParamName,
 				EcorePackage.Literals.ESTRUCTURAL_FEATURE);
 	}
 
-	public EParameter getFeatValParam() {
+	private EParameter getFeatValParam() {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(featValParamName,
 				EcorePackage.Literals.EJAVA_OBJECT);
+	}
+
+	private EParameter getFeatValArrayParam() {
+		return FluentAPIGenerationUtil.generateArrayValuedEParameterWithDocumentation(featValParamName,
+				EcorePackage.Literals.EJAVA_OBJECT, "TODO");
 	}
 }

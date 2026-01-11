@@ -13,7 +13,7 @@ public class FluentAPISuperInitialisationNewElementMethodGenerator {
 	private static final String newElementMethodBody = FluentAPIMethodsUtil.joinLOC("return this");
 
 	public EOperation generateNewElementMethod(EClass initSuperEClass) {
-		return FluentAPIGenerationUtil.generateEOperationWithBody(newElementMethodName, initSuperEClass,
-				newElementMethodBody);
+		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(newElementMethodName, initSuperEClass,
+				newElementMethodBody, newElementOperationDocumentation);
 	}
 }

@@ -31,6 +31,7 @@ public class FluentAPIInitialisationOnceExistsMethodGenerator {
 		var ops = new ArrayList<EOperation>();
 		ops.add(generateOnceExistsMethod(initECls));
 		ops.add(generateOnceExistsListMethod(initECls));
+		ops.add(generateOnceExistsArrayMethod(initECls));
 		return ops;
 	}
 
@@ -50,6 +51,14 @@ public class FluentAPIInitialisationOnceExistsMethodGenerator {
 				keyParam, consumerParam);
 	}
 
+	private EOperation generateOnceExistsArrayMethod(EClass initECls) {
+		var keyParam = getMarkKeyArrayParam();
+		var consumerParam = getRunnableParam();
+		return FluentAPIGenerationUtil.generateEOperationWithBody(onceExistsMethodNameTemplate,
+				initECls, String.format(onceExistsMethodBodyTemplate, keyParam.getName(), consumerParam.getName()),
+				keyParam, consumerParam);
+	}
+
 	private EParameter getMarkKeyParam() {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(markKeyParameterName,
 				EcorePackage.Literals.EJAVA_OBJECT);
@@ -60,8 +69,13 @@ public class FluentAPIInitialisationOnceExistsMethodGenerator {
 				EcorePackage.Literals.EJAVA_OBJECT);
 	}
 
+	private EParameter getMarkKeyArrayParam() {
+		return FluentAPIGenerationUtil.generateArrayValuedEParameterWithDocumentation(markKeyListParameterName,
+				EcorePackage.Literals.EJAVA_OBJECT, "TODO");
+	}
+
 	private EParameter getRunnableParam() {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(runnableParameterName,
-				EcorePackage.Literals.EJAVA_OBJECT);
+				Runnable.class);
 	}
 }

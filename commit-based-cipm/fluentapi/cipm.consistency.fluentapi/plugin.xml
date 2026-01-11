@@ -25,8 +25,8 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated initialiserModels -->
       <package
-            uri="http://www.cipmfluentapi.com/java/cipm/consistency/fluentapi/api/arrayTypes"
-            class="cipm.consistency.fluentapi.api.arrayTypes.ArrayTypesPackage"
+            uri="http://www.cipmfluentapi.com/java/cipm/consistency/fluentapi/api/placeholderTypes"
+            class="cipm.consistency.fluentapi.api.placeholderTypes.PlaceholderTypesPackage"
             genModel="initModel/initialiserModels.genmodel"/>
    </extension>
 

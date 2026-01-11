@@ -13,6 +13,10 @@ public class FluentAPIOnceExistsExtension {
 		return addOnceExists(api, List.of(markKey), toPerformOnceExists);
 	}
 
+	public static boolean addOnceExists(EObject api, Object[] markKey, Runnable toPerformOnceExists) {
+		return addOnceExists(api, List.of(markKey), toPerformOnceExists);
+	}
+
 	public static boolean addOnceExists(EObject api, List<Object> markKey, Runnable toPerformOnceExists) {
 		if (!apiToOnceExistsCon.containsKey(api)) {
 			apiToOnceExistsCon.put(api, new FluentAPIOnceExistsContainer());

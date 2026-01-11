@@ -4,7 +4,7 @@ import org.eclipse.emf.common.util.URI;
 
 public class FluentAPIConstants {
 	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
-	
+
 	private static final String fluentAPIInitialisationClassNameSuffix = "Initialisation";
 
 	private static final String fluentAPIRootAPIClassName = "FluentEObjectAPI";
@@ -20,8 +20,8 @@ public class FluentAPIConstants {
 	private static final URI fluentAPIInitialisationsPackageURI = fluentAPIRootPackageURI
 			.appendSegment(FluentAPIConstants.getFluentAPIInitialisationsPackageName());
 
-	private static final String fluentAPIArrayTypesPackageName = "arrayTypes";
-	
+	private static final String fluentAPIPlaceholderEDataTypesPackageName = "placeholderTypes";
+
 	/**
 	 * Named this way to make sure that the generated EClasses do not have the same
 	 * name
@@ -33,7 +33,7 @@ public class FluentAPIConstants {
 	public static String getGenModelURL() {
 		return genModelURL;
 	}
-	
+
 	public static String getFluentAPIRootPackageName() {
 		return fluentAPIRootPackageName;
 	}
@@ -49,9 +49,9 @@ public class FluentAPIConstants {
 	public static String getFluentAPIInitialisationsPackageName() {
 		return fluentAPIInitialisationsPackageName;
 	}
-	
-	public static String getFluentAPIArrayTypesPackageName() {
-		return fluentAPIArrayTypesPackageName;
+
+	public static String getFluentAPIPlaceholderEDataTypesPackageName() {
+		return fluentAPIPlaceholderEDataTypesPackageName;
 	}
 
 	public static String getFluentAPIInitialisationsPackageFullName() {

@@ -10,8 +10,6 @@ import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
 public class FluentAPIDropInitialisationMethodGenerator {
 	// TODO Add documentation
-	
-	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
 
 	private static final String dropInitialisationMethodNameTemplate = "dropInitialisation";
 

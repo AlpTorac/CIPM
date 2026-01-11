@@ -16,8 +16,6 @@ import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIMarkExtension;
 public class FluentAPIRootAPIMarkMethodGenerator {
 	// TODO Add documentation
 
-	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
-
 	private static final String markKeyParameterName = "markKey";
 
 	private static final String unmarkMethodNameTemplate = "unmark";

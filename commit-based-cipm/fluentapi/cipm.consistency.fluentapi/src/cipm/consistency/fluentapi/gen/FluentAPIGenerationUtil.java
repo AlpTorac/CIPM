@@ -15,7 +15,9 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 public class FluentAPIGenerationUtil {
-	private static EPackage syntheticArrayTypePac;
+	private static EPackage placeholderEDataTypesPac;
+
+	private static final String placeholderEDataTypeSuffix = "EDataTypePlaceholder";
 
 	private static final String arrayEDataTypeNameSuffix = "Array";
 	private static final String arrayTypeNameSuffix = "[]";
@@ -26,8 +28,8 @@ public class FluentAPIGenerationUtil {
 	private static final String packageNameSeparator = ".";
 	private static final String packageNameSeparatorRegex = "\\.";
 
-	public static void setSyntheticArrayTypePackage(EPackage pac) {
-		syntheticArrayTypePac = pac;
+	public static void setPlaceholderEDataTypesPackage(EPackage pac) {
+		placeholderEDataTypesPac = pac;
 	}
 
 	public static String getEOperationBodyKey() {
@@ -58,6 +60,15 @@ public class FluentAPIGenerationUtil {
 			pac = pac.getESuperPackage();
 		}
 		return result;
+	}
+
+	public static EParameter generateSingleValuedEParameter(String name, Class<?> type) {
+		var param = EcoreFactory.eINSTANCE.createEParameter();
+		param.setName(name);
+		param.setEType(createOrGetEDataType(type));
+		param.setLowerBound(1);
+		param.setUpperBound(1);
+		return param;
 	}
 
 	public static EParameter generateSingleValuedEParameter(String name, EClassifier type) {
@@ -100,12 +111,27 @@ public class FluentAPIGenerationUtil {
 		return param;
 	}
 
-	public static EParameter generateArrayValuedEParameterWithDocumentation(String name, EClassifier type,
-			String documentation) {
+	private static EDataType createOrGetEDataType(Class<?> type) {
+		var eDataTypeName = type.getSimpleName() + placeholderEDataTypeSuffix;
+		EDataType eDataType = (EDataType) placeholderEDataTypesPac.getEClassifier(eDataTypeName);
 
+		if (eDataType == null) {
+			eDataType = EcoreFactory.eINSTANCE.createEDataType();
+			eDataType.setSerializable(false);
+			eDataType.setName(eDataTypeName);
+			eDataType.setInstanceTypeName(eDataTypeName);
+			eDataType.setInstanceClassName(eDataTypeName);
+			eDataType.setInstanceClass(type);
+			placeholderEDataTypesPac.getEClassifiers().add(eDataType);
+		}
+
+		return eDataType;
+	}
+
+	private static EDataType createOrGetArrayEDataType(EClassifier type) {
 		var arrayEDataTypeName = type.getName() + arrayEDataTypeNameSuffix;
 		var arrayTypeInstanceTypeName = type.getName() + arrayTypeNameSuffix;
-		EDataType arrayType = (EDataType) syntheticArrayTypePac.getEClassifier(arrayEDataTypeName);
+		EDataType arrayType = (EDataType) placeholderEDataTypesPac.getEClassifier(arrayEDataTypeName);
 
 		if (arrayType == null) {
 			arrayType = EcoreFactory.eINSTANCE.createEDataType();
@@ -115,8 +141,16 @@ public class FluentAPIGenerationUtil {
 			arrayType.setInstanceClassName(arrayTypeInstanceTypeName);
 			// Get array type this way, since cls.arrayType() is introduced in Java 12
 			arrayType.setInstanceClass(Array.newInstance(type.getInstanceClass(), 0).getClass());
-			syntheticArrayTypePac.getEClassifiers().add(arrayType);
+			placeholderEDataTypesPac.getEClassifiers().add(arrayType);
 		}
+
+		return arrayType;
+	}
+
+	public static EParameter generateArrayValuedEParameterWithDocumentation(String name, EClassifier type,
+			String documentation) {
+
+		var arrayType = createOrGetArrayEDataType(type);
 
 		var param = EcoreFactory.eINSTANCE.createEParameter();
 		param.setName(name);
