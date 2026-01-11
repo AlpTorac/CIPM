@@ -16,8 +16,6 @@ import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
 public class FluentAPIContinueMethodGenerator {
 	// TODO Add documentation
-	
-	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
 
 	private static final String continueMethodNameTemplate = "continue%s";
 	private static final String continueMethodBodyTemplate = FluentAPIMethodsUtil

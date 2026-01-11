@@ -21,7 +21,7 @@ import cipm.consistency.fluentapi.gen.init.FluentAPIWithOperationGenerator;
 
 public final class FluentEObjectAPIMethods {
 	// TODO Add commentary
-	
+
 	public static EObject xWithFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
 		var init = getInitialisationForX(api, objToModify);
 		var opName = String.format(FluentAPIWithOperationGenerator.getWithxfeatnametemplate(),
@@ -63,8 +63,13 @@ public final class FluentEObjectAPIMethods {
 		if (featVal instanceof Collection) {
 			op = withAddedOps.stream().filter((o) -> o.getEParameters().stream().anyMatch((p) -> p.isMany()))
 					.findFirst().get();
+		} else if (featVal.getClass().isArray()) {
+			op = withAddedOps.stream()
+					.filter((o) -> o.getEParameters().stream()
+							.anyMatch((p) -> !p.isMany() && p.getEType().getInstanceClass().isArray()))
+					.findFirst().get();
 		} else {
-			op = withAddedOps.stream().filter((o) -> o.getEParameters().stream().noneMatch((p) -> p.isMany()))
+			op = withAddedOps.stream().filter((o) -> o.getEParameters().stream().anyMatch((p) -> !p.isMany()))
 					.findFirst().get();
 		}
 		argList.add(featVal);
@@ -88,6 +93,11 @@ public final class FluentEObjectAPIMethods {
 		if (featVal instanceof Collection) {
 			op = withRemovedOps.stream().filter((o) -> o.getEParameters().stream().anyMatch((p) -> p.isMany()))
 					.findFirst().get();
+		} else if (featVal.getClass().isArray()) {
+			op = withRemovedOps.stream()
+					.filter((o) -> o.getEParameters().stream()
+							.anyMatch((p) -> !p.isMany() && p.getEType().getInstanceClass().isArray()))
+					.findFirst().get();
 		} else {
 			op = withRemovedOps.stream().filter((o) -> o.getEParameters().stream().noneMatch((p) -> p.isMany()))
 					.findFirst().get();
@@ -107,11 +117,21 @@ public final class FluentEObjectAPIMethods {
 		var opName = String.format(FluentAPIWithOperationGenerator.getWithexactxfeatnametemplate(),
 				StringUtils.capitalize(feat.getName()));
 		var withExactOp = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName))
-				.findFirst().get();
+				.collect(Collectors.toList());
+		EOperation op = null;
 		var argList = new BasicEList<>();
+		if (featVal instanceof Collection) {
+			op = withExactOp.stream().filter((o) -> o.getEParameters().stream().anyMatch((p) -> p.isMany()))
+					.findFirst().get();
+		} else {
+			op = withExactOp.stream()
+					.filter((o) -> o.getEParameters().stream()
+							.anyMatch((p) -> !p.isMany() && p.getEType().getInstanceClass().isArray()))
+					.findFirst().get();
+		}
 		argList.add(featVal);
 		try {
-			init.eInvoke(withExactOp, argList);
+			init.eInvoke(op, argList);
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
@@ -151,7 +171,8 @@ public final class FluentEObjectAPIMethods {
 	public static EObject getInitialisationInstanceForXWithNewElement(EObject me, Class<?> eobjCls) {
 		var initInstance = getInitialisationInstanceForX(me, eobjCls);
 		var newElemOp = initInstance.eClass().getEOperations().stream()
-				.filter((op) -> op.getName().equals(FluentAPIInitialisationNewElementOperationGenerator.getNewElementOperationName()))
+				.filter((op) -> op.getName()
+						.equals(FluentAPIInitialisationNewElementOperationGenerator.getNewElementOperationName()))
 				.findFirst().get();
 		try {
 			initInstance.eInvoke(newElemOp, new BasicEList<>());

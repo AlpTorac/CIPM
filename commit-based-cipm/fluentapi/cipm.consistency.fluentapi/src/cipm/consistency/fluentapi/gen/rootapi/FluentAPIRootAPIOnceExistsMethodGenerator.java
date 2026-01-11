@@ -15,8 +15,6 @@ import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIOnceExistsExtension;
 public class FluentAPIRootAPIOnceExistsMethodGenerator {
 	// TODO Add documentation
 
-	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
-
 	private static final String markKeyParameterName = "markKey";
 	private static final String markKeyListParameterName = "markKeyList";
 	private static final String runnableParameterName = "toDoOnceExists";
@@ -32,6 +30,7 @@ public class FluentAPIRootAPIOnceExistsMethodGenerator {
 		var ops = new ArrayList<EOperation>();
 		ops.add(generateOnceExistsMethod(rootAPIECls));
 		ops.add(generateOnceExistsListMethod(rootAPIECls));
+		ops.add(generateOnceExistsArrayMethod(rootAPIECls));
 		return ops;
 	}
 
@@ -51,6 +50,14 @@ public class FluentAPIRootAPIOnceExistsMethodGenerator {
 				consumerParam);
 	}
 
+	private EOperation generateOnceExistsArrayMethod(EClass rootAPIECls) {
+		var keyParam = getMarkKeyArrayParam();
+		var consumerParam = getRunnableParam();
+		return FluentAPIGenerationUtil.generateEOperationWithBody(onceExistsMethodNameTemplate, rootAPIECls,
+				String.format(onceExistsMethodBodyTemplate, keyParam.getName(), consumerParam.getName()), keyParam,
+				consumerParam);
+	}
+
 	private EParameter getMarkKeyParam() {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(markKeyParameterName,
 				EcorePackage.Literals.EJAVA_OBJECT);
@@ -61,8 +68,12 @@ public class FluentAPIRootAPIOnceExistsMethodGenerator {
 				EcorePackage.Literals.EJAVA_OBJECT);
 	}
 
+	private EParameter getMarkKeyArrayParam() {
+		return FluentAPIGenerationUtil.generateArrayValuedEParameterWithDocumentation(markKeyListParameterName,
+				EcorePackage.Literals.EJAVA_OBJECT, "TODO");
+	}
+
 	private EParameter getRunnableParam() {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameter(runnableParameterName,
-				EcorePackage.Literals.EJAVA_OBJECT);
+		return FluentAPIGenerationUtil.generateSingleValuedEParameter(runnableParameterName, Runnable.class);
 	}
 }

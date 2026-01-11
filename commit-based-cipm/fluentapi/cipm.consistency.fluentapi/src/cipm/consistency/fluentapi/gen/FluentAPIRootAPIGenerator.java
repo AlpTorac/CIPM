@@ -13,8 +13,8 @@ public class FluentAPIRootAPIGenerator {
 		var rootPac = rootPacs.get(rootPacs.size() - 1);
 		var initPac = generateInitialisationsPackage(rootPac);
 
-		var arrayTypesPac = generateArrayTypesPackage(rootPac);
-		FluentAPIGenerationUtil.setSyntheticArrayTypePackage(arrayTypesPac);
+		var placeholderEDataTypesPac = generateArrayTypesPackage(rootPac);
+		FluentAPIGenerationUtil.setPlaceholderEDataTypesPackage(placeholderEDataTypesPac);
 
 		var fluentAPICls = generateRootAPIEClass();
 		rootPac.getEClassifiers().add(fluentAPICls);
@@ -44,7 +44,7 @@ public class FluentAPIRootAPIGenerator {
 
 	private EPackage generateArrayTypesPackage(EPackage rootPac) {
 		return FluentAPIGenerationUtil.generateSubPackage(rootPac,
-				FluentAPIConstants.getFluentAPIArrayTypesPackageName());
+				FluentAPIConstants.getFluentAPIPlaceholderEDataTypesPackageName());
 	}
 
 	private EClass generateInitSuperTypeEClass() {

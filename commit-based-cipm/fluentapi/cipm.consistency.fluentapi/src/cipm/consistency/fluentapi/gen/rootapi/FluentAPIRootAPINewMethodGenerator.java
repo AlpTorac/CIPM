@@ -13,8 +13,6 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 public class FluentAPIRootAPINewMethodGenerator {
 	// TODO Add documentation
 
-	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
-
 	private static final String eClassParamName = "eObjEClass";
 
 	private static final String topLevelNewMethodName = "newX";

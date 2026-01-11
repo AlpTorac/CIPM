@@ -14,8 +14,6 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 public class FluentAPIModifyElementMethodGenerator {
 	// TODO Add documentation
 
-	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
-
 	private static final String markKeyParameterName = "markKey";
 
 	private static final String topLevelModifyElementMethodName = "modifyX";
