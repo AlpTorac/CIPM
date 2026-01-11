@@ -17,8 +17,14 @@ import org.eclipse.emf.ecore.EcoreFactory;
 public class FluentAPIGenerationUtil {
 	private static EPackage syntheticArrayTypePac;
 
+	private static final String arrayEDataTypeNameSuffix = "Array";
+	private static final String arrayTypeNameSuffix = "[]";
+
 	private static final String eoperationBodyKey = "body";
 	private static final String eoperationDocumentationKey = "documentation";
+
+	private static final String packageNameSeparator = ".";
+	private static final String packageNameSeparatorRegex = "\\.";
 
 	public static void setSyntheticArrayTypePackage(EPackage pac) {
 		syntheticArrayTypePac = pac;
@@ -48,7 +54,7 @@ public class FluentAPIGenerationUtil {
 		String result = eCls.getName();
 		var pac = eCls.getEPackage();
 		while (pac != null) {
-			result = pac.getName() + "." + result;
+			result = pac.getName() + packageNameSeparator + result;
 			pac = pac.getESuperPackage();
 		}
 		return result;
@@ -97,8 +103,8 @@ public class FluentAPIGenerationUtil {
 	public static EParameter generateArrayValuedEParameterWithDocumentation(String name, EClassifier type,
 			String documentation) {
 
-		var arrayEDataTypeName = type.getName() + "Array";
-		var arrayTypeInstanceTypeName = type.getName() + "[]";
+		var arrayEDataTypeName = type.getName() + arrayEDataTypeNameSuffix;
+		var arrayTypeInstanceTypeName = type.getName() + arrayTypeNameSuffix;
 		EDataType arrayType = (EDataType) syntheticArrayTypePac.getEClassifier(arrayEDataTypeName);
 
 		if (arrayType == null) {
@@ -179,7 +185,7 @@ public class FluentAPIGenerationUtil {
 
 	public static List<EPackage> generatePackages(URI currentURI, String fullPacName) {
 		var pacs = new ArrayList<EPackage>();
-		var nss = List.of(fullPacName.split("\\."));
+		var nss = List.of(fullPacName.split(packageNameSeparatorRegex));
 		for (int i = 0; i < nss.size(); i++) {
 			var pacName = nss.get(i);
 			var pacNss = nss.subList(0, i);
