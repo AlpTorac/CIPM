@@ -111,6 +111,13 @@ public class FluentAPIWithOperationGenerator {
 			//
 			"return this");
 
+	private static final String withAddedXArrayFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			// %s: Feature name
+			// %s: Feature value
+			"((org.eclipse.emf.common.util.EList) this.getCurrentElement().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))).addAll(java.util.List.of(%s))",
+			//
+			"return this");
+
 	private static final String withRemovedXListFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Feature name
 			// %s: Feature value
@@ -168,7 +175,7 @@ public class FluentAPIWithOperationGenerator {
 
 			} else {
 				ops.add(this.generateWithAddedXFeat(initECls, elemToInit, feat));
-				ops.add(this.generateWithAddedXListFeat(initECls, elemToInit, feat));
+				ops.addAll(this.generateWithAddedXListFeat(initECls, elemToInit, feat));
 				ops.add(this.generateWithRemovedXFeat(initECls, elemToInit, feat));
 				ops.add(this.generateWithRemovedXListFeat(initECls, elemToInit, feat));
 				ops.add(this.generateWithExactXFeat(initECls, elemToInit, feat));
@@ -244,14 +251,24 @@ public class FluentAPIWithOperationGenerator {
 				String.format(withRemovedXFeatDocumentationTemplate, feat.getName()), removedFeatValParam);
 	}
 
-	public EOperation generateWithAddedXListFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
-		var addedFeatValParam = getAddedListFeatValParam(feat);
+	public List<EOperation> generateWithAddedXListFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
+		var opList = new ArrayList<EOperation>();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
+		var eListAddedFeatValParam = getAddedListFeatValParam(feat);
+		opList.add(FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
 				String.format(withAddedXFeatNameTemplate, StringUtils.capitalize(feat.getName())), initECls,
-				String.format(withAddedXListFeatMethodBodyTemplate, feat.getName(), addedFeatValParam.getName(),
-						addedFeatValParam.getName()),
-				String.format(withAddedXFeatDocumentationTemplate, feat.getName()), addedFeatValParam);
+				String.format(withAddedXListFeatMethodBodyTemplate, feat.getName(), eListAddedFeatValParam.getName(),
+						eListAddedFeatValParam.getName()),
+				String.format(withAddedXFeatDocumentationTemplate, feat.getName()), eListAddedFeatValParam));
+
+		var arrayAddedFeatValParam = getAddedArrayFeatValParam(feat);
+		opList.add(FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
+				String.format(withAddedXFeatNameTemplate, StringUtils.capitalize(feat.getName())), initECls,
+				String.format(withAddedXArrayFeatMethodBodyTemplate, feat.getName(), arrayAddedFeatValParam.getName(),
+						arrayAddedFeatValParam.getName()),
+				String.format(withAddedXFeatDocumentationTemplate, feat.getName()), arrayAddedFeatValParam));
+
+		return opList;
 	}
 
 	public EOperation generateWithRemovedXListFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
@@ -313,6 +330,11 @@ public class FluentAPIWithOperationGenerator {
 
 	public EParameter getAddedListFeatValParam(EStructuralFeature feat) {
 		return FluentAPIGenerationUtil.generateManyValuedEParameterWithDocumentation(addedFeatValParamName,
+				feat.getEType(), String.format(addedListFeatValParamDocumentationTemplate, feat.getName()));
+	}
+
+	public EParameter getAddedArrayFeatValParam(EStructuralFeature feat) {
+		return FluentAPIGenerationUtil.generateArrayValuedEParameterWithDocumentation(addedFeatValParamName,
 				feat.getEType(), String.format(addedListFeatValParamDocumentationTemplate, feat.getName()));
 	}
 

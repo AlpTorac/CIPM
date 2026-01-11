@@ -1,5 +1,6 @@
 package cipm.consistency.fluentapi.gen;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,14 +8,27 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.resource.Resource;
 
 public class FluentAPIGenerationUtil {
+	private static Resource ecoreRes;
+	private static EPackage syntheticArrayTypePac;
+
 	private static final String eoperationBodyKey = "body";
 	private static final String eoperationDocumentationKey = "documentation";
+
+	public static void setSyntheticArrayTypePackage(EPackage pac) {
+		syntheticArrayTypePac = pac;
+	}
+
+	public static void setEcoreRes(Resource res) {
+		ecoreRes = res;
+	}
 
 	public static String getEOperationBodyKey() {
 		return eoperationBodyKey;
@@ -78,6 +92,38 @@ public class FluentAPIGenerationUtil {
 	public static EParameter generateManyValuedEParameterWithDocumentation(String name, EClassifier type,
 			String documentation) {
 		var param = generateManyValuedEParameter(name, type);
+		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
+		anno.setSource(FluentAPIConstants.getGenModelURL());
+		// Add the documentation
+		anno.getDetails().put(getEOperationDocumentationKey(), documentation);
+		param.getEAnnotations().add(anno);
+		return param;
+	}
+
+	public static EParameter generateArrayValuedEParameterWithDocumentation(String name, EClassifier type,
+			String documentation) {
+
+		var arrayEDataTypeName = type.getName() + "Array";
+		var arrayTypeInstanceTypeName = type.getName() + "[]";
+		EDataType arrayType = (EDataType) syntheticArrayTypePac.getEClassifier(arrayEDataTypeName);
+
+		if (arrayType == null) {
+			arrayType = EcoreFactory.eINSTANCE.createEDataType();
+			arrayType.setSerializable(false);
+			arrayType.setName(arrayEDataTypeName);
+			arrayType.setInstanceTypeName(arrayTypeInstanceTypeName);
+			arrayType.setInstanceClassName(arrayTypeInstanceTypeName);
+			// Get array type this way, since cls.arrayType() is introduced in Java 12
+			arrayType.setInstanceClass(Array.newInstance(type.getInstanceClass(), 0).getClass());
+			syntheticArrayTypePac.getEClassifiers().add(arrayType);
+		}
+
+		var param = EcoreFactory.eINSTANCE.createEParameter();
+		param.setName(name);
+		param.setEType(arrayType);
+		param.setLowerBound(1);
+		param.setUpperBound(1);
+
 		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
 		anno.setSource(FluentAPIConstants.getGenModelURL());
 		// Add the documentation
