@@ -13,10 +13,8 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
-import org.eclipse.emf.ecore.resource.Resource;
 
 public class FluentAPIGenerationUtil {
-	private static Resource ecoreRes;
 	private static EPackage syntheticArrayTypePac;
 
 	private static final String eoperationBodyKey = "body";
@@ -24,10 +22,6 @@ public class FluentAPIGenerationUtil {
 
 	public static void setSyntheticArrayTypePackage(EPackage pac) {
 		syntheticArrayTypePac = pac;
-	}
-
-	public static void setEcoreRes(Resource res) {
-		ecoreRes = res;
 	}
 
 	public static String getEOperationBodyKey() {

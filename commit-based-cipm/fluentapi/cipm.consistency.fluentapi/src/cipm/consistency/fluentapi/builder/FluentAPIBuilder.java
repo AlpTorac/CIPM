@@ -44,21 +44,6 @@ public class FluentAPIBuilder {
 		var resSet = new ResourceSetImpl();
 		var res = resSet.createResource(URI.createFileURI(fluentAPIEcoreModelFilePath.toString()));
 
-		var arrayTypesPac = EcoreFactory.eINSTANCE.createEPackage();
-		arrayTypesPac.setName("arrayTypes");
-		arrayTypesPac.setNsPrefix("arrayTypes");
-		arrayTypesPac
-				.setNsURI(FluentAPIConstants.getFluentAPIRootPackageURI().appendSegment("arrayTypes").toString());
-
-		// C:\Users\atora\CIPM2\commit-based-cipm\fluentapi\cipm.consistency.fluentapi\src\arrayTypes
-		
-//		"file:/C:/Users/atora/CIPM2/commit-based-cipm/fluentapi/cipm.consistency.fluentapi/src/cipm/consistency/fluentapi/api/arrayTypes"
-
-		res.getContents().add(arrayTypesPac);
-
-		FluentAPIGenerationUtil.setEcoreRes(res);
-		FluentAPIGenerationUtil.setSyntheticArrayTypePackage(arrayTypesPac);
-
 		res.getContents().add(new FluentAPIRootAPIGenerator().generateRootAPIPackages(
 				new FluentAPIJavaMetamodelPackageProvider(), new FluentAPIJavaMetamodelFeatureFilter()).get(0));
 		try {

@@ -24,6 +24,8 @@ Require-Bundle: junit-jupiter-api,
  de.uka.ipd.sdq.probfunction;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Export-Package: cipm.consistency.fluentapi.api,
+ cipm.consistency.fluentapi.api.arrayTypes,
+ cipm.consistency.fluentapi.api.arrayTypes.impl,
  cipm.consistency.fluentapi.api.impl,
  cipm.consistency.fluentapi.api.inits,
  cipm.consistency.fluentapi.api.inits.impl,

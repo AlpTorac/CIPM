@@ -1,7 +1,5 @@
 package cipm.consistency.fluentapi.gen;
 
-import java.io.File;
-
 import org.eclipse.emf.common.util.URI;
 
 public class FluentAPIConstants {
@@ -14,9 +12,7 @@ public class FluentAPIConstants {
 	private static final String fluentAPIRootAPIInitialisationsReferenceName = "inits";
 
 	private static final String fluentAPIRootPackageName = "cipm.consistency.fluentapi.api";
-	private static final File fluentAPIRootPackageGenerationDir = new File("src").getAbsoluteFile();
-	private static final URI fluentAPIRootPackageURI = URI
-			.createFileURI(fluentAPIRootPackageGenerationDir.getAbsolutePath());
+	private static final URI fluentAPIRootPackageURI = URI.createURI("http://www.cipmfluentapi.com/java");
 
 	private static final String fluentAPIInitialisationsPackageName = "inits";
 	private static final String fluentAPIInitialisationsPackageFullName = fluentAPIRootPackageName + "."
@@ -24,6 +20,8 @@ public class FluentAPIConstants {
 	private static final URI fluentAPIInitialisationsPackageURI = fluentAPIRootPackageURI
 			.appendSegment(FluentAPIConstants.getFluentAPIInitialisationsPackageName());
 
+	private static final String fluentAPIArrayTypesPackageName = "arrayTypes";
+	
 	/**
 	 * Named this way to make sure that the generated EClasses do not have the same
 	 * name
@@ -50,6 +48,10 @@ public class FluentAPIConstants {
 
 	public static String getFluentAPIInitialisationsPackageName() {
 		return fluentAPIInitialisationsPackageName;
+	}
+	
+	public static String getFluentAPIArrayTypesPackageName() {
+		return fluentAPIArrayTypesPackageName;
 	}
 
 	public static String getFluentAPIInitialisationsPackageFullName() {
