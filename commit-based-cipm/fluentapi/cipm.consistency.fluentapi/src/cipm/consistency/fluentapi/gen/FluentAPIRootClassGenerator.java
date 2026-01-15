@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIContinueMethodGenerator;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIDropInitialisationMethodGenerator;
+import cipm.consistency.fluentapi.gen.rootapi.FluentAPIGetAllSupportedEClassesMethodGenerator;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIGetInitialisationForMethodGenerator;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIModifyElementMethodGenerator;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIMarkMethodGenerator;
@@ -136,6 +137,9 @@ public class FluentAPIRootClassGenerator {
 
 		fluentAPICls.getEOperations()
 				.addAll(new FluentAPIRootAPIWithOperationGenerator().getAllAPITopLevelWithOperations(fluentAPICls));
+
+		fluentAPICls.getEOperations().add(new FluentAPIGetAllSupportedEClassesMethodGenerator()
+				.generateGetAllSupportedEClassesMethodGenerator(fluentAPICls));
 	}
 
 	public void setupRootAPIEClass(EClass fluentAPICls, EClass initSuperType, List<EClass> initEClss,

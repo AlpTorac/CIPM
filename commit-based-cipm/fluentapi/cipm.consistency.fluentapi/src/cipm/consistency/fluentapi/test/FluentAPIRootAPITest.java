@@ -1,6 +1,7 @@
 package cipm.consistency.fluentapi.test;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.CommonsPackage;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
 
 public class FluentAPIRootAPITest {
 	@Test
@@ -252,5 +254,18 @@ public class FluentAPIRootAPITest {
 
 		api.xWithFeatOfContainer(cls, CommonsPackage.Literals.NAMED_ELEMENT__NAME);
 		Assertions.assertEquals(cu.getName(), cls.getName());
+	}
+
+	@Test
+	public void getAllSupportedEClassesTest() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var supportedEClasses = api.getAllSupportedEClasses();
+		var expectedSupportedEClasses = new FluentAPIJavaMetamodelPackageProvider()
+				.getAllTargetMetamodelConcreteEClasses();
+		var expectedSupportedClasses = expectedSupportedEClasses.stream().map((eCls) -> eCls.getInstanceClass())
+				.collect(Collectors.toList());
+		Assertions.assertEquals(expectedSupportedClasses.size(), supportedEClasses.size());
+		Assertions.assertTrue(supportedEClasses.containsAll(expectedSupportedClasses));
 	}
 }
