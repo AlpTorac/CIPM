@@ -257,10 +257,10 @@ public class FluentAPIRootAPITest {
 	}
 
 	@Test
-	public void getAllSupportedEClassesTest() {
+	public void getAllSupportedClassesTest() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
-		var supportedEClasses = api.getAllSupportedEClasses();
+		var supportedEClasses = api.getAllSupportedClasses();
 		var expectedSupportedEClasses = new FluentAPIJavaMetamodelPackageProvider()
 				.getAllTargetMetamodelConcreteEClasses();
 		var expectedSupportedClasses = expectedSupportedEClasses.stream().map((eCls) -> eCls.getInstanceClass())
