@@ -67,6 +67,10 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 
 	protected abstract EObjectCreator initEObjectCreator();
 
+	protected EObjectCreator getEObjectCreator() {
+		return this.eobjectCreator;
+	}
+
 	/**
 	 * Sets up the {@link EcoreUtilHelper} instance that will be used with the given
 	 * one.

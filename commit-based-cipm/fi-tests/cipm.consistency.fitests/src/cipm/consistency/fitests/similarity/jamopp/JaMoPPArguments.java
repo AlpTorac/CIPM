@@ -18,17 +18,7 @@ import cipm.consistency.fitests.similarity.params.IInitialiserParameters;
 
 public final class JaMoPPArguments {
 	private static final EObjectCreator creator = new FluentJaMoPPEObjectCreator();
-	private static final List<EClass> supportedEClasses = creator.getAllSupportedTypes();
-	@SuppressWarnings("unchecked")
-	private static final List<Class<? extends EObject>> supportedClasses = supportedEClasses.stream()
-			.map((eCls) -> (Class<? extends EObject>) eCls.getInstanceClass()).collect(Collectors.toList());
-
-	private static List<EObjectInstantiator> adaptInitialisers(List<EObjectInstantiator> inits) {
-		// TODO Apply adaptation
-		return inits;
-	}
-
-	public static IInitialiserParameterAdaptationStrategy getAdaptationStrategy();
+	private static final List<Class<?>> supportedClasses = creator.getAllSupportedTypes();
 
 	private static <T extends Commentable> List<EObjectInstantiator> getNonAdaptedInitialisersBySuper(
 			Class<T> superCls) {
