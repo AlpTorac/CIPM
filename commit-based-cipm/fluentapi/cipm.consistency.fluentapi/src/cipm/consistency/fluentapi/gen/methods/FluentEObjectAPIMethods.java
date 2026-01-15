@@ -257,10 +257,13 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	public static void withInitialisation(EObject me, EClass initEClass) {
+		// TODO Remove or use
 		getInits(me).add(initEClass);
 	}
 
 	public static void withInitialisations(EObject me, EPackage initsPac) {
+		// TODO Remove or clean up and do it properly
+		// Trim "Initialisation" from XInitialisation EClass name
 		initsPac.getEClassifiers().stream().filter((e) -> e instanceof EClass).map((e) -> (EClass) e)
 				.filter((e) -> e.getName().endsWith("Initialisation")).forEach((e) -> getInits(me).add(e));
 	}
