@@ -331,6 +331,26 @@ public class FluentAPIRootAPITest {
 	 * features is possible via the generated API class
 	 */
 	@Test
+	public void overloadedNewMethodsTest_OnlyOneSingleValuedModifiableFeature_BigInteger() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		final var obj = new DecimalIntegerLiteral[2];
+
+		int intVal = 1;
+		Assertions.assertDoesNotThrow(() -> obj[0] = api.newDecimalIntegerLiteral(intVal));
+		Assertions.assertInstanceOf(DecimalIntegerLiteral.class, obj[0]);
+		Assertions.assertEquals(intVal, obj[0].getDecimalValue().intValue());
+
+		long longVal = 1;
+		Assertions.assertDoesNotThrow(() -> obj[1] = api.newDecimalIntegerLiteral(longVal));
+		Assertions.assertInstanceOf(DecimalIntegerLiteral.class, obj[1]);
+		Assertions.assertEquals(longVal, obj[1].getDecimalValue().longValue());
+	}
+
+	/**
+	 * Ensures that direct creation methods for types with only one modifiable
+	 * features is possible via the generated API class
+	 */
+	@Test
 	public void overloadedNewMethodsTest_OnlyOneManyValuedModifiableFeature() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 

@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
@@ -101,23 +102,58 @@ public class FluentAPIRootAPINewMethodGenerator {
 			return getRootAPINewOperationForEClassWithOnlyOneModifiableManyValuedFeat(eObjEClass, modifiableFeature,
 					initECls);
 		} else {
-			return List.of(getRootAPINewOperationForEClassWithOnlyOneModifiableSingleValuedFeat(eObjEClass,
-					modifiableFeature, initECls));
+			return getRootAPINewOperationForEClassWithOnlyOneModifiableSingleValuedFeat(eObjEClass, modifiableFeature,
+					initECls);
 		}
 	}
 
-	public EOperation getRootAPINewOperationForEClassWithOnlyOneModifiableSingleValuedFeat(EClass eObjEClass,
+	public List<EOperation> getRootAPINewOperationForEClassWithOnlyOneModifiableSingleValuedFeat(EClass eObjEClass,
 			EStructuralFeature modifiableFeature, EClass initECls) {
-		var featureValParam = getSingleValuedFeatValParam(modifiableFeature);
+		var ops = new ArrayList<EOperation>();
+		var originalOpFeatureValParam = getSingleValuedFeatValParam(modifiableFeature);
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
+		var originalOp = FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(newMethodNameTemplate, eObjEClass.getInstanceClass().getSimpleName()), eObjEClass,
 				String.format(newXWithOnlyOneModifiableSingleValuedFeatsMethodBodyTemplate,
 						eObjEClass.getInstanceClass().getName(),
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						eObjEClass.getInstanceClass().getName(), StringUtils.capitalize(modifiableFeature.getName()),
-						featureValParam.getName()),
-				featureValParam);
+						originalOpFeatureValParam.getName()),
+				originalOpFeatureValParam);
+		ops.add(originalOp);
+
+		if (originalOpFeatureValParam.getEType().equals(EcorePackage.Literals.EBIG_INTEGER)) {
+			var longOpNewFeatValParam = getSingleValuedFeatValParam(modifiableFeature);
+			longOpNewFeatValParam.setEType(EcorePackage.Literals.ELONG);
+			var longOp = FluentAPIGenerationUtil.generateEOperationWithBody(
+					String.format(newMethodNameTemplate, eObjEClass.getInstanceClass().getSimpleName()), eObjEClass,
+					String.format(newXWithOnlyOneModifiableSingleValuedFeatsMethodBodyTemplate,
+							eObjEClass.getInstanceClass().getName(),
+							FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
+							eObjEClass.getInstanceClass().getName(),
+							StringUtils.capitalize(modifiableFeature.getName()),
+							// TODO Remove valueOf, since initialisations already handle it
+							String.format("java.math.BigInteger.valueOf(%s)", longOpNewFeatValParam.getName()),
+							longOpNewFeatValParam.getName()),
+					longOpNewFeatValParam);
+			ops.add(longOp);
+
+			var intOpNewFeatValParam = getSingleValuedFeatValParam(modifiableFeature);
+			intOpNewFeatValParam.setEType(EcorePackage.Literals.EINT);
+			var intOp = FluentAPIGenerationUtil.generateEOperationWithBody(
+					String.format(newMethodNameTemplate, eObjEClass.getInstanceClass().getSimpleName()), eObjEClass,
+					String.format(newXWithOnlyOneModifiableSingleValuedFeatsMethodBodyTemplate,
+							eObjEClass.getInstanceClass().getName(),
+							FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
+							eObjEClass.getInstanceClass().getName(),
+							StringUtils.capitalize(modifiableFeature.getName()),
+							// TODO Remove valueOf, since initialisations already handle it
+							String.format("java.math.BigInteger.valueOf(%s)", intOpNewFeatValParam.getName()),
+							intOpNewFeatValParam.getName()),
+					intOpNewFeatValParam);
+			ops.add(intOp);
+		}
+		return ops;
 	}
 
 	public List<EOperation> getRootAPINewOperationForEClassWithOnlyOneModifiableManyValuedFeat(EClass eObjEClass,
