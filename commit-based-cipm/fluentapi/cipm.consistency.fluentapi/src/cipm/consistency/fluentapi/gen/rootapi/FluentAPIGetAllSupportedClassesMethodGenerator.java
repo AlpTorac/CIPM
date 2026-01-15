@@ -8,15 +8,15 @@ import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
-public class FluentAPIGetAllSupportedEClassesMethodGenerator {
+public class FluentAPIGetAllSupportedClassesMethodGenerator {
 	// TODO Add documentation
 
-	private static final String methodName = "getAllSupportedEClasses";
+	private static final String methodName = "getAllSupportedClasses";
 
 	private static final String methodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return " + FluentEObjectAPIMethods.class.getName() + ".getAllSupportedEClasses(this)");
+			.joinLOC("return " + FluentEObjectAPIMethods.class.getName() + ".getAllSupportedClasses(this)");
 
-	public EOperation generateGetAllSupportedEClassesMethodGenerator(EClass rootAPIEClass) {
+	public EOperation generateGetAllSupportedClassesMethodGenerator(EClass rootAPIEClass) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(methodName, EcorePackage.Literals.EE_LIST,
 				methodBodyTemplate);
 	}

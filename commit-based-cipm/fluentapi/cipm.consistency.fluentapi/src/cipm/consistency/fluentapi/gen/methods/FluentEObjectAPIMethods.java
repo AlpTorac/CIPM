@@ -157,7 +157,7 @@ public final class FluentEObjectAPIMethods {
 		return api;
 	}
 
-	public static EList<Class<?>> getAllSupportedEClasses(EObject me) {
+	public static EList<Class<?>> getAllSupportedClasses(EObject me) {
 		var result = new BasicEList<Class<?>>();
 //		getInits(me).stream()
 //				.map((c) -> c.getEOperations().stream()
