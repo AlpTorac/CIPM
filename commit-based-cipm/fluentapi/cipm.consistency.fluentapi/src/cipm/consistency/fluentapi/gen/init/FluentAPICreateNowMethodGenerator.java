@@ -20,4 +20,8 @@ public class FluentAPICreateNowMethodGenerator {
 				String.format(createNowMethodBodyTemplate, elemToInit.getInstanceClass().getName()),
 				createNowMethodDocumentation);
 	}
+
+	public static String getCreateNowMethodName() {
+		return createNowMethodName;
+	}
 }

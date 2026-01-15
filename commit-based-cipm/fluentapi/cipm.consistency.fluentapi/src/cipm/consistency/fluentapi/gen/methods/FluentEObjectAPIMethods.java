@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
@@ -14,8 +15,10 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import cipm.consistency.fluentapi.gen.FluentAPIConstants;
+import cipm.consistency.fluentapi.gen.init.FluentAPICreateNowMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationNewElementOperationGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIWithOperationGenerator;
 
@@ -121,8 +124,8 @@ public final class FluentEObjectAPIMethods {
 		EOperation op = null;
 		var argList = new BasicEList<>();
 		if (featVal instanceof Collection) {
-			op = withExactOp.stream().filter((o) -> o.getEParameters().stream().anyMatch((p) -> p.isMany()))
-					.findFirst().get();
+			op = withExactOp.stream().filter((o) -> o.getEParameters().stream().anyMatch((p) -> p.isMany())).findFirst()
+					.get();
 		} else {
 			op = withExactOp.stream()
 					.filter((o) -> o.getEParameters().stream()
@@ -152,6 +155,41 @@ public final class FluentEObjectAPIMethods {
 		}
 		dropInitialisation(api, init);
 		return api;
+	}
+
+	public static EList<Class<?>> getAllSupportedEClasses(EObject me) {
+		var result = new BasicEList<Class<?>>();
+//		getInits(me).stream()
+//				.map((c) -> c.getEOperations().stream()
+//						.filter((op) -> op.getName().equals(FluentAPICreateNowMethodGenerator.getCreateNowMethodName()))
+//						.findFirst().get().getEType())
+//				.map((c) -> (EClass) c).forEach((c) -> result.add(c));
+
+		var initsPac = me.eClass().getEPackage().getESubpackages().stream()
+				.filter((pac) -> pac.getName().equals(FluentAPIConstants.getFluentAPIInitialisationsPackageName()))
+				.findFirst().get();
+
+		var initEClasses = initsPac.getEClassifiers().stream()
+				.filter((eCls) -> eCls instanceof EClass && eCls.getName().endsWith("Initialisation"))
+				.map((eCls) -> (EClass) eCls).collect(Collectors.toList());
+
+		initEClasses.stream().map((eCls) -> eCls.getInstanceClass()).map((cls) -> {
+			try {
+				return cls.getDeclaredMethod(FluentAPICreateNowMethodGenerator.getCreateNowMethodName());
+			} catch (NoSuchMethodException | SecurityException e) {
+				e.printStackTrace();
+				throw new IllegalStateException(e);
+			}
+		}).map((met) -> met.getReturnType())
+
+//				.map((eCls) -> eCls.getEOperations().stream()
+//						.filter((op) -> op.getName().equals(FluentAPICreateNowMethodGenerator.getCreateNowMethodName()))
+//						.findFirst().get().getEType())
+//				.map((returnType) -> (EClass) returnType)
+
+				.forEach(result::add);
+
+		return result;
 	}
 
 	public static EObject getInitialisationInstanceForX(EObject me, Class<?> eobjCls) {
