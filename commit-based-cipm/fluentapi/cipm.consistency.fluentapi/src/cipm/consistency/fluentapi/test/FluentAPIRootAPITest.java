@@ -1,11 +1,13 @@
 package cipm.consistency.fluentapi.test;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.containers.ContainersFactory;
+import org.emftext.language.java.literals.DecimalIntegerLiteral;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -267,5 +269,29 @@ public class FluentAPIRootAPITest {
 				.collect(Collectors.toList());
 		Assertions.assertEquals(expectedSupportedClasses.size(), supportedEClasses.size());
 		Assertions.assertTrue(supportedEClasses.containsAll(expectedSupportedClasses));
+	}
+
+	@Test
+	public void overloadedBigIntegerMethodsTest() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		final var lit = new DecimalIntegerLiteral[3];
+
+		BigInteger bigIntVal = BigInteger.valueOf(1);
+		Assertions.assertDoesNotThrow(
+				() -> lit[0] = api.newDecimalIntegerLiteral().withDecimalValue(bigIntVal).createNow());
+		Assertions.assertEquals(bigIntVal, lit[0].getDecimalValue());
+
+		int intVal = bigIntVal.intValue();
+		Assertions.assertEquals(1, intVal);
+		Assertions
+				.assertDoesNotThrow(() -> lit[1] = api.newDecimalIntegerLiteral().withDecimalValue(intVal).createNow());
+		Assertions.assertEquals(intVal, lit[1].getDecimalValue().intValue());
+
+		long longVal = bigIntVal.longValue();
+		Assertions.assertEquals(1, longVal);
+		Assertions.assertDoesNotThrow(
+				() -> lit[2] = api.newDecimalIntegerLiteral().withDecimalValue(longVal).createNow());
+		Assertions.assertEquals(longVal, lit[2].getDecimalValue().longValue());
 	}
 }

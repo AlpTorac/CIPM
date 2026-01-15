@@ -1,5 +1,6 @@
 package cipm.consistency.fluentapi.gen.init;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -9,6 +10,7 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
@@ -182,7 +184,7 @@ public class FluentAPIWithOperationGenerator {
 
 		for (var feat : feats) {
 			if (!feat.isMany()) {
-				ops.add(this.generateWithXFeat(initECls, elemToInit, feat));
+				ops.addAll(this.generateWithXFeat(initECls, elemToInit, feat));
 				ops.add(this.generateWithoutXFeat(initECls, elemToInit, feat));
 
 				if (isEligibleForXOfContainer(elemToInit, feat, eClassProvider)) {
@@ -234,13 +236,37 @@ public class FluentAPIWithOperationGenerator {
 		return refType instanceof EClass && refTypeCls.isAssignableFrom(elemToInit.getInstanceClass());
 	}
 
-	private EOperation generateWithXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
-		var newFeatValParam = getNewFeatValParam(feat);
+	private List<EOperation> generateWithXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
+		var ops = new ArrayList<EOperation>();
+		var originalOpNewFeatValParam = getNewFeatValParam(feat);
 
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
+		var originalOp = FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
 				String.format(withXFeatNameTemplate, StringUtils.capitalize(feat.getName())), initECls,
-				String.format(withXFeatMethodBodyTemplate, feat.getName(), newFeatValParam.getName()),
-				String.format(withXFeatDocumentationTemplate, feat.getName()), newFeatValParam);
+				String.format(withXFeatMethodBodyTemplate, feat.getName(), originalOpNewFeatValParam.getName()),
+				String.format(withXFeatDocumentationTemplate, feat.getName()), originalOpNewFeatValParam);
+		ops.add(originalOp);
+
+		if (originalOpNewFeatValParam.getEType().equals(EcorePackage.Literals.EBIG_INTEGER)) {
+			var longOpNewFeatValParam = getNewFeatValParam(feat);
+			longOpNewFeatValParam.setEType(EcorePackage.Literals.ELONG);
+			var longOp = FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
+					String.format(withXFeatNameTemplate, StringUtils.capitalize(feat.getName())), initECls,
+					String.format(withXFeatMethodBodyTemplate, feat.getName(),
+							String.format("java.math.BigInteger.valueOf(%s)", longOpNewFeatValParam.getName())),
+					String.format(withXFeatDocumentationTemplate, feat.getName()), longOpNewFeatValParam);
+			ops.add(longOp);
+
+			var intOpNewFeatValParam = getNewFeatValParam(feat);
+			intOpNewFeatValParam.setEType(EcorePackage.Literals.EINT);
+			var intOp = FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
+					String.format(withXFeatNameTemplate, StringUtils.capitalize(feat.getName())), initECls,
+					String.format(withXFeatMethodBodyTemplate, feat.getName(),
+							String.format("java.math.BigInteger.valueOf(%s)", intOpNewFeatValParam.getName())),
+					String.format(withXFeatDocumentationTemplate, feat.getName()), intOpNewFeatValParam);
+			ops.add(intOp);
+		}
+
+		return ops;
 	}
 
 	private EOperation generateWithoutXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
