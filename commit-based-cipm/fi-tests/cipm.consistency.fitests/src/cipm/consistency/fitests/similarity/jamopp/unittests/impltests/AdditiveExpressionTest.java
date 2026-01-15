@@ -16,47 +16,51 @@ public class AdditiveExpressionTest extends AbstractJaMoPPSimilarityTest impleme
 
 	@Test
 	public void testChild() {
-		this.testSimilarity(
-				this.initElement(new AdditiveExpressionChild[] { getAPI().newDecimalIntegerLiteral().withDecimalValue(1) }, null),
-				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(2) }, null),
+		this.testSimilarity(this.initElement(
+				new AdditiveExpressionChild[] { getAPI().newDecimalIntegerLiteral().withDecimalValue(1).createNow() },
+				null),
+				this.initElement(new AdditiveExpressionChild[] {
+						getAPI().newDecimalIntegerLiteral().withDecimalValue(2).createNow() }, null),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__CHILDREN);
 	}
 
 	@Test
 	public void testChildSize() {
-		this.testSimilarity(
-				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(1),
-						this.createDecimalIntegerLiteral(2) }, null),
-				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
+		this.testSimilarity(this.initElement(
+				new AdditiveExpressionChild[] { getAPI().newDecimalIntegerLiteral().withDecimalValue(1).createNow(),
+						getAPI().newDecimalIntegerLiteral().withDecimalValue(2).createNow() },
+				null),
+				this.initElement(new AdditiveExpressionChild[] {
+						getAPI().newDecimalIntegerLiteral().withDecimalValue(1).createNow() }, null),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__CHILDREN);
 	}
 
 	@Test
 	public void testChildNullCheck() {
 		this.testSimilarityNullCheck(
-				this.initElement(new AdditiveExpressionChild[] { this.createDecimalIntegerLiteral(1) }, null),
+				this.initElement(new AdditiveExpressionChild[] {
+						getAPI().newDecimalIntegerLiteral().withDecimalValue(1).createNow() }, null),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__CHILDREN);
 	}
 
 	@Test
 	public void testAdditiveOperator() {
-		this.testSimilarity(this.initElement(null, new AdditiveOperator[] { this.createAdditionOperator() }),
-				this.initElement(null, new AdditiveOperator[] { this.createSubtractionOperator() }),
+		this.testSimilarity(this.initElement(null, new AdditiveOperator[] { getAPI().newAddition() }),
+				this.initElement(null, new AdditiveOperator[] { getAPI().newSubtraction() }),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__ADDITIVE_OPERATORS);
 	}
 
 	@Test
 	public void testAdditiveOperatorSize() {
 		this.testSimilarity(
-				this.initElement(null,
-						new AdditiveOperator[] { this.createAdditionOperator(), this.createSubtractionOperator() }),
-				this.initElement(null, new AdditiveOperator[] { this.createAdditionOperator() }),
+				this.initElement(null, new AdditiveOperator[] { getAPI().newAddition(), getAPI().newSubtraction() }),
+				this.initElement(null, new AdditiveOperator[] { getAPI().newAddition() }),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__ADDITIVE_OPERATORS);
 	}
 
 	@Test
 	public void testAdditiveOperatorNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(null, new AdditiveOperator[] { this.createAdditionOperator() }),
+		this.testSimilarityNullCheck(this.initElement(null, new AdditiveOperator[] { getAPI().newAddition() }),
 				ExpressionsPackage.Literals.ADDITIVE_EXPRESSION__ADDITIVE_OPERATORS);
 	}
 }
