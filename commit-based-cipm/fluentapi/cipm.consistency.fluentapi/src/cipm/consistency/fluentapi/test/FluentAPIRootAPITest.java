@@ -7,7 +7,9 @@ import java.util.stream.Collectors;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.containers.ContainersFactory;
+import org.emftext.language.java.expressions.ArrayConstructorReferenceExpression;
 import org.emftext.language.java.literals.DecimalIntegerLiteral;
+import org.emftext.language.java.modifiers.Abstract;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -271,6 +273,9 @@ public class FluentAPIRootAPITest {
 		Assertions.assertTrue(supportedEClasses.containsAll(expectedSupportedClasses));
 	}
 
+	/**
+	 * Ensures that overloading methods for BigInteger are generated
+	 */
 	@Test
 	public void overloadedBigIntegerMethodsTest() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
@@ -293,5 +298,47 @@ public class FluentAPIRootAPITest {
 		Assertions.assertDoesNotThrow(
 				() -> lit[2] = api.newDecimalIntegerLiteral().withDecimalValue(longVal).createNow());
 		Assertions.assertEquals(longVal, lit[2].getDecimalValue().longValue());
+	}
+
+	/**
+	 * Ensures that direct creation methods for types with no modifiable features is
+	 * possible via the generated API
+	 */
+	@Test
+	public void overloadedNewMethodsTest_NoModifiableFeatures() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		final var obj = new Abstract[1];
+		Assertions.assertDoesNotThrow(() -> obj[0] = api.newAbstract());
+		Assertions.assertInstanceOf(Abstract.class, obj[0]);
+	}
+
+	/**
+	 * Ensures that direct creation methods for types with only one modifiable
+	 * features is possible via the generated API class
+	 */
+	@Test
+	public void overloadedNewMethodsTest_OnlyOneSingleValuedModifiableFeature() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var val = BigInteger.valueOf(1);
+		final var obj = new DecimalIntegerLiteral[1];
+		Assertions.assertDoesNotThrow(() -> obj[0] = api.newDecimalIntegerLiteral(val));
+		Assertions.assertInstanceOf(DecimalIntegerLiteral.class, obj[0]);
+		Assertions.assertEquals(val, obj[0].getDecimalValue());
+	}
+
+	/**
+	 * Ensures that direct creation methods for types with only one modifiable
+	 * features is possible via the generated API class
+	 */
+	@Test
+	public void overloadedNewMethodsTest_OnlyOneManyValuedModifiableFeature() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var val = api.newClassifierReference().createNow();
+		final var obj = new ArrayConstructorReferenceExpression[1];
+
+		Assertions.assertDoesNotThrow(() -> obj[0] = api.newArrayConstructorReferenceExpression(val));
+		Assertions.assertInstanceOf(ArrayConstructorReferenceExpression.class, obj[0]);
+		Assertions.assertEquals(val, obj[0].getTypeReference());
 	}
 }
