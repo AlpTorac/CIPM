@@ -6,6 +6,12 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 
 public class EObjectInstantiator {
+	/*
+	 * TODO Remove EObjectCreator and EObjectInstantiator, simply use the Fluent API
+	 * (without encapsulating / hiding it). Use the adaptations directly in unit
+	 * tests, so that there are no surprises later on.
+	 */
+
 	private EObjectCreator creator;
 	private List<IEObjectAdaptationStrategy> adaptationStrats;
 	private Class<? extends EObject> cls;
