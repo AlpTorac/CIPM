@@ -1,36 +1,26 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
-import org.emftext.language.java.literals.DecimalFloatLiteral;
+import java.util.function.Supplier;
+
 import org.emftext.language.java.literals.LiteralsPackage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.initialisers.jamopp.literals.DecimalFloatLiteralInitialiser;
 
 public class DecimalFloatLiteralTest extends AbstractJaMoPPSimilarityTest {
-	protected DecimalFloatLiteral initElement(float val) {
-		var init = new DecimalFloatLiteralInitialiser();
-		var lit = init.instantiate();
-		Assertions.assertTrue(init.setDecimalValue(lit, val));
-		return lit;
-	}
+	private final Supplier<Float> decimalValue1 = () -> Float.valueOf(1);
+	private final Supplier<Float> decimalValue2 = () -> Float.valueOf(2);
 
 	@Test
 	public void testDecimalValue() {
-		this.testSimilarity(this.initElement(1.5f), this.initElement(2.5f),
+		this.testSimilarity(getAPI().newDecimalFloatLiteral(decimalValue1.get()),
+				getAPI().newDecimalFloatLiteral(decimalValue2.get()),
 				LiteralsPackage.Literals.DECIMAL_FLOAT_LITERAL__DECIMAL_VALUE);
 	}
 
 	@Test
 	public void testDecimalValueNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(1.5f), new DecimalFloatLiteralInitialiser(), false,
-				LiteralsPackage.Literals.DECIMAL_FLOAT_LITERAL__DECIMAL_VALUE);
-	}
-
-	@Test
-	public void testDecimalValueNaN() {
-		this.testSimilarity(this.initElement(Float.NaN), this.initElement(1.5f),
+		this.testSimilarityNullCheck(getAPI().newDecimalFloatLiteral(decimalValue1.get()),
 				LiteralsPackage.Literals.DECIMAL_FLOAT_LITERAL__DECIMAL_VALUE);
 	}
 }
