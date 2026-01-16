@@ -275,6 +275,13 @@ public class FluentAPIRootAPITest {
 		Assertions.assertTrue(supportedEClasses.containsAll(expectedSupportedClasses));
 	}
 
+	public void createNewXMethodTest() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var mod = api.createNewModule();
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+	}
+
 	/**
 	 * Ensures that overloading methods for BigInteger are generated
 	 */
