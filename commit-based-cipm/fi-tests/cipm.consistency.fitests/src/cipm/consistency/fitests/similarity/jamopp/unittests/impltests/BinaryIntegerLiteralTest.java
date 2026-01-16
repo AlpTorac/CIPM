@@ -1,30 +1,27 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
-import org.emftext.language.java.literals.BinaryIntegerLiteral;
+import java.math.BigInteger;
+import java.util.function.Supplier;
+
 import org.emftext.language.java.literals.LiteralsPackage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.initialisers.jamopp.literals.BinaryIntegerLiteralInitialiser;
 
 public class BinaryIntegerLiteralTest extends AbstractJaMoPPSimilarityTest {
-	protected BinaryIntegerLiteral initElement(int val) {
-		var init = new BinaryIntegerLiteralInitialiser();
-		var lit = init.instantiate();
-		Assertions.assertTrue(init.setBinaryValue(lit, val));
-		return lit;
-	}
+	private final Supplier<BigInteger> binaryValue1 = () -> BigInteger.ONE;
+	private final Supplier<BigInteger> binaryValue2 = () -> BigInteger.TWO;
 
 	@Test
 	public void testBinaryValue() {
-		this.testSimilarity(this.initElement(1), this.initElement(2),
+		this.testSimilarity(getAPI().newBinaryIntegerLiteral(binaryValue1.get()),
+				getAPI().newBinaryIntegerLiteral(binaryValue2.get()),
 				LiteralsPackage.Literals.BINARY_INTEGER_LITERAL__BINARY_VALUE);
 	}
 
 	@Test
 	public void testBinaryValueNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(1), new BinaryIntegerLiteralInitialiser(), false,
+		this.testSimilarityNullCheck(getAPI().newBinaryIntegerLiteral(binaryValue1.get()),
 				LiteralsPackage.Literals.BINARY_INTEGER_LITERAL__BINARY_VALUE);
 	}
 }

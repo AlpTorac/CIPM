@@ -1,16 +1,13 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
-import org.emftext.language.java.expressions.CastExpression;
+import java.util.function.Supplier;
+
 import org.emftext.language.java.expressions.ExpressionsPackage;
 import org.emftext.language.java.expressions.MultiplicativeExpressionChild;
 import org.emftext.language.java.types.TypeReference;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesTypeReferences;
-import cipm.consistency.initialisers.jamopp.expressions.CastExpressionInitialiser;
 
 /**
  * 
@@ -18,48 +15,50 @@ import cipm.consistency.initialisers.jamopp.expressions.CastExpressionInitialise
  * 
  * @author Alp Torac Genc
  */
-public class CastExpressionTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions, UsesTypeReferences {
-	protected CastExpression initElement(TypeReference[] additionalBoundsArr, MultiplicativeExpressionChild child) {
-		var ceInit = new CastExpressionInitialiser();
-		var ce = ceInit.instantiate();
-		Assertions.assertTrue(ceInit.addAdditionalBounds(ce, additionalBoundsArr));
-		Assertions.assertTrue(ceInit.setChild(ce, child));
-		return ce;
-	}
+public class CastExpressionTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<TypeReference> additionalBound1 = () -> getAPI().newClassifierReference()
+			.withTarget(getAPI().newClass().withName("cls1").createNow()).createNow();
+	private final Supplier<TypeReference> additionalBound2 = () -> getAPI().newClassifierReference()
+			.withTarget(getAPI().newClass().withName("cls2").createNow()).createNow();
+
+	private final Supplier<MultiplicativeExpressionChild> generalChild1 = () -> getAPI().newDecimalIntegerLiteral(1);
+	private final Supplier<MultiplicativeExpressionChild> generalChild2 = () -> getAPI().newDecimalIntegerLiteral(2);
 
 	@Test
 	public void testAdditionalBound() {
-		this.testSimilarity(this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null),
-				this.initElement(new TypeReference[] { this.createMinimalClsRef("cls2") }, null),
+		this.testSimilarity(getAPI().newCastExpression().withAddedAdditionalBounds(additionalBound1.get()).createNow(),
+				getAPI().newCastExpression().withAddedAdditionalBounds(additionalBound2.get()).createNow(),
 				ExpressionsPackage.Literals.CAST_EXPRESSION__ADDITIONAL_BOUNDS);
 	}
 
 	@Test
 	public void testAdditionalBoundSize() {
 		this.testSimilarity(
-				this.initElement(
-						new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") },
-						null),
-				this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null),
+				getAPI().newCastExpression()
+						.withAddedAdditionalBounds(
+								new TypeReference[] { additionalBound1.get(), additionalBound2.get() })
+						.createNow(),
+				getAPI().newCastExpression().withAddedAdditionalBounds(additionalBound1.get()).createNow(),
 				ExpressionsPackage.Literals.CAST_EXPRESSION__ADDITIONAL_BOUNDS);
 	}
 
 	@Test
 	public void testAdditionalBoundNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(new TypeReference[] { this.createMinimalClsRef("cls1") }, null),
-				new CastExpressionInitialiser(), false, ExpressionsPackage.Literals.CAST_EXPRESSION__ADDITIONAL_BOUNDS);
+		this.testSimilarityNullCheck(
+				getAPI().newCastExpression().withAddedAdditionalBounds(additionalBound1.get()).createNow(),
+				ExpressionsPackage.Literals.CAST_EXPRESSION__ADDITIONAL_BOUNDS);
 	}
 
 	@Test
-	public void testChild() {
-		this.testSimilarity(this.initElement(null, this.createDecimalIntegerLiteral(1)),
-				this.initElement(null, this.createDecimalIntegerLiteral(2)),
+	public void testGeneralChild() {
+		this.testSimilarity(getAPI().newCastExpression().withGeneralChild(generalChild1.get()),
+				getAPI().newCastExpression().withGeneralChild(generalChild2.get()),
 				ExpressionsPackage.Literals.CAST_EXPRESSION__GENERAL_CHILD);
 	}
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(null, this.createDecimalIntegerLiteral(1)),
-				new CastExpressionInitialiser(), false, ExpressionsPackage.Literals.CAST_EXPRESSION__GENERAL_CHILD);
+		this.testSimilarityNullCheck(getAPI().newCastExpression().withGeneralChild(generalChild1.get()),
+				ExpressionsPackage.Literals.CAST_EXPRESSION__GENERAL_CHILD);
 	}
 }
