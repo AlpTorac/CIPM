@@ -36,8 +36,9 @@ public class FluentAPIRootAPINewMethodGenerator {
 	private static final String newXWithOnlyOneModifiableSingleValuedFeatsMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return (%s) ((%s) this.getInitialisationForX(%s.class)).with%s(%s).createNow()");
 
-	private static final String newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate = FluentAPIMethodsUtil
+	private static final String newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_singleValue = FluentAPIMethodsUtil
 			.joinLOC("return (%s) ((%s) this.getInitialisationForX(%s.class)).withAdded%s(%s).createNow()");
+	private static final String newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_multipleValues = newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_singleValue;
 
 	private static final String newXWithoutModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return (%s) ((%s) this.getInitialisationForX(%s.class)).createNow()");
@@ -98,13 +99,22 @@ public class FluentAPIRootAPINewMethodGenerator {
 
 	public List<EOperation> getRootAPINewOperationForEClassWithOnlyOneModifiableFeat(EClass eObjEClass,
 			EStructuralFeature modifiableFeature, EClass initECls) {
+
+		var ops = new ArrayList<EOperation>();
+
 		if (modifiableFeature.isMany()) {
-			return getRootAPINewOperationForEClassWithOnlyOneModifiableManyValuedFeat(eObjEClass, modifiableFeature,
-					initECls);
+			// Many-valued features should also have a method that accepts one value (for
+			// convenience)
+			ops.addAll(getRootAPINewOperationForEClassWithOnlyOneModifiableManyValuedFeat_SingleValue(eObjEClass,
+					modifiableFeature, initECls));
+			ops.addAll(getRootAPINewOperationForEClassWithOnlyOneModifiableManyValuedFeat_MultipleValues(eObjEClass,
+					modifiableFeature, initECls));
 		} else {
-			return getRootAPINewOperationForEClassWithOnlyOneModifiableSingleValuedFeat(eObjEClass, modifiableFeature,
-					initECls);
+			ops.addAll(getRootAPINewOperationForEClassWithOnlyOneModifiableSingleValuedFeat(eObjEClass,
+					modifiableFeature, initECls));
 		}
+
+		return ops;
 	}
 
 	public List<EOperation> getRootAPINewOperationForEClassWithOnlyOneModifiableSingleValuedFeat(EClass eObjEClass,
@@ -156,14 +166,32 @@ public class FluentAPIRootAPINewMethodGenerator {
 		return ops;
 	}
 
-	public List<EOperation> getRootAPINewOperationForEClassWithOnlyOneModifiableManyValuedFeat(EClass eObjEClass,
-			EStructuralFeature modifiableFeature, EClass initECls) {
+	public List<EOperation> getRootAPINewOperationForEClassWithOnlyOneModifiableManyValuedFeat_SingleValue(
+			EClass eObjEClass, EStructuralFeature modifiableFeature, EClass initECls) {
+		var ops = new ArrayList<EOperation>();
+
+		var featureValParam = getSingleValuedFeatValParam(modifiableFeature);
+		var listOp = FluentAPIGenerationUtil.generateEOperationWithBody(
+				String.format(newMethodNameTemplate, eObjEClass.getInstanceClass().getSimpleName()), eObjEClass,
+				String.format(newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_singleValue,
+						eObjEClass.getInstanceClass().getName(),
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
+						eObjEClass.getInstanceClass().getName(), StringUtils.capitalize(modifiableFeature.getName()),
+						featureValParam.getName()),
+				featureValParam);
+		ops.add(listOp);
+
+		return ops;
+	}
+
+	public List<EOperation> getRootAPINewOperationForEClassWithOnlyOneModifiableManyValuedFeat_MultipleValues(
+			EClass eObjEClass, EStructuralFeature modifiableFeature, EClass initECls) {
 		var ops = new ArrayList<EOperation>();
 
 		var listFeatureValParam = getManyValuedFeatValParam(modifiableFeature);
 		var listOp = FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(newMethodNameTemplate, eObjEClass.getInstanceClass().getSimpleName()), eObjEClass,
-				String.format(newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate,
+				String.format(newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_multipleValues,
 						eObjEClass.getInstanceClass().getName(),
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						eObjEClass.getInstanceClass().getName(), StringUtils.capitalize(modifiableFeature.getName()),
@@ -174,7 +202,7 @@ public class FluentAPIRootAPINewMethodGenerator {
 		var arrayFeatureValParam = getArrayFeatValParam(modifiableFeature);
 		var arrayOp = FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(newMethodNameTemplate, eObjEClass.getInstanceClass().getSimpleName()), eObjEClass,
-				String.format(newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate,
+				String.format(newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_multipleValues,
 						eObjEClass.getInstanceClass().getName(),
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						eObjEClass.getInstanceClass().getName(), StringUtils.capitalize(modifiableFeature.getName()),
