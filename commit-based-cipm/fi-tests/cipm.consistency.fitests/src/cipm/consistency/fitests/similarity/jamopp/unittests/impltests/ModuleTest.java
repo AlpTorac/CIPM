@@ -1,38 +1,31 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
 import org.emftext.language.java.containers.Module;
+
+import java.util.function.Supplier;
+
 import org.emftext.language.java.containers.ContainersPackage;
 import org.emftext.language.java.containers.Package;
+import org.emftext.language.java.modifiers.Open;
 import org.emftext.language.java.modules.ModuleDirective;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesModuleDirectives;
-import cipm.consistency.initialisers.jamopp.containers.ModuleInitialiser;
-import cipm.consistency.initialisers.jamopp.modifiers.OpenInitialiser;
 
-public class ModuleTest extends AbstractJaMoPPSimilarityTest implements UsesModuleDirectives {
-	protected Module initElement(Package[] pacs, ModuleDirective[] targets, boolean isOpen) {
-		var initialiser = new ModuleInitialiser();
-		Module result = initialiser.instantiate();
+public class ModuleTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<Package> packages1 = () -> getAPI().newPackage().withAddedNamespaces("ns1").createNow();
+	private final Supplier<Package> packages2 = () -> getAPI().newPackage().withAddedNamespaces("ns2").createNow();
 
-		Assertions.assertTrue(initialiser.addPackages(result, pacs));
-		Assertions.assertTrue(initialiser.addTargets(result, targets));
+	private final Supplier<ModuleDirective> target1 = () -> getAPI().newExportsModuleDirective().createNow();
+	private final Supplier<ModuleDirective> target2 = () -> getAPI().newOpensModuleDirective().createNow();
 
-		if (isOpen) {
-			Assertions.assertTrue(initialiser.setOpen(result, new OpenInitialiser().instantiate()));
-		}
-
-		return result;
-	}
+	private final Supplier<Open> open = () -> getAPI().newOpen();
 
 	@Test
 	public void testOpen() {
-		var objOne = this.initElement(null, null, true);
-		var objTwo = this.initElement(null, null, false);
-
-		this.testSimilarity(objOne, objTwo, ContainersPackage.Literals.MODULE__OPEN);
+		this.testSimilarity(getAPI().newModule().withOpen(open.get()).createNow(), getAPI().newModule().createNow(),
+				ContainersPackage.Literals.MODULE__OPEN);
 	}
 
 	@Test
