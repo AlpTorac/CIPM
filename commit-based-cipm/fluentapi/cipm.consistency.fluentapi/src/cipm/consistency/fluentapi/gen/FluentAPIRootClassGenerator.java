@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIContinueMethodGenerator;
+import cipm.consistency.fluentapi.gen.rootapi.FluentAPICreateNewMethodGenerator;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIDropInitialisationMethodGenerator;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIGetAllSupportedClassesMethodGenerator;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIGetInitialisationForMethodGenerator;
@@ -107,6 +108,9 @@ public class FluentAPIRootClassGenerator {
 
 	private void addOperations(EClass fluentAPICls, EClass initSuperType, List<EClass> initEClss,
 			List<EClass> allEClassesToInit, FluentAPITargetMetamodelFeatureFilter filter) {
+
+		fluentAPICls.getEOperations()
+				.addAll(new FluentAPICreateNewMethodGenerator().generateAllCreateNewMethods(allEClassesToInit));
 
 		fluentAPICls.getEOperations().addAll(new FluentAPIRootAPINewMethodGenerator()
 				.getAllRootAPINewOperations(fluentAPICls, initSuperType, initEClss, allEClassesToInit, filter));
