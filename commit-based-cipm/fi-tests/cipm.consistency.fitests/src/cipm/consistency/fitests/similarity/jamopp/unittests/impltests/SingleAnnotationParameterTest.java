@@ -1,35 +1,27 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
+import java.util.function.Supplier;
+
 import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.annotations.AnnotationsPackage;
-import org.emftext.language.java.annotations.SingleAnnotationParameter;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesAnnotationValues;
-import cipm.consistency.initialisers.jamopp.annotations.SingleAnnotationParameterInitialiser;
 
-public class SingleAnnotationParameterTest extends AbstractJaMoPPSimilarityTest implements UsesAnnotationValues {
-	protected SingleAnnotationParameter initElement(AnnotationValue val) {
-		var sapInit = new SingleAnnotationParameterInitialiser();
-		var sap = sapInit.instantiate();
-		Assertions.assertTrue(sapInit.setValue(sap, val));
-		return sap;
-	}
+public class SingleAnnotationParameterTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<AnnotationValue> value1 = () -> getAPI().newDecimalIntegerLiteral(1);
+	private final Supplier<AnnotationValue> value2 = () -> getAPI().newDecimalIntegerLiteral(2);
 
 	@Test
 	public void testValue() {
-		var objOne = this.initElement(this.createNullLiteral());
-		var objTwo = this.initElement(this.createMinimalSR("strVal"));
-
-		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.SINGLE_ANNOTATION_PARAMETER__VALUE);
+		this.testSimilarity(getAPI().newSingleAnnotationParameter(value1.get()),
+				getAPI().newSingleAnnotationParameter(value2.get()),
+				AnnotationsPackage.Literals.SINGLE_ANNOTATION_PARAMETER__VALUE);
 	}
 
 	@Test
 	public void testValueNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createNullLiteral()),
-				new SingleAnnotationParameterInitialiser(), false,
+		this.testSimilarityNullCheck(getAPI().newSingleAnnotationParameter(value1.get()),
 				AnnotationsPackage.Literals.SINGLE_ANNOTATION_PARAMETER__VALUE);
 	}
 }
