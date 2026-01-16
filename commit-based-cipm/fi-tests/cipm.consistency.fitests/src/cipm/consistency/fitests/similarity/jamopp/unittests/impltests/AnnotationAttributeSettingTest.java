@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesAnnotationValues;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesMethods;
-import cipm.consistency.initialisers.jamopp.annotations.AnnotationAttributeSettingInitialiser;
 
 public class AnnotationAttributeSettingTest extends AbstractJaMoPPSimilarityTest implements UsesMethods, UsesAnnotationValues {
 	protected AnnotationAttributeSetting initElement(InterfaceMethod attr, AnnotationValue val) {
