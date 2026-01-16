@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 
 public class ForLoopTest extends AbstractJaMoPPSimilarityTest {
-	private final Supplier<ForLoopInitializer> init1 = () -> getAPI().newExpressionList().createNow();
+	private final Supplier<ForLoopInitializer> init1 = () -> getAPI().createNewExpressionList();
 	private final Supplier<ForLoopInitializer> init2 = () -> getAPI()
 			.newExpressionList(getAPI().newDecimalIntegerLiteral(1));
 

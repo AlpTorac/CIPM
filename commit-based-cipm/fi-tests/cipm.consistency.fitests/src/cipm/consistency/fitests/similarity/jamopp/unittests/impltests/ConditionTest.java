@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 
 public class ConditionTest extends AbstractJaMoPPSimilarityTest {
-	private final Supplier<Statement> elseStatement1 = () -> getAPI().newAssert().createNow();
-	private final Supplier<Statement> elseStatement2 = () -> getAPI().newEmptyStatement();
+	private final Supplier<Statement> elseStatement1 = () -> getAPI().createNewAssert();
+	private final Supplier<Statement> elseStatement2 = () -> getAPI().createNewEmptyStatement();
 
 	@Test
 	public void testElseStatement() {
