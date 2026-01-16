@@ -1,35 +1,27 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
-import org.emftext.language.java.statements.LocalVariableStatement;
+import java.util.function.Supplier;
+
 import org.emftext.language.java.statements.StatementsPackage;
 import org.emftext.language.java.variables.LocalVariable;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesLocalVariables;
-import cipm.consistency.initialisers.jamopp.statements.LocalVariableStatementInitialiser;
 
-public class LocalVariableStatementTest extends AbstractJaMoPPSimilarityTest implements UsesLocalVariables {
-	protected LocalVariableStatement initElement(LocalVariable var) {
-		var lvsInit = new LocalVariableStatementInitialiser();
-		var lvs = lvsInit.instantiate();
-		Assertions.assertTrue(lvsInit.setVariable(lvs, var));
-		return lvs;
-	}
+public class LocalVariableStatementTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<LocalVariable> variable1 = () -> getAPI().newLocalVariable().withName("lv1").createNow();
+	private final Supplier<LocalVariable> variable2 = () -> getAPI().newLocalVariable().withName("lv2").createNow();
 
 	@Test
 	public void testVariable() {
-		var objOne = this.initElement(this.createMinimalLV("lv1"));
-		var objTwo = this.initElement(this.createMinimalLV("lv2"));
-
-		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.LOCAL_VARIABLE_STATEMENT__VARIABLE);
+		this.testSimilarity(getAPI().newLocalVariableStatement(variable1.get()),
+				getAPI().newLocalVariableStatement(variable2.get()),
+				StatementsPackage.Literals.LOCAL_VARIABLE_STATEMENT__VARIABLE);
 	}
 
 	@Test
 	public void testVariableNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createMinimalLV("lv1")),
-				new LocalVariableStatementInitialiser(), false,
+		this.testSimilarityNullCheck(getAPI().newLocalVariableStatement(variable1.get()),
 				StatementsPackage.Literals.LOCAL_VARIABLE_STATEMENT__VARIABLE);
 	}
 }
