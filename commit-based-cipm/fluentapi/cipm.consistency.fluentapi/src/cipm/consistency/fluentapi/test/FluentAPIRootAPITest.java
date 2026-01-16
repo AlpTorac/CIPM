@@ -4,6 +4,8 @@ import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.emftext.language.java.annotations.AnnotationAttributeSetting;
+import org.emftext.language.java.annotations.AnnotationParameterList;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.containers.ContainersFactory;
@@ -348,17 +350,38 @@ public class FluentAPIRootAPITest {
 
 	/**
 	 * Ensures that direct creation methods for types with only one modifiable
-	 * features is possible via the generated API class
+	 * features is possible via the generated API class, if said feature is
+	 * many-valued and multiple values are passed to the creation method.
 	 */
 	@Test
-	public void overloadedNewMethodsTest_OnlyOneManyValuedModifiableFeature() {
+	public void overloadedNewMethodsTest_OnlyOneManyValuedModifiableFeature_MultipleValues() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
-		var val = api.newClassifierReference().createNow();
-		final var obj = new ArrayConstructorReferenceExpression[1];
+		var val = new AnnotationAttributeSetting[] { api.newAnnotationAttributeSetting().createNow(),
+				api.newAnnotationAttributeSetting().createNow() };
+		final var obj = new AnnotationParameterList[1];
 
-		Assertions.assertDoesNotThrow(() -> obj[0] = api.newArrayConstructorReferenceExpression(val));
-		Assertions.assertInstanceOf(ArrayConstructorReferenceExpression.class, obj[0]);
-		Assertions.assertEquals(val, obj[0].getTypeReference());
+		Assertions.assertDoesNotThrow(() -> obj[0] = api.newAnnotationParameterList(val));
+		Assertions.assertInstanceOf(AnnotationParameterList.class, obj[0]);
+		Assertions.assertEquals(val[0], obj[0].getSettings().get(0));
+		Assertions.assertEquals(val[1], obj[0].getSettings().get(1));
+	}
+
+	/**
+	 * Ensures that direct creation methods for types with only one modifiable
+	 * features is possible via the generated API class, if said feature is
+	 * many-valued and a single value is passed to the creation method.
+	 */
+	@Test
+	public void overloadedNewMethodsTest_OnlyOneManyValuedModifiableFeature_SingleValue() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var val = api.newAnnotationAttributeSetting().createNow();
+		final var obj = new AnnotationParameterList[1];
+
+		Assertions.assertDoesNotThrow(() -> obj[0] = api.newAnnotationParameterList(val));
+		Assertions.assertInstanceOf(AnnotationParameterList.class, obj[0]);
+		Assertions.assertEquals(1, obj[0].getSettings().size());
+		Assertions.assertEquals(val, obj[0].getSettings().get(0));
 	}
 }
