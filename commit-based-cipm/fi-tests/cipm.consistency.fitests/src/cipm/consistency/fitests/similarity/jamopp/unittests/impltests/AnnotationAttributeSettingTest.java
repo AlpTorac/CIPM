@@ -1,53 +1,46 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
-import org.emftext.language.java.annotations.AnnotationAttributeSetting;
+import java.util.function.Supplier;
+
 import org.emftext.language.java.annotations.AnnotationValue;
 import org.emftext.language.java.annotations.AnnotationsPackage;
 import org.emftext.language.java.members.InterfaceMethod;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesAnnotationValues;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesMethods;
 
-public class AnnotationAttributeSettingTest extends AbstractJaMoPPSimilarityTest implements UsesMethods, UsesAnnotationValues {
-	protected AnnotationAttributeSetting initElement(InterfaceMethod attr, AnnotationValue val) {
-		var initialiser = new AnnotationAttributeSettingInitialiser();
-		AnnotationAttributeSetting result = initialiser.instantiate();
-		Assertions.assertTrue(initialiser.setAttribute(result, attr));
-		Assertions.assertTrue(initialiser.setValue(result, val));
+public class AnnotationAttributeSettingTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<InterfaceMethod> attribute1 = () -> getAPI().newInterfaceMethod().withName("im1Name")
+			.createNow();
+	private final Supplier<InterfaceMethod> attribute2 = () -> getAPI().newInterfaceMethod().withName("im2Name")
+			.createNow();
 
-		return result;
-	}
+	private final Supplier<AnnotationValue> value1 = () -> getAPI().newDecimalIntegerLiteral(1);
+	private final Supplier<AnnotationValue> value2 = () -> getAPI().newDecimalIntegerLiteral(2);
 
 	@Test
 	public void testAttribute() {
-		var objOne = this.initElement(this.createMinimalInterfaceMethodWithNullReturn("im1Name"), null);
-		var objTwo = this.initElement(this.createMinimalInterfaceMethodWithNullReturn("im2Name"), null);
-
-		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__ATTRIBUTE);
+		this.testSimilarity(getAPI().newAnnotationAttributeSetting().withAttribute(attribute1.get()).createNow(),
+				getAPI().newAnnotationAttributeSetting().withAttribute(attribute2.get()).createNow(),
+				AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__ATTRIBUTE);
 	}
 
 	@Test
 	public void testAttributeNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createMinimalInterfaceMethodWithNullReturn("im1Name"), null),
-				new AnnotationAttributeSettingInitialiser(), false,
+		this.testSimilarityNullCheck(getAPI().newAnnotationAttributeSetting().withAttribute(attribute1.get()).createNow(),
 				AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__ATTRIBUTE);
 	}
 
 	@Test
 	public void testValue() {
-		var objOne = this.initElement(null, this.createNullLiteral());
-		var objTwo = this.initElement(null, this.createMinimalSR("val"));
-
-		this.testSimilarity(objOne, objTwo, AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__VALUE);
+		this.testSimilarity(getAPI().newAnnotationAttributeSetting().withValue(value1.get()).createNow(),
+				getAPI().newAnnotationAttributeSetting().withValue(value2.get()).createNow(),
+				AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__VALUE);
 	}
 
 	@Test
 	public void testValueNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(null, this.createNullLiteral()),
-				new AnnotationAttributeSettingInitialiser(), false,
+		this.testSimilarityNullCheck(getAPI().newAnnotationAttributeSetting().withValue(value1.get()).createNow(),
 				AnnotationsPackage.Literals.ANNOTATION_ATTRIBUTE_SETTING__VALUE);
 	}
 }

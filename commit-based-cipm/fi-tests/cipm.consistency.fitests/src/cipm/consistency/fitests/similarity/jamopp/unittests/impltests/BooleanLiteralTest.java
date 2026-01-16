@@ -1,30 +1,25 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
-import org.emftext.language.java.literals.BooleanLiteral;
+import java.util.function.Supplier;
+
 import org.emftext.language.java.literals.LiteralsPackage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.initialisers.jamopp.literals.BooleanLiteralInitialiser;
 
 public class BooleanLiteralTest extends AbstractJaMoPPSimilarityTest {
-	protected BooleanLiteral initElement(boolean val) {
-		var init = new BooleanLiteralInitialiser();
-		var lit = init.instantiate();
-		Assertions.assertTrue(init.setValue(lit, val));
-		return lit;
-	}
+	private final Supplier<Boolean> value1 = () -> Boolean.TRUE;
+	private final Supplier<Boolean> value2 = () -> Boolean.FALSE;
 
 	@Test
 	public void testValue() {
-		this.testSimilarity(this.initElement(true), this.initElement(false),
+		this.testSimilarity(getAPI().newBooleanLiteral(value1.get()), getAPI().newBooleanLiteral(value2.get()),
 				LiteralsPackage.Literals.BOOLEAN_LITERAL__VALUE);
 	}
 
 	@Test
 	public void testValueNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(true), new BooleanLiteralInitialiser(), false,
+		this.testSimilarityNullCheck(getAPI().newBooleanLiteral(value1.get()),
 				LiteralsPackage.Literals.BOOLEAN_LITERAL__VALUE);
 	}
 }
