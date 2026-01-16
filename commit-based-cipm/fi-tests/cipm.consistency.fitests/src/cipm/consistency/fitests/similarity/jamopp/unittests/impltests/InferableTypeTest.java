@@ -10,11 +10,13 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 
 /**
- * Since the "target" feature is stored in different attributes, this test class
- * ensures that the underlying target feature for InferableType is handled
- * accordingly during similarity checking.
- * 
- * @author Alp Torac Genc
+ * The "target" of an InferableType is stored in
+ * "TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS", which is covered by the
+ * corresponding interface test. This class is here for documentation and
+ * completeness.
+ * <p>
+ * TypeReference.setTarget(...) does NOT belong to an actual feature, but
+ * returns a derived value.
  */
 public class InferableTypeTest extends AbstractJaMoPPSimilarityTest {
 	private final Supplier<TypeReference> target1 = () -> getAPI().newClassifierReference()
@@ -26,7 +28,7 @@ public class InferableTypeTest extends AbstractJaMoPPSimilarityTest {
 	public void testActualTarget() {
 		this.testSimilarity(getAPI().newInferableType().withAddedActualTargets(target1.get()).createNow(),
 				getAPI().newInferableType().withAddedActualTargets(target2.get()).createNow(), InferableType.class,
-				TypesPackage.Literals.CLASSIFIER_REFERENCE__TARGET);
+				TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
 	}
 
 	@Test
@@ -35,12 +37,12 @@ public class InferableTypeTest extends AbstractJaMoPPSimilarityTest {
 				getAPI().newInferableType().withAddedActualTargets(new TypeReference[] { target1.get(), target2.get() })
 						.createNow(),
 				getAPI().newInferableType().withAddedActualTargets(target1.get()).createNow(), InferableType.class,
-				TypesPackage.Literals.CLASSIFIER_REFERENCE__TARGET);
+				TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
 	}
 
 	@Test
 	public void testActualTargetNullCheck() {
 		this.testSimilarityNullCheck(getAPI().newInferableType().withAddedActualTargets(target1.get()).createNow(),
-				InferableType.class, TypesPackage.Literals.CLASSIFIER_REFERENCE__TARGET);
+				InferableType.class, TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
 	}
 }
