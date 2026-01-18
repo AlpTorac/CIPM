@@ -10,6 +10,7 @@ import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationDropOpera
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationMarkMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationResetOperationGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationNewElementMethodGenerator;
+import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationWithOperationGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPINextInitialisationMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIPreviousInitialisationMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIToAPIMethodGenerator;
@@ -55,17 +56,17 @@ public class FluentAPISuperInitialisationEClassGenerator {
 	}
 
 	private void addOperations(EClass initSuperType, EClass fluentAPICls) {
-		initSuperType.getEOperations()
-				.add(new FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator().generateGetInitialisedEClassMethod());
+		initSuperType.getEOperations().add(new FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator()
+				.generateGetInitialisedEClassMethod());
 
-		initSuperType.getEOperations().add(new FluentAPICreateNowMethodGenerator()
-				.generateCreateNowMethod(FluentAPIGenerationUtil.getEObjectEClass()));
-
-		initSuperType.getEOperations()
-				.add(new FluentAPISuperInitialisationNewElementMethodGenerator().generateNewElementMethod(initSuperType));
+		initSuperType.getEOperations().addAll(new FluentAPICreateNowMethodGenerator()
+				.generateAllCreateNowMethods(FluentAPIGenerationUtil.getEObjectEClass()));
 
 		initSuperType.getEOperations().add(
-				new FluentAPISuperInitialisationDropOperationGenerator().generateDropInitialisationMethod(initSuperType));
+				new FluentAPISuperInitialisationNewElementMethodGenerator().generateNewElementMethod(initSuperType));
+
+		initSuperType.getEOperations().add(new FluentAPISuperInitialisationDropOperationGenerator()
+				.generateDropInitialisationMethod(initSuperType));
 
 		initSuperType.getEOperations().add(
 				new FluentAPIInitialisationResetOperationGenerator().generateResetInitialisationMethod(initSuperType));
@@ -80,6 +81,9 @@ public class FluentAPISuperInitialisationEClassGenerator {
 
 		initSuperType.getEOperations().add(new FluentAPIPreviousInitialisationMethodGenerator()
 				.getPreviousInitialisationMethodFor(initSuperType, FluentAPIGenerationUtil.getEObjectEClass()));
+
+		initSuperType.getEOperations().addAll(new FluentAPISuperInitialisationWithOperationGenerator()
+				.getAllAPITopLevelWithOperations(initSuperType));
 	}
 
 	public void setupSuperInitialisationEClass(EClass fluentAPICls, EClass initSuperType) {

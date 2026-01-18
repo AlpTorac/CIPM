@@ -21,8 +21,8 @@ public class FluentAPISuperInitialisationGenerator {
 		superType.getEOperations().add(new FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator()
 				.generateGetInitialisedEClassMethod());
 
-		superType.getEOperations().add(new FluentAPICreateNowMethodGenerator()
-				.generateCreateNowMethod(FluentAPIGenerationUtil.getEObjectEClass()));
+		superType.getEOperations().addAll(new FluentAPICreateNowMethodGenerator()
+				.generateAllCreateNowMethods(FluentAPIGenerationUtil.getEObjectEClass()));
 
 		superType.getEOperations()
 				.add(new FluentAPISuperInitialisationNewElementMethodGenerator().generateNewElementMethod(superType));

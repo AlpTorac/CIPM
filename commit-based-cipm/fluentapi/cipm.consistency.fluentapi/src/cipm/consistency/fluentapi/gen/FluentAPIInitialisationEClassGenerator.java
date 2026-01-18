@@ -53,17 +53,17 @@ public class FluentAPIInitialisationEClassGenerator {
 	private void addOperations(EClass xInitEClass, EClass initialisedEClass,
 			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
 			FluentAPITargetMetamodelFeatureFilter filter) {
-		xInitEClass.getEOperations().add(
-				new FluentAPIInitialisationNewElementOperationGenerator().getNewElementOperationFor(xInitEClass, initialisedEClass));
+		xInitEClass.getEOperations().add(new FluentAPIInitialisationNewElementOperationGenerator()
+				.getNewElementOperationFor(xInitEClass, initialisedEClass));
 
 		xInitEClass.getEOperations().addAll(new FluentAPIWithOperationGenerator()
 				.generateAllWithOperationsFor(xInitEClass, initialisedEClass, targetMetamodelPackageProvider, filter));
 
 		xInitEClass.getEOperations()
-				.add(new FluentAPICreateNowMethodGenerator().generateCreateNowMethod(initialisedEClass));
+				.addAll(new FluentAPICreateNowMethodGenerator().generateAllCreateNowMethods(initialisedEClass));
 
-		xInitEClass.getEOperations()
-				.add(new FluentAPISuperInitialisationDropOperationGenerator().generateDropInitialisationMethod(xInitEClass));
+		xInitEClass.getEOperations().add(
+				new FluentAPISuperInitialisationDropOperationGenerator().generateDropInitialisationMethod(xInitEClass));
 
 		xInitEClass.getEOperations().add(
 				new FluentAPIInitialisationResetOperationGenerator().generateResetInitialisationMethod(xInitEClass));

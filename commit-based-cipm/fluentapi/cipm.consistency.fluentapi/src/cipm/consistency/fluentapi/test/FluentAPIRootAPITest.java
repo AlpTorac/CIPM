@@ -9,7 +9,7 @@ import org.emftext.language.java.annotations.AnnotationParameterList;
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.containers.ContainersFactory;
-import org.emftext.language.java.expressions.ArrayConstructorReferenceExpression;
+import org.emftext.language.java.containers.ContainersPackage;
 import org.emftext.language.java.literals.DecimalIntegerLiteral;
 import org.emftext.language.java.modifiers.Abstract;
 import org.junit.jupiter.api.Assertions;
@@ -23,6 +23,17 @@ public class FluentAPIRootAPITest {
 	public void apiTest_CreateNow() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var mod = api.newModule().createNow();
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+
+		// Ensure that createNow() removes the Initialisation instance from api
+		Assertions.assertNull(api.continueModule());
+	}
+
+	@Test
+	public void apiTest_CreateNowWithType() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var mod = api.newX(ContainersPackage.Literals.MODULE)
+				.createNow(org.emftext.language.java.containers.Module.class);
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
 
 		// Ensure that createNow() removes the Initialisation instance from api
