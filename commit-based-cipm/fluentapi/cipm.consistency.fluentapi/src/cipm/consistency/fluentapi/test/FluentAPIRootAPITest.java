@@ -93,6 +93,30 @@ public class FluentAPIRootAPITest {
 	}
 
 	@Test
+	public void apiTest_NewXWithEClass() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var mod = api.newX(ContainersPackage.Literals.MODULE).createNow();
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+	}
+
+	@Test
+	public void apiTest_NewXWithClass() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var mod = api.newX(ContainersPackage.Literals.MODULE.getInstanceClass()).createNow();
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+	}
+
+	@Test
+	public void apiTest_CreateNewX() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var mod = api.createNewX(ContainersPackage.Literals.MODULE.getInstanceClass());
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+	}
+
+	@Test
 	public void withFeat() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 

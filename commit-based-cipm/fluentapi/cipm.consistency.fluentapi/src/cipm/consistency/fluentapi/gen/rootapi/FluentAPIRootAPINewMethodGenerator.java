@@ -18,6 +18,7 @@ public class FluentAPIRootAPINewMethodGenerator {
 	// TODO Add documentation
 
 	private static final String eClassParamName = "eObjEClass";
+	private static final String classParamName = "eObjCls";
 
 	private static final String featValParamName = "featVal";
 
@@ -29,6 +30,11 @@ public class FluentAPIRootAPINewMethodGenerator {
 			// %s: Initialisation super type class name
 			// %s: EClass param name
 			"return (%s)" + "this.getInitialisationForX(%s.getInstanceClass())");
+
+	private static final String newXWithClassParamMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			// %s: Initialisation super type class name
+			// %s: Class param name
+			"return (%s)" + "this.getInitialisationForX(%s)");
 
 	private static final String newXWithModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return (%s) this.getInitialisationForX(%s.class)");
@@ -47,6 +53,7 @@ public class FluentAPIRootAPINewMethodGenerator {
 			List<EClass> initEClss, List<EClass> eObjEClss, FluentAPITargetMetamodelFeatureFilter filter) {
 		var ops = new ArrayList<EOperation>();
 		ops.add(getRootAPITopLevelNewOperation(rootAPICls, initialisationSuperTypeEClass));
+		ops.add(getRootAPITopLevelNewOperationWithClassParameter(rootAPICls, initialisationSuperTypeEClass));
 
 		for (int i = 0; i < eObjEClss.size(); i++) {
 			var eObjEClass = eObjEClss.get(i);
@@ -81,6 +88,17 @@ public class FluentAPIRootAPINewMethodGenerator {
 				FluentAPIGenerationUtil.getEClassEClass());
 		return FluentAPIGenerationUtil.generateEOperationWithBody(topLevelNewMethodName, initialisationSuperTypeEClass,
 				String.format(newXMethodBodyTemplate,
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initialisationSuperTypeEClass),
+						param.getName()),
+				param);
+	}
+
+	public EOperation getRootAPITopLevelNewOperationWithClassParameter(EClass rootAPICls,
+			EClass initialisationSuperTypeEClass) {
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(classParamName,
+				EcorePackage.Literals.EJAVA_CLASS);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(topLevelNewMethodName, initialisationSuperTypeEClass,
+				String.format(newXWithClassParamMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initialisationSuperTypeEClass),
 						param.getName()),
 				param);
