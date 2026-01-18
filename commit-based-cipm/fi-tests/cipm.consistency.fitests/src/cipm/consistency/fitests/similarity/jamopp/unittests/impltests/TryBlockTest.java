@@ -1,87 +1,84 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
+import java.util.function.Supplier;
+
 import org.emftext.language.java.statements.Block;
 import org.emftext.language.java.statements.CatchBlock;
 import org.emftext.language.java.statements.StatementsPackage;
-import org.emftext.language.java.statements.TryBlock;
-import org.emftext.language.java.variables.Resource;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesCatchBlocks;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesLocalVariables;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
-import cipm.consistency.initialisers.jamopp.statements.TryBlockInitialiser;
 
-public class TryBlockTest extends AbstractJaMoPPSimilarityTest implements UsesCatchBlocks, UsesStatements, UsesLocalVariables {
-	protected TryBlock initElement(Resource[] ress, CatchBlock[] catchBlocks, Block finallyBlock) {
-		var tbInit = new TryBlockInitialiser();
-		var tb = tbInit.instantiate();
-		Assertions.assertTrue(tbInit.addResources(tb, ress));
-		Assertions.assertTrue(tbInit.addCatchBlocks(tb, catchBlocks));
-		Assertions.assertTrue(tbInit.setFinallyBlock(tb, finallyBlock));
-		return tb;
-	}
+public class TryBlockTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<org.emftext.language.java.variables.Resource> resources1 = () -> getAPI().newLocalVariable()
+			.withName("lv1").createNow();
+	private final Supplier<org.emftext.language.java.variables.Resource> resources2 = () -> getAPI().newLocalVariable()
+			.withName("lv2").createNow();
+
+	private final Supplier<CatchBlock> catchBlocks1 = () -> getAPI().newCatchBlock()
+			.withParameter(getAPI().newOrdinaryParameter().withName("param1").createNow()).createNow();
+	private final Supplier<CatchBlock> catchBlocks2 = () -> getAPI().newCatchBlock()
+			.withParameter(getAPI().newOrdinaryParameter().withName("param2").createNow()).createNow();
+
+	private final Supplier<Block> finallyBlock1 = () -> getAPI().newBlock()
+			.withAddedStatements(getAPI().newEmptyStatement()).createNow();
+	private final Supplier<Block> finallyBlock2 = () -> getAPI().newBlock()
+			.withAddedStatements(getAPI().createNewAssert()).createNow();
 
 	@Test
 	public void testResource() {
-		var objOne = this.initElement(new Resource[] { this.createMinimalLV("lv1") }, null, null);
-		var objTwo = this.initElement(new Resource[] { this.createMinimalLV("lv2") }, null, null);
-
-		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__RESOURCES);
+		this.testSimilarity(getAPI().newTryBlock().withAddedResources(resources1.get()).createNow(),
+				getAPI().newTryBlock().withAddedResources(resources2.get()).createNow(),
+				StatementsPackage.Literals.TRY_BLOCK__RESOURCES);
 	}
 
 	@Test
 	public void testResourceSize() {
-		var objOne = this.initElement(new Resource[] { this.createMinimalLV("lv1"), this.createMinimalLV("lv2") }, null,
-				null);
-		var objTwo = this.initElement(new Resource[] { this.createMinimalLV("lv1") }, null, null);
-
-		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__RESOURCES);
+		this.testSimilarity(
+				getAPI().newTryBlock().withAddedResources(
+						new org.emftext.language.java.variables.Resource[] { resources1.get(), resources2.get() }),
+				getAPI().newTryBlock().withAddedResources(resources1.get()).createNow(),
+				StatementsPackage.Literals.TRY_BLOCK__RESOURCES);
 	}
 
 	@Test
 	public void testResourceNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(new Resource[] { this.createMinimalLV("lv1") }, null, null),
-				new TryBlockInitialiser(), false, StatementsPackage.Literals.TRY_BLOCK__RESOURCES);
+		this.testSimilarityNullCheck(getAPI().newTryBlock().withAddedResources(resources1.get()).createNow(),
+				StatementsPackage.Literals.TRY_BLOCK__RESOURCES);
 	}
 
 	@Test
 	public void testCatchBlock() {
-		var objOne = this.initElement(null, new CatchBlock[] { this.createMinimalCB("p1", "t1") }, null);
-		var objTwo = this.initElement(null, new CatchBlock[] { this.createMinimalCB("p2", "t2") }, null);
-
-		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__CATCH_BLOCKS);
+		this.testSimilarity(getAPI().newTryBlock().withAddedCatchBlocks(catchBlocks1.get()).createNow(),
+				getAPI().newTryBlock().withAddedCatchBlocks(catchBlocks2.get()).createNow(),
+				StatementsPackage.Literals.TRY_BLOCK__CATCH_BLOCKS);
 	}
 
 	@Test
 	public void testCatchBlockSize() {
-		var objOne = this.initElement(null,
-				new CatchBlock[] { this.createMinimalCB("p1", "t1"), this.createMinimalCB("p2", "t2") }, null);
-		var objTwo = this.initElement(null, new CatchBlock[] { this.createMinimalCB("p1", "t1") }, null);
-
-		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__CATCH_BLOCKS);
+		this.testSimilarity(
+				getAPI().newTryBlock().withAddedCatchBlocks(new CatchBlock[] { catchBlocks1.get(), catchBlocks2.get() })
+						.createNow(),
+				getAPI().newTryBlock().withAddedCatchBlocks(catchBlocks1.get()).createNow(),
+				StatementsPackage.Literals.TRY_BLOCK__CATCH_BLOCKS);
 	}
 
 	@Test
 	public void testCatchBlockNullCheck() {
-		this.testSimilarityNullCheck(
-				this.initElement(null, new CatchBlock[] { this.createMinimalCB("p1", "t1") }, null),
-				new TryBlockInitialiser(), false, StatementsPackage.Literals.TRY_BLOCK__CATCH_BLOCKS);
+		this.testSimilarityNullCheck(getAPI().newTryBlock().withAddedCatchBlocks(catchBlocks1.get()).createNow(),
+				StatementsPackage.Literals.TRY_BLOCK__CATCH_BLOCKS);
 	}
 
 	@Test
 	public void testFinallyBlock() {
-		var objOne = this.initElement(null, null, this.createMinimalBlockWithNullReturn());
-		var objTwo = this.initElement(null, null, this.createMinimalBlockWithTrivialAssert());
-
-		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.TRY_BLOCK__FINALLY_BLOCK);
+		this.testSimilarity(getAPI().newTryBlock().withFinallyBlock(finallyBlock1.get()).createNow(),
+				getAPI().newTryBlock().withFinallyBlock(finallyBlock2.get()).createNow(),
+				StatementsPackage.Literals.TRY_BLOCK__FINALLY_BLOCK);
 	}
 
 	@Test
 	public void testFinallyBlockNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(null, null, this.createMinimalBlockWithNullReturn()),
-				new TryBlockInitialiser(), false, StatementsPackage.Literals.TRY_BLOCK__FINALLY_BLOCK);
+		this.testSimilarityNullCheck(getAPI().newTryBlock().withFinallyBlock(finallyBlock1.get()).createNow(),
+				StatementsPackage.Literals.TRY_BLOCK__FINALLY_BLOCK);
 	}
 }
