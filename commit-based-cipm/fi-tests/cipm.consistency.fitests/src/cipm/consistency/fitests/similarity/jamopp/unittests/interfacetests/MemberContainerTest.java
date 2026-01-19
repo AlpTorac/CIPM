@@ -1,85 +1,99 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.interfacetests;
 
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MemberContainer;
 import org.emftext.language.java.members.MembersPackage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesConcreteClassifiers;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesFields;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesMethods;
-import cipm.consistency.initialisers.jamopp.members.IMemberContainerInitialiser;
+import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
 
-public class MemberContainerTest extends AbstractJaMoPPSimilarityTest
-		implements UsesMethods, UsesFields, UsesConcreteClassifiers {
+public class MemberContainerTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<Member> members1 = () -> getAPI().newClass().withName("cls1").createNow();
+	private final Supplier<Member> members2 = () -> getAPI().newClass().withName("cls2").createNow();
+
+	private final Supplier<Member> defaultMembers1 = () -> getAPI().newClass().withName("cls1").createNow();
+	private final Supplier<Member> defaultMembers2 = () -> getAPI().newClass().withName("cls2").createNow();
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IMemberContainerInitialiser.class);
-	}
-
-	protected MemberContainer initElement(IMemberContainerInitialiser init, Member[] members, Member[] defMembers) {
-		MemberContainer result = init.instantiate();
-		Assertions.assertTrue(init.initialise(result));
-		Assertions.assertTrue(init.addMembers(result, members));
-		Assertions.assertTrue(init.addDefaultMembers(result, defMembers));
-		return result;
+		return JaMoPPArguments.getAllConcreteClassesBySuperAsArgs(MemberContainer.class);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testMember(IMemberContainerInitialiser init, String displayName) {
-		var objOne = this.initElement(init, new Member[] { this.createMinimalClass("cls1") }, null);
-		var objTwo = this.initElement(init, new Member[] { this.createMinimalClass("cls2") }, null);
-
-		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
+	public void testMember(Class<?> cls, String displayName) {
+		this.testSimilarity(
+				getAPI().newX(cls).xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS, members1.get())
+						.createNow(),
+				getAPI().newX(cls).xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS, members2.get())
+						.createNow(),
+				MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testMemberSize(IMemberContainerInitialiser init, String displayName) {
-		var objOne = this.initElement(init,
-				new Member[] { this.createMinimalClass("cls1"), this.createMinimalClass("cls2") }, null);
-		var objTwo = this.initElement(init, new Member[] { this.createMinimalClass("cls1") }, null);
-
-		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
+	public void testMemberSize(Class<?> cls, String displayName) {
+		this.testSimilarity(
+				getAPI().newX(cls)
+						.xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS,
+								new Member[] { members1.get(), members2.get() })
+						.createNow(),
+				getAPI().newX(cls).xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS, members1.get())
+						.createNow(),
+				MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testMemberNullCheck(IMemberContainerInitialiser init, String displayName) {
-		this.testSimilarityNullCheck(this.initElement(init, new Member[] { this.createMinimalClass("cls1") }, null),
-				init, true, MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
+	public void testMemberNullCheck(Class<?> cls, String displayName) {
+		this.testSimilarityNullCheck(getAPI().newX(cls)
+				.xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS, members1.get()).createNow(),
+				MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testDefaultMember(IMemberContainerInitialiser init, String displayName) {
-		var objOne = this.initElement(init, null, new Member[] { this.createMinimalClass("cls1") });
-		var objTwo = this.initElement(init, null, new Member[] { this.createMinimalClass("cls2") });
-
-		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
+	public void testDefaultMember(Class<?> cls, String displayName) {
+		this.testSimilarity(
+				getAPI().newX(cls)
+						.xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS,
+								defaultMembers1.get())
+						.createNow(),
+				getAPI().newX(cls)
+						.xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS,
+								defaultMembers2.get())
+						.createNow(),
+				MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testDefaultMemberSize(IMemberContainerInitialiser init, String displayName) {
-		var objOne = this.initElement(init, null,
-				new Member[] { this.createMinimalClass("cls1"), this.createMinimalClass("cls2") });
-		var objTwo = this.initElement(init, null, new Member[] { this.createMinimalClass("cls1") });
-
-		this.testSimilarity(objOne, objTwo, MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
+	public void testDefaultMemberSize(Class<?> cls, String displayName) {
+		this.testSimilarity(
+				getAPI().newX(cls)
+						.xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS,
+								new Member[] { defaultMembers1.get(), defaultMembers2.get() })
+						.createNow(),
+				getAPI().newX(cls)
+						.xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS,
+								defaultMembers1.get())
+						.createNow(),
+				MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testDefaultMemberNullCheck(IMemberContainerInitialiser init, String displayName) {
-		this.testSimilarityNullCheck(this.initElement(init, null, new Member[] { this.createMinimalClass("cls1") }),
-				init, true, MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
+	public void testDefaultMemberNullCheck(Class<?> cls, String displayName) {
+		this.testSimilarityNullCheck(
+				getAPI().newX(cls)
+						.xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS,
+								defaultMembers1.get())
+						.createNow(),
+				MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS);
 	}
 }
