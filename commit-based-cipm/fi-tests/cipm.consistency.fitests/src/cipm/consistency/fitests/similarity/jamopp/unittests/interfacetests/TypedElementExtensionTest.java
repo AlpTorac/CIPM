@@ -4,11 +4,9 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EObject;
-import org.emftext.language.java.generics.TypeArgumentable;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypedElementExtension;
 import org.emftext.language.java.types.TypesPackage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -54,6 +52,7 @@ public class TypedElementExtensionTest extends AbstractJaMoPPSimilarityTest {
 				TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
 	}
 
+	@SuppressWarnings("unchecked")
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
 	public void testActualTargetNullCheck(Class<?> cls, String displayName) {
