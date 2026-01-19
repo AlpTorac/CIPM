@@ -5,8 +5,6 @@ import java.io.File;
 import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
 import cipm.consistency.fitests.similarity.base.JavaSimilarityCheckerContainer;
 import cipm.consistency.fitests.similarity.eobject.AbstractEObjectSimilarityTest;
-import cipm.consistency.fitests.similarity.eobject.EObjectCreator;
-import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPInitialiserParameters;
 import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPSimilarityValues;
 import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvider;
 import cipm.consistency.fluentapi.api.ApiFactory;
@@ -22,19 +20,9 @@ import cipm.consistency.fluentapi.api.FluentEObjectAPI;
  */
 public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimilarityTest {
 	private static final FluentEObjectAPI api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-	
+
 	protected FluentEObjectAPI getAPI() {
 		return api;
-	}
-	
-	@Override
-	protected FluentJaMoPPEObjectCreator initEObjectCreator() {
-		return new FluentJaMoPPEObjectCreator();
-	}
-
-	@Override
-	protected FluentJaMoPPEObjectCreator getEObjectCreator() {
-		return (FluentJaMoPPEObjectCreator) super.getEObjectCreator();
 	}
 
 	@Override
@@ -63,10 +51,6 @@ public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimila
 		if (instance == null) {
 			InitialiserTestSettingsProvider.initialise();
 			instance = InitialiserTestSettingsProvider.getInstance();
-		}
-
-		if (instance.getParameters() == null) {
-			instance.setParameters(new JaMoPPInitialiserParameters());
 		}
 
 		if (instance.getSimilarityValues() == null) {

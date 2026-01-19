@@ -14,12 +14,6 @@ public class InitialiserTestSettingsProvider {
 	private static InitialiserTestSettingsProvider instance;
 
 	/**
-	 * An {@link IInitialiserParameters} instance, which has the means to supply
-	 * parameterised tests with initialiser instances.
-	 */
-	private IInitialiserParameters params;
-
-	/**
 	 * An {@link ISimilarityValues} instance, which contains expected similarity
 	 * values required by similarity checking tests.
 	 */
@@ -64,26 +58,9 @@ public class InitialiserTestSettingsProvider {
 	}
 
 	/**
-	 * @return An {@link IInitialiserParameters} instance, which has the means to
-	 *         supply parameterised tests with initialiser instances.
-	 */
-	public IInitialiserParameters getParameters() {
-		return this.params;
-	}
-
-	/**
-	 * Sets the {@link IInitialiserParameters} instance, which has the means to
-	 * supply parameterised tests with initialiser instances.
-	 */
-	public void setParameters(IInitialiserParameters prms) {
-		this.params = prms;
-	}
-
-	/**
 	 * Sets everything provided by this class, except its only instance, to null.
 	 */
 	public void reset() {
-		this.params = null;
 		this.simVals = null;
 	}
 }
