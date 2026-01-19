@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
@@ -14,8 +13,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import cipm.consistency.fluentapi.gen.FluentAPIConstants;
 import cipm.consistency.fluentapi.gen.init.FluentAPICreateNowMethodGenerator;
@@ -55,6 +54,14 @@ public final class FluentEObjectAPIMethods {
 		return api;
 	}
 
+	private static boolean isArrayType(EParameter p) {
+		return ((p.getEType() != null && p.getEType().getInstanceClass() != null
+				&& p.getEType().getInstanceClass().isArray())
+				|| (p.getEGenericType() != null && p.getEGenericType().getERawType() != null
+						&& p.getEGenericType().getERawType().getInstanceClass() != null
+						&& p.getEGenericType().getERawType().getInstanceClass().isArray()));
+	}
+
 	public static EObject xWithAddedFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
 		var init = getInitialisationForX(api, objToModify);
 		var opName = String.format(FluentAPIWithOperationGenerator.getWithaddedxfeatnametemplate(),
@@ -68,8 +75,7 @@ public final class FluentEObjectAPIMethods {
 					.findFirst().get();
 		} else if (featVal.getClass().isArray()) {
 			op = withAddedOps.stream()
-					.filter((o) -> o.getEParameters().stream()
-							.anyMatch((p) -> !p.isMany() && p.getEType().getInstanceClass().isArray()))
+					.filter((o) -> o.getEParameters().stream().anyMatch((p) -> !p.isMany() && isArrayType(p)))
 					.findFirst().get();
 		} else {
 			op = withAddedOps.stream().filter((o) -> o.getEParameters().stream().anyMatch((p) -> !p.isMany()))
@@ -98,8 +104,7 @@ public final class FluentEObjectAPIMethods {
 					.findFirst().get();
 		} else if (featVal.getClass().isArray()) {
 			op = withRemovedOps.stream()
-					.filter((o) -> o.getEParameters().stream()
-							.anyMatch((p) -> !p.isMany() && p.getEType().getInstanceClass().isArray()))
+					.filter((o) -> o.getEParameters().stream().anyMatch((p) -> !p.isMany() && isArrayType(p)))
 					.findFirst().get();
 		} else {
 			op = withRemovedOps.stream().filter((o) -> o.getEParameters().stream().noneMatch((p) -> p.isMany()))
@@ -128,8 +133,7 @@ public final class FluentEObjectAPIMethods {
 					.get();
 		} else {
 			op = withExactOp.stream()
-					.filter((o) -> o.getEParameters().stream()
-							.anyMatch((p) -> !p.isMany() && p.getEType().getInstanceClass().isArray()))
+					.filter((o) -> o.getEParameters().stream().anyMatch((p) -> !p.isMany() && isArrayType(p)))
 					.findFirst().get();
 		}
 		argList.add(featVal);
