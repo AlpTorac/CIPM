@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.jamopp;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,11 +23,15 @@ public final class JaMoPPArguments {
 	}
 
 	public static Stream<Arguments> getAllConcreteClassesAsArgs() {
-		return getAllConcreteClasses().stream().map(Arguments::of);
+		return toArgStream(getAllConcreteClasses());
 	}
 
 	public static Stream<Arguments> getAllConcreteClassesBySuperAsArgs(Class<?> superType) {
-		return getAllConcreteClassesBySuper(superType).stream().map(Arguments::of);
+		return toArgStream(getAllConcreteClassesBySuper(superType));
+	}
+
+	private static Stream<Arguments> toArgStream(Collection<Class<?>> col) {
+		return col.stream().map((c) -> Arguments.of(c, generateDisplayNameForInit(c)));
 	}
 
 	/**
