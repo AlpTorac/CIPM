@@ -30,7 +30,6 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	 * @see {@link #getEcoreUtilHelper()}
 	 */
 	private EcoreUtilHelper ecoreHelper;
-	private EObjectCreator eobjectCreator;
 
 	@BeforeEach
 	@Override
@@ -38,7 +37,6 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 		super.setUp(info);
 
 		this.setEcoreUtilHelper(new EcoreUtilHelper());
-		this.setEObjectCreator(this.initEObjectCreator());
 	}
 
 	/**
@@ -64,20 +62,6 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	 *         tests.
 	 */
 	public abstract InitialiserTestSettingsProvider getInitialiserTestSettingsProvider();
-
-	protected abstract EObjectCreator initEObjectCreator();
-
-	protected EObjectCreator getEObjectCreator() {
-		return this.eobjectCreator;
-	}
-
-	/**
-	 * Sets up the {@link EcoreUtilHelper} instance that will be used with the given
-	 * one.
-	 */
-	protected void setEObjectCreator(EObjectCreator eobjectCreator) {
-		this.eobjectCreator = eobjectCreator;
-	}
 
 	/**
 	 * Sets up the {@link EcoreUtilHelper} instance that will be used with the given
@@ -256,7 +240,7 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 	}
 
 	public void testSimilarityNullCheck(EObject elem, Boolean expectedSimilarityValue) {
-		var elem2 = this.eobjectCreator.createEObject(elem.getClass());
+		var elem2 = elem.eClass().getEPackage().getEFactoryInstance().create(elem.eClass());
 		this.testSimilarity(elem, elem2, expectedSimilarityValue);
 	}
 
