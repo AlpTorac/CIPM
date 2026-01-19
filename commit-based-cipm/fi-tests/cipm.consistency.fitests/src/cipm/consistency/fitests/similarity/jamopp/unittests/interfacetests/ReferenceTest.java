@@ -1,73 +1,80 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.interfacetests;
 
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.emftext.language.java.arrays.ArraySelector;
 import org.emftext.language.java.references.Reference;
 import org.emftext.language.java.references.ReferencesPackage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesArraySelectors;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesReferences;
-import cipm.consistency.initialisers.jamopp.references.IReferenceInitialiser;
+import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
 
-public class ReferenceTest extends AbstractJaMoPPSimilarityTest implements UsesReferences, UsesArraySelectors {
+public class ReferenceTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<Reference> next1 = () -> getAPI().createNewSelfReference();
+	private final Supplier<Reference> next2 = () -> getAPI().createNewStringReference();
+
+	private final Supplier<ArraySelector> arraySelectors1 = () -> getAPI().newArraySelector()
+			.withPosition(getAPI().newDecimalIntegerLiteral(1)).createNow();
+	private final Supplier<ArraySelector> arraySelectors2 = () -> getAPI().newArraySelector()
+			.withPosition(getAPI().newDecimalIntegerLiteral(2)).createNow();
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IReferenceInitialiser.class);
-	}
-
-	protected Reference initElement(IReferenceInitialiser init, Reference next, ArraySelector[] arrSels) {
-		Reference ref = init.instantiate();
-		Assertions.assertTrue(init.initialise(ref));
-		Assertions.assertTrue(init.setNext(ref, next));
-		Assertions.assertTrue(init.addArraySelectors(ref, arrSels));
-		return ref;
+		return JaMoPPArguments.getAllConcreteClassesBySuperAsArgs(Reference.class);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testNext(IReferenceInitialiser init, String displayName) {
-		var objOne = this.initElement(init, this.createMinimalSR("str1"), null);
-		var objTwo = this.initElement(init, this.createMinimalSR("str2"), null);
-
-		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__NEXT);
-	}
-
-	@ParameterizedTest(name = "{1}")
-	@MethodSource("provideArguments")
-	public void testNextNullCheck(IReferenceInitialiser init, String displayName) {
-		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalSR("str1"), null), init, true,
+	public void testNext(Class<?> cls, String displayName) {
+		this.testSimilarity(
+				getAPI().newX(cls).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, next1.get()).createNow(),
+				getAPI().newX(cls).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, next2.get()).createNow(),
 				ReferencesPackage.Literals.REFERENCE__NEXT);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testArraySelector(IReferenceInitialiser init, String displayName) {
-		var objOne = this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(0) });
-		var objTwo = this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(1) });
-
-		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
+	public void testNextNullCheck(Class<?> cls, String displayName) {
+		this.testSimilarityNullCheck(
+				getAPI().newX(cls).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, next1.get()).createNow(),
+				ReferencesPackage.Literals.REFERENCE__NEXT);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testArraySelectorSize(IReferenceInitialiser init, String displayName) {
-		var objOne = this.initElement(init, null,
-				new ArraySelector[] { this.createMinimalAS(0), this.createMinimalAS(1) });
-		var objTwo = this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(0) });
-
-		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
+	public void testArraySelector(Class<?> cls, String displayName) {
+		this.testSimilarity(
+				getAPI().newX(cls)
+						.xWithAddedFeat(ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, arraySelectors1.get())
+						.createNow(),
+				getAPI().newX(cls)
+						.xWithAddedFeat(ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, arraySelectors2.get())
+						.createNow(),
+				ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testArraySelectorNullCheck(IReferenceInitialiser init, String displayName) {
-		this.testSimilarityNullCheck(this.initElement(init, null, new ArraySelector[] { this.createMinimalAS(0) }),
-				init, true, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
+	public void testArraySelectorSize(Class<?> cls, String displayName) {
+		this.testSimilarity(
+				getAPI().newX(cls)
+						.xWithAddedFeat(ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS,
+								new ArraySelector[] { arraySelectors1.get(), arraySelectors2.get() })
+						.createNow(),
+				getAPI().newX(cls)
+						.xWithAddedFeat(ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, arraySelectors1.get())
+						.createNow(),
+				ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
+	}
+
+	@ParameterizedTest(name = "{1}")
+	@MethodSource("provideArguments")
+	public void testArraySelectorNullCheck(Class<?> cls, String displayName) {
+		this.testSimilarityNullCheck(getAPI().newX(cls)
+				.xWithAddedFeat(ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, arraySelectors1.get())
+				.createNow(), ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS);
 	}
 }
