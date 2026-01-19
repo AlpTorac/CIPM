@@ -3,6 +3,7 @@ package cipm.consistency.fitests.similarity.jamopp.unittests.interfacetests;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.generics.TypeArgumentable;
 import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypedElementExtension;
@@ -61,6 +62,6 @@ public class TypedElementExtensionTest extends AbstractJaMoPPSimilarityTest {
 						.xWithAddedFeat(TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS,
 								actualTarget1.get())
 						.createNow(),
-				cls, true, TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
+				(Class<? extends EObject>) cls, TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
 	}
 }
