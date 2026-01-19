@@ -1,95 +1,112 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.interfacetests;
 
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.emftext.language.java.arrays.ArrayDimension;
 import org.emftext.language.java.arrays.ArrayTypeable;
 import org.emftext.language.java.arrays.ArraysPackage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesArrayDimensions;
-import cipm.consistency.initialisers.jamopp.arrays.IArrayTypeableInitialiser;
+import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
 
-public class ArrayTypeableTest extends AbstractJaMoPPSimilarityTest implements UsesArrayDimensions {
+public class ArrayTypeableTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<ArrayDimension> arrayDimensionsBefore1 = () -> getAPI()
+			.newArrayDimension(getAPI().newAnnotationInstance().withAddedNamespaces("ns1").createNow());
+	private final Supplier<ArrayDimension> arrayDimensionsBefore2 = () -> getAPI()
+			.newArrayDimension(getAPI().newAnnotationInstance().withAddedNamespaces("ns2").createNow());
+
+	private final Supplier<ArrayDimension> arrayDimensionsAfter1 = () -> getAPI()
+			.newArrayDimension(getAPI().newAnnotationInstance().withAddedNamespaces("ns1").createNow());
+	private final Supplier<ArrayDimension> arrayDimensionsAfter2 = () -> getAPI()
+			.newArrayDimension(getAPI().newAnnotationInstance().withAddedNamespaces("ns2").createNow());
+
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IArrayTypeableInitialiser.class);
-	}
-
-	protected ArrayTypeable initElement(IArrayTypeableInitialiser init, ArrayDimension[] arrDimsBefore,
-			ArrayDimension[] arrDimsAfter) {
-		ArrayTypeable result = init.instantiate();
-		Assertions.assertTrue(init.initialise(result));
-		Assertions.assertTrue(init.addArrayDimensionsBefore(result, arrDimsBefore));
-		Assertions.assertTrue(init.addArrayDimensionsAfter(result, arrDimsAfter));
-		return result;
+		return JaMoPPArguments.getAllConcreteClassesBySuperAsArgs(ArrayTypeable.class);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testArrayDimensionsBefore(IArrayTypeableInitialiser init, String displayName) {
-		var objOne = this.initElement(init,
-				new ArrayDimension[] { this.createArrayDimension(new String[] { "ns1" }, "ai1") }, null);
-		var objTwo = this.initElement(init,
-				new ArrayDimension[] { this.createArrayDimension(new String[] { "ns2" }, "ai2") }, null);
-
-		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_BEFORE);
+	public void testArrayDimensionsBefore(Class<?> cls, String displayName) {
+		this.testSimilarity(
+				getAPI().newX(cls)
+						.xWithAddedFeat(ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_BEFORE,
+								arrayDimensionsBefore1.get())
+						.createNow(),
+				getAPI().newX(cls)
+						.xWithAddedFeat(ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_BEFORE,
+								arrayDimensionsBefore2.get())
+						.createNow(),
+				ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_BEFORE);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testArrayDimensionsBeforeSize(IArrayTypeableInitialiser init, String displayName) {
-		var objOne = this.initElement(init,
-				new ArrayDimension[] { this.createArrayDimension(new String[] { "ns1" }, "ai1"),
-						this.createArrayDimension(new String[] { "ns2" }, "ai2") },
-				null);
-		var objTwo = this.initElement(init,
-				new ArrayDimension[] { this.createArrayDimension(new String[] { "ns1" }, "ai1") }, null);
-
-		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_BEFORE);
+	public void testArrayDimensionsBeforeSize(Class<?> cls, String displayName) {
+		this.testSimilarity(
+				getAPI().newX(cls)
+						.xWithAddedFeat(ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_BEFORE,
+								new ArrayDimension[] { arrayDimensionsBefore1.get(), arrayDimensionsBefore2.get() })
+						.createNow(),
+				getAPI().newX(cls)
+						.xWithAddedFeat(ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_BEFORE,
+								arrayDimensionsBefore1.get())
+						.createNow(),
+				ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_BEFORE);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testArrayDimensionsBeforeNullCheck(IArrayTypeableInitialiser init, String displayName) {
+	public void testArrayDimensionsBeforeNullCheck(Class<?> cls, String displayName) {
 		this.testSimilarityNullCheck(
-				this.initElement(init,
-						new ArrayDimension[] { this.createArrayDimension(new String[] { "ns1" }, "ai1") }, null),
-				init, true, ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_BEFORE);
+				getAPI().newX(cls)
+						.xWithAddedFeat(ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_BEFORE,
+								arrayDimensionsBefore1.get())
+						.createNow(),
+				ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_BEFORE);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testArrayDimensionsAfter(IArrayTypeableInitialiser init, String displayName) {
-		var objOne = this.initElement(init, null,
-				new ArrayDimension[] { this.createArrayDimension(new String[] { "ns1" }, "ai1") });
-		var objTwo = this.initElement(init, null,
-				new ArrayDimension[] { this.createArrayDimension(new String[] { "ns2" }, "ai2") });
-
-		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER);
+	public void testArrayDimensionsAfter(Class<?> cls, String displayName) {
+		this.testSimilarity(
+				getAPI().newX(cls)
+						.xWithAddedFeat(ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER,
+								arrayDimensionsAfter1.get())
+						.createNow(),
+				getAPI().newX(cls)
+						.xWithAddedFeat(ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER,
+								arrayDimensionsAfter2.get())
+						.createNow(),
+				ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testArrayDimensionsAfterSize(IArrayTypeableInitialiser init, String displayName) {
-		var objOne = this.initElement(init, null,
-				new ArrayDimension[] { this.createArrayDimension(new String[] { "ns1" }, "ai1"),
-						this.createArrayDimension(new String[] { "ns2" }, "ai2") });
-		var objTwo = this.initElement(init, null,
-				new ArrayDimension[] { this.createArrayDimension(new String[] { "ns1" }, "ai1") });
-
-		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER);
+	public void testArrayDimensionsAfterSize(Class<?> cls, String displayName) {
+		this.testSimilarity(
+				getAPI().newX(cls)
+						.xWithAddedFeat(ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER,
+								new ArrayDimension[] { arrayDimensionsAfter1.get(), arrayDimensionsAfter2.get() })
+						.createNow(),
+				getAPI().newX(cls)
+						.xWithAddedFeat(ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER,
+								arrayDimensionsAfter1.get())
+						.createNow(),
+				ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testArrayDimensionsAfterNullCheck(IArrayTypeableInitialiser init, String displayName) {
+	public void testArrayDimensionsAfterNullCheck(Class<?> cls, String displayName) {
 		this.testSimilarityNullCheck(
-				this.initElement(init, null,
-						new ArrayDimension[] { this.createArrayDimension(new String[] { "ns1" }, "ai1") }),
-				init, true, ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER);
+				getAPI().newX(cls)
+						.xWithAddedFeat(ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER,
+								arrayDimensionsAfter1.get())
+						.createNow(),
+				ArraysPackage.Literals.ARRAY_TYPEABLE__ARRAY_DIMENSIONS_AFTER);
 	}
 }
