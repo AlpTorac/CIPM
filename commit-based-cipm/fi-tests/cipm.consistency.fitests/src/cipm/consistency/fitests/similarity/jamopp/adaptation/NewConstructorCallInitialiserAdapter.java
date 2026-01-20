@@ -1,18 +1,12 @@
 package cipm.consistency.fitests.similarity.jamopp.adaptation;
 
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.instantiations.NewConstructorCall;
 
-import cipm.consistency.initialisers.IInitialiser;
-import cipm.consistency.initialisers.IInitialiserAdapterStrategy;
-import cipm.consistency.initialisers.jamopp.classifiers.IClassifierInitialiser;
-import cipm.consistency.initialisers.jamopp.instantiations.INewConstructorCallInitialiser;
-import cipm.consistency.initialisers.jamopp.types.ITypeReferenceInitialiser;
+import cipm.consistency.fitests.similarity.eobject.IEObjectAdaptationStrategy;
+import cipm.consistency.fluentapi.api.ApiFactory;
 
 /**
- * An {@link IInitialiserAdapterStrategy} implementation that can be used with
- * {@link IInitialiserBase} implementors that instantiate
- * {@link NewConstructorCall}. <br>
- * <br>
  * Adds a {@link TypeReference} to the created {@link NewConstructorCall}
  * <i>ncc</i>. The steps it takes are:
  * <ol>
@@ -29,62 +23,21 @@ import cipm.consistency.initialisers.jamopp.types.ITypeReferenceInitialiser;
  * @author Alp Torac Genc
  *
  */
-public class NewConstructorCallInitialiserAdapter implements IInitialiserAdapterStrategy {
-
-	/**
-	 * The initialiser responsible for creating {@link TypeReference} to fulfil this
-	 * instance's functionality.
-	 */
-	private ITypeReferenceInitialiser tRefInit;
-	/**
-	 * The initialiser responsible for creating {@link Classifier} to fulfil this
-	 * instance's functionality.
-	 */
-	private IClassifierInitialiser clsInit;
-
-	/**
-	 * Constructs an instance with the given parameters.
-	 */
-	public NewConstructorCallInitialiserAdapter(ITypeReferenceInitialiser tRefInit, IClassifierInitialiser clsInit) {
-		this.tRefInit = tRefInit;
-		this.clsInit = clsInit;
-	}
-
-	/**
-	 * @return The initialiser responsible for creating {@link TypeReference}.
-	 */
-	public ITypeReferenceInitialiser gettRefInit() {
-		return tRefInit;
-	}
-
-	/**
-	 * @return The initialiser responsible for creating {@link Classifier}.
-	 */
-	public IClassifierInitialiser getClsInit() {
-		return clsInit;
-	}
-
+public class NewConstructorCallInitialiserAdapter implements IEObjectAdaptationStrategy {
 	@Override
-	public boolean apply(IInitialiser init, Object obj) {
-		var castedInit = (INewConstructorCallInitialiser) init;
+	public boolean apply(EObject obj) {
 		var castedO = (NewConstructorCall) obj;
 
 		if (castedO.getTypeReference() == null) {
-			var cls = this.getClsInit().instantiate();
+			var cls = ApiFactory.eINSTANCE.createFluentEObjectAPI().createNewClass();
+			var tref = ApiFactory.eINSTANCE.createFluentEObjectAPI().newClassifierReference().withTarget(cls)
+					.createNow();
 
-			var tref = this.gettRefInit().instantiate();
+			castedO.setTypeReference(tref);
 
-			return this.getClsInit().initialise(cls) && this.gettRefInit().initialise(tref)
-					&& this.gettRefInit().setTarget(tref, cls) && castedInit.setTypeReference(castedO, tref)
-					&& castedO.getTypeReference().equals(tref);
+			return castedO.getTypeReference().equals(tref);
 		}
 
 		return true;
-	}
-
-	@Override
-	public IInitialiserAdapterStrategy newStrategy() {
-		return new NewConstructorCallInitialiserAdapter((ITypeReferenceInitialiser) this.gettRefInit().newInitialiser(),
-				(IClassifierInitialiser) this.getClsInit().newInitialiser());
 	}
 }
