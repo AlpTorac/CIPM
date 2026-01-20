@@ -164,13 +164,7 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 
 	/**
 	 * Compares elem1 with elem2, expects the similarity result to be the same with
-	 * the given expected value. <br>
-	 * <br>
-	 * <b>Note: All given {@link EObject} instances will be cloned before tests to
-	 * make sure that there are no side effects caused by the given {@link EObject}
-	 * instances changing their container. </b>
-	 * {@link #cloneEObjWithContainers(EObject)} is used to make sure that all
-	 * potentially relevant containers are cloned as well.
+	 * the given expected value.
 	 */
 	public void assertSimilarityResult(EObject elem1, EObject elem2, Boolean expectedSimilarityResult) {
 		if (expectedSimilarityResult == null) {
@@ -180,31 +174,19 @@ public abstract class AbstractEObjectSimilarityTest extends AbstractResourceSimi
 					+ " but are similar according to EcoreUtilHelper");
 		}
 
-		var objOne = this.cloneEObjWithContainers(elem1);
-		var objTwo = this.cloneEObjWithContainers(elem2);
-
-		var resOne = this.createResource(List.of(objOne));
-		var resTwo = this.createResource(List.of(objTwo));
-
-		Assertions.assertEquals(expectedSimilarityResult, this.areSimilar(resOne.getContents(), resTwo.getContents()),
-				"EcoreUtilHelper comparison result: " + this.getActualEquality(objOne, objTwo));
+		// Check the similarity of the given EObjects themselves
+		Assertions.assertEquals(expectedSimilarityResult, this.isSimilar(elem1, elem2),
+				"EcoreUtilHelper comparison (elem1, elem2) result: " + this.getActualEquality(elem1, elem2));
 	}
 
 	/**
 	 * Tests the similarity as follows:
 	 * <ol>
-	 * <li>Clones elem1 and compares it with its clone,
-	 * <li>Clones elem2 and compares it with its clone,
+	 * <li>Compares elem1 with itself,
+	 * <li>Compares elem2 with itself,
 	 * <li>Compares elem1 with elem2
 	 * <li>Compares elem2 with elem1
 	 * </ol>
-	 * 
-	 * <b>Note: All given {@link EObject} instances will be cloned before tests to
-	 * make sure that there are no side effects caused by the given {@link EObject}
-	 * instances changing their container. </b>
-	 * {@link #cloneEObjWithContainers(EObject)} is used to make sure that all
-	 * potentially relevant containers are cloned as well. <br>
-	 * <br>
 	 * 
 	 * @param expectedSimilarityValue The expected result of the similarity
 	 *                                checking.
