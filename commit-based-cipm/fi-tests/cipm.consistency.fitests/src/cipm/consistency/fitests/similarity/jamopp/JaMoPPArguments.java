@@ -18,8 +18,10 @@ public final class JaMoPPArguments {
 		return List.copyOf(supportedClasses);
 	}
 
-	public static List<Class<?>> getAllConcreteClassesBySuper(Class<?> superType) {
-		return supportedClasses.stream().filter((cls) -> superType.isAssignableFrom(cls)).collect(Collectors.toList());
+	@SuppressWarnings("unchecked")
+	public static <T> List<Class<? extends T>> getAllConcreteClassesBySuper(Class<T> superType) {
+		return supportedClasses.stream().filter((cls) -> superType.isAssignableFrom(cls))
+				.map((cls) -> (Class<? extends T>) cls).collect(Collectors.toList());
 	}
 
 	public static Stream<Arguments> getAllConcreteClassesAsArgs() {
@@ -30,7 +32,7 @@ public final class JaMoPPArguments {
 		return toArgStream(getAllConcreteClassesBySuper(superType));
 	}
 
-	private static Stream<Arguments> toArgStream(Collection<Class<?>> col) {
+	private static <T, Cls extends Class<? extends T>, C extends Collection<Cls>> Stream<Arguments> toArgStream(C col) {
 		return col.stream().map((c) -> Arguments.of(c, generateDisplayNameForInit(c)));
 	}
 
