@@ -36,7 +36,8 @@ public class TryBlockTest extends AbstractJaMoPPSimilarityTest {
 	public void testResourceSize() {
 		this.testSimilarity(
 				getAPI().newTryBlock().withAddedResources(
-						new org.emftext.language.java.variables.Resource[] { resources1.get(), resources2.get() }),
+						new org.emftext.language.java.variables.Resource[] { resources1.get(), resources2.get() })
+						.createNow(),
 				getAPI().newTryBlock().withAddedResources(resources1.get()).createNow(),
 				StatementsPackage.Literals.TRY_BLOCK__RESOURCES);
 	}

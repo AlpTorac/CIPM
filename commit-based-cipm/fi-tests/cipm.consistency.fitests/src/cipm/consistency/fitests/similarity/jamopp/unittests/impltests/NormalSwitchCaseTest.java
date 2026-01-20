@@ -24,7 +24,7 @@ public class NormalSwitchCaseTest extends AbstractJaMoPPSimilarityTest {
 	public void testAdditionalConditionSize() {
 		this.testSimilarity(
 				getAPI().newNormalSwitchCase().withAddedAdditionalConditions(
-						new Expression[] { additionalCondition1.get(), additionalCondition2.get() }),
+						new Expression[] { additionalCondition1.get(), additionalCondition2.get() }).createNow(),
 				getAPI().newNormalSwitchCase().withAddedAdditionalConditions(additionalCondition1.get()).createNow(),
 				StatementsPackage.Literals.NORMAL_SWITCH_CASE__ADDITIONAL_CONDITIONS);
 	}

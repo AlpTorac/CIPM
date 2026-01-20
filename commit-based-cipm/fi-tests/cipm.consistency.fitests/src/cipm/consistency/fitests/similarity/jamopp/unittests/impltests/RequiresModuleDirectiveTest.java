@@ -14,9 +14,9 @@ public class RequiresModuleDirectiveTest extends AbstractJaMoPPSimilarityTest {
 	private final Supplier<ModuleRequiresModifier> modifier2 = () -> getAPI().newTransitive();
 
 	private final Supplier<ModuleReference> requiredModule1 = () -> getAPI().newModuleReference()
-			.withTarget(getAPI().newModule().withName("mod1").createNow()).createNow();
+			.withTarget(getAPI().newModule().withName("mod1").createNow()).withAddedNamespaces("ns1").createNow();
 	private final Supplier<ModuleReference> requiredModule2 = () -> getAPI().newModuleReference()
-			.withTarget(getAPI().newModule().withName("mod2").createNow()).createNow();
+			.withTarget(getAPI().newModule().withName("mod2").createNow()).withAddedNamespaces("ns2").createNow();
 
 	@Test
 	public void testModifier() {

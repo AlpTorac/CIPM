@@ -17,7 +17,7 @@ public class TypeParameterTest extends AbstractJaMoPPSimilarityTest {
 	@Test
 	public void testExtendType() {
 		this.testSimilarity(getAPI().newTypeParameter().withAddedExtendTypes(extendTypes1.get()).createNow(),
-				getAPI().newTypeParameter().withAddedExtendTypes(extendTypes1.get()).createNow(),
+				getAPI().newTypeParameter().withAddedExtendTypes(extendTypes2.get()).createNow(),
 				GenericsPackage.Literals.TYPE_PARAMETER__EXTEND_TYPES);
 	}
 
