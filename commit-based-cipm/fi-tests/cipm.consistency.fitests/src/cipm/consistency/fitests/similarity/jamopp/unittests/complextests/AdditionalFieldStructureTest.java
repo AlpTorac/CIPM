@@ -16,8 +16,13 @@ import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
  * Contains tests for {@link AdditionalField} instances, their {@link Field}s
  * and attributes thereof.
  * 
+ * <p>
+ * Test cases here contain some unused local variables, whose purpose is to
+ * facilitate understanding the respective scenarios under test.
+ * 
  * @author Alp Torac Genc
  */
+@SuppressWarnings("unused")
 public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest {
 	/**
 	 * @return Parameters for the test methods in this test class. See the
@@ -73,7 +78,7 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest {
 
 		var f1 = getAPI().newField()
 				.withTypeReference(getAPI().newClassifierReference()
-						.withTarget(getAPI().newClass().withName("cls").createNow()).createNow())
+						.withTarget(getAPI().newClass().withName("memConCls").createNow()).createNow())
 				.withAddedAdditionalFields(af1).createNow();
 		var f2 = getAPI().newField().withAddedAdditionalFields(af2);
 
@@ -133,13 +138,14 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@ParameterizedTest(name = "ConOfConInit = {1}")
 	@MethodSource("provideArguments")
-	public void testDifferentConOfCon_OneContainer_IsNull(Class<?> cls, String displayName) {
+	public void testDifferentConOfCon_OneContainer_IsNull(Class<? extends MemberContainer> memConCls,
+			String displayName) {
 		var af1 = getAPI().createNewAdditionalField();
 		var af2 = getAPI().createNewAdditionalField();
 
 		var f1 = getAPI().newField().withAddedAdditionalFields(af1).createNow();
 
-		var conOfCon = getAPI().newX(cls).xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS, f1);
+		var mc1 = getAPI().newX(memConCls).xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS, f1);
 
 		this.testSimilarity(af1, af2, false);
 	}
@@ -163,14 +169,15 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@ParameterizedTest(name = "ConOfConInit = {1}")
 	@MethodSource("provideArguments")
-	public void testDifferentConOfCon_OneConOfCon_IsNull(Class<?> cls, String displayName) {
+	public void testDifferentConOfCon_OneConOfCon_IsNull(Class<? extends MemberContainer> memConCls,
+			String displayName) {
 		var af1 = getAPI().createNewAdditionalField();
 		var af2 = getAPI().createNewAdditionalField();
 
 		var f1 = getAPI().newField().withAddedAdditionalFields(af1).createNow();
 		var f2 = getAPI().newField().withAddedAdditionalFields(af2).createNow();
 
-		var conOfCon = getAPI().newX(cls).xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS, f1);
+		var mc1 = getAPI().newX(memConCls).xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS, f1);
 
 		this.testSimilarity(af1, af2, false);
 	}
