@@ -20,7 +20,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementPositionTest;
+import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
 
 /**
@@ -36,7 +36,7 @@ import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
  * @author Alp Torac Genc
  */
 public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
-		implements UsesStatements, IStatementPositionTest, IMockTest {
+		implements UsesStatements, IStatementTest, IMockTest {
 	/**
 	 * @return Parameters for the test methods in this test class. Refer to their
 	 *         documentation for more information.

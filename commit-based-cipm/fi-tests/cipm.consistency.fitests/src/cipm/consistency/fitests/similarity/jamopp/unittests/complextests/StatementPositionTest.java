@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
-import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementPositionTest;
+import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementTest;
 
 /**
  * Tests whether similarity checking works as intended for {@link Statement}
@@ -25,7 +25,7 @@ import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementPositionTe
  * 
  * @author Alp Torac Genc
  */
-public class StatementPositionTest extends AbstractJaMoPPSimilarityTest implements IStatementPositionTest {
+public class StatementPositionTest extends AbstractJaMoPPSimilarityTest implements IStatementTest {
 	/**
 	 * @return Parameters for the test methods in this test class. Refer to their
 	 *         documentation for more information.

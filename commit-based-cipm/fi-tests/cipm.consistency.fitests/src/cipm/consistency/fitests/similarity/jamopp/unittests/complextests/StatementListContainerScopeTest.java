@@ -15,7 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
-import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementPositionTest;
+import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementTest;
 
 /**
  * Tests whether similarity checking detects differences originating from
@@ -40,7 +40,7 @@ import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementPositionTe
  * @author Alp Torac Genc
  */
 @Disabled("Until these scenarios are properly addressed")
-public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTest implements IStatementPositionTest {
+public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTest implements IStatementTest {
 
 	/**
 	 * Generates all possible combinations (nestedConCls, placeholderConCls). <br>
