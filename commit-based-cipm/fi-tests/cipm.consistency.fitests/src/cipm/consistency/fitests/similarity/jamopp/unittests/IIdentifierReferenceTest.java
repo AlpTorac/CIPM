@@ -4,10 +4,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.arrays.ArraySelector;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.references.IdentifierReference;
-import org.junit.jupiter.api.Assertions;
-
-import cipm.consistency.initialisers.jamopp.instantiations.ExplicitConstructorCallInitialiser;
-import cipm.consistency.initialisers.jamopp.statements.ExpressionStatementInitialiser;
 
 /**
  * An interface that contains default methods for tests that use and make
