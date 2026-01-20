@@ -76,27 +76,4 @@ public interface IIdentifierReferenceTest {
 		// implementors
 				target1Container != ref1 && target2Container != ref2;
 	}
-
-	/**
-	 * Nests an {@link ExpressionStatement} es instance within an
-	 * {@link ExplicitConstructorCall} ecc instance and sets ref's container to ecc.
-	 * <br>
-	 * <br>
-	 * Can be used to add a container to ref (as in {@code ref.eContainer()}). <br>
-	 * <br>
-	 * <b>Note: ref's eligible container {@code this.getFirstEligibleContainer(ref)}
-	 * will be es.</b> This is ensured by assertions.
-	 */
-	public default void initialiseIdentifierReference(IdentifierReference ref) {
-		var insInit = new ExplicitConstructorCallInitialiser();
-		var ecc = insInit.instantiate();
-		Assertions.assertTrue(insInit.addArgument(ecc, ref));
-
-		var esInit = new ExpressionStatementInitialiser();
-		var es = esInit.instantiate();
-		Assertions.assertTrue(esInit.setExpression(es, ecc));
-
-		Assertions.assertEquals(ref.eContainer(), ecc);
-		Assertions.assertEquals(this.getFirstEligibleContainer(ref), es);
-	}
 }
