@@ -18,7 +18,7 @@ import org.junit.jupiter.api.Assertions;
  * 
  * @author Alp Torac Genc
  */
-public interface IStatementPositionTest {
+public interface IStatementTest {
 	/**
 	 * The return value of this method was derived from the implementation of the
 	 * current similarity checker.
