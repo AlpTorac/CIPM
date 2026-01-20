@@ -10,7 +10,7 @@ import java.util.function.Predicate;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import cipm.consistency.initialisers.jamopp.JaMoPPHelper;
+import cipm.consistency.fitests.similarity.jamopp.JaMoPPHelper;
 
 /**
  * An interface that provides methods for tests that use mock elements to
@@ -25,35 +25,35 @@ public interface IMockTest {
 	 * @see {@link JaMoPPHelper#getAllClasses()}
 	 */
 	public static Collection<Class<? extends EObject>> getAllClasses() {
-		return new JaMoPPHelper().getAllClasses(null);
+		return JaMoPPHelper.getAllClasses(null);
 	}
 
 	/**
 	 * @see {@link JaMoPPHelper#getAllClasses(Predicate)}
 	 */
 	public static Collection<Class<? extends EObject>> getAllClasses(Predicate<EClass> pred) {
-		return new JaMoPPHelper().getAllClasses(pred);
+		return JaMoPPHelper.getAllClasses(pred);
 	}
 
 	/**
 	 * @see {@link JaMoPPHelper#getAllEClasses()}
 	 */
 	public static Collection<EClass> getAllEClasses() {
-		return new JaMoPPHelper().getAllEClasses();
+		return JaMoPPHelper.getAllEClasses();
 	}
 
 	/**
 	 * @see {@link JaMoPPHelper#getEClassForJavaElement(Class)}
 	 */
 	public default EClass getEClassForJavaElement(Class<? extends EObject> cls) {
-		return new JaMoPPHelper().getEClassForJavaElement(cls);
+		return JaMoPPHelper.getEClassForJavaElement(cls);
 	}
 
 	/**
 	 * @see {@link JaMoPPHelper#getEClassForJavaElementImpl(Class)}
 	 */
 	public default EClass getEClassForJavaElementImpl(Class<? extends EObject> cls) {
-		return new JaMoPPHelper().getEClassForJavaElementImpl(cls);
+		return JaMoPPHelper.getEClassForJavaElementImpl(cls);
 	}
 
 	/**
