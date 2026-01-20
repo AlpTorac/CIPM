@@ -5,12 +5,8 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.emftext.language.java.statements.Block;
-import org.emftext.language.java.statements.BlockContainer;
 import org.emftext.language.java.statements.Statement;
-import org.emftext.language.java.statements.StatementContainer;
 import org.emftext.language.java.statements.StatementListContainer;
-import org.emftext.language.java.statements.StatementsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -19,6 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
+import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementPositionTest;
 
 /**
  * Tests whether similarity checking detects differences originating from
@@ -43,7 +40,7 @@ import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
  * @author Alp Torac Genc
  */
 @Disabled("Until these scenarios are properly addressed")
-public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTest {
+public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTest implements IStatementPositionTest {
 
 	/**
 	 * Generates all possible combinations (nestedConCls, placeholderConCls). <br>
@@ -86,59 +83,6 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 	}
 
 	/**
-	 * Adds a {@link Block} instance to slc, so that multiple statements can be
-	 * added to it. Does nothing if there already is a block in slc.
-	 */
-	private void addBlockIfNecessary(StatementListContainer slc, Class<? extends StatementListContainer> slcCls) {
-		if (slc.eClass()
-				.getEStructuralFeature(StatementsPackage.Literals.STATEMENT_CONTAINER__STATEMENT.getName()) != null
-				&& ((StatementContainer) slc).getStatement() == null) {
-			getAPI().modifyX(slc).xWithFeat(StatementsPackage.Literals.STATEMENT_CONTAINER__STATEMENT,
-					getAPI().createNewBlock());
-		}
-
-		if (slc.eClass().getEStructuralFeature(StatementsPackage.Literals.BLOCK_CONTAINER__BLOCK.getName()) != null
-				&& ((BlockContainer) slc).getBlock() == null) {
-			getAPI().modifyX(slc).xWithFeat(StatementsPackage.Literals.BLOCK_CONTAINER__BLOCK,
-					getAPI().createNewBlock());
-		}
-	}
-
-	private void addStatement(StatementListContainer slc, Statement st) {
-		Block slcBlock = null;
-
-		if (slc instanceof BlockContainer) {
-			slcBlock = ((BlockContainer) slc).getBlock();
-		} else if (slc instanceof StatementContainer) {
-			slcBlock = (Block) ((StatementContainer) slc).getStatement();
-		} else if (slc instanceof Block) {
-			slcBlock = (Block) slc;
-		}
-
-		if (slcBlock != null) {
-			slcBlock.getStatements().add(st);
-		} else {
-			slc.getStatements().add(st);
-		}
-	}
-
-	/**
-	 * Adds statements in sts within the range [start, end) (start included, end
-	 * excluded) to slc. <br>
-	 * <br>
-	 * Adds a block to slc first, if statements cannot be added to it in its current
-	 * form.
-	 */
-	private void addStatementsInRange(StatementListContainer slc, Class<? extends StatementListContainer> slcCls,
-			Statement[] sts, int start, int end) {
-		this.addBlockIfNecessary(slc, slcCls);
-		for (int i = start; i < end; i++) {
-			addStatement(slc, sts[i]);
-		}
-		Assertions.assertEquals(end - start, slc.getStatements().size());
-	}
-
-	/**
 	 * Generates:
 	 * <ul>
 	 * <li>An array of {@link LocalVariableStatement} instances {@code sts} of size
@@ -155,7 +99,7 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 			Class<? extends StatementListContainer> nestedConCls, int nestedConStart, int nestedConEnd, int stsLen) {
 
 		var placeholderCon = getAPI().createNewX(placeholderConCls);
-		this.addBlockIfNecessary(placeholderCon, placeholderConCls);
+		this.addBlockIfNecessary(placeholderCon);
 
 		// Only generate nestedCon, if any statements are to be in its scope
 		StatementListContainer nestedCon = null;
