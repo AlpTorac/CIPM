@@ -19,10 +19,8 @@ import cipm.consistency.fluentapi.api.FluentEObjectAPI;
  * @author Alp Torac Genc
  */
 public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimilarityTest {
-	private static final FluentEObjectAPI api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-
 	protected FluentEObjectAPI getAPI() {
-		return api;
+		return ApiFactory.eINSTANCE.createFluentEObjectAPI();
 	}
 
 	@Override
