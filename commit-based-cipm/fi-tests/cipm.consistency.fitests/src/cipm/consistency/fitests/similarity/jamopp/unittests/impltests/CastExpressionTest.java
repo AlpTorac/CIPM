@@ -51,14 +51,14 @@ public class CastExpressionTest extends AbstractJaMoPPSimilarityTest {
 
 	@Test
 	public void testGeneralChild() {
-		this.testSimilarity(getAPI().newCastExpression().withGeneralChild(generalChild1.get()),
-				getAPI().newCastExpression().withGeneralChild(generalChild2.get()),
+		this.testSimilarity(getAPI().newCastExpression().withGeneralChild(generalChild1.get()).createNow(),
+				getAPI().newCastExpression().withGeneralChild(generalChild2.get()).createNow(),
 				ExpressionsPackage.Literals.CAST_EXPRESSION__GENERAL_CHILD);
 	}
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarityNullCheck(getAPI().newCastExpression().withGeneralChild(generalChild1.get()),
+		this.testSimilarityNullCheck(getAPI().newCastExpression().withGeneralChild(generalChild1.get()).createNow(),
 				ExpressionsPackage.Literals.CAST_EXPRESSION__GENERAL_CHILD);
 	}
 }
