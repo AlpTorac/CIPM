@@ -4,17 +4,6 @@
  * initialiser in this package offers default methods that help encapsulate the
  * creation of such EObject instances, which are needed in tests. <br>
  * <br>
- * It is recommended to only use the interfaces in this package to instantiate
- * EObject instances that are needed to setup the "main" EObject instances under
- * test (i.e. instances used in similarity checking methods). The creation of
- * the "main" EObject instances should be done within the corresponding test
- * class explicitly via initialisers, in order to avoid implicit steps as much
- * as possible. <br>
- * <br>
- * While adding further interfaces to this package, it is suggested to check the
- * existing interfaces and to extend them, if possible. Doing so will help keep
- * consistency across test cases. <br>
- * <br>
  * The sub-packages of this package contain unit tests for EObject
  * classes/interfaces using initialisers. For each (changeable,
  * {@code eObj.isChangeable()}) attribute/feature X of EObject sub-type EO,

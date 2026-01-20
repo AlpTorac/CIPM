@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DynamicTest;
@@ -11,7 +12,6 @@ import org.junit.jupiter.api.TestFactory;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
-import cipm.consistency.fitests.similarity.jamopp.unittests.IStructuralFeatureTest;
 
 /**
  * A test class that checks the robustness of similarity checking against cyclic
@@ -31,7 +31,19 @@ import cipm.consistency.fitests.similarity.jamopp.unittests.IStructuralFeatureTe
  * @author Alp Torac Genc
  */
 @Disabled("Until cycle checking mechanisms are implemented")
-public class SelfReferenceTest extends AbstractJaMoPPSimilarityTest implements IStructuralFeatureTest {
+public class SelfReferenceTest extends AbstractJaMoPPSimilarityTest {
+	/**
+	 * Sets the value of the given EStructuralFeature of the given EObject to the
+	 * given value.
+	 */
+	private void setValueOf(EObject obj, EStructuralFeature feat, Object val) {
+		if (feat.isMany()) {
+			getAPI().modifyX(obj).xWithAddedFeat(feat, val);
+		} else {
+			getAPI().modifyX(obj).xWithFeat(feat, val);
+		}
+	}
+
 	/**
 	 * Scans the object type generated with {@code eObjCls} for references
 	 * ({@link EReference}) {@code Ref}, which can point at the object containing
