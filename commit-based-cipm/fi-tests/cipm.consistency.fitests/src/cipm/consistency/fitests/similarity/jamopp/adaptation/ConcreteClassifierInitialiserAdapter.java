@@ -1,17 +1,13 @@
 package cipm.consistency.fitests.similarity.jamopp.adaptation;
 
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 
-import cipm.consistency.initialisers.IInitialiser;
-import cipm.consistency.initialisers.IInitialiserAdapterStrategy;
-import cipm.consistency.initialisers.jamopp.containers.ICompilationUnitInitialiser;
+import cipm.consistency.fitests.similarity.eobject.IEObjectAdaptationStrategy;
+import cipm.consistency.fluentapi.api.ApiFactory;
 
 /**
- * An {@link IInitialiserAdapterStrategy} implementation that can be used with
- * {@link IInitialiserBase} implementors that instantiate
- * {@link ConcreteClassifier}. <br>
- * <br>
  * Adds the {@link ConcreteClassifier} instance to a {@link CompilationUnit}.
  * Does not modify the {@link ConcreteClassifier} instance, if it already is
  * contained in a {@link CompilationUnit}. This way, similarity checking 2
@@ -20,44 +16,17 @@ import cipm.consistency.initialisers.jamopp.containers.ICompilationUnitInitialis
  * 
  * @author Alp Torac Genc
  */
-public class ConcreteClassifierInitialiserAdapter implements IInitialiserAdapterStrategy {
-	/**
-	 * The initialiser responsible for creating {@link CompilationUnit}s to fulfil
-	 * this instance's functionality.
-	 */
-	private ICompilationUnitInitialiser cuInit;
-
-	/**
-	 * Constructs an instance with the given {@link ICompilationUnitInitialiser}.
-	 */
-	public ConcreteClassifierInitialiserAdapter(ICompilationUnitInitialiser cuInit) {
-		this.cuInit = cuInit;
-	}
-
-	/**
-	 * @return The initialiser responsible for creating {@link CompilationUnit}s.
-	 */
-	public ICompilationUnitInitialiser getCUInit() {
-		return this.cuInit;
-	}
-
+public class ConcreteClassifierInitialiserAdapter implements IEObjectAdaptationStrategy {
 	@Override
-	public boolean apply(IInitialiser init, Object obj) {
+	public boolean apply(EObject obj) {
 		var castedO = (ConcreteClassifier) obj;
 
 		if (castedO.getContainingCompilationUnit() == null) {
-			var cuInit = this.getCUInit();
-
-			CompilationUnit unit = cuInit.instantiate();
-			return cuInit.initialise(unit) && cuInit.addClassifier(unit, castedO);
+			var cu = ApiFactory.eINSTANCE.createFluentEObjectAPI().createNewCompilationUnit();
+			cu.getClassifiers().add(castedO);
+			return castedO.eContainer() == cu;
 		}
 
 		return true;
-	}
-
-	@Override
-	public ConcreteClassifierInitialiserAdapter newStrategy() {
-		return new ConcreteClassifierInitialiserAdapter(
-				(ICompilationUnitInitialiser) this.getCUInit().newInitialiser());
 	}
 }

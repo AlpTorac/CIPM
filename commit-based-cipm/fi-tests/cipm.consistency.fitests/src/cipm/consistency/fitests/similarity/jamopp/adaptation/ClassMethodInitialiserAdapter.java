@@ -1,17 +1,12 @@
 package cipm.consistency.fitests.similarity.jamopp.adaptation;
 
+import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.members.ClassMethod;
 
-import cipm.consistency.initialisers.IInitialiser;
-import cipm.consistency.initialisers.IInitialiserAdapterStrategy;
-import cipm.consistency.initialisers.jamopp.members.IClassMethodInitialiser;
-import cipm.consistency.initialisers.jamopp.statements.IBlockInitialiser;
+import cipm.consistency.fitests.similarity.eobject.IEObjectAdaptationStrategy;
+import cipm.consistency.fluentapi.api.ApiFactory;
 
 /**
- * An {@link IInitialiserAdapterStrategy} implementation that can be used with
- * {@link IInitialiserBase} implementors that instantiate {@link ClassMethod}.
- * <br>
- * <br>
  * Adds a {@link Block} instance to the {@link ClassMethod} via
  * {@code classMethod.setStatement(...)}, if its statement accessed via
  * {@code classMethod.getStatement()} is not a {@link Block} (in that case
@@ -32,53 +27,24 @@ import cipm.consistency.initialisers.jamopp.statements.IBlockInitialiser;
  * @author Alp Torac Genc
  *
  */
-public class ClassMethodInitialiserAdapter implements IInitialiserAdapterStrategy {
-	/**
-	 * The initialiser that creates {@link Block}s to realise the functionality of
-	 * this instance.
-	 */
-	private IBlockInitialiser bInit;
-
-	/**
-	 * Constructs an instance with the given {@link IBlockInitialiser}.
-	 */
-	public ClassMethodInitialiserAdapter(IBlockInitialiser bInit) {
-		this.bInit = bInit;
-	}
-
-	/**
-	 * @return The initialiser contained in this instance, which is responsible for
-	 *         creating {@link Block}s.
-	 */
-	public IBlockInitialiser getBInit() {
-		return this.bInit;
-	}
-
+public class ClassMethodInitialiserAdapter implements IEObjectAdaptationStrategy {
 	@Override
-	public boolean apply(IInitialiser init, Object obj) {
-		var castedInit = (IClassMethodInitialiser) init;
+	public boolean apply(EObject obj) {
 		var castedO = (ClassMethod) obj;
 
 		if (castedO.getBlock() == null) {
 			var formerSt = castedO.getStatement();
 
-			var bInit = this.getBInit();
-			var block = bInit.instantiate();
-
-			var res = bInit.initialise(block) && castedInit.setStatement(castedO, block);
+			var block = ApiFactory.eINSTANCE.createFluentEObjectAPI().createNewBlock();
+			castedO.setStatement(block);
 
 			if (formerSt != null) {
-				res = res && castedInit.addStatement(castedO, formerSt);
+				castedO.getStatements().add(formerSt);
 			}
 
-			return res;
+			return block.eContainer() == castedO && (formerSt == null || formerSt.eContainer() == block);
 		}
 
 		return true;
-	}
-
-	@Override
-	public IInitialiserAdapterStrategy newStrategy() {
-		return new ClassMethodInitialiserAdapter((IBlockInitialiser) this.getBInit().newInitialiser());
 	}
 }

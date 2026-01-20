@@ -5,19 +5,13 @@ import org.emftext.language.java.arrays.ArraySelector;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.references.IdentifierReference;
 
-import cipm.consistency.initialisers.IInitialiser;
-import cipm.consistency.initialisers.IInitialiserAdapterStrategy;
-import cipm.consistency.initialisers.jamopp.instantiations.ExplicitConstructorCallInitialiser;
-import cipm.consistency.initialisers.jamopp.statements.ExpressionStatementInitialiser;
+import cipm.consistency.fitests.similarity.eobject.IEObjectAdaptationStrategy;
+import cipm.consistency.fluentapi.api.ApiFactory;
 
 /**
- * An {@link IInitialiserAdapterStrategy} implementation that can be used with
- * {@link IInitialiserBase} implementors that instantiate
- * {@link IdentifierReference}. <br>
- * <br>
  * Let <b>IR</b> be an {@link IdentifierReference} instance.
- * {@link IdentifierReferenceInitialiserAdapter} then nests an uninitialised
- * {@link ExpressionStatement} <b>es</b> instance within an uninitialised
+ * {@link IdentifierReferenceInitialiserAdapter} then nests an
+ * {@link ExpressionStatement} <b>es</b> instance within an
  * {@link ExplicitConstructorCall} <b>ecc</b> instance and sets <b>IR</b>'s
  * container to <b>ecc</b>. This way, <b>IR</b> will have a container, which is
  * neither of type {@link Expression} nor {@link ArraySelector} (i.e. an
@@ -27,8 +21,7 @@ import cipm.consistency.initialisers.jamopp.statements.ExpressionStatementInitia
  * 
  * @author Alp Torac Genc
  */
-public class IdentifierReferenceInitialiserAdapter implements IInitialiserAdapterStrategy {
-
+public class IdentifierReferenceInitialiserAdapter implements IEObjectAdaptationStrategy {
 	/**
 	 * Realises the functionality of
 	 * {@code JaMoPPElementUtil.getFirstContainerNotOfGivenType(...)}
@@ -49,28 +42,21 @@ public class IdentifierReferenceInitialiserAdapter implements IInitialiserAdapte
 	}
 
 	@Override
-	public boolean apply(IInitialiser init, Object obj) {
+	public boolean apply(EObject obj) {
 		var castedO = (IdentifierReference) obj;
 
 		var firstEligibleContainer = this.getFirstEligibleContainer(castedO);
 
 		if (firstEligibleContainer == null) {
-			var insInit = new ExplicitConstructorCallInitialiser();
-			var ecc = insInit.instantiate();
-			insInit.addArgument(ecc, castedO);
+			var ecc = ApiFactory.eINSTANCE.createFluentEObjectAPI().createNewExplicitConstructorCall();
+			ecc.getArguments().add(castedO);
 
-			var esInit = new ExpressionStatementInitialiser();
-			var es = esInit.instantiate();
-			esInit.setExpression(es, ecc);
+			var es = ApiFactory.eINSTANCE.createFluentEObjectAPI().createNewExpressionStatement();
+			es.setExpression(ecc);
 
 			return this.getFirstEligibleContainer(castedO) == es;
 		}
 
 		return this.getFirstEligibleContainer(castedO) != null;
-	}
-
-	@Override
-	public IInitialiserAdapterStrategy newStrategy() {
-		return new IdentifierReferenceInitialiserAdapter();
 	}
 }
