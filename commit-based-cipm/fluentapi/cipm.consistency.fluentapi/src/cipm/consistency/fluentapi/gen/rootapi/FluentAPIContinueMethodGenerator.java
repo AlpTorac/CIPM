@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIRootAPIConstants;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
@@ -17,25 +18,18 @@ import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 public class FluentAPIContinueMethodGenerator {
 	// TODO Add documentation
 
-	private static final String continueMethodNameTemplate = "continue%s";
 	private static final String continueMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueElement(this, %s.class)");
 
-	private static final String indexFromStartParamName = "idxFromStart";
-	private static final String continueFromStartMethodNameTemplate = "continue%sFromStart";
 	private static final String continueFromStartMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			"return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueElementFromStart(this, %s.class, %s)");
 
-	private static final String indexFromEndParamName = "idxFromEnd";
-	private static final String continueFromEndMethodNameTemplate = "continue%sFromEnd";
 	private static final String continueFromEndMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			"return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueElementFromEnd(this, %s.class, %s)");
 
-	private static final String continueWithNewestMethodNameTemplate = "continueNewest%s";
 	private static final String continueWithNewestMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueElement(this, %s.class)");
 
-	private static final String continueWithOldestMethodNameTemplate = "continueOldest%s";
 	private static final String continueWithOldestMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			"return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueOldestElement(this, %s.class)");
 
@@ -61,14 +55,17 @@ public class FluentAPIContinueMethodGenerator {
 
 	private EOperation generateContinueMethod(EClass elemToInit, EClass initECls) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(continueMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())), initECls,
+				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueMethodNameTemplate(),
+						StringUtils.capitalize(elemToInit.getName())),
+				initECls,
 				String.format(continueMethodBodyTemplate, FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						elemToInit.getInstanceClass().getName()));
 	}
 
 	private EOperation generateContinueNewestMethod(EClass elemToInit, EClass initECls) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(continueWithNewestMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())),
+				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueWithNewestMethodNameTemplate(),
+						StringUtils.capitalize(elemToInit.getName())),
 				initECls,
 				String.format(continueWithNewestMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
@@ -77,7 +74,8 @@ public class FluentAPIContinueMethodGenerator {
 
 	private EOperation generateContinueOldestMethod(EClass elemToInit, EClass initECls) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(continueWithOldestMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())),
+				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueWithOldestMethodNameTemplate(),
+						StringUtils.capitalize(elemToInit.getName())),
 				initECls,
 				String.format(continueWithOldestMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
@@ -85,9 +83,11 @@ public class FluentAPIContinueMethodGenerator {
 	}
 
 	private EOperation generateContinueFromStartMethod(EClass elemToInit, EClass initECls) {
-		var param = this.getIndexParam(indexFromStartParamName);
+		var param = this.getIndexParam(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueFromStartMethodIndexFromStartParameterName());
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(continueFromStartMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())),
+				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueFromStartMethodNameTemplate(),
+						StringUtils.capitalize(elemToInit.getName())),
 				initECls,
 				String.format(continueFromStartMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
@@ -96,9 +96,11 @@ public class FluentAPIContinueMethodGenerator {
 	}
 
 	private EOperation generateContinueFromEndMethod(EClass elemToInit, EClass initECls) {
-		var param = this.getIndexParam(indexFromEndParamName);
+		var param = this.getIndexParam(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueFromStartMethodIndexFromEndParameterName());
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				String.format(continueFromEndMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())),
+				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueFromEndMethodNameTemplate(),
+						StringUtils.capitalize(elemToInit.getName())),
 				initECls,
 				String.format(continueFromEndMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),

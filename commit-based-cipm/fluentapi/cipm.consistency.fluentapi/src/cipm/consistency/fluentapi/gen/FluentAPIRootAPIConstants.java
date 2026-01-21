@@ -1,22 +1,296 @@
 package cipm.consistency.fluentapi.gen;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 
 public final class FluentAPIRootAPIConstants {
+	/*
+	 * EPackage
+	 */
+	private static final URI fluentAPIRootAPIPackageURI = URI.createURI("http://www.cipmfluentapi.com/java");
+	private static final String fluentAPIRootAPIPackageName = "cipm.consistency.fluentapi.api";
+
+	/*
+	 * EClass
+	 */
 	private static final String fluentAPIRootAPIClassName = "FluentEObjectAPI";
+
+	/*
+	 * EReferences
+	 */
 	private static final String fluentAPIRootAPIOngoingInitialisationsReferenceName = "ongoingInits";
 	private static final String fluentAPIRootAPIInitialisationsReferenceName = "inits";
-	private static final String fluentAPIRootPackageName = "cipm.consistency.fluentapi.api";
-	private static final URI fluentAPIRootPackageURI = URI.createURI("http://www.cipmfluentapi.com/java");
-	
+
+	/*
+	 * EOperations
+	 */
+	/*
+	 * continue
+	 */
+	private static final String fluentAPIRootAPIContinueMethodNameTemplate = "continue%s";
+	private static final String fluentAPIRootAPIIndexFromStartParamName = "idxFromStart";
+	private static final String fluentAPIRootAPIContinueFromStartMethodNameTemplate = "continue%sFromStart";
+	private static final String fluentAPIRootAPIIndexFromEndParamName = "idxFromEnd";
+	private static final String fluentAPIRootAPIContinueFromEndMethodNameTemplate = "continue%sFromEnd";
+	private static final String fluentAPIRootAPIContinueWithNewestMethodNameTemplate = "continueNewest%s";
+	private static final String fluentAPIRootAPIContinueWithOldestMethodNameTemplate = "continueOldest%s";
+
+	/*
+	 * createNew
+	 */
+	private static final String fluentAPIRootAPICreateNewXMethodNameTemplate = "createNew%s";
+	private static final String fluentAPIRootAPICreateNewXWithClassParameterMethodName = "createNewX";
+	private static final String fluentAPIRootAPICreateNewXWithClassParameterTypeParameterName = "T";
+	private static final String fluentAPIRootAPICreateNewXWithClassParameterMethodParameterName = "eObjCls";
+
+	/*
+	 * drop
+	 */
+	private static final String fluentAPIRootAPIDropInitialisationMethodNameTemplate = "dropInitialisation";
+	private static final String fluentAPIRootAPIDropInitialisationParamName = "initToDrop";
+
+	/*
+	 * getAllSupportedClasses
+	 */
+	private static final String fluentAPIRootAPIGetAllSupportedClassesMethodName = "getAllSupportedClasses";
+
+	/*
+	 * getInitialisationFor
+	 */
+	private static final String fluentAPIRootAPIGetInitialisationForMethodName = "getInitialisationForX";
+	private static final String fluentAPIRootAPIGetInitialisationForEClassParameterName = "eClsToInit";
+	private static final String fluentAPIRootAPIGetInitialisationForClassParameterName = "clsToInit";
+	private static final String fluentAPIRootAPIGetInitialisationForEObjectParameterName = "eobjToInit";
+
+	/*
+	 * mark
+	 */
+	private static final String fluentAPIRootAPIMarkKeyParameterName = "markKey";
+	private static final String fluentAPIRootAPIGetMarkedMethodName = "getMarked";
+	private static final String fluentAPIRootAPIGetMarkedXMethodNameTemplate = "getMarked%s";
+
+	/*
+	 * unmark
+	 */
+	private static final String fluentAPIRootAPIUnmarkMethodName = "unmark";
+
+	/*
+	 * modify
+	 */
+	private static final String fluentAPIRootAPIModifyXMethodName = "modifyX";
+	private static final String fluentAPIRootAPIModifyMethodNameTemplate = "modify%s";
+	private static final String fluentAPIRootAPIModifyMarkedMethodNameTemplate = "modifyMarked%s";
+	private static final String fluentAPIRootAPIModifyMethodEObjectParameterName = "eobjToModify";
+
+	/*
+	 * new
+	 */
+	private static final String fluentAPIRootAPINewMethodEClassParameterName = "eObjEClass";
+	private static final String fluentAPIRootAPINewMethodClassParameterName = "eObjCls";
+	private static final String fluentAPIRootAPINewMethodFeatureValueParameterName = "featVal";
+	private static final String fluentAPIRootAPINewXMethodName = "newX";
+	private static final String fluentAPIRootAPINewMethodNameTemplate = "new%s";
+
+	/*
+	 * onceExists
+	 */
+	private static final String fluentAPIRootAPIMarkKeyListParameterName = "markKeyList";
+	private static final String fluentAPIRootAPIRunnableParameterName = "toDoOnceExists";
+	private static final String fluentAPIRootAPIOnceExistsMethodName = "onceExists";
+
+	/*
+	 * with
+	 */
+	private static final String fluentAPIRootAPIWithMethodEObjectParameterName = "eobjToModify";
+	private static final String fluentAPIRootAPIWithMethodFeatureParameterName = "featToModify";
+	private static final String fluentAPIRootAPIWithMethodFeatureValueParameterName = "featVal";
+	private static final String fluentAPIRootAPIXWithFeatMethodName = "xWithFeat";
+	private static final String fluentAPIRootAPIXWithoutFeatMethodName = "xWithoutFeat";
+	private static final String fluentAPIRootAPIXWithAddedFeatMethodName = "xWithAddedFeat";
+	private static final String fluentAPIRootAPIXWithRemovedFeatMethodName = "xWithRemovedFeat";
+	private static final String fluentAPIRootAPIXWithExactFeatMethodName = "xWithExactFeat";
+	private static final String fluentAPIRootAPIXWithFeatOfContainerMethodName = "xWithFeatOfContainer";
+
+	private static String getElementToInitialiseName(EClass elemToInitECls) {
+		return StringUtils.capitalize(elemToInitECls.getName());
+	}
+
+	public static String getFluentAPIRootAPIWithMethodEObjectParameterName() {
+		return fluentAPIRootAPIWithMethodEObjectParameterName;
+	}
+
+	public static String getFluentAPIRootAPIWithMethodFeatureParameterName() {
+		return fluentAPIRootAPIWithMethodFeatureParameterName;
+	}
+
+	public static String getFluentAPIRootAPIWithMethodFeatureValueParameterName() {
+		return fluentAPIRootAPIWithMethodFeatureValueParameterName;
+	}
+
+	public static String getFluentAPIRootAPIXWithFeatMethodName() {
+		return fluentAPIRootAPIXWithFeatMethodName;
+	}
+
+	public static String getFluentAPIRootAPIXWithoutFeatMethodName() {
+		return fluentAPIRootAPIXWithoutFeatMethodName;
+	}
+
+	public static String getFluentAPIRootAPIXWithAddedFeatMethodName() {
+		return fluentAPIRootAPIXWithAddedFeatMethodName;
+	}
+
+	public static String getFluentAPIRootAPIXWithRemovedFeatMethodName() {
+		return fluentAPIRootAPIXWithRemovedFeatMethodName;
+	}
+
+	public static String getFluentAPIRootAPIXWithExactFeatMethodName() {
+		return fluentAPIRootAPIXWithExactFeatMethodName;
+	}
+
+	public static String getFluentAPIRootAPIXWithFeatOfContainerMethodName() {
+		return fluentAPIRootAPIXWithFeatOfContainerMethodName;
+	}
+
+	public static String getFluentAPIRootAPIMarkKeyListParameterName() {
+		return fluentAPIRootAPIMarkKeyListParameterName;
+	}
+
+	public static String getFluentAPIRootAPIRunnableParameterName() {
+		return fluentAPIRootAPIRunnableParameterName;
+	}
+
+	public static String getFluentAPIRootAPIOnceExistsMethodName() {
+		return fluentAPIRootAPIOnceExistsMethodName;
+	}
+
+	public static String getFluentAPIRootAPINewXMethodName() {
+		return fluentAPIRootAPINewXMethodName;
+	}
+
+	public static String getFluentAPIRootAPINewMethodNameTemplate() {
+		return fluentAPIRootAPINewMethodNameTemplate;
+	}
+
+	public static String getFluentAPIRootAPINewMethodNameForType(EClass elemToInitECls) {
+		return String.format(getFluentAPIRootAPINewMethodNameTemplate(), getElementToInitialiseName(elemToInitECls));
+	}
+
+	public static String getFluentAPIRootAPINewMethodFeatureValueParameterName() {
+		return fluentAPIRootAPINewMethodFeatureValueParameterName;
+	}
+
+	public static String getFluentAPIRootAPINewMethodClassParameterName() {
+		return fluentAPIRootAPINewMethodClassParameterName;
+	}
+
+	public static String getFluentAPIRootAPINewMethodEClassParameterName() {
+		return fluentAPIRootAPINewMethodEClassParameterName;
+	}
+
+	public static String getFluentAPIRootAPIModifyXMethodName() {
+		return fluentAPIRootAPIModifyXMethodName;
+	}
+
+	public static String getFluentAPIRootAPIModifyMethodNameTemplate() {
+		return fluentAPIRootAPIModifyMethodNameTemplate;
+	}
+
+	public static String getFluentAPIRootAPIModifyMethodNameForType(EClass elemToInitECls) {
+		return String.format(getFluentAPIRootAPIModifyMethodNameTemplate(), getElementToInitialiseName(elemToInitECls));
+	}
+
+	public static String getFluentAPIRootAPIModifyMarkedMethodNameTemplate() {
+		return fluentAPIRootAPIModifyMarkedMethodNameTemplate;
+	}
+
+	public static String getFluentAPIRootAPIModifyMarkedMethodNameForType(EClass elemToInitECls) {
+		return String.format(getFluentAPIRootAPIModifyMarkedMethodNameTemplate(),
+				getElementToInitialiseName(elemToInitECls));
+	}
+
+	public static String getFluentAPIRootAPIModifyMethodEObjectParameterName() {
+		return fluentAPIRootAPIModifyMethodEObjectParameterName;
+	}
+
+	public static String getFluentAPIRootAPIUnmarkMethodName() {
+		return fluentAPIRootAPIUnmarkMethodName;
+	}
+
+	public static String getFluentAPIRootAPIMarkKeyParameterName() {
+		return fluentAPIRootAPIMarkKeyParameterName;
+	}
+
+	public static String getFluentAPIRootAPIGetMarkedMethodName() {
+		return fluentAPIRootAPIGetMarkedMethodName;
+	}
+
+	public static String getFluentAPIRootAPIGetMarkedXMethodNameTemplate() {
+		return fluentAPIRootAPIGetMarkedXMethodNameTemplate;
+	}
+
+	public static String getFluentAPIRootAPIGetMarkedXMethodNameForType(EClass elemToInitECls) {
+		return String.format(getFluentAPIRootAPIGetMarkedXMethodNameTemplate(),
+				getElementToInitialiseName(elemToInitECls));
+	}
+
+	public static String getFluentAPIRootAPIGetInitialisationForMethodName() {
+		return fluentAPIRootAPIGetInitialisationForMethodName;
+	}
+
+	public static String getFluentAPIRootAPIGetInitialisationForEClassParameterName() {
+		return fluentAPIRootAPIGetInitialisationForEClassParameterName;
+	}
+
+	public static String getFluentAPIRootAPIGetInitialisationForClassParameterName() {
+		return fluentAPIRootAPIGetInitialisationForClassParameterName;
+	}
+
+	public static String getFluentAPIRootAPIGetInitialisationForEObjectParameterName() {
+		return fluentAPIRootAPIGetInitialisationForEObjectParameterName;
+	}
+
+	public static String getFluentAPIRootAPIGetAllSupportedClassesMethodName() {
+		return fluentAPIRootAPIGetAllSupportedClassesMethodName;
+	}
+
+	public static String getFluentAPIRootAPIDropInitialisationMethodNameTemplate() {
+		return fluentAPIRootAPIDropInitialisationMethodNameTemplate;
+	}
+
+	public static String getFluentAPIRootAPIDropInitialisationParameterName() {
+		return fluentAPIRootAPIDropInitialisationParamName;
+	}
+
+	public static String getFluentAPIRootAPICreateNewXWithClassParameterMethodName() {
+		return fluentAPIRootAPICreateNewXWithClassParameterMethodName;
+	}
+
+	public static String getFluentAPIRootAPICreateNewXWithClassParameterMethodTypeParameterName() {
+		return fluentAPIRootAPICreateNewXWithClassParameterTypeParameterName;
+	}
+
+	public static String getFluentAPIRootAPICreateNewXWithClassParameterMethodParameterName() {
+		return fluentAPIRootAPICreateNewXWithClassParameterMethodParameterName;
+	}
+
+	public static String getFluentAPIRootAPICreateNewXMethodNameTemplate() {
+		return fluentAPIRootAPICreateNewXMethodNameTemplate;
+	}
+
+	public static String getFluentAPIRootAPICreateNewXMethodNameTemplateForType(EClass elemToInitECls) {
+		return String.format(getFluentAPIRootAPICreateNewXMethodNameTemplate(),
+				getElementToInitialiseName(elemToInitECls));
+	}
+
 	public static String getFluentAPIRootPackageName() {
-		return fluentAPIRootPackageName;
+		return fluentAPIRootAPIPackageName;
 	}
 
 	public static URI getFluentAPIRootPackageURI() {
-		return fluentAPIRootPackageURI;
+		return fluentAPIRootAPIPackageURI;
 	}
-	
+
 	public static String getFluentAPIRootAPIClassName() {
 		return fluentAPIRootAPIClassName;
 	}
@@ -27,5 +301,58 @@ public final class FluentAPIRootAPIConstants {
 
 	public static String getRootAPIOngoingInitialisationsReferenceName() {
 		return fluentAPIRootAPIOngoingInitialisationsReferenceName;
+	}
+
+	public static String getFluentAPIRootAPIContinueFromStartMethodIndexFromStartParameterName() {
+		return fluentAPIRootAPIIndexFromStartParamName;
+	}
+
+	public static String getFluentAPIRootAPIContinueFromStartMethodIndexFromEndParameterName() {
+		return fluentAPIRootAPIIndexFromEndParamName;
+	}
+
+	public static String getFluentAPIRootAPIContinueMethodNameTemplate() {
+		return fluentAPIRootAPIContinueMethodNameTemplate;
+	}
+
+	public static String getFluentAPIRootAPIContinueMethodNameForType(EClass elemToInitECls) {
+		return String.format(getFluentAPIRootAPIContinueMethodNameTemplate(),
+				getElementToInitialiseName(elemToInitECls));
+	}
+
+	public static String getFluentAPIRootAPIContinueFromStartMethodNameTemplate() {
+		return fluentAPIRootAPIContinueFromStartMethodNameTemplate;
+	}
+
+	public static String getFluentAPIRootAPIContinueFromStartMethodNameForType(EClass elemToInitECls) {
+		return String.format(getFluentAPIRootAPIContinueFromStartMethodNameTemplate(),
+				getElementToInitialiseName(elemToInitECls));
+	}
+
+	public static String getFluentAPIRootAPIContinueFromEndMethodNameTemplate() {
+		return fluentAPIRootAPIContinueFromEndMethodNameTemplate;
+	}
+
+	public static String getFluentAPIRootAPIContinueFromEndMethodNameForType(EClass elemToInitECls) {
+		return String.format(getFluentAPIRootAPIContinueFromEndMethodNameTemplate(),
+				getElementToInitialiseName(elemToInitECls));
+	}
+
+	public static String getFluentAPIRootAPIContinueWithNewestMethodNameTemplate() {
+		return fluentAPIRootAPIContinueWithNewestMethodNameTemplate;
+	}
+
+	public static String getFluentAPIRootAPIContinueWithNewestMethodNameForType(EClass elemToInitECls) {
+		return String.format(getFluentAPIRootAPIContinueWithNewestMethodNameTemplate(),
+				getElementToInitialiseName(elemToInitECls));
+	}
+
+	public static String getFluentAPIRootAPIContinueWithOldestMethodNameTemplate() {
+		return fluentAPIRootAPIContinueWithOldestMethodNameTemplate;
+	}
+
+	public static String getFluentAPIRootAPIContinueWithOldestMethodNameForType(EClass elemToInitECls) {
+		return String.format(getFluentAPIRootAPIContinueWithOldestMethodNameTemplate(),
+				getElementToInitialiseName(elemToInitECls));
 	}
 }
