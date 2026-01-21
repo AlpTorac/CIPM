@@ -47,7 +47,7 @@ public final class FluentAPIRootAPIConstants {
 	/*
 	 * drop
 	 */
-	private static final String fluentAPIRootAPIDropInitialisationMethodNameTemplate = "dropInitialisation";
+	private static final String fluentAPIRootAPIDropInitialisationMethodName = "dropInitialisation";
 	private static final String fluentAPIRootAPIDropInitialisationParamName = "initToDrop";
 
 	/*
@@ -67,6 +67,7 @@ public final class FluentAPIRootAPIConstants {
 	 * mark
 	 */
 	private static final String fluentAPIRootAPIMarkKeyParameterName = "markKey";
+	private static final String fluentAPIRootAPIMarkKeyDocumentation = "The Object instance, whose memory address will serve as a key in mark-related operations. Note that the content of the given Object instance are fully irrelevant here, only its memory address matters.";
 	private static final String fluentAPIRootAPIGetMarkedMethodName = "getMarked";
 	private static final String fluentAPIRootAPIGetMarkedXMethodNameTemplate = "getMarked%s";
 
@@ -114,6 +115,10 @@ public final class FluentAPIRootAPIConstants {
 
 	private static String getElementToInitialiseName(EClass elemToInitECls) {
 		return StringUtils.capitalize(elemToInitECls.getName());
+	}
+
+	public static String getFluentAPIRootAPIMarkKeyDocumentation() {
+		return fluentAPIRootAPIMarkKeyDocumentation;
 	}
 
 	public static String getFluentAPIRootAPIWithMethodEObjectParameterName() {
@@ -254,8 +259,8 @@ public final class FluentAPIRootAPIConstants {
 		return fluentAPIRootAPIGetAllSupportedClassesMethodName;
 	}
 
-	public static String getFluentAPIRootAPIDropInitialisationMethodNameTemplate() {
-		return fluentAPIRootAPIDropInitialisationMethodNameTemplate;
+	public static String getFluentAPIRootAPIDropInitialisationMethodName() {
+		return fluentAPIRootAPIDropInitialisationMethodName;
 	}
 
 	public static String getFluentAPIRootAPIDropInitialisationParameterName() {

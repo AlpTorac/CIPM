@@ -8,14 +8,11 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIRootAPIConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIMarkExtension;
 
 public class FluentAPIInitialisationMarkMethodGenerator {
-	private static final String markKeyParameterName = "markKey";
-	private static final String markKeyDocumentation = "The Object instance, whose memory address will serve as a key in mark-related operations. Note that the content of the given Object instance are fully irrelevant here, only its memory address matters.";
-
-	private static final String unmarkMethodNameTemplate = "unmark";
 	private static final String unmarkMethodDocumentation = "Removes any associations between the given markKey and its corresponding EObject obj. Doing so unmarks obj, meaning that markKey can no longer be used to retrieve obj.";
 	private static final String unmarkMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Mark key parameter name
@@ -40,7 +37,8 @@ public class FluentAPIInitialisationMarkMethodGenerator {
 
 	public EOperation generateUnmarkMethod(EClass initEClass) {
 		var param = getMarkKeyParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(unmarkMethodNameTemplate, initEClass,
+		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIUnmarkMethodName(), initEClass,
 				String.format(unmarkMethodBodyTemplate, param.getName()), unmarkMethodDocumentation, param);
 	}
 
@@ -58,7 +56,8 @@ public class FluentAPIInitialisationMarkMethodGenerator {
 	}
 
 	private EParameter getMarkKeyParam() {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameterWithDocumentation(markKeyParameterName,
-				EcorePackage.Literals.EJAVA_OBJECT, markKeyDocumentation);
+		return FluentAPIGenerationUtil.generateSingleValuedEParameterWithDocumentation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName(), EcorePackage.Literals.EJAVA_OBJECT,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyDocumentation());
 	}
 }

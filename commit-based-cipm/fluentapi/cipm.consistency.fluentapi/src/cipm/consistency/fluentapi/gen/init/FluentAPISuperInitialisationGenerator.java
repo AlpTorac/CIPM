@@ -4,18 +4,14 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
-public class FluentAPISuperInitialisationGenerator {
-	/**
-	 * Named this way to make sure that the generated EClasses do not have the same
-	 * name
-	 */
-	private static final String fluentAPISuperInitialisationName = "FluentAPISuperInitialisation";
+import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationConstants;
 
+public class FluentAPISuperInitialisationGenerator {
 	public EClass generateFluentAPISuperInitialisationEClass() {
 		var superType = EcoreFactory.eINSTANCE.createEClass();
 		superType.setAbstract(true);
 		superType.setInterface(false);
-		superType.setName(fluentAPISuperInitialisationName);
+		superType.setName(FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationClassName());
 
 		superType.getEOperations().add(new FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator()
 				.generateGetInitialisedEClassMethod());

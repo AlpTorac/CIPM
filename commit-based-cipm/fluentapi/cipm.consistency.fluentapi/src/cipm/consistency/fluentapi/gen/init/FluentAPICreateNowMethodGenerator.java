@@ -10,15 +10,25 @@ import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationConstants;
+import cipm.consistency.fluentapi.gen.FluentAPIRootAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPICreateNowMethodGenerator {
-	private static final String createNowMethodDocumentation = "Finalises the initialisation and returns this.getCurrentElement(). Drops this initialisation instance from this.toAPI(), meaning that this initialisation instance will no longer be accessible from this.toAPI().";
+	private static final String createNowMethodDocumentation = "Finalises the initialisation and returns this."
+			+ FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+			+ "(). Drops this initialisation instance from this."
+			+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
+			+ "(), meaning that this initialisation instance will no longer be accessible from this."
+			+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "().";
 
 	private static final String createNowMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			"this.toAPI().dropInitialisation(this)",
+			"this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "()."
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationMethodName() + "(this)",
 			//
-			"return (%s) this.getCurrentElement()");
+			"return (%s) this.get" + FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName() + "()");
 
 	public List<EOperation> generateAllCreateNowMethods(EClass elemToInit) {
 		var ops = new ArrayList<EOperation>();
@@ -30,7 +40,8 @@ public class FluentAPICreateNowMethodGenerator {
 	}
 
 	private EOperation generateCreateNowMethod(EClass elemToInit) {
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(FluentAPIInitialisationConstants.getFluentapiinitialisationcreatenowmethodname(), elemToInit,
+		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
+				FluentAPIInitialisationConstants.getFluentapiinitialisationcreatenowmethodname(), elemToInit,
 				String.format(createNowMethodBodyTemplate, elemToInit.getInstanceClass().getName()),
 				createNowMethodDocumentation);
 	}
@@ -62,7 +73,8 @@ public class FluentAPICreateNowMethodGenerator {
 		param.setLowerBound(1);
 		param.setUpperBound(1);
 
-		var op = FluentAPIGenerationUtil.generateEOperationWithBody(FluentAPIInitialisationConstants.getFluentapiinitialisationcreatenowmethodname(), null,
+		var op = FluentAPIGenerationUtil.generateEOperationWithBody(
+				FluentAPIInitialisationConstants.getFluentapiinitialisationcreatenowmethodname(), null,
 				String.format(createNowMethodBodyTemplate, typeParam.getName()));
 		op.setEGenericType(genericParamTypeForOp);
 		op.getETypeParameters().add(typeParam);
