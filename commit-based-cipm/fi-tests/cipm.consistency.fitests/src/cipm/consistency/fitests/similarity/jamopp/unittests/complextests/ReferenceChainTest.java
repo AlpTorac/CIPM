@@ -158,7 +158,7 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 		var ref1 = getAPI().newX(refCls).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, nextRef1).createNow();
 
 		var nextRef2 = getAPI().createNewX(nextRefCls);
-		var ref2 = getAPI().newX(refCls).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, nextRef2);
+		var ref2 = getAPI().newX(refCls).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, nextRef2).createNow();
 
 		Assertions.assertTrue(this.isSimilar(ref1, ref2));
 	}
@@ -209,6 +209,9 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * <br>
 	 * Performs this check for each sub-type of {@link Reference}.
 	 * 
+	 * FIXME Enable this test case once cyclic references can be handled properly
+	 * during similarity checking
+	 * 
 	 * @param refInit Initialiser of ref
 	 */
 	@Disabled("Until cycle checking mechanisms are implemented")
@@ -230,6 +233,9 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * {@code ref21 -> ref22 -> ref21} <br>
 	 * <br>
 	 * Performs this check for each combination of sub-type of {@link Reference}.
+	 * 
+	 * FIXME Enable this test case once cyclic references can be handled properly
+	 * during similarity checking
 	 * 
 	 * @param refX1Init Initialiser of ref11 and ref21
 	 * @param refX2Init Initialiser of ref12 and ref22
@@ -270,6 +276,9 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * instances. <br>
 	 * <br>
 	 * Performs this check for each combination of sub-type of {@link Reference}.
+	 * 
+	 * FIXME Enable this test case once cyclic references can be handled properly
+	 * during similarity checking
 	 * 
 	 * @param refX1Init Initialiser of ref11 and ref21
 	 * @param refX2Init Initialiser of ref12 and ref22
@@ -314,6 +323,9 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * repeat and not the other ones. <br>
 	 * <br>
 	 * Performs this check for each combination of sub-type of {@link Reference}.
+	 * 
+	 * FIXME Enable this test case once cyclic references can be handled properly
+	 * during similarity checking
 	 * 
 	 * @param refX1Init Initialiser of ref11 and ref21
 	 * @param refX2Init Initialiser of ref12 and ref22
