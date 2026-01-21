@@ -14,8 +14,10 @@ import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
 
 public class TypedElementTest extends AbstractJaMoPPSimilarityTest {
-	private final Supplier<TypeReference> typeReference1 = () -> getAPI().createNewClassifierReference();
-	private final Supplier<TypeReference> typeReference2 = () -> getAPI().createNewNamespaceClassifierReference();
+	private final Supplier<TypeReference> typeReference1 = () -> getAPI().newClassifierReference()
+			.withTarget(getAPI().newClass().withName("cls1").createNow()).createNow();
+	private final Supplier<TypeReference> typeReference2 = () -> getAPI().newClassifierReference()
+			.withTarget(getAPI().newClass().withName("cls2").createNow()).createNow();
 
 	private static Stream<Arguments> provideArguments() {
 		return JaMoPPArguments.getAllConcreteClassesBySuperAsArgs(TypedElement.class);
