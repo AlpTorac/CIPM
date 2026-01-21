@@ -14,8 +14,14 @@ import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
 
 public class ParametrizableTest extends AbstractJaMoPPSimilarityTest {
-	private final Supplier<Parameter> parameters1 = () -> getAPI().createNewOrdinaryParameter();
-	private final Supplier<Parameter> parameters2 = () -> getAPI().createNewReceiverParameter();
+	private final Supplier<Parameter> parameters1 = () -> getAPI().newOrdinaryParameter().withName("param1")
+			.withTypeReference(getAPI().newClassifierReference()
+					.withTarget(getAPI().newClass().withName("cls1").createNow()).createNow())
+			.createNow();
+	private final Supplier<Parameter> parameters2 = () -> getAPI().newOrdinaryParameter().withName("param2")
+			.withTypeReference(getAPI().newClassifierReference()
+					.withTarget(getAPI().newClass().withName("cls2").createNow()).createNow())
+			.createNow();
 
 	private static Stream<Arguments> provideArguments() {
 		return JaMoPPArguments.getAllConcreteClassesBySuperAsArgs(Parametrizable.class);
