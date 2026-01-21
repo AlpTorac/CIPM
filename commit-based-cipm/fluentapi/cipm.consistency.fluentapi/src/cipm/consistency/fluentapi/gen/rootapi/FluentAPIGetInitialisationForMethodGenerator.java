@@ -37,7 +37,7 @@ public class FluentAPIGetInitialisationForMethodGenerator {
 
 	public EParameter getInitialisationForEClassParam() {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(getInitialisationParamName,
-				FluentAPIGenerationUtil.getEClassEClass());
+				EcorePackage.Literals.ECLASS);
 	}
 
 	public EOperation getInitialisationForClassMethod(EClass initsSuperType) {

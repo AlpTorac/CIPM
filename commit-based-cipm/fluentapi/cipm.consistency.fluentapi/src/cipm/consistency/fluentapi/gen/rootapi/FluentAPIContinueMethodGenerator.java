@@ -69,7 +69,8 @@ public class FluentAPIContinueMethodGenerator {
 	private EOperation generateContinueNewestMethod(EClass elemToInit, EClass initECls) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(continueWithNewestMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())),
-				initECls, String.format(continueWithNewestMethodBodyTemplate,
+				initECls,
+				String.format(continueWithNewestMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						elemToInit.getInstanceClass().getName()));
 	}
@@ -77,7 +78,8 @@ public class FluentAPIContinueMethodGenerator {
 	private EOperation generateContinueOldestMethod(EClass elemToInit, EClass initECls) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(continueWithOldestMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())),
-				initECls, String.format(continueWithOldestMethodBodyTemplate,
+				initECls,
+				String.format(continueWithOldestMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						elemToInit.getInstanceClass().getName()));
 	}
@@ -86,7 +88,8 @@ public class FluentAPIContinueMethodGenerator {
 		var param = this.getIndexParam(indexFromStartParamName);
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(continueFromStartMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())),
-				initECls, String.format(continueFromStartMethodBodyTemplate,
+				initECls,
+				String.format(continueFromStartMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						elemToInit.getInstanceClass().getName(), param.getName()),
 				param);
@@ -96,7 +99,8 @@ public class FluentAPIContinueMethodGenerator {
 		var param = this.getIndexParam(indexFromEndParamName);
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(continueFromEndMethodNameTemplate, StringUtils.capitalize(elemToInit.getName())),
-				initECls, String.format(continueFromEndMethodBodyTemplate,
+				initECls,
+				String.format(continueFromEndMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						elemToInit.getInstanceClass().getName(), param.getName()),
 				param);

@@ -14,7 +14,7 @@ import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIOnceExistsExtension;
 
 public class FluentAPIInitialisationOnceExistsMethodGenerator {
 	// TODO Add documentation (for generated methods)
-	
+
 	private static final String markKeyParameterName = "markKey";
 	private static final String markKeyListParameterName = "markKeyList";
 	private static final String runnableParameterName = "toDoOnceExists";
@@ -38,25 +38,25 @@ public class FluentAPIInitialisationOnceExistsMethodGenerator {
 	private EOperation generateOnceExistsMethod(EClass initECls) {
 		var keyParam = getMarkKeyParam();
 		var consumerParam = getRunnableParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBody(onceExistsMethodNameTemplate,
-				initECls, String.format(onceExistsMethodBodyTemplate, keyParam.getName(), consumerParam.getName()),
-				keyParam, consumerParam);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(onceExistsMethodNameTemplate, initECls,
+				String.format(onceExistsMethodBodyTemplate, keyParam.getName(), consumerParam.getName()), keyParam,
+				consumerParam);
 	}
 
 	private EOperation generateOnceExistsListMethod(EClass initECls) {
 		var keyParam = getMarkKeyListParam();
 		var consumerParam = getRunnableParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBody(onceExistsMethodNameTemplate,
-				initECls, String.format(onceExistsMethodBodyTemplate, keyParam.getName(), consumerParam.getName()),
-				keyParam, consumerParam);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(onceExistsMethodNameTemplate, initECls,
+				String.format(onceExistsMethodBodyTemplate, keyParam.getName(), consumerParam.getName()), keyParam,
+				consumerParam);
 	}
 
 	private EOperation generateOnceExistsArrayMethod(EClass initECls) {
 		var keyParam = getMarkKeyArrayParam();
 		var consumerParam = getRunnableParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBody(onceExistsMethodNameTemplate,
-				initECls, String.format(onceExistsMethodBodyTemplate, keyParam.getName(), consumerParam.getName()),
-				keyParam, consumerParam);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(onceExistsMethodNameTemplate, initECls,
+				String.format(onceExistsMethodBodyTemplate, keyParam.getName(), consumerParam.getName()), keyParam,
+				consumerParam);
 	}
 
 	private EParameter getMarkKeyParam() {
@@ -75,7 +75,6 @@ public class FluentAPIInitialisationOnceExistsMethodGenerator {
 	}
 
 	private EParameter getRunnableParam() {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameter(runnableParameterName,
-				Runnable.class);
+		return FluentAPIGenerationUtil.generateSingleValuedEParameter(runnableParameterName, Runnable.class);
 	}
 }

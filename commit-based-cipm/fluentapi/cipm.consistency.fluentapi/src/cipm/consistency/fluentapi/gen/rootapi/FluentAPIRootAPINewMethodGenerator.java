@@ -85,7 +85,7 @@ public class FluentAPIRootAPINewMethodGenerator {
 
 	public EOperation getRootAPITopLevelNewOperation(EClass rootAPICls, EClass initialisationSuperTypeEClass) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(eClassParamName,
-				FluentAPIGenerationUtil.getEClassEClass());
+				EcorePackage.Literals.ECLASS);
 		return FluentAPIGenerationUtil.generateEOperationWithBody(topLevelNewMethodName, initialisationSuperTypeEClass,
 				String.format(newXMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initialisationSuperTypeEClass),
