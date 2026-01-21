@@ -9,60 +9,70 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIRootAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
 public class FluentAPISuperInitialisationWithOperationGenerator {
 	// TODO Add documentation
 
-	private static final String featParamName = "featToModify";
-	private static final String featValParamName = "featVal";
-
-	private static final String xWithFeatMethodName = "xWithFeat";
 	private static final String xWithFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			// %s: Feat param name
-			// %s: Feat val param name
-			FluentEObjectAPIMethods.class.getName() + ".xWithFeat(this.toAPI(), this.getCurrentElement(), %s, %s)",
-			//
+			FluentEObjectAPIMethods.class.getName() + ".xWithFeat(this."
+					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
+					+ "(), this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ", "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName() + ")",
 			"return this");
 
-	private static final String xWithoutFeatMethodName = "xWithoutFeat";
 	private static final String xWithoutFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			// %s: Feat param name
-			FluentEObjectAPIMethods.class.getName() + ".xWithoutFeat(this.toAPI(), this.getCurrentElement(), %s)",
-			//
+			FluentEObjectAPIMethods.class.getName() + ".xWithoutFeat(this."
+					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
+					+ "(), this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ")",
 			"return this");
 
-	private static final String xWithAddedFeatMethodName = "xWithAddedFeat";
 	private static final String xWithAddedFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			// %s: Feat param name
-			// %s: Feat val param name
-			FluentEObjectAPIMethods.class.getName() + ".xWithAddedFeat(this.toAPI(), this.getCurrentElement(), %s, %s)",
-			//
+			FluentEObjectAPIMethods.class.getName() + ".xWithAddedFeat(this."
+					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
+					+ "(), this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ", "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName() + ")",
 			"return this");
 
-	private static final String xWithRemovedFeatMethodName = "xWithRemovedFeat";
 	private static final String xWithRemovedFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			// %s: Feat param name
-			// %s: Feat val param name
-			FluentEObjectAPIMethods.class.getName()
-					+ ".xWithRemovedFeat(this.toAPI(), this.getCurrentElement(), %s, %s)",
-			//
-			"return this");
-	private static final String xWithExactFeatMethodName = "xWithExactFeat";
-	private static final String xWithExactFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			// %s: Feat param name
-			// %s: Feat val param name
-			FluentEObjectAPIMethods.class.getName() + ".xWithExactFeat(this.toAPI(), this.getCurrentElement(), %s, %s)",
-			//
+			FluentEObjectAPIMethods.class.getName() + ".xWithRemovedFeat(this."
+					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
+					+ "(), this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ", "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName() + ")",
 			"return this");
 
-	private static final String xWithFeatOfContainerMethodName = "xWithFeatOfContainer";
+	private static final String xWithExactFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
+			FluentEObjectAPIMethods.class.getName() + ".xWithExactFeat(this."
+					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
+					+ "(), this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ", "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName() + ")",
+			"return this");
+
 	private static final String xWithFeatOfContainerMethodBody = FluentAPIMethodsUtil.joinLOC(
-			// %s: Feat param name
-			FluentEObjectAPIMethods.class.getName()
-					+ ".xWithFeatOfContainer(this.toAPI(), this.getCurrentElement(), %s)",
-			//
+			FluentEObjectAPIMethods.class.getName() + ".xWithFeatOfContainer(this."
+					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
+					+ "(), this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ")",
 			"return this");
 
 	public List<EOperation> getAllAPITopLevelWithOperations(EClass superInitCls) {
@@ -85,91 +95,96 @@ public class FluentAPISuperInitialisationWithOperationGenerator {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(xWithFeatMethodName, superInitCls,
-				String.format(xWithFeatMethodBody, featParam.getName(), featValParam.getName()), featParam,
-				featValParam);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodName(), superInitCls, xWithFeatMethodBody,
+				featParam, featValParam);
 	}
 
 	private EOperation getWithoutFeatOp(EClass superInitCls) {
 		var featParam = getFeatParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(xWithoutFeatMethodName, superInitCls,
-				String.format(xWithoutFeatMethodBody, featParam.getName()), featParam);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodName(), superInitCls,
+				xWithoutFeatMethodBody, featParam);
 	}
 
 	private EOperation getWithAddedFeatOp(EClass superInitCls) {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(xWithAddedFeatMethodName, superInitCls,
-				String.format(xWithAddedFeatMethodBody, featParam.getName(), featValParam.getName()), featParam,
-				featValParam);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(), superInitCls,
+				xWithAddedFeatMethodBody, featParam, featValParam);
 	}
 
 	private EOperation getWithRemovedFeatOp(EClass superInitCls) {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(xWithRemovedFeatMethodName, superInitCls,
-				String.format(xWithRemovedFeatMethodBody, featParam.getName(), featValParam.getName()), featParam,
-				featValParam);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(), superInitCls,
+				xWithRemovedFeatMethodBody, featParam, featValParam);
 	}
 
 	private EOperation getWithExactFeatOp(EClass superInitCls) {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(xWithExactFeatMethodName, superInitCls,
-				String.format(xWithExactFeatMethodBody, featParam.getName(), featValParam.getName()), featParam,
-				featValParam);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(), superInitCls,
+				xWithExactFeatMethodBody, featParam, featValParam);
 	}
 
 	private EOperation getWithAddedFeatArrayOp(EClass superInitCls) {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValArrayParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(xWithAddedFeatMethodName, superInitCls,
-				String.format(xWithAddedFeatMethodBody, featParam.getName(), featValParam.getName()), featParam,
-				featValParam);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(), superInitCls,
+				xWithAddedFeatMethodBody, featParam, featValParam);
 	}
 
 	private EOperation getWithRemovedFeatArrayOp(EClass superInitCls) {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValArrayParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(xWithRemovedFeatMethodName, superInitCls,
-				String.format(xWithRemovedFeatMethodBody, featParam.getName(), featValParam.getName()), featParam,
-				featValParam);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(), superInitCls,
+				xWithRemovedFeatMethodBody, featParam, featValParam);
 	}
 
 	private EOperation getWithExactFeatArrayOp(EClass superInitCls) {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValArrayParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(xWithExactFeatMethodName, superInitCls,
-				String.format(xWithExactFeatMethodBody, featParam.getName(), featValParam.getName()), featParam,
-				featValParam);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(), superInitCls,
+				xWithExactFeatMethodBody, featParam, featValParam);
 	}
 
 	private EOperation getWithFeatOfContainerOp(EClass superInitCls) {
 		var featParam = getFeatParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(xWithFeatOfContainerMethodName, superInitCls,
-				String.format(xWithFeatOfContainerMethodBody, featParam.getName()), featParam);
+		return FluentAPIGenerationUtil.generateEOperationWithBody(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodName(), superInitCls,
+				xWithFeatOfContainerMethodBody, featParam);
 	}
 
 	private EParameter getFeatParam() {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameter(featParamName,
+		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName(),
 				EcorePackage.Literals.ESTRUCTURAL_FEATURE);
 	}
 
 	private EParameter getFeatValParam() {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameter(featValParamName,
+		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName(),
 				EcorePackage.Literals.EJAVA_OBJECT);
 	}
 
 	private EParameter getFeatValArrayParam() {
-		return FluentAPIGenerationUtil.generateArrayValuedEParameterWithDocumentation(featValParamName,
+		return FluentAPIGenerationUtil.generateArrayValuedEParameterWithDocumentation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName(),
 				EcorePackage.Literals.EJAVA_OBJECT, "TODO");
 	}
 }

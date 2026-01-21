@@ -21,7 +21,7 @@ public class FluentAPIDropInitialisationMethodGenerator {
 	public EOperation generateDropInitialisationMethod(EClass rootAPIEClass, EClass initSuperType) {
 		var param = getInitialisationParam(initSuperType);
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationMethodNameTemplate(), rootAPIEClass,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationMethodName(), rootAPIEClass,
 				String.format(dropInitialisationMethodBodyTemplate, param.getName()), param);
 	}
 
