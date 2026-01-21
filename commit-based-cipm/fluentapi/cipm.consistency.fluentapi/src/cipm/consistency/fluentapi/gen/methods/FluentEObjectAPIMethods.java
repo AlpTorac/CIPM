@@ -26,8 +26,8 @@ public final class FluentEObjectAPIMethods {
 
 	public static EObject xWithFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
 		var init = getInitialisationForX(api, objToModify);
-		var opName = String.format(FluentAPIWithOperationGenerator.getWithxfeatnametemplate(),
-				StringUtils.capitalize(feat.getName()));
+
+		var opName = FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatNameForType(feat);
 		var withOp = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName)).findFirst()
 				.get();
 		try {
@@ -41,8 +41,7 @@ public final class FluentEObjectAPIMethods {
 
 	public static EObject xWithoutFeat(EObject api, EObject objToModify, EStructuralFeature feat) {
 		var init = getInitialisationForX(api, objToModify);
-		var opName = String.format(FluentAPIWithOperationGenerator.getWithoutxfeatnametemplate(),
-				StringUtils.capitalize(feat.getName()));
+		var opName = FluentAPIInitialisationConstants.getFluentAPIInitialisationWithoutXFeatNameForType(feat);
 		var withoutOp = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName)).findFirst()
 				.get();
 		try {
@@ -64,8 +63,7 @@ public final class FluentEObjectAPIMethods {
 
 	public static EObject xWithAddedFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
 		var init = getInitialisationForX(api, objToModify);
-		var opName = String.format(FluentAPIWithOperationGenerator.getWithaddedxfeatnametemplate(),
-				StringUtils.capitalize(feat.getName()));
+		var opName = FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameForType(feat);
 		var withAddedOps = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName))
 				.collect(Collectors.toList());
 		EOperation op = null;
@@ -93,8 +91,7 @@ public final class FluentEObjectAPIMethods {
 
 	public static EObject xWithRemovedFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
 		var init = getInitialisationForX(api, objToModify);
-		var opName = String.format(FluentAPIWithOperationGenerator.getWithremovedxfeatnametemplate(),
-				StringUtils.capitalize(feat.getName()));
+		var opName = FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameForType(feat);
 		var withRemovedOps = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName))
 				.collect(Collectors.toList());
 		EOperation op = null;
@@ -122,8 +119,7 @@ public final class FluentEObjectAPIMethods {
 
 	public static EObject xWithExactFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
 		var init = getInitialisationForX(api, objToModify);
-		var opName = String.format(FluentAPIWithOperationGenerator.getWithexactxfeatnametemplate(),
-				StringUtils.capitalize(feat.getName()));
+		var opName = FluentAPIInitialisationConstants.getFluentAPIInitialisationWithExactXFeatNameForType(feat);
 		var withExactOp = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName))
 				.collect(Collectors.toList());
 		EOperation op = null;
@@ -148,8 +144,7 @@ public final class FluentEObjectAPIMethods {
 
 	public static EObject xWithFeatOfContainer(EObject api, EObject objToModify, EStructuralFeature feat) {
 		var init = getInitialisationForX(api, objToModify);
-		var opName = String.format(FluentAPIWithOperationGenerator.getWithxfeatofcontainernametemplate(),
-				StringUtils.capitalize(feat.getName()));
+		var opName = FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatOfContainerNameForType(feat);
 		var withFeatOfConOp = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName))
 				.findFirst().get();
 		try {
