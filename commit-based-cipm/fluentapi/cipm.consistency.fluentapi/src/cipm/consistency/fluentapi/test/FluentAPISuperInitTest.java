@@ -108,4 +108,31 @@ public class FluentAPISuperInitTest {
 		api.modifyX(cls).xWithFeatOfContainer(nameFeat);
 		Assertions.assertEquals(cuName, cls.getName());
 	}
+
+	@Test
+	public void onceExistsTest() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var metName = "met";
+		var returnTypeName = "returnType";
+
+		org.emftext.language.java.members.ClassMethod met = null;
+
+		api.newX(org.emftext.language.java.members.ClassMethod.class).markCurrent(metName);
+		met = api.getMarkedClassMethod(metName);
+
+		Assertions.assertNull(met.getTypeReference());
+		api.onceExists(returnTypeName,
+				() -> api.modifyMarkedClassMethod(metName)
+						.withTypeReference(
+								api.newClassifierReference().withTarget(api.getMarkedClass(returnTypeName)).createNow())
+						.createNow());
+		Assertions.assertNull(met.getTypeReference());
+
+		var returnType = api.newClass().withName(returnTypeName).markCurrent(returnTypeName).createNow();
+		Assertions.assertEquals(returnType, met.getTypeReference().getPureClassifierReference().getTarget());
+
+		met = api.continueClassMethod().createNow(org.emftext.language.java.members.ClassMethod.class);
+		Assertions.assertEquals(returnType, met.getTypeReference().getPureClassifierReference().getTarget());
+	}
 }

@@ -118,8 +118,8 @@ public final class FluentAPIRootAPIConstants {
 	private static final String fluentAPIRootAPINewMethodClassParameterName = "eObjCls";
 	private static final String fluentAPIRootAPINewMethodFeatureValueParameterName = "featVal";
 
-	private static final String fluentAPIRootAPIMarkKeyListParameterName = "markKeyList";
-	private static final String fluentAPIRootAPIRunnableParameterName = "toDoOnceExists";
+	private static final String fluentAPIRootAPIOnceExistsMarkKeyListParameterName = "markKeyList";
+	private static final String fluentAPIRootAPIOnceExistsRunnableParameterName = "toDoOnceExists";
 
 	private static final String fluentAPIRootAPIWithMethodEObjectParameterName = "eobjToModify";
 	private static final String fluentAPIRootAPIWithMethodFeatureParameterName = "featToModify";
@@ -169,12 +169,12 @@ public final class FluentAPIRootAPIConstants {
 		return fluentAPIRootAPIXWithFeatOfContainerMethodName;
 	}
 
-	public static String getFluentAPIRootAPIMarkKeyListParameterName() {
-		return fluentAPIRootAPIMarkKeyListParameterName;
+	public static String getFluentAPIRootAPIOnceExistsMarkKeyListParameterName() {
+		return fluentAPIRootAPIOnceExistsMarkKeyListParameterName;
 	}
 
-	public static String getFluentAPIRootAPIRunnableParameterName() {
-		return fluentAPIRootAPIRunnableParameterName;
+	public static String getFluentAPIRootAPIOnceExistsRunnableParameterName() {
+		return fluentAPIRootAPIOnceExistsRunnableParameterName;
 	}
 
 	public static String getFluentAPIRootAPIOnceExistsMethodName() {
