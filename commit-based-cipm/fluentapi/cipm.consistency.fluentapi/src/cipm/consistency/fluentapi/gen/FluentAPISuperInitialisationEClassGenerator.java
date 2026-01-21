@@ -5,7 +5,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
-import cipm.consistency.fluentapi.gen.init.FluentAPICreateNowMethodGenerator;
+import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationCreateNowMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationDropOperationGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationMarkMethodGenerator;
@@ -13,6 +13,7 @@ import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationResetOper
 import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationNewElementMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationWithOperationGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationNextInitialisationMethodGenerator;
+import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationOnceExistsMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationPreviousInitialisationMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIToAPIMethodGenerator;
 
@@ -22,8 +23,8 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		currentElementReference.setChangeable(true);
 		currentElementReference.setContainment(false);
 		currentElementReference.setEType(initialisedEClass);
-		currentElementReference
-				.setName(FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCurrentElementReferenceName());
+		currentElementReference.setName(
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCurrentElementReferenceName());
 		currentElementReference.setUnsettable(true);
 		currentElementReference.setLowerBound(1);
 		currentElementReference.setUpperBound(1);
@@ -60,8 +61,8 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		initSuperType.getEOperations().add(new FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator()
 				.generateGetInitialisedEClassMethod());
 
-		initSuperType.getEOperations().addAll(
-				new FluentAPICreateNowMethodGenerator().generateAllCreateNowMethods(EcorePackage.Literals.EOBJECT));
+		initSuperType.getEOperations().addAll(new FluentAPISuperInitialisationCreateNowMethodGenerator()
+				.generateAllCreateNowMethods(EcorePackage.Literals.EOBJECT));
 
 		initSuperType.getEOperations().add(
 				new FluentAPISuperInitialisationNewElementMethodGenerator().generateNewElementMethod(initSuperType));
@@ -69,8 +70,8 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		initSuperType.getEOperations().add(new FluentAPISuperInitialisationDropOperationGenerator()
 				.generateDropInitialisationMethod(initSuperType));
 
-		initSuperType.getEOperations().add(
-				new FluentAPISuperInitialisationResetOperationGenerator().generateResetInitialisationMethod(initSuperType));
+		initSuperType.getEOperations().add(new FluentAPISuperInitialisationResetOperationGenerator()
+				.generateResetInitialisationMethod(initSuperType));
 
 		initSuperType.getEOperations()
 				.addAll(new FluentAPISuperInitialisationMarkMethodGenerator().generateAllMarkMethods(initSuperType));
@@ -85,6 +86,9 @@ public class FluentAPISuperInitialisationEClassGenerator {
 
 		initSuperType.getEOperations().addAll(new FluentAPISuperInitialisationWithOperationGenerator()
 				.getAllAPITopLevelWithOperations(initSuperType));
+
+		initSuperType.getEOperations().addAll(new FluentAPISuperInitialisationOnceExistsMethodGenerator()
+				.generateAllOnceExistsMethods(initSuperType));
 	}
 
 	public void setupSuperInitialisationEClass(EClass fluentAPICls, EClass initSuperType) {

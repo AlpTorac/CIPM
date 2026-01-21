@@ -14,13 +14,15 @@ import cipm.consistency.fluentapi.gen.FluentAPIRootAPIConstants;
 import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
-public class FluentAPICreateNowMethodGenerator {
+public class FluentAPISuperInitialisationCreateNowMethodGenerator {
 	private static final String createNowMethodDocumentation = "Finalises the initialisation and returns this."
 			+ FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-			+ "(). Drops this initialisation instance from this."
+			+ "(). Drops this " + FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()
+			+ " instance from this."
 			+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
-			+ "(), meaning that this initialisation instance will no longer be accessible from this."
+			+ "(), meaning that this " + FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()
+			+ " instance will no longer be accessible from this."
 			+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "().";
 
 	private static final String createNowMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(

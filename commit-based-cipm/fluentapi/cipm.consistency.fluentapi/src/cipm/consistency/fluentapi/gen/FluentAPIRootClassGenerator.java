@@ -24,13 +24,22 @@ public class FluentAPIRootClassGenerator {
 	// TODO Mention for each method template what it more or less does, re-use or
 	// link to their documentation
 	private static final String rootAPIClassDoc = "<p>" + FluentAPIRootAPIConstants.getFluentAPIRootAPIClassName()
-			+ " is at the center of the fluent API and enables creation of EObject sub-types within the EMF-based metamodel MM this API targets. To this end, this class offers various methods that lead to underlying Initialisation classes, each being responsible for a concrete element from MM. For more information on what individual EObject sub-types and their features represent, refer to MM's documentation.";
+			+ " is at the center of the fluent API and enables creation of EObject sub-types within the EMF-based metamodel MM this API targets. To this end, this class offers various methods that lead to underlying "
+			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()
+			+ " classes, each being responsible for a concrete element from MM. For more information on what individual EObject sub-types and their features represent, refer to MM's documentation.";
 	private static final String initialisationsReferenceDoc = "<p>"
 			+ FluentAPIRootAPIConstants.getRootAPIInitialisationsReferenceName()
-			+ " contains references to each concrete Initialisation class within this API. These references are used to create the necessary Initialisation instance, in order to create a certain element. As API generation considers arbitrary EMF-based metamodels, this reference allows systematic access to supported Initialisation classes. The contents of this reference should not be modified post API generation.";
+			+ " contains references to each concrete Initialisation class within this API. These references are used to create the necessary "
+			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()
+			+ " instance, in order to create a certain element. As API generation considers arbitrary EMF-based metamodels, this reference allows systematic access to supported "
+			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()
+			+ " classes. The contents of this reference should not be modified post API generation.";
 	private static final String ongoingInitsDoc = "<p>"
-			+ FluentAPIRootAPIConstants.getRootAPIOngoingInitialisationsReferenceName()
-			+ " contains each Initialisation instance, which encapsulate a non-finished element construction, that this class created. This allows the API to find such Initialisation instances in a systematic way. The contents of this reference should only be modified by the foreseen methods in this class.";
+			+ FluentAPIRootAPIConstants.getRootAPIOngoingInitialisationsReferenceName() + " contains each "
+			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()
+			+ " instance, which encapsulate a non-finished element construction, that this class created. This allows the API to find unfinished "
+			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()
+			+ " instances in a systematic way. The contents of this reference should only be modified by the foreseen methods in this class.";
 
 	public EClass generateRootAPIEClass() {
 		var fluentAPICls = EcoreFactory.eINSTANCE.createEClass();

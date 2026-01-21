@@ -75,10 +75,27 @@ public final class FluentAPISuperInitialisationConstants {
 	private static final String fluentAPISuperInitialisationNextInitMethodName = "getNextInit";
 
 	/*
+	 * onceExists
+	 */
+
+	/*
 	 * EParameter
 	 */
 	private static final String fluentAPISuperInitialisationMarkKeyParameterName = FluentAPIRootAPIConstants
 			.getFluentAPIRootAPIMarkKeyParameterName();
+
+	private static final String fluentAPISuperInitialisationOnceExistsMarkKeyListParameterName = FluentAPIRootAPIConstants
+			.getFluentAPIRootAPIOnceExistsMarkKeyListParameterName();
+	private static final String fluentAPISuperInitialisationOnceExistsRunnableParameterName = FluentAPIRootAPIConstants
+			.getFluentAPIRootAPIOnceExistsRunnableParameterName();
+
+	public static String getFluentAPISuperInitialisationOnceExistsRunnableParameterName() {
+		return fluentAPISuperInitialisationOnceExistsRunnableParameterName;
+	}
+
+	public static String getFluentAPISuperInitialisationOnceExistsMarkKeyListParameterName() {
+		return fluentAPISuperInitialisationOnceExistsMarkKeyListParameterName;
+	}
 
 	public static String getFluentAPISuperInitialisationNextInitMethodName() {
 		return fluentAPISuperInitialisationNextInitMethodName;

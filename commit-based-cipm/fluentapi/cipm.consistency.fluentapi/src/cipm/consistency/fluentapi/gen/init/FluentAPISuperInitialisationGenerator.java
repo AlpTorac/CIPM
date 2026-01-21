@@ -17,7 +17,7 @@ public class FluentAPISuperInitialisationGenerator {
 				.generateGetInitialisedEClassMethod());
 
 		superType.getEOperations().addAll(
-				new FluentAPICreateNowMethodGenerator().generateAllCreateNowMethods(EcorePackage.Literals.EOBJECT));
+				new FluentAPISuperInitialisationCreateNowMethodGenerator().generateAllCreateNowMethods(EcorePackage.Literals.EOBJECT));
 
 		superType.getEOperations()
 				.add(new FluentAPISuperInitialisationNewElementMethodGenerator().generateNewElementMethod(superType));

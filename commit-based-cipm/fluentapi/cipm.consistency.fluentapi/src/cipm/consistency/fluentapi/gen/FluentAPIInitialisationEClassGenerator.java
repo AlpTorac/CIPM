@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
 
-import cipm.consistency.fluentapi.gen.init.FluentAPICreateNowMethodGenerator;
+import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationCreateNowMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationDropOperationGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationMarkMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationNewElementOperationGenerator;
@@ -60,7 +60,7 @@ public class FluentAPIInitialisationEClassGenerator {
 				.generateAllWithOperationsFor(xInitEClass, initialisedEClass, targetMetamodelPackageProvider, filter));
 
 		xInitEClass.getEOperations()
-				.addAll(new FluentAPICreateNowMethodGenerator().generateAllCreateNowMethods(initialisedEClass));
+				.addAll(new FluentAPISuperInitialisationCreateNowMethodGenerator().generateAllCreateNowMethods(initialisedEClass));
 
 		xInitEClass.getEOperations().add(
 				new FluentAPISuperInitialisationDropOperationGenerator().generateDropInitialisationMethod(xInitEClass));

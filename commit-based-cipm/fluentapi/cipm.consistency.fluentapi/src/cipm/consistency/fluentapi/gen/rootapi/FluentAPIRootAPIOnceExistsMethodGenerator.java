@@ -19,13 +19,13 @@ public class FluentAPIRootAPIOnceExistsMethodGenerator {
 	private static final String onceExistsMethodSingleMarkKeyBody = FluentAPIMethodsUtil.joinLOC(
 			FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists(this, "
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ", (java.lang.Runnable) "
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIRunnableParameterName() + ")",
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsRunnableParameterName() + ")",
 			"return this");
 
 	private static final String onceExistsMethodMultipleKeyBody = FluentAPIMethodsUtil.joinLOC(
 			FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists(this, "
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyListParameterName()
-					+ ", (java.lang.Runnable) " + FluentAPIRootAPIConstants.getFluentAPIRootAPIRunnableParameterName()
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMarkKeyListParameterName()
+					+ ", (java.lang.Runnable) " + FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsRunnableParameterName()
 					+ ")",
 			"return this");
 
@@ -69,18 +69,18 @@ public class FluentAPIRootAPIOnceExistsMethodGenerator {
 
 	private EParameter getMarkKeyListParam() {
 		return FluentAPIGenerationUtil.generateManyValuedEParameter(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyListParameterName(),
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMarkKeyListParameterName(),
 				EcorePackage.Literals.EJAVA_OBJECT);
 	}
 
 	private EParameter getMarkKeyArrayParam() {
 		return FluentAPIGenerationUtil.generateArrayValuedEParameterWithDocumentation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyListParameterName(),
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMarkKeyListParameterName(),
 				EcorePackage.Literals.EJAVA_OBJECT, "TODO");
 	}
 
 	private EParameter getRunnableParam() {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIRunnableParameterName(), Runnable.class);
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsRunnableParameterName(), Runnable.class);
 	}
 }
