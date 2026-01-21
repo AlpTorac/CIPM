@@ -77,6 +77,8 @@ public final class FluentAPISuperInitialisationConstants {
 	/*
 	 * onceExists
 	 */
+	private static final String fluentAPISuperInitialisationOnceExistsMethodName = FluentAPIRootAPIConstants
+			.getFluentAPIRootAPIOnceExistsMethodName();
 
 	/*
 	 * EParameter
@@ -88,6 +90,10 @@ public final class FluentAPISuperInitialisationConstants {
 			.getFluentAPIRootAPIOnceExistsMarkKeyListParameterName();
 	private static final String fluentAPISuperInitialisationOnceExistsRunnableParameterName = FluentAPIRootAPIConstants
 			.getFluentAPIRootAPIOnceExistsRunnableParameterName();
+
+	public static String getFluentAPISuperInitialisationOnceExistsMethodName() {
+		return fluentAPISuperInitialisationOnceExistsMethodName;
+	}
 
 	public static String getFluentAPISuperInitialisationOnceExistsRunnableParameterName() {
 		return fluentAPISuperInitialisationOnceExistsRunnableParameterName;

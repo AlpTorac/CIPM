@@ -14,7 +14,11 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIMarkExtension;
 
 public class FluentAPISuperInitialisationMarkMethodGenerator {
-	private static final String unmarkMethodDocumentation = "Removes any associations between the given markKey and its corresponding EObject obj. Doing so unmarks obj, meaning that markKey can no longer be used to retrieve obj.";
+	private static final String unmarkMethodDocumentation = "Removes any associations between the given "
+			+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationMarkKeyParameterName()
+			+ " and its corresponding EObject obj. Doing so unmarks obj, meaning that "
+			+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationMarkKeyParameterName()
+			+ " can no longer be used to retrieve obj.";
 	private static final String unmarkMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Mark key parameter name
 			FluentAPIMarkExtension.class.getName() + ".unmark(this.get"
@@ -26,11 +30,12 @@ public class FluentAPISuperInitialisationMarkMethodGenerator {
 	private static final String markMethodDocumentation = "Associates this.get"
 			+ FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-			+ "() with " + FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName()
+			+ "() with " + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationMarkKeyParameterName()
 			+ ". Doing so marks this.get"
 			+ FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-			+ "(), meaning that using " + FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName()
+			+ "(), meaning that using "
+			+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationMarkKeyParameterName()
 			+ " in mark-related operations will result in retrieving this.get" + FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 			+ "().";

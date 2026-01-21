@@ -15,11 +15,11 @@ import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPISuperInitialisationCreateNowMethodGenerator {
-	private static final String createNowMethodDocumentation = "Finalises the initialisation and returns this."
+	private static final String createNowMethodDocumentation = "Finalises the construction of this.get"
 			+ FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-			+ "(). Drops this " + FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()
-			+ " instance from this."
+			+ " and returns it. Drops this "
+			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix() + " instance from this."
 			+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
 			+ "(), meaning that this " + FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()
 			+ " instance will no longer be accessible from this."

@@ -4,11 +4,14 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIInitialisationConstants;
 import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIToAPIMethodGenerator {
-	private static final String toAPIMethodDocumentation = "Swaps from this initialisation instance to the API, which created it. This method is currently the same as this.get"
+	private static final String toAPIMethodDocumentation = "Swaps from this "
+			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()
+			+ " instance to the API, which created it. This method is currently the same as this.get"
 			+ FluentAPISuperInitialisationConstants.getCapitalisedFluentAPISuperInitialisationRootAPIReferenceName()
 			+ "(). Its purpose is to isolate the use of this.get"
 			+ FluentAPISuperInitialisationConstants.getCapitalisedFluentAPISuperInitialisationRootAPIReferenceName()
