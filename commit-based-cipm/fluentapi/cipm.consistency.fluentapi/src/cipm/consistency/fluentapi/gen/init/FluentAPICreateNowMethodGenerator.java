@@ -9,13 +9,10 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIInitialisationConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPICreateNowMethodGenerator {
-	private static final String createNowMethodTypeParamName = "T";
-	private static final String createNowMethodParamName = "returnTypeCls";
-
-	private static final String createNowMethodName = "createNow";
 	private static final String createNowMethodDocumentation = "Finalises the initialisation and returns this.getCurrentElement(). Drops this initialisation instance from this.toAPI(), meaning that this initialisation instance will no longer be accessible from this.toAPI().";
 
 	private static final String createNowMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
@@ -33,7 +30,7 @@ public class FluentAPICreateNowMethodGenerator {
 	}
 
 	private EOperation generateCreateNowMethod(EClass elemToInit) {
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(createNowMethodName, elemToInit,
+		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(FluentAPIInitialisationConstants.getFluentapiinitialisationcreatenowmethodname(), elemToInit,
 				String.format(createNowMethodBodyTemplate, elemToInit.getInstanceClass().getName()),
 				createNowMethodDocumentation);
 	}
@@ -44,7 +41,7 @@ public class FluentAPICreateNowMethodGenerator {
 		// Goal: <T> T createNowMethodTypeParamName(Class<T> createNowMethodParamName)
 
 		var typeParam = EcoreFactory.eINSTANCE.createETypeParameter();
-		typeParam.setName(createNowMethodTypeParamName);
+		typeParam.setName(FluentAPIInitialisationConstants.getFluentapiinitialisationcreatenowmethodtypeparamname());
 
 		// Make sure to create 2 generic types, one for the method parameter (Class<T>)
 		// and one for the return type of the method (T)
@@ -60,21 +57,17 @@ public class FluentAPICreateNowMethodGenerator {
 		genericParamTypeForOp.setETypeParameter(typeParam);
 
 		var param = EcoreFactory.eINSTANCE.createEParameter();
-		param.setName(createNowMethodParamName);
+		param.setName(FluentAPIInitialisationConstants.getFluentapiinitialisationcreatenowmethodparamname());
 		param.setEGenericType(genericClassType);
 		param.setLowerBound(1);
 		param.setUpperBound(1);
 
-		var op = FluentAPIGenerationUtil.generateEOperationWithBody(createNowMethodName, null,
+		var op = FluentAPIGenerationUtil.generateEOperationWithBody(FluentAPIInitialisationConstants.getFluentapiinitialisationcreatenowmethodname(), null,
 				String.format(createNowMethodBodyTemplate, typeParam.getName()));
 		op.setEGenericType(genericParamTypeForOp);
 		op.getETypeParameters().add(typeParam);
 		op.getEParameters().add(param);
 
 		return op;
-	}
-
-	public static String getCreateNowMethodName() {
-		return createNowMethodName;
 	}
 }

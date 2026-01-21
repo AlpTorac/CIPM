@@ -23,7 +23,7 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		currentElementReference.setContainment(false);
 		currentElementReference.setEType(initialisedEClass);
 		currentElementReference
-				.setName(FluentAPIConstants.getFluentAPISuperInitialisationCurrentElementReferenceName());
+				.setName(FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCurrentElementReferenceName());
 		currentElementReference.setUnsettable(true);
 		currentElementReference.setLowerBound(1);
 		currentElementReference.setUpperBound(1);
@@ -35,7 +35,7 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		rootAPIRef.setChangeable(true);
 		rootAPIRef.setContainment(false);
 		rootAPIRef.setEType(rootAPIEClass);
-		rootAPIRef.setName(FluentAPIConstants.getFluentAPISuperInitialisationRootAPIReferenceName());
+		rootAPIRef.setName(FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationRootAPIReferenceName());
 		rootAPIRef.setLowerBound(1);
 		rootAPIRef.setUpperBound(1);
 		return rootAPIRef;
@@ -45,7 +45,7 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		var superType = EcoreFactory.eINSTANCE.createEClass();
 		superType.setAbstract(true);
 		superType.setInterface(false);
-		superType.setName(FluentAPIConstants.getFluentAPISuperInitialisationClassName());
+		superType.setName(FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationClassName());
 		return superType;
 	}
 

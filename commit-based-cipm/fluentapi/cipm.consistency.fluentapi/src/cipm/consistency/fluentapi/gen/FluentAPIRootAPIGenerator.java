@@ -33,13 +33,13 @@ public class FluentAPIRootAPIGenerator {
 	}
 
 	public List<EPackage> generateFluentAPIRootPackage() {
-		return FluentAPIGenerationUtil.generatePackages(FluentAPIConstants.getFluentAPIRootPackageURI(),
-				FluentAPIConstants.getFluentAPIRootPackageName());
+		return FluentAPIGenerationUtil.generatePackages(FluentAPIRootAPIConstants.getFluentAPIRootPackageURI(),
+				FluentAPIRootAPIConstants.getFluentAPIRootPackageName());
 	}
 
 	private EPackage generateInitialisationsPackage(EPackage rootPac) {
 		return FluentAPIGenerationUtil.generateSubPackage(rootPac,
-				FluentAPIConstants.getFluentAPIInitialisationsPackageName());
+				FluentAPIInitialisationConstants.getFluentAPIInitialisationsPackageName());
 	}
 
 	private EPackage generateArrayTypesPackage(EPackage rootPac) {
