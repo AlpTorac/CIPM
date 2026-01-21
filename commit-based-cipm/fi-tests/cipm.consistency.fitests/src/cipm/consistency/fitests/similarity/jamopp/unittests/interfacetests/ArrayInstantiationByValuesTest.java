@@ -28,10 +28,14 @@ public class ArrayInstantiationByValuesTest extends AbstractJaMoPPSimilarityTest
 	@MethodSource("provideArguments")
 	public void testArrayInitialiser(Class<?> cls, String displayName) {
 		this.testSimilarity(
-				getAPI().newX(cls).xWithFeat(ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER,
-						arrayInitialiser1.get()),
-				getAPI().newX(cls).xWithFeat(ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER,
-						arrayInitialiser2.get()),
+				getAPI().newX(cls)
+						.xWithFeat(ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER,
+								arrayInitialiser1.get())
+						.createNow(),
+				getAPI().newX(cls)
+						.xWithFeat(ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER,
+								arrayInitialiser2.get())
+						.createNow(),
 				ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER);
 	}
 
@@ -39,8 +43,10 @@ public class ArrayInstantiationByValuesTest extends AbstractJaMoPPSimilarityTest
 	@MethodSource("provideArguments")
 	public void testArrayInitialiserNullCheck(Class<?> cls, String displayName) {
 		this.testSimilarityNullCheck(
-				getAPI().newX(cls).xWithFeat(ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER,
-						arrayInitialiser1.get()),
+				getAPI().newX(cls)
+						.xWithFeat(ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER,
+								arrayInitialiser1.get())
+						.createNow(),
 				ArraysPackage.Literals.ARRAY_INSTANTIATION_BY_VALUES__ARRAY_INITIALIZER);
 	}
 }
