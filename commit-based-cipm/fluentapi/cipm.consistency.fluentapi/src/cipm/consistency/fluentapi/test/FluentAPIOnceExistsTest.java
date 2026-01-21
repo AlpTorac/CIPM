@@ -294,7 +294,7 @@ public class FluentAPIOnceExistsTest {
 		Assertions.assertEquals(ifcOne, implCls.getImplements().get(0).getPureClassifierReference().getTarget());
 		Assertions.assertEquals(ifcTwo, implCls.getImplements().get(1).getPureClassifierReference().getTarget());
 	}
-	
+
 	/**
 	 * ImplCls implements Ifc1, Ifc2
 	 */
@@ -308,8 +308,8 @@ public class FluentAPIOnceExistsTest {
 		// Top-down construction: ImplCls construction first, then interfaces'
 		// construction
 		var implCls = api
-				.onceExists(new String[] {ifcOneName, ifcTwoName}, () -> api.newClass()
-						.withName(implementingClsName).withAddedImplements(FluentAPITestUtils.toEList(
+				.onceExists(new String[] { ifcOneName, ifcTwoName }, () -> api.newClass().withName(implementingClsName)
+						.withAddedImplements(FluentAPITestUtils.toEList(
 								api.newClassifierReference().withTarget(api.getMarkedInterface(ifcOneName)).createNow(),
 								api.newClassifierReference().withTarget(api.getMarkedInterface(ifcTwoName))
 										.createNow()))

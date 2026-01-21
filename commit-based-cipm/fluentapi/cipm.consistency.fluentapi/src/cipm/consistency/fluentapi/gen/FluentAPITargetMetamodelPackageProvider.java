@@ -7,5 +7,6 @@ import org.eclipse.emf.ecore.EPackage;
 
 public abstract class FluentAPITargetMetamodelPackageProvider {
 	public abstract List<EPackage> getTargetMetamodelPackages();
+
 	public abstract List<EClass> getAllTargetMetamodelConcreteEClasses();
 }
