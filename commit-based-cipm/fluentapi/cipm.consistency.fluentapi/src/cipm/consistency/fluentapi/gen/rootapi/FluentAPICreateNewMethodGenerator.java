@@ -21,11 +21,14 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 public class FluentAPICreateNewMethodGenerator {
 	// TODO Add documentation
 
-	private static final String createNewXMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) this.getInitialisationForX(%s.class).createNow()");
+	private static final String createNewXMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC("return (%s) this."
+			+ FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName() + "(%s.class).createNow()");
 
-	private static final String createNewXWithClassParamMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) this.getInitialisationForX(%s).createNow()");
+	private static final String createNewXWithClassParamMethodBody = FluentAPIMethodsUtil.joinLOC("return ("
+			+ FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXWithClassParameterMethodTypeParameterName()
+			+ ") this." + FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName() + "("
+			+ FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXWithClassParameterMethodParameterName()
+			+ ").createNow()");
 
 	public List<EOperation> generateAllCreateNewMethods(List<EClass> eObjEClss) {
 		var ops = new ArrayList<EOperation>();
@@ -77,7 +80,7 @@ public class FluentAPICreateNewMethodGenerator {
 
 		var op = FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXWithClassParameterMethodName(), null,
-				String.format(createNewXWithClassParamMethodBodyTemplate, typeParam.getName(), param.getName()));
+				createNewXWithClassParamMethodBody);
 		op.setEGenericType(genericParamTypeForOp);
 		op.getETypeParameters().add(typeParam);
 		op.getEParameters().add(param);
