@@ -1,6 +1,7 @@
 package cipm.consistency.fluentapi.gen.init;
 
 import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
@@ -14,7 +15,6 @@ public class FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator {
 
 	public EOperation generateGetInitialisedEClassMethod() {
 		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(getInitialisedEClassMethodName,
-				FluentAPIGenerationUtil.getEClassEClass(), getInitialisedEClassMethodBody,
-				getInitialisedEClassDocumentation);
+				EcorePackage.Literals.ECLASS, getInitialisedEClassMethodBody, getInitialisedEClassDocumentation);
 	}
 }

@@ -77,7 +77,7 @@ public class FluentAPIModifyElementMethodGenerator {
 
 	public EOperation getRootAPITopLevelModifyElementOperation(EClass rootAPICls,
 			EClass initialisationSuperTypeEClass) {
-		var param = getEObjectParam(FluentAPIGenerationUtil.getEObjectEClass());
+		var param = getEObjectParam(EcorePackage.Literals.EOBJECT);
 		return FluentAPIGenerationUtil.generateEOperationWithBody(topLevelModifyElementMethodName,
 				initialisationSuperTypeEClass,
 				String.format(topLevelModifyElementMethodBody,

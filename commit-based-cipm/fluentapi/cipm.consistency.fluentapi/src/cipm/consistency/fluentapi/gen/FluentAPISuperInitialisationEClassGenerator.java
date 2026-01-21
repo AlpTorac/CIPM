@@ -3,6 +3,7 @@ package cipm.consistency.fluentapi.gen;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.init.FluentAPICreateNowMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator;
@@ -51,7 +52,7 @@ public class FluentAPISuperInitialisationEClassGenerator {
 	private void addRefs(EClass initSuperType, EClass fluentAPICls) {
 		initSuperType.getEStructuralFeatures().add(getRootAPIReference(fluentAPICls));
 
-		var currentElemRef = getCurrentElementReference(FluentAPIGenerationUtil.getEObjectEClass());
+		var currentElemRef = getCurrentElementReference(EcorePackage.Literals.EOBJECT);
 		initSuperType.getEStructuralFeatures().add(currentElemRef);
 	}
 
@@ -59,8 +60,8 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		initSuperType.getEOperations().add(new FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator()
 				.generateGetInitialisedEClassMethod());
 
-		initSuperType.getEOperations().addAll(new FluentAPICreateNowMethodGenerator()
-				.generateAllCreateNowMethods(FluentAPIGenerationUtil.getEObjectEClass()));
+		initSuperType.getEOperations().addAll(
+				new FluentAPICreateNowMethodGenerator().generateAllCreateNowMethods(EcorePackage.Literals.EOBJECT));
 
 		initSuperType.getEOperations().add(
 				new FluentAPISuperInitialisationNewElementMethodGenerator().generateNewElementMethod(initSuperType));
@@ -77,10 +78,10 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		initSuperType.getEOperations().add(new FluentAPIToAPIMethodGenerator().generateToAPIMethod(fluentAPICls));
 
 		initSuperType.getEOperations().add(new FluentAPINextInitialisationMethodGenerator()
-				.getNextInitialisationMethodFor(initSuperType, FluentAPIGenerationUtil.getEObjectEClass()));
+				.getNextInitialisationMethodFor(initSuperType, EcorePackage.Literals.EOBJECT));
 
 		initSuperType.getEOperations().add(new FluentAPIPreviousInitialisationMethodGenerator()
-				.getPreviousInitialisationMethodFor(initSuperType, FluentAPIGenerationUtil.getEObjectEClass()));
+				.getPreviousInitialisationMethodFor(initSuperType, EcorePackage.Literals.EOBJECT));
 
 		initSuperType.getEOperations().addAll(new FluentAPISuperInitialisationWithOperationGenerator()
 				.getAllAPITopLevelWithOperations(initSuperType));

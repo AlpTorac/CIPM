@@ -50,8 +50,7 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 	public EOperation generateGetMarkedMethod() {
 		var param = getMarkKeyParam();
 		return FluentAPIGenerationUtil.generateEOperationWithBody(getMarkedMethodNameTemplate,
-				FluentAPIGenerationUtil.getEObjectEClass(), String.format(getMarkedMethodBodyTemplate, param.getName()),
-				param);
+				EcorePackage.Literals.EOBJECT, String.format(getMarkedMethodBodyTemplate, param.getName()), param);
 	}
 
 	public EOperation generateGetMarkedXMethod(EClass elemToInit) {

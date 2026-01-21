@@ -186,8 +186,7 @@ public class FluentAPIRootAPIWithOperationGenerator {
 	}
 
 	private EParameter getEObjectParam() {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameter(eobjParamName,
-				FluentAPIGenerationUtil.getEObjectEClass());
+		return FluentAPIGenerationUtil.generateSingleValuedEParameter(eobjParamName, EcorePackage.Literals.EOBJECT);
 	}
 
 	private EParameter getFeatParam() {

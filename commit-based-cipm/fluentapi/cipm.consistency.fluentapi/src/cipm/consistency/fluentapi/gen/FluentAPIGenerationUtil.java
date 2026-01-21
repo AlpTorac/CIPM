@@ -44,14 +44,6 @@ public class FluentAPIGenerationUtil {
 		return !elemToInit.isAbstract() && !elemToInit.isInterface();
 	}
 
-	public static EClass getEObjectEClass() {
-		return EcoreFactory.eINSTANCE.createEObject().eClass();
-	}
-
-	public static EClass getEClassEClass() {
-		return EcoreFactory.eINSTANCE.createEClass().eClass();
-	}
-
 	public static String getFullyQualifiedEClassName(EClass eCls) {
 		String result = eCls.getName();
 		var pac = eCls.getEPackage();

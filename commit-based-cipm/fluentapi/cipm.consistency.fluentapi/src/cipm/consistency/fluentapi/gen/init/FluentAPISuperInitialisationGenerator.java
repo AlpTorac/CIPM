@@ -2,8 +2,7 @@ package cipm.consistency.fluentapi.gen.init;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
-
-import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import org.eclipse.emf.ecore.EcorePackage;
 
 public class FluentAPISuperInitialisationGenerator {
 	/**
@@ -21,8 +20,8 @@ public class FluentAPISuperInitialisationGenerator {
 		superType.getEOperations().add(new FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator()
 				.generateGetInitialisedEClassMethod());
 
-		superType.getEOperations().addAll(new FluentAPICreateNowMethodGenerator()
-				.generateAllCreateNowMethods(FluentAPIGenerationUtil.getEObjectEClass()));
+		superType.getEOperations().addAll(
+				new FluentAPICreateNowMethodGenerator().generateAllCreateNowMethods(EcorePackage.Literals.EOBJECT));
 
 		superType.getEOperations()
 				.add(new FluentAPISuperInitialisationNewElementMethodGenerator().generateNewElementMethod(superType));
