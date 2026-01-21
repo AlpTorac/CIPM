@@ -29,9 +29,7 @@ public final class FluentAPIRootAPIConstants {
 	 * continue
 	 */
 	private static final String fluentAPIRootAPIContinueMethodNameTemplate = "continue%s";
-	private static final String fluentAPIRootAPIIndexFromStartParamName = "idxFromStart";
 	private static final String fluentAPIRootAPIContinueFromStartMethodNameTemplate = "continue%sFromStart";
-	private static final String fluentAPIRootAPIIndexFromEndParamName = "idxFromEnd";
 	private static final String fluentAPIRootAPIContinueFromEndMethodNameTemplate = "continue%sFromEnd";
 	private static final String fluentAPIRootAPIContinueWithNewestMethodNameTemplate = "continueNewest%s";
 	private static final String fluentAPIRootAPIContinueWithOldestMethodNameTemplate = "continueOldest%s";
@@ -41,14 +39,11 @@ public final class FluentAPIRootAPIConstants {
 	 */
 	private static final String fluentAPIRootAPICreateNewXMethodNameTemplate = "createNew%s";
 	private static final String fluentAPIRootAPICreateNewXWithClassParameterMethodName = "createNewX";
-	private static final String fluentAPIRootAPICreateNewXWithClassParameterTypeParameterName = "T";
-	private static final String fluentAPIRootAPICreateNewXWithClassParameterMethodParameterName = "eObjCls";
 
 	/*
 	 * drop
 	 */
 	private static final String fluentAPIRootAPIDropInitialisationMethodName = "dropInitialisation";
-	private static final String fluentAPIRootAPIDropInitialisationParamName = "initToDrop";
 
 	/*
 	 * getAllSupportedClasses
@@ -59,15 +54,10 @@ public final class FluentAPIRootAPIConstants {
 	 * getInitialisationFor
 	 */
 	private static final String fluentAPIRootAPIGetInitialisationForMethodName = "getInitialisationForX";
-	private static final String fluentAPIRootAPIGetInitialisationForEClassParameterName = "eClsToInit";
-	private static final String fluentAPIRootAPIGetInitialisationForClassParameterName = "clsToInit";
-	private static final String fluentAPIRootAPIGetInitialisationForEObjectParameterName = "eobjToInit";
 
 	/*
 	 * mark
 	 */
-	private static final String fluentAPIRootAPIMarkKeyParameterName = "markKey";
-	private static final String fluentAPIRootAPIMarkKeyDocumentation = "The Object instance, whose memory address will serve as a key in mark-related operations. Note that the content of the given Object instance are fully irrelevant here, only its memory address matters.";
 	private static final String fluentAPIRootAPIGetMarkedMethodName = "getMarked";
 	private static final String fluentAPIRootAPIGetMarkedXMethodNameTemplate = "getMarked%s";
 
@@ -82,36 +72,58 @@ public final class FluentAPIRootAPIConstants {
 	private static final String fluentAPIRootAPIModifyXMethodName = "modifyX";
 	private static final String fluentAPIRootAPIModifyMethodNameTemplate = "modify%s";
 	private static final String fluentAPIRootAPIModifyMarkedMethodNameTemplate = "modifyMarked%s";
-	private static final String fluentAPIRootAPIModifyMethodEObjectParameterName = "eobjToModify";
 
 	/*
 	 * new
 	 */
-	private static final String fluentAPIRootAPINewMethodEClassParameterName = "eObjEClass";
-	private static final String fluentAPIRootAPINewMethodClassParameterName = "eObjCls";
-	private static final String fluentAPIRootAPINewMethodFeatureValueParameterName = "featVal";
 	private static final String fluentAPIRootAPINewXMethodName = "newX";
 	private static final String fluentAPIRootAPINewMethodNameTemplate = "new%s";
 
 	/*
 	 * onceExists
 	 */
-	private static final String fluentAPIRootAPIMarkKeyListParameterName = "markKeyList";
-	private static final String fluentAPIRootAPIRunnableParameterName = "toDoOnceExists";
 	private static final String fluentAPIRootAPIOnceExistsMethodName = "onceExists";
 
 	/*
 	 * with
 	 */
-	private static final String fluentAPIRootAPIWithMethodEObjectParameterName = "eobjToModify";
-	private static final String fluentAPIRootAPIWithMethodFeatureParameterName = "featToModify";
-	private static final String fluentAPIRootAPIWithMethodFeatureValueParameterName = "featVal";
 	private static final String fluentAPIRootAPIXWithFeatMethodName = "xWithFeat";
 	private static final String fluentAPIRootAPIXWithoutFeatMethodName = "xWithoutFeat";
 	private static final String fluentAPIRootAPIXWithAddedFeatMethodName = "xWithAddedFeat";
 	private static final String fluentAPIRootAPIXWithRemovedFeatMethodName = "xWithRemovedFeat";
 	private static final String fluentAPIRootAPIXWithExactFeatMethodName = "xWithExactFeat";
 	private static final String fluentAPIRootAPIXWithFeatOfContainerMethodName = "xWithFeatOfContainer";
+
+	/*
+	 * EParameter
+	 */
+	private static final String fluentAPIRootAPIIndexFromStartParameterName = "idxFromStart";
+	private static final String fluentAPIRootAPIIndexFromEndParameterName = "idxFromEnd";
+
+	private static final String fluentAPIRootAPICreateNewXWithClassParameterTypeParameterName = "T";
+	private static final String fluentAPIRootAPICreateNewXWithClassParameterMethodParameterName = "eObjCls";
+
+	private static final String fluentAPIRootAPIDropInitialisationParameterName = "initToDrop";
+
+	private static final String fluentAPIRootAPIGetInitialisationForEClassParameterName = "eClsToInit";
+	private static final String fluentAPIRootAPIGetInitialisationForClassParameterName = "clsToInit";
+	private static final String fluentAPIRootAPIGetInitialisationForEObjectParameterName = "eobjToInit";
+
+	private static final String fluentAPIRootAPIMarkKeyParameterName = "markKey";
+	private static final String fluentAPIRootAPIMarkKeyDocumentation = "The Object instance, whose memory address will serve as a key in mark-related operations. Note that the content of the given Object instance are fully irrelevant here, only its memory address matters.";
+
+	private static final String fluentAPIRootAPIModifyMethodEObjectParameterName = "eobjToModify";
+
+	private static final String fluentAPIRootAPINewMethodEClassParameterName = "eObjEClass";
+	private static final String fluentAPIRootAPINewMethodClassParameterName = "eObjCls";
+	private static final String fluentAPIRootAPINewMethodFeatureValueParameterName = "featVal";
+
+	private static final String fluentAPIRootAPIMarkKeyListParameterName = "markKeyList";
+	private static final String fluentAPIRootAPIRunnableParameterName = "toDoOnceExists";
+
+	private static final String fluentAPIRootAPIWithMethodEObjectParameterName = "eobjToModify";
+	private static final String fluentAPIRootAPIWithMethodFeatureParameterName = "featToModify";
+	private static final String fluentAPIRootAPIWithMethodFeatureValueParameterName = "featVal";
 
 	private static String getElementToInitialiseName(EClass elemToInitECls) {
 		return StringUtils.capitalize(elemToInitECls.getName());
@@ -264,7 +276,7 @@ public final class FluentAPIRootAPIConstants {
 	}
 
 	public static String getFluentAPIRootAPIDropInitialisationParameterName() {
-		return fluentAPIRootAPIDropInitialisationParamName;
+		return fluentAPIRootAPIDropInitialisationParameterName;
 	}
 
 	public static String getFluentAPIRootAPICreateNewXWithClassParameterMethodName() {
@@ -309,11 +321,11 @@ public final class FluentAPIRootAPIConstants {
 	}
 
 	public static String getFluentAPIRootAPIContinueFromStartMethodIndexFromStartParameterName() {
-		return fluentAPIRootAPIIndexFromStartParamName;
+		return fluentAPIRootAPIIndexFromStartParameterName;
 	}
 
 	public static String getFluentAPIRootAPIContinueFromStartMethodIndexFromEndParameterName() {
-		return fluentAPIRootAPIIndexFromEndParamName;
+		return fluentAPIRootAPIIndexFromEndParameterName;
 	}
 
 	public static String getFluentAPIRootAPIContinueMethodNameTemplate() {

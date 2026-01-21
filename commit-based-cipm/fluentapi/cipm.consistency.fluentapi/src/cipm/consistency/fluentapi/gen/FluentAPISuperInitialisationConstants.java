@@ -42,6 +42,72 @@ public final class FluentAPISuperInitialisationConstants {
 	 */
 	private static final String fluentAPISuperInitialisationNewElementMethodName = "newElement";
 
+	/*
+	 * mark
+	 */
+	private static final String fluentAPISuperInitialisationMarkMethodName = "markCurrent";
+
+	/*
+	 * unmark
+	 */
+	private static final String fluentAPISuperInitialisationUnmarkMethodName = FluentAPIRootAPIConstants
+			.getFluentAPIRootAPIUnmarkMethodName();
+
+	/*
+	 * getMarked
+	 */
+	private static final String fluentAPISuperInitialisationGetMarkedMethodName = FluentAPIRootAPIConstants
+			.getFluentAPIRootAPIGetMarkedMethodName();
+
+	/*
+	 * reset
+	 */
+	private static final String fluentAPISuperInitialisationResetMethodNameTemplate = "reset";
+
+	/*
+	 * getPreviousInit
+	 */
+	private static final String fluentAPISuperInitialisationPreviousInitMethodName = "getPreviousInit";
+
+	/*
+	 * getNextInit
+	 */
+	private static final String fluentAPISuperInitialisationNextInitMethodName = "getNextInit";
+
+	/*
+	 * EParameter
+	 */
+	private static final String fluentAPISuperInitialisationMarkKeyParameterName = FluentAPIRootAPIConstants
+			.getFluentAPIRootAPIMarkKeyParameterName();
+
+	public static String getFluentAPISuperInitialisationNextInitMethodName() {
+		return fluentAPISuperInitialisationNextInitMethodName;
+	}
+
+	public static String getFluentAPISuperInitialisationPreviousInitMethodName() {
+		return fluentAPISuperInitialisationPreviousInitMethodName;
+	}
+
+	public static String getFluentAPISuperInitialisationResetMethodNameTemplate() {
+		return fluentAPISuperInitialisationResetMethodNameTemplate;
+	}
+
+	public static String getFluentAPISuperInitialisationUnmarkMethodName() {
+		return fluentAPISuperInitialisationUnmarkMethodName;
+	}
+
+	public static String getFluentAPISuperInitialisationMarkKeyParameterName() {
+		return fluentAPISuperInitialisationMarkKeyParameterName;
+	}
+
+	public static String getFluentAPISuperInitialisationGetMarkedMethodName() {
+		return fluentAPISuperInitialisationGetMarkedMethodName;
+	}
+
+	public static String getFluentAPISuperInitialisationMarkMethodName() {
+		return fluentAPISuperInitialisationMarkMethodName;
+	}
+
 	public static String getFluentAPISuperInitialisationNewElementMethodName() {
 		return fluentAPISuperInitialisationNewElementMethodName;
 	}

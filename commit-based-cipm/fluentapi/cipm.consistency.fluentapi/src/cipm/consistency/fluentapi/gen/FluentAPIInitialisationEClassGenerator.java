@@ -9,12 +9,12 @@ import org.eclipse.emf.ecore.EcoreFactory;
 
 import cipm.consistency.fluentapi.gen.init.FluentAPICreateNowMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationDropOperationGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationMarkMethodGenerator;
+import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationMarkMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationNewElementOperationGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationOnceExistsMethodGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationResetOperationGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPINextInitialisationMethodGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPIPreviousInitialisationMethodGenerator;
+import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationResetOperationGenerator;
+import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationNextInitialisationMethodGenerator;
+import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationPreviousInitialisationMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIWithOperationGenerator;
 
 public class FluentAPIInitialisationEClassGenerator {
@@ -66,16 +66,16 @@ public class FluentAPIInitialisationEClassGenerator {
 				new FluentAPISuperInitialisationDropOperationGenerator().generateDropInitialisationMethod(xInitEClass));
 
 		xInitEClass.getEOperations().add(
-				new FluentAPIInitialisationResetOperationGenerator().generateResetInitialisationMethod(xInitEClass));
+				new FluentAPISuperInitialisationResetOperationGenerator().generateResetInitialisationMethod(xInitEClass));
 
-		xInitEClass.getEOperations().add(new FluentAPINextInitialisationMethodGenerator()
+		xInitEClass.getEOperations().add(new FluentAPISuperInitialisationNextInitialisationMethodGenerator()
 				.getNextInitialisationMethodFor(xInitEClass, initialisedEClass));
 
-		xInitEClass.getEOperations().add(new FluentAPIPreviousInitialisationMethodGenerator()
+		xInitEClass.getEOperations().add(new FluentAPISuperInitialisationPreviousInitialisationMethodGenerator()
 				.getPreviousInitialisationMethodFor(xInitEClass, initialisedEClass));
 
 		xInitEClass.getEOperations()
-				.addAll(new FluentAPIInitialisationMarkMethodGenerator().generateAllMarkMethods(xInitEClass));
+				.addAll(new FluentAPISuperInitialisationMarkMethodGenerator().generateAllMarkMethods(xInitEClass));
 
 		xInitEClass.getEOperations().addAll(
 				new FluentAPIInitialisationOnceExistsMethodGenerator().generateAllOnceExistsMethods(xInitEClass));
