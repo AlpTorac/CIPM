@@ -17,48 +17,48 @@ public class FluentAPIRootAPIWithOperationGenerator {
 	// TODO Add documentation
 
 	private static final String xWithFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			// %s: EObject param name
-			// %s: Feat param name
-			// %s: Feat val param name
-			FluentEObjectAPIMethods.class.getName() + ".xWithFeat(this, %s, %s, %s)",
+			FluentEObjectAPIMethods.class.getName() + ".xWithFeat(this, "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodEObjectParameterName() + ", "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ", "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName() + ")",
 			//
 			"return this");
 
 	private static final String xWithoutFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			// %s: EObject param name
-			// %s: Feat param name
-			FluentEObjectAPIMethods.class.getName() + ".xWithoutFeat(this, %s, %s)",
+			FluentEObjectAPIMethods.class.getName() + ".xWithoutFeat(this, "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodEObjectParameterName() + ", "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ")",
 			//
 			"return this");
 
 	private static final String xWithAddedFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			// %s: EObject param name
-			// %s: Feat param name
-			// %s: Feat val param name
-			FluentEObjectAPIMethods.class.getName() + ".xWithAddedFeat(this, %s, %s, %s)",
+			FluentEObjectAPIMethods.class.getName() + ".xWithAddedFeat(this, "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodEObjectParameterName() + ", "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ", "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName() + ")",
 			//
 			"return this");
 
 	private static final String xWithRemovedFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			// %s: EObject param name
-			// %s: Feat param name
-			// %s: Feat val param name
-			FluentEObjectAPIMethods.class.getName() + ".xWithRemovedFeat(this, %s, %s, %s)",
+			FluentEObjectAPIMethods.class.getName() + ".xWithRemovedFeat(this, "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodEObjectParameterName() + ", "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ", "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName() + ")",
 			//
 			"return this");
 
 	private static final String xWithExactFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			// %s: EObject param name
-			// %s: Feat param name
-			// %s: Feat val param name
-			FluentEObjectAPIMethods.class.getName() + ".xWithExactFeat(this, %s, %s, %s)",
+			FluentEObjectAPIMethods.class.getName() + ".xWithExactFeat(this, "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodEObjectParameterName() + ", "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ", "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName() + ")",
 			//
 			"return this");
 
 	private static final String xWithFeatOfContainerMethodBody = FluentAPIMethodsUtil.joinLOC(
-			// %s: EObject param name
-			// %s: Feat param name
-			FluentEObjectAPIMethods.class.getName() + ".xWithFeatOfContainer(this, %s, %s)",
+			FluentEObjectAPIMethods.class.getName() + ".xWithFeatOfContainer(this, "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodEObjectParameterName() + ", "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ")",
 			//
 			"return this");
 

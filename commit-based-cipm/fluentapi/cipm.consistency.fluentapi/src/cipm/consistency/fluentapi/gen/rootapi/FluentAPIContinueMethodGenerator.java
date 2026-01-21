@@ -21,11 +21,13 @@ public class FluentAPIContinueMethodGenerator {
 	private static final String continueMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueElement(this, %s.class)");
 
-	private static final String continueFromStartMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			"return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueElementFromStart(this, %s.class, %s)");
+	private static final String continueFromStartMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC("return (%s) "
+			+ FluentEObjectAPIMethods.class.getName() + ".continueElementFromStart(this, %s.class, "
+			+ FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueFromStartMethodIndexFromStartParameterName() + ")");
 
-	private static final String continueFromEndMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			"return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueElementFromEnd(this, %s.class, %s)");
+	private static final String continueFromEndMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC("return (%s) "
+			+ FluentEObjectAPIMethods.class.getName() + ".continueElementFromEnd(this, %s.class, "
+			+ FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueFromStartMethodIndexFromEndParameterName() + ")");
 
 	private static final String continueWithNewestMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueElement(this, %s.class)");
@@ -91,7 +93,7 @@ public class FluentAPIContinueMethodGenerator {
 				initECls,
 				String.format(continueFromStartMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						elemToInit.getInstanceClass().getName(), param.getName()),
+						elemToInit.getInstanceClass().getName()),
 				param);
 	}
 
@@ -104,7 +106,7 @@ public class FluentAPIContinueMethodGenerator {
 				initECls,
 				String.format(continueFromEndMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						elemToInit.getInstanceClass().getName(), param.getName()),
+						elemToInit.getInstanceClass().getName()),
 				param);
 	}
 
