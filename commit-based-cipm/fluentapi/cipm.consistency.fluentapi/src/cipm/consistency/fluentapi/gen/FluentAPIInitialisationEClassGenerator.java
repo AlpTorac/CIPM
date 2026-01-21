@@ -40,7 +40,7 @@ public class FluentAPIInitialisationEClassGenerator {
 	private EClass generateInitialisationEClass(EClass initialisedEClass) {
 		var xInitEClass = EcoreFactory.eINSTANCE.createEClass();
 		xInitEClass
-				.setName(initialisedEClass.getName() + FluentAPIConstants.getFluentAPIInitialisationClassNameSuffix());
+				.setName(initialisedEClass.getName() + FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix());
 		return xInitEClass;
 	}
 

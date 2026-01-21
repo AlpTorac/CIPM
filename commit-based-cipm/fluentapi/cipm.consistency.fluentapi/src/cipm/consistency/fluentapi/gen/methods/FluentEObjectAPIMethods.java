@@ -16,8 +16,9 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import cipm.consistency.fluentapi.gen.FluentAPIConstants;
-import cipm.consistency.fluentapi.gen.init.FluentAPICreateNowMethodGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPIInitialisationConstants;
+import cipm.consistency.fluentapi.gen.FluentAPIRootAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationConstants;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationNewElementOperationGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIWithOperationGenerator;
 
@@ -170,7 +171,8 @@ public final class FluentEObjectAPIMethods {
 //				.map((c) -> (EClass) c).forEach((c) -> result.add(c));
 
 		var initsPac = me.eClass().getEPackage().getESubpackages().stream()
-				.filter((pac) -> pac.getName().equals(FluentAPIConstants.getFluentAPIInitialisationsPackageName()))
+				.filter((pac) -> pac.getName()
+						.equals(FluentAPIInitialisationConstants.getFluentAPIInitialisationsPackageName()))
 				.findFirst().get();
 
 		var initEClasses = initsPac.getEClassifiers().stream()
@@ -179,7 +181,8 @@ public final class FluentEObjectAPIMethods {
 
 		initEClasses.stream().map((eCls) -> eCls.getInstanceClass()).map((cls) -> {
 			try {
-				return cls.getDeclaredMethod(FluentAPICreateNowMethodGenerator.getCreateNowMethodName());
+				return cls.getDeclaredMethod(
+						FluentAPIInitialisationConstants.getFluentapiinitialisationcreatenowmethodname());
 			} catch (NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
 				throw new IllegalStateException(e);
@@ -198,14 +201,17 @@ public final class FluentEObjectAPIMethods {
 
 	public static EObject getInitialisationInstanceForX(EObject me, Class<?> eobjCls) {
 		var initsPac = me.eClass().getEPackage().getESubpackages().stream()
-				.filter((pac) -> pac.getName().equals(FluentAPIConstants.getFluentAPIInitialisationsPackageName()))
+				.filter((pac) -> pac.getName()
+						.equals(FluentAPIInitialisationConstants.getFluentAPIInitialisationsPackageName()))
 				.findFirst().get();
 
 		var initEClass = (EClass) initsPac.getEClassifiers().stream().filter((eCls) -> eCls instanceof EClass)
 				.map((eCls) -> (EClass) eCls).filter((eCls) -> isInitialisationFor(eCls, eobjCls)).findFirst().get();
 		var initInstance = initEClass.getEPackage().getEFactoryInstance().create(initEClass);
-		initInstance.eSet(initInstance.eClass()
-				.getEStructuralFeature(FluentAPIConstants.getFluentAPISuperInitialisationRootAPIReferenceName()), me);
+		initInstance.eSet(
+				initInstance.eClass().getEStructuralFeature(
+						FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationRootAPIReferenceName()),
+				me);
 		getOngoingInits(me).add(initInstance);
 		return initInstance;
 	}
@@ -236,7 +242,8 @@ public final class FluentEObjectAPIMethods {
 		var initInstance = getInitialisationInstanceForX(me, eobjToInit.eClass().getInstanceClass());
 
 		initInstance.eSet(initInstance.eClass().getEStructuralFeature(
-				FluentAPIConstants.getFluentAPISuperInitialisationCurrentElementReferenceName()), eobjToInit);
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCurrentElementReferenceName()),
+				eobjToInit);
 
 		return initInstance;
 	}
@@ -312,13 +319,13 @@ public final class FluentEObjectAPIMethods {
 
 	@SuppressWarnings("unchecked")
 	public static EList<EClass> getInits(EObject me) {
-		return ((EList<EClass>) me
-				.eGet(me.eClass().getEStructuralFeature(FluentAPIConstants.getRootAPIInitialisationsReferenceName())));
+		return ((EList<EClass>) me.eGet(
+				me.eClass().getEStructuralFeature(FluentAPIRootAPIConstants.getRootAPIInitialisationsReferenceName())));
 	}
 
 	@SuppressWarnings("unchecked")
 	public static EList<EObject> getOngoingInits(EObject me) {
-		return ((EList<EObject>) me.eGet(
-				me.eClass().getEStructuralFeature(FluentAPIConstants.getRootAPIOngoingInitialisationsReferenceName())));
+		return ((EList<EObject>) me.eGet(me.eClass()
+				.getEStructuralFeature(FluentAPIRootAPIConstants.getRootAPIOngoingInitialisationsReferenceName())));
 	}
 }
