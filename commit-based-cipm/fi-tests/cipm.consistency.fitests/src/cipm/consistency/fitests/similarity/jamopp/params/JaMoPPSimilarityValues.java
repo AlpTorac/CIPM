@@ -1,6 +1,7 @@
 package cipm.consistency.fitests.similarity.jamopp.params;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.emftext.language.java.annotations.AnnotationInstance;
 import org.emftext.language.java.annotations.AnnotationsPackage;
 import org.emftext.language.java.arrays.ArrayInstantiation;
 import org.emftext.language.java.arrays.ArraysPackage;
@@ -228,9 +229,9 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 		this.addSimilarityEntry(EnumConstant.class, ReferencesPackage.Literals.ARGUMENTABLE__ARGUMENTS, Boolean.TRUE);
 		this.addSimilarityEntry(MethodCall.class, ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS, Boolean.TRUE);
 		this.addSimilarityEntry(
-				new Class[] { ArrayInstantiation.class, NestedExpression.class, Instantiation.class,
-						PrimitiveTypeReference.class, ReflectiveClassReference.class, SelfReference.class,
-						StringReference.class, TextBlockReference.class },
+				new Class[] { AnnotationInstance.class, ArrayInstantiation.class, NestedExpression.class,
+						Instantiation.class, PrimitiveTypeReference.class, ReflectiveClassReference.class,
+						SelfReference.class, StringReference.class, TextBlockReference.class },
 				new EStructuralFeature[] { ReferencesPackage.Literals.REFERENCE__NEXT,
 						ReferencesPackage.Literals.REFERENCE__ARRAY_SELECTORS },
 				new Boolean[] { Boolean.TRUE, Boolean.TRUE });
@@ -257,10 +258,10 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 	}
 
 	/**
-	 * Adds similarity entries, which have a one-to-one connection
-	 * to certain attributes of certain object types. This means that the results
-	 * contained within these similarity entries are tied to only one attribute
-	 * of an object type per entry.
+	 * Adds similarity entries, which have a one-to-one connection to certain
+	 * attributes of certain object types. This means that the results contained
+	 * within these similarity entries are tied to only one attribute of an object
+	 * type per entry.
 	 */
 	public void addFixedSimilarityEntries() {
 		this.addAnnotationsSimilarityEntries();
@@ -295,8 +296,8 @@ public class JaMoPPSimilarityValues extends AbstractSimilarityValues {
 	}
 
 	/**
-	 * A variant of {@link #addSimilarityEntry(Class, Object, Boolean)}, where
-	 * the second parameter is attr and the first parameter is derived from attr.
+	 * A variant of {@link #addSimilarityEntry(Class, Object, Boolean)}, where the
+	 * second parameter is attr and the first parameter is derived from attr.
 	 */
 	public void addSimilarityEntry(EStructuralFeature attr, Boolean expectedSimResult) {
 		this.addSimilarityEntry(this.getClassFromStructuralFeature(attr), attr, expectedSimResult);
