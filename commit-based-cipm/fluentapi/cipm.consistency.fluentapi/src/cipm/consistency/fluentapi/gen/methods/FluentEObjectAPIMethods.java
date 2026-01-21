@@ -19,7 +19,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationConstants;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPIConstants;
 import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationConstants;
-import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationNewElementOperationGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIWithOperationGenerator;
 
 public final class FluentEObjectAPIMethods {
@@ -220,7 +219,7 @@ public final class FluentEObjectAPIMethods {
 		var initInstance = getInitialisationInstanceForX(me, eobjCls);
 		var newElemOp = initInstance.eClass().getEOperations().stream()
 				.filter((op) -> op.getName()
-						.equals(FluentAPIInitialisationNewElementOperationGenerator.getNewElementOperationName()))
+						.equals(FluentAPIInitialisationConstants.getFluentAPIInitialisationNewElementOperationName()))
 				.findFirst().get();
 		try {
 			initInstance.eInvoke(newElemOp, new BasicEList<>());
