@@ -25,8 +25,8 @@ public class FluentAPIRootAPIOnceExistsMethodGenerator {
 	private static final String onceExistsMethodMultipleKeyBody = FluentAPIMethodsUtil.joinLOC(
 			FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists(this, "
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMarkKeyListParameterName()
-					+ ", (java.lang.Runnable) " + FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsRunnableParameterName()
-					+ ")",
+					+ ", (java.lang.Runnable) "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsRunnableParameterName() + ")",
 			"return this");
 
 	public List<EOperation> generateAllOnceExistsMethods(EClass rootAPIECls) {
@@ -42,7 +42,7 @@ public class FluentAPIRootAPIOnceExistsMethodGenerator {
 		var consumerParam = getRunnableParam();
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), rootAPIECls,
-				String.format(onceExistsMethodSingleMarkKeyBody), keyParam, consumerParam);
+				onceExistsMethodSingleMarkKeyBody, keyParam, consumerParam);
 	}
 
 	private EOperation generateOnceExistsListMethod(EClass rootAPIECls) {
@@ -50,7 +50,7 @@ public class FluentAPIRootAPIOnceExistsMethodGenerator {
 		var consumerParam = getRunnableParam();
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), rootAPIECls,
-				String.format(onceExistsMethodMultipleKeyBody), keyParam, consumerParam);
+				onceExistsMethodMultipleKeyBody, keyParam, consumerParam);
 	}
 
 	private EOperation generateOnceExistsArrayMethod(EClass rootAPIECls) {
@@ -58,7 +58,7 @@ public class FluentAPIRootAPIOnceExistsMethodGenerator {
 		var consumerParam = getRunnableParam();
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), rootAPIECls,
-				String.format(onceExistsMethodMultipleKeyBody), keyParam, consumerParam);
+				onceExistsMethodMultipleKeyBody, keyParam, consumerParam);
 	}
 
 	private EParameter getMarkKeyParam() {

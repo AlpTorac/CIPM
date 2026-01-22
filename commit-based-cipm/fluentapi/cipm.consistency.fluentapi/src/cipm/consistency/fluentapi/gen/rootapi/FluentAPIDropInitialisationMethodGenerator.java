@@ -12,9 +12,9 @@ import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 public class FluentAPIDropInitialisationMethodGenerator {
 	// TODO Add documentation
 
-	private static final String dropInitialisationMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			// %s: Initialisation to drop
-			FluentEObjectAPIMethods.class.getName() + ".dropInitialisation(this, %s)",
+	private static final String dropInitialisationMethodBody = FluentAPIMethodsUtil.joinLOC(
+			FluentEObjectAPIMethods.class.getName() + ".dropInitialisation(this, "
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationParameterName() + ")",
 			//
 			"return this");
 
@@ -22,7 +22,7 @@ public class FluentAPIDropInitialisationMethodGenerator {
 		var param = getInitialisationParam(initSuperType);
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationMethodName(), rootAPIEClass,
-				String.format(dropInitialisationMethodBodyTemplate, param.getName()), param);
+				dropInitialisationMethodBody, param);
 	}
 
 	public EParameter getInitialisationParam(EClass initSuperType) {
