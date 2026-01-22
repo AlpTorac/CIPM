@@ -77,31 +77,37 @@ public class FluentAPIBuilder {
 		genModel.setModelName(fluentAPIModelName);
 		genModel.getForeignModel().add(ecoreRes.getURI().lastSegment());
 
-//		var javaGenModel = metamodelPackageProvider.getTargetMetamodelGenModels().get(0);
+//		GenModel valid, but also generates java and layout packages if enabled
+//		
+//		genModel.getForeignModel().add(metamodelPackageProvider.getTargetMetamodelTopLevelPackages().get(0).eResource()
+//				.getURI().lastSegment());
+//		genModel.getForeignModel().add(metamodelPackageProvider.getTargetMetamodelTopLevelPackages().get(1).eResource()
+//				.getURI().lastSegment());
+
+		var javaGenModel = metamodelPackageProvider.getTargetMetamodelGenModels().get(0);
+
+//		Setting MainGenModel does not change the validity of .genmodel
+//		
 //		genModel.setMainGenModel(javaGenModel);
-//		genModel.getUsedGenPackages().addAll(javaGenModel.getGenPackages());
+
+//		All necessary packages are there, but namespaces clash due to JavaPackage getting somehow duplicated
+//
+		genModel.getUsedGenPackages().addAll(javaGenModel.getGenPackages());
 
 		var initEPacs = new ArrayList<EPackage>();
 		var toGen = (EPackage) ecoreRes.getContents().get(0);
-		initEPacs.addAll(metamodelPackageProvider.getTargetMetamodelTopLevelPackages());
+
+//		Forces java and layout packages to be generated. Leads to a valid .genmodel file
+//		
+//		initEPacs.addAll(metamodelPackageProvider.getTargetMetamodelTopLevelPackages());
 		initEPacs.add(toGen);
 		genModel.initialize(initEPacs);
+
 		genModel.reconcile();
 
-//		// Globally register the default generator adapter factory for GenModel
-//		// elements (only needed in stand-alone).
-//		//
-//		GeneratorAdapterFactory.Descriptor.Registry.INSTANCE.addDescriptor(GenModelPackage.eNS_URI,
-//				GenModelGeneratorAdapterFactory.DESCRIPTOR);
-//
-//		// Create the generator and set the model-level input object.
-//		//
-//		Generator generator = new Generator();
-//		generator.setInput(genModel);
-//
-//		// Generator model code.
-//		//
-//		generator.generate(genModel, GenBaseGeneratorAdapter.MODEL_PROJECT_TYPE, new BasicMonitor.Printing(System.out));
+		// TODO Use Generator and GeneratorAdapterFactory to generate code afterward,
+		// see the documentation of org.eclipse.emf.codegen.ecore.generator.Generator
+		// for example
 
 		genModelRes.getContents().add(genModel);
 

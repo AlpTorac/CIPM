@@ -10,6 +10,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.emftext.commons.layout.LayoutPackage;
 import org.emftext.language.java.JavaPackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
@@ -20,7 +21,6 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 			.createURI("platform:/plugin/org.emftext.language.java/metamodel/java.genmodel");
 	private static final URI javaMetamodelEcoreModelURI = URI
 			.createURI("platform:/plugin/org.emftext.language.java/metamodel/java.ecore");
-//			URI.createURI("http://www.emftext.org/java/metamodel/java.genmodel");
 
 	private void resolveProxy(GenPackage nPac) {
 		var ecorePac = nPac.getEcorePackage();
@@ -48,7 +48,7 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 	@Override
 	public List<GenModel> getTargetMetamodelGenModels() {
 		var genModelResSet = new ResourceSetImpl();
-		var ecoreModelRes = genModelResSet.getResource(javaMetamodelEcoreModelURI, true);
+//		var ecoreModelRes = genModelResSet.getResource(javaMetamodelEcoreModelURI, true);
 		var genModelRes = genModelResSet.getResource(javaMetamodelGenModelURI, true);
 		var javaGenModel = (GenModel) genModelRes.getContents().get(0);
 		javaGenModel.setCanGenerate(false);
@@ -63,6 +63,9 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 
 	@Override
 	public List<EPackage> getTargetMetamodelTopLevelPackages() {
+//		FIXME Decide if the LayoutPackage can be left out from here
+
+//		return List.of(JavaPackage.eINSTANCE, LayoutPackage.eINSTANCE);
 		return List.of(JavaPackage.eINSTANCE);
 	}
 
