@@ -8,8 +8,10 @@ public final class FluentAPIRootAPIConstants {
 	/*
 	 * EPackage
 	 */
-	private static final URI fluentAPIRootAPIPackageURI = URI.createURI("http://www.cipmfluentapi.com/java");
-	private static final String fluentAPIRootAPIPackageName = "cipm.consistency.fluentapi.api";
+	// %s: Target metamodel name
+	private static final String fluentAPIRootAPIPackageURITemplate = "http://www.cipmfluentapi.com/%s";
+	// %s: Target metamodel name
+	private static final String fluentAPIRootAPIPackageNameTemplate = "cipm.consistency.fluentapi.%s";
 
 	/*
 	 * EClass
@@ -300,12 +302,32 @@ public final class FluentAPIRootAPIConstants {
 				getElementToInitialiseName(elemToInitECls));
 	}
 
-	public static String getFluentAPIRootPackageName() {
-		return fluentAPIRootAPIPackageName;
+	public static String getFluentAPIRootPackageNameTemplate() {
+		return fluentAPIRootAPIPackageNameTemplate;
 	}
 
-	public static URI getFluentAPIRootPackageURI() {
-		return fluentAPIRootAPIPackageURI;
+	/**
+	 * @param targetMetamodelName Name of the target metamodel without
+	 *                            capitalisation
+	 * 
+	 * @return The name of the root package of the fluent api to be generated
+	 */
+	public static String getFluentAPIRootPackageName(String targetMetamodelName) {
+		return String.format(getFluentAPIRootPackageNameTemplate(), targetMetamodelName);
+	}
+
+	public static String getFluentAPIRootPackageURITemplate() {
+		return fluentAPIRootAPIPackageURITemplate;
+	}
+
+	/**
+	 * @param targetMetamodelName Name of the target metamodel without
+	 *                            capitalisation
+	 * 
+	 * @return The URI of the root package of the fluent api to be generated
+	 */
+	public static URI getFluentAPIRootPackageURI(String targetMetamodelName) {
+		return URI.createURI(String.format(getFluentAPIRootPackageURITemplate(), targetMetamodelName));
 	}
 
 	public static String getFluentAPIRootAPIClassName() {

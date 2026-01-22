@@ -9,10 +9,10 @@ public final class FluentAPIInitialisationConstants {
 	 * EPackage
 	 */
 	private static final String fluentAPIInitialisationsPackageName = "inits";
-	private static final String fluentAPIInitialisationsPackageFullName = FluentAPIRootAPIConstants
-			.getFluentAPIRootPackageName() + "." + fluentAPIInitialisationsPackageName;
-	private static final URI fluentAPIInitialisationsPackageURI = FluentAPIRootAPIConstants.getFluentAPIRootPackageURI()
-			.appendSegment(fluentAPIInitialisationsPackageName);
+	private static final String fluentAPIInitialisationsPackageFullNameTemplate = FluentAPIRootAPIConstants
+			.getFluentAPIRootPackageNameTemplate() + "." + fluentAPIInitialisationsPackageName;
+	private static final String fluentAPIInitialisationsPackageURITemplate = FluentAPIRootAPIConstants
+			.getFluentAPIRootPackageURITemplate() + "/" + fluentAPIInitialisationsPackageName;
 
 	/*
 	 * EClass
@@ -150,12 +150,20 @@ public final class FluentAPIInitialisationConstants {
 		return fluentAPIInitialisationCreateNowMethodName;
 	}
 
-	public static String getFluentAPIInitialisationsPackageFullName() {
-		return fluentAPIInitialisationsPackageFullName;
+	public static String getFluentAPIInitialisationsPackageFullNameTemplate() {
+		return fluentAPIInitialisationsPackageFullNameTemplate;
 	}
 
-	public static URI getFluentAPIInitialisationsPackageURI() {
-		return fluentAPIInitialisationsPackageURI;
+	public static String getFluentAPIInitialisationsPackageURITemplate() {
+		return fluentAPIInitialisationsPackageURITemplate;
+	}
+
+	public static String getFluentAPIInitialisationsPackageFullName(String targetMetamodelName) {
+		return String.format(getFluentAPIInitialisationsPackageFullNameTemplate(), targetMetamodelName);
+	}
+
+	public static URI getFluentAPIInitialisationsPackageURI(String targetMetamodelName) {
+		return URI.createURI(String.format(getFluentAPIInitialisationsPackageFullNameTemplate(), targetMetamodelName));
 	}
 
 	public static String getFluentAPIInitialisationClassNameSuffix() {

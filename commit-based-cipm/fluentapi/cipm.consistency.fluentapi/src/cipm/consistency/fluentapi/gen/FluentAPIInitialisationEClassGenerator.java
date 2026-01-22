@@ -21,7 +21,7 @@ public class FluentAPIInitialisationEClassGenerator {
 	public List<EClass> generateFluentAPIInitialisationClasses(
 			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
 			FluentAPITargetMetamodelFeatureFilter filter) {
-		var allPackages = targetMetamodelPackageProvider.getTargetMetamodelPackages();
+		var allPackages = targetMetamodelPackageProvider.getAllTargetMetamodelPackages();
 		var initSubClss = new ArrayList<EClass>();
 
 		for (var pac : allPackages) {
@@ -39,8 +39,8 @@ public class FluentAPIInitialisationEClassGenerator {
 
 	private EClass generateInitialisationEClass(EClass initialisedEClass) {
 		var xInitEClass = EcoreFactory.eINSTANCE.createEClass();
-		xInitEClass
-				.setName(initialisedEClass.getName() + FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix());
+		xInitEClass.setName(initialisedEClass.getName()
+				+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix());
 		return xInitEClass;
 	}
 
@@ -59,14 +59,14 @@ public class FluentAPIInitialisationEClassGenerator {
 		xInitEClass.getEOperations().addAll(new FluentAPIWithOperationGenerator()
 				.generateAllWithOperationsFor(xInitEClass, initialisedEClass, targetMetamodelPackageProvider, filter));
 
-		xInitEClass.getEOperations()
-				.addAll(new FluentAPISuperInitialisationCreateNowMethodGenerator().generateAllCreateNowMethods(initialisedEClass));
+		xInitEClass.getEOperations().addAll(new FluentAPISuperInitialisationCreateNowMethodGenerator()
+				.generateAllCreateNowMethods(initialisedEClass));
 
 		xInitEClass.getEOperations().add(
 				new FluentAPISuperInitialisationDropOperationGenerator().generateDropInitialisationMethod(xInitEClass));
 
-		xInitEClass.getEOperations().add(
-				new FluentAPISuperInitialisationResetOperationGenerator().generateResetInitialisationMethod(xInitEClass));
+		xInitEClass.getEOperations().add(new FluentAPISuperInitialisationResetOperationGenerator()
+				.generateResetInitialisationMethod(xInitEClass));
 
 		xInitEClass.getEOperations().add(new FluentAPISuperInitialisationNextInitialisationMethodGenerator()
 				.getNextInitialisationMethodFor(xInitEClass, initialisedEClass));

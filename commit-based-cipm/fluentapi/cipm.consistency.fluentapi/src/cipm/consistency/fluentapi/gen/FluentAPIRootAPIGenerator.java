@@ -9,7 +9,7 @@ public class FluentAPIRootAPIGenerator {
 	public List<EPackage> generateRootAPIPackages(
 			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
 			FluentAPITargetMetamodelFeatureFilter filter) {
-		var rootPacs = generateFluentAPIRootPackage();
+		var rootPacs = generateFluentAPIRootPackage(targetMetamodelPackageProvider);
 		var rootPac = rootPacs.get(rootPacs.size() - 1);
 		var initPac = generateInitialisationsPackage(rootPac);
 
@@ -32,9 +32,13 @@ public class FluentAPIRootAPIGenerator {
 		return rootPacs;
 	}
 
-	public List<EPackage> generateFluentAPIRootPackage() {
-		return FluentAPIGenerationUtil.generatePackages(FluentAPIRootAPIConstants.getFluentAPIRootPackageURI(),
-				FluentAPIRootAPIConstants.getFluentAPIRootPackageName());
+	public List<EPackage> generateFluentAPIRootPackage(
+			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider) {
+		return FluentAPIGenerationUtil.generatePackages(
+				FluentAPIRootAPIConstants
+						.getFluentAPIRootPackageURI(targetMetamodelPackageProvider.getTargetMetamodelName()),
+				FluentAPIRootAPIConstants
+						.getFluentAPIRootPackageName(targetMetamodelPackageProvider.getTargetMetamodelName()));
 	}
 
 	private EPackage generateInitialisationsPackage(EPackage rootPac) {
