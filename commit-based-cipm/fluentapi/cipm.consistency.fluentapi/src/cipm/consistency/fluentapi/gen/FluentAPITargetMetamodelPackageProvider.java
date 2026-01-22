@@ -34,4 +34,6 @@ public abstract class FluentAPITargetMetamodelPackageProvider {
 		return getTargetMetamodelTopLevelPackages().stream().map(MetamodelUtil::getAllSubPackages).flatMap(List::stream)
 				.collect(Collectors.toList());
 	}
+
+	public abstract List<EPackage> getTargetMetamodelEcoreEPackages();
 }

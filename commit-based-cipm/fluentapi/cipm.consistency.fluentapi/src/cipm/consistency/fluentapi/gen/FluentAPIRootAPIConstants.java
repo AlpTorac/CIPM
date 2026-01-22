@@ -8,10 +8,11 @@ public final class FluentAPIRootAPIConstants {
 	/*
 	 * EPackage
 	 */
+	private static final String fluentAPIRootAPIMetamodelSuffix = "API";
 	// %s: Target metamodel name
-	private static final String fluentAPIRootAPIPackageURITemplate = "http://www.cipmfluentapi.com/%s";
+	private static final String fluentAPIRootAPIPackageURITemplate = "http://www.cipmfluentapi.com/%s" + fluentAPIRootAPIMetamodelSuffix;
 	// %s: Target metamodel name
-	private static final String fluentAPIRootAPIPackageNameTemplate = "cipm.consistency.fluentapi.%s";
+	private static final String fluentAPIRootAPIPackageNameTemplate = "cipm.consistency.fluentapi.%s" + fluentAPIRootAPIMetamodelSuffix;
 
 	/*
 	 * EClass
