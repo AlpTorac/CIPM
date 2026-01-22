@@ -84,8 +84,7 @@ public class FluentAPIRootAPIWithOperationGenerator {
 		var featValParam = getFeatValParam();
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodName(), rootAPICls,
-				String.format(xWithFeatMethodBody, eobjParam.getName(), featParam.getName(), featValParam.getName()),
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodName(), rootAPICls, xWithFeatMethodBody,
 				eobjParam, featParam, featValParam);
 	}
 
@@ -95,7 +94,7 @@ public class FluentAPIRootAPIWithOperationGenerator {
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodName(), rootAPICls,
-				String.format(xWithoutFeatMethodBody, eobjParam.getName(), featParam.getName()), eobjParam, featParam);
+				xWithoutFeatMethodBody, eobjParam, featParam);
 	}
 
 	private EOperation getWithAddedFeatOp(EClass rootAPICls) {
@@ -105,9 +104,7 @@ public class FluentAPIRootAPIWithOperationGenerator {
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(), rootAPICls,
-				String.format(xWithAddedFeatMethodBody, eobjParam.getName(), featParam.getName(),
-						featValParam.getName()),
-				eobjParam, featParam, featValParam);
+				xWithAddedFeatMethodBody, eobjParam, featParam, featValParam);
 	}
 
 	private EOperation getWithRemovedFeatOp(EClass rootAPICls) {
@@ -117,9 +114,7 @@ public class FluentAPIRootAPIWithOperationGenerator {
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(), rootAPICls,
-				String.format(xWithRemovedFeatMethodBody, eobjParam.getName(), featParam.getName(),
-						featValParam.getName()),
-				eobjParam, featParam, featValParam);
+				xWithRemovedFeatMethodBody, eobjParam, featParam, featValParam);
 	}
 
 	private EOperation getWithExactFeatOp(EClass rootAPICls) {
@@ -129,9 +124,7 @@ public class FluentAPIRootAPIWithOperationGenerator {
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(), rootAPICls,
-				String.format(xWithExactFeatMethodBody, eobjParam.getName(), featParam.getName(),
-						featValParam.getName()),
-				eobjParam, featParam, featValParam);
+				xWithExactFeatMethodBody, eobjParam, featParam, featValParam);
 	}
 
 	private EOperation getWithAddedFeatArrayOp(EClass rootAPICls) {
@@ -141,9 +134,7 @@ public class FluentAPIRootAPIWithOperationGenerator {
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(), rootAPICls,
-				String.format(xWithAddedFeatMethodBody, eobjParam.getName(), featParam.getName(),
-						featValParam.getName()),
-				eobjParam, featParam, featValParam);
+				xWithAddedFeatMethodBody, eobjParam, featParam, featValParam);
 	}
 
 	private EOperation getWithRemovedFeatArrayOp(EClass rootAPICls) {
@@ -153,9 +144,7 @@ public class FluentAPIRootAPIWithOperationGenerator {
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(), rootAPICls,
-				String.format(xWithRemovedFeatMethodBody, eobjParam.getName(), featParam.getName(),
-						featValParam.getName()),
-				eobjParam, featParam, featValParam);
+				xWithRemovedFeatMethodBody, eobjParam, featParam, featValParam);
 	}
 
 	private EOperation getWithExactFeatArrayOp(EClass rootAPICls) {
@@ -165,9 +154,7 @@ public class FluentAPIRootAPIWithOperationGenerator {
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(), rootAPICls,
-				String.format(xWithExactFeatMethodBody, eobjParam.getName(), featParam.getName(),
-						featValParam.getName()),
-				eobjParam, featParam, featValParam);
+				xWithExactFeatMethodBody, eobjParam, featParam, featValParam);
 	}
 
 	private EOperation getWithFeatOfContainerOp(EClass rootAPICls) {
@@ -176,8 +163,7 @@ public class FluentAPIRootAPIWithOperationGenerator {
 
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodName(), rootAPICls,
-				String.format(xWithFeatOfContainerMethodBody, eobjParam.getName(), featParam.getName()), eobjParam,
-				featParam);
+				xWithFeatOfContainerMethodBody, eobjParam, featParam);
 	}
 
 	private EParameter getEObjectParam() {

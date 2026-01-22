@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationConstants;
+import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationConstants;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
@@ -23,131 +24,213 @@ public class FluentAPIWithOperationGenerator {
 	//
 
 	// %s: Feature name
-	private static final String withXFeatDocumentationTemplate = "Sets the value of the feature %s in this.getCurrentElement() to the given value.";
+	private static final String withXFeatDocumentationTemplate = "Sets the value of the feature %s in this.get"
+			+ FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+			+ "() to the given value.";
 
 	// %s: Feature name
-	private static final String withXFeatOfContainerDocumentationTemplate = "Sets the value of the feature %s in this.getCurrentElement() to the value of the same feature in this.getCurrentElement().eContainer(), i.e. the container of this.getCurrentElement(). Assumes this.getCurrentElement() to be contained in an elligible container.";
+	private static final String withXFeatOfContainerDocumentationTemplate = "Sets the value of the feature %s in this.get"
+			+ FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+			+ "() to the value of the same feature in this.get"
+			+ FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+			+ "().eContainer(), i.e. the container of this.get"
+			+ FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+			+ "(). Assumes this.get"
+			+ FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+			+ "() to be contained in an elligible container.";
 
 	// %s: Feature name
-	private static final String withoutXFeatDocumentationTemplate = "Unsets the value of the feature %s in this.getCurrentElement(), which sets its value to null.";
+	private static final String withoutXFeatDocumentationTemplate = "Unsets the value of the feature %s in this.get"
+			+ FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+			+ "(), which sets its value to null.";
 
 	// %s: Feature name
-	private static final String withAddedXFeatDocumentationTemplate = "Adds the given values to the current values of the feature %s in this.getCurrentElement().";
+	private static final String withAddedXFeatDocumentationTemplate = "Adds the given values to the current values of the feature %s in this.get"
+			+ FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+			+ "().";
 
 	// %s: Feature name
-	private static final String withRemovedXFeatDocumentationTemplate = "Removes the given values from the current values of the feature %s in this.getCurrentElement().";
+	private static final String withRemovedXFeatDocumentationTemplate = "Removes the given values from the current values of the feature %s in this.get"
+			+ FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+			+ "().";
 
 	// %s: Feature name
-	// %s: Feature name
-	private static final String withExactXFeatDocumentationTemplate = "Sets the value of the (many-valued) feature %s in this.getCurrentElement() to the given value. This method is the counterpart of withX(...) methods for many-valued features.";
+	private static final String withExactXFeatDocumentationTemplate = "Sets the value of the (many-valued) feature %s in this.get"
+			+ FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+			+ "() to the given value. Doing so sets the value of the (many-valued) feature to exactly the given values.";
 
 	//
 	// Parameters
 	//
 
 	// %s: Feature name
-	private static final String newFeatValParamDocumentationTemplate = "The new value of the feature %s, which will replace its current value in the initialised object this.getCurrentElement()";
+	private static final String newFeatValParamDocumentationTemplate = "The new value of the feature %s, which will replace its current value in the initialised object this.get"
+			+ FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+			+ "()";
 
 	// %s: Feature name
-	private static final String addedFeatValParamDocumentationTemplate = "for the feature %s, which will be added to its current values in the initialised object this.getCurrentElement().";
+	private static final String addedFeatValParamDocumentationTemplate = "for the feature %s, which will be added to its current values in the initialised object this.get"
+			+ FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+			+ "().";
 	private static final String addedSingleFeatValParamDocumentationTemplate = "Value "
 			+ addedFeatValParamDocumentationTemplate;
 	private static final String addedListFeatValParamDocumentationTemplate = "Values "
 			+ addedFeatValParamDocumentationTemplate;
 
 	// %s: Feature name
-	private static final String removedFeatValParamDocumentationTemplate = "for the feature %s, which will be removed from its current values in the initialised object this.getCurrentElement().";
+	private static final String removedFeatValParamDocumentationTemplate = "for the feature %s, which will be removed from its current values in the initialised object this.get"
+			+ FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+			+ "().";
 	private static final String removedSingleFeatValParamDocumentationTemplate = "Value "
 			+ removedFeatValParamDocumentationTemplate;
 	private static final String removedListFeatValParamDocumentationTemplate = "Values "
 			+ removedFeatValParamDocumentationTemplate;
 
 	// %s: Feature name
-	private static final String exactFeatValParamDocumentationTemplate = "Values for the feature %s, which will replace its current value in the initialised object this.getCurrentElement(). Afterward the value of the feature will be exactly the given values.";
+	private static final String exactFeatValParamDocumentationTemplate = "Values for the feature %s, which will replace its current value in the initialised object this.get"
+			+ FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+			+ "(). Afterward the value of the feature will be exactly the given values.";
 
 	//
 	// Method bodies
 	//
 
-	private static final String withXFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+	private static final String withXFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC("this.get"
+			+ FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+			+ "().eSet(this.get" + FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 			// %s: Feature name
-			// %s: Feature value
-			"this.getCurrentElement().eSet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"), %s)",
-			//
-			"return this");
+			// %s: Feature value parameter (although the parameter name is known, there are
+			// overloading methods process the parameter)
+			+ "().eClass().getEStructuralFeature(\"%s\"), %s)", "return this");
 
-	private static final String withoutXFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+	private static final String withoutXFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC("this.get"
+			+ FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+			+ "().eUnset(this.get" + FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 			// %s: Feature name
-			"this.getCurrentElement().eUnset(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))",
-			//
-			"return this");
+			+ "().eClass().getEStructuralFeature(\"%s\"))", "return this");
 
-	private static final String withAddedXFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			// %s: Feature name
-			// %s: Feature value
-			"((org.eclipse.emf.common.util.EList) this.getCurrentElement().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))).add(%s)",
-			//
-			"return this");
+	private static final String withAddedXFeatMethodBodyTemplate = FluentAPIMethodsUtil
+			.joinLOC("((org.eclipse.emf.common.util.EList) this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "().eGet(this.get" + FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					// %s: Feature name
+					+ "().eClass().getEStructuralFeature(\"%s\"))).add("
+					+ FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName()
+					+ ")", "return this");
 
-	private static final String withRemovedXFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			// %s: Feature name
-			// %s: Feature value
-			"((org.eclipse.emf.common.util.EList) this.getCurrentElement().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))).remove(%s)",
-			//
-			"return this");
+	private static final String withRemovedXFeatMethodBodyTemplate = FluentAPIMethodsUtil
+			.joinLOC("((org.eclipse.emf.common.util.EList) this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "().eGet(this.get" + FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					// %s: Feature name
+					+ "().eClass().getEStructuralFeature(\"%s\"))).remove("
+					+ FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName()
+					+ ")", "return this");
 
-	private static final String withAddedXListFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			// %s: Feature name
-			// %s: Feature value
-			"((org.eclipse.emf.common.util.EList) this.getCurrentElement().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))).addAll(%s)",
-			//
-			"return this");
+	private static final String withAddedXListFeatMethodBodyTemplate = FluentAPIMethodsUtil
+			.joinLOC("((org.eclipse.emf.common.util.EList) this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "().eGet(this.get" + FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					// %s: Feature name
+					+ "().eClass().getEStructuralFeature(\"%s\"))).addAll("
+					+ FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName()
+					+ ")", "return this");
 
-	private static final String withAddedXArrayFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			// %s: Feature name
-			// %s: Feature value
-			"((org.eclipse.emf.common.util.EList) this.getCurrentElement().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))).addAll(java.util.List.of(%s))",
-			//
-			"return this");
+	private static final String withAddedXArrayFeatMethodBodyTemplate = FluentAPIMethodsUtil
+			.joinLOC("((org.eclipse.emf.common.util.EList) this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "().eGet(this.get" + FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					// %s: Feature name
+					+ "().eClass().getEStructuralFeature(\"%s\"))).addAll(java.util.List.of("
+					+ FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName()
+					+ "))", "return this");
 
-	private static final String withRemovedXListFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			// %s: Feature name
-			// %s: Feature value
-			"((org.eclipse.emf.common.util.EList) this.getCurrentElement().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))).removeAll(%s)",
-			//
-			"return this");
+	private static final String withRemovedXListFeatMethodBodyTemplate = FluentAPIMethodsUtil
+			.joinLOC("((org.eclipse.emf.common.util.EList) this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "().eGet(this.get" + FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					// %s: Feature name
+					+ "().eClass().getEStructuralFeature(\"%s\"))).removeAll("
+					+ FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName()
+					+ ")", "return this");
 
-	private static final String withRemovedXArrayFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			// %s: Feature name
-			// %s: Feature value
-			"((org.eclipse.emf.common.util.EList) this.getCurrentElement().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))).removeAll(java.util.List.of(%s))",
-			//
-			"return this");
+	private static final String withRemovedXArrayFeatMethodBodyTemplate = FluentAPIMethodsUtil
+			.joinLOC("((org.eclipse.emf.common.util.EList) this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "().eGet(this.get" + FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					// %s: Feature name
+					+ "().eClass().getEStructuralFeature(\"%s\"))).removeAll(java.util.List.of("
+					+ FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName()
+					+ "))", "return this");
 
-	private static final String withExactXFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			// %s: Feature name
-			"var list = (org.eclipse.emf.common.util.EList) this.getCurrentElement().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))",
-			//
-			"list.clear()",
-			// %s: Feature value
-			"list.addAll(%s)",
-			//
-			"return this");
+	private static final String withExactXFeatMethodBodyTemplate = FluentAPIMethodsUtil
+			.joinLOC("var list = (org.eclipse.emf.common.util.EList) this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "().eGet(this.get" + FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					// %s: Feature name
+					+ "().eClass().getEStructuralFeature(\"%s\"))", "list.clear()",
+					"list.addAll(" + FluentAPIInitialisationConstants
+							.getFluentAPIInitialisationWithMethodExactFeatValParamName() + ")",
+					"return this");
 
 	private static final String withExactXArrayFeatMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Feature name
-			"var list = (org.eclipse.emf.common.util.EList) this.getCurrentElement().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\"))",
+			"var list = (org.eclipse.emf.common.util.EList) this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "().eGet(this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "().eClass().getEStructuralFeature(\"%s\"))",
 			//
 			"list.clear()",
-			// %s: Feature value
-			"list.addAll(java.util.List.of(%s))",
+			"list.addAll(java.util.List.of("
+					+ FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodExactFeatValParamName()
+					+ "))",
 			//
 			"return this");
 
 	private static final String withXFeatOfContainerMethodBodyForManyValuedFeatTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Feature name
 			// %s: Feature name
-			"withExact%s((org.eclipse.emf.common.util.EList) this.getCurrentElement().eContainer().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\")))",
+			"withExact%s((org.eclipse.emf.common.util.EList) this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "().eContainer().eGet(this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "().eClass().getEStructuralFeature(\"%s\")))",
 			//
 			"return this");
 
@@ -156,7 +239,13 @@ public class FluentAPIWithOperationGenerator {
 					// %s: Feature name
 					// %s: Feature value type
 					// %s: Feature name
-					"with%s((%s) this.getCurrentElement().eContainer().eGet(this.getCurrentElement().eClass().getEStructuralFeature(\"%s\")))",
+					"with%s((%s) this.get"
+							+ FluentAPISuperInitialisationConstants
+									.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+							+ "().eContainer().eGet(this.get"
+							+ FluentAPISuperInitialisationConstants
+									.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+							+ "().eClass().getEStructuralFeature(\"%s\")))",
 					//
 					"return this");
 

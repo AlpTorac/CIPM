@@ -36,9 +36,7 @@ public class FluentAPIRootAPINewMethodGenerator {
 	private static final String newXWithOnlyOneModifiableSingleValuedFeatsMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return (%s) ((%s) this."
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName()
-					+ "(%s.class)).with%s("
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodFeatureValueParameterName()
-					+ ").createNow()");
+					+ "(%s.class)).with%s(%s).createNow()");
 
 	private static final String newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_singleValue = FluentAPIMethodsUtil
 			.joinLOC("return (%s) ((%s) this."
@@ -152,7 +150,8 @@ public class FluentAPIRootAPINewMethodGenerator {
 				String.format(newXWithOnlyOneModifiableSingleValuedFeatsMethodBodyTemplate,
 						eObjEClass.getInstanceClass().getName(),
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						eObjEClass.getInstanceClass().getName(), StringUtils.capitalize(modifiableFeature.getName())),
+						eObjEClass.getInstanceClass().getName(), StringUtils.capitalize(modifiableFeature.getName()),
+						originalOpFeatureValParam.getName()),
 				originalOpFeatureValParam);
 		ops.add(originalOp);
 
