@@ -23,8 +23,7 @@ public class FluentAPIRootClassGenerator {
 
 	// TODO Mention for each method template what it more or less does, re-use or
 	// link to their documentation
-	private static final String rootAPIClassDoc = "<p>" + FluentAPIRootAPIConstants.getFluentAPIRootAPIClassName()
-			+ " is at the center of the fluent API and enables creation of EObject sub-types within the EMF-based metamodel MM this API targets. To this end, this class offers various methods that lead to underlying "
+	private static final String rootAPIClassDocTemplate = "<p> %s is at the center of the fluent API and enables creation of EObject sub-types within the EMF-based metamodel MM this API targets. To this end, this class offers various methods that lead to underlying "
 			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()
 			+ " classes, each being responsible for a concrete element from MM. For more information on what individual EObject sub-types and their features represent, refer to MM's documentation.";
 	private static final String initialisationsReferenceDoc = "<p>"
@@ -41,18 +40,21 @@ public class FluentAPIRootClassGenerator {
 			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()
 			+ " instances in a systematic way. The contents of this reference should only be modified by the foreseen methods in this class.";
 
-	public EClass generateRootAPIEClass() {
+	public EClass generateRootAPIEClass(FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider) {
 		var fluentAPICls = EcoreFactory.eINSTANCE.createEClass();
+		var fluentAPIClsName = FluentAPIRootAPIConstants
+				.getFluentAPIRootAPIClassName(targetMetamodelPackageProvider.getTargetMetamodelName());
 
 		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
 		anno.setSource(FluentAPIConstants.getGenModelURL());
-		anno.getDetails().put(FluentAPIGenerationUtil.getEOperationDocumentationKey(), rootAPIClassDoc);
+		anno.getDetails().put(FluentAPIGenerationUtil.getEOperationDocumentationKey(),
+				String.format(rootAPIClassDocTemplate, fluentAPIClsName));
 
 		fluentAPICls.getEAnnotations().add(anno);
 
 		fluentAPICls.setAbstract(false);
 		fluentAPICls.setInterface(false);
-		fluentAPICls.setName(FluentAPIRootAPIConstants.getFluentAPIRootAPIClassName());
+		fluentAPICls.setName(fluentAPIClsName);
 		return fluentAPICls;
 	}
 

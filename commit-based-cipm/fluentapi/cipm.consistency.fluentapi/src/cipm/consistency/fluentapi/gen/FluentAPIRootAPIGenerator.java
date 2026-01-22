@@ -16,7 +16,7 @@ public class FluentAPIRootAPIGenerator {
 		var placeholderEDataTypesPac = generateArrayTypesPackage(rootPac);
 		FluentAPIGenerationUtil.setPlaceholderEDataTypesPackage(placeholderEDataTypesPac);
 
-		var fluentAPICls = generateRootAPIEClass();
+		var fluentAPICls = generateRootAPIEClass(targetMetamodelPackageProvider);
 		rootPac.getEClassifiers().add(fluentAPICls);
 
 		var initSuperType = generateInitSuperTypeEClass();
@@ -71,8 +71,8 @@ public class FluentAPIRootAPIGenerator {
 		initEClss.forEach((cls) -> cls.getESuperTypes().add(initSuperType));
 	}
 
-	private EClass generateRootAPIEClass() {
-		return new FluentAPIRootClassGenerator().generateRootAPIEClass();
+	private EClass generateRootAPIEClass(FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider) {
+		return new FluentAPIRootClassGenerator().generateRootAPIEClass(targetMetamodelPackageProvider);
 	}
 
 	private void setupRootAPIEClass(EClass fluentAPICls, EClass initSuperType, List<EClass> initEClss,

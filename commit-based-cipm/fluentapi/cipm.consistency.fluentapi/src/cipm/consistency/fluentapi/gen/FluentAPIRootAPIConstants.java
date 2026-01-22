@@ -8,16 +8,18 @@ public final class FluentAPIRootAPIConstants {
 	/*
 	 * EPackage
 	 */
-	private static final String fluentAPIRootAPIMetamodelSuffix = "API";
+	private static final String fluentAPIRootAPIMetamodelSuffix = "FluentAPI";
 	// %s: Target metamodel name
-	private static final String fluentAPIRootAPIPackageURITemplate = "http://www.cipmfluentapi.com/%s" + fluentAPIRootAPIMetamodelSuffix;
+	private static final String fluentAPIRootAPIPackageURITemplate = "http://www.cipmfluentapi.com/%s"
+			+ fluentAPIRootAPIMetamodelSuffix;
 	// %s: Target metamodel name
-	private static final String fluentAPIRootAPIPackageNameTemplate = "cipm.consistency.fluentapi.%s" + fluentAPIRootAPIMetamodelSuffix;
+	private static final String fluentAPIRootAPIPackageNameTemplate = "cipm.consistency.fluentapi.%s"
+			+ fluentAPIRootAPIMetamodelSuffix;
 
 	/*
 	 * EClass
 	 */
-	private static final String fluentAPIRootAPIClassName = "FluentEObjectAPI";
+	private static final String fluentAPIRootAPIClassNameTemplate = "Fluent%sAPI";
 
 	/*
 	 * EReferences
@@ -331,8 +333,13 @@ public final class FluentAPIRootAPIConstants {
 		return URI.createURI(String.format(getFluentAPIRootPackageURITemplate(), targetMetamodelName));
 	}
 
-	public static String getFluentAPIRootAPIClassName() {
-		return fluentAPIRootAPIClassName;
+	/**
+	 * @param targetMetamodelName Name of the target metamodel
+	 * 
+	 * @return The name of the root API class
+	 */
+	public static String getFluentAPIRootAPIClassName(String targetMetamodelName) {
+		return String.format(fluentAPIRootAPIClassNameTemplate, StringUtils.capitalize(targetMetamodelName));
 	}
 
 	public static String getRootAPIInitialisationsReferenceName() {
