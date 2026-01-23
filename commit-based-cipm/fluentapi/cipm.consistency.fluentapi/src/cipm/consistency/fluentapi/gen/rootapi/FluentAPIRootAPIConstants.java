@@ -4,6 +4,8 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+
 public final class FluentAPIRootAPIConstants {
 	/*
 	 * EPackage
@@ -83,6 +85,12 @@ public final class FluentAPIRootAPIConstants {
 	 * onceExists
 	 */
 	private static final String fluentAPIRootAPIOnceExistsMethodName = "onceExists";
+	private static final String fluentAPIRootAPIOnceExistsMethodSummary = "Suspends certain model construction steps till certain markKey(s) exist.";
+	private static final String fluentAPIRootAPIOnceExistsMethodDocumentation = FluentAPIGenerationUtil
+			.appendSummaryToStart(fluentAPIRootAPIOnceExistsMethodSummary)
+			+ "Allows specifying model construction steps as a Runnable instance R, which this API will execute after using the given markKey(s) to mark objects. This method enables preserving the flow of model construction by enabling the specification of construction steps on objects that may not yet exist. The main purpose of this method is to facilitate model constructions, where dependencies between model elements either forcefully require bottom-up approaches or require mixing the construction of several model elements."
+			+ FluentAPIGenerationUtil.getDocParagraphSeparator()
+			+ "Note: markKey(s) are NOT shared across all API instances. Therefore, different API instances have access to different markKey(s).";
 
 	/*
 	 * with
@@ -93,6 +101,12 @@ public final class FluentAPIRootAPIConstants {
 	private static final String fluentAPIRootAPIXWithRemovedFeatMethodName = "xWithRemovedFeat";
 	private static final String fluentAPIRootAPIXWithExactFeatMethodName = "xWithExactFeat";
 	private static final String fluentAPIRootAPIXWithFeatOfContainerMethodName = "xWithFeatOfContainer";
+	private static final String fluentAPIRootAPIXWithFeatMethodSummary = "Sets the given value of a certain single-valued EStructuralFeature for a certain EObject.";
+	private static final String fluentAPIRootAPIXWithoutFeatMethodSummary = "Unsets the value of a certain single-valued EStructuralFeature for a certain EObject.";
+	private static final String fluentAPIRootAPIXWithAddedFeatMethodSummary = "Adds the given value(s) to a certain many-valued EStructuralFeature for a certain EObject.";
+	private static final String fluentAPIRootAPIXWithRemovedFeatMethodSummary = "Removes the given value(s) from a certain many-valued EStructuralFeature for a certain EObject.";
+	private static final String fluentAPIRootAPIXWithExactFeatMethodSummary = "Sets the given value(s) as the value of a certain many-valued EStructuralFeature for a certain EObject. Replaces all existing values of that EStructuralFeature.";
+	private static final String fluentAPIRootAPIXWithFeatOfContainerMethodSummary = "Sets the value of a certain single-valued EStructuralFeature F for a certain EObject EO to the value of F in EO.eContainer().";
 
 	/*
 	 * EParameter
@@ -125,8 +139,49 @@ public final class FluentAPIRootAPIConstants {
 	private static final String fluentAPIRootAPIWithMethodFeatureParameterName = "featToModify";
 	private static final String fluentAPIRootAPIWithMethodFeatureValueParameterName = "featVal";
 
+	/*
+	 * Other
+	 */
+	private static final Class<?> modelConstructionTaskClass = Runnable.class;
+
 	private static String getElementToInitialiseName(EClass elemToInitECls) {
 		return StringUtils.capitalize(elemToInitECls.getName());
+	}
+
+	public static String getFluentAPIRootAPIXWithFeatMethodSummary() {
+		return fluentAPIRootAPIXWithFeatMethodSummary;
+	}
+
+	public static String getFluentAPIRootAPIXWithoutFeatMethodSummary() {
+		return fluentAPIRootAPIXWithoutFeatMethodSummary;
+	}
+
+	public static String getFluentAPIRootAPIXWithAddedFeatMethodSummary() {
+		return fluentAPIRootAPIXWithAddedFeatMethodSummary;
+	}
+
+	public static String getFluentAPIRootAPIXWithRemovedFeatMethodSummary() {
+		return fluentAPIRootAPIXWithRemovedFeatMethodSummary;
+	}
+
+	public static String getFluentAPIRootAPIXWithExactFeatMethodSummary() {
+		return fluentAPIRootAPIXWithExactFeatMethodSummary;
+	}
+
+	public static String getFluentAPIRootAPIXWithFeatOfContainerMethodSummary() {
+		return fluentAPIRootAPIXWithFeatOfContainerMethodSummary;
+	}
+
+	public static final String getFluentAPIRootAPIOnceExistsMethodSummary() {
+		return fluentAPIRootAPIOnceExistsMethodSummary;
+	}
+
+	public static final String getFluentAPIRootAPIOnceExistsMethodDocumentation() {
+		return fluentAPIRootAPIOnceExistsMethodDocumentation;
+	}
+
+	public static Class<?> getModelConstructionTaskClass() {
+		return modelConstructionTaskClass;
 	}
 
 	public static String getFluentAPIRootAPIMarkKeyDocumentation() {

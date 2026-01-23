@@ -3,6 +3,7 @@ package cipm.consistency.fluentapi.gen;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
@@ -16,6 +17,9 @@ import org.eclipse.emf.ecore.EcoreFactory;
 
 public class FluentAPIGenerationUtil {
 	private static EPackage placeholderEDataTypesPac;
+
+	private static final String doNotUseFromOutsideDocumentationNote = "This method is not intended for outside use, but is generated as public because of code generation limitations.";
+	private static final String documentationParagraphSeparator = "<p><p>";
 
 	private static final String placeholderEDataTypeSuffix = "EDataTypePlaceholder";
 
@@ -241,5 +245,29 @@ public class FluentAPIGenerationUtil {
 		pac.setNsURI(nsUri.toString());
 		parentPac.getESubpackages().add(pac);
 		return pac;
+	}
+
+	public static String getDocParagraphSeparator() {
+		return documentationParagraphSeparator;
+	}
+
+	public static String getDoNotUseFromOutsideDocNote() {
+		return doNotUseFromOutsideDocumentationNote;
+	}
+
+	public static String appendDoNotUseFromOutsideDocNoteAtEnd() {
+		return FluentAPIGenerationUtil.getDocParagraphSeparator() + doNotUseFromOutsideDocumentationNote
+				+ FluentAPIGenerationUtil.getDocParagraphSeparator();
+	}
+
+	public static String appendSummaryToStart(String summary) {
+		return summary + FluentAPIGenerationUtil.getDocParagraphSeparator();
+	}
+
+	public static String serialiseSummaries(Map<String, String> methodNameToSummaryMap) {
+		var sb = new StringBuilder();
+		methodNameToSummaryMap
+				.forEach((metName, summary) -> sb.append("<li><b>").append(metName).append("</b>: ").append(summary));
+		return sb.toString();
 	}
 }

@@ -19,4 +19,9 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 	public List<EClass> getAllTargetMetamodelConcreteEClasses() {
 		return List.copyOf(MetamodelUtil.getAllConcreteEClasses(JavaPackage.eINSTANCE));
 	}
+
+	@Override
+	public String getTargetMetamodelName() {
+		return JavaPackage.eINSTANCE.getName();
+	}
 }

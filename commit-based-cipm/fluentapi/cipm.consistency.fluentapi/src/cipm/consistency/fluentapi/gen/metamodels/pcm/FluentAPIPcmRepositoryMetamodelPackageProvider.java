@@ -18,4 +18,9 @@ public class FluentAPIPcmRepositoryMetamodelPackageProvider extends FluentAPITar
 	public List<EClass> getAllTargetMetamodelConcreteEClasses() {
 		return List.copyOf(MetamodelUtil.getAllConcreteEClasses(PcmPackage.eINSTANCE));
 	}
+
+	@Override
+	public String getTargetMetamodelName() {
+		return PcmPackage.eINSTANCE.getName();
+	}
 }

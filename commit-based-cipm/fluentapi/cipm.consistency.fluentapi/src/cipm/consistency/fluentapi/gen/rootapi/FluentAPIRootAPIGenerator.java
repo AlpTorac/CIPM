@@ -76,13 +76,13 @@ public class FluentAPIRootAPIGenerator {
 	}
 
 	private EClass generateRootAPIEClass() {
-		return new FluentAPIRootAPIClassGenerator().generateRootAPIEClass();
+		return new FluentAPIRootAPIEClassGenerator().generateRootAPIEClass();
 	}
 
 	private void setupRootAPIEClass(EClass fluentAPICls, EClass initSuperType, List<EClass> initEClss,
 			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
 			FluentAPITargetMetamodelFeatureFilter filter) {
-		new FluentAPIRootAPIClassGenerator().setupRootAPIEClass(fluentAPICls, initSuperType, initEClss,
+		new FluentAPIRootAPIEClassGenerator().setupRootAPIEClass(fluentAPICls, initSuperType, initEClss,
 				targetMetamodelPackageProvider, filter);
 	}
 }

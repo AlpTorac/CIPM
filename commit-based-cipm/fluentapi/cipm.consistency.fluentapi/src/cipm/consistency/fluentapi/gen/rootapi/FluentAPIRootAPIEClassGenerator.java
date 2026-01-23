@@ -12,7 +12,7 @@ import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
 
-public class FluentAPIRootAPIClassGenerator {
+public class FluentAPIRootAPIEClassGenerator {
 
 	// TODO Re-use / link to documentations of mentioned API classes
 

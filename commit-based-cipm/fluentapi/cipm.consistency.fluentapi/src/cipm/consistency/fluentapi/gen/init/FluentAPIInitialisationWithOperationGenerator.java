@@ -2,6 +2,7 @@ package cipm.consistency.fluentapi.gen.init;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
@@ -11,25 +12,31 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 
+import cipm.consistency.fluentapi.gen.FluentAPIConstants;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
+import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
+import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationConstants;
 
-public class FluentAPIInitialisationWithOperationGenerator {
+public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPIMethodGenerator {
 	//
 	// Method names
 	//
 
 	// %s: Feature name
-	private static final String withXFeatDocumentationTemplate = "Sets the value of the feature %s in this.get"
-			+ FluentAPISuperInitialisationConstants
+	private static final String withXFeatDocumentationTemplate = FluentAPIGenerationUtil
+			.appendSummaryToStart(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodSummary())
+			+ "Sets the value of the feature %s in this.get" + FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 			+ "() to the given value.";
 
 	// %s: Feature name
-	private static final String withXFeatOfContainerDocumentationTemplate = "Sets the value of the feature %s in this.get"
+	private static final String withXFeatOfContainerDocumentationTemplate = FluentAPIGenerationUtil
+			.appendSummaryToStart(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodSummary())
+			+ "Sets the value of the feature %s in this.get"
 			+ FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 			+ "() to the value of the same feature in this.get"
@@ -44,25 +51,33 @@ public class FluentAPIInitialisationWithOperationGenerator {
 			+ "() to be contained in an elligible container.";
 
 	// %s: Feature name
-	private static final String withoutXFeatDocumentationTemplate = "Unsets the value of the feature %s in this.get"
+	private static final String withoutXFeatDocumentationTemplate = FluentAPIGenerationUtil
+			.appendSummaryToStart(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodSummary())
+			+ "Unsets the value of the feature %s in this.get"
 			+ FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 			+ "(), which sets its value to null.";
 
 	// %s: Feature name
-	private static final String withAddedXFeatDocumentationTemplate = "Adds the given values to the current values of the feature %s in this.get"
+	private static final String withAddedXFeatDocumentationTemplate = FluentAPIGenerationUtil
+			.appendSummaryToStart(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodSummary())
+			+ "Adds the given values to the current values of the feature %s in this.get"
 			+ FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 			+ "().";
 
 	// %s: Feature name
-	private static final String withRemovedXFeatDocumentationTemplate = "Removes the given values from the current values of the feature %s in this.get"
+	private static final String withRemovedXFeatDocumentationTemplate = FluentAPIGenerationUtil
+			.appendSummaryToStart(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodSummary())
+			+ "Removes the given values from the current values of the feature %s in this.get"
 			+ FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 			+ "().";
 
 	// %s: Feature name
-	private static final String withExactXFeatDocumentationTemplate = "Sets the value of the (many-valued) feature %s in this.get"
+	private static final String withExactXFeatDocumentationTemplate = FluentAPIGenerationUtil
+			.appendSummaryToStart(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodSummary())
+			+ "Sets the value of the (many-valued) feature %s in this.get"
 			+ FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 			+ "() to the given value. Doing so sets the value of the (many-valued) feature to exactly the given values.";
@@ -505,5 +520,34 @@ public class FluentAPIInitialisationWithOperationGenerator {
 		return FluentAPIGenerationUtil.generateArrayValuedEParameterWithDocumentation(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodExactFeatValParamName(),
 				feat.getEType(), String.format(exactFeatValParamDocumentationTemplate, feat.getName()));
+	}
+
+	@Override
+	public Map<String, String> getMethodNamesToDescriptions() {
+		return Map.of(
+				String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatNameTemplate(),
+						FluentAPIConstants.getDocumentationPlaceholder()),
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodSummary(),
+
+				String.format(
+						FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatOfContainerNameTemplate(),
+						FluentAPIConstants.getDocumentationPlaceholder()),
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodSummary(),
+
+				String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationWithoutXFeatNameTemplate(),
+						FluentAPIConstants.getDocumentationPlaceholder()),
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodSummary(),
+
+				String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameTemplate(),
+						FluentAPIConstants.getDocumentationPlaceholder()),
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodSummary(),
+
+				String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameTemplate(),
+						FluentAPIConstants.getDocumentationPlaceholder()),
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodSummary(),
+
+				String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationWithExactXFeatNameTemplate(),
+						FluentAPIConstants.getDocumentationPlaceholder()),
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodSummary());
 	}
 }
