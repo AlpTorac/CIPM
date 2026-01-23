@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
+import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
@@ -18,7 +19,7 @@ import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 public class FluentAPISuperInitialisationCreateNowMethodGenerator implements IFluentAPIMethodGenerator {
 
 	private static final String createNowMethodSummary = "Finalises and returns the object under construction.";
-	private static final String createNowMethodDocumentation = FluentAPIGenerationUtil
+	private static final String createNowMethodDocumentation = FluentAPIDocumentationUtil
 			.appendSummaryToStart(createNowMethodSummary)
 			+ "Finalises the construction of this.get"
 			+ FluentAPISuperInitialisationConstants

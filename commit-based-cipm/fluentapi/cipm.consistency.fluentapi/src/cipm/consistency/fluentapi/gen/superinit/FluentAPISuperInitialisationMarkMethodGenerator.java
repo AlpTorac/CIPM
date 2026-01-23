@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
+import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
@@ -16,7 +17,7 @@ import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 
 public class FluentAPISuperInitialisationMarkMethodGenerator implements IFluentAPIMethodGenerator {
 	private static final String unmarkMethodSummary = "Removes the given markKey's marking, does not modify the (formerly) marked object.";
-	private static final String unmarkMethodDocumentation = FluentAPIGenerationUtil
+	private static final String unmarkMethodDocumentation = FluentAPIDocumentationUtil
 			.appendSummaryToStart(unmarkMethodSummary) + "Removes any associations between the given "
 			+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationMarkKeyParameterName()
 			+ " and its corresponding EObject obj. Doing so unmarks obj, meaning that "
@@ -31,7 +32,7 @@ public class FluentAPISuperInitialisationMarkMethodGenerator implements IFluentA
 			"return this");
 
 	private static final String markMethodSummary = "Marks the object currently under construction with markKey, does not modify the object.";
-	private static final String markMethodDocumentation = FluentAPIGenerationUtil
+	private static final String markMethodDocumentation = FluentAPIDocumentationUtil
 			.appendSummaryToStart(markMethodSummary)
 			+ "Associates this.get"
 			+ FluentAPISuperInitialisationConstants
@@ -58,7 +59,7 @@ public class FluentAPISuperInitialisationMarkMethodGenerator implements IFluentA
 					"return this");
 
 	private static final String getMarkedMethodSummary = "Returns the object marked by this API instance with the given markKey.";
-	private static final String getMarkedMethodDocumentation = FluentAPIGenerationUtil
+	private static final String getMarkedMethodDocumentation = FluentAPIDocumentationUtil
 			.appendSummaryToStart(getMarkedMethodSummary) + "Returns the EObject obj associated with "
 			+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ". Note that "
 			+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName()

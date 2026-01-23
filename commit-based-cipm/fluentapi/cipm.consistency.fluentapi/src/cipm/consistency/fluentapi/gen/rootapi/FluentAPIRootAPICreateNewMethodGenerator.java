@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
@@ -42,48 +41,47 @@ public class FluentAPIRootAPICreateNewMethodGenerator {
 	}
 
 	private EOperation generateCreateNewMethod(EClass eObjEClass) {
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
+		var op = FluentAPIGenerationUtil.generateEOperation(
 				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXMethodNameTemplate(),
 						eObjEClass.getInstanceClass().getSimpleName()),
-				eObjEClass, String.format(createNewXMethodBodyTemplate, eObjEClass.getInstanceClass().getName(),
-						eObjEClass.getInstanceClass().getName()));
+				eObjEClass);
+		FluentAPIGenerationUtil.addBody(op, String.format(createNewXMethodBodyTemplate,
+				eObjEClass.getInstanceClass().getName(), eObjEClass.getInstanceClass().getName()));
+		return op;
 	}
 
 	private EOperation generateGenericCreateNewMethod() {
-		// TODO Clean up
-
 		// Goal: <T> T createNewX(Class<T> createNewXWithClassParamParamName)
 
-		var typeParam = EcoreFactory.eINSTANCE.createETypeParameter();
-		typeParam.setName(
+		var typeParam = FluentAPIGenerationUtil.generateETypeParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXWithClassParameterMethodTypeParameterName());
 
 		// Make sure to create 2 generic types, one for the method parameter (Class<T>)
 		// and one for the return type of the method (T)
 
-		var genericParamTypeForJavaClass = EcoreFactory.eINSTANCE.createEGenericType();
-		genericParamTypeForJavaClass.setETypeParameter(typeParam);
+		// "<T>" in "<T> T createNewX..."
+		var methodTypeParam = FluentAPIGenerationUtil.generateEGenericTypeWithTypeParameter(typeParam);
 
-		var genericClassType = EcoreFactory.eINSTANCE.createEGenericType();
-		genericClassType.setEClassifier(EcorePackage.Literals.EJAVA_CLASS);
-		genericClassType.getETypeArguments().add(genericParamTypeForJavaClass);
+		// "T" in "Class<T> ..."
+		var methodParamTypeArgument = FluentAPIGenerationUtil.generateEGenericTypeWithTypeParameter(typeParam);
 
-		var genericParamTypeForOp = EcoreFactory.eINSTANCE.createEGenericType();
-		genericParamTypeForOp.setETypeParameter(typeParam);
+		// "Class<T>" in "Class<T> createNewXWithClassParamParamName"
+		var methodParamType = FluentAPIGenerationUtil
+				.generateEGenericTypeWithClassifier(EcorePackage.Literals.EJAVA_CLASS);
+		FluentAPIGenerationUtil.addTypeArgument(methodParamType, methodParamTypeArgument);
 
-		var param = EcoreFactory.eINSTANCE.createEParameter();
-		param.setName(FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXWithClassParameterMethodParameterName());
-		param.setEGenericType(genericClassType);
-		param.setLowerBound(1);
-		param.setUpperBound(1);
+		// "createNewXWithClassParamParamName" in "Class<T>
+		// createNewXWithClassParamParamName"
+		var methodParam = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXWithClassParameterMethodParameterName());
+		methodParam.setEGenericType(methodParamType);
 
-		var op = FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXWithClassParameterMethodName(), null,
-				createNewXWithClassParamMethodBody);
-		op.setEGenericType(genericParamTypeForOp);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXWithClassParameterMethodName());
+		FluentAPIGenerationUtil.addBody(op, createNewXWithClassParamMethodBody);
+		op.setEGenericType(methodTypeParam);
 		op.getETypeParameters().add(typeParam);
-		op.getEParameters().add(param);
-
+		op.getEParameters().add(methodParam);
 		return op;
 	}
 }

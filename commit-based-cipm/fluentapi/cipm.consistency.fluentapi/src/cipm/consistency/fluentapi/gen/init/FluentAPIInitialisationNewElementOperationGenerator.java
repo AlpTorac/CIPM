@@ -5,6 +5,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 
+import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
@@ -12,12 +13,12 @@ import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationCons
 
 public class FluentAPIInitialisationNewElementOperationGenerator implements IFluentAPIMethodGenerator {
 	// %s: Name of elemToInit
-	private static final String newElementMethodDocumentation = FluentAPIGenerationUtil.appendSummaryToStart(
+	private static final String newElementMethodDocumentation = FluentAPIDocumentationUtil.appendSummaryToStart(
 			FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationNewElementMethodSummary())
 			+ "Creates a minimal %s instance, without modifying any of its features, and sets it as the current element (i.e. return value of this.get"
 			+ FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-			+ "())." + FluentAPIGenerationUtil.appendDoNotUseFromOutsideDocNoteAtEnd();
+			+ "())." + FluentAPIDocumentationUtil.appendDoNotUseFromOutsideDocNoteAtEnd();
 
 	private static final String newElementMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Fully qualified name of the concrete EPackage type
@@ -32,14 +33,12 @@ public class FluentAPIInitialisationNewElementOperationGenerator implements IFlu
 			"return this");
 
 	public EOperation getNewElementOperationFor(EClass initEClass, EClass elemToInit) {
-		var op = FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationNewElementOperationName(), initEClass,
-				String.format(newElementMethodBodyTemplate, elemToInit.getEPackage().getClass().getName(),
-						EClass.class.getName(), elemToInit.getName()),
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIInitialisationConstants.getFluentAPIInitialisationNewElementOperationName(), initEClass);
+		FluentAPIGenerationUtil.addBody(op, String.format(newElementMethodBodyTemplate,
+				elemToInit.getEPackage().getClass().getName(), EClass.class.getName(), elemToInit.getName()));
+		FluentAPIGenerationUtil.addDocumentation(op,
 				String.format(newElementMethodDocumentation, elemToInit.getName()));
-
-		op.setEType(initEClass);
-
 		return op;
 	}
 

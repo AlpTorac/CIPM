@@ -5,6 +5,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcorePackage;
 
+import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
@@ -12,7 +13,7 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator implements IFluentAPIMethodGenerator {
 	private static final String getInitialisedEClassSummary = "Returns the targeted EClass.";
-	private static final String getInitialisedEClassDocumentation = FluentAPIGenerationUtil
+	private static final String getInitialisedEClassDocumentation = FluentAPIDocumentationUtil
 			.appendSummaryToStart(getInitialisedEClassSummary) + "Returns the EClass, which this "
 			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix() + " instance targets.";
 

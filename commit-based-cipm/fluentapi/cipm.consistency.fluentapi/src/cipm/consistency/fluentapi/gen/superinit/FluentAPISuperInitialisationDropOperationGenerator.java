@@ -5,6 +5,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 
+import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
@@ -13,7 +14,7 @@ import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 public class FluentAPISuperInitialisationDropOperationGenerator implements IFluentAPIMethodGenerator {
 	private static final String dropMethodSummary = "Removes this instance from its API instance.";
 
-	private static final String dropMethodDocumentation = FluentAPIGenerationUtil
+	private static final String dropMethodDocumentation = FluentAPIDocumentationUtil
 			.appendSummaryToStart(dropMethodSummary) + "Removes this initialisation instance from this."
 			+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
 			+ "(), meaning that it will no longer be accessible from this."

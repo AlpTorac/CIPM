@@ -5,6 +5,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 
+import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
@@ -13,7 +14,7 @@ import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
 public class FluentAPISuperInitialisationNextInitialisationMethodGenerator implements IFluentAPIMethodGenerator {
 	private static final String nextInitMethodSummary = "Returns the Initialisation instance of the same type that this API instance created after this one.";
-	private static final String nextInitMethodDocumentation = FluentAPIGenerationUtil
+	private static final String nextInitMethodDocumentation = FluentAPIDocumentationUtil
 			.appendSummaryToStart(nextInitMethodSummary) + "Returns the "
 			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()
 			+ " instance of the same type, which was created by this."

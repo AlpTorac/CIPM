@@ -55,58 +55,73 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 	}
 
 	private EOperation generateContinueMethod(EClass elemToInit, EClass initECls) {
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
+		var op = FluentAPIGenerationUtil.generateEOperation(
 				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueMethodNameTemplate(),
 						StringUtils.capitalize(elemToInit.getName())),
-				initECls,
+				initECls);
+
+		FluentAPIGenerationUtil.addBody(op,
 				String.format(continueMethodBodyTemplate, FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						elemToInit.getInstanceClass().getName()));
+		return op;
 	}
 
 	private EOperation generateContinueNewestMethod(EClass elemToInit, EClass initECls) {
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
+		var op = FluentAPIGenerationUtil.generateEOperation(
 				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueWithNewestMethodNameTemplate(),
 						StringUtils.capitalize(elemToInit.getName())),
-				initECls,
+				initECls);
+
+		FluentAPIGenerationUtil.addBody(op,
 				String.format(continueWithNewestMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						elemToInit.getInstanceClass().getName()));
+		return op;
 	}
 
 	private EOperation generateContinueOldestMethod(EClass elemToInit, EClass initECls) {
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
+		var op = FluentAPIGenerationUtil.generateEOperation(
 				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueWithOldestMethodNameTemplate(),
 						StringUtils.capitalize(elemToInit.getName())),
-				initECls,
+				initECls);
+
+		FluentAPIGenerationUtil.addBody(op,
 				String.format(continueWithOldestMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						elemToInit.getInstanceClass().getName()));
+		return op;
 	}
 
 	private EOperation generateContinueFromStartMethod(EClass elemToInit, EClass initECls) {
 		var param = this.getIndexParam(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueFromStartMethodIndexFromStartParameterName());
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
+		var op = FluentAPIGenerationUtil.generateEOperation(
 				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueFromStartMethodNameTemplate(),
 						StringUtils.capitalize(elemToInit.getName())),
-				initECls,
+				initECls);
+
+		FluentAPIGenerationUtil.addBody(op,
 				String.format(continueFromStartMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						elemToInit.getInstanceClass().getName()),
-				param);
+						elemToInit.getInstanceClass().getName()));
+		FluentAPIGenerationUtil.addEParameters(op, param);
+		return op;
 	}
 
 	private EOperation generateContinueFromEndMethod(EClass elemToInit, EClass initECls) {
 		var param = this.getIndexParam(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueFromStartMethodIndexFromEndParameterName());
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
+		var op = FluentAPIGenerationUtil.generateEOperation(
 				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueFromEndMethodNameTemplate(),
 						StringUtils.capitalize(elemToInit.getName())),
-				initECls,
+				initECls);
+
+		FluentAPIGenerationUtil.addBody(op,
 				String.format(continueFromEndMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						elemToInit.getInstanceClass().getName()),
-				param);
+						elemToInit.getInstanceClass().getName()));
+		FluentAPIGenerationUtil.addEParameters(op, param);
+		return op;
 	}
 
 	private EParameter getIndexParam(String name) {

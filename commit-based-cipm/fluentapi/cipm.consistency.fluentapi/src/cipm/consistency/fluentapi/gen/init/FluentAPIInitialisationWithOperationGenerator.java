@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
@@ -27,14 +28,14 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 	//
 
 	// %s: Feature name
-	private static final String withXFeatDocumentationTemplate = FluentAPIGenerationUtil
+	private static final String withXFeatDocumentationTemplate = FluentAPIDocumentationUtil
 			.appendSummaryToStart(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodSummary())
 			+ "Sets the value of the feature %s in this.get" + FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 			+ "() to the given value.";
 
 	// %s: Feature name
-	private static final String withXFeatOfContainerDocumentationTemplate = FluentAPIGenerationUtil
+	private static final String withXFeatOfContainerDocumentationTemplate = FluentAPIDocumentationUtil
 			.appendSummaryToStart(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodSummary())
 			+ "Sets the value of the feature %s in this.get"
 			+ FluentAPISuperInitialisationConstants
@@ -51,7 +52,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 			+ "() to be contained in an elligible container.";
 
 	// %s: Feature name
-	private static final String withoutXFeatDocumentationTemplate = FluentAPIGenerationUtil
+	private static final String withoutXFeatDocumentationTemplate = FluentAPIDocumentationUtil
 			.appendSummaryToStart(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodSummary())
 			+ "Unsets the value of the feature %s in this.get"
 			+ FluentAPISuperInitialisationConstants
@@ -59,7 +60,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 			+ "(), which sets its value to null.";
 
 	// %s: Feature name
-	private static final String withAddedXFeatDocumentationTemplate = FluentAPIGenerationUtil
+	private static final String withAddedXFeatDocumentationTemplate = FluentAPIDocumentationUtil
 			.appendSummaryToStart(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodSummary())
 			+ "Adds the given values to the current values of the feature %s in this.get"
 			+ FluentAPISuperInitialisationConstants
@@ -67,7 +68,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 			+ "().";
 
 	// %s: Feature name
-	private static final String withRemovedXFeatDocumentationTemplate = FluentAPIGenerationUtil
+	private static final String withRemovedXFeatDocumentationTemplate = FluentAPIDocumentationUtil
 			.appendSummaryToStart(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodSummary())
 			+ "Removes the given values from the current values of the feature %s in this.get"
 			+ FluentAPISuperInitialisationConstants
@@ -75,7 +76,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 			+ "().";
 
 	// %s: Feature name
-	private static final String withExactXFeatDocumentationTemplate = FluentAPIGenerationUtil
+	private static final String withExactXFeatDocumentationTemplate = FluentAPIDocumentationUtil
 			.appendSummaryToStart(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodSummary())
 			+ "Sets the value of the (many-valued) feature %s in this.get"
 			+ FluentAPISuperInitialisationConstants
@@ -333,29 +334,36 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var ops = new ArrayList<EOperation>();
 		var originalOpNewFeatValParam = getNewFeatValParam(feat);
 
-		var originalOp = FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatNameForType(feat), initECls,
-				String.format(withXFeatMethodBodyTemplate, feat.getName(), originalOpNewFeatValParam.getName()),
-				String.format(withXFeatDocumentationTemplate, feat.getName()), originalOpNewFeatValParam);
+		var originalOp = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatNameForType(feat), initECls);
+		FluentAPIGenerationUtil.addBody(originalOp,
+				String.format(withXFeatMethodBodyTemplate, feat.getName(), originalOpNewFeatValParam.getName()));
+		FluentAPIGenerationUtil.addDocumentation(originalOp,
+				String.format(withXFeatDocumentationTemplate, feat.getName()));
+		FluentAPIGenerationUtil.addEParameters(originalOp, originalOpNewFeatValParam);
 		ops.add(originalOp);
 
 		if (originalOpNewFeatValParam.getEType().equals(EcorePackage.Literals.EBIG_INTEGER)) {
 			var longOpNewFeatValParam = getNewFeatValParam(feat);
 			longOpNewFeatValParam.setEType(EcorePackage.Literals.ELONG);
-			var longOp = FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-					FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatNameForType(feat), initECls,
-					String.format(withXFeatMethodBodyTemplate, feat.getName(),
-							String.format("java.math.BigInteger.valueOf(%s)", longOpNewFeatValParam.getName())),
-					String.format(withXFeatDocumentationTemplate, feat.getName()), longOpNewFeatValParam);
+			var longOp = FluentAPIGenerationUtil.generateEOperation(
+					FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatNameForType(feat), initECls);
+			FluentAPIGenerationUtil.addBody(longOp, String.format(withXFeatMethodBodyTemplate, feat.getName(),
+					String.format("java.math.BigInteger.valueOf(%s)", longOpNewFeatValParam.getName())));
+			FluentAPIGenerationUtil.addDocumentation(longOp,
+					String.format(withXFeatDocumentationTemplate, feat.getName()));
+			FluentAPIGenerationUtil.addEParameters(longOp, longOpNewFeatValParam);
 			ops.add(longOp);
 
 			var intOpNewFeatValParam = getNewFeatValParam(feat);
 			intOpNewFeatValParam.setEType(EcorePackage.Literals.EINT);
-			var intOp = FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-					FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatNameForType(feat), initECls,
-					String.format(withXFeatMethodBodyTemplate, feat.getName(),
-							String.format("java.math.BigInteger.valueOf(%s)", intOpNewFeatValParam.getName())),
-					String.format(withXFeatDocumentationTemplate, feat.getName()), intOpNewFeatValParam);
+			var intOp = FluentAPIGenerationUtil.generateEOperation(
+					FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatNameForType(feat), initECls);
+			FluentAPIGenerationUtil.addBody(intOp, String.format(withXFeatMethodBodyTemplate, feat.getName(),
+					String.format("java.math.BigInteger.valueOf(%s)", intOpNewFeatValParam.getName())));
+			FluentAPIGenerationUtil.addDocumentation(intOp,
+					String.format(withXFeatDocumentationTemplate, feat.getName()));
+			FluentAPIGenerationUtil.addEParameters(intOp, intOpNewFeatValParam);
 			ops.add(intOp);
 		}
 
@@ -363,46 +371,62 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 	}
 
 	private EOperation generateWithoutXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithoutXFeatNameForType(feat), initECls,
-				String.format(withoutXFeatMethodBodyTemplate, feat.getName()),
-				String.format(withoutXFeatDocumentationTemplate, feat.getName()));
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithoutXFeatNameForType(feat), initECls);
+		FluentAPIGenerationUtil.addBody(op, String.format(withoutXFeatMethodBodyTemplate, feat.getName()));
+		FluentAPIGenerationUtil.addDocumentation(op, String.format(withoutXFeatDocumentationTemplate, feat.getName()));
+		return op;
 	}
 
 	private EOperation generateWithAddedXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
 		var addedFeatValParam = getAddedFeatValParam(feat);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameForType(feat), initECls);
 
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameForType(feat), initECls,
-				String.format(withAddedXFeatMethodBodyTemplate, feat.getName(), addedFeatValParam.getName()),
-				String.format(withAddedXFeatDocumentationTemplate, feat.getName()), addedFeatValParam);
+		FluentAPIGenerationUtil.addBody(op,
+				String.format(withAddedXFeatMethodBodyTemplate, feat.getName(), addedFeatValParam.getName()));
+		FluentAPIGenerationUtil.addDocumentation(op,
+				String.format(withAddedXFeatDocumentationTemplate, feat.getName()));
+		FluentAPIGenerationUtil.addEParameters(op, addedFeatValParam);
+		return op;
 	}
 
 	private EOperation generateWithRemovedXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
 		var removedFeatValParam = getRemovedFeatValParam(feat);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameForType(feat), initECls);
 
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameForType(feat), initECls,
-				String.format(withRemovedXFeatMethodBodyTemplate, feat.getName(), removedFeatValParam.getName()),
-				String.format(withRemovedXFeatDocumentationTemplate, feat.getName()), removedFeatValParam);
+		FluentAPIGenerationUtil.addBody(op,
+				String.format(withRemovedXFeatMethodBodyTemplate, feat.getName(), removedFeatValParam.getName()));
+		FluentAPIGenerationUtil.addDocumentation(op,
+				String.format(withRemovedXFeatDocumentationTemplate, feat.getName()));
+		FluentAPIGenerationUtil.addEParameters(op, removedFeatValParam);
+		return op;
 	}
 
 	private List<EOperation> generateWithAddedXListFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
 		var opList = new ArrayList<EOperation>();
 
 		var eListAddedFeatValParam = getAddedListFeatValParam(feat);
-		opList.add(FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameForType(feat), initECls,
-				String.format(withAddedXListFeatMethodBodyTemplate, feat.getName(), eListAddedFeatValParam.getName(),
-						eListAddedFeatValParam.getName()),
-				String.format(withAddedXFeatDocumentationTemplate, feat.getName()), eListAddedFeatValParam));
+		var listOp = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameForType(feat), initECls);
+
+		FluentAPIGenerationUtil.addBody(listOp, String.format(withAddedXListFeatMethodBodyTemplate, feat.getName(),
+				eListAddedFeatValParam.getName(), eListAddedFeatValParam.getName()));
+		FluentAPIGenerationUtil.addDocumentation(listOp,
+				String.format(withAddedXFeatDocumentationTemplate, feat.getName()));
+		FluentAPIGenerationUtil.addEParameters(listOp, eListAddedFeatValParam);
+		opList.add(listOp);
 
 		var arrayAddedFeatValParam = getAddedArrayFeatValParam(feat);
-		opList.add(FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameForType(feat), initECls,
-				String.format(withAddedXArrayFeatMethodBodyTemplate, feat.getName(), arrayAddedFeatValParam.getName(),
-						arrayAddedFeatValParam.getName()),
-				String.format(withAddedXFeatDocumentationTemplate, feat.getName()), arrayAddedFeatValParam));
+		var arrayOp = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameForType(feat), initECls);
+		FluentAPIGenerationUtil.addBody(arrayOp, String.format(withAddedXArrayFeatMethodBodyTemplate, feat.getName(),
+				arrayAddedFeatValParam.getName(), arrayAddedFeatValParam.getName()));
+		FluentAPIGenerationUtil.addDocumentation(arrayOp,
+				String.format(withAddedXFeatDocumentationTemplate, feat.getName()));
+		FluentAPIGenerationUtil.addEParameters(arrayOp, arrayAddedFeatValParam);
+		opList.add(arrayOp);
 
 		return opList;
 	}
@@ -411,18 +435,24 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var opList = new ArrayList<EOperation>();
 
 		var eListRemovedFeatValParam = getRemovedListFeatValParam(feat);
-		opList.add(FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameForType(feat), initECls,
-				String.format(withRemovedXListFeatMethodBodyTemplate, feat.getName(),
-						eListRemovedFeatValParam.getName(), eListRemovedFeatValParam.getName()),
-				String.format(withRemovedXFeatDocumentationTemplate, feat.getName()), eListRemovedFeatValParam));
+		var listOp = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameForType(feat), initECls);
+		FluentAPIGenerationUtil.addBody(listOp, String.format(withRemovedXListFeatMethodBodyTemplate, feat.getName(),
+				eListRemovedFeatValParam.getName(), eListRemovedFeatValParam.getName()));
+		FluentAPIGenerationUtil.addDocumentation(listOp,
+				String.format(withRemovedXFeatDocumentationTemplate, feat.getName()));
+		FluentAPIGenerationUtil.addEParameters(listOp, eListRemovedFeatValParam);
+		opList.add(listOp);
 
 		var arrayRemovedFeatValParam = getRemovedArrayFeatValParam(feat);
-		opList.add(FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameForType(feat), initECls,
-				String.format(withRemovedXArrayFeatMethodBodyTemplate, feat.getName(),
-						arrayRemovedFeatValParam.getName(), arrayRemovedFeatValParam.getName()),
-				String.format(withRemovedXFeatDocumentationTemplate, feat.getName()), arrayRemovedFeatValParam));
+		var arrayOp = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameForType(feat), initECls);
+		FluentAPIGenerationUtil.addBody(arrayOp, String.format(withRemovedXArrayFeatMethodBodyTemplate, feat.getName(),
+				arrayRemovedFeatValParam.getName(), arrayRemovedFeatValParam.getName()));
+		FluentAPIGenerationUtil.addDocumentation(arrayOp,
+				String.format(withRemovedXFeatDocumentationTemplate, feat.getName()));
+		FluentAPIGenerationUtil.addEParameters(arrayOp, arrayRemovedFeatValParam);
+		opList.add(arrayOp);
 
 		return opList;
 	}
@@ -431,95 +461,134 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var opList = new ArrayList<EOperation>();
 
 		var eListExactFeatValParam = getExactFeatValParam(feat);
-		opList.add(FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithExactXFeatNameForType(feat), initECls,
-				String.format(withExactXFeatMethodBodyTemplate, feat.getName(), eListExactFeatValParam.getName()),
-				String.format(withExactXFeatDocumentationTemplate, feat.getName(), feat.getName()),
-				eListExactFeatValParam));
+		var listOp = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithExactXFeatNameForType(feat), initECls);
+		opList.add(listOp);
+		FluentAPIGenerationUtil.addBody(listOp,
+				String.format(withExactXFeatMethodBodyTemplate, feat.getName(), eListExactFeatValParam.getName()));
+		FluentAPIGenerationUtil.addDocumentation(listOp,
+				String.format(withExactXFeatDocumentationTemplate, feat.getName(), feat.getName()));
+		FluentAPIGenerationUtil.addEParameters(listOp, eListExactFeatValParam);
 
 		var arrayExactFeatValParam = getExactArrayFeatValParam(feat);
-		opList.add(FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithExactXFeatNameForType(feat), initECls,
-				String.format(withExactXArrayFeatMethodBodyTemplate, feat.getName(), arrayExactFeatValParam.getName()),
-				String.format(withExactXFeatDocumentationTemplate, feat.getName(), feat.getName()),
-				arrayExactFeatValParam));
+		var arrayOp = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithExactXFeatNameForType(feat), initECls);
+		FluentAPIGenerationUtil.addBody(arrayOp,
+				String.format(withExactXArrayFeatMethodBodyTemplate, feat.getName(), arrayExactFeatValParam.getName()));
+		FluentAPIGenerationUtil.addDocumentation(arrayOp,
+				String.format(withExactXFeatDocumentationTemplate, feat.getName(), feat.getName()));
+		FluentAPIGenerationUtil.addEParameters(arrayOp, arrayExactFeatValParam);
+		opList.add(arrayOp);
 
 		return opList;
 	}
 
 	private EOperation generateWithXFeatOfContainerForManyValued(EClass initECls, EClass elemToInit,
 			EStructuralFeature feat) {
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
+		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatOfContainerNameForType(feat),
-				initECls,
-				String.format(withXFeatOfContainerMethodBodyForManyValuedFeatTemplate,
-						StringUtils.capitalize(feat.getName()), feat.getName()),
+				initECls);
+		FluentAPIGenerationUtil.addBody(op, String.format(withXFeatOfContainerMethodBodyForManyValuedFeatTemplate,
+				StringUtils.capitalize(feat.getName()), feat.getName()));
+		FluentAPIGenerationUtil.addDocumentation(op,
 				String.format(withXFeatOfContainerDocumentationTemplate, feat.getName()));
+		return op;
 	}
 
 	private EOperation generateWithXFeatOfContainerForSingleValued(EClass initECls, EClass elemToInit,
 			EStructuralFeature feat) {
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
+		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatOfContainerNameForType(feat),
-				initECls,
-				String.format(withXFeatOfContainerMethodBodyForSingleValuedFeatTemplate,
-						StringUtils.capitalize(feat.getName()), feat.getEType().getInstanceClass().getName(),
-						feat.getName()),
+				initECls);
+		FluentAPIGenerationUtil.addBody(op, String.format(withXFeatOfContainerMethodBodyForSingleValuedFeatTemplate,
+				StringUtils.capitalize(feat.getName()), feat.getEType().getInstanceClass().getName(), feat.getName()));
+		FluentAPIGenerationUtil.addDocumentation(op,
 				String.format(withXFeatOfContainerDocumentationTemplate, feat.getName()));
+		return op;
 	}
 
 	private EParameter getNewFeatValParam(EStructuralFeature feat) {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameterWithDocumentation(
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodNewFeatValParamName(),
-				feat.getEType(), String.format(newFeatValParamDocumentationTemplate, feat.getName()));
+				feat.getEType());
+		FluentAPIGenerationUtil.addDocumentation(param,
+				String.format(newFeatValParamDocumentationTemplate, feat.getName()));
+		return param;
 	}
 
 	private EParameter getAddedFeatValParam(EStructuralFeature feat) {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameterWithDocumentation(
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
-				feat.getEType(), String.format(addedSingleFeatValParamDocumentationTemplate, feat.getName()));
+				feat.getEType());
+		FluentAPIGenerationUtil.addDocumentation(param,
+				String.format(addedSingleFeatValParamDocumentationTemplate, feat.getName()));
+		return param;
 	}
 
 	private EParameter getRemovedFeatValParam(EStructuralFeature feat) {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameterWithDocumentation(
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
-				feat.getEType(), String.format(removedSingleFeatValParamDocumentationTemplate, feat.getName()));
+				feat.getEType());
+		FluentAPIGenerationUtil.addDocumentation(param,
+				String.format(removedSingleFeatValParamDocumentationTemplate, feat.getName()));
+		return param;
 	}
 
 	private EParameter getAddedListFeatValParam(EStructuralFeature feat) {
-		return FluentAPIGenerationUtil.generateManyValuedEParameterWithDocumentation(
+		var param = FluentAPIGenerationUtil.generateManyValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
-				feat.getEType(), String.format(addedListFeatValParamDocumentationTemplate, feat.getName()));
+				feat.getEType());
+		FluentAPIGenerationUtil.addDocumentation(null,
+				String.format(addedListFeatValParamDocumentationTemplate, feat.getName()));
+		return param;
 	}
 
 	private EParameter getAddedArrayFeatValParam(EStructuralFeature feat) {
-		return FluentAPIGenerationUtil.generateArrayValuedEParameterWithDocumentation(
+		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
-				feat.getEType(), String.format(addedListFeatValParamDocumentationTemplate, feat.getName()));
+				feat.getEType());
+		FluentAPIGenerationUtil.addDocumentation(null,
+				String.format(addedListFeatValParamDocumentationTemplate, feat.getName()));
+		return param;
 	}
 
 	private EParameter getRemovedListFeatValParam(EStructuralFeature feat) {
-		return FluentAPIGenerationUtil.generateManyValuedEParameterWithDocumentation(
+		var param = FluentAPIGenerationUtil.generateManyValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
-				feat.getEType(), String.format(removedListFeatValParamDocumentationTemplate, feat.getName()));
+				feat.getEType());
+
+		FluentAPIGenerationUtil.addDocumentation(null,
+				String.format(removedListFeatValParamDocumentationTemplate, feat.getName()));
+		return param;
 	}
 
 	private EParameter getRemovedArrayFeatValParam(EStructuralFeature feat) {
-		return FluentAPIGenerationUtil.generateArrayValuedEParameterWithDocumentation(
+		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
-				feat.getEType(), String.format(removedListFeatValParamDocumentationTemplate, feat.getName()));
+				feat.getEType());
+		FluentAPIGenerationUtil.addDocumentation(null,
+				String.format(removedListFeatValParamDocumentationTemplate, feat.getName()));
+		return param;
 	}
 
 	private EParameter getExactFeatValParam(EStructuralFeature feat) {
-		return FluentAPIGenerationUtil.generateManyValuedEParameterWithDocumentation(
+		var param = FluentAPIGenerationUtil.generateManyValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodExactFeatValParamName(),
-				feat.getEType(), String.format(exactFeatValParamDocumentationTemplate, feat.getName()));
+				feat.getEType());
+
+		FluentAPIGenerationUtil.addDocumentation(null,
+				String.format(exactFeatValParamDocumentationTemplate, feat.getName()));
+		return param;
 	}
 
 	private EParameter getExactArrayFeatValParam(EStructuralFeature feat) {
-		return FluentAPIGenerationUtil.generateArrayValuedEParameterWithDocumentation(
+		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodExactFeatValParamName(),
-				feat.getEType(), String.format(exactFeatValParamDocumentationTemplate, feat.getName()));
+				feat.getEType());
+
+		FluentAPIGenerationUtil.addDocumentation(null,
+				String.format(exactFeatValParamDocumentationTemplate, feat.getName()));
+		return param;
 	}
 
 	@Override

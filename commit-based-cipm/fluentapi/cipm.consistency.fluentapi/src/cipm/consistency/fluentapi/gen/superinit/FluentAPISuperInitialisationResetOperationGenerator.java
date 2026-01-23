@@ -5,6 +5,7 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 
+import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
@@ -12,7 +13,7 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPISuperInitialisationResetOperationGenerator implements IFluentAPIMethodGenerator {
 	private static final String resetMethodSummary = "Removes the current object under construction from this.";
-	private static final String resetMethodDocumentation = FluentAPIGenerationUtil
+	private static final String resetMethodDocumentation = FluentAPIDocumentationUtil
 			.appendSummaryToStart(resetMethodSummary) + "Resets this "
 			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()
 			+ " instance, which discards this.get"

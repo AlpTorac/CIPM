@@ -9,11 +9,12 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 
 public class FluentAPISuperInitialisationEClassGenerator {
 	private static final String initClassDocTemplate = "The top-most Initialisation class, which all concrete initialisation classes extend. Contains various methods that facilitate the programmatic construction of model object instances."
-			+ FluentAPIGenerationUtil.getClassMethodOverviewIntroTemplate();
+			+ FluentAPIDocumentationUtil.getClassMethodOverviewIntroTemplate();
 
 	private static final Map<String, String> summaries = new LinkedHashMap<>();
 
@@ -52,7 +53,7 @@ public class FluentAPISuperInitialisationEClassGenerator {
 	private void addEClassDoc(EClass initSuperType) {
 		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
 		anno.setSource(FluentAPIConstants.getGenModelURL());
-		var doc = String.format(initClassDocTemplate, FluentAPIGenerationUtil.serialiseSummaries(summaries));
+		var doc = String.format(initClassDocTemplate, FluentAPIDocumentationUtil.serialiseSummaries(summaries));
 		anno.getDetails().put(FluentAPIGenerationUtil.getEOperationDocumentationKey(), doc);
 
 		initSuperType.getEAnnotations().add(anno);

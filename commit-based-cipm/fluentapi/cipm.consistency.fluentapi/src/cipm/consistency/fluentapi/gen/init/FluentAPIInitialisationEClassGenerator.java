@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 import cipm.consistency.fluentapi.gen.FluentAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
@@ -28,7 +29,7 @@ public class FluentAPIInitialisationEClassGenerator {
 	// %s: Initialised class name
 	// %s: Serialised method names and summaries
 	private static final String initClassDocTemplate = "An Initialisation class that targets the type '%s' within the '%s' metamodel. Contains various methods that facilitate the programmatic construction of '%s' instances."
-			+ FluentAPIGenerationUtil.getClassMethodOverviewIntroTemplate();
+			+ FluentAPIDocumentationUtil.getClassMethodOverviewIntroTemplate();
 
 	private static final Map<String, String> summaries = new LinkedHashMap<>();
 
@@ -57,7 +58,7 @@ public class FluentAPIInitialisationEClassGenerator {
 		anno.setSource(FluentAPIConstants.getGenModelURL());
 		var doc = String.format(initClassDocTemplate, initialisedEClass.getName(),
 				targetMetamodelPackageProvider.getTargetMetamodelName(), initialisedEClass.getName(),
-				FluentAPIGenerationUtil.serialiseSummaries(summaries));
+				FluentAPIDocumentationUtil.serialiseSummaries(summaries));
 		anno.getDetails().put(FluentAPIGenerationUtil.getEOperationDocumentationKey(), doc);
 
 		xInitEClass.getEAnnotations().add(anno);

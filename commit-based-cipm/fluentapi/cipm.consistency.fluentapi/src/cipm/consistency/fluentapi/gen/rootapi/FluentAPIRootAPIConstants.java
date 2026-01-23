@@ -4,7 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 
-import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 
 public final class FluentAPIRootAPIConstants {
 	/*
@@ -86,10 +86,10 @@ public final class FluentAPIRootAPIConstants {
 	 */
 	private static final String fluentAPIRootAPIOnceExistsMethodName = "onceExists";
 	private static final String fluentAPIRootAPIOnceExistsMethodSummary = "Suspends certain model construction steps till certain markKey(s) exist.";
-	private static final String fluentAPIRootAPIOnceExistsMethodDocumentation = FluentAPIGenerationUtil
+	private static final String fluentAPIRootAPIOnceExistsMethodDocumentation = FluentAPIDocumentationUtil
 			.appendSummaryToStart(fluentAPIRootAPIOnceExistsMethodSummary)
 			+ "Allows specifying model construction steps as a Runnable instance R, which this API will execute after using the given markKey(s) to mark objects. This method enables preserving the flow of model construction by enabling the specification of construction steps on objects that may not yet exist. The main purpose of this method is to facilitate model constructions, where dependencies between model elements either forcefully require bottom-up approaches or require mixing the construction of several model elements."
-			+ FluentAPIGenerationUtil.getDocParagraphSeparator()
+			+ FluentAPIDocumentationUtil.getDocParagraphSeparator()
 			+ "Note: markKey(s) are NOT shared across all API instances. Therefore, different API instances have access to different markKey(s).";
 
 	/*

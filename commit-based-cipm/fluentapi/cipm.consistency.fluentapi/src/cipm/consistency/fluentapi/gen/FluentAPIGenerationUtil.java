@@ -3,26 +3,22 @@ package cipm.consistency.fluentapi.gen;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
+import org.eclipse.emf.ecore.EGenericType;
+import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
+import org.eclipse.emf.ecore.ETypeParameter;
+import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 public class FluentAPIGenerationUtil {
 	private static EPackage placeholderEDataTypesPac;
-
-	private static final String doNotUseFromOutsideDocumentationNote = "This method is not intended for outside use, but is generated as public because of code generation limitations.";
-	private static final String documentationParagraphSeparator = "<p><p>";
-
-	private static final String classMethodOverviewIntroTemplate = "It is recommended to only use the methods presented below. In the following, replace 'X's with the concrete feature name:"
-			+ getDocParagraphSeparator() + "<ul>%s</ul>";
 
 	private static final String placeholderEDataTypeSuffix = "EDataTypePlaceholder";
 
@@ -61,6 +57,14 @@ public class FluentAPIGenerationUtil {
 		return result;
 	}
 
+	public static EParameter generateSingleValuedEParameter(String name) {
+		var param = EcoreFactory.eINSTANCE.createEParameter();
+		param.setName(name);
+		param.setLowerBound(1);
+		param.setUpperBound(1);
+		return param;
+	}
+
 	public static EParameter generateSingleValuedEParameter(String name, Class<?> type) {
 		var param = EcoreFactory.eINSTANCE.createEParameter();
 		param.setName(name);
@@ -88,26 +92,13 @@ public class FluentAPIGenerationUtil {
 		return param;
 	}
 
-	public static EParameter generateSingleValuedEParameterWithDocumentation(String name, EClassifier type,
-			String documentation) {
-		var param = generateSingleValuedEParameter(name, type);
+	public static <T extends EModelElement> T addDocumentation(T elem, String documentation) {
 		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
 		anno.setSource(FluentAPIConstants.getGenModelURL());
 		// Add the documentation
 		anno.getDetails().put(getEOperationDocumentationKey(), documentation);
-		param.getEAnnotations().add(anno);
-		return param;
-	}
-
-	public static EParameter generateManyValuedEParameterWithDocumentation(String name, EClassifier type,
-			String documentation) {
-		var param = generateManyValuedEParameter(name, type);
-		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
-		anno.setSource(FluentAPIConstants.getGenModelURL());
-		// Add the documentation
-		anno.getDetails().put(getEOperationDocumentationKey(), documentation);
-		param.getEAnnotations().add(anno);
-		return param;
+		elem.getEAnnotations().add(anno);
+		return elem;
 	}
 
 	private static EDataType createOrGetEDataType(Class<?> type) {
@@ -146,69 +137,71 @@ public class FluentAPIGenerationUtil {
 		return arrayType;
 	}
 
-	public static EParameter generateArrayValuedEParameterWithDocumentation(String name, EClassifier type,
-			String documentation) {
-
+	public static EParameter generateArrayValuedEParameter(String name, EClassifier type) {
 		var arrayType = createOrGetArrayEDataType(type);
-
 		var param = EcoreFactory.eINSTANCE.createEParameter();
 		param.setName(name);
 		param.setEType(arrayType);
 		param.setLowerBound(1);
 		param.setUpperBound(1);
-
-		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
-		anno.setSource(FluentAPIConstants.getGenModelURL());
-		// Add the documentation
-		anno.getDetails().put(getEOperationDocumentationKey(), documentation);
-		param.getEAnnotations().add(anno);
 		return param;
 	}
 
-	public static EOperation generateEOperation(String name, EClassifier returnType, EAnnotation anno) {
+	public static EOperation generateEOperation(String name) {
+		var op = EcoreFactory.eINSTANCE.createEOperation();
+		op.setName(name);
+		return op;
+	}
+
+	public static EOperation generateEOperation(String name, EClassifier returnType) {
 		var op = EcoreFactory.eINSTANCE.createEOperation();
 		op.setEType(returnType);
 		op.setName(name);
-		op.getEAnnotations().add(anno);
 		return op;
 	}
 
-	public static EOperation generateEOperationWithBody(String name, EClassifier returnType, String methodBody) {
-		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
-		anno.setSource(FluentAPIConstants.getGenModelURL());
-
-		// Add the method body
-		anno.getDetails().put(getEOperationBodyKey(), methodBody);
-
-		return generateEOperation(name, returnType, anno);
+	public static ETypeParameter generateETypeParameter(String typeParameterName) {
+		var typeParam = EcoreFactory.eINSTANCE.createETypeParameter();
+		typeParam.setName(typeParameterName);
+		return typeParam;
 	}
 
-	public static EOperation generateEOperationWithBody(String name, EClassifier returnType, String methodBody,
-			EParameter... params) {
-		var op = generateEOperationWithBody(name, returnType, methodBody);
-		if (params != null) {
-			for (var param : params)
-				op.getEParameters().add(param);
+	/**
+	 * @param genericType "Type" in "Type<...>"
+	 */
+	public static EGenericType generateEGenericTypeWithClassifier(EClassifier genericType) {
+		var genericParamTypeForJavaClass = EcoreFactory.eINSTANCE.createEGenericType();
+		genericParamTypeForJavaClass.setEClassifier(genericType);
+		return genericParamTypeForJavaClass;
+	}
+
+	/**
+	 * @param genericType "Type" in "Type<...>"
+	 */
+	public static EGenericType generateEGenericTypeWithTypeParameter(ETypeParameter typeParameter) {
+		var genericParamTypeForJavaClass = EcoreFactory.eINSTANCE.createEGenericType();
+		genericParamTypeForJavaClass.setETypeParameter(typeParameter);
+		return genericParamTypeForJavaClass;
+	}
+
+	public static EGenericType addTypeArgument(EGenericType genericType, EGenericType... typeArguments) {
+		if (typeArguments != null) {
+			for (var ta : typeArguments)
+				genericType.getETypeArguments().add(ta);
 		}
-		return op;
+		return genericType;
 	}
 
-	public static EOperation generateEOperationWithBodyAndDocumentation(String name, EClassifier returnType,
-			String methodBody, String documentation) {
+	public static <T extends EModelElement> T addBody(T elem, String body) {
 		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
 		anno.setSource(FluentAPIConstants.getGenModelURL());
-
-		// Add the method body
-		anno.getDetails().put(getEOperationBodyKey(), methodBody);
-		// Add the documentation
-		anno.getDetails().put(getEOperationDocumentationKey(), documentation);
-
-		return generateEOperation(name, returnType, anno);
+		// Add the body
+		anno.getDetails().put(getEOperationBodyKey(), body);
+		elem.getEAnnotations().add(anno);
+		return elem;
 	}
 
-	public static EOperation generateEOperationWithBodyAndDocumentation(String name, EClassifier returnType,
-			String methodBody, String documentation, EParameter... params) {
-		var op = generateEOperationWithBodyAndDocumentation(name, returnType, methodBody, documentation);
+	public static EOperation addEParameters(EOperation op, EParameter... params) {
 		if (params != null) {
 			for (var param : params)
 				op.getEParameters().add(param);
@@ -248,37 +241,5 @@ public class FluentAPIGenerationUtil {
 		pac.setNsURI(nsUri.toString());
 		parentPac.getESubpackages().add(pac);
 		return pac;
-	}
-
-	public static String getDocParagraphSeparator() {
-		return documentationParagraphSeparator;
-	}
-
-	public static String getDoNotUseFromOutsideDocNote() {
-		return doNotUseFromOutsideDocumentationNote;
-	}
-
-	public static String getClassMethodOverviewIntroTemplate() {
-		return classMethodOverviewIntroTemplate;
-	}
-
-	public static String getClassMethodOverviewIntro(Map<String, String> methodNameToSummaryMap) {
-		return String.format(getClassMethodOverviewIntroTemplate(), serialiseSummaries(methodNameToSummaryMap));
-	}
-
-	public static String appendDoNotUseFromOutsideDocNoteAtEnd() {
-		return FluentAPIGenerationUtil.getDocParagraphSeparator() + doNotUseFromOutsideDocumentationNote
-				+ FluentAPIGenerationUtil.getDocParagraphSeparator();
-	}
-
-	public static String appendSummaryToStart(String summary) {
-		return summary + FluentAPIGenerationUtil.getDocParagraphSeparator();
-	}
-
-	public static String serialiseSummaries(Map<String, String> methodNameToSummaryMap) {
-		var sb = new StringBuilder();
-		methodNameToSummaryMap
-				.forEach((metName, summary) -> sb.append("<li><b>").append(metName).append("</b>: ").append(summary));
-		return sb.toString();
 	}
 }
