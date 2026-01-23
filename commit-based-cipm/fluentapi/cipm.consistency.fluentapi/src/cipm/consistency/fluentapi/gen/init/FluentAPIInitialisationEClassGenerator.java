@@ -15,10 +15,12 @@ import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationCreateNowMethodGenerator;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationDropOperationGenerator;
+import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationMarkMethodGenerator;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationNextInitialisationMethodGenerator;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationPreviousInitialisationMethodGenerator;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationResetOperationGenerator;
+import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationToAPIMethodGenerator;
 
 public class FluentAPIInitialisationEClassGenerator {
 	// %s: Initialised class name
@@ -72,13 +74,27 @@ public class FluentAPIInitialisationEClassGenerator {
 	private void setupFluentAPIInitialisationFor(EClass xInitEClass, EClass initialisedEClass,
 			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
 			FluentAPITargetMetamodelFeatureFilter filter) {
+		addNonOverriddenInheritedMethodSummaries();
+		addOverridingOperations(xInitEClass, initialisedEClass);
 		addOperations(xInitEClass, initialisedEClass, targetMetamodelPackageProvider, filter);
 		addXInitEClassDocumentation(xInitEClass, initialisedEClass, targetMetamodelPackageProvider);
 	}
 
-	private void addOperations(EClass xInitEClass, EClass initialisedEClass,
-			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
-			FluentAPITargetMetamodelFeatureFilter filter) {
+	private void addNonOverriddenInheritedMethodSummaries() {
+		var getInitEClsGen = new FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator();
+		summaries.putAll(getInitEClsGen.getMethodNamesToDescriptions());
+
+		var dropGen = new FluentAPISuperInitialisationDropOperationGenerator();
+		summaries.putAll(dropGen.getMethodNamesToDescriptions());
+
+		var resetGen = new FluentAPISuperInitialisationResetOperationGenerator();
+		summaries.putAll(resetGen.getMethodNamesToDescriptions());
+
+		var toAPIGen = new FluentAPISuperInitialisationToAPIMethodGenerator();
+		summaries.putAll(toAPIGen.getMethodNamesToDescriptions());
+	}
+
+	private void addOverridingOperations(EClass xInitEClass, EClass initialisedEClass) {
 		var createNowGen = new FluentAPISuperInitialisationCreateNowMethodGenerator();
 		xInitEClass.getEOperations().addAll(createNowGen.generateAllCreateNowMethods(initialisedEClass));
 		summaries.putAll(createNowGen.getMethodNamesToDescriptions());
@@ -103,7 +119,11 @@ public class FluentAPIInitialisationEClassGenerator {
 		var markGen = new FluentAPISuperInitialisationMarkMethodGenerator();
 		xInitEClass.getEOperations().addAll(markGen.generateAllMarkMethods(xInitEClass));
 		summaries.putAll(markGen.getMethodNamesToDescriptions());
+	}
 
+	private void addOperations(EClass xInitEClass, EClass initialisedEClass,
+			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
+			FluentAPITargetMetamodelFeatureFilter filter) {
 		var onceExistsGen = new FluentAPIInitialisationOnceExistsMethodGenerator();
 		xInitEClass.getEOperations().addAll(onceExistsGen.generateAllOnceExistsMethods(xInitEClass));
 		summaries.putAll(onceExistsGen.getMethodNamesToDescriptions());
