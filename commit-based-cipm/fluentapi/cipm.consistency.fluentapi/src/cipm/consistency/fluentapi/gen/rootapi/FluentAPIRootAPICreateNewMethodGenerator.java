@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
-import cipm.consistency.fluentapi.gen.FluentAPIRootAPIConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 /**
@@ -18,7 +17,7 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
  * 
  * TODO Add commentary
  */
-public class FluentAPICreateNewMethodGenerator {
+public class FluentAPIRootAPICreateNewMethodGenerator {
 	// TODO Add documentation
 
 	private static final String createNewXMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC("return (%s) this."

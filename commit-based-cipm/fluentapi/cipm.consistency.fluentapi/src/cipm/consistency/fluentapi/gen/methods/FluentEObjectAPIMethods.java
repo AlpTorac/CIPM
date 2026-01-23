@@ -16,10 +16,10 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import cipm.consistency.fluentapi.gen.FluentAPIInitialisationConstants;
-import cipm.consistency.fluentapi.gen.FluentAPIRootAPIConstants;
-import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationConstants;
-import cipm.consistency.fluentapi.gen.init.FluentAPIWithOperationGenerator;
+import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
+import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationWithOperationGenerator;
+import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
+import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationConstants;
 
 public final class FluentEObjectAPIMethods {
 	// TODO Add commentary

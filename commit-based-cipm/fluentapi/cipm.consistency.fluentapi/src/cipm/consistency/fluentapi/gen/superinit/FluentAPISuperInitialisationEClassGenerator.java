@@ -1,21 +1,9 @@
-package cipm.consistency.fluentapi.gen;
+package cipm.consistency.fluentapi.gen.superinit;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
-
-import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationCreateNowMethodGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationDropOperationGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationMarkMethodGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationResetOperationGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationNewElementMethodGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationWithOperationGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationNextInitialisationMethodGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationOnceExistsMethodGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationPreviousInitialisationMethodGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPIToAPIMethodGenerator;
 
 public class FluentAPISuperInitialisationEClassGenerator {
 	private EReference getCurrentElementReference(EClass initialisedEClass) {
@@ -76,7 +64,7 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		initSuperType.getEOperations()
 				.addAll(new FluentAPISuperInitialisationMarkMethodGenerator().generateAllMarkMethods(initSuperType));
 
-		initSuperType.getEOperations().add(new FluentAPIToAPIMethodGenerator().generateToAPIMethod(fluentAPICls));
+		initSuperType.getEOperations().add(new FluentAPISuperInitialisationToAPIMethodGenerator().generateToAPIMethod(fluentAPICls));
 
 		initSuperType.getEOperations().add(new FluentAPISuperInitialisationNextInitialisationMethodGenerator()
 				.getNextInitialisationMethodFor(initSuperType, EcorePackage.Literals.EOBJECT));

@@ -6,11 +6,10 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
-import cipm.consistency.fluentapi.gen.FluentAPIRootAPIConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
-public class FluentAPIGetInitialisationForMethodGenerator {
+public class FluentAPIRootAPIGetInitialisationForMethodGenerator {
 	// TODO Add documentation
 
 	private static final String getInitialisationMethodBody = FluentAPIMethodsUtil

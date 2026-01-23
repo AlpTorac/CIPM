@@ -1,12 +1,11 @@
-package cipm.consistency.fluentapi.gen.init;
+package cipm.consistency.fluentapi.gen.superinit;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
-import cipm.consistency.fluentapi.gen.FluentAPIRootAPIConstants;
-import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
+import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 
 public class FluentAPISuperInitialisationDropOperationGenerator {
 	private static final String dropMethodDocumentation = "Removes this initialisation instance from this."

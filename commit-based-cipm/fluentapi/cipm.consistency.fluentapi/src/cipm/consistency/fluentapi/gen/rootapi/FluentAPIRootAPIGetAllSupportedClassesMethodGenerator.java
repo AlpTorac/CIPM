@@ -5,11 +5,10 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
-import cipm.consistency.fluentapi.gen.FluentAPIRootAPIConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
-public class FluentAPIGetAllSupportedClassesMethodGenerator {
+public class FluentAPIRootAPIGetAllSupportedClassesMethodGenerator {
 	// TODO Add documentation
 
 	private static final String getAllSupportedClassesMethodTemplate = FluentAPIMethodsUtil

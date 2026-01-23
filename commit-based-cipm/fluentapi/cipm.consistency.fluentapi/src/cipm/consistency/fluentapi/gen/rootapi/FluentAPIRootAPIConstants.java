@@ -1,4 +1,4 @@
-package cipm.consistency.fluentapi.gen;
+package cipm.consistency.fluentapi.gen.rootapi;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.util.URI;

@@ -1,6 +1,8 @@
-package cipm.consistency.fluentapi.gen;
+package cipm.consistency.fluentapi.gen.superinit;
 
 import org.apache.commons.lang.StringUtils;
+
+import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 
 public final class FluentAPISuperInitialisationConstants {
 	/*

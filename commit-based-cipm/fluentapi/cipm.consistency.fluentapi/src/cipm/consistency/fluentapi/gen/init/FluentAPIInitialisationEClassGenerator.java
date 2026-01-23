@@ -1,4 +1,4 @@
-package cipm.consistency.fluentapi.gen;
+package cipm.consistency.fluentapi.gen.init;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,15 +7,15 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
 
-import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationCreateNowMethodGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationDropOperationGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationMarkMethodGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationNewElementOperationGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationOnceExistsMethodGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationResetOperationGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationNextInitialisationMethodGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPISuperInitialisationPreviousInitialisationMethodGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPIWithOperationGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
+import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationCreateNowMethodGenerator;
+import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationDropOperationGenerator;
+import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationMarkMethodGenerator;
+import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationNextInitialisationMethodGenerator;
+import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationPreviousInitialisationMethodGenerator;
+import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationResetOperationGenerator;
 
 public class FluentAPIInitialisationEClassGenerator {
 	public List<EClass> generateFluentAPIInitialisationClasses(
@@ -56,7 +56,7 @@ public class FluentAPIInitialisationEClassGenerator {
 		xInitEClass.getEOperations().add(new FluentAPIInitialisationNewElementOperationGenerator()
 				.getNewElementOperationFor(xInitEClass, initialisedEClass));
 
-		xInitEClass.getEOperations().addAll(new FluentAPIWithOperationGenerator()
+		xInitEClass.getEOperations().addAll(new FluentAPIInitialisationWithOperationGenerator()
 				.generateAllWithOperationsFor(xInitEClass, initialisedEClass, targetMetamodelPackageProvider, filter));
 
 		xInitEClass.getEOperations()

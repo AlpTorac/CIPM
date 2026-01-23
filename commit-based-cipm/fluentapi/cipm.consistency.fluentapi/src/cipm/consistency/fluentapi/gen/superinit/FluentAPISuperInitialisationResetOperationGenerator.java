@@ -1,11 +1,10 @@
-package cipm.consistency.fluentapi.gen.init;
+package cipm.consistency.fluentapi.gen.superinit;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
-import cipm.consistency.fluentapi.gen.FluentAPIInitialisationConstants;
-import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationConstants;
+import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPISuperInitialisationResetOperationGenerator {

@@ -11,11 +11,11 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.gen.FluentAPIConstants;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
-import cipm.consistency.fluentapi.gen.FluentAPIRootAPIGenerator;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
 //import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmRepositoryMetamodelFeatureFilter;
 //import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmRepositoryMetamodelPackageProvider;
+import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIGenerator;
 
 public class FluentAPIBuilder {
 	private static final String fluentAPIEcoreModelDirName = "initModel";

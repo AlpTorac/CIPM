@@ -1,10 +1,8 @@
-package cipm.consistency.fluentapi.gen.init;
+package cipm.consistency.fluentapi.gen.superinit;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
-
-import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationConstants;
 
 public class FluentAPISuperInitialisationGenerator {
 	public EClass generateFluentAPISuperInitialisationEClass() {

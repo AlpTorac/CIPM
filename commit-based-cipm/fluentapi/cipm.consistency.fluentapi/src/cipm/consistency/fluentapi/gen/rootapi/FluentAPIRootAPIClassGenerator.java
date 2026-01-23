@@ -1,4 +1,4 @@
-package cipm.consistency.fluentapi.gen;
+package cipm.consistency.fluentapi.gen.rootapi;
 
 import java.util.List;
 
@@ -6,18 +6,13 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 
-import cipm.consistency.fluentapi.gen.rootapi.FluentAPIContinueMethodGenerator;
-import cipm.consistency.fluentapi.gen.rootapi.FluentAPICreateNewMethodGenerator;
-import cipm.consistency.fluentapi.gen.rootapi.FluentAPIDropInitialisationMethodGenerator;
-import cipm.consistency.fluentapi.gen.rootapi.FluentAPIGetAllSupportedClassesMethodGenerator;
-import cipm.consistency.fluentapi.gen.rootapi.FluentAPIGetInitialisationForMethodGenerator;
-import cipm.consistency.fluentapi.gen.rootapi.FluentAPIModifyElementMethodGenerator;
-import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIMarkMethodGenerator;
-import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPINewMethodGenerator;
-import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIOnceExistsMethodGenerator;
-import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIWithOperationGenerator;
+import cipm.consistency.fluentapi.gen.FluentAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
+import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
 
-public class FluentAPIRootClassGenerator {
+public class FluentAPIRootAPIClassGenerator {
 
 	// TODO Re-use / link to documentations of mentioned API classes
 
@@ -119,18 +114,18 @@ public class FluentAPIRootClassGenerator {
 			List<EClass> allEClassesToInit, FluentAPITargetMetamodelFeatureFilter filter) {
 
 		fluentAPICls.getEOperations()
-				.addAll(new FluentAPICreateNewMethodGenerator().generateAllCreateNewMethods(allEClassesToInit));
+				.addAll(new FluentAPIRootAPICreateNewMethodGenerator().generateAllCreateNewMethods(allEClassesToInit));
 
 		fluentAPICls.getEOperations().addAll(new FluentAPIRootAPINewMethodGenerator()
 				.getAllRootAPINewOperations(fluentAPICls, initSuperType, initEClss, allEClassesToInit, filter));
 
-		fluentAPICls.getEOperations().addAll(new FluentAPIModifyElementMethodGenerator()
+		fluentAPICls.getEOperations().addAll(new FluentAPIRootAPIModifyElementMethodGenerator()
 				.getAllRootAPIModifyElementOperations(fluentAPICls, initSuperType, initEClss, allEClassesToInit));
 
-		fluentAPICls.getEOperations().addAll(new FluentAPIContinueMethodGenerator()
+		fluentAPICls.getEOperations().addAll(new FluentAPIRootAPIContinueMethodGenerator()
 				.generateAllContinueMethods(initEClss, allEClassesToInit, filter));
 
-		fluentAPICls.getEOperations().add(new FluentAPIDropInitialisationMethodGenerator()
+		fluentAPICls.getEOperations().add(new FluentAPIRootAPIDropInitialisationMethodGenerator()
 				.generateDropInitialisationMethod(fluentAPICls, initSuperType));
 
 		fluentAPICls.getEOperations().addAll(
@@ -140,18 +135,18 @@ public class FluentAPIRootClassGenerator {
 				.addAll(new FluentAPIRootAPIOnceExistsMethodGenerator().generateAllOnceExistsMethods(fluentAPICls));
 
 		fluentAPICls.getEOperations().add(
-				new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForEClassMethod(initSuperType));
+				new FluentAPIRootAPIGetInitialisationForMethodGenerator().getInitialisationForEClassMethod(initSuperType));
 
 		fluentAPICls.getEOperations()
-				.add(new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForClassMethod(initSuperType));
+				.add(new FluentAPIRootAPIGetInitialisationForMethodGenerator().getInitialisationForClassMethod(initSuperType));
 
 		fluentAPICls.getEOperations().add(
-				new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForEObjectMethod(initSuperType));
+				new FluentAPIRootAPIGetInitialisationForMethodGenerator().getInitialisationForEObjectMethod(initSuperType));
 
 		fluentAPICls.getEOperations()
 				.addAll(new FluentAPIRootAPIWithOperationGenerator().getAllAPITopLevelWithOperations(fluentAPICls));
 
-		fluentAPICls.getEOperations().add(new FluentAPIGetAllSupportedClassesMethodGenerator()
+		fluentAPICls.getEOperations().add(new FluentAPIRootAPIGetAllSupportedClassesMethodGenerator()
 				.generateGetAllSupportedClassesMethodGenerator(fluentAPICls));
 	}
 

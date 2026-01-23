@@ -1,8 +1,11 @@
-package cipm.consistency.fluentapi.gen;
+package cipm.consistency.fluentapi.gen.init;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EStructuralFeature;
+
+import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
+import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationConstants;
 
 public final class FluentAPIInitialisationConstants {
 	/*

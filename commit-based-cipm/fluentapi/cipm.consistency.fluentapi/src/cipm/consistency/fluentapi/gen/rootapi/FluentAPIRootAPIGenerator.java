@@ -1,9 +1,17 @@
-package cipm.consistency.fluentapi.gen;
+package cipm.consistency.fluentapi.gen.rootapi;
 
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+
+import cipm.consistency.fluentapi.gen.FluentAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
+import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
+import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationEClassGenerator;
+import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationEClassGenerator;
 
 public class FluentAPIRootAPIGenerator {
 	public List<EPackage> generateRootAPIPackages(
@@ -68,13 +76,13 @@ public class FluentAPIRootAPIGenerator {
 	}
 
 	private EClass generateRootAPIEClass() {
-		return new FluentAPIRootClassGenerator().generateRootAPIEClass();
+		return new FluentAPIRootAPIClassGenerator().generateRootAPIEClass();
 	}
 
 	private void setupRootAPIEClass(EClass fluentAPICls, EClass initSuperType, List<EClass> initEClss,
 			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
 			FluentAPITargetMetamodelFeatureFilter filter) {
-		new FluentAPIRootClassGenerator().setupRootAPIEClass(fluentAPICls, initSuperType, initEClss,
+		new FluentAPIRootAPIClassGenerator().setupRootAPIEClass(fluentAPICls, initSuperType, initEClss,
 				targetMetamodelPackageProvider, filter);
 	}
 }
