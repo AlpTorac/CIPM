@@ -2,6 +2,7 @@ package cipm.consistency.fluentapi.gen.superinit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
@@ -9,13 +10,12 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIOnceExistsExtension;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 
-public class FluentAPISuperInitialisationOnceExistsMethodGenerator {
-
-	// TODO Add documentation (for generated methods)
+public class FluentAPISuperInitialisationOnceExistsMethodGenerator implements IFluentAPIMethodGenerator {
 
 	private static final String onceExistsMethodSingleMarkedKeyBody = FluentAPIMethodsUtil
 			.joinLOC(FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists(this.get"
@@ -96,4 +96,9 @@ public class FluentAPISuperInitialisationOnceExistsMethodGenerator {
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsRunnableParameterName(), Runnable.class);
 	}
 
+	@Override
+	public Map<String, String> getMethodNamesToDescriptions() {
+		return Map.of(FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(),
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodSummary());
+	}
 }

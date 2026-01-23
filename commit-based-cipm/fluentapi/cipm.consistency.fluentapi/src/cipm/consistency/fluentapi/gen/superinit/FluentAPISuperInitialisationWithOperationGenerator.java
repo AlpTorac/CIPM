@@ -2,6 +2,7 @@ package cipm.consistency.fluentapi.gen.superinit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
@@ -9,13 +10,12 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 
-public class FluentAPISuperInitialisationWithOperationGenerator {
-	// TODO Add documentation
-
+public class FluentAPISuperInitialisationWithOperationGenerator implements IFluentAPIMethodGenerator {
 	private static final String xWithFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
 			FluentEObjectAPIMethods.class.getName() + ".xWithFeat(this."
 					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
@@ -185,5 +185,26 @@ public class FluentAPISuperInitialisationWithOperationGenerator {
 		return FluentAPIGenerationUtil.generateArrayValuedEParameterWithDocumentation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName(),
 				EcorePackage.Literals.EJAVA_OBJECT, "TODO");
+	}
+
+	@Override
+	public Map<String, String> getMethodNamesToDescriptions() {
+		return Map.of(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodName(),
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodSummary(),
+
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodName(),
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodSummary(),
+
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodName(),
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodSummary(),
+
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(),
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodSummary(),
+
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(),
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodSummary(),
+
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(),
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodSummary());
 	}
 }

@@ -2,6 +2,7 @@ package cipm.consistency.fluentapi.gen.superinit;
 
 import org.apache.commons.lang.StringUtils;
 
+import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 
 public final class FluentAPISuperInitialisationConstants {
@@ -43,6 +44,8 @@ public final class FluentAPISuperInitialisationConstants {
 	 * newElement
 	 */
 	private static final String fluentAPISuperInitialisationNewElementMethodName = "newElement";
+	private static final String fluentAPISuperInitialisationNewElementMethodSummary = "Creates a minimal instance of the targeted type within this "
+			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix() + " instance.";
 
 	/*
 	 * mark
@@ -83,6 +86,13 @@ public final class FluentAPISuperInitialisationConstants {
 			.getFluentAPIRootAPIOnceExistsMethodName();
 
 	/*
+	 * createNow
+	 */
+	private static final String fluentAPISuperInitialisationCreateNowMethodTypeParamName = "T";
+	private static final String fluentAPISuperInitialisationCreateNowMethodParamName = "returnTypeCls";
+	private static final String fluentAPISuperInitialisationCreateNowMethodName = "createNow";
+
+	/*
 	 * EParameter
 	 */
 	private static final String fluentAPISuperInitialisationMarkKeyParameterName = FluentAPIRootAPIConstants
@@ -92,6 +102,22 @@ public final class FluentAPISuperInitialisationConstants {
 			.getFluentAPIRootAPIOnceExistsMarkKeyListParameterName();
 	private static final String fluentAPISuperInitialisationOnceExistsRunnableParameterName = FluentAPIRootAPIConstants
 			.getFluentAPIRootAPIOnceExistsRunnableParameterName();
+
+	public static final String getFluentAPISuperInitialisationNewElementMethodSummary() {
+		return fluentAPISuperInitialisationNewElementMethodSummary;
+	}
+	
+	public static String getFluentAPISuperInitialisationCreateNowMethodTypeParameterName() {
+		return fluentAPISuperInitialisationCreateNowMethodTypeParamName;
+	}
+
+	public static String getFluentAPISuperInitialisationCreateNowMethodParameterName() {
+		return fluentAPISuperInitialisationCreateNowMethodParamName;
+	}
+
+	public static String getFluentAPISuperInitialisationCreateNowMethodName() {
+		return fluentAPISuperInitialisationCreateNowMethodName;
+	}
 
 	public static String getFluentAPISuperInitialisationOnceExistsMethodName() {
 		return fluentAPISuperInitialisationOnceExistsMethodName;

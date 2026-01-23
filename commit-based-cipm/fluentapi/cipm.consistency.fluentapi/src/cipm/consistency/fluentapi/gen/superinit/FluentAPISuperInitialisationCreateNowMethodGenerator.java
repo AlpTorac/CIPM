@@ -2,6 +2,7 @@ package cipm.consistency.fluentapi.gen.superinit;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
@@ -9,12 +10,17 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 
-public class FluentAPISuperInitialisationCreateNowMethodGenerator {
-	private static final String createNowMethodDocumentation = "Finalises the construction of this.get"
+public class FluentAPISuperInitialisationCreateNowMethodGenerator implements IFluentAPIMethodGenerator {
+
+	private static final String createNowMethodSummary = "Finalises and returns the object under construction.";
+	private static final String createNowMethodDocumentation = FluentAPIGenerationUtil
+			.appendSummaryToStart(createNowMethodSummary)
+			+ "Finalises the construction of this.get"
 			+ FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 			+ " and returns it. Drops this "
@@ -42,7 +48,7 @@ public class FluentAPISuperInitialisationCreateNowMethodGenerator {
 
 	private EOperation generateCreateNowMethod(EClass elemToInit) {
 		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPIInitialisationConstants.getFluentapiinitialisationcreatenowmethodname(), elemToInit,
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCreateNowMethodName(), elemToInit,
 				String.format(createNowMethodBodyTemplate, elemToInit.getInstanceClass().getName()),
 				createNowMethodDocumentation);
 	}
@@ -53,7 +59,8 @@ public class FluentAPISuperInitialisationCreateNowMethodGenerator {
 		// Goal: <T> T createNowMethodTypeParamName(Class<T> createNowMethodParamName)
 
 		var typeParam = EcoreFactory.eINSTANCE.createETypeParameter();
-		typeParam.setName(FluentAPIInitialisationConstants.getFluentapiinitialisationcreatenowmethodtypeparamname());
+		typeParam.setName(FluentAPISuperInitialisationConstants
+				.getFluentAPISuperInitialisationCreateNowMethodTypeParameterName());
 
 		// Make sure to create 2 generic types, one for the method parameter (Class<T>)
 		// and one for the return type of the method (T)
@@ -69,18 +76,25 @@ public class FluentAPISuperInitialisationCreateNowMethodGenerator {
 		genericParamTypeForOp.setETypeParameter(typeParam);
 
 		var param = EcoreFactory.eINSTANCE.createEParameter();
-		param.setName(FluentAPIInitialisationConstants.getFluentapiinitialisationcreatenowmethodparamname());
+		param.setName(
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCreateNowMethodParameterName());
 		param.setEGenericType(genericClassType);
 		param.setLowerBound(1);
 		param.setUpperBound(1);
 
 		var op = FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIInitialisationConstants.getFluentapiinitialisationcreatenowmethodname(), null,
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCreateNowMethodName(), null,
 				String.format(createNowMethodBodyTemplate, typeParam.getName()));
 		op.setEGenericType(genericParamTypeForOp);
 		op.getETypeParameters().add(typeParam);
 		op.getEParameters().add(param);
 
 		return op;
+	}
+
+	@Override
+	public Map<String, String> getMethodNamesToDescriptions() {
+		return Map.of(FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCreateNowMethodName(),
+				createNowMethodSummary);
 	}
 }

@@ -25,8 +25,8 @@ public class FluentAPIInitialisationEClassGenerator {
 	// %s: Metamodel name
 	// %s: Initialised class name
 	// %s: Serialised method names and summaries
-	private static final String initClassDocTemplate = "An Initialisation class that targets the type '%s' within the '%s' metamodel. Contains various methods that facilitate the programmatic construction of '%s' instances. It is recommended to only use the methods presented below. In the following, replace 'X's with the concrete feature name:"
-			+ FluentAPIGenerationUtil.getDocParagraphSeparator() + "<ul>%s</ul>";
+	private static final String initClassDocTemplate = "An Initialisation class that targets the type '%s' within the '%s' metamodel. Contains various methods that facilitate the programmatic construction of '%s' instances."
+			+ FluentAPIGenerationUtil.getClassMethodOverviewIntroTemplate();
 
 	private static final Map<String, String> summaries = new LinkedHashMap<>();
 
@@ -73,28 +73,36 @@ public class FluentAPIInitialisationEClassGenerator {
 			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
 			FluentAPITargetMetamodelFeatureFilter filter) {
 		addOperations(xInitEClass, initialisedEClass, targetMetamodelPackageProvider, filter);
+		addXInitEClassDocumentation(xInitEClass, initialisedEClass, targetMetamodelPackageProvider);
 	}
 
 	private void addOperations(EClass xInitEClass, EClass initialisedEClass,
 			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
 			FluentAPITargetMetamodelFeatureFilter filter) {
-		xInitEClass.getEOperations().addAll(new FluentAPISuperInitialisationCreateNowMethodGenerator()
-				.generateAllCreateNowMethods(initialisedEClass));
+		var createNowGen = new FluentAPISuperInitialisationCreateNowMethodGenerator();
+		xInitEClass.getEOperations().addAll(createNowGen.generateAllCreateNowMethods(initialisedEClass));
+		summaries.putAll(createNowGen.getMethodNamesToDescriptions());
 
-		xInitEClass.getEOperations().add(
-				new FluentAPISuperInitialisationDropOperationGenerator().generateDropInitialisationMethod(xInitEClass));
+		var dropGen = new FluentAPISuperInitialisationDropOperationGenerator();
+		xInitEClass.getEOperations().add(dropGen.generateDropInitialisationMethod(xInitEClass));
+		summaries.putAll(dropGen.getMethodNamesToDescriptions());
 
-		xInitEClass.getEOperations().add(new FluentAPISuperInitialisationResetOperationGenerator()
-				.generateResetInitialisationMethod(xInitEClass));
+		var resetGen = new FluentAPISuperInitialisationResetOperationGenerator();
+		xInitEClass.getEOperations().add(resetGen.generateResetInitialisationMethod(xInitEClass));
+		summaries.putAll(resetGen.getMethodNamesToDescriptions());
 
-		xInitEClass.getEOperations().add(new FluentAPISuperInitialisationNextInitialisationMethodGenerator()
-				.getNextInitialisationMethodFor(xInitEClass, initialisedEClass));
+		var nextInitGen = new FluentAPISuperInitialisationNextInitialisationMethodGenerator();
+		xInitEClass.getEOperations().add(nextInitGen.getNextInitialisationMethodFor(xInitEClass, initialisedEClass));
+		summaries.putAll(nextInitGen.getMethodNamesToDescriptions());
 
-		xInitEClass.getEOperations().add(new FluentAPISuperInitialisationPreviousInitialisationMethodGenerator()
-				.getPreviousInitialisationMethodFor(xInitEClass, initialisedEClass));
-
+		var prevInitGen = new FluentAPISuperInitialisationPreviousInitialisationMethodGenerator();
 		xInitEClass.getEOperations()
-				.addAll(new FluentAPISuperInitialisationMarkMethodGenerator().generateAllMarkMethods(xInitEClass));
+				.add(prevInitGen.getPreviousInitialisationMethodFor(xInitEClass, initialisedEClass));
+		summaries.putAll(prevInitGen.getMethodNamesToDescriptions());
+
+		var markGen = new FluentAPISuperInitialisationMarkMethodGenerator();
+		xInitEClass.getEOperations().addAll(markGen.generateAllMarkMethods(xInitEClass));
+		summaries.putAll(markGen.getMethodNamesToDescriptions());
 
 		var onceExistsGen = new FluentAPIInitialisationOnceExistsMethodGenerator();
 		xInitEClass.getEOperations().addAll(onceExistsGen.generateAllOnceExistsMethods(xInitEClass));
@@ -108,7 +116,5 @@ public class FluentAPIInitialisationEClassGenerator {
 		xInitEClass.getEOperations().addAll(withGen.generateAllWithOperationsFor(xInitEClass, initialisedEClass,
 				targetMetamodelPackageProvider, filter));
 		summaries.putAll(withGen.getMethodNamesToDescriptions());
-
-		addXInitEClassDocumentation(xInitEClass, initialisedEClass, targetMetamodelPackageProvider);
 	}
 }

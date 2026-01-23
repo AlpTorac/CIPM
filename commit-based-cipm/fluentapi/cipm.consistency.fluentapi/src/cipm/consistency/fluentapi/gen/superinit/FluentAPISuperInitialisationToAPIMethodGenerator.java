@@ -1,14 +1,19 @@
 package cipm.consistency.fluentapi.gen.superinit;
 
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
-public class FluentAPISuperInitialisationToAPIMethodGenerator {
-	private static final String toAPIMethodDocumentation = "Swaps from this "
+public class FluentAPISuperInitialisationToAPIMethodGenerator implements IFluentAPIMethodGenerator {
+	private static final String toAPIMethodSummary = "Swaps to the API instance";
+	private static final String toAPIMethodDocumentation = FluentAPIGenerationUtil
+			.appendSummaryToStart(toAPIMethodSummary) + "Swaps from this "
 			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()
 			+ " instance to the API, which created it. This method is currently the same as this.get"
 			+ FluentAPISuperInitialisationConstants.getCapitalisedFluentAPISuperInitialisationRootAPIReferenceName()
@@ -24,5 +29,11 @@ public class FluentAPISuperInitialisationToAPIMethodGenerator {
 		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
 				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName(), rootAPIEClass,
 				toAPIMethodBodyTemplate, toAPIMethodDocumentation);
+	}
+
+	@Override
+	public Map<String, String> getMethodNamesToDescriptions() {
+		return Map.of(FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName(),
+				toAPIMethodSummary);
 	}
 }

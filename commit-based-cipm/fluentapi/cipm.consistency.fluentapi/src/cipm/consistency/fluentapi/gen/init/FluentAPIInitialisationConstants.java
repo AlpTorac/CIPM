@@ -26,12 +26,12 @@ public final class FluentAPIInitialisationConstants {
 	 * EOperation
 	 */
 
-	/*
-	 * createNow
-	 */
-	private static final String fluentAPIInitialisationCreateNowMethodTypeParamName = "T";
-	private static final String fluentAPIInitialisationCreateNowMethodParamName = "returnTypeCls";
-	private static final String fluentAPIInitialisationCreateNowMethodName = "createNow";
+//	/*
+//	 * createNow
+//	 */
+//	private static final String fluentAPIInitialisationCreateNowMethodTypeParamName = "T";
+//	private static final String fluentAPIInitialisationCreateNowMethodParamName = "returnTypeCls";
+//	private static final String fluentAPIInitialisationCreateNowMethodName = "createNow";
 
 	/*
 	 * newElement
@@ -139,18 +139,6 @@ public final class FluentAPIInitialisationConstants {
 
 	public static String getFluentAPIInitialisationNewElementOperationName() {
 		return fluentAPIInitialisationNewElementOperationName;
-	}
-
-	public static String getFluentapiinitialisationcreatenowmethodtypeparamname() {
-		return fluentAPIInitialisationCreateNowMethodTypeParamName;
-	}
-
-	public static String getFluentapiinitialisationcreatenowmethodparamname() {
-		return fluentAPIInitialisationCreateNowMethodParamName;
-	}
-
-	public static String getFluentapiinitialisationcreatenowmethodname() {
-		return fluentAPIInitialisationCreateNowMethodName;
 	}
 
 	public static String getFluentAPIInitialisationsPackageFullName() {

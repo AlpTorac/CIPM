@@ -11,12 +11,9 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationConstants;
 
 public class FluentAPIInitialisationNewElementOperationGenerator implements IFluentAPIMethodGenerator {
-	private static final String newElementMethodSummary = "Creates a minimal instance of the targeted type within this "
-			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix() + " instance.";
-
 	// %s: Name of elemToInit
-	private static final String newElementMethodDocumentation = FluentAPIGenerationUtil
-			.appendSummaryToStart(newElementMethodSummary)
+	private static final String newElementMethodDocumentation = FluentAPIGenerationUtil.appendSummaryToStart(
+			FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationNewElementMethodSummary())
 			+ "Creates a minimal %s instance, without modifying any of its features, and sets it as the current element (i.e. return value of this.get"
 			+ FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
@@ -49,6 +46,6 @@ public class FluentAPIInitialisationNewElementOperationGenerator implements IFlu
 	@Override
 	public Map<String, String> getMethodNamesToDescriptions() {
 		return Map.of(FluentAPIInitialisationConstants.getFluentAPIInitialisationNewElementOperationName(),
-				newElementMethodSummary);
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationNewElementMethodSummary());
 	}
 }

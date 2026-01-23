@@ -1,6 +1,7 @@
 package cipm.consistency.fluentapi.gen.superinit;
 
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
@@ -8,16 +9,19 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIMarkExtension;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 
-public class FluentAPISuperInitialisationMarkMethodGenerator {
-	private static final String unmarkMethodDocumentation = "Removes any associations between the given "
+public class FluentAPISuperInitialisationMarkMethodGenerator implements IFluentAPIMethodGenerator {
+	private static final String unmarkMethodSummary = "Removes the given markKey's marking, does not modify the (formerly) marked object.";
+	private static final String unmarkMethodDocumentation = FluentAPIGenerationUtil
+			.appendSummaryToStart(unmarkMethodSummary) + "Removes any associations between the given "
 			+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationMarkKeyParameterName()
 			+ " and its corresponding EObject obj. Doing so unmarks obj, meaning that "
 			+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationMarkKeyParameterName()
-			+ " can no longer be used to retrieve obj.";
+			+ " can no longer be used to retrieve obj. Does nothing, if this API instance did not mark obj with markKey.";
 	private static final String unmarkMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Mark key parameter name
 			FluentAPIMarkExtension.class.getName() + ".unmark(this.get"
@@ -26,7 +30,10 @@ public class FluentAPISuperInitialisationMarkMethodGenerator {
 					+ "(), %s)",
 			"return this");
 
-	private static final String markMethodDocumentation = "Associates this.get"
+	private static final String markMethodSummary = "Marks the object currently under construction with markKey, does not modify the object.";
+	private static final String markMethodDocumentation = FluentAPIGenerationUtil
+			.appendSummaryToStart(markMethodSummary)
+			+ "Associates this.get"
 			+ FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 			+ "() with " + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationMarkKeyParameterName()
@@ -50,7 +57,9 @@ public class FluentAPISuperInitialisationMarkMethodGenerator {
 							+ "())",
 					"return this");
 
-	private static final String getMarkedMethodDocumentation = "Returns the EObject obj associated with "
+	private static final String getMarkedMethodSummary = "Returns the object marked by this API instance with the given markKey.";
+	private static final String getMarkedMethodDocumentation = FluentAPIGenerationUtil
+			.appendSummaryToStart(getMarkedMethodSummary) + "Returns the EObject obj associated with "
 			+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ". Note that "
 			+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName()
 			+ " has to be the exact Object instance that was used to mark obj, in order for this method to successfully retrieve obj. Using another Object instance that is content-wise equal to "
@@ -94,5 +103,15 @@ public class FluentAPISuperInitialisationMarkMethodGenerator {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameterWithDocumentation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName(), EcorePackage.Literals.EJAVA_OBJECT,
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyDocumentation());
+	}
+
+	@Override
+	public Map<String, String> getMethodNamesToDescriptions() {
+		return Map.of(FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationMarkMethodName(),
+				markMethodSummary,
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationUnmarkMethodName(),
+				unmarkMethodSummary,
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationGetMarkedMethodName(),
+				getMarkedMethodSummary);
 	}
 }

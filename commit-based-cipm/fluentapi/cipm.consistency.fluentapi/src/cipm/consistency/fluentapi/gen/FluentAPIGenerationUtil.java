@@ -21,6 +21,9 @@ public class FluentAPIGenerationUtil {
 	private static final String doNotUseFromOutsideDocumentationNote = "This method is not intended for outside use, but is generated as public because of code generation limitations.";
 	private static final String documentationParagraphSeparator = "<p><p>";
 
+	private static final String classMethodOverviewIntroTemplate = "It is recommended to only use the methods presented below. In the following, replace 'X's with the concrete feature name:"
+			+ getDocParagraphSeparator() + "<ul>%s</ul>";
+
 	private static final String placeholderEDataTypeSuffix = "EDataTypePlaceholder";
 
 	private static final String arrayEDataTypeNameSuffix = "Array";
@@ -253,6 +256,14 @@ public class FluentAPIGenerationUtil {
 
 	public static String getDoNotUseFromOutsideDocNote() {
 		return doNotUseFromOutsideDocumentationNote;
+	}
+
+	public static String getClassMethodOverviewIntroTemplate() {
+		return classMethodOverviewIntroTemplate;
+	}
+
+	public static String getClassMethodOverviewIntro(Map<String, String> methodNameToSummaryMap) {
+		return String.format(getClassMethodOverviewIntroTemplate(), serialiseSummaries(methodNameToSummaryMap));
 	}
 
 	public static String appendDoNotUseFromOutsideDocNoteAtEnd() {

@@ -1,11 +1,22 @@
 package cipm.consistency.fluentapi.gen.superinit;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
+import cipm.consistency.fluentapi.gen.FluentAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+
 public class FluentAPISuperInitialisationEClassGenerator {
+	private static final String initClassDocTemplate = "The top-most Initialisation class, which all concrete initialisation classes extend. Contains various methods that facilitate the programmatic construction of model object instances."
+			+ FluentAPIGenerationUtil.getClassMethodOverviewIntroTemplate();
+
+	private static final Map<String, String> summaries = new LinkedHashMap<>();
+
 	private EReference getCurrentElementReference(EClass initialisedEClass) {
 		var currentElementReference = EcoreFactory.eINSTANCE.createEReference();
 		currentElementReference.setChangeable(true);
@@ -38,6 +49,15 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		return superType;
 	}
 
+	private void addEClassDoc(EClass initSuperType) {
+		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
+		anno.setSource(FluentAPIConstants.getGenModelURL());
+		var doc = String.format(initClassDocTemplate, FluentAPIGenerationUtil.serialiseSummaries(summaries));
+		anno.getDetails().put(FluentAPIGenerationUtil.getEOperationDocumentationKey(), doc);
+
+		initSuperType.getEAnnotations().add(anno);
+	}
+
 	private void addRefs(EClass initSuperType, EClass fluentAPICls) {
 		initSuperType.getEStructuralFeatures().add(getRootAPIReference(fluentAPICls));
 
@@ -46,41 +66,56 @@ public class FluentAPISuperInitialisationEClassGenerator {
 	}
 
 	private void addOperations(EClass initSuperType, EClass fluentAPICls) {
-		initSuperType.getEOperations().add(new FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator()
-				.generateGetInitialisedEClassMethod());
+		var getInitEClsGen = new FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator();
+		initSuperType.getEOperations().add(getInitEClsGen.generateGetInitialisedEClassMethod());
+		summaries.putAll(getInitEClsGen.getMethodNamesToDescriptions());
 
-		initSuperType.getEOperations().addAll(new FluentAPISuperInitialisationCreateNowMethodGenerator()
-				.generateAllCreateNowMethods(EcorePackage.Literals.EOBJECT));
+		var createNowGen = new FluentAPISuperInitialisationCreateNowMethodGenerator();
+		initSuperType.getEOperations().addAll(createNowGen.generateAllCreateNowMethods(EcorePackage.Literals.EOBJECT));
+		summaries.putAll(createNowGen.getMethodNamesToDescriptions());
 
-		initSuperType.getEOperations().add(
-				new FluentAPISuperInitialisationNewElementMethodGenerator().generateNewElementMethod(initSuperType));
+		var newElemGen = new FluentAPISuperInitialisationNewElementMethodGenerator();
+		initSuperType.getEOperations().add(newElemGen.generateNewElementMethod(initSuperType));
+		summaries.putAll(newElemGen.getMethodNamesToDescriptions());
 
-		initSuperType.getEOperations().add(new FluentAPISuperInitialisationDropOperationGenerator()
-				.generateDropInitialisationMethod(initSuperType));
+		var dropGen = new FluentAPISuperInitialisationDropOperationGenerator();
+		initSuperType.getEOperations().add(dropGen.generateDropInitialisationMethod(initSuperType));
+		summaries.putAll(dropGen.getMethodNamesToDescriptions());
 
-		initSuperType.getEOperations().add(new FluentAPISuperInitialisationResetOperationGenerator()
-				.generateResetInitialisationMethod(initSuperType));
+		var resetGen = new FluentAPISuperInitialisationResetOperationGenerator();
+		initSuperType.getEOperations().add(resetGen.generateResetInitialisationMethod(initSuperType));
+		summaries.putAll(resetGen.getMethodNamesToDescriptions());
 
+		var markGen = new FluentAPISuperInitialisationMarkMethodGenerator();
+		initSuperType.getEOperations().addAll(markGen.generateAllMarkMethods(initSuperType));
+		summaries.putAll(markGen.getMethodNamesToDescriptions());
+
+		var toAPIGen = new FluentAPISuperInitialisationToAPIMethodGenerator();
+		initSuperType.getEOperations().add(toAPIGen.generateToAPIMethod(fluentAPICls));
+		summaries.putAll(toAPIGen.getMethodNamesToDescriptions());
+
+		var nextInitGen = new FluentAPISuperInitialisationNextInitialisationMethodGenerator();
 		initSuperType.getEOperations()
-				.addAll(new FluentAPISuperInitialisationMarkMethodGenerator().generateAllMarkMethods(initSuperType));
+				.add(nextInitGen.getNextInitialisationMethodFor(initSuperType, EcorePackage.Literals.EOBJECT));
+		summaries.putAll(nextInitGen.getMethodNamesToDescriptions());
 
-		initSuperType.getEOperations().add(new FluentAPISuperInitialisationToAPIMethodGenerator().generateToAPIMethod(fluentAPICls));
+		var prevInitGen = new FluentAPISuperInitialisationPreviousInitialisationMethodGenerator();
+		initSuperType.getEOperations()
+				.add(prevInitGen.getPreviousInitialisationMethodFor(initSuperType, EcorePackage.Literals.EOBJECT));
+		summaries.putAll(prevInitGen.getMethodNamesToDescriptions());
 
-		initSuperType.getEOperations().add(new FluentAPISuperInitialisationNextInitialisationMethodGenerator()
-				.getNextInitialisationMethodFor(initSuperType, EcorePackage.Literals.EOBJECT));
+		var withGen = new FluentAPISuperInitialisationWithOperationGenerator();
+		initSuperType.getEOperations().addAll(withGen.getAllAPITopLevelWithOperations(initSuperType));
+		summaries.putAll(withGen.getMethodNamesToDescriptions());
 
-		initSuperType.getEOperations().add(new FluentAPISuperInitialisationPreviousInitialisationMethodGenerator()
-				.getPreviousInitialisationMethodFor(initSuperType, EcorePackage.Literals.EOBJECT));
-
-		initSuperType.getEOperations().addAll(new FluentAPISuperInitialisationWithOperationGenerator()
-				.getAllAPITopLevelWithOperations(initSuperType));
-
-		initSuperType.getEOperations().addAll(new FluentAPISuperInitialisationOnceExistsMethodGenerator()
-				.generateAllOnceExistsMethods(initSuperType));
+		var onceExistsGen = new FluentAPISuperInitialisationOnceExistsMethodGenerator();
+		initSuperType.getEOperations().addAll(onceExistsGen.generateAllOnceExistsMethods(initSuperType));
+		summaries.putAll(onceExistsGen.getMethodNamesToDescriptions());
 	}
 
 	public void setupSuperInitialisationEClass(EClass fluentAPICls, EClass initSuperType) {
 		addRefs(initSuperType, fluentAPICls);
 		addOperations(initSuperType, fluentAPICls);
+		addEClassDoc(initSuperType);
 	}
 }

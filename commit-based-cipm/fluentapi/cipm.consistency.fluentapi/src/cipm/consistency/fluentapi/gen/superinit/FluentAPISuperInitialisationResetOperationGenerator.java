@@ -1,14 +1,19 @@
 package cipm.consistency.fluentapi.gen.superinit;
 
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
-public class FluentAPISuperInitialisationResetOperationGenerator {
-	private static final String resetMethodDocumentation = "Resets this "
+public class FluentAPISuperInitialisationResetOperationGenerator implements IFluentAPIMethodGenerator {
+	private static final String resetMethodSummary = "Removes the current object under construction from this.";
+	private static final String resetMethodDocumentation = FluentAPIGenerationUtil
+			.appendSummaryToStart(resetMethodSummary) + "Resets this "
 			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()
 			+ " instance, which discards this.get"
 			+ FluentAPISuperInitialisationConstants
@@ -32,5 +37,11 @@ public class FluentAPISuperInitialisationResetOperationGenerator {
 		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
 				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationResetMethodNameTemplate(),
 				initType, resetMethodBodyTemplate, resetMethodDocumentation);
+	}
+
+	@Override
+	public Map<String, String> getMethodNamesToDescriptions() {
+		return Map.of(FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationResetMethodNameTemplate(),
+				resetMethodSummary);
 	}
 }

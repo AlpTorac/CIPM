@@ -1,15 +1,20 @@
 package cipm.consistency.fluentapi.gen.superinit;
 
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
-public class FluentAPISuperInitialisationNextInitialisationMethodGenerator {
-	private static final String nextInitMethodDocumentation = "Returns the "
+public class FluentAPISuperInitialisationNextInitialisationMethodGenerator implements IFluentAPIMethodGenerator {
+	private static final String nextInitMethodSummary = "Returns the Initialisation instance of the same type that this API instance created after this one.";
+	private static final String nextInitMethodDocumentation = FluentAPIGenerationUtil
+			.appendSummaryToStart(nextInitMethodSummary) + "Returns the "
 			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()
 			+ " instance of the same type, which was created by this."
 			+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
@@ -33,5 +38,11 @@ public class FluentAPISuperInitialisationNextInitialisationMethodGenerator {
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initEClass),
 						eobjEClass.getInstanceClass().getName()),
 				nextInitMethodDocumentation);
+	}
+
+	@Override
+	public Map<String, String> getMethodNamesToDescriptions() {
+		return Map.of(FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationNextInitMethodName(),
+				nextInitMethodSummary);
 	}
 }

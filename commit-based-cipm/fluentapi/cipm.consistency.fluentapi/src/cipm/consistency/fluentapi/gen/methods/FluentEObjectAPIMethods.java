@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -17,7 +16,6 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
-import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationWithOperationGenerator;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationConstants;
 
@@ -176,7 +174,7 @@ public final class FluentEObjectAPIMethods {
 		initEClasses.stream().map((eCls) -> eCls.getInstanceClass()).map((cls) -> {
 			try {
 				return cls.getDeclaredMethod(
-						FluentAPIInitialisationConstants.getFluentapiinitialisationcreatenowmethodname());
+						FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCreateNowMethodName());
 			} catch (NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
 				throw new IllegalStateException(e);
