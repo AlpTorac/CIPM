@@ -154,8 +154,9 @@ public final class FluentEObjectAPIMethods {
 		return api;
 	}
 
-	public static EList<Class<?>> getAllSupportedClasses(EObject me) {
-		var result = new BasicEList<Class<?>>();
+	@SuppressWarnings("unchecked")
+	public static EList<Class<? extends EObject>> getAllSupportedClasses(EObject me) {
+		var result = new BasicEList<Class<? extends EObject>>();
 //		getInits(me).stream()
 //				.map((c) -> c.getEOperations().stream()
 //						.filter((op) -> op.getName().equals(FluentAPICreateNowMethodGenerator.getCreateNowMethodName()))
@@ -179,7 +180,7 @@ public final class FluentEObjectAPIMethods {
 				e.printStackTrace();
 				throw new IllegalStateException(e);
 			}
-		}).map((met) -> met.getReturnType())
+		}).map((met) -> (Class<? extends EObject>) met.getReturnType())
 
 //				.map((eCls) -> eCls.getEOperations().stream()
 //						.filter((op) -> op.getName().equals(FluentAPICreateNowMethodGenerator.getCreateNowMethodName()))

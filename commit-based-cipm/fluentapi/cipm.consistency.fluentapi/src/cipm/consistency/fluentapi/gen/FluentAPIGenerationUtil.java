@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
@@ -14,7 +15,6 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.ETypeParameter;
-import org.eclipse.emf.ecore.ETypedElement;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 public class FluentAPIGenerationUtil {
@@ -66,38 +66,53 @@ public class FluentAPIGenerationUtil {
 	}
 
 	public static EParameter generateSingleValuedEParameter(String name, Class<?> type) {
-		var param = EcoreFactory.eINSTANCE.createEParameter();
-		param.setName(name);
-		param.setEType(createOrGetEDataType(type));
-		param.setLowerBound(1);
-		param.setUpperBound(1);
-		return param;
+		return generateSingleValuedEParameter(name, createOrGetEDataType(type));
 	}
 
 	public static EParameter generateSingleValuedEParameter(String name, EClassifier type) {
-		var param = EcoreFactory.eINSTANCE.createEParameter();
-		param.setName(name);
+		var param = generateSingleValuedEParameter(name);
 		param.setEType(type);
-		param.setLowerBound(1);
-		param.setUpperBound(1);
 		return param;
 	}
 
-	public static EParameter generateManyValuedEParameter(String name, EClassifier type) {
+	public static EParameter generateSingleValuedEParameter(String name, EGenericType type) {
+		var param = generateSingleValuedEParameter(name);
+		param.setEGenericType(type);
+		return param;
+	}
+
+	public static EParameter generateManyValuedEParameter(String name) {
 		var param = EcoreFactory.eINSTANCE.createEParameter();
 		param.setName(name);
-		param.setEType(type);
 		param.setLowerBound(1);
 		param.setUpperBound(EParameter.UNBOUNDED_MULTIPLICITY);
 		return param;
 	}
 
+	public static EParameter generateManyValuedEParameter(String name, EClassifier type) {
+		var param = generateManyValuedEParameter(name);
+		param.setEType(type);
+		return param;
+	}
+
+	public static EParameter generateManyValuedEParameter(String name, EGenericType type) {
+		var param = generateManyValuedEParameter(name);
+		param.setEGenericType(type);
+		return param;
+	}
+
 	public static <T extends EModelElement> T addDocumentation(T elem, String documentation) {
-		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
-		anno.setSource(FluentAPIConstants.getGenModelURL());
+		var anno = createOrGetEAnnotation(elem);
 		// Add the documentation
 		anno.getDetails().put(getEOperationDocumentationKey(), documentation);
 		elem.getEAnnotations().add(anno);
+		return elem;
+	}
+
+	public static <T extends EOperation> T addTypeParameters(T elem, ETypeParameter... typeParams) {
+		if (typeParams != null)
+			for (var tp : typeParams)
+				elem.getETypeParameters().add(tp);
 		return elem;
 	}
 
@@ -160,10 +175,28 @@ public class FluentAPIGenerationUtil {
 		return op;
 	}
 
+	public static EOperation generateEOperation(String name, EGenericType returnType) {
+		var op = EcoreFactory.eINSTANCE.createEOperation();
+		op.setEGenericType(returnType);
+		op.setName(name);
+		return op;
+	}
+
 	public static ETypeParameter generateETypeParameter(String typeParameterName) {
 		var typeParam = EcoreFactory.eINSTANCE.createETypeParameter();
 		typeParam.setName(typeParameterName);
 		return typeParam;
+	}
+
+	/**
+	 * @param lowerBound "X" in "? super X"
+	 * @param upperBound "X" in "? extends X"
+	 */
+	public static EGenericType generateEGenericTypeWithBounds(EGenericType lowerBound, EGenericType upperBound) {
+		var genericParamTypeForJavaClass = EcoreFactory.eINSTANCE.createEGenericType();
+		genericParamTypeForJavaClass.setELowerBound(lowerBound);
+		genericParamTypeForJavaClass.setEUpperBound(upperBound);
+		return genericParamTypeForJavaClass;
 	}
 
 	/**
@@ -192,9 +225,19 @@ public class FluentAPIGenerationUtil {
 		return genericType;
 	}
 
+	private static EAnnotation createOrGetEAnnotation(EModelElement elem) {
+		EAnnotation anno = null;
+		if (elem.getEAnnotation(FluentAPIConstants.getGenModelURL()) == null) {
+			anno = EcoreFactory.eINSTANCE.createEAnnotation();
+			anno.setSource(FluentAPIConstants.getGenModelURL());
+		} else {
+			anno = elem.getEAnnotation(FluentAPIConstants.getGenModelURL());
+		}
+		return anno;
+	}
+
 	public static <T extends EModelElement> T addBody(T elem, String body) {
-		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
-		anno.setSource(FluentAPIConstants.getGenModelURL());
+		var anno = createOrGetEAnnotation(elem);
 		// Add the body
 		anno.getDetails().put(getEOperationBodyKey(), body);
 		elem.getEAnnotations().add(anno);

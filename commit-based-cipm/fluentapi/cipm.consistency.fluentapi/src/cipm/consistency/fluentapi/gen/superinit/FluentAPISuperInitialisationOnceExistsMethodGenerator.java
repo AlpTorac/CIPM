@@ -18,14 +18,18 @@ import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 public class FluentAPISuperInitialisationOnceExistsMethodGenerator implements IFluentAPIMethodGenerator {
 
 	private static final String onceExistsMethodSingleMarkedKeyBody = FluentAPIMethodsUtil
-			.joinLOC(FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists(this.get"
-					+ FluentAPISuperInitialisationConstants
-							.getCapitalisedFluentAPISuperInitialisationRootAPIReferenceName()
-					+ "(), "
-					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationMarkKeyParameterName()
-					+ ", (java.lang.Runnable) " + FluentAPISuperInitialisationConstants
-							.getFluentAPISuperInitialisationOnceExistsRunnableParameterName()
-					+ ")", "return this");
+			.joinLOC(
+					FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists(this.get"
+							+ FluentAPISuperInitialisationConstants
+									.getCapitalisedFluentAPISuperInitialisationRootAPIReferenceName()
+							+ "(), "
+							+ FluentAPISuperInitialisationConstants
+									.getFluentAPISuperInitialisationMarkKeyParameterName()
+							+ ", (" + FluentAPIRootAPIConstants.getModelConstructionTaskClass().getName() + ") "
+							+ FluentAPISuperInitialisationConstants
+									.getFluentAPISuperInitialisationOnceExistsRunnableParameterName()
+							+ ")",
+					"return this");
 
 	private static final String onceExistsMethodMultipleMarkedKeyBody = FluentAPIMethodsUtil
 			.joinLOC(
@@ -35,7 +39,7 @@ public class FluentAPISuperInitialisationOnceExistsMethodGenerator implements IF
 							+ "(), "
 							+ FluentAPISuperInitialisationConstants
 									.getFluentAPISuperInitialisationOnceExistsMarkKeyListParameterName()
-							+ ", (java.lang.Runnable) "
+							+ ", (" + FluentAPIRootAPIConstants.getModelConstructionTaskClass().getName() + ") "
 							+ FluentAPISuperInitialisationConstants
 									.getFluentAPISuperInitialisationOnceExistsRunnableParameterName()
 							+ ")",
@@ -51,26 +55,32 @@ public class FluentAPISuperInitialisationOnceExistsMethodGenerator implements IF
 
 	private EOperation generateOnceExistsMethod(EClass superInitECls) {
 		var keyParam = getMarkKeyParam();
-		var consumerParam = getRunnableParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), superInitECls,
-				onceExistsMethodSingleMarkedKeyBody, keyParam, consumerParam);
+		var taskParam = getRunnableParam();
+		var op = FluentAPIGenerationUtil
+				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), superInitECls);
+		FluentAPIGenerationUtil.addBody(op, onceExistsMethodSingleMarkedKeyBody);
+		FluentAPIGenerationUtil.addEParameters(op, keyParam, taskParam);
+		return op;
 	}
 
 	private EOperation generateOnceExistsListMethod(EClass superInitECls) {
 		var keyParam = getMarkKeyListParam();
-		var consumerParam = getRunnableParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), superInitECls,
-				onceExistsMethodMultipleMarkedKeyBody, keyParam, consumerParam);
+		var taskParam = getRunnableParam();
+		var op = FluentAPIGenerationUtil
+				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), superInitECls);
+		FluentAPIGenerationUtil.addBody(op, onceExistsMethodMultipleMarkedKeyBody);
+		FluentAPIGenerationUtil.addEParameters(op, keyParam, taskParam);
+		return op;
 	}
 
 	private EOperation generateOnceExistsArrayMethod(EClass superInitECls) {
 		var keyParam = getMarkKeyArrayParam();
-		var consumerParam = getRunnableParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), superInitECls,
-				onceExistsMethodMultipleMarkedKeyBody, keyParam, consumerParam);
+		var taskParam = getRunnableParam();
+		var op = FluentAPIGenerationUtil
+				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), superInitECls);
+		FluentAPIGenerationUtil.addBody(op, onceExistsMethodMultipleMarkedKeyBody);
+		FluentAPIGenerationUtil.addEParameters(op, keyParam, taskParam);
+		return op;
 	}
 
 	private EParameter getMarkKeyParam() {
@@ -86,14 +96,17 @@ public class FluentAPISuperInitialisationOnceExistsMethodGenerator implements IF
 	}
 
 	private EParameter getMarkKeyArrayParam() {
-		return FluentAPIGenerationUtil.generateArrayValuedEParameterWithDocumentation(
+		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMarkKeyListParameterName(),
-				EcorePackage.Literals.EJAVA_OBJECT, "TODO");
+				EcorePackage.Literals.EJAVA_OBJECT);
+		// TODO Add documentation
+		return param;
 	}
 
 	private EParameter getRunnableParam() {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsRunnableParameterName(), Runnable.class);
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsRunnableParameterName(),
+				FluentAPIRootAPIConstants.getModelConstructionTaskClass());
 	}
 
 	@Override

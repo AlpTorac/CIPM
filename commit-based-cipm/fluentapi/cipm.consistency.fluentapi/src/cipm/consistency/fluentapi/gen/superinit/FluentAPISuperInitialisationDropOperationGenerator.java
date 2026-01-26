@@ -26,9 +26,11 @@ public class FluentAPISuperInitialisationDropOperationGenerator implements IFlue
 			"return this");
 
 	public EOperation generateDropInitialisationMethod(EClass initType) {
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationDropMethodName(), initType,
-				dropMethodBodyTemplate, dropMethodDocumentation);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationDropMethodName(), initType);
+		FluentAPIGenerationUtil.addBody(op, dropMethodBodyTemplate);
+		FluentAPIGenerationUtil.addDocumentation(op, dropMethodDocumentation);
+		return op;
 	}
 
 	@Override

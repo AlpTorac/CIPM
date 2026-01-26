@@ -11,13 +11,25 @@ import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 public class FluentAPIRootAPIGetAllSupportedClassesMethodGenerator {
 	// TODO Add documentation
 
-	private static final String getAllSupportedClassesMethodTemplate = FluentAPIMethodsUtil
+	private static final String getAllSupportedClassesMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return " + FluentEObjectAPIMethods.class.getName() + ".getAllSupportedClasses(this)");
 
 	public EOperation generateGetAllSupportedClassesMethodGenerator(EClass rootAPIEClass) {
-		// TODO Use generic parameter
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetAllSupportedClassesMethodName(),
-				EcorePackage.Literals.EE_LIST, getAllSupportedClassesMethodTemplate);
+		var javaClassType = FluentAPIGenerationUtil
+				.generateEGenericTypeWithClassifier(EcorePackage.Literals.EJAVA_CLASS);
+
+		var eObjLowerBound = FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null,
+				FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(EcorePackage.Literals.EOBJECT));
+		FluentAPIGenerationUtil.addTypeArgument(javaClassType, eObjLowerBound);
+
+		var eListType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(EcorePackage.Literals.EE_LIST);
+		FluentAPIGenerationUtil.addTypeArgument(eListType, javaClassType);
+
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetAllSupportedClassesMethodName(), eListType);
+
+		FluentAPIGenerationUtil.addBody(op, getAllSupportedClassesMethodBodyTemplate);
+
+		return op;
 	}
 }

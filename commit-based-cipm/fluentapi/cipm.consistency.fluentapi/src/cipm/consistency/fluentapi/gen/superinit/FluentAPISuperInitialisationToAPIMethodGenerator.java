@@ -27,9 +27,11 @@ public class FluentAPISuperInitialisationToAPIMethodGenerator implements IFluent
 			+ "()");
 
 	public EOperation generateToAPIMethod(EClass rootAPIEClass) {
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName(), rootAPIEClass,
-				toAPIMethodBodyTemplate, toAPIMethodDocumentation);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName(), rootAPIEClass);
+		FluentAPIGenerationUtil.addBody(op, toAPIMethodBodyTemplate);
+		FluentAPIGenerationUtil.addDocumentation(op, toAPIMethodDocumentation);
+		return op;
 	}
 
 	@Override

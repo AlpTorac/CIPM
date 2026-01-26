@@ -538,7 +538,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var param = FluentAPIGenerationUtil.generateManyValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
 				feat.getEType());
-		FluentAPIGenerationUtil.addDocumentation(null,
+		FluentAPIGenerationUtil.addDocumentation(param,
 				String.format(addedListFeatValParamDocumentationTemplate, feat.getName()));
 		return param;
 	}
@@ -547,7 +547,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
 				feat.getEType());
-		FluentAPIGenerationUtil.addDocumentation(null,
+		FluentAPIGenerationUtil.addDocumentation(param,
 				String.format(addedListFeatValParamDocumentationTemplate, feat.getName()));
 		return param;
 	}
@@ -557,7 +557,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
 				feat.getEType());
 
-		FluentAPIGenerationUtil.addDocumentation(null,
+		FluentAPIGenerationUtil.addDocumentation(param,
 				String.format(removedListFeatValParamDocumentationTemplate, feat.getName()));
 		return param;
 	}
@@ -566,7 +566,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
 				feat.getEType());
-		FluentAPIGenerationUtil.addDocumentation(null,
+		FluentAPIGenerationUtil.addDocumentation(param,
 				String.format(removedListFeatValParamDocumentationTemplate, feat.getName()));
 		return param;
 	}
@@ -576,7 +576,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodExactFeatValParamName(),
 				feat.getEType());
 
-		FluentAPIGenerationUtil.addDocumentation(null,
+		FluentAPIGenerationUtil.addDocumentation(param,
 				String.format(exactFeatValParamDocumentationTemplate, feat.getName()));
 		return param;
 	}
@@ -586,7 +586,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodExactFeatValParamName(),
 				feat.getEType());
 
-		FluentAPIGenerationUtil.addDocumentation(null,
+		FluentAPIGenerationUtil.addDocumentation(param,
 				String.format(exactFeatValParamDocumentationTemplate, feat.getName()));
 		return param;
 	}

@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
@@ -48,10 +47,12 @@ public class FluentAPISuperInitialisationCreateNowMethodGenerator implements IFl
 	}
 
 	private EOperation generateCreateNowMethod(EClass elemToInit) {
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCreateNowMethodName(), elemToInit,
-				String.format(createNowMethodBodyTemplate, elemToInit.getInstanceClass().getName()),
-				createNowMethodDocumentation);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCreateNowMethodName(), elemToInit);
+		FluentAPIGenerationUtil.addBody(op,
+				String.format(createNowMethodBodyTemplate, elemToInit.getInstanceClass().getName()));
+		FluentAPIGenerationUtil.addDocumentation(op, createNowMethodDocumentation);
+		return op;
 	}
 
 	private EOperation generateGenericCreateNowMethod(EClass elemToInit) {
@@ -59,36 +60,30 @@ public class FluentAPISuperInitialisationCreateNowMethodGenerator implements IFl
 
 		// Goal: <T> T createNowMethodTypeParamName(Class<T> createNowMethodParamName)
 
-		var typeParam = EcoreFactory.eINSTANCE.createETypeParameter();
-		typeParam.setName(FluentAPISuperInitialisationConstants
+		var typeParam = FluentAPIGenerationUtil.generateETypeParameter(FluentAPISuperInitialisationConstants
 				.getFluentAPISuperInitialisationCreateNowMethodTypeParameterName());
 
 		// Make sure to create 2 generic types, one for the method parameter (Class<T>)
 		// and one for the return type of the method (T)
 
-		var genericParamTypeForJavaClass = EcoreFactory.eINSTANCE.createEGenericType();
-		genericParamTypeForJavaClass.setETypeParameter(typeParam);
+		var genericParamTypeForJavaClass = FluentAPIGenerationUtil.generateEGenericTypeWithTypeParameter(typeParam);
 
-		var genericClassType = EcoreFactory.eINSTANCE.createEGenericType();
-		genericClassType.setEClassifier(EcorePackage.Literals.EJAVA_CLASS);
-		genericClassType.getETypeArguments().add(genericParamTypeForJavaClass);
+		var genericClassType = FluentAPIGenerationUtil
+				.generateEGenericTypeWithClassifier(EcorePackage.Literals.EJAVA_CLASS);
+		FluentAPIGenerationUtil.addTypeArgument(genericClassType, genericParamTypeForJavaClass);
 
-		var genericParamTypeForOp = EcoreFactory.eINSTANCE.createEGenericType();
-		genericParamTypeForOp.setETypeParameter(typeParam);
+		var genericParamTypeForOp = FluentAPIGenerationUtil.generateEGenericTypeWithTypeParameter(typeParam);
 
-		var param = EcoreFactory.eINSTANCE.createEParameter();
-		param.setName(
-				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCreateNowMethodParameterName());
-		param.setEGenericType(genericClassType);
-		param.setLowerBound(1);
-		param.setUpperBound(1);
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCreateNowMethodParameterName(),
+				genericClassType);
 
-		var op = FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCreateNowMethodName(), null,
-				String.format(createNowMethodBodyTemplate, typeParam.getName()));
-		op.setEGenericType(genericParamTypeForOp);
-		op.getETypeParameters().add(typeParam);
-		op.getEParameters().add(param);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCreateNowMethodName(),
+				genericParamTypeForOp);
+		FluentAPIGenerationUtil.addBody(op, String.format(createNowMethodBodyTemplate, typeParam.getName()));
+		FluentAPIGenerationUtil.addTypeParameters(op, typeParam);
+		FluentAPIGenerationUtil.addEParameters(op, param);
 
 		return op;
 	}

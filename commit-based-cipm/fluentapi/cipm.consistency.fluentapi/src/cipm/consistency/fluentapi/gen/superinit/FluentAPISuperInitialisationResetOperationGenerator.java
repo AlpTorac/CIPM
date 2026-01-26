@@ -35,9 +35,12 @@ public class FluentAPISuperInitialisationResetOperationGenerator implements IFlu
 			"return this");
 
 	public EOperation generateResetInitialisationMethod(EClass initType) {
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
+		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationResetMethodNameTemplate(),
-				initType, resetMethodBodyTemplate, resetMethodDocumentation);
+				initType);
+		FluentAPIGenerationUtil.addBody(op, resetMethodBodyTemplate);
+		FluentAPIGenerationUtil.addDocumentation(op, resetMethodDocumentation);
+		return op;
 	}
 
 	@Override

@@ -80,30 +80,42 @@ public class FluentAPISuperInitialisationMarkMethodGenerator implements IFluentA
 
 	public EOperation generateUnmarkMethod(EClass initEClass) {
 		var param = getMarkKeyParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationUnmarkMethodName(), initEClass,
-				String.format(unmarkMethodBodyTemplate, param.getName()), unmarkMethodDocumentation, param);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationUnmarkMethodName(), initEClass);
+		FluentAPIGenerationUtil.addBody(op, String.format(unmarkMethodBodyTemplate, param.getName()));
+		FluentAPIGenerationUtil.addDocumentation(op, unmarkMethodDocumentation);
+		FluentAPIGenerationUtil.addEParameters(op, param);
+		return op;
 	}
 
 	public EOperation generateMarkMethod(EClass initEClass) {
 		var param = getMarkKeyParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationMarkMethodName(), initEClass,
-				String.format(markMethodBodyTemplate, param.getName()), markMethodDocumentation, param);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationMarkMethodName(), initEClass);
+		FluentAPIGenerationUtil.addBody(op, String.format(markMethodBodyTemplate, param.getName()));
+		FluentAPIGenerationUtil.addDocumentation(op, markMethodDocumentation);
+		FluentAPIGenerationUtil.addEParameters(op, param);
+		return op;
 	}
 
 	public EOperation generateGetMarkedMethod() {
 		var param = getMarkKeyParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
+		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationGetMarkedMethodName(),
-				EcorePackage.Literals.EOBJECT, String.format(getMarkedMethodBodyTemplate, param.getName()),
-				getMarkedMethodDocumentation, param);
+				EcorePackage.Literals.EOBJECT);
+		FluentAPIGenerationUtil.addBody(op, String.format(getMarkedMethodBodyTemplate, param.getName()));
+		FluentAPIGenerationUtil.addDocumentation(op, getMarkedMethodDocumentation);
+		FluentAPIGenerationUtil.addEParameters(op, param);
+		return op;
 	}
 
 	private EParameter getMarkKeyParam() {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameterWithDocumentation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName(), EcorePackage.Literals.EJAVA_OBJECT,
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName(),
+				EcorePackage.Literals.EJAVA_OBJECT);
+		FluentAPIGenerationUtil.addDocumentation(param,
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyDocumentation());
+		return param;
 	}
 
 	@Override

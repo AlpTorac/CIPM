@@ -82,18 +82,22 @@ public class FluentAPIRootAPIWithOperationGenerator {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodName(), rootAPICls, xWithFeatMethodBody,
-				eobjParam, featParam, featValParam);
+		var op = FluentAPIGenerationUtil
+				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodName(), rootAPICls);
+		FluentAPIGenerationUtil.addBody(op, xWithFeatMethodBody);
+		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam, featValParam);
+		return op;
 	}
 
 	private EOperation getWithoutFeatOp(EClass rootAPICls) {
 		var eobjParam = getEObjectParam();
 		var featParam = getFeatParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodName(), rootAPICls,
-				xWithoutFeatMethodBody, eobjParam, featParam);
+		var op = FluentAPIGenerationUtil
+				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodName(), rootAPICls);
+		FluentAPIGenerationUtil.addBody(op, xWithoutFeatMethodBody);
+		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam);
+		return op;
 	}
 
 	private EOperation getWithAddedFeatOp(EClass rootAPICls) {
@@ -101,9 +105,11 @@ public class FluentAPIRootAPIWithOperationGenerator {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(), rootAPICls,
-				xWithAddedFeatMethodBody, eobjParam, featParam, featValParam);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(), rootAPICls);
+		FluentAPIGenerationUtil.addBody(op, xWithAddedFeatMethodBody);
+		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam, featValParam);
+		return op;
 	}
 
 	private EOperation getWithRemovedFeatOp(EClass rootAPICls) {
@@ -111,9 +117,11 @@ public class FluentAPIRootAPIWithOperationGenerator {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(), rootAPICls,
-				xWithRemovedFeatMethodBody, eobjParam, featParam, featValParam);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(), rootAPICls);
+		FluentAPIGenerationUtil.addBody(op, xWithRemovedFeatMethodBody);
+		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam, featValParam);
+		return op;
 	}
 
 	private EOperation getWithExactFeatOp(EClass rootAPICls) {
@@ -121,9 +129,11 @@ public class FluentAPIRootAPIWithOperationGenerator {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(), rootAPICls,
-				xWithExactFeatMethodBody, eobjParam, featParam, featValParam);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(), rootAPICls);
+		FluentAPIGenerationUtil.addBody(op, xWithExactFeatMethodBody);
+		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam, featValParam);
+		return op;
 	}
 
 	private EOperation getWithAddedFeatArrayOp(EClass rootAPICls) {
@@ -131,9 +141,11 @@ public class FluentAPIRootAPIWithOperationGenerator {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValArrayParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(), rootAPICls,
-				xWithAddedFeatMethodBody, eobjParam, featParam, featValParam);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(), rootAPICls);
+		FluentAPIGenerationUtil.addBody(op, xWithAddedFeatMethodBody);
+		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam, featValParam);
+		return op;
 	}
 
 	private EOperation getWithRemovedFeatArrayOp(EClass rootAPICls) {
@@ -141,9 +153,11 @@ public class FluentAPIRootAPIWithOperationGenerator {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValArrayParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(), rootAPICls,
-				xWithRemovedFeatMethodBody, eobjParam, featParam, featValParam);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(), rootAPICls);
+		FluentAPIGenerationUtil.addBody(op, xWithRemovedFeatMethodBody);
+		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam, featValParam);
+		return op;
 	}
 
 	private EOperation getWithExactFeatArrayOp(EClass rootAPICls) {
@@ -151,41 +165,49 @@ public class FluentAPIRootAPIWithOperationGenerator {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValArrayParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(), rootAPICls,
-				xWithExactFeatMethodBody, eobjParam, featParam, featValParam);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(), rootAPICls);
+		FluentAPIGenerationUtil.addBody(op, xWithExactFeatMethodBody);
+		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam, featValParam);
+		return op;
 	}
 
 	private EOperation getWithFeatOfContainerOp(EClass rootAPICls) {
 		var eobjParam = getEObjectParam();
 		var featParam = getFeatParam();
 
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodName(), rootAPICls,
-				xWithFeatOfContainerMethodBody, eobjParam, featParam);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodName(), rootAPICls);
+		FluentAPIGenerationUtil.addBody(op, xWithFeatOfContainerMethodBody);
+		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam);
+		return op;
 	}
 
 	private EParameter getEObjectParam() {
+		// TODO Add documentation
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodEObjectParameterName(),
 				EcorePackage.Literals.EOBJECT);
 	}
 
 	private EParameter getFeatParam() {
+		// TODO Add documentation
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName(),
 				EcorePackage.Literals.ESTRUCTURAL_FEATURE);
 	}
 
 	private EParameter getFeatValParam() {
+		// TODO Add documentation
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName(),
 				EcorePackage.Literals.EJAVA_OBJECT);
 	}
 
 	private EParameter getFeatValArrayParam() {
-		return FluentAPIGenerationUtil.generateArrayValuedEParameterWithDocumentation(
+		// TODO Add documentation
+		return FluentAPIGenerationUtil.generateArrayValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName(),
-				EcorePackage.Literals.EJAVA_OBJECT, "TODO");
+				EcorePackage.Literals.EJAVA_OBJECT);
 	}
 }

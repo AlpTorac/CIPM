@@ -34,13 +34,15 @@ public class FluentAPISuperInitialisationPreviousInitialisationMethodGenerator i
 							+ "(), %s.class)");
 
 	public EOperation getPreviousInitialisationMethodFor(EClass initEClass, EClass eobjEClass) {
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
+		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationPreviousInitMethodName(),
-				initEClass,
+				initEClass);
+		FluentAPIGenerationUtil.addBody(op,
 				String.format(previousInitMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initEClass),
-						eobjEClass.getInstanceClass().getName()),
-				previousInitMethodDocumentation);
+						eobjEClass.getInstanceClass().getName()));
+		FluentAPIGenerationUtil.addDocumentation(op, previousInitMethodDocumentation);
+		return op;
 	}
 
 	@Override

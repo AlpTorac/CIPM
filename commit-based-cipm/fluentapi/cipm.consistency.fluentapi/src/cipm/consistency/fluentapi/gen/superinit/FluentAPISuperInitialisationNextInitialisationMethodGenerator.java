@@ -33,12 +33,14 @@ public class FluentAPISuperInitialisationNextInitialisationMethodGenerator imple
 					+ "(), %s.class)");
 
 	public EOperation getNextInitialisationMethodFor(EClass initEClass, EClass eobjEClass) {
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
-				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationNextInitMethodName(), initEClass,
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationNextInitMethodName(), initEClass);
+		FluentAPIGenerationUtil.addBody(op,
 				String.format(nextInitMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initEClass),
-						eobjEClass.getInstanceClass().getName()),
-				nextInitMethodDocumentation);
+						eobjEClass.getInstanceClass().getName()));
+		FluentAPIGenerationUtil.addDocumentation(op, nextInitMethodDocumentation);
+		return op;
 	}
 
 	@Override

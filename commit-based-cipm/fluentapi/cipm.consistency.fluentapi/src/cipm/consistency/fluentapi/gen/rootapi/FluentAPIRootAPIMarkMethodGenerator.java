@@ -37,23 +37,30 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 
 	public EOperation generateUnmarkMethod(EClass rootAPIECls) {
 		var param = getMarkKeyParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIUnmarkMethodName(), rootAPIECls, unmarkMethodBodyTemplate,
-				param);
+		var op = FluentAPIGenerationUtil
+				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIUnmarkMethodName(), rootAPIECls);
+		FluentAPIGenerationUtil.addBody(op, unmarkMethodBodyTemplate);
+		FluentAPIGenerationUtil.addEParameters(op, param);
+		return op;
 	}
 
 	public EOperation generateGetMarkedMethod() {
 		var param = getMarkKeyParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedMethodName(), EcorePackage.Literals.EOBJECT,
-				getMarkedMethodBodyTemplate, param);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedMethodName(), EcorePackage.Literals.EOBJECT);
+		FluentAPIGenerationUtil.addBody(op, getMarkedMethodBodyTemplate);
+		FluentAPIGenerationUtil.addEParameters(op, param);
+		return op;
 	}
 
 	public EOperation generateGetMarkedXMethod(EClass elemToInit) {
 		var param = getMarkKeyParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedXMethodNameForType(elemToInit), elemToInit,
-				String.format(getMarkedXMethodBodyTemplate, elemToInit.getInstanceClass().getName()), param);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedXMethodNameForType(elemToInit), elemToInit);
+		FluentAPIGenerationUtil.addBody(op,
+				String.format(getMarkedXMethodBodyTemplate, elemToInit.getInstanceClass().getName()));
+		FluentAPIGenerationUtil.addEParameters(op, param);
+		return op;
 	}
 
 	private EParameter getMarkKeyParam() {

@@ -22,9 +22,12 @@ public class FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator imp
 					+ "().eClass()");
 
 	public EOperation generateGetInitialisedEClassMethod() {
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
+		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationGetInitialisedEClassMethodName(),
-				EcorePackage.Literals.ECLASS, getInitialisedEClassMethodBody, getInitialisedEClassDocumentation);
+				EcorePackage.Literals.ECLASS);
+		FluentAPIGenerationUtil.addBody(op, getInitialisedEClassMethodBody);
+		FluentAPIGenerationUtil.addDocumentation(op, getInitialisedEClassDocumentation);
+		return op;
 	}
 
 	@Override

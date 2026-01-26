@@ -23,9 +23,12 @@ public class FluentAPISuperInitialisationNewElementMethodGenerator implements IF
 	private static final String newElementMethodBody = FluentAPIMethodsUtil.joinLOC("return this");
 
 	public EOperation generateNewElementMethod(EClass initSuperEClass) {
-		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
+		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationNewElementMethodName(),
-				initSuperEClass, newElementMethodBody, newElementOperationDocumentation);
+				initSuperEClass);
+		FluentAPIGenerationUtil.addBody(op, newElementMethodBody);
+		FluentAPIGenerationUtil.addDocumentation(op, newElementOperationDocumentation);
+		return op;
 	}
 
 	@Override

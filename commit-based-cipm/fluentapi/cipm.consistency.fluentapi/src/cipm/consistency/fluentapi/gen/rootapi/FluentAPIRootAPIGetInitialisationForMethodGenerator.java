@@ -26,11 +26,16 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator {
 
 	public EOperation getInitialisationForEClassMethod(EClass initsSuperType) {
 		var param = getInitialisationForEClassParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(), initsSuperType,
-				String.format(getInitialisationMethodBody,
-						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initsSuperType)),
-				param);
+
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(), initsSuperType);
+
+		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationMethodBody,
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initsSuperType)));
+
+		FluentAPIGenerationUtil.addEParameters(op, param);
+
+		return op;
 	}
 
 	public EParameter getInitialisationForEClassParam() {
@@ -41,11 +46,16 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator {
 
 	public EOperation getInitialisationForClassMethod(EClass initsSuperType) {
 		var param = getInitialisationForClassParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(), initsSuperType,
-				String.format(getInitialisationForClassMethodBody,
-						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initsSuperType)),
-				param);
+
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(), initsSuperType);
+
+		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationForClassMethodBody,
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initsSuperType)));
+
+		FluentAPIGenerationUtil.addEParameters(op, param);
+
+		return op;
 	}
 
 	public EParameter getInitialisationForClassParam() {
@@ -56,11 +66,16 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator {
 
 	public EOperation getInitialisationForEObjectMethod(EClass initsSuperType) {
 		var param = getInitialisationForEObjectParam();
-		return FluentAPIGenerationUtil.generateEOperationWithBody(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(), initsSuperType,
-				String.format(getInitialisationForEObjectMethodBody,
-						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initsSuperType)),
-				param);
+
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(), initsSuperType);
+
+		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationForEObjectMethodBody,
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initsSuperType)));
+
+		FluentAPIGenerationUtil.addEParameters(op, param);
+
+		return op;
 	}
 
 	public EParameter getInitialisationForEObjectParam() {
