@@ -264,7 +264,7 @@ public final class FluentEObjectAPIMethods {
 	public static EObject continueElementFromStart(EObject me, Class<?> eobjCls, int idx) {
 		var initsOfMatchingType = getOngoingInits(me).stream().filter((i) -> isInitialisationFor(i.eClass(), eobjCls))
 				.collect(Collectors.toCollection(ArrayList::new));
-		return initsOfMatchingType.size() > idx ? initsOfMatchingType.get(idx) : null;
+		return (initsOfMatchingType.size() > idx) && (idx >= 0) ? initsOfMatchingType.get(idx) : null;
 	}
 
 	/**
@@ -281,7 +281,9 @@ public final class FluentEObjectAPIMethods {
 	public static EObject continueElementFromEnd(EObject me, Class<?> eobjCls, int idx) {
 		var initsOfMatchingType = getOngoingInits(me).stream().filter((i) -> isInitialisationFor(i.eClass(), eobjCls))
 				.collect(Collectors.toCollection(ArrayList::new));
-		return initsOfMatchingType.size() > idx ? initsOfMatchingType.get(initsOfMatchingType.size() - 1 - idx) : null;
+		return (initsOfMatchingType.size() > idx) && (idx >= 0)
+				? initsOfMatchingType.get(initsOfMatchingType.size() - 1 - idx)
+				: null;
 	}
 
 	public static EObject getPreviousInit(EObject init, EObject api, Class<?> eobjCls) {
