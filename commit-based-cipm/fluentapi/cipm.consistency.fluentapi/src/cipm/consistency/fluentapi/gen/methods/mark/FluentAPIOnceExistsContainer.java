@@ -92,8 +92,14 @@ public class FluentAPIOnceExistsContainer {
 					.collect(Collectors.toUnmodifiableList())) {
 				if (entry.getKey().stream().allMatch((mk) -> FluentAPIMarkExtension.getMarked(api, mk) != null)) {
 					new ArrayList<>(entry.getValue()).forEach((c) -> {
-						c.run();
+
+						/*
+						 * Make sure the remove c before executing it, since nested onceExists calls
+						 * with the same key may cause an endless loop otherwise
+						 */
+
 						entry.getValue().remove(c);
+						c.run();
 						count[0]++;
 					});
 				}
