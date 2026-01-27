@@ -98,6 +98,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodName(), superInitCls);
 		FluentAPIGenerationUtil.addBody(op, xWithFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodSummary());
 		return op;
 	}
 
@@ -108,6 +110,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodName(), superInitCls);
 		FluentAPIGenerationUtil.addBody(op, xWithoutFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, featParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodSummary());
 		return op;
 	}
 
@@ -119,6 +123,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(), superInitCls);
 		FluentAPIGenerationUtil.addBody(op, xWithAddedFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodSummary());
 		return op;
 	}
 
@@ -130,6 +136,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(), superInitCls);
 		FluentAPIGenerationUtil.addBody(op, xWithRemovedFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodSummary());
 		return op;
 	}
 
@@ -141,6 +149,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(), superInitCls);
 		FluentAPIGenerationUtil.addBody(op, xWithExactFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodSummary());
 		return op;
 	}
 
@@ -152,6 +162,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(), superInitCls);
 		FluentAPIGenerationUtil.addBody(op, xWithAddedFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodSummary());
 		return op;
 	}
 
@@ -163,6 +175,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(), superInitCls);
 		FluentAPIGenerationUtil.addBody(op, xWithRemovedFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodSummary());
 		return op;
 	}
 
@@ -174,6 +188,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(), superInitCls);
 		FluentAPIGenerationUtil.addBody(op, xWithExactFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodSummary());
 		return op;
 	}
 
@@ -184,25 +200,36 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodName(), superInitCls);
 		FluentAPIGenerationUtil.addBody(op, xWithFeatOfContainerMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, featParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodSummary());
 		return op;
 	}
 
 	private EParameter getFeatParam() {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName(),
 				EcorePackage.Literals.ESTRUCTURAL_FEATURE);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterDocumentation());
+		return param;
 	}
 
 	private EParameter getFeatValParam() {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName(),
 				EcorePackage.Literals.EJAVA_OBJECT);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterDocumentation());
+		return param;
 	}
 
 	private EParameter getFeatValArrayParam() {
-		return FluentAPIGenerationUtil.generateArrayValuedEParameter(
+		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName(),
 				EcorePackage.Literals.EJAVA_OBJECT);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterDocumentation());
+		return param;
 	}
 
 	@Override

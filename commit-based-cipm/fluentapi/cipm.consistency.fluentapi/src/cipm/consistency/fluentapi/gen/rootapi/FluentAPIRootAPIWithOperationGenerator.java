@@ -86,6 +86,8 @@ public class FluentAPIRootAPIWithOperationGenerator {
 				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodName(), rootAPICls);
 		FluentAPIGenerationUtil.addBody(op, xWithFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam, featValParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodSummary());
 		return op;
 	}
 
@@ -97,6 +99,8 @@ public class FluentAPIRootAPIWithOperationGenerator {
 				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodName(), rootAPICls);
 		FluentAPIGenerationUtil.addBody(op, xWithoutFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodSummary());
 		return op;
 	}
 
@@ -109,6 +113,8 @@ public class FluentAPIRootAPIWithOperationGenerator {
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(), rootAPICls);
 		FluentAPIGenerationUtil.addBody(op, xWithAddedFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam, featValParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodSummary());
 		return op;
 	}
 
@@ -121,6 +127,8 @@ public class FluentAPIRootAPIWithOperationGenerator {
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(), rootAPICls);
 		FluentAPIGenerationUtil.addBody(op, xWithRemovedFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam, featValParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodSummary());
 		return op;
 	}
 
@@ -133,6 +141,8 @@ public class FluentAPIRootAPIWithOperationGenerator {
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(), rootAPICls);
 		FluentAPIGenerationUtil.addBody(op, xWithExactFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam, featValParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodSummary());
 		return op;
 	}
 
@@ -145,6 +155,8 @@ public class FluentAPIRootAPIWithOperationGenerator {
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(), rootAPICls);
 		FluentAPIGenerationUtil.addBody(op, xWithAddedFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam, featValParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodSummary());
 		return op;
 	}
 
@@ -157,6 +169,8 @@ public class FluentAPIRootAPIWithOperationGenerator {
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(), rootAPICls);
 		FluentAPIGenerationUtil.addBody(op, xWithRemovedFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam, featValParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodSummary());
 		return op;
 	}
 
@@ -169,6 +183,8 @@ public class FluentAPIRootAPIWithOperationGenerator {
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(), rootAPICls);
 		FluentAPIGenerationUtil.addBody(op, xWithExactFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam, featValParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodSummary());
 		return op;
 	}
 
@@ -180,34 +196,44 @@ public class FluentAPIRootAPIWithOperationGenerator {
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodName(), rootAPICls);
 		FluentAPIGenerationUtil.addBody(op, xWithFeatOfContainerMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodSummary());
 		return op;
 	}
 
 	private EParameter getEObjectParam() {
-		// TODO Add documentation
-		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodEObjectParameterName(),
 				EcorePackage.Literals.EOBJECT);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodEObjectParameterDocumentation());
+		return param;
 	}
 
 	private EParameter getFeatParam() {
-		// TODO Add documentation
-		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName(),
 				EcorePackage.Literals.ESTRUCTURAL_FEATURE);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterDocumentation());
+		return param;
 	}
 
 	private EParameter getFeatValParam() {
-		// TODO Add documentation
-		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName(),
 				EcorePackage.Literals.EJAVA_OBJECT);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterDocumentation());
+		return param;
 	}
 
 	private EParameter getFeatValArrayParam() {
-		// TODO Add documentation
-		return FluentAPIGenerationUtil.generateArrayValuedEParameter(
+		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName(),
 				EcorePackage.Literals.EJAVA_OBJECT);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterDocumentation());
+		return param;
 	}
 }

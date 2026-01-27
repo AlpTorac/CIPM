@@ -105,7 +105,8 @@ public class FluentAPIGenerationUtil {
 		var anno = createOrGetEAnnotation(elem);
 		// Add the documentation
 		anno.getDetails().put(getEOperationDocumentationKey(), documentation);
-		elem.getEAnnotations().add(anno);
+		if (!elem.getEAnnotations().contains(anno))
+			elem.getEAnnotations().add(anno);
 		return elem;
 	}
 
@@ -246,7 +247,8 @@ public class FluentAPIGenerationUtil {
 		var anno = createOrGetEAnnotation(elem);
 		// Add the body
 		anno.getDetails().put(getEOperationBodyKey(), body);
-		elem.getEAnnotations().add(anno);
+		if (!elem.getEAnnotations().contains(anno))
+			elem.getEAnnotations().add(anno);
 		return elem;
 	}
 

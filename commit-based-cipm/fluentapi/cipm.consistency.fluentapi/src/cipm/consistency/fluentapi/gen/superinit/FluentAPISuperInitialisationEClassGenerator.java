@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
-import cipm.consistency.fluentapi.gen.FluentAPIConstants;
 import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 
@@ -51,12 +50,8 @@ public class FluentAPISuperInitialisationEClassGenerator {
 	}
 
 	private void addEClassDoc(EClass initSuperType) {
-		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
-		anno.setSource(FluentAPIConstants.getGenModelURL());
 		var doc = String.format(initClassDocTemplate, FluentAPIDocumentationUtil.serialiseSummaries(summaries));
-		anno.getDetails().put(FluentAPIGenerationUtil.getEOperationDocumentationKey(), doc);
-
-		initSuperType.getEAnnotations().add(anno);
+		FluentAPIGenerationUtil.addDocumentation(initSuperType, doc);
 	}
 
 	private void addRefs(EClass initSuperType, EClass fluentAPICls) {

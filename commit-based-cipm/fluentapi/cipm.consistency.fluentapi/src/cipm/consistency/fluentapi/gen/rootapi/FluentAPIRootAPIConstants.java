@@ -124,7 +124,9 @@ public final class FluentAPIRootAPIConstants {
 	private static final String fluentAPIRootAPIGetInitialisationForEObjectParameterName = "eobjToInit";
 
 	private static final String fluentAPIRootAPIMarkKeyParameterName = "markKey";
-	private static final String fluentAPIRootAPIMarkKeyDocumentation = "The Object instance, whose memory address will serve as a key in mark-related operations. Note that the content of the given Object instance are fully irrelevant here, only its memory address matters.";
+	private static final String fluentAPIRootAPIOnceExistsMarkKeyDocumentation = "The Object instance, whose memory address will serve as a key in mark-related operations. Note that the content of the given Object instance are fully irrelevant here, only its memory address matters.";
+	private static final String fluentAPIRootAPIOnceExistsRunnableParameterDocumentation = "The model construction task, which will be executed upon object(s) getting marked with certain "
+			+ fluentAPIRootAPIMarkKeyParameterName + "(s).";
 
 	private static final String fluentAPIRootAPIModifyMethodEObjectParameterName = "eobjToModify";
 
@@ -136,8 +138,12 @@ public final class FluentAPIRootAPIConstants {
 	private static final String fluentAPIRootAPIOnceExistsRunnableParameterName = "toDoOnceExists";
 
 	private static final String fluentAPIRootAPIWithMethodEObjectParameterName = "eobjToModify";
+	private static final String fluentAPIRootAPIWithMethodEObjectParameterDocumentation = "The EObject, whose given feature's value will be modified";
 	private static final String fluentAPIRootAPIWithMethodFeatureParameterName = "featToModify";
+	private static final String fluentAPIRootAPIWithMethodFeatureParameterDocumentation = "The feature, whose value in "
+			+ fluentAPIRootAPIWithMethodFeatureParameterName + " will be modified";
 	private static final String fluentAPIRootAPIWithMethodFeatureValueParameterName = "featVal";
+	private static final String fluentAPIRootAPIWithMethodFeatureValueParameterDocumentation = "The value of the feature, which will be used to modify the given feature in certain ways, denoted by the method name";
 
 	/*
 	 * Other
@@ -184,20 +190,36 @@ public final class FluentAPIRootAPIConstants {
 		return modelConstructionTaskClass;
 	}
 
-	public static String getFluentAPIRootAPIMarkKeyDocumentation() {
-		return fluentAPIRootAPIMarkKeyDocumentation;
+	public static String getFluentAPIRootAPIOnceExistsMarkKeyDocumentation() {
+		return fluentAPIRootAPIOnceExistsMarkKeyDocumentation;
+	}
+
+	public static String getFluentAPIRootAPIOnceExistsRunnableParameterDocumentation() {
+		return fluentAPIRootAPIOnceExistsRunnableParameterDocumentation;
 	}
 
 	public static String getFluentAPIRootAPIWithMethodEObjectParameterName() {
 		return fluentAPIRootAPIWithMethodEObjectParameterName;
 	}
 
+	public static String getFluentAPIRootAPIWithMethodEObjectParameterDocumentation() {
+		return fluentAPIRootAPIWithMethodEObjectParameterDocumentation;
+	}
+
 	public static String getFluentAPIRootAPIWithMethodFeatureParameterName() {
 		return fluentAPIRootAPIWithMethodFeatureParameterName;
 	}
 
+	public static String getFluentAPIRootAPIWithMethodFeatureParameterDocumentation() {
+		return fluentAPIRootAPIWithMethodFeatureParameterDocumentation;
+	}
+
 	public static String getFluentAPIRootAPIWithMethodFeatureValueParameterName() {
 		return fluentAPIRootAPIWithMethodFeatureValueParameterName;
+	}
+
+	public static String getFluentAPIRootAPIWithMethodFeatureValueParameterDocumentation() {
+		return fluentAPIRootAPIWithMethodFeatureValueParameterDocumentation;
 	}
 
 	public static String getFluentAPIRootAPIXWithFeatMethodName() {

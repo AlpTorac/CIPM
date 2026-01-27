@@ -114,7 +114,7 @@ public class FluentAPISuperInitialisationMarkMethodGenerator implements IFluentA
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName(),
 				EcorePackage.Literals.EJAVA_OBJECT);
 		FluentAPIGenerationUtil.addDocumentation(param,
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyDocumentation());
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMarkKeyDocumentation());
 		return param;
 	}
 

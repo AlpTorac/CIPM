@@ -9,7 +9,6 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
 
-import cipm.consistency.fluentapi.gen.FluentAPIConstants;
 import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
@@ -54,14 +53,10 @@ public class FluentAPIInitialisationEClassGenerator {
 
 	private void addXInitEClassDocumentation(EClass xInitEClass, EClass initialisedEClass,
 			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider) {
-		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
-		anno.setSource(FluentAPIConstants.getGenModelURL());
 		var doc = String.format(initClassDocTemplate, initialisedEClass.getName(),
 				targetMetamodelPackageProvider.getTargetMetamodelName(), initialisedEClass.getName(),
 				FluentAPIDocumentationUtil.serialiseSummaries(summaries));
-		anno.getDetails().put(FluentAPIGenerationUtil.getEOperationDocumentationKey(), doc);
-
-		xInitEClass.getEAnnotations().add(anno);
+		FluentAPIGenerationUtil.addDocumentation(xInitEClass, doc);
 	}
 
 	private EClass generateInitialisationEClass(EClass initialisedEClass,

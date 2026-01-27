@@ -294,12 +294,6 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				ops.addAll(this.generateWithExactXFeat(initECls, elemToInit, feat));
 
 				if (isEligibleForXOfContainer(elemToInit, feat, eClassProvider)) {
-					// TODO Check for container eligibility and set the "EOpposites" as well
-					// EOpposites are not always clear, especially it is a 1 to many EReference list
-					// Use the list of EReferences you find with isEligibleForXOfContainer and
-					// set the bidirectional reference: pac.withModule(mod) THEN mod.withPackage()
-					//
-					// TODO Do not use eContainer(), use eGet(featName) instead
 					ops.add(this.generateWithXFeatOfContainerForManyValued(initECls, elemToInit, feat));
 				}
 			}

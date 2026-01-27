@@ -30,6 +30,11 @@ public class FluentAPISuperInitialisationCreateNowMethodGenerator implements IFl
 			+ " instance will no longer be accessible from this."
 			+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "().";
 
+	private static final String createNowMethodWithClassParameterAdditionalDocumentation = "EMF-based metamodels consider interfaces, which allow diamond structures in the type hierarchy of their implementors. To spare type casting in model construction, this method can be given a class parameter, to which the returned value will be cast.";
+	private static final String createNowMethodWithClassParameterDocumentation = createNowMethodDocumentation
+			+ FluentAPIDocumentationUtil.getDocParagraphSeparator()
+			+ createNowMethodWithClassParameterAdditionalDocumentation;
+
 	private static final String createNowMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			"this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "()."
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationMethodName() + "(this)",
@@ -84,6 +89,7 @@ public class FluentAPISuperInitialisationCreateNowMethodGenerator implements IFl
 		FluentAPIGenerationUtil.addBody(op, String.format(createNowMethodBodyTemplate, typeParam.getName()));
 		FluentAPIGenerationUtil.addTypeParameters(op, typeParam);
 		FluentAPIGenerationUtil.addEParameters(op, param);
+		FluentAPIGenerationUtil.addDocumentation(op, createNowMethodWithClassParameterDocumentation);
 
 		return op;
 	}

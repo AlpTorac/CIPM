@@ -55,58 +55,74 @@ public class FluentAPISuperInitialisationOnceExistsMethodGenerator implements IF
 
 	private EOperation generateOnceExistsMethod(EClass superInitECls) {
 		var keyParam = getMarkKeyParam();
-		var taskParam = getRunnableParam();
+		var taskParam = getTaskParam();
 		var op = FluentAPIGenerationUtil
 				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), superInitECls);
 		FluentAPIGenerationUtil.addBody(op, onceExistsMethodSingleMarkedKeyBody);
 		FluentAPIGenerationUtil.addEParameters(op, keyParam, taskParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodDocumentation());
 		return op;
 	}
 
 	private EOperation generateOnceExistsListMethod(EClass superInitECls) {
 		var keyParam = getMarkKeyListParam();
-		var taskParam = getRunnableParam();
+		var taskParam = getTaskParam();
 		var op = FluentAPIGenerationUtil
 				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), superInitECls);
 		FluentAPIGenerationUtil.addBody(op, onceExistsMethodMultipleMarkedKeyBody);
 		FluentAPIGenerationUtil.addEParameters(op, keyParam, taskParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodDocumentation());
 		return op;
 	}
 
 	private EOperation generateOnceExistsArrayMethod(EClass superInitECls) {
 		var keyParam = getMarkKeyArrayParam();
-		var taskParam = getRunnableParam();
+		var taskParam = getTaskParam();
 		var op = FluentAPIGenerationUtil
 				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), superInitECls);
 		FluentAPIGenerationUtil.addBody(op, onceExistsMethodMultipleMarkedKeyBody);
 		FluentAPIGenerationUtil.addEParameters(op, keyParam, taskParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodDocumentation());
 		return op;
 	}
 
 	private EParameter getMarkKeyParam() {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName(),
 				EcorePackage.Literals.EJAVA_OBJECT);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMarkKeyDocumentation());
+		return param;
 	}
 
 	private EParameter getMarkKeyListParam() {
-		return FluentAPIGenerationUtil.generateManyValuedEParameter(
+		var param = FluentAPIGenerationUtil.generateManyValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMarkKeyListParameterName(),
 				EcorePackage.Literals.EJAVA_OBJECT);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMarkKeyDocumentation());
+		return param;
 	}
 
 	private EParameter getMarkKeyArrayParam() {
 		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMarkKeyListParameterName(),
 				EcorePackage.Literals.EJAVA_OBJECT);
-		// TODO Add documentation
+		FluentAPIGenerationUtil.addDocumentation(param,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMarkKeyDocumentation());
 		return param;
 	}
 
-	private EParameter getRunnableParam() {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
+	private EParameter getTaskParam() {
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsRunnableParameterName(),
 				FluentAPIRootAPIConstants.getModelConstructionTaskClass());
+		FluentAPIGenerationUtil.addDocumentation(param,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsRunnableParameterDocumentation());
+		return param;
 	}
 
 	@Override

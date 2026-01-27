@@ -51,11 +51,11 @@ public class FluentAPIInitialisationOnceExistsMethodGenerator implements IFluent
 
 	private EOperation generateOnceExistsMethod(EClass initECls) {
 		var keyParam = getMarkKeyParam();
-		var consumerParam = getRunnableParam();
+		var taskParam = getTaskParam();
 
 		var op = FluentAPIGenerationUtil
 				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), initECls);
-		FluentAPIGenerationUtil.addEParameters(op, keyParam, consumerParam);
+		FluentAPIGenerationUtil.addEParameters(op, keyParam, taskParam);
 		FluentAPIGenerationUtil.addBody(op, onceExistsMethodSingleMarkedKeyBody);
 		FluentAPIGenerationUtil.addDocumentation(op,
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodDocumentation());
@@ -64,27 +64,27 @@ public class FluentAPIInitialisationOnceExistsMethodGenerator implements IFluent
 
 	private EOperation generateOnceExistsListMethod(EClass initECls) {
 		var keyParam = getMarkKeyListParam();
-		var consumerParam = getRunnableParam();
+		var taskParam = getTaskParam();
 
 		var op = FluentAPIGenerationUtil
 				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), initECls);
 		FluentAPIGenerationUtil.addBody(op, onceExistsMethodMultipleMarkedKeyBody);
 		FluentAPIGenerationUtil.addDocumentation(op,
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodDocumentation());
-		FluentAPIGenerationUtil.addEParameters(op, keyParam, consumerParam);
+		FluentAPIGenerationUtil.addEParameters(op, keyParam, taskParam);
 		return op;
 	}
 
 	private EOperation generateOnceExistsArrayMethod(EClass initECls) {
 		var keyParam = getMarkKeyArrayParam();
-		var consumerParam = getRunnableParam();
+		var taskParam = getTaskParam();
 
 		var op = FluentAPIGenerationUtil
 				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), initECls);
 		FluentAPIGenerationUtil.addBody(op, onceExistsMethodMultipleMarkedKeyBody);
 		FluentAPIGenerationUtil.addDocumentation(op,
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodDocumentation());
-		FluentAPIGenerationUtil.addEParameters(op, keyParam, consumerParam);
+		FluentAPIGenerationUtil.addEParameters(op, keyParam, taskParam);
 		return op;
 	}
 
@@ -107,7 +107,7 @@ public class FluentAPIInitialisationOnceExistsMethodGenerator implements IFluent
 		return param;
 	}
 
-	private EParameter getRunnableParam() {
+	private EParameter getTaskParam() {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsRunnableParameterName(),
 				FluentAPIRootAPIConstants.getModelConstructionTaskClass());
