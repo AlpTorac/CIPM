@@ -1,9 +1,6 @@
 package cipm.consistency.fluentapi.test;
 
-import org.eclipse.emf.ecore.EClass;
-import org.emftext.language.java.JavaPackage;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
-import org.emftext.language.java.containers.ContainersPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
