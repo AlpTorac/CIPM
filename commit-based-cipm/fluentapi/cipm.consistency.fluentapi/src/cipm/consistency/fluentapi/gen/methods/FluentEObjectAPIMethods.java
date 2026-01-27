@@ -20,6 +20,11 @@ import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationConstants;
 
 public final class FluentEObjectAPIMethods {
+
+	// TODO Move the methods of this class to their generators and use api features
+	// to implement them. Since names are extracted as constants, doing so should be
+	// possible.
+
 	// TODO Add commentary
 
 	public static EObject xWithFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {

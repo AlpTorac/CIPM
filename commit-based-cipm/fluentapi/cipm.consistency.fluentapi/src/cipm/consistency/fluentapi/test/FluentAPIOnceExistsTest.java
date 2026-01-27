@@ -6,8 +6,12 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fluentapi.api.ApiFactory;
 
 public class FluentAPIOnceExistsTest {
-	// TODO Implement continueMarkedX (since modifyMarkedX is for a different
+	// TODO Implement api.continueMarkedX (since modifyMarkedX is for a different
 	// purpose)
+	// TODO Implement api/XInitialisation.pendingOnceExists() : Map<Object,
+	// Runnable[]>
+	// TODO Implement api/XInitialisation.pendingOnceExistsFor(...) : Runnable[]
+	// TODO Add api.globalOnceExists(...) method
 
 	/**
 	 * Checks whether api.onceExists() works as intended, if it needs only one
@@ -44,6 +48,10 @@ public class FluentAPIOnceExistsTest {
 		Assertions.assertTrue(onceExistsRan[0]);
 	}
 
+	/**
+	 * Checks whether XInitialisation.onceExists() works as intended, if it needs
+	 * only one marking to exist.
+	 */
 	@Test
 	public void singleOnceExistsTest_ViaInitialisation() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
@@ -56,6 +64,11 @@ public class FluentAPIOnceExistsTest {
 		Assertions.assertTrue(onceExistsRan[0]);
 	}
 
+	/**
+	 * Checks whether multiple api.onceExists() calls for the same key work as
+	 * intended, i.e. both of them trigger immediately upon the given key getting
+	 * used to mark an element.
+	 */
 	@Test
 	public void multipleOnceExistsTest_SameKey() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
@@ -71,6 +84,11 @@ public class FluentAPIOnceExistsTest {
 		Assertions.assertTrue(onceExistsRan[1]);
 	}
 
+	/**
+	 * Checks whether multiple api.onceExists() calls for different keys work as
+	 * intended, i.e. they trigger upon their respective given key getting used to
+	 * mark an element.
+	 */
 	@Test
 	public void multipleOnceExistsTest_DifferentKeys() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
@@ -90,6 +108,11 @@ public class FluentAPIOnceExistsTest {
 		Assertions.assertTrue(onceExistsRan[0]);
 	}
 
+	/**
+	 * Checks whether nested api.onceExists() calls for the same key work as
+	 * intended, i.e. both of them trigger upon the given key getting used to mark
+	 * an element.
+	 */
 	@Test
 	public void multipleOnceExistsTest_Nested_SameKey() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
@@ -113,6 +136,12 @@ public class FluentAPIOnceExistsTest {
 		Assertions.assertTrue(innerOnceExistsIssued[0]);
 	}
 
+	/**
+	 * Checks whether nested api.onceExists() calls for different keys work as
+	 * intended, if first the outer onceExists' key and then the inner onceExists'
+	 * key is used to mark an element. In this case, first the outer onceExists
+	 * triggers and issues the inner onceExists, then the inner onceExists triggers.
+	 */
 	@Test
 	public void multipleOnceExistsTest_Nested_DifferentKeys_TriggerInOrder() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
@@ -140,6 +169,15 @@ public class FluentAPIOnceExistsTest {
 		Assertions.assertTrue(onceExistsRan[1]);
 	}
 
+	/**
+	 * Checks whether nested api.onceExists() calls for different keys work as
+	 * intended, if first the inner onceExists' key and then the outer onceExists'
+	 * key is used to mark an element. In this case, the inner onceExists must wait
+	 * on the outer onceExists to trigger (even if the inner onceExists' key is used
+	 * to mark an element), because the outer onceExists issues the inner
+	 * onceExists. Once the outer onceExists triggers, the inner onceExists triggers
+	 * immediately afterward.
+	 */
 	@Test
 	public void multipleOnceExistsTest_Nested_DifferentKeys_InnerWaitsOnOuter() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();

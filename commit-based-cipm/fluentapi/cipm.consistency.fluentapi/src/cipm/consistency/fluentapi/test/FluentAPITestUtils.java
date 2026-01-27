@@ -8,9 +8,10 @@ import org.eclipse.emf.common.util.EList;
 public class FluentAPITestUtils {
 
 	public static <T> EList<T> toEList(List<T> lst) {
-		return new BasicEList(lst);
+		return new BasicEList<T>(lst);
 	}
 
+	@SafeVarargs
 	public static <T> EList<T> toEList(T... elems) {
 		return toEList(List.of(elems));
 	}
