@@ -97,9 +97,11 @@ public class FluentAPIRootAPINewMethodGenerator {
 
 	public EOperation getRootAPITopLevelNewOperationWithClassParameter(EClass rootAPICls,
 			EClass initialisationSuperTypeEClass) {
+		var classParamType = FluentAPIGenerationUtil
+				.generateEGenericTypeWithClassifier(EcorePackage.Literals.EJAVA_CLASS);
+		FluentAPIGenerationUtil.addTypeArgument(classParamType, FluentAPIGenerationUtil.generateWildcardTypeArgument());
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodClassParameterName(),
-				EcorePackage.Literals.EJAVA_CLASS);
+				FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodClassParameterName(), classParamType);
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPINewXMethodName(), initialisationSuperTypeEClass);
 		FluentAPIGenerationUtil.addBody(op, String.format(newXWithClassParamMethodBodyTemplate,

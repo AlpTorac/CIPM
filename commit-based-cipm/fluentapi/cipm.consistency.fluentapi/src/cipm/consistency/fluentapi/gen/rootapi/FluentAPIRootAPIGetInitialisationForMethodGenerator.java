@@ -59,9 +59,10 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator {
 	}
 
 	public EParameter getInitialisationForClassParam() {
+		var paramType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(EcorePackage.Literals.EJAVA_CLASS);
+		FluentAPIGenerationUtil.addTypeArgument(paramType, FluentAPIGenerationUtil.generateWildcardTypeArgument());
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForClassParameterName(),
-				EcorePackage.Literals.EJAVA_CLASS);
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForClassParameterName(), paramType);
 	}
 
 	public EOperation getInitialisationForEObjectMethod(EClass initsSuperType) {

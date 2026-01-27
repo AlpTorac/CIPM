@@ -188,7 +188,13 @@ public class FluentAPIGenerationUtil {
 		return typeParam;
 	}
 
+	public static EGenericType generateWildcardTypeArgument() {
+		return generateEGenericTypeWithBounds(null, null);
+	}
+
 	/**
+	 * {@code lowerBound = upperBound = null} will result in wildcard "?"
+	 * 
 	 * @param lowerBound "X" in "? super X"
 	 * @param upperBound "X" in "? extends X"
 	 */
