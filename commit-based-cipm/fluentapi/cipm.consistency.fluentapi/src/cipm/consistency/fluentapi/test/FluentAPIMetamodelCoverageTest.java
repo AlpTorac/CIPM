@@ -1,26 +1,73 @@
 package cipm.consistency.fluentapi.test;
 
+import org.eclipse.emf.ecore.EObject;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
+import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
+
 public class FluentAPIMetamodelCoverageTest {
-	/*
-	 * TODO Decide whether this test case is actually necessary / is overkill
-	 */
+	private static final FluentAPITargetMetamodelFeatureFilter featureFilter = new FluentAPIJavaMetamodelFeatureFilter();
+	private static final FluentAPITargetMetamodelPackageProvider metamodelProvider = new FluentAPIJavaMetamodelPackageProvider();
 
 	/**
-	 * TODO Implement a test case for a given metamodel, which ensures that each
-	 * concrete metamodel element has a corresponding XInitialisations class
+	 * Ensures that each concrete class within the target metamodel is addressed by
+	 * top-level methods that are not meant for a specific type (i.e. api.metX()
+	 * methods).
 	 */
 	@Test
-	public void metamodelConcreteElementCoverageTest_XInitialisations() {
+	public void concreteElementCoverageTest_TopLevelMethods() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
+		for (var eCls : allConcreteEClss) {
+			Assertions.assertInstanceOf(eCls.getInstanceClass(), api.newX(eCls).createNow());
+			Assertions.assertInstanceOf(eCls.getInstanceClass(), api.newX(eCls.getInstanceClass()).createNow());
+			Assertions.assertInstanceOf(eCls.getInstanceClass(), api.createNewX(eCls.getInstanceClass()));
+			Assertions.assertInstanceOf(eCls.getInstanceClass(),
+					api.modifyX((EObject) api.createNewX(eCls.getInstanceClass())).createNow());
+		}
 	}
 
 	/**
-	 * TODO Implement a test case for a given metamodel, which ensures that each
-	 * concrete metamodel element's features have their own methods generated for
-	 * them
+	 * Ensures that each concrete class within the target metamodel has its own
+	 * XInitialisation class.
 	 */
 	@Test
-	public void metamodelConcreteElementCoverageTest_XInitialisation_WithMethods() {
+	public void concreteElementCoverageTest_XInitialisation() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
+		for (var eCls : allConcreteEClss) {
+			Assertions.assertEquals(eCls, api.newX(eCls).getInitialisedEClass());
+		}
+	}
+
+	/**
+	 * Ensures that each modifiable feature of each concrete class within the target
+	 * metamodel can be modified via the api.
+	 */
+	@Test
+	public void metamodelConcreteElementCoverageTest_WithFeatureMethods() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
+		for (var eCls : allConcreteEClss) {
+			var instance = (EObject) api.createNewX(eCls.getInstanceClass());
+			for (var feat : featureFilter.getModifiableFeatures(eCls)) {
+				if (feat.isMany()) {
+					api.xWithAddedFeat(instance, feat, instance.eGet(feat));
+					api.xWithRemovedFeat(instance, feat, instance.eGet(feat));
+					api.xWithExactFeat(instance, feat, instance.eGet(feat));
+				} else {
+					api.xWithFeat(instance, feat, instance.eGet(feat));
+					api.xWithoutFeat(instance, feat);
+				}
+				if (featureFilter.canShareFeatureWithContainer(metamodelProvider, eCls, feat)) {
+					api.xWithFeatOfContainer(instance, feat);
+				}
+			}
+		}
 	}
 }
