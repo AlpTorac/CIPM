@@ -2,6 +2,7 @@ package cipm.consistency.fluentapi.test;
 
 import java.util.List;
 
+import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.commons.CommonsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -36,16 +37,33 @@ public class FluentAPIRootAPIWithTest {
 	}
 
 	@Test
-	public void withoutFeatTest() {
+	public void withoutFeatTest_EAttribute() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
 		var clsName = "cls";
 		var cls = api.createNewClass();
+		var feat = CommonsPackage.Literals.NAMED_ELEMENT__NAME;
+
 		cls.setName(clsName);
 
 		Assertions.assertEquals(clsName, cls.getName());
-		api.xWithoutFeat(cls, CommonsPackage.Literals.NAMED_ELEMENT__NAME);
-		Assertions.assertNotEquals(clsName, cls.getName());
+		api.xWithoutFeat(cls, feat);
+		Assertions.assertEquals(feat.getDefaultValueLiteral(), cls.getName());
+	}
+
+	@Test
+	public void withoutFeatTest_EReference() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var clsExtendsVal = api.createNewClassifierReference();
+		var cls = api.createNewClass();
+		var feat = ClassifiersPackage.Literals.CLASS__EXTENDS;
+
+		cls.setExtends(clsExtendsVal);
+
+		Assertions.assertSame(clsExtendsVal, cls.getExtends());
+		api.xWithoutFeat(cls, feat);
+		Assertions.assertEquals(feat.getDefaultValue(), cls.getExtends());
 	}
 
 	@Test
@@ -64,10 +82,11 @@ public class FluentAPIRootAPIWithTest {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
 		var cls = api.createNewClass();
+		var feat = CommonsPackage.Literals.NAMED_ELEMENT__NAME;
 
-		Assertions.assertNull(cls.getName());
-		api.xWithFeatOfContainer(cls, CommonsPackage.Literals.NAMED_ELEMENT__NAME);
-		Assertions.assertNull(cls.getName());
+		Assertions.assertEquals(feat.getDefaultValueLiteral(), cls.getName());
+		api.xWithFeatOfContainer(cls, feat);
+		Assertions.assertEquals(feat.getDefaultValueLiteral(), cls.getName());
 	}
 
 	@Test
