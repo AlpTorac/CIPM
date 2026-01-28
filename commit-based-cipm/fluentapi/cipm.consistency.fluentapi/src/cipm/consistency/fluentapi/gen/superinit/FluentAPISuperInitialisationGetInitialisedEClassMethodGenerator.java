@@ -19,6 +19,7 @@ public class FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator imp
 
 	private static final String getInitialisedEClassMethodBody = FluentAPIMethodsUtil.joinLOC(
 			"return this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationNewElementMethodName()
+					+ "()." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCreateNowMethodName()
 					+ "().eClass()");
 
 	public EOperation generateGetInitialisedEClassMethod() {
