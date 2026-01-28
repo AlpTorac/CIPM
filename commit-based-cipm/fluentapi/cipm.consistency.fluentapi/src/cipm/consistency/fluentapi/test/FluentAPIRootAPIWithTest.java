@@ -49,9 +49,18 @@ public class FluentAPIRootAPIWithTest {
 	}
 
 	@Test
-	public void withFeatOfContainer_NoContainer() {
-		// TODO Fix withFeatOfContainer NPEs by adding a null check for .eContainer
+	public void withFeatOfContainer_ManyValuedFeature_NoContainer() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
+		var pac = api.createNewPackage();
+
+		Assertions.assertEquals(0, pac.getNamespaces().size());
+		api.xWithFeatOfContainer(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
+		Assertions.assertEquals(0, pac.getNamespaces().size());
+	}
+
+	@Test
+	public void withFeatOfContainer_SingleValuedFeature_NoContainer() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
 		var cls = api.createNewClass();

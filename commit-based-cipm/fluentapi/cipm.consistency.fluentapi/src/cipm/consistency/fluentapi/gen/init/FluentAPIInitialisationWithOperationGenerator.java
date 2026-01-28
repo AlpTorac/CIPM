@@ -237,30 +237,28 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 			"return this");
 
 	private static final String withXFeatOfContainerMethodBodyForManyValuedFeatTemplate = FluentAPIMethodsUtil.joinLOC(
+			"var cElem = this.get" + FluentAPISuperInitialisationConstants
+					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName() + "()",
+			"org.eclipse.emf.common.util.EList featVal = new org.eclipse.emf.common.util.BasicEList<>()",
 			// %s: Feature name
-			// %s: Feature name
-			"withExact%s((org.eclipse.emf.common.util.EList) this.get"
-					+ FluentAPISuperInitialisationConstants
-							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-					+ "().eContainer().eGet(this.get"
-					+ FluentAPISuperInitialisationConstants
-							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-					+ "().eClass().getEStructuralFeature(\"%s\")))",
+			"if (cElem.eContainer() != null) featVal = (org.eclipse.emf.common.util.EList) cElem.eContainer().eGet(cElem.eClass().getEStructuralFeature(\"%s\"))",
+			// %s: Feature name (capitalised)
+			"withExact%s(featVal)",
 			//
 			"return this");
 
 	private static final String withXFeatOfContainerMethodBodyForSingleValuedFeatTemplate = FluentAPIMethodsUtil
 			.joinLOC(
+					"var cElem = this.get" + FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName() + "()",
+					"Object featVal = null",
 					// %s: Feature name
+					"if (cElem.eContainer() != null) featVal = cElem.eContainer().eGet(cElem.eClass().getEStructuralFeature(\"%s\"))",
+					// %s: Feature name (capitalised)
 					// %s: Feature value type
-					// %s: Feature name
-					"with%s((%s) this.get"
-							+ FluentAPISuperInitialisationConstants
-									.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-							+ "().eContainer().eGet(this.get"
-							+ FluentAPISuperInitialisationConstants
-									.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-							+ "().eClass().getEStructuralFeature(\"%s\")))",
+					"if (featVal != null) with%s((%s) featVal)",
+					// %s: Feature name (capitalised)
+					"if (featVal == null) without%s()",
 					//
 					"return this");
 
@@ -483,7 +481,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatOfContainerNameForType(feat),
 				initECls);
 		FluentAPIGenerationUtil.addBody(op, String.format(withXFeatOfContainerMethodBodyForManyValuedFeatTemplate,
-				StringUtils.capitalize(feat.getName()), feat.getName()));
+				feat.getName(), StringUtils.capitalize(feat.getName())));
 		FluentAPIGenerationUtil.addDocumentation(op,
 				String.format(withXFeatOfContainerDocumentationTemplate, feat.getName()));
 		return op;
@@ -494,8 +492,10 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatOfContainerNameForType(feat),
 				initECls);
-		FluentAPIGenerationUtil.addBody(op, String.format(withXFeatOfContainerMethodBodyForSingleValuedFeatTemplate,
-				StringUtils.capitalize(feat.getName()), feat.getEType().getInstanceClass().getName(), feat.getName()));
+		FluentAPIGenerationUtil.addBody(op,
+				String.format(withXFeatOfContainerMethodBodyForSingleValuedFeatTemplate, feat.getName(),
+						StringUtils.capitalize(feat.getName()), feat.getEType().getInstanceClass().getName(),
+						StringUtils.capitalize(feat.getName())));
 		FluentAPIGenerationUtil.addDocumentation(op,
 				String.format(withXFeatOfContainerDocumentationTemplate, feat.getName()));
 		return op;
