@@ -6,8 +6,6 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fluentapi.api.ApiFactory;
 
 public class FluentAPIOnceExistsTest {
-	// TODO Implement api.continueMarkedX (since modifyMarkedX is for a different
-	// purpose)
 	// TODO Implement api/XInitialisation.pendingOnceExists() : Map<Object,
 	// Runnable[]>
 	// TODO Implement api/XInitialisation.pendingOnceExistsFor(...) : Runnable[]

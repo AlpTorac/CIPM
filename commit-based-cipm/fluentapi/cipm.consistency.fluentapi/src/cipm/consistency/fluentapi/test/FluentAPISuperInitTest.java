@@ -123,7 +123,7 @@ public class FluentAPISuperInitTest {
 
 		Assertions.assertNull(met.getTypeReference());
 		api.onceExists(returnTypeName,
-				() -> api.modifyMarkedClassMethod(metName)
+				() -> api.continueMarkedClassMethod(metName)
 						.withTypeReference(
 								api.newClassifierReference().withTarget(api.getMarkedClass(returnTypeName)).createNow())
 						.createNow());

@@ -6,6 +6,19 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fluentapi.api.ApiFactory;
 
 public class FluentAPIRootAPIContinueTest {
+	@Test
+	public void continueTest_TopLevel() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var modInit = api.newModule();
+		var pacInit = api.newPackage();
+
+		var continuedModInit = api.continueX(org.emftext.language.java.containers.Module.class);
+		Assertions.assertSame(modInit, continuedModInit);
+		var continuedPacInit = api.continueX(org.emftext.language.java.containers.Package.class);
+		Assertions.assertSame(pacInit, continuedPacInit);
+	}
+
 	/**
 	 * Checks whether the api.continueX() method works as intended, when the
 	 * construction of the same element is continued.
@@ -240,5 +253,41 @@ public class FluentAPIRootAPIContinueTest {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
 		Assertions.assertNull(api.continueNewestClass());
+	}
+
+	@Test
+	public void continueMarkedTest_SingleInitialisation() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var modKey = new Object();
+
+		var modInit = api.newModule().markCurrent(modKey);
+
+		Assertions.assertSame(modInit, api.continueMarkedModule(modKey));
+	}
+
+	@Test
+	public void continueMarkedTest_MultipleInitialisation() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var keyOne = new Object();
+		var keyTwo = new Object();
+
+		var modInitOne = api.newModule().markCurrent(keyOne);
+		var modInitTwo = api.newModule().markCurrent(keyTwo);
+
+		Assertions.assertSame(modInitOne, api.continueMarkedModule(keyOne));
+		Assertions.assertSame(modInitTwo, api.continueMarkedModule(keyTwo));
+	}
+
+	@Test
+	public void continueMarkedTest_TopLevel() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var keyOne = new Object();
+		var keyTwo = new Object();
+
+		var modInit = api.newModule().markCurrent(keyOne);
+		var pacInit = api.newPackage().markCurrent(keyTwo);
+
+		Assertions.assertSame(modInit, api.continueMarkedX(keyOne));
+		Assertions.assertSame(pacInit, api.continueMarkedX(keyTwo));
 	}
 }

@@ -125,7 +125,7 @@ public class FluentAPIRootAPIEClassGenerator {
 						initSuperType, initEClss, targetMetamodelPackageProvider));
 
 		fluentAPICls.getEOperations().addAll(new FluentAPIRootAPIContinueMethodGenerator()
-				.generateAllContinueMethods(initEClss, targetMetamodelPackageProvider, filter));
+				.generateAllContinueMethods(initSuperType, initEClss, targetMetamodelPackageProvider, filter));
 
 		fluentAPICls.getEOperations().add(new FluentAPIRootAPIDropInitialisationMethodGenerator()
 				.generateDropInitialisationMethod(fluentAPICls, initSuperType));

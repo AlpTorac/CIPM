@@ -31,6 +31,7 @@ public final class FluentAPIRootAPIConstants {
 	 * continue
 	 */
 	private static final String fluentAPIRootAPIContinueMethodNameTemplate = "continue%s";
+	private static final String fluentAPIRootAPIContinueMarkedMethodNameTemplate = "continueMarked%s";
 	private static final String fluentAPIRootAPIContinueFromStartMethodNameTemplate = "continue%sFromStart";
 	private static final String fluentAPIRootAPIContinueFromEndMethodNameTemplate = "continue%sFromEnd";
 	private static final String fluentAPIRootAPIContinueWithNewestMethodNameTemplate = "continueNewest%s";
@@ -420,8 +421,17 @@ public final class FluentAPIRootAPIConstants {
 		return fluentAPIRootAPIContinueMethodNameTemplate;
 	}
 
+	public static String getFluentAPIRootAPIContinueMarkedMethodNameTemplate() {
+		return fluentAPIRootAPIContinueMarkedMethodNameTemplate;
+	}
+
 	public static String getFluentAPIRootAPIContinueMethodNameForType(EClass elemToInitECls) {
 		return String.format(getFluentAPIRootAPIContinueMethodNameTemplate(),
+				getElementToInitialiseName(elemToInitECls));
+	}
+
+	public static String getFluentAPIRootAPIContinueMarkedMethodNameForType(EClass elemToInitECls) {
+		return String.format(getFluentAPIRootAPIContinueMarkedMethodNameTemplate(),
 				getElementToInitialiseName(elemToInitECls));
 	}
 
