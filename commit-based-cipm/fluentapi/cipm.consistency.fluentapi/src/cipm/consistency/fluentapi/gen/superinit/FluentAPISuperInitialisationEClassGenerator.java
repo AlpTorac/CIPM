@@ -92,12 +92,12 @@ public class FluentAPISuperInitialisationEClassGenerator {
 
 		var nextInitGen = new FluentAPISuperInitialisationNextInitialisationMethodGenerator();
 		initSuperType.getEOperations()
-				.add(nextInitGen.getNextInitialisationMethodFor(initSuperType, EcorePackage.Literals.EOBJECT));
+				.addAll(nextInitGen.getAllNextInitialisationMethods(initSuperType, EcorePackage.Literals.EOBJECT));
 		summaries.putAll(nextInitGen.getMethodNamesToDescriptions());
 
 		var prevInitGen = new FluentAPISuperInitialisationPreviousInitialisationMethodGenerator();
 		initSuperType.getEOperations()
-				.add(prevInitGen.getPreviousInitialisationMethodFor(initSuperType, EcorePackage.Literals.EOBJECT));
+				.addAll(prevInitGen.getAllPreviousInitialisationMethods(initSuperType, EcorePackage.Literals.EOBJECT));
 		summaries.putAll(prevInitGen.getMethodNamesToDescriptions());
 
 		var withGen = new FluentAPISuperInitialisationWithOperationGenerator();

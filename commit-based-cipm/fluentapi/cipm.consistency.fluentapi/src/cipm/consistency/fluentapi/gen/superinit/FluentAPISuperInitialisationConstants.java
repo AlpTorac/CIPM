@@ -102,10 +102,16 @@ public final class FluentAPISuperInitialisationConstants {
 	private static final String fluentAPISuperInitialisationOnceExistsRunnableParameterName = FluentAPIRootAPIConstants
 			.getFluentAPIRootAPIOnceExistsRunnableParameterName();
 
+	private static final String fluentAPISuperInitialisationGetInitStepParameterName = "stepCount";
+
+	public static final String getFluentAPISuperInitialisationGetInitStepParameterName() {
+		return fluentAPISuperInitialisationGetInitStepParameterName;
+	}
+
 	public static final String getFluentAPISuperInitialisationNewElementMethodSummary() {
 		return fluentAPISuperInitialisationNewElementMethodSummary;
 	}
-	
+
 	public static String getFluentAPISuperInitialisationCreateNowMethodTypeParameterName() {
 		return fluentAPISuperInitialisationCreateNowMethodTypeParamName;
 	}

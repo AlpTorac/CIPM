@@ -104,12 +104,13 @@ public class FluentAPIInitialisationEClassGenerator {
 		summaries.putAll(resetGen.getMethodNamesToDescriptions());
 
 		var nextInitGen = new FluentAPISuperInitialisationNextInitialisationMethodGenerator();
-		xInitEClass.getEOperations().add(nextInitGen.getNextInitialisationMethodFor(xInitEClass, initialisedEClass));
+		xInitEClass.getEOperations()
+				.addAll(nextInitGen.getAllNextInitialisationMethods(xInitEClass, initialisedEClass));
 		summaries.putAll(nextInitGen.getMethodNamesToDescriptions());
 
 		var prevInitGen = new FluentAPISuperInitialisationPreviousInitialisationMethodGenerator();
 		xInitEClass.getEOperations()
-				.add(prevInitGen.getPreviousInitialisationMethodFor(xInitEClass, initialisedEClass));
+				.addAll(prevInitGen.getAllPreviousInitialisationMethods(xInitEClass, initialisedEClass));
 		summaries.putAll(prevInitGen.getMethodNamesToDescriptions());
 
 		var markGen = new FluentAPISuperInitialisationMarkMethodGenerator();

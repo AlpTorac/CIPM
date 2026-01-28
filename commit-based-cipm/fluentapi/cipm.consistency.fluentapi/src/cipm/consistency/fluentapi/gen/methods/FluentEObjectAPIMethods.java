@@ -287,17 +287,29 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	public static EObject getPreviousInit(EObject init, EObject api, Class<?> eobjCls) {
-		var initsOfMatchingType = getOngoingInits(api).stream().filter((i) -> isInitialisationFor(i.eClass(), eobjCls))
-				.collect(Collectors.toCollection(ArrayList::new));
-		var idx = initsOfMatchingType.indexOf(init);
-		return idx > 0 ? initsOfMatchingType.get(idx - 1) : null;
+		return getPreviousInit(init, api, eobjCls, 1);
 	}
 
 	public static EObject getNextInit(EObject init, EObject api, Class<?> eobjCls) {
+		return getNextInit(init, api, eobjCls, 1);
+	}
+
+	private static boolean initIndexInBounds(Collection<?> col, int idx) {
+		return idx >= 0 && idx < col.size();
+	}
+
+	public static EObject getPreviousInit(EObject init, EObject api, Class<?> eobjCls, int stepsBack) {
 		var initsOfMatchingType = getOngoingInits(api).stream().filter((i) -> isInitialisationFor(i.eClass(), eobjCls))
 				.collect(Collectors.toCollection(ArrayList::new));
-		var idx = initsOfMatchingType.indexOf(init);
-		return idx + 1 < initsOfMatchingType.size() ? initsOfMatchingType.get(idx + 1) : null;
+		var idx = initsOfMatchingType.indexOf(init) - stepsBack;
+		return initIndexInBounds(initsOfMatchingType, idx) ? initsOfMatchingType.get(idx) : null;
+	}
+
+	public static EObject getNextInit(EObject init, EObject api, Class<?> eobjCls, int stepsForward) {
+		var initsOfMatchingType = getOngoingInits(api).stream().filter((i) -> isInitialisationFor(i.eClass(), eobjCls))
+				.collect(Collectors.toCollection(ArrayList::new));
+		var idx = initsOfMatchingType.indexOf(init) + stepsForward;
+		return initIndexInBounds(initsOfMatchingType, idx) ? initsOfMatchingType.get(idx) : null;
 	}
 
 	public static void withInitialisation(EObject me, EClass initEClass) {

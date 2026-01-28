@@ -1,5 +1,7 @@
 package cipm.consistency.fluentapi.test;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -24,9 +26,13 @@ public class FluentAPIGetInitTest {
 		var clsInit2 = api.newClass();
 		var clsInit3 = api.newClass();
 
-		Assertions.assertNull(clsInit1.getPreviousInit());
-		Assertions.assertSame(clsInit1, clsInit2.getPreviousInit());
+		Assertions.assertSame(clsInit3, clsInit3.getPreviousInit(0));
+
 		Assertions.assertSame(clsInit2, clsInit3.getPreviousInit());
+		Assertions.assertSame(clsInit2, clsInit3.getPreviousInit(1));
+
+		Assertions.assertSame(clsInit1, clsInit3.getPreviousInit(2));
+		Assertions.assertNull(clsInit3.getPreviousInit(3));
 	}
 
 	/**
@@ -41,9 +47,17 @@ public class FluentAPIGetInitTest {
 		var init2 = api.newInterface();
 		var init3 = api.newClass();
 
-		Assertions.assertNull(init1.getPreviousInit());
-		Assertions.assertNull(init2.getPreviousInit());
+		Assertions.assertSame(init3, init3.getPreviousInit(0));
+
 		Assertions.assertSame(init1, init3.getPreviousInit());
+		Assertions.assertSame(init1, init3.getPreviousInit(1));
+
+		Assertions.assertNull(init3.getPreviousInit(2));
+
+		Assertions.assertSame(init2, init2.getPreviousInit(0));
+
+		Assertions.assertNull(init2.getPreviousInit());
+		Assertions.assertNull(init2.getPreviousInit(1));
 	}
 
 	/**
@@ -58,9 +72,13 @@ public class FluentAPIGetInitTest {
 		var clsInit2 = api.newClass();
 		var clsInit3 = api.newClass();
 
+		Assertions.assertSame(clsInit1, clsInit1.getNextInit(0));
+
 		Assertions.assertSame(clsInit2, clsInit1.getNextInit());
-		Assertions.assertSame(clsInit3, clsInit2.getNextInit());
-		Assertions.assertNull(clsInit3.getNextInit());
+		Assertions.assertSame(clsInit2, clsInit1.getNextInit(1));
+
+		Assertions.assertSame(clsInit3, clsInit1.getNextInit(2));
+		Assertions.assertNull(clsInit1.getNextInit(3));
 	}
 
 	/**
@@ -75,8 +93,29 @@ public class FluentAPIGetInitTest {
 		var init2 = api.newInterface();
 		var init3 = api.newClass();
 
+		Assertions.assertSame(init1, init1.getNextInit(0));
+
 		Assertions.assertSame(init3, init1.getNextInit());
+		Assertions.assertSame(init3, init1.getNextInit(1));
+
+		Assertions.assertNull(init1.getNextInit(2));
+
+		Assertions.assertSame(init2, init2.getNextInit(0));
+
 		Assertions.assertNull(init2.getNextInit());
-		Assertions.assertNull(init3.getNextInit());
+		Assertions.assertNull(init2.getNextInit(1));
+	}
+
+	@Test
+	public void getInitTest_Interchangeability() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var inits = List.of(api.newClass(), api.newClass(), api.newClass());
+
+		for (int i = -inits.size(); i < inits.size(); i++) {
+			for (var init : inits) {
+				Assertions.assertSame(init.getPreviousInit(i), init.getNextInit(-i));
+			}
+		}
 	}
 }

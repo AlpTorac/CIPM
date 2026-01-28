@@ -61,19 +61,12 @@ public class FluentAPIMetamodelCoverageTest {
 		}
 	}
 
+	/**
+	 * Ensures that each concrete class within the target metamodel may have its
+	 * construction be continued via the api.continueX method.
+	 */
 	@Test
 	public void concreteElementCoverageTest_ContinueMethod() {
-
-		// TODO Remove continueNewest method (since it is the same as continue method)
-		// TODO Remove continueOldest method (see below)
-		// TODO Remove continueFromStart method (see below)
-		// TODO Remove continueFromEnd method (see below)
-
-		// TODO Add superInit.getNextInit(int) method (replaces fromStart, fromEnd)
-		// TODO Add superInit.getPrevInit(int) method (replaces fromStart, fromEnd)
-		// TODO Add init.getNextInit(int) method (replaces fromStart, fromEnd)
-		// TODO Add init.getPrevInit(int) method (replaces fromStart, fromEnd)
-
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
 		for (var eCls : allConcreteEClss) {
