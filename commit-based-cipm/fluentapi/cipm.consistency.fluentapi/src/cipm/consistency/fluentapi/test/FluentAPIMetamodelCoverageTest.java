@@ -46,11 +46,48 @@ public class FluentAPIMetamodelCoverageTest {
 	}
 
 	/**
+	 * Ensures that each concrete class within the target metamodel can be modified
+	 * via the api.modifyX() method
+	 */
+	@Test
+	public void concreteElementCoverageTest_ModifyMethod() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
+		for (var eCls : allConcreteEClss) {
+			var init = api.newX(eCls);
+			var instance = init.createNow();
+			Assertions.assertInstanceOf(init.getClass(), api.modifyX(instance));
+			Assertions.assertEquals(instance, api.modifyX(instance).createNow());
+		}
+	}
+
+	@Test
+	public void concreteElementCoverageTest_ContinueMethod() {
+
+		// TODO Remove continueNewest method (since it is the same as continue method)
+		// TODO Remove continueOldest method (see below)
+		// TODO Remove continueFromStart method (see below)
+		// TODO Remove continueFromEnd method (see below)
+
+		// TODO Add superInit.getNextInit(int) method (replaces fromStart, fromEnd)
+		// TODO Add superInit.getPrevInit(int) method (replaces fromStart, fromEnd)
+		// TODO Add init.getNextInit(int) method (replaces fromStart, fromEnd)
+		// TODO Add init.getPrevInit(int) method (replaces fromStart, fromEnd)
+
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
+		for (var eCls : allConcreteEClss) {
+			var init = api.newX(eCls);
+			Assertions.assertSame(init, api.continueX(eCls.getInstanceClass()));
+		}
+	}
+
+	/**
 	 * Ensures that each modifiable feature of each concrete class within the target
 	 * metamodel can be modified via the api.
 	 */
 	@Test
-	public void metamodelConcreteElementCoverageTest_WithFeatureMethods() {
+	public void concreteElementCoverageTest_WithFeatureMethods() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
 		for (var eCls : allConcreteEClss) {
@@ -68,6 +105,28 @@ public class FluentAPIMetamodelCoverageTest {
 					api.xWithFeatOfContainer(instance, feat);
 				}
 			}
+		}
+	}
+
+	/**
+	 * Ensures that marking and marking-related methods are enabled for each
+	 * concrete class of the target metamodel
+	 */
+	@Test
+	public void concreteElementCoverageTest_MarkMethods() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
+		for (var eCls : allConcreteEClss) {
+			var key = new Object();
+			var init = api.newX(eCls.getInstanceClass()).markCurrent(key);
+			var instance = init.getCurrentElement();
+			Assertions.assertInstanceOf(eCls.getInstanceClass(), instance);
+
+			Assertions.assertSame(instance, api.getMarked(key));
+			Assertions.assertSame(init, api.continueMarkedX(key));
+			Assertions.assertSame(instance, api.continueMarkedX(key).createNow());
+			Assertions.assertInstanceOf(init.getClass(), api.modifyMarkedX(key));
+			Assertions.assertSame(instance, api.modifyMarkedX(key).createNow());
 		}
 	}
 }
