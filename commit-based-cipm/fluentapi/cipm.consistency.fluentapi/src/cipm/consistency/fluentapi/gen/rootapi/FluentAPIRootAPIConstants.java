@@ -123,8 +123,11 @@ public final class FluentAPIRootAPIConstants {
 	private static final String fluentAPIRootAPIGetInitialisationForClassParameterName = "clsToInit";
 	private static final String fluentAPIRootAPIGetInitialisationForEObjectParameterName = "eobjToInit";
 
+	private static final String fluentAPIRootAPIUnmarkMarkValParameterName = "markVal";
+	private static final String fluentAPIRootAPIUnmarkMarkValParameterDocumentation = "The object that is / will be marked.";
+
 	private static final String fluentAPIRootAPIMarkKeyParameterName = "markKey";
-	private static final String fluentAPIRootAPIOnceExistsMarkKeyDocumentation = "The Object instance, whose memory address will serve as a key in mark-related operations. Note that the content of the given Object instance are fully irrelevant here, only its memory address matters.";
+	private static final String fluentAPIRootAPIOnceExistsMarkKeyDocumentation = "The object instance (key), whose memory address is serving / will serve as a key in mark-related operations. Note that the contents of the key are fully irrelevant here, only its memory address matters.";
 	private static final String fluentAPIRootAPIOnceExistsRunnableParameterDocumentation = "The model construction task, which will be executed upon object(s) getting marked with certain "
 			+ fluentAPIRootAPIMarkKeyParameterName + "(s).";
 
@@ -313,6 +316,14 @@ public final class FluentAPIRootAPIConstants {
 
 	public static String getFluentAPIRootAPIMarkKeyParameterName() {
 		return fluentAPIRootAPIMarkKeyParameterName;
+	}
+
+	public static String getFluentAPIRootAPIUnmarkMarkValParameterName() {
+		return fluentAPIRootAPIUnmarkMarkValParameterName;
+	}
+
+	public static String getFluentAPIRootAPIUnmarkMarkValParameterDocumentation() {
+		return fluentAPIRootAPIUnmarkMarkValParameterDocumentation;
 	}
 
 	public static String getFluentAPIRootAPIGetMarkedMethodName() {

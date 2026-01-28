@@ -16,11 +16,16 @@ import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIMarkExtension;
 public class FluentAPIRootAPIMarkMethodGenerator {
 	// TODO Add documentation
 
-	// TODO Add unmark(markKey, markVal)
-	
-	private static final String unmarkMethodBody = FluentAPIMethodsUtil
-			.joinLOC(FluentAPIMarkExtension.class.getName() + ".unmark(this, "
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ")", "return this");
+	private static final String unmarkMethodBody = FluentAPIMethodsUtil.joinLOC(FluentAPIMarkExtension.class.getName()
+			+ ".unmark(this, " + FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ")",
+			"return this");
+
+	private static final String unmarkFullMethodBody = FluentAPIMethodsUtil
+			.joinLOC(
+					FluentAPIMarkExtension.class.getName() + ".unmark(this, "
+							+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ", "
+							+ FluentAPIRootAPIConstants.getFluentAPIRootAPIUnmarkMarkValParameterName() + ")",
+					"return this");
 
 	private static final String getMarkedMethodBody = FluentAPIMethodsUtil
 			.joinLOC("return " + FluentAPIMarkExtension.class.getName() + ".getMarked(this, "
@@ -35,6 +40,7 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 		var allEClss = targetMetamodelPackageProvider.getAllTargetMetamodelEClasses();
 		var ops = new ArrayList<EOperation>();
 		ops.add(generateUnmarkMethod(rootAPIECls));
+		ops.add(generateUnmarkFullMethod(rootAPIECls));
 		ops.add(generateGetMarkedMethod());
 		allEClss.forEach((eCls) -> ops.add(generateGetMarkedXMethod(eCls)));
 		return ops;
@@ -46,6 +52,16 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIUnmarkMethodName(), rootAPIECls);
 		FluentAPIGenerationUtil.addBody(op, unmarkMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, param);
+		return op;
+	}
+
+	private EOperation generateUnmarkFullMethod(EClass rootAPIECls) {
+		var markKeyParam = getMarkKeyParam();
+		var markValParam = getMarkValParam();
+		var op = FluentAPIGenerationUtil
+				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIUnmarkMethodName(), rootAPIECls);
+		FluentAPIGenerationUtil.addBody(op, unmarkFullMethodBody);
+		FluentAPIGenerationUtil.addEParameters(op, markKeyParam, markValParam);
 		return op;
 	}
 
@@ -72,5 +88,11 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName(),
 				EcorePackage.Literals.EJAVA_OBJECT);
+	}
+
+	private EParameter getMarkValParam() {
+		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIUnmarkMarkValParameterName(),
+				EcorePackage.Literals.EOBJECT);
 	}
 }

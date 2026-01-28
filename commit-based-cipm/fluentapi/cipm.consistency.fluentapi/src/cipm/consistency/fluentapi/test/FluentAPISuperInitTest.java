@@ -135,4 +135,52 @@ public class FluentAPISuperInitTest {
 		met = api.continueClassMethod().createNow(org.emftext.language.java.members.ClassMethod.class);
 		Assertions.assertEquals(returnType, met.getTypeReference().getPureClassifierReference().getTarget());
 	}
+
+	@Test
+	public void markCurrentTest_SingleMark() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var key = new Object();
+
+		var mod = api.newX(modECls).markCurrent(key).createNow();
+
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+		Assertions.assertSame(mod, api.getMarked(key));
+	}
+
+	@Test
+	public void markCurrentTest_MultipleMarks() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var key1 = new Object();
+		var key2 = new Object();
+
+		var mod = api.newX(modECls).markCurrent(key1).markCurrent(key2).createNow();
+
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+		Assertions.assertSame(mod, api.getMarked(key1));
+		Assertions.assertSame(mod, api.getMarked(key2));
+	}
+
+	@Test
+	public void unmarkCurrentTest_SingleMark() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var key = new Object();
+
+		var mod = api.newX(modECls).markCurrent(key).unmarkCurrent(key).createNow();
+
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+		Assertions.assertNull(api.getMarked(key));
+	}
+
+	@Test
+	public void unmarkCurrentTest_MultipleMarks() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var key1 = new Object();
+		var key2 = new Object();
+
+		var mod = api.newX(modECls).markCurrent(key1).markCurrent(key2).unmarkCurrent(key1).createNow();
+
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+		Assertions.assertNull(api.getMarked(key1));
+		Assertions.assertSame(mod, api.getMarked(key2));
+	}
 }

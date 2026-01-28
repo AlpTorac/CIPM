@@ -15,12 +15,8 @@ public class FluentAPIMarkTest {
 	// TODO Add api.hasMark() method
 	// TODO Add api.mergeMarks(anotherAPI) method (or api.getGlobalMarked() and
 	// api.getGlobalMarkedX() methods)
-	// TODO Remove XInitialisation.unmark(...), add XInitialisation.unmarkCurrent()
 	// TODO Add api.getAllMarkings() : Map<Object, EObject>
 
-	// TODO Test superInit.unmarkCurrent(key)
-	// TODO Implement api.unmark(key, val)
-	
 	/**
 	 * Checks whether XInitialisation.markCurrent() works as intended, when there is
 	 * only one element to be retrieved.
@@ -183,10 +179,10 @@ public class FluentAPIMarkTest {
 	}
 
 	/**
-	 * Ensures that api.unmark() works as intended
+	 * Ensures that api.unmark(key) works as intended
 	 */
 	@Test
-	public void unmarkTest_SingleElement() {
+	public void unmarkTest_WithMarkKey() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var modKey = new Object();
 
@@ -195,6 +191,32 @@ public class FluentAPIMarkTest {
 		Assertions.assertNotNull(api.getMarked(modKey));
 		api.unmark(modKey);
 		Assertions.assertNull(api.getMarked(modKey));
+	}
+
+	/**
+	 * Ensures that api.unmark(key, val) works as intended
+	 */
+	@Test
+	public void unmarkTest_WithMarkKeyAndValue() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var mod1Key = new Object();
+		var mod2Key = new Object();
+
+		var mod1 = api.newModule().markCurrent(mod1Key).createNow();
+		var mod2 = api.newModule().markCurrent(mod2Key).createNow();
+
+		Assertions.assertSame(mod1, api.getMarked(mod1Key));
+		Assertions.assertSame(mod2, api.getMarked(mod2Key));
+
+		api.unmark(mod1Key, mod2);
+
+		Assertions.assertSame(mod1, api.getMarked(mod1Key));
+		Assertions.assertSame(mod2, api.getMarked(mod2Key));
+
+		api.unmark(mod1Key, mod1);
+
+		Assertions.assertNull(api.getMarked(mod1Key));
+		Assertions.assertSame(mod2, api.getMarked(mod2Key));
 	}
 
 	/**
