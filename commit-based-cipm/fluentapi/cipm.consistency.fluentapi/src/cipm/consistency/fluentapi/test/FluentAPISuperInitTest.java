@@ -122,11 +122,8 @@ public class FluentAPISuperInitTest {
 		met = api.getMarkedClassMethod(metName);
 
 		Assertions.assertNull(met.getTypeReference());
-		api.onceExists(returnTypeName,
-				() -> api.continueMarkedClassMethod(metName)
-						.withTypeReference(
-								api.newClassifierReference().withTarget(api.getMarkedClass(returnTypeName)).createNow())
-						.createNow());
+		api.onceExists(returnTypeName, () -> api.continueMarkedClassMethod(metName).withTypeReference(
+				api.newClassifierReference().withTarget(api.getMarkedClass(returnTypeName)).createNow()));
 		Assertions.assertNull(met.getTypeReference());
 
 		var returnType = api.newClass().withName(returnTypeName).markCurrent(returnTypeName).createNow();
