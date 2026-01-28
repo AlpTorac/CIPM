@@ -58,24 +58,26 @@ public class FluentAPISuperInitialisationMarkMethodGenerator implements IFluentA
 							+ "())",
 					"return this");
 
-	private static final String getMarkedMethodSummary = "Returns the object marked by this API instance with the given markKey.";
-	private static final String getMarkedMethodDocumentation = FluentAPIDocumentationUtil
-			.appendSummaryToStart(getMarkedMethodSummary) + "Returns the EObject obj associated with "
-			+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ". Note that "
-			+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName()
-			+ " has to be the exact Object instance that was used to mark obj, in order for this method to successfully retrieve obj. Using another Object instance that is content-wise equal to "
-			+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName()
-			+ " will not work, as only the memory address of "
-			+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + " is relevant.";
-	private static final String getMarkedMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			// %s: Mark key parameter name
-			"return " + FluentAPIMarkExtension.class.getName() + ".getMarked(this.get"
-					+ FluentAPISuperInitialisationConstants
-							.getCapitalisedFluentAPISuperInitialisationRootAPIReferenceName()
-					+ "(), %s)");
+//	private static final String getMarkedMethodSummary = "Returns the object marked by this API instance with the given markKey.";
+//	private static final String getMarkedMethodDocumentation = FluentAPIDocumentationUtil
+//			.appendSummaryToStart(getMarkedMethodSummary) + "Returns the EObject obj associated with "
+//			+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ". Note that "
+//			+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName()
+//			+ " has to be the exact Object instance that was used to mark obj, in order for this method to successfully retrieve obj. Using another Object instance that is content-wise equal to "
+//			+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName()
+//			+ " will not work, as only the memory address of "
+//			+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + " is relevant.";
+//	private static final String getMarkedMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+//			// %s: Mark key parameter name
+//			"return " + FluentAPIMarkExtension.class.getName() + ".getMarked(this.get"
+//					+ FluentAPISuperInitialisationConstants
+//							.getCapitalisedFluentAPISuperInitialisationRootAPIReferenceName()
+//					+ "(), %s)");
 
 	public List<EOperation> generateAllMarkMethods(EClass initEClass) {
-		return List.of(generateUnmarkMethod(initEClass), generateMarkMethod(initEClass), generateGetMarkedMethod());
+		return List.of(generateUnmarkMethod(initEClass), generateMarkMethod(initEClass)
+//				generateGetMarkedMethod()
+				);
 	}
 
 	public EOperation generateUnmarkMethod(EClass initEClass) {
@@ -98,16 +100,16 @@ public class FluentAPISuperInitialisationMarkMethodGenerator implements IFluentA
 		return op;
 	}
 
-	public EOperation generateGetMarkedMethod() {
-		var param = getMarkKeyParam();
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationGetMarkedMethodName(),
-				EcorePackage.Literals.EOBJECT);
-		FluentAPIGenerationUtil.addBody(op, String.format(getMarkedMethodBodyTemplate, param.getName()));
-		FluentAPIGenerationUtil.addDocumentation(op, getMarkedMethodDocumentation);
-		FluentAPIGenerationUtil.addEParameters(op, param);
-		return op;
-	}
+//	public EOperation generateGetMarkedMethod() {
+//		var param = getMarkKeyParam();
+//		var op = FluentAPIGenerationUtil.generateEOperation(
+//				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationGetMarkedMethodName(),
+//				EcorePackage.Literals.EOBJECT);
+//		FluentAPIGenerationUtil.addBody(op, String.format(getMarkedMethodBodyTemplate, param.getName()));
+//		FluentAPIGenerationUtil.addDocumentation(op, getMarkedMethodDocumentation);
+//		FluentAPIGenerationUtil.addEParameters(op, param);
+//		return op;
+//	}
 
 	private EParameter getMarkKeyParam() {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
@@ -123,8 +125,9 @@ public class FluentAPISuperInitialisationMarkMethodGenerator implements IFluentA
 		return Map.of(FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationMarkMethodName(),
 				markMethodSummary,
 				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationUnmarkMethodName(),
-				unmarkMethodSummary,
-				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationGetMarkedMethodName(),
-				getMarkedMethodSummary);
+				unmarkMethodSummary
+//				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationGetMarkedMethodName(),
+//				getMarkedMethodSummary
+				);
 	}
 }

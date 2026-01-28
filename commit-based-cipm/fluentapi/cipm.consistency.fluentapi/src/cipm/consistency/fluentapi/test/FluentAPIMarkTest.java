@@ -1,7 +1,6 @@
 package cipm.consistency.fluentapi.test;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.api.ApiFactory;
@@ -13,12 +12,10 @@ import cipm.consistency.fluentapi.api.ApiFactory;
  */
 public class FluentAPIMarkTest {
 
-	// TODO Add type checking to api.getMarkedX() methods and return null if needed
 	// TODO Add api.hasMark() method
 	// TODO Add api.mergeMarks(anotherAPI) method (or api.getGlobalMarked() and
 	// api.getGlobalMarkedX() methods)
 	// TODO Remove XInitialisation.unmark(...), add XInitialisation.unmarkCurrent()
-	// TODO Remove XInitialisation.getMarked(...), since it has no use
 	// TODO Add api.getAllMarkings() : Map<Object, EObject>
 
 	/**
@@ -95,7 +92,6 @@ public class FluentAPIMarkTest {
 	 * Checks whether XInitialisation.getMarkedX() returns null, if the type X is
 	 * not compatible with the marked element's type.
 	 */
-	@Disabled("Enable once handled properly")
 	@Test
 	public void markTest_IncompatibleReturnType() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();

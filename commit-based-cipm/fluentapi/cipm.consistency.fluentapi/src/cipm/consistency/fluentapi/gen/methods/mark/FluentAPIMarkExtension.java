@@ -27,7 +27,19 @@ public class FluentAPIMarkExtension {
 	}
 
 	public static EObject getMarked(EObject api, Object markKey) {
-		return apiToMarkCon.containsKey(api) ? apiToMarkCon.get(api).getMarked(markKey) : null;
+		return getMarked(api, markKey, null);
+	}
+
+	public static EObject getMarked(EObject api, Object markKey, Class<?> cls) {
+		var markCon = apiToMarkCon.get(api);
+		EObject elem = null;
+		if (markCon != null) {
+			elem = markCon.getMarked(markKey);
+		}
+		if (cls != null && !(cls.isAssignableFrom(elem.getClass()))) {
+			return null;
+		}
+		return elem;
 	}
 
 	private static void elementMarked(EObject api, Object markKey, EObject markVal) {

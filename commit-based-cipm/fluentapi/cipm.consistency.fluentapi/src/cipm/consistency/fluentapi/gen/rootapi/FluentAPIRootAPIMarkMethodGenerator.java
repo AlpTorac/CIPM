@@ -22,11 +22,11 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 
 	private static final String getMarkedMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return " + FluentAPIMarkExtension.class.getName() + ".getMarked(this, "
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ")");
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ", null)");
 
 	private static final String getMarkedXMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return (%s) " + FluentAPIMarkExtension.class.getName() + ".getMarked(this, "
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ")");
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ", %s.class)");
 
 	public List<EOperation> generateAllMarkMethods(EClass rootAPIECls,
 			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider) {
@@ -60,8 +60,8 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 		var param = getMarkKeyParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedXMethodNameForType(elemToInit), elemToInit);
-		FluentAPIGenerationUtil.addBody(op,
-				String.format(getMarkedXMethodBodyTemplate, elemToInit.getInstanceClass().getName()));
+		FluentAPIGenerationUtil.addBody(op, String.format(getMarkedXMethodBodyTemplate,
+				elemToInit.getInstanceClass().getName(), elemToInit.getInstanceClass().getName()));
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
 	}
