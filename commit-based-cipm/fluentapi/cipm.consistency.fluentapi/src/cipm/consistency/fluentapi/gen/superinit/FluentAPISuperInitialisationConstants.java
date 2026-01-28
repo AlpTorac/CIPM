@@ -55,8 +55,7 @@ public final class FluentAPISuperInitialisationConstants {
 	/*
 	 * unmark
 	 */
-	private static final String fluentAPISuperInitialisationUnmarkMethodName = FluentAPIRootAPIConstants
-			.getFluentAPIRootAPIUnmarkMethodName();
+	private static final String fluentAPISuperInitialisationUnmarkMethodName = "unmarkCurrent";
 
 	/*
 	 * getMarked

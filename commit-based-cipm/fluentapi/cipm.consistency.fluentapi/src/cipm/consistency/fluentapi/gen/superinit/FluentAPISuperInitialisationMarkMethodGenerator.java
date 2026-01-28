@@ -23,12 +23,14 @@ public class FluentAPISuperInitialisationMarkMethodGenerator implements IFluentA
 			+ " and its corresponding EObject obj. Doing so unmarks obj, meaning that "
 			+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationMarkKeyParameterName()
 			+ " can no longer be used to retrieve obj. Does nothing, if this API instance did not mark obj with markKey.";
-	private static final String unmarkMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			// %s: Mark key parameter name
+	private static final String unmarkCurrentMethodBody = FluentAPIMethodsUtil.joinLOC(
 			FluentAPIMarkExtension.class.getName() + ".unmark(this.get"
 					+ FluentAPISuperInitialisationConstants
 							.getCapitalisedFluentAPISuperInitialisationRootAPIReferenceName()
-					+ "(), %s)",
+					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ", this.get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "())",
 			"return this");
 
 	private static final String markMethodSummary = "Marks the object currently under construction with markKey, does not modify the object.";
@@ -77,14 +79,14 @@ public class FluentAPISuperInitialisationMarkMethodGenerator implements IFluentA
 	public List<EOperation> generateAllMarkMethods(EClass initEClass) {
 		return List.of(generateUnmarkMethod(initEClass), generateMarkMethod(initEClass)
 //				generateGetMarkedMethod()
-				);
+		);
 	}
 
 	public EOperation generateUnmarkMethod(EClass initEClass) {
 		var param = getMarkKeyParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationUnmarkMethodName(), initEClass);
-		FluentAPIGenerationUtil.addBody(op, String.format(unmarkMethodBodyTemplate, param.getName()));
+		FluentAPIGenerationUtil.addBody(op, unmarkCurrentMethodBody);
 		FluentAPIGenerationUtil.addDocumentation(op, unmarkMethodDocumentation);
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
@@ -128,6 +130,6 @@ public class FluentAPISuperInitialisationMarkMethodGenerator implements IFluentA
 				unmarkMethodSummary
 //				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationGetMarkedMethodName(),
 //				getMarkedMethodSummary
-				);
+		);
 	}
 }

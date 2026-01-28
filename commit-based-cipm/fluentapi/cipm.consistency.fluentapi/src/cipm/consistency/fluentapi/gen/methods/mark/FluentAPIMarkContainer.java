@@ -13,7 +13,17 @@ public class FluentAPIMarkContainer {
 	}
 
 	public EObject unmark(Object markKey) {
-		return markToObj.remove(markKey);
+		return unmark(markKey, null);
+	}
+
+	public EObject unmark(Object markKey, EObject markVal) {
+		var toUnmark = markToObj.get(markKey);
+
+		if (markVal == null || markVal == toUnmark) {
+			return markToObj.remove(markKey);
+		} else {
+			return null;
+		}
 	}
 
 	public EObject getMarked(Object markKey) {

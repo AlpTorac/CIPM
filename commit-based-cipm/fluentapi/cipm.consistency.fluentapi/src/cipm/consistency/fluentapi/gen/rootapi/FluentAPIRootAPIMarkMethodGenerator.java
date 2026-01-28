@@ -16,11 +16,13 @@ import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIMarkExtension;
 public class FluentAPIRootAPIMarkMethodGenerator {
 	// TODO Add documentation
 
-	private static final String unmarkMethodBodyTemplate = FluentAPIMethodsUtil
+	// TODO Add unmark(markKey, markVal)
+	
+	private static final String unmarkMethodBody = FluentAPIMethodsUtil
 			.joinLOC(FluentAPIMarkExtension.class.getName() + ".unmark(this, "
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ")", "return this");
 
-	private static final String getMarkedMethodBodyTemplate = FluentAPIMethodsUtil
+	private static final String getMarkedMethodBody = FluentAPIMethodsUtil
 			.joinLOC("return " + FluentAPIMarkExtension.class.getName() + ".getMarked(this, "
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ", null)");
 
@@ -42,7 +44,7 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 		var param = getMarkKeyParam();
 		var op = FluentAPIGenerationUtil
 				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIUnmarkMethodName(), rootAPIECls);
-		FluentAPIGenerationUtil.addBody(op, unmarkMethodBodyTemplate);
+		FluentAPIGenerationUtil.addBody(op, unmarkMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
 	}
@@ -51,7 +53,7 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 		var param = getMarkKeyParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedMethodName(), EcorePackage.Literals.EOBJECT);
-		FluentAPIGenerationUtil.addBody(op, getMarkedMethodBodyTemplate);
+		FluentAPIGenerationUtil.addBody(op, getMarkedMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
 	}

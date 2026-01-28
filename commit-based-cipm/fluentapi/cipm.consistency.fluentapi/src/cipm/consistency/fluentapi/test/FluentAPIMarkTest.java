@@ -18,6 +18,9 @@ public class FluentAPIMarkTest {
 	// TODO Remove XInitialisation.unmark(...), add XInitialisation.unmarkCurrent()
 	// TODO Add api.getAllMarkings() : Map<Object, EObject>
 
+	// TODO Test superInit.unmarkCurrent(key)
+	// TODO Implement api.unmark(key, val)
+	
 	/**
 	 * Checks whether XInitialisation.markCurrent() works as intended, when there is
 	 * only one element to be retrieved.
