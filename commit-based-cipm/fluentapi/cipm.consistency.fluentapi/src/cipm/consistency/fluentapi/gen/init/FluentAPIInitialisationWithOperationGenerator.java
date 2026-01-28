@@ -8,7 +8,6 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 
@@ -279,8 +278,8 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				ops.addAll(this.generateWithXFeat(initECls, elemToInit, feat));
 				ops.add(this.generateWithoutXFeat(initECls, elemToInit, feat));
 
-				if (isEligibleForXOfContainer(elemToInit, feat, eClassProvider)) {
-					// TODO Do not use eContainer(), use eGet(featName) instead
+				if (featFilter.canShareFeatureWithContainer(eClassProvider, elemToInit, feat)) {
+					// Do not use eContainer(), use eGet(featName) instead
 					ops.add(this.generateWithXFeatOfContainerForSingleValued(initECls, elemToInit, feat));
 				}
 
@@ -291,35 +290,12 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				ops.addAll(this.generateWithRemovedXListFeat(initECls, elemToInit, feat));
 				ops.addAll(this.generateWithExactXFeat(initECls, elemToInit, feat));
 
-				if (isEligibleForXOfContainer(elemToInit, feat, eClassProvider)) {
+				if (featFilter.canShareFeatureWithContainer(eClassProvider, elemToInit, feat)) {
 					ops.add(this.generateWithXFeatOfContainerForManyValued(initECls, elemToInit, feat));
 				}
 			}
 		}
 		return ops;
-	}
-
-	private boolean isEligibleForXOfContainer(EClass elemToInit, EStructuralFeature feat,
-			FluentAPITargetMetamodelPackageProvider eClassProvider) {
-		// Containment EReferences are not eligible here, because their contents would
-		// get shifted while calling the withXFeatOfContainer method
-		if (feat instanceof EReference && ((EReference) feat).isContainment())
-			return false;
-
-		// Ensure that elemToInit instances have the change of having a container
-		// that supports feat
-		var allEClasses = eClassProvider.getAllTargetMetamodelConcreteEClasses();
-		return allEClasses.stream().anyMatch((eCls) -> eCls.getEAllReferences().stream().anyMatch((ref) -> {
-			var refType = ref.getEType();
-			return isContainmentReferenceFor(elemToInit, ref)
-					&& ((EClass) refType).getEAllStructuralFeatures().contains(feat);
-		}));
-	}
-
-	private boolean isContainmentReferenceFor(EClass elemToInit, EStructuralFeature potentialContainmentFeat) {
-		var refType = potentialContainmentFeat.getEType();
-		var refTypeCls = refType.getInstanceClass();
-		return refType instanceof EClass && refTypeCls.isAssignableFrom(elemToInit.getInstanceClass());
 	}
 
 	private List<EOperation> generateWithXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
