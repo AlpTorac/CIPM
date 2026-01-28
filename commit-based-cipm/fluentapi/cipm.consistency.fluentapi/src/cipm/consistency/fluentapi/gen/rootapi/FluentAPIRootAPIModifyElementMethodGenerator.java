@@ -8,16 +8,26 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
+import cipm.consistency.fluentapi.gen.FluentAPIConstants;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
+import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationConstants;
 
 public class FluentAPIRootAPIModifyElementMethodGenerator {
 	// TODO Add documentation
 
-	private static final String topLevelModifyElementMethodBody = FluentAPIMethodsUtil.joinLOC(
-			// %s: Fully qualified AbstractInitialisation class name
-			"return (%s) this." + FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName() + "("
+	private static final String topLevelModifyMarkedElementMethodBody = FluentAPIMethodsUtil
+			.joinLOC("return (" + FluentAPIRootAPIConstants.getFluentAPIRootPackageName() + "."
+					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationClassName() + ") this."
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName() + "(this."
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedMethodName() + "("
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + "))");
+
+	private static final String topLevelModifyElementMethodBody = FluentAPIMethodsUtil
+			.joinLOC("return (" + FluentAPIRootAPIConstants.getFluentAPIRootPackageName() + "."
+					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationClassName() + ") this."
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName() + "("
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyMethodEObjectParameterName() + ")");
 
 	private static final String modifyElementMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
@@ -38,6 +48,7 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 		var eObjEClss = targetMetamodelPackageProvider.getAllTargetMetamodelConcreteEClasses();
 		var ops = new ArrayList<EOperation>();
 		ops.add(getRootAPITopLevelModifyElementOperation(rootAPICls, initialisationSuperTypeEClass));
+		ops.add(getRootAPITopLevelModifyMarkedElementOperation(rootAPICls, initialisationSuperTypeEClass));
 
 		for (int i = 0; i < eObjEClss.size(); i++) {
 			var eObjEClass = eObjEClss.get(i);
@@ -49,7 +60,7 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 		return ops;
 	}
 
-	public EOperation getRootAPIModifyMarkedElementOperationForEClass(EClass rootAPICls, EClass eObjEClass,
+	private EOperation getRootAPIModifyMarkedElementOperationForEClass(EClass rootAPICls, EClass eObjEClass,
 			EClass initECls) {
 		var markKeyParam = getMarkKeyParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(
@@ -62,7 +73,8 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 		return op;
 	}
 
-	public EOperation getRootAPIModifyElementOperationForEClass(EClass rootAPICls, EClass eObjEClass, EClass initECls) {
+	private EOperation getRootAPIModifyElementOperationForEClass(EClass rootAPICls, EClass eObjEClass,
+			EClass initECls) {
 		var param = getEObjectParam(eObjEClass);
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyMethodNameForType(eObjEClass), initECls);
@@ -72,18 +84,29 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 		return op;
 	}
 
-	public EOperation getRootAPITopLevelModifyElementOperation(EClass rootAPICls,
+	private EOperation getRootAPITopLevelModifyElementOperation(EClass rootAPICls,
 			EClass initialisationSuperTypeEClass) {
 		var param = getEObjectParam(EcorePackage.Literals.EOBJECT);
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyXMethodName(), initialisationSuperTypeEClass);
-		FluentAPIGenerationUtil.addBody(op, String.format(topLevelModifyElementMethodBody,
-				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initialisationSuperTypeEClass)));
+		FluentAPIGenerationUtil.addBody(op, topLevelModifyElementMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
 	}
 
-	public EParameter getEObjectParam(EClass eObjEClass) {
+	private EOperation getRootAPITopLevelModifyMarkedElementOperation(EClass rootAPICls,
+			EClass initialisationSuperTypeEClass) {
+		var param = getMarkKeyParam();
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyMarkedMethodNameTemplate(),
+						FluentAPIConstants.getDocumentationPlaceholder()),
+				initialisationSuperTypeEClass);
+		FluentAPIGenerationUtil.addBody(op, topLevelModifyMarkedElementMethodBody);
+		FluentAPIGenerationUtil.addEParameters(op, param);
+		return op;
+	}
+
+	private EParameter getEObjectParam(EClass eObjEClass) {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyMethodEObjectParameterName(), eObjEClass);
 	}
