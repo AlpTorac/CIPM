@@ -13,7 +13,6 @@ import cipm.consistency.fluentapi.api.ApiFactory;
  */
 public class FluentAPIMarkTest {
 
-	// TODO Add api.getMarkedX() methods for interface and abstract types
 	// TODO Add type checking to api.getMarkedX() methods and return null if needed
 	// TODO Add api.hasMark() method
 	// TODO Add api.mergeMarks(anotherAPI) method (or api.getGlobalMarked() and
@@ -287,5 +286,19 @@ public class FluentAPIMarkTest {
 
 		apiTwo.unmark(mutualKey);
 		Assertions.assertNull(apiTwo.getMarked(mutualKey));
+	}
+
+	@Test
+	public void getMarkedTest_AsNonConcreteType() {
+		var key = new Object();
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var createdMod = api.newModule().markCurrent(key).createNow();
+
+		var markedModAsSuperType = api.getMarkedCommentable(key);
+		var markedModAsModule = api.getMarkedModule(key);
+
+		Assertions.assertSame(createdMod, markedModAsModule);
+		Assertions.assertSame(createdMod, markedModAsSuperType);
 	}
 }

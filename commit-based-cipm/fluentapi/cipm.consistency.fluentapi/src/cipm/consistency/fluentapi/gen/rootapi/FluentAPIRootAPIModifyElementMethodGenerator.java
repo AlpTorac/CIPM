@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIRootAPIModifyElementMethodGenerator {
@@ -32,7 +33,9 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + "))");
 
 	public List<EOperation> getAllRootAPIModifyElementOperations(EClass rootAPICls,
-			EClass initialisationSuperTypeEClass, List<EClass> initEClss, List<EClass> eObjEClss) {
+			EClass initialisationSuperTypeEClass, List<EClass> initEClss,
+			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider) {
+		var eObjEClss = targetMetamodelPackageProvider.getAllTargetMetamodelConcreteEClasses();
 		var ops = new ArrayList<EOperation>();
 		ops.add(getRootAPITopLevelModifyElementOperation(rootAPICls, initialisationSuperTypeEClass));
 

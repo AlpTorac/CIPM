@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIRootAPINewMethodGenerator {
@@ -50,7 +51,9 @@ public class FluentAPIRootAPINewMethodGenerator {
 					+ "(%s.class)).createNow()");
 
 	public List<EOperation> getAllRootAPINewOperations(EClass rootAPICls, EClass initialisationSuperTypeEClass,
-			List<EClass> initEClss, List<EClass> eObjEClss, FluentAPITargetMetamodelFeatureFilter filter) {
+			List<EClass> initEClss, FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
+			FluentAPITargetMetamodelFeatureFilter filter) {
+		var eObjEClss = targetMetamodelPackageProvider.getAllTargetMetamodelConcreteEClasses();
 		var ops = new ArrayList<EOperation>();
 		ops.add(getRootAPITopLevelNewOperation(rootAPICls, initialisationSuperTypeEClass));
 		ops.add(getRootAPITopLevelNewOperationWithClassParameter(rootAPICls, initialisationSuperTypeEClass));

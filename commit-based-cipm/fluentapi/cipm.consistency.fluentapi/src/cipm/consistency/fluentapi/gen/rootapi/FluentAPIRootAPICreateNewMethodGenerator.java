@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 /**
@@ -28,7 +29,9 @@ public class FluentAPIRootAPICreateNewMethodGenerator {
 			+ FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXWithClassParameterMethodParameterName()
 			+ ").createNow()");
 
-	public List<EOperation> generateAllCreateNewMethods(List<EClass> eObjEClss) {
+	public List<EOperation> generateAllCreateNewMethods(
+			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider) {
+		var eObjEClss = targetMetamodelPackageProvider.getAllTargetMetamodelConcreteEClasses();
 		var ops = new ArrayList<EOperation>();
 
 		ops.add(generateGenericCreateNewMethod());

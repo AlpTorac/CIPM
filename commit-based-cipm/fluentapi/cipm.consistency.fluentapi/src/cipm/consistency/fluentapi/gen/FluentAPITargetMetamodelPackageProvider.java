@@ -10,5 +10,7 @@ public abstract class FluentAPITargetMetamodelPackageProvider {
 
 	public abstract String getTargetMetamodelName();
 
+	public abstract List<EClass> getAllTargetMetamodelEClasses();
+
 	public abstract List<EClass> getAllTargetMetamodelConcreteEClasses();
 }

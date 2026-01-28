@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIMarkExtension;
 
@@ -27,15 +28,17 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 			.joinLOC("return (%s) " + FluentAPIMarkExtension.class.getName() + ".getMarked(this, "
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ")");
 
-	public List<EOperation> generateAllMarkMethods(EClass rootAPIECls, List<EClass> allElemsToInit) {
+	public List<EOperation> generateAllMarkMethods(EClass rootAPIECls,
+			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider) {
+		var allEClss = targetMetamodelPackageProvider.getAllTargetMetamodelEClasses();
 		var ops = new ArrayList<EOperation>();
 		ops.add(generateUnmarkMethod(rootAPIECls));
 		ops.add(generateGetMarkedMethod());
-		allElemsToInit.forEach((eCls) -> ops.add(generateGetMarkedXMethod(eCls)));
+		allEClss.forEach((eCls) -> ops.add(generateGetMarkedXMethod(eCls)));
 		return ops;
 	}
 
-	public EOperation generateUnmarkMethod(EClass rootAPIECls) {
+	private EOperation generateUnmarkMethod(EClass rootAPIECls) {
 		var param = getMarkKeyParam();
 		var op = FluentAPIGenerationUtil
 				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIUnmarkMethodName(), rootAPIECls);
@@ -44,7 +47,7 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 		return op;
 	}
 
-	public EOperation generateGetMarkedMethod() {
+	private EOperation generateGetMarkedMethod() {
 		var param = getMarkKeyParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedMethodName(), EcorePackage.Literals.EOBJECT);
@@ -53,7 +56,7 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 		return op;
 	}
 
-	public EOperation generateGetMarkedXMethod(EClass elemToInit) {
+	private EOperation generateGetMarkedXMethod(EClass elemToInit) {
 		var param = getMarkKeyParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedXMethodNameForType(elemToInit), elemToInit);

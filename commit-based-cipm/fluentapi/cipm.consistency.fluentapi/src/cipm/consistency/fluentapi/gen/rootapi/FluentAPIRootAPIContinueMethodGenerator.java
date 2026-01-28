@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
@@ -34,9 +35,10 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 	private static final String continueWithOldestMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			"return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueOldestElement(this, %s.class)");
 
-	public List<EOperation> generateAllContinueMethods(List<EClass> initEClss, List<EClass> eObjEClss,
+	public List<EOperation> generateAllContinueMethods(List<EClass> initEClss,
+			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
 			FluentAPITargetMetamodelFeatureFilter filter) {
-
+		var eObjEClss = targetMetamodelPackageProvider.getAllTargetMetamodelConcreteEClasses();
 		var ops = new ArrayList<EOperation>();
 
 		for (int i = 0; i < eObjEClss.size(); i++) {
