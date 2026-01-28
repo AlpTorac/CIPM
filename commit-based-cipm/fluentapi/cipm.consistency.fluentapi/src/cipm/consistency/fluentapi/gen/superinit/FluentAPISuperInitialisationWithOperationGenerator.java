@@ -12,14 +12,12 @@ import org.eclipse.emf.ecore.EcorePackage;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
-import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 
 public class FluentAPISuperInitialisationWithOperationGenerator implements IFluentAPIMethodGenerator {
 	private static final String xWithFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			FluentEObjectAPIMethods.class.getName() + ".xWithFeat(this."
-					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
-					+ "(), this.get"
+			"this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "()."
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodName() + "(this.get"
 					+ FluentAPISuperInitialisationConstants
 							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ", "
@@ -27,18 +25,16 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 			"return this");
 
 	private static final String xWithoutFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			FluentEObjectAPIMethods.class.getName() + ".xWithoutFeat(this."
-					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
-					+ "(), this.get"
+			"this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "()."
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodName() + "(this.get"
 					+ FluentAPISuperInitialisationConstants
 							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ")",
 			"return this");
 
 	private static final String xWithAddedFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			FluentEObjectAPIMethods.class.getName() + ".xWithAddedFeat(this."
-					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
-					+ "(), this.get"
+			"this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "()."
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName() + "(this.get"
 					+ FluentAPISuperInitialisationConstants
 							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ", "
@@ -46,9 +42,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 			"return this");
 
 	private static final String xWithRemovedFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			FluentEObjectAPIMethods.class.getName() + ".xWithRemovedFeat(this."
-					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
-					+ "(), this.get"
+			"this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "()."
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName() + "(this.get"
 					+ FluentAPISuperInitialisationConstants
 							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ", "
@@ -56,9 +51,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 			"return this");
 
 	private static final String xWithExactFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			FluentEObjectAPIMethods.class.getName() + ".xWithExactFeat(this."
-					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
-					+ "(), this.get"
+			"this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "()."
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName() + "(this.get"
 					+ FluentAPISuperInitialisationConstants
 							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ", "
@@ -66,9 +60,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 			"return this");
 
 	private static final String xWithFeatOfContainerMethodBody = FluentAPIMethodsUtil.joinLOC(
-			FluentEObjectAPIMethods.class.getName() + ".xWithFeatOfContainer(this."
-					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
-					+ "(), this.get"
+			"this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "()."
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodName() + "(this.get"
 					+ FluentAPISuperInitialisationConstants
 							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ")",
