@@ -1,0 +1,189 @@
+package cipm.consistency.fluentapi.test;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
+
+import cipm.consistency.fluentapi.api.ApiFactory;
+
+public class FluentAPIInitWithTest {
+	@Test
+	public void withTest() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var name = "cuName";
+		var cu = api.newCompilationUnit().withName(name).createNow();
+		Assertions.assertEquals(name, cu.getName());
+	}
+
+	@Test
+	public void withoutTest() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var name = "cuName";
+		var cu = api.newCompilationUnit().withName(name).withoutName().createNow();
+		Assertions.assertNull(cu.getName());
+	}
+
+	@Test
+	public void withRemovedTest_SingleValue() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var ns1 = "ns1";
+		var ns2 = "ns2";
+		var ns3 = "ns3";
+
+		var nss = new String[] { ns1, ns2, ns3 };
+		var toRemove = ns1;
+
+		var cu = api.newCompilationUnit().withAddedNamespaces(nss).withRemovedNamespaces(toRemove).createNow();
+		Assertions.assertEquals(2, cu.getNamespaces().size());
+		Assertions.assertEquals(ns2, cu.getNamespaces().get(0));
+		Assertions.assertEquals(ns3, cu.getNamespaces().get(1));
+	}
+
+	@Test
+	public void withRemovedTest_AsArray() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var ns1 = "ns1";
+		var ns2 = "ns2";
+		var ns3 = "ns3";
+
+		var nss = new String[] { ns1, ns2, ns3 };
+		var toRemove = new String[] { ns1, ns3 };
+
+		var cu = api.newCompilationUnit().withAddedNamespaces(nss).withRemovedNamespaces(toRemove).createNow();
+		Assertions.assertEquals(1, cu.getNamespaces().size());
+		Assertions.assertEquals(ns2, cu.getNamespaces().get(0));
+	}
+
+	@Test
+	public void withRemovedTest_AsEList() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var ns1 = "ns1";
+		var ns2 = "ns2";
+		var ns3 = "ns3";
+
+		var nss = new String[] { ns1, ns2, ns3 };
+		var toRemove = FluentAPITestUtils.toEList(ns1, ns3);
+
+		var cu = api.newCompilationUnit().withAddedNamespaces(nss).withRemovedNamespaces(toRemove).createNow();
+		Assertions.assertEquals(1, cu.getNamespaces().size());
+		Assertions.assertEquals(ns2, cu.getNamespaces().get(0));
+	}
+
+	@Test
+	public void withRemovedTest_AsCollection() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var ns1 = "ns1";
+		var ns2 = "ns2";
+		var ns3 = "ns3";
+
+		var nss = new String[] { ns1, ns2, ns3 };
+		var toRemove = List.of(ns1, ns3);
+
+		var cu = api.newCompilationUnit().withAddedNamespaces(nss).withRemovedNamespaces(toRemove).createNow();
+		Assertions.assertEquals(1, cu.getNamespaces().size());
+		Assertions.assertEquals(ns2, cu.getNamespaces().get(0));
+	}
+
+	@Test
+	public void withExactTest_AsArray() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var ns1 = "ns1";
+		var ns2 = "ns2";
+		var ns3 = "ns3";
+
+		var nss = new String[] { ns1, ns2, ns3 };
+		var newNss = new String[] { ns1, ns3 };
+
+		var cu = api.newCompilationUnit().withAddedNamespaces(nss).withExactNamespaces(newNss).createNow();
+		Assertions.assertArrayEquals(newNss, cu.getNamespaces().toArray(String[]::new));
+	}
+
+	@Test
+	public void withExactTest_AsEList() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var ns1 = "ns1";
+		var ns2 = "ns2";
+		var ns3 = "ns3";
+
+		var nss = new String[] { ns1, ns2, ns3 };
+		var newNss = FluentAPITestUtils.toEList(ns1, ns3);
+
+		var cu = api.newCompilationUnit().withAddedNamespaces(nss).withExactNamespaces(newNss).createNow();
+		Assertions.assertArrayEquals(newNss.toArray(String[]::new), cu.getNamespaces().toArray(String[]::new));
+	}
+
+	@Test
+	public void withExactTest_AsCollection() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var ns1 = "ns1";
+		var ns2 = "ns2";
+		var ns3 = "ns3";
+
+		var nss = new String[] { ns1, ns2, ns3 };
+		var newNss = List.of(ns1, ns3);
+
+		var cu = api.newCompilationUnit().withAddedNamespaces(nss).withExactNamespaces(newNss).createNow();
+		Assertions.assertArrayEquals(newNss.toArray(String[]::new), cu.getNamespaces().toArray(String[]::new));
+	}
+
+	@Test
+	public void withAddedTest_SingleVal() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var ns = "ns";
+		var cu = api.newCompilationUnit().withAddedNamespaces(ns).createNow();
+		Assertions.assertEquals(1, cu.getNamespaces().size());
+		Assertions.assertEquals(ns, cu.getNamespaces().get(0));
+	}
+
+	@Test
+	public void withAddedTest_AsArray() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var nss = new String[] { "ns1", "ns2" };
+		var cu = api.newCompilationUnit().withAddedNamespaces(nss).createNow();
+		Assertions.assertArrayEquals(nss, cu.getNamespaces().toArray(String[]::new));
+	}
+
+	@Test
+	public void withAddedTest_AsEList() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var nss = FluentAPITestUtils.toEList("ns1", "ns2");
+		var cu = api.newCompilationUnit().withAddedNamespaces(nss).createNow();
+		Assertions.assertArrayEquals(nss.toArray(String[]::new), cu.getNamespaces().toArray(String[]::new));
+	}
+
+	@Test
+	public void withAddedTest_AsCollection() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var nss = List.of("ns1", "ns2");
+		var cu = api.newCompilationUnit().withAddedNamespaces(nss).createNow();
+		Assertions.assertArrayEquals(nss.toArray(String[]::new), cu.getNamespaces().toArray(String[]::new));
+	}
+
+	@Test
+	public void withFeatOfContainerTest_NoContainer() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var cls = api.newClass().withNameOfContainer().createNow();
+		Assertions.assertNull(cls.getName());
+	}
+
+	@Test
+	public void withFeatOfContainerTest_WithContainer() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var clsKey = new Object();
+		var cuName = "cuName";
+		var cu = api.newCompilationUnit().withName(cuName)
+				.withAddedClassifiers(api.newClass().markCurrent(clsKey).createNow()).createNow();
+		var cls = api.modifyMarkedClass(clsKey).withNameOfContainer().createNow();
+
+		Assertions.assertSame(cu, cls.eContainer());
+		Assertions.assertEquals(cu.getName(), cls.getName());
+	}
+}

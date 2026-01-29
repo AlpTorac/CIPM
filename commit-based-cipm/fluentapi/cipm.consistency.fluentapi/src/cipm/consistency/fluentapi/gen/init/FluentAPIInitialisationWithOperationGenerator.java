@@ -1,6 +1,7 @@
 package cipm.consistency.fluentapi.gen.init;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -387,6 +388,10 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var listOp = opGenerator.apply(eListAddedFeatValParam, withAddedXListFeatMethodBodyTemplate);
 		opList.add(listOp);
 
+		var colAddedFeatValParam = getAddedColFeatValParam(feat);
+		var colOp = opGenerator.apply(colAddedFeatValParam, withAddedXListFeatMethodBodyTemplate);
+		opList.add(colOp);
+
 		var arrayAddedFeatValParam = getAddedArrayFeatValParam(feat);
 		var arrayOp = opGenerator.apply(arrayAddedFeatValParam, withAddedXArrayFeatMethodBodyTemplate);
 		opList.add(arrayOp);
@@ -412,6 +417,10 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var listOp = opGenerator.apply(eListRemovedFeatValParam, withRemovedXListFeatMethodBodyTemplate);
 		opList.add(listOp);
 
+		var colRemovedFeatValParam = getRemovedColFeatValParam(feat);
+		var colOp = opGenerator.apply(colRemovedFeatValParam, withRemovedXListFeatMethodBodyTemplate);
+		opList.add(colOp);
+
 		var arrayRemovedFeatValParam = getRemovedArrayFeatValParam(feat);
 		var arrayOp = opGenerator.apply(arrayRemovedFeatValParam, withRemovedXArrayFeatMethodBodyTemplate);
 		opList.add(arrayOp);
@@ -433,9 +442,13 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 			return op;
 		};
 
-		var eListExactFeatValParam = getExactFeatValParam(feat);
+		var eListExactFeatValParam = getExactFeatListValParam(feat);
 		var listOp = opGenerator.apply(eListExactFeatValParam, withExactXFeatMethodBodyTemplate);
 		opList.add(listOp);
+
+		var colExactFeatValParam = getExactFeatColValParam(feat);
+		var colOp = opGenerator.apply(colExactFeatValParam, withExactXFeatMethodBodyTemplate);
+		opList.add(colOp);
 
 		var arrayExactFeatValParam = getExactArrayFeatValParam(feat);
 		var arrayOp = opGenerator.apply(arrayExactFeatValParam, withExactXArrayFeatMethodBodyTemplate);
@@ -506,6 +519,21 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		return param;
 	}
 
+	private EParameter getAddedColFeatValParam(EStructuralFeature feat) {
+		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(Collection.class, 1);
+		var colGenTypeArgument = FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null,
+				FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(feat.getEType()));
+		var colGenType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureColType);
+		FluentAPIGenerationUtil.addTypeArgument(colGenType, colGenTypeArgument);
+
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
+				colGenType);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				String.format(addedListFeatValParamDocumentationTemplate, feat.getName()));
+		return param;
+	}
+
 	private EParameter getAddedArrayFeatValParam(EStructuralFeature feat) {
 		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
@@ -525,6 +553,22 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		return param;
 	}
 
+	private EParameter getRemovedColFeatValParam(EStructuralFeature feat) {
+		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(Collection.class, 1);
+		var colGenTypeArgument = FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null,
+				FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(feat.getEType()));
+		var colGenType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureColType);
+		FluentAPIGenerationUtil.addTypeArgument(colGenType, colGenTypeArgument);
+
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
+				colGenType);
+
+		FluentAPIGenerationUtil.addDocumentation(param,
+				String.format(removedListFeatValParamDocumentationTemplate, feat.getName()));
+		return param;
+	}
+
 	private EParameter getRemovedArrayFeatValParam(EStructuralFeature feat) {
 		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
@@ -534,10 +578,26 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		return param;
 	}
 
-	private EParameter getExactFeatValParam(EStructuralFeature feat) {
+	private EParameter getExactFeatListValParam(EStructuralFeature feat) {
 		var param = FluentAPIGenerationUtil.generateManyValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodExactFeatValParamName(),
 				feat.getEType());
+
+		FluentAPIGenerationUtil.addDocumentation(param,
+				String.format(exactFeatValParamDocumentationTemplate, feat.getName()));
+		return param;
+	}
+
+	private EParameter getExactFeatColValParam(EStructuralFeature feat) {
+		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(Collection.class, 1);
+		var colGenTypeArgument = FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null,
+				FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(feat.getEType()));
+		var colGenType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureColType);
+		FluentAPIGenerationUtil.addTypeArgument(colGenType, colGenTypeArgument);
+
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodExactFeatValParamName(),
+				colGenType);
 
 		FluentAPIGenerationUtil.addDocumentation(param,
 				String.format(exactFeatValParamDocumentationTemplate, feat.getName()));

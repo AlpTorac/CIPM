@@ -117,7 +117,18 @@ public class FluentAPIGenerationUtil {
 		return elem;
 	}
 
-	private static EDataType createOrGetEDataType(Class<?> type) {
+	/**
+	 * Adds the given amount of type parameters. Only works, if the given type does
+	 * not already have a placeholder.
+	 */
+	public static EDataType createOrGetEDataType(Class<?> type, int typeParamCount) {
+		var list = new ArrayList<ETypeParameter>();
+		for (int i = 0; i < typeParamCount; i++)
+			list.add(generateETypeParameter("T" + i));
+		return createOrGetEDataType(type, list.toArray(ETypeParameter[]::new));
+	}
+
+	public static EDataType createOrGetEDataType(Class<?> type, ETypeParameter... typeParameters) {
 		var eDataTypeName = type.getSimpleName() + placeholderEDataTypeSuffix;
 		EDataType eDataType = (EDataType) placeholderEDataTypesPac.getEClassifier(eDataTypeName);
 
@@ -128,13 +139,24 @@ public class FluentAPIGenerationUtil {
 			eDataType.setInstanceTypeName(eDataTypeName);
 			eDataType.setInstanceClassName(eDataTypeName);
 			eDataType.setInstanceClass(type);
+
+			if (typeParameters != null)
+				for (var t : typeParameters)
+					eDataType.getETypeParameters().add(t);
+
 			placeholderEDataTypesPac.getEClassifiers().add(eDataType);
 		}
 
 		return eDataType;
 	}
 
-	private static EDataType createOrGetArrayEDataType(EClassifier type) {
+	public static EDataType createOrGetEDataType(Class<?> type) {
+		// Use an empty array to avoid StackOverflowErrors, since otherwise this method
+		// will be called repeatedly
+		return createOrGetEDataType(type, new ETypeParameter[] {});
+	}
+
+	public static EDataType createOrGetArrayEDataType(EClassifier type) {
 		var arrayEDataTypeName = type.getName() + arrayEDataTypeNameSuffix;
 		var arrayTypeInstanceTypeName = type.getName() + arrayTypeNameSuffix;
 		EDataType arrayType = (EDataType) placeholderEDataTypesPac.getEClassifier(arrayEDataTypeName);
@@ -194,6 +216,11 @@ public class FluentAPIGenerationUtil {
 	}
 
 	/**
+	 * Do not use with {@code T = eStructuralFeature.getEGenericType()}, as it will
+	 * move the type of the feature into the generated EGenericType instance. Use a
+	 * fresh EGenericType that uses T as its EClassifier instead.
+	 * 
+	 * <p>
 	 * {@code lowerBound = upperBound = null} will result in wildcard "?"
 	 * 
 	 * @param lowerBound "X" in "? super X"
