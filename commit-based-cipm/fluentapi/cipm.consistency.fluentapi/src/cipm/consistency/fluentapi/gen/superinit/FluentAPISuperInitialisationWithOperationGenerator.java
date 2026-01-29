@@ -1,8 +1,10 @@
 package cipm.consistency.fluentapi.gen.superinit;
 
 import java.util.ArrayList;
+//import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
@@ -72,12 +74,9 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 
 		ops.add(getWithFeatOp(superInitCls));
 		ops.add(getWithoutFeatOp(superInitCls));
-		ops.add(getWithAddedFeatOp(superInitCls));
-		ops.add(getWithRemovedFeatOp(superInitCls));
-		ops.add(getWithExactFeatOp(superInitCls));
-		ops.add(getWithAddedFeatArrayOp(superInitCls));
-		ops.add(getWithRemovedFeatArrayOp(superInitCls));
-		ops.add(getWithExactFeatArrayOp(superInitCls));
+		ops.addAll(getWithAddedFeatOp(superInitCls));
+		ops.addAll(getWithRemovedFeatOp(superInitCls));
+		ops.addAll(getWithExactFeatOp(superInitCls));
 		ops.add(getWithFeatOfContainerOp(superInitCls));
 
 		return ops;
@@ -108,82 +107,63 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 		return op;
 	}
 
-	private EOperation getWithAddedFeatOp(EClass superInitCls) {
-		var featParam = getFeatParam();
-		var featValParam = getFeatValParam();
+	private List<EOperation> getWithAddedFeatOp(EClass superInitCls) {
+		var ops = new ArrayList<EOperation>();
+		Function<EParameter, EOperation> opGen = (featValParam) -> {
+			var featParam = getFeatParam();
+			var op = FluentAPIGenerationUtil.generateEOperation(
+					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(), superInitCls);
+			FluentAPIGenerationUtil.addBody(op, xWithAddedFeatMethodBody);
+			FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
+			FluentAPIGenerationUtil.addDocumentation(op,
+					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodSummary());
+			return op;
+		};
 
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(), superInitCls);
-		FluentAPIGenerationUtil.addBody(op, xWithAddedFeatMethodBody);
-		FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
-		FluentAPIGenerationUtil.addDocumentation(op,
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodSummary());
-		return op;
+		ops.add(opGen.apply(getFeatValParam()));
+		ops.add(opGen.apply(getFeatValArrayParam()));
+//		ops.add(opGen.apply(getFeatValColParam()));
+
+		return ops;
 	}
 
-	private EOperation getWithRemovedFeatOp(EClass superInitCls) {
-		var featParam = getFeatParam();
-		var featValParam = getFeatValParam();
+	private List<EOperation> getWithRemovedFeatOp(EClass superInitCls) {
+		var ops = new ArrayList<EOperation>();
+		Function<EParameter, EOperation> opGen = (featValParam) -> {
+			var featParam = getFeatParam();
+			var op = FluentAPIGenerationUtil.generateEOperation(
+					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(), superInitCls);
+			FluentAPIGenerationUtil.addBody(op, xWithRemovedFeatMethodBody);
+			FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
+			FluentAPIGenerationUtil.addDocumentation(op,
+					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodSummary());
+			return op;
+		};
 
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(), superInitCls);
-		FluentAPIGenerationUtil.addBody(op, xWithRemovedFeatMethodBody);
-		FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
-		FluentAPIGenerationUtil.addDocumentation(op,
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodSummary());
-		return op;
+		ops.add(opGen.apply(getFeatValParam()));
+		ops.add(opGen.apply(getFeatValArrayParam()));
+//		ops.add(opGen.apply(getFeatValColParam()));
+
+		return ops;
 	}
 
-	private EOperation getWithExactFeatOp(EClass superInitCls) {
-		var featParam = getFeatParam();
-		var featValParam = getFeatValParam();
+	private List<EOperation> getWithExactFeatOp(EClass superInitCls) {
+		var ops = new ArrayList<EOperation>();
+		Function<EParameter, EOperation> opGen = (featValParam) -> {
+			var featParam = getFeatParam();
+			var op = FluentAPIGenerationUtil.generateEOperation(
+					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(), superInitCls);
+			FluentAPIGenerationUtil.addBody(op, xWithExactFeatMethodBody);
+			FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
+			FluentAPIGenerationUtil.addDocumentation(op,
+					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodSummary());
+			return op;
+		};
 
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(), superInitCls);
-		FluentAPIGenerationUtil.addBody(op, xWithExactFeatMethodBody);
-		FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
-		FluentAPIGenerationUtil.addDocumentation(op,
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodSummary());
-		return op;
-	}
-
-	private EOperation getWithAddedFeatArrayOp(EClass superInitCls) {
-		var featParam = getFeatParam();
-		var featValParam = getFeatValArrayParam();
-
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(), superInitCls);
-		FluentAPIGenerationUtil.addBody(op, xWithAddedFeatMethodBody);
-		FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
-		FluentAPIGenerationUtil.addDocumentation(op,
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodSummary());
-		return op;
-	}
-
-	private EOperation getWithRemovedFeatArrayOp(EClass superInitCls) {
-		var featParam = getFeatParam();
-		var featValParam = getFeatValArrayParam();
-
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(), superInitCls);
-		FluentAPIGenerationUtil.addBody(op, xWithRemovedFeatMethodBody);
-		FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
-		FluentAPIGenerationUtil.addDocumentation(op,
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodSummary());
-		return op;
-	}
-
-	private EOperation getWithExactFeatArrayOp(EClass superInitCls) {
-		var featParam = getFeatParam();
-		var featValParam = getFeatValArrayParam();
-
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(), superInitCls);
-		FluentAPIGenerationUtil.addBody(op, xWithExactFeatMethodBody);
-		FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
-		FluentAPIGenerationUtil.addDocumentation(op,
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodSummary());
-		return op;
+		ops.add(opGen.apply(getFeatValParam()));
+		ops.add(opGen.apply(getFeatValArrayParam()));
+//		ops.add(opGen.apply(getFeatValColParam()));
+		return ops;
 	}
 
 	private EOperation getWithFeatOfContainerOp(EClass superInitCls) {
@@ -224,6 +204,17 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterDocumentation());
 		return param;
 	}
+
+//	private EParameter getFeatValColParam() {
+//		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(Collection.class, 1);
+//		var colGenTypeArgument = FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null, null);
+//		var colGenType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureColType);
+//		FluentAPIGenerationUtil.addTypeArgument(colGenType, colGenTypeArgument);
+//
+//		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+//				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName(), colGenType);
+//		return param;
+//	}
 
 	@Override
 	public Map<String, String> getMethodNamesToDescriptions() {
