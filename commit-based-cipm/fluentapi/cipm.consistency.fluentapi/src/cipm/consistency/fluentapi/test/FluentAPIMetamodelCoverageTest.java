@@ -1,5 +1,8 @@
 package cipm.consistency.fluentapi.test;
 
+import java.util.List;
+
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -80,7 +83,7 @@ public class FluentAPIMetamodelCoverageTest {
 	 * metamodel can be modified via the api.
 	 */
 	@Test
-	public void concreteElementCoverageTest_WithFeatureMethods() {
+	public void concreteElementCoverageTest_APIWithFeatureMethods() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
 		for (var eCls : allConcreteEClss) {
@@ -88,14 +91,56 @@ public class FluentAPIMetamodelCoverageTest {
 			for (var feat : featureFilter.getModifiableFeatures(eCls)) {
 				if (feat.isMany()) {
 					api.xWithAddedFeat(instance, feat, instance.eGet(feat));
+					api.xWithAddedFeat(instance, feat, ((EList<?>) instance.eGet(feat)).toArray());
+					api.xWithAddedFeat(instance, feat, List.copyOf(((EList<?>) instance.eGet(feat))));
+
 					api.xWithRemovedFeat(instance, feat, instance.eGet(feat));
+					api.xWithRemovedFeat(instance, feat, ((EList<?>) instance.eGet(feat)).toArray());
+					api.xWithRemovedFeat(instance, feat, List.copyOf(((EList<?>) instance.eGet(feat))));
+
 					api.xWithExactFeat(instance, feat, instance.eGet(feat));
+					api.xWithExactFeat(instance, feat, ((EList<?>) instance.eGet(feat)).toArray());
+					api.xWithExactFeat(instance, feat, List.copyOf(((EList<?>) instance.eGet(feat))));
 				} else {
 					api.xWithFeat(instance, feat, instance.eGet(feat));
 					api.xWithoutFeat(instance, feat);
 				}
 				if (featureFilter.canShareFeatureWithContainer(metamodelProvider, eCls, feat)) {
 					api.xWithFeatOfContainer(instance, feat);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Ensures that each modifiable feature of each concrete class within the target
+	 * metamodel can be modified via the superInit.
+	 */
+	@Test
+	public void concreteElementCoverageTest_SuperInitWithFeatureMethods() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
+		for (var eCls : allConcreteEClss) {
+			var instance = (EObject) api.createNewX(eCls.getInstanceClass());
+			for (var feat : featureFilter.getModifiableFeatures(eCls)) {
+				if (feat.isMany()) {
+					api.modifyX(instance).xWithAddedFeat(feat, instance.eGet(feat));
+					api.modifyX(instance).xWithAddedFeat(feat, ((EList<?>) instance.eGet(feat)).toArray());
+					api.modifyX(instance).xWithAddedFeat(feat, List.copyOf(((EList<?>) instance.eGet(feat))));
+
+					api.modifyX(instance).xWithRemovedFeat(feat, instance.eGet(feat));
+					api.modifyX(instance).xWithRemovedFeat(feat, ((EList<?>) instance.eGet(feat)).toArray());
+					api.modifyX(instance).xWithRemovedFeat(feat, List.copyOf(((EList<?>) instance.eGet(feat))));
+
+					api.modifyX(instance).xWithExactFeat(feat, instance.eGet(feat));
+					api.modifyX(instance).xWithExactFeat(feat, ((EList<?>) instance.eGet(feat)).toArray());
+					api.modifyX(instance).xWithExactFeat(feat, List.copyOf(((EList<?>) instance.eGet(feat))));
+				} else {
+					api.modifyX(instance).xWithFeat(feat, instance.eGet(feat));
+					api.modifyX(instance).xWithoutFeat(feat);
+				}
+				if (featureFilter.canShareFeatureWithContainer(metamodelProvider, eCls, feat)) {
+					api.modifyX(instance).xWithFeatOfContainer(feat);
 				}
 			}
 		}

@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.BasicEList;
@@ -59,24 +60,55 @@ public final class FluentEObjectAPIMethods {
 						&& p.getEGenericType().getERawType().getInstanceClass().isArray()));
 	}
 
+	private static boolean isCollectionType(EParameter p) {
+		return ((p.getEType() != null && p.getEType().getInstanceClass() != null
+				&& Collection.class.isAssignableFrom(p.getEType().getInstanceClass()))
+				|| (p.getEGenericType() != null && p.getEGenericType().getERawType() != null
+						&& p.getEGenericType().getERawType().getInstanceClass() != null
+						&& Collection.class.isAssignableFrom(p.getEGenericType().getERawType().getInstanceClass())));
+	}
+
+	private static EOperation getEListVariant(List<EOperation> ops) {
+		return ops.stream().filter((o) -> o.getEParameters().stream().anyMatch((p) -> p.isMany())).findFirst().get();
+	}
+
+	private static EOperation getArrayVariant(List<EOperation> ops) {
+		return ops.stream().filter((o) -> o.getEParameters().stream().anyMatch((p) -> !p.isMany() && isArrayType(p)))
+				.findFirst().get();
+	}
+
+	private static EOperation getCollectionVariant(List<EOperation> ops) {
+		return ops.stream()
+				.filter((o) -> o.getEParameters().stream().anyMatch((p) -> !p.isMany() && isCollectionType(p)))
+				.findFirst().get();
+	}
+
+	private static EOperation getSingleValueVariant(List<EOperation> ops) {
+		return ops.stream()
+				.filter((o) -> o.getEParameters().stream().anyMatch((p) -> !p.isMany() && !isCollectionType(p)))
+				.findFirst().get();
+	}
+
+	private static EOperation getVariantForFeatureValue(Object featVal, List<EOperation> ops) {
+		if (featVal instanceof EList) {
+			return getEListVariant(ops);
+		} else if (featVal.getClass().isArray()) {
+			return getArrayVariant(ops);
+		} else if (featVal instanceof Collection) {
+			return getCollectionVariant(ops);
+		} else {
+			return getSingleValueVariant(ops);
+		}
+	}
+
 	public static EObject xWithAddedFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
 		var init = getInitialisationForX(api, objToModify);
 		var opName = FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameForType(feat);
 		var withAddedOps = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName))
 				.collect(Collectors.toList());
-		EOperation op = null;
+		var op = getVariantForFeatureValue(featVal, withAddedOps);
 		var argList = new BasicEList<>();
-		if (featVal instanceof Collection) {
-			op = withAddedOps.stream().filter((o) -> o.getEParameters().stream().anyMatch((p) -> p.isMany()))
-					.findFirst().get();
-		} else if (featVal.getClass().isArray()) {
-			op = withAddedOps.stream()
-					.filter((o) -> o.getEParameters().stream().anyMatch((p) -> !p.isMany() && isArrayType(p)))
-					.findFirst().get();
-		} else {
-			op = withAddedOps.stream().filter((o) -> o.getEParameters().stream().anyMatch((p) -> !p.isMany()))
-					.findFirst().get();
-		}
+
 		argList.add(featVal);
 		try {
 			init.eInvoke(op, argList);
@@ -92,19 +124,8 @@ public final class FluentEObjectAPIMethods {
 		var opName = FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameForType(feat);
 		var withRemovedOps = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName))
 				.collect(Collectors.toList());
-		EOperation op = null;
+		var op = getVariantForFeatureValue(featVal, withRemovedOps);
 		var argList = new BasicEList<>();
-		if (featVal instanceof Collection) {
-			op = withRemovedOps.stream().filter((o) -> o.getEParameters().stream().anyMatch((p) -> p.isMany()))
-					.findFirst().get();
-		} else if (featVal.getClass().isArray()) {
-			op = withRemovedOps.stream()
-					.filter((o) -> o.getEParameters().stream().anyMatch((p) -> !p.isMany() && isArrayType(p)))
-					.findFirst().get();
-		} else {
-			op = withRemovedOps.stream().filter((o) -> o.getEParameters().stream().noneMatch((p) -> p.isMany()))
-					.findFirst().get();
-		}
 		argList.add(featVal);
 		try {
 			init.eInvoke(op, argList);
@@ -120,16 +141,8 @@ public final class FluentEObjectAPIMethods {
 		var opName = FluentAPIInitialisationConstants.getFluentAPIInitialisationWithExactXFeatNameForType(feat);
 		var withExactOp = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName))
 				.collect(Collectors.toList());
-		EOperation op = null;
+		var op = getVariantForFeatureValue(featVal, withExactOp);
 		var argList = new BasicEList<>();
-		if (featVal instanceof Collection) {
-			op = withExactOp.stream().filter((o) -> o.getEParameters().stream().anyMatch((p) -> p.isMany())).findFirst()
-					.get();
-		} else {
-			op = withExactOp.stream()
-					.filter((o) -> o.getEParameters().stream().anyMatch((p) -> !p.isMany() && isArrayType(p)))
-					.findFirst().get();
-		}
 		argList.add(featVal);
 		try {
 			init.eInvoke(op, argList);

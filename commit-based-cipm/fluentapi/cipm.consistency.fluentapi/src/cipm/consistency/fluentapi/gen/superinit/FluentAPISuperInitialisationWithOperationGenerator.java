@@ -1,7 +1,7 @@
 package cipm.consistency.fluentapi.gen.superinit;
 
 import java.util.ArrayList;
-//import java.util.Collection;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -122,7 +122,7 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 
 		ops.add(opGen.apply(getFeatValParam()));
 		ops.add(opGen.apply(getFeatValArrayParam()));
-//		ops.add(opGen.apply(getFeatValColParam()));
+		ops.add(opGen.apply(getFeatValColParam()));
 
 		return ops;
 	}
@@ -142,7 +142,7 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 
 		ops.add(opGen.apply(getFeatValParam()));
 		ops.add(opGen.apply(getFeatValArrayParam()));
-//		ops.add(opGen.apply(getFeatValColParam()));
+		ops.add(opGen.apply(getFeatValColParam()));
 
 		return ops;
 	}
@@ -162,7 +162,7 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 
 		ops.add(opGen.apply(getFeatValParam()));
 		ops.add(opGen.apply(getFeatValArrayParam()));
-//		ops.add(opGen.apply(getFeatValColParam()));
+		ops.add(opGen.apply(getFeatValColParam()));
 		return ops;
 	}
 
@@ -205,16 +205,16 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 		return param;
 	}
 
-//	private EParameter getFeatValColParam() {
-//		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(Collection.class, 1);
-//		var colGenTypeArgument = FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null, null);
-//		var colGenType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureColType);
-//		FluentAPIGenerationUtil.addTypeArgument(colGenType, colGenTypeArgument);
-//
-//		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
-//				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName(), colGenType);
-//		return param;
-//	}
+	private EParameter getFeatValColParam() {
+		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(Collection.class, 1);
+		var colGenTypeArgument = FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null, null);
+		var colGenType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureColType);
+		FluentAPIGenerationUtil.addTypeArgument(colGenType, colGenTypeArgument);
+
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName(), colGenType);
+		return param;
+	}
 
 	@Override
 	public Map<String, String> getMethodNamesToDescriptions() {

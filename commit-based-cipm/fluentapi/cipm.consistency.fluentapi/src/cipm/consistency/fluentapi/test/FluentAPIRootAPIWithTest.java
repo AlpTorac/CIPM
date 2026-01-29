@@ -132,20 +132,30 @@ public class FluentAPIRootAPIWithTest {
 	}
 
 	@Test
-	public void withAddedFeatTest_MultipleValuesAsList() {
+	public void withAddedFeatTest_MultipleValuesAsArray() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var pac = api.newPackage().createNow();
-		var nss = FluentAPITestUtils.toEList("ns1", "ns2");
+		var nss = new String[] { "ns1", "ns2" };
 
 		api.xWithAddedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nss);
 		assertPairwiseEqual(nss, pac.getNamespaces());
 	}
 
 	@Test
-	public void withAddedFeatTest_MultipleValuesAsArray() {
+	public void withAddedFeatTest_MultipleValuesAsCollection() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var pac = api.newPackage().createNow();
-		var nss = new String[] { "ns1", "ns2" };
+		var nss = List.of("ns1", "ns2");
+
+		api.xWithAddedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nss);
+		assertPairwiseEqual(nss, pac.getNamespaces());
+	}
+
+	@Test
+	public void withAddedFeatTest_MultipleValuesAsEList() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var pac = api.newPackage().createNow();
+		var nss = FluentAPITestUtils.toEList("ns1", "ns2");
 
 		api.xWithAddedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nss);
 		assertPairwiseEqual(nss, pac.getNamespaces());
@@ -176,7 +186,19 @@ public class FluentAPIRootAPIWithTest {
 	}
 
 	@Test
-	public void withRemovedFeatTest_MultipleValuesAsList() {
+	public void withRemovedFeatTest_MultipleValuesAsCollection() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var pac = api.newPackage().createNow();
+		var pastNss = List.of("ns1", "ns2", "ns3");
+		pac.getNamespaces().addAll(pastNss);
+		var nss = List.of(pastNss.get(0), pastNss.get(2));
+
+		api.xWithRemovedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nss);
+		assertPairwiseEqual(List.of(pastNss.get(1)), pac.getNamespaces());
+	}
+
+	@Test
+	public void withRemovedFeatTest_MultipleValuesAsEList() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var pac = api.newPackage().createNow();
 		var pastNss = List.of("ns1", "ns2", "ns3");
@@ -200,7 +222,17 @@ public class FluentAPIRootAPIWithTest {
 	}
 
 	@Test
-	public void withExactFeatTest_NoPriorValues_AsList() {
+	public void withExactFeatTest_NoPriorValues_AsCollection() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var pac = api.newPackage().createNow();
+		var nss = List.of("ns1", "ns2");
+
+		api.xWithExactFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nss);
+		assertPairwiseEqual(nss, pac.getNamespaces());
+	}
+
+	@Test
+	public void withExactFeatTest_NoPriorValues_AsEList() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var pac = api.newPackage().createNow();
 		var nss = FluentAPITestUtils.toEList("ns1", "ns2");
