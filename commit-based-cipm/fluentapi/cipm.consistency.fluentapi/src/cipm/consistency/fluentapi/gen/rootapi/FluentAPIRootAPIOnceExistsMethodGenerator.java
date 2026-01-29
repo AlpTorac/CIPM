@@ -2,6 +2,7 @@ package cipm.consistency.fluentapi.gen.rootapi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
@@ -30,13 +31,12 @@ public class FluentAPIRootAPIOnceExistsMethodGenerator {
 
 	public List<EOperation> generateAllOnceExistsMethods(EClass rootAPIECls) {
 		var ops = new ArrayList<EOperation>();
-		ops.add(generateOnceExistsMethod(rootAPIECls));
-		ops.add(generateOnceExistsListMethod(rootAPIECls));
-		ops.add(generateOnceExistsArrayMethod(rootAPIECls));
+		ops.add(generateOnceExistsMethodSingleKey(rootAPIECls));
+		ops.addAll(generateOnceExistsMethodsForMultipleKeys(rootAPIECls));
 		return ops;
 	}
 
-	private EOperation generateOnceExistsMethod(EClass rootAPIECls) {
+	private EOperation generateOnceExistsMethodSingleKey(EClass rootAPIECls) {
 		var keyParam = getMarkKeyParam();
 		var taskParam = getRunnableParam();
 		var op = FluentAPIGenerationUtil
@@ -46,24 +46,21 @@ public class FluentAPIRootAPIOnceExistsMethodGenerator {
 		return op;
 	}
 
-	private EOperation generateOnceExistsListMethod(EClass rootAPIECls) {
-		var keyParam = getMarkKeyListParam();
-		var taskParam = getRunnableParam();
-		var op = FluentAPIGenerationUtil
-				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), rootAPIECls);
-		FluentAPIGenerationUtil.addBody(op, onceExistsMethodMultipleKeyBody);
-		FluentAPIGenerationUtil.addEParameters(op, keyParam, taskParam);
-		return op;
-	}
+	private List<EOperation> generateOnceExistsMethodsForMultipleKeys(EClass rootAPIECls) {
+		var ops = new ArrayList<EOperation>();
+		Function<EParameter, EOperation> opGenerator = (keyParam) -> {
+			var taskParam = getRunnableParam();
+			var op = FluentAPIGenerationUtil.generateEOperation(
+					FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), rootAPIECls);
+			FluentAPIGenerationUtil.addBody(op, onceExistsMethodMultipleKeyBody);
+			FluentAPIGenerationUtil.addEParameters(op, keyParam, taskParam);
+			return op;
+		};
 
-	private EOperation generateOnceExistsArrayMethod(EClass rootAPIECls) {
-		var keyParam = getMarkKeyArrayParam();
-		var taskParam = getRunnableParam();
-		var op = FluentAPIGenerationUtil
-				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), rootAPIECls);
-		FluentAPIGenerationUtil.addBody(op, onceExistsMethodMultipleKeyBody);
-		FluentAPIGenerationUtil.addEParameters(op, keyParam, taskParam);
-		return op;
+		ops.add(opGenerator.apply(getMarkKeyListParam()));
+		ops.add(opGenerator.apply(getMarkKeyArrayParam()));
+
+		return ops;
 	}
 
 	private EParameter getMarkKeyParam() {
