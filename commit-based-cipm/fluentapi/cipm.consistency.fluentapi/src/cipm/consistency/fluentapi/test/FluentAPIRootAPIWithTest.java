@@ -2,38 +2,41 @@ package cipm.consistency.fluentapi.test;
 
 import java.util.List;
 
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.commons.CommonsPackage;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.api.ApiFactory;
 
 public class FluentAPIRootAPIWithTest {
-	private void assertPairwiseEqual(Object[] arr, List<?> list) {
-		Assertions.assertEquals(arr.length, list.size());
-		for (int i = 0; i < list.size(); i++) {
-			Assertions.assertEquals(arr[i], list.get(i));
-		}
-	}
-
-	private void assertPairwiseEqual(List<?> list1, List<?> list2) {
-		Assertions.assertEquals(list1.size(), list2.size());
-		for (int i = 0; i < list1.size(); i++) {
-			Assertions.assertEquals(list1.get(i), list2.get(i));
-		}
-	}
+	private static final EStructuralFeature nameFeat = CommonsPackage.Literals.NAMED_ELEMENT__NAME;
+	private static final EStructuralFeature namespaceFeat = CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES;
+	private static final EStructuralFeature extendsFeat = ClassifiersPackage.Literals.CLASS__EXTENDS;
 
 	@Test
-	public void withFeatTest() {
+	public void withFeatTest_EAttribute() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
 		var clsName = "cls";
 		var cls = api.createNewClass();
 
 		Assertions.assertNotEquals(clsName, cls.getName());
-		api.xWithFeat(cls, CommonsPackage.Literals.NAMED_ELEMENT__NAME, clsName);
+		api.xWithFeat(cls, nameFeat, clsName);
 		Assertions.assertEquals(clsName, cls.getName());
+	}
+
+	@Test
+	public void withFeatTest_EReference() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var extType = api.createNewClassifierReference();
+		var cls = api.createNewClass();
+
+		api.xWithFeat(cls, extendsFeat, extType);
+		Assertions.assertSame(extType, cls.getExtends());
 	}
 
 	@Test
@@ -42,7 +45,7 @@ public class FluentAPIRootAPIWithTest {
 
 		var clsName = "cls";
 		var cls = api.createNewClass();
-		var feat = CommonsPackage.Literals.NAMED_ELEMENT__NAME;
+		var feat = nameFeat;
 
 		cls.setName(clsName);
 
@@ -57,7 +60,7 @@ public class FluentAPIRootAPIWithTest {
 
 		var clsExtendsVal = api.createNewClassifierReference();
 		var cls = api.createNewClass();
-		var feat = ClassifiersPackage.Literals.CLASS__EXTENDS;
+		var feat = extendsFeat;
 
 		cls.setExtends(clsExtendsVal);
 
@@ -73,7 +76,7 @@ public class FluentAPIRootAPIWithTest {
 		var pac = api.createNewPackage();
 
 		Assertions.assertEquals(0, pac.getNamespaces().size());
-		api.xWithFeatOfContainer(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES);
+		api.xWithFeatOfContainer(pac, namespaceFeat);
 		Assertions.assertEquals(0, pac.getNamespaces().size());
 	}
 
@@ -82,7 +85,7 @@ public class FluentAPIRootAPIWithTest {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
 		var cls = api.createNewClass();
-		var feat = CommonsPackage.Literals.NAMED_ELEMENT__NAME;
+		var feat = nameFeat;
 
 		Assertions.assertEquals(feat.getDefaultValueLiteral(), cls.getName());
 		api.xWithFeatOfContainer(cls, feat);
@@ -90,7 +93,7 @@ public class FluentAPIRootAPIWithTest {
 	}
 
 	@Test
-	public void withFeatOfContainer_WithContainer() {
+	public void withFeatOfContainer_SingleValuedFeature_WithContainer() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
 		var cls = api.createNewClass();
@@ -102,8 +105,15 @@ public class FluentAPIRootAPIWithTest {
 		Assertions.assertEquals(cu, cls.eContainer());
 		Assertions.assertNull(cls.getName());
 
-		api.xWithFeatOfContainer(cls, CommonsPackage.Literals.NAMED_ELEMENT__NAME);
+		api.xWithFeatOfContainer(cls, nameFeat);
 		Assertions.assertEquals(cu.getName(), cls.getName());
+	}
+
+	@Disabled("Implement and enable if one such case is found")
+	@Test
+	public void withFeatOfContainer_ManyValuedFeature_WithContainer() {
+		// No examples found for the current Java metamodel, where an EAttribute value
+		// of an EObject could be used in one of its contained EObjects
 	}
 
 	@Test
@@ -112,7 +122,7 @@ public class FluentAPIRootAPIWithTest {
 		var pac = api.newPackage().createNow();
 		var ns = "ns";
 
-		api.xWithAddedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, ns);
+		api.xWithAddedFeat(pac, namespaceFeat, ns);
 		Assertions.assertEquals(1, pac.getNamespaces().size());
 		Assertions.assertEquals(ns, pac.getNamespaces().get(0));
 	}
@@ -127,8 +137,8 @@ public class FluentAPIRootAPIWithTest {
 
 		var expectedNss = List.of(pastNss.get(0), pastNss.get(1), newNs);
 
-		api.xWithAddedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, newNs);
-		assertPairwiseEqual(expectedNss, pac.getNamespaces());
+		api.xWithAddedFeat(pac, namespaceFeat, newNs);
+		FluentAPITestUtils.assertPairwiseEqual(expectedNss, pac.getNamespaces());
 	}
 
 	@Test
@@ -137,8 +147,8 @@ public class FluentAPIRootAPIWithTest {
 		var pac = api.newPackage().createNow();
 		var nss = new String[] { "ns1", "ns2" };
 
-		api.xWithAddedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nss);
-		assertPairwiseEqual(nss, pac.getNamespaces());
+		api.xWithAddedFeat(pac, namespaceFeat, nss);
+		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
 	}
 
 	@Test
@@ -147,8 +157,8 @@ public class FluentAPIRootAPIWithTest {
 		var pac = api.newPackage().createNow();
 		var nss = List.of("ns1", "ns2");
 
-		api.xWithAddedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nss);
-		assertPairwiseEqual(nss, pac.getNamespaces());
+		api.xWithAddedFeat(pac, namespaceFeat, nss);
+		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
 	}
 
 	@Test
@@ -157,8 +167,8 @@ public class FluentAPIRootAPIWithTest {
 		var pac = api.newPackage().createNow();
 		var nss = FluentAPITestUtils.toEList("ns1", "ns2");
 
-		api.xWithAddedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nss);
-		assertPairwiseEqual(nss, pac.getNamespaces());
+		api.xWithAddedFeat(pac, namespaceFeat, nss);
+		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
 	}
 
 	@Test
@@ -167,7 +177,7 @@ public class FluentAPIRootAPIWithTest {
 		var pac = api.newPackage().createNow();
 		var ns = "ns";
 
-		api.xWithRemovedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, ns);
+		api.xWithRemovedFeat(pac, namespaceFeat, ns);
 		Assertions.assertEquals(0, pac.getNamespaces().size());
 	}
 
@@ -181,8 +191,8 @@ public class FluentAPIRootAPIWithTest {
 
 		var expectedNss = List.of(pastNss.get(1));
 
-		api.xWithRemovedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nsToBeRemoved);
-		assertPairwiseEqual(expectedNss, pac.getNamespaces());
+		api.xWithRemovedFeat(pac, namespaceFeat, nsToBeRemoved);
+		FluentAPITestUtils.assertPairwiseEqual(expectedNss, pac.getNamespaces());
 	}
 
 	@Test
@@ -193,8 +203,8 @@ public class FluentAPIRootAPIWithTest {
 		pac.getNamespaces().addAll(pastNss);
 		var nss = List.of(pastNss.get(0), pastNss.get(2));
 
-		api.xWithRemovedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nss);
-		assertPairwiseEqual(List.of(pastNss.get(1)), pac.getNamespaces());
+		api.xWithRemovedFeat(pac, namespaceFeat, nss);
+		FluentAPITestUtils.assertPairwiseEqual(List.of(pastNss.get(1)), pac.getNamespaces());
 	}
 
 	@Test
@@ -205,8 +215,8 @@ public class FluentAPIRootAPIWithTest {
 		pac.getNamespaces().addAll(pastNss);
 		var nss = FluentAPITestUtils.toEList(pastNss.get(0), pastNss.get(2));
 
-		api.xWithRemovedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nss);
-		assertPairwiseEqual(List.of(pastNss.get(1)), pac.getNamespaces());
+		api.xWithRemovedFeat(pac, namespaceFeat, nss);
+		FluentAPITestUtils.assertPairwiseEqual(List.of(pastNss.get(1)), pac.getNamespaces());
 	}
 
 	@Test
@@ -217,8 +227,8 @@ public class FluentAPIRootAPIWithTest {
 		pac.getNamespaces().addAll(List.of(pastNss));
 		var nss = FluentAPITestUtils.toEList(pastNss[0], pastNss[2]);
 
-		api.xWithRemovedFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nss);
-		assertPairwiseEqual(List.of(pastNss[1]), pac.getNamespaces());
+		api.xWithRemovedFeat(pac, namespaceFeat, nss);
+		FluentAPITestUtils.assertPairwiseEqual(List.of(pastNss[1]), pac.getNamespaces());
 	}
 
 	@Test
@@ -227,8 +237,8 @@ public class FluentAPIRootAPIWithTest {
 		var pac = api.newPackage().createNow();
 		var nss = List.of("ns1", "ns2");
 
-		api.xWithExactFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nss);
-		assertPairwiseEqual(nss, pac.getNamespaces());
+		api.xWithExactFeat(pac, namespaceFeat, nss);
+		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
 	}
 
 	@Test
@@ -237,8 +247,8 @@ public class FluentAPIRootAPIWithTest {
 		var pac = api.newPackage().createNow();
 		var nss = FluentAPITestUtils.toEList("ns1", "ns2");
 
-		api.xWithExactFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nss);
-		assertPairwiseEqual(nss, pac.getNamespaces());
+		api.xWithExactFeat(pac, namespaceFeat, nss);
+		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
 	}
 
 	@Test
@@ -247,8 +257,8 @@ public class FluentAPIRootAPIWithTest {
 		var pac = api.newPackage().createNow();
 		var nss = new String[] { "ns1", "ns2" };
 
-		api.xWithExactFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, nss);
-		assertPairwiseEqual(nss, pac.getNamespaces());
+		api.xWithExactFeat(pac, namespaceFeat, nss);
+		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
 	}
 
 	@Test
@@ -259,7 +269,7 @@ public class FluentAPIRootAPIWithTest {
 		pac.getNamespaces().addAll(List.of(pastNss));
 		var newNss = new String[] { "ns4", "ns5" };
 
-		api.xWithExactFeat(pac, CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES, newNss);
-		assertPairwiseEqual(newNss, pac.getNamespaces());
+		api.xWithExactFeat(pac, namespaceFeat, newNss);
+		FluentAPITestUtils.assertPairwiseEqual(newNss, pac.getNamespaces());
 	}
 }

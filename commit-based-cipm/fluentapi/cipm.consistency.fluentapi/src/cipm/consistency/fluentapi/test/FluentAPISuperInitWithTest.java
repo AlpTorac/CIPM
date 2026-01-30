@@ -8,142 +8,266 @@ import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.containers.ContainersPackage;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.api.ApiFactory;
 
 public class FluentAPISuperInitWithTest {
-	private static final EClass modECls = ContainersPackage.Literals.MODULE;
 	private static final EClass clsECls = ClassifiersPackage.Literals.CLASS;
-	private static final EClass cuECls = ContainersPackage.Literals.COMPILATION_UNIT;
+	private static final EClass pacECls = ContainersPackage.Literals.PACKAGE;
+
+	private static final Class<org.emftext.language.java.classifiers.Class> clsCls = org.emftext.language.java.classifiers.Class.class;
+	private static final Class<org.emftext.language.java.containers.Package> pacCls = org.emftext.language.java.containers.Package.class;
 
 	private static final EStructuralFeature nameFeat = CommonsPackage.Literals.NAMED_ELEMENT__NAME;
-	private static final EStructuralFeature namespacesFeat = CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES;
-	private static final EStructuralFeature classifiersFeat = ContainersPackage.Literals.COMPILATION_UNIT__CLASSIFIERS;
-
-	// TODO Copy FluentAPIRootAPIWithTest for superInit
+	private static final EStructuralFeature namespaceFeat = CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES;
+	private static final EStructuralFeature extendsFeat = ClassifiersPackage.Literals.CLASS__EXTENDS;
 
 	@Test
-	public void xWithFeatTest() {
+	public void withFeatTest_EAttribute() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
-		var modName = "modName";
+		var clsName = "cls";
 
-		var mod = api.newX(modECls).xWithFeat(nameFeat, modName)
-				.createNow(org.emftext.language.java.containers.Module.class);
-
-		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
-		Assertions.assertEquals(modName, mod.getName());
+		var cls = api.newX(clsECls).xWithFeat(nameFeat, clsName).createNow(clsCls);
+		Assertions.assertEquals(clsName, cls.getName());
 	}
 
 	@Test
-	public void xWithoutFeatTest() {
+	public void withFeatTest_EReference() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
-		var modName = "modName";
-
-		var mod = api.newX(modECls).xWithFeat(nameFeat, modName)
-				.createNow(org.emftext.language.java.containers.Module.class);
-
-		Assertions.assertEquals(modName, mod.getName());
-		api.modifyX(mod).xWithoutFeat(nameFeat);
-		Assertions.assertNull(mod.getName());
+		var extType = api.createNewClassifierReference();
+		var cls = api.newX(clsECls).xWithFeat(extendsFeat, extType).createNow(clsCls);
+		Assertions.assertSame(extType, cls.getExtends());
 	}
 
 	@Test
-	public void xWithAddedFeatTest_SingleValue() {
+	public void withoutFeatTest_EAttribute() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
-		var modNss = "ns1";
+		var clsName = "cls";
+		var feat = nameFeat;
+		var cls = api.newClass().withName(clsName).createNow();
 
-		var mod = api.newX(modECls).xWithAddedFeat(namespacesFeat, modNss)
-				.createNow(org.emftext.language.java.containers.Module.class);
-		Assertions.assertEquals(1, mod.getNamespaces().size());
-		Assertions.assertFalse(mod.getNamespaces().retainAll(List.of(modNss)));
+		Assertions.assertEquals(clsName, cls.getName());
+		api.modifyX(cls).xWithoutFeat(feat);
+		Assertions.assertEquals(feat.getDefaultValueLiteral(), cls.getName());
 	}
 
 	@Test
-	public void xWithAddedFeatTest_AsArray() {
+	public void withoutFeatTest_EReference() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
-		var modNss = new String[] { "ns1", "ns2", "ns3" };
+		var clsExtendsVal = api.createNewClassifierReference();
+		var cls = api.createNewClass();
+		var feat = extendsFeat;
 
-		var mod = api.newX(modECls).xWithAddedFeat(namespacesFeat, modNss)
-				.createNow(org.emftext.language.java.containers.Module.class);
-		Assertions.assertEquals(modNss.length, mod.getNamespaces().size());
-		Assertions.assertFalse(mod.getNamespaces().retainAll(List.of(modNss)));
+		cls.setExtends(clsExtendsVal);
+
+		Assertions.assertSame(clsExtendsVal, cls.getExtends());
+		api.modifyX(cls).xWithoutFeat(feat);
+		Assertions.assertEquals(feat.getDefaultValue(), cls.getExtends());
 	}
 
 	@Test
-	public void xWithAddedFeatTest_AsCollection() {
+	public void withFeatOfContainer_ManyValuedFeature_NoContainer() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
-		var modNss = List.of("ns1", "ns2", "ns3");
+		var pac = api.createNewPackage();
 
-		var mod = api.newX(modECls).xWithAddedFeat(namespacesFeat, modNss)
-				.createNow(org.emftext.language.java.containers.Module.class);
-		Assertions.assertEquals(modNss.size(), mod.getNamespaces().size());
-		Assertions.assertFalse(mod.getNamespaces().retainAll(modNss));
+		Assertions.assertEquals(0, pac.getNamespaces().size());
+		api.modifyX(pac).xWithFeatOfContainer(namespaceFeat);
+		Assertions.assertEquals(0, pac.getNamespaces().size());
 	}
 
 	@Test
-	public void xWithAddedFeatTest_AsEList() {
+	public void withFeatOfContainer_SingleValuedFeature_NoContainer() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
-		var modNss = FluentAPITestUtils.toEList("ns1", "ns2", "ns3");
+		var cls = api.createNewClass();
+		var feat = nameFeat;
 
-		var mod = api.newX(modECls).xWithAddedFeat(namespacesFeat, modNss)
-				.createNow(org.emftext.language.java.containers.Module.class);
-		Assertions.assertEquals(modNss.size(), mod.getNamespaces().size());
-		Assertions.assertFalse(mod.getNamespaces().retainAll(modNss));
+		Assertions.assertEquals(feat.getDefaultValueLiteral(), cls.getName());
+		api.modifyX(cls).xWithFeatOfContainer(feat);
+		Assertions.assertEquals(feat.getDefaultValueLiteral(), cls.getName());
 	}
 
 	@Test
-	public void xWithRemovedFeatTest() {
+	public void withFeatOfContainer_SingleValuedFeature_WithContainer() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
-		var modNss = new String[] { "ns1", "ns2", "ns3" };
-
-		var mod = api.newX(modECls).xWithAddedFeat(namespacesFeat, modNss)
-				.createNow(org.emftext.language.java.containers.Module.class);
-		Assertions.assertEquals(modNss.length, mod.getNamespaces().size());
-		Assertions.assertFalse(mod.getNamespaces().retainAll(List.of(modNss)));
-		api.modifyX(mod).xWithRemovedFeat(namespacesFeat, modNss[0]);
-		Assertions.assertFalse(mod.getNamespaces().contains(modNss[0]));
-	}
-
-	@Test
-	public void xWithExactFeatTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-
-		var modNss = new String[] { "ns1", "ns2", "ns3" };
-
-		var mod = api.newX(modECls).xWithAddedFeat(namespacesFeat, modNss)
-				.createNow(org.emftext.language.java.containers.Module.class);
-		Assertions.assertEquals(modNss.length, mod.getNamespaces().size());
-		Assertions.assertFalse(mod.getNamespaces().retainAll(List.of(modNss)));
-
-		var newNss = new String[] { "ns4", "ns5" };
-
-		api.modifyX(mod).xWithExactFeat(namespacesFeat, newNss);
-		for (var ns : modNss)
-			Assertions.assertFalse(mod.getNamespaces().contains(ns));
-		Assertions.assertEquals(newNss.length, mod.getNamespaces().size());
-		Assertions.assertFalse(mod.getNamespaces().retainAll(List.of(newNss)));
-	}
-
-	@Test
-	public void xWithFeatOfContainerTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var cls = api.createNewClass();
 
 		var cuName = "cu";
+		var cu = api.newCompilationUnit().withName(cuName).withAddedClassifiers(cls).createNow();
 
-		var cls = api.newX(clsECls).createNow(org.emftext.language.java.classifiers.Class.class);
-		api.newX(cuECls).xWithFeat(nameFeat, cuName).xWithAddedFeat(classifiersFeat, cls)
-				.createNow(org.emftext.language.java.containers.CompilationUnit.class);
-
+		Assertions.assertEquals(cuName, cu.getName());
+		Assertions.assertEquals(cu, cls.eContainer());
 		Assertions.assertNull(cls.getName());
+
 		api.modifyX(cls).xWithFeatOfContainer(nameFeat);
-		Assertions.assertEquals(cuName, cls.getName());
+		Assertions.assertEquals(cu.getName(), cls.getName());
+	}
+
+	@Disabled("Implement and enable if one such case is found")
+	@Test
+	public void withFeatOfContainer_ManyValuedFeature_WithContainer() {
+		// No examples found for the current Java metamodel, where an EAttribute value
+		// of an EObject could be used in one of its contained EObjects
+	}
+
+	@Test
+	public void withAddedFeatTest_SingleValue_NoPriorValues() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var ns = "ns";
+
+		var pac = api.newX(pacECls).xWithAddedFeat(namespaceFeat, ns).createNow(pacCls);
+		Assertions.assertEquals(1, pac.getNamespaces().size());
+		Assertions.assertEquals(ns, pac.getNamespaces().get(0));
+	}
+
+	@Test
+	public void withAddedFeatTest_SingleValue_WithPriorValues() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var pac = api.newPackage().createNow();
+		var pastNss = List.of("someNs1", "someNs2");
+		pac.getNamespaces().addAll(pastNss);
+		var newNs = "newNs";
+
+		var expectedNss = List.of(pastNss.get(0), pastNss.get(1), newNs);
+
+		api.modifyX(pac).xWithAddedFeat(namespaceFeat, newNs);
+		FluentAPITestUtils.assertPairwiseEqual(expectedNss, pac.getNamespaces());
+	}
+
+	@Test
+	public void withAddedFeatTest_MultipleValuesAsArray() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var nss = new String[] { "ns1", "ns2" };
+
+		var pac = api.newX(pacECls).xWithAddedFeat(namespaceFeat, nss).createNow(pacCls);
+		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
+	}
+
+	@Test
+	public void withAddedFeatTest_MultipleValuesAsCollection() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var nss = List.of("ns1", "ns2");
+
+		var pac = api.newX(pacECls).xWithAddedFeat(namespaceFeat, nss).createNow(pacCls);
+		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
+	}
+
+	@Test
+	public void withAddedFeatTest_MultipleValuesAsEList() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var nss = FluentAPITestUtils.toEList("ns1", "ns2");
+
+		var pac = api.newX(pacECls).xWithAddedFeat(namespaceFeat, nss).createNow(pacCls);
+		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
+	}
+
+	@Test
+	public void withRemovedFeatTest_SingleValue_NoPriorValues() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var pac = api.newPackage().createNow();
+		var ns = "ns";
+
+		api.modifyX(pac).xWithRemovedFeat(namespaceFeat, ns);
+		Assertions.assertEquals(0, pac.getNamespaces().size());
+	}
+
+	@Test
+	public void withRemovedFeatTest_SingleValue_WithPriorValues() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var pac = api.newPackage().createNow();
+		var pastNss = List.of("someNs1", "someNs2");
+		pac.getNamespaces().addAll(pastNss);
+		var nsToBeRemoved = pastNss.get(0);
+
+		var expectedNss = List.of(pastNss.get(1));
+
+		api.modifyX(pac).xWithRemovedFeat(namespaceFeat, nsToBeRemoved);
+		FluentAPITestUtils.assertPairwiseEqual(expectedNss, pac.getNamespaces());
+	}
+
+	@Test
+	public void withRemovedFeatTest_MultipleValuesAsCollection() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var pac = api.newPackage().createNow();
+		var pastNss = List.of("ns1", "ns2", "ns3");
+		pac.getNamespaces().addAll(pastNss);
+		var nss = List.of(pastNss.get(0), pastNss.get(2));
+
+		api.modifyX(pac).xWithRemovedFeat(namespaceFeat, nss);
+		FluentAPITestUtils.assertPairwiseEqual(List.of(pastNss.get(1)), pac.getNamespaces());
+	}
+
+	@Test
+	public void withRemovedFeatTest_MultipleValuesAsEList() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var pac = api.newPackage().createNow();
+		var pastNss = List.of("ns1", "ns2", "ns3");
+		pac.getNamespaces().addAll(pastNss);
+		var nss = FluentAPITestUtils.toEList(pastNss.get(0), pastNss.get(2));
+
+		api.modifyX(pac).xWithRemovedFeat(namespaceFeat, nss);
+		FluentAPITestUtils.assertPairwiseEqual(List.of(pastNss.get(1)), pac.getNamespaces());
+	}
+
+	@Test
+	public void withRemovedFeatTest_MultipleValuesAsArray() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var pac = api.newPackage().createNow();
+		var pastNss = new String[] { "ns1", "ns2", "ns3" };
+		pac.getNamespaces().addAll(List.of(pastNss));
+		var nss = FluentAPITestUtils.toEList(pastNss[0], pastNss[2]);
+
+		api.modifyX(pac).xWithRemovedFeat(namespaceFeat, nss);
+		FluentAPITestUtils.assertPairwiseEqual(List.of(pastNss[1]), pac.getNamespaces());
+	}
+
+	@Test
+	public void withExactFeatTest_NoPriorValues_AsCollection() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var pac = api.newPackage().createNow();
+		var nss = List.of("ns1", "ns2");
+
+		api.modifyX(pac).xWithExactFeat(namespaceFeat, nss);
+		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
+	}
+
+	@Test
+	public void withExactFeatTest_NoPriorValues_AsEList() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var pac = api.newPackage().createNow();
+		var nss = FluentAPITestUtils.toEList("ns1", "ns2");
+
+		api.modifyX(pac).xWithExactFeat(namespaceFeat, nss);
+		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
+	}
+
+	@Test
+	public void withExactFeatTest_NoPriorValues_AsArray() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var pac = api.newPackage().createNow();
+		var nss = new String[] { "ns1", "ns2" };
+
+		api.modifyX(pac).xWithExactFeat(namespaceFeat, nss);
+		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
+	}
+
+	@Test
+	public void withExactFeatTest_WithPriorValues() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var pac = api.newPackage().createNow();
+		var pastNss = new String[] { "ns1", "ns2", "ns3" };
+		pac.getNamespaces().addAll(List.of(pastNss));
+		var newNss = new String[] { "ns4", "ns5" };
+
+		api.modifyX(pac).xWithExactFeat(namespaceFeat, newNss);
+		FluentAPITestUtils.assertPairwiseEqual(newNss, pac.getNamespaces());
 	}
 }
