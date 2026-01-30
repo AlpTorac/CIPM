@@ -351,11 +351,11 @@ public class FluentAPIOnceExistsExtensionTest extends AbstractFluentAPITest {
 		Runnable r = () -> runCount[0]++;
 
 		assertOnceExistsNotPending(key, r);
-		
+
 		FluentAPIOnceExistsExtension.addOnceExists(key, r);
 		assertOnceExistsPending(key, r);
 		Assertions.assertEquals(0, runCount[0]);
-		
+
 		FluentAPIOnceExistsExtension.addOnceExists(key, r);
 		assertOnceExistsPending(key, List.of(r, r));
 		Assertions.assertEquals(0, runCount[0]);
@@ -364,5 +364,19 @@ public class FluentAPIOnceExistsExtensionTest extends AbstractFluentAPITest {
 		assertOnceExistsNotPending(key, List.of(r, r));
 		assertOnceExistsNotPending(key, r);
 		Assertions.assertEquals(2, runCount[0]);
+	}
+
+	@Test
+	public void onceExistsTest_TriggerUponAddingIfMarkExists() {
+		final var ran = new boolean[] { false };
+		var key = new Object();
+		Runnable r = () -> ran[0] = true;
+
+		FluentAPIMarkExtension.mark(key, ApiFactory.eINSTANCE.createFluentEObjectAPI());
+
+		assertOnceExistsNotPending(key, r);
+		FluentAPIOnceExistsExtension.addOnceExists(key, r);
+		Assertions.assertTrue(ran[0]);
+		assertOnceExistsNotPending(key, r);
 	}
 }

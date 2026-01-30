@@ -22,6 +22,12 @@ public class FluentAPIOnceExistsExtension {
 	}
 
 	public static boolean addOnceExists(List<Object> markKey, Runnable markVal) {
+		// Check if the issued onceExists can trigger before adding it
+		if (checkMarkPresence(markKey)) {
+			markVal.run();
+			return true;
+		}
+
 		var entry = getEntryFor(markKey);
 		if (entry == null) {
 			var runnableList = new ArrayList<Runnable>();
@@ -75,6 +81,19 @@ public class FluentAPIOnceExistsExtension {
 	}
 
 	/**
+	 * Performs executable onceExists. Serves as a manual way of re-scanning for
+	 * markKeys. Can be used within a onceExists call or a concurrent task to ensure
+	 * that executable onceExists are run.
+	 */
+	public static void recheckMarkedPresence() {
+		performIfExists();
+	}
+
+	private static boolean checkMarkPresence(List<Object> markKey) {
+		return markKey.stream().allMatch((mk) -> FluentAPIMarkExtension.hasMark(mk));
+	}
+
+	/**
 	 * Returns actual markKey and runnable lists. Modifications will be reflected to
 	 * onceExistsCon.
 	 */
@@ -83,7 +102,7 @@ public class FluentAPIOnceExistsExtension {
 		var entries = onceExistsCon.entrySet().stream()
 				// Check whether each markKey has a markVal present. Must check for all entries
 				// of onceExistsCon, in order to account for potentially nested onceExists calls
-				.filter((e) -> e.getKey().stream().allMatch((mk) -> FluentAPIMarkExtension.hasMark(mk)))
+				.filter((e) -> checkMarkPresence(e.getKey()))
 				// Get all entries with executable runnables
 				.toArray(Map.Entry[]::new);
 		return Map.ofEntries(entries);
