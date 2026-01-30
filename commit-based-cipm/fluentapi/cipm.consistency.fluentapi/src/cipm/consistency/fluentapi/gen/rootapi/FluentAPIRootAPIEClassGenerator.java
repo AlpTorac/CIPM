@@ -14,6 +14,22 @@ import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
 
 public class FluentAPIRootAPIEClassGenerator {
 
+	/*
+	 * TODO If possible, add a way to generate further convenience methods, such as
+	 * "api.newClassifierReferenceWithTarget(classifier)" in:
+	 * 
+	 * api.newClass().withExtends(api.newClassifierReferenceWithTarget(classifier)).
+	 * createNow()
+	 * 
+	 * api.newClass().withExtends(api.newClassifierReference().withTarget(classifier
+	 * ).createNow()).createNow()
+	 * 
+	 *
+	 * Possible strategies to determine such methods: 1) List of frequently used
+	 * constructions 2) Deterministic strategies (heuristics) over various metamodel
+	 * properties
+	 */
+
 	// TODO Re-use / link to documentations of mentioned API classes
 
 	// TODO Mention for each method template what it more or less does, re-use or
