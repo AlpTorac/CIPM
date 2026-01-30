@@ -17,13 +17,13 @@ public class FluentAPIRootAPIOnceExistsMethodGenerator {
 	// TODO Add documentation
 
 	private static final String onceExistsMethodSingleMarkKeyBody = FluentAPIMethodsUtil.joinLOC(
-			FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists(this, "
+			FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists("
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ", (java.lang.Runnable) "
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsRunnableParameterName() + ")",
 			"return this");
 
 	private static final String onceExistsMethodMultipleKeyBody = FluentAPIMethodsUtil.joinLOC(
-			FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists(this, "
+			FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists("
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMarkKeyListParameterName()
 					+ ", (java.lang.Runnable) "
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsRunnableParameterName() + ")",

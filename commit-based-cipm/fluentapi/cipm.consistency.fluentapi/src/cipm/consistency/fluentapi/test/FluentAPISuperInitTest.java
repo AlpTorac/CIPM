@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.api.ApiFactory;
 
-public class FluentAPISuperInitTest {
+public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 	private static final EClass modECls = ContainersPackage.Literals.MODULE;
 
 	@Test

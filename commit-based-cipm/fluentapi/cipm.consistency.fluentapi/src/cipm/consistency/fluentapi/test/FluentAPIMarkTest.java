@@ -10,7 +10,7 @@ import cipm.consistency.fluentapi.api.ApiFactory;
  * 
  * @author Alp Torac Genc
  */
-public class FluentAPIMarkTest {
+public class FluentAPIMarkTest extends AbstractFluentAPITest {
 	/**
 	 * Checks whether XInitialisation.markCurrent() works as intended, when there is
 	 * only one element to be retrieved.
@@ -146,10 +146,9 @@ public class FluentAPIMarkTest {
 		apiTwo.newModule().markCurrent(keyTwo);
 
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, apiOne.getMarked(keyOne));
-		Assertions.assertNull(apiOne.getMarked(keyTwo));
-
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, apiOne.getMarked(keyTwo));
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, apiTwo.getMarked(keyOne));
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, apiTwo.getMarked(keyTwo));
-		Assertions.assertNull(apiTwo.getMarked(keyOne));
 	}
 
 	/**
@@ -259,10 +258,6 @@ public class FluentAPIMarkTest {
 		Assertions.assertDoesNotThrow(() -> api.unmark(new Object()));
 	}
 
-	/**
-	 * Ensures that api.unmark() does nothing, if the given key has been used to
-	 * mark an element by another api instance.
-	 */
 	@Test
 	public void unmarkTest_DifferentAPIInstancesDifferentMarkings() {
 		var keyOne = new Object();
@@ -271,21 +266,19 @@ public class FluentAPIMarkTest {
 
 		var keyTwo = new Object();
 		var apiTwo = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-		apiTwo.newModule().markCurrent(keyTwo);
+		var modTwo = apiTwo.newModule().markCurrent(keyTwo).createNow();
 
 		apiTwo.unmark(keyOne);
-		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, apiOne.getMarked(keyOne));
-		Assertions.assertNull(apiOne.getMarked(keyTwo));
+		Assertions.assertNull(apiOne.getMarked(keyOne));
+		Assertions.assertNull(apiTwo.getMarked(keyOne));
+		Assertions.assertSame(modTwo, apiOne.getMarked(keyTwo));
+		Assertions.assertSame(modTwo, apiTwo.getMarked(keyTwo));
 
 		apiOne.unmark(keyTwo);
-		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, apiTwo.getMarked(keyTwo));
-		Assertions.assertNull(apiTwo.getMarked(keyOne));
+		Assertions.assertNull(apiOne.getMarked(keyTwo));
+		Assertions.assertNull(apiTwo.getMarked(keyTwo));
 	}
 
-	/**
-	 * Ensures that api.unmark() only removes a marking for a specific api instance,
-	 * even if the marking is mutual.
-	 */
 	@Test
 	public void unmarkTest_DifferentAPIInstancesMutualMarking() {
 		var mutualKey = new Object();
@@ -297,9 +290,10 @@ public class FluentAPIMarkTest {
 
 		apiOne.unmark(mutualKey);
 		Assertions.assertNull(apiOne.getMarked(mutualKey));
-		Assertions.assertSame(mutualMod, apiTwo.getMarked(mutualKey));
+		Assertions.assertNull(apiTwo.getMarked(mutualKey));
 
 		apiTwo.unmark(mutualKey);
+		Assertions.assertNull(apiOne.getMarked(mutualKey));
 		Assertions.assertNull(apiTwo.getMarked(mutualKey));
 	}
 

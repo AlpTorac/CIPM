@@ -24,10 +24,7 @@ public class FluentAPISuperInitialisationMarkMethodGenerator implements IFluentA
 			+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationMarkKeyParameterName()
 			+ " can no longer be used to retrieve obj. Does nothing, if this API instance did not mark obj with markKey.";
 	private static final String unmarkCurrentMethodBody = FluentAPIMethodsUtil.joinLOC(
-			FluentAPIMarkExtension.class.getName() + ".unmark(this.get"
-					+ FluentAPISuperInitialisationConstants
-							.getCapitalisedFluentAPISuperInitialisationRootAPIReferenceName()
-					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ", this.get"
+			FluentAPIMarkExtension.class.getName() + ".unmark(" + FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ", this.get"
 					+ FluentAPISuperInitialisationConstants
 							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 					+ "())",
@@ -51,10 +48,7 @@ public class FluentAPISuperInitialisationMarkMethodGenerator implements IFluentA
 	private static final String markMethodBodyTemplate = FluentAPIMethodsUtil
 			// %s: Mark key parameter name
 			.joinLOC(
-					FluentAPIMarkExtension.class.getName() + ".mark(this.get"
-							+ FluentAPISuperInitialisationConstants
-									.getCapitalisedFluentAPISuperInitialisationRootAPIReferenceName()
-							+ "(), %s, this.get"
+					FluentAPIMarkExtension.class.getName() + ".mark(%s, this.get"
 							+ FluentAPISuperInitialisationConstants
 									.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 							+ "())",

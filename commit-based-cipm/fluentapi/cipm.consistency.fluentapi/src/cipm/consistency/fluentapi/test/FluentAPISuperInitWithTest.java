@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.api.ApiFactory;
 
-public class FluentAPISuperInitWithTest {
+public class FluentAPISuperInitWithTest extends AbstractFluentAPITest {
 	private static final EClass clsECls = ClassifiersPackage.Literals.CLASS;
 	private static final EClass pacECls = ContainersPackage.Literals.PACKAGE;
 

@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fluentapi.api.ApiFactory;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
 
-public class FluentAPIRootAPITest {
+public class FluentAPIRootAPITest extends AbstractFluentAPITest {
 	@Test
 	public void createNowTest() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();

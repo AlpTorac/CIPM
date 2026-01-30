@@ -17,22 +17,22 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 	// TODO Add documentation
 
 	private static final String unmarkMethodBody = FluentAPIMethodsUtil.joinLOC(FluentAPIMarkExtension.class.getName()
-			+ ".unmark(this, " + FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ")",
+			+ ".unmark(" + FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ")",
 			"return this");
 
 	private static final String unmarkFullMethodBody = FluentAPIMethodsUtil
 			.joinLOC(
-					FluentAPIMarkExtension.class.getName() + ".unmark(this, "
+					FluentAPIMarkExtension.class.getName() + ".unmark("
 							+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ", "
 							+ FluentAPIRootAPIConstants.getFluentAPIRootAPIUnmarkMarkValParameterName() + ")",
 					"return this");
 
 	private static final String getMarkedMethodBody = FluentAPIMethodsUtil
-			.joinLOC("return " + FluentAPIMarkExtension.class.getName() + ".getMarked(this, "
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ", null)");
+			.joinLOC("return " + FluentAPIMarkExtension.class.getName() + ".getMarked("
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ")");
 
 	private static final String getMarkedXMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) " + FluentAPIMarkExtension.class.getName() + ".getMarked(this, "
+			.joinLOC("return (%s) " + FluentAPIMarkExtension.class.getName() + ".getMarked("
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ", %s.class)");
 
 	public List<EOperation> generateAllMarkMethods(EClass rootAPIECls,

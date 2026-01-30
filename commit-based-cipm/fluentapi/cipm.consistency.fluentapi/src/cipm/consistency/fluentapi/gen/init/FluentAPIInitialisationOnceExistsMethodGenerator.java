@@ -19,10 +19,7 @@ import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationCons
 
 public class FluentAPIInitialisationOnceExistsMethodGenerator implements IFluentAPIMethodGenerator {
 	private static final String onceExistsMethodSingleMarkedKeyBody = FluentAPIMethodsUtil
-			.joinLOC(FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists(this.get"
-					+ FluentAPISuperInitialisationConstants
-							.getCapitalisedFluentAPISuperInitialisationRootAPIReferenceName()
-					+ "(), "
+			.joinLOC(FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists("
 					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationMarkKeyParameterName()
 					+ ", (java.lang.Runnable) " + FluentAPISuperInitialisationConstants
 							.getFluentAPISuperInitialisationOnceExistsRunnableParameterName()
@@ -30,10 +27,7 @@ public class FluentAPIInitialisationOnceExistsMethodGenerator implements IFluent
 
 	private static final String onceExistsMethodMultipleMarkedKeyBody = FluentAPIMethodsUtil
 			.joinLOC(
-					FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists(this.get"
-							+ FluentAPISuperInitialisationConstants
-									.getCapitalisedFluentAPISuperInitialisationRootAPIReferenceName()
-							+ "(), "
+					FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists("
 							+ FluentAPISuperInitialisationConstants
 									.getFluentAPISuperInitialisationOnceExistsMarkKeyListParameterName()
 							+ ", (java.lang.Runnable) "

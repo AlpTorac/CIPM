@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.api.ApiFactory;
 
-public class FluentAPIOnceExistsTest {
+public class FluentAPIOnceExistsTest extends AbstractFluentAPITest {
 	// TODO Implement api/XInitialisation.pendingOnceExists() : Map<Object,
 	// Runnable[]>
 	// TODO Implement api/XInitialisation.pendingOnceExistsFor(...) : Runnable[]

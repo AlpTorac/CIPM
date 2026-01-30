@@ -13,7 +13,7 @@ import cipm.consistency.fluentapi.api.ApiFactory;
  * 
  * @author Alp Torac Genc
  */
-public class FluentAPIGetInitTest {
+public class FluentAPIGetInitTest extends AbstractFluentAPITest {
 	/**
 	 * Checks whether XInitialisation.getPreviousInit() works as expected, if there
 	 * are multiple XInitialisations of the same type

@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.api.ApiFactory;
 
-public class FluentAPIRootAPIContinueTest {
+public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
 	@Test
 	public void continueTest_TopLevel() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();

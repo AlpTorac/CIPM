@@ -7,64 +7,40 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fluentapi.api.ApiFactory;
 import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIMarkExtension;
 
-public class FluentAPIMarkExtensionTest {
-	private void assertGlobalMarkExists(Object key, EObject val) {
-		Assertions.assertTrue(FluentAPIMarkExtension.getAllMarksGlobal().entrySet().stream().anyMatch(
-				(e) -> e.getValue().entrySet().stream().anyMatch((kv) -> kv.getKey() == key && kv.getValue() == val)));
-	}
+public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
+	private void assertContainsMark(Object key, EObject val) {
+		Assertions.assertTrue(FluentAPIMarkExtension.hasMark(key));
 
-	private void assertGlobalMarkDoesNotExist(Object key, EObject val) {
-		Assertions.assertFalse(FluentAPIMarkExtension.getAllMarksGlobal().entrySet().stream().anyMatch(
-				(e) -> e.getValue().entrySet().stream().anyMatch((kv) -> kv.getKey() == key && kv.getValue() == val)));
-	}
-
-	private void assertContainsMark(EObject api, Object key, EObject val) {
-		Assertions.assertTrue(FluentAPIMarkExtension.hasMark(api, key));
-
-		Assertions.assertTrue(
-				FluentAPIMarkExtension.getAllMarksGlobal().entrySet().stream().anyMatch((e) -> e.getKey() == api && e
-						.getValue().entrySet().stream().anyMatch((kv) -> kv.getKey() == key && kv.getValue() == val)));
-		Assertions.assertTrue(FluentAPIMarkExtension.getMarkedGlobal(key).entrySet().stream()
-				.anyMatch((e) -> e.getKey() == api && e.getValue() == val));
-
-		Assertions.assertTrue(FluentAPIMarkExtension.getAllMarks(api).entrySet().stream()
+		Assertions.assertTrue(FluentAPIMarkExtension.getAllMarks().entrySet().stream()
 				.anyMatch((e) -> e.getKey() == key && e.getValue() == val));
-		Assertions.assertSame(val, FluentAPIMarkExtension.getMarked(api, key));
-		Assertions.assertSame(val, FluentAPIMarkExtension.getMarked(api, key, val.getClass()));
-
-		assertGlobalMarkExists(key, val);
+		Assertions.assertSame(val, FluentAPIMarkExtension.getMarked(key));
+		Assertions.assertSame(val, FluentAPIMarkExtension.getMarked(key, val.getClass()));
 	}
 
-	private void assertDoesNotContainMark(EObject api, Object key, EObject val) {
-		Assertions.assertFalse(FluentAPIMarkExtension.hasMark(api, key));
-
-		Assertions.assertFalse(
-				FluentAPIMarkExtension.getAllMarksGlobal().entrySet().stream().anyMatch((e) -> e.getKey() == api && e
-						.getValue().entrySet().stream().anyMatch((kv) -> kv.getKey() == key && kv.getValue() == val)));
-		Assertions.assertFalse(FluentAPIMarkExtension.getMarkedGlobal(key).entrySet().stream()
-				.anyMatch((e) -> e.getKey() == api && e.getValue() == val));
-
-		Assertions.assertFalse(FluentAPIMarkExtension.getAllMarks(api).entrySet().stream()
+	private void assertDoesNotContainMark(Object key, EObject val) {
+		Assertions.assertTrue(!FluentAPIMarkExtension.hasMark(key) || FluentAPIMarkExtension.getMarked(key) != val);
+		Assertions.assertFalse(FluentAPIMarkExtension.getAllMarks().entrySet().stream()
 				.anyMatch((e) -> e.getKey() == key && e.getValue() == val));
-		Assertions.assertNull(FluentAPIMarkExtension.getMarked(api, key));
-		Assertions.assertNull(FluentAPIMarkExtension.getMarked(api, key, val.getClass()));
+		Assertions.assertNotSame(val, FluentAPIMarkExtension.getMarked(key));
+		Assertions.assertNotSame(val, FluentAPIMarkExtension.getMarked(key, val.getClass()));
 	}
 
 	// TODO Test mark methods that are not reachable from the api directly
 	// TODO Test onceExists methods that are not reachable from the api directly
-	
+
 	@Test
-	public void markTest_SingleAPIInstance_OneMark() {
+	public void oneMark() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var key = new Object();
 		var val = api.createNewClass();
 
-		FluentAPIMarkExtension.mark(api, key, val);
-		assertContainsMark(api, key, val);
+		FluentAPIMarkExtension.mark(key, val);
+		assertContainsMark(key, val);
+		Assertions.assertEquals(1, FluentAPIMarkExtension.getAllMarks().size());
 	}
-
+	
 	@Test
-	public void markTest_SingleAPIInstance_MultipleMarks() {
+	public void multipleMarks() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
 		var key1 = new Object();
@@ -73,35 +49,89 @@ public class FluentAPIMarkExtensionTest {
 		var key2 = new Object();
 		var val2 = api.createNewClass();
 
-		FluentAPIMarkExtension.mark(api, key1, val1);
-		FluentAPIMarkExtension.mark(api, key2, val2);
+		FluentAPIMarkExtension.mark(key1, val1);
+		FluentAPIMarkExtension.mark(key2, val2);
 
-		assertContainsMark(api, key1, val1);
-		assertContainsMark(api, key2, val2);
+		assertContainsMark(key1, val1);
+		assertContainsMark(key2, val2);
+		assertDoesNotContainMark(key1, val2);
+		assertDoesNotContainMark(key2, val1);
+		Assertions.assertEquals(2, FluentAPIMarkExtension.getAllMarks().size());
 	}
 
 	@Test
-	public void markTest_MultipleAPIInstances_OneMark() {
-		var api1 = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-		var api2 = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-		var key = new Object();
-		var val = api1.createNewClass();
+	public void cleanMarks() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
-		FluentAPIMarkExtension.mark(api1, key, val);
-		assertContainsMark(api1, key, val);
-		assertDoesNotContainMark(api2, key, val);
+		var key1 = new Object();
+		var val1 = api.createNewClass();
+
+		var key2 = new Object();
+		var val2 = api.createNewClass();
+
+		FluentAPIMarkExtension.mark(key1, val1);
+		FluentAPIMarkExtension.mark(key2, val2);
+
+		Assertions.assertEquals(2, FluentAPIMarkExtension.getAllMarks().size());
+		FluentAPIMarkExtension.clearAllMarks();
+		Assertions.assertEquals(0, FluentAPIMarkExtension.getAllMarks().size());
 	}
 
 	@Test
-	public void markTest_MultipleAPIInstances_SameMark() {
-		var api1 = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-		var api2 = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-		var key = new Object();
-		var val = api1.createNewClass();
+	public void unmark() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
-		FluentAPIMarkExtension.mark(api1, key, val);
-		FluentAPIMarkExtension.mark(api2, key, val);
-		assertContainsMark(api1, key, val);
-		assertContainsMark(api2, key, val);
+		var key1 = new Object();
+		var val1 = api.createNewClass();
+
+		var key2 = new Object();
+		var val2 = api.createNewClass();
+
+		FluentAPIMarkExtension.mark(key1, val1);
+		FluentAPIMarkExtension.mark(key2, val2);
+		Assertions.assertEquals(2, FluentAPIMarkExtension.getAllMarks().size());
+
+		Assertions.assertSame(val1, FluentAPIMarkExtension.unmark(key1));
+		Assertions.assertEquals(1, FluentAPIMarkExtension.getAllMarks().size());
+		assertContainsMark(key2, val2);
+	}
+
+	@Test
+	public void repeatedUnmark() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var key1 = new Object();
+		var val1 = api.createNewClass();
+
+		var key2 = new Object();
+		var val2 = api.createNewClass();
+
+		FluentAPIMarkExtension.mark(key1, val1);
+		FluentAPIMarkExtension.mark(key2, val2);
+		Assertions.assertEquals(2, FluentAPIMarkExtension.getAllMarks().size());
+
+		Assertions.assertSame(val1, FluentAPIMarkExtension.unmark(key1));
+		Assertions.assertEquals(1, FluentAPIMarkExtension.getAllMarks().size());
+		assertContainsMark(key2, val2);
+
+		FluentAPIMarkExtension.unmark(key1);
+		Assertions.assertEquals(1, FluentAPIMarkExtension.getAllMarks().size());
+		assertContainsMark(key2, val2);
+	}
+
+	@Test
+	public void overridingMark() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var key = new Object();
+
+		var val1 = api.createNewClass();
+		var val2 = api.createNewClass();
+
+		FluentAPIMarkExtension.mark(key, val1);
+		FluentAPIMarkExtension.mark(key, val2);
+
+		assertContainsMark(key, val2);
+		assertDoesNotContainMark(key, val1);
+		Assertions.assertEquals(1, FluentAPIMarkExtension.getAllMarks().size());
 	}
 }

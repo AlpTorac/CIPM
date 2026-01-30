@@ -19,10 +19,7 @@ public class FluentAPISuperInitialisationOnceExistsMethodGenerator implements IF
 
 	private static final String onceExistsMethodSingleMarkedKeyBody = FluentAPIMethodsUtil
 			.joinLOC(
-					FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists(this.get"
-							+ FluentAPISuperInitialisationConstants
-									.getCapitalisedFluentAPISuperInitialisationRootAPIReferenceName()
-							+ "(), "
+					FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists("
 							+ FluentAPISuperInitialisationConstants
 									.getFluentAPISuperInitialisationMarkKeyParameterName()
 							+ ", (" + FluentAPIRootAPIConstants.getModelConstructionTaskClass().getName() + ") "
@@ -33,10 +30,7 @@ public class FluentAPISuperInitialisationOnceExistsMethodGenerator implements IF
 
 	private static final String onceExistsMethodMultipleMarkedKeyBody = FluentAPIMethodsUtil
 			.joinLOC(
-					FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists(this.get"
-							+ FluentAPISuperInitialisationConstants
-									.getCapitalisedFluentAPISuperInitialisationRootAPIReferenceName()
-							+ "(), "
+					FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists("
 							+ FluentAPISuperInitialisationConstants
 									.getFluentAPISuperInitialisationOnceExistsMarkKeyListParameterName()
 							+ ", (" + FluentAPIRootAPIConstants.getModelConstructionTaskClass().getName() + ") "

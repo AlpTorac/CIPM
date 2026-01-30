@@ -6,107 +6,52 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EObject;
 
 public class FluentAPIMarkExtension {
-	private static final Map<EObject, FluentAPIMarkContainer> apiToMarkCon = new LinkedHashMap<>();
+	private static final Map<Object, EObject> markToObj = new LinkedHashMap<>();
 
-	public static void mark(EObject api, Object markKey, EObject markVal) {
-		if (!apiToMarkCon.containsKey(api)) {
-			apiToMarkCon.put(api, new FluentAPIMarkContainer());
-		}
-		var con = apiToMarkCon.get(api);
-		con.mark(markKey, markVal);
-		elementMarked(api, markKey, markVal);
+	public static void mark(Object markKey, EObject markVal) {
+		markToObj.put(markKey, markVal);
+		elementMarked(markKey, markVal);
 	}
 
-	public static EObject unmark(EObject api, Object markKey) {
-		if (apiToMarkCon.containsKey(api)) {
-			var unmarked = apiToMarkCon.get(api).unmark(markKey);
-//			elementUnmarked(api, markKey, unmarked);
-			return unmarked;
-		}
-		return null;
+	public static EObject unmark(Object markKey) {
+		return unmark(markKey, null);
 	}
 
-	public static EObject unmark(EObject api, Object markKey, EObject markVal) {
-		if (apiToMarkCon.containsKey(api)) {
-			var unmarked = apiToMarkCon.get(api).unmark(markKey, markVal);
-//			elementUnmarked(api, markKey, unmarked);
-			return unmarked;
-		}
-		return null;
-	}
+	public static EObject unmark(Object markKey, EObject markVal) {
+		var toUnmark = markToObj.get(markKey);
 
-	public static EObject getMarked(EObject api, Object markKey) {
-		return getMarked(api, markKey, null);
-	}
-
-	public static EObject getMarked(EObject api, Object markKey, Class<?> cls) {
-		var markCon = apiToMarkCon.get(api);
-		EObject elem = null;
-		if (markCon != null) {
-			elem = markCon.getMarked(markKey);
-		}
-		if (elem == null)
-			return null;
-		if (cls != null && !(cls.isAssignableFrom(elem.getClass()))) {
+		if (markVal == null || markVal == toUnmark) {
+			return markToObj.remove(markKey);
+		} else {
 			return null;
 		}
-		return elem;
 	}
 
-	public static boolean hasMark(EObject api, Object markKey) {
-		return apiToMarkCon.containsKey(api) && apiToMarkCon.get(api).hasMark(markKey);
+	public static EObject getMarked(Object markKey) {
+		return getMarked(markKey, null);
 	}
 
-	public static Map<Object, EObject> getAllMarks(EObject api) {
-		if (!apiToMarkCon.containsKey(api))
-			return Map.of();
-		return apiToMarkCon.get(api).getAllMarks();
-	}
-
-	public static Map<EObject, Map<Object, EObject>> getAllMarksGlobal() {
-		var apiToMarkKeyToMarkVal = new LinkedHashMap<EObject, Map<Object, EObject>>();
-
-		for (var apiToCon : apiToMarkCon.entrySet()) {
-			var api = apiToCon.getKey();
-			var con = apiToCon.getValue();
-
-			apiToMarkKeyToMarkVal.put(api, Map.copyOf(con.getAllMarks()));
+	public static EObject getMarked(Object markKey, Class<?> cls) {
+		var markVal = markToObj.get(markKey);
+		if (cls != null && markVal != null && !(cls.isAssignableFrom(markVal.getClass()))) {
+			return null;
 		}
-
-		return apiToMarkKeyToMarkVal;
+		return markVal;
 	}
 
-	/**
-	 * @return Map<API object, marked element>, where markKey marks marked element
-	 *         in API object.
-	 */
-	public static Map<EObject, EObject> getMarkedGlobal(Object markKey) {
-		var markMap = new LinkedHashMap<EObject, EObject>();
-		for (var apiMarkConPair : apiToMarkCon.entrySet()) {
-			var api = apiMarkConPair.getKey();
-			var markCon = apiMarkConPair.getValue();
-			for (var markKeyMarkValPair : markCon.getAllMarks().entrySet()) {
-				var mk = markKeyMarkValPair.getKey();
-				var markVal = markKeyMarkValPair.getValue();
-
-				// Assumption: markKey may only mark one EObject (markVal) for each API object
-				if (mk == markKey) {
-					markMap.put(api, markVal);
-				}
-			}
-		}
-		return markMap;
+	public static boolean hasMark(Object markKey) {
+		return markToObj.containsKey(markKey);
 	}
 
-	private static void elementMarked(EObject api, Object markKey, EObject markVal) {
-		FluentAPIOnceExistsExtension.performIfExists(api, markKey);
+	public static Map<Object, EObject> getAllMarks() {
+		return Map.copyOf(markToObj);
+	}
+
+	private static void elementMarked(Object markKey, EObject markVal) {
+		FluentAPIOnceExistsExtension.elementMarked(markKey, markVal);
 	}
 
 	public static void clearAllMarks() {
-		apiToMarkCon.clear();
+		markToObj.clear();
 	}
-
-//	private static void elementUnmarked(EObject api, Object markKey, EObject markVal) {
-//
-//	}
 }

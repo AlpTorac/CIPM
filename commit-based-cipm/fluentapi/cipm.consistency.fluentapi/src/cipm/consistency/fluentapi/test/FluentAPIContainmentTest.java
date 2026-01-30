@@ -12,7 +12,7 @@ import cipm.consistency.fluentapi.api.ApiFactory;
  * 
  * @author Alp Torac Genc
  */
-public class FluentAPIContainmentTest {
+public class FluentAPIContainmentTest extends AbstractFluentAPITest {
 	/**
 	 * Ensures that the following construction is possible and works as intended:
 	 * 
