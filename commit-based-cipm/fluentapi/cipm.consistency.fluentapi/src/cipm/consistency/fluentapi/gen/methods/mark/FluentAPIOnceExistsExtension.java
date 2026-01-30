@@ -1,7 +1,7 @@
 package cipm.consistency.fluentapi.gen.methods.mark;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -9,9 +9,9 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.ecore.EObject;
 
 public class FluentAPIOnceExistsExtension {
-	private static final Map<List<Object>, LinkedHashSet<Runnable>> onceExistsCon = new LinkedHashMap<>();
+	private static final Map<List<Object>, List<Runnable>> onceExistsCon = new LinkedHashMap<>();
 
-	private static Map.Entry<List<Object>, LinkedHashSet<Runnable>> getEntryFor(List<Object> markKey) {
+	private static Map.Entry<List<Object>, List<Runnable>> getEntryFor(List<Object> markKey) {
 		return onceExistsCon.entrySet().stream()
 				.filter((e) -> e.getKey().size() == markKey.size() && e.getKey().containsAll(markKey)).findFirst()
 				.orElse(null);
@@ -21,22 +21,16 @@ public class FluentAPIOnceExistsExtension {
 		return addOnceExists(List.of(markKey), markVal);
 	}
 
-	// TODO Allow multiple occurrences of the same Runnable
-	// TODO Account for the same Runnable getting issued for different key(s)
-
 	public static boolean addOnceExists(List<Object> markKey, Runnable markVal) {
 		var entry = getEntryFor(markKey);
 		if (entry == null) {
-			var runnableSet = new LinkedHashSet<Runnable>();
-			runnableSet.add(markVal);
-			onceExistsCon.put(markKey, runnableSet);
-			return true;
-		} else if (!entry.getValue().contains(markVal)) {
-			entry.getValue().add(markVal);
-			return true;
+			var runnableList = new ArrayList<Runnable>();
+			runnableList.add(markVal);
+			onceExistsCon.put(markKey, runnableList);
 		} else {
-			return false;
+			entry.getValue().add(markVal);
 		}
+		return true;
 	}
 
 	public static boolean removeOnceExists(Object markKey, Runnable markVal) {
@@ -48,11 +42,11 @@ public class FluentAPIOnceExistsExtension {
 		if (entry == null)
 			return false;
 
-		var runnableSet = entry.getValue();
+		var runnableList = entry.getValue();
 
-		var isOnceExistsRemoved = runnableSet.remove(markVal);
+		var isOnceExistsRemoved = runnableList.remove(markVal);
 
-		if (isOnceExistsRemoved && runnableSet.isEmpty()) {
+		if (isOnceExistsRemoved && runnableList.isEmpty()) {
 			onceExistsCon.remove(entry.getKey());
 		}
 
@@ -77,30 +71,22 @@ public class FluentAPIOnceExistsExtension {
 	}
 
 	public static void elementMarked(Object markKey, EObject markVal) {
-		performIfExists(markKey);
+		performIfExists();
 	}
 
 	/**
-	 * No need to pass markVal here (object marked with markKey), since it will have
-	 * to be found later in code and is therefore irrelevant here.
+	 * Returns actual markKey and runnable lists. Modifications will be reflected to
+	 * onceExistsCon.
 	 */
-	private static int performIfExists(Object markKey) {
-		return performIfExists(List.of(markKey));
-	}
-
+	@SuppressWarnings("unchecked")
 	private static Map<List<Object>, List<Runnable>> getExecutableRunnables() {
 		var entries = onceExistsCon.entrySet().stream()
 				// Check whether each markKey has a markVal present. Must check for all entries
 				// of onceExistsCon, in order to account for potentially nested onceExists calls
 				.filter((e) -> e.getKey().stream().allMatch((mk) -> FluentAPIMarkExtension.hasMark(mk)))
 				// Get all entries with executable runnables
-				.collect(Collectors.toUnmodifiableList());
-
-		var result = new LinkedHashMap<List<Object>, List<Runnable>>();
-		for (var e : entries) {
-			result.put(List.copyOf(e.getKey()), List.copyOf(e.getValue()));
-		}
-		return result;
+				.toArray(Map.Entry[]::new);
+		return Map.ofEntries(entries);
 	}
 
 	public static List<List<Object>> getRequiredMarkKeysFor(Runnable r) {
@@ -112,9 +98,9 @@ public class FluentAPIOnceExistsExtension {
 
 	public static Map<Runnable, List<List<Object>>> getAllRequiredMarkKeys() {
 		var result = new LinkedHashMap<Runnable, List<List<Object>>>();
-		var runnableSet = onceExistsCon.values().stream().flatMap((set) -> set.stream())
+		var runnableList = onceExistsCon.values().stream().flatMap((rl) -> rl.stream())
 				.collect(Collectors.toUnmodifiableSet());
-		for (var r : runnableSet) {
+		for (var r : runnableList) {
 			result.put(r, getRequiredMarkKeysFor(r));
 		}
 		return result;
@@ -124,7 +110,7 @@ public class FluentAPIOnceExistsExtension {
 	 * No need to pass markVal here (object marked with markKey), since it will have
 	 * to be found later in code and is therefore irrelevant here.
 	 */
-	private static int performIfExists(List<Object> markKey) {
+	private static int performIfExists() {
 		final var count = new int[1];
 
 		/*
@@ -134,7 +120,10 @@ public class FluentAPIOnceExistsExtension {
 		var cList = getExecutableRunnables();
 		if (!cList.isEmpty()) {
 			var entry = cList.entrySet().iterator().next();
-			for (var c : entry.getValue()) {
+			var runnables = entry.getValue();
+			if (!runnables.isEmpty()) {
+				var c = runnables.get(0);
+
 				/*
 				 * Make sure the remove c before executing it, since nested onceExists calls
 				 * with the same key may cause an endless loop otherwise
@@ -144,7 +133,7 @@ public class FluentAPIOnceExistsExtension {
 				count[0]++;
 
 				// Re-call this method, since c could have made further onceExists calls
-				count[0] += performIfExists(markKey);
+				count[0] += performIfExists();
 			}
 		}
 

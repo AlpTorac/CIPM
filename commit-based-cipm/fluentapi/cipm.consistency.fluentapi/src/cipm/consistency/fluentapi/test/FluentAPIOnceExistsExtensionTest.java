@@ -344,5 +344,25 @@ public class FluentAPIOnceExistsExtensionTest extends AbstractFluentAPITest {
 		Assertions.assertTrue(innerOnceExistsIssued[0]);
 	}
 
+	@Test
+	public void duplicatedOnceExistsTest() {
+		final var runCount = new int[] { 0 };
+		var key = new Object();
+		Runnable r = () -> runCount[0]++;
 
+		assertOnceExistsNotPending(key, r);
+		
+		FluentAPIOnceExistsExtension.addOnceExists(key, r);
+		assertOnceExistsPending(key, r);
+		Assertions.assertEquals(0, runCount[0]);
+		
+		FluentAPIOnceExistsExtension.addOnceExists(key, r);
+		assertOnceExistsPending(key, List.of(r, r));
+		Assertions.assertEquals(0, runCount[0]);
+
+		FluentAPIMarkExtension.mark(key, ApiFactory.eINSTANCE.createFluentEObjectAPI());
+		assertOnceExistsNotPending(key, List.of(r, r));
+		assertOnceExistsNotPending(key, r);
+		Assertions.assertEquals(2, runCount[0]);
+	}
 }
