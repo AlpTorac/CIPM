@@ -28,6 +28,13 @@ public class FluentAPIOnceExistsExtensionTest extends AbstractFluentAPITest {
 		Assertions.assertTrue(areAllElementsSame(runnables, FluentAPIOnceExistsExtension.getPendingOnceExists(keys)));
 		Assertions.assertTrue(
 				areAllElementsSame(runnables, FluentAPIOnceExistsExtension.getPendingOnceExists(keys.toArray())));
+
+		var allRequiredKeys = FluentAPIOnceExistsExtension.getAllRequiredMarkKeys();
+		for (var r : runnables) {
+			var requiredKeys = FluentAPIOnceExistsExtension.getRequiredMarkKeysFor(r);
+			Assertions.assertTrue(allRequiredKeys.containsKey(r));
+			Assertions.assertNotEquals(0, requiredKeys.size());
+		}
 	}
 
 	private void assertOnceExistsPending(Object key, List<Runnable> runnables) {
@@ -51,6 +58,13 @@ public class FluentAPIOnceExistsExtensionTest extends AbstractFluentAPITest {
 		Assertions.assertFalse(areAllElementsSame(runnables, FluentAPIOnceExistsExtension.getPendingOnceExists(keys)));
 		Assertions.assertFalse(
 				areAllElementsSame(runnables, FluentAPIOnceExistsExtension.getPendingOnceExists(keys.toArray())));
+
+		var allRequiredKeys = FluentAPIOnceExistsExtension.getAllRequiredMarkKeys();
+		for (var r : runnables) {
+			var requiredKeys = FluentAPIOnceExistsExtension.getRequiredMarkKeysFor(r);
+			Assertions.assertTrue(requiredKeys.isEmpty());
+			Assertions.assertNull(allRequiredKeys.get(r));
+		}
 	}
 
 	private void assertOnceExistsNotPending(Object key, List<Runnable> runnables) {
@@ -66,7 +80,7 @@ public class FluentAPIOnceExistsExtensionTest extends AbstractFluentAPITest {
 	private void assertOnceExistsNotPending(List<Object> key, Runnable runnable) {
 		assertOnceExistsNotPending(key, List.of(runnable));
 	}
-	
+
 	@Test
 	public void singleKey_SingleRunnable() {
 		final var ran = new boolean[] { false };
@@ -202,4 +216,133 @@ public class FluentAPIOnceExistsExtensionTest extends AbstractFluentAPITest {
 		assertOnceExistsNotPending(keyList, r);
 		Assertions.assertTrue(ran[0]);
 	}
+
+	/**
+	 * Checks whether nested onceExists calls for the same key work as intended,
+	 * i.e. both of them trigger upon the given key getting used to mark an element.
+	 */
+	@Test
+	public void nestedOnceExistsTest_SameKey() {
+		var keyOne = new Object();
+		final var onceExistsRan = new boolean[] { false, false };
+		final var innerOnceExistsIssued = new boolean[] { false };
+
+		FluentAPIOnceExistsExtension.addOnceExists(keyOne, () -> {
+			onceExistsRan[0] = true;
+			innerOnceExistsIssued[0] = true;
+			FluentAPIOnceExistsExtension.addOnceExists(keyOne, () -> onceExistsRan[1] = true);
+		});
+
+		Assertions.assertFalse(onceExistsRan[0]);
+		Assertions.assertFalse(onceExistsRan[1]);
+		Assertions.assertFalse(innerOnceExistsIssued[0]);
+
+		FluentAPIMarkExtension.mark(keyOne, ApiFactory.eINSTANCE);
+		Assertions.assertTrue(onceExistsRan[0]);
+		Assertions.assertTrue(onceExistsRan[1]);
+		Assertions.assertTrue(innerOnceExistsIssued[0]);
+	}
+
+	/**
+	 * Checks whether nested onceExists calls for the same key work as intended, if
+	 * the corresponding mark is unmarked; i.e. the outer onceExists call triggers
+	 * upon the given key getting used to mark an element, the inner onceExists call
+	 * triggers once that key is re-used to mark an element.
+	 */
+	@Test
+	public void nestedOnceExistsTest_SameKey_UnmarkInBetween() {
+		var keyOne = new Object();
+		final var onceExistsRan = new boolean[] { false, false };
+		final var innerOnceExistsIssued = new boolean[] { false };
+
+		FluentAPIOnceExistsExtension.addOnceExists(keyOne, () -> {
+			onceExistsRan[0] = true;
+			innerOnceExistsIssued[0] = true;
+			FluentAPIMarkExtension.unmark(keyOne);
+			FluentAPIOnceExistsExtension.addOnceExists(keyOne, () -> onceExistsRan[1] = true);
+		});
+
+		Assertions.assertFalse(onceExistsRan[0]);
+		Assertions.assertFalse(onceExistsRan[1]);
+		Assertions.assertFalse(innerOnceExistsIssued[0]);
+
+		FluentAPIMarkExtension.mark(keyOne, ApiFactory.eINSTANCE);
+		Assertions.assertTrue(onceExistsRan[0]);
+		Assertions.assertTrue(innerOnceExistsIssued[0]);
+		Assertions.assertFalse(onceExistsRan[1]);
+
+		FluentAPIMarkExtension.mark(keyOne, ApiFactory.eINSTANCE);
+		Assertions.assertTrue(onceExistsRan[1]);
+	}
+
+	/**
+	 * Checks whether nested onceExists calls for different keys work as intended,
+	 * if first the outer onceExists' key and then the inner onceExists' key is used
+	 * to mark an element. In this case, first the outer onceExists triggers and
+	 * issues the inner onceExists, then the inner onceExists triggers.
+	 */
+	@Test
+	public void nestedOnceExistsTest_DifferentKeys_TriggerInOrder() {
+		var keyOne = new Object();
+		var keyTwo = new Object();
+		final var onceExistsRan = new boolean[] { false, false };
+		final var innerOnceExistsIssued = new boolean[] { false };
+
+		FluentAPIOnceExistsExtension.addOnceExists(keyOne, () -> {
+			onceExistsRan[0] = true;
+			innerOnceExistsIssued[0] = true;
+			FluentAPIOnceExistsExtension.addOnceExists(keyTwo, () -> onceExistsRan[1] = true);
+		});
+
+		Assertions.assertFalse(onceExistsRan[0]);
+		Assertions.assertFalse(onceExistsRan[1]);
+		Assertions.assertFalse(innerOnceExistsIssued[0]);
+
+		FluentAPIMarkExtension.mark(keyOne, ApiFactory.eINSTANCE);
+		Assertions.assertTrue(onceExistsRan[0]);
+		Assertions.assertFalse(onceExistsRan[1]);
+		Assertions.assertTrue(innerOnceExistsIssued[0]);
+
+		FluentAPIMarkExtension.mark(keyTwo, ApiFactory.eINSTANCE);
+		Assertions.assertTrue(onceExistsRan[1]);
+	}
+
+	/**
+	 * Checks whether nested onceExists calls for different keys work as intended,
+	 * if first the inner onceExists' key and then the outer onceExists' key is used
+	 * to mark an element. In this case, the inner onceExists must wait on the outer
+	 * onceExists to trigger (even if the inner onceExists' key is used to mark an
+	 * element), because the outer onceExists issues the inner onceExists. Once the
+	 * outer onceExists triggers, the inner onceExists triggers immediately
+	 * afterward.
+	 */
+	@Test
+	public void nestedOnceExistsTest_DifferentKeys_InnerWaitsOnOuter() {
+		var keyOne = new Object();
+		var keyTwo = new Object();
+		final var onceExistsRan = new boolean[] { false, false };
+		final var innerOnceExistsIssued = new boolean[] { false };
+
+		FluentAPIOnceExistsExtension.addOnceExists(keyOne, () -> {
+			onceExistsRan[0] = true;
+			innerOnceExistsIssued[0] = true;
+			FluentAPIOnceExistsExtension.addOnceExists(keyTwo, () -> onceExistsRan[1] = true);
+		});
+
+		Assertions.assertFalse(onceExistsRan[0]);
+		Assertions.assertFalse(onceExistsRan[1]);
+		Assertions.assertFalse(innerOnceExistsIssued[0]);
+
+		FluentAPIMarkExtension.mark(keyTwo, ApiFactory.eINSTANCE);
+		Assertions.assertFalse(onceExistsRan[0]);
+		Assertions.assertFalse(onceExistsRan[1]);
+		Assertions.assertFalse(innerOnceExistsIssued[0]);
+
+		FluentAPIMarkExtension.mark(keyOne, ApiFactory.eINSTANCE);
+		Assertions.assertTrue(onceExistsRan[0]);
+		Assertions.assertTrue(onceExistsRan[1]);
+		Assertions.assertTrue(innerOnceExistsIssued[0]);
+	}
+
+
 }

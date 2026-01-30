@@ -21,6 +21,9 @@ public class FluentAPIOnceExistsExtension {
 		return addOnceExists(List.of(markKey), markVal);
 	}
 
+	// TODO Allow multiple occurrences of the same Runnable
+	// TODO Account for the same Runnable getting issued for different key(s)
+
 	public static boolean addOnceExists(List<Object> markKey, Runnable markVal) {
 		var entry = getEntryFor(markKey);
 		if (entry == null) {
@@ -96,6 +99,23 @@ public class FluentAPIOnceExistsExtension {
 		var result = new LinkedHashMap<List<Object>, List<Runnable>>();
 		for (var e : entries) {
 			result.put(List.copyOf(e.getKey()), List.copyOf(e.getValue()));
+		}
+		return result;
+	}
+
+	public static List<List<Object>> getRequiredMarkKeysFor(Runnable r) {
+		return onceExistsCon.entrySet().stream().filter((e) -> e.getValue().contains(r))
+				.map((e) -> e.getKey().stream().filter((mk) -> !FluentAPIMarkExtension.hasMark(mk))
+						.collect(Collectors.toUnmodifiableList()))
+				.filter((l) -> !l.isEmpty()).collect(Collectors.toUnmodifiableList());
+	}
+
+	public static Map<Runnable, List<List<Object>>> getAllRequiredMarkKeys() {
+		var result = new LinkedHashMap<Runnable, List<List<Object>>>();
+		var runnableSet = onceExistsCon.values().stream().flatMap((set) -> set.stream())
+				.collect(Collectors.toUnmodifiableSet());
+		for (var r : runnableSet) {
+			result.put(r, getRequiredMarkKeysFor(r));
 		}
 		return result;
 	}

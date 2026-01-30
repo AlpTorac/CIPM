@@ -25,11 +25,13 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 		Assertions.assertNotSame(val, FluentAPIMarkExtension.getMarked(key, val.getClass()));
 	}
 
-	// TODO Test mark methods that are not reachable from the api directly
-	// TODO Test onceExists methods that are not reachable from the api directly
+	@Test
+	public void getMarkedTest_NoMark() {
+		Assertions.assertNull(FluentAPIMarkExtension.getMarked(new Object()));
+	}
 
 	@Test
-	public void oneMark() {
+	public void markTest_OneMark() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var key = new Object();
 		var val = api.createNewClass();
@@ -38,9 +40,9 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 		assertContainsMark(key, val);
 		Assertions.assertEquals(1, FluentAPIMarkExtension.getAllMarks().size());
 	}
-	
+
 	@Test
-	public void multipleMarks() {
+	public void markTest_MultipleMarks() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
 		var key1 = new Object();
@@ -60,7 +62,23 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 	}
 
 	@Test
-	public void cleanMarks() {
+	public void markTest_OverridingMark() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var key = new Object();
+
+		var val1 = api.createNewClass();
+		var val2 = api.createNewClass();
+
+		FluentAPIMarkExtension.mark(key, val1);
+		FluentAPIMarkExtension.mark(key, val2);
+
+		assertContainsMark(key, val2);
+		assertDoesNotContainMark(key, val1);
+		Assertions.assertEquals(1, FluentAPIMarkExtension.getAllMarks().size());
+	}
+
+	@Test
+	public void cleanMarksTest() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
 		var key1 = new Object();
@@ -78,7 +96,7 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 	}
 
 	@Test
-	public void unmark() {
+	public void unmarkTest() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
 		var key1 = new Object();
@@ -97,7 +115,7 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 	}
 
 	@Test
-	public void repeatedUnmark() {
+	public void unmarkTest_RepeatedUnmarkCall() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
 		var key1 = new Object();
@@ -120,18 +138,7 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 	}
 
 	@Test
-	public void overridingMark() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-		var key = new Object();
-
-		var val1 = api.createNewClass();
-		var val2 = api.createNewClass();
-
-		FluentAPIMarkExtension.mark(key, val1);
-		FluentAPIMarkExtension.mark(key, val2);
-
-		assertContainsMark(key, val2);
-		assertDoesNotContainMark(key, val1);
-		Assertions.assertEquals(1, FluentAPIMarkExtension.getAllMarks().size());
+	public void unmarkTest_NonExistingMark() {
+		Assertions.assertNull(FluentAPIMarkExtension.unmark(new Object()));
 	}
 }
