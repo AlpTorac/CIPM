@@ -11,12 +11,6 @@ import cipm.consistency.fluentapi.api.ApiFactory;
  * @author Alp Torac Genc
  */
 public class FluentAPIMarkTest {
-
-	// TODO Add api.hasMark() method
-	// TODO Add api.mergeMarks(anotherAPI) method (or api.getGlobalMarked() and
-	// api.getGlobalMarkedX() methods)
-	// TODO Add api.getAllMarkings() : Map<Object, EObject>
-
 	/**
 	 * Checks whether XInitialisation.markCurrent() works as intended, when there is
 	 * only one element to be retrieved.

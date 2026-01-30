@@ -50,4 +50,36 @@ public class FluentAPIOnceExistsExtension {
 		}
 		return -1;
 	}
+
+	public static Map<EObject, Map<List<Object>, List<Runnable>>> getAllPendingOnceExistsGlobal() {
+		var apiToMarkKeysToOnceExists = new LinkedHashMap<EObject, Map<List<Object>, List<Runnable>>>();
+		for (var apiToCon : apiToOnceExistsCon.entrySet()) {
+			var api = apiToCon.getKey();
+			var con = apiToCon.getValue();
+			apiToMarkKeysToOnceExists.put(api, con.getAllPendingOnceExists(api));
+		}
+		return apiToMarkKeysToOnceExists;
+	}
+
+	public static Map<List<Object>, List<Runnable>> getAllPendingOnceExists(EObject api) {
+		return apiToOnceExistsCon.containsKey(api) ? apiToOnceExistsCon.get(api).getAllPendingOnceExists(api)
+				: Map.of();
+	}
+
+	public static List<Runnable> getPendingOnceExists(EObject api, List<Object> markKey) {
+		return apiToOnceExistsCon.containsKey(api) ? apiToOnceExistsCon.get(api).getPendingOnceExists(api, markKey)
+				: List.of();
+	}
+
+	public static List<Runnable> getPendingOnceExists(EObject api, Object[] markKey) {
+		return getPendingOnceExists(api, List.of(markKey));
+	}
+
+	public static List<Runnable> getPendingOnceExists(EObject api, Object markKey) {
+		return getPendingOnceExists(api, List.of(markKey));
+	}
+
+	public static void clearAllOnceExists() {
+		apiToOnceExistsCon.clear();
+	}
 }

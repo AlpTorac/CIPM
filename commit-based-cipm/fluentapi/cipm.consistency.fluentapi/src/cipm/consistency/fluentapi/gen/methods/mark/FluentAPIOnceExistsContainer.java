@@ -75,6 +75,27 @@ public class FluentAPIOnceExistsContainer {
 		return isOnceExistsRemoved;
 	}
 
+	public Map<List<Object>, List<Runnable>> getAllPendingOnceExists(EObject api) {
+		if (!containsApi(api))
+			return null;
+		var apiMap = markToObj.get(api);
+
+		var markKeysToOnceExists = new LinkedHashMap<List<Object>, List<Runnable>>();
+		for (var e : apiMap.entrySet()) {
+			markKeysToOnceExists.put(List.copyOf(e.getKey()), List.copyOf(e.getValue()));
+		}
+		return markKeysToOnceExists;
+	}
+
+	public List<Runnable> getPendingOnceExists(EObject api, Object markKey) {
+		return getPendingOnceExists(api, markKey);
+	}
+
+	public List<Runnable> getPendingOnceExists(EObject api, List<Object> markKey) {
+		var entry = getEntryFor(api, markKey);
+		return entry != null ? List.copyOf(entry.getValue()) : null;
+	}
+
 	public int performIfExists(EObject api, Object markKey) {
 		return performIfExists(api, List.of(markKey));
 	}
@@ -107,5 +128,9 @@ public class FluentAPIOnceExistsContainer {
 		}
 
 		return count[0];
+	}
+
+	public void clearAllOnceExists() {
+		markToObj.clear();
 	}
 }

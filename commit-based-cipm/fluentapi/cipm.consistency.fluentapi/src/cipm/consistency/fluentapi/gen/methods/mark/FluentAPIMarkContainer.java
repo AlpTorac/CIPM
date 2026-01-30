@@ -29,4 +29,12 @@ public class FluentAPIMarkContainer {
 	public EObject getMarked(Object markKey) {
 		return markToObj.getOrDefault(markKey, null);
 	}
+
+	public boolean hasMark(Object markKey) {
+		return markToObj.containsKey(markKey);
+	}
+
+	public Map<Object, EObject> getAllMarks() {
+		return Map.copyOf(markToObj);
+	}
 }
