@@ -38,6 +38,10 @@ public class FluentAPIBuilder {
 
 		// TODO Fully automate API generation
 
+		// TODO Java metamodel URI in the generated ecore file is corrupted: Instead of
+		// the relative URI in the working genmodel file, the "www.emftext.org" URI is
+		// used. Fixing the ecore file will most likely fix the genmodel file.
+
 		var resSet = new ResourceSetImpl();
 		var res = resSet.createResource(URI.createFileURI(fluentAPIEcoreModelFilePath.toString()));
 
