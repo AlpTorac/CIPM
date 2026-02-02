@@ -19,12 +19,6 @@ public final class FluentAPIRootAPIConstants {
 	private static final String fluentAPIRootAPIClassName = "FluentEObjectAPI";
 
 	/*
-	 * EReferences
-	 */
-	private static final String fluentAPIRootAPIOngoingInitialisationsReferenceName = "ongoingInits";
-	private static final String fluentAPIRootAPIInitialisationsReferenceName = "inits";
-
-	/*
 	 * EOperations
 	 */
 	/*
@@ -32,10 +26,6 @@ public final class FluentAPIRootAPIConstants {
 	 */
 	private static final String fluentAPIRootAPIContinueMethodNameTemplate = "continue%s";
 	private static final String fluentAPIRootAPIContinueMarkedMethodNameTemplate = "continueMarked%s";
-	private static final String fluentAPIRootAPIContinueFromStartMethodNameTemplate = "continue%sFromStart";
-	private static final String fluentAPIRootAPIContinueFromEndMethodNameTemplate = "continue%sFromEnd";
-	private static final String fluentAPIRootAPIContinueWithNewestMethodNameTemplate = "continueNewest%s";
-	private static final String fluentAPIRootAPIContinueWithOldestMethodNameTemplate = "continueOldest%s";
 
 	/*
 	 * createNew
@@ -112,9 +102,6 @@ public final class FluentAPIRootAPIConstants {
 	/*
 	 * EParameter
 	 */
-	private static final String fluentAPIRootAPIIndexFromStartParameterName = "idxFromStart";
-	private static final String fluentAPIRootAPIIndexFromEndParameterName = "idxFromEnd";
-
 	private static final String fluentAPIRootAPICreateNewXWithClassParameterTypeParameterName = "T";
 	private static final String fluentAPIRootAPICreateNewXWithClassParameterMethodParameterName = "eObjCls";
 
@@ -401,22 +388,6 @@ public final class FluentAPIRootAPIConstants {
 		return fluentAPIRootAPIClassName;
 	}
 
-	public static String getRootAPIInitialisationsReferenceName() {
-		return fluentAPIRootAPIInitialisationsReferenceName;
-	}
-
-	public static String getRootAPIOngoingInitialisationsReferenceName() {
-		return fluentAPIRootAPIOngoingInitialisationsReferenceName;
-	}
-
-	public static String getFluentAPIRootAPIContinueFromStartMethodIndexFromStartParameterName() {
-		return fluentAPIRootAPIIndexFromStartParameterName;
-	}
-
-	public static String getFluentAPIRootAPIContinueFromStartMethodIndexFromEndParameterName() {
-		return fluentAPIRootAPIIndexFromEndParameterName;
-	}
-
 	public static String getFluentAPIRootAPIContinueMethodNameTemplate() {
 		return fluentAPIRootAPIContinueMethodNameTemplate;
 	}
@@ -432,42 +403,6 @@ public final class FluentAPIRootAPIConstants {
 
 	public static String getFluentAPIRootAPIContinueMarkedMethodNameForType(EClass elemToInitECls) {
 		return String.format(getFluentAPIRootAPIContinueMarkedMethodNameTemplate(),
-				getElementToInitialiseName(elemToInitECls));
-	}
-
-	public static String getFluentAPIRootAPIContinueFromStartMethodNameTemplate() {
-		return fluentAPIRootAPIContinueFromStartMethodNameTemplate;
-	}
-
-	public static String getFluentAPIRootAPIContinueFromStartMethodNameForType(EClass elemToInitECls) {
-		return String.format(getFluentAPIRootAPIContinueFromStartMethodNameTemplate(),
-				getElementToInitialiseName(elemToInitECls));
-	}
-
-	public static String getFluentAPIRootAPIContinueFromEndMethodNameTemplate() {
-		return fluentAPIRootAPIContinueFromEndMethodNameTemplate;
-	}
-
-	public static String getFluentAPIRootAPIContinueFromEndMethodNameForType(EClass elemToInitECls) {
-		return String.format(getFluentAPIRootAPIContinueFromEndMethodNameTemplate(),
-				getElementToInitialiseName(elemToInitECls));
-	}
-
-	public static String getFluentAPIRootAPIContinueWithNewestMethodNameTemplate() {
-		return fluentAPIRootAPIContinueWithNewestMethodNameTemplate;
-	}
-
-	public static String getFluentAPIRootAPIContinueWithNewestMethodNameForType(EClass elemToInitECls) {
-		return String.format(getFluentAPIRootAPIContinueWithNewestMethodNameTemplate(),
-				getElementToInitialiseName(elemToInitECls));
-	}
-
-	public static String getFluentAPIRootAPIContinueWithOldestMethodNameTemplate() {
-		return fluentAPIRootAPIContinueWithOldestMethodNameTemplate;
-	}
-
-	public static String getFluentAPIRootAPIContinueWithOldestMethodNameForType(EClass elemToInitECls) {
-		return String.format(getFluentAPIRootAPIContinueWithOldestMethodNameTemplate(),
 				getElementToInitialiseName(elemToInitECls));
 	}
 }

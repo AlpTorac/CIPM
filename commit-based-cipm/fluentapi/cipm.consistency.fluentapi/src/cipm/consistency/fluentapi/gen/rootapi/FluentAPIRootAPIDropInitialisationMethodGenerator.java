@@ -5,14 +5,14 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.methods.FluentAPIInitialisationStorage;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
-import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
 public class FluentAPIRootAPIDropInitialisationMethodGenerator {
 	// TODO Add documentation
 
 	private static final String dropInitialisationMethodBody = FluentAPIMethodsUtil.joinLOC(
-			FluentEObjectAPIMethods.class.getName() + ".dropInitialisation(this, "
+			FluentAPIInitialisationStorage.class.getName() + ".dropInitialisation("
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationParameterName() + ")",
 			//
 			"return this");

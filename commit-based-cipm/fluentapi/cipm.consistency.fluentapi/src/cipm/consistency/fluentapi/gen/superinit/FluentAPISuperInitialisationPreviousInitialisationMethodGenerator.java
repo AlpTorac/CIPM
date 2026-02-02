@@ -28,22 +28,16 @@ public class FluentAPISuperInitialisationPreviousInitialisationMethodGenerator i
 	private static final String previousInitMethodBodyTemplate = FluentAPIMethodsUtil
 			// %s: Initialisation class
 			// %s: Initialised EObject class
-			.joinLOC(
-					"return (%s) " + FluentEObjectAPIMethods.class.getName() + "."
-							+ FluentAPISuperInitialisationConstants
-									.getFluentAPISuperInitialisationPreviousInitMethodName()
-							+ "(this, this."
-							+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
-							+ "(), %s.class)");
+			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + "."
+					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationPreviousInitMethodName()
+					+ "(this, %s.class)");
 
 	private static final String previousInitWithIndexMethodBodyTemplate = FluentAPIMethodsUtil
 			// %s: Initialisation class
 			// %s: Initialised EObject class
 			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + "."
 					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationPreviousInitMethodName()
-					+ "(this, this."
-					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
-					+ "(), %s.class, "
+					+ "(this, %s.class, "
 					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationGetInitStepParameterName()
 					+ ")");
 
@@ -53,7 +47,7 @@ public class FluentAPISuperInitialisationPreviousInitialisationMethodGenerator i
 		ops.add(getPreviousInitialisationMethodWithIndexFor(initEClass, eobjEClass));
 		return ops;
 	}
-	
+
 	private EOperation getPreviousInitialisationMethodFor(EClass initEClass, EClass eobjEClass) {
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationPreviousInitMethodName(),

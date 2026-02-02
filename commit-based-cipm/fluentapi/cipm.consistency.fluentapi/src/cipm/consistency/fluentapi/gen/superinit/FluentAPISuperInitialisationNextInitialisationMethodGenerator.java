@@ -31,18 +31,14 @@ public class FluentAPISuperInitialisationNextInitialisationMethodGenerator imple
 			// %s: Initialised EObject class
 			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + "."
 					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationNextInitMethodName()
-					+ "(this, this."
-					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
-					+ "(), %s.class)");
+					+ "(this, %s.class)");
 
 	private static final String nextInitWithIndexMethodBodyTemplate = FluentAPIMethodsUtil
 			// %s: Initialisation class
 			// %s: Initialised EObject class
 			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + "."
 					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationNextInitMethodName()
-					+ "(this, this."
-					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
-					+ "(), %s.class, "
+					+ "(this, %s.class, "
 					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationGetInitStepParameterName()
 					+ ")");
 

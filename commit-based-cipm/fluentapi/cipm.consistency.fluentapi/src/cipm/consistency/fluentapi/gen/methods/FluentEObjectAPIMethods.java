@@ -12,12 +12,10 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
-import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationConstants;
 
 public final class FluentEObjectAPIMethods {
@@ -34,7 +32,7 @@ public final class FluentEObjectAPIMethods {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		dropInitialisation(api, init);
+		FluentAPIInitialisationStorage.dropInitialisation(init);
 		return api;
 	}
 
@@ -48,7 +46,7 @@ public final class FluentEObjectAPIMethods {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		dropInitialisation(api, init);
+		FluentAPIInitialisationStorage.dropInitialisation(init);
 		return api;
 	}
 
@@ -115,7 +113,7 @@ public final class FluentEObjectAPIMethods {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		dropInitialisation(api, init);
+		FluentAPIInitialisationStorage.dropInitialisation(init);
 		return api;
 	}
 
@@ -132,7 +130,7 @@ public final class FluentEObjectAPIMethods {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		dropInitialisation(api, init);
+		FluentAPIInitialisationStorage.dropInitialisation(init);
 		return api;
 	}
 
@@ -149,7 +147,7 @@ public final class FluentEObjectAPIMethods {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		dropInitialisation(api, init);
+		FluentAPIInitialisationStorage.dropInitialisation(init);
 		return api;
 	}
 
@@ -163,7 +161,7 @@ public final class FluentEObjectAPIMethods {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		dropInitialisation(api, init);
+		FluentAPIInitialisationStorage.dropInitialisation(init);
 		return api;
 	}
 
@@ -182,7 +180,8 @@ public final class FluentEObjectAPIMethods {
 				.findFirst().get();
 
 		var initEClasses = initsPac.getEClassifiers().stream()
-				.filter((eCls) -> eCls instanceof EClass && eCls.getName().endsWith("Initialisation"))
+				.filter((eCls) -> eCls instanceof EClass && eCls.getName()
+						.endsWith(FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()))
 				.map((eCls) -> (EClass) eCls).collect(Collectors.toList());
 
 		initEClasses.stream().map((eCls) -> eCls.getInstanceClass()).map((cls) -> {
@@ -218,7 +217,7 @@ public final class FluentEObjectAPIMethods {
 				initInstance.eClass().getEStructuralFeature(
 						FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationRootAPIReferenceName()),
 				me);
-		getOngoingInits(me).add(initInstance);
+		FluentAPIInitialisationStorage.addOngoingInitialisation(initInstance);
 		return initInstance;
 	}
 
@@ -255,97 +254,44 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	public static boolean isInitialisationFor(EClass initECls, Class<?> eobjCls) {
-		// TODO Clean up and do it properly
-		// Trim "Initialisation" from XInitialisation EClass name
 		return !initECls.isAbstract() && initECls.getName()
-				.substring(0, initECls.getName().length() - "Initialisation".length()).equals(eobjCls.getSimpleName());
+				.substring(0,
+						initECls.getName().length()
+								- FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix().length())
+				.equals(eobjCls.getSimpleName());
 	}
 
-	public static void dropInitialisation(EObject me, EObject init) {
-		getOngoingInits(me).remove(init);
-	}
-
-	public static EObject continueElement(EObject me, Class<?> eobjCls) {
-		var initsOfMatchingType = getOngoingInits(me).stream().filter((i) -> isInitialisationFor(i.eClass(), eobjCls))
+	public static EObject continueElement(Class<?> eobjCls) {
+		var initsOfMatchingType = FluentAPIInitialisationStorage.getOngoingInits().stream()
+				.filter((i) -> isInitialisationFor(i.eClass(), eobjCls))
 				.collect(Collectors.toCollection(ArrayList::new));
 		return !initsOfMatchingType.isEmpty() ? initsOfMatchingType.get(initsOfMatchingType.size() - 1) : null;
 	}
-
-	/**
-	 * @return Oldest idx-th initialisation (idx starts with 0)
-	 */
-	public static EObject continueElementFromStart(EObject me, Class<?> eobjCls, int idx) {
-		var initsOfMatchingType = getOngoingInits(me).stream().filter((i) -> isInitialisationFor(i.eClass(), eobjCls))
-				.collect(Collectors.toCollection(ArrayList::new));
-		return (initsOfMatchingType.size() > idx) && (idx >= 0) ? initsOfMatchingType.get(idx) : null;
+	public static EObject getPreviousInit(EObject init, Class<?> eobjCls) {
+		return getPreviousInit(init, eobjCls, 1);
 	}
 
-	/**
-	 * @return Oldest initialisation (the first initialisation, idx 0)
-	 */
-	public static EObject continueOldestElement(EObject me, Class<?> eobjCls) {
-		return getOngoingInits(me).stream().filter((i) -> isInitialisationFor(i.eClass(), eobjCls)).findFirst()
-				.orElse(null);
-	}
-
-	/**
-	 * @return Newest idx-th initialisation (idx starts with 0)
-	 */
-	public static EObject continueElementFromEnd(EObject me, Class<?> eobjCls, int idx) {
-		var initsOfMatchingType = getOngoingInits(me).stream().filter((i) -> isInitialisationFor(i.eClass(), eobjCls))
-				.collect(Collectors.toCollection(ArrayList::new));
-		return (initsOfMatchingType.size() > idx) && (idx >= 0)
-				? initsOfMatchingType.get(initsOfMatchingType.size() - 1 - idx)
-				: null;
-	}
-
-	public static EObject getPreviousInit(EObject init, EObject api, Class<?> eobjCls) {
-		return getPreviousInit(init, api, eobjCls, 1);
-	}
-
-	public static EObject getNextInit(EObject init, EObject api, Class<?> eobjCls) {
-		return getNextInit(init, api, eobjCls, 1);
+	public static EObject getNextInit(EObject init, Class<?> eobjCls) {
+		return getNextInit(init, eobjCls, 1);
 	}
 
 	private static boolean initIndexInBounds(Collection<?> col, int idx) {
 		return idx >= 0 && idx < col.size();
 	}
 
-	public static EObject getPreviousInit(EObject init, EObject api, Class<?> eobjCls, int stepsBack) {
-		var initsOfMatchingType = getOngoingInits(api).stream().filter((i) -> isInitialisationFor(i.eClass(), eobjCls))
+	public static EObject getPreviousInit(EObject init, Class<?> eobjCls, int stepsBack) {
+		var initsOfMatchingType = FluentAPIInitialisationStorage.getOngoingInits().stream()
+				.filter((i) -> isInitialisationFor(i.eClass(), eobjCls))
 				.collect(Collectors.toCollection(ArrayList::new));
 		var idx = initsOfMatchingType.indexOf(init) - stepsBack;
 		return initIndexInBounds(initsOfMatchingType, idx) ? initsOfMatchingType.get(idx) : null;
 	}
 
-	public static EObject getNextInit(EObject init, EObject api, Class<?> eobjCls, int stepsForward) {
-		var initsOfMatchingType = getOngoingInits(api).stream().filter((i) -> isInitialisationFor(i.eClass(), eobjCls))
+	public static EObject getNextInit(EObject init, Class<?> eobjCls, int stepsForward) {
+		var initsOfMatchingType = FluentAPIInitialisationStorage.getOngoingInits().stream()
+				.filter((i) -> isInitialisationFor(i.eClass(), eobjCls))
 				.collect(Collectors.toCollection(ArrayList::new));
 		var idx = initsOfMatchingType.indexOf(init) + stepsForward;
 		return initIndexInBounds(initsOfMatchingType, idx) ? initsOfMatchingType.get(idx) : null;
-	}
-
-	public static void withInitialisation(EObject me, EClass initEClass) {
-		// TODO Remove or use
-		getInits(me).add(initEClass);
-	}
-
-	public static void withInitialisations(EObject me, EPackage initsPac) {
-		// TODO Remove or clean up and do it properly
-		// Trim "Initialisation" from XInitialisation EClass name
-		initsPac.getEClassifiers().stream().filter((e) -> e instanceof EClass).map((e) -> (EClass) e)
-				.filter((e) -> e.getName().endsWith("Initialisation")).forEach((e) -> getInits(me).add(e));
-	}
-
-	@SuppressWarnings("unchecked")
-	public static EList<EClass> getInits(EObject me) {
-		return ((EList<EClass>) me.eGet(
-				me.eClass().getEStructuralFeature(FluentAPIRootAPIConstants.getRootAPIInitialisationsReferenceName())));
-	}
-
-	@SuppressWarnings("unchecked")
-	public static EList<EObject> getOngoingInits(EObject me) {
-		return ((EList<EObject>) me.eGet(me.eClass()
-				.getEStructuralFeature(FluentAPIRootAPIConstants.getRootAPIOngoingInitialisationsReferenceName())));
 	}
 }

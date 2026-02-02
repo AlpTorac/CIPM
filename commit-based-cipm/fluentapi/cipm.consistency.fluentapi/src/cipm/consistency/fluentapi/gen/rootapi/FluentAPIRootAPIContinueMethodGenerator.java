@@ -12,6 +12,7 @@ import cipm.consistency.fluentapi.gen.FluentAPIConstants;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
+import cipm.consistency.fluentapi.gen.methods.FluentAPIInitialisationStorage;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationConstants;
@@ -22,38 +23,31 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 	private static final String topLevelContinueMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return (" + FluentAPIRootAPIConstants.getFluentAPIRootPackageName() + "."
 					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationClassName() + ") "
-					+ FluentEObjectAPIMethods.class.getName() + ".continueElement(this, %s)");
+					+ FluentEObjectAPIMethods.class.getName() + ".continueElement(%s)");
 
-	private static final String topLevelContinueMarkedMethodBody =
-//			FluentAPIMethodsUtil
-//			.joinLOC("return (" + FluentAPIRootAPIConstants.getFluentAPIRootPackageName() + "."
-//					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationClassName() + ") "
-//					+ FluentEObjectAPIMethods.class.getName() + ".continueElement(this, this."
-//					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedMethodName() + "("
-//					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ").getClass())");
-			FluentAPIMethodsUtil.joinLOC(
-					"var markedElem = this." + FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedMethodName() + "("
-							+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ")",
-					"return markedElem == null ? null : (" + FluentAPIRootAPIConstants.getFluentAPIRootPackageName()
-							+ "." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationClassName()
-							+ ") this.get"
-							+ StringUtils.capitalize(
-									FluentAPIRootAPIConstants.getRootAPIOngoingInitialisationsReferenceName())
-							+ "().stream().filter((i) -> i.get"
-							+ FluentAPISuperInitialisationConstants
-									.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-							+ "() == markedElem).findFirst().get()");
+	private static final String topLevelContinueMarkedMethodBody = FluentAPIMethodsUtil.joinLOC(
+			"var markedElem = this." + FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedMethodName() + "("
+					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ")",
+			"return markedElem == null ? null : (" + FluentAPIRootAPIConstants.getFluentAPIRootPackageName() + "."
+					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationClassName() + ") "
+					+ FluentAPIInitialisationStorage.class.getName() + ".getOngoingInits().stream().filter((i) -> (("
+					+ FluentAPIRootAPIConstants.getFluentAPIRootPackageName() + "."
+					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationClassName() + ") i).get"
+					+ FluentAPISuperInitialisationConstants
+							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
+					+ "() == markedElem).findFirst().get()");
 
 	private static final String continueMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueElement(this, %s.class)");
+			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueElement(%s.class)");
 
 	private static final String continueMarkedMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			"var markedElem = this." + FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedMethodName() + "("
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ")",
 			// %s: Init class name
-			"return markedElem == null ? null : (%s) this.get"
-					+ StringUtils.capitalize(FluentAPIRootAPIConstants.getRootAPIOngoingInitialisationsReferenceName())
-					+ "().stream().filter((i) -> i.get"
+			"return markedElem == null ? null : (%s) " + FluentAPIInitialisationStorage.class.getName()
+					+ ".getOngoingInits().stream().filter((i) -> (("
+					+ FluentAPIRootAPIConstants.getFluentAPIRootPackageName() + "."
+					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationClassName() + ") i).get"
 					+ FluentAPISuperInitialisationConstants
 							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 					+ "() == markedElem).findFirst().get()");
