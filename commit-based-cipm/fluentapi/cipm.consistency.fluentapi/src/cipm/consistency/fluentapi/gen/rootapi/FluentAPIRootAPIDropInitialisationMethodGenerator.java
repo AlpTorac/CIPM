@@ -12,7 +12,7 @@ public class FluentAPIRootAPIDropInitialisationMethodGenerator {
 	// TODO Add documentation
 
 	private static final String dropInitialisationMethodBody = FluentAPIMethodsUtil.joinLOC(
-			FluentAPIInitialisationStorage.class.getName() + ".dropInitialisation("
+			FluentAPIInitialisationStorage.class.getName() + ".dropOngoingInitialisation("
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationParameterName() + ")",
 			//
 			"return this");

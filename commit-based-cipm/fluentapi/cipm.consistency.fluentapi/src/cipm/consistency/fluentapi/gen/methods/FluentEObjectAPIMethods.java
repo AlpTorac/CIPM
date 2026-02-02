@@ -32,7 +32,7 @@ public final class FluentEObjectAPIMethods {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		FluentAPIInitialisationStorage.dropInitialisation(init);
+		FluentAPIInitialisationStorage.dropOngoingInitialisation(init);
 		return api;
 	}
 
@@ -46,7 +46,7 @@ public final class FluentEObjectAPIMethods {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		FluentAPIInitialisationStorage.dropInitialisation(init);
+		FluentAPIInitialisationStorage.dropOngoingInitialisation(init);
 		return api;
 	}
 
@@ -113,7 +113,7 @@ public final class FluentEObjectAPIMethods {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		FluentAPIInitialisationStorage.dropInitialisation(init);
+		FluentAPIInitialisationStorage.dropOngoingInitialisation(init);
 		return api;
 	}
 
@@ -130,7 +130,7 @@ public final class FluentEObjectAPIMethods {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		FluentAPIInitialisationStorage.dropInitialisation(init);
+		FluentAPIInitialisationStorage.dropOngoingInitialisation(init);
 		return api;
 	}
 
@@ -147,7 +147,7 @@ public final class FluentEObjectAPIMethods {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		FluentAPIInitialisationStorage.dropInitialisation(init);
+		FluentAPIInitialisationStorage.dropOngoingInitialisation(init);
 		return api;
 	}
 
@@ -161,7 +161,7 @@ public final class FluentEObjectAPIMethods {
 		} catch (InvocationTargetException e) {
 			e.printStackTrace();
 		}
-		FluentAPIInitialisationStorage.dropInitialisation(init);
+		FluentAPIInitialisationStorage.dropOngoingInitialisation(init);
 		return api;
 	}
 
