@@ -107,7 +107,7 @@ public class FluentAPIGetInitTest extends AbstractFluentAPITest {
 	}
 
 	@Test
-	public void getInitTest_Interchangeability() {
+	public void getInitTest_NextPreviousInterchangeability() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
 		var inits = List.of(api.newClass(), api.newClass(), api.newClass());
@@ -117,5 +117,23 @@ public class FluentAPIGetInitTest extends AbstractFluentAPITest {
 				Assertions.assertSame(init.getPreviousInit(i), init.getNextInit(-i));
 			}
 		}
+	}
+
+	@Test
+	public void getInitTest_DifferentAPIInstances() {
+		var apiOne = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var apiTwo = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		var init1 = apiOne.newClass();
+		var init2 = apiTwo.newClass();
+		var init3 = apiOne.newClass();
+
+		Assertions.assertSame(init2, init3.getPreviousInit());
+		Assertions.assertSame(init1, init2.getPreviousInit());
+		Assertions.assertNull(init1.getPreviousInit());
+
+		Assertions.assertSame(init2, init1.getNextInit());
+		Assertions.assertSame(init3, init2.getNextInit());
+		Assertions.assertNull(init3.getNextInit());
 	}
 }
