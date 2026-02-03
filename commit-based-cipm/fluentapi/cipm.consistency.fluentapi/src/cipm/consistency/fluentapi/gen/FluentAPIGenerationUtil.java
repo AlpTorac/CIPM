@@ -18,8 +18,6 @@ import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 public class FluentAPIGenerationUtil {
-	private static EPackage placeholderEDataTypesPac;
-
 	private static final String placeholderEDataTypeSuffix = "EDataTypePlaceholder";
 
 	private static final String arrayEDataTypeNameSuffix = "Array";
@@ -30,10 +28,6 @@ public class FluentAPIGenerationUtil {
 
 	private static final String packageNameSeparator = ".";
 	private static final String packageNameSeparatorRegex = "\\.";
-
-	public static void setPlaceholderEDataTypesPackage(EPackage pac) {
-		placeholderEDataTypesPac = pac;
-	}
 
 	public static String getEOperationBodyKey() {
 		return eoperationBodyKey;
@@ -65,8 +59,9 @@ public class FluentAPIGenerationUtil {
 		return param;
 	}
 
-	public static EParameter generateSingleValuedEParameter(String name, Class<?> type) {
-		return generateSingleValuedEParameter(name, createOrGetEDataType(type));
+	public static EParameter generateSingleValuedEParameter(FluentAPIGenerationContext context, String name,
+			Class<?> type) {
+		return generateSingleValuedEParameter(name, createOrGetEDataType(context, type));
 	}
 
 	public static EParameter generateSingleValuedEParameter(String name, EClassifier type) {
@@ -121,16 +116,18 @@ public class FluentAPIGenerationUtil {
 	 * Adds the given amount of type parameters. Only works, if the given type does
 	 * not already have a placeholder.
 	 */
-	public static EDataType createOrGetEDataType(Class<?> type, int typeParamCount) {
+	public static EDataType createOrGetEDataType(FluentAPIGenerationContext context, Class<?> type,
+			int typeParamCount) {
 		var list = new ArrayList<ETypeParameter>();
 		for (int i = 0; i < typeParamCount; i++)
 			list.add(generateETypeParameter("T" + i));
-		return createOrGetEDataType(type, list.toArray(ETypeParameter[]::new));
+		return createOrGetEDataType(context, type, list.toArray(ETypeParameter[]::new));
 	}
 
-	public static EDataType createOrGetEDataType(Class<?> type, ETypeParameter... typeParameters) {
+	public static EDataType createOrGetEDataType(FluentAPIGenerationContext context, Class<?> type,
+			ETypeParameter... typeParameters) {
 		var eDataTypeName = type.getSimpleName() + placeholderEDataTypeSuffix;
-		EDataType eDataType = (EDataType) placeholderEDataTypesPac.getEClassifier(eDataTypeName);
+		EDataType eDataType = (EDataType) context.getPlaceholderEDataTypesPac().getEClassifier(eDataTypeName);
 
 		if (eDataType == null) {
 			eDataType = EcoreFactory.eINSTANCE.createEDataType();
@@ -144,22 +141,22 @@ public class FluentAPIGenerationUtil {
 				for (var t : typeParameters)
 					eDataType.getETypeParameters().add(t);
 
-			placeholderEDataTypesPac.getEClassifiers().add(eDataType);
+			context.getPlaceholderEDataTypesPac().getEClassifiers().add(eDataType);
 		}
 
 		return eDataType;
 	}
 
-	public static EDataType createOrGetEDataType(Class<?> type) {
+	public static EDataType createOrGetEDataType(FluentAPIGenerationContext context, Class<?> type) {
 		// Use an empty array to avoid StackOverflowErrors, since otherwise this method
 		// will be called repeatedly
-		return createOrGetEDataType(type, new ETypeParameter[] {});
+		return createOrGetEDataType(context, type, new ETypeParameter[] {});
 	}
 
-	public static EDataType createOrGetArrayEDataType(EClassifier type) {
+	public static EDataType createOrGetArrayEDataType(FluentAPIGenerationContext context, EClassifier type) {
 		var arrayEDataTypeName = type.getName() + arrayEDataTypeNameSuffix;
 		var arrayTypeInstanceTypeName = type.getName() + arrayTypeNameSuffix;
-		EDataType arrayType = (EDataType) placeholderEDataTypesPac.getEClassifier(arrayEDataTypeName);
+		EDataType arrayType = (EDataType) context.getPlaceholderEDataTypesPac().getEClassifier(arrayEDataTypeName);
 
 		if (arrayType == null) {
 			arrayType = EcoreFactory.eINSTANCE.createEDataType();
@@ -169,14 +166,15 @@ public class FluentAPIGenerationUtil {
 			arrayType.setInstanceClassName(arrayTypeInstanceTypeName);
 			// Get array type this way, since cls.arrayType() is introduced in Java 12
 			arrayType.setInstanceClass(Array.newInstance(type.getInstanceClass(), 0).getClass());
-			placeholderEDataTypesPac.getEClassifiers().add(arrayType);
+			context.getPlaceholderEDataTypesPac().getEClassifiers().add(arrayType);
 		}
 
 		return arrayType;
 	}
 
-	public static EParameter generateArrayValuedEParameter(String name, EClassifier type) {
-		var arrayType = createOrGetArrayEDataType(type);
+	public static EParameter generateArrayValuedEParameter(FluentAPIGenerationContext context, String name,
+			EClassifier type) {
+		var arrayType = createOrGetArrayEDataType(context, type);
 		var param = EcoreFactory.eINSTANCE.createEParameter();
 		param.setName(name);
 		param.setEType(arrayType);

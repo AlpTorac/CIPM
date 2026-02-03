@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
@@ -69,25 +69,25 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ")",
 			"return this");
 
-	public List<EOperation> getAllAPITopLevelWithOperations(EClass superInitCls) {
+	public List<EOperation> getAllAPITopLevelWithOperations(FluentAPIGenerationContext context) {
 		var ops = new ArrayList<EOperation>();
 
-		ops.add(getWithFeatOp(superInitCls));
-		ops.add(getWithoutFeatOp(superInitCls));
-		ops.addAll(getWithAddedFeatOp(superInitCls));
-		ops.addAll(getWithRemovedFeatOp(superInitCls));
-		ops.addAll(getWithExactFeatOp(superInitCls));
-		ops.add(getWithFeatOfContainerOp(superInitCls));
+		ops.add(getWithFeatOp(context));
+		ops.add(getWithoutFeatOp(context));
+		ops.addAll(getWithAddedFeatOp(context));
+		ops.addAll(getWithRemovedFeatOp(context));
+		ops.addAll(getWithExactFeatOp(context));
+		ops.add(getWithFeatOfContainerOp(context));
 
 		return ops;
 	}
 
-	private EOperation getWithFeatOp(EClass superInitCls) {
+	private EOperation getWithFeatOp(FluentAPIGenerationContext context) {
 		var featParam = getFeatParam();
 		var featValParam = getFeatValParam();
 
-		var op = FluentAPIGenerationUtil
-				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodName(), superInitCls);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodName(), context.getInitSuperECls());
 		FluentAPIGenerationUtil.addBody(op, xWithFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
 		FluentAPIGenerationUtil.addDocumentation(op,
@@ -95,11 +95,11 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 		return op;
 	}
 
-	private EOperation getWithoutFeatOp(EClass superInitCls) {
+	private EOperation getWithoutFeatOp(FluentAPIGenerationContext context) {
 		var featParam = getFeatParam();
 
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodName(), superInitCls);
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodName(), context.getInitSuperECls());
 		FluentAPIGenerationUtil.addBody(op, xWithoutFeatMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, featParam);
 		FluentAPIGenerationUtil.addDocumentation(op,
@@ -107,12 +107,13 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 		return op;
 	}
 
-	private List<EOperation> getWithAddedFeatOp(EClass superInitCls) {
+	private List<EOperation> getWithAddedFeatOp(FluentAPIGenerationContext context) {
 		var ops = new ArrayList<EOperation>();
 		Function<EParameter, EOperation> opGen = (featValParam) -> {
 			var featParam = getFeatParam();
 			var op = FluentAPIGenerationUtil.generateEOperation(
-					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(), superInitCls);
+					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(),
+					context.getInitSuperECls());
 			FluentAPIGenerationUtil.addBody(op, xWithAddedFeatMethodBody);
 			FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
 			FluentAPIGenerationUtil.addDocumentation(op,
@@ -121,18 +122,19 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 		};
 
 		ops.add(opGen.apply(getFeatValParam()));
-		ops.add(opGen.apply(getFeatValArrayParam()));
-		ops.add(opGen.apply(getFeatValColParam()));
+		ops.add(opGen.apply(getFeatValArrayParam(context)));
+		ops.add(opGen.apply(getFeatValColParam(context)));
 
 		return ops;
 	}
 
-	private List<EOperation> getWithRemovedFeatOp(EClass superInitCls) {
+	private List<EOperation> getWithRemovedFeatOp(FluentAPIGenerationContext context) {
 		var ops = new ArrayList<EOperation>();
 		Function<EParameter, EOperation> opGen = (featValParam) -> {
 			var featParam = getFeatParam();
 			var op = FluentAPIGenerationUtil.generateEOperation(
-					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(), superInitCls);
+					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(),
+					context.getInitSuperECls());
 			FluentAPIGenerationUtil.addBody(op, xWithRemovedFeatMethodBody);
 			FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
 			FluentAPIGenerationUtil.addDocumentation(op,
@@ -141,18 +143,19 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 		};
 
 		ops.add(opGen.apply(getFeatValParam()));
-		ops.add(opGen.apply(getFeatValArrayParam()));
-		ops.add(opGen.apply(getFeatValColParam()));
+		ops.add(opGen.apply(getFeatValArrayParam(context)));
+		ops.add(opGen.apply(getFeatValColParam(context)));
 
 		return ops;
 	}
 
-	private List<EOperation> getWithExactFeatOp(EClass superInitCls) {
+	private List<EOperation> getWithExactFeatOp(FluentAPIGenerationContext context) {
 		var ops = new ArrayList<EOperation>();
 		Function<EParameter, EOperation> opGen = (featValParam) -> {
 			var featParam = getFeatParam();
 			var op = FluentAPIGenerationUtil.generateEOperation(
-					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(), superInitCls);
+					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(),
+					context.getInitSuperECls());
 			FluentAPIGenerationUtil.addBody(op, xWithExactFeatMethodBody);
 			FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
 			FluentAPIGenerationUtil.addDocumentation(op,
@@ -161,16 +164,17 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 		};
 
 		ops.add(opGen.apply(getFeatValParam()));
-		ops.add(opGen.apply(getFeatValArrayParam()));
-		ops.add(opGen.apply(getFeatValColParam()));
+		ops.add(opGen.apply(getFeatValArrayParam(context)));
+		ops.add(opGen.apply(getFeatValColParam(context)));
 		return ops;
 	}
 
-	private EOperation getWithFeatOfContainerOp(EClass superInitCls) {
+	private EOperation getWithFeatOfContainerOp(FluentAPIGenerationContext context) {
 		var featParam = getFeatParam();
 
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodName(), superInitCls);
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodName(),
+				context.getInitSuperECls());
 		FluentAPIGenerationUtil.addBody(op, xWithFeatOfContainerMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, featParam);
 		FluentAPIGenerationUtil.addDocumentation(op,
@@ -196,8 +200,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 		return param;
 	}
 
-	private EParameter getFeatValArrayParam() {
-		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(
+	private EParameter getFeatValArrayParam(FluentAPIGenerationContext context) {
+		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(context,
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName(),
 				EcorePackage.Literals.EJAVA_OBJECT);
 		FluentAPIGenerationUtil.addDocumentation(param,
@@ -205,8 +209,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 		return param;
 	}
 
-	private EParameter getFeatValColParam() {
-		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(Collection.class, 1);
+	private EParameter getFeatValColParam(FluentAPIGenerationContext context) {
+		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(context, Collection.class, 1);
 		var colGenTypeArgument = FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null, null);
 		var colGenType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureColType);
 		FluentAPIGenerationUtil.addTypeArgument(colGenType, colGenTypeArgument);

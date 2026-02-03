@@ -2,10 +2,10 @@ package cipm.consistency.fluentapi.gen.superinit;
 
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 
 import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
@@ -22,10 +22,10 @@ public class FluentAPISuperInitialisationNewElementMethodGenerator implements IF
 
 	private static final String newElementMethodBody = FluentAPIMethodsUtil.joinLOC("return this");
 
-	public EOperation generateNewElementMethod(EClass initSuperEClass) {
+	public EOperation generateNewElementMethod(FluentAPIGenerationContext context) {
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationNewElementMethodName(),
-				initSuperEClass);
+				context.getInitSuperECls());
 		FluentAPIGenerationUtil.addBody(op, newElementMethodBody);
 		FluentAPIGenerationUtil.addDocumentation(op, newElementOperationDocumentation);
 		return op;

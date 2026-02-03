@@ -15,9 +15,8 @@ import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIConstants;
 import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
-import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
-import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
@@ -263,16 +262,15 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 					//
 					"return this");
 
-	private List<EStructuralFeature> getAllEligibleFeats(EClass elemToInit,
-			FluentAPITargetMetamodelFeatureFilter featFilter) {
+	private List<EStructuralFeature> getAllEligibleFeats(FluentAPIGenerationContext context, EClass elemToInit) {
 		return elemToInit.getEAllStructuralFeatures().stream()
-				.filter((feat) -> featFilter.isFeatureEligible(elemToInit, feat))
+				.filter((feat) -> context.getTargetMetamodelFeatureFilter().isFeatureEligible(elemToInit, feat))
 				.collect(Collectors.toCollection(ArrayList::new));
 	}
 
-	public List<EOperation> generateAllWithOperationsFor(EClass initECls, EClass elemToInit,
-			FluentAPITargetMetamodelPackageProvider eClassProvider, FluentAPITargetMetamodelFeatureFilter featFilter) {
-		var feats = this.getAllEligibleFeats(elemToInit, featFilter);
+	public List<EOperation> generateAllWithOperationsFor(FluentAPIGenerationContext context, EClass initECls,
+			EClass elemToInit) {
+		var feats = this.getAllEligibleFeats(context, elemToInit);
 		var ops = new ArrayList<EOperation>();
 
 		for (var feat : feats) {
@@ -280,19 +278,21 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				ops.addAll(this.generateWithXFeat(initECls, elemToInit, feat));
 				ops.add(this.generateWithoutXFeat(initECls, elemToInit, feat));
 
-				if (featFilter.canShareFeatureWithContainer(eClassProvider, elemToInit, feat)) {
+				if (context.getTargetMetamodelFeatureFilter()
+						.canShareFeatureWithContainer(context.getTargetMetamodelPackageProvider(), elemToInit, feat)) {
 					// Do not use eContainer(), use eGet(featName) instead
 					ops.add(this.generateWithXFeatOfContainerForSingleValued(initECls, elemToInit, feat));
 				}
 
 			} else {
 				ops.add(this.generateWithAddedXFeat(initECls, elemToInit, feat));
-				ops.addAll(this.generateWithAddedXListFeat(initECls, elemToInit, feat));
+				ops.addAll(this.generateWithAddedXListFeat(context, initECls, elemToInit, feat));
 				ops.add(this.generateWithRemovedXFeat(initECls, elemToInit, feat));
-				ops.addAll(this.generateWithRemovedXListFeat(initECls, elemToInit, feat));
-				ops.addAll(this.generateWithExactXFeat(initECls, elemToInit, feat));
+				ops.addAll(this.generateWithRemovedXListFeat(context, initECls, elemToInit, feat));
+				ops.addAll(this.generateWithExactXFeat(context, initECls, elemToInit, feat));
 
-				if (featFilter.canShareFeatureWithContainer(eClassProvider, elemToInit, feat)) {
+				if (context.getTargetMetamodelFeatureFilter()
+						.canShareFeatureWithContainer(context.getTargetMetamodelPackageProvider(), elemToInit, feat)) {
 					ops.add(this.generateWithXFeatOfContainerForManyValued(initECls, elemToInit, feat));
 				}
 			}
@@ -368,7 +368,8 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		return op;
 	}
 
-	private List<EOperation> generateWithAddedXListFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
+	private List<EOperation> generateWithAddedXListFeat(FluentAPIGenerationContext context, EClass initECls,
+			EClass elemToInit, EStructuralFeature feat) {
 		var opList = new ArrayList<EOperation>();
 
 		BiFunction<EParameter, String, EOperation> opGenerator = (featValParam, methodBodyTemplate) -> {
@@ -388,18 +389,19 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var listOp = opGenerator.apply(eListAddedFeatValParam, withAddedXListFeatMethodBodyTemplate);
 		opList.add(listOp);
 
-		var colAddedFeatValParam = getAddedColFeatValParam(feat);
+		var colAddedFeatValParam = getAddedColFeatValParam(context, feat);
 		var colOp = opGenerator.apply(colAddedFeatValParam, withAddedXListFeatMethodBodyTemplate);
 		opList.add(colOp);
 
-		var arrayAddedFeatValParam = getAddedArrayFeatValParam(feat);
+		var arrayAddedFeatValParam = getAddedArrayFeatValParam(context, feat);
 		var arrayOp = opGenerator.apply(arrayAddedFeatValParam, withAddedXArrayFeatMethodBodyTemplate);
 		opList.add(arrayOp);
 
 		return opList;
 	}
 
-	private List<EOperation> generateWithRemovedXListFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
+	private List<EOperation> generateWithRemovedXListFeat(FluentAPIGenerationContext context, EClass initECls,
+			EClass elemToInit, EStructuralFeature feat) {
 		var opList = new ArrayList<EOperation>();
 		BiFunction<EParameter, String, EOperation> opGenerator = (featValParam, methodBodyTemplate) -> {
 			var op = FluentAPIGenerationUtil.generateEOperation(
@@ -417,18 +419,19 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var listOp = opGenerator.apply(eListRemovedFeatValParam, withRemovedXListFeatMethodBodyTemplate);
 		opList.add(listOp);
 
-		var colRemovedFeatValParam = getRemovedColFeatValParam(feat);
+		var colRemovedFeatValParam = getRemovedColFeatValParam(context, feat);
 		var colOp = opGenerator.apply(colRemovedFeatValParam, withRemovedXListFeatMethodBodyTemplate);
 		opList.add(colOp);
 
-		var arrayRemovedFeatValParam = getRemovedArrayFeatValParam(feat);
+		var arrayRemovedFeatValParam = getRemovedArrayFeatValParam(context, feat);
 		var arrayOp = opGenerator.apply(arrayRemovedFeatValParam, withRemovedXArrayFeatMethodBodyTemplate);
 		opList.add(arrayOp);
 
 		return opList;
 	}
 
-	private List<EOperation> generateWithExactXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
+	private List<EOperation> generateWithExactXFeat(FluentAPIGenerationContext context, EClass initECls,
+			EClass elemToInit, EStructuralFeature feat) {
 		var opList = new ArrayList<EOperation>();
 		BiFunction<EParameter, String, EOperation> opGenerator = (featValParam, methodBodyTemplate) -> {
 			var op = FluentAPIGenerationUtil.generateEOperation(
@@ -446,11 +449,11 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var listOp = opGenerator.apply(eListExactFeatValParam, withExactXFeatMethodBodyTemplate);
 		opList.add(listOp);
 
-		var colExactFeatValParam = getExactFeatColValParam(feat);
+		var colExactFeatValParam = getExactFeatColValParam(context, feat);
 		var colOp = opGenerator.apply(colExactFeatValParam, withExactXFeatMethodBodyTemplate);
 		opList.add(colOp);
 
-		var arrayExactFeatValParam = getExactArrayFeatValParam(feat);
+		var arrayExactFeatValParam = getExactArrayFeatValParam(context, feat);
 		var arrayOp = opGenerator.apply(arrayExactFeatValParam, withExactXArrayFeatMethodBodyTemplate);
 		opList.add(arrayOp);
 
@@ -519,8 +522,8 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		return param;
 	}
 
-	private EParameter getAddedColFeatValParam(EStructuralFeature feat) {
-		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(Collection.class, 1);
+	private EParameter getAddedColFeatValParam(FluentAPIGenerationContext context, EStructuralFeature feat) {
+		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(context, Collection.class, 1);
 		var colGenTypeArgument = FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null,
 				FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(feat.getEType()));
 		var colGenType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureColType);
@@ -534,8 +537,8 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		return param;
 	}
 
-	private EParameter getAddedArrayFeatValParam(EStructuralFeature feat) {
-		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(
+	private EParameter getAddedArrayFeatValParam(FluentAPIGenerationContext context, EStructuralFeature feat) {
+		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(context,
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
 				feat.getEType());
 		FluentAPIGenerationUtil.addDocumentation(param,
@@ -553,8 +556,8 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		return param;
 	}
 
-	private EParameter getRemovedColFeatValParam(EStructuralFeature feat) {
-		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(Collection.class, 1);
+	private EParameter getRemovedColFeatValParam(FluentAPIGenerationContext context, EStructuralFeature feat) {
+		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(context, Collection.class, 1);
 		var colGenTypeArgument = FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null,
 				FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(feat.getEType()));
 		var colGenType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureColType);
@@ -569,8 +572,8 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		return param;
 	}
 
-	private EParameter getRemovedArrayFeatValParam(EStructuralFeature feat) {
-		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(
+	private EParameter getRemovedArrayFeatValParam(FluentAPIGenerationContext context, EStructuralFeature feat) {
+		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(context,
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
 				feat.getEType());
 		FluentAPIGenerationUtil.addDocumentation(param,
@@ -588,8 +591,8 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		return param;
 	}
 
-	private EParameter getExactFeatColValParam(EStructuralFeature feat) {
-		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(Collection.class, 1);
+	private EParameter getExactFeatColValParam(FluentAPIGenerationContext context, EStructuralFeature feat) {
+		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(context, Collection.class, 1);
 		var colGenTypeArgument = FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null,
 				FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(feat.getEType()));
 		var colGenType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureColType);
@@ -604,8 +607,8 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		return param;
 	}
 
-	private EParameter getExactArrayFeatValParam(EStructuralFeature feat) {
-		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(
+	private EParameter getExactArrayFeatValParam(FluentAPIGenerationContext context, EStructuralFeature feat) {
+		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(context,
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodExactFeatValParamName(),
 				feat.getEType());
 

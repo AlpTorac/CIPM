@@ -6,36 +6,33 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
-import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
-import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationEClassGenerator;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationEClassGenerator;
 
 public class FluentAPIRootAPIGenerator {
-	public List<EPackage> generateRootAPIPackages(
-			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
-			FluentAPITargetMetamodelFeatureFilter filter) {
+	public List<EPackage> generateRootAPIPackages(FluentAPIGenerationContext context) {
 		var rootPacs = generateFluentAPIRootPackage();
-		var rootPac = rootPacs.get(rootPacs.size() - 1);
-		var initPac = generateInitialisationsPackage(rootPac);
 
-		var placeholderEDataTypesPac = generateArrayTypesPackage(rootPac);
-		FluentAPIGenerationUtil.setPlaceholderEDataTypesPackage(placeholderEDataTypesPac);
+		context.setRootPackage(rootPacs.get(0));
+		context.setApiPackage(rootPacs.get(rootPacs.size() - 1));
+		context.setInitsPackage(generateInitialisationsPackage(context));
+		context.setPlaceholderEDataTypesPac(generateArrayTypesPackage(context));
 
-		var fluentAPICls = generateRootAPIEClass();
-		rootPac.getEClassifiers().add(fluentAPICls);
+		context.setFluentAPIECls(generateRootAPIEClass());
+		context.getApiPackage().getEClassifiers().add(context.getFluentAPIECls());
 
-		var initSuperType = generateInitSuperTypeEClass();
-		rootPac.getEClassifiers().add(initSuperType);
+		context.setInitSuperECls(generateInitSuperTypeEClass());
+		context.getApiPackage().getEClassifiers().add(context.getInitSuperECls());
 
-		var initEClss = generateConcreteInitEClasses(targetMetamodelPackageProvider, filter);
-		initPac.getEClassifiers().addAll(initEClss);
+		generateConcreteInitEClasses(context);
+		context.getInitsPackage().getEClassifiers().addAll(context.getAllInitEClss());
 
-		setupInitSuperTypeEClass(fluentAPICls, initSuperType);
-		setupConcreteInitEClasses(initSuperType, initEClss);
-		setupRootAPIEClass(fluentAPICls, initSuperType, initEClss, targetMetamodelPackageProvider, filter);
+		setupInitSuperTypeEClass(context);
+		setupConcreteInitEClasses(context);
+		setupRootAPIEClass(context);
 
 		return rootPacs;
 	}
@@ -45,13 +42,13 @@ public class FluentAPIRootAPIGenerator {
 				FluentAPIRootAPIConstants.getFluentAPIRootPackageName());
 	}
 
-	private EPackage generateInitialisationsPackage(EPackage rootPac) {
-		return FluentAPIGenerationUtil.generateSubPackage(rootPac,
+	private EPackage generateInitialisationsPackage(FluentAPIGenerationContext context) {
+		return FluentAPIGenerationUtil.generateSubPackage(context.getApiPackage(),
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationsPackageName());
 	}
 
-	private EPackage generateArrayTypesPackage(EPackage rootPac) {
-		return FluentAPIGenerationUtil.generateSubPackage(rootPac,
+	private EPackage generateArrayTypesPackage(FluentAPIGenerationContext context) {
+		return FluentAPIGenerationUtil.generateSubPackage(context.getApiPackage(),
 				FluentAPIConstants.getFluentAPIPlaceholderEDataTypesPackageName());
 	}
 
@@ -59,30 +56,24 @@ public class FluentAPIRootAPIGenerator {
 		return new FluentAPISuperInitialisationEClassGenerator().generateSuperInitialisationEClass();
 	}
 
-	private void setupInitSuperTypeEClass(EClass fluentAPICls, EClass initSuperType) {
-		new FluentAPISuperInitialisationEClassGenerator().setupSuperInitialisationEClass(fluentAPICls, initSuperType);
+	private void setupInitSuperTypeEClass(FluentAPIGenerationContext context) {
+		new FluentAPISuperInitialisationEClassGenerator().setupSuperInitialisationEClass(context);
 	}
 
-	private List<EClass> generateConcreteInitEClasses(
-			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
-			FluentAPITargetMetamodelFeatureFilter filter) {
-		var initEClss = new FluentAPIInitialisationEClassGenerator()
-				.generateFluentAPIInitialisationClasses(targetMetamodelPackageProvider, filter);
+	private List<EClass> generateConcreteInitEClasses(FluentAPIGenerationContext context) {
+		var initEClss = new FluentAPIInitialisationEClassGenerator().generateFluentAPIInitialisationClasses(context);
 		return initEClss;
 	}
 
-	private void setupConcreteInitEClasses(EClass initSuperType, List<EClass> initEClss) {
-		initEClss.forEach((cls) -> cls.getESuperTypes().add(initSuperType));
+	private void setupConcreteInitEClasses(FluentAPIGenerationContext context) {
+		context.getAllInitEClss().forEach((cls) -> cls.getESuperTypes().add(context.getInitSuperECls()));
 	}
 
 	private EClass generateRootAPIEClass() {
 		return new FluentAPIRootAPIEClassGenerator().generateRootAPIEClass();
 	}
 
-	private void setupRootAPIEClass(EClass fluentAPICls, EClass initSuperType, List<EClass> initEClss,
-			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
-			FluentAPITargetMetamodelFeatureFilter filter) {
-		new FluentAPIRootAPIEClassGenerator().setupRootAPIEClass(fluentAPICls, initSuperType, initEClss,
-				targetMetamodelPackageProvider, filter);
+	private void setupRootAPIEClass(FluentAPIGenerationContext context) {
+		new FluentAPIRootAPIEClassGenerator().setupRootAPIEClass(context);
 	}
 }

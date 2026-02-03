@@ -9,9 +9,8 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
-import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
-import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIInitialisationStorage;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
@@ -52,19 +51,17 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 					+ "() == markedElem).findFirst().get()");
 
-	public List<EOperation> generateAllContinueMethods(EClass initSuperType, List<EClass> initEClss,
-			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
-			FluentAPITargetMetamodelFeatureFilter filter) {
-		var eObjEClss = targetMetamodelPackageProvider.getAllTargetMetamodelConcreteEClasses();
+	public List<EOperation> generateAllContinueMethods(FluentAPIGenerationContext context) {
+		var eObjEClss = context.getTargetMetamodelPackageProvider().getAllTargetMetamodelConcreteEClasses();
 		var ops = new ArrayList<EOperation>();
 
-		ops.add(generateTopLevelContinueMethod(initSuperType));
-		ops.add(generateTopLevelContinueMarkedMethod(initSuperType));
+		ops.add(generateTopLevelContinueMethod(context));
+		ops.add(generateTopLevelContinueMarkedMethod(context));
 
 		for (int i = 0; i < eObjEClss.size(); i++) {
 			var eObjEClass = eObjEClss.get(i);
-			var initEClass = initEClss.get(i);
-			if (filter.hasModifiableFeatures(eObjEClass)) {
+			var initEClass = context.getAllInitEClss().get(i);
+			if (context.getTargetMetamodelFeatureFilter().hasModifiableFeatures(eObjEClass)) {
 				ops.add(generateContinueMethod(eObjEClass, initEClass));
 				ops.add(generateContinueMarkedMethod(eObjEClass, initEClass));
 			}
@@ -73,7 +70,7 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 		return ops;
 	}
 
-	private EOperation generateTopLevelContinueMethod(EClass initSuperType) {
+	private EOperation generateTopLevelContinueMethod(FluentAPIGenerationContext context) {
 		var paramType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(EcorePackage.Literals.EJAVA_CLASS);
 		FluentAPIGenerationUtil.addTypeArgument(paramType, FluentAPIGenerationUtil.generateWildcardTypeArgument());
 
@@ -83,7 +80,7 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueMethodNameTemplate(),
 						FluentAPIConstants.getDocumentationPlaceholder()),
-				initSuperType);
+				context.getInitSuperECls());
 
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		FluentAPIGenerationUtil.addBody(op, String.format(topLevelContinueMethodBodyTemplate, param.getName()));
@@ -117,14 +114,14 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 		return op;
 	}
 
-	private EOperation generateTopLevelContinueMarkedMethod(EClass initSuperECls) {
+	private EOperation generateTopLevelContinueMarkedMethod(FluentAPIGenerationContext context) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName(),
 				EcorePackage.Literals.EJAVA_OBJECT);
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueMarkedMethodNameTemplate(),
 						FluentAPIConstants.getDocumentationPlaceholder()),
-				initSuperECls);
+				context.getInitSuperECls());
 
 		FluentAPIGenerationUtil.addBody(op, topLevelContinueMarkedMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, param);

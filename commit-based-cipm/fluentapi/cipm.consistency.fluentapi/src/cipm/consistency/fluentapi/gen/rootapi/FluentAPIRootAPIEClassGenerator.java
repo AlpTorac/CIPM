@@ -1,14 +1,11 @@
 package cipm.consistency.fluentapi.gen.rootapi;
 
-import java.util.List;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 import cipm.consistency.fluentapi.gen.FluentAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
-import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
-import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
 
 public class FluentAPIRootAPIEClassGenerator {
@@ -39,65 +36,59 @@ public class FluentAPIRootAPIEClassGenerator {
 			+ " classes, each being responsible for a concrete element from MM. For more information on what individual EObject sub-types and their features represent, refer to MM's documentation.";
 
 	public EClass generateRootAPIEClass() {
-		var fluentAPICls = EcoreFactory.eINSTANCE.createEClass();
+		var fluentAPIECls = EcoreFactory.eINSTANCE.createEClass();
 
 		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
 		anno.setSource(FluentAPIConstants.getGenModelURL());
 		anno.getDetails().put(FluentAPIGenerationUtil.getEOperationDocumentationKey(), rootAPIClassDoc);
 
-		fluentAPICls.getEAnnotations().add(anno);
+		fluentAPIECls.getEAnnotations().add(anno);
 
-		fluentAPICls.setAbstract(false);
-		fluentAPICls.setInterface(false);
-		fluentAPICls.setName(FluentAPIRootAPIConstants.getFluentAPIRootAPIClassName());
-		return fluentAPICls;
+		fluentAPIECls.setAbstract(false);
+		fluentAPIECls.setInterface(false);
+		fluentAPIECls.setName(FluentAPIRootAPIConstants.getFluentAPIRootAPIClassName());
+		return fluentAPIECls;
 	}
 
-	private void addOperations(EClass fluentAPICls, EClass initSuperType, List<EClass> initEClss,
-			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
-			FluentAPITargetMetamodelFeatureFilter filter) {
+	private void addOperations(FluentAPIGenerationContext context) {
+		context.getFluentAPIECls().getEOperations()
+				.addAll(new FluentAPIRootAPICreateNewMethodGenerator().generateAllCreateNewMethods(context));
 
-		fluentAPICls.getEOperations().addAll(new FluentAPIRootAPICreateNewMethodGenerator()
-				.generateAllCreateNewMethods(targetMetamodelPackageProvider));
+		context.getFluentAPIECls().getEOperations()
+				.addAll(new FluentAPIRootAPINewMethodGenerator().getAllRootAPINewOperations(context));
 
-		fluentAPICls.getEOperations().addAll(new FluentAPIRootAPINewMethodGenerator().getAllRootAPINewOperations(
-				fluentAPICls, initSuperType, initEClss, targetMetamodelPackageProvider, filter));
+		context.getFluentAPIECls().getEOperations().addAll(
+				new FluentAPIRootAPIModifyElementMethodGenerator().getAllRootAPIModifyElementOperations(context));
 
-		fluentAPICls.getEOperations().addAll(
-				new FluentAPIRootAPIModifyElementMethodGenerator().getAllRootAPIModifyElementOperations(fluentAPICls,
-						initSuperType, initEClss, targetMetamodelPackageProvider));
+		context.getFluentAPIECls().getEOperations()
+				.addAll(new FluentAPIRootAPIContinueMethodGenerator().generateAllContinueMethods(context));
 
-		fluentAPICls.getEOperations().addAll(new FluentAPIRootAPIContinueMethodGenerator()
-				.generateAllContinueMethods(initSuperType, initEClss, targetMetamodelPackageProvider, filter));
+		context.getFluentAPIECls().getEOperations()
+				.add(new FluentAPIRootAPIDropInitialisationMethodGenerator().generateDropInitialisationMethod(context));
 
-		fluentAPICls.getEOperations().add(new FluentAPIRootAPIDropInitialisationMethodGenerator()
-				.generateDropInitialisationMethod(fluentAPICls, initSuperType));
+		context.getFluentAPIECls().getEOperations()
+				.addAll(new FluentAPIRootAPIMarkMethodGenerator().generateAllMarkMethods(context));
 
-		fluentAPICls.getEOperations().addAll(new FluentAPIRootAPIMarkMethodGenerator()
-				.generateAllMarkMethods(fluentAPICls, targetMetamodelPackageProvider));
+		context.getFluentAPIECls().getEOperations()
+				.addAll(new FluentAPIRootAPIOnceExistsMethodGenerator().generateAllOnceExistsMethods(context));
 
-		fluentAPICls.getEOperations()
-				.addAll(new FluentAPIRootAPIOnceExistsMethodGenerator().generateAllOnceExistsMethods(fluentAPICls));
+		context.getFluentAPIECls().getEOperations().add(
+				new FluentAPIRootAPIGetInitialisationForMethodGenerator().getInitialisationForEClassMethod(context));
 
-		fluentAPICls.getEOperations().add(new FluentAPIRootAPIGetInitialisationForMethodGenerator()
-				.getInitialisationForEClassMethod(initSuperType));
+		context.getFluentAPIECls().getEOperations().add(
+				new FluentAPIRootAPIGetInitialisationForMethodGenerator().getInitialisationForClassMethod(context));
 
-		fluentAPICls.getEOperations().add(new FluentAPIRootAPIGetInitialisationForMethodGenerator()
-				.getInitialisationForClassMethod(initSuperType));
+		context.getFluentAPIECls().getEOperations().add(
+				new FluentAPIRootAPIGetInitialisationForMethodGenerator().getInitialisationForEObjectMethod(context));
 
-		fluentAPICls.getEOperations().add(new FluentAPIRootAPIGetInitialisationForMethodGenerator()
-				.getInitialisationForEObjectMethod(initSuperType));
+		context.getFluentAPIECls().getEOperations()
+				.addAll(new FluentAPIRootAPIWithOperationGenerator().getAllAPITopLevelWithOperations(context));
 
-		fluentAPICls.getEOperations()
-				.addAll(new FluentAPIRootAPIWithOperationGenerator().getAllAPITopLevelWithOperations(fluentAPICls));
-
-		fluentAPICls.getEOperations().add(new FluentAPIRootAPIGetAllSupportedClassesMethodGenerator()
-				.generateGetAllSupportedClassesMethodGenerator(fluentAPICls));
+		context.getFluentAPIECls().getEOperations().add(new FluentAPIRootAPIGetAllSupportedClassesMethodGenerator()
+				.generateGetAllSupportedClassesMethodGenerator());
 	}
 
-	public void setupRootAPIEClass(EClass fluentAPICls, EClass initSuperType, List<EClass> initEClss,
-			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider,
-			FluentAPITargetMetamodelFeatureFilter filter) {
-		addOperations(fluentAPICls, initSuperType, initEClss, targetMetamodelPackageProvider, filter);
+	public void setupRootAPIEClass(FluentAPIGenerationContext context) {
+		addOperations(context);
 	}
 }

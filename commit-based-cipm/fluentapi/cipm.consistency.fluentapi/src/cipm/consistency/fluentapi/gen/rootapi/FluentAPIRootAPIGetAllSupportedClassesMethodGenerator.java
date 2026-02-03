@@ -1,6 +1,5 @@
 package cipm.consistency.fluentapi.gen.rootapi;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcorePackage;
 
@@ -14,7 +13,7 @@ public class FluentAPIRootAPIGetAllSupportedClassesMethodGenerator {
 	private static final String getAllSupportedClassesMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return " + FluentEObjectAPIMethods.class.getName() + ".getAllSupportedClasses(this)");
 
-	public EOperation generateGetAllSupportedClassesMethodGenerator(EClass rootAPIEClass) {
+	public EOperation generateGetAllSupportedClassesMethodGenerator() {
 		var javaClassType = FluentAPIGenerationUtil
 				.generateEGenericTypeWithClassifier(EcorePackage.Literals.EJAVA_CLASS);
 

@@ -1,10 +1,10 @@
 package cipm.consistency.fluentapi.gen.rootapi;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
@@ -24,14 +24,15 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator {
 			.joinLOC("return (%s)" + FluentEObjectAPIMethods.class.getName() + ".getInitialisationForX(this, "
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForEObjectParameterName() + ")");
 
-	public EOperation getInitialisationForEClassMethod(EClass initsSuperType) {
+	public EOperation getInitialisationForEClassMethod(FluentAPIGenerationContext context) {
 		var param = getInitialisationForEClassParam();
 
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(), initsSuperType);
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(),
+				context.getInitSuperECls());
 
 		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationMethodBody,
-				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initsSuperType)));
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
 
 		FluentAPIGenerationUtil.addEParameters(op, param);
 
@@ -44,14 +45,15 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator {
 				EcorePackage.Literals.ECLASS);
 	}
 
-	public EOperation getInitialisationForClassMethod(EClass initsSuperType) {
+	public EOperation getInitialisationForClassMethod(FluentAPIGenerationContext context) {
 		var param = getInitialisationForClassParam();
 
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(), initsSuperType);
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(),
+				context.getInitSuperECls());
 
 		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationForClassMethodBody,
-				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initsSuperType)));
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
 
 		FluentAPIGenerationUtil.addEParameters(op, param);
 
@@ -65,14 +67,15 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator {
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForClassParameterName(), paramType);
 	}
 
-	public EOperation getInitialisationForEObjectMethod(EClass initsSuperType) {
+	public EOperation getInitialisationForEObjectMethod(FluentAPIGenerationContext context) {
 		var param = getInitialisationForEObjectParam();
 
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(), initsSuperType);
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(),
+				context.getInitSuperECls());
 
 		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationForEObjectMethodBody,
-				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initsSuperType)));
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
 
 		FluentAPIGenerationUtil.addEParameters(op, param);
 

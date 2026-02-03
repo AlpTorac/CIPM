@@ -1,9 +1,9 @@
 package cipm.consistency.fluentapi.gen.rootapi;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIInitialisationStorage;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
@@ -17,17 +17,19 @@ public class FluentAPIRootAPIDropInitialisationMethodGenerator {
 			//
 			"return this");
 
-	public EOperation generateDropInitialisationMethod(EClass rootAPIEClass, EClass initSuperType) {
-		var param = getInitialisationParam(initSuperType);
+	public EOperation generateDropInitialisationMethod(FluentAPIGenerationContext context) {
+		var param = getInitialisationParam(context);
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationMethodName(), rootAPIEClass);
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationMethodName(),
+				context.getFluentAPIECls());
 		FluentAPIGenerationUtil.addBody(op, dropInitialisationMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
 	}
 
-	public EParameter getInitialisationParam(EClass initSuperType) {
+	private EParameter getInitialisationParam(FluentAPIGenerationContext context) {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationParameterName(), initSuperType);
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationParameterName(),
+				context.getInitSuperECls());
 	}
 }

@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
 //import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmRepositoryMetamodelFeatureFilter;
@@ -42,11 +43,16 @@ public class FluentAPIBuilder {
 		// the relative URI in the working genmodel file, the "www.emftext.org" URI is
 		// used. Fixing the ecore file will most likely fix the genmodel file.
 
+		var context = new FluentAPIGenerationContext();
+		context.setTargetMetamodelPackageProvider(new FluentAPIJavaMetamodelPackageProvider());
+		context.setTargetMetamodelFeatureFilter(new FluentAPIJavaMetamodelFeatureFilter());
+
 		var resSet = new ResourceSetImpl();
 		var res = resSet.createResource(URI.createFileURI(fluentAPIEcoreModelFilePath.toString()));
 
-		res.getContents().add(new FluentAPIRootAPIGenerator().generateRootAPIPackages(
-				new FluentAPIJavaMetamodelPackageProvider(), new FluentAPIJavaMetamodelFeatureFilter()).get(0));
+		new FluentAPIRootAPIGenerator().generateRootAPIPackages(context);
+		res.getContents().add(context.getRootPackage());
+
 		try {
 			res.save(null);
 		} catch (IOException e) {

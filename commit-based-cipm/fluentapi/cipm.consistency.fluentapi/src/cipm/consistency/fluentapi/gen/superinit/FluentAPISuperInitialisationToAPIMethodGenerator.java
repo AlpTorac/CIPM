@@ -2,10 +2,10 @@ package cipm.consistency.fluentapi.gen.superinit;
 
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 
 import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
@@ -26,9 +26,10 @@ public class FluentAPISuperInitialisationToAPIMethodGenerator implements IFluent
 			+ FluentAPISuperInitialisationConstants.getCapitalisedFluentAPISuperInitialisationRootAPIReferenceName()
 			+ "()");
 
-	public EOperation generateToAPIMethod(EClass rootAPIEClass) {
+	public EOperation generateToAPIMethod(FluentAPIGenerationContext context) {
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName(), rootAPIEClass);
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName(),
+				context.getFluentAPIECls());
 		FluentAPIGenerationUtil.addBody(op, toAPIMethodBodyTemplate);
 		FluentAPIGenerationUtil.addDocumentation(op, toAPIMethodDocumentation);
 		return op;

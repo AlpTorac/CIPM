@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 
 public class FluentAPISuperInitialisationEClassGenerator {
@@ -17,11 +18,11 @@ public class FluentAPISuperInitialisationEClassGenerator {
 
 	private static final Map<String, String> summaries = new LinkedHashMap<>();
 
-	private EReference getCurrentElementReference(EClass initialisedEClass) {
+	private EReference getCurrentElementReference() {
 		var currentElementReference = EcoreFactory.eINSTANCE.createEReference();
 		currentElementReference.setChangeable(true);
 		currentElementReference.setContainment(false);
-		currentElementReference.setEType(initialisedEClass);
+		currentElementReference.setEType(EcorePackage.Literals.EOBJECT);
 		currentElementReference.setName(
 				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCurrentElementReferenceName());
 		currentElementReference.setUnsettable(true);
@@ -30,11 +31,11 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		return currentElementReference;
 	}
 
-	private EReference getRootAPIReference(EClass rootAPIEClass) {
+	private EReference getRootAPIReference(FluentAPIGenerationContext context) {
 		var rootAPIRef = EcoreFactory.eINSTANCE.createEReference();
 		rootAPIRef.setChangeable(true);
 		rootAPIRef.setContainment(false);
-		rootAPIRef.setEType(rootAPIEClass);
+		rootAPIRef.setEType(context.getFluentAPIECls());
 		rootAPIRef.setName(FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationRootAPIReferenceName());
 		rootAPIRef.setLowerBound(1);
 		rootAPIRef.setUpperBound(1);
@@ -49,69 +50,70 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		return superType;
 	}
 
-	private void addEClassDoc(EClass initSuperType) {
+	private void addEClassDoc(FluentAPIGenerationContext context) {
 		var doc = String.format(initClassDocTemplate, FluentAPIDocumentationUtil.serialiseSummaries(summaries));
-		FluentAPIGenerationUtil.addDocumentation(initSuperType, doc);
+		FluentAPIGenerationUtil.addDocumentation(context.getInitSuperECls(), doc);
 	}
 
-	private void addRefs(EClass initSuperType, EClass fluentAPICls) {
-		initSuperType.getEStructuralFeatures().add(getRootAPIReference(fluentAPICls));
+	private void addRefs(FluentAPIGenerationContext context) {
+		context.setInitSuperEClsApiReference(getRootAPIReference(context));
+		context.getInitSuperECls().getEStructuralFeatures().add(context.getInitSuperEClsApiReference());
 
-		var currentElemRef = getCurrentElementReference(EcorePackage.Literals.EOBJECT);
-		initSuperType.getEStructuralFeatures().add(currentElemRef);
+		context.setInitSuperEClsCurrentElement(getCurrentElementReference());
+		context.getInitSuperECls().getEStructuralFeatures().add(context.getInitSuperEClsCurrentElement());
 	}
 
-	private void addOperations(EClass initSuperType, EClass fluentAPICls) {
+	private void addOperations(FluentAPIGenerationContext context) {
 		var getInitEClsGen = new FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator();
-		initSuperType.getEOperations().add(getInitEClsGen.generateGetInitialisedEClassMethod());
+		context.getInitSuperECls().getEOperations().add(getInitEClsGen.generateGetInitialisedEClassMethod());
 		summaries.putAll(getInitEClsGen.getMethodNamesToDescriptions());
 
 		var createNowGen = new FluentAPISuperInitialisationCreateNowMethodGenerator();
-		initSuperType.getEOperations().addAll(createNowGen.generateAllCreateNowMethods(EcorePackage.Literals.EOBJECT));
+		context.getInitSuperECls().getEOperations().addAll(createNowGen.generateAllCreateNowMethods(EcorePackage.Literals.EOBJECT));
 		summaries.putAll(createNowGen.getMethodNamesToDescriptions());
 
 		var newElemGen = new FluentAPISuperInitialisationNewElementMethodGenerator();
-		initSuperType.getEOperations().add(newElemGen.generateNewElementMethod(initSuperType));
+		context.getInitSuperECls().getEOperations().add(newElemGen.generateNewElementMethod(context));
 		summaries.putAll(newElemGen.getMethodNamesToDescriptions());
 
 		var dropGen = new FluentAPISuperInitialisationDropOperationGenerator();
-		initSuperType.getEOperations().add(dropGen.generateDropInitialisationMethod(initSuperType));
+		context.getInitSuperECls().getEOperations().add(dropGen.generateDropInitialisationMethod(context.getInitSuperECls()));
 		summaries.putAll(dropGen.getMethodNamesToDescriptions());
 
 		var resetGen = new FluentAPISuperInitialisationResetOperationGenerator();
-		initSuperType.getEOperations().add(resetGen.generateResetInitialisationMethod(initSuperType));
+		context.getInitSuperECls().getEOperations().add(resetGen.generateResetInitialisationMethod(context.getInitSuperECls()));
 		summaries.putAll(resetGen.getMethodNamesToDescriptions());
 
 		var markGen = new FluentAPISuperInitialisationMarkMethodGenerator();
-		initSuperType.getEOperations().addAll(markGen.generateAllMarkMethods(initSuperType));
+		context.getInitSuperECls().getEOperations().addAll(markGen.generateAllMarkMethods(context.getInitSuperECls()));
 		summaries.putAll(markGen.getMethodNamesToDescriptions());
 
 		var toAPIGen = new FluentAPISuperInitialisationToAPIMethodGenerator();
-		initSuperType.getEOperations().add(toAPIGen.generateToAPIMethod(fluentAPICls));
+		context.getInitSuperECls().getEOperations().add(toAPIGen.generateToAPIMethod(context));
 		summaries.putAll(toAPIGen.getMethodNamesToDescriptions());
 
 		var nextInitGen = new FluentAPISuperInitialisationNextInitialisationMethodGenerator();
-		initSuperType.getEOperations()
-				.addAll(nextInitGen.getAllNextInitialisationMethods(initSuperType, EcorePackage.Literals.EOBJECT));
+		context.getInitSuperECls().getEOperations()
+				.addAll(nextInitGen.getAllNextInitialisationMethods(context.getInitSuperECls(), EcorePackage.Literals.EOBJECT));
 		summaries.putAll(nextInitGen.getMethodNamesToDescriptions());
 
 		var prevInitGen = new FluentAPISuperInitialisationPreviousInitialisationMethodGenerator();
-		initSuperType.getEOperations()
-				.addAll(prevInitGen.getAllPreviousInitialisationMethods(initSuperType, EcorePackage.Literals.EOBJECT));
+		context.getInitSuperECls().getEOperations()
+				.addAll(prevInitGen.getAllPreviousInitialisationMethods(context.getInitSuperECls(), EcorePackage.Literals.EOBJECT));
 		summaries.putAll(prevInitGen.getMethodNamesToDescriptions());
 
 		var withGen = new FluentAPISuperInitialisationWithOperationGenerator();
-		initSuperType.getEOperations().addAll(withGen.getAllAPITopLevelWithOperations(initSuperType));
+		context.getInitSuperECls().getEOperations().addAll(withGen.getAllAPITopLevelWithOperations(context));
 		summaries.putAll(withGen.getMethodNamesToDescriptions());
 
 		var onceExistsGen = new FluentAPISuperInitialisationOnceExistsMethodGenerator();
-		initSuperType.getEOperations().addAll(onceExistsGen.generateAllOnceExistsMethods(initSuperType));
+		context.getInitSuperECls().getEOperations().addAll(onceExistsGen.generateAllOnceExistsMethods(context));
 		summaries.putAll(onceExistsGen.getMethodNamesToDescriptions());
 	}
 
-	public void setupSuperInitialisationEClass(EClass fluentAPICls, EClass initSuperType) {
-		addRefs(initSuperType, fluentAPICls);
-		addOperations(initSuperType, fluentAPICls);
-		addEClassDoc(initSuperType);
+	public void setupSuperInitialisationEClass(FluentAPIGenerationContext context) {
+		addRefs(context);
+		addOperations(context);
+		addEClassDoc(context);
 	}
 }
