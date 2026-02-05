@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelGenerationSettings;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
 //import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmRepositoryMetamodelFeatureFilter;
 //import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmRepositoryMetamodelPackageProvider;
@@ -44,6 +45,7 @@ public class FluentAPIBuilder {
 		// used. Fixing the ecore file will most likely fix the genmodel file.
 
 		var context = new FluentAPIGenerationContext();
+		context.addMetamodelGenerationSettings(new FluentAPIJavaMetamodelGenerationSettings());
 		context.setTargetMetamodelPackageProvider(new FluentAPIJavaMetamodelPackageProvider());
 		context.setTargetMetamodelFeatureFilter(new FluentAPIJavaMetamodelFeatureFilter());
 

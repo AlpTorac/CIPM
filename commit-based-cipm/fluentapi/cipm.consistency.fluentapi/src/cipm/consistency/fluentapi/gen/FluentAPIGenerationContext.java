@@ -1,5 +1,6 @@
 package cipm.consistency.fluentapi.gen;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +27,7 @@ public class FluentAPIGenerationContext {
 
 	private EPackage initsPackage;
 	private final Map<EClass, EClass> initEClss = new LinkedHashMap<>();
+	private final List<FluentAPITargetMetamodelGenerationSettings> metamodelGenerationSettings = new ArrayList<>();
 
 	public EPackage getRootPackage() {
 		return rootPackage;
@@ -120,6 +122,18 @@ public class FluentAPIGenerationContext {
 		this.targetMetamodelFeatureFilter = targetMetamodelFeatureFilter;
 	}
 
+	public List<FluentAPITargetMetamodelGenerationSettings> getAllMetamodelGenerationSettings() {
+		return List.copyOf(metamodelGenerationSettings);
+	}
+
+	public void addMetamodelGenerationSettings(FluentAPITargetMetamodelGenerationSettings genSettings) {
+		this.metamodelGenerationSettings.add(genSettings);
+	}
+
+	public void removeMetamodelGenerationSetttings(FluentAPITargetMetamodelGenerationSettings genSettings) {
+		this.metamodelGenerationSettings.remove(genSettings);
+	}
+
 	public <T extends EModelElement> T getModelElement(Class<T> modelElementType, String elemName) {
 		return getModelElement(modelElementType, getRootPackage(), List.of(elemName));
 	}
@@ -137,7 +151,7 @@ public class FluentAPIGenerationContext {
 			String elemName) {
 		return getModelElement(modelElementType, container, List.of(elemName));
 	}
-	
+
 	public <T extends EModelElement> T getModelElement(Class<T> modelElementType, EModelElement container,
 			List<String> elemAndContainersName) {
 		var it = container.eAllContents();
