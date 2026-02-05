@@ -16,50 +16,27 @@ import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIOnceExistsExtension;
 public class FluentAPIRootAPIOnceExistsMethodGenerator {
 	// TODO Add documentation
 
-	private static final String onceExistsMethodSingleMarkKeyBody = FluentAPIMethodsUtil.joinLOC(
-			FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists("
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ", (java.lang.Runnable) "
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsRunnableParameterName() + ")",
-			"return this");
-
-	private static final String onceExistsMethodMultipleKeyBody = FluentAPIMethodsUtil.joinLOC(
-			FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists("
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMarkKeyListParameterName()
-					+ ", (java.lang.Runnable) "
+	private static final String onceExistsMethodBody = FluentAPIMethodsUtil.joinLOC(
+			// %s: Mark key parameter name
+			FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists(%s, "
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsRunnableParameterName() + ")",
 			"return this");
 
 	public List<EOperation> generateAllOnceExistsMethods(FluentAPIGenerationContext context) {
 		var ops = new ArrayList<EOperation>();
-		ops.add(generateOnceExistsMethodSingleKey(context));
-		ops.addAll(generateOnceExistsMethodsForMultipleKeys(context));
-		return ops;
-	}
 
-	private EOperation generateOnceExistsMethodSingleKey(FluentAPIGenerationContext context) {
-		var keyParam = getMarkKeyParam();
-		var taskParam = getRunnableParam(context);
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), context.getFluentAPIECls());
-		FluentAPIGenerationUtil.addBody(op, onceExistsMethodSingleMarkKeyBody);
-		FluentAPIGenerationUtil.addEParameters(op, keyParam, taskParam);
-		return op;
-	}
-
-	private List<EOperation> generateOnceExistsMethodsForMultipleKeys(FluentAPIGenerationContext context) {
-		var ops = new ArrayList<EOperation>();
 		Function<EParameter, EOperation> opGenerator = (keyParam) -> {
 			var taskParam = getRunnableParam(context);
 			var op = FluentAPIGenerationUtil.generateEOperation(
 					FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), context.getFluentAPIECls());
-			FluentAPIGenerationUtil.addBody(op, onceExistsMethodMultipleKeyBody);
+			FluentAPIGenerationUtil.addBody(op, String.format(onceExistsMethodBody, keyParam.getName()));
 			FluentAPIGenerationUtil.addEParameters(op, keyParam, taskParam);
 			return op;
 		};
 
+		ops.add(opGenerator.apply(getMarkKeyParam()));
 		ops.add(opGenerator.apply(getMarkKeyListParam()));
 		ops.add(opGenerator.apply(getMarkKeyArrayParam(context)));
-
 		return ops;
 	}
 

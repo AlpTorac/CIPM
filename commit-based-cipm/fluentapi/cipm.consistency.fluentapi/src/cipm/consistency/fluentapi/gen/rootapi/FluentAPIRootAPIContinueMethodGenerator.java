@@ -19,25 +19,12 @@ import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationCons
 public class FluentAPIRootAPIContinueMethodGenerator {
 	// TODO Add documentation
 
-	private static final String topLevelContinueMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (" + FluentAPIRootAPIConstants.getFluentAPIRootPackageName() + "."
-					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationClassName() + ") "
-					+ FluentEObjectAPIMethods.class.getName() + ".continueElement(%s)");
-
-	private static final String topLevelContinueMarkedMethodBody = FluentAPIMethodsUtil.joinLOC(
-			"var markedElem = this." + FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedMethodName() + "("
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ")",
-			"return markedElem == null ? null : (" + FluentAPIRootAPIConstants.getFluentAPIRootPackageName() + "."
-					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationClassName() + ") "
-					+ FluentAPIInitialisationStorage.class.getName() + ".getOngoingInits().stream().filter((i) -> (("
-					+ FluentAPIRootAPIConstants.getFluentAPIRootPackageName() + "."
-					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationClassName() + ") i).get"
-					+ FluentAPISuperInitialisationConstants
-							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-					+ "() == markedElem).findFirst().get()");
-
-	private static final String continueMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueElement(%s.class)");
+	private static final String continueMethodBodyTemplate =
+			// %s: Full Initialisation class name
+			// %s: Initialised element class (statically, i.e. either via method parameter
+			// or via .class)
+			FluentAPIMethodsUtil
+					.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueElement(%s)");
 
 	private static final String continueMarkedMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			"var markedElem = this." + FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedMethodName() + "("
@@ -83,7 +70,8 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 				context.getInitSuperECls());
 
 		FluentAPIGenerationUtil.addEParameters(op, param);
-		FluentAPIGenerationUtil.addBody(op, String.format(topLevelContinueMethodBodyTemplate, param.getName()));
+		FluentAPIGenerationUtil.addBody(op, String.format(continueMethodBodyTemplate,
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls()), param.getName()));
 		return op;
 	}
 
@@ -95,7 +83,7 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 
 		FluentAPIGenerationUtil.addBody(op,
 				String.format(continueMethodBodyTemplate, FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						elemToInit.getInstanceClass().getName()));
+						elemToInit.getInstanceClass().getName() + ".class"));
 		return op;
 	}
 
@@ -123,7 +111,8 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 						FluentAPIConstants.getDocumentationPlaceholder()),
 				context.getInitSuperECls());
 
-		FluentAPIGenerationUtil.addBody(op, topLevelContinueMarkedMethodBody);
+		FluentAPIGenerationUtil.addBody(op, String.format(continueMarkedMethodBodyTemplate,
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
 	}
