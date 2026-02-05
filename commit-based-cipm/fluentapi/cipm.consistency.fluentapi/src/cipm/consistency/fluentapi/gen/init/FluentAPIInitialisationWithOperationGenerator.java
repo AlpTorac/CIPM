@@ -8,10 +8,14 @@ import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.net4j.util.collection.Pair;
+import org.emftext.language.java.classifiers.ClassifiersPackage;
+import org.emftext.language.java.types.TypesPackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIConstants;
 import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
@@ -256,21 +260,30 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var originalOp = opGenerator.apply(originalOpNewFeatValParam, originalOpNewFeatValParam.getName());
 		ops.add(originalOp);
 
-		if (originalOpNewFeatValParam.getEType().equals(EcorePackage.Literals.EBIG_INTEGER)) {
-			var longOpNewFeatValParam = getNewFeatValParam(feat);
-			longOpNewFeatValParam.setEType(EcorePackage.Literals.ELONG);
-			var longOp = opGenerator.apply(longOpNewFeatValParam,
-					String.format("java.math.BigInteger.valueOf(%s)", longOpNewFeatValParam.getName()));
-			ops.add(longOp);
+		var overrides = getWithXFeatOverrides(feat);
+		for (var p : overrides) {
+			var featValParamType = p.getElement1();
+			var featValParam = getNewFeatValParam(feat);
+			featValParam.setEType(featValParamType);
 
-			var intOpNewFeatValParam = getNewFeatValParam(feat);
-			intOpNewFeatValParam.setEType(EcorePackage.Literals.EINT);
-			var intOp = opGenerator.apply(intOpNewFeatValParam,
-					String.format("java.math.BigInteger.valueOf(%s)", intOpNewFeatValParam.getName()));
-			ops.add(intOp);
+			var featValCode = p.getElement2();
+
+			ops.add(opGenerator.apply(featValParam, String.format(featValCode, featValParam.getName())));
 		}
 
 		return ops;
+	}
+
+	private List<Pair<EClassifier, String>> getWithXFeatOverrides(EStructuralFeature feat) {
+		var pairs = new ArrayList<Pair<EClassifier, String>>();
+		if (feat.getEType().equals(EcorePackage.Literals.EBIG_INTEGER)) {
+			pairs.add(new Pair<>(EcorePackage.Literals.ELONG, "java.math.BigInteger.valueOf(%s)"));
+			pairs.add(new Pair<>(EcorePackage.Literals.EINT, "java.math.BigInteger.valueOf(%s)"));
+		} else if (feat.getEType().equals(TypesPackage.Literals.TYPE_REFERENCE)) {
+			pairs.add(new Pair<>(ClassifiersPackage.Literals.CLASSIFIER,
+					"this.toAPI().newClassifierReference().withTarget(%s).createNow()"));
+		}
+		return pairs;
 	}
 
 	private EOperation generateWithoutXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
@@ -286,8 +299,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameForType(feat), initECls);
 
-		FluentAPIGenerationUtil.addBody(op,
-				String.format(withAddedXFeatMethodBodyTemplate, feat.getName()));
+		FluentAPIGenerationUtil.addBody(op, String.format(withAddedXFeatMethodBodyTemplate, feat.getName()));
 		FluentAPIGenerationUtil.addDocumentation(op,
 				String.format(withAddedXFeatDocumentationTemplate, feat.getName()));
 		FluentAPIGenerationUtil.addEParameters(op, addedFeatValParam);
@@ -299,8 +311,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameForType(feat), initECls);
 
-		FluentAPIGenerationUtil.addBody(op,
-				String.format(withRemovedXFeatMethodBodyTemplate, feat.getName()));
+		FluentAPIGenerationUtil.addBody(op, String.format(withRemovedXFeatMethodBodyTemplate, feat.getName()));
 		FluentAPIGenerationUtil.addDocumentation(op,
 				String.format(withRemovedXFeatDocumentationTemplate, feat.getName()));
 		FluentAPIGenerationUtil.addEParameters(op, removedFeatValParam);
