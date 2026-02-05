@@ -38,7 +38,7 @@ public class FluentAPISuperInitialisationCreateNowMethodGenerator implements IFl
 	private static final String createNowMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			"this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "()."
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationMethodName() + "(this)",
-			//
+			// %s: Element class
 			"return (%s) this.get" + FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName() + "()");
 

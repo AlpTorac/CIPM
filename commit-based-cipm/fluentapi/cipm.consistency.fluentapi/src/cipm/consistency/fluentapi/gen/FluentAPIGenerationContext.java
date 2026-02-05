@@ -9,7 +9,6 @@ import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 
 public class FluentAPIGenerationContext {
 	private FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider;

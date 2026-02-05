@@ -4,6 +4,7 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
+import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
@@ -12,17 +13,10 @@ import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 public class FluentAPIRootAPIGetInitialisationForMethodGenerator {
 	// TODO Add documentation
 
-	private static final String getInitialisationMethodBody = FluentAPIMethodsUtil
-			.joinLOC("return (%s)" + FluentEObjectAPIMethods.class.getName() + ".getInitialisationForX(this, "
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForEClassParameterName() + ")");
-
-	private static final String getInitialisationForClassMethodBody = FluentAPIMethodsUtil
-			.joinLOC("return (%s)" + FluentEObjectAPIMethods.class.getName() + ".getInitialisationForX(this, "
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForClassParameterName() + ")");
-
-	private static final String getInitialisationForEObjectMethodBody = FluentAPIMethodsUtil
-			.joinLOC("return (%s)" + FluentEObjectAPIMethods.class.getName() + ".getInitialisationForX(this, "
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForEObjectParameterName() + ")");
+	private static final String getInitialisationMethodBodyTemplate = FluentAPIMethodsUtil
+			// %s: Initialisation class
+			// %s: EClass / class / EObject parameter name
+			.joinLOC("return (%s)" + FluentEObjectAPIMethods.class.getName() + ".getInitialisationForX(this, %s)");
 
 	public EOperation getInitialisationForEClassMethod(FluentAPIGenerationContext context) {
 		var param = getInitialisationForEClassParam();
@@ -31,8 +25,8 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator {
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(),
 				context.getInitSuperECls());
 
-		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationMethodBody,
-				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
+		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationMethodBodyTemplate,
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls()), param.getName()));
 
 		FluentAPIGenerationUtil.addEParameters(op, param);
 
@@ -52,8 +46,8 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator {
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(),
 				context.getInitSuperECls());
 
-		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationForClassMethodBody,
-				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
+		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationMethodBodyTemplate,
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls()), param.getName()));
 
 		FluentAPIGenerationUtil.addEParameters(op, param);
 
@@ -68,23 +62,17 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator {
 	}
 
 	public EOperation getInitialisationForEObjectMethod(FluentAPIGenerationContext context) {
-		var param = getInitialisationForEObjectParam();
+		var param = FluentAPIGeneralParameterGenerator.getEObjectParam();
 
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(),
 				context.getInitSuperECls());
 
-		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationForEObjectMethodBody,
-				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
+		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationMethodBodyTemplate,
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls()), param.getName()));
 
 		FluentAPIGenerationUtil.addEParameters(op, param);
 
 		return op;
-	}
-
-	public EParameter getInitialisationForEObjectParam() {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForEObjectParameterName(),
-				EcorePackage.Literals.EOBJECT);
 	}
 }

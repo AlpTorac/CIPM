@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIInitialisationStorage;
@@ -28,7 +29,7 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 
 	private static final String continueMarkedMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			"var markedElem = this." + FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedMethodName() + "("
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + ")",
+					+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName() + ")",
 			// %s: Init class name
 			"return markedElem == null ? null : (%s) " + FluentAPIInitialisationStorage.class.getName()
 					+ ".getOngoingInits().stream().filter((i) -> (("
@@ -88,9 +89,7 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 	}
 
 	private EOperation generateContinueMarkedMethod(EClass elemToInit, EClass initECls) {
-		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName(),
-				EcorePackage.Literals.EJAVA_OBJECT);
+		var param = FluentAPIGeneralParameterGenerator.getMarkKeyParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueMarkedMethodNameTemplate(),
 						StringUtils.capitalize(elemToInit.getName())),
@@ -103,9 +102,7 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 	}
 
 	private EOperation generateTopLevelContinueMarkedMethod(FluentAPIGenerationContext context) {
-		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName(),
-				EcorePackage.Literals.EJAVA_OBJECT);
+		var param = FluentAPIGeneralParameterGenerator.getMarkKeyParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueMarkedMethodNameTemplate(),
 						FluentAPIConstants.getDocumentationPlaceholder()),

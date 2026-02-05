@@ -5,10 +5,9 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EParameter;
-import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
@@ -19,13 +18,13 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 	private static final String modifyElementMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Initialisation class name
 			"return (%s) this." + FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName() + "("
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyMethodEObjectParameterName() + ")");
+					+ FluentAPIGeneralParameterGenerator.getFluentAPIEObjectParameterName() + ")");
 
 	private static final String modifyMarkedElementMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Initialisation type class name
 			// %s: GetMarked method name
 			"return (%s) this." + FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName()
-					+ "(this.%s(" + FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName() + "))");
+					+ "(this.%s(" + FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName() + "))");
 
 	public List<EOperation> getAllRootAPIModifyElementOperations(FluentAPIGenerationContext context) {
 		var eObjEClss = context.getTargetMetamodelPackageProvider().getAllTargetMetamodelConcreteEClasses();
@@ -45,7 +44,7 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 
 	private EOperation getRootAPIModifyMarkedElementOperationForEClass(FluentAPIGenerationContext context,
 			EClass elemToInitECls, EClass initECls) {
-		var markKeyParam = getMarkKeyParam();
+		var markKeyParam = FluentAPIGeneralParameterGenerator.getMarkKeyParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyMarkedMethodNameForType(elemToInitECls), initECls);
 		FluentAPIGenerationUtil.addBody(op,
@@ -58,7 +57,7 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 
 	private EOperation getRootAPIModifyElementOperationForEClass(FluentAPIGenerationContext context,
 			EClass elemToInitECls, EClass initECls) {
-		var param = getEObjectParam(elemToInitECls);
+		var param = FluentAPIGeneralParameterGenerator.getEObjectParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyMethodNameForType(elemToInitECls), initECls);
 		FluentAPIGenerationUtil.addBody(op, String.format(modifyElementMethodBodyTemplate,
@@ -68,7 +67,7 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 	}
 
 	private EOperation getRootAPITopLevelModifyElementOperation(FluentAPIGenerationContext context) {
-		var param = getEObjectParam(EcorePackage.Literals.EOBJECT);
+		var param = FluentAPIGeneralParameterGenerator.getEObjectParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyXMethodName(), context.getInitSuperECls());
 		FluentAPIGenerationUtil.addBody(op, String.format(modifyElementMethodBodyTemplate,
@@ -78,7 +77,7 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 	}
 
 	private EOperation getRootAPITopLevelModifyMarkedElementOperation(FluentAPIGenerationContext context) {
-		var param = getMarkKeyParam();
+		var param = FluentAPIGeneralParameterGenerator.getMarkKeyParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyMarkedMethodNameTemplate(),
 						FluentAPIConstants.getDocumentationPlaceholder()),
@@ -89,16 +88,5 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 						FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedMethodName()));
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
-	}
-
-	private EParameter getEObjectParam(EClass elemToInitECls) {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyMethodEObjectParameterName(), elemToInitECls);
-	}
-
-	private EParameter getMarkKeyParam() {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkKeyParameterName(),
-				EcorePackage.Literals.EJAVA_OBJECT);
 	}
 }

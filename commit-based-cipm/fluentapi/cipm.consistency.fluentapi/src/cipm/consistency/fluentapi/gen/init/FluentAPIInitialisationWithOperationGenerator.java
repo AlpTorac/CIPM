@@ -94,24 +94,16 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 			+ "()";
 
 	// %s: Feature name
-	private static final String addedFeatValParamDocumentationTemplate = "for the feature %s, which will be added to its current values in the initialised object this.get"
+	private static final String addedFeatValParamDocumentationTemplate = "Value(s) for the feature %s, which will be added to its current values in the initialised object this.get"
 			+ FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 			+ "().";
-	private static final String addedSingleFeatValParamDocumentationTemplate = "Value "
-			+ addedFeatValParamDocumentationTemplate;
-	private static final String addedListFeatValParamDocumentationTemplate = "Values "
-			+ addedFeatValParamDocumentationTemplate;
 
 	// %s: Feature name
-	private static final String removedFeatValParamDocumentationTemplate = "for the feature %s, which will be removed from its current values in the initialised object this.get"
+	private static final String removedFeatValParamDocumentationTemplate = "Value(s) for the feature %s, which will be removed from its current values in the initialised object this.get"
 			+ FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 			+ "().";
-	private static final String removedSingleFeatValParamDocumentationTemplate = "Value "
-			+ removedFeatValParamDocumentationTemplate;
-	private static final String removedListFeatValParamDocumentationTemplate = "Values "
-			+ removedFeatValParamDocumentationTemplate;
 
 	// %s: Feature name
 	private static final String exactFeatValParamDocumentationTemplate = "Values for the feature %s, which will replace its current value in the initialised object this.get"
@@ -295,7 +287,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameForType(feat), initECls);
 
 		FluentAPIGenerationUtil.addBody(op,
-				String.format(withAddedXFeatMethodBodyTemplate, feat.getName(), addedFeatValParam.getName()));
+				String.format(withAddedXFeatMethodBodyTemplate, feat.getName()));
 		FluentAPIGenerationUtil.addDocumentation(op,
 				String.format(withAddedXFeatDocumentationTemplate, feat.getName()));
 		FluentAPIGenerationUtil.addEParameters(op, addedFeatValParam);
@@ -308,7 +300,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameForType(feat), initECls);
 
 		FluentAPIGenerationUtil.addBody(op,
-				String.format(withRemovedXFeatMethodBodyTemplate, feat.getName(), removedFeatValParam.getName()));
+				String.format(withRemovedXFeatMethodBodyTemplate, feat.getName()));
 		FluentAPIGenerationUtil.addDocumentation(op,
 				String.format(withRemovedXFeatDocumentationTemplate, feat.getName()));
 		FluentAPIGenerationUtil.addEParameters(op, removedFeatValParam);
@@ -364,9 +356,6 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 			return op;
 		};
 
-		// String.format(methodBodyTemplate, feat.getName(), featValParam.getName(),
-		// featValParam.getName())
-
 		var formattedMethodBody = String.format(withXsMethodBodyTemplate,
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameForType(feat));
@@ -399,8 +388,6 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 			FluentAPIGenerationUtil.addEParameters(op, featValParam);
 			return op;
 		};
-
-		// String.format(methodBody, feat.getName(), featValParam.getName())
 
 		var formattedIterableMethodBody = String.format(withExactXFeatMethodBodyTemplate, feat.getName(),
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodExactFeatValParamName());
@@ -463,7 +450,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
 				feat.getEType());
 		FluentAPIGenerationUtil.addDocumentation(param,
-				String.format(addedSingleFeatValParamDocumentationTemplate, feat.getName()));
+				String.format(addedFeatValParamDocumentationTemplate, feat.getName()));
 		return param;
 	}
 
@@ -472,7 +459,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
 				feat.getEType());
 		FluentAPIGenerationUtil.addDocumentation(param,
-				String.format(removedSingleFeatValParamDocumentationTemplate, feat.getName()));
+				String.format(addedFeatValParamDocumentationTemplate, feat.getName()));
 		return param;
 	}
 
@@ -481,7 +468,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
 				feat.getEType());
 		FluentAPIGenerationUtil.addDocumentation(param,
-				String.format(addedListFeatValParamDocumentationTemplate, feat.getName()));
+				String.format(addedFeatValParamDocumentationTemplate, feat.getName()));
 		return param;
 	}
 
@@ -496,7 +483,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
 				colGenType);
 		FluentAPIGenerationUtil.addDocumentation(param,
-				String.format(addedListFeatValParamDocumentationTemplate, feat.getName()));
+				String.format(addedFeatValParamDocumentationTemplate, feat.getName()));
 		return param;
 	}
 
@@ -505,7 +492,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
 				feat.getEType());
 		FluentAPIGenerationUtil.addDocumentation(param,
-				String.format(addedListFeatValParamDocumentationTemplate, feat.getName()));
+				String.format(addedFeatValParamDocumentationTemplate, feat.getName()));
 		return param;
 	}
 
@@ -515,7 +502,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				feat.getEType());
 
 		FluentAPIGenerationUtil.addDocumentation(param,
-				String.format(removedListFeatValParamDocumentationTemplate, feat.getName()));
+				String.format(removedFeatValParamDocumentationTemplate, feat.getName()));
 		return param;
 	}
 
@@ -531,7 +518,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				colGenType);
 
 		FluentAPIGenerationUtil.addDocumentation(param,
-				String.format(removedListFeatValParamDocumentationTemplate, feat.getName()));
+				String.format(removedFeatValParamDocumentationTemplate, feat.getName()));
 		return param;
 	}
 
@@ -540,7 +527,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
 				feat.getEType());
 		FluentAPIGenerationUtil.addDocumentation(param,
-				String.format(removedListFeatValParamDocumentationTemplate, feat.getName()));
+				String.format(removedFeatValParamDocumentationTemplate, feat.getName()));
 		return param;
 	}
 

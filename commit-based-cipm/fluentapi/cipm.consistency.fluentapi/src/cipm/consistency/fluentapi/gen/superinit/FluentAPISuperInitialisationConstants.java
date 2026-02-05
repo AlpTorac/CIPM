@@ -91,17 +91,6 @@ public final class FluentAPISuperInitialisationConstants {
 	private static final String fluentAPISuperInitialisationCreateNowMethodParamName = "returnTypeCls";
 	private static final String fluentAPISuperInitialisationCreateNowMethodName = "createNow";
 
-	/*
-	 * EParameter
-	 */
-	private static final String fluentAPISuperInitialisationMarkKeyParameterName = FluentAPIRootAPIConstants
-			.getFluentAPIRootAPIMarkKeyParameterName();
-
-	private static final String fluentAPISuperInitialisationOnceExistsMarkKeyListParameterName = FluentAPIRootAPIConstants
-			.getFluentAPIRootAPIOnceExistsMarkKeyListParameterName();
-	private static final String fluentAPISuperInitialisationOnceExistsRunnableParameterName = FluentAPIRootAPIConstants
-			.getFluentAPIRootAPIOnceExistsRunnableParameterName();
-
 	private static final String fluentAPISuperInitialisationGetInitStepParameterName = "stepCount";
 
 	public static final String getFluentAPISuperInitialisationGetInitStepParameterName() {
@@ -128,14 +117,6 @@ public final class FluentAPISuperInitialisationConstants {
 		return fluentAPISuperInitialisationOnceExistsMethodName;
 	}
 
-	public static String getFluentAPISuperInitialisationOnceExistsRunnableParameterName() {
-		return fluentAPISuperInitialisationOnceExistsRunnableParameterName;
-	}
-
-	public static String getFluentAPISuperInitialisationOnceExistsMarkKeyListParameterName() {
-		return fluentAPISuperInitialisationOnceExistsMarkKeyListParameterName;
-	}
-
 	public static String getFluentAPISuperInitialisationNextInitMethodName() {
 		return fluentAPISuperInitialisationNextInitMethodName;
 	}
@@ -150,10 +131,6 @@ public final class FluentAPISuperInitialisationConstants {
 
 	public static String getFluentAPISuperInitialisationUnmarkMethodName() {
 		return fluentAPISuperInitialisationUnmarkMethodName;
-	}
-
-	public static String getFluentAPISuperInitialisationMarkKeyParameterName() {
-		return fluentAPISuperInitialisationMarkKeyParameterName;
 	}
 
 	public static String getFluentAPISuperInitialisationGetMarkedMethodName() {
