@@ -19,27 +19,11 @@ import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationConstants;
 
 public class FluentAPIInitialisationOnceExistsMethodGenerator implements IFluentAPIMethodGenerator {
-	private static final String onceExistsMethodSingleMarkedKeyBody = FluentAPIMethodsUtil
-			.joinLOC(
-					FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists("
-							+ FluentAPISuperInitialisationConstants
-									.getFluentAPISuperInitialisationMarkKeyParameterName()
-							+ ", (java.lang.Runnable) "
-							+ FluentAPISuperInitialisationConstants
-									.getFluentAPISuperInitialisationOnceExistsRunnableParameterName()
-							+ ")",
-					"return this");
-
-	private static final String onceExistsMethodMultipleMarkedKeyBody = FluentAPIMethodsUtil
-			.joinLOC(
-					FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists("
-							+ FluentAPISuperInitialisationConstants
-									.getFluentAPISuperInitialisationOnceExistsMarkKeyListParameterName()
-							+ ", (java.lang.Runnable) "
-							+ FluentAPISuperInitialisationConstants
-									.getFluentAPISuperInitialisationOnceExistsRunnableParameterName()
-							+ ")",
-					"return this");
+	private static final String onceExistsMethodMarkedKeyBodyTemplate = FluentAPIMethodsUtil
+			.joinLOC(FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists(%s, " // %s: Mark key parameter name
+					+ FluentAPISuperInitialisationConstants
+							.getFluentAPISuperInitialisationOnceExistsRunnableParameterName()
+					+ ")", "return this");
 
 	public List<EOperation> generateAllOnceExistsMethods(FluentAPIGenerationContext context, EClass initECls) {
 		var ops = new ArrayList<EOperation>();
@@ -55,7 +39,8 @@ public class FluentAPIInitialisationOnceExistsMethodGenerator implements IFluent
 		var op = FluentAPIGenerationUtil
 				.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), initECls);
 		FluentAPIGenerationUtil.addEParameters(op, keyParam, taskParam);
-		FluentAPIGenerationUtil.addBody(op, onceExistsMethodSingleMarkedKeyBody);
+		FluentAPIGenerationUtil.addBody(op, String.format(onceExistsMethodMarkedKeyBodyTemplate,
+				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationMarkKeyParameterName()));
 		FluentAPIGenerationUtil.addDocumentation(op,
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodDocumentation());
 		return op;
@@ -68,7 +53,9 @@ public class FluentAPIInitialisationOnceExistsMethodGenerator implements IFluent
 			var taskParam = getTaskParam(context);
 			var op = FluentAPIGenerationUtil
 					.generateEOperation(FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), initECls);
-			FluentAPIGenerationUtil.addBody(op, onceExistsMethodMultipleMarkedKeyBody);
+			FluentAPIGenerationUtil.addBody(op,
+					String.format(onceExistsMethodMarkedKeyBodyTemplate, FluentAPISuperInitialisationConstants
+							.getFluentAPISuperInitialisationOnceExistsMarkKeyListParameterName()));
 			FluentAPIGenerationUtil.addDocumentation(op,
 					FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodDocumentation());
 			FluentAPIGenerationUtil.addEParameters(op, p, taskParam);
