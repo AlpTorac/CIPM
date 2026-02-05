@@ -17,53 +17,28 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 
 public class FluentAPISuperInitialisationWithOperationGenerator implements IFluentAPIMethodGenerator {
-	private static final String xWithFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			"this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "()."
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodName() + "(this.get"
+	/**
+	 * The template for with/without methods that delegate to the api instance,
+	 * which take a feature value parameter.
+	 */
+	private static final String xWithFeatValParameterDelegateMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			// %s: api.with method name
+			"this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
+					+ "().%s(this.get"
 					+ FluentAPISuperInitialisationConstants
 							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ", "
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName() + ")",
 			"return this");
 
-	private static final String xWithoutFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			"this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "()."
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodName() + "(this.get"
-					+ FluentAPISuperInitialisationConstants
-							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ")",
-			"return this");
-
-	private static final String xWithAddedFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			"this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "()."
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName() + "(this.get"
-					+ FluentAPISuperInitialisationConstants
-							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ", "
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName() + ")",
-			"return this");
-
-	private static final String xWithRemovedFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			"this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "()."
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName() + "(this.get"
-					+ FluentAPISuperInitialisationConstants
-							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ", "
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName() + ")",
-			"return this");
-
-	private static final String xWithExactFeatMethodBody = FluentAPIMethodsUtil.joinLOC(
-			"this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "()."
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName() + "(this.get"
-					+ FluentAPISuperInitialisationConstants
-							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ", "
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureValueParameterName() + ")",
-			"return this");
-
-	private static final String xWithFeatOfContainerMethodBody = FluentAPIMethodsUtil.joinLOC(
-			"this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName() + "()."
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodName() + "(this.get"
+	/**
+	 * The template for with/without methods that delegate to the api instance,
+	 * which do not take a feature value parameter.
+	 */
+	private static final String xWithoutFeatValParameterDelegateMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			// %s: api.with method name
+			"this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
+					+ "().%s(this.get"
 					+ FluentAPISuperInitialisationConstants
 							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 					+ "(), " + FluentAPIRootAPIConstants.getFluentAPIRootAPIWithMethodFeatureParameterName() + ")",
@@ -88,7 +63,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodName(), context.getInitSuperECls());
-		FluentAPIGenerationUtil.addBody(op, xWithFeatMethodBody);
+		FluentAPIGenerationUtil.addBody(op, String.format(xWithFeatValParameterDelegateMethodBodyTemplate,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodName()));
 		FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
 		FluentAPIGenerationUtil.addDocumentation(op,
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodSummary());
@@ -100,7 +76,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodName(), context.getInitSuperECls());
-		FluentAPIGenerationUtil.addBody(op, xWithoutFeatMethodBody);
+		FluentAPIGenerationUtil.addBody(op, String.format(xWithoutFeatValParameterDelegateMethodBodyTemplate,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodName()));
 		FluentAPIGenerationUtil.addEParameters(op, featParam);
 		FluentAPIGenerationUtil.addDocumentation(op,
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodSummary());
@@ -114,7 +91,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 			var op = FluentAPIGenerationUtil.generateEOperation(
 					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(),
 					context.getInitSuperECls());
-			FluentAPIGenerationUtil.addBody(op, xWithAddedFeatMethodBody);
+			FluentAPIGenerationUtil.addBody(op, String.format(xWithFeatValParameterDelegateMethodBodyTemplate,
+					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName()));
 			FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
 			FluentAPIGenerationUtil.addDocumentation(op,
 					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodSummary());
@@ -135,7 +113,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 			var op = FluentAPIGenerationUtil.generateEOperation(
 					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(),
 					context.getInitSuperECls());
-			FluentAPIGenerationUtil.addBody(op, xWithRemovedFeatMethodBody);
+			FluentAPIGenerationUtil.addBody(op, String.format(xWithFeatValParameterDelegateMethodBodyTemplate,
+					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName()));
 			FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
 			FluentAPIGenerationUtil.addDocumentation(op,
 					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodSummary());
@@ -156,7 +135,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 			var op = FluentAPIGenerationUtil.generateEOperation(
 					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName(),
 					context.getInitSuperECls());
-			FluentAPIGenerationUtil.addBody(op, xWithExactFeatMethodBody);
+			FluentAPIGenerationUtil.addBody(op, String.format(xWithFeatValParameterDelegateMethodBodyTemplate,
+					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodName()));
 			FluentAPIGenerationUtil.addEParameters(op, featParam, featValParam);
 			FluentAPIGenerationUtil.addDocumentation(op,
 					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodSummary());
@@ -175,7 +155,8 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodName(),
 				context.getInitSuperECls());
-		FluentAPIGenerationUtil.addBody(op, xWithFeatOfContainerMethodBody);
+		FluentAPIGenerationUtil.addBody(op, String.format(xWithoutFeatValParameterDelegateMethodBodyTemplate,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodName()));
 		FluentAPIGenerationUtil.addEParameters(op, featParam);
 		FluentAPIGenerationUtil.addDocumentation(op,
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodSummary());
