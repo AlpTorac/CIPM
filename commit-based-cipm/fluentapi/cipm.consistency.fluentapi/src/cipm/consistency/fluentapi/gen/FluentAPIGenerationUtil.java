@@ -16,6 +16,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 public class FluentAPIGenerationUtil {
 	private static final String placeholderEDataTypeSuffix = "EDataTypePlaceholder";
@@ -102,6 +103,17 @@ public class FluentAPIGenerationUtil {
 		anno.getDetails().put(getEOperationDocumentationKey(), documentation);
 		if (!elem.getEAnnotations().contains(anno))
 			elem.getEAnnotations().add(anno);
+		return elem;
+	}
+
+	public static <T extends EModelElement> T useDocumentationOf(T elem, EModelElement docSource) {
+		if (!docSource.getEAnnotations().isEmpty()) {
+			var anno = docSource.getEAnnotations().get(0);
+			if (anno.getDetails().containsKey(getEOperationDocumentationKey())) {
+				var doc = anno.getDetails().get(getEOperationDocumentationKey());
+				addDocumentation(elem, doc);
+			}
+		}
 		return elem;
 	}
 
