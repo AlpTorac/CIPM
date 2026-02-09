@@ -241,11 +241,11 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 			EStructuralFeature feat) {
 		var ops = new ArrayList<EOperation>();
 
-		BiFunction<EParameter, String, EOperation> opGenerator = (featValParam, featValCode) -> {
+		BiFunction<EParameter, String, EOperation> opGenerator = (featValParam, featValParamPlugin) -> {
 			var op = FluentAPIGenerationUtil.generateEOperation(
 					FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatNameForType(feat), initECls);
 			FluentAPIGenerationUtil.addBody(op,
-					String.format(withXFeatMethodBodyTemplate, feat.getName(), featValCode));
+					String.format(withXFeatMethodBodyTemplate, feat.getName(), featValParamPlugin));
 			FluentAPIGenerationUtil.addDocumentation(op, String.format(withXFeatDocumentationTemplate, feat.getName()));
 			FluentAPIGenerationUtil.addEParameters(op, featValParam);
 			return op;
@@ -256,18 +256,18 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		ops.add(originalOp);
 
 		var overrides = context.getAllMetamodelGenerationSettings().stream()
-				.map((gs) -> gs.getMetamodelSpecificWithXFeatMethodOverrides(feat)).flatMap(List::stream)
+				.map((gs) -> gs.getMetamodelSpecificParameterOverloads(feat.getEType())).flatMap(List::stream)
 				.collect(Collectors.toList());
-		overrides.addAll(FluentAPITargetMetamodelGenerationSettings.getGlobalWithXFeatMethodOverrides(feat));
+		overrides.addAll(FluentAPITargetMetamodelGenerationSettings.getGlobalParameterOverloads(feat.getEType()));
 
 		for (var p : overrides) {
-			var featValParamType = p.getElement1();
+			var featValParamType = p.getParameterType();
 			var featValParam = getNewFeatValParam(feat);
 			featValParam.setEType(featValParamType);
 
-			var featValCode = p.getElement2();
+			var featValParamPlugin = p.getSerialisedParameterPlugin();
 
-			ops.add(opGenerator.apply(featValParam, String.format(featValCode, featValParam.getName())));
+			ops.add(opGenerator.apply(featValParam, String.format(featValParamPlugin, featValParam.getName())));
 		}
 
 		return ops;
