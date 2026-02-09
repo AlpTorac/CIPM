@@ -7,6 +7,11 @@ import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EcorePackage;
 
 public class FluentAPITargetMetamodelGenerationSettings {
+	/*
+	 * TODO: See if you can take the original method and generate an overloading
+	 * method based on the original method instead
+	 */
+
 	/**
 	 * Yields the convenience overloads for methods that use parameters of certain
 	 * types. This method contains cases that are independent of the concrete
