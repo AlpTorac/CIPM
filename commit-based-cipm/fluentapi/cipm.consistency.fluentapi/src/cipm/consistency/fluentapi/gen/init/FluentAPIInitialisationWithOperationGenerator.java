@@ -224,10 +224,8 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				}
 
 			} else {
-				ops.add(this.generateWithAddedXFeat(initECls, elemToInit, feat));
-				ops.addAll(this.generateWithAddedXListFeat(context, initECls, elemToInit, feat));
-				ops.add(this.generateWithRemovedXFeat(initECls, elemToInit, feat));
-				ops.addAll(this.generateWithRemovedXListFeat(context, initECls, elemToInit, feat));
+				ops.addAll(this.generateWithAddedXFeat(context, initECls, elemToInit, feat));
+				ops.addAll(this.generateWithRemovedXFeat(context, initECls, elemToInit, feat));
 				ops.addAll(this.generateWithExactXFeat(context, initECls, elemToInit, feat));
 
 				if (context.getTargetMetamodelFeatureFilter()
@@ -283,31 +281,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		return op;
 	}
 
-	private EOperation generateWithAddedXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
-		var addedFeatValParam = getAddedFeatValParam(feat);
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameForType(feat), initECls);
-
-		FluentAPIGenerationUtil.addBody(op, String.format(withAddedXFeatMethodBodyTemplate, feat.getName()));
-		FluentAPIGenerationUtil.addDocumentation(op,
-				String.format(withAddedXFeatDocumentationTemplate, feat.getName()));
-		FluentAPIGenerationUtil.addEParameters(op, addedFeatValParam);
-		return op;
-	}
-
-	private EOperation generateWithRemovedXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
-		var removedFeatValParam = getRemovedFeatValParam(feat);
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameForType(feat), initECls);
-
-		FluentAPIGenerationUtil.addBody(op, String.format(withRemovedXFeatMethodBodyTemplate, feat.getName()));
-		FluentAPIGenerationUtil.addDocumentation(op,
-				String.format(withRemovedXFeatDocumentationTemplate, feat.getName()));
-		FluentAPIGenerationUtil.addEParameters(op, removedFeatValParam);
-		return op;
-	}
-
-	private List<EOperation> generateWithAddedXListFeat(FluentAPIGenerationContext context, EClass initECls,
+	private List<EOperation> generateWithAddedXFeat(FluentAPIGenerationContext context, EClass initECls,
 			EClass elemToInit, EStructuralFeature feat) {
 		var opList = new ArrayList<EOperation>();
 
@@ -322,6 +296,10 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 			FluentAPIGenerationUtil.addEParameters(op, featValParam);
 			return op;
 		};
+		var addedFeatValParam = getAddedFeatValParam(feat);
+		var singleOp = opGenerator.apply(addedFeatValParam,
+				String.format(withAddedXFeatMethodBodyTemplate, feat.getName()));
+		opList.add(singleOp);
 
 		var formattedMethodBody = String.format(withXsMethodBodyTemplate,
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
@@ -342,7 +320,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		return opList;
 	}
 
-	private List<EOperation> generateWithRemovedXListFeat(FluentAPIGenerationContext context, EClass initECls,
+	private List<EOperation> generateWithRemovedXFeat(FluentAPIGenerationContext context, EClass initECls,
 			EClass elemToInit, EStructuralFeature feat) {
 		var opList = new ArrayList<EOperation>();
 		BiFunction<EParameter, String, EOperation> opGenerator = (featValParam, methodBody) -> {
@@ -355,6 +333,10 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 			FluentAPIGenerationUtil.addEParameters(op, featValParam);
 			return op;
 		};
+		var removedFeatValParam = getRemovedFeatValParam(feat);
+		var singleOp = opGenerator.apply(removedFeatValParam,
+				String.format(withRemovedXFeatMethodBodyTemplate, feat.getName()));
+		opList.add(singleOp);
 
 		var formattedMethodBody = String.format(withXsMethodBodyTemplate,
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
