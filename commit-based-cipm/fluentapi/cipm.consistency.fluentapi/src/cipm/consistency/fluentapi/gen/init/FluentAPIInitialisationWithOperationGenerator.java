@@ -16,7 +16,6 @@ import cipm.consistency.fluentapi.gen.FluentAPIConstants;
 import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
-import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelGenerationSettings;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
@@ -140,9 +139,8 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 					+ "().eGet(this.get" + FluentAPISuperInitialisationConstants
 							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 					// %s: Feature name
-					+ "().eClass().getEStructuralFeature(\"%s\"))).add("
-					+ FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName()
-					+ ")", "return this");
+					// %s: Feature value plugin
+					+ "().eClass().getEStructuralFeature(\"%s\"))).add(%s)", "return this");
 
 	private static final String withRemovedXFeatMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("((org.eclipse.emf.common.util.EList) this.get"
@@ -255,12 +253,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var originalOp = opGenerator.apply(originalOpNewFeatValParam, originalOpNewFeatValParam.getName());
 		ops.add(originalOp);
 
-		var overrides = context.getAllMetamodelGenerationSettings().stream()
-				.map((gs) -> gs.getMetamodelSpecificParameterOverloads(feat.getEType())).flatMap(List::stream)
-				.collect(Collectors.toList());
-		overrides.addAll(FluentAPITargetMetamodelGenerationSettings.getGlobalParameterOverloads(feat.getEType()));
-
-		for (var p : overrides) {
+		for (var p : context.getAllMethodParameterOverloads(feat.getEType())) {
 			var featValParamType = p.getParameterType();
 			var featValParam = getNewFeatValParam(feat);
 			featValParam.setEType(featValParamType);
@@ -298,8 +291,17 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		};
 		var addedFeatValParam = getAddedFeatValParam(feat);
 		var singleOp = opGenerator.apply(addedFeatValParam,
-				String.format(withAddedXFeatMethodBodyTemplate, feat.getName()));
+				String.format(withAddedXFeatMethodBodyTemplate, feat.getName(), addedFeatValParam.getName()));
 		opList.add(singleOp);
+
+		for (var p : context.getAllMethodParameterOverloads(feat.getEType())) {
+			var featValParam = getAddedFeatValParam(feat);
+			featValParam.setEType(p.getParameterType());
+			var featValParamPlugin = p.getSerialisedParameterPlugin();
+
+			opList.add(opGenerator.apply(featValParam, String.format(withAddedXFeatMethodBodyTemplate, feat.getName(),
+					String.format(featValParamPlugin, featValParam.getName()))));
+		}
 
 		var formattedMethodBody = String.format(withXsMethodBodyTemplate,
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),

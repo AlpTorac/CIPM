@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
@@ -132,6 +134,14 @@ public class FluentAPIGenerationContext {
 
 	public void removeMetamodelGenerationSetttings(FluentAPITargetMetamodelGenerationSettings genSettings) {
 		this.metamodelGenerationSettings.remove(genSettings);
+	}
+
+	public List<FluentAPIMethodParameterOverload> getAllMethodParameterOverloads(EClassifier eClassifier) {
+		var overrides = getAllMetamodelGenerationSettings().stream()
+				.map((gs) -> gs.getMetamodelSpecificParameterOverloads(eClassifier)).flatMap(List::stream)
+				.collect(Collectors.toList());
+		overrides.addAll(FluentAPITargetMetamodelGenerationSettings.getGlobalParameterOverloads(eClassifier));
+		return overrides;
 	}
 
 	public <T extends EModelElement> T getModelElement(Class<T> modelElementType, String elemName) {
