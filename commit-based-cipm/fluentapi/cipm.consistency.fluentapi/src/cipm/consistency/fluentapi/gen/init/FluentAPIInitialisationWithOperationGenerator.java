@@ -1,7 +1,6 @@
 package cipm.consistency.fluentapi.gen.init;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
@@ -417,15 +416,9 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 	}
 
 	private EParameter getAddedColFeatValParam(FluentAPIGenerationContext context, EStructuralFeature feat) {
-		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(context, Collection.class, 1);
-		var colGenTypeArgument = FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null,
-				FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(feat.getEType()));
-		var colGenType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureColType);
-		FluentAPIGenerationUtil.addTypeArgument(colGenType, colGenTypeArgument);
-
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
-				colGenType);
+				FluentAPIGenerationUtil.generateCollectionTypeParameter(context, feat.getEType()));
 		FluentAPIGenerationUtil.addDocumentation(param,
 				String.format(addedFeatValParamDocumentationTemplate, feat.getName()));
 		return param;
@@ -441,15 +434,9 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 	}
 
 	private EParameter getRemovedColFeatValParam(FluentAPIGenerationContext context, EStructuralFeature feat) {
-		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(context, Collection.class, 1);
-		var colGenTypeArgument = FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null,
-				FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(feat.getEType()));
-		var colGenType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureColType);
-		FluentAPIGenerationUtil.addTypeArgument(colGenType, colGenTypeArgument);
-
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
-				colGenType);
+				FluentAPIGenerationUtil.generateCollectionTypeParameter(context, feat.getEType()));
 
 		FluentAPIGenerationUtil.addDocumentation(param,
 				String.format(removedFeatValParamDocumentationTemplate, feat.getName()));
@@ -466,15 +453,9 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 	}
 
 	private EParameter getExactFeatColValParam(FluentAPIGenerationContext context, EStructuralFeature feat) {
-		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(context, Collection.class, 1);
-		var colGenTypeArgument = FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null,
-				FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(feat.getEType()));
-		var colGenType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureColType);
-		FluentAPIGenerationUtil.addTypeArgument(colGenType, colGenTypeArgument);
-
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodExactFeatValParamName(),
-				colGenType);
+				FluentAPIGenerationUtil.generateCollectionTypeParameter(context, feat.getEType()));
 
 		FluentAPIGenerationUtil.addDocumentation(param,
 				String.format(exactFeatValParamDocumentationTemplate, feat.getName()));

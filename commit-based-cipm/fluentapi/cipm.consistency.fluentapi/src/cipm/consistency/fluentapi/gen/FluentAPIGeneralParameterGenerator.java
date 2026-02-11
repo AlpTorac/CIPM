@@ -1,7 +1,5 @@
 package cipm.consistency.fluentapi.gen;
 
-import java.util.Collection;
-
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
@@ -56,13 +54,8 @@ public final class FluentAPIGeneralParameterGenerator {
 	}
 
 	public static EParameter getFeatValColParam(FluentAPIGenerationContext context) {
-		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(context, Collection.class, 1);
-		var colGenTypeArgument = FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null, null);
-		var colGenType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureColType);
-		FluentAPIGenerationUtil.addTypeArgument(colGenType, colGenTypeArgument);
-
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(fluentAPIFeatureValueParameterName,
-				colGenType);
+				FluentAPIGenerationUtil.generateCollectionTypeParameter(context, null));
 		FluentAPIGenerationUtil.addDocumentation(param, fluentAPIFeatureValueParameterDocumentation);
 		return param;
 	}
@@ -74,9 +67,9 @@ public final class FluentAPIGeneralParameterGenerator {
 		return param;
 	}
 
-	public static EParameter getMarkKeyListParam() {
-		var param = FluentAPIGenerationUtil.generateManyValuedEParameter(fluentAPIMarkKeyParameterName,
-				EcorePackage.Literals.EJAVA_OBJECT);
+	public static EParameter getMarkKeyColParam(FluentAPIGenerationContext context) {
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(fluentAPIMarkKeyParameterName,
+				FluentAPIGenerationUtil.generateCollectionTypeParameter(context, null));
 		FluentAPIGenerationUtil.addDocumentation(param, fluentAPIMarkKeyDocumentation);
 		return param;
 	}

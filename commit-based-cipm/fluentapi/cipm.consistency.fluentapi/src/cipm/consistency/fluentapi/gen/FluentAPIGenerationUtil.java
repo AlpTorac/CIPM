@@ -2,6 +2,7 @@ package cipm.consistency.fluentapi.gen;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
@@ -51,6 +52,22 @@ public class FluentAPIGenerationUtil {
 		return result;
 	}
 
+	/**
+	 * Use {@code collectionElementExtends == null} in order to generate a wildcard
+	 * type argument.
+	 */
+	public static EGenericType generateCollectionTypeParameter(FluentAPIGenerationContext context,
+			EClassifier collectionElementExtends) {
+		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(context, Collection.class, 1);
+		var colGenTypeArgument = collectionElementExtends != null
+				? FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null,
+						FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(collectionElementExtends))
+				: FluentAPIGenerationUtil.generateWildcardTypeArgument();
+		var colGenType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureColType);
+		FluentAPIGenerationUtil.addTypeArgument(colGenType, colGenTypeArgument);
+		return colGenType;
+	}
+
 	public static EParameter generateSingleValuedEParameter(String name) {
 		var param = EcoreFactory.eINSTANCE.createEParameter();
 		param.setName(name);
@@ -72,26 +89,6 @@ public class FluentAPIGenerationUtil {
 
 	public static EParameter generateSingleValuedEParameter(String name, EGenericType type) {
 		var param = generateSingleValuedEParameter(name);
-		param.setEGenericType(type);
-		return param;
-	}
-
-	public static EParameter generateManyValuedEParameter(String name) {
-		var param = EcoreFactory.eINSTANCE.createEParameter();
-		param.setName(name);
-		param.setLowerBound(1);
-		param.setUpperBound(EParameter.UNBOUNDED_MULTIPLICITY);
-		return param;
-	}
-
-	public static EParameter generateManyValuedEParameter(String name, EClassifier type) {
-		var param = generateManyValuedEParameter(name);
-		param.setEType(type);
-		return param;
-	}
-
-	public static EParameter generateManyValuedEParameter(String name, EGenericType type) {
-		var param = generateManyValuedEParameter(name);
 		param.setEGenericType(type);
 		return param;
 	}

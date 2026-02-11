@@ -219,7 +219,7 @@ public class FluentAPIRootAPINewMethodGenerator {
 			return op;
 		};
 
-		var listFeatureValParam = getManyValuedFeatValParam(modifiableFeature);
+		var listFeatureValParam = getColFeatValParam(context, modifiableFeature);
 		var listOp = opGenerator.apply(listFeatureValParam);
 		ops.add(listOp);
 
@@ -247,9 +247,10 @@ public class FluentAPIRootAPINewMethodGenerator {
 		return param;
 	}
 
-	private EParameter getManyValuedFeatValParam(EStructuralFeature feat) {
-		var param = FluentAPIGenerationUtil.generateManyValuedEParameter(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodFeatureValueParameterName(), feat.getEType());
+	private EParameter getColFeatValParam(FluentAPIGenerationContext context, EStructuralFeature feat) {
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodFeatureValueParameterName(),
+				FluentAPIGenerationUtil.generateCollectionTypeParameter(context, feat.getEType()));
 		// TODO Add documentation
 		return param;
 	}

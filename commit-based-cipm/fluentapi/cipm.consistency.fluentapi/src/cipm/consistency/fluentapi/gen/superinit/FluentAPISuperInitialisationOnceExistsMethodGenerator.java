@@ -38,7 +38,7 @@ public class FluentAPISuperInitialisationOnceExistsMethodGenerator implements IF
 		};
 
 		ops.add(opGenerator.apply(FluentAPIGeneralParameterGenerator.getMarkKeyParam()));
-		ops.add(opGenerator.apply(FluentAPIGeneralParameterGenerator.getMarkKeyListParam()));
+		ops.add(opGenerator.apply(FluentAPIGeneralParameterGenerator.getMarkKeyColParam(context)));
 		ops.add(opGenerator.apply(FluentAPIGeneralParameterGenerator.getMarkKeyArrayParam(context)));
 		return ops;
 	}

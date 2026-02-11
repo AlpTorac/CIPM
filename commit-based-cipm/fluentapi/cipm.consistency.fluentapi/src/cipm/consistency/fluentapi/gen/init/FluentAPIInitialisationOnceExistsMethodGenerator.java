@@ -61,7 +61,7 @@ public class FluentAPIInitialisationOnceExistsMethodGenerator implements IFluent
 			return op;
 		};
 
-		ops.add(opGenerator.apply(FluentAPIGeneralParameterGenerator.getMarkKeyListParam()));
+		ops.add(opGenerator.apply(FluentAPIGeneralParameterGenerator.getMarkKeyColParam(context)));
 		ops.add(opGenerator.apply(FluentAPIGeneralParameterGenerator.getMarkKeyArrayParam(context)));
 
 		return ops;
