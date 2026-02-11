@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 
-public class FluentAPIPcmRepositoryMetamodelFeatureFilter extends FluentAPITargetMetamodelFeatureFilter {
+public class FluentAPIPcmMetamodelFeatureFilter extends FluentAPITargetMetamodelFeatureFilter {
 	@Override
 	public boolean isFeatureEligible(EClass holderOfFeat, EStructuralFeature feat) {
 		return isFeatureChangeable(feat)

@@ -13,8 +13,8 @@ import cipm.consistency.fluentapi.gen.FluentAPIGenerationMetamodelIndependentPos
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIGenerationJavaMetamodelPostProcessor;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
-//import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmRepositoryMetamodelFeatureFilter;
-//import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmRepositoryMetamodelPackageProvider;
+//import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmMetamodelFeatureFilter;
+//import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIGenerator;
 
 public class FluentAPIBuilder {
