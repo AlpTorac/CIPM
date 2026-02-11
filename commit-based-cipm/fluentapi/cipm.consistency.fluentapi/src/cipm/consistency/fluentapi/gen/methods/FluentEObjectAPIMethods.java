@@ -66,10 +66,6 @@ public final class FluentEObjectAPIMethods {
 						&& Collection.class.isAssignableFrom(p.getEGenericType().getERawType().getInstanceClass())));
 	}
 
-	private static EOperation getEListVariant(List<EOperation> ops) {
-		return ops.stream().filter((o) -> o.getEParameters().stream().anyMatch((p) -> p.isMany())).findFirst().get();
-	}
-
 	private static EOperation getArrayVariant(List<EOperation> ops) {
 		return ops.stream().filter((o) -> o.getEParameters().stream().anyMatch((p) -> !p.isMany() && isArrayType(p)))
 				.findFirst().get();
@@ -88,9 +84,7 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	private static EOperation getVariantForFeatureValue(Object featVal, List<EOperation> ops) {
-		if (featVal instanceof EList) {
-			return getEListVariant(ops);
-		} else if (featVal.getClass().isArray()) {
+		if (featVal.getClass().isArray()) {
 			return getArrayVariant(ops);
 		} else if (featVal instanceof Collection) {
 			return getCollectionVariant(ops);
@@ -267,6 +261,7 @@ public final class FluentEObjectAPIMethods {
 				.collect(Collectors.toCollection(ArrayList::new));
 		return !initsOfMatchingType.isEmpty() ? initsOfMatchingType.get(initsOfMatchingType.size() - 1) : null;
 	}
+
 	public static EObject getPreviousInit(EObject init, Class<?> eobjCls) {
 		return getPreviousInit(init, eobjCls, 1);
 	}

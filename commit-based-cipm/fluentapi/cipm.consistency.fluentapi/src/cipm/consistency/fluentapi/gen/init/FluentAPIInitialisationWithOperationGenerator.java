@@ -288,10 +288,6 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameForType(feat));
 
-		var eListAddedFeatValParam = getAddedListFeatValParam(feat);
-		var listOp = opGenerator.apply(eListAddedFeatValParam, formattedMethodBody);
-		opList.add(listOp);
-
 		var colAddedFeatValParam = getAddedColFeatValParam(context, feat);
 		var colOp = opGenerator.apply(colAddedFeatValParam, formattedMethodBody);
 		opList.add(colOp);
@@ -325,10 +321,6 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameForType(feat));
 
-		var eListRemovedFeatValParam = getRemovedListFeatValParam(feat);
-		var listOp = opGenerator.apply(eListRemovedFeatValParam, formattedMethodBody);
-		opList.add(listOp);
-
 		var colRemovedFeatValParam = getRemovedColFeatValParam(context, feat);
 		var colOp = opGenerator.apply(colRemovedFeatValParam, formattedMethodBody);
 		opList.add(colOp);
@@ -356,10 +348,6 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 
 		var formattedIterableMethodBody = String.format(withExactXFeatMethodBodyTemplate, feat.getName(),
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodExactFeatValParamName());
-
-		var eListExactFeatValParam = getExactFeatListValParam(feat);
-		var listOp = opGenerator.apply(eListExactFeatValParam, formattedIterableMethodBody);
-		opList.add(listOp);
 
 		var colExactFeatValParam = getExactFeatColValParam(context, feat);
 		var colOp = opGenerator.apply(colExactFeatValParam, formattedIterableMethodBody);
@@ -428,15 +416,6 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		return param;
 	}
 
-	private EParameter getAddedListFeatValParam(EStructuralFeature feat) {
-		var param = FluentAPIGenerationUtil.generateManyValuedEParameter(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
-				feat.getEType());
-		FluentAPIGenerationUtil.addDocumentation(param,
-				String.format(addedFeatValParamDocumentationTemplate, feat.getName()));
-		return param;
-	}
-
 	private EParameter getAddedColFeatValParam(FluentAPIGenerationContext context, EStructuralFeature feat) {
 		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(context, Collection.class, 1);
 		var colGenTypeArgument = FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null,
@@ -458,16 +437,6 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				feat.getEType());
 		FluentAPIGenerationUtil.addDocumentation(param,
 				String.format(addedFeatValParamDocumentationTemplate, feat.getName()));
-		return param;
-	}
-
-	private EParameter getRemovedListFeatValParam(EStructuralFeature feat) {
-		var param = FluentAPIGenerationUtil.generateManyValuedEParameter(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
-				feat.getEType());
-
-		FluentAPIGenerationUtil.addDocumentation(param,
-				String.format(removedFeatValParamDocumentationTemplate, feat.getName()));
 		return param;
 	}
 
@@ -493,16 +462,6 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				feat.getEType());
 		FluentAPIGenerationUtil.addDocumentation(param,
 				String.format(removedFeatValParamDocumentationTemplate, feat.getName()));
-		return param;
-	}
-
-	private EParameter getExactFeatListValParam(EStructuralFeature feat) {
-		var param = FluentAPIGenerationUtil.generateManyValuedEParameter(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodExactFeatValParamName(),
-				feat.getEType());
-
-		FluentAPIGenerationUtil.addDocumentation(param,
-				String.format(exactFeatValParamDocumentationTemplate, feat.getName()));
 		return param;
 	}
 
