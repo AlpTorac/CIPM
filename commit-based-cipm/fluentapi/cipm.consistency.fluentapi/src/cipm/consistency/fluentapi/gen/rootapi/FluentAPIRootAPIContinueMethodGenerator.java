@@ -20,6 +20,8 @@ import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationCons
 public class FluentAPIRootAPIContinueMethodGenerator {
 	// TODO Add documentation
 
+	// TODO Try to simplify marked method bodies
+
 	private static final String continueMethodBodyTemplate =
 			// %s: Full Initialisation class name
 			// %s: Initialised element class (statically, i.e. either via method parameter
