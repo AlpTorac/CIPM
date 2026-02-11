@@ -253,10 +253,6 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var originalOp = opGenerator.apply(originalOpNewFeatValParam, originalOpNewFeatValParam.getName());
 		ops.add(originalOp);
 
-		context.getAllMethodParameterOverloads(originalOp).stream()
-				.map((overload) -> overload.createOverloadingMethodsFor(originalOp)).flatMap(List::stream)
-				.forEach(ops::add);
-
 		return ops;
 	}
 
@@ -287,10 +283,6 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var singleOp = opGenerator.apply(addedFeatValParam,
 				String.format(withAddedXFeatMethodBodyTemplate, feat.getName(), addedFeatValParam.getName()));
 		opList.add(singleOp);
-
-		context.getAllMethodParameterOverloads(singleOp).stream()
-				.map((overload) -> overload.createOverloadingMethodsFor(singleOp)).flatMap(List::stream)
-				.forEach(opList::add);
 
 		var formattedMethodBody = String.format(withXsMethodBodyTemplate,
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),

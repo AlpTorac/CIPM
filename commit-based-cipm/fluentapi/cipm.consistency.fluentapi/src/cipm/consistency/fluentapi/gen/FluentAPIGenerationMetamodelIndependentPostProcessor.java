@@ -13,7 +13,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
-public class FluentAPIGlobalMethodParameterOverload implements FluentAPIMethodOverload {
+public class FluentAPIGenerationMetamodelIndependentPostProcessor implements FluentAPIGenerationPostProcessor {
 	private static final String adaptedBigDecimalParameterTemplate = "java.math.BigDecimal.valueOf(%s)";
 	private static final String adaptedBigIntegerParameterTemplate = "java.math.BigInteger.valueOf(%s)";
 
@@ -56,8 +56,7 @@ public class FluentAPIGlobalMethodParameterOverload implements FluentAPIMethodOv
 		return overloadingOp;
 	}
 
-	@Override
-	public List<EOperation> createOverloadingMethodsFor(EOperation opToOverload) {
+	private List<EOperation> createOverloadingMethodsFor(EOperation opToOverload) {
 		var overloadingOpList = new ArrayList<EOperation>();
 
 		for (var paramTypeOverride : paramTypeOverrides.entrySet()) {
@@ -74,4 +73,18 @@ public class FluentAPIGlobalMethodParameterOverload implements FluentAPIMethodOv
 		return overloadingOpList;
 	}
 
+	/**
+	 * Adds the convenience overloads for methods that use parameters of types
+	 * BigInteger and BigDecimal.
+	 */
+	@Override
+	public void apply(FluentAPIGenerationContext context) {
+		var initEClss = context.getAllInitEClss();
+
+		for (var initECls : initEClss) {
+			for (var op : new ArrayList<>(initECls.getEOperations())) {
+				initECls.getEOperations().addAll(createOverloadingMethodsFor(op));
+			}
+		}
+	}
 }

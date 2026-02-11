@@ -1,15 +1,12 @@
 package cipm.consistency.fluentapi.gen;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
-import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -29,7 +26,6 @@ public class FluentAPIGenerationContext {
 
 	private EPackage initsPackage;
 	private final Map<EClass, EClass> initEClss = new LinkedHashMap<>();
-	private final List<FluentAPITargetMetamodelGenerationSettings> metamodelGenerationSettings = new ArrayList<>();
 
 	public EPackage getRootPackage() {
 		return rootPackage;
@@ -122,26 +118,6 @@ public class FluentAPIGenerationContext {
 
 	public void setTargetMetamodelFeatureFilter(FluentAPITargetMetamodelFeatureFilter targetMetamodelFeatureFilter) {
 		this.targetMetamodelFeatureFilter = targetMetamodelFeatureFilter;
-	}
-
-	public List<FluentAPITargetMetamodelGenerationSettings> getAllMetamodelGenerationSettings() {
-		return List.copyOf(metamodelGenerationSettings);
-	}
-
-	public void addMetamodelGenerationSettings(FluentAPITargetMetamodelGenerationSettings genSettings) {
-		this.metamodelGenerationSettings.add(genSettings);
-	}
-
-	public void removeMetamodelGenerationSetttings(FluentAPITargetMetamodelGenerationSettings genSettings) {
-		this.metamodelGenerationSettings.remove(genSettings);
-	}
-
-	public List<FluentAPIMethodOverload> getAllMethodParameterOverloads(EOperation op) {
-		var overrides = getAllMetamodelGenerationSettings().stream()
-				.map((gs) -> gs.getMetamodelSpecificParameterOverloads(op)).flatMap(List::stream)
-				.collect(Collectors.toList());
-		overrides.addAll(FluentAPITargetMetamodelGenerationSettings.getGlobalParameterOverloads());
-		return overrides;
 	}
 
 	public <T extends EModelElement> T getModelElement(Class<T> modelElementType, String elemName) {
