@@ -253,15 +253,9 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		var originalOp = opGenerator.apply(originalOpNewFeatValParam, originalOpNewFeatValParam.getName());
 		ops.add(originalOp);
 
-		for (var p : context.getAllMethodParameterOverloads(feat.getEType())) {
-			var featValParamType = p.getParameterType();
-			var featValParam = getNewFeatValParam(feat);
-			featValParam.setEType(featValParamType);
-
-			var featValParamPlugin = p.getSerialisedParameterPlugin();
-
-			ops.add(opGenerator.apply(featValParam, String.format(featValParamPlugin, featValParam.getName())));
-		}
+		context.getAllMethodParameterOverloads(originalOp).stream()
+				.map((overload) -> overload.createOverloadingMethodsFor(originalOp)).flatMap(List::stream)
+				.forEach(ops::add);
 
 		return ops;
 	}
@@ -294,14 +288,9 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				String.format(withAddedXFeatMethodBodyTemplate, feat.getName(), addedFeatValParam.getName()));
 		opList.add(singleOp);
 
-		for (var p : context.getAllMethodParameterOverloads(feat.getEType())) {
-			var featValParam = getAddedFeatValParam(feat);
-			featValParam.setEType(p.getParameterType());
-			var featValParamPlugin = p.getSerialisedParameterPlugin();
-
-			opList.add(opGenerator.apply(featValParam, String.format(withAddedXFeatMethodBodyTemplate, feat.getName(),
-					String.format(featValParamPlugin, featValParam.getName()))));
-		}
+		context.getAllMethodParameterOverloads(singleOp).stream()
+				.map((overload) -> overload.createOverloadingMethodsFor(singleOp)).flatMap(List::stream)
+				.forEach(opList::add);
 
 		var formattedMethodBody = String.format(withXsMethodBodyTemplate,
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),

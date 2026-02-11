@@ -7,9 +7,9 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.ENamedElement;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
@@ -136,11 +136,11 @@ public class FluentAPIGenerationContext {
 		this.metamodelGenerationSettings.remove(genSettings);
 	}
 
-	public List<FluentAPIMethodParameterOverload> getAllMethodParameterOverloads(EClassifier eClassifier) {
+	public List<FluentAPIMethodOverload> getAllMethodParameterOverloads(EOperation op) {
 		var overrides = getAllMetamodelGenerationSettings().stream()
-				.map((gs) -> gs.getMetamodelSpecificParameterOverloads(eClassifier)).flatMap(List::stream)
+				.map((gs) -> gs.getMetamodelSpecificParameterOverloads(op)).flatMap(List::stream)
 				.collect(Collectors.toList());
-		overrides.addAll(FluentAPITargetMetamodelGenerationSettings.getGlobalParameterOverloads(eClassifier));
+		overrides.addAll(FluentAPITargetMetamodelGenerationSettings.getGlobalParameterOverloads());
 		return overrides;
 	}
 

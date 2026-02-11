@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EcorePackage;
+import org.eclipse.emf.ecore.EOperation;
 
 public class FluentAPITargetMetamodelGenerationSettings {
 	/*
@@ -25,14 +25,9 @@ public class FluentAPITargetMetamodelGenerationSettings {
 	 * @return List of (Parameter type, new value expression) pairs for method
 	 *         overloads in certain cases.
 	 */
-	public static List<FluentAPIMethodParameterOverload> getGlobalParameterOverloads(EClassifier eClassifier) {
-		var pairs = new ArrayList<FluentAPIMethodParameterOverload>();
-		if (eClassifier.equals(EcorePackage.Literals.EBIG_INTEGER)) {
-			pairs.add(new FluentAPIMethodParameterOverload(EcorePackage.Literals.ELONG,
-					"java.math.BigInteger.valueOf(%s)"));
-			pairs.add(new FluentAPIMethodParameterOverload(EcorePackage.Literals.EINT,
-					"java.math.BigInteger.valueOf(%s)"));
-		}
+	public static List<FluentAPIMethodOverload> getGlobalParameterOverloads() {
+		var pairs = new ArrayList<FluentAPIMethodOverload>();
+		pairs.add(new FluentAPIGlobalMethodParameterOverload());
 		return pairs;
 	}
 
@@ -46,7 +41,7 @@ public class FluentAPITargetMetamodelGenerationSettings {
 	 * @return List of (Parameter type, new value expression) pairs for method
 	 *         overloads in certain cases.
 	 */
-	public List<FluentAPIMethodParameterOverload> getMetamodelSpecificParameterOverloads(EClassifier eClassifier) {
+	public List<FluentAPIMethodOverload> getMetamodelSpecificParameterOverloads(EOperation op) {
 		return new ArrayList<>();
 	}
 }
