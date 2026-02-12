@@ -283,17 +283,17 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				String.format(withAddedXFeatMethodBodyTemplate, feat.getName(), addedFeatValParam.getName()));
 		opList.add(singleOp);
 
-		var formattedMethodBody = String.format(withXsMethodBodyTemplate,
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameForType(feat));
-
-		var colAddedFeatValParam = getAddedColFeatValParam(context, feat);
-		var colOp = opGenerator.apply(colAddedFeatValParam, formattedMethodBody);
-		opList.add(colOp);
-
-		var arrayAddedFeatValParam = getAddedArrayFeatValParam(context, feat);
-		var arrayOp = opGenerator.apply(arrayAddedFeatValParam, formattedMethodBody);
-		opList.add(arrayOp);
+//		var formattedMethodBody = String.format(withXsMethodBodyTemplate,
+//				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
+//				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameForType(feat));
+//
+//		var colAddedFeatValParam = getAddedColFeatValParam(context, feat);
+//		var colOp = opGenerator.apply(colAddedFeatValParam, formattedMethodBody);
+//		opList.add(colOp);
+//
+//		var arrayAddedFeatValParam = getAddedArrayFeatValParam(context, feat);
+//		var arrayOp = opGenerator.apply(arrayAddedFeatValParam, formattedMethodBody);
+//		opList.add(arrayOp);
 
 		return opList;
 	}
@@ -316,17 +316,17 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				String.format(withRemovedXFeatMethodBodyTemplate, feat.getName()));
 		opList.add(singleOp);
 
-		var formattedMethodBody = String.format(withXsMethodBodyTemplate,
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameForType(feat));
-
-		var colRemovedFeatValParam = getRemovedColFeatValParam(context, feat);
-		var colOp = opGenerator.apply(colRemovedFeatValParam, formattedMethodBody);
-		opList.add(colOp);
-
-		var arrayRemovedFeatValParam = getRemovedArrayFeatValParam(context, feat);
-		var arrayOp = opGenerator.apply(arrayRemovedFeatValParam, formattedMethodBody);
-		opList.add(arrayOp);
+//		var formattedMethodBody = String.format(withXsMethodBodyTemplate,
+//				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
+//				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameForType(feat));
+//
+//		var colRemovedFeatValParam = getRemovedColFeatValParam(context, feat);
+//		var colOp = opGenerator.apply(colRemovedFeatValParam, formattedMethodBody);
+//		opList.add(colOp);
+//
+//		var arrayRemovedFeatValParam = getRemovedArrayFeatValParam(context, feat);
+//		var arrayOp = opGenerator.apply(arrayRemovedFeatValParam, formattedMethodBody);
+//		opList.add(arrayOp);
 
 		return opList;
 	}
