@@ -60,6 +60,15 @@ public class FluentAPIGenerationMultipleValueParameterPostProcessor implements F
 		return overloadingOp;
 	}
 
+	private boolean hasArrayOverload(EOperation op) {
+		return op.getEContainingClass().getEOperations().stream()
+				.anyMatch((opTwo) -> opTwo.getEParameters().size() == 1 && op.getEParameters().size() == 1
+						&& op != opTwo && op.getName().equals(opTwo.getName()) && op.getEType().equals(opTwo.getEType())
+						&& opTwo.getEParameters().get(0).getEGenericType().getEClassifier().getInstanceClass().isArray()
+						&& op.getEParameters().get(0).getEType().getInstanceClass().equals(opTwo.getEParameters().get(0)
+								.getEGenericType().getEClassifier().getInstanceClass().getComponentType()));
+	}
+
 	private boolean hasColOverload(EOperation op) {
 		return op.getEContainingClass().getEOperations().stream()
 				.anyMatch((opTwo) -> opTwo.getEParameters().size() == 1 && op.getEParameters().size() == 1
@@ -70,8 +79,10 @@ public class FluentAPIGenerationMultipleValueParameterPostProcessor implements F
 
 	private List<EOperation> createOverloadingMethodsFor(FluentAPIGenerationContext context, EOperation opToOverload) {
 		var ops = new ArrayList<EOperation>();
-		ops.add(createOverloadingMultipleValueMethodFor(context, opToOverload,
-				getArrayVersion(context, opToOverload.getEParameters().get(0))));
+		if (!hasArrayOverload(opToOverload)) {
+			ops.add(createOverloadingMultipleValueMethodFor(context, opToOverload,
+					getArrayVersion(context, opToOverload.getEParameters().get(0))));
+		}
 		if (!hasColOverload(opToOverload)) {
 			ops.add(createOverloadingMultipleValueMethodFor(context, opToOverload,
 					getColVersion(context, opToOverload.getEParameters().get(0))));

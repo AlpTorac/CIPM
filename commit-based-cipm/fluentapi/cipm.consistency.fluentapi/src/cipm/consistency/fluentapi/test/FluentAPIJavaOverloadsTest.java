@@ -1,5 +1,6 @@
 package cipm.consistency.fluentapi.test;
 
+import org.emftext.language.java.classifiers.Classifier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +24,7 @@ public class FluentAPIJavaOverloadsTest {
 		var clsOne = api.createNewClass();
 		var clsTwo = api.createNewClass();
 
-		var ai = api.newAnnotationInstance().withAddedActualTargets(clsOne).withAddedActualTargets(clsTwo).createNow();
+		var ai = api.newAnnotationInstance().withAddedActualTargets(new Classifier[] { clsOne, clsTwo }).createNow();
 
 		Assertions.assertSame(clsOne, ai.getActualTargets().get(0).getPureClassifierReference().getTarget());
 		Assertions.assertSame(clsTwo, ai.getActualTargets().get(1).getPureClassifierReference().getTarget());
