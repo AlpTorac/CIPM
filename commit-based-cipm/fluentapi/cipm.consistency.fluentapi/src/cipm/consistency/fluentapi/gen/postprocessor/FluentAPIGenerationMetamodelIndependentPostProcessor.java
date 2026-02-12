@@ -1,4 +1,4 @@
-package cipm.consistency.fluentapi.gen;
+package cipm.consistency.fluentapi.gen.postprocessor;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -11,6 +11,8 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIGenerationMetamodelIndependentPostProcessor implements FluentAPIGenerationPostProcessor {

@@ -2,6 +2,8 @@ package cipm.consistency.fluentapi.gen.metamodels.java;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -9,11 +11,13 @@ import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.types.TypesPackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
-import cipm.consistency.fluentapi.gen.FluentAPIGenerationPostProcessor;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
+import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationPostProcessor;
 
 public class FluentAPIGenerationJavaMetamodelPostProcessor implements FluentAPIGenerationPostProcessor {
+	private static final Pattern methodNamePatternToOverload = Pattern.compile("with(?!Removed|Exact).*");
+
 	private static final String typeReferenceParameterOverrideTemplate = "this.toAPI().newClassifierReference().withTarget(%s).createNow()";
 	private static final String typeReferenceParameterOverrideParameterDocumentation = "The classifier instance, which will be referenced";
 
@@ -53,7 +57,10 @@ public class FluentAPIGenerationJavaMetamodelPostProcessor implements FluentAPIG
 		var initEClss = context.getAllInitEClss();
 
 		for (var initECls : initEClss) {
-			for (var op : new ArrayList<>(initECls.getEOperations())) {
+			var opsToOverload = initECls.getEOperations().stream()
+					.filter((op) -> methodNamePatternToOverload.matcher(op.getName()).matches())
+					.collect(Collectors.toList());
+			for (var op : opsToOverload) {
 				// Skip parameters of type EList, since overloading them results in type erasure
 				// related issues
 				if (op.getEParameters().stream().anyMatch((p) -> p.getEType() != null && !p.isMany()

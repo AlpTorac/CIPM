@@ -9,10 +9,10 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
-import cipm.consistency.fluentapi.gen.FluentAPIGenerationMetamodelIndependentPostProcessor;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIGenerationJavaMetamodelPostProcessor;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
+import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationMetamodelIndependentPostProcessor;
 //import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmMetamodelFeatureFilter;
 //import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIGenerator;

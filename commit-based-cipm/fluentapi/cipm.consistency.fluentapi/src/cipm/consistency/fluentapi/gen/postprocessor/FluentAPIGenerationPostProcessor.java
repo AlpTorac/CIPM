@@ -1,4 +1,6 @@
-package cipm.consistency.fluentapi.gen;
+package cipm.consistency.fluentapi.gen.postprocessor;
+
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 
 public interface FluentAPIGenerationPostProcessor {
 	/*
