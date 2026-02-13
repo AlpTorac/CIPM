@@ -6,7 +6,6 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.commons.CommonsPackage;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.api.ApiFactory;
@@ -185,44 +184,24 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 	}
 
 	@Test
-	public void withExactFeatTest_NoPriorValues_AsCollection() {
+	public void cleanFeatTest_WithoutPriorValues() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var pac = api.newPackage().createNow();
-		var nss = List.of("ns1", "ns2");
 
-		api.xWithExactFeat(pac, namespaceFeat, nss);
-		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
+		Assertions.assertEquals(0, pac.getNamespaces().size());
+		api.xCleanFeat(pac, namespaceFeat);
+		Assertions.assertEquals(0, pac.getNamespaces().size());
 	}
 
 	@Test
-	public void withExactFeatTest_NoPriorValues_AsEList() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-		var pac = api.newPackage().createNow();
-		var nss = FluentAPITestUtils.toEList("ns1", "ns2");
-
-		api.xWithExactFeat(pac, namespaceFeat, nss);
-		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
-	}
-
-	@Test
-	public void withExactFeatTest_NoPriorValues_AsArray() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-		var pac = api.newPackage().createNow();
-		var nss = new String[] { "ns1", "ns2" };
-
-		api.xWithExactFeat(pac, namespaceFeat, nss);
-		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
-	}
-
-	@Test
-	public void withExactFeatTest_WithPriorValues() {
+	public void cleanFeatTest_WithPriorValues() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var pac = api.newPackage().createNow();
 		var pastNss = new String[] { "ns1", "ns2", "ns3" };
 		pac.getNamespaces().addAll(List.of(pastNss));
-		var newNss = new String[] { "ns4", "ns5" };
 
-		api.xWithExactFeat(pac, namespaceFeat, newNss);
-		FluentAPITestUtils.assertPairwiseEqual(newNss, pac.getNamespaces());
+		FluentAPITestUtils.assertPairwiseEqual(pastNss, pac.getNamespaces());
+		api.xCleanFeat(pac, namespaceFeat);
+		Assertions.assertEquals(0, pac.getNamespaces().size());
 	}
 }

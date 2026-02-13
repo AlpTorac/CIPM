@@ -52,7 +52,7 @@ public final class FluentAPIInitialisationConstants {
 	private static final String fluentAPIInitialisationWithoutXFeatNameTemplate = "without%s";
 	private static final String fluentAPIInitialisationWithAddedXFeatNameTemplate = "withAdded%s";
 	private static final String fluentAPIInitialisationWithRemovedXFeatNameTemplate = "withRemoved%s";
-	private static final String fluentAPIInitialisationWithExactXFeatNameTemplate = "withExact%s";
+	private static final String fluentAPIInitialisationCleanXFeatNameTemplate = "clean%s";
 
 	/*
 	 * EParameter
@@ -60,14 +60,9 @@ public final class FluentAPIInitialisationConstants {
 	private static final String fluentAPIInitialisationWithMethodNewFeatValParamName = "newFeatVal";
 	private static final String fluentAPIInitialisationWithMethodAddedFeatValParamName = "featValToAdd";
 	private static final String fluentAPIInitialisationWithMethodRemovedFeatValParamName = "featValToRemove";
-	private static final String fluentAPIInitialisationWithMethodExactFeatValParamName = "exactFeatVals";
 
 	private static String getElementToInitialiseName(EStructuralFeature feat) {
 		return StringUtils.capitalize(feat.getName());
-	}
-
-	public static String getFluentAPIInitialisationWithMethodExactFeatValParamName() {
-		return fluentAPIInitialisationWithMethodExactFeatValParamName;
 	}
 
 	public static String getFluentAPIInitialisationWithMethodRemovedFeatValParamName() {
@@ -115,12 +110,12 @@ public final class FluentAPIInitialisationConstants {
 				getElementToInitialiseName(feat));
 	}
 
-	public static String getFluentAPIInitialisationWithExactXFeatNameTemplate() {
-		return fluentAPIInitialisationWithExactXFeatNameTemplate;
+	public static String getFluentAPIInitialisationCleanXFeatNameTemplate() {
+		return fluentAPIInitialisationCleanXFeatNameTemplate;
 	}
 
-	public static String getFluentAPIInitialisationWithExactXFeatNameForType(EStructuralFeature feat) {
-		return String.format(getFluentAPIInitialisationWithExactXFeatNameTemplate(), getElementToInitialiseName(feat));
+	public static String getFluentAPIInitialisationCleanXFeatNameForType(EStructuralFeature feat) {
+		return String.format(getFluentAPIInitialisationCleanXFeatNameTemplate(), getElementToInitialiseName(feat));
 	}
 
 	public static String getFluentAPIInitialisationOnceExistsMethodNamee() {

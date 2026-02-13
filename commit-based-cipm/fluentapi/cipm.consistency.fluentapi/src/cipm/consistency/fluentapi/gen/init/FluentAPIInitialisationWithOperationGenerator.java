@@ -56,12 +56,11 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 			+ "().";
 
 	// %s: Feature name
-	private static final String withExactXFeatDocumentationTemplate = FluentAPIDocumentationUtil
-			.appendSummaryToStart(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodSummary())
-			+ "Sets the value of the (many-valued) feature %s in this.get"
-			+ FluentAPISuperInitialisationConstants
+	private static final String cleanXFeatDocumentationTemplate = FluentAPIDocumentationUtil
+			.appendSummaryToStart(FluentAPIRootAPIConstants.getFluentAPIRootAPIXCleanFeatMethodSummary())
+			+ "Clears all values of the (many-valued) feature %s in this.get" + FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-			+ "() to the given value. Doing so sets the value of the (many-valued) feature to exactly the given values.";
+			+ "() to the given value.";
 
 	//
 	// Parameters
@@ -84,12 +83,6 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 			+ FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 			+ "().";
-
-	// %s: Feature name
-	private static final String exactFeatValParamDocumentationTemplate = "Values for the feature %s, which will replace its current value in the initialised object this.get"
-			+ FluentAPISuperInitialisationConstants
-					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-			+ "(). Afterward the value of the feature will be exactly the given values.";
 
 	//
 	// Method bodies
@@ -135,16 +128,14 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 					+ FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName()
 					+ ")", "return this");
 
-	private static final String withExactXFeatMethodBodyTemplate = FluentAPIMethodsUtil
+	private static final String cleanXFeatMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("var list = (org.eclipse.emf.common.util.EList) this.get"
 					+ FluentAPISuperInitialisationConstants
 							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 					+ "().eGet(this.get" + FluentAPISuperInitialisationConstants
 							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 					// %s: Feature name
-					+ "().eClass().getEStructuralFeature(\"%s\"))", "list.clear()",
-					// %s: New feat values expression
-					"list.addAll(%s)", "return this");
+					+ "().eClass().getEStructuralFeature(\"%s\"))", "list.clear()", "return this");
 
 	private List<EStructuralFeature> getAllEligibleFeats(FluentAPIGenerationContext context, EClass elemToInit) {
 		return elemToInit.getEAllStructuralFeatures().stream()
@@ -164,7 +155,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 			} else {
 				ops.add(this.generateWithAddedXFeat(context, initECls, elemToInit, feat));
 				ops.add(this.generateWithRemovedXFeat(context, initECls, elemToInit, feat));
-				ops.addAll(this.generateWithExactXFeat(context, initECls, elemToInit, feat));
+				ops.add(this.generateCleanXFeat(context, initECls, elemToInit, feat));
 			}
 		}
 		return ops;
@@ -222,35 +213,14 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		return op;
 	}
 
-	private List<EOperation> generateWithExactXFeat(FluentAPIGenerationContext context, EClass initECls,
-			EClass elemToInit, EStructuralFeature feat) {
-		var opList = new ArrayList<EOperation>();
-		BiFunction<EParameter, String, EOperation> opGenerator = (featValParam, methodBody) -> {
-			var op = FluentAPIGenerationUtil.generateEOperation(
-					FluentAPIInitialisationConstants.getFluentAPIInitialisationWithExactXFeatNameForType(feat),
-					initECls);
-			FluentAPIGenerationUtil.addBody(op, methodBody);
-			FluentAPIGenerationUtil.addDocumentation(op,
-					String.format(withExactXFeatDocumentationTemplate, feat.getName(), feat.getName()));
-			FluentAPIGenerationUtil.addEParameters(op, featValParam);
-			return op;
-		};
-
-		var formattedIterableMethodBody = String.format(withExactXFeatMethodBodyTemplate, feat.getName(),
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodExactFeatValParamName());
-
-		var colExactFeatValParam = getExactFeatColValParam(context, feat);
-		var colOp = opGenerator.apply(colExactFeatValParam, formattedIterableMethodBody);
-		opList.add(colOp);
-
-		var arrayExactFeatValParam = getExactArrayFeatValParam(context, feat);
-		var arrayOp = opGenerator.apply(arrayExactFeatValParam,
-				String.format(withExactXFeatMethodBodyTemplate, feat.getName(), "java.util.List.of("
-						+ FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodExactFeatValParamName()
-						+ ")"));
-		opList.add(arrayOp);
-
-		return opList;
+	private EOperation generateCleanXFeat(FluentAPIGenerationContext context, EClass initECls, EClass elemToInit,
+			EStructuralFeature feat) {
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIInitialisationConstants.getFluentAPIInitialisationCleanXFeatNameForType(feat), initECls);
+		FluentAPIGenerationUtil.addBody(op, String.format(cleanXFeatMethodBodyTemplate, feat.getName()));
+		FluentAPIGenerationUtil.addDocumentation(op,
+				String.format(cleanXFeatDocumentationTemplate, feat.getName(), feat.getName()));
+		return op;
 	}
 
 	private EParameter getNewFeatValParam(EStructuralFeature feat) {
@@ -280,26 +250,6 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		return param;
 	}
 
-	private EParameter getExactFeatColValParam(FluentAPIGenerationContext context, EStructuralFeature feat) {
-		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodExactFeatValParamName(),
-				FluentAPIGenerationUtil.generateCollectionTypeParameter(context, feat.getEType()));
-
-		FluentAPIGenerationUtil.addDocumentation(param,
-				String.format(exactFeatValParamDocumentationTemplate, feat.getName()));
-		return param;
-	}
-
-	private EParameter getExactArrayFeatValParam(FluentAPIGenerationContext context, EStructuralFeature feat) {
-		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(context,
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodExactFeatValParamName(),
-				feat.getEType());
-
-		FluentAPIGenerationUtil.addDocumentation(param,
-				String.format(exactFeatValParamDocumentationTemplate, feat.getName()));
-		return param;
-	}
-
 	@Override
 	public Map<String, String> getMethodNamesToDescriptions() {
 		return Map.of(
@@ -319,8 +269,8 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 						FluentAPIConstants.getDocumentationPlaceholder()),
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodSummary(),
 
-				String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationWithExactXFeatNameTemplate(),
+				String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationCleanXFeatNameTemplate(),
 						FluentAPIConstants.getDocumentationPlaceholder()),
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithExactFeatMethodSummary());
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIXCleanFeatMethodSummary());
 	}
 }

@@ -90,7 +90,7 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 	}
 
 	@Test
-	public void withExactTest_AsArray() {
+	public void cleanTest() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
 		var ns1 = "ns1";
@@ -98,40 +98,9 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 		var ns3 = "ns3";
 
 		var nss = new String[] { ns1, ns2, ns3 };
-		var newNss = new String[] { ns1, ns3 };
 
-		var cu = api.newCompilationUnit().withAddedNamespaces(nss).withExactNamespaces(newNss).createNow();
-		Assertions.assertArrayEquals(newNss, cu.getNamespaces().toArray(String[]::new));
-	}
-
-	@Test
-	public void withExactTest_AsEList() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-
-		var ns1 = "ns1";
-		var ns2 = "ns2";
-		var ns3 = "ns3";
-
-		var nss = new String[] { ns1, ns2, ns3 };
-		var newNss = FluentAPITestUtils.toEList(ns1, ns3);
-
-		var cu = api.newCompilationUnit().withAddedNamespaces(nss).withExactNamespaces(newNss).createNow();
-		Assertions.assertArrayEquals(newNss.toArray(String[]::new), cu.getNamespaces().toArray(String[]::new));
-	}
-
-	@Test
-	public void withExactTest_AsCollection() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-
-		var ns1 = "ns1";
-		var ns2 = "ns2";
-		var ns3 = "ns3";
-
-		var nss = new String[] { ns1, ns2, ns3 };
-		var newNss = List.of(ns1, ns3);
-
-		var cu = api.newCompilationUnit().withAddedNamespaces(nss).withExactNamespaces(newNss).createNow();
-		Assertions.assertArrayEquals(newNss.toArray(String[]::new), cu.getNamespaces().toArray(String[]::new));
+		var cu = api.newCompilationUnit().withAddedNamespaces(nss).cleanNamespaces().createNow();
+		Assertions.assertEquals(0, cu.getNamespaces().size());
 	}
 
 	@Test

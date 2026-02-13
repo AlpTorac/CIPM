@@ -16,7 +16,7 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationPostProcessor;
 
 public class FluentAPIGenerationJavaMetamodelPostProcessor implements FluentAPIGenerationPostProcessor {
-	private static final Pattern methodNamePatternToOverload = Pattern.compile("with(?!Removed|Exact).*");
+	private static final Pattern methodNamePatternToOverload = Pattern.compile("with(?!Removed).*");
 
 	private static final String typeReferenceParameterOverrideTemplate = "this.toAPI().newClassifierReference().withTarget(%s).createNow()";
 	private static final String typeReferenceParameterOverrideParameterDocumentation = "The classifier instance, which will be referenced";

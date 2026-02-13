@@ -50,6 +50,20 @@ public final class FluentEObjectAPIMethods {
 		return api;
 	}
 
+	public static EObject xCleanFeat(EObject api, EObject objToModify, EStructuralFeature feat) {
+		var init = getInitialisationForX(api, objToModify);
+		var opName = FluentAPIInitialisationConstants.getFluentAPIInitialisationCleanXFeatNameForType(feat);
+		var cleanOp = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName)).findFirst()
+				.get();
+		try {
+			init.eInvoke(cleanOp, new BasicEList<>());
+		} catch (InvocationTargetException e) {
+			e.printStackTrace();
+		}
+		FluentAPIInitialisationStorage.dropOngoingInitialisation(init);
+		return api;
+	}
+
 	private static boolean isArrayType(EParameter p) {
 		return ((p.getEType() != null && p.getEType().getInstanceClass() != null
 				&& p.getEType().getInstanceClass().isArray())
@@ -117,23 +131,6 @@ public final class FluentEObjectAPIMethods {
 		var withRemovedOps = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName))
 				.collect(Collectors.toList());
 		var op = getVariantForFeatureValue(featVal, withRemovedOps);
-		var argList = new BasicEList<>();
-		argList.add(featVal);
-		try {
-			init.eInvoke(op, argList);
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
-		FluentAPIInitialisationStorage.dropOngoingInitialisation(init);
-		return api;
-	}
-
-	public static EObject xWithExactFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
-		var init = getInitialisationForX(api, objToModify);
-		var opName = FluentAPIInitialisationConstants.getFluentAPIInitialisationWithExactXFeatNameForType(feat);
-		var withExactOp = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName))
-				.collect(Collectors.toList());
-		var op = getVariantForFeatureValue(featVal, withExactOp);
 		var argList = new BasicEList<>();
 		argList.add(featVal);
 		try {

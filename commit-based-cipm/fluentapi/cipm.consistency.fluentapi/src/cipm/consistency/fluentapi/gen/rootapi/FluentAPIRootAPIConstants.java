@@ -90,12 +90,12 @@ public final class FluentAPIRootAPIConstants {
 	private static final String fluentAPIRootAPIXWithoutFeatMethodName = "xWithoutFeat";
 	private static final String fluentAPIRootAPIXWithAddedFeatMethodName = "xWithAddedFeat";
 	private static final String fluentAPIRootAPIXWithRemovedFeatMethodName = "xWithRemovedFeat";
-	private static final String fluentAPIRootAPIXWithExactFeatMethodName = "xWithExactFeat";
+	private static final String fluentAPIRootAPIXCleanFeatMethodName = "xCleanFeat";
 	private static final String fluentAPIRootAPIXWithFeatMethodSummary = "Sets the given value of a certain single-valued EStructuralFeature for a certain EObject.";
 	private static final String fluentAPIRootAPIXWithoutFeatMethodSummary = "Unsets the value of a certain single-valued EStructuralFeature for a certain EObject.";
 	private static final String fluentAPIRootAPIXWithAddedFeatMethodSummary = "Adds the given value(s) to a certain many-valued EStructuralFeature for a certain EObject.";
 	private static final String fluentAPIRootAPIXWithRemovedFeatMethodSummary = "Removes the given value(s) from a certain many-valued EStructuralFeature for a certain EObject.";
-	private static final String fluentAPIRootAPIXWithExactFeatMethodSummary = "Sets the given value(s) as the value of a certain many-valued EStructuralFeature for a certain EObject. Replaces all existing values of that EStructuralFeature.";
+	private static final String fluentAPIRootAPIXCleanFeatMethodSummary = "Removes all values of a certain many-valued EStructuralFeature for a certain EObject.";
 
 	/*
 	 * EParameter
@@ -135,8 +135,8 @@ public final class FluentAPIRootAPIConstants {
 		return fluentAPIRootAPIXWithRemovedFeatMethodSummary;
 	}
 
-	public static String getFluentAPIRootAPIXWithExactFeatMethodSummary() {
-		return fluentAPIRootAPIXWithExactFeatMethodSummary;
+	public static String getFluentAPIRootAPIXCleanFeatMethodSummary() {
+		return fluentAPIRootAPIXCleanFeatMethodSummary;
 	}
 
 	public static final String getFluentAPIRootAPIOnceExistsMethodSummary() {
@@ -163,8 +163,8 @@ public final class FluentAPIRootAPIConstants {
 		return fluentAPIRootAPIXWithRemovedFeatMethodName;
 	}
 
-	public static String getFluentAPIRootAPIXWithExactFeatMethodName() {
-		return fluentAPIRootAPIXWithExactFeatMethodName;
+	public static String getFluentAPIRootAPIXCleanFeatMethodName() {
+		return fluentAPIRootAPIXCleanFeatMethodName;
 	}
 
 	public static String getFluentAPIRootAPIOnceExistsMethodName() {

@@ -98,9 +98,7 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 					api.xWithRemovedFeat(instance, feat, ((EList<?>) instance.eGet(feat)).toArray());
 					api.xWithRemovedFeat(instance, feat, List.copyOf(((EList<?>) instance.eGet(feat))));
 
-					api.xWithExactFeat(instance, feat, instance.eGet(feat));
-					api.xWithExactFeat(instance, feat, ((EList<?>) instance.eGet(feat)).toArray());
-					api.xWithExactFeat(instance, feat, List.copyOf(((EList<?>) instance.eGet(feat))));
+					api.xCleanFeat(instance, feat);
 				} else {
 					api.xWithFeat(instance, feat, instance.eGet(feat));
 					api.xWithoutFeat(instance, feat);
@@ -129,9 +127,7 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 					api.modifyX(instance).xWithRemovedFeat(feat, ((EList<?>) instance.eGet(feat)).toArray());
 					api.modifyX(instance).xWithRemovedFeat(feat, List.copyOf(((EList<?>) instance.eGet(feat))));
 
-					api.modifyX(instance).xWithExactFeat(feat, instance.eGet(feat));
-					api.modifyX(instance).xWithExactFeat(feat, ((EList<?>) instance.eGet(feat)).toArray());
-					api.modifyX(instance).xWithExactFeat(feat, List.copyOf(((EList<?>) instance.eGet(feat))));
+					api.modifyX(instance).xCleanFeat(feat);
 				} else {
 					api.modifyX(instance).xWithFeat(feat, instance.eGet(feat));
 					api.modifyX(instance).xWithoutFeat(feat);
