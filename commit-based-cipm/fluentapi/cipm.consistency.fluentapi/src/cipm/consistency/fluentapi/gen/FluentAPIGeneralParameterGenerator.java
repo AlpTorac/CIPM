@@ -1,5 +1,6 @@
 package cipm.consistency.fluentapi.gen;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
@@ -24,6 +25,12 @@ public final class FluentAPIGeneralParameterGenerator {
 	private static final String fluentAPIOnceExistsRunnableParameterName = "toDoOnceExists";
 	private static final String fluentAPIOnceExistsRunnableParameterDocumentation = "The model construction task, which will be executed upon object(s) getting marked with certain "
 			+ fluentAPIMarkKeyParameterName + "(s).";
+
+	public static EParameter getEObjectParamOfType(EClass type) {
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(fluentAPIEObjectParameterName, type);
+		FluentAPIGenerationUtil.addDocumentation(param, fluentAPIEObjectParameterDocumentation);
+		return param;
+	}
 
 	public static EParameter getEObjectParam() {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(fluentAPIEObjectParameterName,

@@ -57,7 +57,7 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 
 	private EOperation getRootAPIModifyElementOperationForEClass(FluentAPIGenerationContext context,
 			EClass elemToInitECls, EClass initECls) {
-		var param = FluentAPIGeneralParameterGenerator.getEObjectParam();
+		var param = FluentAPIGeneralParameterGenerator.getEObjectParamOfType(elemToInitECls);
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyMethodNameForType(elemToInitECls), initECls);
 		FluentAPIGenerationUtil.addBody(op, String.format(modifyElementMethodBodyTemplate,
