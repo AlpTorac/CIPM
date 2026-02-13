@@ -105,9 +105,6 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 					api.xWithFeat(instance, feat, instance.eGet(feat));
 					api.xWithoutFeat(instance, feat);
 				}
-				if (featureFilter.canShareFeatureWithContainer(metamodelProvider, eCls, feat)) {
-					api.xWithFeatOfContainer(instance, feat);
-				}
 			}
 		}
 	}
@@ -138,9 +135,6 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 				} else {
 					api.modifyX(instance).xWithFeat(feat, instance.eGet(feat));
 					api.modifyX(instance).xWithoutFeat(feat);
-				}
-				if (featureFilter.canShareFeatureWithContainer(metamodelProvider, eCls, feat)) {
-					api.modifyX(instance).xWithFeatOfContainer(feat);
 				}
 			}
 		}

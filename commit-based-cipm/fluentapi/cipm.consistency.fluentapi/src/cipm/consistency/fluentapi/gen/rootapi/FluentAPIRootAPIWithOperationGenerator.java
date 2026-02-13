@@ -39,7 +39,6 @@ public class FluentAPIRootAPIWithOperationGenerator {
 		ops.addAll(getWithAddedFeatOp(context));
 		ops.addAll(getWithRemovedFeatOp(context));
 		ops.addAll(getWithExactFeatOp(context));
-		ops.add(getWithFeatOfContainerOp(context));
 
 		return ops;
 	}
@@ -134,19 +133,5 @@ public class FluentAPIRootAPIWithOperationGenerator {
 		ops.add(opGen.apply(FluentAPIGeneralParameterGenerator.getFeatValArrayParam(context)));
 		ops.add(opGen.apply(FluentAPIGeneralParameterGenerator.getFeatValColParam(context)));
 		return ops;
-	}
-
-	private EOperation getWithFeatOfContainerOp(FluentAPIGenerationContext context) {
-		var eobjParam = FluentAPIGeneralParameterGenerator.getEObjectParam();
-		var featParam = FluentAPIGeneralParameterGenerator.getFeatParam();
-
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodName(),
-				context.getFluentAPIECls());
-		FluentAPIGenerationUtil.addBody(op, String.format(xWithoutFeatValParameterMethodBody, "xWithFeatOfContainer"));
-		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam);
-		FluentAPIGenerationUtil.addDocumentation(op,
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodSummary());
-		return op;
 	}
 }

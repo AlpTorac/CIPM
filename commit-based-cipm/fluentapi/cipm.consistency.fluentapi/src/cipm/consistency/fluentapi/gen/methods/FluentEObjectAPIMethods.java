@@ -145,20 +145,6 @@ public final class FluentEObjectAPIMethods {
 		return api;
 	}
 
-	public static EObject xWithFeatOfContainer(EObject api, EObject objToModify, EStructuralFeature feat) {
-		var init = getInitialisationForX(api, objToModify);
-		var opName = FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatOfContainerNameForType(feat);
-		var withFeatOfConOp = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName))
-				.findFirst().get();
-		try {
-			init.eInvoke(withFeatOfConOp, new BasicEList<>());
-		} catch (InvocationTargetException e) {
-			e.printStackTrace();
-		}
-		FluentAPIInitialisationStorage.dropOngoingInitialisation(init);
-		return api;
-	}
-
 	@SuppressWarnings("unchecked")
 	public static EList<Class<? extends EObject>> getAllSupportedClasses(EObject me) {
 		var result = new BasicEList<Class<? extends EObject>>();

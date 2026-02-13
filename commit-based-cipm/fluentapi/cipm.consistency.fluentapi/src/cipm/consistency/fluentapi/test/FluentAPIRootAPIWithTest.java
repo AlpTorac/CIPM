@@ -70,53 +70,6 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 	}
 
 	@Test
-	public void withFeatOfContainer_ManyValuedFeature_NoContainer() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-
-		var pac = api.createNewPackage();
-
-		Assertions.assertEquals(0, pac.getNamespaces().size());
-		api.xWithFeatOfContainer(pac, namespaceFeat);
-		Assertions.assertEquals(0, pac.getNamespaces().size());
-	}
-
-	@Test
-	public void withFeatOfContainer_SingleValuedFeature_NoContainer() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-
-		var cls = api.createNewClass();
-		var feat = nameFeat;
-
-		Assertions.assertEquals(feat.getDefaultValueLiteral(), cls.getName());
-		api.xWithFeatOfContainer(cls, feat);
-		Assertions.assertEquals(feat.getDefaultValueLiteral(), cls.getName());
-	}
-
-	@Test
-	public void withFeatOfContainer_SingleValuedFeature_WithContainer() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-
-		var cls = api.createNewClass();
-
-		var cuName = "cu";
-		var cu = api.newCompilationUnit().withName(cuName).withAddedClassifiers(cls).createNow();
-
-		Assertions.assertEquals(cuName, cu.getName());
-		Assertions.assertEquals(cu, cls.eContainer());
-		Assertions.assertNull(cls.getName());
-
-		api.xWithFeatOfContainer(cls, nameFeat);
-		Assertions.assertEquals(cu.getName(), cls.getName());
-	}
-
-	@Disabled("Implement and enable if one such case is found")
-	@Test
-	public void withFeatOfContainer_ManyValuedFeature_WithContainer() {
-		// No examples found for the current Java metamodel, where an EAttribute value
-		// of an EObject could be used in one of its contained EObjects
-	}
-
-	@Test
 	public void withAddedFeatTest_SingleValue_NoPriorValues() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var pac = api.newPackage().createNow();

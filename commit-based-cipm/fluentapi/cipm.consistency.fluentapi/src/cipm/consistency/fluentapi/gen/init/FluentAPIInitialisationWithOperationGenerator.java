@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
@@ -31,23 +30,6 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 			+ "Sets the value of the feature %s in this.get" + FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
 			+ "() to the given value.";
-
-	// %s: Feature name
-	private static final String withXFeatOfContainerDocumentationTemplate = FluentAPIDocumentationUtil
-			.appendSummaryToStart(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodSummary())
-			+ "Sets the value of the feature %s in this.get"
-			+ FluentAPISuperInitialisationConstants
-					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-			+ "() to the value of the same feature in this.get"
-			+ FluentAPISuperInitialisationConstants
-					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-			+ "().eContainer(), i.e. the container of this.get"
-			+ FluentAPISuperInitialisationConstants
-					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-			+ "(). Assumes this.get"
-			+ FluentAPISuperInitialisationConstants
-					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName()
-			+ "() to be contained in an elligible container.";
 
 	// %s: Feature name
 	private static final String withoutXFeatDocumentationTemplate = FluentAPIDocumentationUtil
@@ -164,32 +146,6 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 					// %s: New feat values expression
 					"list.addAll(%s)", "return this");
 
-	private static final String withXFeatOfContainerMethodBodyForManyValuedFeatTemplate = FluentAPIMethodsUtil.joinLOC(
-			"var cElem = this.get" + FluentAPISuperInitialisationConstants
-					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName() + "()",
-			"org.eclipse.emf.common.util.EList featVal = new org.eclipse.emf.common.util.BasicEList<>()",
-			// %s: Feature name
-			"if (cElem.eContainer() != null) featVal = (org.eclipse.emf.common.util.EList) cElem.eContainer().eGet(cElem.eClass().getEStructuralFeature(\"%s\"))",
-			// %s: Feature name (capitalised)
-			"withExact%s(featVal)",
-			//
-			"return this");
-
-	private static final String withXFeatOfContainerMethodBodyForSingleValuedFeatTemplate = FluentAPIMethodsUtil
-			.joinLOC(
-					"var cElem = this.get" + FluentAPISuperInitialisationConstants
-							.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName() + "()",
-					"Object featVal = null",
-					// %s: Feature name
-					"if (cElem.eContainer() != null) featVal = cElem.eContainer().eGet(cElem.eClass().getEStructuralFeature(\"%s\"))",
-					// %s: Feature name (capitalised)
-					// %s: Feature value type
-					"if (featVal != null) with%s((%s) featVal)",
-					// %s: Feature name (capitalised)
-					"if (featVal == null) without%s()",
-					//
-					"return this");
-
 	private List<EStructuralFeature> getAllEligibleFeats(FluentAPIGenerationContext context, EClass elemToInit) {
 		return elemToInit.getEAllStructuralFeatures().stream()
 				.filter((feat) -> context.getTargetMetamodelFeatureFilter().isFeatureEligible(elemToInit, feat))
@@ -205,22 +161,10 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 			if (!feat.isMany()) {
 				ops.addAll(this.generateWithXFeat(context, initECls, elemToInit, feat));
 				ops.add(this.generateWithoutXFeat(initECls, elemToInit, feat));
-
-				if (context.getTargetMetamodelFeatureFilter()
-						.canShareFeatureWithContainer(context.getTargetMetamodelPackageProvider(), elemToInit, feat)) {
-					// Do not use eContainer(), use eGet(featName) instead
-					ops.add(this.generateWithXFeatOfContainerForSingleValued(initECls, elemToInit, feat));
-				}
-
 			} else {
 				ops.add(this.generateWithAddedXFeat(context, initECls, elemToInit, feat));
 				ops.add(this.generateWithRemovedXFeat(context, initECls, elemToInit, feat));
 				ops.addAll(this.generateWithExactXFeat(context, initECls, elemToInit, feat));
-
-				if (context.getTargetMetamodelFeatureFilter()
-						.canShareFeatureWithContainer(context.getTargetMetamodelPackageProvider(), elemToInit, feat)) {
-					ops.add(this.generateWithXFeatOfContainerForManyValued(initECls, elemToInit, feat));
-				}
 			}
 		}
 		return ops;
@@ -309,32 +253,6 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 		return opList;
 	}
 
-	private EOperation generateWithXFeatOfContainerForManyValued(EClass initECls, EClass elemToInit,
-			EStructuralFeature feat) {
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatOfContainerNameForType(feat),
-				initECls);
-		FluentAPIGenerationUtil.addBody(op, String.format(withXFeatOfContainerMethodBodyForManyValuedFeatTemplate,
-				feat.getName(), StringUtils.capitalize(feat.getName())));
-		FluentAPIGenerationUtil.addDocumentation(op,
-				String.format(withXFeatOfContainerDocumentationTemplate, feat.getName()));
-		return op;
-	}
-
-	private EOperation generateWithXFeatOfContainerForSingleValued(EClass initECls, EClass elemToInit,
-			EStructuralFeature feat) {
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatOfContainerNameForType(feat),
-				initECls);
-		FluentAPIGenerationUtil.addBody(op,
-				String.format(withXFeatOfContainerMethodBodyForSingleValuedFeatTemplate, feat.getName(),
-						StringUtils.capitalize(feat.getName()), feat.getEType().getInstanceClass().getName(),
-						StringUtils.capitalize(feat.getName())));
-		FluentAPIGenerationUtil.addDocumentation(op,
-				String.format(withXFeatOfContainerDocumentationTemplate, feat.getName()));
-		return op;
-	}
-
 	private EParameter getNewFeatValParam(EStructuralFeature feat) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodNewFeatValParamName(),
@@ -388,11 +306,6 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 				String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatNameTemplate(),
 						FluentAPIConstants.getDocumentationPlaceholder()),
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodSummary(),
-
-				String.format(
-						FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatOfContainerNameTemplate(),
-						FluentAPIConstants.getDocumentationPlaceholder()),
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodSummary(),
 
 				String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationWithoutXFeatNameTemplate(),
 						FluentAPIConstants.getDocumentationPlaceholder()),

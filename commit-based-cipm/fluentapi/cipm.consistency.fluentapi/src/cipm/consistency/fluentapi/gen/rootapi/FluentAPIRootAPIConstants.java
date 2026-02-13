@@ -91,13 +91,11 @@ public final class FluentAPIRootAPIConstants {
 	private static final String fluentAPIRootAPIXWithAddedFeatMethodName = "xWithAddedFeat";
 	private static final String fluentAPIRootAPIXWithRemovedFeatMethodName = "xWithRemovedFeat";
 	private static final String fluentAPIRootAPIXWithExactFeatMethodName = "xWithExactFeat";
-	private static final String fluentAPIRootAPIXWithFeatOfContainerMethodName = "xWithFeatOfContainer";
 	private static final String fluentAPIRootAPIXWithFeatMethodSummary = "Sets the given value of a certain single-valued EStructuralFeature for a certain EObject.";
 	private static final String fluentAPIRootAPIXWithoutFeatMethodSummary = "Unsets the value of a certain single-valued EStructuralFeature for a certain EObject.";
 	private static final String fluentAPIRootAPIXWithAddedFeatMethodSummary = "Adds the given value(s) to a certain many-valued EStructuralFeature for a certain EObject.";
 	private static final String fluentAPIRootAPIXWithRemovedFeatMethodSummary = "Removes the given value(s) from a certain many-valued EStructuralFeature for a certain EObject.";
 	private static final String fluentAPIRootAPIXWithExactFeatMethodSummary = "Sets the given value(s) as the value of a certain many-valued EStructuralFeature for a certain EObject. Replaces all existing values of that EStructuralFeature.";
-	private static final String fluentAPIRootAPIXWithFeatOfContainerMethodSummary = "Sets the value of a certain single-valued EStructuralFeature F for a certain EObject EO to the value of F in EO.eContainer().";
 
 	/*
 	 * EParameter
@@ -141,10 +139,6 @@ public final class FluentAPIRootAPIConstants {
 		return fluentAPIRootAPIXWithExactFeatMethodSummary;
 	}
 
-	public static String getFluentAPIRootAPIXWithFeatOfContainerMethodSummary() {
-		return fluentAPIRootAPIXWithFeatOfContainerMethodSummary;
-	}
-
 	public static final String getFluentAPIRootAPIOnceExistsMethodSummary() {
 		return fluentAPIRootAPIOnceExistsMethodSummary;
 	}
@@ -171,10 +165,6 @@ public final class FluentAPIRootAPIConstants {
 
 	public static String getFluentAPIRootAPIXWithExactFeatMethodName() {
 		return fluentAPIRootAPIXWithExactFeatMethodName;
-	}
-
-	public static String getFluentAPIRootAPIXWithFeatOfContainerMethodName() {
-		return fluentAPIRootAPIXWithFeatOfContainerMethodName;
 	}
 
 	public static String getFluentAPIRootAPIOnceExistsMethodName() {

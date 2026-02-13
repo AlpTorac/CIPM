@@ -51,7 +51,6 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 		ops.addAll(getWithAddedFeatOp(context));
 		ops.addAll(getWithRemovedFeatOp(context));
 		ops.addAll(getWithExactFeatOp(context));
-		ops.add(getWithFeatOfContainerOp(context));
 
 		return ops;
 	}
@@ -148,20 +147,6 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 		return ops;
 	}
 
-	private EOperation getWithFeatOfContainerOp(FluentAPIGenerationContext context) {
-		var featParam = FluentAPIGeneralParameterGenerator.getFeatParam();
-
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodName(),
-				context.getInitSuperECls());
-		FluentAPIGenerationUtil.addBody(op, String.format(xWithoutFeatValParameterDelegateMethodBodyTemplate,
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodName()));
-		FluentAPIGenerationUtil.addEParameters(op, featParam);
-		FluentAPIGenerationUtil.addDocumentation(op,
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodSummary());
-		return op;
-	}
-
 	@Override
 	public Map<String, String> getMethodNamesToDescriptions() {
 		return Map.of(FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodName(),
@@ -169,9 +154,6 @@ public class FluentAPISuperInitialisationWithOperationGenerator implements IFlue
 
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodName(),
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodSummary(),
-
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodName(),
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatOfContainerMethodSummary(),
 
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(),
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodSummary(),

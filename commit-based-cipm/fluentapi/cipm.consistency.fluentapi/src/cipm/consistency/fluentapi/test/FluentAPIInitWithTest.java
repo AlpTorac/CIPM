@@ -166,24 +166,4 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 		var cu = api.newCompilationUnit().withAddedNamespaces(nss).createNow();
 		Assertions.assertArrayEquals(nss.toArray(String[]::new), cu.getNamespaces().toArray(String[]::new));
 	}
-
-	@Test
-	public void withFeatOfContainerTest_NoContainer() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-		var cls = api.newClass().withNameOfContainer().createNow();
-		Assertions.assertNull(cls.getName());
-	}
-
-	@Test
-	public void withFeatOfContainerTest_WithContainer() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-		var clsKey = new Object();
-		var cuName = "cuName";
-		var cu = api.newCompilationUnit().withName(cuName)
-				.withAddedClassifiers(api.newClass().markCurrent(clsKey).createNow()).createNow();
-		var cls = api.modifyMarkedClass(clsKey).withNameOfContainer().createNow();
-
-		Assertions.assertSame(cu, cls.eContainer());
-		Assertions.assertEquals(cu.getName(), cls.getName());
-	}
 }

@@ -49,7 +49,6 @@ public final class FluentAPIInitialisationConstants {
 	 * with
 	 */
 	private static final String fluentAPIInitialisationWithXFeatNameTemplate = "with%s";
-	private static final String fluentAPIInitialisationWithXFeatOfContainerNameTemplate = "with%sOfContainer";
 	private static final String fluentAPIInitialisationWithoutXFeatNameTemplate = "without%s";
 	private static final String fluentAPIInitialisationWithAddedXFeatNameTemplate = "withAdded%s";
 	private static final String fluentAPIInitialisationWithRemovedXFeatNameTemplate = "withRemoved%s";
@@ -89,15 +88,6 @@ public final class FluentAPIInitialisationConstants {
 
 	public static String getFluentAPIInitialisationWithXFeatNameForType(EStructuralFeature feat) {
 		return String.format(getFluentAPIInitialisationWithXFeatNameTemplate(), getElementToInitialiseName(feat));
-	}
-
-	public static String getFluentAPIInitialisationWithXFeatOfContainerNameTemplate() {
-		return fluentAPIInitialisationWithXFeatOfContainerNameTemplate;
-	}
-
-	public static String getFluentAPIInitialisationWithXFeatOfContainerNameForType(EStructuralFeature feat) {
-		return String.format(getFluentAPIInitialisationWithXFeatOfContainerNameTemplate(),
-				getElementToInitialiseName(feat));
 	}
 
 	public static String getFluentAPIInitialisationWithoutXFeatNameTemplate() {
