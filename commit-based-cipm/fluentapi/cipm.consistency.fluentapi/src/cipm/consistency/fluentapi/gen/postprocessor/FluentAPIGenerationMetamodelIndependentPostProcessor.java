@@ -6,6 +6,7 @@ public class FluentAPIGenerationMetamodelIndependentPostProcessor implements Flu
 	@Override
 	public void apply(FluentAPIGenerationContext context) {
 		new FluentAPIGenerationBigNumberParameterPostProcessor().apply(context);
-		new FluentAPIGenerationMultipleValueParameterPostProcessor().apply(context);
+		new FluentAPIGenerationForEachOverloadPostProcessor().apply(context);
+		new FluentAPIGenerationSameMethodOverloadPostProcessor().apply(context);
 	}
 }

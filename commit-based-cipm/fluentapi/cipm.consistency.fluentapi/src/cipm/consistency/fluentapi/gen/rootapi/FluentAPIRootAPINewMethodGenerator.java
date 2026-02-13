@@ -46,7 +46,6 @@ public class FluentAPIRootAPINewMethodGenerator {
 					+ "(%s.class)).withAdded%s("
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodFeatureValueParameterName()
 					+ ").createNow()");
-	private static final String newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_multipleValues = newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_singleValue;
 
 	private static final String newXWithoutModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			"return (%s) ((%s) this." + FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName()
@@ -132,10 +131,8 @@ public class FluentAPIRootAPINewMethodGenerator {
 		if (modifiableFeature.isMany()) {
 			// Many-valued features should also have a method that accepts one value (for
 			// convenience)
-			ops.addAll(getRootAPINewOperationForEClassWithOnlyOneModifiableManyValuedFeat_SingleValue(eObjEClass,
-					modifiableFeature, initECls));
-			ops.addAll(getRootAPINewOperationForEClassWithOnlyOneModifiableManyValuedFeat_MultipleValues(context,
-					eObjEClass, modifiableFeature, initECls));
+			ops.addAll(getRootAPINewOperationForEClassWithOnlyOneModifiableManyValuedFeat(eObjEClass, modifiableFeature,
+					initECls));
 		} else {
 			ops.addAll(getRootAPINewOperationForEClassWithOnlyOneModifiableSingleValuedFeat(eObjEClass,
 					modifiableFeature, initECls));
@@ -181,8 +178,8 @@ public class FluentAPIRootAPINewMethodGenerator {
 		return ops;
 	}
 
-	private List<EOperation> getRootAPINewOperationForEClassWithOnlyOneModifiableManyValuedFeat_SingleValue(
-			EClass eObjEClass, EStructuralFeature modifiableFeature, EClass initECls) {
+	private List<EOperation> getRootAPINewOperationForEClassWithOnlyOneModifiableManyValuedFeat(EClass eObjEClass,
+			EStructuralFeature modifiableFeature, EClass initECls) {
 		var ops = new ArrayList<EOperation>();
 
 		var featureValParam = getSingleValuedFeatValParam(modifiableFeature);
@@ -199,37 +196,6 @@ public class FluentAPIRootAPINewMethodGenerator {
 		return ops;
 	}
 
-	private List<EOperation> getRootAPINewOperationForEClassWithOnlyOneModifiableManyValuedFeat_MultipleValues(
-			FluentAPIGenerationContext context, EClass eObjEClass, EStructuralFeature modifiableFeature,
-			EClass initECls) {
-		var ops = new ArrayList<EOperation>();
-
-		// Extract and re-use the EOperation generation, since only the parameter type
-		// is changed
-		Function<EParameter, EOperation> opGenerator = (p) -> {
-			var op = FluentAPIGenerationUtil.generateEOperation(
-					FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodNameForType(eObjEClass), eObjEClass);
-			FluentAPIGenerationUtil.addBody(op,
-					String.format(newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_multipleValues,
-							eObjEClass.getInstanceClass().getName(),
-							FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-							eObjEClass.getInstanceClass().getName(),
-							StringUtils.capitalize(modifiableFeature.getName())));
-			FluentAPIGenerationUtil.addEParameters(op, p);
-			return op;
-		};
-
-		var listFeatureValParam = getColFeatValParam(context, modifiableFeature);
-		var listOp = opGenerator.apply(listFeatureValParam);
-		ops.add(listOp);
-
-		var arrayFeatureValParam = getArrayFeatValParam(context, modifiableFeature);
-		var arrayOp = opGenerator.apply(arrayFeatureValParam);
-		ops.add(arrayOp);
-
-		return ops;
-	}
-
 	private EOperation getRootAPINewOperationForEClassWithoutModifiableFeats(EClass eObjEClass, EClass initECls) {
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodNameForType(eObjEClass), eObjEClass);
@@ -242,21 +208,6 @@ public class FluentAPIRootAPINewMethodGenerator {
 
 	private EParameter getSingleValuedFeatValParam(EStructuralFeature feat) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodFeatureValueParameterName(), feat.getEType());
-		// TODO Add documentation
-		return param;
-	}
-
-	private EParameter getColFeatValParam(FluentAPIGenerationContext context, EStructuralFeature feat) {
-		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodFeatureValueParameterName(),
-				FluentAPIGenerationUtil.generateCollectionTypeParameter(context, feat.getEType()));
-		// TODO Add documentation
-		return param;
-	}
-
-	private EParameter getArrayFeatValParam(FluentAPIGenerationContext context, EStructuralFeature feat) {
-		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(context,
 				FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodFeatureValueParameterName(), feat.getEType());
 		// TODO Add documentation
 		return param;

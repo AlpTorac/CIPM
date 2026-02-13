@@ -3,7 +3,7 @@ package cipm.consistency.fluentapi.gen.postprocessor;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.regex.Pattern;
+
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
@@ -13,24 +13,9 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
-import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
-public class FluentAPIGenerationMultipleValueParameterPostProcessor implements FluentAPIGenerationPostProcessor {
-	private static final Pattern methodNamePatternToOverload = Pattern.compile("(xW|w)ith(?=Removed|Added).*");
-	private static final Pattern paramNamePatternToOverload = Pattern
-			.compile("newFeatVal|featValToAdd|featValToRemove|featVal");
-
-	private static final String iterationParamName = "e";
-	/**
-	 * The method body template for method overloads with collections / lists /
-	 * arrays of feature values as parameters.
-	 */
-	private static final String multipleValueMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			"for (var " + iterationParamName + " : %s) this.%s(%s)",
-			// %s: Overloaded parameter name
-			// %s: Singular method name
-			// %s: Serialised arguments
-			"return this");
+public abstract class FluentAPIGenerationMultipleValueParameterPostProcessor
+		implements FluentAPIGenerationPostProcessor {
 
 	private EParameter getArrayVersion(FluentAPIGenerationContext context, EParameter oldParam) {
 		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(context, oldParam.getName(),
@@ -46,6 +31,8 @@ public class FluentAPIGenerationMultipleValueParameterPostProcessor implements F
 		return param;
 	}
 
+	protected abstract EOperation overloadMethodBody(EOperation overloadingOp, EParameter newParam);
+
 	private EOperation createOverloadingMultipleValueMethodFor(FluentAPIGenerationContext context,
 			EOperation opToOverload, EParameter paramToOverload, EParameter newParam) {
 		var copier = new EcoreUtil.Copier();
@@ -60,17 +47,7 @@ public class FluentAPIGenerationMultipleValueParameterPostProcessor implements F
 		overloadingOp.getEParameters().remove(oldParam);
 
 		// Adjust method body
-		var serialisedArguments = new ArrayList<String>();
-		for (var p : overloadingOp.getEParameters()) {
-			if (p != newParam) {
-				serialisedArguments.add(p.getName());
-			} else {
-				serialisedArguments.add(iterationParamName);
-			}
-		}
-		FluentAPIGenerationUtil.addBody(overloadingOp,
-				String.format(multipleValueMethodBodyTemplate, newParam.getName(), overloadingOp.getName(),
-						String.join(",", serialisedArguments.toArray(String[]::new))));
+		overloadMethodBody(overloadingOp, newParam);
 		FluentAPIGenerationUtil.useDocumentationOf(overloadingOp, opToOverload);
 
 		return overloadingOp;
@@ -93,10 +70,11 @@ public class FluentAPIGenerationMultipleValueParameterPostProcessor implements F
 								.getEClassifier().getInstanceClass().equals(Collection.class));
 	}
 
+	protected abstract boolean shouldOverloadParameter(EParameter param);
+
 	private List<EOperation> createOverloadingMethodsFor(FluentAPIGenerationContext context, EOperation opToOverload) {
 		var ops = new ArrayList<EOperation>();
-		for (var p : opToOverload.getEParameters().stream()
-				.filter((param) -> paramNamePatternToOverload.matcher(param.getName()).matches())
+		for (var p : opToOverload.getEParameters().stream().filter(this::shouldOverloadParameter)
 				.collect(Collectors.toList())) {
 			if (!hasArrayOverload(opToOverload, p)) {
 				ops.add(createOverloadingMultipleValueMethodFor(context, opToOverload, p, getArrayVersion(context, p)));
@@ -108,6 +86,8 @@ public class FluentAPIGenerationMultipleValueParameterPostProcessor implements F
 		return ops;
 	}
 
+	protected abstract boolean shouldOverloadMethod(EOperation op);
+
 	@Override
 	public void apply(FluentAPIGenerationContext context) {
 		var allEClss = new ArrayList<EClass>();
@@ -118,11 +98,7 @@ public class FluentAPIGenerationMultipleValueParameterPostProcessor implements F
 		for (var eCls : allEClss) {
 			// Only consider EOperations, which have a single parameter and whose return
 			// type is their containing EClass
-			var opsToOverload = eCls.getEOperations().stream()
-					.filter((op) -> methodNamePatternToOverload.matcher(op.getName()).matches()
-							&& op.getEParameters().stream()
-									.anyMatch((p) -> paramNamePatternToOverload.matcher(p.getName()).matches())
-							&& op.getEType().equals(op.getEContainingClass()))
+			var opsToOverload = eCls.getEOperations().stream().filter((op) -> shouldOverloadMethod(op))
 					.collect(Collectors.toList());
 			for (var op : opsToOverload) {
 				op.getEContainingClass().getEOperations().addAll(createOverloadingMethodsFor(context, op));

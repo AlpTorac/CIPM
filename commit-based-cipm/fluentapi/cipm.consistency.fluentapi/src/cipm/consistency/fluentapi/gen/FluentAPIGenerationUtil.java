@@ -17,6 +17,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
 
 public class FluentAPIGenerationUtil {
 	private static final String placeholderEDataTypeSuffix = "EDataTypePlaceholder";
@@ -58,10 +59,28 @@ public class FluentAPIGenerationUtil {
 	 */
 	public static EGenericType generateCollectionTypeParameter(FluentAPIGenerationContext context,
 			EClassifier collectionElementExtends) {
+		var colExtendsType = collectionElementExtends;
+		if (colExtendsType.equals(EcorePackage.Literals.EINT))
+			colExtendsType = EcorePackage.Literals.EINTEGER_OBJECT;
+		if (colExtendsType.equals(EcorePackage.Literals.ELONG))
+			colExtendsType = EcorePackage.Literals.ELONG_OBJECT;
+		if (colExtendsType.equals(EcorePackage.Literals.EFLOAT))
+			colExtendsType = EcorePackage.Literals.EFLOAT_OBJECT;
+		if (colExtendsType.equals(EcorePackage.Literals.EDOUBLE))
+			colExtendsType = EcorePackage.Literals.EDOUBLE_OBJECT;
+		if (colExtendsType.equals(EcorePackage.Literals.EBOOLEAN))
+			colExtendsType = EcorePackage.Literals.EBOOLEAN_OBJECT;
+		if (colExtendsType.equals(EcorePackage.Literals.EBYTE))
+			colExtendsType = EcorePackage.Literals.EBYTE_OBJECT;
+		if (colExtendsType.equals(EcorePackage.Literals.ESHORT))
+			colExtendsType = EcorePackage.Literals.ESHORT_OBJECT;
+		if (colExtendsType.equals(EcorePackage.Literals.ECHAR))
+			colExtendsType = EcorePackage.Literals.ECHARACTER_OBJECT;
+
 		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(context, Collection.class, 1);
-		var colGenTypeArgument = collectionElementExtends != null
+		var colGenTypeArgument = colExtendsType != null
 				? FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null,
-						FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(collectionElementExtends))
+						FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(colExtendsType))
 				: FluentAPIGenerationUtil.generateWildcardTypeArgument();
 		var colGenType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureColType);
 		FluentAPIGenerationUtil.addTypeArgument(colGenType, colGenTypeArgument);

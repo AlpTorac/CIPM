@@ -107,7 +107,7 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		summaries.putAll(withGen.getMethodNamesToDescriptions());
 
 		var onceExistsGen = new FluentAPISuperInitialisationOnceExistsMethodGenerator();
-		context.getInitSuperECls().getEOperations().addAll(onceExistsGen.generateAllOnceExistsMethods(context));
+		context.getInitSuperECls().getEOperations().add(onceExistsGen.generateAllOnceExistsMethods(context));
 		summaries.putAll(onceExistsGen.getMethodNamesToDescriptions());
 	}
 

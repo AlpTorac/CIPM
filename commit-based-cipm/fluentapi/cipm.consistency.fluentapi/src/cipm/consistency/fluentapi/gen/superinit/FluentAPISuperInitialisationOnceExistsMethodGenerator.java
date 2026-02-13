@@ -1,12 +1,8 @@
 package cipm.consistency.fluentapi.gen.superinit;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 
 import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EParameter;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
@@ -24,23 +20,15 @@ public class FluentAPISuperInitialisationOnceExistsMethodGenerator implements IF
 					+ FluentAPIGeneralParameterGenerator.getFluentAPIOnceExistsRunnableParameterName() + ")",
 			"return this");
 
-	public List<EOperation> generateAllOnceExistsMethods(FluentAPIGenerationContext context) {
-		var ops = new ArrayList<EOperation>();
-		Function<EParameter, EOperation> opGenerator = (keyParam) -> {
-			var taskParam = FluentAPIGeneralParameterGenerator.getRunnableParam(context);
-			var op = FluentAPIGenerationUtil.generateEOperation(
-					FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), context.getInitSuperECls());
-			FluentAPIGenerationUtil.addBody(op, onceExistsMethodMarkedKeyBody);
-			FluentAPIGenerationUtil.addEParameters(op, keyParam, taskParam);
-			FluentAPIGenerationUtil.addDocumentation(op,
-					FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodDocumentation());
-			return op;
-		};
-
-		ops.add(opGenerator.apply(FluentAPIGeneralParameterGenerator.getMarkKeyParam()));
-		ops.add(opGenerator.apply(FluentAPIGeneralParameterGenerator.getMarkKeyColParam(context)));
-		ops.add(opGenerator.apply(FluentAPIGeneralParameterGenerator.getMarkKeyArrayParam(context)));
-		return ops;
+	public EOperation generateAllOnceExistsMethods(FluentAPIGenerationContext context) {
+		var taskParam = FluentAPIGeneralParameterGenerator.getRunnableParam(context);
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), context.getInitSuperECls());
+		FluentAPIGenerationUtil.addBody(op, onceExistsMethodMarkedKeyBody);
+		FluentAPIGenerationUtil.addEParameters(op, FluentAPIGeneralParameterGenerator.getMarkKeyParam(), taskParam);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodDocumentation());
+		return op;
 	}
 
 	@Override

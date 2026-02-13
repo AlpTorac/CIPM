@@ -70,7 +70,7 @@ public class FluentAPIRootAPIEClassGenerator {
 				.addAll(new FluentAPIRootAPIMarkMethodGenerator().generateAllMarkMethods(context));
 
 		context.getFluentAPIECls().getEOperations()
-				.addAll(new FluentAPIRootAPIOnceExistsMethodGenerator().generateAllOnceExistsMethods(context));
+				.add(new FluentAPIRootAPIOnceExistsMethodGenerator().generateAllOnceExistsMethods(context));
 
 		context.getFluentAPIECls().getEOperations().add(
 				new FluentAPIRootAPIGetInitialisationForMethodGenerator().getInitialisationForEClassMethod(context));
