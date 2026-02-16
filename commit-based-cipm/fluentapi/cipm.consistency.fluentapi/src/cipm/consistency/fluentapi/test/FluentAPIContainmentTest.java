@@ -61,7 +61,7 @@ public class FluentAPIContainmentTest extends AbstractFluentAPITest {
 		var outerCls = api.newClass().withName(outerClsName).createNow();
 		var innerCls = api.newClass().withName(innerClsName)
 				.withExtends(api.newClassifierReference().withTarget(outerCls).createNow()).createNow();
-		api.modifyClass(outerCls).withAddedMembers(innerCls).drop();
+		api.modifyClass(outerCls).withAddedMembers(innerCls).dropInitialisation();
 
 		Assertions.assertEquals(1, outerCls.getMembers().size());
 		Assertions.assertEquals(innerCls, outerCls.getMembers().get(0));

@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIParameterUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 
@@ -43,10 +44,6 @@ public class FluentAPISuperInitialisationDelegateMethodGenerator {
 			// %s: Method call string (with parameters in brackets)
 			"this.toAPI().%s", "return this");
 
-	private String getSerialisedParametersFor(EOperation op) {
-		return String.join(",", op.getEParameters().stream().map((p) -> p.getName()).toArray(String[]::new));
-	}
-
 	private String replaceParameters(String serialisedParameters) {
 		var result = serialisedParameters;
 		for (var e : parameterOverrideMap.entrySet()) {
@@ -62,7 +59,8 @@ public class FluentAPISuperInitialisationDelegateMethodGenerator {
 		var fluentAPIECls = context.getFluentAPIECls();
 		for (var op : fluentAPIECls.getEOperations()) {
 			if (methodsToDelegate.matcher(op.getName()).matches()) {
-				var serialisedOriginalMethodCall = op.getName() + "(" + getSerialisedParametersFor(op) + ")";
+				var serialisedOriginalMethodCall = op.getName() + "("
+						+ FluentAPIParameterUtil.getSerialisedParametersFor(op) + ")";
 				var copier = new EcoreUtil.Copier();
 				var delegateOp = (EOperation) copier.copy(op);
 				copier.copyReferences();
@@ -71,22 +69,7 @@ public class FluentAPISuperInitialisationDelegateMethodGenerator {
 				delegateOp.getEParameters().removeIf((p) -> parameterOverrideMap.keySet().stream()
 						.anyMatch((pattern) -> pattern.matcher(p.getName()).matches()));
 
-				// TODO Extract as utility method for clashing method signatures
-				// EcoreUti.equals does not work for EParameter comparison
-				var clashingMethodExists = false;
-				for (var delOp : delegateOps) {
-					if (!delOp.getName().equals(delegateOp.getName()))
-						continue;
-					if (delOp.getEParameters().size() != delegateOp.getEParameters().size())
-						continue;
-					clashingMethodExists = delOp.getEParameters().stream()
-							.allMatch((delOpP) -> delegateOp.getEParameters().stream().anyMatch(
-									(delegateOpP) -> delOpP.getName().equals(delegateOpP.getName()) && delOpP.getEType()
-											.getInstanceClass().equals(delegateOpP.getEType().getInstanceClass())));
-					if (clashingMethodExists)
-						break;
-				}
-				if (clashingMethodExists)
+				if (FluentAPIParameterUtil.hasClashingMethods(delegateOps, delegateOp))
 					continue;
 
 				// Adjust return type

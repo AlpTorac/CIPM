@@ -16,6 +16,9 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
 public class FluentAPISuperInitialisationPreviousInitialisationMethodGenerator implements IFluentAPIMethodGenerator {
+
+	// TODO Merge with nextInit method generation
+
 	private static final String previousInitMethodSummary = "Returns the Initialisation instance of the same type that this API instance created before this one.";
 	private static final String previousInitMethodDocumentation = FluentAPIDocumentationUtil
 			.appendSummaryToStart(previousInitMethodSummary) + "Returns the "
@@ -27,17 +30,15 @@ public class FluentAPISuperInitialisationPreviousInitialisationMethodGenerator i
 			+ " instances that were created consecutively.";
 	private static final String previousInitMethodBodyTemplate = FluentAPIMethodsUtil
 			// %s: Initialisation class
-			// %s: Initialised EObject class
 			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + "."
 					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationPreviousInitMethodName()
-					+ "(this, %s.class)");
+					+ "(this)");
 
 	private static final String previousInitWithIndexMethodBodyTemplate = FluentAPIMethodsUtil
 			// %s: Initialisation class
-			// %s: Initialised EObject class
 			.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + "."
 					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationPreviousInitMethodName()
-					+ "(this, %s.class, "
+					+ "(this, "
 					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationGetInitStepParameterName()
 					+ ")");
 
@@ -52,10 +53,8 @@ public class FluentAPISuperInitialisationPreviousInitialisationMethodGenerator i
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationPreviousInitMethodName(),
 				initEClass);
-		FluentAPIGenerationUtil.addBody(op,
-				String.format(previousInitMethodBodyTemplate,
-						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initEClass),
-						eobjEClass.getInstanceClass().getName()));
+		FluentAPIGenerationUtil.addBody(op, String.format(previousInitMethodBodyTemplate,
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initEClass)));
 		FluentAPIGenerationUtil.addDocumentation(op, previousInitMethodDocumentation);
 		return op;
 	}
@@ -67,10 +66,8 @@ public class FluentAPISuperInitialisationPreviousInitialisationMethodGenerator i
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationPreviousInitMethodName(),
 				initEClass);
-		FluentAPIGenerationUtil.addBody(op,
-				String.format(previousInitWithIndexMethodBodyTemplate,
-						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initEClass),
-						eobjEClass.getInstanceClass().getName()));
+		FluentAPIGenerationUtil.addBody(op, String.format(previousInitWithIndexMethodBodyTemplate,
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initEClass)));
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		FluentAPIGenerationUtil.addDocumentation(op, previousInitMethodDocumentation);
 		return op;

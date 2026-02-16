@@ -66,7 +66,11 @@ public class FluentAPIRootAPIGenerator {
 	}
 
 	private void setupConcreteInitEClasses(FluentAPIGenerationContext context) {
-		context.getAllInitEClss().forEach((cls) -> cls.getESuperTypes().add(context.getInitSuperECls()));
+		var gen = new FluentAPIInitialisationEClassGenerator();
+		context.getAllInitEClss().forEach((cls) -> {
+			gen.setupFluentAPIInitialisationFor(cls, context.getElemToInitFor(cls), context);
+			cls.getESuperTypes().add(context.getInitSuperECls());
+		});
 	}
 
 	private EClass generateRootAPIEClass() {

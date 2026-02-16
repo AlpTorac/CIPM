@@ -12,10 +12,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
-import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationCreateNowMethodGenerator;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator;
-import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationNextInitialisationMethodGenerator;
-import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationPreviousInitialisationMethodGenerator;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationResetOperationGenerator;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationToAPIMethodGenerator;
 
@@ -39,7 +36,6 @@ public class FluentAPIInitialisationEClassGenerator {
 					.collect(Collectors.toCollection(ArrayList::new))) {
 				var initSubCls = generateInitialisationEClass(initialisedEClass, context);
 				context.addInitECls(initialisedEClass, initSubCls);
-				setupFluentAPIInitialisationFor(initSubCls, initialisedEClass, context);
 				initSubClss.add(initSubCls);
 			}
 		}
@@ -62,10 +58,12 @@ public class FluentAPIInitialisationEClassGenerator {
 		return xInitEClass;
 	}
 
-	private void setupFluentAPIInitialisationFor(EClass xInitEClass, EClass initialisedEClass,
+	public void setupFluentAPIInitialisationFor(EClass xInitEClass, EClass initialisedEClass,
 			FluentAPIGenerationContext context) {
+		xInitEClass.getEOperations().addAll(new FluentAPIInitialisationReturnTypeOverrideGenerator()
+				.generateMethodsWithOverridingReturnType(context, xInitEClass, initialisedEClass));
+
 		addNonOverriddenInheritedMethodSummaries();
-		addOverridingOperations(xInitEClass, initialisedEClass);
 		addOperations(xInitEClass, initialisedEClass, context);
 		addXInitEClassDocumentation(xInitEClass, initialisedEClass, context);
 	}
@@ -74,9 +72,6 @@ public class FluentAPIInitialisationEClassGenerator {
 		var getInitEClsGen = new FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator();
 		summaries.putAll(getInitEClsGen.getMethodNamesToDescriptions());
 
-//		var dropGen = new FluentAPISuperInitialisationDropOperationGenerator();
-//		summaries.putAll(dropGen.getMethodNamesToDescriptions());
-
 		var resetGen = new FluentAPISuperInitialisationResetOperationGenerator();
 		summaries.putAll(resetGen.getMethodNamesToDescriptions());
 
@@ -84,39 +79,7 @@ public class FluentAPIInitialisationEClassGenerator {
 		summaries.putAll(toAPIGen.getMethodNamesToDescriptions());
 	}
 
-	private void addOverridingOperations(EClass xInitEClass, EClass initialisedEClass) {
-		var createNowGen = new FluentAPISuperInitialisationCreateNowMethodGenerator();
-		xInitEClass.getEOperations().addAll(createNowGen.generateAllCreateNowMethods(initialisedEClass));
-		summaries.putAll(createNowGen.getMethodNamesToDescriptions());
-
-//		var dropGen = new FluentAPISuperInitialisationDropOperationGenerator();
-//		xInitEClass.getEOperations().add(dropGen.generateDropInitialisationMethod(xInitEClass));
-//		summaries.putAll(dropGen.getMethodNamesToDescriptions());
-
-		var resetGen = new FluentAPISuperInitialisationResetOperationGenerator();
-		xInitEClass.getEOperations().add(resetGen.generateResetInitialisationMethod(xInitEClass));
-		summaries.putAll(resetGen.getMethodNamesToDescriptions());
-
-		var nextInitGen = new FluentAPISuperInitialisationNextInitialisationMethodGenerator();
-		xInitEClass.getEOperations()
-				.addAll(nextInitGen.getAllNextInitialisationMethods(xInitEClass, initialisedEClass));
-		summaries.putAll(nextInitGen.getMethodNamesToDescriptions());
-
-		var prevInitGen = new FluentAPISuperInitialisationPreviousInitialisationMethodGenerator();
-		xInitEClass.getEOperations()
-				.addAll(prevInitGen.getAllPreviousInitialisationMethods(xInitEClass, initialisedEClass));
-		summaries.putAll(prevInitGen.getMethodNamesToDescriptions());
-
-//		var markGen = new FluentAPISuperInitialisationMarkMethodGenerator();
-//		xInitEClass.getEOperations().addAll(markGen.generateAllMarkMethods(xInitEClass));
-//		summaries.putAll(markGen.getMethodNamesToDescriptions());
-	}
-
 	private void addOperations(EClass xInitEClass, EClass initialisedEClass, FluentAPIGenerationContext context) {
-		var onceExistsGen = new FluentAPIInitialisationOnceExistsMethodGenerator();
-		xInitEClass.getEOperations().addAll(onceExistsGen.generateAllOnceExistsMethods(context, xInitEClass));
-		summaries.putAll(onceExistsGen.getMethodNamesToDescriptions());
-
 		var newElementGen = new FluentAPIInitialisationNewElementOperationGenerator();
 		xInitEClass.getEOperations().add(newElementGen.getNewElementOperationFor(xInitEClass, initialisedEClass));
 		summaries.putAll(newElementGen.getMethodNamesToDescriptions());

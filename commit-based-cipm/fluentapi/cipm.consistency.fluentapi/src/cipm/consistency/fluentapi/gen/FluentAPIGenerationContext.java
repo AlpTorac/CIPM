@@ -75,6 +75,11 @@ public class FluentAPIGenerationContext {
 		return initEClss.get(elemToInitECls);
 	}
 
+	public EClass getElemToInitFor(EClass initECls) {
+		return initEClss.entrySet().stream().filter((e) -> e.getValue().equals(initECls)).map((e) -> e.getKey())
+				.findFirst().orElse(null);
+	}
+
 	public List<EClass> getAllInitEClss() {
 		return List.copyOf(initEClss.values());
 	}
