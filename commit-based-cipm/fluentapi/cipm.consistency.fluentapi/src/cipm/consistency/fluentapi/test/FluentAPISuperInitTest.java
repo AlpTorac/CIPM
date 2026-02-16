@@ -19,7 +19,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 
 		org.emftext.language.java.members.ClassMethod met = null;
 
-		api.newX(org.emftext.language.java.members.ClassMethod.class).markCurrent(metName);
+		api.newX(org.emftext.language.java.members.ClassMethod.class).mark(metName);
 		met = api.getMarkedClassMethod(metName);
 
 		Assertions.assertNull(met.getTypeReference());
@@ -27,7 +27,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 				api.newClassifierReference().withTarget(api.getMarkedClass(returnTypeName)).createNow()));
 		Assertions.assertNull(met.getTypeReference());
 
-		var returnType = api.newClass().withName(returnTypeName).markCurrent(returnTypeName).createNow();
+		var returnType = api.newClass().withName(returnTypeName).mark(returnTypeName).createNow();
 		Assertions.assertEquals(returnType, met.getTypeReference().getPureClassifierReference().getTarget());
 
 		met = api.continueClassMethod().createNow(org.emftext.language.java.members.ClassMethod.class);
@@ -35,23 +35,23 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 	}
 
 	@Test
-	public void markCurrentTest_SingleMark() {
+	public void markTest_SingleMark() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var key = new Object();
 
-		var mod = api.newX(modECls).markCurrent(key).createNow();
+		var mod = api.newX(modECls).mark(key).createNow();
 
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
 		Assertions.assertSame(mod, api.getMarked(key));
 	}
 
 	@Test
-	public void markCurrentTest_MultipleMarks() {
+	public void markTest_MultipleMarks() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var key1 = new Object();
 		var key2 = new Object();
 
-		var mod = api.newX(modECls).markCurrent(key1).markCurrent(key2).createNow();
+		var mod = api.newX(modECls).mark(key1).mark(key2).createNow();
 
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
 		Assertions.assertSame(mod, api.getMarked(key1));
@@ -59,23 +59,23 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 	}
 
 	@Test
-	public void unmarkCurrentTest_SingleMark() {
+	public void unmarkTest_SingleMark() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var key = new Object();
 
-		var mod = api.newX(modECls).markCurrent(key).unmarkCurrent(key).createNow();
+		var mod = api.newX(modECls).mark(key).unmark(key).createNow();
 
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
 		Assertions.assertNull(api.getMarked(key));
 	}
 
 	@Test
-	public void unmarkCurrentTest_MultipleMarks() {
+	public void unmarkTest_MultipleMarks() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var key1 = new Object();
 		var key2 = new Object();
 
-		var mod = api.newX(modECls).markCurrent(key1).markCurrent(key2).unmarkCurrent(key1).createNow();
+		var mod = api.newX(modECls).mark(key1).mark(key2).unmark(key1).createNow();
 
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
 		Assertions.assertNull(api.getMarked(key1));

@@ -98,6 +98,12 @@ public final class FluentAPIRootAPIConstants {
 	private static final String fluentAPIRootAPIXCleanFeatMethodSummary = "Removes all values of a certain many-valued EStructuralFeature for a certain EObject.";
 
 	/*
+	 * mark
+	 */
+	
+	private static final String fluentAPIRootAPIMarkMethodName = "mark";
+	
+	/*
 	 * EParameter
 	 */
 	private static final String fluentAPIRootAPICreateNewXWithClassParameterTypeParameterName = "T";
@@ -314,5 +320,9 @@ public final class FluentAPIRootAPIConstants {
 	public static String getFluentAPIRootAPIContinueMarkedMethodNameForType(EClass elemToInitECls) {
 		return String.format(getFluentAPIRootAPIContinueMarkedMethodNameTemplate(),
 				getElementToInitialiseName(elemToInitECls));
+	}
+
+	public static String getFluentAPIRootAPIMarkMethodName() {
+		return fluentAPIRootAPIMarkMethodName;
 	}
 }

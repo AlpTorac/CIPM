@@ -78,7 +78,7 @@ public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var modKey = new Object();
 
-		var modInit = api.newModule().markCurrent(modKey);
+		var modInit = api.newModule().mark(modKey);
 
 		Assertions.assertSame(modInit, api.continueMarkedModule(modKey));
 	}
@@ -89,8 +89,8 @@ public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
 		var keyOne = new Object();
 		var keyTwo = new Object();
 
-		var modInitOne = api.newModule().markCurrent(keyOne);
-		var modInitTwo = api.newModule().markCurrent(keyTwo);
+		var modInitOne = api.newModule().mark(keyOne);
+		var modInitTwo = api.newModule().mark(keyTwo);
 
 		Assertions.assertSame(modInitOne, api.continueMarkedModule(keyOne));
 		Assertions.assertSame(modInitTwo, api.continueMarkedModule(keyTwo));
@@ -102,8 +102,8 @@ public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
 		var keyOne = new Object();
 		var keyTwo = new Object();
 
-		var modInit = api.newModule().markCurrent(keyOne);
-		var pacInit = api.newPackage().markCurrent(keyTwo);
+		var modInit = api.newModule().mark(keyOne);
+		var pacInit = api.newPackage().mark(keyTwo);
 
 		Assertions.assertSame(modInit, api.continueMarkedX(keyOne));
 		Assertions.assertSame(pacInit, api.continueMarkedX(keyTwo));

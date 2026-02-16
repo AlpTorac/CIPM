@@ -76,17 +76,17 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		context.getInitSuperECls().getEOperations().add(newElemGen.generateNewElementMethod(context));
 		summaries.putAll(newElemGen.getMethodNamesToDescriptions());
 
-		var dropGen = new FluentAPISuperInitialisationDropOperationGenerator();
-		context.getInitSuperECls().getEOperations().add(dropGen.generateDropInitialisationMethod(context.getInitSuperECls()));
-		summaries.putAll(dropGen.getMethodNamesToDescriptions());
+//		var dropGen = new FluentAPISuperInitialisationDropOperationGenerator();
+//		context.getInitSuperECls().getEOperations().add(dropGen.generateDropInitialisationMethod(context.getInitSuperECls()));
+//		summaries.putAll(dropGen.getMethodNamesToDescriptions());
 
 		var resetGen = new FluentAPISuperInitialisationResetOperationGenerator();
 		context.getInitSuperECls().getEOperations().add(resetGen.generateResetInitialisationMethod(context.getInitSuperECls()));
 		summaries.putAll(resetGen.getMethodNamesToDescriptions());
 
-		var markGen = new FluentAPISuperInitialisationMarkMethodGenerator();
-		context.getInitSuperECls().getEOperations().addAll(markGen.generateAllMarkMethods(context.getInitSuperECls()));
-		summaries.putAll(markGen.getMethodNamesToDescriptions());
+//		var markGen = new FluentAPISuperInitialisationMarkMethodGenerator();
+//		context.getInitSuperECls().getEOperations().addAll(markGen.generateAllMarkMethods(context.getInitSuperECls()));
+//		summaries.putAll(markGen.getMethodNamesToDescriptions());
 
 		var toAPIGen = new FluentAPISuperInitialisationToAPIMethodGenerator();
 		context.getInitSuperECls().getEOperations().add(toAPIGen.generateToAPIMethod(context));
@@ -102,13 +102,16 @@ public class FluentAPISuperInitialisationEClassGenerator {
 				.addAll(prevInitGen.getAllPreviousInitialisationMethods(context.getInitSuperECls(), EcorePackage.Literals.EOBJECT));
 		summaries.putAll(prevInitGen.getMethodNamesToDescriptions());
 
-		var withGen = new FluentAPISuperInitialisationWithOperationGenerator();
-		context.getInitSuperECls().getEOperations().addAll(withGen.getAllAPITopLevelWithOperations(context));
-		summaries.putAll(withGen.getMethodNamesToDescriptions());
-
-		var onceExistsGen = new FluentAPISuperInitialisationOnceExistsMethodGenerator();
-		context.getInitSuperECls().getEOperations().add(onceExistsGen.generateAllOnceExistsMethods(context));
-		summaries.putAll(onceExistsGen.getMethodNamesToDescriptions());
+//		var withGen = new FluentAPISuperInitialisationWithOperationGenerator();
+//		context.getInitSuperECls().getEOperations().addAll(withGen.getAllAPITopLevelWithOperations(context));
+//		summaries.putAll(withGen.getMethodNamesToDescriptions());
+//
+//		var onceExistsGen = new FluentAPISuperInitialisationOnceExistsMethodGenerator();
+//		context.getInitSuperECls().getEOperations().add(onceExistsGen.generateAllOnceExistsMethods(context));
+//		summaries.putAll(onceExistsGen.getMethodNamesToDescriptions());
+		
+		var delegateOpGen = new FluentAPISuperInitialisationDelegateMethodGenerator();
+		context.getInitSuperECls().getEOperations().addAll(delegateOpGen.generateAllDelegateMethods(context));
 	}
 
 	public void setupSuperInitialisationEClass(FluentAPIGenerationContext context) {

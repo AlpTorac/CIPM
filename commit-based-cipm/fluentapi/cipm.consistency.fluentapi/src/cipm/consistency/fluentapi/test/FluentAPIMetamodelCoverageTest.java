@@ -146,7 +146,7 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
 		for (var eCls : allConcreteEClss) {
 			var key = new Object();
-			var init = api.newX(eCls.getInstanceClass()).markCurrent(key);
+			var init = api.newX(eCls.getInstanceClass()).mark(key);
 			var instance = init.getCurrentElement();
 			Assertions.assertInstanceOf(eCls.getInstanceClass(), instance);
 

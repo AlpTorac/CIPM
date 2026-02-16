@@ -57,7 +57,7 @@ public class FluentAPIRootAPITest extends AbstractFluentAPITest {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 
 		var clsKey = new Object();
-		var cls = api.newClass().markCurrent(clsKey).createNow();
+		var cls = api.newClass().mark(clsKey).createNow();
 
 		Assertions.assertSame(cls, api.getMarkedClass(clsKey));
 

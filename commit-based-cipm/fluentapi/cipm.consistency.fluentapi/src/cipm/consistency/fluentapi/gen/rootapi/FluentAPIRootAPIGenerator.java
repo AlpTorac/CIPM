@@ -30,9 +30,9 @@ public class FluentAPIRootAPIGenerator {
 		generateConcreteInitEClasses(context);
 		context.getInitsPackage().getEClassifiers().addAll(context.getAllInitEClss());
 
+		setupRootAPIEClass(context);
 		setupInitSuperTypeEClass(context);
 		setupConcreteInitEClasses(context);
-		setupRootAPIEClass(context);
 
 		return rootPacs;
 	}

@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcorePackage;
 
+import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
@@ -26,6 +27,21 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 							+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkValParameterName() + ")",
 					"return this");
 
+	private static final String markMethodSummary = "Marks the object with "
+			+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName() + ", does not modify the object.";
+	private static final String markMethodDocumentation = FluentAPIDocumentationUtil
+			.appendSummaryToStart(markMethodSummary) + "Associates the given object with "
+			+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName()
+			+ ". Doing so marks the given object, meaning that using "
+			+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName()
+			+ " in mark-related operations will result in retrieving the given object.";
+	private static final String markMethodBodyTemplate = FluentAPIMethodsUtil
+			.joinLOC(
+					FluentAPIMarkExtension.class.getName() + ".mark("
+							+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName() + ", "
+							+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkValParameterName() + ")",
+					"return this");
+
 	private static final String getMarkedMethodBody = FluentAPIMethodsUtil
 			.joinLOC("return " + FluentAPIMarkExtension.class.getName() + ".getMarked("
 					+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName() + ")");
@@ -41,9 +57,21 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 		var ops = new ArrayList<EOperation>();
 		ops.add(generateUnmarkMethod(context));
 		ops.add(generateUnmarkFullMethod(context));
+		ops.add(generateMarkMethod(context));
 		ops.add(generateGetMarkedMethod());
 		allEClss.forEach((eCls) -> ops.add(generateGetMarkedXMethod(eCls)));
 		return ops;
+	}
+
+	private EOperation generateMarkMethod(FluentAPIGenerationContext context) {
+		var markKeyParam = FluentAPIGeneralParameterGenerator.getMarkKeyParam();
+		var markValParam = FluentAPIGeneralParameterGenerator.getMarkValParam();
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkMethodName(), context.getFluentAPIECls());
+		FluentAPIGenerationUtil.addBody(op, markMethodBodyTemplate);
+		FluentAPIGenerationUtil.addDocumentation(op, markMethodDocumentation);
+		FluentAPIGenerationUtil.addEParameters(op, markKeyParam, markValParam);
+		return op;
 	}
 
 	private EOperation generateUnmarkMethod(FluentAPIGenerationContext context) {

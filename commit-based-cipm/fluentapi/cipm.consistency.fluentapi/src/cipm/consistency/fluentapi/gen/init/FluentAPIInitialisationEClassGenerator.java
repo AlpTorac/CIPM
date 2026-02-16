@@ -109,9 +109,9 @@ public class FluentAPIInitialisationEClassGenerator {
 				.addAll(prevInitGen.getAllPreviousInitialisationMethods(xInitEClass, initialisedEClass));
 		summaries.putAll(prevInitGen.getMethodNamesToDescriptions());
 
-		var markGen = new FluentAPISuperInitialisationMarkMethodGenerator();
-		xInitEClass.getEOperations().addAll(markGen.generateAllMarkMethods(xInitEClass));
-		summaries.putAll(markGen.getMethodNamesToDescriptions());
+//		var markGen = new FluentAPISuperInitialisationMarkMethodGenerator();
+//		xInitEClass.getEOperations().addAll(markGen.generateAllMarkMethods(xInitEClass));
+//		summaries.putAll(markGen.getMethodNamesToDescriptions());
 	}
 
 	private void addOperations(EClass xInitEClass, EClass initialisedEClass, FluentAPIGenerationContext context) {
