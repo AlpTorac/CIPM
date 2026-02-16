@@ -17,6 +17,17 @@ import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIMarkExtension;
 public class FluentAPIRootAPIMarkMethodGenerator {
 	// TODO Add documentation
 
+	private static final String unmarkMethodSummary = "Removes the given "
+			+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName()
+			+ "'s marking, does not modify the (formerly) marked object.";
+	private static final String unmarkMethodDocumentation = FluentAPIDocumentationUtil
+			.appendSummaryToStart(unmarkMethodSummary) + "Removes any associations between the given "
+			+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName()
+			+ " and its corresponding EObject obj. Doing so unmarks obj, meaning that "
+			+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName()
+			+ " can no longer be used to retrieve obj. Does nothing, if this API instance did not mark obj with "
+			+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName() + ".";
+
 	private static final String unmarkMethodBody = FluentAPIMethodsUtil.joinLOC(FluentAPIMarkExtension.class.getName()
 			+ ".unmark(" + FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName() + ")", "return this");
 
@@ -79,6 +90,7 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIUnmarkMethodName(), context.getFluentAPIECls());
 		FluentAPIGenerationUtil.addBody(op, unmarkMethodBody);
+		FluentAPIGenerationUtil.addDocumentation(op, unmarkMethodDocumentation);
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
 	}
@@ -89,6 +101,7 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIUnmarkMethodName(), context.getFluentAPIECls());
 		FluentAPIGenerationUtil.addBody(op, unmarkFullMethodBody);
+		FluentAPIGenerationUtil.addDocumentation(op, unmarkMethodDocumentation);
 		FluentAPIGenerationUtil.addEParameters(op, markKeyParam, markValParam);
 		return op;
 	}

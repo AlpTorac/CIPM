@@ -10,6 +10,8 @@ import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
 
 public class FluentAPIRootAPIEClassGenerator {
 
+	// TODO Add a getOngoingInits() method to hide FluentAPIInitialisationStorage
+
 	/*
 	 * TODO If possible, add a way to generate further convenience methods, such as
 	 * "api.newClassifierReferenceWithTarget(classifier)" in:

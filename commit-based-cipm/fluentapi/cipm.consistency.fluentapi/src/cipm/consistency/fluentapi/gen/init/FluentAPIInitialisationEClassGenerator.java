@@ -13,9 +13,7 @@ import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationCreateNowMethodGenerator;
-import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationDropOperationGenerator;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator;
-import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationMarkMethodGenerator;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationNextInitialisationMethodGenerator;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationPreviousInitialisationMethodGenerator;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationResetOperationGenerator;
@@ -76,8 +74,8 @@ public class FluentAPIInitialisationEClassGenerator {
 		var getInitEClsGen = new FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator();
 		summaries.putAll(getInitEClsGen.getMethodNamesToDescriptions());
 
-		var dropGen = new FluentAPISuperInitialisationDropOperationGenerator();
-		summaries.putAll(dropGen.getMethodNamesToDescriptions());
+//		var dropGen = new FluentAPISuperInitialisationDropOperationGenerator();
+//		summaries.putAll(dropGen.getMethodNamesToDescriptions());
 
 		var resetGen = new FluentAPISuperInitialisationResetOperationGenerator();
 		summaries.putAll(resetGen.getMethodNamesToDescriptions());
@@ -91,9 +89,9 @@ public class FluentAPIInitialisationEClassGenerator {
 		xInitEClass.getEOperations().addAll(createNowGen.generateAllCreateNowMethods(initialisedEClass));
 		summaries.putAll(createNowGen.getMethodNamesToDescriptions());
 
-		var dropGen = new FluentAPISuperInitialisationDropOperationGenerator();
-		xInitEClass.getEOperations().add(dropGen.generateDropInitialisationMethod(xInitEClass));
-		summaries.putAll(dropGen.getMethodNamesToDescriptions());
+//		var dropGen = new FluentAPISuperInitialisationDropOperationGenerator();
+//		xInitEClass.getEOperations().add(dropGen.generateDropInitialisationMethod(xInitEClass));
+//		summaries.putAll(dropGen.getMethodNamesToDescriptions());
 
 		var resetGen = new FluentAPISuperInitialisationResetOperationGenerator();
 		xInitEClass.getEOperations().add(resetGen.generateResetInitialisationMethod(xInitEClass));
