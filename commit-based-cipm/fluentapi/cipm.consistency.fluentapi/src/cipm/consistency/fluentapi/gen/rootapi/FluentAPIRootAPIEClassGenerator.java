@@ -88,6 +88,11 @@ public class FluentAPIRootAPIEClassGenerator {
 
 		context.getFluentAPIECls().getEOperations().add(new FluentAPIRootAPIGetAllSupportedClassesMethodGenerator()
 				.generateGetAllSupportedClassesMethodGenerator());
+
+		context.getFluentAPIECls().getEOperations()
+				.add(new FluentAPIRootAPIGetOngoingInitsMethodGenerator().generateGetOngoingInitsMethod(context));
+
+		context.getFluentAPIECls().getEOperations().add(new FluentAPIRootAPIClearAllOngoingInitialisationsMethodGenerator().generateClearAllOngoingInitsMethod(context));
 	}
 
 	public void setupRootAPIEClass(FluentAPIGenerationContext context) {

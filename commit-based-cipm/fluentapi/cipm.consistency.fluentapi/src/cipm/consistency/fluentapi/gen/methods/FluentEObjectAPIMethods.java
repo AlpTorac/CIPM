@@ -244,30 +244,4 @@ public final class FluentEObjectAPIMethods {
 				.collect(Collectors.toCollection(ArrayList::new));
 		return !initsOfMatchingType.isEmpty() ? initsOfMatchingType.get(initsOfMatchingType.size() - 1) : null;
 	}
-
-	public static EObject getPreviousInit(EObject init) {
-		return getPreviousInit(init, 1);
-	}
-
-	public static EObject getNextInit(EObject init) {
-		return getNextInit(init, 1);
-	}
-
-	private static boolean initIndexInBounds(Collection<?> col, int idx) {
-		return idx >= 0 && idx < col.size();
-	}
-
-	public static EObject getPreviousInit(EObject init, int stepsBack) {
-		var initsOfMatchingType = FluentAPIInitialisationStorage.getOngoingInits().stream()
-				.filter((i) -> init.eClass().isInstance(i)).collect(Collectors.toCollection(ArrayList::new));
-		var idx = initsOfMatchingType.indexOf(init) - stepsBack;
-		return initIndexInBounds(initsOfMatchingType, idx) ? initsOfMatchingType.get(idx) : null;
-	}
-
-	public static EObject getNextInit(EObject init, int stepsForward) {
-		var initsOfMatchingType = FluentAPIInitialisationStorage.getOngoingInits().stream()
-				.filter((i) -> init.eClass().isInstance(i)).collect(Collectors.toCollection(ArrayList::new));
-		var idx = initsOfMatchingType.indexOf(init) + stepsForward;
-		return initIndexInBounds(initsOfMatchingType, idx) ? initsOfMatchingType.get(idx) : null;
-	}
 }

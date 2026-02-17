@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fluentapi.api.ApiFactory;
 import cipm.consistency.fluentapi.api.FluentAPISuperInitialisation;
 
-public class FluentAPIRootAPINewMethodTest {
+public class FluentAPIRootAPINewMethodTest extends AbstractFluentAPITest {
 
 	/**
 	 * Ensures that direct creation methods for types with no modifiable features is

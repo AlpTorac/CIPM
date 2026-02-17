@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.api.ApiFactory;
 
-public class FluentAPIJavaOverloadsTest {
+public class FluentAPIJavaOverloadsTest extends AbstractFluentAPITest {
 	@Test
 	public void withTypeReferenceOverloadTest_SingleValued() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();

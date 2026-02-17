@@ -1,5 +1,6 @@
 package cipm.consistency.fluentapi.test;
 
+import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -11,6 +12,46 @@ import cipm.consistency.fluentapi.api.ApiFactory;
  * @author Alp Torac Genc
  */
 public class FluentAPIMarkTest extends AbstractFluentAPITest {
+	@Test
+	public void markTest_ViaAPI() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var cls = ClassifiersFactory.eINSTANCE.createClass();
+		var clsKey = new Object();
+
+		api.mark(clsKey, cls);
+		Assertions.assertSame(cls, api.getMarked(clsKey));
+		Assertions.assertSame(cls, api.getMarkedClass(clsKey));
+		Assertions.assertSame(cls, api.getMarkedNamedElement(clsKey));
+	}
+
+	@Test
+	public void unmarkTest_ViaAPI_OnlyMarkKey() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var cls = ClassifiersFactory.eINSTANCE.createClass();
+		var clsKey = new Object();
+
+		api.mark(clsKey, cls);
+		Assertions.assertSame(cls, api.getMarked(clsKey));
+		Assertions.assertSame(cls, api.getMarkedClass(clsKey));
+		Assertions.assertSame(cls, api.getMarkedNamedElement(clsKey));
+		api.unmark(clsKey);
+		Assertions.assertNull(api.getMarked(clsKey));
+	}
+
+	@Test
+	public void unmarkTest_ViaAPI_MarkKeyAndObject() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var cls = ClassifiersFactory.eINSTANCE.createClass();
+		var clsKey = new Object();
+
+		api.mark(clsKey, cls);
+		Assertions.assertSame(cls, api.getMarked(clsKey));
+		Assertions.assertSame(cls, api.getMarkedClass(clsKey));
+		Assertions.assertSame(cls, api.getMarkedNamedElement(clsKey));
+		api.unmark(clsKey, cls);
+		Assertions.assertNull(api.getMarked(clsKey));
+	}
+	
 	/**
 	 * Checks whether XInitialisation.mark() works as intended, when there is
 	 * only one element to be retrieved.

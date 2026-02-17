@@ -12,9 +12,6 @@ import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPISuperInitialisationResetOperationGenerator implements IFluentAPIMethodGenerator {
-	// TODO Move to API, change signature to "resetInitialisation(XInitialisation)"
-	// TODO Generate a delegate method instead of using this generation class
-
 	private static final String resetMethodSummary = "Removes the current object under construction from this.";
 	private static final String resetMethodDocumentation = FluentAPIDocumentationUtil
 			.appendSummaryToStart(resetMethodSummary) + "Resets this "

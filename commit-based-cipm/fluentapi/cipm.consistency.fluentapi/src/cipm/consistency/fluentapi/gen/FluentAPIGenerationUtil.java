@@ -57,6 +57,27 @@ public class FluentAPIGenerationUtil {
 	 * Use {@code collectionElementExtends == null} in order to generate a wildcard
 	 * type argument.
 	 */
+	public static EGenericType generateEGenericTypeWithTypeArgument(FluentAPIGenerationContext context,
+			Class<?> genericType, EGenericType colGenTypeArgument) {
+		var pureGenType = FluentAPIGenerationUtil.createOrGetEDataType(context, genericType, 1);
+		var genType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureGenType);
+		FluentAPIGenerationUtil.addTypeArgument(genType, colGenTypeArgument);
+		return genType;
+	}
+
+	/**
+	 * Use {@code collectionElementExtends == null} in order to generate a wildcard
+	 * type argument.
+	 */
+	public static EGenericType generateCollectionTypeWithTypeArgument(FluentAPIGenerationContext context,
+			EGenericType colGenTypeArgument) {
+		return generateEGenericTypeWithTypeArgument(context, Collection.class, colGenTypeArgument);
+	}
+
+	/**
+	 * Use {@code collectionElementExtends == null} in order to generate a wildcard
+	 * type argument.
+	 */
 	public static EGenericType generateCollectionTypeParameter(FluentAPIGenerationContext context,
 			EClassifier collectionElementExtends) {
 		var colExtendsType = collectionElementExtends;
@@ -77,14 +98,11 @@ public class FluentAPIGenerationUtil {
 		if (colExtendsType.equals(EcorePackage.Literals.ECHAR))
 			colExtendsType = EcorePackage.Literals.ECHARACTER_OBJECT;
 
-		var pureColType = FluentAPIGenerationUtil.createOrGetEDataType(context, Collection.class, 1);
 		var colGenTypeArgument = colExtendsType != null
 				? FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null,
 						FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(colExtendsType))
 				: FluentAPIGenerationUtil.generateWildcardTypeArgument();
-		var colGenType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureColType);
-		FluentAPIGenerationUtil.addTypeArgument(colGenType, colGenTypeArgument);
-		return colGenType;
+		return generateCollectionTypeWithTypeArgument(context, colGenTypeArgument);
 	}
 
 	public static EParameter generateSingleValuedEParameter(String name) {

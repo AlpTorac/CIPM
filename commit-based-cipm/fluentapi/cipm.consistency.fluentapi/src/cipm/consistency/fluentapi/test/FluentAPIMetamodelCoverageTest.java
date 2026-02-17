@@ -145,16 +145,35 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
 		for (var eCls : allConcreteEClss) {
-			var key = new Object();
-			var init = api.newX(eCls.getInstanceClass()).mark(key);
-			var instance = init.getCurrentElement();
+			var keySuperInit = new Object();
+			var keyAPI = new Object();
+
+			var instance = eCls.getEPackage().getEFactoryInstance().create(eCls);
 			Assertions.assertInstanceOf(eCls.getInstanceClass(), instance);
 
-			Assertions.assertSame(instance, api.getMarked(key));
-			Assertions.assertSame(init, api.continueMarkedX(key));
-			Assertions.assertSame(instance, api.continueMarkedX(key).createNow());
-			Assertions.assertInstanceOf(init.getClass(), api.modifyMarkedX(key));
-			Assertions.assertSame(instance, api.modifyMarkedX(key).createNow());
+			api.mark(keyAPI, instance);
+
+			var init = api.modifyX(instance).mark(keySuperInit);
+			var initCls = init.getClass();
+			// Drop init to keep the assertions below simpler
+			init.dropInitialisation();
+
+			for (var key : List.of(keySuperInit, keyAPI)) {
+				// Markings are independent of the initialisation / api the object was stored /
+				// created in
+				Assertions.assertSame(instance, api.getMarked(key));
+
+				// modifyMarkedX call creates a new initialisation instance
+				var modMarkedInit = api.modifyMarkedX(key);
+				Assertions.assertInstanceOf(initCls, modMarkedInit);
+				Assertions.assertSame(instance, modMarkedInit.createNow());
+
+				// modifyMarkedX call creates a new initialisation instance that continueMarkedX
+				// then uses
+				modMarkedInit = api.modifyMarkedX(key);
+				Assertions.assertSame(modMarkedInit, api.continueMarkedX(key));
+				Assertions.assertSame(instance, modMarkedInit.createNow());
+			}
 		}
 	}
 }

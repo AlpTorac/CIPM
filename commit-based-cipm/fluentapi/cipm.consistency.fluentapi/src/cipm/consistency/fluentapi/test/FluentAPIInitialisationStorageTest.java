@@ -102,7 +102,7 @@ public class FluentAPIInitialisationStorageTest extends AbstractFluentAPITest {
 		var supposedInit2 = EcoreFactory.eINSTANCE.createEObject();
 		FluentAPIInitialisationStorage.addOngoingInitialisation(supposedInit2);
 
-		FluentAPIInitialisationStorage.clear();
+		FluentAPIInitialisationStorage.clearAllOngoingInits();
 		Assertions.assertEquals(0, FluentAPIInitialisationStorage.getOngoingInits().size());
 	}
 

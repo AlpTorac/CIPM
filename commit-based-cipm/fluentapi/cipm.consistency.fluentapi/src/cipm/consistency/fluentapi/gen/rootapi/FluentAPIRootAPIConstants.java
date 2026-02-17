@@ -100,9 +100,18 @@ public final class FluentAPIRootAPIConstants {
 	/*
 	 * mark
 	 */
-	
 	private static final String fluentAPIRootAPIMarkMethodName = "mark";
-	
+
+	/*
+	 * getOngoingInits
+	 */
+	private static final String fluentAPIRootAPIGetOngoingInitsMethodName = "getOngoingInits";
+
+	/*
+	 * clearAllOngoingInits
+	 */
+	private static final String fluentAPIRootAPIClearAllOngoingInitsMethodName = "clearAllOngoingInits";
+
 	/*
 	 * EParameter
 	 */
@@ -324,5 +333,13 @@ public final class FluentAPIRootAPIConstants {
 
 	public static String getFluentAPIRootAPIMarkMethodName() {
 		return fluentAPIRootAPIMarkMethodName;
+	}
+
+	public static String getFluentAPIRootAPIGetOngoingInitsMethodName() {
+		return fluentAPIRootAPIGetOngoingInitsMethodName;
+	}
+
+	public static String getFluentAPIRootAPIClearAllOngoingInitsMethodName() {
+		return fluentAPIRootAPIClearAllOngoingInitsMethodName;
 	}
 }

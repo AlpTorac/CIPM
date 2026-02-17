@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.api.ApiFactory;
 
-public class FluentAPIBigNumberOverloadsTest {
+public class FluentAPIBigNumberOverloadsTest extends AbstractFluentAPITest {
 	/**
 	 * Ensures that overloading methods for BigInteger are generated
 	 */

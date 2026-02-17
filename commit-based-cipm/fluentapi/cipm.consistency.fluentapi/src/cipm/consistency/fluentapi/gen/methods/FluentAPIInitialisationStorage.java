@@ -20,7 +20,7 @@ public final class FluentAPIInitialisationStorage {
 		ongoingInits.add(init);
 	}
 
-	public static void clear() {
+	public static void clearAllOngoingInits() {
 		ongoingInits.clear();
 	}
 }

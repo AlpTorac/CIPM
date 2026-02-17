@@ -81,4 +81,37 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 		Assertions.assertNull(api.getMarked(key1));
 		Assertions.assertSame(mod, api.getMarked(key2));
 	}
+
+	@Test
+	public void createNowTest_WithAbstractClass() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		org.emftext.language.java.commons.NamedElement mod = api.newX(ContainersPackage.Literals.MODULE)
+				.createNow(org.emftext.language.java.commons.NamedElement.class);
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+
+		// Ensure that createNow() removes the Initialisation instance from api
+		Assertions.assertNull(api.continueModule());
+	}
+
+	@Test
+	public void createNowTest_WithConcreteClass() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		org.emftext.language.java.containers.Module mod = api.newX(ContainersPackage.Literals.MODULE)
+				.createNow(org.emftext.language.java.containers.Module.class);
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+
+		// Ensure that createNow() removes the Initialisation instance from api
+		Assertions.assertNull(api.continueModule());
+	}
+
+	@Test
+	public void createNowTest() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		org.emftext.language.java.containers.Module mod = (org.emftext.language.java.containers.Module) api
+				.newX(ContainersPackage.Literals.MODULE).createNow();
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+
+		// Ensure that createNow() removes the Initialisation instance from api
+		Assertions.assertNull(api.continueModule());
+	}
 }
