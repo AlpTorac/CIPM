@@ -58,4 +58,23 @@ public class FluentAPIRootAPIGetOngoingInitTest extends AbstractFluentAPITest {
 			Assertions.assertSame(init3, api.getOngoingInits().get(2));
 		}
 	}
+
+	@Test
+	public void clearAllOngoingInitsTest() {
+		var apiOne = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var apiTwo = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+
+		for (var api : List.of(apiOne, apiTwo)) {
+			apiOne.newClass();
+			apiOne.newInterface();
+			apiTwo.newEnumeration();
+			apiTwo.newAdditionalField();
+
+			Assertions.assertEquals(4, apiOne.getOngoingInits().size());
+			Assertions.assertEquals(4, apiTwo.getOngoingInits().size());
+			api.clearAllOngoingInits();
+			Assertions.assertEquals(0, apiOne.getOngoingInits().size());
+			Assertions.assertEquals(0, apiTwo.getOngoingInits().size());
+		}
+	}
 }
