@@ -19,9 +19,11 @@ import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeat
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 
-public class FluentAPIGenerationTest extends AbstractFluentAPITest {
+public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 	private static final FluentAPITargetMetamodelFeatureFilter featureFilter = new FluentAPIJavaMetamodelFeatureFilter();
 	private static final FluentAPITargetMetamodelPackageProvider metamodelProvider = new FluentAPIJavaMetamodelPackageProvider();
+	private static final List<EOperation> allAPIOps = List
+			.copyOf(ApiFactory.eINSTANCE.createFluentEObjectAPI().eClass().getEOperations());
 
 	// TODO Add tests for other generated methods in API
 	// TODO Include all generated EClasses
@@ -32,8 +34,7 @@ public class FluentAPIGenerationTest extends AbstractFluentAPITest {
 			List<EClass> eClssToCheckFor, Function<EClass, Boolean> expectMultiValueVariantsFunc,
 			Function<EClass, Boolean> expectBigNumberVariantsFunc) {
 
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-		var allOpsWithMatchingMethodNamePrefix = api.eClass().getEOperations().stream()
+		var allOpsWithMatchingMethodNamePrefix = allAPIOps.stream()
 				.filter((op) -> op.getName().startsWith(methodNamePrefix)).collect(Collectors.toList());
 		for (var eCls : eClssToCheckFor) {
 			var paramNames = paramNamesFunc.apply(eCls);
