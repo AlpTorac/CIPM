@@ -61,7 +61,7 @@ public final class FluentAPIInitialisationConstants {
 	private static final String fluentAPIInitialisationWithMethodAddedFeatValParamName = "featValToAdd";
 	private static final String fluentAPIInitialisationWithMethodRemovedFeatValParamName = "featValToRemove";
 
-	private static String getElementToInitialiseName(EStructuralFeature feat) {
+	public static String getElementToInitialiseName(EStructuralFeature feat) {
 		return StringUtils.capitalize(feat.getName());
 	}
 
