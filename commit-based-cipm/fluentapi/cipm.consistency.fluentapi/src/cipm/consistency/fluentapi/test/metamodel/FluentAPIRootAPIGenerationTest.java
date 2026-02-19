@@ -1,63 +1,51 @@
 package cipm.consistency.fluentapi.test.metamodel;
 
 import java.util.List;
-import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.api.ApiFactory;
-import cipm.consistency.fluentapi.api.FluentEObjectAPI;
 import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
-import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
-import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
-	private static final FluentAPITargetMetamodelFeatureFilter featureFilter = new FluentAPIJavaMetamodelFeatureFilter();
-	private static final FluentAPITargetMetamodelPackageProvider metamodelProvider = new FluentAPIJavaMetamodelPackageProvider();
 
-	private static final FluentEObjectAPI api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-	private static final List<EOperation> allAPIOps = List.copyOf(api.eClass().getEOperations());
-
-	private static final List<EClass> allSupportedConcreteEClss = metamodelProvider
-			.getAllTargetMetamodelConcreteEClasses();
-	private static final List<EClass> allSupportedConcreteEClssWithModifiableFeats = allSupportedConcreteEClss.stream()
-			.filter(featureFilter::hasModifiableFeatures).collect(Collectors.toList());
-	private static final List<EClass> allSupportedConcreteEClssWithOnlyOneModifiableFeat = allSupportedConcreteEClss
-			.stream().filter((eCls) -> featureFilter.getModifiableFeatureCount(eCls) == 1).collect(Collectors.toList());
-	private static final Function<EClass, EClassifier> elemEClsToInitEClsFunc = (eCls) -> api
-			.getInitialisationForX(eCls).eClass();
-
-	private static final Function<EClass, Boolean> multiValFunc = (eCls) -> featureFilter.getModifiableFeatures(eCls)
-			.get(0).isMany();
-	private static final Function<EClass, Boolean> bigNumberVariantsFunc = (eCls) -> featureFilter
-			.getModifiableFeatures(eCls).get(0).getEType().equals(EcorePackage.Literals.EBIG_INTEGER)
-			|| featureFilter.getModifiableFeatures(eCls).get(0).getEType().equals(EcorePackage.Literals.EBIG_DECIMAL);
+	@BeforeAll
+	public static void setUpBeforeAll() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		FluentAPIGenerationTestUtil.setAPI(api);
+		FluentAPIGenerationTestUtil.setElemEClsToInitEClsFunc((eCls) -> api.getInitialisationForX(eCls).eClass());
+		FluentAPIGenerationTestUtil.setFeatureFilter(new FluentAPIJavaMetamodelFeatureFilter());
+		FluentAPIGenerationTestUtil.setPackageProvider(new FluentAPIJavaMetamodelPackageProvider());
+	}
 
 	// TODO Add tests for other generated methods in API
 	// TODO Include all generated EClasses
 
 	// TODO Refactor this method
-	private void methodTestTemplate(FluentAPIMethodTestData parameterObject) {
-		for (var eCls : parameterObject.geteClssToCheckFor()) {
-			var paramNames = parameterObject.getParamNames(eCls);
-			var paramTypes = parameterObject.getParamTypes(eCls);
-			var expectMultiValueVariants = parameterObject.getExpectMultiValueVariants(eCls);
-			var expectBigNumberVariants = parameterObject.getExpectBigNumberVariants(eCls);
+	private void methodTestTemplate(FluentAPIMethodTestData testData) {
+		Assertions.assertNotEquals(0, testData.geteClssToCheckFor().size());
+
+		for (var eCls : testData.geteClssToCheckFor()) {
+			var paramNames = testData.getParamNames(eCls);
+			var paramTypes = testData.getParamTypes(eCls);
+			var expectMultiValueVariants = testData.getExpectMultiValueVariants(eCls);
+			var expectBigNumberVariants = testData.getExpectBigNumberVariants(eCls);
 			if (paramNames.size() != paramTypes.size())
 				throw new IllegalArgumentException();
 
-			var currentEClssOpName = parameterObject.getMethodName(eCls);
-			var currentEClssOps = allAPIOps.stream().filter((op) -> op.getName().equals(currentEClssOpName))
+			var currentEClssOpName = testData.getMethodName(eCls);
+			var currentEClssOps = FluentAPIGenerationTestUtil.getAllAPIOps().stream()
+					.filter((op) -> op.getName().equals(currentEClssOpName))
 					.filter((op) -> op.getEParameters().size() == paramNames.size())
 //					.filter((op) -> op.getEType().equals(returnTypeOfOpFunc.apply(eCls))
 					.collect(Collectors.toList());
@@ -144,7 +132,7 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 	public void methodTest_API_CreateNewX() {
 
 		var testData = new FluentAPIMethodTestData();
-		testData.seteClssToCheckFor(allSupportedConcreteEClss);
+		testData.seteClssToCheckFor(FluentAPIGenerationTestUtil.getAllSupportedConcreteEClss());
 		testData.setMethodNamePrefix((eCls) -> String
 				.format(FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXMethodNameTemplate(), eCls.getName()));
 		methodTestTemplate(testData);
@@ -160,8 +148,8 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 		var testData = new FluentAPIMethodTestData();
 		testData.setMethodNamePrefix((eCls) -> String
 				.format(FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodNameTemplate(), eCls.getName()));
-		testData.setReturnTypeOfOp(elemEClsToInitEClsFunc);
-		testData.seteClssToCheckFor(allSupportedConcreteEClss);
+		testData.setReturnTypeOfOp(FluentAPIGenerationTestUtil.getElemEClsToInitEClsFunc());
+		testData.seteClssToCheckFor(FluentAPIGenerationTestUtil.getAllSupportedConcreteEClss());
 		methodTestTemplate(testData);
 	}
 
@@ -176,7 +164,7 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 		var testData = new FluentAPIMethodTestData();
 		testData.setMethodNamePrefix((eCls) -> String
 				.format(FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodNameTemplate(), eCls.getName()));
-		testData.seteClssToCheckFor(allSupportedConcreteEClssWithModifiableFeats);
+		testData.seteClssToCheckFor(FluentAPIGenerationTestUtil.getAllSupportedConcreteEClssWithNoModifiableFeat());
 		methodTestTemplate(testData);
 	}
 
@@ -190,13 +178,14 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 		var testData = new FluentAPIMethodTestData();
 		testData.setMethodNamePrefix((eCls) -> String
 				.format(FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodNameTemplate(), eCls.getName()));
-		testData.setReturnTypeOfOp(elemEClsToInitEClsFunc);
+		testData.setReturnTypeOfOp(FluentAPIGenerationTestUtil.getElemEClsToInitEClsFunc());
 		testData.setParamNames(
 				(eCls) -> List.of(FluentAPIGeneralParameterGenerator.getFluentAPIFeatureValueParameterName()));
 		testData.setParamTypes((eCls) -> List.of(eCls));
-		testData.seteClssToCheckFor(allSupportedConcreteEClssWithOnlyOneModifiableFeat);
-		testData.setExpectMultiValueVariants(multiValFunc);
-		testData.setExpectBigNumberVariants(bigNumberVariantsFunc);
+		testData.seteClssToCheckFor(
+				FluentAPIGenerationTestUtil.getAllSupportedConcreteEClssWithOnlyOneModifiableFeat());
+		testData.setExpectMultiValueVariants(FluentAPIGenerationTestUtil.getMultiValFunc());
+		testData.setExpectBigNumberVariants(FluentAPIGenerationTestUtil.getBigNumberVariantsFunc());
 		methodTestTemplate(testData);
 	}
 
@@ -209,11 +198,11 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 		var testData = new FluentAPIMethodTestData();
 		testData.setMethodNamePrefix((eCls) -> String
 				.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyMethodNameTemplate(), eCls.getName()));
-		testData.setReturnTypeOfOp(elemEClsToInitEClsFunc);
+		testData.setReturnTypeOfOp(FluentAPIGenerationTestUtil.getElemEClsToInitEClsFunc());
 		testData.setParamNames(
 				(eCls) -> List.of(FluentAPIGeneralParameterGenerator.getFluentAPIEObjectParameterName()));
 		testData.setParamTypes((eCls) -> List.of(eCls));
-		testData.seteClssToCheckFor(allSupportedConcreteEClss);
+		testData.seteClssToCheckFor(FluentAPIGenerationTestUtil.getAllSupportedConcreteEClss());
 		methodTestTemplate(testData);
 	}
 
@@ -226,11 +215,11 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 		var testData = new FluentAPIMethodTestData();
 		testData.setMethodNamePrefix((eCls) -> String
 				.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyMarkedMethodNameTemplate(), eCls.getName()));
-		testData.setReturnTypeOfOp(elemEClsToInitEClsFunc);
+		testData.setReturnTypeOfOp(FluentAPIGenerationTestUtil.getElemEClsToInitEClsFunc());
 		testData.setParamNames(
 				(eCls) -> List.of(FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName()));
 		testData.setParamTypes((eCls) -> List.of(EcorePackage.Literals.EJAVA_OBJECT));
-		testData.seteClssToCheckFor(allSupportedConcreteEClss);
+		testData.seteClssToCheckFor(FluentAPIGenerationTestUtil.getAllSupportedConcreteEClss());
 		methodTestTemplate(testData);
 	}
 
@@ -243,8 +232,8 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 		var testData = new FluentAPIMethodTestData();
 		testData.setMethodNamePrefix((eCls) -> String
 				.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueMethodNameTemplate(), eCls.getName()));
-		testData.setReturnTypeOfOp(elemEClsToInitEClsFunc);
-		testData.seteClssToCheckFor(allSupportedConcreteEClssWithModifiableFeats);
+		testData.setReturnTypeOfOp(FluentAPIGenerationTestUtil.getElemEClsToInitEClsFunc());
+		testData.seteClssToCheckFor(FluentAPIGenerationTestUtil.getAllSupportedConcreteEClssWithModifiableFeats());
 		methodTestTemplate(testData);
 	}
 
@@ -257,11 +246,11 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 		var testData = new FluentAPIMethodTestData();
 		testData.setMethodNamePrefix((eCls) -> String.format(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueMarkedMethodNameTemplate(), eCls.getName()));
-		testData.setReturnTypeOfOp(elemEClsToInitEClsFunc);
+		testData.setReturnTypeOfOp(FluentAPIGenerationTestUtil.getElemEClsToInitEClsFunc());
 		testData.setParamNames(
 				(eCls) -> List.of(FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName()));
 		testData.setParamTypes((eCls) -> List.of(EcorePackage.Literals.EJAVA_OBJECT));
-		testData.seteClssToCheckFor(allSupportedConcreteEClssWithModifiableFeats);
+		testData.seteClssToCheckFor(FluentAPIGenerationTestUtil.getAllSupportedConcreteEClssWithModifiableFeats());
 		methodTestTemplate(testData);
 	}
 
@@ -277,7 +266,7 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 		testData.setParamNames(
 				(eCls) -> List.of(FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName()));
 		testData.setParamTypes((eCls) -> List.of(EcorePackage.Literals.EJAVA_OBJECT));
-		testData.seteClssToCheckFor(allSupportedConcreteEClss);
+		testData.seteClssToCheckFor(FluentAPIGenerationTestUtil.getAllSupportedConcreteEClss());
 		methodTestTemplate(testData);
 	}
 }
