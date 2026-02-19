@@ -1,4 +1,4 @@
-package cipm.consistency.fluentapi.test;
+package cipm.consistency.fluentapi.test.metamodel;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,6 +16,7 @@ import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
+import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 public class FluentAPIInitialisationGenerationTest extends AbstractFluentAPITest {
 	private static final FluentAPITargetMetamodelFeatureFilter featureFilter = new FluentAPIJavaMetamodelFeatureFilter();
