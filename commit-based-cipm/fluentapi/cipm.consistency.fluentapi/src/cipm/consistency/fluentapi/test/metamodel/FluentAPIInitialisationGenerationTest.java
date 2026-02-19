@@ -1,47 +1,54 @@
 package cipm.consistency.fluentapi.test.metamodel;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EOperation;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.api.ApiFactory;
-import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
-import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 public class FluentAPIInitialisationGenerationTest extends AbstractFluentAPITest {
-	private static final FluentAPITargetMetamodelFeatureFilter featureFilter = new FluentAPIJavaMetamodelFeatureFilter();
-	private static final FluentAPITargetMetamodelPackageProvider metamodelProvider = new FluentAPIJavaMetamodelPackageProvider();
+	@BeforeAll
+	public static void setUpBeforeAll() {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		FluentAPIGenerationTestUtil.setAPI(api);
+		FluentAPIGenerationTestUtil.setElemEClsToInitEClsFunc((eCls) -> api.getInitialisationForX(eCls).eClass());
+		FluentAPIGenerationTestUtil.setFeatureFilter(new FluentAPIJavaMetamodelFeatureFilter());
+		FluentAPIGenerationTestUtil.setPackageProvider(new FluentAPIJavaMetamodelPackageProvider());
+	}
 
-	private void methodTestTemplate(EClass initECls, String methodNamePrefix) {
-		var allOpsWithMatchingMethodNamePrefix = initECls.getEOperations().stream()
-				.filter((op) -> op.getName().startsWith(methodNamePrefix)).collect(Collectors.toList());
-		for (var feature : featureFilter.getModifiableFeatures(initECls)) {
+	private void methodTestTemplate(EClass elemToInitECls, EClass initECls, String methodNamePrefix,
+			List<EStructuralFeature> expectedFeats) {
+		for (var feature : expectedFeats) {
+			// TODO Fix param name (newFeatVal, removedFeatVal, ...)
 			var paramName = feature.getName();
 			var paramType = feature.getEType();
 			var expectMultiValueVariants = feature.isMany();
 			var expectBigNumberVariants = feature.getEType().equals(EcorePackage.Literals.EBIG_INTEGER)
 					|| feature.getEType().equals(EcorePackage.Literals.EBIG_DECIMAL);
 
-			var currentEClssOpName = methodNamePrefix
+			var currentMetName = methodNamePrefix
 					+ FluentAPIInitialisationConstants.getElementToInitialiseName(feature);
-			var currentEClssOps = allOpsWithMatchingMethodNamePrefix.stream()
-					.filter((op) -> op.getName().equals(currentEClssOpName))
+			var currentEClssOps = initECls.getEOperations().stream()
+					.filter((op) -> op.getName().equals(currentMetName))
 //					.filter((op) -> op.getEType().equals(initECls))
 					.collect(Collectors.toList());
 
 			// Ensure that the original method is present
 			Assertions.assertTrue(currentEClssOps.stream()
-					.anyMatch((op) -> assertParamsEqual(op, List.of(paramName), List.of(paramType))));
+					.anyMatch((op) -> assertParamsEqual(op, List.of(currentMetName), List.of(paramType))));
 
 			if (expectMultiValueVariants) {
 				Assertions.assertEquals(3, currentEClssOps.size(), "For eCls " + initECls.getName());
@@ -115,18 +122,18 @@ public class FluentAPIInitialisationGenerationTest extends AbstractFluentAPITest
 		return true;
 	}
 
-
 	/**
-	 * Checks whether{@code withX() : XInitialisation} methods for all supported EClasses
-	 * exist in API
+	 * Checks whether{@code withX() : XInitialisation} methods for all supported
+	 * EClasses exist in API
 	 */
 	@Test
 	public void methodTest_Initialisation_WithX() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
-		for (var eCls : allConcreteEClss) {
-			methodTestTemplate(api.getInitialisationForX(eCls).eClass(),
-					String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatNameTemplate(), ""));
+		for (var eCls : FluentAPIGenerationTestUtil.getAllSupportedConcreteEClss()) {
+			methodTestTemplate(eCls, FluentAPIGenerationTestUtil.getElemEClsToInitEClsFunc().apply(eCls),
+					String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatNameTemplate(),
+							""),
+					FluentAPIGenerationTestUtil.getFeatureFilter().getModifiableFeatures(eCls).stream()
+							.filter((f) -> !f.isMany()).collect(Collectors.toList()));
 		}
 	}
 }

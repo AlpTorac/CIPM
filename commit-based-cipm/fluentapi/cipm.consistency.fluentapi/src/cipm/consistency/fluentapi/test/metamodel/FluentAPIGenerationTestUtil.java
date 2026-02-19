@@ -5,7 +5,6 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -25,12 +24,12 @@ public class FluentAPIGenerationTestUtil {
 	private static List<EClass> allSupportedConcreteEClssWithOnlyOneModifiableFeat;
 	private static List<EClass> allSupportedConcreteEClssWithNoModifiableFeat;
 
-	private static Function<EClass, EClassifier> elemEClsToInitEClsFunc;
+	private static Function<EClass, EClass> elemEClsToInitEClsFunc;
 
 	private static Function<EClass, Boolean> multiValFunc;
 	private static Function<EClass, Boolean> bigNumberVariantsFunc;
 
-	public static void setElemEClsToInitEClsFunc(Function<EClass, EClassifier> func) {
+	public static void setElemEClsToInitEClsFunc(Function<EClass, EClass> func) {
 		elemEClsToInitEClsFunc = func;
 	}
 
@@ -99,7 +98,7 @@ public class FluentAPIGenerationTestUtil {
 		return allSupportedConcreteEClssWithOnlyOneModifiableFeat;
 	}
 
-	public static Function<EClass, EClassifier> getElemEClsToInitEClsFunc() {
+	public static Function<EClass, EClass> getElemEClsToInitEClsFunc() {
 		return elemEClsToInitEClsFunc;
 	}
 
@@ -115,4 +114,16 @@ public class FluentAPIGenerationTestUtil {
 		return allSupportedConcreteEClssWithNoModifiableFeat;
 	}
 
+	public static void clear() {
+		allAPIOps = null;
+		allSupportedConcreteEClss = null;
+		allSupportedConcreteEClssWithModifiableFeats = null;
+		allSupportedConcreteEClssWithNoModifiableFeat = null;
+		allSupportedConcreteEClssWithOnlyOneModifiableFeat = null;
+		bigNumberVariantsFunc = null;
+		elemEClsToInitEClsFunc = null;
+		featureFilter = null;
+		metamodelProvider = null;
+		multiValFunc = null;
+	}
 }

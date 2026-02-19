@@ -28,8 +28,8 @@ public class FluentAPIMethodTestData {
 		return returnTypeOfOp.apply(eCls);
 	}
 
-	public void setReturnTypeOfOp(Function<EClass, EClassifier> returnTypeOfOp) {
-		this.returnTypeOfOp = returnTypeOfOp;
+	public <T extends EClassifier> void setReturnTypeOfOp(Function<EClass, T> returnTypeOfOp) {
+		this.returnTypeOfOp = (eCls) -> (T) returnTypeOfOp.apply(eCls);
 	}
 
 	public List<String> getParamNames(EClass eCls) {
