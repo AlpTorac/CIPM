@@ -1,12 +1,15 @@
 package cipm.consistency.fluentapi.test.metamodel;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 
 import cipm.consistency.fluentapi.api.ApiFactory;
 import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
@@ -16,6 +19,59 @@ import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
+
+	@Test
+	public void mutationTest(TestInfo info) {
+		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var allConcreteEClss = FluentAPIGenerationTestSettings.getMetamodelProvider()
+				.getAllTargetMetamodelConcreteEClasses();
+		var eClssToMutate = new LinkedHashSet<EClass>();
+
+		// EClass without modifiable features
+		allConcreteEClss.stream().filter((eCls) -> !eClssToMutate.contains(eCls)).filter(
+				(eCls) -> FluentAPIGenerationTestSettings.getFeatureFilter().getModifiableFeatureCount(eCls) == 0)
+				.limit(1).forEach(eClssToMutate::add);
+
+		// EClass with multiple modifiable features
+		allConcreteEClss.stream().filter((eCls) -> !eClssToMutate.contains(eCls)).filter(
+				(eCls) -> FluentAPIGenerationTestSettings.getFeatureFilter().getModifiableFeatureCount(eCls) > 1)
+				.limit(1).forEach(eClssToMutate::add);
+
+		// EClass with at least one single-valued modifiable feature
+		allConcreteEClss.stream().filter((eCls) -> !eClssToMutate.contains(eCls))
+				.filter((eCls) -> FluentAPIGenerationTestSettings.getFeatureFilter().getModifiableFeatures(eCls)
+						.stream().filter((f) -> !f.isMany()).count() > 0)
+				.limit(1).forEach(eClssToMutate::add);
+
+		// EClass with at least one many-valued modifiable feature
+		allConcreteEClss.stream().filter((eCls) -> !eClssToMutate.contains(eCls))
+				.filter((eCls) -> FluentAPIGenerationTestSettings.getFeatureFilter().getModifiableFeatures(eCls)
+						.stream().filter((f) -> f.isMany()).count() > 0)
+				.limit(1).forEach(eClssToMutate::add);
+
+		Assertions.assertEquals(4, eClssToMutate.size(), "Not all supported EClasses are represented");
+
+		var eClssToMutateNames = eClssToMutate.stream().map((eCls) -> eCls.getName()).collect(Collectors.toList());
+
+		// Remove EOperations for certain types
+		var opsToRemove = api.eClass().getEOperations().stream()
+				.filter((op) -> eClssToMutateNames.stream().anyMatch((eClsName) -> op.getName().endsWith(eClsName)))
+				.collect(Collectors.toList());
+
+		var oldOps = List.copyOf(api.eClass().getEOperations());
+		api.eClass().getEOperations().removeAll(opsToRemove);
+		FluentAPIGenerationTestSettings.setAPI(api);
+
+		var testMethodsToRun = List.of(this.getClass().getDeclaredMethods()).stream()
+				.filter((tm) -> !tm.getName().equals(info.getDisplayName()))
+				.filter((tm) -> tm.isAnnotationPresent(org.junit.jupiter.api.Test.class)).collect(Collectors.toList());
+		Assertions.assertTrue(testMethodsToRun.size() > 0, "No test methods detected");
+		testMethodsToRun.forEach((tm) -> Assertions.assertThrows(Exception.class, () -> tm.invoke(this)));
+
+		api.eClass().getEOperations().clear();
+		api.eClass().getEOperations().addAll(oldOps);
+		FluentAPIGenerationTestSettings.setAPI(api);
+	}
 
 	@BeforeAll
 	public static void setUpBeforeAll() {
