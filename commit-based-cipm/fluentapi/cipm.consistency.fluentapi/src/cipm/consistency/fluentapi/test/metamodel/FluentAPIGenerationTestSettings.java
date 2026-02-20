@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 
-public class FluentAPIGenerationTestUtil {
+public class FluentAPIGenerationTestSettings {
 	private static FluentAPITargetMetamodelFeatureFilter featureFilter;
 	private static FluentAPITargetMetamodelPackageProvider metamodelProvider;
 
