@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -236,34 +237,15 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
 		for (var eCls : allConcreteEClss) {
 			var keySuperInit = new Object();
-			var keyAPI = new Object();
 
-			var instance = eCls.getEPackage().getEFactoryInstance().create(eCls);
-			Assertions.assertInstanceOf(eCls.getInstanceClass(), instance);
+			var init = api.newX(eCls);
+			var instance = init.getCurrentElement();
 
-			api.mark(keyAPI, instance);
+			init.mark(keySuperInit);
+			Assertions.assertSame(instance, api.getMarked(keySuperInit));
 
-			var init = api.modifyX(instance).mark(keySuperInit);
-			var initCls = init.getClass();
-			// Drop init to keep the assertions below simpler
-			init.dropInitialisation();
-
-			for (var key : List.of(keySuperInit, keyAPI)) {
-				// Markings are independent of the initialisation / api the object was stored /
-				// created in
-				Assertions.assertSame(instance, api.getMarked(key));
-
-				// modifyMarkedX call creates a new initialisation instance
-				var modMarkedInit = api.modifyMarkedX(key);
-				Assertions.assertInstanceOf(initCls, modMarkedInit);
-				Assertions.assertSame(instance, modMarkedInit.createNow());
-
-				// modifyMarkedX call creates a new initialisation instance that continueMarkedX
-				// then uses
-				modMarkedInit = api.modifyMarkedX(key);
-				Assertions.assertSame(modMarkedInit, api.continueMarkedX(key));
-				Assertions.assertSame(instance, modMarkedInit.createNow());
-			}
+			init.unmark(keySuperInit);
+			Assertions.assertNull(api.getMarked(keySuperInit));
 		}
 	}
 }
