@@ -15,7 +15,7 @@ public class FluentAPIConstants {
 		return fluentAPIPlaceholderEDataTypesPackageName;
 	}
 
-	public static String getDocumentationPlaceholder() {
+	public static String getTemplatePlaceholder() {
 		return fluentAPIDocumentationPlaceholder;
 	}
 }

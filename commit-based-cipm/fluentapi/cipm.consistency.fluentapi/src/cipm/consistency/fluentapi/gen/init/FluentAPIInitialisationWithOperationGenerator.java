@@ -254,23 +254,23 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 	public Map<String, String> getMethodNamesToDescriptions() {
 		return Map.of(
 				String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatNameTemplate(),
-						FluentAPIConstants.getDocumentationPlaceholder()),
+						FluentAPIConstants.getTemplatePlaceholder()),
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodSummary(),
 
 				String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationWithoutXFeatNameTemplate(),
-						FluentAPIConstants.getDocumentationPlaceholder()),
+						FluentAPIConstants.getTemplatePlaceholder()),
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodSummary(),
 
 				String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameTemplate(),
-						FluentAPIConstants.getDocumentationPlaceholder()),
+						FluentAPIConstants.getTemplatePlaceholder()),
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodSummary(),
 
 				String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameTemplate(),
-						FluentAPIConstants.getDocumentationPlaceholder()),
+						FluentAPIConstants.getTemplatePlaceholder()),
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodSummary(),
 
 				String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationCleanXFeatNameTemplate(),
-						FluentAPIConstants.getDocumentationPlaceholder()),
+						FluentAPIConstants.getTemplatePlaceholder()),
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIXCleanFeatMethodSummary());
 	}
 }

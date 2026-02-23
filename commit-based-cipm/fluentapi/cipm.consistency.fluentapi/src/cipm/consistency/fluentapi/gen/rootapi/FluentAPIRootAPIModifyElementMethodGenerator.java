@@ -80,7 +80,7 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 		var param = FluentAPIGeneralParameterGenerator.getMarkKeyParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyMarkedMethodNameTemplate(),
-						FluentAPIConstants.getDocumentationPlaceholder()),
+						FluentAPIConstants.getTemplatePlaceholder()),
 				context.getInitSuperECls());
 		FluentAPIGenerationUtil.addBody(op,
 				String.format(modifyMarkedElementMethodBodyTemplate,

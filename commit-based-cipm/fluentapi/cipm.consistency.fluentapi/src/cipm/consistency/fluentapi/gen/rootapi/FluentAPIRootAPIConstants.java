@@ -23,11 +23,6 @@ public final class FluentAPIRootAPIConstants {
 	/*
 	 * EOperations
 	 */
-	/*
-	 * continue
-	 */
-	private static final String fluentAPIRootAPIContinueMethodNameTemplate = "continue%s";
-	private static final String fluentAPIRootAPIContinueMarkedMethodNameTemplate = "continueMarked%s";
 
 	/*
 	 * createNew
@@ -67,12 +62,6 @@ public final class FluentAPIRootAPIConstants {
 	private static final String fluentAPIRootAPIModifyXMethodName = "modifyX";
 	private static final String fluentAPIRootAPIModifyMethodNameTemplate = "modify%s";
 	private static final String fluentAPIRootAPIModifyMarkedMethodNameTemplate = "modifyMarked%s";
-
-	/*
-	 * new
-	 */
-	private static final String fluentAPIRootAPINewXMethodName = "newX";
-	private static final String fluentAPIRootAPINewMethodNameTemplate = "new%s";
 
 	/*
 	 * onceExists
@@ -130,10 +119,6 @@ public final class FluentAPIRootAPIConstants {
 	private static final String fluentAPIRootAPINewMethodClassParameterName = "eObjCls";
 	private static final String fluentAPIRootAPINewMethodFeatureValueParameterName = "featVal";
 
-	private static String getElementToInitialiseName(EClass elemToInitECls) {
-		return StringUtils.capitalize(elemToInitECls.getName());
-	}
-
 	public static String getFluentAPIRootAPIXWithFeatMethodSummary() {
 		return fluentAPIRootAPIXWithFeatMethodSummary;
 	}
@@ -184,18 +169,6 @@ public final class FluentAPIRootAPIConstants {
 
 	public static String getFluentAPIRootAPIOnceExistsMethodName() {
 		return fluentAPIRootAPIOnceExistsMethodName;
-	}
-
-	public static String getFluentAPIRootAPINewXMethodName() {
-		return fluentAPIRootAPINewXMethodName;
-	}
-
-	public static String getFluentAPIRootAPINewMethodNameTemplate() {
-		return fluentAPIRootAPINewMethodNameTemplate;
-	}
-
-	public static String getFluentAPIRootAPINewMethodNameForType(EClass elemToInitECls) {
-		return String.format(getFluentAPIRootAPINewMethodNameTemplate(), getElementToInitialiseName(elemToInitECls));
 	}
 
 	public static String getFluentAPIRootAPINewMethodFeatureValueParameterName() {
@@ -311,24 +284,6 @@ public final class FluentAPIRootAPIConstants {
 
 	public static String getFluentAPIRootAPIClassName() {
 		return fluentAPIRootAPIClassName;
-	}
-
-	public static String getFluentAPIRootAPIContinueMethodNameTemplate() {
-		return fluentAPIRootAPIContinueMethodNameTemplate;
-	}
-
-	public static String getFluentAPIRootAPIContinueMarkedMethodNameTemplate() {
-		return fluentAPIRootAPIContinueMarkedMethodNameTemplate;
-	}
-
-	public static String getFluentAPIRootAPIContinueMethodNameForType(EClass elemToInitECls) {
-		return String.format(getFluentAPIRootAPIContinueMethodNameTemplate(),
-				getElementToInitialiseName(elemToInitECls));
-	}
-
-	public static String getFluentAPIRootAPIContinueMarkedMethodNameForType(EClass elemToInitECls) {
-		return String.format(getFluentAPIRootAPIContinueMarkedMethodNameTemplate(),
-				getElementToInitialiseName(elemToInitECls));
 	}
 
 	public static String getFluentAPIRootAPIMarkMethodName() {

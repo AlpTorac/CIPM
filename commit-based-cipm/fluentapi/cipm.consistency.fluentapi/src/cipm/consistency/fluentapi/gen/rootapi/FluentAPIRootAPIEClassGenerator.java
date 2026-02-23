@@ -3,7 +3,6 @@ package cipm.consistency.fluentapi.gen.rootapi;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
 
-import cipm.consistency.fluentapi.gen.FluentAPIConstants;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
@@ -39,13 +38,7 @@ public class FluentAPIRootAPIEClassGenerator {
 
 	public EClass generateRootAPIEClass() {
 		var fluentAPIECls = EcoreFactory.eINSTANCE.createEClass();
-
-		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
-		anno.setSource(FluentAPIConstants.getGenModelURL());
-		anno.getDetails().put(FluentAPIGenerationUtil.getEOperationDocumentationKey(), rootAPIClassDoc);
-
-		fluentAPIECls.getEAnnotations().add(anno);
-
+		FluentAPIGenerationUtil.addDocumentation(fluentAPIECls, rootAPIClassDoc);
 		fluentAPIECls.setAbstract(false);
 		fluentAPIECls.setInterface(false);
 		fluentAPIECls.setName(FluentAPIRootAPIConstants.getFluentAPIRootAPIClassName());
@@ -92,7 +85,9 @@ public class FluentAPIRootAPIEClassGenerator {
 		context.getFluentAPIECls().getEOperations()
 				.add(new FluentAPIRootAPIGetOngoingInitsMethodGenerator().generateGetOngoingInitsMethod(context));
 
-		context.getFluentAPIECls().getEOperations().add(new FluentAPIRootAPIClearAllOngoingInitialisationsMethodGenerator().generateClearAllOngoingInitsMethod(context));
+		context.getFluentAPIECls().getEOperations()
+				.add(new FluentAPIRootAPIClearAllOngoingInitialisationsMethodGenerator()
+						.generateClearAllOngoingInitsMethod(context));
 	}
 
 	public void setupRootAPIEClass(FluentAPIGenerationContext context) {

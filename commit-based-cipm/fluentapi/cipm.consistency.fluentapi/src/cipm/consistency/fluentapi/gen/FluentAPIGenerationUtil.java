@@ -44,6 +44,12 @@ public class FluentAPIGenerationUtil {
 	}
 
 	public static String getFullyQualifiedEClassName(EClass eCls) {
+		if (eCls.getInstanceClass() != null) {
+			return eCls.getInstanceClass().getName();
+		}
+		if (eCls.getInstanceTypeName() != null) {
+			return eCls.getInstanceTypeName();
+		}
 		String result = eCls.getName();
 		var pac = eCls.getEPackage();
 		while (pac != null) {
