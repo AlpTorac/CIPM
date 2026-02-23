@@ -1,10 +1,8 @@
 package cipm.consistency.fluentapi.test.metamodel;
 
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -23,33 +21,8 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 	@Test
 	public void mutationTest(TestInfo info) {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-		var allConcreteEClss = FluentAPIGenerationTestSettings.getMetamodelProvider()
-				.getAllTargetMetamodelConcreteEClasses();
-		var eClssToMutate = new LinkedHashSet<EClass>();
-
-		// EClass without modifiable features
-		allConcreteEClss.stream().filter((eCls) -> !eClssToMutate.contains(eCls)).filter(
-				(eCls) -> FluentAPIGenerationTestSettings.getFeatureFilter().getModifiableFeatureCount(eCls) == 0)
-				.limit(1).forEach(eClssToMutate::add);
-
-		// EClass with multiple modifiable features
-		allConcreteEClss.stream().filter((eCls) -> !eClssToMutate.contains(eCls)).filter(
-				(eCls) -> FluentAPIGenerationTestSettings.getFeatureFilter().getModifiableFeatureCount(eCls) > 1)
-				.limit(1).forEach(eClssToMutate::add);
-
-		// EClass with at least one single-valued modifiable feature
-		allConcreteEClss.stream().filter((eCls) -> !eClssToMutate.contains(eCls))
-				.filter((eCls) -> FluentAPIGenerationTestSettings.getFeatureFilter().getModifiableFeatures(eCls)
-						.stream().filter((f) -> !f.isMany()).count() > 0)
-				.limit(1).forEach(eClssToMutate::add);
-
-		// EClass with at least one many-valued modifiable feature
-		allConcreteEClss.stream().filter((eCls) -> !eClssToMutate.contains(eCls))
-				.filter((eCls) -> FluentAPIGenerationTestSettings.getFeatureFilter().getModifiableFeatures(eCls)
-						.stream().filter((f) -> f.isMany()).count() > 0)
-				.limit(1).forEach(eClssToMutate::add);
-
-		Assertions.assertEquals(4, eClssToMutate.size(), "Not all supported EClasses are represented");
+		var eClssToMutate = new FluentAPIMutationTestRepresentativesGenerator()
+				.getRepresentativeTargetMetamodelConcreteEClasses_BasedOnModifiability();
 
 		var eClssToMutateNames = eClssToMutate.stream().map((eCls) -> eCls.getName()).collect(Collectors.toList());
 

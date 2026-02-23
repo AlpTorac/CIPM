@@ -1,15 +1,19 @@
 package cipm.consistency.fluentapi.test.metamodel;
 
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EStructuralFeature;
-
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInfo;
 
 import cipm.consistency.fluentapi.api.ApiFactory;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
@@ -18,6 +22,56 @@ import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPack
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 public class FluentAPIInitialisationGenerationTest extends AbstractFluentAPITest {
+	@Test
+	public void mutationTest(TestInfo info) {
+		var eClssToMutate = new FluentAPIMutationTestRepresentativesGenerator()
+				.getRepresentativeTargetMetamodelConcreteEClasses_BasedOnModifiability().stream()
+				.map((eCls) -> FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc().apply(eCls))
+				.collect(Collectors.toSet());
+
+		// Remove EOperations for certain types
+		var opsToRemove = new LinkedHashMap<EClass, List<EOperation>>();
+		eClssToMutate.stream().forEach((eCls) -> opsToRemove.put(eCls, new ArrayList<>()));
+		eClssToMutate.stream().forEach((eCls) -> eCls.getEOperations().stream()
+				.filter((op) -> op.getName().startsWith(String.format(
+						FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatNameTemplate(), "")))
+				.forEach((op) -> opsToRemove.get(eCls).add(op)));
+		eClssToMutate.stream().forEach((eCls) -> eCls.getEOperations().stream()
+				.filter((op) -> op.getName().startsWith(String.format(
+						FluentAPIInitialisationConstants.getFluentAPIInitialisationWithoutXFeatNameTemplate(), "")))
+				.forEach((op) -> opsToRemove.get(eCls).add(op)));
+		eClssToMutate.stream().forEach((eCls) -> eCls.getEOperations().stream()
+				.filter((op) -> op.getName().startsWith(String.format(
+						FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameTemplate(), "")))
+				.forEach((op) -> opsToRemove.get(eCls).add(op)));
+		eClssToMutate.stream()
+				.forEach((eCls) -> eCls.getEOperations().stream()
+						.filter((op) -> op.getName()
+								.startsWith(String.format(FluentAPIInitialisationConstants
+										.getFluentAPIInitialisationWithRemovedXFeatNameTemplate(), "")))
+						.forEach((op) -> opsToRemove.get(eCls).add(op)));
+		eClssToMutate.stream().forEach((eCls) -> eCls.getEOperations().stream()
+				.filter((op) -> op.getName().startsWith(String.format(
+						FluentAPIInitialisationConstants.getFluentAPIInitialisationCleanXFeatNameTemplate(), "")))
+				.forEach((op) -> opsToRemove.get(eCls).add(op)));
+
+		var oldOps = new LinkedHashMap<EClass, List<EOperation>>();
+		eClssToMutate.stream().forEach((eCls) -> oldOps.put(eCls, List.copyOf(eCls.getEOperations())));
+
+		opsToRemove.forEach((eCls, toRemove) -> eCls.getEOperations().removeAll(toRemove));
+
+		var testMethodsToRun = List.of(this.getClass().getDeclaredMethods()).stream()
+				.filter((tm) -> !tm.getName().equals(info.getDisplayName()))
+				.filter((tm) -> tm.isAnnotationPresent(org.junit.jupiter.api.Test.class)).collect(Collectors.toList());
+		Assertions.assertTrue(testMethodsToRun.size() > 0, "No test methods detected");
+		testMethodsToRun.forEach((tm) -> Assertions.assertThrows(Exception.class, () -> tm.invoke(this)));
+
+		oldOps.forEach((eCls, ops) -> {
+			eCls.getEOperations().clear();
+			eCls.getEOperations().addAll(ops);
+		});
+	}
+
 	@BeforeAll
 	public static void setUpBeforeAll() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
