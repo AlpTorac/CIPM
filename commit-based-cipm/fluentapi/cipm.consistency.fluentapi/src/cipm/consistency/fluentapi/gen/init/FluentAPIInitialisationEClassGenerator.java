@@ -6,24 +6,19 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
 
 import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationResetOperationGenerator;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationToAPIMethodGenerator;
 
 public class FluentAPIInitialisationEClassGenerator {
-	// %s: Initialised class name
-	// %s: Metamodel name
-	// %s: Initialised class name
-	// %s: Serialised method names and summaries
-	private static final String initClassDocTemplate = "An Initialisation class that targets the type '%s' within the '%s' metamodel. Contains various methods that facilitate the programmatic construction of '%s' instances."
-			+ FluentAPIDocumentationUtil.getClassMethodOverviewIntroTemplate();
-
 	private static final Map<String, String> summaries = new LinkedHashMap<>();
 
 	public List<EClass> generateFluentAPIInitialisationClasses(FluentAPIGenerationContext context) {
@@ -45,7 +40,8 @@ public class FluentAPIInitialisationEClassGenerator {
 
 	private void addXInitEClassDocumentation(EClass xInitEClass, EClass initialisedEClass,
 			FluentAPIGenerationContext context) {
-		var doc = String.format(initClassDocTemplate, initialisedEClass.getName(),
+
+		var doc = ModelConstants.Initialiation.initClassDocTemplate.getFor(initialisedEClass.getName(),
 				context.getTargetMetamodelPackageProvider().getTargetMetamodelName(), initialisedEClass.getName(),
 				FluentAPIDocumentationUtil.serialiseSummaries(summaries));
 		FluentAPIGenerationUtil.addDocumentation(xInitEClass, doc);
@@ -53,8 +49,8 @@ public class FluentAPIInitialisationEClassGenerator {
 
 	private EClass generateInitialisationEClass(EClass initialisedEClass, FluentAPIGenerationContext context) {
 		var xInitEClass = EcoreFactory.eINSTANCE.createEClass();
-		xInitEClass.setName(initialisedEClass.getName()
-				+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix());
+		xInitEClass.setName(
+				ModelConstants.Initialiation.CLASS_NAME.getFor(StringUtils.capitalize(initialisedEClass.getName())));
 		return xInitEClass;
 	}
 

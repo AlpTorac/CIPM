@@ -5,36 +5,26 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcorePackage;
 
-import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
-import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
+import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator implements IFluentAPIMethodGenerator {
-	private static final String getInitialisedEClassSummary = "Returns the targeted EClass.";
-	private static final String getInitialisedEClassDocumentation = FluentAPIDocumentationUtil
-			.appendSummaryToStart(getInitialisedEClassSummary) + "Returns the EClass, which this "
-			+ FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix() + " instance targets.";
-
-	private static final String getInitialisedEClassMethodBody = FluentAPIMethodsUtil.joinLOC(
-			"return this." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationNewElementMethodName()
-					+ "()." + FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCreateNowMethodName()
-					+ "().eClass()");
+	private static final String getInitialisedEClassMethodBody = FluentAPIMethodsUtil
+			.joinLOC("return this" + ModelConstants.SuperInitialisation.NewElement.NAME.call()
+					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call() + ".eClass()");
 
 	public EOperation generateGetInitialisedEClassMethod() {
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationGetInitialisedEClassMethodName(),
-				EcorePackage.Literals.ECLASS);
+				ModelConstants.SuperInitialisation.GetInitialisedEClass.NAME.get(), EcorePackage.Literals.ECLASS);
 		FluentAPIGenerationUtil.addBody(op, getInitialisedEClassMethodBody);
-		FluentAPIGenerationUtil.addDocumentation(op, getInitialisedEClassDocumentation);
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.SuperInitialisation.GetInitialisedEClass.DOC.get());
 		return op;
 	}
 
 	@Override
 	public Map<String, String> getMethodNamesToDescriptions() {
-		return Map.of(
-				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationGetInitialisedEClassMethodName(),
-				getInitialisedEClassSummary);
+		return Map.of();
 	}
 }

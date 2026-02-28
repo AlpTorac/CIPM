@@ -4,6 +4,7 @@ import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationConstants;
 
@@ -14,7 +15,7 @@ public final class FluentAPIInitialisationConstants {
 	private static final String fluentAPIInitialisationsPackageName = "inits";
 	private static final String fluentAPIInitialisationsPackageFullName = FluentAPIRootAPIConstants
 			.getFluentAPIRootPackageName() + "." + fluentAPIInitialisationsPackageName;
-	private static final URI fluentAPIInitialisationsPackageURI = FluentAPIRootAPIConstants.getFluentAPIRootPackageURI()
+	private static final URI fluentAPIInitialisationsPackageURI = URI.createURI(ModelConstants.ROOT_PACKAGE_URI.get())
 			.appendSegment(fluentAPIInitialisationsPackageName);
 
 	/*

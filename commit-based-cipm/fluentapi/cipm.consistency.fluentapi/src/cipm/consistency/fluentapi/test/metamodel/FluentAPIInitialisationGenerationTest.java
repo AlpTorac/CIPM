@@ -6,6 +6,7 @@ import java.util.List;
 
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EOperation;
@@ -16,7 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
 import cipm.consistency.fluentapi.api.ApiFactory;
-import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
+import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
@@ -32,28 +33,26 @@ public class FluentAPIInitialisationGenerationTest extends AbstractFluentAPITest
 		// Remove EOperations for certain types
 		var opsToRemove = new LinkedHashMap<EClass, List<EOperation>>();
 		eClssToMutate.stream().forEach((eCls) -> opsToRemove.put(eCls, new ArrayList<>()));
-		eClssToMutate.stream().forEach((eCls) -> eCls.getEOperations().stream()
-				.filter((op) -> op.getName().startsWith(String.format(
-						FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatNameTemplate(), "")))
-				.forEach((op) -> opsToRemove.get(eCls).add(op)));
-		eClssToMutate.stream().forEach((eCls) -> eCls.getEOperations().stream()
-				.filter((op) -> op.getName().startsWith(String.format(
-						FluentAPIInitialisationConstants.getFluentAPIInitialisationWithoutXFeatNameTemplate(), "")))
-				.forEach((op) -> opsToRemove.get(eCls).add(op)));
-		eClssToMutate.stream().forEach((eCls) -> eCls.getEOperations().stream()
-				.filter((op) -> op.getName().startsWith(String.format(
-						FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameTemplate(), "")))
-				.forEach((op) -> opsToRemove.get(eCls).add(op)));
 		eClssToMutate.stream()
 				.forEach((eCls) -> eCls.getEOperations().stream()
-						.filter((op) -> op.getName()
-								.startsWith(String.format(FluentAPIInitialisationConstants
-										.getFluentAPIInitialisationWithRemovedXFeatNameTemplate(), "")))
+						.filter((op) -> op.getName().startsWith(ModelConstants.Initialiation.With.NAME.getFor("")))
 						.forEach((op) -> opsToRemove.get(eCls).add(op)));
-		eClssToMutate.stream().forEach((eCls) -> eCls.getEOperations().stream()
-				.filter((op) -> op.getName().startsWith(String.format(
-						FluentAPIInitialisationConstants.getFluentAPIInitialisationCleanXFeatNameTemplate(), "")))
-				.forEach((op) -> opsToRemove.get(eCls).add(op)));
+		eClssToMutate.stream()
+				.forEach((eCls) -> eCls.getEOperations().stream()
+						.filter((op) -> op.getName().startsWith(ModelConstants.Initialiation.Without.NAME.getFor("")))
+						.forEach((op) -> opsToRemove.get(eCls).add(op)));
+		eClssToMutate.stream()
+				.forEach((eCls) -> eCls.getEOperations().stream()
+						.filter((op) -> op.getName().startsWith(ModelConstants.Initialiation.WithAdded.NAME.getFor("")))
+						.forEach((op) -> opsToRemove.get(eCls).add(op)));
+		eClssToMutate.stream()
+				.forEach((eCls) -> eCls.getEOperations().stream().filter(
+						(op) -> op.getName().startsWith(ModelConstants.Initialiation.WithRemoved.NAME.getFor("")))
+						.forEach((op) -> opsToRemove.get(eCls).add(op)));
+		eClssToMutate.stream()
+				.forEach((eCls) -> eCls.getEOperations().stream()
+						.filter((op) -> op.getName().startsWith(ModelConstants.Initialiation.Clean.NAME.getFor("")))
+						.forEach((op) -> opsToRemove.get(eCls).add(op)));
 
 		var oldOps = new LinkedHashMap<EClass, List<EOperation>>();
 		eClssToMutate.stream().forEach((eCls) -> oldOps.put(eCls, List.copyOf(eCls.getEOperations())));
@@ -91,8 +90,7 @@ public class FluentAPIInitialisationGenerationTest extends AbstractFluentAPITest
 			var expectBigNumberVariants = FluentAPIGenerationTestSettings.getBigNumberVariantsFunc()
 					.apply(elemToInitECls);
 
-			var currentMetName = methodNamePrefix
-					+ FluentAPIInitialisationConstants.getElementToInitialiseName(feature);
+			var currentMetName = methodNamePrefix + StringUtils.capitalize(feature.getName());
 			var currentEClssOps = initECls.getEOperations().stream().filter((op) -> op.getName().equals(currentMetName))
 //					.filter((op) -> op.getEType().equals(initECls))
 					.collect(Collectors.toList());
@@ -122,9 +120,8 @@ public class FluentAPIInitialisationGenerationTest extends AbstractFluentAPITest
 	public void methodTest_Initialisation_WithX() {
 		for (var eCls : FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss()) {
 			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc().apply(eCls),
-					String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatNameTemplate(),
-							""),
-					FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodNewFeatValParamName(),
+					ModelConstants.Initialiation.With.NAME.getFor(""),
+					ModelConstants.Initialiation.With.PARAMETER_NAME.get(),
 					FluentAPIGenerationTestSettings.getFeatureFilter().getModifiableFeatures(eCls).stream()
 							.filter((f) -> !f.isMany()).collect(Collectors.toList()));
 		}
@@ -138,9 +135,8 @@ public class FluentAPIInitialisationGenerationTest extends AbstractFluentAPITest
 	public void methodTest_Initialisation_WithoutX() {
 		for (var eCls : FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss()) {
 			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc().apply(eCls),
-					String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationWithoutXFeatNameTemplate(),
-							""),
-					null, FluentAPIGenerationTestSettings.getFeatureFilter().getModifiableFeatures(eCls).stream()
+					ModelConstants.Initialiation.Without.NAME.getFor(""), null,
+					FluentAPIGenerationTestSettings.getFeatureFilter().getModifiableFeatures(eCls).stream()
 							.filter((f) -> !f.isMany()).collect(Collectors.toList()));
 		}
 	}
@@ -153,10 +149,8 @@ public class FluentAPIInitialisationGenerationTest extends AbstractFluentAPITest
 	public void methodTest_Initialisation_WithAddedX() {
 		for (var eCls : FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss()) {
 			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc().apply(eCls),
-					String.format(
-							FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameTemplate(),
-							""),
-					FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodAddedFeatValParamName(),
+					ModelConstants.Initialiation.WithAdded.NAME.getFor(""),
+					ModelConstants.Initialiation.WithAdded.PARAMETER_NAME.get(),
 					FluentAPIGenerationTestSettings.getFeatureFilter().getModifiableFeatures(eCls).stream()
 							.filter((f) -> f.isMany()).collect(Collectors.toList()));
 		}
@@ -170,10 +164,8 @@ public class FluentAPIInitialisationGenerationTest extends AbstractFluentAPITest
 	public void methodTest_Initialisation_WithRemovedX() {
 		for (var eCls : FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss()) {
 			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc().apply(eCls),
-					String.format(
-							FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameTemplate(),
-							""),
-					FluentAPIInitialisationConstants.getFluentAPIInitialisationWithMethodRemovedFeatValParamName(),
+					ModelConstants.Initialiation.WithRemoved.NAME.getFor(""),
+					ModelConstants.Initialiation.WithRemoved.PARAMETER_NAME.get(),
 					FluentAPIGenerationTestSettings.getFeatureFilter().getModifiableFeatures(eCls).stream()
 							.filter((f) -> f.isMany()).collect(Collectors.toList()));
 		}
@@ -187,9 +179,8 @@ public class FluentAPIInitialisationGenerationTest extends AbstractFluentAPITest
 	public void methodTest_Initialisation_CleanX() {
 		for (var eCls : FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss()) {
 			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc().apply(eCls),
-					String.format(FluentAPIInitialisationConstants.getFluentAPIInitialisationCleanXFeatNameTemplate(),
-							""),
-					null, FluentAPIGenerationTestSettings.getFeatureFilter().getModifiableFeatures(eCls).stream()
+					ModelConstants.Initialiation.Clean.NAME.getFor(""), null,
+					FluentAPIGenerationTestSettings.getFeatureFilter().getModifiableFeatures(eCls).stream()
 							.filter((f) -> f.isMany()).collect(Collectors.toList()));
 		}
 	}

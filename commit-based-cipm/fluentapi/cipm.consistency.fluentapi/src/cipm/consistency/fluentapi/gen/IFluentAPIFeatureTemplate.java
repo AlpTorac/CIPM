@@ -18,7 +18,7 @@ public interface IFluentAPIFeatureTemplate extends IFluentAPITemplate {
 		return "." + getter() + "()";
 	}
 
-	public default String setterCall() {
-		return "." + setter() + "()";
+	public default String setterCall(String param) {
+		return "." + setter() + "(" + param + ")";
 	}
 }

@@ -5,6 +5,7 @@ import org.eclipse.emf.ecore.EParameter;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIInitialisationStorage;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
@@ -13,14 +14,13 @@ public class FluentAPIRootAPIDropInitialisationMethodGenerator {
 
 	private static final String dropInitialisationMethodBody = FluentAPIMethodsUtil.joinLOC(
 			FluentAPIInitialisationStorage.class.getName() + ".dropOngoingInitialisation("
-					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationParameterName() + ")",
+					+ ModelConstants.RootAPI.DropInitialisation.INITIALISATION_PARAMETER_NAME.get() + ")",
 			//
 			"return this");
 
 	public EOperation generateDropInitialisationMethod(FluentAPIGenerationContext context) {
 		var param = getInitialisationParam(context);
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationMethodName(),
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.DropInitialisation.NAME.get(),
 				context.getFluentAPIECls());
 		FluentAPIGenerationUtil.addBody(op, dropInitialisationMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, param);
@@ -29,7 +29,7 @@ public class FluentAPIRootAPIDropInitialisationMethodGenerator {
 
 	private EParameter getInitialisationParam(FluentAPIGenerationContext context) {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationParameterName(),
+				ModelConstants.RootAPI.DropInitialisation.INITIALISATION_PARAMETER_NAME.get(),
 				context.getInitSuperECls());
 	}
 }

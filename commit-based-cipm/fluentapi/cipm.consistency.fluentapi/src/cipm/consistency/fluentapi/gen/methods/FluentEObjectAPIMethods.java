@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.util.BasicEList;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -15,8 +16,7 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
-import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationConstants;
+import cipm.consistency.fluentapi.gen.ModelConstants;
 
 public final class FluentEObjectAPIMethods {
 	// TODO Add commentary
@@ -24,7 +24,7 @@ public final class FluentEObjectAPIMethods {
 	public static EObject xWithFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
 		var init = getInitialisationForX(api, objToModify);
 
-		var opName = FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatNameForType(feat);
+		var opName = ModelConstants.Initialiation.With.NAME.getFor(StringUtils.capitalize(feat.getName()));
 		var withOp = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName)).findFirst()
 				.get();
 		try {
@@ -38,7 +38,7 @@ public final class FluentEObjectAPIMethods {
 
 	public static EObject xWithoutFeat(EObject api, EObject objToModify, EStructuralFeature feat) {
 		var init = getInitialisationForX(api, objToModify);
-		var opName = FluentAPIInitialisationConstants.getFluentAPIInitialisationWithoutXFeatNameForType(feat);
+		var opName = ModelConstants.Initialiation.Without.NAME.getFor(StringUtils.capitalize(feat.getName()));
 		var withoutOp = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName)).findFirst()
 				.get();
 		try {
@@ -52,7 +52,7 @@ public final class FluentEObjectAPIMethods {
 
 	public static EObject xCleanFeat(EObject api, EObject objToModify, EStructuralFeature feat) {
 		var init = getInitialisationForX(api, objToModify);
-		var opName = FluentAPIInitialisationConstants.getFluentAPIInitialisationCleanXFeatNameForType(feat);
+		var opName = ModelConstants.Initialiation.Clean.NAME.getFor(StringUtils.capitalize(feat.getName()));
 		var cleanOp = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName)).findFirst()
 				.get();
 		try {
@@ -109,7 +109,7 @@ public final class FluentEObjectAPIMethods {
 
 	public static EObject xWithAddedFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
 		var init = getInitialisationForX(api, objToModify);
-		var opName = FluentAPIInitialisationConstants.getFluentAPIInitialisationWithAddedXFeatNameForType(feat);
+		var opName = ModelConstants.Initialiation.WithAdded.NAME.getFor(StringUtils.capitalize(feat.getName()));
 		var withAddedOps = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName))
 				.collect(Collectors.toList());
 		var op = getVariantForFeatureValue(featVal, withAddedOps);
@@ -127,7 +127,7 @@ public final class FluentEObjectAPIMethods {
 
 	public static EObject xWithRemovedFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
 		var init = getInitialisationForX(api, objToModify);
-		var opName = FluentAPIInitialisationConstants.getFluentAPIInitialisationWithRemovedXFeatNameForType(feat);
+		var opName = ModelConstants.Initialiation.WithRemoved.NAME.getFor(StringUtils.capitalize(feat.getName()));
 		var withRemovedOps = init.eClass().getEOperations().stream().filter((op) -> op.getName().equals(opName))
 				.collect(Collectors.toList());
 		var op = getVariantForFeatureValue(featVal, withRemovedOps);
@@ -152,19 +152,17 @@ public final class FluentEObjectAPIMethods {
 //				.map((c) -> (EClass) c).forEach((c) -> result.add(c));
 
 		var initsPac = me.eClass().getEPackage().getESubpackages().stream()
-				.filter((pac) -> pac.getName()
-						.equals(FluentAPIInitialisationConstants.getFluentAPIInitialisationsPackageName()))
-				.findFirst().get();
+				.filter((pac) -> pac.getName().equals(ModelConstants.INITIALISATIONS_PACKAGE_NAME.get())).findFirst()
+				.get();
 
 		var initEClasses = initsPac.getEClassifiers().stream()
-				.filter((eCls) -> eCls instanceof EClass && eCls.getName()
-						.endsWith(FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix()))
+				.filter((eCls) -> eCls instanceof EClass
+						&& eCls.getName().endsWith(ModelConstants.INITIALISATION_NAME_SUFFIX.get()))
 				.map((eCls) -> (EClass) eCls).collect(Collectors.toList());
 
 		initEClasses.stream().map((eCls) -> eCls.getInstanceClass()).map((cls) -> {
 			try {
-				return cls.getDeclaredMethod(
-						FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCreateNowMethodName());
+				return cls.getDeclaredMethod(ModelConstants.SuperInitialisation.CreateNow.NAME.get());
 			} catch (NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
 				throw new IllegalStateException(e);
@@ -183,16 +181,14 @@ public final class FluentEObjectAPIMethods {
 
 	public static EObject getInitialisationInstanceForX(EObject me, Class<?> eobjCls) {
 		var initsPac = me.eClass().getEPackage().getESubpackages().stream()
-				.filter((pac) -> pac.getName()
-						.equals(FluentAPIInitialisationConstants.getFluentAPIInitialisationsPackageName()))
-				.findFirst().get();
+				.filter((pac) -> pac.getName().equals(ModelConstants.INITIALISATIONS_PACKAGE_NAME.get())).findFirst()
+				.get();
 
 		var initEClass = (EClass) initsPac.getEClassifiers().stream().filter((eCls) -> eCls instanceof EClass)
 				.map((eCls) -> (EClass) eCls).filter((eCls) -> isInitialisationFor(eCls, eobjCls)).findFirst().get();
 		var initInstance = initEClass.getEPackage().getEFactoryInstance().create(initEClass);
 		initInstance.eSet(
-				initInstance.eClass().getEStructuralFeature(
-						FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationRootAPIReferenceName()),
+				initInstance.eClass().getEStructuralFeature(ModelConstants.SuperInitialisation.RootAPIRef.NAME.get()),
 				me);
 		FluentAPIInitialisationStorage.addOngoingInitialisation(initInstance);
 		return initInstance;
@@ -201,9 +197,8 @@ public final class FluentEObjectAPIMethods {
 	public static EObject getInitialisationInstanceForXWithNewElement(EObject me, Class<?> eobjCls) {
 		var initInstance = getInitialisationInstanceForX(me, eobjCls);
 		var newElemOp = initInstance.eClass().getEOperations().stream()
-				.filter((op) -> op.getName()
-						.equals(FluentAPIInitialisationConstants.getFluentAPIInitialisationNewElementOperationName()))
-				.findFirst().get();
+				.filter((op) -> op.getName().equals(ModelConstants.Initialiation.NewElement.NAME.get())).findFirst()
+				.get();
 		try {
 			initInstance.eInvoke(newElemOp, new BasicEList<>());
 		} catch (InvocationTargetException e) {
@@ -223,18 +218,15 @@ public final class FluentEObjectAPIMethods {
 	public static EObject getInitialisationForX(EObject me, EObject eobjToInit) {
 		var initInstance = getInitialisationInstanceForX(me, eobjToInit.eClass().getInstanceClass());
 
-		initInstance.eSet(initInstance.eClass().getEStructuralFeature(
-				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCurrentElementReferenceName()),
-				eobjToInit);
+		initInstance.eSet(initInstance.eClass()
+				.getEStructuralFeature(ModelConstants.SuperInitialisation.CurrentElementRef.NAME.get()), eobjToInit);
 
 		return initInstance;
 	}
 
 	public static boolean isInitialisationFor(EClass initECls, Class<?> eobjCls) {
 		return !initECls.isAbstract() && initECls.getName()
-				.substring(0,
-						initECls.getName().length()
-								- FluentAPIInitialisationConstants.getFluentAPIInitialisationClassNameSuffix().length())
+				.substring(0, initECls.getName().length() - ModelConstants.INITIALISATION_NAME_SUFFIX.get().length())
 				.equals(eobjCls.getSimpleName());
 	}
 

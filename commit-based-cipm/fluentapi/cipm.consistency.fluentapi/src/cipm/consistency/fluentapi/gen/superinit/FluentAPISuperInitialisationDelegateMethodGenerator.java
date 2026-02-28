@@ -13,20 +13,16 @@ import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIParameterUtil;
+import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
-import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 
 public class FluentAPISuperInitialisationDelegateMethodGenerator {
 	private static final Pattern methodsToDelegate = Pattern.compile(String.join("|",
-			new String[] { FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithFeatMethodName(),
-					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithoutFeatMethodName(),
-					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithAddedFeatMethodName(),
-					FluentAPIRootAPIConstants.getFluentAPIRootAPIXWithRemovedFeatMethodName(),
-					FluentAPIRootAPIConstants.getFluentAPIRootAPIXCleanFeatMethodName(),
-					FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationMethodName(),
-					FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(),
-					FluentAPIRootAPIConstants.getFluentAPIRootAPIUnmarkMethodName(),
-					FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkMethodName() }));
+			new String[] { ModelConstants.RootAPI.WithFeat.NAME.get(), ModelConstants.RootAPI.WithoutFeat.NAME.get(),
+					ModelConstants.RootAPI.WithAddedFeat.NAME.get(), ModelConstants.RootAPI.WithRemovedFeat.NAME.get(),
+					ModelConstants.RootAPI.CleanFeat.NAME.get(), ModelConstants.RootAPI.DropInitialisation.NAME.get(),
+					ModelConstants.RootAPI.OnceExists.NAME.get(), ModelConstants.RootAPI.Mark.NAME.get(),
+					ModelConstants.RootAPI.Unmark.NAME.get() }));
 
 	@SuppressWarnings("serial")
 	private static final Map<Pattern, String> parameterOverrideMap = new LinkedHashMap<>() {
@@ -35,8 +31,7 @@ public class FluentAPISuperInitialisationDelegateMethodGenerator {
 					"this.getCurrentElement()");
 			put(Pattern.compile(FluentAPIGeneralParameterGenerator.getFluentAPIMarkValParameterName()),
 					"this.getCurrentElement()");
-			put(Pattern.compile(FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationParameterName()),
-					"this");
+			put(Pattern.compile(ModelConstants.RootAPI.DropInitialisation.INITIALISATION_PARAMETER_NAME.get()), "this");
 		}
 	};
 

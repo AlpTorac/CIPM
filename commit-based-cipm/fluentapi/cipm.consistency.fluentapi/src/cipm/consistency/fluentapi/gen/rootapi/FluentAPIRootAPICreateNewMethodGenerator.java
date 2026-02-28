@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 /**
@@ -20,14 +21,14 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 public class FluentAPIRootAPICreateNewMethodGenerator {
 	// TODO Add documentation
 
-	private static final String createNewXMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC("return (%s) this."
-			+ FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName() + "(%s.class).createNow()");
+	private static final String createNewXMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
+			"return (%s) this" + ModelConstants.RootAPI.GetInitialisationFor.NAME.call("%s.class") + ".createNow()");
 
-	private static final String createNewXWithClassParamMethodBody = FluentAPIMethodsUtil.joinLOC("return ("
-			+ FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXWithClassParameterMethodTypeParameterName()
-			+ ") this." + FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName() + "("
-			+ FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXWithClassParameterMethodParameterName()
-			+ ").createNow()");
+	private static final String createNewXWithClassParamMethodBody = FluentAPIMethodsUtil
+			.joinLOC("return (" + ModelConstants.RootAPI.CreateNew.TYPE_PARAMETER_NAME.get() + ") this"
+					+ ModelConstants.RootAPI.GetInitialisationFor.NAME
+							.call(ModelConstants.RootAPI.CreateNew.ECLASS_PARAMETER_NAME.get())
+					+ ".createNow()");
 
 	public List<EOperation> generateAllCreateNewMethods(FluentAPIGenerationContext context) {
 		var eObjEClss = context.getTargetMetamodelPackageProvider().getAllTargetMetamodelConcreteEClasses();
@@ -44,8 +45,7 @@ public class FluentAPIRootAPICreateNewMethodGenerator {
 
 	private EOperation generateCreateNewMethod(EClass eObjEClass) {
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXMethodNameTemplate(),
-						eObjEClass.getInstanceClass().getSimpleName()),
+				ModelConstants.RootAPI.CreateNew.NAME.getFor(eObjEClass.getInstanceClass().getSimpleName()),
 				eObjEClass);
 		FluentAPIGenerationUtil.addBody(op, String.format(createNewXMethodBodyTemplate,
 				eObjEClass.getInstanceClass().getName(), eObjEClass.getInstanceClass().getName()));
@@ -55,8 +55,8 @@ public class FluentAPIRootAPICreateNewMethodGenerator {
 	private EOperation generateGenericCreateNewMethod() {
 		// Goal: <T> T createNewX(Class<T> createNewXWithClassParamParamName)
 
-		var typeParam = FluentAPIGenerationUtil.generateETypeParameter(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXWithClassParameterMethodTypeParameterName());
+		var typeParam = FluentAPIGenerationUtil
+				.generateETypeParameter(ModelConstants.RootAPI.CreateNew.TYPE_PARAMETER_NAME.get());
 
 		// Make sure to create 2 generic types, one for the method parameter (Class<T>)
 		// and one for the return type of the method (T)
@@ -74,12 +74,11 @@ public class FluentAPIRootAPICreateNewMethodGenerator {
 
 		// "createNewXWithClassParamParamName" in "Class<T>
 		// createNewXWithClassParamParamName"
-		var methodParam = FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXWithClassParameterMethodParameterName());
+		var methodParam = FluentAPIGenerationUtil
+				.generateSingleValuedEParameter(ModelConstants.RootAPI.CreateNew.ECLASS_PARAMETER_NAME.get());
 		methodParam.setEGenericType(methodParamType);
 
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXWithClassParameterMethodName());
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.CreateNew.TOP_NAME.get());
 		FluentAPIGenerationUtil.addBody(op, createNewXWithClassParamMethodBody);
 		op.setEGenericType(methodTypeParam);
 		op.getETypeParameters().add(typeParam);

@@ -11,24 +11,17 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIParameterUtil;
+import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
-import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
-import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationConstants;
 
 public class FluentAPIInitialisationReturnTypeOverrideGenerator {
 	private static final Pattern initReturnTypeOverridePattern = Pattern.compile(String.join("|",
-			new String[] { FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationNextInitMethodName(),
-					FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationPreviousInitMethodName(),
-					FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationResetMethodNameTemplate(),
-					FluentAPIRootAPIConstants.getFluentAPIRootAPIDropInitialisationMethodName(),
-					FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(),
-					FluentAPIRootAPIConstants.getFluentAPIRootAPIMarkMethodName(),
-					FluentAPIRootAPIConstants.getFluentAPIRootAPIUnmarkMethodName()
-
-			}));
+			new String[] { ModelConstants.SuperInitialisation.Reset.NAME.get(),
+					ModelConstants.RootAPI.DropInitialisation.NAME.get(), ModelConstants.RootAPI.OnceExists.NAME.get(),
+					ModelConstants.RootAPI.Mark.NAME.get(), ModelConstants.RootAPI.Unmark.NAME.get(), }));
 
 	private static final Pattern initialisedElementReturnTypeOverridePattern = Pattern
-			.compile(FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCreateNowMethodName());
+			.compile(ModelConstants.SuperInitialisation.CreateNow.NAME.get());
 
 	private static final String methodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Returned class

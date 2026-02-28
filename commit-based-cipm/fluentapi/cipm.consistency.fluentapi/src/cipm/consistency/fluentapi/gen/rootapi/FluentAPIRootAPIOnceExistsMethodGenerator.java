@@ -5,6 +5,7 @@ import org.eclipse.emf.ecore.EOperation;
 import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIOnceExistsExtension;
 
@@ -19,8 +20,8 @@ public class FluentAPIRootAPIOnceExistsMethodGenerator {
 
 	public EOperation generateAllOnceExistsMethods(FluentAPIGenerationContext context) {
 		var taskParam = FluentAPIGeneralParameterGenerator.getRunnableParam(context);
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIOnceExistsMethodName(), context.getFluentAPIECls());
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.OnceExists.NAME.get(),
+				context.getFluentAPIECls());
 		FluentAPIGenerationUtil.addBody(op, onceExistsMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, FluentAPIGeneralParameterGenerator.getMarkKeyParam(), taskParam);
 		return op;

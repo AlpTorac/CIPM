@@ -11,9 +11,9 @@ import org.junit.jupiter.api.TestInfo;
 
 import cipm.consistency.fluentapi.api.ApiFactory;
 import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
+import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
-import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIConstants;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
@@ -96,8 +96,7 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 
 		var testData = new FluentAPIMethodTestData();
 		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss());
-		testData.setMethodNamePrefix((eCls) -> String
-				.format(FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXMethodNameTemplate(), eCls.getName()));
+		testData.setMethodNamePrefix((eCls) -> ModelConstants.RootAPI.CreateNew.NAME.getFor(eCls.getName()));
 		methodTestTemplate(testData);
 	}
 
@@ -109,8 +108,7 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 	public void methodTest_API_NewX_WithoutParameters() {
 
 		var testData = new FluentAPIMethodTestData();
-		testData.setMethodNamePrefix((eCls) -> String
-				.format(FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodNameTemplate(), eCls.getName()));
+		testData.setMethodNamePrefix((eCls) -> ModelConstants.RootAPI.New.NAME.getFor(eCls.getName()));
 		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc());
 		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss());
 		methodTestTemplate(testData);
@@ -125,8 +123,7 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 	public void methodTest_API_NewX_WithoutParameters_NoModifiableFeatures() {
 
 		var testData = new FluentAPIMethodTestData();
-		testData.setMethodNamePrefix((eCls) -> String
-				.format(FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodNameTemplate(), eCls.getName()));
+		testData.setMethodNamePrefix((eCls) -> ModelConstants.RootAPI.New.NAME.getFor(eCls.getName()));
 		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssWithNoModifiableFeat());
 		methodTestTemplate(testData);
 	}
@@ -139,8 +136,7 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 	@Test
 	public void methodTest_API_NewX_WithParameter_SingleModifiableFeature() {
 		var testData = new FluentAPIMethodTestData();
-		testData.setMethodNamePrefix((eCls) -> String
-				.format(FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodNameTemplate(), eCls.getName()));
+		testData.setMethodNamePrefix((eCls) -> ModelConstants.RootAPI.New.NAME.getFor(eCls.getName()));
 		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc());
 		testData.setParamNames(
 				(eCls) -> List.of(FluentAPIGeneralParameterGenerator.getFluentAPIFeatureValueParameterName()));
@@ -159,8 +155,7 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 	@Test
 	public void methodTest_API_modifyX() {
 		var testData = new FluentAPIMethodTestData();
-		testData.setMethodNamePrefix((eCls) -> String
-				.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyMethodNameTemplate(), eCls.getName()));
+		testData.setMethodNamePrefix((eCls) -> ModelConstants.RootAPI.Modify.NAME.getFor(eCls.getName()));
 		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc());
 		testData.setParamNames(
 				(eCls) -> List.of(FluentAPIGeneralParameterGenerator.getFluentAPIEObjectParameterName()));
@@ -176,8 +171,7 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 	@Test
 	public void methodTest_API_modifyMarkedX() {
 		var testData = new FluentAPIMethodTestData();
-		testData.setMethodNamePrefix((eCls) -> String
-				.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyMarkedMethodNameTemplate(), eCls.getName()));
+		testData.setMethodNamePrefix((eCls) -> ModelConstants.RootAPI.ModifyMarked.NAME.getFor(eCls.getName()));
 		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc());
 		testData.setParamNames(
 				(eCls) -> List.of(FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName()));
@@ -193,8 +187,7 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 	@Test
 	public void methodTest_API_continueX() {
 		var testData = new FluentAPIMethodTestData();
-		testData.setMethodNamePrefix((eCls) -> String
-				.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueMethodNameTemplate(), eCls.getName()));
+		testData.setMethodNamePrefix((eCls) -> ModelConstants.RootAPI.Continue.NAME.getFor(eCls.getName()));
 		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc());
 		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssWithModifiableFeats());
 		methodTestTemplate(testData);
@@ -207,8 +200,7 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 	@Test
 	public void methodTest_API_continueMarkedX() {
 		var testData = new FluentAPIMethodTestData();
-		testData.setMethodNamePrefix((eCls) -> String.format(
-				FluentAPIRootAPIConstants.getFluentAPIRootAPIContinueMarkedMethodNameTemplate(), eCls.getName()));
+		testData.setMethodNamePrefix((eCls) -> ModelConstants.RootAPI.ContinueMarked.NAME.getFor(eCls.getName()));
 		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc());
 		testData.setParamNames(
 				(eCls) -> List.of(FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName()));
@@ -224,8 +216,7 @@ public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPITest {
 	@Test
 	public void methodTest_API_getMarkedX() {
 		var testData = new FluentAPIMethodTestData();
-		testData.setMethodNamePrefix((eCls) -> String
-				.format(FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedXMethodNameTemplate(), eCls.getName()));
+		testData.setMethodNamePrefix((eCls) -> ModelConstants.RootAPI.GetMarked.NAME.getFor(eCls.getName()));
 		testData.setParamNames(
 				(eCls) -> List.of(FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName()));
 		testData.setParamTypes((eCls) -> List.of(EcorePackage.Literals.EJAVA_OBJECT));

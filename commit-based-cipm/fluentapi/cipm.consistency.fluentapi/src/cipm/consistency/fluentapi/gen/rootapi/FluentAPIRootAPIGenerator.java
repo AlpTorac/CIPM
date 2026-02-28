@@ -2,13 +2,13 @@ package cipm.consistency.fluentapi.gen.rootapi;
 
 import java.util.List;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 
-import cipm.consistency.fluentapi.gen.FluentAPIConstants;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
-import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationConstants;
+import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationEClassGenerator;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationEClassGenerator;
 
@@ -38,18 +38,18 @@ public class FluentAPIRootAPIGenerator {
 	}
 
 	public List<EPackage> generateFluentAPIRootPackage() {
-		return FluentAPIGenerationUtil.generatePackages(FluentAPIRootAPIConstants.getFluentAPIRootPackageURI(),
-				FluentAPIRootAPIConstants.getFluentAPIRootPackageName());
+		return FluentAPIGenerationUtil.generatePackages(URI.createURI(ModelConstants.ROOT_PACKAGE_URI.get()),
+				ModelConstants.ROOT_PACKAGE_NAME.get());
 	}
 
 	private EPackage generateInitialisationsPackage(FluentAPIGenerationContext context) {
 		return FluentAPIGenerationUtil.generateSubPackage(context.getApiPackage(),
-				FluentAPIInitialisationConstants.getFluentAPIInitialisationsPackageName());
+				ModelConstants.INITIALISATIONS_PACKAGE_NAME.get());
 	}
 
 	private EPackage generateArrayTypesPackage(FluentAPIGenerationContext context) {
 		return FluentAPIGenerationUtil.generateSubPackage(context.getApiPackage(),
-				FluentAPIConstants.getFluentAPIPlaceholderEDataTypesPackageName());
+				ModelConstants.EDATATYPE_WRAPPERS_PACKAGE_NAME.get());
 	}
 
 	private EClass generateInitSuperTypeEClass() {

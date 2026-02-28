@@ -11,10 +11,9 @@ import org.eclipse.emf.ecore.EcorePackage;
 import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.ModelConstants;
 
 public class FluentAPISuperInitialisationEClassGenerator {
-	private static final String initClassDocTemplate = "The top-most Initialisation class, which all concrete initialisation classes extend. Contains various methods that facilitate the programmatic construction of model object instances."
-			+ FluentAPIDocumentationUtil.getClassMethodOverviewIntroTemplate();
 
 	private static final Map<String, String> summaries = new LinkedHashMap<>();
 
@@ -23,8 +22,7 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		currentElementReference.setChangeable(true);
 		currentElementReference.setContainment(false);
 		currentElementReference.setEType(EcorePackage.Literals.EOBJECT);
-		currentElementReference.setName(
-				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationCurrentElementReferenceName());
+		currentElementReference.setName(ModelConstants.SuperInitialisation.CurrentElementRef.NAME.get());
 		currentElementReference.setUnsettable(true);
 		currentElementReference.setLowerBound(1);
 		currentElementReference.setUpperBound(1);
@@ -36,7 +34,7 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		rootAPIRef.setChangeable(true);
 		rootAPIRef.setContainment(false);
 		rootAPIRef.setEType(context.getFluentAPIECls());
-		rootAPIRef.setName(FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationRootAPIReferenceName());
+		rootAPIRef.setName(ModelConstants.SuperInitialisation.RootAPIRef.NAME.get());
 		rootAPIRef.setLowerBound(1);
 		rootAPIRef.setUpperBound(1);
 		return rootAPIRef;
@@ -46,12 +44,13 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		var superType = EcoreFactory.eINSTANCE.createEClass();
 		superType.setAbstract(true);
 		superType.setInterface(false);
-		superType.setName(FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationClassName());
+		superType.setName(ModelConstants.SuperInitialisation.CLASS_NAME.get());
 		return superType;
 	}
 
 	private void addEClassDoc(FluentAPIGenerationContext context) {
-		var doc = String.format(initClassDocTemplate, FluentAPIDocumentationUtil.serialiseSummaries(summaries));
+		var doc = ModelConstants.SuperInitialisation.CLASS_DOC
+				.getFor(FluentAPIDocumentationUtil.serialiseSummaries(summaries));
 		FluentAPIGenerationUtil.addDocumentation(context.getInitSuperECls(), doc);
 	}
 
