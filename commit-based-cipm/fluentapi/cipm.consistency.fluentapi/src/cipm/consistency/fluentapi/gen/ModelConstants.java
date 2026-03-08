@@ -224,9 +224,14 @@ public class ModelConstants {
 		public static class OnceExists {
 			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(getMethodName(OnceExists.class));
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
-					"Suspends certain model construction steps till certain markKey(s) exist.");
+					"Suspends certain model construction steps till certain "
+							+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get() + "(s) exist.");
 			public static final IFluentAPITemplate DOC = new FluentAPIFixTemplate(
-					"Allows specifying model construction steps as a Runnable instance R, which this API will execute after using the given markKey(s) to mark objects. This method enables preserving the flow of model construction by enabling the specification of construction steps on objects that may not yet exist. The main purpose of this method is to facilitate model constructions, where dependencies between model elements either forcefully require bottom-up approaches or require mixing the construction of several model elements.");
+					"Allows specifying model construction steps as a "
+							+ ModelConstants.GeneralParameters.ONCE_EXISTS_TASK_CLASS.getSimpleName()
+							+ " instance R, which this API will execute after using the given "
+							+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()
+							+ "(s) to mark objects. This method enables preserving the flow of model construction by enabling the specification of construction steps on objects that may not yet exist. The main purpose of this method is to facilitate model constructions, where dependencies between model elements either forcefully require bottom-up approaches or require mixing the construction of several model elements.");
 		}
 
 		public static class WithFeat {
@@ -385,8 +390,7 @@ public class ModelConstants {
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
 					"Finalises and returns the object under construction.");
 			public static final IFluentAPITemplate DOC = new FluentAPIFixTemplate(
-					FluentAPIDocumentationUtil.appendSummaryToStart(SUMMARY.get())
-							+ "Finalises the construction of "
+					FluentAPIDocumentationUtil.appendSummaryToStart(SUMMARY.get()) + "Finalises the construction of "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall()
 							+ " and returns it. Drops this from "
 							+ ModelConstants.SuperInitialisation.ToAPI.NAME.thisCall()
@@ -425,8 +429,8 @@ public class ModelConstants {
 			public static final IFluentAPIFillableTemplate DOC = new FluentAPIFillableTemplate(
 					FluentAPIDocumentationUtil
 							.appendSummaryToStart(ModelConstants.SuperInitialisation.NewElement.SUMMARY.get())
-							+ "Creates a minimal %s instance, without modifying any of its features, and sets it as the current element (i.e. return value of this"
-							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.getterCall() + ")."
+							+ "Creates a minimal %s instance, without modifying any of its features, and sets it as the current element (i.e. return value of "
+							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall() + ")."
 							+ FluentAPIDocumentationUtil.appendDoNotUseFromOutsideDocNoteAtEnd());
 		}
 
@@ -440,16 +444,16 @@ public class ModelConstants {
 			 */
 			public static final IFluentAPIFillableTemplate DOC = new FluentAPIFillableTemplate(
 					FluentAPIDocumentationUtil.appendSummaryToStart(ModelConstants.FluentAPI.WithFeat.SUMMARY.get())
-							+ "Sets the value of the feature %s in this"
-							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.getterCall()
+							+ "Sets the value of the feature %s in "
+							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall()
 							+ " to the given value.");
 
 			/**
 			 * %s: Feature name
 			 */
 			public static final IFluentAPIFillableTemplate PARAMETER_DOC = new FluentAPIFillableTemplate(
-					"The new value of the feature %s, which will replace its current value in the initialised object this"
-							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.getterCall());
+					"The new value of the feature %s, which will replace its current value in the initialised object "
+							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall());
 		}
 
 		public static class Without {
@@ -459,8 +463,8 @@ public class ModelConstants {
 			// %s: Feature name
 			public static final IFluentAPIFillableTemplate DOC = new FluentAPIFillableTemplate(
 					FluentAPIDocumentationUtil.appendSummaryToStart(ModelConstants.FluentAPI.WithoutFeat.SUMMARY.get())
-							+ "Unsets the value of the feature %s in this"
-							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.getterCall()
+							+ "Unsets the value of the feature %s in "
+							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall()
 							+ ", which sets its value to null.");
 		}
 
@@ -473,13 +477,13 @@ public class ModelConstants {
 			public static final IFluentAPIFillableTemplate DOC = new FluentAPIFillableTemplate(
 					FluentAPIDocumentationUtil
 							.appendSummaryToStart(ModelConstants.FluentAPI.WithAddedFeat.SUMMARY.get())
-							+ "Adds the given values to the current values of the feature %s in this"
-							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.getterCall() + ".");
+							+ "Adds the given values to the current values of the feature %s in "
+							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall() + ".");
 
 			// %s: Feature name
 			public static final IFluentAPIFillableTemplate PARAMETER_DOC = new FluentAPIFillableTemplate(
-					"Value(s) for the feature %s, which will be added to its current values in the initialised object this"
-							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.getterCall() + ".");
+					"Value(s) for the feature %s, which will be added to its current values in the initialised object "
+							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall() + ".");
 		}
 
 		public static class WithRemoved {
@@ -491,13 +495,13 @@ public class ModelConstants {
 			public static final IFluentAPIFillableTemplate DOC = new FluentAPIFillableTemplate(
 					FluentAPIDocumentationUtil
 							.appendSummaryToStart(ModelConstants.FluentAPI.WithRemovedFeat.SUMMARY.get())
-							+ "Removes the given values from the current values of the feature %s in this"
-							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.getterCall() + ".");
+							+ "Removes the given values from the current values of the feature %s in "
+							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall() + ".");
 
 			// %s: Feature name
 			public static final IFluentAPIFillableTemplate PARAMETER_DOC = new FluentAPIFillableTemplate(
-					"Value(s) for the feature %s, which will be removed from its current values in the initialised object this"
-							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.getterCall() + ".");
+					"Value(s) for the feature %s, which will be removed from its current values in the initialised object "
+							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall() + ".");
 		}
 
 		public static class Clean {
@@ -507,8 +511,8 @@ public class ModelConstants {
 			// %s: Feature name
 			public static final IFluentAPIFillableTemplate DOC = new FluentAPIFillableTemplate(
 					FluentAPIDocumentationUtil.appendSummaryToStart(ModelConstants.FluentAPI.CleanFeat.SUMMARY.get())
-							+ "Clears all values of the (many-valued) feature %s in this"
-							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.getterCall()
+							+ "Clears all values of the (many-valued) feature %s in "
+							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall()
 							+ " to the given value.");
 		}
 	}
