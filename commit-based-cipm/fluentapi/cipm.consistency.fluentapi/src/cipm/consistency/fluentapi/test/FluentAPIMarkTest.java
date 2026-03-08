@@ -19,7 +19,7 @@ public class FluentAPIMarkTest extends AbstractFluentAPITest {
 		var clsKey = new Object();
 
 		api.mark(clsKey, cls);
-		Assertions.assertSame(cls, api.getMarked(clsKey));
+		Assertions.assertSame(cls, api.getMarkedX(clsKey));
 		Assertions.assertSame(cls, api.getMarkedClass(clsKey));
 		Assertions.assertSame(cls, api.getMarkedNamedElement(clsKey));
 	}
@@ -31,11 +31,11 @@ public class FluentAPIMarkTest extends AbstractFluentAPITest {
 		var clsKey = new Object();
 
 		api.mark(clsKey, cls);
-		Assertions.assertSame(cls, api.getMarked(clsKey));
+		Assertions.assertSame(cls, api.getMarkedX(clsKey));
 		Assertions.assertSame(cls, api.getMarkedClass(clsKey));
 		Assertions.assertSame(cls, api.getMarkedNamedElement(clsKey));
 		api.unmark(clsKey);
-		Assertions.assertNull(api.getMarked(clsKey));
+		Assertions.assertNull(api.getMarkedX(clsKey));
 	}
 
 	@Test
@@ -45,16 +45,16 @@ public class FluentAPIMarkTest extends AbstractFluentAPITest {
 		var clsKey = new Object();
 
 		api.mark(clsKey, cls);
-		Assertions.assertSame(cls, api.getMarked(clsKey));
+		Assertions.assertSame(cls, api.getMarkedX(clsKey));
 		Assertions.assertSame(cls, api.getMarkedClass(clsKey));
 		Assertions.assertSame(cls, api.getMarkedNamedElement(clsKey));
 		api.unmark(clsKey, cls);
-		Assertions.assertNull(api.getMarked(clsKey));
+		Assertions.assertNull(api.getMarkedX(clsKey));
 	}
-	
+
 	/**
-	 * Checks whether XInitialisation.mark() works as intended, when there is
-	 * only one element to be retrieved.
+	 * Checks whether XInitialisation.mark() works as intended, when there is only
+	 * one element to be retrieved.
 	 */
 	@Test
 	public void markTest_SingleElement() {
@@ -62,14 +62,14 @@ public class FluentAPIMarkTest extends AbstractFluentAPITest {
 		var modKey = new Object();
 
 		var createdMod = api.newModule().mark(modKey).createNow();
-		var modRetrievedViaMark = api.getMarked(modKey);
+		var modRetrievedViaMark = api.getMarkedX(modKey);
 
 		Assertions.assertSame(createdMod, modRetrievedViaMark);
 	}
 
 	/**
-	 * Checks whether XInitialisation.mark() works as intended, when there
-	 * are multiple elements of the same type to be retrieved.
+	 * Checks whether XInitialisation.mark() works as intended, when there are
+	 * multiple elements of the same type to be retrieved.
 	 */
 	@Test
 	public void markTest_MultipleElementsSameType() {
@@ -77,14 +77,14 @@ public class FluentAPIMarkTest extends AbstractFluentAPITest {
 		var firstModKey = new Object();
 
 		var secondMod = api.newModule().mark(firstModKey).toAPI().newModule().createNow();
-		var firstMod = api.getMarked(firstModKey);
+		var firstMod = api.getMarkedX(firstModKey);
 
 		Assertions.assertNotSame(firstMod, secondMod);
 	}
 
 	/**
-	 * Checks whether XInitialisation.mark() works as intended, when there
-	 * are multiple elements of different types to be retrieved.
+	 * Checks whether XInitialisation.mark() works as intended, when there are
+	 * multiple elements of different types to be retrieved.
 	 */
 	@Test
 	public void markTest_MultipleElementsDifferentTypes() {
@@ -92,21 +92,21 @@ public class FluentAPIMarkTest extends AbstractFluentAPITest {
 		var pacKey = new Object();
 
 		var mod = api.newPackage().mark(pacKey).toAPI().newModule().createNow();
-		var pac = api.getMarked(pacKey);
+		var pac = api.getMarkedX(pacKey);
 
 		Assertions.assertNotSame(mod, pac);
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Package.class, pac);
 	}
 
 	/**
-	 * Checks whether XInitialisation.mark() returns null, if there is no
-	 * mark for a given key.
+	 * Checks whether XInitialisation.mark() returns null, if there is no mark for a
+	 * given key.
 	 */
 	@Test
 	public void markTest_NoMark() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		var key = new Object();
-		Assertions.assertNull(api.getMarked(key));
+		Assertions.assertNull(api.getMarkedX(key));
 	}
 
 	/**
@@ -137,8 +137,8 @@ public class FluentAPIMarkTest extends AbstractFluentAPITest {
 	}
 
 	/**
-	 * Ensures that XInitialisation.mark() calls using the same key overrides
-	 * the previous mark.
+	 * Ensures that XInitialisation.mark() calls using the same key overrides the
+	 * previous mark.
 	 */
 	@Test
 	public void markTest_OverridingMarkSameType() {
@@ -146,15 +146,15 @@ public class FluentAPIMarkTest extends AbstractFluentAPITest {
 		var key = new Object();
 
 		var firstMod = api.newModule().mark(key).createNow();
-		Assertions.assertSame(firstMod, api.getMarked(key));
+		Assertions.assertSame(firstMod, api.getMarkedX(key));
 		var secondMod = api.newModule().mark(key).createNow();
-		Assertions.assertSame(secondMod, api.getMarked(key));
+		Assertions.assertSame(secondMod, api.getMarkedX(key));
 	}
 
 	/**
 	 * Ensures that it is possible to mark the same element using
-	 * XInitialisation.mark() with different keys. Also checks whether using
-	 * those keys retrieves the same element.
+	 * XInitialisation.mark() with different keys. Also checks whether using those
+	 * keys retrieves the same element.
 	 */
 	@Test
 	public void markTest_MultipleMarksOnSameElement() {
@@ -165,8 +165,8 @@ public class FluentAPIMarkTest extends AbstractFluentAPITest {
 
 		var mod = api.newModule().mark(keyOne).mark(keyTwo).createNow();
 
-		Assertions.assertSame(mod, api.getMarked(keyOne));
-		Assertions.assertSame(mod, api.getMarked(keyTwo));
+		Assertions.assertSame(mod, api.getMarkedX(keyOne));
+		Assertions.assertSame(mod, api.getMarkedX(keyTwo));
 	}
 
 	/**
@@ -186,10 +186,10 @@ public class FluentAPIMarkTest extends AbstractFluentAPITest {
 		var apiTwo = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		apiTwo.newModule().mark(keyTwo);
 
-		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, apiOne.getMarked(keyOne));
-		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, apiOne.getMarked(keyTwo));
-		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, apiTwo.getMarked(keyOne));
-		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, apiTwo.getMarked(keyTwo));
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, apiOne.getMarkedX(keyOne));
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, apiOne.getMarkedX(keyTwo));
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, apiTwo.getMarkedX(keyOne));
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, apiTwo.getMarkedX(keyTwo));
 	}
 
 	/**
@@ -208,8 +208,8 @@ public class FluentAPIMarkTest extends AbstractFluentAPITest {
 		var apiTwo = ApiFactory.eINSTANCE.createFluentEObjectAPI();
 		apiTwo.modifyModule(mutualMod).mark(mutualKey);
 
-		Assertions.assertSame(mutualMod, apiOne.getMarked(mutualKey));
-		Assertions.assertSame(mutualMod, apiTwo.getMarked(mutualKey));
+		Assertions.assertSame(mutualMod, apiOne.getMarkedX(mutualKey));
+		Assertions.assertSame(mutualMod, apiTwo.getMarkedX(mutualKey));
 	}
 
 	/**
@@ -222,9 +222,9 @@ public class FluentAPIMarkTest extends AbstractFluentAPITest {
 
 		api.newModule().mark(modKey).createNow();
 
-		Assertions.assertNotNull(api.getMarked(modKey));
+		Assertions.assertNotNull(api.getMarkedX(modKey));
 		api.unmark(modKey);
-		Assertions.assertNull(api.getMarked(modKey));
+		Assertions.assertNull(api.getMarkedX(modKey));
 	}
 
 	/**
@@ -239,18 +239,18 @@ public class FluentAPIMarkTest extends AbstractFluentAPITest {
 		var mod1 = api.newModule().mark(mod1Key).createNow();
 		var mod2 = api.newModule().mark(mod2Key).createNow();
 
-		Assertions.assertSame(mod1, api.getMarked(mod1Key));
-		Assertions.assertSame(mod2, api.getMarked(mod2Key));
+		Assertions.assertSame(mod1, api.getMarkedX(mod1Key));
+		Assertions.assertSame(mod2, api.getMarkedX(mod2Key));
 
 		api.unmark(mod1Key, mod2);
 
-		Assertions.assertSame(mod1, api.getMarked(mod1Key));
-		Assertions.assertSame(mod2, api.getMarked(mod2Key));
+		Assertions.assertSame(mod1, api.getMarkedX(mod1Key));
+		Assertions.assertSame(mod2, api.getMarkedX(mod2Key));
 
 		api.unmark(mod1Key, mod1);
 
-		Assertions.assertNull(api.getMarked(mod1Key));
-		Assertions.assertSame(mod2, api.getMarked(mod2Key));
+		Assertions.assertNull(api.getMarkedX(mod1Key));
+		Assertions.assertSame(mod2, api.getMarkedX(mod2Key));
 	}
 
 	/**
@@ -267,8 +267,8 @@ public class FluentAPIMarkTest extends AbstractFluentAPITest {
 		api.newModule().mark(secondModKey);
 
 		api.unmark(secondModKey);
-		Assertions.assertNull(api.getMarked(secondModKey));
-		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, api.getMarked(firstModKey));
+		Assertions.assertNull(api.getMarkedX(secondModKey));
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, api.getMarkedX(firstModKey));
 	}
 
 	/**
@@ -285,8 +285,8 @@ public class FluentAPIMarkTest extends AbstractFluentAPITest {
 		api.newModule().mark(modKey);
 
 		api.unmark(pacKey);
-		Assertions.assertNull(api.getMarked(pacKey));
-		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, api.getMarked(modKey));
+		Assertions.assertNull(api.getMarkedX(pacKey));
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, api.getMarkedX(modKey));
 	}
 
 	/**
@@ -310,14 +310,14 @@ public class FluentAPIMarkTest extends AbstractFluentAPITest {
 		var modTwo = apiTwo.newModule().mark(keyTwo).createNow();
 
 		apiTwo.unmark(keyOne);
-		Assertions.assertNull(apiOne.getMarked(keyOne));
-		Assertions.assertNull(apiTwo.getMarked(keyOne));
-		Assertions.assertSame(modTwo, apiOne.getMarked(keyTwo));
-		Assertions.assertSame(modTwo, apiTwo.getMarked(keyTwo));
+		Assertions.assertNull(apiOne.getMarkedX(keyOne));
+		Assertions.assertNull(apiTwo.getMarkedX(keyOne));
+		Assertions.assertSame(modTwo, apiOne.getMarkedX(keyTwo));
+		Assertions.assertSame(modTwo, apiTwo.getMarkedX(keyTwo));
 
 		apiOne.unmark(keyTwo);
-		Assertions.assertNull(apiOne.getMarked(keyTwo));
-		Assertions.assertNull(apiTwo.getMarked(keyTwo));
+		Assertions.assertNull(apiOne.getMarkedX(keyTwo));
+		Assertions.assertNull(apiTwo.getMarkedX(keyTwo));
 	}
 
 	@Test
@@ -330,12 +330,12 @@ public class FluentAPIMarkTest extends AbstractFluentAPITest {
 		apiTwo.modifyModule(mutualMod).mark(mutualKey);
 
 		apiOne.unmark(mutualKey);
-		Assertions.assertNull(apiOne.getMarked(mutualKey));
-		Assertions.assertNull(apiTwo.getMarked(mutualKey));
+		Assertions.assertNull(apiOne.getMarkedX(mutualKey));
+		Assertions.assertNull(apiTwo.getMarkedX(mutualKey));
 
 		apiTwo.unmark(mutualKey);
-		Assertions.assertNull(apiOne.getMarked(mutualKey));
-		Assertions.assertNull(apiTwo.getMarked(mutualKey));
+		Assertions.assertNull(apiOne.getMarkedX(mutualKey));
+		Assertions.assertNull(apiTwo.getMarkedX(mutualKey));
 	}
 
 	@Test

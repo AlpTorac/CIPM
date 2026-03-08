@@ -18,12 +18,12 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator {
 			// %s: Initialisation class
 			// %s: EClass / class / EObject parameter name
 			.joinLOC("return (%s)" + FluentEObjectAPIMethods.class.getName()
-					+ ModelConstants.RootAPI.GetInitialisationFor.NAME.call("this", "%s"));
+					+ ModelConstants.FluentAPI.GetInitialisationFor.NAME.call("this", "%s"));
 
 	public EOperation getInitialisationForEClassMethod(FluentAPIGenerationContext context) {
 		var param = getInitialisationForEClassParam();
 
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.GetInitialisationFor.NAME.get(),
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.GetInitialisationFor.NAME.get(),
 				context.getInitSuperECls());
 
 		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationMethodBodyTemplate,
@@ -36,13 +36,13 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator {
 
 	public EParameter getInitialisationForEClassParam() {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				ModelConstants.RootAPI.GetInitialisationFor.ECLASS_PARAMETER_NAME.get(), EcorePackage.Literals.ECLASS);
+				ModelConstants.FluentAPI.GetInitialisationFor.ECLASS_PARAMETER_NAME.get(), EcorePackage.Literals.ECLASS);
 	}
 
 	public EOperation getInitialisationForClassMethod(FluentAPIGenerationContext context) {
 		var param = getInitialisationForClassParam();
 
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.GetInitialisationFor.NAME.get(),
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.GetInitialisationFor.NAME.get(),
 				context.getInitSuperECls());
 
 		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationMethodBodyTemplate,
@@ -57,13 +57,13 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator {
 		var paramType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(EcorePackage.Literals.EJAVA_CLASS);
 		FluentAPIGenerationUtil.addTypeArgument(paramType, FluentAPIGenerationUtil.generateWildcardTypeArgument());
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				ModelConstants.RootAPI.GetInitialisationFor.CLASS_PARAMETER_NAME.get(), paramType);
+				ModelConstants.FluentAPI.GetInitialisationFor.CLASS_PARAMETER_NAME.get(), paramType);
 	}
 
 	public EOperation getInitialisationForEObjectMethod(FluentAPIGenerationContext context) {
 		var param = FluentAPIGeneralParameterGenerator.getEObjectParam();
 
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.GetInitialisationFor.NAME.get(),
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.GetInitialisationFor.NAME.get(),
 				context.getInitSuperECls());
 
 		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationMethodBodyTemplate,

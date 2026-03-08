@@ -59,20 +59,20 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 	private EOperation generateMarkMethod(FluentAPIGenerationContext context) {
 		var markKeyParam = FluentAPIGeneralParameterGenerator.getMarkKeyParam();
 		var markValParam = FluentAPIGeneralParameterGenerator.getMarkValParam();
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.Mark.NAME.get(),
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.Mark.NAME.get(),
 				context.getFluentAPIECls());
 		FluentAPIGenerationUtil.addBody(op, markMethodBodyTemplate);
-		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.RootAPI.Mark.DOC.get());
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.Mark.DOC.get());
 		FluentAPIGenerationUtil.addEParameters(op, markKeyParam, markValParam);
 		return op;
 	}
 
 	private EOperation generateUnmarkMethod(FluentAPIGenerationContext context) {
 		var param = FluentAPIGeneralParameterGenerator.getMarkKeyParam();
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.Unmark.NAME.get(),
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.Unmark.NAME.get(),
 				context.getFluentAPIECls());
 		FluentAPIGenerationUtil.addBody(op, unmarkMethodBody);
-		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.RootAPI.Unmark.DOC.get());
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.Unmark.DOC.get());
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
 	}
@@ -80,17 +80,17 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 	private EOperation generateUnmarkFullMethod(FluentAPIGenerationContext context) {
 		var markKeyParam = FluentAPIGeneralParameterGenerator.getMarkKeyParam();
 		var markValParam = FluentAPIGeneralParameterGenerator.getMarkValParam();
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.Unmark.NAME.get(),
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.Unmark.NAME.get(),
 				context.getFluentAPIECls());
 		FluentAPIGenerationUtil.addBody(op, unmarkFullMethodBody);
-		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.RootAPI.Unmark.DOC.get());
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.Unmark.DOC.get());
 		FluentAPIGenerationUtil.addEParameters(op, markKeyParam, markValParam);
 		return op;
 	}
 
 	private EOperation generateGetMarkedMethod() {
 		var param = FluentAPIGeneralParameterGenerator.getMarkKeyParam();
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.GetMarked.TOP_NAME.get(),
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.GetMarked.TOP_NAME.get(),
 				EcorePackage.Literals.EOBJECT);
 		FluentAPIGenerationUtil.addBody(op, getMarkedMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, param);
@@ -100,7 +100,7 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 	private EOperation generateGetMarkedXMethod(EClass elemToInit) {
 		var param = FluentAPIGeneralParameterGenerator.getMarkKeyParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				ModelConstants.RootAPI.GetMarked.NAME.getFor(StringUtils.capitalize(elemToInit.getName())), elemToInit);
+				ModelConstants.FluentAPI.GetMarked.NAME.getFor(StringUtils.capitalize(elemToInit.getName())), elemToInit);
 		FluentAPIGenerationUtil.addBody(op, String.format(getMarkedXMethodBodyTemplate,
 				elemToInit.getInstanceClass().getName(), elemToInit.getInstanceClass().getName()));
 		FluentAPIGenerationUtil.addEParameters(op, param);

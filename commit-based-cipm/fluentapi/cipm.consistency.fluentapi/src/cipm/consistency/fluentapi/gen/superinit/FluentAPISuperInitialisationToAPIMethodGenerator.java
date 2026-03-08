@@ -12,7 +12,7 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPISuperInitialisationToAPIMethodGenerator implements IFluentAPIMethodGenerator {
 	private static final String toAPIMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return " + ModelConstants.SuperInitialisation.RootAPIRef.NAME.thisGetterCall());
+			.joinLOC("return " + ModelConstants.SuperInitialisation.RootAPI.NAME.thisGetterCall());
 
 	public EOperation generateToAPIMethod(FluentAPIGenerationContext context) {
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.SuperInitialisation.ToAPI.NAME.get(),

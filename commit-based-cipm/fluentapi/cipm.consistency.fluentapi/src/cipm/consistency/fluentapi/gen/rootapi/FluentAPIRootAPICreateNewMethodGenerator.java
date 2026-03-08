@@ -22,13 +22,13 @@ public class FluentAPIRootAPICreateNewMethodGenerator {
 	// TODO Add documentation
 
 	private static final String createNewXMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) " + ModelConstants.RootAPI.GetInitialisationFor.NAME.thisCall("%s.class")
+			.joinLOC("return (%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class")
 					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	private static final String createNewXWithClassParamMethodBody = FluentAPIMethodsUtil
-			.joinLOC("return (" + ModelConstants.RootAPI.CreateNew.TYPE_PARAMETER_NAME.get() + ") "
-					+ ModelConstants.RootAPI.GetInitialisationFor.NAME
-							.thisCall(ModelConstants.RootAPI.CreateNew.ECLASS_PARAMETER_NAME.get())
+			.joinLOC("return (" + ModelConstants.FluentAPI.CreateNew.TYPE_PARAMETER_NAME.get() + ") "
+					+ ModelConstants.FluentAPI.GetInitialisationFor.NAME
+							.thisCall(ModelConstants.FluentAPI.CreateNew.ECLASS_PARAMETER_NAME.get())
 					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	public List<EOperation> generateAllCreateNewMethods(FluentAPIGenerationContext context) {
@@ -46,7 +46,7 @@ public class FluentAPIRootAPICreateNewMethodGenerator {
 
 	private EOperation generateCreateNewMethod(EClass eObjEClass) {
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				ModelConstants.RootAPI.CreateNew.NAME.getFor(eObjEClass.getInstanceClass().getSimpleName()),
+				ModelConstants.FluentAPI.CreateNew.NAME.getFor(eObjEClass.getInstanceClass().getSimpleName()),
 				eObjEClass);
 		FluentAPIGenerationUtil.addBody(op, String.format(createNewXMethodBodyTemplate,
 				eObjEClass.getInstanceClass().getName(), eObjEClass.getInstanceClass().getName()));
@@ -57,7 +57,7 @@ public class FluentAPIRootAPICreateNewMethodGenerator {
 		// Goal: <T> T createNewX(Class<T> createNewXWithClassParamParamName)
 
 		var typeParam = FluentAPIGenerationUtil
-				.generateETypeParameter(ModelConstants.RootAPI.CreateNew.TYPE_PARAMETER_NAME.get());
+				.generateETypeParameter(ModelConstants.FluentAPI.CreateNew.TYPE_PARAMETER_NAME.get());
 
 		// Make sure to create 2 generic types, one for the method parameter (Class<T>)
 		// and one for the return type of the method (T)
@@ -76,10 +76,10 @@ public class FluentAPIRootAPICreateNewMethodGenerator {
 		// "createNewXWithClassParamParamName" in "Class<T>
 		// createNewXWithClassParamParamName"
 		var methodParam = FluentAPIGenerationUtil
-				.generateSingleValuedEParameter(ModelConstants.RootAPI.CreateNew.ECLASS_PARAMETER_NAME.get());
+				.generateSingleValuedEParameter(ModelConstants.FluentAPI.CreateNew.ECLASS_PARAMETER_NAME.get());
 		methodParam.setEGenericType(methodParamType);
 
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.CreateNew.TOP_NAME.get());
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.CreateNew.TOP_NAME.get());
 		FluentAPIGenerationUtil.addBody(op, createNewXWithClassParamMethodBody);
 		op.setEGenericType(methodTypeParam);
 		op.getETypeParameters().add(typeParam);

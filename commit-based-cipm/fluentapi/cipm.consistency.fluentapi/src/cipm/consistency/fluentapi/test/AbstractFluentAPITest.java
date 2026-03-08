@@ -12,6 +12,6 @@ public abstract class AbstractFluentAPITest {
 	public void setUp() {
 		FluentAPIMarkExtension.clearAllMarks();
 		FluentAPIOnceExistsExtension.clearAllOnceExists();
-		FluentAPIInitialisationStorage.clearAllOngoingInits();
+		FluentAPIInitialisationStorage.clearAllOngoingInitialisations();
 	}
 }

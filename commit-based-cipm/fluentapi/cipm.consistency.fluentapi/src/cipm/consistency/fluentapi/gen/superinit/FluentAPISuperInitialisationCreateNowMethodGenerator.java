@@ -16,9 +16,9 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 public class FluentAPISuperInitialisationCreateNowMethodGenerator implements IFluentAPIMethodGenerator {
 	private static final String createNowMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			ModelConstants.SuperInitialisation.ToAPI.NAME.thisCall()
-					+ ModelConstants.RootAPI.DropInitialisation.NAME.call("this"),
+					+ ModelConstants.FluentAPI.DropInitialisation.NAME.call("this"),
 			// %s: Element class
-			"return (%s) " + ModelConstants.SuperInitialisation.CurrentElementRef.NAME.thisGetterCall());
+			"return (%s) " + ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall());
 
 	public List<EOperation> generateAllCreateNowMethods(EClass elemToInit) {
 		var ops = new ArrayList<EOperation>();

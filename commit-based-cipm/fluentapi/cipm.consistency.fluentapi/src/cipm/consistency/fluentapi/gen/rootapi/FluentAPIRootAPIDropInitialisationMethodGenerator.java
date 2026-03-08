@@ -14,13 +14,13 @@ public class FluentAPIRootAPIDropInitialisationMethodGenerator {
 
 	private static final String dropInitialisationMethodBody = FluentAPIMethodsUtil.joinLOC(
 			FluentAPIInitialisationStorage.class.getName() + ".dropOngoingInitialisation("
-					+ ModelConstants.RootAPI.DropInitialisation.INITIALISATION_PARAMETER_NAME.get() + ")",
+					+ ModelConstants.FluentAPI.DropInitialisation.INITIALISATION_PARAMETER_NAME.get() + ")",
 			//
 			"return this");
 
 	public EOperation generateDropInitialisationMethod(FluentAPIGenerationContext context) {
 		var param = getInitialisationParam(context);
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.DropInitialisation.NAME.get(),
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.DropInitialisation.NAME.get(),
 				context.getFluentAPIECls());
 		FluentAPIGenerationUtil.addBody(op, dropInitialisationMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, param);
@@ -29,7 +29,7 @@ public class FluentAPIRootAPIDropInitialisationMethodGenerator {
 
 	private EParameter getInitialisationParam(FluentAPIGenerationContext context) {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				ModelConstants.RootAPI.DropInitialisation.INITIALISATION_PARAMETER_NAME.get(),
+				ModelConstants.FluentAPI.DropInitialisation.INITIALISATION_PARAMETER_NAME.get(),
 				context.getInitSuperECls());
 	}
 }

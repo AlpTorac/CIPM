@@ -22,7 +22,7 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		currentElementReference.setChangeable(true);
 		currentElementReference.setContainment(false);
 		currentElementReference.setEType(EcorePackage.Literals.EOBJECT);
-		currentElementReference.setName(ModelConstants.SuperInitialisation.CurrentElementRef.NAME.get());
+		currentElementReference.setName(ModelConstants.SuperInitialisation.CurrentElement.NAME.get());
 		currentElementReference.setUnsettable(true);
 		currentElementReference.setLowerBound(1);
 		currentElementReference.setUpperBound(1);
@@ -34,7 +34,7 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		rootAPIRef.setChangeable(true);
 		rootAPIRef.setContainment(false);
 		rootAPIRef.setEType(context.getFluentAPIECls());
-		rootAPIRef.setName(ModelConstants.SuperInitialisation.RootAPIRef.NAME.get());
+		rootAPIRef.setName(ModelConstants.SuperInitialisation.RootAPI.NAME.get());
 		rootAPIRef.setLowerBound(1);
 		rootAPIRef.setUpperBound(1);
 		return rootAPIRef;

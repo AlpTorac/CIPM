@@ -37,13 +37,13 @@ public class FluentAPIRootAPIEClassGenerator {
 		var anno = EcoreFactory.eINSTANCE.createEAnnotation();
 		anno.setSource(ModelConstants.GEN_MODEL_SOURCE_URL.get());
 		anno.getDetails().put(FluentAPIGenerationUtil.getEOperationDocumentationKey(),
-				ModelConstants.RootAPI.CLASS_DOC.get());
+				ModelConstants.FluentAPI.CLASS_DOC.get());
 
 		fluentAPIECls.getEAnnotations().add(anno);
 
 		fluentAPIECls.setAbstract(false);
 		fluentAPIECls.setInterface(false);
-		fluentAPIECls.setName(ModelConstants.RootAPI.CLASS_NAME.get());
+		fluentAPIECls.setName(ModelConstants.FluentAPI.CLASS_NAME.get());
 		return fluentAPIECls;
 	}
 

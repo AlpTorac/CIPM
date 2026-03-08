@@ -20,8 +20,8 @@ public class FluentAPIRootAPIOnceExistsMethodGenerator {
 					"return this");
 
 	public EOperation generateAllOnceExistsMethods(FluentAPIGenerationContext context) {
-		var taskParam = FluentAPIGeneralParameterGenerator.getRunnableParam(context);
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.OnceExists.NAME.get(),
+		var taskParam = FluentAPIGeneralParameterGenerator.getOnceExistsTaskParam(context);
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.OnceExists.NAME.get(),
 				context.getFluentAPIECls());
 		FluentAPIGenerationUtil.addBody(op, onceExistsMethodBody);
 		FluentAPIGenerationUtil.addEParameters(op, FluentAPIGeneralParameterGenerator.getMarkKeyParam(), taskParam);

@@ -188,7 +188,7 @@ public final class FluentEObjectAPIMethods {
 				.map((eCls) -> (EClass) eCls).filter((eCls) -> isInitialisationFor(eCls, eobjCls)).findFirst().get();
 		var initInstance = initEClass.getEPackage().getEFactoryInstance().create(initEClass);
 		initInstance.eSet(
-				initInstance.eClass().getEStructuralFeature(ModelConstants.SuperInitialisation.RootAPIRef.NAME.get()),
+				initInstance.eClass().getEStructuralFeature(ModelConstants.SuperInitialisation.RootAPI.NAME.get()),
 				me);
 		FluentAPIInitialisationStorage.addOngoingInitialisation(initInstance);
 		return initInstance;
@@ -219,7 +219,7 @@ public final class FluentEObjectAPIMethods {
 		var initInstance = getInitialisationInstanceForX(me, eobjToInit.eClass().getInstanceClass());
 
 		initInstance.eSet(initInstance.eClass()
-				.getEStructuralFeature(ModelConstants.SuperInitialisation.CurrentElementRef.NAME.get()), eobjToInit);
+				.getEStructuralFeature(ModelConstants.SuperInitialisation.CurrentElement.NAME.get()), eobjToInit);
 
 		return initInstance;
 	}
@@ -231,7 +231,7 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	public static EObject continueElement(Class<?> eobjCls) {
-		var initsOfMatchingType = FluentAPIInitialisationStorage.getOngoingInits().stream()
+		var initsOfMatchingType = FluentAPIInitialisationStorage.getOngoingInitialisations().stream()
 				.filter((i) -> isInitialisationFor(i.eClass(), eobjCls))
 				.collect(Collectors.toCollection(ArrayList::new));
 		return !initsOfMatchingType.isEmpty() ? initsOfMatchingType.get(initsOfMatchingType.size() - 1) : null;

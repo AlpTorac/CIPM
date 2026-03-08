@@ -11,7 +11,7 @@ public class FluentAPIRootAPIGetOngoingInitTest extends AbstractFluentAPITest {
 	@Test
 	public void getOngoingInitTest_NoInitialisations() {
 		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-		Assertions.assertEquals(0, api.getOngoingInits().size());
+		Assertions.assertEquals(0, api.getOngoingInitialisations().size());
 	}
 
 	@Test
@@ -22,10 +22,10 @@ public class FluentAPIRootAPIGetOngoingInitTest extends AbstractFluentAPITest {
 		var clsInit2 = api.newClass();
 		var clsInit3 = api.newClass();
 
-		Assertions.assertEquals(3, api.getOngoingInits().size());
-		Assertions.assertSame(clsInit1, api.getOngoingInits().get(0));
-		Assertions.assertSame(clsInit2, api.getOngoingInits().get(1));
-		Assertions.assertSame(clsInit3, api.getOngoingInits().get(2));
+		Assertions.assertEquals(3, api.getOngoingInitialisations().size());
+		Assertions.assertSame(clsInit1, api.getOngoingInitialisations().get(0));
+		Assertions.assertSame(clsInit2, api.getOngoingInitialisations().get(1));
+		Assertions.assertSame(clsInit3, api.getOngoingInitialisations().get(2));
 	}
 
 	@Test
@@ -36,10 +36,10 @@ public class FluentAPIRootAPIGetOngoingInitTest extends AbstractFluentAPITest {
 		var init2 = api.newInterface();
 		var init3 = api.newClass();
 
-		Assertions.assertEquals(3, api.getOngoingInits().size());
-		Assertions.assertSame(init1, api.getOngoingInits().get(0));
-		Assertions.assertSame(init2, api.getOngoingInits().get(1));
-		Assertions.assertSame(init3, api.getOngoingInits().get(2));
+		Assertions.assertEquals(3, api.getOngoingInitialisations().size());
+		Assertions.assertSame(init1, api.getOngoingInitialisations().get(0));
+		Assertions.assertSame(init2, api.getOngoingInitialisations().get(1));
+		Assertions.assertSame(init3, api.getOngoingInitialisations().get(2));
 	}
 
 	@Test
@@ -52,10 +52,10 @@ public class FluentAPIRootAPIGetOngoingInitTest extends AbstractFluentAPITest {
 		var init3 = apiOne.newClass();
 
 		for (var api : List.of(apiOne, apiTwo)) {
-			Assertions.assertEquals(3, api.getOngoingInits().size());
-			Assertions.assertSame(init1, api.getOngoingInits().get(0));
-			Assertions.assertSame(init2, api.getOngoingInits().get(1));
-			Assertions.assertSame(init3, api.getOngoingInits().get(2));
+			Assertions.assertEquals(3, api.getOngoingInitialisations().size());
+			Assertions.assertSame(init1, api.getOngoingInitialisations().get(0));
+			Assertions.assertSame(init2, api.getOngoingInitialisations().get(1));
+			Assertions.assertSame(init3, api.getOngoingInitialisations().get(2));
 		}
 	}
 
@@ -70,11 +70,11 @@ public class FluentAPIRootAPIGetOngoingInitTest extends AbstractFluentAPITest {
 			apiTwo.newEnumeration();
 			apiTwo.newAdditionalField();
 
-			Assertions.assertEquals(4, apiOne.getOngoingInits().size());
-			Assertions.assertEquals(4, apiTwo.getOngoingInits().size());
-			api.clearAllOngoingInits();
-			Assertions.assertEquals(0, apiOne.getOngoingInits().size());
-			Assertions.assertEquals(0, apiTwo.getOngoingInits().size());
+			Assertions.assertEquals(4, apiOne.getOngoingInitialisations().size());
+			Assertions.assertEquals(4, apiTwo.getOngoingInitialisations().size());
+			api.clearAllOngoingInitialisations();
+			Assertions.assertEquals(0, apiOne.getOngoingInitialisations().size());
+			Assertions.assertEquals(0, apiTwo.getOngoingInitialisations().size());
 		}
 	}
 }

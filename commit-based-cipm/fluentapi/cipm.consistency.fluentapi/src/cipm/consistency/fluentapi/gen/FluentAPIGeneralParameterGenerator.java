@@ -82,7 +82,7 @@ public final class FluentAPIGeneralParameterGenerator {
 		return param;
 	}
 
-	public static EParameter getRunnableParam(FluentAPIGenerationContext context) {
+	public static EParameter getOnceExistsTaskParam(FluentAPIGenerationContext context) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(context,
 				ModelConstants.GeneralParameters.ONCE_EXISTS_TASK_PARAMETER_NAME.get(),
 				ModelConstants.GeneralParameters.ONCE_EXISTS_TASK_CLASS);

@@ -12,12 +12,12 @@ public class FluentAPIRootAPIGetOngoingInitsMethodGenerator {
 	private static final String getOngoingInitsMethodBody = FluentAPIMethodsUtil
 			// %s: Fully qualified super initialisation class name
 			.joinLOC("return " + FluentAPIInitialisationStorage.class.getName()
-					+ ModelConstants.RootAPI.GetOngoingInitialisations.NAME.call()
+					+ ModelConstants.FluentAPI.GetOngoingInitialisations.NAME.call()
 					+ ".stream().map((i) -> (%s) i).collect(" + java.util.stream.Collectors.class.getName()
 					+ ".toList())");
 
 	public EOperation generateGetOngoingInitsMethod(FluentAPIGenerationContext context) {
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.GetOngoingInitialisations.NAME.get(),
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.GetOngoingInitialisations.NAME.get(),
 				FluentAPIGenerationUtil.generateEGenericTypeWithTypeArgument(context, java.util.List.class,
 						FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(context.getInitSuperECls())));
 		FluentAPIGenerationUtil.addBody(op, String.format(getOngoingInitsMethodBody,

@@ -16,7 +16,7 @@ public class FluentAPIInitialisationNewElementOperationGenerator implements IFlu
 			"var pac = %s.eINSTANCE",
 			// %s: Fully qualified name of EClass class
 			// %s: Name of the EClass of the element to initialise
-			ModelConstants.SuperInitialisation.CurrentElementRef.NAME
+			ModelConstants.SuperInitialisation.CurrentElement.NAME
 					.thisSetterCall("(pac.getEFactoryInstance().create((%s) pac.getEClassifier(\"%s\")))"),
 			//
 			"return this");

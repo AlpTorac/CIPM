@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 public final class FluentAPIInitialisationStorage {
 	private static final List<EObject> ongoingInits = new ArrayList<>();
 
-	public static List<EObject> getOngoingInits() {
+	public static List<EObject> getOngoingInitialisations() {
 		return List.copyOf(ongoingInits);
 	}
 
@@ -20,7 +20,7 @@ public final class FluentAPIInitialisationStorage {
 		ongoingInits.add(init);
 	}
 
-	public static void clearAllOngoingInits() {
+	public static void clearAllOngoingInitialisations() {
 		ongoingInits.clear();
 	}
 }

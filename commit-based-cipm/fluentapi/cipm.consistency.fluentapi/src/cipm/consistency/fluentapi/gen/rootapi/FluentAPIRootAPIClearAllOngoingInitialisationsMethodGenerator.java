@@ -11,11 +11,11 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 public class FluentAPIRootAPIClearAllOngoingInitialisationsMethodGenerator {
 	private static final String clearAllOngoingInitsMethodBody = FluentAPIMethodsUtil
 			.joinLOC(FluentAPIInitialisationStorage.class.getName()
-					+ ModelConstants.RootAPI.ClearAllOngoingInitialisations.NAME.call(), "return this");
+					+ ModelConstants.FluentAPI.ClearAllOngoingInitialisations.NAME.call(), "return this");
 
 	public EOperation generateClearAllOngoingInitsMethod(FluentAPIGenerationContext context) {
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				ModelConstants.RootAPI.ClearAllOngoingInitialisations.NAME.get(), context.getFluentAPIECls());
+				ModelConstants.FluentAPI.ClearAllOngoingInitialisations.NAME.get(), context.getFluentAPIECls());
 		FluentAPIGenerationUtil.addBody(op, clearAllOngoingInitsMethodBody);
 		return op;
 	}

@@ -13,7 +13,7 @@ public class FluentAPIRootAPIGetAllSupportedClassesMethodGenerator {
 
 	private static final String getAllSupportedClassesMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return " + FluentEObjectAPIMethods.class.getName()
-					+ ModelConstants.RootAPI.GetAllSupportedEClasses.NAME.call("this"));
+					+ ModelConstants.FluentAPI.GetAllSupportedEClasses.NAME.call("this"));
 
 	public EOperation generateGetAllSupportedClassesMethodGenerator() {
 		var javaClassType = FluentAPIGenerationUtil
@@ -26,7 +26,7 @@ public class FluentAPIRootAPIGetAllSupportedClassesMethodGenerator {
 		var eListType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(EcorePackage.Literals.EE_LIST);
 		FluentAPIGenerationUtil.addTypeArgument(eListType, javaClassType);
 
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.GetAllSupportedEClasses.NAME.get(),
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.GetAllSupportedEClasses.NAME.get(),
 				eListType);
 
 		FluentAPIGenerationUtil.addBody(op, getAllSupportedClassesMethodBodyTemplate);

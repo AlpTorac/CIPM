@@ -42,7 +42,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 		var mod = api.newX(modECls).mark(key).createNow();
 
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
-		Assertions.assertSame(mod, api.getMarked(key));
+		Assertions.assertSame(mod, api.getMarkedX(key));
 	}
 
 	@Test
@@ -54,8 +54,8 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 		var mod = api.newX(modECls).mark(key1).mark(key2).createNow();
 
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
-		Assertions.assertSame(mod, api.getMarked(key1));
-		Assertions.assertSame(mod, api.getMarked(key2));
+		Assertions.assertSame(mod, api.getMarkedX(key1));
+		Assertions.assertSame(mod, api.getMarkedX(key2));
 	}
 
 	@Test
@@ -66,7 +66,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 		var mod = api.newX(modECls).mark(key).unmark(key).createNow();
 
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
-		Assertions.assertNull(api.getMarked(key));
+		Assertions.assertNull(api.getMarkedX(key));
 	}
 
 	@Test
@@ -78,8 +78,8 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 		var mod = api.newX(modECls).mark(key1).mark(key2).unmark(key1).createNow();
 
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
-		Assertions.assertNull(api.getMarked(key1));
-		Assertions.assertSame(mod, api.getMarked(key2));
+		Assertions.assertNull(api.getMarkedX(key1));
+		Assertions.assertSame(mod, api.getMarkedX(key2));
 	}
 
 	@Test

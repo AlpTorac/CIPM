@@ -32,13 +32,13 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 					.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueElement(%s)");
 
 	private static final String continueMarkedMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			"var markedElem = " + ModelConstants.RootAPI.GetMarked.TOP_NAME
+			"var markedElem = " + ModelConstants.FluentAPI.GetMarked.TOP_NAME
 					.thisCall(ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()),
 			// %s: Init class name
 			"return markedElem == null ? null : (%s) " + FluentAPIInitialisationStorage.class.getName()
-					+ ModelConstants.RootAPI.GetOngoingInitialisations.NAME.call() + ".stream().filter((i) -> (("
+					+ ModelConstants.FluentAPI.GetOngoingInitialisations.NAME.call() + ".stream().filter((i) -> (("
 					+ ModelConstants.ROOT_PACKAGE_NAME.get() + "." + ModelConstants.SuperInitialisation.CLASS_NAME.get()
-					+ ") i)" + ModelConstants.SuperInitialisation.CurrentElementRef.NAME.getterCall()
+					+ ") i)" + ModelConstants.SuperInitialisation.CurrentElement.NAME.getterCall()
 					+ " == markedElem).findFirst().get()");
 
 	public List<EOperation> generateAllContinueMethods(FluentAPIGenerationContext context) {
@@ -65,9 +65,9 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 		FluentAPIGenerationUtil.addTypeArgument(paramType, FluentAPIGenerationUtil.generateWildcardTypeArgument());
 
 		var param = FluentAPIGenerationUtil
-				.generateSingleValuedEParameter(ModelConstants.RootAPI.New.CLASS_PARAMETER_NAME.get(), paramType);
+				.generateSingleValuedEParameter(ModelConstants.FluentAPI.New.CLASS_PARAMETER_NAME.get(), paramType);
 
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.Continue.TOP_NAME.get(),
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.Continue.TOP_NAME.get(),
 				context.getInitSuperECls());
 
 		FluentAPIGenerationUtil.addEParameters(op, param);
@@ -78,7 +78,7 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 
 	private EOperation generateContinueMethod(EClass elemToInit, EClass initECls) {
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				ModelConstants.RootAPI.Continue.NAME.getFor(StringUtils.capitalize(elemToInit.getName())), initECls);
+				ModelConstants.FluentAPI.Continue.NAME.getFor(StringUtils.capitalize(elemToInit.getName())), initECls);
 
 		FluentAPIGenerationUtil.addBody(op,
 				String.format(continueMethodBodyTemplate, FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
@@ -89,7 +89,7 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 	private EOperation generateContinueMarkedMethod(EClass elemToInit, EClass initECls) {
 		var param = FluentAPIGeneralParameterGenerator.getMarkKeyParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				ModelConstants.RootAPI.ContinueMarked.NAME.getFor(StringUtils.capitalize(elemToInit.getName())),
+				ModelConstants.FluentAPI.ContinueMarked.NAME.getFor(StringUtils.capitalize(elemToInit.getName())),
 				initECls);
 
 		FluentAPIGenerationUtil.addBody(op, String.format(continueMarkedMethodBodyTemplate,
@@ -100,7 +100,7 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 
 	private EOperation generateTopLevelContinueMarkedMethod(FluentAPIGenerationContext context) {
 		var param = FluentAPIGeneralParameterGenerator.getMarkKeyParam();
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.ContinueMarked.TOP_NAME.get(),
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.ContinueMarked.TOP_NAME.get(),
 				context.getInitSuperECls());
 
 		FluentAPIGenerationUtil.addBody(op, String.format(continueMarkedMethodBodyTemplate,

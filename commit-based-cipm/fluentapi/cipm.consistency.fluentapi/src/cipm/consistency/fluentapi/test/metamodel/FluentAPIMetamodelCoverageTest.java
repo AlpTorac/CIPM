@@ -143,16 +143,16 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 			Assertions.assertInstanceOf(eCls.getInstanceClass(), instance);
 
 			api.mark(keyAPI, instance);
-			Assertions.assertSame(instance, api.getMarked(keyAPI));
+			Assertions.assertSame(instance, api.getMarkedX(keyAPI));
 
 			api.unmark(keyAPI);
-			Assertions.assertNull(api.getMarked(keyAPI));
+			Assertions.assertNull(api.getMarkedX(keyAPI));
 
 			api.mark(keyAPI, instance);
-			Assertions.assertSame(instance, api.getMarked(keyAPI));
+			Assertions.assertSame(instance, api.getMarkedX(keyAPI));
 
 			api.unmark(keyAPI, instance);
-			Assertions.assertNull(api.getMarked(keyAPI));
+			Assertions.assertNull(api.getMarkedX(keyAPI));
 		}
 	}
 
@@ -242,10 +242,10 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 			var instance = init.getCurrentElement();
 
 			init.mark(keySuperInit);
-			Assertions.assertSame(instance, api.getMarked(keySuperInit));
+			Assertions.assertSame(instance, api.getMarkedX(keySuperInit));
 
 			init.unmark(keySuperInit);
-			Assertions.assertNull(api.getMarked(keySuperInit));
+			Assertions.assertNull(api.getMarkedX(keySuperInit));
 		}
 	}
 }

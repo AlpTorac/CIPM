@@ -21,31 +21,31 @@ public class FluentAPIRootAPINewMethodGenerator {
 
 	private static final String newXMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Initialisation super type class name
-			"return (%s)" + ModelConstants.RootAPI.GetInitialisationFor.NAME
-					.thisCall(ModelConstants.RootAPI.New.ECLASS_PARAMETER_NAME.get() + ".getInstanceClass()"));
+			"return (%s)" + ModelConstants.FluentAPI.GetInitialisationFor.NAME
+					.thisCall(ModelConstants.FluentAPI.New.ECLASS_PARAMETER_NAME.get() + ".getInstanceClass()"));
 
 	private static final String newXWithClassParamMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Initialisation super type class name
-			"return (%s)" + ModelConstants.RootAPI.GetInitialisationFor.NAME
-					.thisCall(ModelConstants.RootAPI.New.CLASS_PARAMETER_NAME.get()));
+			"return (%s)" + ModelConstants.FluentAPI.GetInitialisationFor.NAME
+					.thisCall(ModelConstants.FluentAPI.New.CLASS_PARAMETER_NAME.get()));
 
 	private static final String newXWithModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) " + ModelConstants.RootAPI.GetInitialisationFor.NAME.thisCall("%s.class"));
+			.joinLOC("return (%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class"));
 
 	private static final String newXWithOnlyOneModifiableSingleValuedFeatsMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) ((%s) " + ModelConstants.RootAPI.GetInitialisationFor.NAME.thisCall("%s.class") + ")."
+			.joinLOC("return (%s) ((%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class") + ")."
 					+ ModelConstants.Initialiation.With.NAME.get() + "("
-					+ ModelConstants.RootAPI.New.FEATURE_VALUE_PARAMETER_NAME.get() + ")"
+					+ ModelConstants.FluentAPI.New.FEATURE_VALUE_PARAMETER_NAME.get() + ")"
 					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	private static final String newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_singleValue = FluentAPIMethodsUtil
-			.joinLOC("return (%s) ((%s) " + ModelConstants.RootAPI.GetInitialisationFor.NAME.thisCall("%s.class") + ")."
+			.joinLOC("return (%s) ((%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class") + ")."
 					+ ModelConstants.Initialiation.WithAdded.NAME.get() + "("
-					+ ModelConstants.RootAPI.New.FEATURE_VALUE_PARAMETER_NAME.get() + ")"
+					+ ModelConstants.FluentAPI.New.FEATURE_VALUE_PARAMETER_NAME.get() + ")"
 					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	private static final String newXWithoutModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) ((%s) " + ModelConstants.RootAPI.GetInitialisationFor.NAME.thisCall("%s.class") + ")"
+			.joinLOC("return (%s) ((%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class") + ")"
 					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	public List<EOperation> getAllRootAPINewOperations(FluentAPIGenerationContext context) {
@@ -84,8 +84,8 @@ public class FluentAPIRootAPINewMethodGenerator {
 
 	private EOperation getRootAPITopLevelNewOperation(FluentAPIGenerationContext context) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				ModelConstants.RootAPI.New.ECLASS_PARAMETER_NAME.get(), EcorePackage.Literals.ECLASS);
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.New.TOP_NAME.get(),
+				ModelConstants.FluentAPI.New.ECLASS_PARAMETER_NAME.get(), EcorePackage.Literals.ECLASS);
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.New.TOP_NAME.get(),
 				context.getInitSuperECls());
 		FluentAPIGenerationUtil.addBody(op, String.format(newXMethodBodyTemplate,
 				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
@@ -98,8 +98,8 @@ public class FluentAPIRootAPINewMethodGenerator {
 				.generateEGenericTypeWithClassifier(EcorePackage.Literals.EJAVA_CLASS);
 		FluentAPIGenerationUtil.addTypeArgument(classParamType, FluentAPIGenerationUtil.generateWildcardTypeArgument());
 		var param = FluentAPIGenerationUtil
-				.generateSingleValuedEParameter(ModelConstants.RootAPI.New.CLASS_PARAMETER_NAME.get(), classParamType);
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.New.TOP_NAME.get(),
+				.generateSingleValuedEParameter(ModelConstants.FluentAPI.New.CLASS_PARAMETER_NAME.get(), classParamType);
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.New.TOP_NAME.get(),
 				context.getInitSuperECls());
 		FluentAPIGenerationUtil.addBody(op, String.format(newXWithClassParamMethodBodyTemplate,
 				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
@@ -110,7 +110,7 @@ public class FluentAPIRootAPINewMethodGenerator {
 	private EOperation getRootAPINewOperationForEClassWithModifiableFeats(FluentAPIGenerationContext context,
 			EClass eObjEClass, EClass initECls) {
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				ModelConstants.RootAPI.New.NAME.getFor(StringUtils.capitalize(eObjEClass.getName())), initECls);
+				ModelConstants.FluentAPI.New.NAME.getFor(StringUtils.capitalize(eObjEClass.getName())), initECls);
 		FluentAPIGenerationUtil.addBody(op,
 				String.format(newXWithModifiableFeatsMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
@@ -145,7 +145,7 @@ public class FluentAPIRootAPINewMethodGenerator {
 		// is changed
 		Function<EParameter, EOperation> opGenerator = (p) -> {
 			var op = FluentAPIGenerationUtil.generateEOperation(
-					ModelConstants.RootAPI.New.NAME.getFor(StringUtils.capitalize(eObjEClass.getName())), eObjEClass);
+					ModelConstants.FluentAPI.New.NAME.getFor(StringUtils.capitalize(eObjEClass.getName())), eObjEClass);
 			FluentAPIGenerationUtil.addBody(op,
 					String.format(newXWithOnlyOneModifiableSingleValuedFeatsMethodBodyTemplate,
 							eObjEClass.getInstanceClass().getName(),
@@ -180,7 +180,7 @@ public class FluentAPIRootAPINewMethodGenerator {
 
 		var featureValParam = getSingleValuedFeatValParam(modifiableFeature);
 		var listOp = FluentAPIGenerationUtil.generateEOperation(
-				ModelConstants.RootAPI.New.NAME.getFor(StringUtils.capitalize(eObjEClass.getName())), eObjEClass);
+				ModelConstants.FluentAPI.New.NAME.getFor(StringUtils.capitalize(eObjEClass.getName())), eObjEClass);
 		FluentAPIGenerationUtil.addBody(listOp,
 				String.format(newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_singleValue,
 						eObjEClass.getInstanceClass().getName(),
@@ -194,7 +194,7 @@ public class FluentAPIRootAPINewMethodGenerator {
 
 	private EOperation getRootAPINewOperationForEClassWithoutModifiableFeats(EClass eObjEClass, EClass initECls) {
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				ModelConstants.RootAPI.New.NAME.getFor(StringUtils.capitalize(eObjEClass.getName())), eObjEClass);
+				ModelConstants.FluentAPI.New.NAME.getFor(StringUtils.capitalize(eObjEClass.getName())), eObjEClass);
 		FluentAPIGenerationUtil.addBody(op,
 				String.format(newXWithoutModifiableFeatsMethodBodyTemplate, eObjEClass.getInstanceClass().getName(),
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
@@ -204,7 +204,7 @@ public class FluentAPIRootAPINewMethodGenerator {
 
 	private EParameter getSingleValuedFeatValParam(EStructuralFeature feat) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				ModelConstants.RootAPI.New.FEATURE_VALUE_PARAMETER_NAME.get(), feat.getEType());
+				ModelConstants.FluentAPI.New.FEATURE_VALUE_PARAMETER_NAME.get(), feat.getEType());
 		// TODO Add documentation
 		return param;
 	}

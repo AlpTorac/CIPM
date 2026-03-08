@@ -18,13 +18,13 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 
 	private static final String modifyElementMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Initialisation class name
-			"return (%s) " + ModelConstants.RootAPI.GetInitialisationFor.NAME
+			"return (%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME
 					.thisCall(ModelConstants.GeneralParameters.USED_EOBJECT_PARAMETER_NAME.get()));
 
 	private static final String modifyMarkedElementMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Initialisation type class name
 			// %s: GetMarked method name
-			"return (%s) " + ModelConstants.RootAPI.GetInitialisationFor.NAME
+			"return (%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME
 					.thisCall("this.%s(" + ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get() + ")"));
 
 	public List<EOperation> getAllRootAPIModifyElementOperations(FluentAPIGenerationContext context) {
@@ -47,11 +47,11 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 			EClass elemToInitECls, EClass initECls) {
 		var markKeyParam = FluentAPIGeneralParameterGenerator.getMarkKeyParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				ModelConstants.RootAPI.ModifyMarked.NAME.getFor(StringUtils.capitalize(elemToInitECls.getName())),
+				ModelConstants.FluentAPI.ModifyMarked.NAME.getFor(StringUtils.capitalize(elemToInitECls.getName())),
 				initECls);
 		FluentAPIGenerationUtil.addBody(op, String.format(modifyMarkedElementMethodBodyTemplate,
 				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-				ModelConstants.RootAPI.GetMarked.NAME.getFor(StringUtils.capitalize(elemToInitECls.getName()))));
+				ModelConstants.FluentAPI.GetMarked.NAME.getFor(StringUtils.capitalize(elemToInitECls.getName()))));
 		FluentAPIGenerationUtil.addEParameters(op, markKeyParam);
 		return op;
 	}
@@ -60,7 +60,7 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 			EClass elemToInitECls, EClass initECls) {
 		var param = FluentAPIGeneralParameterGenerator.getEObjectParamOfType(elemToInitECls);
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				ModelConstants.RootAPI.Modify.NAME.getFor(StringUtils.capitalize(elemToInitECls.getName())), initECls);
+				ModelConstants.FluentAPI.Modify.NAME.getFor(StringUtils.capitalize(elemToInitECls.getName())), initECls);
 		FluentAPIGenerationUtil.addBody(op, String.format(modifyElementMethodBodyTemplate,
 				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls)));
 		FluentAPIGenerationUtil.addEParameters(op, param);
@@ -69,7 +69,7 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 
 	private EOperation getRootAPITopLevelModifyElementOperation(FluentAPIGenerationContext context) {
 		var param = FluentAPIGeneralParameterGenerator.getEObjectParam();
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.Modify.TOP_NAME.get(),
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.Modify.TOP_NAME.get(),
 				context.getInitSuperECls());
 		FluentAPIGenerationUtil.addBody(op, String.format(modifyElementMethodBodyTemplate,
 				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
@@ -79,12 +79,12 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 
 	private EOperation getRootAPITopLevelModifyMarkedElementOperation(FluentAPIGenerationContext context) {
 		var param = FluentAPIGeneralParameterGenerator.getMarkKeyParam();
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.RootAPI.ModifyMarked.TOP_NAME.get(),
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.ModifyMarked.TOP_NAME.get(),
 				context.getInitSuperECls());
 		FluentAPIGenerationUtil.addBody(op,
 				String.format(modifyMarkedElementMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls()),
-						ModelConstants.RootAPI.GetMarked.TOP_NAME.get()));
+						ModelConstants.FluentAPI.GetMarked.TOP_NAME.get()));
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
 	}
