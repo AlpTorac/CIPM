@@ -13,4 +13,8 @@ public interface IFluentAPITemplate {
 
 		return callRoot + args + ")";
 	}
+
+	public default String thisCall(String... params) {
+		return "this" + call(params);
+	}
 }

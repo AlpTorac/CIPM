@@ -12,7 +12,7 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPISuperInitialisationResetOperationGenerator implements IFluentAPIMethodGenerator {
 	private static final String resetMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			"this" + ModelConstants.SuperInitialisation.CurrentElementRef.NAME.setterCall("null"),
+			ModelConstants.SuperInitialisation.CurrentElementRef.NAME.thisSetterCall("null"),
 			//
 			"return this");
 

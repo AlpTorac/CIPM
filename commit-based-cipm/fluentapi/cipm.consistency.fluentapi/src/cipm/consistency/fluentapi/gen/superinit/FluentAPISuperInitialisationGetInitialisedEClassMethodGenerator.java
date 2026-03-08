@@ -12,7 +12,7 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator implements IFluentAPIMethodGenerator {
 	private static final String getInitialisedEClassMethodBody = FluentAPIMethodsUtil
-			.joinLOC("return this" + ModelConstants.SuperInitialisation.NewElement.NAME.call()
+			.joinLOC("return " + ModelConstants.SuperInitialisation.NewElement.NAME.thisCall()
 					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call() + ".eClass()");
 
 	public EOperation generateGetInitialisedEClassMethod() {

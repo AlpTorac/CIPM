@@ -143,7 +143,7 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static EList<Class<? extends EObject>> getAllSupportedClasses(EObject me) {
+	public static EList<Class<? extends EObject>> getAllSupportedEClasses(EObject me) {
 		var result = new BasicEList<Class<? extends EObject>>();
 //		getInits(me).stream()
 //				.map((c) -> c.getEOperations().stream()

@@ -5,124 +5,97 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
 public final class FluentAPIGeneralParameterGenerator {
-	private static final String fluentAPIEObjectParameterName = "eobj";
-	private static final String fluentAPIEObjectParameterDocumentation = "The EObject that this method will use";
-
-	private static final String fluentAPIFeatureParameterName = "featToModify";
-	private static final String fluentAPIFeatureParameterDocumentation = "The feature, whose value in "
-			+ fluentAPIFeatureParameterName + " will be modified";
-
-	private static final String fluentAPIFeatureValueParameterName = "featVal";
-	private static final String fluentAPIFeatureValueParameterDocumentation = "The value of the feature, which will be used to modify the given feature in certain ways, denoted by the method name";
-
-	private static final String fluentAPIMarkValParameterName = "markVal";
-	private static final String fluentAPIMarkValParameterDocumentation = "The object that is / will be marked.";
-
-	private static final String fluentAPIMarkKeyParameterName = "markKey";
-	private static final String fluentAPIMarkKeyDocumentation = "The object instance (key), whose memory address is serving / will serve as a key in mark-related operations. Note that the contents of the key are fully irrelevant here, only its memory address matters.";
-
-	private static final Class<?> fluentAPIOnceExistsRunnableParameterType = Runnable.class;
-	private static final String fluentAPIOnceExistsRunnableParameterName = "toDoOnceExists";
-	private static final String fluentAPIOnceExistsRunnableParameterDocumentation = "The model construction task, which will be executed upon object(s) getting marked with certain "
-			+ fluentAPIMarkKeyParameterName + "(s).";
-
 	public static EParameter getEObjectParamOfType(EClass type) {
-		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(fluentAPIEObjectParameterName, type);
-		FluentAPIGenerationUtil.addDocumentation(param, fluentAPIEObjectParameterDocumentation);
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				ModelConstants.GeneralParameters.USED_EOBJECT_PARAMETER_NAME.get(), type);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				ModelConstants.GeneralParameters.USED_EOBJECT_PARAMETER_NAME_DOC.get());
 		return param;
 	}
 
 	public static EParameter getEObjectParam() {
-		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(fluentAPIEObjectParameterName,
-				EcorePackage.Literals.EOBJECT);
-		FluentAPIGenerationUtil.addDocumentation(param, fluentAPIEObjectParameterDocumentation);
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				ModelConstants.GeneralParameters.USED_EOBJECT_PARAMETER_NAME.get(), EcorePackage.Literals.EOBJECT);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				ModelConstants.GeneralParameters.USED_EOBJECT_PARAMETER_NAME_DOC.get());
 		return param;
 	}
 
 	public static EParameter getFeatParam() {
-		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(fluentAPIFeatureParameterName,
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				ModelConstants.GeneralParameters.MODIFIED_FEATURE_PARAMETER_NAME.get(),
 				EcorePackage.Literals.ESTRUCTURAL_FEATURE);
-		FluentAPIGenerationUtil.addDocumentation(param, fluentAPIFeatureParameterDocumentation);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				ModelConstants.GeneralParameters.MODIFIED_FEATURE_PARAMETER_NAME_DOC.get());
 		return param;
 	}
 
 	public static EParameter getFeatValParam() {
-		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(fluentAPIFeatureValueParameterName,
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME.get(),
 				EcorePackage.Literals.EJAVA_OBJECT);
-		FluentAPIGenerationUtil.addDocumentation(param, fluentAPIFeatureValueParameterDocumentation);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME_DOC.get());
 		return param;
 	}
 
 	public static EParameter getFeatValArrayParam(FluentAPIGenerationContext context) {
-		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(context, fluentAPIFeatureValueParameterName,
+		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(context,
+				ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME.get(),
 				EcorePackage.Literals.EJAVA_OBJECT);
-		FluentAPIGenerationUtil.addDocumentation(param, fluentAPIFeatureValueParameterDocumentation);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME_DOC.get());
 		return param;
 	}
 
 	public static EParameter getFeatValColParam(FluentAPIGenerationContext context) {
-		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(fluentAPIFeatureValueParameterName,
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME.get(),
 				FluentAPIGenerationUtil.generateCollectionTypeParameter(context, null));
-		FluentAPIGenerationUtil.addDocumentation(param, fluentAPIFeatureValueParameterDocumentation);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME_DOC.get());
 		return param;
 	}
 
 	public static EParameter getMarkKeyParam() {
-		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(fluentAPIMarkKeyParameterName,
-				EcorePackage.Literals.EJAVA_OBJECT);
-		FluentAPIGenerationUtil.addDocumentation(param, fluentAPIMarkKeyDocumentation);
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get(), EcorePackage.Literals.EJAVA_OBJECT);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME_DOC.get());
 		return param;
 	}
 
 	public static EParameter getMarkKeyColParam(FluentAPIGenerationContext context) {
-		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(fluentAPIMarkKeyParameterName,
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get(),
 				FluentAPIGenerationUtil.generateCollectionTypeParameter(context, null));
-		FluentAPIGenerationUtil.addDocumentation(param, fluentAPIMarkKeyDocumentation);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME_DOC.get());
 		return param;
 	}
 
 	public static EParameter getMarkKeyArrayParam(FluentAPIGenerationContext context) {
-		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(context, fluentAPIMarkKeyParameterName,
-				EcorePackage.Literals.EJAVA_OBJECT);
-		FluentAPIGenerationUtil.addDocumentation(param, fluentAPIMarkKeyDocumentation);
+		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(context,
+				ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get(), EcorePackage.Literals.EJAVA_OBJECT);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME_DOC.get());
 		return param;
 	}
 
 	public static EParameter getRunnableParam(FluentAPIGenerationContext context) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(context,
-				fluentAPIOnceExistsRunnableParameterName, fluentAPIOnceExistsRunnableParameterType);
-		FluentAPIGenerationUtil.addDocumentation(param, fluentAPIOnceExistsRunnableParameterDocumentation);
+				ModelConstants.GeneralParameters.ONCE_EXISTS_TASK_PARAMETER_NAME.get(),
+				ModelConstants.GeneralParameters.ONCE_EXISTS_TASK_CLASS);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				ModelConstants.GeneralParameters.ONCE_EXISTS_TASK_PARAMETER_NAME_DOC.get());
 		return param;
 	}
 
 	public static EParameter getMarkValParam() {
-		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(fluentAPIMarkValParameterName,
-				EcorePackage.Literals.EOBJECT);
-		FluentAPIGenerationUtil.addDocumentation(param, fluentAPIMarkValParameterDocumentation);
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				ModelConstants.GeneralParameters.MARK_VALUE_PARAMETER_NAME.get(), EcorePackage.Literals.EOBJECT);
+		FluentAPIGenerationUtil.addDocumentation(param,
+				ModelConstants.GeneralParameters.MARK_VALUE_PARAMETER_NAME_DOC.get());
 		return param;
-	}
-
-	public static String getFluentAPIEObjectParameterName() {
-		return fluentAPIEObjectParameterName;
-	}
-
-	public static String getFluentAPIFeatureParameterName() {
-		return fluentAPIFeatureParameterName;
-	}
-
-	public static String getFluentAPIFeatureValueParameterName() {
-		return fluentAPIFeatureValueParameterName;
-	}
-
-	public static String getFluentAPIMarkValParameterName() {
-		return fluentAPIMarkValParameterName;
-	}
-
-	public static String getFluentAPIMarkKeyParameterName() {
-		return fluentAPIMarkKeyParameterName;
-	}
-
-	public static String getFluentAPIOnceExistsRunnableParameterName() {
-		return fluentAPIOnceExistsRunnableParameterName;
 	}
 }

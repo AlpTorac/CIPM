@@ -12,11 +12,12 @@ import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIOnceExistsExtension;
 public class FluentAPIRootAPIOnceExistsMethodGenerator {
 	// TODO Add documentation
 
-	private static final String onceExistsMethodBody = FluentAPIMethodsUtil.joinLOC(
-			FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists("
-					+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName() + ", "
-					+ FluentAPIGeneralParameterGenerator.getFluentAPIOnceExistsRunnableParameterName() + ")",
-			"return this");
+	private static final String onceExistsMethodBody = FluentAPIMethodsUtil
+			.joinLOC(
+					FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists("
+							+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get() + ", "
+							+ ModelConstants.GeneralParameters.ONCE_EXISTS_TASK_PARAMETER_NAME.get() + ")",
+					"return this");
 
 	public EOperation generateAllOnceExistsMethods(FluentAPIGenerationContext context) {
 		var taskParam = FluentAPIGeneralParameterGenerator.getRunnableParam(context);

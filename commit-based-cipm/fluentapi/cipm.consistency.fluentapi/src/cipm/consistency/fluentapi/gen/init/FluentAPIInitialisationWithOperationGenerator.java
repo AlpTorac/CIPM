@@ -20,39 +20,39 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPIMethodGenerator {
 	private static final String withXFeatMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("this" + ModelConstants.SuperInitialisation.CurrentElementRef.NAME.getterCall() + ".eSet(this"
-					+ ModelConstants.SuperInitialisation.CurrentElementRef.NAME.getterCall()
+			.joinLOC(ModelConstants.SuperInitialisation.CurrentElementRef.NAME.thisGetterCall() + ".eSet("
+					+ ModelConstants.SuperInitialisation.CurrentElementRef.NAME.thisGetterCall()
 					// %s: Feature name
 					// %s: Feature value parameter (although the parameter name is known, there are
 					// overloading methods process the parameter)
 					+ ".eClass().getEStructuralFeature(\"%s\"), %s)", "return this");
 
 	private static final String withoutXFeatMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("this" + ModelConstants.SuperInitialisation.CurrentElementRef.NAME.getterCall() + ".eUnset(this"
-					+ ModelConstants.SuperInitialisation.CurrentElementRef.NAME.getterCall()
+			.joinLOC(ModelConstants.SuperInitialisation.CurrentElementRef.NAME.thisGetterCall() + ".eUnset("
+					+ ModelConstants.SuperInitialisation.CurrentElementRef.NAME.thisGetterCall()
 					// %s: Feature name
 					+ ".eClass().getEStructuralFeature(\"%s\"))", "return this");
 
 	private static final String withAddedXFeatMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("((org.eclipse.emf.common.util.EList) this"
-					+ ModelConstants.SuperInitialisation.CurrentElementRef.NAME.getterCall() + ".eGet(this"
-					+ ModelConstants.SuperInitialisation.CurrentElementRef.NAME.getterCall()
+			.joinLOC("((org.eclipse.emf.common.util.EList) "
+					+ ModelConstants.SuperInitialisation.CurrentElementRef.NAME.thisGetterCall() + ".eGet("
+					+ ModelConstants.SuperInitialisation.CurrentElementRef.NAME.thisGetterCall()
 					// %s: Feature name
 					+ ".eClass().getEStructuralFeature(\"%s\"))).add("
 					+ ModelConstants.Initialiation.WithAdded.PARAMETER_NAME.get() + ")", "return this");
 
 	private static final String withRemovedXFeatMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("((org.eclipse.emf.common.util.EList) this"
-					+ ModelConstants.SuperInitialisation.CurrentElementRef.NAME.getterCall() + ".eGet(this"
-					+ ModelConstants.SuperInitialisation.CurrentElementRef.NAME.getterCall()
+			.joinLOC("((org.eclipse.emf.common.util.EList) "
+					+ ModelConstants.SuperInitialisation.CurrentElementRef.NAME.thisGetterCall() + ".eGet("
+					+ ModelConstants.SuperInitialisation.CurrentElementRef.NAME.thisGetterCall()
 					// %s: Feature name
 					+ ".eClass().getEStructuralFeature(\"%s\"))).remove("
 					+ ModelConstants.Initialiation.WithRemoved.PARAMETER_NAME.get() + ")", "return this");
 
 	private static final String cleanXFeatMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("var list = (org.eclipse.emf.common.util.EList) this"
-					+ ModelConstants.SuperInitialisation.CurrentElementRef.NAME.getterCall() + ".eGet(this"
-					+ ModelConstants.SuperInitialisation.CurrentElementRef.NAME.getterCall()
+			.joinLOC("var list = (org.eclipse.emf.common.util.EList) "
+					+ ModelConstants.SuperInitialisation.CurrentElementRef.NAME.thisGetterCall() + ".eGet("
+					+ ModelConstants.SuperInitialisation.CurrentElementRef.NAME.thisGetterCall()
 					// %s: Feature name
 					+ ".eClass().getEStructuralFeature(\"%s\"))", "list.clear()", "return this");
 

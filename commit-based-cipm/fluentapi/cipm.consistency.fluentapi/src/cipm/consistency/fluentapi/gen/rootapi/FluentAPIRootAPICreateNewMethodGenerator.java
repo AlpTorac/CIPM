@@ -21,14 +21,15 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 public class FluentAPIRootAPICreateNewMethodGenerator {
 	// TODO Add documentation
 
-	private static final String createNewXMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			"return (%s) this" + ModelConstants.RootAPI.GetInitialisationFor.NAME.call("%s.class") + ".createNow()");
+	private static final String createNewXMethodBodyTemplate = FluentAPIMethodsUtil
+			.joinLOC("return (%s) " + ModelConstants.RootAPI.GetInitialisationFor.NAME.thisCall("%s.class")
+					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	private static final String createNewXWithClassParamMethodBody = FluentAPIMethodsUtil
-			.joinLOC("return (" + ModelConstants.RootAPI.CreateNew.TYPE_PARAMETER_NAME.get() + ") this"
+			.joinLOC("return (" + ModelConstants.RootAPI.CreateNew.TYPE_PARAMETER_NAME.get() + ") "
 					+ ModelConstants.RootAPI.GetInitialisationFor.NAME
-							.call(ModelConstants.RootAPI.CreateNew.ECLASS_PARAMETER_NAME.get())
-					+ ".createNow()");
+							.thisCall(ModelConstants.RootAPI.CreateNew.ECLASS_PARAMETER_NAME.get())
+					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	public List<EOperation> generateAllCreateNewMethods(FluentAPIGenerationContext context) {
 		var eObjEClss = context.getTargetMetamodelPackageProvider().getAllTargetMetamodelConcreteEClasses();

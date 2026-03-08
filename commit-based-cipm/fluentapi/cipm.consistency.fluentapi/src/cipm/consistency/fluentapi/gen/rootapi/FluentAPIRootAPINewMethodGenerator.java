@@ -21,31 +21,31 @@ public class FluentAPIRootAPINewMethodGenerator {
 
 	private static final String newXMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Initialisation super type class name
-			"return (%s)" + "this" + ModelConstants.RootAPI.GetInitialisationFor.NAME
-					.call(ModelConstants.RootAPI.New.ECLASS_PARAMETER_NAME.get() + ".getInstanceClass()"));
+			"return (%s)" + ModelConstants.RootAPI.GetInitialisationFor.NAME
+					.thisCall(ModelConstants.RootAPI.New.ECLASS_PARAMETER_NAME.get() + ".getInstanceClass()"));
 
 	private static final String newXWithClassParamMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Initialisation super type class name
-			"return (%s)" + "this" + ModelConstants.RootAPI.GetInitialisationFor.NAME
-					.call(ModelConstants.RootAPI.New.CLASS_PARAMETER_NAME.get()));
+			"return (%s)" + ModelConstants.RootAPI.GetInitialisationFor.NAME
+					.thisCall(ModelConstants.RootAPI.New.CLASS_PARAMETER_NAME.get()));
 
 	private static final String newXWithModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) this" + ModelConstants.RootAPI.GetInitialisationFor.NAME.call("%s.class"));
+			.joinLOC("return (%s) " + ModelConstants.RootAPI.GetInitialisationFor.NAME.thisCall("%s.class"));
 
 	private static final String newXWithOnlyOneModifiableSingleValuedFeatsMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) ((%s) this" + ModelConstants.RootAPI.GetInitialisationFor.NAME.call("%s.class") + ")."
+			.joinLOC("return (%s) ((%s) " + ModelConstants.RootAPI.GetInitialisationFor.NAME.thisCall("%s.class") + ")."
 					+ ModelConstants.Initialiation.With.NAME.get() + "("
 					+ ModelConstants.RootAPI.New.FEATURE_VALUE_PARAMETER_NAME.get() + ")"
 					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	private static final String newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_singleValue = FluentAPIMethodsUtil
-			.joinLOC("return (%s) ((%s) this" + ModelConstants.RootAPI.GetInitialisationFor.NAME.call("%s.class") + ")."
+			.joinLOC("return (%s) ((%s) " + ModelConstants.RootAPI.GetInitialisationFor.NAME.thisCall("%s.class") + ")."
 					+ ModelConstants.Initialiation.WithAdded.NAME.get() + "("
 					+ ModelConstants.RootAPI.New.FEATURE_VALUE_PARAMETER_NAME.get() + ")"
 					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	private static final String newXWithoutModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) ((%s) this" + ModelConstants.RootAPI.GetInitialisationFor.NAME.call("%s.class") + ")"
+			.joinLOC("return (%s) ((%s) " + ModelConstants.RootAPI.GetInitialisationFor.NAME.thisCall("%s.class") + ")"
 					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	public List<EOperation> getAllRootAPINewOperations(FluentAPIGenerationContext context) {

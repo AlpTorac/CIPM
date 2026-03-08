@@ -32,8 +32,8 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 					.joinLOC("return (%s) " + FluentEObjectAPIMethods.class.getName() + ".continueElement(%s)");
 
 	private static final String continueMarkedMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			"var markedElem = this" + ModelConstants.RootAPI.GetMarked.TOP_NAME
-					.call(FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName()),
+			"var markedElem = " + ModelConstants.RootAPI.GetMarked.TOP_NAME
+					.thisCall(ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()),
 			// %s: Init class name
 			"return markedElem == null ? null : (%s) " + FluentAPIInitialisationStorage.class.getName()
 					+ ModelConstants.RootAPI.GetOngoingInitialisations.NAME.call() + ".stream().filter((i) -> (("

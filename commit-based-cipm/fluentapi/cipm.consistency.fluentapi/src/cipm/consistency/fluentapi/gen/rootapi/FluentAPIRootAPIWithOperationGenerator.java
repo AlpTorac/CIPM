@@ -18,16 +18,16 @@ public class FluentAPIRootAPIWithOperationGenerator {
 	private static final String featureValModificationMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Corresponding method's name in FluentEObjectAPIMethods
 			FluentEObjectAPIMethods.class.getName() + ".%s(this, "
-					+ FluentAPIGeneralParameterGenerator.getFluentAPIEObjectParameterName() + ", "
-					+ FluentAPIGeneralParameterGenerator.getFluentAPIFeatureParameterName() + ", "
-					+ FluentAPIGeneralParameterGenerator.getFluentAPIFeatureValueParameterName() + ")",
+					+ ModelConstants.GeneralParameters.USED_EOBJECT_PARAMETER_NAME.get() + ", "
+					+ ModelConstants.GeneralParameters.MODIFIED_FEATURE_PARAMETER_NAME.get() + ", "
+					+ ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME.get() + ")",
 			"return this");
 
 	private static final String featureValCleaningMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Corresponding method's name in FluentEObjectAPIMethods
 			FluentEObjectAPIMethods.class.getName() + ".%s(this, "
-					+ FluentAPIGeneralParameterGenerator.getFluentAPIEObjectParameterName() + ", "
-					+ FluentAPIGeneralParameterGenerator.getFluentAPIFeatureParameterName() + ")",
+					+ ModelConstants.GeneralParameters.USED_EOBJECT_PARAMETER_NAME.get() + ", "
+					+ ModelConstants.GeneralParameters.MODIFIED_FEATURE_PARAMETER_NAME.get() + ")",
 			"return this");
 
 	public List<EOperation> getAllAPITopLevelWithOperations(FluentAPIGenerationContext context) {

@@ -13,4 +13,8 @@ public interface IFluentAPIFillableTemplate extends IFluentAPITemplate {
 
 		return callRoot + args + ")";
 	}
+
+	public default String thisCallFor(Object[] templateParams, String... methodParams) {
+		return "this" + callFor(templateParams, methodParams);
+	}
 }

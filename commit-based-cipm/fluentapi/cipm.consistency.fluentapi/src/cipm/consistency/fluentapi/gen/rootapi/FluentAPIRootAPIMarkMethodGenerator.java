@@ -19,31 +19,31 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 	// TODO Add documentation
 
 	private static final String unmarkMethodBody = FluentAPIMethodsUtil.joinLOC(FluentAPIMarkExtension.class.getName()
-			+ ".unmark(" + FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName() + ")", "return this");
+			+ ".unmark(" + ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get() + ")", "return this");
 
 	private static final String unmarkFullMethodBody = FluentAPIMethodsUtil
 			.joinLOC(
 					FluentAPIMarkExtension.class.getName() + ".unmark("
-							+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName() + ", "
-							+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkValParameterName() + ")",
+							+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get() + ", "
+							+ ModelConstants.GeneralParameters.MARK_VALUE_PARAMETER_NAME.get() + ")",
 					"return this");
 
 	private static final String markMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC(
 					FluentAPIMarkExtension.class.getName() + ".mark("
-							+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName() + ", "
-							+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkValParameterName() + ")",
+							+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get() + ", "
+							+ ModelConstants.GeneralParameters.MARK_VALUE_PARAMETER_NAME.get() + ")",
 					"return this");
 
 	private static final String getMarkedMethodBody = FluentAPIMethodsUtil
 			.joinLOC("return " + FluentAPIMarkExtension.class.getName() + ".getMarked("
-					+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName() + ")");
+					+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get() + ")");
 
 	private static final String getMarkedXMethodBodyTemplate =
 			// %s: Element's class
 			// %s: Element's class
 			FluentAPIMethodsUtil.joinLOC("return (%s) " + FluentAPIMarkExtension.class.getName() + ".getMarked("
-					+ FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName() + ", %s.class)");
+					+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get() + ", %s.class)");
 
 	public List<EOperation> generateAllMarkMethods(FluentAPIGenerationContext context) {
 		var allEClss = context.getTargetMetamodelPackageProvider().getAllTargetMetamodelEClasses();

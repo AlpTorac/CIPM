@@ -41,7 +41,7 @@ public class FluentAPIInitialisationEClassGenerator {
 	private void addXInitEClassDocumentation(EClass xInitEClass, EClass initialisedEClass,
 			FluentAPIGenerationContext context) {
 
-		var doc = ModelConstants.Initialiation.initClassDocTemplate.getFor(initialisedEClass.getName(),
+		var doc = ModelConstants.Initialiation.INIT_ECLASS_DOC.getFor(initialisedEClass.getName(),
 				context.getTargetMetamodelPackageProvider().getTargetMetamodelName(), initialisedEClass.getName(),
 				FluentAPIDocumentationUtil.serialiseSummaries(summaries));
 		FluentAPIGenerationUtil.addDocumentation(xInitEClass, doc);

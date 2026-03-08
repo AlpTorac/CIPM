@@ -18,14 +18,14 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 
 	private static final String modifyElementMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Initialisation class name
-			"return (%s) this" + ModelConstants.RootAPI.GetInitialisationFor.NAME
-					.call(FluentAPIGeneralParameterGenerator.getFluentAPIEObjectParameterName()));
+			"return (%s) " + ModelConstants.RootAPI.GetInitialisationFor.NAME
+					.thisCall(ModelConstants.GeneralParameters.USED_EOBJECT_PARAMETER_NAME.get()));
 
 	private static final String modifyMarkedElementMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Initialisation type class name
 			// %s: GetMarked method name
-			"return (%s) this" + ModelConstants.RootAPI.GetInitialisationFor.NAME
-					.call("this.%s(" + FluentAPIGeneralParameterGenerator.getFluentAPIMarkKeyParameterName() + ")"));
+			"return (%s) " + ModelConstants.RootAPI.GetInitialisationFor.NAME
+					.thisCall("this.%s(" + ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get() + ")"));
 
 	public List<EOperation> getAllRootAPIModifyElementOperations(FluentAPIGenerationContext context) {
 		var eObjEClss = context.getTargetMetamodelPackageProvider().getAllTargetMetamodelConcreteEClasses();
@@ -60,8 +60,7 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 			EClass elemToInitECls, EClass initECls) {
 		var param = FluentAPIGeneralParameterGenerator.getEObjectParamOfType(elemToInitECls);
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				ModelConstants.RootAPI.Modify.NAME.getFor(StringUtils.capitalize(elemToInitECls.getName())),
-				initECls);
+				ModelConstants.RootAPI.Modify.NAME.getFor(StringUtils.capitalize(elemToInitECls.getName())), initECls);
 		FluentAPIGenerationUtil.addBody(op, String.format(modifyElementMethodBodyTemplate,
 				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls)));
 		FluentAPIGenerationUtil.addEParameters(op, param);

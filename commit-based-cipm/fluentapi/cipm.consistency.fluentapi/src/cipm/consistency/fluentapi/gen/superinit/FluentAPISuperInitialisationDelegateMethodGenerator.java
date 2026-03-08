@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIParameterUtil;
@@ -27,17 +26,17 @@ public class FluentAPISuperInitialisationDelegateMethodGenerator {
 	@SuppressWarnings("serial")
 	private static final Map<Pattern, String> parameterOverrideMap = new LinkedHashMap<>() {
 		{
-			put(Pattern.compile(FluentAPIGeneralParameterGenerator.getFluentAPIEObjectParameterName()),
-					"this.getCurrentElement()");
-			put(Pattern.compile(FluentAPIGeneralParameterGenerator.getFluentAPIMarkValParameterName()),
-					"this.getCurrentElement()");
+			put(Pattern.compile(ModelConstants.GeneralParameters.USED_EOBJECT_PARAMETER_NAME.get()),
+					ModelConstants.SuperInitialisation.CurrentElementRef.NAME.thisGetterCall());
+			put(Pattern.compile(ModelConstants.GeneralParameters.MARK_VALUE_PARAMETER_NAME.get()),
+					ModelConstants.SuperInitialisation.CurrentElementRef.NAME.thisGetterCall());
 			put(Pattern.compile(ModelConstants.RootAPI.DropInitialisation.INITIALISATION_PARAMETER_NAME.get()), "this");
 		}
 	};
 
 	private static final String delegateMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Method call string (with parameters in brackets)
-			"this.toAPI().%s", "return this");
+			ModelConstants.SuperInitialisation.ToAPI.NAME.thisCall() + ".%s", "return this");
 
 	private String replaceParameters(String serialisedParameters) {
 		var result = serialisedParameters;
