@@ -5,21 +5,48 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.emftext.language.java.classifiers.ClassifiersPackage;
+import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.TypesPackage;
 
-import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationPostProcessor;
 
 public class FluentAPIGenerationJavaMetamodelPostProcessor implements FluentAPIGenerationPostProcessor {
-	private static final Pattern methodNamePatternToOverload = Pattern.compile("with(?!Removed).*");
+	private static final Pattern methodNamePatternToOverload = Pattern
+			.compile(String.join("|", ModelConstants.Initialiation.With.NAME.getFor(".*"),
+					ModelConstants.Initialiation.WithAdded.NAME.getFor(".*")));
 
-	private static final String typeReferenceParameterOverrideTemplate = "this.toAPI().newClassifierReference().withTarget(%s).createNow()";
+	private static final String typeReferenceParameterOverrideTemplate = ModelConstants.SuperInitialisation.ToAPI.NAME
+			.thisCall()
+			+ ModelConstants.FluentAPI.New.NAME.callFor(new String[] { ClassifierReference.class.getSimpleName() })
+			+ ModelConstants.Initialiation.With.NAME.callFor(new String[] { "Target" }, "%s")
+			+ ModelConstants.SuperInitialisation.CreateNow.NAME.call();
 	private static final String typeReferenceParameterOverrideParameterDocumentation = "The classifier instance, which will be referenced";
+
+	/**
+	 * {@link #getInitEClss()}
+	 */
+	private List<EClass> initEClss;
+
+	/**
+	 * @param initEClss {@link #getInitEClss()}
+	 */
+	public FluentAPIGenerationJavaMetamodelPostProcessor(List<EClass> initEClss) {
+		this.initEClss = initEClss;
+	}
+
+	/**
+	 * @return The list of {@link EClass}es that this post-processor should apply to
+	 */
+	public List<EClass> getInitEClss() {
+		return this.initEClss;
+	}
 
 	private List<EOperation> createOverloadingMethodsFor(EOperation opToOverload) {
 		var copier = new EcoreUtil.Copier();
@@ -53,10 +80,8 @@ public class FluentAPIGenerationJavaMetamodelPostProcessor implements FluentAPIG
 	}
 
 	@Override
-	public void apply(FluentAPIGenerationContext context) {
-		var initEClss = context.getAllInitEClss();
-
-		for (var initECls : initEClss) {
+	public void apply() {
+		for (var initECls : this.getInitEClss()) {
 			var opsToOverload = initECls.getEOperations().stream()
 					.filter((op) -> methodNamePatternToOverload.matcher(op.getName()).matches())
 					.collect(Collectors.toList());

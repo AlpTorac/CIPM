@@ -16,25 +16,57 @@ import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 
 public abstract class FluentAPIGenerationMultipleValueParameterPostProcessor
 		implements FluentAPIGenerationPostProcessor {
+	/**
+	 * {@link #getContext()}
+	 */
+	private FluentAPIGenerationContext context;
+	/**
+	 * {@link #getEClsScope()}
+	 */
+	private List<EClass> eClsScope;
 
-	private EParameter getArrayVersion(FluentAPIGenerationContext context, EParameter oldParam) {
-		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(context, oldParam.getName(),
+	/**
+	 * @param context   {@link #getContext()}
+	 * @param eClsScope {@link #getEClsScope()}
+	 */
+	public FluentAPIGenerationMultipleValueParameterPostProcessor(FluentAPIGenerationContext context,
+			List<EClass> eClsScope) {
+		this.context = context;
+		this.eClsScope = eClsScope;
+	}
+
+	/**
+	 * @return The list of {@link EClass}es that this post-processor should apply to
+	 */
+	public List<EClass> getEClsScope() {
+		return this.eClsScope;
+	}
+
+	/**
+	 * @return The generation context of the model
+	 */
+	public FluentAPIGenerationContext getContext() {
+		return this.context;
+	}
+
+	private EParameter getArrayVersion(EParameter oldParam) {
+		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(this.getContext(), oldParam.getName(),
 				oldParam.getEType());
 		FluentAPIGenerationUtil.useDocumentationOf(param, oldParam);
 		return param;
 	}
 
-	private EParameter getColVersion(FluentAPIGenerationContext context, EParameter oldParam) {
+	private EParameter getColVersion(EParameter oldParam) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(oldParam.getName(),
-				FluentAPIGenerationUtil.generateCollectionTypeParameter(context, oldParam.getEType()));
+				FluentAPIGenerationUtil.generateCollectionTypeParameter(this.getContext(), oldParam.getEType()));
 		FluentAPIGenerationUtil.useDocumentationOf(param, oldParam);
 		return param;
 	}
 
 	protected abstract EOperation overloadMethodBody(EOperation overloadingOp, EParameter newParam);
 
-	private EOperation createOverloadingMultipleValueMethodFor(FluentAPIGenerationContext context,
-			EOperation opToOverload, EParameter paramToOverload, EParameter newParam) {
+	private EOperation createOverloadingMultipleValueMethodFor(EOperation opToOverload, EParameter paramToOverload,
+			EParameter newParam) {
 		var copier = new EcoreUtil.Copier();
 		var overloadingOp = (EOperation) copier.copy(opToOverload);
 		copier.copyReferences();
@@ -72,15 +104,15 @@ public abstract class FluentAPIGenerationMultipleValueParameterPostProcessor
 
 	protected abstract boolean shouldOverloadParameter(EParameter param);
 
-	private List<EOperation> createOverloadingMethodsFor(FluentAPIGenerationContext context, EOperation opToOverload) {
+	private List<EOperation> createOverloadingMethodsFor(EOperation opToOverload) {
 		var ops = new ArrayList<EOperation>();
 		for (var p : opToOverload.getEParameters().stream().filter(this::shouldOverloadParameter)
 				.collect(Collectors.toList())) {
 			if (!hasArrayOverload(opToOverload, p)) {
-				ops.add(createOverloadingMultipleValueMethodFor(context, opToOverload, p, getArrayVersion(context, p)));
+				ops.add(createOverloadingMultipleValueMethodFor(opToOverload, p, getArrayVersion(p)));
 			}
 			if (!hasColOverload(opToOverload, p)) {
-				ops.add(createOverloadingMultipleValueMethodFor(context, opToOverload, p, getColVersion(context, p)));
+				ops.add(createOverloadingMultipleValueMethodFor(opToOverload, p, getColVersion(p)));
 			}
 		}
 		return ops;
@@ -89,19 +121,14 @@ public abstract class FluentAPIGenerationMultipleValueParameterPostProcessor
 	protected abstract boolean shouldOverloadMethod(EOperation op);
 
 	@Override
-	public void apply(FluentAPIGenerationContext context) {
-		var allEClss = new ArrayList<EClass>();
-		allEClss.add(context.getFluentAPIECls());
-		allEClss.add(context.getInitSuperECls());
-		allEClss.addAll(context.getAllInitEClss());
-
-		for (var eCls : allEClss) {
+	public void apply() {
+		for (var eCls : this.getEClsScope()) {
 			// Only consider EOperations, which have a single parameter and whose return
 			// type is their containing EClass
 			var opsToOverload = eCls.getEOperations().stream().filter((op) -> shouldOverloadMethod(op))
 					.collect(Collectors.toList());
 			for (var op : opsToOverload) {
-				op.getEContainingClass().getEOperations().addAll(createOverloadingMethodsFor(context, op));
+				op.getEContainingClass().getEOperations().addAll(createOverloadingMethodsFor(op));
 			}
 		}
 	}

@@ -1,16 +1,18 @@
 package cipm.consistency.fluentapi.gen.postprocessor;
 
+import java.util.List;
 import java.util.regex.Pattern;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 
-public class FluentAPIGenerationSameMethodOverloadPostProcessor
+public class FluentAPIGenerationMultipleValueParameterSameMethodBodyOverloadPostProcessor
 		extends FluentAPIGenerationMultipleValueParameterPostProcessor {
-	// new(?!X|Element).*
 	private static final Pattern newMethodPatternToSkip = Pattern.compile(String.join("|",
 			ModelConstants.FluentAPI.New.TOP_NAME.get(), ModelConstants.SuperInitialisation.NewElement.NAME.get()));
 
@@ -23,6 +25,11 @@ public class FluentAPIGenerationSameMethodOverloadPostProcessor
 	private static final Pattern paramNamePatternToOverload = Pattern
 			.compile(String.join("|", ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME.get(),
 					ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()));
+
+	public FluentAPIGenerationMultipleValueParameterSameMethodBodyOverloadPostProcessor(FluentAPIGenerationContext context,
+			List<EClass> eClsScope) {
+		super(context, eClsScope);
+	}
 
 	@Override
 	protected EOperation overloadMethodBody(EOperation overloadingOp, EParameter newParam) {

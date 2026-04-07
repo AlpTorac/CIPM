@@ -9,7 +9,7 @@ public interface IFluentAPIFillableTemplate extends IFluentAPITemplate {
 		var callRoot = "." + getFor(templateParams);
 		var args = "(";
 
-		if (methodParams == null || methodParams.length == 0) {
+		if (methodParams != null && methodParams.length > 0) {
 			args += String.join(",", methodParams);
 		}
 

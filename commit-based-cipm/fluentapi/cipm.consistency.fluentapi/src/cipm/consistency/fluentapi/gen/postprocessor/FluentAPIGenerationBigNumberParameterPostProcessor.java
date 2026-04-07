@@ -6,13 +6,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
@@ -44,6 +44,25 @@ public class FluentAPIGenerationBigNumberParameterPostProcessor implements Fluen
 	private static final Map<EClassifier, List<EClassifier>> paramTypeOverrides = Map.of(
 			EcorePackage.Literals.EBIG_INTEGER, List.of(EcorePackage.Literals.EINT, EcorePackage.Literals.ELONG),
 			EcorePackage.Literals.EBIG_DECIMAL, List.of(EcorePackage.Literals.EDOUBLE, EcorePackage.Literals.EFLOAT));
+
+	/**
+	 * {@link #getEClsScope()}
+	 */
+	private List<EClass> eClsScope;
+
+	/**
+	 * @param eClsScope {@link #getEClsScope()}
+	 */
+	public FluentAPIGenerationBigNumberParameterPostProcessor(List<EClass> eClsScope) {
+		this.eClsScope = eClsScope;
+	}
+
+	/**
+	 * @return The list of {@link EClass}es that this post-processor should apply to
+	 */
+	public List<EClass> getEClsScope() {
+		return this.eClsScope;
+	}
 
 	/**
 	 * @return The appropriate replacement template for the original parameter for
@@ -107,15 +126,13 @@ public class FluentAPIGenerationBigNumberParameterPostProcessor implements Fluen
 	 * <p>
 	 * <p>
 	 * Adds convenience overloads for methods that use parameters of types
-	 * {@link BigInteger} and {@link BigDecimal} for Initialisation classes.
+	 * {@link BigInteger} and {@link BigDecimal}.
 	 */
 	@Override
-	public void apply(FluentAPIGenerationContext context) {
-		var initEClss = context.getAllInitEClss();
-
-		for (var initECls : initEClss) {
-			for (var op : new ArrayList<>(initECls.getEOperations())) {
-				initECls.getEOperations().addAll(createOverloadingMethodsFor(op));
+	public void apply() {
+		for (var eCls : this.getEClsScope()) {
+			for (var op : new ArrayList<>(eCls.getEOperations())) {
+				eCls.getEOperations().addAll(createOverloadingMethodsFor(op));
 			}
 		}
 	}

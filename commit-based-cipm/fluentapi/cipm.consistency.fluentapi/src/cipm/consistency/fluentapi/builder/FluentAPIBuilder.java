@@ -3,7 +3,10 @@ package cipm.consistency.fluentapi.builder;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
+
 import org.eclipse.emf.common.util.URI;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,7 +15,9 @@ import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIGenerationJavaMetamodelPostProcessor;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
-import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationMetamodelIndependentPostProcessor;
+import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationBigNumberParameterPostProcessor;
+import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationForEachOverloadPostProcessor;
+import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationMultipleValueParameterSameMethodBodyOverloadPostProcessor;
 //import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmMetamodelFeatureFilter;
 //import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIGenerator;
@@ -54,8 +59,17 @@ public class FluentAPIBuilder {
 
 		new FluentAPIRootAPIGenerator().generateRootAPIPackages(context);
 
-		new FluentAPIGenerationJavaMetamodelPostProcessor().apply(context);
-		new FluentAPIGenerationMetamodelIndependentPostProcessor().apply(context);
+		new FluentAPIGenerationJavaMetamodelPostProcessor(context.getAllInitEClss()).apply();
+
+		new FluentAPIGenerationBigNumberParameterPostProcessor(context.getAllInitEClss()).apply();
+
+		var allEClss = new ArrayList<EClass>();
+		allEClss.add(context.getFluentAPIECls());
+		allEClss.add(context.getInitSuperECls());
+		allEClss.addAll(context.getAllInitEClss());
+
+		new FluentAPIGenerationForEachOverloadPostProcessor(context, allEClss).apply();
+		new FluentAPIGenerationMultipleValueParameterSameMethodBodyOverloadPostProcessor(context, allEClss).apply();
 
 		res.getContents().add(context.getRootPackage());
 

@@ -1,20 +1,33 @@
 package cipm.consistency.fluentapi.gen.postprocessor;
 
 import java.util.ArrayList;
-
+import java.util.List;
 import java.util.regex.Pattern;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 
+import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIGenerationForEachOverloadPostProcessor
 		extends FluentAPIGenerationMultipleValueParameterPostProcessor {
-	private static final Pattern methodNamePatternToOverload = Pattern.compile("(xW|w)ith(?=Removed|Added).*");
+
+	// "(xW|w)ith(?=Removed|Added).*"
+	private static final Pattern methodNamePatternToOverload = Pattern.compile(String.join("|",
+			ModelConstants.FluentAPI.WithAddedFeat.NAME.get(), ModelConstants.FluentAPI.WithRemovedFeat.NAME.get(),
+			ModelConstants.Initialiation.WithAdded.NAME.getFor(".*"),
+			ModelConstants.Initialiation.WithRemoved.NAME.getFor(".*")));
+
+	// newFeatVal|featValToAdd|featValToRemove|featVal
 	private static final Pattern paramNamePatternToOverload = Pattern
-			.compile("newFeatVal|featValToAdd|featValToRemove|featVal");
+			.compile(String.join("|", ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME.get(),
+					ModelConstants.Initialiation.With.PARAMETER_NAME.get(),
+					ModelConstants.Initialiation.WithAdded.PARAMETER_NAME.get(),
+					ModelConstants.Initialiation.WithRemoved.PARAMETER_NAME.get()));
 
 	private static final String iterationParamName = "e";
 	/**
@@ -24,9 +37,13 @@ public class FluentAPIGenerationForEachOverloadPostProcessor
 	private static final String multipleValueMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			"for (var " + iterationParamName + " : %s) this.%s(%s)",
 			// %s: Overloaded parameter name
-			// %s: Singular method name
+			// %s: Original method name
 			// %s: Serialised arguments
 			"return this");
+
+	public FluentAPIGenerationForEachOverloadPostProcessor(FluentAPIGenerationContext context, List<EClass> eClsScope) {
+		super(context, eClsScope);
+	}
 
 	@Override
 	protected EOperation overloadMethodBody(EOperation overloadingOp, EParameter newParam) {
