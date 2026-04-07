@@ -6,13 +6,23 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.ModelConstants;
 
 public class FluentAPIGenerationSameMethodOverloadPostProcessor
 		extends FluentAPIGenerationMultipleValueParameterPostProcessor {
-	private static final Pattern newMethodPatternToOverload = Pattern.compile("(new(?!X|Element).*)");
-	private static final Pattern onceExistsMethodPatternToOverload = Pattern.compile("onceExists");
+	// new(?!X|Element).*
+	private static final Pattern newMethodPatternToSkip = Pattern.compile(String.join("|",
+			ModelConstants.FluentAPI.New.TOP_NAME.get(), ModelConstants.SuperInitialisation.NewElement.NAME.get()));
 
-	private static final Pattern paramNamePatternToOverload = Pattern.compile("featVal|markKey");
+	private static final Pattern newMethodPatternToOverload = Pattern
+			.compile(ModelConstants.FluentAPI.New.NAME.getFor(".*"));
+
+	private static final Pattern onceExistsMethodPatternToOverload = Pattern
+			.compile(ModelConstants.FluentAPI.OnceExists.NAME.get());
+
+	private static final Pattern paramNamePatternToOverload = Pattern
+			.compile(String.join("|", ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME.get(),
+					ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()));
 
 	@Override
 	protected EOperation overloadMethodBody(EOperation overloadingOp, EParameter newParam) {
@@ -26,8 +36,10 @@ public class FluentAPIGenerationSameMethodOverloadPostProcessor
 
 	@Override
 	protected boolean shouldOverloadMethod(EOperation op) {
-		return ((newMethodPatternToOverload.matcher(op.getName()).matches() && op.getEAnnotations().get(0).getDetails()
-				.get(FluentAPIGenerationUtil.getEOperationBodyKey()).contains(".withAdded"))
+		return ((!newMethodPatternToSkip.matcher(op.getName()).matches()
+				&& newMethodPatternToOverload.matcher(op.getName()).matches()
+				&& op.getEAnnotations().get(0).getDetails().get(FluentAPIGenerationUtil.getEOperationBodyKey())
+						.contains("." + ModelConstants.Initialiation.WithAdded.NAME.getEmpty()))
 				|| (onceExistsMethodPatternToOverload.matcher(op.getName()).matches()))
 				&& op.getEParameters().stream().anyMatch(this::shouldOverloadParameter);
 	}

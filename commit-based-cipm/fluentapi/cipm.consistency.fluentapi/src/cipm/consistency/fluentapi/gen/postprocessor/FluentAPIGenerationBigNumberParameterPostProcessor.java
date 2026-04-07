@@ -1,5 +1,6 @@
 package cipm.consistency.fluentapi.gen.postprocessor;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,14 +16,39 @@ import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
+/**
+ * A post-processor that adds overloading variants of methods, which take
+ * {@link BigInteger} or {@link BigDecimal} as parameters, for convenience.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIGenerationBigNumberParameterPostProcessor implements FluentAPIGenerationPostProcessor {
-	private static final String adaptedBigDecimalParameterTemplate = "java.math.BigDecimal.valueOf(%s)";
-	private static final String adaptedBigIntegerParameterTemplate = "java.math.BigInteger.valueOf(%s)";
+	/**
+	 * Replaces the original parameter in the method call string
+	 * <p>
+	 * %s: Name of the original parameter
+	 */
+	private static final String adaptedBigDecimalParameterTemplate = java.math.BigDecimal.class.getName()
+			+ ".valueOf(%s)";
+	/**
+	 * Replaces the original parameter in the method call string
+	 * <p>
+	 * %s: Name of the original parameter
+	 */
+	private static final String adaptedBigIntegerParameterTemplate = java.math.BigInteger.class.getName()
+			+ ".valueOf(%s)";
 
+	/**
+	 * Original parameter type to overload -> List of types to overload for
+	 */
 	private static final Map<EClassifier, List<EClassifier>> paramTypeOverrides = Map.of(
 			EcorePackage.Literals.EBIG_INTEGER, List.of(EcorePackage.Literals.EINT, EcorePackage.Literals.ELONG),
 			EcorePackage.Literals.EBIG_DECIMAL, List.of(EcorePackage.Literals.EDOUBLE, EcorePackage.Literals.EFLOAT));
 
+	/**
+	 * @return The appropriate replacement template for the original parameter for
+	 *         the given EClassifier
+	 */
 	private String getParameterAdaptationTemplate(EClassifier paramTypeToReplace) {
 		return paramTypeToReplace.equals(EcorePackage.Literals.EBIG_INTEGER) ? adaptedBigIntegerParameterTemplate
 				: adaptedBigDecimalParameterTemplate;
@@ -77,8 +103,11 @@ public class FluentAPIGenerationBigNumberParameterPostProcessor implements Fluen
 	}
 
 	/**
-	 * Adds the convenience overloads for methods that use parameters of types
-	 * BigInteger and BigDecimal.
+	 * {@inheritDoc}
+	 * <p>
+	 * <p>
+	 * Adds convenience overloads for methods that use parameters of types
+	 * {@link BigInteger} and {@link BigDecimal} for Initialisation classes.
 	 */
 	@Override
 	public void apply(FluentAPIGenerationContext context) {

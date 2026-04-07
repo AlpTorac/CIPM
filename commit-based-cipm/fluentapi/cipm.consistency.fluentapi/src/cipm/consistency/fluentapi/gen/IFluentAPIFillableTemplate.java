@@ -3,6 +3,8 @@ package cipm.consistency.fluentapi.gen;
 public interface IFluentAPIFillableTemplate extends IFluentAPITemplate {
 	public String getFor(Object... params);
 
+	public String getEmpty();
+
 	public default String callFor(Object[] templateParams, String... methodParams) {
 		var callRoot = "." + getFor(templateParams);
 		var args = "(";

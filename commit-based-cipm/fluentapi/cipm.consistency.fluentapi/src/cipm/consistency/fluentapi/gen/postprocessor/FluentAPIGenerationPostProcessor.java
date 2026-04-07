@@ -2,17 +2,17 @@ package cipm.consistency.fluentapi.gen.postprocessor;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 
+/**
+ * An interface for classes that are meant to post-process the generated fluent
+ * API model. Refer to the documentation of individual concrete implementors for
+ * more information.
+ * 
+ * @author Alp Torac Genc
+ */
 public interface FluentAPIGenerationPostProcessor {
-	/*
-	 * TODO Extract array / collection overloads into a post processor
-	 * 
-	 * TODO Extract api.newX(theOnlyFeaturesValue) overloads into a post processor
-	 * 
-	 * TODO Extract simple delegation method generation (ex: superInit.drop()
-	 * delegates to api.drop()) into a post processor
-	 * 
-	 * TODO Extract simple signature overriding method generation into a post
-	 * processor (ex: init.newElement())
+	/**
+	 * Applies this post-processor to relevant contents of the given
+	 * {@link FluentAPIGenerationContext}
 	 */
 	public void apply(FluentAPIGenerationContext context);
 }
