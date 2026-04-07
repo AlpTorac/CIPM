@@ -121,13 +121,6 @@ public class FluentAPIGenerationBigNumberParameterPostProcessor implements Fluen
 		return overloadingOpList;
 	}
 
-	/**
-	 * {@inheritDoc}
-	 * <p>
-	 * <p>
-	 * Adds convenience overloads for methods that use parameters of types
-	 * {@link BigInteger} and {@link BigDecimal}.
-	 */
 	@Override
 	public void apply() {
 		for (var eCls : this.getEClsScope()) {

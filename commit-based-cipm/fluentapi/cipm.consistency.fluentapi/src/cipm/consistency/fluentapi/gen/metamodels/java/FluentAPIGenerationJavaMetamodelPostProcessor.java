@@ -17,6 +17,14 @@ import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationPostProcessor;
 
+/**
+ * A post-processor that adds overloads for methods that use parameters of type
+ * {@link TypeReference} for convenience. Using the overloading methods spare
+ * having to manually construct {@link ClassifierReference}s for
+ * {@link Classifier}s, in order to create a TypeReference instance for them.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIGenerationJavaMetamodelPostProcessor implements FluentAPIGenerationPostProcessor {
 	private static final Pattern methodNamePatternToOverload = Pattern
 			.compile(String.join("|", ModelConstants.Initialiation.With.NAME.getFor(".*"),

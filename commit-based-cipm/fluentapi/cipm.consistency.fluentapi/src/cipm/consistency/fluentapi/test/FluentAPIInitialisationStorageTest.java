@@ -9,8 +9,6 @@ import cipm.consistency.fluentapi.api.ApiFactory;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIInitialisationStorage;
 
 public class FluentAPIInitialisationStorageTest extends AbstractFluentAPITest {
-	// TODO Test FluentAPIInitialisationStorage
-
 	@Test
 	public void testAddOngoingInitialisations_SingleInitialisation() {
 		Assertions.assertEquals(0, FluentAPIInitialisationStorage.getOngoingInitialisations().size());

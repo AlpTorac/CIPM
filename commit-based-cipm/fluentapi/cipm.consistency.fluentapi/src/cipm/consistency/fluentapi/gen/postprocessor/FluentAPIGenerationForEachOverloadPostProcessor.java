@@ -13,16 +13,21 @@ import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
+/**
+ * Introduces variants for certain methods that consider singular parameters,
+ * for convenience. The introduced variants envelop the original method in a
+ * for-each loop and take Collections or Arrays as parameters.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIGenerationForEachOverloadPostProcessor
 		extends FluentAPIGenerationMultipleValueParameterPostProcessor {
 
-	// "(xW|w)ith(?=Removed|Added).*"
 	private static final Pattern methodNamePatternToOverload = Pattern.compile(String.join("|",
 			ModelConstants.FluentAPI.WithAddedFeat.NAME.get(), ModelConstants.FluentAPI.WithRemovedFeat.NAME.get(),
 			ModelConstants.Initialiation.WithAdded.NAME.getFor(".*"),
 			ModelConstants.Initialiation.WithRemoved.NAME.getFor(".*")));
 
-	// newFeatVal|featValToAdd|featValToRemove|featVal
 	private static final Pattern paramNamePatternToOverload = Pattern
 			.compile(String.join("|", ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME.get(),
 					ModelConstants.Initialiation.With.PARAMETER_NAME.get(),

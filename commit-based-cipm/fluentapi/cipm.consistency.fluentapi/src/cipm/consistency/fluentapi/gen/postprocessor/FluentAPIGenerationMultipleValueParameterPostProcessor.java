@@ -14,6 +14,13 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 
+/**
+ * Introduces variants for certain methods that consider singular parameters.
+ * The introduced variants take Collections or Arrays as parameters, sparing
+ * multiple calls to the original method.
+ * 
+ * @author Alp Torac Genc
+ */
 public abstract class FluentAPIGenerationMultipleValueParameterPostProcessor
 		implements FluentAPIGenerationPostProcessor {
 	/**
