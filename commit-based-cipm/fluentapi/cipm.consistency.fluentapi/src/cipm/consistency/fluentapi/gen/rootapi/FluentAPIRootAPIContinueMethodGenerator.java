@@ -19,11 +19,6 @@ import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 public class FluentAPIRootAPIContinueMethodGenerator {
 	// TODO Add documentation
 
-	// TODO Try to simplify marked method bodies
-
-	// TODO Change continueElement to continue in FluentEObjectAPIMethods and use
-	// ModelConstants
-
 	private static final String continueMethodBodyTemplate =
 			// %s: Full Initialisation class name
 			// %s: Initialised element class (statically, i.e. either via method parameter
@@ -36,9 +31,9 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 					.thisCall(ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()),
 			// %s: Init class name
 			"return markedElem == null ? null : (%s) " + FluentAPIInitialisationStorage.class.getName()
-					+ ModelConstants.FluentAPI.GetOngoingInitialisations.NAME.call() + ".stream().filter((i) -> (("
-					+ ModelConstants.ROOT_PACKAGE_NAME.get() + "." + ModelConstants.SuperInitialisation.CLASS_NAME.get()
-					+ ") i)" + ModelConstants.SuperInitialisation.CurrentElement.NAME.getterCall()
+					+ ".getOngoingInitialisations().stream().filter((i) -> ((" + ModelConstants.ROOT_PACKAGE_NAME.get()
+					+ "." + ModelConstants.SuperInitialisation.CLASS_NAME.get() + ") i)"
+					+ ModelConstants.SuperInitialisation.CurrentElement.NAME.getterCall()
 					+ " == markedElem).findFirst().get()");
 
 	public List<EOperation> generateAllContinueMethods(FluentAPIGenerationContext context) {
