@@ -4,9 +4,7 @@ import java.util.Map;
 
 public interface IFluentAPIMethodGenerator {
 	/*
-	 * TODO Introduce a FluentAPIGenerationContext class and pass it to all
-	 * generators. That way, referencing already generated model elements gets
-	 * easier and tidier.
+	 * TODO Add summaries for generated methods in their corresponding generators
 	 * 
 	 * TODO Add further generator interfaces (if feasible) and tidy up the
 	 * generation process.

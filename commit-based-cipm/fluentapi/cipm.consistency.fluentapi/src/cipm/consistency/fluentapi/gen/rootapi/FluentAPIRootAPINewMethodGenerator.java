@@ -29,6 +29,8 @@ public class FluentAPIRootAPINewMethodGenerator {
 			"return (%s)" + ModelConstants.FluentAPI.GetInitialisationFor.NAME
 					.thisCall(ModelConstants.FluentAPI.New.CLASS_PARAMETER_NAME.get()));
 
+	// TODO Comment what the flags are for
+	
 	private static final String newXWithModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return (%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class"));
 

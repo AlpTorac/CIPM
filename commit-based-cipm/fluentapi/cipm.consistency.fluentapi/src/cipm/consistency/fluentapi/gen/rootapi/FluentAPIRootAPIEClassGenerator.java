@@ -8,29 +8,9 @@ import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 
 public class FluentAPIRootAPIEClassGenerator {
-
-	// TODO Add a getOngoingInits() method to hide FluentAPIInitialisationStorage
-
-	/*
-	 * TODO If possible, add a way to generate further convenience methods, such as
-	 * "api.newClassifierReferenceWithTarget(classifier)" in:
-	 * 
-	 * api.newClass().withExtends(api.newClassifierReferenceWithTarget(classifier)).
-	 * createNow()
-	 * 
-	 * api.newClass().withExtends(api.newClassifierReference().withTarget(classifier
-	 * ).createNow()).createNow()
-	 * 
-	 *
-	 * Possible strategies to determine such methods: 1) List of frequently used
-	 * constructions 2) Deterministic strategies (heuristics) over various metamodel
-	 * properties
-	 */
-
+	// TODO Add documentation
 	// TODO Re-use / link to documentations of mentioned API classes
 
-	// TODO Mention for each method template what it more or less does, re-use or
-	// link to their documentation
 	public EClass generateRootAPIEClass() {
 		var fluentAPIECls = EcoreFactory.eINSTANCE.createEClass();
 
