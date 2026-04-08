@@ -13,11 +13,6 @@ import org.apache.commons.lang.StringUtils;
  * @author Alp Torac Genc
  */
 public class ModelConstants {
-	// TODO Ensure that all string formatting flags have documentation
-
-	// TODO Add summaries to all generated methods that are important, add more
-	// detailed documentations if needed
-
 	/**
 	 * TODO %s: Metamodel name (small case)
 	 * 

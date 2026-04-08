@@ -13,7 +13,6 @@ import cipm.consistency.fluentapi.gen.ModelConstants;
 
 public class FluentAPIRootAPIEClassGenerator {
 	// TODO Add documentation
-	// TODO Re-use / link to documentations of mentioned API classes
 
 	private static final Map<String, String> summaries = new LinkedHashMap<>();
 
