@@ -1,15 +1,18 @@
 package cipm.consistency.fluentapi.gen.rootapi;
 
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIInitialisationStorage;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
-public class FluentAPIRootAPIDropInitialisationMethodGenerator {
+public class FluentAPIRootAPIDropInitialisationMethodGenerator implements IFluentAPIMethodGenerator {
 	// TODO Add documentation
 
 	private static final String dropInitialisationMethodBody = FluentAPIMethodsUtil.joinLOC(
@@ -31,5 +34,11 @@ public class FluentAPIRootAPIDropInitialisationMethodGenerator {
 		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				ModelConstants.FluentAPI.DropInitialisation.INITIALISATION_PARAMETER_NAME.get(),
 				context.getInitSuperECls());
+	}
+
+	@Override
+	public Map<String, String> getMethodNamesToDescriptions() {
+		return Map.of(ModelConstants.FluentAPI.DropInitialisation.NAME.get(),
+				ModelConstants.FluentAPI.DropInitialisation.SUMMARY.get());
 	}
 }

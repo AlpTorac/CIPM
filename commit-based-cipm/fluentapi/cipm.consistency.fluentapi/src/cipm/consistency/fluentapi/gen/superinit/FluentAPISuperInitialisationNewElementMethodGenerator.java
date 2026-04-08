@@ -23,6 +23,7 @@ public class FluentAPISuperInitialisationNewElementMethodGenerator implements IF
 
 	@Override
 	public Map<String, String> getMethodNamesToDescriptions() {
-		return Map.of();
+		return Map.of(ModelConstants.SuperInitialisation.NewElement.NAME.get(),
+				ModelConstants.SuperInitialisation.NewElement.SUMMARY.get());
 	}
 }

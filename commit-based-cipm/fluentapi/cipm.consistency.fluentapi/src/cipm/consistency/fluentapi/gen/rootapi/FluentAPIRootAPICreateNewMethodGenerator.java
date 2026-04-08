@@ -2,6 +2,7 @@ package cipm.consistency.fluentapi.gen.rootapi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
@@ -9,6 +10,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
@@ -18,7 +20,7 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
  * 
  * TODO Add commentary
  */
-public class FluentAPIRootAPICreateNewMethodGenerator {
+public class FluentAPIRootAPICreateNewMethodGenerator implements IFluentAPIMethodGenerator {
 	// TODO Add documentation
 
 	private static final String createNewXMethodBodyTemplate = FluentAPIMethodsUtil
@@ -81,9 +83,17 @@ public class FluentAPIRootAPICreateNewMethodGenerator {
 
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.CreateNew.TOP_NAME.get());
 		FluentAPIGenerationUtil.addBody(op, createNewXWithClassParamMethodBody);
+		FluentAPIGenerationUtil.addDocumentation(op,
+				ModelConstants.SuperInitialisation.CreateNow.CLASS_PARAMETER_DOC.get());
 		op.setEGenericType(methodTypeParam);
 		op.getETypeParameters().add(typeParam);
 		op.getEParameters().add(methodParam);
 		return op;
+	}
+
+	@Override
+	public Map<String, String> getMethodNamesToDescriptions() {
+		return Map.of(ModelConstants.SuperInitialisation.CreateNow.NAME.get(),
+				ModelConstants.SuperInitialisation.CreateNow.SUMMARY.get());
 	}
 }

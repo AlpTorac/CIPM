@@ -19,12 +19,14 @@ public class FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator imp
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				ModelConstants.SuperInitialisation.GetInitialisedEClass.NAME.get(), EcorePackage.Literals.ECLASS);
 		FluentAPIGenerationUtil.addBody(op, getInitialisedEClassMethodBody);
-		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.SuperInitialisation.GetInitialisedEClass.DOC.get());
+		FluentAPIGenerationUtil.addDocumentation(op,
+				ModelConstants.SuperInitialisation.GetInitialisedEClass.SUMMARY.get());
 		return op;
 	}
 
 	@Override
 	public Map<String, String> getMethodNamesToDescriptions() {
-		return Map.of();
+		return Map.of(ModelConstants.SuperInitialisation.GetInitialisedEClass.NAME.get(),
+				ModelConstants.SuperInitialisation.GetInitialisedEClass.SUMMARY.get());
 	}
 }

@@ -2,6 +2,7 @@ package cipm.consistency.fluentapi.gen.rootapi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
@@ -11,12 +12,13 @@ import org.eclipse.emf.ecore.EcorePackage;
 import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIInitialisationStorage;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
-public class FluentAPIRootAPIContinueMethodGenerator {
+public class FluentAPIRootAPIContinueMethodGenerator implements IFluentAPIMethodGenerator {
 	// TODO Add documentation
 
 	private static final String continueMethodBodyTemplate =
@@ -102,5 +104,13 @@ public class FluentAPIRootAPIContinueMethodGenerator {
 				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
+	}
+
+	@Override
+	public Map<String, String> getMethodNamesToDescriptions() {
+		return Map.of(ModelConstants.FluentAPI.Continue.NAME.getEmpty(),
+				ModelConstants.FluentAPI.Continue.SUMMARY.get(),
+				ModelConstants.FluentAPI.ContinueMarked.NAME.getEmpty(),
+				ModelConstants.FluentAPI.ContinueMarked.SUMMARY.get());
 	}
 }

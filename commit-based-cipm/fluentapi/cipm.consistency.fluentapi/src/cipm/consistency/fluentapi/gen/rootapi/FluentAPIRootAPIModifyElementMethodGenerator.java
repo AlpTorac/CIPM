@@ -2,6 +2,7 @@ package cipm.consistency.fluentapi.gen.rootapi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
@@ -10,10 +11,11 @@ import org.eclipse.emf.ecore.EOperation;
 import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
-public class FluentAPIRootAPIModifyElementMethodGenerator {
+public class FluentAPIRootAPIModifyElementMethodGenerator implements IFluentAPIMethodGenerator {
 	// TODO Add documentation
 
 	private static final String modifyElementMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
@@ -60,7 +62,8 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 			EClass elemToInitECls, EClass initECls) {
 		var param = FluentAPIGeneralParameterGenerator.getEObjectParamOfType(elemToInitECls);
 		var op = FluentAPIGenerationUtil.generateEOperation(
-				ModelConstants.FluentAPI.Modify.NAME.getFor(StringUtils.capitalize(elemToInitECls.getName())), initECls);
+				ModelConstants.FluentAPI.Modify.NAME.getFor(StringUtils.capitalize(elemToInitECls.getName())),
+				initECls);
 		FluentAPIGenerationUtil.addBody(op, String.format(modifyElementMethodBodyTemplate,
 				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls)));
 		FluentAPIGenerationUtil.addEParameters(op, param);
@@ -87,5 +90,12 @@ public class FluentAPIRootAPIModifyElementMethodGenerator {
 						ModelConstants.FluentAPI.GetMarked.TOP_NAME.get()));
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
+	}
+
+	@Override
+	public Map<String, String> getMethodNamesToDescriptions() {
+		return Map.of(ModelConstants.FluentAPI.Modify.NAME.getEmpty(), ModelConstants.FluentAPI.Modify.SUMMARY.get(),
+				ModelConstants.FluentAPI.ModifyMarked.NAME.getEmpty(),
+				ModelConstants.FluentAPI.ModifyMarked.SUMMARY.get());
 	}
 }

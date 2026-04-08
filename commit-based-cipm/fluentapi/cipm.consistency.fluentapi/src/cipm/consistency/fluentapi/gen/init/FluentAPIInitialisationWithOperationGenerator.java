@@ -167,6 +167,18 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 
 	@Override
 	public Map<String, String> getMethodNamesToDescriptions() {
-		return Map.of();
+		return Map.of(ModelConstants.Initialiation.With.NAME.getEmpty(),
+				ModelConstants.Initialiation.With.SUMMARY.get(),
+
+				ModelConstants.Initialiation.Without.NAME.getEmpty(),
+				ModelConstants.Initialiation.Without.SUMMARY.get(),
+
+				ModelConstants.Initialiation.WithAdded.NAME.getEmpty(),
+				ModelConstants.Initialiation.WithAdded.SUMMARY.get(),
+
+				ModelConstants.Initialiation.WithRemoved.NAME.getEmpty(),
+				ModelConstants.Initialiation.WithRemoved.SUMMARY.get(),
+
+				ModelConstants.Initialiation.Clean.NAME.getEmpty(), ModelConstants.Initialiation.Clean.SUMMARY.get());
 	}
 }

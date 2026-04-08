@@ -73,6 +73,7 @@ public class FluentAPISuperInitialisationCreateNowMethodGenerator implements IFl
 
 	@Override
 	public Map<String, String> getMethodNamesToDescriptions() {
-		return Map.of();
+		return Map.of(ModelConstants.SuperInitialisation.CreateNow.NAME.get(),
+				ModelConstants.SuperInitialisation.CreateNow.SUMMARY.get());
 	}
 }

@@ -22,8 +22,8 @@ public class FluentAPIInitialisationNewElementOperationGenerator implements IFlu
 			"return this");
 
 	public EOperation getNewElementOperationFor(EClass initEClass, EClass elemToInit) {
-		var op = FluentAPIGenerationUtil.generateEOperation(
-				ModelConstants.SuperInitialisation.NewElement.NAME.get(), initEClass);
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.SuperInitialisation.NewElement.NAME.get(),
+				initEClass);
 		FluentAPIGenerationUtil.addBody(op, String.format(newElementMethodBodyTemplate,
 				elemToInit.getEPackage().getClass().getName(), EClass.class.getName(), elemToInit.getName()));
 		FluentAPIGenerationUtil.addDocumentation(op,
@@ -33,6 +33,7 @@ public class FluentAPIInitialisationNewElementOperationGenerator implements IFlu
 
 	@Override
 	public Map<String, String> getMethodNamesToDescriptions() {
-		return Map.of();
+		return Map.of(ModelConstants.Initialiation.NewElement.NAME.get(),
+				ModelConstants.Initialiation.NewElement.SUMMARY.get());
 	}
 }

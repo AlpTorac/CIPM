@@ -24,6 +24,7 @@ public class FluentAPISuperInitialisationToAPIMethodGenerator implements IFluent
 
 	@Override
 	public Map<String, String> getMethodNamesToDescriptions() {
-		return Map.of();
+		return Map.of(ModelConstants.SuperInitialisation.ToAPI.NAME.get(),
+				ModelConstants.SuperInitialisation.ToAPI.SUMMARY.get());
 	}
 }

@@ -2,17 +2,19 @@ package cipm.consistency.fluentapi.gen.rootapi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.eclipse.emf.ecore.EOperation;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
-public class FluentAPIRootAPIWithOperationGenerator {
+public class FluentAPIRootAPIWithOperationGenerator implements IFluentAPIMethodGenerator {
 	// TODO Add documentation
 
 	private static final String featureValModificationMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
@@ -105,5 +107,15 @@ public class FluentAPIRootAPIWithOperationGenerator {
 		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam);
 		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.CleanFeat.SUMMARY.get());
 		return op;
+	}
+
+	@Override
+	public Map<String, String> getMethodNamesToDescriptions() {
+		return Map.of(ModelConstants.FluentAPI.WithFeat.NAME.get(), ModelConstants.FluentAPI.WithFeat.SUMMARY.get(),
+				ModelConstants.FluentAPI.WithoutFeat.NAME.get(), ModelConstants.FluentAPI.WithoutFeat.SUMMARY.get(),
+				ModelConstants.FluentAPI.WithAddedFeat.NAME.get(), ModelConstants.FluentAPI.WithAddedFeat.SUMMARY.get(),
+				ModelConstants.FluentAPI.WithRemovedFeat.NAME.get(),
+				ModelConstants.FluentAPI.WithRemovedFeat.SUMMARY.get(), ModelConstants.FluentAPI.CleanFeat.NAME.get(),
+				ModelConstants.FluentAPI.CleanFeat.SUMMARY.get());
 	}
 }

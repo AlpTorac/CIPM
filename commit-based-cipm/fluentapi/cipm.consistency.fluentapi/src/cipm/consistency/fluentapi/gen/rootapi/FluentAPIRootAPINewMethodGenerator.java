@@ -2,6 +2,7 @@ package cipm.consistency.fluentapi.gen.rootapi;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.function.Function;
 
 import org.apache.commons.lang.StringUtils;
@@ -13,10 +14,11 @@ import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
-public class FluentAPIRootAPINewMethodGenerator {
+public class FluentAPIRootAPINewMethodGenerator implements IFluentAPIMethodGenerator {
 	// TODO Add documentation
 
 	private static final String newXMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
@@ -30,25 +32,25 @@ public class FluentAPIRootAPINewMethodGenerator {
 					.thisCall(ModelConstants.FluentAPI.New.CLASS_PARAMETER_NAME.get()));
 
 	// TODO Comment what the flags are for
-	
+
 	private static final String newXWithModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return (%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class"));
 
 	private static final String newXWithOnlyOneModifiableSingleValuedFeatsMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) ((%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class") + ")."
-					+ ModelConstants.Initialiation.With.NAME.get() + "("
+			.joinLOC("return (%s) ((%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class")
+					+ ")." + ModelConstants.Initialiation.With.NAME.get() + "("
 					+ ModelConstants.FluentAPI.New.FEATURE_VALUE_PARAMETER_NAME.get() + ")"
 					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	private static final String newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_singleValue = FluentAPIMethodsUtil
-			.joinLOC("return (%s) ((%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class") + ")."
-					+ ModelConstants.Initialiation.WithAdded.NAME.get() + "("
+			.joinLOC("return (%s) ((%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class")
+					+ ")." + ModelConstants.Initialiation.WithAdded.NAME.get() + "("
 					+ ModelConstants.FluentAPI.New.FEATURE_VALUE_PARAMETER_NAME.get() + ")"
 					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	private static final String newXWithoutModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) ((%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class") + ")"
-					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
+			.joinLOC("return (%s) ((%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class")
+					+ ")" + ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	public List<EOperation> getAllRootAPINewOperations(FluentAPIGenerationContext context) {
 		var eObjEClss = context.getTargetMetamodelPackageProvider().getAllTargetMetamodelConcreteEClasses();
@@ -99,8 +101,8 @@ public class FluentAPIRootAPINewMethodGenerator {
 		var classParamType = FluentAPIGenerationUtil
 				.generateEGenericTypeWithClassifier(EcorePackage.Literals.EJAVA_CLASS);
 		FluentAPIGenerationUtil.addTypeArgument(classParamType, FluentAPIGenerationUtil.generateWildcardTypeArgument());
-		var param = FluentAPIGenerationUtil
-				.generateSingleValuedEParameter(ModelConstants.FluentAPI.New.CLASS_PARAMETER_NAME.get(), classParamType);
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				ModelConstants.FluentAPI.New.CLASS_PARAMETER_NAME.get(), classParamType);
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.New.TOP_NAME.get(),
 				context.getInitSuperECls());
 		FluentAPIGenerationUtil.addBody(op, String.format(newXWithClassParamMethodBodyTemplate,
@@ -209,5 +211,10 @@ public class FluentAPIRootAPINewMethodGenerator {
 				ModelConstants.FluentAPI.New.FEATURE_VALUE_PARAMETER_NAME.get(), feat.getEType());
 		// TODO Add documentation
 		return param;
+	}
+
+	@Override
+	public Map<String, String> getMethodNamesToDescriptions() {
+		return Map.of(ModelConstants.FluentAPI.New.NAME.getEmpty(), ModelConstants.FluentAPI.New.SUMMARY.get());
 	}
 }

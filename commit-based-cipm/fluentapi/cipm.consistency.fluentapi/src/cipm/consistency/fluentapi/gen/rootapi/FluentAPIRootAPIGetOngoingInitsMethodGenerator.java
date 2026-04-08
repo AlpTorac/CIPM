@@ -1,14 +1,17 @@
 package cipm.consistency.fluentapi.gen.rootapi;
 
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EOperation;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIInitialisationStorage;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
-public class FluentAPIRootAPIGetOngoingInitsMethodGenerator {
+public class FluentAPIRootAPIGetOngoingInitsMethodGenerator implements IFluentAPIMethodGenerator {
 	private static final String getOngoingInitsMethodBody = FluentAPIMethodsUtil
 			// %s: Fully qualified super initialisation class name
 			.joinLOC("return " + FluentAPIInitialisationStorage.class.getName()
@@ -17,11 +20,18 @@ public class FluentAPIRootAPIGetOngoingInitsMethodGenerator {
 					+ ".toList())");
 
 	public EOperation generateGetOngoingInitsMethod(FluentAPIGenerationContext context) {
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.GetOngoingInitialisations.NAME.get(),
+		var op = FluentAPIGenerationUtil.generateEOperation(
+				ModelConstants.FluentAPI.GetOngoingInitialisations.NAME.get(),
 				FluentAPIGenerationUtil.generateEGenericTypeWithTypeArgument(context, java.util.List.class,
 						FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(context.getInitSuperECls())));
 		FluentAPIGenerationUtil.addBody(op, String.format(getOngoingInitsMethodBody,
 				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
 		return op;
+	}
+
+	@Override
+	public Map<String, String> getMethodNamesToDescriptions() {
+		return Map.of(ModelConstants.FluentAPI.GetOngoingInitialisations.NAME.get(),
+				ModelConstants.FluentAPI.GetOngoingInitialisations.SUMMARY.get());
 	}
 }

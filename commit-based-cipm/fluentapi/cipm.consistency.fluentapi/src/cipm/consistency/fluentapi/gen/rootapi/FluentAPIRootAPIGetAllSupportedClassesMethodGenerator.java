@@ -1,16 +1,21 @@
 package cipm.consistency.fluentapi.gen.rootapi;
 
+import java.util.Map;
+
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
-public class FluentAPIRootAPIGetAllSupportedClassesMethodGenerator {
+public class FluentAPIRootAPIGetAllSupportedClassesMethodGenerator implements IFluentAPIMethodGenerator {
 	// TODO Add documentation
 
+	// TODO Do not use ModelConstants here, since it cannot control the name of the
+	// method
 	private static final String getAllSupportedClassesMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return " + FluentEObjectAPIMethods.class.getName()
 					+ ModelConstants.FluentAPI.GetAllSupportedEClasses.NAME.call("this"));
@@ -32,5 +37,11 @@ public class FluentAPIRootAPIGetAllSupportedClassesMethodGenerator {
 		FluentAPIGenerationUtil.addBody(op, getAllSupportedClassesMethodBodyTemplate);
 
 		return op;
+	}
+
+	@Override
+	public Map<String, String> getMethodNamesToDescriptions() {
+		return Map.of(ModelConstants.FluentAPI.GetAllSupportedEClasses.NAME.get(),
+				ModelConstants.FluentAPI.GetAllSupportedEClasses.SUMMARY.get());
 	}
 }
