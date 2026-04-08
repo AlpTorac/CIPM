@@ -14,11 +14,8 @@ import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 public class FluentAPIRootAPIGetAllSupportedClassesMethodGenerator implements IFluentAPIMethodGenerator {
 	// TODO Add documentation
 
-	// TODO Do not use ModelConstants here, since it cannot control the name of the
-	// method
 	private static final String getAllSupportedClassesMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return " + FluentEObjectAPIMethods.class.getName()
-					+ ModelConstants.FluentAPI.GetAllSupportedEClasses.NAME.call("this"));
+			.joinLOC("return " + FluentEObjectAPIMethods.class.getName() + ".getAllSupportedEClasses(this)");
 
 	public EOperation generateGetAllSupportedClassesMethodGenerator() {
 		var javaClassType = FluentAPIGenerationUtil
