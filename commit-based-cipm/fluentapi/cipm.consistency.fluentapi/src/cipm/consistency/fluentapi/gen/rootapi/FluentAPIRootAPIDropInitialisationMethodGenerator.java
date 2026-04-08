@@ -26,6 +26,7 @@ public class FluentAPIRootAPIDropInitialisationMethodGenerator implements IFluen
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.DropInitialisation.NAME.get(),
 				context.getFluentAPIECls());
 		FluentAPIGenerationUtil.addBody(op, dropInitialisationMethodBody);
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.DropInitialisation.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
 	}

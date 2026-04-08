@@ -277,7 +277,7 @@ public class ModelConstants {
 			public static final IFluentAPITemplate CLASS_PARAMETER_NAME = new FluentAPIFixTemplate("eObjCls");
 			public static final IFluentAPITemplate FEATURE_VALUE_PARAMETER_NAME = new FluentAPIFixTemplate("featVal");
 
-			public static final IFluentAPIFillableTemplate SUMMARY = new FluentAPIFillableTemplate(
+			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
 					"Returns a matching " + ModelConstants.INITIALISATION_NAME_SUFFIX.get()
 							+ " instance, which can be used to create an element of a certain type from scratch");
 		}

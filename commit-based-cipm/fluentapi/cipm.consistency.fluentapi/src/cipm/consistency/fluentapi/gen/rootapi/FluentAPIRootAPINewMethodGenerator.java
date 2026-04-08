@@ -93,6 +93,7 @@ public class FluentAPIRootAPINewMethodGenerator implements IFluentAPIMethodGener
 				context.getInitSuperECls());
 		FluentAPIGenerationUtil.addBody(op, String.format(newXMethodBodyTemplate,
 				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.New.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
 	}
@@ -107,6 +108,7 @@ public class FluentAPIRootAPINewMethodGenerator implements IFluentAPIMethodGener
 				context.getInitSuperECls());
 		FluentAPIGenerationUtil.addBody(op, String.format(newXWithClassParamMethodBodyTemplate,
 				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.New.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
 	}
@@ -119,6 +121,7 @@ public class FluentAPIRootAPINewMethodGenerator implements IFluentAPIMethodGener
 				String.format(newXWithModifiableFeatsMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						eObjEClass.getInstanceClass().getName()));
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.New.SUMMARY.get());
 		return op;
 	}
 
@@ -156,6 +159,7 @@ public class FluentAPIRootAPINewMethodGenerator implements IFluentAPIMethodGener
 							FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 							eObjEClass.getInstanceClass().getName(),
 							StringUtils.capitalize(modifiableFeature.getName())));
+			FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.New.SUMMARY.get());
 			FluentAPIGenerationUtil.addEParameters(op, p);
 			return op;
 		};
@@ -190,6 +194,7 @@ public class FluentAPIRootAPINewMethodGenerator implements IFluentAPIMethodGener
 						eObjEClass.getInstanceClass().getName(),
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						eObjEClass.getInstanceClass().getName(), StringUtils.capitalize(modifiableFeature.getName())));
+		FluentAPIGenerationUtil.addDocumentation(listOp, ModelConstants.FluentAPI.New.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(listOp, featureValParam);
 		ops.add(listOp);
 
@@ -203,13 +208,13 @@ public class FluentAPIRootAPINewMethodGenerator implements IFluentAPIMethodGener
 				String.format(newXWithoutModifiableFeatsMethodBodyTemplate, eObjEClass.getInstanceClass().getName(),
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						eObjEClass.getInstanceClass().getName()));
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.New.SUMMARY.get());
 		return op;
 	}
 
 	private EParameter getSingleValuedFeatValParam(EStructuralFeature feat) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				ModelConstants.FluentAPI.New.FEATURE_VALUE_PARAMETER_NAME.get(), feat.getEType());
-		// TODO Add documentation
 		return param;
 	}
 

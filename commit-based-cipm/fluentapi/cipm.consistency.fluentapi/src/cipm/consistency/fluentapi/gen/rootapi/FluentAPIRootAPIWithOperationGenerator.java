@@ -112,10 +112,14 @@ public class FluentAPIRootAPIWithOperationGenerator implements IFluentAPIMethodG
 	@Override
 	public Map<String, String> getMethodNamesToDescriptions() {
 		return Map.of(ModelConstants.FluentAPI.WithFeat.NAME.get(), ModelConstants.FluentAPI.WithFeat.SUMMARY.get(),
+
 				ModelConstants.FluentAPI.WithoutFeat.NAME.get(), ModelConstants.FluentAPI.WithoutFeat.SUMMARY.get(),
+
 				ModelConstants.FluentAPI.WithAddedFeat.NAME.get(), ModelConstants.FluentAPI.WithAddedFeat.SUMMARY.get(),
+
 				ModelConstants.FluentAPI.WithRemovedFeat.NAME.get(),
-				ModelConstants.FluentAPI.WithRemovedFeat.SUMMARY.get(), ModelConstants.FluentAPI.CleanFeat.NAME.get(),
-				ModelConstants.FluentAPI.CleanFeat.SUMMARY.get());
+				ModelConstants.FluentAPI.WithRemovedFeat.SUMMARY.get(),
+
+				ModelConstants.FluentAPI.CleanFeat.NAME.get(), ModelConstants.FluentAPI.CleanFeat.SUMMARY.get());
 	}
 }

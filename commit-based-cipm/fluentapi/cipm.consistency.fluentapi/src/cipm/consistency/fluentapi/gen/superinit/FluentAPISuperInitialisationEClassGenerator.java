@@ -26,6 +26,8 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		currentElementReference.setUnsettable(true);
 		currentElementReference.setLowerBound(1);
 		currentElementReference.setUpperBound(1);
+		FluentAPIGenerationUtil.addDocumentation(currentElementReference,
+				ModelConstants.SuperInitialisation.CurrentElement.DOC.get());
 		return currentElementReference;
 	}
 
@@ -37,6 +39,7 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		rootAPIRef.setName(ModelConstants.SuperInitialisation.RootAPI.NAME.get());
 		rootAPIRef.setLowerBound(1);
 		rootAPIRef.setUpperBound(1);
+		FluentAPIGenerationUtil.addDocumentation(rootAPIRef, ModelConstants.SuperInitialisation.RootAPI.DOC.get());
 		return rootAPIRef;
 	}
 

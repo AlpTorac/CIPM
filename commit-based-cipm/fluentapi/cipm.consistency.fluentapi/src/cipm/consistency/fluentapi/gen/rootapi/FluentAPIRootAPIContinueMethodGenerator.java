@@ -70,6 +70,7 @@ public class FluentAPIRootAPIContinueMethodGenerator implements IFluentAPIMethod
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		FluentAPIGenerationUtil.addBody(op, String.format(continueMethodBodyTemplate,
 				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls()), param.getName()));
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.Continue.SUMMARY.get());
 		return op;
 	}
 
@@ -80,6 +81,7 @@ public class FluentAPIRootAPIContinueMethodGenerator implements IFluentAPIMethod
 		FluentAPIGenerationUtil.addBody(op,
 				String.format(continueMethodBodyTemplate, FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
 						elemToInit.getInstanceClass().getName() + ".class"));
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.Continue.SUMMARY.get());
 		return op;
 	}
 
@@ -92,6 +94,7 @@ public class FluentAPIRootAPIContinueMethodGenerator implements IFluentAPIMethod
 		FluentAPIGenerationUtil.addBody(op, String.format(continueMarkedMethodBodyTemplate,
 				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls)));
 		FluentAPIGenerationUtil.addEParameters(op, param);
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.ContinueMarked.SUMMARY.get());
 		return op;
 	}
 
@@ -102,6 +105,7 @@ public class FluentAPIRootAPIContinueMethodGenerator implements IFluentAPIMethod
 
 		FluentAPIGenerationUtil.addBody(op, String.format(continueMarkedMethodBodyTemplate,
 				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.ContinueMarked.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
 	}

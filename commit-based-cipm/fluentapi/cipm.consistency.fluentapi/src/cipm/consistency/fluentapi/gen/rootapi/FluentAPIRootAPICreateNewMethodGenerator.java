@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcorePackage;
@@ -52,6 +53,9 @@ public class FluentAPIRootAPICreateNewMethodGenerator implements IFluentAPIMetho
 				eObjEClass);
 		FluentAPIGenerationUtil.addBody(op, String.format(createNewXMethodBodyTemplate,
 				eObjEClass.getInstanceClass().getName(), eObjEClass.getInstanceClass().getName()));
+		FluentAPIGenerationUtil.addDocumentation(op,
+				ModelConstants.FluentAPI.CreateNew.SUMMARY.getFor(eObjEClass.getInstanceClass().getName(),
+						StringUtils.capitalize(eObjEClass.getInstanceClass().getName())));
 		return op;
 	}
 

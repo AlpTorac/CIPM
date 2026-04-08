@@ -91,6 +91,7 @@ public class FluentAPIRootAPIMarkMethodGenerator implements IFluentAPIMethodGene
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.GetMarked.TOP_NAME.get(),
 				EcorePackage.Literals.EOBJECT);
 		FluentAPIGenerationUtil.addBody(op, getMarkedMethodBody);
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.GetMarked.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
 	}
@@ -102,6 +103,7 @@ public class FluentAPIRootAPIMarkMethodGenerator implements IFluentAPIMethodGene
 				elemToInit);
 		FluentAPIGenerationUtil.addBody(op, String.format(getMarkedXMethodBodyTemplate,
 				elemToInit.getInstanceClass().getName(), elemToInit.getInstanceClass().getName()));
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.GetMarked.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
 	}

@@ -41,7 +41,7 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator implements IFlu
 
 		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationMethodBodyTemplate,
 				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls()), param.getName()));
-
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.GetInitialisationFor.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(op, param);
 
 		return op;
@@ -61,7 +61,7 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator implements IFlu
 
 		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationMethodBodyTemplate,
 				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls()), param.getName()));
-
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.GetInitialisationFor.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(op, param);
 
 		return op;
@@ -82,7 +82,7 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator implements IFlu
 
 		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationMethodBodyTemplate,
 				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls()), param.getName()));
-
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.GetInitialisationFor.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(op, param);
 
 		return op;
@@ -90,6 +90,7 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator implements IFlu
 
 	@Override
 	public Map<String, String> getMethodNamesToDescriptions() {
+		// Leave it empty, since this method is not intended to be used from outside
 		return Map.of();
 	}
 }

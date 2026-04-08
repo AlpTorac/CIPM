@@ -35,6 +35,7 @@ public class FluentAPIRootAPIGetAllSupportedClassesMethodGenerator implements IF
 				eListType);
 
 		FluentAPIGenerationUtil.addBody(op, getAllSupportedClassesMethodBodyTemplate);
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.GetAllSupportedEClasses.SUMMARY.get());
 
 		return op;
 	}
