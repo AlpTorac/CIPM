@@ -3,8 +3,13 @@ package cipm.consistency.fluentapi.gen;
 import org.apache.commons.lang.StringUtils;
 
 public interface IFluentAPIFeatureTemplate extends IFluentAPITemplate {
+	static final String THIS_PREFIX = "this.";
 	static final String GETTER_PREFIX = "get";
 	static final String SETTER_PREFIX = "set";
+
+	public default String inThis() {
+		return THIS_PREFIX + this.get();
+	}
 
 	public default String getter() {
 		return GETTER_PREFIX + StringUtils.capitalize(this.get());
