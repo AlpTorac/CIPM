@@ -21,7 +21,7 @@ import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationForEachOv
 import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationMultipleValueParameterSameMethodBodyOverloadPostProcessor;
 
 public class FluentJavaAPIBuilder {
-	private static final String fluentAPIEcoreModelDirName = "initModel";
+	private static final String fluentAPIEcoreModelDirName = "initModel/javaInitModel";
 	private static final File fluentAPIEcoreModelFile = new File(fluentAPIEcoreModelDirName).getAbsoluteFile();
 	private static final Path fluentAPIEcoreModelFilePath = fluentAPIEcoreModelFile.toPath()
 			.resolve("initialiserModels.ecore");
