@@ -13,8 +13,6 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIOnceExistsExtension;
 
 public class FluentAPIRootAPIOnceExistsMethodGenerator implements IFluentAPIMethodGenerator {
-	// TODO Add documentation
-
 	private static final String onceExistsMethodBody = FluentAPIMethodsUtil
 			.joinLOC(
 					FluentAPIOnceExistsExtension.class.getName() + ".addOnceExists("

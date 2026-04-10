@@ -15,16 +15,14 @@ import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
-/**
+/*
  * Separated from FluentAPIRootAPINewMethodGenerator, since the "createNewX"
  * methods cannot share their name with "newX" methods, due to Java limitations.
- * 
- * TODO Add commentary
  */
 public class FluentAPIRootAPICreateNewMethodGenerator implements IFluentAPIMethodGenerator {
-	// TODO Add documentation
-
 	private static final String createNewXMethodBodyTemplate = FluentAPIMethodsUtil
+			// %s: Fully qualified class name
+			// %s: Fully qualified class name
 			.joinLOC("return (%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class")
 					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 

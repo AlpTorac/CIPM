@@ -39,31 +39,36 @@ public class FluentAPISuperInitialisationCreateNowMethodGenerator implements IFl
 	}
 
 	private EOperation generateGenericCreateNowMethod(EClass elemToInit) {
-		// TODO Clean up
+		// Goal: <T> T createNow(Class<T> createNowMethodParamName)
 
-		// Goal: <T> T createNowMethodTypeParamName(Class<T> createNowMethodParamName)
-
-		var typeParam = FluentAPIGenerationUtil
+		// "<T>" in "<T> T createNow(...)"
+		var methodTypeParam = FluentAPIGenerationUtil
 				.generateETypeParameter(ModelConstants.SuperInitialisation.CreateNow.TYPE_PARAMETER_NAME.get());
 
 		// Make sure to create 2 generic types, one for the method parameter (Class<T>)
 		// and one for the return type of the method (T)
 
-		var genericParamTypeForJavaClass = FluentAPIGenerationUtil.generateEGenericTypeWithTypeParameter(typeParam);
+		// "T" in "...createNow(Class<T> createNowMethodParamName)"
+		var genericParamTypeForJavaClass = FluentAPIGenerationUtil
+				.generateEGenericTypeWithTypeParameter(methodTypeParam);
 
+		// "Class<T>" in "...createNow(Class<T> createNowMethodParamName)"
 		var genericClassType = FluentAPIGenerationUtil
 				.generateEGenericTypeWithClassifier(EcorePackage.Literals.EJAVA_CLASS);
 		FluentAPIGenerationUtil.addTypeArgument(genericClassType, genericParamTypeForJavaClass);
 
-		var genericParamTypeForOp = FluentAPIGenerationUtil.generateEGenericTypeWithTypeParameter(typeParam);
+		// "T" in "... T createNow(...)"
+		var genericParamTypeForOp = FluentAPIGenerationUtil.generateEGenericTypeWithTypeParameter(methodTypeParam);
 
+		// "Class<T> createNowMethodParamName" in "...createNow(Class<T>
+		// createNowMethodParamName)"
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				ModelConstants.SuperInitialisation.CreateNow.CLASS_PARAMETER_NAME.get(), genericClassType);
 
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.SuperInitialisation.CreateNow.NAME.get(),
 				genericParamTypeForOp);
-		FluentAPIGenerationUtil.addBody(op, String.format(createNowMethodBodyTemplate, typeParam.getName()));
-		FluentAPIGenerationUtil.addTypeParameters(op, typeParam);
+		FluentAPIGenerationUtil.addBody(op, String.format(createNowMethodBodyTemplate, methodTypeParam.getName()));
+		FluentAPIGenerationUtil.addTypeParameters(op, methodTypeParam);
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		FluentAPIGenerationUtil.addDocumentation(op,
 				ModelConstants.SuperInitialisation.CreateNow.CLASS_PARAMETER_DOC.get());

@@ -17,8 +17,6 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
 public class FluentAPIRootAPIGetInitialisationForMethodGenerator implements IFluentAPIMethodGenerator {
-	// TODO Add documentation
-
 	private static final String getInitialisationMethodBodyTemplate = FluentAPIMethodsUtil
 			// %s: Initialisation class
 			// %s: EClass / class / EObject parameter name

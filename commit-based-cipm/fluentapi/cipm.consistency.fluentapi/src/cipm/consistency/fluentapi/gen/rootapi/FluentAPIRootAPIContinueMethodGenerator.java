@@ -19,8 +19,6 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
 public class FluentAPIRootAPIContinueMethodGenerator implements IFluentAPIMethodGenerator {
-	// TODO Add documentation
-
 	private static final String continueMethodBodyTemplate =
 			// %s: Full Initialisation class name
 			// %s: Initialised element class (statically, i.e. either via method parameter

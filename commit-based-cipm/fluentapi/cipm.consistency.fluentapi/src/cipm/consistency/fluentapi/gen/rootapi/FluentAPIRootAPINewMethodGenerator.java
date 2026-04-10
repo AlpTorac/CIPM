@@ -19,8 +19,6 @@ import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIRootAPINewMethodGenerator implements IFluentAPIMethodGenerator {
-	// TODO Add documentation
-
 	private static final String newXMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Fully qualified Initialisation super type class name
 			"return (%s)" + ModelConstants.FluentAPI.GetInitialisationFor.NAME

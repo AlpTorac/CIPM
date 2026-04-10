@@ -23,8 +23,6 @@ import cipm.consistency.fluentapi.gen.ModelConstants;
  * @author Alp Torac Genc
  */
 public class FluentAPIRootAPIEClassGenerator {
-	// TODO Add documentation
-
 	private static final Map<String, String> summaries = new LinkedHashMap<>();
 
 	public EClass generateRootAPIEClass(FluentAPIGenerationContext context) {

@@ -16,8 +16,6 @@ import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIRootAPIModifyElementMethodGenerator implements IFluentAPIMethodGenerator {
-	// TODO Add documentation
-
 	private static final String modifyElementMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Initialisation class name
 			"return (%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME

@@ -15,8 +15,6 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
 public class FluentAPIRootAPIWithOperationGenerator implements IFluentAPIMethodGenerator {
-	// TODO Add documentation
-
 	private static final String featureValModificationMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Corresponding method's name in FluentEObjectAPIMethods
 			FluentEObjectAPIMethods.class.getName() + ".%s(this, "

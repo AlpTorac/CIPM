@@ -13,8 +13,6 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIInitialisationStorage;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIRootAPIDropInitialisationMethodGenerator implements IFluentAPIMethodGenerator {
-	// TODO Add documentation
-
 	private static final String dropInitialisationMethodBody = FluentAPIMethodsUtil.joinLOC(
 			FluentAPIInitialisationStorage.class.getName() + ".dropOngoingInitialisation("
 					+ ModelConstants.FluentAPI.DropInitialisation.INITIALISATION_PARAMETER_NAME.get() + ")",

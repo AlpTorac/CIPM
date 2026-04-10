@@ -18,9 +18,24 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 import cipm.consistency.fluentapi.gen.ModelConstants;
 
+/**
+ * Contains static methods that are used from within the generated fluent API.
+ * Since fluent API generation strives to be metamodel independent, the use of
+ * dynamic EMF and EMF-Reflection become a necessity, which allow navigating the
+ * contents of EMF model elements at runtime. Furthermore, using static methods
+ * to encapsulate messy or complicated operations reduces the amount of
+ * generated code.
+ * 
+ * @author Alp Torac Genc
+ */
 public final class FluentEObjectAPIMethods {
-	// TODO Add commentary
-
+	/**
+	 * Invokes the method using EMF-Reflection, which sets
+	 * {@code objToModify.feat = featVal}. Only usable on changeable single-valued
+	 * features (feat) in objToModify, for featVal of a supported type.
+	 * 
+	 * @return api
+	 */
 	public static EObject xWithFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
 		var init = getInitialisationForX(api, objToModify);
 
@@ -36,6 +51,13 @@ public final class FluentEObjectAPIMethods {
 		return api;
 	}
 
+	/**
+	 * Invokes the method using EMF-Reflection, which unsets
+	 * {@code objToModify.feat = null}. Only usable on changeable single-valued
+	 * features (feat) in objToModify.
+	 * 
+	 * @return api
+	 */
 	public static EObject xWithoutFeat(EObject api, EObject objToModify, EStructuralFeature feat) {
 		var init = getInitialisationForX(api, objToModify);
 		var opName = ModelConstants.Initialiation.Without.NAME.getFor(StringUtils.capitalize(feat.getName()));
@@ -50,6 +72,13 @@ public final class FluentEObjectAPIMethods {
 		return api;
 	}
 
+	/**
+	 * Invokes the method using EMF-Reflection, which sets
+	 * {@code objToModify.feat = [null]}. Only usable on changeable many-valued
+	 * features (feat) in objToModify.
+	 * 
+	 * @return api
+	 */
 	public static EObject xCleanFeat(EObject api, EObject objToModify, EStructuralFeature feat) {
 		var init = getInitialisationForX(api, objToModify);
 		var opName = ModelConstants.Initialiation.Clean.NAME.getFor(StringUtils.capitalize(feat.getName()));
@@ -107,6 +136,13 @@ public final class FluentEObjectAPIMethods {
 		}
 	}
 
+	/**
+	 * Invokes the method using EMF-Reflection, which adds
+	 * {@code objToModify.feat += featVal}. Only usable on changeable many-valued
+	 * features (feat) in objToModify, for featVal of a supported type.
+	 * 
+	 * @return api
+	 */
 	public static EObject xWithAddedFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
 		var init = getInitialisationForX(api, objToModify);
 		var opName = ModelConstants.Initialiation.WithAdded.NAME.getFor(StringUtils.capitalize(feat.getName()));
@@ -125,6 +161,13 @@ public final class FluentEObjectAPIMethods {
 		return api;
 	}
 
+	/**
+	 * Invokes the method using EMF-Reflection, which adds
+	 * {@code objToModify.feat -= featVal}. Only usable on changeable many-valued
+	 * features (feat) in objToModify, for featVal of a supported type.
+	 * 
+	 * @return api
+	 */
 	public static EObject xWithRemovedFeat(EObject api, EObject objToModify, EStructuralFeature feat, Object featVal) {
 		var init = getInitialisationForX(api, objToModify);
 		var opName = ModelConstants.Initialiation.WithRemoved.NAME.getFor(StringUtils.capitalize(feat.getName()));
@@ -142,16 +185,15 @@ public final class FluentEObjectAPIMethods {
 		return api;
 	}
 
+	/**
+	 * @return A list of all EClasses that the given api instance supports the
+	 *         creation / modification of.
+	 */
 	@SuppressWarnings("unchecked")
-	public static EList<Class<? extends EObject>> getAllSupportedEClasses(EObject me) {
+	public static EList<Class<? extends EObject>> getAllSupportedEClasses(EObject api) {
 		var result = new BasicEList<Class<? extends EObject>>();
-//		getInits(me).stream()
-//				.map((c) -> c.getEOperations().stream()
-//						.filter((op) -> op.getName().equals(FluentAPICreateNowMethodGenerator.getCreateNowMethodName()))
-//						.findFirst().get().getEType())
-//				.map((c) -> (EClass) c).forEach((c) -> result.add(c));
 
-		var initsPac = me.eClass().getEPackage().getESubpackages().stream()
+		var initsPac = api.eClass().getEPackage().getESubpackages().stream()
 				.filter((pac) -> pac.getName().equals(ModelConstants.INITIALISATIONS_PACKAGE_NAME.get())).findFirst()
 				.get();
 
@@ -167,20 +209,17 @@ public final class FluentEObjectAPIMethods {
 				e.printStackTrace();
 				throw new IllegalStateException(e);
 			}
-		}).map((met) -> (Class<? extends EObject>) met.getReturnType())
-
-//				.map((eCls) -> eCls.getEOperations().stream()
-//						.filter((op) -> op.getName().equals(FluentAPICreateNowMethodGenerator.getCreateNowMethodName()))
-//						.findFirst().get().getEType())
-//				.map((returnType) -> (EClass) returnType)
-
-				.forEach(result::add);
+		}).map((met) -> (Class<? extends EObject>) met.getReturnType()).forEach(result::add);
 
 		return result;
 	}
 
-	public static EObject getInitialisationInstanceForX(EObject me, Class<?> eobjCls) {
-		var initsPac = me.eClass().getEPackage().getESubpackages().stream()
+	/**
+	 * @return An initialisation instance for the given class eobjCls, which can be
+	 *         used to create / modify an instance of that type
+	 */
+	public static EObject getInitialisationInstanceForX(EObject api, Class<?> eobjCls) {
+		var initsPac = api.eClass().getEPackage().getESubpackages().stream()
 				.filter((pac) -> pac.getName().equals(ModelConstants.INITIALISATIONS_PACKAGE_NAME.get())).findFirst()
 				.get();
 
@@ -189,13 +228,17 @@ public final class FluentEObjectAPIMethods {
 		var initInstance = initEClass.getEPackage().getEFactoryInstance().create(initEClass);
 		initInstance.eSet(
 				initInstance.eClass().getEStructuralFeature(ModelConstants.SuperInitialisation.RootAPI.NAME.get()),
-				me);
+				api);
 		FluentAPIInitialisationStorage.addOngoingInitialisation(initInstance);
 		return initInstance;
 	}
 
-	public static EObject getInitialisationInstanceForXWithNewElement(EObject me, Class<?> eobjCls) {
-		var initInstance = getInitialisationInstanceForX(me, eobjCls);
+	/**
+	 * @return An initialisation instance for the given class eobjCls, which can be
+	 *         used to create / modify an instance of that type
+	 */
+	public static EObject getInitialisationInstanceForXWithNewElement(EObject api, Class<?> eobjCls) {
+		var initInstance = getInitialisationInstanceForX(api, eobjCls);
 		var newElemOp = initInstance.eClass().getEOperations().stream()
 				.filter((op) -> op.getName().equals(ModelConstants.Initialiation.NewElement.NAME.get())).findFirst()
 				.get();
@@ -207,16 +250,28 @@ public final class FluentEObjectAPIMethods {
 		return initInstance;
 	}
 
-	public static EObject getInitialisationForX(EObject me, EClass eCls) {
-		return getInitialisationForX(me, eCls.getInstanceClass());
+	/**
+	 * @return An initialisation instance for the given EClass eCls, which can be
+	 *         used to create / modify an instance of that type
+	 */
+	public static EObject getInitialisationForX(EObject api, EClass eCls) {
+		return getInitialisationForX(api, eCls.getInstanceClass());
 	}
 
-	public static EObject getInitialisationForX(EObject me, Class<?> eobjCls) {
-		return getInitialisationInstanceForXWithNewElement(me, eobjCls);
+	/**
+	 * @return An initialisation instance for the given class eobjCls, which can be
+	 *         used to create / modify an instance of that type
+	 */
+	public static EObject getInitialisationForX(EObject api, Class<?> eobjCls) {
+		return getInitialisationInstanceForXWithNewElement(api, eobjCls);
 	}
 
-	public static EObject getInitialisationForX(EObject me, EObject eobjToInit) {
-		var initInstance = getInitialisationInstanceForX(me, eobjToInit.eClass().getInstanceClass());
+	/**
+	 * @return An initialisation instance for the given EObject eobjToInit, which
+	 *         can be used to create / modify an instance of that type
+	 */
+	public static EObject getInitialisationForX(EObject api, EObject eobjToInit) {
+		var initInstance = getInitialisationInstanceForX(api, eobjToInit.eClass().getInstanceClass());
 
 		initInstance.eSet(initInstance.eClass()
 				.getEStructuralFeature(ModelConstants.SuperInitialisation.CurrentElement.NAME.get()), eobjToInit);
@@ -224,12 +279,20 @@ public final class FluentEObjectAPIMethods {
 		return initInstance;
 	}
 
+	/**
+	 * @return Whether the given initialisation EClass initECls can be used on an
+	 *         instance of the given type eobjCls
+	 */
 	public static boolean isInitialisationFor(EClass initECls, Class<?> eobjCls) {
 		return !initECls.isAbstract() && initECls.getName()
 				.substring(0, initECls.getName().length() - ModelConstants.INITIALISATION_NAME_SUFFIX.get().length())
 				.equals(eobjCls.getSimpleName());
 	}
 
+	/**
+	 * @return The most recent unfinished initialisation instance for the given
+	 *         class eobjCls present under {@link FluentAPIInitialisationStorage}
+	 */
 	public static EObject continueElement(Class<?> eobjCls) {
 		var initsOfMatchingType = FluentAPIInitialisationStorage.getOngoingInitialisations().stream()
 				.filter((i) -> isInitialisationFor(i.eClass(), eobjCls))

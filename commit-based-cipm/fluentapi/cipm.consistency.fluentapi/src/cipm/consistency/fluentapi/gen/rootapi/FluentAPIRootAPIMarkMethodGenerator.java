@@ -18,8 +18,6 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIMarkExtension;
 
 public class FluentAPIRootAPIMarkMethodGenerator implements IFluentAPIMethodGenerator {
-	// TODO Add documentation
-
 	private static final String unmarkMethodBody = FluentAPIMethodsUtil.joinLOC(FluentAPIMarkExtension.class.getName()
 			+ ".unmark(" + ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get() + ")", "return this");
 
