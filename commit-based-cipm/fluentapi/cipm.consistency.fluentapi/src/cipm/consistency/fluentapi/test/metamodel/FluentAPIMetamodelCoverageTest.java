@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
@@ -25,7 +25,7 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void concreteElementCoverageTest_API_NewX() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
 		for (var eCls : allConcreteEClss) {
 			Assertions.assertInstanceOf(eCls.getInstanceClass(), api.newX(eCls).createNow());
@@ -39,7 +39,7 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void concreteElementCoverageTest_API_CreateNewX() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
 		for (var eCls : allConcreteEClss) {
 			Assertions.assertInstanceOf(eCls.getInstanceClass(), api.createNewX(eCls.getInstanceClass()));
@@ -54,7 +54,7 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void concreteElementCoverageTest_API_XInitialisationExistence() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
 		for (var eCls : allConcreteEClss) {
 			var initViaClass = api.getInitialisationForX(eCls.getInstanceClass());
@@ -75,7 +75,7 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void concreteElementCoverageTest_API_ModifyX() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
 		for (var eCls : allConcreteEClss) {
 			var init = api.newX(eCls);
@@ -91,7 +91,7 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void concreteElementCoverageTest_API_ContinueX() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
 		for (var eCls : allConcreteEClss) {
 			var init = api.newX(eCls);
@@ -105,7 +105,7 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void concreteElementCoverageTest_API_xFeature() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
 		for (var eCls : allConcreteEClss) {
 			var instance = (EObject) api.createNewX(eCls.getInstanceClass());
@@ -134,7 +134,7 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void concreteElementCoverageTest_API_Mark() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
 		for (var eCls : allConcreteEClss) {
 			var keyAPI = new Object();
@@ -162,7 +162,7 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void concreteElementCoverageTest_API_ModifyMarkedX() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
 		for (var eCls : allConcreteEClss) {
 			var keyAPI = new Object();
@@ -184,7 +184,7 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void concreteElementCoverageTest_API_ContinueMarkedX() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
 		for (var eCls : allConcreteEClss) {
 			var keyAPI = new Object();
@@ -204,7 +204,7 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void concreteElementCoverageTest_SuperInit_xFeature() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
 		for (var eCls : allConcreteEClss) {
 			var instance = (EObject) api.createNewX(eCls.getInstanceClass());
@@ -233,7 +233,7 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void concreteElementCoverageTest_SuperInit_MarkX() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var allConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
 		for (var eCls : allConcreteEClss) {
 			var keySuperInit = new Object();

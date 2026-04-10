@@ -16,7 +16,7 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
@@ -73,7 +73,7 @@ public class FluentAPIInitialisationGenerationTest extends AbstractFluentAPITest
 
 	@BeforeAll
 	public static void setUpBeforeAll() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		FluentAPIGenerationTestSettings.setAPI(api);
 		FluentAPIGenerationTestSettings.setElemEClsToInitEClsFunc((eCls) -> api.getInitialisationForX(eCls).eClass());
 		FluentAPIGenerationTestSettings.setFeatureFilter(new FluentAPIJavaMetamodelFeatureFilter());

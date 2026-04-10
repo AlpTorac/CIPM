@@ -23,14 +23,7 @@ Require-Bundle: junit-jupiter-api,
  de.uka.ipd.sdq.identifier;visibility:=reexport,
  de.uka.ipd.sdq.probfunction;visibility:=reexport
 Bundle-ActivationPolicy: lazy
-Export-Package: cipm.consistency.fluentapi.api.java,
- cipm.consistency.fluentapi.api.java.impl,
- cipm.consistency.fluentapi.api.java.inits,
- cipm.consistency.fluentapi.api.java.inits.impl,
- cipm.consistency.fluentapi.api.java.inits.util,
- cipm.consistency.fluentapi.api.java.placeholderTypes,
- cipm.consistency.fluentapi.api.java.placeholderTypes.impl,
- cipm.consistency.fluentapi.api.java.util,
+Export-Package: 
  cipm.consistency.fluentapi.gen,
  cipm.consistency.fluentapi.java.api,
  cipm.consistency.fluentapi.java.api.impl,
@@ -48,3 +41,4 @@ Export-Package: cipm.consistency.fluentapi.api.java,
  cipm.consistency.fluentapi.pcm.api.placeholderTypes,
  cipm.consistency.fluentapi.pcm.api.placeholderTypes.impl,
  cipm.consistency.fluentapi.pcm.api.util
+
