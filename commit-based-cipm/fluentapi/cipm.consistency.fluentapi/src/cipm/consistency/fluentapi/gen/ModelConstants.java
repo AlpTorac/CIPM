@@ -26,12 +26,6 @@ public class ModelConstants {
 
 	public static final IFluentAPITemplate INITIALISATIONS_PACKAGE_NAME = new FluentAPIFixTemplate("inits");
 
-	/**
-	 * %s: Metamodel name (lower case) TODO Remove if unused
-	 */
-	public static final IFluentAPIFillableTemplate INITIALISATIONS_PACKAGE_URI = new FluentAPIFillableTemplate(
-			ROOT_PACKAGE_URI.get() + "/" + INITIALISATIONS_PACKAGE_NAME.get());
-
 	public static final IFluentAPITemplate PLACEHOLDER = new FluentAPIFixTemplate("x");
 	public static final IFluentAPITemplate GEN_MODEL_SOURCE_URL = new FluentAPIFixTemplate(
 			"http://www.eclipse.org/emf/2002/GenModel");
