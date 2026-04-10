@@ -5,12 +5,12 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 
 public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 	@Test
 	public void withTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var name = "cuName";
 		var cu = api.newCompilationUnit().withName(name).createNow();
 		Assertions.assertEquals(name, cu.getName());
@@ -18,7 +18,7 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withoutTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var name = "cuName";
 		var cu = api.newCompilationUnit().withName(name).withoutName().createNow();
 		Assertions.assertNull(cu.getName());
@@ -26,7 +26,7 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withRemovedTest_SingleValue() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var ns1 = "ns1";
 		var ns2 = "ns2";
@@ -43,7 +43,7 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withRemovedTest_AsArray() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var ns1 = "ns1";
 		var ns2 = "ns2";
@@ -59,7 +59,7 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withRemovedTest_AsEList() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var ns1 = "ns1";
 		var ns2 = "ns2";
@@ -75,7 +75,7 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withRemovedTest_AsCollection() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var ns1 = "ns1";
 		var ns2 = "ns2";
@@ -91,7 +91,7 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void cleanTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var ns1 = "ns1";
 		var ns2 = "ns2";
@@ -105,7 +105,7 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withAddedTest_SingleVal() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var ns = "ns";
 		var cu = api.newCompilationUnit().withAddedNamespaces(ns).createNow();
 		Assertions.assertEquals(1, cu.getNamespaces().size());
@@ -114,7 +114,7 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withAddedTest_AsArray() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var nss = new String[] { "ns1", "ns2" };
 		var cu = api.newCompilationUnit().withAddedNamespaces(nss).createNow();
 		Assertions.assertArrayEquals(nss, cu.getNamespaces().toArray(String[]::new));
@@ -122,7 +122,7 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withAddedTest_AsEList() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var nss = FluentAPITestUtils.toEList("ns1", "ns2");
 		var cu = api.newCompilationUnit().withAddedNamespaces(nss).createNow();
 		Assertions.assertArrayEquals(nss.toArray(String[]::new), cu.getNamespaces().toArray(String[]::new));
@@ -130,7 +130,7 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withAddedTest_AsCollection() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var nss = List.of("ns1", "ns2");
 		var cu = api.newCompilationUnit().withAddedNamespaces(nss).createNow();
 		Assertions.assertArrayEquals(nss.toArray(String[]::new), cu.getNamespaces().toArray(String[]::new));

@@ -3,7 +3,7 @@ package cipm.consistency.fluentapi.test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 
 /**
  * Tests the construction of models, where model elements of the same type are
@@ -24,7 +24,7 @@ public class FluentAPIContainmentTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void testNesting() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var innerClsName = "inner";
 		var outerClsName = "outer";
@@ -53,7 +53,7 @@ public class FluentAPIContainmentTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void testNestingAndReferencing() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var outerClsName = "outer";
 		var innerClsName = "inner";
@@ -86,7 +86,7 @@ public class FluentAPIContainmentTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void testTwoContainmentFeaturesWithSameType() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var arrDimBefore = api.newArrayDimension().createNow();
 		var arrDimAfter = api.newArrayDimension().createNow();

@@ -5,7 +5,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIInitialisationStorage;
 
 public class FluentAPIInitialisationStorageTest extends AbstractFluentAPITest {
@@ -106,7 +106,7 @@ public class FluentAPIInitialisationStorageTest extends AbstractFluentAPITest {
 
 	@Test
 	public void testOngoingInits_SingleAPI_SingleOngoingInitialisation() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		Assertions.assertEquals(0, FluentAPIInitialisationStorage.getOngoingInitialisations().size());
 
@@ -118,7 +118,7 @@ public class FluentAPIInitialisationStorageTest extends AbstractFluentAPITest {
 
 	@Test
 	public void testOngoingInits_SingleAPI_MultipleOngoingInitialisations() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		Assertions.assertEquals(0, FluentAPIInitialisationStorage.getOngoingInitialisations().size());
 
@@ -132,7 +132,7 @@ public class FluentAPIInitialisationStorageTest extends AbstractFluentAPITest {
 
 	@Test
 	public void testOngoingInits_MultipleAPIs_MultipleOngoingInitialisations() {
-		var apiOne = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var apiOne = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		Assertions.assertEquals(0, FluentAPIInitialisationStorage.getOngoingInitialisations().size());
 
@@ -141,7 +141,7 @@ public class FluentAPIInitialisationStorageTest extends AbstractFluentAPITest {
 		Assertions.assertEquals(1, FluentAPIInitialisationStorage.getOngoingInitialisations().size());
 		Assertions.assertTrue(FluentAPIInitialisationStorage.getOngoingInitialisations().contains(initOne));
 
-		var apiTwo = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var apiTwo = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var initTwo = apiTwo.newClass();
 
 		Assertions.assertEquals(2, FluentAPIInitialisationStorage.getOngoingInitialisations().size());

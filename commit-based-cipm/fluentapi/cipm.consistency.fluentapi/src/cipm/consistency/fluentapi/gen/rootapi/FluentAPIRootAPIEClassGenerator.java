@@ -3,6 +3,7 @@ package cipm.consistency.fluentapi.gen.rootapi;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EcoreFactory;
 
@@ -26,11 +27,12 @@ public class FluentAPIRootAPIEClassGenerator {
 
 	private static final Map<String, String> summaries = new LinkedHashMap<>();
 
-	public EClass generateRootAPIEClass() {
+	public EClass generateRootAPIEClass(FluentAPIGenerationContext context) {
 		var fluentAPIECls = EcoreFactory.eINSTANCE.createEClass();
 		fluentAPIECls.setAbstract(false);
 		fluentAPIECls.setInterface(false);
-		fluentAPIECls.setName(ModelConstants.FluentAPI.CLASS_NAME.get());
+		fluentAPIECls.setName(ModelConstants.FluentAPI.CLASS_NAME
+				.getFor(StringUtils.capitalize(context.getTargetMetamodelPackageProvider().getTargetMetamodelName())));
 		return fluentAPIECls;
 	}
 

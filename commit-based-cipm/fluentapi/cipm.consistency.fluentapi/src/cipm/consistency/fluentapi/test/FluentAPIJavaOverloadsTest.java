@@ -4,12 +4,12 @@ import org.emftext.language.java.classifiers.Classifier;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 
 public class FluentAPIJavaOverloadsTest extends AbstractFluentAPITest {
 	@Test
 	public void withTypeReferenceOverloadTest_SingleValued() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var cls = api.createNewClass();
 
@@ -19,7 +19,7 @@ public class FluentAPIJavaOverloadsTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withTypeReferenceOverloadTest_ManyValued() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var clsOne = api.createNewClass();
 		var clsTwo = api.createNewClass();

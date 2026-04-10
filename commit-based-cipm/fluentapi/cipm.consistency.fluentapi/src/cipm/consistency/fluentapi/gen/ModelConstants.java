@@ -14,29 +14,20 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ModelConstants {
 	/**
-	 * TODO %s: Metamodel name (small case)
-	 * 
-	 * TODO Change to "http://www.cipmfluentapi.com/%s" after refactoring
-	 * 
+	 * %s: Metamodel name (lower case)
 	 */
 	public static final IFluentAPIFillableTemplate ROOT_PACKAGE_URI = new FluentAPIFillableTemplate(
-			"http://www.cipmfluentapi.com/java");
+			"http://www.cipmfluentapi.com/%s");
 	/**
-	 * TODO %s: Metamodel name (small case)
-	 * 
-	 * TODO Change to "cipm.consistency.fluentapi.api.%s" after refactoring
+	 * %s: Metamodel name (lower case)
 	 */
 	public static final IFluentAPIFillableTemplate ROOT_PACKAGE_NAME = new FluentAPIFillableTemplate(
-			"cipm.consistency.fluentapi.api");
+			"cipm.consistency.fluentapi.%s.api");
+
+	public static final IFluentAPITemplate INITIALISATIONS_PACKAGE_NAME = new FluentAPIFixTemplate("inits");
 
 	/**
-	 * TODO %s: Metamodel name (small case)
-	 */
-	public static final IFluentAPIFillableTemplate INITIALISATIONS_PACKAGE_NAME = new FluentAPIFillableTemplate(
-			"inits");
-
-	/**
-	 * TODO %s: Metamodel name (small case)
+	 * %s: Metamodel name (lower case) TODO Remove if unused
 	 */
 	public static final IFluentAPIFillableTemplate INITIALISATIONS_PACKAGE_URI = new FluentAPIFillableTemplate(
 			ROOT_PACKAGE_URI.get() + "/" + INITIALISATIONS_PACKAGE_NAME.get());
@@ -93,14 +84,12 @@ public class ModelConstants {
 
 	public static class FluentAPI {
 		/**
-		 * TODO %s: Metamodel name (capitalised)
-		 * 
-		 * TODO Change to "Fluent%sAPI"
+		 * %s: Metamodel name (capitalised)
 		 */
-		public static final IFluentAPITemplate CLASS_NAME = new FluentAPIFixTemplate("FluentEObjectAPI");
+		public static final IFluentAPIFillableTemplate CLASS_NAME = new FluentAPIFillableTemplate("Fluent%sAPI");
 
 		public static final IFluentAPIFillableTemplate CLASS_DOC = new FluentAPIFillableTemplate("<p>"
-				+ ModelConstants.FluentAPI.CLASS_NAME.get()
+				+ ModelConstants.FluentAPI.CLASS_NAME.getEmpty()
 				+ " is at the center of the fluent API and enables creation of EObject sub-types within the EMF-based metamodel MM this API targets. To this end, this class offers various methods that lead to underlying "
 				+ ModelConstants.INITIALISATION_NAME_SUFFIX.get()
 				+ " classes, each being responsible for a concrete element from MM. For more information on what individual EObject sub-types and their features represent, refer to MM's documentation."
@@ -180,7 +169,7 @@ public class ModelConstants {
 			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(
 					getMethodName(GetAllSupportedEClasses.class));
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
-					"Returns a list of all EClasses that this " + ModelConstants.FluentAPI.CLASS_NAME.get()
+					"Returns a list of all EClasses that this " + ModelConstants.FluentAPI.CLASS_NAME.getEmpty()
 							+ " instance supports");
 		}
 
@@ -285,7 +274,7 @@ public class ModelConstants {
 			public static final IFluentAPITemplate DOC = new FluentAPIFixTemplate(
 					"Allows specifying model construction steps as a "
 							+ ModelConstants.GeneralParameters.ONCE_EXISTS_TASK_CLASS.getSimpleName()
-							+ " instance, which this " + ModelConstants.FluentAPI.CLASS_NAME.get()
+							+ " instance, which this " + ModelConstants.FluentAPI.CLASS_NAME.getEmpty()
 							+ " will execute after the given "
 							+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()
 							+ "(s) have been used to mark objects. This method enables preserving the flow of model construction by enabling the specification of construction steps on objects that may not yet exist. The main purpose of this method is to facilitate model constructions, where dependencies between model elements either forcefully require bottom-up approaches or require mixing the construction of several model elements, which depend on one another (especially circular dependencies).");
@@ -350,7 +339,7 @@ public class ModelConstants {
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
 					"Returns an unmodifiable list of all ongoing " + ModelConstants.INITIALISATION_NAME_SUFFIX.get()
 							+ ", i.e. all non-finished element constructions. Note that all "
-							+ ModelConstants.FluentAPI.CLASS_NAME.get()
+							+ ModelConstants.FluentAPI.CLASS_NAME.getEmpty()
 							+ " instances have access to the same list of ongoing "
 							+ ModelConstants.INITIALISATION_NAME_SUFFIX.get());
 		}
@@ -367,11 +356,6 @@ public class ModelConstants {
 	}
 
 	public static class SuperInitialisation {
-		/**
-		 * %s: Metamodel name (capitalised)
-		 * 
-		 * TODO Change to "Fluent%sAPISuperInitialisation"
-		 */
 		public static final IFluentAPITemplate CLASS_NAME = new FluentAPIFixTemplate("FluentAPISuperInitialisation");
 
 		public static final IFluentAPIFillableTemplate CLASS_DOC = new FluentAPIFillableTemplate("The top-most "
@@ -384,7 +368,7 @@ public class ModelConstants {
 			public static final IFluentAPIFeatureTemplate NAME = new FluentAPIFeatureTemplate(
 					getFeatureName(RootAPI.class));
 			public static final IFluentAPITemplate DOC = new FluentAPIFixTemplate(
-					"The " + ModelConstants.FluentAPI.CLASS_NAME.get() + ", which created this");
+					"The " + ModelConstants.FluentAPI.CLASS_NAME.getEmpty() + ", which created this");
 		}
 
 		public static class CurrentElement {

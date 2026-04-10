@@ -3,7 +3,7 @@ package cipm.consistency.fluentapi.test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 
 public class FluentAPIOnceExistsTest extends AbstractFluentAPITest {
 	/**
@@ -12,7 +12,7 @@ public class FluentAPIOnceExistsTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void singleOnceExistsTest_SingleKey() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var key = new Object();
 		final var onceExistsRan = new boolean[] { false };
 
@@ -28,7 +28,7 @@ public class FluentAPIOnceExistsTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void singleOnceExistsTest_DifferentKeys() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var key1 = new Object();
 		var key2 = new Object();
 		final var onceExistsRan = new boolean[] { false };
@@ -47,7 +47,7 @@ public class FluentAPIOnceExistsTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void singleOnceExistsTest_ViaInitialisation() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var key = new Object();
 		final var onceExistsRan = new boolean[] { false };
 
@@ -64,7 +64,7 @@ public class FluentAPIOnceExistsTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void multipleOnceExistsTest_SameKey() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var keyOne = new Object();
 		final var onceExistsRan = new boolean[] { false, false };
 
@@ -84,7 +84,7 @@ public class FluentAPIOnceExistsTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void multipleOnceExistsTest_DifferentKeys() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var keyOne = new Object();
 		var keyTwo = new Object();
 		final var onceExistsRan = new boolean[] { false, false };

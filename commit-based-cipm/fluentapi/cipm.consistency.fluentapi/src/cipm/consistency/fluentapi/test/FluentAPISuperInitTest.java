@@ -5,14 +5,14 @@ import org.emftext.language.java.containers.ContainersPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 
 public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 	private static final EClass modECls = ContainersPackage.Literals.MODULE;
 
 	@Test
 	public void onceExistsTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var metName = "met";
 		var returnTypeName = "returnType";
@@ -36,7 +36,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 
 	@Test
 	public void markTest_SingleMark() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var key = new Object();
 
 		var mod = api.newX(modECls).mark(key).createNow();
@@ -47,7 +47,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 
 	@Test
 	public void markTest_MultipleMarks() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var key1 = new Object();
 		var key2 = new Object();
 
@@ -60,7 +60,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 
 	@Test
 	public void unmarkTest_SingleMark() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var key = new Object();
 
 		var mod = api.newX(modECls).mark(key).unmark(key).createNow();
@@ -71,7 +71,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 
 	@Test
 	public void unmarkTest_MultipleMarks() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var key1 = new Object();
 		var key2 = new Object();
 
@@ -84,7 +84,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 
 	@Test
 	public void createNowTest_WithAbstractClass() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		org.emftext.language.java.commons.NamedElement mod = api.newX(ContainersPackage.Literals.MODULE)
 				.createNow(org.emftext.language.java.commons.NamedElement.class);
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
@@ -95,7 +95,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 
 	@Test
 	public void createNowTest_WithConcreteClass() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		org.emftext.language.java.containers.Module mod = api.newX(ContainersPackage.Literals.MODULE)
 				.createNow(org.emftext.language.java.containers.Module.class);
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
@@ -106,7 +106,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 
 	@Test
 	public void createNowTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		org.emftext.language.java.containers.Module mod = (org.emftext.language.java.containers.Module) api
 				.newX(ContainersPackage.Literals.MODULE).createNow();
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);

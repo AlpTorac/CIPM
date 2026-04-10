@@ -5,13 +5,13 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
 
 public class FluentAPIRootAPITest extends AbstractFluentAPITest {
 	@Test
 	public void modifyTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var cls = api.newClass().createNow();
 
@@ -25,7 +25,7 @@ public class FluentAPIRootAPITest extends AbstractFluentAPITest {
 
 	@Test
 	public void modifyMarkedElementTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var clsKey = new Object();
 		var cls = api.newClass().mark(clsKey).createNow();
@@ -39,7 +39,7 @@ public class FluentAPIRootAPITest extends AbstractFluentAPITest {
 
 	@Test
 	public void getAllSupportedClassesTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var supportedEClasses = api.getAllSupportedEClasses();
 		var expectedSupportedEClasses = new FluentAPIJavaMetamodelPackageProvider()

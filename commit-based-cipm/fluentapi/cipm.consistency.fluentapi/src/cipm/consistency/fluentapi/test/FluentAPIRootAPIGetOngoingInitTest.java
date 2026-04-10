@@ -5,18 +5,18 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 
 public class FluentAPIRootAPIGetOngoingInitTest extends AbstractFluentAPITest {
 	@Test
 	public void getOngoingInitTest_NoInitialisations() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		Assertions.assertEquals(0, api.getOngoingInitialisations().size());
 	}
 
 	@Test
 	public void getOngoingInitTest_SameInitialisationType() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var clsInit1 = api.newClass();
 		var clsInit2 = api.newClass();
@@ -30,7 +30,7 @@ public class FluentAPIRootAPIGetOngoingInitTest extends AbstractFluentAPITest {
 
 	@Test
 	public void getOngoingInitTest_DifferentInitialisationTypes() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var init1 = api.newClass();
 		var init2 = api.newInterface();
@@ -44,8 +44,8 @@ public class FluentAPIRootAPIGetOngoingInitTest extends AbstractFluentAPITest {
 
 	@Test
 	public void getOngoingInitTest_DifferentAPIInstances() {
-		var apiOne = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-		var apiTwo = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var apiOne = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var apiTwo = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var init1 = apiOne.newClass();
 		var init2 = apiTwo.newClass();
@@ -61,8 +61,8 @@ public class FluentAPIRootAPIGetOngoingInitTest extends AbstractFluentAPITest {
 
 	@Test
 	public void clearAllOngoingInitsTest() {
-		var apiOne = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-		var apiTwo = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var apiOne = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var apiTwo = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		for (var api : List.of(apiOne, apiTwo)) {
 			apiOne.newClass();

@@ -12,8 +12,8 @@ import org.emftext.language.java.variables.AdditionalLocalVariable;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
-import cipm.consistency.fluentapi.api.FluentAPISuperInitialisation;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.FluentAPISuperInitialisation;
 
 public class FluentAPIRootAPINewMethodTest extends AbstractFluentAPITest {
 
@@ -23,7 +23,7 @@ public class FluentAPIRootAPINewMethodTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void noModifiableFeatures() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		final var obj = new Abstract[1];
 		Assertions.assertDoesNotThrow(() -> obj[0] = api.newAbstract());
 		Assertions.assertInstanceOf(Abstract.class, obj[0]);
@@ -35,7 +35,7 @@ public class FluentAPIRootAPINewMethodTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void onlyOneSingleValuedModifiableFeature_EAttribute() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var val = BigInteger.valueOf(1);
 		final var obj = new DecimalIntegerLiteral[1];
 		Assertions.assertDoesNotThrow(() -> obj[0] = api.newDecimalIntegerLiteral(val));
@@ -49,7 +49,7 @@ public class FluentAPIRootAPINewMethodTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void onlyOneSingleValuedModifiableFeature_EReference() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var val = api.createNewJumpLabel();
 		final var obj = new Break[1];
 		Assertions.assertDoesNotThrow(() -> obj[0] = api.newBreak(val));
@@ -63,7 +63,7 @@ public class FluentAPIRootAPINewMethodTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void onlyOneManyValuedModifiableFeature_EReference_SingleValue() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var val = api.createNewEqualityExpression();
 		final var obj = new AndExpression[1];
 		Assertions.assertDoesNotThrow(() -> obj[0] = api.newAndExpression(val));
@@ -77,7 +77,7 @@ public class FluentAPIRootAPINewMethodTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void onlyOneManyValuedModifiableFeature_EReference_Array() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var val = new AndExpressionChild[] { api.createNewEqualityExpression(), api.createNewEqualityExpression() };
 		final var obj = new AndExpression[1];
 		Assertions.assertDoesNotThrow(() -> obj[0] = api.newAndExpression(val));
@@ -92,7 +92,7 @@ public class FluentAPIRootAPINewMethodTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void onlyOneManyValuedModifiableFeature_EReference_Collection() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var val = List.of(api.createNewEqualityExpression(), api.createNewEqualityExpression());
 		final var obj = new AndExpression[1];
 		Assertions.assertDoesNotThrow(() -> obj[0] = api.newAndExpression(val));
@@ -103,7 +103,7 @@ public class FluentAPIRootAPINewMethodTest extends AbstractFluentAPITest {
 
 	@Test
 	public void multipleModifiableFeatures() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var init = api.newAdditionalLocalVariable();
 		Assertions.assertInstanceOf(FluentAPISuperInitialisation.class, init);
 		Assertions.assertInstanceOf(AdditionalLocalVariable.class, init.createNow());

@@ -4,7 +4,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIMarkExtension;
 
 public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
@@ -32,7 +32,7 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 
 	@Test
 	public void markTest_OneMark() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var key = new Object();
 		var val = api.createNewClass();
 
@@ -43,7 +43,7 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 
 	@Test
 	public void markTest_MultipleMarks() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var key1 = new Object();
 		var val1 = api.createNewClass();
@@ -63,7 +63,7 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 
 	@Test
 	public void markTest_OverridingMark() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var key = new Object();
 
 		var val1 = api.createNewClass();
@@ -79,7 +79,7 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 
 	@Test
 	public void cleanMarksTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var key1 = new Object();
 		var val1 = api.createNewClass();
@@ -97,7 +97,7 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 
 	@Test
 	public void unmarkTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var key1 = new Object();
 		var val1 = api.createNewClass();
@@ -116,7 +116,7 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 
 	@Test
 	public void unmarkTest_RepeatedUnmarkCall() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var key1 = new Object();
 		var val1 = api.createNewClass();

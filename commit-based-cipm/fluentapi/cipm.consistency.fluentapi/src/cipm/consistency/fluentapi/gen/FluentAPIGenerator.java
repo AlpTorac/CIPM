@@ -23,7 +23,7 @@ import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationECla
 public class FluentAPIGenerator {
 	public List<EPackage> generateRootAPIPackages(FluentAPIGenerationContext context) {
 		// Generate fluent API packages
-		var rootPacs = generateFluentAPIRootPackage();
+		var rootPacs = generateFluentAPIRootPackage(context);
 
 		// Add fluent API packages into context
 		context.setRootPackage(rootPacs.get(0));
@@ -33,7 +33,7 @@ public class FluentAPIGenerator {
 
 		// Generate the facade class (without setting it up) and add it into context
 		var rootAPIEClassGen = new FluentAPIRootAPIEClassGenerator();
-		context.setFluentAPIECls(rootAPIEClassGen.generateRootAPIEClass());
+		context.setFluentAPIECls(rootAPIEClassGen.generateRootAPIEClass(context));
 		context.getApiPackage().getEClassifiers().add(context.getFluentAPIECls());
 
 		// Generate the super initialisation class (without setting it up) and add it
@@ -65,9 +65,12 @@ public class FluentAPIGenerator {
 		return rootPacs;
 	}
 
-	private List<EPackage> generateFluentAPIRootPackage() {
-		return FluentAPIGenerationUtil.generatePackages(URI.createURI(ModelConstants.ROOT_PACKAGE_URI.get()),
-				ModelConstants.ROOT_PACKAGE_NAME.get());
+	private List<EPackage> generateFluentAPIRootPackage(FluentAPIGenerationContext context) {
+		return FluentAPIGenerationUtil.generatePackages(
+				URI.createURI(ModelConstants.ROOT_PACKAGE_URI
+						.getFor(context.getTargetMetamodelPackageProvider().getTargetMetamodelName())),
+				ModelConstants.ROOT_PACKAGE_NAME
+						.getFor(context.getTargetMetamodelPackageProvider().getTargetMetamodelName()));
 	}
 
 	private EPackage generateInitialisationsPackage(FluentAPIGenerationContext context) {

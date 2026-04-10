@@ -8,7 +8,7 @@ import org.emftext.language.java.commons.CommonsPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 
 public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 	private static final EStructuralFeature nameFeat = CommonsPackage.Literals.NAMED_ELEMENT__NAME;
@@ -17,7 +17,7 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withFeatTest_EAttribute() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var clsName = "cls";
 		var cls = api.createNewClass();
@@ -29,7 +29,7 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withFeatTest_EReference() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var extType = api.createNewClassifierReference();
 		var cls = api.createNewClass();
@@ -40,7 +40,7 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withoutFeatTest_EAttribute() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var clsName = "cls";
 		var cls = api.createNewClass();
@@ -55,7 +55,7 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withoutFeatTest_EReference() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var clsExtendsVal = api.createNewClassifierReference();
 		var cls = api.createNewClass();
@@ -70,7 +70,7 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withAddedFeatTest_SingleValue_NoPriorValues() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var ns = "ns";
 
@@ -81,7 +81,7 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withAddedFeatTest_SingleValue_WithPriorValues() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var pastNss = List.of("someNs1", "someNs2");
 		pac.getNamespaces().addAll(pastNss);
@@ -95,7 +95,7 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withAddedFeatTest_MultipleValuesAsArray() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var nss = new String[] { "ns1", "ns2" };
 
@@ -105,7 +105,7 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withAddedFeatTest_MultipleValuesAsCollection() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var nss = List.of("ns1", "ns2");
 
@@ -115,7 +115,7 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withAddedFeatTest_MultipleValuesAsEList() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var nss = FluentAPITestUtils.toEList("ns1", "ns2");
 
@@ -125,7 +125,7 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withRemovedFeatTest_SingleValue_NoPriorValues() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var ns = "ns";
 
@@ -135,7 +135,7 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withRemovedFeatTest_SingleValue_WithPriorValues() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var pastNss = List.of("someNs1", "someNs2");
 		pac.getNamespaces().addAll(pastNss);
@@ -149,7 +149,7 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withRemovedFeatTest_MultipleValuesAsCollection() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var pastNss = List.of("ns1", "ns2", "ns3");
 		pac.getNamespaces().addAll(pastNss);
@@ -161,7 +161,7 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withRemovedFeatTest_MultipleValuesAsEList() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var pastNss = List.of("ns1", "ns2", "ns3");
 		pac.getNamespaces().addAll(pastNss);
@@ -173,7 +173,7 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void withRemovedFeatTest_MultipleValuesAsArray() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var pastNss = new String[] { "ns1", "ns2", "ns3" };
 		pac.getNamespaces().addAll(List.of(pastNss));
@@ -185,7 +185,7 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void cleanFeatTest_WithoutPriorValues() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 
 		Assertions.assertEquals(0, pac.getNamespaces().size());
@@ -195,7 +195,7 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 
 	@Test
 	public void cleanFeatTest_WithPriorValues() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var pastNss = new String[] { "ns1", "ns2", "ns3" };
 		pac.getNamespaces().addAll(List.of(pastNss));

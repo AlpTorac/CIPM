@@ -3,12 +3,12 @@ package cipm.consistency.fluentapi.test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 
 public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
 	@Test
 	public void continueTest_TopLevel() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modInit = api.newModule();
 		var pacInit = api.newPackage();
@@ -25,7 +25,7 @@ public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void continueTest_SameElementInstance() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modInit = api.newModule();
 		var continuedModInit = api.continueModule();
@@ -39,7 +39,7 @@ public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void continueTest_SameElementType() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modInit1 = api.newModule();
 		var modInit2 = api.newModule();
@@ -53,7 +53,7 @@ public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void continueTest_DifferentElementType() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modInit = api.newModule();
 		var pacInit = api.newPackage();
@@ -68,14 +68,14 @@ public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void continueTest_NoInitialisation() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		Assertions.assertNull(api.continueModule());
 	}
 
 	@Test
 	public void continueMarkedTest_SingleInitialisation() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var modKey = new Object();
 
 		var modInit = api.newModule().mark(modKey);
@@ -85,7 +85,7 @@ public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
 
 	@Test
 	public void continueMarkedTest_MultipleInitialisation() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var keyOne = new Object();
 		var keyTwo = new Object();
 
@@ -98,7 +98,7 @@ public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
 
 	@Test
 	public void continueMarkedTest_TopLevel() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var keyOne = new Object();
 		var keyTwo = new Object();
 

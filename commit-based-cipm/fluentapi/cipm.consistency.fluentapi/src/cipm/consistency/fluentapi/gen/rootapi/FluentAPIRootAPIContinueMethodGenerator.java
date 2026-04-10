@@ -33,8 +33,10 @@ public class FluentAPIRootAPIContinueMethodGenerator implements IFluentAPIMethod
 					.thisCall(ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()),
 			// %s: Init class name
 			"return markedElem == null ? null : (%s) " + FluentAPIInitialisationStorage.class.getName()
-					+ ".getOngoingInitialisations().stream().filter((i) -> ((" + ModelConstants.ROOT_PACKAGE_NAME.get()
-					+ "." + ModelConstants.SuperInitialisation.CLASS_NAME.get() + ") i)"
+					+ ".getOngoingInitialisations().stream().filter((i) -> (("
+					// %s: Target metamodel package name (lower case)
+					+ ModelConstants.ROOT_PACKAGE_NAME.getFor("%s") + "."
+					+ ModelConstants.SuperInitialisation.CLASS_NAME.get() + ") i)"
 					+ ModelConstants.SuperInitialisation.CurrentElement.NAME.getterCall()
 					+ " == markedElem).findFirst().get()");
 
@@ -50,7 +52,7 @@ public class FluentAPIRootAPIContinueMethodGenerator implements IFluentAPIMethod
 			var initEClass = context.getAllInitEClss().get(i);
 			if (context.getTargetMetamodelFeatureFilter().hasModifiableFeatures(eObjEClass)) {
 				ops.add(generateContinueMethod(eObjEClass, initEClass));
-				ops.add(generateContinueMarkedMethod(eObjEClass, initEClass));
+				ops.add(generateContinueMarkedMethod(eObjEClass, initEClass, context));
 			}
 		}
 
@@ -85,14 +87,17 @@ public class FluentAPIRootAPIContinueMethodGenerator implements IFluentAPIMethod
 		return op;
 	}
 
-	private EOperation generateContinueMarkedMethod(EClass elemToInit, EClass initECls) {
+	private EOperation generateContinueMarkedMethod(EClass elemToInit, EClass initECls,
+			FluentAPIGenerationContext context) {
 		var param = FluentAPIGeneralParameterGenerator.getMarkKeyParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(
 				ModelConstants.FluentAPI.ContinueMarked.NAME.getFor(StringUtils.capitalize(elemToInit.getName())),
 				initECls);
 
-		FluentAPIGenerationUtil.addBody(op, String.format(continueMarkedMethodBodyTemplate,
-				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls)));
+		FluentAPIGenerationUtil.addBody(op,
+				String.format(continueMarkedMethodBodyTemplate,
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
+						context.getTargetMetamodelPackageProvider().getTargetMetamodelName()));
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.ContinueMarked.SUMMARY.get());
 		return op;
@@ -103,8 +108,10 @@ public class FluentAPIRootAPIContinueMethodGenerator implements IFluentAPIMethod
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.ContinueMarked.TOP_NAME.get(),
 				context.getInitSuperECls());
 
-		FluentAPIGenerationUtil.addBody(op, String.format(continueMarkedMethodBodyTemplate,
-				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
+		FluentAPIGenerationUtil.addBody(op,
+				String.format(continueMarkedMethodBodyTemplate,
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls()),
+						context.getTargetMetamodelPackageProvider().getTargetMetamodelName()));
 		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.ContinueMarked.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;

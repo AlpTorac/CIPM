@@ -5,7 +5,7 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIMarkExtension;
 import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIOnceExistsExtension;
 
@@ -92,7 +92,7 @@ public class FluentAPIOnceExistsExtensionTest extends AbstractFluentAPITest {
 		assertOnceExistsPending(key, r);
 		Assertions.assertFalse(ran[0]);
 
-		FluentAPIMarkExtension.mark(key, ApiFactory.eINSTANCE.createFluentEObjectAPI());
+		FluentAPIMarkExtension.mark(key, ApiFactory.eINSTANCE.createFluentJavaAPI());
 		assertOnceExistsNotPending(key, r);
 		Assertions.assertTrue(ran[0]);
 	}
@@ -119,7 +119,7 @@ public class FluentAPIOnceExistsExtensionTest extends AbstractFluentAPITest {
 		Assertions.assertFalse(ran[0]);
 		Assertions.assertFalse(ran[1]);
 
-		FluentAPIMarkExtension.mark(key, ApiFactory.eINSTANCE.createFluentEObjectAPI());
+		FluentAPIMarkExtension.mark(key, ApiFactory.eINSTANCE.createFluentJavaAPI());
 		assertOnceExistsNotPending(key, r1);
 		assertOnceExistsNotPending(key, r2);
 		Assertions.assertTrue(ran[0]);
@@ -143,7 +143,7 @@ public class FluentAPIOnceExistsExtensionTest extends AbstractFluentAPITest {
 		Assertions.assertFalse(ran[0]);
 		Assertions.assertFalse(ran[1]);
 
-		FluentAPIMarkExtension.mark(key, ApiFactory.eINSTANCE.createFluentEObjectAPI());
+		FluentAPIMarkExtension.mark(key, ApiFactory.eINSTANCE.createFluentJavaAPI());
 		Assertions.assertTrue(ran[0]);
 		Assertions.assertFalse(ran[1]);
 		assertOnceExistsNotPending(key, r1);
@@ -155,7 +155,7 @@ public class FluentAPIOnceExistsExtensionTest extends AbstractFluentAPITest {
 		assertOnceExistsPending(key, r2);
 		Assertions.assertFalse(ran[1]);
 
-		FluentAPIMarkExtension.mark(key, ApiFactory.eINSTANCE.createFluentEObjectAPI());
+		FluentAPIMarkExtension.mark(key, ApiFactory.eINSTANCE.createFluentJavaAPI());
 		assertOnceExistsNotPending(key, r2);
 		Assertions.assertTrue(ran[1]);
 	}
@@ -174,11 +174,11 @@ public class FluentAPIOnceExistsExtensionTest extends AbstractFluentAPITest {
 		assertOnceExistsPending(keyList, r);
 		Assertions.assertFalse(ran[0]);
 
-		FluentAPIMarkExtension.mark(key1, ApiFactory.eINSTANCE.createFluentEObjectAPI());
+		FluentAPIMarkExtension.mark(key1, ApiFactory.eINSTANCE.createFluentJavaAPI());
 		assertOnceExistsPending(keyList, r);
 		Assertions.assertFalse(ran[0]);
 
-		FluentAPIMarkExtension.mark(key2, ApiFactory.eINSTANCE.createFluentEObjectAPI());
+		FluentAPIMarkExtension.mark(key2, ApiFactory.eINSTANCE.createFluentJavaAPI());
 		assertOnceExistsNotPending(keyList, r);
 		Assertions.assertTrue(ran[0]);
 	}
@@ -198,21 +198,21 @@ public class FluentAPIOnceExistsExtensionTest extends AbstractFluentAPITest {
 		assertOnceExistsPending(keyList, r);
 		Assertions.assertFalse(ran[0]);
 
-		FluentAPIMarkExtension.mark(key1, ApiFactory.eINSTANCE.createFluentEObjectAPI());
+		FluentAPIMarkExtension.mark(key1, ApiFactory.eINSTANCE.createFluentJavaAPI());
 		assertOnceExistsPending(keyList, r);
 		Assertions.assertFalse(ran[0]);
 
-		FluentAPIMarkExtension.mark(key2, ApiFactory.eINSTANCE.createFluentEObjectAPI());
+		FluentAPIMarkExtension.mark(key2, ApiFactory.eINSTANCE.createFluentJavaAPI());
 		assertOnceExistsPending(keyList, r);
 		Assertions.assertFalse(ran[0]);
 
 		FluentAPIMarkExtension.unmark(key1);
 
-		FluentAPIMarkExtension.mark(key3, ApiFactory.eINSTANCE.createFluentEObjectAPI());
+		FluentAPIMarkExtension.mark(key3, ApiFactory.eINSTANCE.createFluentJavaAPI());
 		assertOnceExistsPending(keyList, r);
 		Assertions.assertFalse(ran[0]);
 
-		FluentAPIMarkExtension.mark(key1, ApiFactory.eINSTANCE.createFluentEObjectAPI());
+		FluentAPIMarkExtension.mark(key1, ApiFactory.eINSTANCE.createFluentJavaAPI());
 		assertOnceExistsNotPending(keyList, r);
 		Assertions.assertTrue(ran[0]);
 	}
@@ -360,7 +360,7 @@ public class FluentAPIOnceExistsExtensionTest extends AbstractFluentAPITest {
 		assertOnceExistsPending(key, List.of(r, r));
 		Assertions.assertEquals(0, runCount[0]);
 
-		FluentAPIMarkExtension.mark(key, ApiFactory.eINSTANCE.createFluentEObjectAPI());
+		FluentAPIMarkExtension.mark(key, ApiFactory.eINSTANCE.createFluentJavaAPI());
 		assertOnceExistsNotPending(key, List.of(r, r));
 		assertOnceExistsNotPending(key, r);
 		Assertions.assertEquals(2, runCount[0]);
@@ -372,7 +372,7 @@ public class FluentAPIOnceExistsExtensionTest extends AbstractFluentAPITest {
 		var key = new Object();
 		Runnable r = () -> ran[0] = true;
 
-		FluentAPIMarkExtension.mark(key, ApiFactory.eINSTANCE.createFluentEObjectAPI());
+		FluentAPIMarkExtension.mark(key, ApiFactory.eINSTANCE.createFluentJavaAPI());
 
 		assertOnceExistsNotPending(key, r);
 		FluentAPIOnceExistsExtension.addOnceExists(key, r);

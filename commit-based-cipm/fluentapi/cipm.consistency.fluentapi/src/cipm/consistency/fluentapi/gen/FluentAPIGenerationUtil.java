@@ -304,11 +304,12 @@ public class FluentAPIGenerationUtil {
 
 	private static EAnnotation createOrGetEAnnotation(EModelElement elem) {
 		EAnnotation anno = null;
-		if (elem.getEAnnotation(FluentAPIConstants.getGenModelURL()) == null) {
+		var genModelSourceURL = ModelConstants.GEN_MODEL_SOURCE_URL.get();
+		if (elem.getEAnnotation(genModelSourceURL) == null) {
 			anno = EcoreFactory.eINSTANCE.createEAnnotation();
-			anno.setSource(FluentAPIConstants.getGenModelURL());
+			anno.setSource(genModelSourceURL);
 		} else {
-			anno = elem.getEAnnotation(FluentAPIConstants.getGenModelURL());
+			anno = elem.getEAnnotation(genModelSourceURL);
 		}
 		return anno;
 	}

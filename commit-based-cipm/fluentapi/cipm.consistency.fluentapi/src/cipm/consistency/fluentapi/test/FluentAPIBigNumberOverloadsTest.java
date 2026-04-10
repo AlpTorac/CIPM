@@ -6,7 +6,7 @@ import org.emftext.language.java.literals.DecimalIntegerLiteral;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 
 public class FluentAPIBigNumberOverloadsTest extends AbstractFluentAPITest {
 	/**
@@ -14,7 +14,7 @@ public class FluentAPIBigNumberOverloadsTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void overloadedBigIntegerMethodsTest_SingleValue() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		final var lit = new DecimalIntegerLiteral[3];
 
@@ -42,7 +42,7 @@ public class FluentAPIBigNumberOverloadsTest extends AbstractFluentAPITest {
 	 */
 	@Test
 	public void overloadedBigIntegerMethodsTest_OnlyOneSingleValuedModifiableFeature() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		final var obj = new DecimalIntegerLiteral[2];
 
 		int intVal = 1;

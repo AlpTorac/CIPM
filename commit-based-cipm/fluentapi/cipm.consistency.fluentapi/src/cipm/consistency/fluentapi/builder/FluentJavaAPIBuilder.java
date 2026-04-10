@@ -20,7 +20,7 @@ import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationBigNumber
 import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationForEachOverloadPostProcessor;
 import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationMultipleValueParameterSameMethodBodyOverloadPostProcessor;
 
-public class FluentAPIBuilder {
+public class FluentJavaAPIBuilder {
 	private static final String fluentAPIEcoreModelDirName = "initModel";
 	private static final File fluentAPIEcoreModelFile = new File(fluentAPIEcoreModelDirName).getAbsoluteFile();
 	private static final Path fluentAPIEcoreModelFilePath = fluentAPIEcoreModelFile.toPath()
