@@ -22,35 +22,48 @@ public class FluentAPIRootAPINewMethodGenerator implements IFluentAPIMethodGener
 	// TODO Add documentation
 
 	private static final String newXMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			// %s: Initialisation super type class name
+			// %s: Fully qualified Initialisation super type class name
 			"return (%s)" + ModelConstants.FluentAPI.GetInitialisationFor.NAME
 					.thisCall(ModelConstants.FluentAPI.New.ECLASS_PARAMETER_NAME.get() + ".getInstanceClass()"));
 
 	private static final String newXWithClassParamMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			// %s: Initialisation super type class name
+			// %s: Fully qualified Initialisation super type class name
 			"return (%s)" + ModelConstants.FluentAPI.GetInitialisationFor.NAME
 					.thisCall(ModelConstants.FluentAPI.New.CLASS_PARAMETER_NAME.get()));
 
-	// TODO Comment what the flags are for
-
 	private static final String newXWithModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class"));
+			// %s: Fully qualified Initialisation type class name
+			.joinLOC("return (%s) " +
+			// %s: Fully qualified Initialisation type class name
+					ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class"));
 
 	private static final String newXWithOnlyOneModifiableSingleValuedFeatsMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) ((%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class")
-					+ ")." + ModelConstants.Initialiation.With.NAME.get() + "("
+			// %s: Fully qualified type class name
+			// %s: Fully qualified Initialisation type class name
+			.joinLOC("return (%s) ((%s) " +
+			// %s: Fully qualified type class name
+					ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class") + ")."
+					+ ModelConstants.Initialiation.With.NAME.get() + "("
 					+ ModelConstants.FluentAPI.New.FEATURE_VALUE_PARAMETER_NAME.get() + ")"
 					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	private static final String newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_singleValue = FluentAPIMethodsUtil
-			.joinLOC("return (%s) ((%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class")
-					+ ")." + ModelConstants.Initialiation.WithAdded.NAME.get() + "("
+			// %s: Fully qualified type class name
+			// %s: Fully qualified Initialisation type class name
+			.joinLOC("return (%s) ((%s) " +
+			// %s: Fully qualified type class name
+					ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class") + ")."
+					+ ModelConstants.Initialiation.WithAdded.NAME.get() + "("
 					+ ModelConstants.FluentAPI.New.FEATURE_VALUE_PARAMETER_NAME.get() + ")"
 					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	private static final String newXWithoutModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return (%s) ((%s) " + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class")
-					+ ")" + ModelConstants.SuperInitialisation.CreateNow.NAME.call());
+			// %s: Fully qualified type class name
+			// %s: Fully qualified Initialisation type class name
+			.joinLOC("return (%s) ((%s) " +
+			// %s: Fully qualified type class name
+					ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall("%s.class") + ")"
+					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	public List<EOperation> getAllRootAPINewOperations(FluentAPIGenerationContext context) {
 		var eObjEClss = context.getTargetMetamodelPackageProvider().getAllTargetMetamodelConcreteEClasses();
