@@ -1,6 +1,7 @@
 package cipm.consistency.fluentapi.gen;
 
 public class FluentAPIConstants {
+	// TODO Merge this class with ModelConstants
 	private static final String genModelURL = "http://www.eclipse.org/emf/2002/GenModel";
 
 	private static final String fluentAPIPlaceholderEDataTypesPackageName = "placeholderTypes";

@@ -11,6 +11,16 @@ import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 
+/**
+ * The generator class responsible for generating the EClass, which represents
+ * the facade of the fluent API. Note that both methods
+ * {@link #generateRootAPIEClass()} and
+ * {@link #setupRootAPIEClass(FluentAPIGenerationContext)} have to be called in
+ * that order, since model generation may require the EClass object to exist
+ * before actually finalizing it.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIRootAPIEClassGenerator {
 	// TODO Add documentation
 

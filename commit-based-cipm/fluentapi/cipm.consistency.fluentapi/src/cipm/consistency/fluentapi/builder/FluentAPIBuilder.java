@@ -12,15 +12,13 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
+import cipm.consistency.fluentapi.gen.FluentAPIGenerator;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIGenerationJavaMetamodelPostProcessor;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationBigNumberParameterPostProcessor;
 import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationForEachOverloadPostProcessor;
 import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationMultipleValueParameterSameMethodBodyOverloadPostProcessor;
-//import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmMetamodelFeatureFilter;
-//import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmMetamodelPackageProvider;
-import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIGenerator;
 
 public class FluentAPIBuilder {
 	private static final String fluentAPIEcoreModelDirName = "initModel";
@@ -57,7 +55,7 @@ public class FluentAPIBuilder {
 		var resSet = new ResourceSetImpl();
 		var res = resSet.createResource(URI.createFileURI(fluentAPIEcoreModelFilePath.toString()));
 
-		new FluentAPIRootAPIGenerator().generateRootAPIPackages(context);
+		new FluentAPIGenerator().generateRootAPIPackages(context);
 
 		new FluentAPIGenerationJavaMetamodelPostProcessor(context.getAllInitEClss()).apply();
 

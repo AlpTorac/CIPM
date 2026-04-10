@@ -12,9 +12,8 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIInitialisationStorage;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIRootAPIClearAllOngoingInitialisationsMethodGenerator implements IFluentAPIMethodGenerator {
-	private static final String clearAllOngoingInitsMethodBody = FluentAPIMethodsUtil
-			.joinLOC(FluentAPIInitialisationStorage.class.getName()
-					+ ".clearAllOngoingInitialisations()", "return this");
+	private static final String clearAllOngoingInitsMethodBody = FluentAPIMethodsUtil.joinLOC(
+			FluentAPIInitialisationStorage.class.getName() + ".clearAllOngoingInitialisations()", "return this");
 
 	public EOperation generateClearAllOngoingInitsMethod(FluentAPIGenerationContext context) {
 		var op = FluentAPIGenerationUtil.generateEOperation(
