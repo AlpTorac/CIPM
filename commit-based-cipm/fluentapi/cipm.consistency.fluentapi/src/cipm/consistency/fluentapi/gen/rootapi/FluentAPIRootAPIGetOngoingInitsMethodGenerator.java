@@ -15,9 +15,8 @@ public class FluentAPIRootAPIGetOngoingInitsMethodGenerator implements IFluentAP
 	private static final String getOngoingInitsMethodBody = FluentAPIMethodsUtil
 			// %s: Fully qualified super initialisation class name
 			.joinLOC("return " + FluentAPIInitialisationStorage.class.getName()
-					+ ModelConstants.FluentAPI.GetOngoingInitialisations.NAME.call()
-					+ ".stream().map((i) -> (%s) i).collect(" + java.util.stream.Collectors.class.getName()
-					+ ".toList())");
+					+ ".getOngoingInitialisations().stream().map((i) -> (%s) i).collect("
+					+ java.util.stream.Collectors.class.getName() + ".toList())");
 
 	public EOperation generateGetOngoingInitsMethod(FluentAPIGenerationContext context) {
 		var op = FluentAPIGenerationUtil.generateEOperation(

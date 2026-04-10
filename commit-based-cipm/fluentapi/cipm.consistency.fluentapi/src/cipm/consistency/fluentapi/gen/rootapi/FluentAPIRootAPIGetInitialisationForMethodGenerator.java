@@ -22,8 +22,7 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator implements IFlu
 	private static final String getInitialisationMethodBodyTemplate = FluentAPIMethodsUtil
 			// %s: Initialisation class
 			// %s: EClass / class / EObject parameter name
-			.joinLOC("return (%s)" + FluentEObjectAPIMethods.class.getName()
-					+ ModelConstants.FluentAPI.GetInitialisationFor.NAME.call("this", "%s"));
+			.joinLOC("return (%s)" + FluentEObjectAPIMethods.class.getName() + ".getInitialisationForX(this, %s)");
 
 	public List<EOperation> getAllInitialisationForMethods(FluentAPIGenerationContext context) {
 		var ops = new ArrayList<EOperation>();

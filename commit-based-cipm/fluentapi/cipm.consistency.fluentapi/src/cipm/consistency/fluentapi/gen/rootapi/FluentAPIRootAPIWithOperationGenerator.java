@@ -51,8 +51,7 @@ public class FluentAPIRootAPIWithOperationGenerator implements IFluentAPIMethodG
 
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.WithFeat.NAME.get(),
 				context.getFluentAPIECls());
-		FluentAPIGenerationUtil.addBody(op,
-				String.format(featureValModificationMethodBodyTemplate, ModelConstants.FluentAPI.WithFeat.NAME.get()));
+		FluentAPIGenerationUtil.addBody(op, String.format(featureValModificationMethodBodyTemplate, "xWithFeat"));
 		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam, featValParam);
 		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.WithFeat.SUMMARY.get());
 		return op;
@@ -64,8 +63,7 @@ public class FluentAPIRootAPIWithOperationGenerator implements IFluentAPIMethodG
 
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.WithoutFeat.NAME.get(),
 				context.getFluentAPIECls());
-		FluentAPIGenerationUtil.addBody(op,
-				String.format(featureValCleaningMethodBodyTemplate, ModelConstants.FluentAPI.WithoutFeat.NAME.get()));
+		FluentAPIGenerationUtil.addBody(op, String.format(featureValCleaningMethodBodyTemplate, "xWithoutFeat"));
 		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam);
 		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.WithoutFeat.SUMMARY.get());
 		return op;
@@ -76,8 +74,7 @@ public class FluentAPIRootAPIWithOperationGenerator implements IFluentAPIMethodG
 		var featParam = FluentAPIGeneralParameterGenerator.getFeatParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.WithAddedFeat.NAME.get(),
 				context.getFluentAPIECls());
-		FluentAPIGenerationUtil.addBody(op, String.format(featureValModificationMethodBodyTemplate,
-				ModelConstants.FluentAPI.WithAddedFeat.NAME.get()));
+		FluentAPIGenerationUtil.addBody(op, String.format(featureValModificationMethodBodyTemplate, "xWithAddedFeat"));
 		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam,
 				FluentAPIGeneralParameterGenerator.getFeatValParam());
 		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.WithAddedFeat.SUMMARY.get());
@@ -89,8 +86,8 @@ public class FluentAPIRootAPIWithOperationGenerator implements IFluentAPIMethodG
 		var featParam = FluentAPIGeneralParameterGenerator.getFeatParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.WithRemovedFeat.NAME.get(),
 				context.getFluentAPIECls());
-		FluentAPIGenerationUtil.addBody(op, String.format(featureValModificationMethodBodyTemplate,
-				ModelConstants.FluentAPI.WithRemovedFeat.NAME.get()));
+		FluentAPIGenerationUtil.addBody(op,
+				String.format(featureValModificationMethodBodyTemplate, "xWithRemovedFeat"));
 		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam,
 				FluentAPIGeneralParameterGenerator.getFeatValParam());
 		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.WithRemovedFeat.SUMMARY.get());
@@ -102,8 +99,7 @@ public class FluentAPIRootAPIWithOperationGenerator implements IFluentAPIMethodG
 		var featParam = FluentAPIGeneralParameterGenerator.getFeatParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.CleanFeat.NAME.get(),
 				context.getFluentAPIECls());
-		FluentAPIGenerationUtil.addBody(op,
-				String.format(featureValCleaningMethodBodyTemplate, ModelConstants.FluentAPI.CleanFeat.NAME.get()));
+		FluentAPIGenerationUtil.addBody(op, String.format(featureValCleaningMethodBodyTemplate, "xCleanFeat"));
 		FluentAPIGenerationUtil.addEParameters(op, eobjParam, featParam);
 		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.CleanFeat.SUMMARY.get());
 		return op;
