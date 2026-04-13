@@ -32,7 +32,7 @@ public class FluentAPISuperInitialisationNextInitialisationMethodGenerator {
 				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationNextInitMethodName(), initEClass,
 				String.format(nextInitMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initEClass),
-						eobjEClass.getInstanceClass().getName()),
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(eobjEClass)),
 				nextInitMethodDocumentation);
 	}
 }

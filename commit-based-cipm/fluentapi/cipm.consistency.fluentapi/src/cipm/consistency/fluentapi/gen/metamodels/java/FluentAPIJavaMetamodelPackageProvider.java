@@ -9,9 +9,9 @@ import org.eclipse.emf.codegen.ecore.genmodel.GenPackage;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
-import org.emftext.commons.layout.LayoutPackage;
-import org.emftext.language.java.JavaPackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 
@@ -22,41 +22,47 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 	private static final URI javaMetamodelEcoreModelURI = URI
 			.createURI("platform:/plugin/org.emftext.language.java/metamodel/java.ecore");
 
-	private void resolveProxy(GenPackage nPac) {
-		var ecorePac = nPac.getEcorePackage();
-		if (ecorePac.eIsProxy()) {
-			var resolvedEcorePac = (EPackage) ((InternalEObject) ecorePac).eResolveProxy(((InternalEObject) ecorePac));
-			nPac.setEcorePackage(resolvedEcorePac);
-		}
-	}
+	private final ResourceSet metamodelResSet = new ResourceSetImpl();
+	private Resource ecoreRes;
+	private Resource genModelRes;
 
-	private void g(GenPackage pac) {
-		for (var nPac : pac.getNestedGenPackages()) {
-			resolveProxy(nPac);
-			g(nPac);
-		}
-	}
+//	private void resolveProxy(GenPackage nPac) {
+//		var ecorePac = nPac.getEcorePackage();
+//		if (ecorePac.eIsProxy()) {
+//			var resolvedEcorePac = (EPackage) ((InternalEObject) ecorePac).eResolveProxy(((InternalEObject) ecorePac));
+//			nPac.setEcorePackage(resolvedEcorePac);
+//		}
+//	}
+//
+//	private void g(GenPackage pac) {
+//		for (var nPac : pac.getNestedGenPackages()) {
+//			resolveProxy(nPac);
+//			g(nPac);
+//		}
+//	}
 
 	@Override
 	public List<EPackage> getTargetMetamodelEcoreEPackages() {
-		var genModelResSet = new ResourceSetImpl();
-		var ecoreModelRes = genModelResSet.getResource(javaMetamodelEcoreModelURI, true);
+		if (ecoreRes == null) {
+			ecoreRes = metamodelResSet.getResource(javaMetamodelEcoreModelURI, true);
+		}
 
-		return List.of((EPackage) ecoreModelRes.getContents().get(0));
+		return List.of((EPackage) ecoreRes.getContents().get(0));
 	}
 
 	@Override
 	public List<GenModel> getTargetMetamodelGenModels() {
-		var genModelResSet = new ResourceSetImpl();
-//		var ecoreModelRes = genModelResSet.getResource(javaMetamodelEcoreModelURI, true);
-		var genModelRes = genModelResSet.getResource(javaMetamodelGenModelURI, true);
+		if (genModelRes == null) {
+			genModelRes = metamodelResSet.getResource(javaMetamodelGenModelURI, true);
+		}
+
 		var javaGenModel = (GenModel) genModelRes.getContents().get(0);
 		javaGenModel.setCanGenerate(false);
 
-		for (var genPac : javaGenModel.getGenPackages()) {
-			resolveProxy(genPac);
-			g(genPac);
-		}
+//		for (var genPac : javaGenModel.getGenPackages()) {
+//			resolveProxy(genPac);
+//			g(genPac);
+//		}
 
 		return List.of(javaGenModel);
 	}
@@ -66,7 +72,7 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 //		FIXME Decide if the LayoutPackage can be left out from here
 
 //		return List.of(JavaPackage.eINSTANCE, LayoutPackage.eINSTANCE);
-		return List.of(JavaPackage.eINSTANCE);
+		return this.getTargetMetamodelEcoreEPackages();
 	}
 
 	@Override

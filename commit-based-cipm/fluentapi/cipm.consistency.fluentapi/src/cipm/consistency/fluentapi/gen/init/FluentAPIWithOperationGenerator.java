@@ -311,8 +311,7 @@ public class FluentAPIWithOperationGenerator {
 
 	private boolean isContainmentReferenceFor(EClass elemToInit, EStructuralFeature potentialContainmentFeat) {
 		var refType = potentialContainmentFeat.getEType();
-		var refTypeCls = refType.getInstanceClass();
-		return refType instanceof EClass && refTypeCls.isAssignableFrom(elemToInit.getInstanceClass());
+		return refType instanceof EClass && elemToInit.isSuperTypeOf((EClass) refType);
 	}
 
 	private List<EOperation> generateWithXFeat(EClass initECls, EClass elemToInit, EStructuralFeature feat) {
@@ -449,7 +448,8 @@ public class FluentAPIWithOperationGenerator {
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatOfContainerNameForType(feat),
 				initECls,
 				String.format(withXFeatOfContainerMethodBodyForSingleValuedFeatTemplate,
-						StringUtils.capitalize(feat.getName()), feat.getEType().getInstanceClass().getName(),
+						StringUtils.capitalize(feat.getName()), 
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(feat.getEType()),
 						feat.getName()),
 				String.format(withXFeatOfContainerDocumentationTemplate, feat.getName()));
 	}

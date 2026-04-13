@@ -3,7 +3,7 @@ package cipm.consistency.fluentapi.test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.javaFluentAPI.JavaFluentAPIFactory;
 
 public class FluentAPIContainmentTest {
 	/**
@@ -17,7 +17,7 @@ public class FluentAPIContainmentTest {
 	 */
 	@Test
 	public void apiTest_NestAndReference() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var outerClsName = "outer";
 		var innerClsName = "inner";
@@ -40,7 +40,7 @@ public class FluentAPIContainmentTest {
 
 	@Test
 	public void apiTest_Nesting() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var innerClsName = "inner";
 		var outerClsName = "outer";
@@ -60,7 +60,7 @@ public class FluentAPIContainmentTest {
 
 	@Test
 	public void apiTest_TwoContainmentFeaturesWithSameType() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var arrDimBefore = api.newArrayDimension().createNow();
 		var arrDimAfter = api.newArrayDimension().createNow();

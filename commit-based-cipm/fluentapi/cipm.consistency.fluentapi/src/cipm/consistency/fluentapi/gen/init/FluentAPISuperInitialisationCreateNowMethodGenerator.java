@@ -44,7 +44,8 @@ public class FluentAPISuperInitialisationCreateNowMethodGenerator {
 	private EOperation generateCreateNowMethod(EClass elemToInit) {
 		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
 				FluentAPIInitialisationConstants.getFluentapiinitialisationcreatenowmethodname(), elemToInit,
-				String.format(createNowMethodBodyTemplate, elemToInit.getInstanceClass().getName()),
+				String.format(createNowMethodBodyTemplate, 
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(elemToInit)),
 				createNowMethodDocumentation);
 	}
 

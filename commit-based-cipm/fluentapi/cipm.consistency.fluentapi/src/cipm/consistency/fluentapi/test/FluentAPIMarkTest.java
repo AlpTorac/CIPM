@@ -6,14 +6,14 @@ import org.emftext.language.java.containers.Package;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.javaFluentAPI.JavaFluentAPIFactory;
 
 public class FluentAPIMarkTest {
 	@Test
 	public void markAndSkipConstruction() {
 		var mod1Key = new Object();
 
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var mod2 = api.newModule().markCurrent(mod1Key).toAPI().newModule().createNow();
 		var mod1 = api.getMarked(mod1Key);
 
@@ -27,7 +27,7 @@ public class FluentAPIMarkTest {
 	public void useMarkedInConstruction() {
 		var key = new Object();
 
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var mod = api.newPackage().markCurrent(key).toAPI().newModule()
 				.withAddedPackages((org.emftext.language.java.containers.Package) api.getMarked(key)).createNow();
 
@@ -44,7 +44,7 @@ public class FluentAPIMarkTest {
 	public void unmarkAfterUseInConstruction() {
 		var key = new Object();
 
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var mod = api.newPackage().markCurrent(key).toAPI().newModule()
 				.withAddedPackages((org.emftext.language.java.containers.Package) api.getMarked(key)).createNow();
 
@@ -63,18 +63,18 @@ public class FluentAPIMarkTest {
 	@Test
 	public void getNonExistingMarked() {
 		var key = new Object();
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		Assertions.assertNull(api.getMarked(key));
 	}
 
 	@Test
 	public void differentAPIInstances() {
 		var keyOne = new Object();
-		var apiOne = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var apiOne = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		apiOne.newModule().markCurrent(keyOne);
 
 		var keyTwo = new Object();
-		var apiTwo = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var apiTwo = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		apiTwo.newModule().markCurrent(keyTwo);
 
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, apiOne.getMarked(keyOne));
@@ -86,8 +86,8 @@ public class FluentAPIMarkTest {
 
 	@Test
 	public void splitConstructionWithMarks() {
-		var modApi = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-		var pacApi = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var modApi = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
+		var pacApi = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modKey = new Object();
 		var pacKey = new Object();
@@ -106,7 +106,7 @@ public class FluentAPIMarkTest {
 
 	@Test
 	public void multipleMarksOnSameEObject() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var keyOne = new Object();
 		var keyTwo = new Object();
@@ -119,7 +119,7 @@ public class FluentAPIMarkTest {
 
 	@Test
 	public void differentMarkedEObjects() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var keyOne = new Object();
 		var keyTwo = new Object();
@@ -142,7 +142,7 @@ public class FluentAPIMarkTest {
 		var modKey = new Object();
 		var pacKey = new Object();
 
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var mod = api.newX(ContainersPackage.Literals.MODULE).markCurrent(modKey).createNow();
 		Assertions.assertEquals(mod, api.getMarked(modKey));
 
@@ -155,7 +155,7 @@ public class FluentAPIMarkTest {
 	public void getMarkedXTest_OneElement() {
 		var mod1Key = new Object();
 
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var mod2 = api.newModule().markCurrent(mod1Key).toAPI().newModule().createNow();
 		var markedMod1 = api.getMarkedModule(mod1Key);
 		var marked1 = api.getMarked(mod1Key);
@@ -174,7 +174,7 @@ public class FluentAPIMarkTest {
 		var mod1Key = new Object();
 		var mod2Key = new Object();
 
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var mod3 = api.newModule().markCurrent(mod1Key).toAPI().newModule().markCurrent(mod2Key).toAPI().newModule()
 				.createNow();
 
@@ -207,7 +207,7 @@ public class FluentAPIMarkTest {
 		var pacKey = new Object();
 		var clsKey = new Object();
 
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var mod = api.newPackage().markCurrent(pacKey).toAPI().newClass().markCurrent(clsKey).toAPI().newModule()
 				.createNow();
 

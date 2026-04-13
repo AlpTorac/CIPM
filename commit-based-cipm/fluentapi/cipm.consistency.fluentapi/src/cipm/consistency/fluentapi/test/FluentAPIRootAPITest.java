@@ -15,13 +15,13 @@ import org.emftext.language.java.modifiers.Abstract;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.javaFluentAPI.JavaFluentAPIFactory;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
 
 public class FluentAPIRootAPITest {
 	@Test
 	public void apiTest_CreateNow() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var mod = api.newModule().createNow();
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
 
@@ -31,7 +31,7 @@ public class FluentAPIRootAPITest {
 
 	@Test
 	public void apiTest_CreateNowWithType() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var mod = api.newX(ContainersPackage.Literals.MODULE)
 				.createNow(org.emftext.language.java.containers.Module.class);
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
@@ -42,14 +42,14 @@ public class FluentAPIRootAPITest {
 
 	@Test
 	public void apiTest_ToAPI() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		Assertions.assertEquals(api.getClass(), api.newAdditionalField().toAPI().getClass());
 		Assertions.assertEquals(api, api.newAdditionalField().toAPI());
 	}
 
 	@Test
 	public void apiTest_ModifyElement() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var prevClsName = "prevClsName";
 		var cls = api.newClass().withName(prevClsName).createNow();
@@ -65,7 +65,7 @@ public class FluentAPIRootAPITest {
 
 	@Test
 	public void apiTest_ModifyMarkedElement() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var prevClsName = "prevClsName";
 		api.newClass().withName(prevClsName).markCurrent(prevClsName);
@@ -78,7 +78,7 @@ public class FluentAPIRootAPITest {
 
 	@Test
 	public void apiTest_ResetElement() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var clsName = "cls";
 
@@ -94,7 +94,7 @@ public class FluentAPIRootAPITest {
 
 	@Test
 	public void apiTest_NewXWithEClass() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var mod = api.newX(ContainersPackage.Literals.MODULE).createNow();
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
@@ -102,7 +102,7 @@ public class FluentAPIRootAPITest {
 
 	@Test
 	public void apiTest_NewXWithClass() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var mod = api.newX(ContainersPackage.Literals.MODULE.getInstanceClass()).createNow();
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
@@ -110,7 +110,7 @@ public class FluentAPIRootAPITest {
 
 	@Test
 	public void apiTest_CreateNewX() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var mod = api.createNewX(ContainersPackage.Literals.MODULE.getInstanceClass());
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
@@ -118,7 +118,7 @@ public class FluentAPIRootAPITest {
 
 	@Test
 	public void withFeat() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var clsName = "cls";
 		var cls = ClassifiersFactory.eINSTANCE.createClass();
@@ -130,7 +130,7 @@ public class FluentAPIRootAPITest {
 
 	@Test
 	public void withoutFeat() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var clsName = "cls";
 		var cls = ClassifiersFactory.eINSTANCE.createClass();
@@ -143,7 +143,7 @@ public class FluentAPIRootAPITest {
 
 	@Test
 	public void withAddedFeat() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var pacNss = List.of("ns1");
 		var nsToAddOne = "ns2";
@@ -166,7 +166,7 @@ public class FluentAPIRootAPITest {
 
 	@Test
 	public void withRemovedFeat() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var pacNss = List.of("ns1", "ns2", "ns3", "ns4");
 		var nsToRemoveOne = "ns2";
@@ -190,7 +190,7 @@ public class FluentAPIRootAPITest {
 
 	@Test
 	public void withExactFeat() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var pacNss = List.of("ns1", "ns2");
 		var nsToRemoveOne = FluentAPITestUtils.toEList("ns3");
@@ -212,7 +212,7 @@ public class FluentAPIRootAPITest {
 
 	@Test
 	public void withAddedFeat_AsArray() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var pacNss = List.of("ns1");
 		var nsToAddOne = "ns2";
@@ -235,7 +235,7 @@ public class FluentAPIRootAPITest {
 
 	@Test
 	public void withRemovedFeat_AsArray() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var pacNss = List.of("ns1", "ns2", "ns3", "ns4");
 		var nsToRemoveOne = "ns2";
@@ -259,7 +259,7 @@ public class FluentAPIRootAPITest {
 
 	@Test
 	public void withExactFeat_AsArray() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var pacNss = List.of("ns1", "ns2");
 		var nsToRemoveOne = new String[] { "ns3" };
@@ -281,7 +281,7 @@ public class FluentAPIRootAPITest {
 
 	@Test
 	public void withFeatOfContainer() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var cls = ClassifiersFactory.eINSTANCE.createClass();
 		var cu = ContainersFactory.eINSTANCE.createCompilationUnit();
@@ -299,7 +299,7 @@ public class FluentAPIRootAPITest {
 
 	@Test
 	public void getAllSupportedClassesTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var supportedEClasses = api.getAllSupportedClasses();
 		var expectedSupportedEClasses = new FluentAPIJavaMetamodelPackageProvider()
@@ -311,7 +311,7 @@ public class FluentAPIRootAPITest {
 	}
 
 	public void createNewXMethodTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var mod = api.createNewModule();
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
@@ -322,7 +322,7 @@ public class FluentAPIRootAPITest {
 	 */
 	@Test
 	public void overloadedBigIntegerMethodsTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		final var lit = new DecimalIntegerLiteral[3];
 
@@ -350,7 +350,7 @@ public class FluentAPIRootAPITest {
 	 */
 	@Test
 	public void overloadedNewMethodsTest_NoModifiableFeatures() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		final var obj = new Abstract[1];
 		Assertions.assertDoesNotThrow(() -> obj[0] = api.newAbstract());
 		Assertions.assertInstanceOf(Abstract.class, obj[0]);
@@ -362,7 +362,7 @@ public class FluentAPIRootAPITest {
 	 */
 	@Test
 	public void overloadedNewMethodsTest_OnlyOneSingleValuedModifiableFeature() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var val = BigInteger.valueOf(1);
 		final var obj = new DecimalIntegerLiteral[1];
 		Assertions.assertDoesNotThrow(() -> obj[0] = api.newDecimalIntegerLiteral(val));
@@ -376,7 +376,7 @@ public class FluentAPIRootAPITest {
 	 */
 	@Test
 	public void overloadedNewMethodsTest_OnlyOneSingleValuedModifiableFeature_BigInteger() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		final var obj = new DecimalIntegerLiteral[2];
 
 		int intVal = 1;
@@ -397,7 +397,7 @@ public class FluentAPIRootAPITest {
 	 */
 	@Test
 	public void overloadedNewMethodsTest_OnlyOneManyValuedModifiableFeature_MultipleValues() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var val = new AnnotationAttributeSetting[] { api.newAnnotationAttributeSetting().createNow(),
 				api.newAnnotationAttributeSetting().createNow() };
@@ -416,7 +416,7 @@ public class FluentAPIRootAPITest {
 	 */
 	@Test
 	public void overloadedNewMethodsTest_OnlyOneManyValuedModifiableFeature_SingleValue() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var val = api.newAnnotationAttributeSetting().createNow();
 		final var obj = new AnnotationParameterList[1];

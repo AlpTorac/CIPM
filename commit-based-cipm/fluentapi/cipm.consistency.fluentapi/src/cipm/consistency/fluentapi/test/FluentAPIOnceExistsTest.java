@@ -3,7 +3,7 @@ package cipm.consistency.fluentapi.test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.javaFluentAPI.JavaFluentAPIFactory;
 
 public class FluentAPIOnceExistsTest {
 	/**
@@ -11,7 +11,7 @@ public class FluentAPIOnceExistsTest {
 	 */
 	@Test
 	public void singleOnceExistsTest_MultipleMethodChains() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var outerClsName = "OuterCls";
 		var cls1Name = "Cls1";
 
@@ -37,7 +37,7 @@ public class FluentAPIOnceExistsTest {
 		// TODO Implement continueMarkedX (since modifyMarkedX is for a different
 		// purpose)
 
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var outerClsName = "OuterCls";
 		var cls1Name = "Cls1";
 
@@ -61,7 +61,7 @@ public class FluentAPIOnceExistsTest {
 	 */
 	@Test
 	public void singleOnceExistsTest_ViaInitialisation() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var outerClsName = "OuterCls";
 		var cls1Name = "Cls1";
 
@@ -84,7 +84,7 @@ public class FluentAPIOnceExistsTest {
 	 */
 	@Test
 	public void sequentialOnceExistsTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var outerClsName = "OuterCls";
 		var cls1Name = "Cls1";
 		var cls2Name = "Cls2";
@@ -111,7 +111,7 @@ public class FluentAPIOnceExistsTest {
 	 */
 	@Test
 	public void sequentialOnceExistsTest_ViaInitialisation() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var outerClsName = "OuterCls";
 		var cls1Name = "Cls1";
 		var cls2Name = "Cls2";
@@ -144,7 +144,7 @@ public class FluentAPIOnceExistsTest {
 	 */
 	@Test
 	public void consecutiveOnceExistsChain() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var outerClsName = "OuterCls";
 		var cls1Name = "Cls1";
 		var cls2Name = "Cls2";
@@ -180,7 +180,7 @@ public class FluentAPIOnceExistsTest {
 	 */
 	@Test
 	public void nestedOnceExistsTest_TriggerOuterThenInner() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var outerClsName = "OuterCls";
 		var cls1Name = "Cls1";
 		var cls2Name = "Cls2";
@@ -222,7 +222,7 @@ public class FluentAPIOnceExistsTest {
 	 */
 	@Test
 	public void nestedOnceExistsTest_TriggerInnerThenOuter() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var outerClsName = "OuterCls";
 		var cls1Name = "Cls1";
 		var cls2Name = "Cls2";
@@ -261,7 +261,7 @@ public class FluentAPIOnceExistsTest {
 	 */
 	@Test
 	public void multipleMarkOnceExistsTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var implementingClsName = "ImplCls";
 		var ifcOneName = "Ifc1";
 		var ifcTwoName = "Ifc2";
@@ -300,7 +300,7 @@ public class FluentAPIOnceExistsTest {
 	 */
 	@Test
 	public void multipleMarkOnceExistsTest_AsArray() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var implementingClsName = "ImplCls";
 		var ifcOneName = "Ifc1";
 		var ifcTwoName = "Ifc2";
@@ -341,7 +341,7 @@ public class FluentAPIOnceExistsTest {
 	 */
 	@Test
 	public void multipleOnceExistsForSameMarkTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var clsName = "Cls";
 		var met1Name = "met1";
 		var met2Name = "met2";
@@ -379,7 +379,7 @@ public class FluentAPIOnceExistsTest {
 	 */
 	@Test
 	public void multipleOnceExistsForSameMarksTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		var clsName = "Cls";
 		var paramClsName = "PCls";
 		var paramName = "p";

@@ -3,12 +3,12 @@ package cipm.consistency.fluentapi.test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.javaFluentAPI.JavaFluentAPIFactory;
 
 public class FluentAPIGetInitTest {
 	@Test
 	public void getInitTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var clsInit1 = api.newClass();
 		var clsInit2 = api.newClass();
@@ -26,7 +26,7 @@ public class FluentAPIGetInitTest {
 
 	@Test
 	public void getInitTest_DifferentTypes() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var init1 = api.newClass();
 		var init2 = api.newInterface();

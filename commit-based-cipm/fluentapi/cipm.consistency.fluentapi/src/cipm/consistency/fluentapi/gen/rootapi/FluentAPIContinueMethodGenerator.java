@@ -61,7 +61,7 @@ public class FluentAPIContinueMethodGenerator {
 						StringUtils.capitalize(elemToInit.getName())),
 				initECls,
 				String.format(continueMethodBodyTemplate, FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						elemToInit.getInstanceClass().getName()));
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(elemToInit)));
 	}
 
 	private EOperation generateContinueNewestMethod(EClass elemToInit, EClass initECls) {
@@ -71,7 +71,7 @@ public class FluentAPIContinueMethodGenerator {
 				initECls,
 				String.format(continueWithNewestMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						elemToInit.getInstanceClass().getName()));
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(elemToInit)));
 	}
 
 	private EOperation generateContinueOldestMethod(EClass elemToInit, EClass initECls) {
@@ -81,7 +81,7 @@ public class FluentAPIContinueMethodGenerator {
 				initECls,
 				String.format(continueWithOldestMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						elemToInit.getInstanceClass().getName()));
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(elemToInit)));
 	}
 
 	private EOperation generateContinueFromStartMethod(EClass elemToInit, EClass initECls) {
@@ -93,7 +93,7 @@ public class FluentAPIContinueMethodGenerator {
 				initECls,
 				String.format(continueFromStartMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						elemToInit.getInstanceClass().getName()),
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(elemToInit)),
 				param);
 	}
 
@@ -106,7 +106,7 @@ public class FluentAPIContinueMethodGenerator {
 				initECls,
 				String.format(continueFromEndMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						elemToInit.getInstanceClass().getName()),
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(elemToInit)),
 				param);
 	}
 

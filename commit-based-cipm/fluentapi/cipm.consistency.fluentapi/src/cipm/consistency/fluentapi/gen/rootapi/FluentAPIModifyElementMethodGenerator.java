@@ -54,7 +54,7 @@ public class FluentAPIModifyElementMethodGenerator {
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyMarkedMethodNameForType(eObjEClass), initECls,
 				String.format(modifyMarkedElementMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						eObjEClass.getInstanceClass().getSimpleName()),
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass)),
 				markKeyParam);
 	}
 

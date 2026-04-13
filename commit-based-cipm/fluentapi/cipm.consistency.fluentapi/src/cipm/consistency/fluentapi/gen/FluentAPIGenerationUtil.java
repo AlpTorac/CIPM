@@ -13,6 +13,8 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
+import org.eclipse.emf.ecore.EcorePackage;
+import org.emftext.language.java.JavaPackage;
 
 public class FluentAPIGenerationUtil {
 	private static EPackage placeholderEDataTypesPac;
@@ -44,9 +46,23 @@ public class FluentAPIGenerationUtil {
 		return !elemToInit.isAbstract() && !elemToInit.isInterface();
 	}
 
-	public static String getFullyQualifiedEClassName(EClass eCls) {
-		String result = eCls.getName();
+	public static String getFullyQualifiedEClassName(EClassifier eCls) {
+		if (eCls.getInstanceClass() != null) {
+			return eCls.getInstanceClass().getName();
+		}
+
 		var pac = eCls.getEPackage();
+		String result = eCls.getName();
+
+		if (pac != null && !pac.getEClassifiers().isEmpty()) {
+			var sampleCls = pac.getEClassifiers().stream().filter((clsfier) -> clsfier.getInstanceClass() != null)
+					.findFirst().orElse(null);
+			if (sampleCls != null) {
+				return sampleCls.getInstanceClass().getPackageName() + packageNameSeparator + result;
+			}
+		}
+
+		// FIXME Fix namespace computation
 		while (pac != null) {
 			result = pac.getName() + packageNameSeparator + result;
 			pac = pac.getESuperPackage();
@@ -132,7 +148,15 @@ public class FluentAPIGenerationUtil {
 			arrayType.setInstanceTypeName(arrayTypeInstanceTypeName);
 			arrayType.setInstanceClassName(arrayTypeInstanceTypeName);
 			// Get array type this way, since cls.arrayType() is introduced in Java 12
-			arrayType.setInstanceClass(Array.newInstance(type.getInstanceClass(), 0).getClass());
+			// FIXME Do not use JavaPackage
+			var cls = JavaPackage.eINSTANCE.getESubpackages().stream().map((sp) -> sp.getEClassifier(type.getName()))
+					.filter((c) -> c != null).findFirst().orElse(null);
+
+			if (cls == null) {
+				cls = EcorePackage.eINSTANCE.getEClassifier(type.getName());
+			}
+
+			arrayType.setInstanceClass(Array.newInstance(cls.getInstanceClass(), 0).getClass());
 			placeholderEDataTypesPac.getEClassifiers().add(arrayType);
 		}
 

@@ -39,4 +39,10 @@ public class FluentAPIPcmRepositoryMetamodelPackageProvider extends FluentAPITar
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	@Override
+	public List<EPackage> getTargetMetamodelEcoreEPackages() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

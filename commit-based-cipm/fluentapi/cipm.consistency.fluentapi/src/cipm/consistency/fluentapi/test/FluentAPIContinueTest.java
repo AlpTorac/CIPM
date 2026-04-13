@@ -3,12 +3,12 @@ package cipm.consistency.fluentapi.test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.javaFluentAPI.JavaFluentAPIFactory;
 
 public class FluentAPIContinueTest {
 	@Test
 	public void sameElement() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modName = "modName";
 		var modOpen = api.newOpen();
@@ -23,7 +23,7 @@ public class FluentAPIContinueTest {
 
 	@Test
 	public void differentElement() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modName = "modName";
 		var modNss = FluentAPITestUtils.toEList("ns1", "ns2");
@@ -47,7 +47,7 @@ public class FluentAPIContinueTest {
 
 	@Test
 	public void continueIndexTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var clsInit1 = api.newClass();
 		var clsInit2 = api.newClass();
@@ -65,7 +65,7 @@ public class FluentAPIContinueTest {
 
 	@Test
 	public void continueIndexTest_OutOfBounds() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		Assertions.assertNull(api.continueClassFromStart(0));
 		Assertions.assertNull(api.continueClassFromEnd(0));
@@ -73,7 +73,7 @@ public class FluentAPIContinueTest {
 
 	@Test
 	public void continueIndexTest_DifferentTypes() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var init1 = api.newClass();
 		var init2 = api.newInterface();
@@ -96,7 +96,7 @@ public class FluentAPIContinueTest {
 
 	@Test
 	public void continueOldestTest_SameTypes() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		Assertions.assertNull(api.continueOldestClass());
 
 		var firstInit = api.newClass();
@@ -118,7 +118,7 @@ public class FluentAPIContinueTest {
 
 	@Test
 	public void continueOldestTest_DifferentTypes() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		Assertions.assertNull(api.continueOldestClass());
 		Assertions.assertNull(api.continueOldestInterface());
 		Assertions.assertNull(api.continueOldestEnumeration());
@@ -138,13 +138,13 @@ public class FluentAPIContinueTest {
 
 	@Test
 	public void continueOldestTest_NoInitialisation() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		Assertions.assertNull(api.continueOldestClass());
 	}
 
 	@Test
 	public void continueNewestTest_SameTypes() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		Assertions.assertNull(api.continueNewestClass());
 
 		var firstInit = api.newClass();
@@ -166,7 +166,7 @@ public class FluentAPIContinueTest {
 
 	@Test
 	public void continueNewestTest_DifferentTypes() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		Assertions.assertNull(api.continueNewestClass());
 		Assertions.assertNull(api.continueNewestInterface());
 		Assertions.assertNull(api.continueNewestEnumeration());
@@ -186,7 +186,7 @@ public class FluentAPIContinueTest {
 
 	@Test
 	public void continueNewestTest_NoInitialisation() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 		Assertions.assertNull(api.continueNewestClass());
 	}
 }

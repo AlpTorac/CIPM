@@ -54,7 +54,7 @@ public class FluentAPIRootAPIMarkMethodGenerator {
 		var param = getMarkKeyParam();
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetMarkedXMethodNameForType(elemToInit), elemToInit,
-				String.format(getMarkedXMethodBodyTemplate, elemToInit.getInstanceClass().getName()), param);
+				String.format(getMarkedXMethodBodyTemplate, FluentAPIGenerationUtil.getFullyQualifiedEClassName(elemToInit)), param);
 	}
 
 	private EParameter getMarkKeyParam() {

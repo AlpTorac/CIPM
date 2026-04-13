@@ -115,7 +115,7 @@ public class FluentAPIRootAPINewMethodGenerator {
 				FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodNameForType(eObjEClass), initECls,
 				String.format(newXWithModifiableFeatsMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						eObjEClass.getInstanceClass().getName())
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass))
 
 		);
 	}
@@ -148,9 +148,9 @@ public class FluentAPIRootAPINewMethodGenerator {
 		var originalOp = FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodNameForType(eObjEClass), eObjEClass,
 				String.format(newXWithOnlyOneModifiableSingleValuedFeatsMethodBodyTemplate,
-						eObjEClass.getInstanceClass().getName(),
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass),
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						eObjEClass.getInstanceClass().getName(), StringUtils.capitalize(modifiableFeature.getName()),
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass), StringUtils.capitalize(modifiableFeature.getName()),
 						originalOpFeatureValParam.getName()),
 				originalOpFeatureValParam);
 		ops.add(originalOp);
@@ -161,9 +161,9 @@ public class FluentAPIRootAPINewMethodGenerator {
 			var longOp = FluentAPIGenerationUtil.generateEOperationWithBody(
 					FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodNameForType(eObjEClass), eObjEClass,
 					String.format(newXWithOnlyOneModifiableSingleValuedFeatsMethodBodyTemplate,
-							eObjEClass.getInstanceClass().getName(),
+							FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass),
 							FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-							eObjEClass.getInstanceClass().getName(),
+							FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass),
 							StringUtils.capitalize(modifiableFeature.getName()),
 							// TODO Remove valueOf, since initialisations already handle it
 							String.format("java.math.BigInteger.valueOf(%s)", longOpNewFeatValParam.getName())),
@@ -175,9 +175,9 @@ public class FluentAPIRootAPINewMethodGenerator {
 			var intOp = FluentAPIGenerationUtil.generateEOperationWithBody(
 					FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodNameForType(eObjEClass), eObjEClass,
 					String.format(newXWithOnlyOneModifiableSingleValuedFeatsMethodBodyTemplate,
-							eObjEClass.getInstanceClass().getName(),
+							FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass),
 							FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-							eObjEClass.getInstanceClass().getName(),
+							FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass),
 							StringUtils.capitalize(modifiableFeature.getName()),
 							// TODO Remove valueOf, since initialisations already handle it
 							String.format("java.math.BigInteger.valueOf(%s)", intOpNewFeatValParam.getName())),
@@ -195,9 +195,9 @@ public class FluentAPIRootAPINewMethodGenerator {
 		var listOp = FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodNameForType(eObjEClass), eObjEClass,
 				String.format(newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_singleValue,
-						eObjEClass.getInstanceClass().getName(),
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass),
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						eObjEClass.getInstanceClass().getName(), StringUtils.capitalize(modifiableFeature.getName())),
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass), StringUtils.capitalize(modifiableFeature.getName())),
 				featureValParam);
 		ops.add(listOp);
 
@@ -212,9 +212,9 @@ public class FluentAPIRootAPINewMethodGenerator {
 		var listOp = FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodNameForType(eObjEClass), eObjEClass,
 				String.format(newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_multipleValues,
-						eObjEClass.getInstanceClass().getName(),
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass),
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						eObjEClass.getInstanceClass().getName(), StringUtils.capitalize(modifiableFeature.getName())),
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass), StringUtils.capitalize(modifiableFeature.getName())),
 				listFeatureValParam);
 		ops.add(listOp);
 
@@ -222,9 +222,9 @@ public class FluentAPIRootAPINewMethodGenerator {
 		var arrayOp = FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodNameForType(eObjEClass), eObjEClass,
 				String.format(newXWithOnlyOneModifiableManyValuedFeatsMethodBodyTemplate_multipleValues,
-						eObjEClass.getInstanceClass().getName(),
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass),
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						eObjEClass.getInstanceClass().getName(), StringUtils.capitalize(modifiableFeature.getName())),
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass), StringUtils.capitalize(modifiableFeature.getName())),
 				arrayFeatureValParam);
 		ops.add(arrayOp);
 
@@ -234,9 +234,9 @@ public class FluentAPIRootAPINewMethodGenerator {
 	public EOperation getRootAPINewOperationForEClassWithoutModifiableFeats(EClass eObjEClass, EClass initECls) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPINewMethodNameForType(eObjEClass), eObjEClass,
-				String.format(newXWithoutModifiableFeatsMethodBodyTemplate, eObjEClass.getInstanceClass().getName(),
+				String.format(newXWithoutModifiableFeatsMethodBodyTemplate, FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass),
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						eObjEClass.getInstanceClass().getName()));
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass)));
 	}
 
 	private EParameter getSingleValuedFeatValParam(EStructuralFeature feat) {

@@ -45,9 +45,9 @@ public class FluentAPICreateNewMethodGenerator {
 	private EOperation generateCreateNewMethod(EClass eObjEClass) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXMethodNameTemplate(),
-						eObjEClass.getInstanceClass().getSimpleName()),
-				eObjEClass, String.format(createNewXMethodBodyTemplate, eObjEClass.getInstanceClass().getName(),
-						eObjEClass.getInstanceClass().getName()));
+						eObjEClass.getName()),
+				eObjEClass, String.format(createNewXMethodBodyTemplate, FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass),
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass)));
 	}
 
 	private EOperation generateGenericCreateNewMethod() {

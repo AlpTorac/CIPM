@@ -10,7 +10,7 @@ import org.emftext.language.java.containers.ContainersPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.javaFluentAPI.JavaFluentAPIFactory;
 
 public class FluentAPISuperInitTest {
 	private static final EClass modECls = ContainersPackage.Literals.MODULE;
@@ -23,7 +23,7 @@ public class FluentAPISuperInitTest {
 
 	@Test
 	public void xWithFeatTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modName = "modName";
 
@@ -36,7 +36,7 @@ public class FluentAPISuperInitTest {
 
 	@Test
 	public void xWithoutFeatTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modName = "modName";
 
@@ -50,7 +50,7 @@ public class FluentAPISuperInitTest {
 
 	@Test
 	public void xWithAddedFeatTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modNss = new String[] { "ns1", "ns2", "ns3" };
 
@@ -62,7 +62,7 @@ public class FluentAPISuperInitTest {
 
 	@Test
 	public void xWithRemovedFeatTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modNss = new String[] { "ns1", "ns2", "ns3" };
 
@@ -76,7 +76,7 @@ public class FluentAPISuperInitTest {
 
 	@Test
 	public void xWithExactFeatTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modNss = new String[] { "ns1", "ns2", "ns3" };
 
@@ -96,7 +96,7 @@ public class FluentAPISuperInitTest {
 
 	@Test
 	public void xWithFeatOfContainerTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var cuName = "cu";
 
@@ -111,7 +111,7 @@ public class FluentAPISuperInitTest {
 
 	@Test
 	public void onceExistsTest() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var metName = "met";
 		var returnTypeName = "returnType";

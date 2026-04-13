@@ -5,13 +5,13 @@ import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.javaFluentAPI.JavaFluentAPIFactory;
 
 public class FluentAPIWithManyValuedFeatTest {
 
 	@Test
 	public void apiTest_WithManyAddedValuedEAttribute_AsArray() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modNss = new String[] { "ns1", "ns2", "ns3" };
 
@@ -23,7 +23,7 @@ public class FluentAPIWithManyValuedFeatTest {
 
 	@Test
 	public void apiTest_WithManyAddedValuedEReference_AsArray() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var pacName1 = "pac1";
 		var pacName2 = "pac2";
@@ -38,7 +38,7 @@ public class FluentAPIWithManyValuedFeatTest {
 
 	@Test
 	public void apiTest_WithManyRemovedValuedEAttribute_AsArray() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var nsToRemove = "ns2";
 		var modNss = new String[] { "ns1", nsToRemove, "ns3" };
@@ -52,7 +52,7 @@ public class FluentAPIWithManyValuedFeatTest {
 
 	@Test
 	public void apiTest_WithManyRemovedValuedEReference_AsArray() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var pacName1 = "pac1";
 		var pacName2 = "pac2";
@@ -73,7 +73,7 @@ public class FluentAPIWithManyValuedFeatTest {
 
 	@Test
 	public void apiTest_WithManyExactValuedEAttribute_AsArray() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var nsToRemove = "ns2";
 		var modNss = new String[] { "ns1", nsToRemove, "ns3" };
@@ -87,7 +87,7 @@ public class FluentAPIWithManyValuedFeatTest {
 
 	@Test
 	public void apiTest_WithManyExactValuedEReference_AsArray() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var pacName1 = "pac1";
 		var pacName2 = "pac2";
@@ -108,7 +108,7 @@ public class FluentAPIWithManyValuedFeatTest {
 
 	@Test
 	public void apiTest_WithManyAddedValuedEAttribute() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modNss = FluentAPITestUtils.toEList("ns1", "ns2", "ns3");
 
@@ -120,7 +120,7 @@ public class FluentAPIWithManyValuedFeatTest {
 
 	@Test
 	public void apiTest_WithManyAddedValuedEReference() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var pacName1 = "pac1";
 		var pacName2 = "pac2";
@@ -135,7 +135,7 @@ public class FluentAPIWithManyValuedFeatTest {
 
 	@Test
 	public void apiTest_WithManyRemovedValuedEAttribute() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var nsToRemove = "ns2";
 		var modNss = FluentAPITestUtils.toEList("ns1", nsToRemove, "ns3");
@@ -149,7 +149,7 @@ public class FluentAPIWithManyValuedFeatTest {
 
 	@Test
 	public void apiTest_WithManyRemovedValuedEReference() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var pacName1 = "pac1";
 		var pacName2 = "pac2";
@@ -170,7 +170,7 @@ public class FluentAPIWithManyValuedFeatTest {
 
 	@Test
 	public void apiTest_WithManyExactValuedEAttribute() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var nsToRemove = "ns2";
 		var modNss = FluentAPITestUtils.toEList("ns1", nsToRemove, "ns3");
@@ -184,7 +184,7 @@ public class FluentAPIWithManyValuedFeatTest {
 
 	@Test
 	public void apiTest_WithManyExactValuedEReference() {
-		var api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
+		var api = JavaFluentAPIFactory.eINSTANCE.createFluentJavaAPI();
 
 		var pacName1 = "pac1";
 		var pacName2 = "pac2";

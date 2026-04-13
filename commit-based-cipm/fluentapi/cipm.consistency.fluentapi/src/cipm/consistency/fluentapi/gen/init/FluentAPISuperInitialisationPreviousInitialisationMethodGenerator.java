@@ -34,7 +34,7 @@ public class FluentAPISuperInitialisationPreviousInitialisationMethodGenerator {
 				initEClass,
 				String.format(previousInitMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initEClass),
-						eobjEClass.getInstanceClass().getName()),
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(eobjEClass)),
 				previousInitMethodDocumentation);
 	}
 }
