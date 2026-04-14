@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 /**
@@ -30,24 +31,24 @@ public class FluentAPICreateNewMethodGenerator {
 			+ FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXWithClassParameterMethodParameterName()
 			+ ").createNow()");
 
-	public List<EOperation> generateAllCreateNewMethods(List<EClass> eObjEClss) {
+	public List<EOperation> generateAllCreateNewMethods(List<EClass> eObjEClss, FluentAPITargetMetamodelPackageProvider provider) {
 		var ops = new ArrayList<EOperation>();
 
 		ops.add(generateGenericCreateNewMethod());
 
 		for (var eObjEClass : eObjEClss) {
-			ops.add(generateCreateNewMethod(eObjEClass));
+			ops.add(generateCreateNewMethod(eObjEClass, provider));
 		}
 
 		return ops;
 	}
 
-	private EOperation generateCreateNewMethod(EClass eObjEClass) {
+	private EOperation generateCreateNewMethod(EClass eObjEClass, FluentAPITargetMetamodelPackageProvider provider) {
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				String.format(FluentAPIRootAPIConstants.getFluentAPIRootAPICreateNewXMethodNameTemplate(),
 						eObjEClass.getName()),
-				eObjEClass, String.format(createNewXMethodBodyTemplate, FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass),
-						FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass)));
+				eObjEClass, String.format(createNewXMethodBodyTemplate, provider.getFullyQualifiedClassNameFor(eObjEClass),
+						provider.getFullyQualifiedClassNameFor(eObjEClass)));
 	}
 
 	private EOperation generateGenericCreateNewMethod() {

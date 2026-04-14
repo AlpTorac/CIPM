@@ -12,6 +12,7 @@ import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationConstants;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPIConstants;
 import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationConstants;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPISuperInitialisationCreateNowMethodGenerator {
@@ -32,20 +33,20 @@ public class FluentAPISuperInitialisationCreateNowMethodGenerator {
 			"return (%s) this.get" + FluentAPISuperInitialisationConstants
 					.getCapitalisedFluentAPISuperInitialisationCurrentElementReferenceName() + "()");
 
-	public List<EOperation> generateAllCreateNowMethods(EClass elemToInit) {
+	public List<EOperation> generateAllCreateNowMethods(EClass elemToInit, FluentAPITargetMetamodelPackageProvider provider) {
 		var ops = new ArrayList<EOperation>();
 
-		ops.add(generateCreateNowMethod(elemToInit));
+		ops.add(generateCreateNowMethod(elemToInit, provider));
 		ops.add(generateGenericCreateNowMethod(elemToInit));
 
 		return ops;
 	}
 
-	private EOperation generateCreateNowMethod(EClass elemToInit) {
+	private EOperation generateCreateNowMethod(EClass elemToInit, FluentAPITargetMetamodelPackageProvider provider) {
 		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
 				FluentAPIInitialisationConstants.getFluentapiinitialisationcreatenowmethodname(), elemToInit,
 				String.format(createNowMethodBodyTemplate, 
-						FluentAPIGenerationUtil.getFullyQualifiedEClassName(elemToInit)),
+						provider.getFullyQualifiedClassNameFor(elemToInit)),
 				createNowMethodDocumentation);
 	}
 

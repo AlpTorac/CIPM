@@ -7,6 +7,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIRootAPIConstants;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
@@ -25,7 +26,7 @@ public class FluentAPIGetInitialisationForMethodGenerator {
 			.joinLOC("return (%s)" + FluentEObjectAPIMethods.class.getName() + ".getInitialisationForX(this, "
 					+ FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForEObjectParameterName() + ")");
 
-	public EOperation getInitialisationForEClassMethod(EClass initsSuperType) {
+	public EOperation getInitialisationForEClassMethod(EClass initsSuperType, FluentAPITargetMetamodelPackageProvider provider) {
 		var param = getInitialisationForEClassParam();
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(), initsSuperType,
@@ -40,7 +41,7 @@ public class FluentAPIGetInitialisationForMethodGenerator {
 				EcorePackage.Literals.ECLASS);
 	}
 
-	public EOperation getInitialisationForClassMethod(EClass initsSuperType) {
+	public EOperation getInitialisationForClassMethod(EClass initsSuperType, FluentAPITargetMetamodelPackageProvider provider) {
 		var param = getInitialisationForClassParam();
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(), initsSuperType,
@@ -55,7 +56,7 @@ public class FluentAPIGetInitialisationForMethodGenerator {
 				EcorePackage.Literals.EJAVA_CLASS);
 	}
 
-	public EOperation getInitialisationForEObjectMethod(EClass initsSuperType) {
+	public EOperation getInitialisationForEObjectMethod(EClass initsSuperType, FluentAPITargetMetamodelPackageProvider provider) {
 		var param = getInitialisationForEObjectParam();
 		return FluentAPIGenerationUtil.generateEOperationWithBody(
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIGetInitialisationForMethodName(), initsSuperType,

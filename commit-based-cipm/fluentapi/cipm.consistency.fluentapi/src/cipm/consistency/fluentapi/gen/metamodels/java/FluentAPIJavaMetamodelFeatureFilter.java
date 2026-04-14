@@ -10,7 +10,6 @@ public class FluentAPIJavaMetamodelFeatureFilter extends FluentAPITargetMetamode
 	@Override
 	public boolean isFeatureEligible(EClass holderOfFeat, EStructuralFeature feat) {
 		return isFeatureActuallyChangeable(feat)
-				&& !(feat.getEContainingClass().getName().equals(Commentable.class.getSimpleName()));
-//				&& !feat.getEContainingClass().getInstanceClass().isAssignableFrom(Commentable.class);
+				&& !feat.getEContainingClass().getName().equals(Commentable.class.getSimpleName());
 	}
 }

@@ -57,12 +57,12 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		initSuperType.getEStructuralFeatures().add(currentElemRef);
 	}
 
-	private void addOperations(EClass initSuperType, EClass fluentAPICls) {
+	private void addOperations(EClass initSuperType, EClass fluentAPICls, FluentAPITargetMetamodelPackageProvider provider) {
 		initSuperType.getEOperations().add(new FluentAPISuperInitialisationGetInitialisedEClassMethodGenerator()
 				.generateGetInitialisedEClassMethod());
 
 		initSuperType.getEOperations().addAll(new FluentAPISuperInitialisationCreateNowMethodGenerator()
-				.generateAllCreateNowMethods(EcorePackage.Literals.EOBJECT));
+				.generateAllCreateNowMethods(EcorePackage.Literals.EOBJECT, provider));
 
 		initSuperType.getEOperations().add(
 				new FluentAPISuperInitialisationNewElementMethodGenerator().generateNewElementMethod(initSuperType));
@@ -79,10 +79,10 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		initSuperType.getEOperations().add(new FluentAPIToAPIMethodGenerator().generateToAPIMethod(fluentAPICls));
 
 		initSuperType.getEOperations().add(new FluentAPISuperInitialisationNextInitialisationMethodGenerator()
-				.getNextInitialisationMethodFor(initSuperType, EcorePackage.Literals.EOBJECT));
+				.getNextInitialisationMethodFor(initSuperType, EcorePackage.Literals.EOBJECT, provider));
 
 		initSuperType.getEOperations().add(new FluentAPISuperInitialisationPreviousInitialisationMethodGenerator()
-				.getPreviousInitialisationMethodFor(initSuperType, EcorePackage.Literals.EOBJECT));
+				.getPreviousInitialisationMethodFor(initSuperType, EcorePackage.Literals.EOBJECT, provider));
 
 		initSuperType.getEOperations().addAll(new FluentAPISuperInitialisationWithOperationGenerator()
 				.getAllAPITopLevelWithOperations(initSuperType));
@@ -91,8 +91,8 @@ public class FluentAPISuperInitialisationEClassGenerator {
 				.generateAllOnceExistsMethods(initSuperType));
 	}
 
-	public void setupSuperInitialisationEClass(EClass fluentAPICls, EClass initSuperType) {
+	public void setupSuperInitialisationEClass(EClass fluentAPICls, EClass initSuperType, FluentAPITargetMetamodelPackageProvider provider) {
 		addRefs(initSuperType, fluentAPICls);
-		addOperations(initSuperType, fluentAPICls);
+		addOperations(initSuperType, fluentAPICls, provider);
 	}
 }

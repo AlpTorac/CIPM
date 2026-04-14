@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EOperation;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationConstants;
 import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationConstants;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
@@ -27,12 +28,13 @@ public class FluentAPISuperInitialisationNextInitialisationMethodGenerator {
 					+ FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationToAPIMethodName()
 					+ "(), %s.class)");
 
-	public EOperation getNextInitialisationMethodFor(EClass initEClass, EClass eobjEClass) {
+	public EOperation getNextInitialisationMethodFor(EClass initEClass, EClass eobjEClass,
+			FluentAPITargetMetamodelPackageProvider provider) {
 		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
 				FluentAPISuperInitialisationConstants.getFluentAPISuperInitialisationNextInitMethodName(), initEClass,
 				String.format(nextInitMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initEClass),
-						FluentAPIGenerationUtil.getFullyQualifiedEClassName(eobjEClass)),
+						provider.getFullyQualifiedClassNameFor(eobjEClass)),
 				nextInitMethodDocumentation);
 	}
 }

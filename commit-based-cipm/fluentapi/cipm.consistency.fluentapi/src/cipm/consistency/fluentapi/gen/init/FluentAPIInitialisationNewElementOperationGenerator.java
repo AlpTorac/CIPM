@@ -6,6 +6,7 @@ import org.eclipse.emf.ecore.EOperation;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIInitialisationConstants;
 import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationConstants;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIInitialisationNewElementOperationGenerator {
@@ -27,11 +28,13 @@ public class FluentAPIInitialisationNewElementOperationGenerator {
 			//
 			"return this");
 
-	public EOperation getNewElementOperationFor(EClass initEClass, EClass elemToInit) {
+	public EOperation getNewElementOperationFor(EClass initEClass, EClass elemToInit,
+			FluentAPITargetMetamodelPackageProvider provider) {
 		var op = FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationNewElementOperationName(), initEClass,
-				String.format(newElementOperationMethodBodyTemplate, elemToInit.getEPackage().getClass().getName(),
-						EClass.class.getName(), elemToInit.getName()),
+				String.format(newElementOperationMethodBodyTemplate,
+						provider.getFullyQualifiedPackageNameFor(elemToInit), EClass.class.getName(),
+						elemToInit.getName()),
 				String.format(newElementOperationDocumentation, elemToInit.getName()));
 
 		op.setEType(initEClass);

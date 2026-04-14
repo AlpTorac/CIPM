@@ -25,7 +25,7 @@ public class FluentAPIRootAPIGenerator {
 		var initEClss = generateConcreteInitEClasses(targetMetamodelPackageProvider, filter);
 		initPac.getEClassifiers().addAll(initEClss);
 
-		setupInitSuperTypeEClass(fluentAPICls, initSuperType);
+		setupInitSuperTypeEClass(fluentAPICls, initSuperType, targetMetamodelPackageProvider);
 		setupConcreteInitEClasses(initSuperType, initEClss);
 		setupRootAPIEClass(fluentAPICls, initSuperType, initEClss, targetMetamodelPackageProvider, filter);
 
@@ -55,8 +55,8 @@ public class FluentAPIRootAPIGenerator {
 		return new FluentAPISuperInitialisationEClassGenerator().generateSuperInitialisationEClass();
 	}
 
-	private void setupInitSuperTypeEClass(EClass fluentAPICls, EClass initSuperType) {
-		new FluentAPISuperInitialisationEClassGenerator().setupSuperInitialisationEClass(fluentAPICls, initSuperType);
+	private void setupInitSuperTypeEClass(EClass fluentAPICls, EClass initSuperType, FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider) {
+		new FluentAPISuperInitialisationEClassGenerator().setupSuperInitialisationEClass(fluentAPICls, initSuperType, targetMetamodelPackageProvider);
 	}
 
 	private List<EClass> generateConcreteInitEClasses(

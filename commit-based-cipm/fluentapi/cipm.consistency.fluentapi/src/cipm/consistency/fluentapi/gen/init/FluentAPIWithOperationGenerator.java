@@ -268,7 +268,7 @@ public class FluentAPIWithOperationGenerator {
 
 				if (isEligibleForXOfContainer(elemToInit, feat, eClassProvider)) {
 					// TODO Do not use eContainer(), use eGet(featName) instead
-					ops.add(this.generateWithXFeatOfContainerForSingleValued(initECls, elemToInit, feat));
+					ops.add(this.generateWithXFeatOfContainerForSingleValued(initECls, elemToInit, feat, eClassProvider));
 				}
 
 			} else {
@@ -443,7 +443,7 @@ public class FluentAPIWithOperationGenerator {
 	}
 
 	private EOperation generateWithXFeatOfContainerForSingleValued(EClass initECls, EClass elemToInit,
-			EStructuralFeature feat) {
+			EStructuralFeature feat, FluentAPITargetMetamodelPackageProvider provider) {
 		return FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationWithXFeatOfContainerNameForType(feat),
 				initECls,

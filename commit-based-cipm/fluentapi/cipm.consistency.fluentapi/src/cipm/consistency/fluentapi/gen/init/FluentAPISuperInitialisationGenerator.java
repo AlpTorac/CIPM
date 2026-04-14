@@ -5,9 +5,10 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPISuperInitialisationConstants;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 
 public class FluentAPISuperInitialisationGenerator {
-	public EClass generateFluentAPISuperInitialisationEClass() {
+	public EClass generateFluentAPISuperInitialisationEClass(FluentAPITargetMetamodelPackageProvider provider) {
 		var superType = EcoreFactory.eINSTANCE.createEClass();
 		superType.setAbstract(true);
 		superType.setInterface(false);
@@ -17,7 +18,7 @@ public class FluentAPISuperInitialisationGenerator {
 				.generateGetInitialisedEClassMethod());
 
 		superType.getEOperations().addAll(
-				new FluentAPISuperInitialisationCreateNowMethodGenerator().generateAllCreateNowMethods(EcorePackage.Literals.EOBJECT));
+				new FluentAPISuperInitialisationCreateNowMethodGenerator().generateAllCreateNowMethods(EcorePackage.Literals.EOBJECT, provider));
 
 		superType.getEOperations()
 				.add(new FluentAPISuperInitialisationNewElementMethodGenerator().generateNewElementMethod(superType));

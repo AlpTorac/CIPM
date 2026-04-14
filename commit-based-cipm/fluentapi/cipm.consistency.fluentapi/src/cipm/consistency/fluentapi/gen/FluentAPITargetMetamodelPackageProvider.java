@@ -36,4 +36,10 @@ public abstract class FluentAPITargetMetamodelPackageProvider {
 	}
 
 	public abstract List<EPackage> getTargetMetamodelEcoreEPackages();
+
+	public abstract String getFullyQualifiedClassNameFor(EClass eCls);
+
+	public abstract String getSimpleClassNameFor(EClass eCls);
+
+	public abstract String getFullyQualifiedPackageNameFor(EClass eCls);
 }

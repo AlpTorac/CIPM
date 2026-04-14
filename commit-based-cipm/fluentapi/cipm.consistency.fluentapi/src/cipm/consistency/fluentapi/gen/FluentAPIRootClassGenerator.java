@@ -118,37 +118,37 @@ public class FluentAPIRootClassGenerator {
 	}
 
 	private void addOperations(EClass fluentAPICls, EClass initSuperType, List<EClass> initEClss,
-			List<EClass> allEClassesToInit, FluentAPITargetMetamodelFeatureFilter filter) {
+			List<EClass> allEClassesToInit, FluentAPITargetMetamodelFeatureFilter filter, FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider) {
 
 		fluentAPICls.getEOperations()
-				.addAll(new FluentAPICreateNewMethodGenerator().generateAllCreateNewMethods(allEClassesToInit));
+				.addAll(new FluentAPICreateNewMethodGenerator().generateAllCreateNewMethods(allEClassesToInit, targetMetamodelPackageProvider));
 
 		fluentAPICls.getEOperations().addAll(new FluentAPIRootAPINewMethodGenerator()
-				.getAllRootAPINewOperations(fluentAPICls, initSuperType, initEClss, allEClassesToInit, filter));
+				.getAllRootAPINewOperations(fluentAPICls, initSuperType, initEClss, allEClassesToInit, filter, targetMetamodelPackageProvider));
 
 		fluentAPICls.getEOperations().addAll(new FluentAPIModifyElementMethodGenerator()
-				.getAllRootAPIModifyElementOperations(fluentAPICls, initSuperType, initEClss, allEClassesToInit));
+				.getAllRootAPIModifyElementOperations(fluentAPICls, initSuperType, initEClss, allEClassesToInit, targetMetamodelPackageProvider));
 
 		fluentAPICls.getEOperations().addAll(new FluentAPIContinueMethodGenerator()
-				.generateAllContinueMethods(initEClss, allEClassesToInit, filter));
+				.generateAllContinueMethods(initEClss, allEClassesToInit, filter, targetMetamodelPackageProvider));
 
 		fluentAPICls.getEOperations().add(new FluentAPIDropInitialisationMethodGenerator()
 				.generateDropInitialisationMethod(fluentAPICls, initSuperType));
 
 		fluentAPICls.getEOperations().addAll(
-				new FluentAPIRootAPIMarkMethodGenerator().generateAllMarkMethods(fluentAPICls, allEClassesToInit));
+				new FluentAPIRootAPIMarkMethodGenerator().generateAllMarkMethods(fluentAPICls, allEClassesToInit, targetMetamodelPackageProvider));
 
 		fluentAPICls.getEOperations()
 				.addAll(new FluentAPIRootAPIOnceExistsMethodGenerator().generateAllOnceExistsMethods(fluentAPICls));
 
 		fluentAPICls.getEOperations().add(
-				new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForEClassMethod(initSuperType));
+				new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForEClassMethod(initSuperType, targetMetamodelPackageProvider));
 
 		fluentAPICls.getEOperations()
-				.add(new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForClassMethod(initSuperType));
+				.add(new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForClassMethod(initSuperType, targetMetamodelPackageProvider));
 
 		fluentAPICls.getEOperations().add(
-				new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForEObjectMethod(initSuperType));
+				new FluentAPIGetInitialisationForMethodGenerator().getInitialisationForEObjectMethod(initSuperType, targetMetamodelPackageProvider));
 
 		fluentAPICls.getEOperations()
 				.addAll(new FluentAPIRootAPIWithOperationGenerator().getAllAPITopLevelWithOperations(fluentAPICls));
@@ -163,6 +163,6 @@ public class FluentAPIRootClassGenerator {
 		var allEClassesToInit = targetMetamodelPackageProvider.getAllTargetMetamodelConcreteEClasses();
 
 		addRefs(fluentAPICls, initSuperType);
-		addOperations(fluentAPICls, initSuperType, initEClss, allEClassesToInit, filter);
+		addOperations(fluentAPICls, initSuperType, initEClss, allEClassesToInit, filter, targetMetamodelPackageProvider);
 	}
 }
