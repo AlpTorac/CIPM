@@ -59,40 +59,18 @@ public class FluentAPIBuilder {
 
 		genModel.setModelDirectory(
 				"/cipm.consistency.fluentapi/src-gen/" + metamodelPackageProvider.getTargetMetamodelName());
-//		genModel.setModelPluginID("cipm.consistency.fluentapi");
-		genModel.setModelPluginID("");
-		genModel.setImporterID("org.eclipse.emf.importer.ecore");
-		genModel.setRootExtendsClass("org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container");
 		genModel.setOperationReflection(true);
 		genModel.setImportOrganizing(true);
 		genModel.setComplianceLevel(GenJDKLevel.JDK50_LITERAL);
-		genModel.setCopyrightFields(false);
 		genModel.setModelName(fluentAPIModelName);
 		genModel.getForeignModel().add(ecoreRes.getURI().lastSegment());
 
-//		GenModel valid, but also generates java and layout packages if enabled
-//		
-//		genModel.getForeignModel().add(metamodelPackageProvider.getTargetMetamodelTopLevelPackages().get(0).eResource()
-//				.getURI().lastSegment());
-//		genModel.getForeignModel().add(metamodelPackageProvider.getTargetMetamodelTopLevelPackages().get(1).eResource()
-//				.getURI().lastSegment());
-
 		var javaGenModel = metamodelPackageProvider.getTargetMetamodelGenModels().get(0);
-
-//		Setting MainGenModel does not change the validity of .genmodel
-//		
-//		genModel.setMainGenModel(javaGenModel);
-
-//		All necessary packages are there, but namespaces clash due to JavaPackage getting somehow duplicated
-//
 		genModel.getUsedGenPackages().addAll(javaGenModel.getGenPackages());
 
 		var initEPacs = new ArrayList<EPackage>();
 		var toGen = (EPackage) ecoreRes.getContents().get(0);
 
-//		Forces java and layout packages to be generated. Leads to a valid .genmodel file
-//		
-//		initEPacs.addAll(metamodelPackageProvider.getTargetMetamodelTopLevelPackages());
 		initEPacs.add(toGen);
 		genModel.initialize(initEPacs);
 
