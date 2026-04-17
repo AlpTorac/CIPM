@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import cipm.consistency.fluentapi.gen.metamodels.MetamodelUtil;
 
@@ -36,4 +37,6 @@ public abstract class FluentAPITargetMetamodelPackageProvider {
 	}
 
 	public abstract List<EPackage> getTargetMetamodelEcoreEPackages();
+
+	public abstract ResourceSet getTargetMetamodelResourceSet();
 }

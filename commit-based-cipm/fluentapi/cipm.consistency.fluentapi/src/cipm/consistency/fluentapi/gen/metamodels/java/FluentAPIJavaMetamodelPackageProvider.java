@@ -9,6 +9,7 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.emftext.commons.layout.LayoutPackage;
 import org.emftext.language.java.JavaPackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
@@ -32,6 +33,7 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 	private void fixInstanceClasses(EPackage parsedJavaPac) {
 		var parsedEClss = MetamodelUtil.getAllEClasses(parsedJavaPac);
 		var actualEClss = MetamodelUtil.getAllEClasses(JavaPackage.eINSTANCE);
+		actualEClss.addAll(MetamodelUtil.getAllEClasses(LayoutPackage.eINSTANCE));
 
 		if (parsedEClss.size() != actualEClss.size())
 			throw new IllegalStateException(
@@ -68,7 +70,7 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 		if (ecoreRes == null) {
 			ecoreRes = metamodelResSet.getResource(javaMetamodelEcoreModelURI, true);
 			var parsedJavaPac = (EPackage) ecoreRes.getContents().get(0);
-			removeLayoutsPackage(parsedJavaPac);
+//			removeLayoutsPackage(parsedJavaPac);
 			fixInstanceClasses(parsedJavaPac);
 		}
 
@@ -98,5 +100,10 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 	@Override
 	public String getTargetMetamodelName() {
 		return javaMetamodelName;
+	}
+
+	@Override
+	public ResourceSet getTargetMetamodelResourceSet() {
+		return metamodelResSet;
 	}
 }

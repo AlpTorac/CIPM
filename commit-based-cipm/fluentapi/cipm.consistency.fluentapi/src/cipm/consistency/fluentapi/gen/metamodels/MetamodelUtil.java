@@ -3,6 +3,7 @@ package cipm.consistency.fluentapi.gen.metamodels;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -38,21 +39,27 @@ public final class MetamodelUtil {
 	}
 
 	/**
-	 * @return All {@link EClass}es accessible under the sub-packages of topPac.
+	 * @return All {@link EClass}es accessible under the topPac as well as its
+	 *         sub-classes.
 	 */
 	public static Collection<EClass> getAllEClasses(EPackage topPac) {
 		var res = new ArrayList<EClass>();
+		var topPacEClsfiers = topPac.getEClassifiers();
+		if (topPacEClsfiers != null)
+			topPacEClsfiers.stream().filter((cls) -> cls instanceof EClass).map((cls) -> (EClass) cls)
+					.forEach((cls) -> res.add(cls));
 		var ePacs = topPac.getESubpackages();
-		ePacs.forEach((pac) -> pac.getEClassifiers().stream().filter((eClsf) -> eClsf instanceof EClass)
-				.forEach((c) -> res.add((EClass) c)));
+		ePacs.forEach((pac) -> res.addAll(getAllEClasses(pac)));
 		return res;
 	}
 
+	/**
+	 * @return All concrete {@link EClass}es accessible under the topPac as well as
+	 *         its sub-classes.
+	 */
 	public static Collection<EClass> getAllConcreteEClasses(EPackage topPac) {
-		var res = new ArrayList<EClass>();
-		var ePacs = topPac.getESubpackages();
-		ePacs.forEach((pac) -> pac.getEClassifiers().stream().filter((eClsf) -> eClsf instanceof EClass)
-				.map((c) -> (EClass) c).filter((c) -> !c.isAbstract() && !c.isInterface()).forEach((c) -> res.add(c)));
+		var res = getAllEClasses(topPac);
+		res.removeIf((c) -> c.isAbstract() || c.isInterface());
 		return res;
 	}
 
