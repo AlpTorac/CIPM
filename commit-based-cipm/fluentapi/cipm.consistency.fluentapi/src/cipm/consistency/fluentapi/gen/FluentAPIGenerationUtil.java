@@ -4,6 +4,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
@@ -46,7 +47,31 @@ public class FluentAPIGenerationUtil {
 		return !elemToInit.isAbstract() && !elemToInit.isInterface();
 	}
 
+	public static String getFullyQualifiedPackageName(EPackage pac) {
+		var pacName = StringUtils.capitalize(pac.getName()) + "Package";
+		if (pac != null && !pac.getEClassifiers().isEmpty()) {
+			var sampleCls = pac.getEClassifiers().stream().filter((clsfier) -> clsfier.getInstanceClass() != null)
+					.findFirst().orElse(null);
+			if (sampleCls != null) {
+				return sampleCls.getInstanceClass().getPackageName() + packageNameSeparator + pacName;
+			}
+		}
+
+		var result = pacName;
+		while (pac != null) {
+			result = pac.getName() + packageNameSeparator + result;
+			pac = pac.getESuperPackage();
+		}
+		return result;
+	}
+
 	public static String getFullyQualifiedEClassName(EClassifier eCls) {
+		if (eCls.getInstanceClassName() != null) {
+			return eCls.getInstanceClassName();
+		}
+		if (eCls.getInstanceTypeName() != null) {
+			return eCls.getInstanceTypeName();
+		}
 		if (eCls.getInstanceClass() != null) {
 			return eCls.getInstanceClass().getName();
 		}

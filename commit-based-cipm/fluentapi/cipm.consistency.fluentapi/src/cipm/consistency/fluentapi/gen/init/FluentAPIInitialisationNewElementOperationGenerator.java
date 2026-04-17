@@ -30,7 +30,8 @@ public class FluentAPIInitialisationNewElementOperationGenerator {
 	public EOperation getNewElementOperationFor(EClass initEClass, EClass elemToInit) {
 		var op = FluentAPIGenerationUtil.generateEOperationWithBodyAndDocumentation(
 				FluentAPIInitialisationConstants.getFluentAPIInitialisationNewElementOperationName(), initEClass,
-				String.format(newElementOperationMethodBodyTemplate, elemToInit.getEPackage().getClass().getName(),
+				String.format(newElementOperationMethodBodyTemplate,
+						FluentAPIGenerationUtil.getFullyQualifiedPackageName(elemToInit.getEPackage()),
 						EClass.class.getName(), elemToInit.getName()),
 				String.format(newElementOperationDocumentation, elemToInit.getName()));
 

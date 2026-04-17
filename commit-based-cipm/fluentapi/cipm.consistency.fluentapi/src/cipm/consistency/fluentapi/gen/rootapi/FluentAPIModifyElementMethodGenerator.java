@@ -3,6 +3,7 @@ package cipm.consistency.fluentapi.gen.rootapi;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
@@ -54,7 +55,7 @@ public class FluentAPIModifyElementMethodGenerator {
 				FluentAPIRootAPIConstants.getFluentAPIRootAPIModifyMarkedMethodNameForType(eObjEClass), initECls,
 				String.format(modifyMarkedElementMethodBodyTemplate,
 						FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
-						FluentAPIGenerationUtil.getFullyQualifiedEClassName(eObjEClass)),
+						StringUtils.capitalize(eObjEClass.getName())),
 				markKeyParam);
 	}
 
