@@ -9,24 +9,24 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated initialiserModels -->
       <package
-            uri="http://www.cipmfluentapi.com/pcm/cipm/consistency/fluentapi/pcm/api"
-            class="cipm.consistency.fluentapi.pcm.api.ApiPackage"
-            genModel="initModel/pcm/initialiserModels.genmodel"/>
+            uri="http://www.cipmfluentapi.com/java/cipm/consistency/fluentapi/java/api"
+            class="cipm.consistency.fluentapi.java.api.ApiPackage"
+            genModel="initModel/java/initialiserModels.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated initialiserModels -->
       <package
-            uri="http://www.cipmfluentapi.com/pcm/cipm/consistency/fluentapi/pcm/api/inits"
-            class="cipm.consistency.fluentapi.pcm.api.inits.InitsPackage"
-            genModel="initModel/pcm/initialiserModels.genmodel"/>
+            uri="http://www.cipmfluentapi.com/java/cipm/consistency/fluentapi/java/api/inits"
+            class="cipm.consistency.fluentapi.java.api.inits.InitsPackage"
+            genModel="initModel/java/initialiserModels.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated initialiserModels -->
       <package
-            uri="http://www.cipmfluentapi.com/pcm/cipm/consistency/fluentapi/pcm/api/placeholderTypes"
-            class="cipm.consistency.fluentapi.pcm.api.placeholderTypes.PlaceholderTypesPackage"
-            genModel="initModel/pcm/initialiserModels.genmodel"/>
+            uri="http://www.cipmfluentapi.com/java/cipm/consistency/fluentapi/java/api/placeholderTypes"
+            class="cipm.consistency.fluentapi.java.api.placeholderTypes.PlaceholderTypesPackage"
+            genModel="initModel/java/initialiserModels.genmodel"/>
    </extension>
 </plugin>

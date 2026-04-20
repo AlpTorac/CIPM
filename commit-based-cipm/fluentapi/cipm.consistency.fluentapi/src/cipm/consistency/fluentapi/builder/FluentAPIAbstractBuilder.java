@@ -7,15 +7,38 @@ import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 
 public abstract class FluentAPIAbstractBuilder {
-	private static final String commonEcoreModelDirName = "initModel";
-	private static final String commonEcoreModelFileName = "initialiserModels.ecore";
+	private static final String modelName = "initialiserModels";
+	private static final String commonModelDirName = "initModel";
+	private static final String commonEcoreModelFileName = modelName + ".ecore";
+	private static final String commonGenModelFileName = modelName + ".genmodel";
+
+	protected String getModelName() {
+		return modelName;
+	}
+
+	/**
+	 * @return The absolute path to the .genmodel file associated with the fluent
+	 *         API model
+	 */
+	protected Path getGenModelFilePath() {
+		return new File(getModelDirName()).getAbsoluteFile().toPath()
+				.resolve(getTargetMetamodelPackageProvider().getTargetMetamodelName()).resolve(getGenModelFileName());
+	}
+
+	/**
+	 * @return The name of the ".genmodel" file associated with the fluent API model
+	 */
+	protected String getGenModelFileName() {
+		return commonGenModelFileName;
+	}
 
 	/**
 	 * @return The name of the directory (only the name of the inner-most directory,
-	 *         not the path to it), where the ecore file will be saved.
+	 *         not the path to it), where the .ecore and .genmodel file will be
+	 *         saved.
 	 */
-	protected String getEcoreModelDirName() {
-		return commonEcoreModelDirName;
+	protected String getModelDirName() {
+		return commonModelDirName;
 	}
 
 	/**
@@ -30,7 +53,7 @@ public abstract class FluentAPIAbstractBuilder {
 	 * @return The absolute path to the ecore model file
 	 */
 	protected Path getEcoreModelFilePath() {
-		return new File(getEcoreModelDirName()).getAbsoluteFile().toPath()
+		return new File(getModelDirName()).getAbsoluteFile().toPath()
 				.resolve(getTargetMetamodelPackageProvider().getTargetMetamodelName()).resolve(getEcoreModelFileName());
 	}
 
@@ -41,7 +64,7 @@ public abstract class FluentAPIAbstractBuilder {
 	 */
 	protected void cleanPreviousModelFiles() {
 		var fluentAPIEcoreModelFile = getEcoreModelFilePath().toFile();
-		if (fluentAPIEcoreModelFile.exists()) {
+		if (fluentAPIEcoreModelFile.exists() && fluentAPIEcoreModelFile.listFiles() != null) {
 			for (var file : fluentAPIEcoreModelFile.listFiles()) {
 				file.delete();
 			}

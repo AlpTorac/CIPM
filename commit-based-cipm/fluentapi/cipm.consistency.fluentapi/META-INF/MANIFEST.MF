@@ -8,10 +8,19 @@ Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Automatic-Module-Name: cipm.consistency.fluentapi
 Bundle-RequiredExecutionEnvironment: JavaSE-11
+Export-Package: cipm.consistency.fluentapi.java.api,
+ cipm.consistency.fluentapi.java.api.impl,
+ cipm.consistency.fluentapi.java.api.inits,
+ cipm.consistency.fluentapi.java.api.inits.impl,
+ cipm.consistency.fluentapi.java.api.inits.util,
+ cipm.consistency.fluentapi.java.api.placeholderTypes,
+ cipm.consistency.fluentapi.java.api.placeholderTypes.impl,
+ cipm.consistency.fluentapi.java.api.util
 Require-Bundle: junit-jupiter-api,
  junit-jupiter-engine,
  junit-jupiter-params,
  org.apache.log4j,
+ org.eclipse.emf.codegen.ecore,
  org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
@@ -23,21 +32,3 @@ Require-Bundle: junit-jupiter-api,
  de.uka.ipd.sdq.identifier;visibility:=reexport,
  de.uka.ipd.sdq.probfunction;visibility:=reexport
 Bundle-ActivationPolicy: lazy
-Export-Package: cipm.consistency.fluentapi.gen,
- cipm.consistency.fluentapi.java.api,
- cipm.consistency.fluentapi.java.api.impl,
- cipm.consistency.fluentapi.java.api.inits,
- cipm.consistency.fluentapi.java.api.inits.impl,
- cipm.consistency.fluentapi.java.api.inits.util,
- cipm.consistency.fluentapi.java.api.placeholderTypes,
- cipm.consistency.fluentapi.java.api.placeholderTypes.impl,
- cipm.consistency.fluentapi.java.api.util,
- cipm.consistency.fluentapi.pcm.api,
- cipm.consistency.fluentapi.pcm.api.impl,
- cipm.consistency.fluentapi.pcm.api.inits,
- cipm.consistency.fluentapi.pcm.api.inits.impl,
- cipm.consistency.fluentapi.pcm.api.inits.util,
- cipm.consistency.fluentapi.pcm.api.placeholderTypes,
- cipm.consistency.fluentapi.pcm.api.placeholderTypes.impl,
- cipm.consistency.fluentapi.pcm.api.util
-

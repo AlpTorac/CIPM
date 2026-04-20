@@ -24,8 +24,10 @@ public class FluentAPIInitialisationNewElementOperationGenerator implements IFlu
 	public EOperation getNewElementOperationFor(EClass initEClass, EClass elemToInit) {
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.SuperInitialisation.NewElement.NAME.get(),
 				initEClass);
-		FluentAPIGenerationUtil.addBody(op, String.format(newElementMethodBodyTemplate,
-				elemToInit.getEPackage().getClass().getName(), EClass.class.getName(), elemToInit.getName()));
+		FluentAPIGenerationUtil.addBody(op,
+				String.format(newElementMethodBodyTemplate,
+						FluentAPIGenerationUtil.getFullyQualifiedEPackageName(elemToInit), EClass.class.getName(),
+						elemToInit.getName()));
 		FluentAPIGenerationUtil.addDocumentation(op,
 				ModelConstants.Initialiation.NewElement.DOC.getFor(elemToInit.getName()));
 		return op;

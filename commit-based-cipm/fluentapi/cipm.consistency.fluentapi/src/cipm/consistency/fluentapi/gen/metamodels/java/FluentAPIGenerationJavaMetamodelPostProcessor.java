@@ -13,6 +13,7 @@ import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.TypesPackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.postprocessor.FluentAPIGenerationPostProcessor;
@@ -41,12 +42,15 @@ public class FluentAPIGenerationJavaMetamodelPostProcessor implements FluentAPIG
 	 * {@link #getInitEClss()}
 	 */
 	private List<EClass> initEClss;
+	private FluentAPITargetMetamodelPackageProvider provider;
 
 	/**
 	 * @param initEClss {@link #getInitEClss()}
 	 */
-	public FluentAPIGenerationJavaMetamodelPostProcessor(List<EClass> initEClss) {
+	public FluentAPIGenerationJavaMetamodelPostProcessor(List<EClass> initEClss,
+			FluentAPITargetMetamodelPackageProvider provider) {
 		this.initEClss = initEClss;
+		this.provider = provider;
 	}
 
 	/**
@@ -54,6 +58,10 @@ public class FluentAPIGenerationJavaMetamodelPostProcessor implements FluentAPIG
 	 */
 	public List<EClass> getInitEClss() {
 		return this.initEClss;
+	}
+
+	public FluentAPITargetMetamodelPackageProvider getTargetMetamodelPackageProvider() {
+		return provider;
 	}
 
 	private List<EOperation> createOverloadingMethodsFor(EOperation opToOverload) {
@@ -67,9 +75,9 @@ public class FluentAPIGenerationJavaMetamodelPostProcessor implements FluentAPIG
 
 		for (int i = 0; i < overloadingOp.getEParameters().size(); i++) {
 			var currentParam = overloadingOp.getEParameters().get(i);
-			if (currentParam.getEType().equals(TypesPackage.Literals.TYPE_REFERENCE)) {
+			if (currentParam.getEType().equals(provider.getEClass(TypesPackage.Literals.TYPE_REFERENCE.getName()))) {
 				paramExprs.add(String.format(typeReferenceParameterOverrideTemplate, currentParam.getName()));
-				currentParam.setEType(ClassifiersPackage.Literals.CLASSIFIER);
+				currentParam.setEType(provider.getEClass(ClassifiersPackage.Literals.CLASSIFIER.getName()));
 
 				// Add parameter documentation to clarify intent
 				FluentAPIGenerationUtil.addDocumentation(currentParam,
@@ -97,7 +105,7 @@ public class FluentAPIGenerationJavaMetamodelPostProcessor implements FluentAPIG
 				// Skip parameters of type EList, since overloading them results in type erasure
 				// related issues
 				if (op.getEParameters().stream().anyMatch((p) -> p.getEType() != null && !p.isMany()
-						&& p.getEType().equals(TypesPackage.Literals.TYPE_REFERENCE))) {
+						&& p.getEType().equals(provider.getEClass(TypesPackage.Literals.TYPE_REFERENCE.getName())))) {
 					initECls.getEOperations().addAll(createOverloadingMethodsFor(op));
 				}
 			}
