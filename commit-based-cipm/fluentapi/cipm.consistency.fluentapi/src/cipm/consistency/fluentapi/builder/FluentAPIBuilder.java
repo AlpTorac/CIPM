@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.Platform;
@@ -64,7 +63,7 @@ public class FluentAPIBuilder {
 			Assertions.fail(e1);
 		}
 		System.out.println(bundle.getState());
-		System.out.println(bundle.getEntry("/model/Class.javajet"));
+		System.out.println(bundle.getEntry("/templates/model/Class.javajet"));
 
 		if (fluentAPIEcoreModelDirFile.exists()) {
 			for (var file : fluentAPIEcoreModelDirFile.listFiles()) {
@@ -152,19 +151,19 @@ public class FluentAPIBuilder {
 
 		System.out.println("Class.javajet resource: "
 				+ org.eclipse.emf.codegen.ecore.genmodel.generator.GenClassGeneratorAdapter.class
-						.getResource("/model/Class.javajet"));
+						.getResource("/templates/model/Class.javajet"));
 
 //		var bundle = Platform.getBundle("org.eclipse.emf.codegen.ecore");
 		System.out.println("Bundle: " + bundle);
 		System.out.println("Bundle state: " + bundle.getState());
-		System.out.println("Bundle entry: " + bundle.getEntry("/model/Class.javajet"));
+		System.out.println("Bundle entry: " + bundle.getEntry("/templates/model/Class.javajet"));
 
-		var url = bundle.getEntry("/model/Class.javajet");
+		var url = bundle.getEntry("/templates/model/Class.javajet");
 		System.out.println("Class.javaJet URL: " + url);
 
 		System.out.println("Class.javaJet URL via FileLocator: "
 				+ FileLocator.find(Platform.getBundle("org.eclipse.emf.codegen.ecore"),
-						new org.eclipse.core.runtime.Path("model/Class.javajet"), null));
+						new org.eclipse.core.runtime.Path("/templates/model/Class.javajet"), null));
 
 		// Generator model code.
 		//
