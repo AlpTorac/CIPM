@@ -16,10 +16,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
-import cipm.consistency.fluentapi.java.api.ApiFactory;
+import cipm.consistency.fluentapi.pcm.api.ApiFactory;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.gen.metamodels.java.FluentAPIJavaMetamodelPackageProvider;
+import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.gen.metamodels.pcm.FluentAPIPcmMetamodelPackageProvider;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 public class FluentAPIInitialisationGenerationTest extends AbstractFluentAPITest {
@@ -73,11 +75,11 @@ public class FluentAPIInitialisationGenerationTest extends AbstractFluentAPITest
 
 	@BeforeAll
 	public static void setUpBeforeAll() {
-		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var api = ApiFactory.eINSTANCE.createFluentPcmAPI();
 		FluentAPIGenerationTestSettings.setAPI(api);
 		FluentAPIGenerationTestSettings.setElemEClsToInitEClsFunc((eCls) -> api.getInitialisationForX(eCls).eClass());
-		FluentAPIGenerationTestSettings.setFeatureFilter(new FluentAPIJavaMetamodelFeatureFilter());
-		FluentAPIGenerationTestSettings.setPackageProvider(new FluentAPIJavaMetamodelPackageProvider());
+		FluentAPIGenerationTestSettings.setFeatureFilter(new FluentAPIPcmMetamodelFeatureFilter());
+		FluentAPIGenerationTestSettings.setPackageProvider(new FluentAPIPcmMetamodelPackageProvider());
 	}
 
 	private void methodTestTemplate(EClass elemToInitECls, EClass initECls, String methodNamePrefix,
