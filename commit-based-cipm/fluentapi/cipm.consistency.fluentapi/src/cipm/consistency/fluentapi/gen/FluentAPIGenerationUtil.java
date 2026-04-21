@@ -46,6 +46,7 @@ public class FluentAPIGenerationUtil {
 
 	public static String getFullyQualifiedEPackageName(EClass eCls) {
 		var pac = eCls.getEPackage();
+//		var regPac = EPackage.Registry.INSTANCE.getEPackage(eCls.getEPackage().getNsURI());
 		var pacName = StringUtils.capitalize(pac.getName() + "Package");
 
 		// Could also consider getInstanceClassName() or getInstanceTypeName(), if

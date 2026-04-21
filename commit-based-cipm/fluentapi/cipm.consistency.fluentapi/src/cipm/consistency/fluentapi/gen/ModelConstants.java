@@ -159,6 +159,7 @@ public class ModelConstants {
 							+ ModelConstants.INITIALISATION_NAME_SUFFIX.get() + "s");
 		}
 
+		// TODO Rename to getAllSupportedClasses
 		public static class GetAllSupportedEClasses {
 			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(
 					getMethodName(GetAllSupportedEClasses.class));

@@ -4,10 +4,23 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+/**
+ * 
+ * TODO Add proper commentary
+ * 
+ * Note: Do not use the original metamodel packages while type-checking or
+ * filtering, because {@link FluentAPITargetMetamodelPackageProvider} does not
+ * use the original metamodel packages. Attempting to use
+ * {@code originalECls.isSuperTypeOf(givenECls)} or vice versa will always
+ * result in false, due to the original EClass and the given EClass being in
+ * different models entirely. Instead, use their EAttributes for type-checking
+ * (such as their name); excluding {@code eCls.getInstanceClass()} and related
+ * methods, since they are not guaranteed to exist in parsed models.
+ * 
+ * @author Alp Torac Genc
+ */
 public abstract class FluentAPITargetMetamodelFeatureFilter {
 	public abstract boolean isFeatureEligible(EClass holderOfFeat, EStructuralFeature feat);
 
@@ -25,37 +38,12 @@ public abstract class FluentAPITargetMetamodelFeatureFilter {
 		return eObjEClass.getEAllStructuralFeatures().stream().anyMatch((f) -> this.isFeatureEligible(eObjEClass, f));
 	}
 
-	public boolean isFeatureEligible(EObject eObj, EStructuralFeature feat) {
-		return this.isFeatureEligible(eObj.eClass(), feat);
-	}
-
 	/**
 	 * Not declared as static, because the underlying metamodel could introduce
 	 * constraints regarding this. This is a default implementation.
 	 */
 	public boolean isFeatureChangeable(EStructuralFeature feat) {
 		return feat.isChangeable() && !feat.isDerived();
-	}
-
-	/**
-	 * Not declared as static, because the underlying metamodel could introduce
-	 * constraints regarding this. This is a default implementation.
-	 */
-	public boolean canShareFeatureWithContainer(FluentAPITargetMetamodelPackageProvider metamodelProvider,
-			EClass elemToInit, EStructuralFeature feat) {
-		// Containment EReferences are not eligible here, because their contents would
-		// get shifted upon using the same value for another EObject
-		if (feat instanceof EReference && ((EReference) feat).isContainment())
-			return false;
-
-		// Ensure that elemToInit instances have the chance of having a container
-		// that supports feat
-		var allEClasses = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
-		return allEClasses.stream().anyMatch((eCls) -> eCls.getEAllReferences().stream().anyMatch((ref) -> {
-			var refType = ref.getEType();
-			return isContainmentReferenceFor(elemToInit, ref)
-					&& ((EClass) refType).getEAllStructuralFeatures().contains(feat);
-		}));
 	}
 
 	/**

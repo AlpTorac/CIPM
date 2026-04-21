@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
@@ -22,17 +21,13 @@ public class FluentAPIInitialisationEClassGenerator {
 	private static final Map<String, String> summaries = new LinkedHashMap<>();
 
 	public List<EClass> generateFluentAPIInitialisationClasses(FluentAPIGenerationContext context) {
-		var allPackages = context.getTargetMetamodelPackageProvider().getTargetMetamodelPackages();
 		var initSubClss = new ArrayList<EClass>();
 
-		for (var pac : allPackages) {
-			for (var initialisedEClass : pac.getEClassifiers().stream().filter((c) -> c instanceof EClass)
-					.map((c) -> (EClass) c).filter(FluentAPIGenerationUtil::isConcrete)
-					.collect(Collectors.toCollection(ArrayList::new))) {
-				var initSubCls = generateInitialisationEClass(initialisedEClass, context);
-				context.addInitECls(initialisedEClass, initSubCls);
-				initSubClss.add(initSubCls);
-			}
+		for (var initialisedEClass : context.getTargetMetamodelPackageProvider()
+				.getAllTargetMetamodelConcreteEClasses()) {
+			var initSubCls = generateInitialisationEClass(initialisedEClass, context);
+			context.addInitECls(initialisedEClass, initSubCls);
+			initSubClss.add(initSubCls);
 		}
 
 		return initSubClss;

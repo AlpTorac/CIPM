@@ -12,6 +12,7 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
 
 public class FluentAPIRootAPIGetAllSupportedClassesMethodGenerator implements IFluentAPIMethodGenerator {
+	// TODO Rename to getAllSupportedClasses
 	private static final String getAllSupportedClassesMethodBodyTemplate = FluentAPIMethodsUtil
 			.joinLOC("return " + FluentEObjectAPIMethods.class.getName() + ".getAllSupportedEClasses(this)");
 

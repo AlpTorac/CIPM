@@ -109,51 +109,8 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 	}
 
 	@Override
-	public ResourceSet getTargetMetamodelResourceSet() {
-		return metamodelResSet;
-	}
-
-	@Override
-	public EClass getEClassInOriginalMetamodel(String eClsName, String... namespaces) {
-		cacheOriginalEClasses();
-		var matchingClss = originalEClss.stream().filter((eCls) -> eCls.getName().equals(eClsName))
-				.toArray(EClass[]::new);
-		if (matchingClss.length == 1) {
-			return matchingClss[0];
-		} else if (matchingClss.length == 0) {
-			return null;
-		} else if (namespaces == null) {
-			return null;
-		}
-
-		var nss = String.join(".", namespaces);
-
-		for (var cls : matchingClss) {
-			var instanceCls = cls.getInstanceClass();
-			var instanceClsName = cls.getInstanceClassName();
-			var instanceClsType = cls.getInstanceTypeName();
-
-			if (instanceCls != null && instanceCls.getPackageName().equals(nss))
-				return cls;
-			if (nss.equals(instanceClsName))
-				return cls;
-			if (nss.equals(instanceClsType))
-				return cls;
-		}
-
-		return null;
-	}
-
-	@Override
-	public List<EClass> getAllEClassedInOriginalMetamodel() {
+	public List<EClass> getAllEClassesInOriginalMetamodel() {
 		cacheOriginalEClasses();
 		return originalEClss;
-	}
-
-	@Override
-	public List<EClass> getAllConcreteEClassedInOriginalMetamodel() {
-		cacheOriginalEClasses();
-		return List.of(
-				originalEClss.stream().filter((cls) -> !cls.isInterface() && !cls.isAbstract()).toArray(EClass[]::new));
 	}
 }

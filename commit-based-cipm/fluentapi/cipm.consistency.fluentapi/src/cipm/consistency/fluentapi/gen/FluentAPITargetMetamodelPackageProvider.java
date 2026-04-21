@@ -1,13 +1,13 @@
 package cipm.consistency.fluentapi.gen;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 
 import cipm.consistency.fluentapi.gen.metamodels.MetamodelUtil;
 
@@ -20,9 +20,8 @@ public abstract class FluentAPITargetMetamodelPackageProvider {
 
 	public abstract List<EClass> getAllTargetMetamodelConcreteEClasses();
 
-	public EClass getEClass(String eClsName, String... namespaces) {
-		var matchingClss = this.getAllTargetMetamodelEClasses().stream()
-				.filter((eCls) -> eCls.getName().equals(eClsName)).toArray(EClass[]::new);
+	protected EClass getEClassIn(Collection<EClass> eClss, String eClsName, String... namespaces) {
+		var matchingClss = eClss.stream().filter((eCls) -> eCls.getName().equals(eClsName)).toArray(EClass[]::new);
 		if (matchingClss.length == 1) {
 			return matchingClss[0];
 		} else if (matchingClss.length == 0) {
@@ -49,12 +48,23 @@ public abstract class FluentAPITargetMetamodelPackageProvider {
 		return null;
 	}
 
-	public abstract EClass getEClassInOriginalMetamodel(String eClsName, String... namespaces);
+	public EClass getEClass(String eClsName, String... namespaces) {
+		return this.getEClassIn(this.getAllTargetMetamodelEClasses(), eClsName, namespaces);
+	}
 
-	public abstract List<EClass> getAllEClassedInOriginalMetamodel();
-	
-	public abstract List<EClass> getAllConcreteEClassedInOriginalMetamodel();
-	
+	public EClass getEClassInOriginalMetamodel(String eClsName, String... namespaces) {
+		var allEClss = getAllEClassesInOriginalMetamodel();
+		return this.getEClassIn(allEClss, eClsName, namespaces);
+	}
+
+	public abstract List<EClass> getAllEClassesInOriginalMetamodel();
+
+	public List<EClass> getAllConcreteEClassedInOriginalMetamodel() {
+		var allEClss = getAllEClassesInOriginalMetamodel();
+		return List
+				.of(allEClss.stream().filter((cls) -> !cls.isInterface() && !cls.isAbstract()).toArray(EClass[]::new));
+	}
+
 	public abstract List<EPackage> getTargetMetamodelTopLevelPackages();
 
 	public abstract List<GenModel> getTargetMetamodelGenModels();
@@ -72,6 +82,4 @@ public abstract class FluentAPITargetMetamodelPackageProvider {
 	}
 
 	public abstract List<EPackage> getTargetMetamodelEcoreEPackages();
-
-	public abstract ResourceSet getTargetMetamodelResourceSet();
 }

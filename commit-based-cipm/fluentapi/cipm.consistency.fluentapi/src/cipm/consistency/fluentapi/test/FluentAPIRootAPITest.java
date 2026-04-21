@@ -41,12 +41,16 @@ public class FluentAPIRootAPITest extends AbstractFluentAPITest {
 	public void getAllSupportedClassesTest() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
-		var supportedEClasses = api.getAllSupportedEClasses();
-		var expectedSupportedEClasses = new FluentAPIJavaMetamodelPackageProvider()
-				.getAllTargetMetamodelConcreteEClasses();
+		var supportedClasses = api.getAllSupportedEClasses();
+		var provider = new FluentAPIJavaMetamodelPackageProvider();
+		var expectedSupportedEClasses = provider.getAllTargetMetamodelConcreteEClasses();
 		var expectedSupportedClasses = expectedSupportedEClasses.stream().map((eCls) -> eCls.getInstanceClass())
 				.collect(Collectors.toList());
-		Assertions.assertEquals(expectedSupportedClasses.size(), supportedEClasses.size());
-		Assertions.assertTrue(supportedEClasses.containsAll(expectedSupportedClasses));
+		Assertions.assertEquals(expectedSupportedClasses.size(), supportedClasses.size());
+		Assertions.assertTrue(supportedClasses.containsAll(expectedSupportedClasses));
+		var originalEClasses = provider.getAllConcreteEClassedInOriginalMetamodel();
+		Assertions.assertEquals(originalEClasses.size(), supportedClasses.size());
+		Assertions.assertTrue(originalEClasses.stream().allMatch(
+				(orECls) -> supportedClasses.stream().anyMatch((suCls) -> orECls.getInstanceClass().equals(suCls))));
 	}
 }

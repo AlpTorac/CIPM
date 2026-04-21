@@ -186,6 +186,8 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	/**
+	 * TODO Rename to getAllSupportedClasses
+	 * 
 	 * @return A list of all EClasses that the given api instance supports the
 	 *         creation / modification of.
 	 */
