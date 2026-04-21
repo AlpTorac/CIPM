@@ -12,8 +12,8 @@ import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIInitialisationNewElementOperationGenerator implements IFluentAPIMethodGenerator {
 	private static final String newElementMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
-			// %s: Fully qualified name of the concrete EPackage type
-			"var pac = %s.eINSTANCE",
+			// %s: Ns URI of the package of the element to initialise
+			"var pac = org.eclipse.emf.ecore.EPackage.Registry.INSTANCE.getEPackage(\"%s\")",
 			// %s: Fully qualified name of EClass class
 			// %s: Name of the EClass of the element to initialise
 			ModelConstants.SuperInitialisation.CurrentElement.NAME
@@ -24,10 +24,8 @@ public class FluentAPIInitialisationNewElementOperationGenerator implements IFlu
 	public EOperation getNewElementOperationFor(EClass initEClass, EClass elemToInit) {
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.SuperInitialisation.NewElement.NAME.get(),
 				initEClass);
-		FluentAPIGenerationUtil.addBody(op,
-				String.format(newElementMethodBodyTemplate,
-						FluentAPIGenerationUtil.getFullyQualifiedEPackageName(elemToInit), EClass.class.getName(),
-						elemToInit.getName()));
+		FluentAPIGenerationUtil.addBody(op, String.format(newElementMethodBodyTemplate,
+				elemToInit.getEPackage().getNsURI(), EClass.class.getName(), elemToInit.getName()));
 		FluentAPIGenerationUtil.addDocumentation(op,
 				ModelConstants.Initialiation.NewElement.DOC.getFor(elemToInit.getName()));
 		return op;

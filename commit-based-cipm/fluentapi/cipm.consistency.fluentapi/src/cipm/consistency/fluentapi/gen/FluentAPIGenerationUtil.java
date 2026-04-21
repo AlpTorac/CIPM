@@ -44,25 +44,25 @@ public class FluentAPIGenerationUtil {
 		return !elemToInit.isAbstract() && !elemToInit.isInterface();
 	}
 
-	public static String getFullyQualifiedEPackageName(EClass eCls) {
-		var pac = eCls.getEPackage();
-//		var regPac = EPackage.Registry.INSTANCE.getEPackage(eCls.getEPackage().getNsURI());
-		var pacName = StringUtils.capitalize(pac.getName() + "Package");
-
-		// Could also consider getInstanceClassName() or getInstanceTypeName(), if
-		// getInstanceClass() does not work for certain models
-		var pacCls = pac.getEClassifiers().stream().filter((cls) -> cls.getInstanceClass() != null).findFirst()
-				.orElse(null);
-		if (pacCls != null) {
-			return pacCls.getInstanceClass().getPackageName() + packageNameSeparator + pacName;
-		}
-
-		while (pac != null) {
-			pacName = pac.getName() + packageNameSeparator + pacName;
-			pac = pac.getESuperPackage();
-		}
-		return pacName;
-	}
+//	public static String getFullyQualifiedEPackageName(EClass eCls) {
+//		var pac = eCls.getEPackage();
+//		var regPac = org.eclipse.emf.ecore.EPackage.Registry.INSTANCE.getEPackage(eCls.getEPackage().getNsURI());
+//		var pacName = StringUtils.capitalize(pac.getName() + "Package");
+//
+//		// Could also consider getInstanceClassName() or getInstanceTypeName(), if
+//		// getInstanceClass() does not work for certain models
+//		var pacCls = pac.getEClassifiers().stream().filter((cls) -> cls.getInstanceClass() != null).findFirst()
+//				.orElse(null);
+//		if (pacCls != null) {
+//			return pacCls.getInstanceClass().getPackageName() + packageNameSeparator + pacName;
+//		}
+//
+//		while (pac != null) {
+//			pacName = pac.getName() + packageNameSeparator + pacName;
+//			pac = pac.getESuperPackage();
+//		}
+//		return pacName;
+//	}
 
 	public static String getFullyQualifiedEClassName(EClass eCls) {
 		if (eCls.getInstanceClass() != null)
