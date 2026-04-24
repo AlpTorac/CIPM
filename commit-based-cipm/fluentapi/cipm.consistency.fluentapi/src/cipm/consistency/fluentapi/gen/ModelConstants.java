@@ -31,6 +31,9 @@ public class ModelConstants {
 			"http://www.eclipse.org/emf/2002/GenModel");
 	public static final IFluentAPITemplate INITIALISATION_NAME_SUFFIX = new FluentAPIFixTemplate("Initialisation");
 
+	public static final IFluentAPITemplate EDATATYPE_ARRAY_WRAPPER_NAME_SUFFIX = new FluentAPIFixTemplate("Array");
+	public static final IFluentAPITemplate EDATATYPE_ARRAY_WRAPPER_TYPE_NAME_SUFFIX = new FluentAPIFixTemplate("[]");
+	public static final IFluentAPITemplate EDATATYPE_WRAPPER_NAME_SUFFIX = new FluentAPIFixTemplate("EDataTypePlaceholder");
 	public static final IFluentAPITemplate EDATATYPE_WRAPPERS_PACKAGE_NAME = new FluentAPIFixTemplate(
 			"placeholderTypes");
 

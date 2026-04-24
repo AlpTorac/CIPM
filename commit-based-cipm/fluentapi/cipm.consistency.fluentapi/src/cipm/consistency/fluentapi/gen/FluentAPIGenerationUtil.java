@@ -21,10 +21,6 @@ import org.eclipse.emf.ecore.EcorePackage;
 
 public class FluentAPIGenerationUtil {
 	// TODO Refactor these methods, extract potential constants
-	private static final String placeholderEDataTypeSuffix = "EDataTypePlaceholder";
-
-	private static final String arrayEDataTypeNameSuffix = "Array";
-	private static final String arrayTypeNameSuffix = "[]";
 
 	private static final String eoperationBodyKey = "body";
 	private static final String eoperationDocumentationKey = "documentation";
@@ -199,7 +195,7 @@ public class FluentAPIGenerationUtil {
 
 	public static EDataType createOrGetEDataType(FluentAPIGenerationContext context, Class<?> type,
 			ETypeParameter... typeParameters) {
-		var eDataTypeName = type.getSimpleName() + placeholderEDataTypeSuffix;
+		var eDataTypeName = type.getSimpleName() + ModelConstants.EDATATYPE_WRAPPER_NAME_SUFFIX.get();
 		EDataType eDataType = (EDataType) context.getPlaceholderEDataTypesPac().getEClassifier(eDataTypeName);
 
 		if (eDataType == null) {
@@ -227,8 +223,8 @@ public class FluentAPIGenerationUtil {
 	}
 
 	public static EDataType createOrGetArrayEDataType(FluentAPIGenerationContext context, EClassifier type) {
-		var arrayEDataTypeName = type.getName() + arrayEDataTypeNameSuffix;
-		var arrayTypeInstanceTypeName = type.getName() + arrayTypeNameSuffix;
+		var arrayEDataTypeName = type.getName() + ModelConstants.EDATATYPE_ARRAY_WRAPPER_NAME_SUFFIX.get();
+		var arrayTypeInstanceTypeName = type.getName() + ModelConstants.EDATATYPE_ARRAY_WRAPPER_TYPE_NAME_SUFFIX.get();
 		EDataType arrayType = (EDataType) context.getPlaceholderEDataTypesPac().getEClassifier(arrayEDataTypeName);
 
 		if (arrayType == null) {
