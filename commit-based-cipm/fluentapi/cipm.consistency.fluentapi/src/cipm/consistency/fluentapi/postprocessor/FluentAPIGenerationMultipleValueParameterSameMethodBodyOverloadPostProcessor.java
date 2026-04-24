@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EParameter;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
-import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 
 /**
@@ -57,7 +56,7 @@ public class FluentAPIGenerationMultipleValueParameterSameMethodBodyOverloadPost
 	protected boolean shouldOverloadMethod(EOperation op) {
 		return ((!newMethodPatternToSkip.matcher(op.getName()).matches()
 				&& newMethodPatternToOverload.matcher(op.getName()).matches()
-				&& op.getEAnnotations().get(0).getDetails().get(FluentAPIGenerationUtil.getEOperationBodyKey())
+				&& op.getEAnnotations().get(0).getDetails().get(ModelConstants.GEN_MODEL_BODY_KEY.get())
 						.contains("." + ModelConstants.Initialiation.WithAdded.NAME.getEmpty()))
 				|| (onceExistsMethodPatternToOverload.matcher(op.getName()).matches()))
 				&& op.getEParameters().stream().anyMatch(this::shouldOverloadParameter);

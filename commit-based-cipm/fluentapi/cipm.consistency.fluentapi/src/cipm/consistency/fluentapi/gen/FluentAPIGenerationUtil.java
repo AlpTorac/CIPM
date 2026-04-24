@@ -22,44 +22,25 @@ import org.eclipse.emf.ecore.EcorePackage;
 public class FluentAPIGenerationUtil {
 	// TODO Refactor these methods, extract potential constants
 
-	private static final String eoperationBodyKey = "body";
-	private static final String eoperationDocumentationKey = "documentation";
-
-	private static final String packageNameSeparator = ".";
-	private static final String packageNameSeparatorRegex = "\\.";
-
-	public static String getEOperationBodyKey() {
-		return eoperationBodyKey;
-	}
-
-	public static String getEOperationDocumentationKey() {
-		return eoperationDocumentationKey;
-	}
-
-	public static boolean isConcrete(EClass elemToInit) {
-		return !elemToInit.isAbstract() && !elemToInit.isInterface();
-	}
-
-//	public static String getFullyQualifiedEPackageName(EClass eCls) {
-//		var pac = eCls.getEPackage();
-//		var regPac = org.eclipse.emf.ecore.EPackage.Registry.INSTANCE.getEPackage(eCls.getEPackage().getNsURI());
-//		var pacName = StringUtils.capitalize(pac.getName() + "Package");
-//
-//		// Could also consider getInstanceClassName() or getInstanceTypeName(), if
-//		// getInstanceClass() does not work for certain models
-//		var pacCls = pac.getEClassifiers().stream().filter((cls) -> cls.getInstanceClass() != null).findFirst()
-//				.orElse(null);
-//		if (pacCls != null) {
-//			return pacCls.getInstanceClass().getPackageName() + packageNameSeparator + pacName;
-//		}
-//
-//		while (pac != null) {
-//			pacName = pac.getName() + packageNameSeparator + pacName;
-//			pac = pac.getESuperPackage();
-//		}
-//		return pacName;
-//	}
-
+	/**
+	 * Note: This method yields a best-effort result by looking at the EPackage
+	 * structure of the given EClass. To this end, the assumption is that all
+	 * (parent) packages of the class represented by the given EClass also have a
+	 * corresponding EPackage and that the Java code structure of the generated
+	 * class is reflected in its EMF model:
+	 * <p>
+	 * <p>
+	 * Given EClass eCls representing the Java class ns1.ns2.ns3.Cls, if the EMF
+	 * containment tree of eCls is not ns1 -> ns2 -> ns3 -> eCls (with nsI being
+	 * EPackages) and {@code eCls.getInstanceClass() == null}, the returned fully
+	 * qualified name will be incorrect.
+	 * 
+	 * @return The fully qualified name for the given EClass. If
+	 *         {@code eCls.getInstanceClass() != null}, returns the name of the
+	 *         contained instance class. Otherwise, returns the fully qualified name
+	 *         based on the EPackage of the given EClass and super EPackages
+	 *         thereof.
+	 */
 	public static String getFullyQualifiedEClassName(EClass eCls) {
 		if (eCls.getInstanceClass() != null)
 			return eCls.getInstanceClass().getName();
@@ -71,7 +52,7 @@ public class FluentAPIGenerationUtil {
 		String result = eCls.getName();
 		var pac = eCls.getEPackage();
 		while (pac != null) {
-			result = pac.getName() + packageNameSeparator + result;
+			result = pac.getName() + "." + result;
 			pac = pac.getESuperPackage();
 		}
 		return result;
@@ -157,7 +138,7 @@ public class FluentAPIGenerationUtil {
 	public static <T extends EModelElement> T addDocumentation(T elem, String documentation) {
 		var anno = createOrGetEAnnotation(elem);
 		// Add the documentation
-		anno.getDetails().put(getEOperationDocumentationKey(), documentation);
+		anno.getDetails().put(ModelConstants.GEN_MODEL_DOC_KEY.get(), documentation);
 		if (!elem.getEAnnotations().contains(anno))
 			elem.getEAnnotations().add(anno);
 		return elem;
@@ -166,8 +147,8 @@ public class FluentAPIGenerationUtil {
 	public static <T extends EModelElement> T useDocumentationOf(T elem, EModelElement docSource) {
 		if (!docSource.getEAnnotations().isEmpty()) {
 			var anno = docSource.getEAnnotations().get(0);
-			if (anno.getDetails().containsKey(getEOperationDocumentationKey())) {
-				var doc = anno.getDetails().get(getEOperationDocumentationKey());
+			if (anno.getDetails().containsKey(ModelConstants.GEN_MODEL_DOC_KEY.get())) {
+				var doc = anno.getDetails().get(ModelConstants.GEN_MODEL_DOC_KEY.get());
 				addDocumentation(elem, doc);
 			}
 		}
@@ -341,7 +322,7 @@ public class FluentAPIGenerationUtil {
 	public static <T extends EModelElement> T addBody(T elem, String body) {
 		var anno = createOrGetEAnnotation(elem);
 		// Add the body
-		anno.getDetails().put(getEOperationBodyKey(), body);
+		anno.getDetails().put(ModelConstants.GEN_MODEL_BODY_KEY.get(), body);
 		if (!elem.getEAnnotations().contains(anno))
 			elem.getEAnnotations().add(anno);
 		return elem;
@@ -357,7 +338,7 @@ public class FluentAPIGenerationUtil {
 
 	public static List<EPackage> generatePackages(URI currentURI, String fullPacName) {
 		var pacs = new ArrayList<EPackage>();
-		var nss = List.of(fullPacName.split(packageNameSeparatorRegex));
+		var nss = List.of(fullPacName.split("\\."));
 		for (int i = 0; i < nss.size(); i++) {
 			var pacName = nss.get(i);
 			var pacNss = nss.subList(0, i);

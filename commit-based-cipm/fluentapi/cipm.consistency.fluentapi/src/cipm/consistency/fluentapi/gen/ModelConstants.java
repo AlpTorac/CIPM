@@ -27,13 +27,22 @@ public class ModelConstants {
 	public static final IFluentAPITemplate INITIALISATIONS_PACKAGE_NAME = new FluentAPIFixTemplate("inits");
 
 	public static final IFluentAPITemplate PLACEHOLDER = new FluentAPIFixTemplate("x");
+	public static final IFluentAPITemplate GEN_MODEL_BODY_KEY = new FluentAPIFixTemplate("body");
+	public static final IFluentAPITemplate GEN_MODEL_DOC_KEY = new FluentAPIFixTemplate("documentation");
 	public static final IFluentAPITemplate GEN_MODEL_SOURCE_URL = new FluentAPIFixTemplate(
 			"http://www.eclipse.org/emf/2002/GenModel");
 	public static final IFluentAPITemplate INITIALISATION_NAME_SUFFIX = new FluentAPIFixTemplate("Initialisation");
 
+	/**
+	 * The suffix, which EDataTypes for array-types will get in their name
+	 */
 	public static final IFluentAPITemplate EDATATYPE_ARRAY_WRAPPER_NAME_SUFFIX = new FluentAPIFixTemplate("Array");
+	/**
+	 * The suffix, which type names in EDataTypes for array-types will get
+	 */
 	public static final IFluentAPITemplate EDATATYPE_ARRAY_WRAPPER_TYPE_NAME_SUFFIX = new FluentAPIFixTemplate("[]");
-	public static final IFluentAPITemplate EDATATYPE_WRAPPER_NAME_SUFFIX = new FluentAPIFixTemplate("EDataTypePlaceholder");
+	public static final IFluentAPITemplate EDATATYPE_WRAPPER_NAME_SUFFIX = new FluentAPIFixTemplate(
+			"EDataTypePlaceholder");
 	public static final IFluentAPITemplate EDATATYPE_WRAPPERS_PACKAGE_NAME = new FluentAPIFixTemplate(
 			"placeholderTypes");
 
