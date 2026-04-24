@@ -17,7 +17,7 @@ public class ModelConstants {
 	 * %s: Metamodel name (lower case)
 	 */
 	public static final IFluentAPIFillableTemplate ROOT_PACKAGE_URI = new FluentAPIFillableTemplate(
-			"http://www.cipmfluentapi.com/%s");
+			"https://CIPM-tools.github.io/metamodels/fluentapi/1.0/%s");
 	/**
 	 * %s: Metamodel name (lower case)
 	 */

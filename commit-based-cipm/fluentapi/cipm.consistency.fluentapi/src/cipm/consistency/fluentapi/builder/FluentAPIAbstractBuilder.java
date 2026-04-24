@@ -3,17 +3,23 @@ package cipm.consistency.fluentapi.builder;
 import java.io.File;
 import java.nio.file.Path;
 
-import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelFeatureFilter;
-import cipm.consistency.fluentapi.gen.FluentAPITargetMetamodelPackageProvider;
+import org.eclipse.emf.codegen.ecore.genmodel.GenJDKLevel;
+
+import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
 
 public abstract class FluentAPIAbstractBuilder {
-	private static final String modelName = "initialiserModels";
-	private static final String commonModelDirName = "initModel";
-	private static final String commonEcoreModelFileName = modelName + ".ecore";
-	private static final String commonGenModelFileName = modelName + ".genmodel";
+	private static final String commonModelSuffix = "fluentapi";
+	private static final String commonModelDirName = "metamodel";
+	private static final String commonEcoreModelFileName = commonModelSuffix + ".ecore";
+	private static final String commonGenModelFileName = commonModelSuffix + ".genmodel";
+
+	protected String getCommonModelSuffix() {
+		return commonModelSuffix;
+	}
 
 	protected String getModelName() {
-		return modelName;
+		return getTargetMetamodelPackageProvider().getTargetMetamodelName() + "-" + commonModelSuffix;
 	}
 
 	/**
@@ -21,15 +27,14 @@ public abstract class FluentAPIAbstractBuilder {
 	 *         API model
 	 */
 	protected Path getGenModelFilePath() {
-		return new File(getModelDirName()).getAbsoluteFile().toPath()
-				.resolve(getTargetMetamodelPackageProvider().getTargetMetamodelName()).resolve(getGenModelFileName());
+		return new File(getModelDirName()).getAbsoluteFile().toPath().resolve(getGenModelFileName());
 	}
 
 	/**
 	 * @return The name of the ".genmodel" file associated with the fluent API model
 	 */
 	protected String getGenModelFileName() {
-		return commonGenModelFileName;
+		return getTargetMetamodelPackageProvider().getTargetMetamodelName() + "-" + commonGenModelFileName;
 	}
 
 	/**
@@ -46,15 +51,14 @@ public abstract class FluentAPIAbstractBuilder {
 	 *         path to it)
 	 */
 	protected String getEcoreModelFileName() {
-		return commonEcoreModelFileName;
+		return getTargetMetamodelPackageProvider().getTargetMetamodelName() + "-" + commonEcoreModelFileName;
 	}
 
 	/**
 	 * @return The absolute path to the ecore model file
 	 */
 	protected Path getEcoreModelFilePath() {
-		return new File(getModelDirName()).getAbsoluteFile().toPath()
-				.resolve(getTargetMetamodelPackageProvider().getTargetMetamodelName()).resolve(getEcoreModelFileName());
+		return new File(getModelDirName()).getAbsoluteFile().toPath().resolve(getEcoreModelFileName());
 	}
 
 	/**
@@ -70,6 +74,18 @@ public abstract class FluentAPIAbstractBuilder {
 			}
 			fluentAPIEcoreModelFile.delete();
 		}
+	}
+
+	protected static GenJDKLevel getJDKVersion() {
+		var runtimeVer = Runtime.version().version().get(0);
+		GenJDKLevel lvl = null;
+		for (var ver : GenJDKLevel.values()) {
+			if (ver.getLiteral().startsWith(String.valueOf(runtimeVer.doubleValue()))) {
+				lvl = ver;
+				break;
+			}
+		}
+		return lvl;
 	}
 
 	protected abstract FluentAPITargetMetamodelPackageProvider getTargetMetamodelPackageProvider();

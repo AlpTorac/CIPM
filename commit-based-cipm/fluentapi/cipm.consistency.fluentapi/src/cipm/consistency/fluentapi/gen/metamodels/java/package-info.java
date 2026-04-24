@@ -1,1 +1,0 @@
-package cipm.consistency.fluentapi.gen.metamodels.java;

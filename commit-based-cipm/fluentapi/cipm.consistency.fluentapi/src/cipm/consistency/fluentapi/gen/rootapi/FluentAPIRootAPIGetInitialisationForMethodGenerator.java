@@ -13,8 +13,8 @@ import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.ModelConstants;
-import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
-import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
+import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
+import cipm.consistency.fluentapi.methods.FluentEObjectAPIMethods;
 
 public class FluentAPIRootAPIGetInitialisationForMethodGenerator implements IFluentAPIMethodGenerator {
 	private static final String getInitialisationMethodBodyTemplate = FluentAPIMethodsUtil

@@ -10,6 +10,9 @@ import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
+import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
+
 public class FluentAPIGenerationContext {
 	private FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider;
 	private FluentAPITargetMetamodelFeatureFilter targetMetamodelFeatureFilter;

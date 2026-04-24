@@ -5,17 +5,14 @@ Bundle-SymbolicName: cipm.consistency.fluentapi;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: %providerName
-Bundle-Localization: plugin
 Automatic-Module-Name: cipm.consistency.fluentapi
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Export-Package: cipm.consistency.fluentapi.java.api,
- cipm.consistency.fluentapi.java.api.impl,
- cipm.consistency.fluentapi.java.api.inits,
- cipm.consistency.fluentapi.java.api.inits.impl,
- cipm.consistency.fluentapi.java.api.inits.util,
- cipm.consistency.fluentapi.java.api.placeholderTypes,
- cipm.consistency.fluentapi.java.api.placeholderTypes.impl,
- cipm.consistency.fluentapi.java.api.util
+Export-Package: cipm.consistency.fluentapi.builder,
+ cipm.consistency.fluentapi.gen,
+ cipm.consistency.fluentapi.metamodel,
+ cipm.consistency.fluentapi.methods,
+ cipm.consistency.fluentapi.methods.mark,
+ cipm.consistency.fluentapi.postprocessor
 Require-Bundle: junit-jupiter-api,
  junit-jupiter-engine,
  junit-jupiter-params,
@@ -24,11 +21,5 @@ Require-Bundle: junit-jupiter-api,
  org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport,
  org.eclipse.emf.ecore.xmi;visibility:=reexport,
- org.emftext.language.java;visibility:=reexport,
- org.apache.commons.lang,
- org.palladiosimulator.pcm;visibility:=reexport,
- de.uka.ipd.sdq.stoex;visibility:=reexport,
- de.uka.ipd.sdq.units;visibility:=reexport,
- de.uka.ipd.sdq.identifier;visibility:=reexport,
- de.uka.ipd.sdq.probfunction;visibility:=reexport
+ org.apache.commons.lang
 Bundle-ActivationPolicy: lazy

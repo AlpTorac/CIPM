@@ -8,7 +8,7 @@ import org.eclipse.emf.ecore.EOperation;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.ModelConstants;
-import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
+import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIInitialisationNewElementOperationGenerator implements IFluentAPIMethodGenerator {
 	private static final String newElementMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(

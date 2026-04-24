@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
@@ -21,6 +20,7 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
 public class FluentAPIGenerationUtil {
+	// TODO Refactor these methods, extract potential constants
 	private static final String placeholderEDataTypeSuffix = "EDataTypePlaceholder";
 
 	private static final String arrayEDataTypeNameSuffix = "Array";

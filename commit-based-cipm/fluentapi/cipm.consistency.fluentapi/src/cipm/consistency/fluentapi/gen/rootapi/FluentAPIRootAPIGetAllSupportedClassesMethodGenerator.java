@@ -8,8 +8,8 @@ import org.eclipse.emf.ecore.EcorePackage;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.ModelConstants;
-import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
-import cipm.consistency.fluentapi.gen.methods.FluentEObjectAPIMethods;
+import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
+import cipm.consistency.fluentapi.methods.FluentEObjectAPIMethods;
 
 public class FluentAPIRootAPIGetAllSupportedClassesMethodGenerator implements IFluentAPIMethodGenerator {
 	// TODO Rename to getAllSupportedClasses

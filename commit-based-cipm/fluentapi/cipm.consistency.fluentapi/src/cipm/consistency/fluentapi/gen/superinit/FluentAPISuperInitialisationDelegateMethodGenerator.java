@@ -13,7 +13,7 @@ import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIParameterUtil;
 import cipm.consistency.fluentapi.gen.ModelConstants;
-import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
+import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
 
 public class FluentAPISuperInitialisationDelegateMethodGenerator {
 	private static final Pattern methodsToDelegate = Pattern.compile(String.join("|",

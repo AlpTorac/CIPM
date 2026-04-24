@@ -9,8 +9,8 @@ import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.ModelConstants;
-import cipm.consistency.fluentapi.gen.methods.FluentAPIInitialisationStorage;
-import cipm.consistency.fluentapi.gen.methods.FluentAPIMethodsUtil;
+import cipm.consistency.fluentapi.methods.FluentAPIInitialisationStorage;
+import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIRootAPIDropInitialisationMethodGenerator implements IFluentAPIMethodGenerator {
 	private static final String dropInitialisationMethodBody = FluentAPIMethodsUtil.joinLOC(

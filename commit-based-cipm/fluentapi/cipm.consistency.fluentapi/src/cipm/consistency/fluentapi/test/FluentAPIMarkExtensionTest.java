@@ -1,13 +1,19 @@
 package cipm.consistency.fluentapi.test;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EcoreFactory;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.java.api.ApiFactory;
-import cipm.consistency.fluentapi.gen.methods.mark.FluentAPIMarkExtension;
+import cipm.consistency.fluentapi.methods.mark.FluentAPIMarkExtension;
 
-public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
+public class FluentAPIMarkExtensionTest {
+	@BeforeEach
+	public void tearDown() {
+		FluentAPIMarkExtension.clearAllMarks();
+	}
+
 	private void assertContainsMark(Object key, EObject val) {
 		Assertions.assertTrue(FluentAPIMarkExtension.hasMark(key));
 
@@ -32,9 +38,8 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 
 	@Test
 	public void markTest_OneMark() {
-		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var key = new Object();
-		var val = api.createNewClass();
+		var val = EcoreFactory.eINSTANCE.createEObject();
 
 		FluentAPIMarkExtension.mark(key, val);
 		assertContainsMark(key, val);
@@ -43,13 +48,11 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 
 	@Test
 	public void markTest_MultipleMarks() {
-		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
-
 		var key1 = new Object();
-		var val1 = api.createNewClass();
+		var val1 = EcoreFactory.eINSTANCE.createEObject();
 
 		var key2 = new Object();
-		var val2 = api.createNewClass();
+		var val2 = EcoreFactory.eINSTANCE.createEObject();
 
 		FluentAPIMarkExtension.mark(key1, val1);
 		FluentAPIMarkExtension.mark(key2, val2);
@@ -63,11 +66,10 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 
 	@Test
 	public void markTest_OverridingMark() {
-		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var key = new Object();
 
-		var val1 = api.createNewClass();
-		var val2 = api.createNewClass();
+		var val1 = EcoreFactory.eINSTANCE.createEObject();
+		var val2 = EcoreFactory.eINSTANCE.createEObject();
 
 		FluentAPIMarkExtension.mark(key, val1);
 		FluentAPIMarkExtension.mark(key, val2);
@@ -79,13 +81,11 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 
 	@Test
 	public void cleanMarksTest() {
-		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
-
 		var key1 = new Object();
-		var val1 = api.createNewClass();
+		var val1 = EcoreFactory.eINSTANCE.createEObject();
 
 		var key2 = new Object();
-		var val2 = api.createNewClass();
+		var val2 = EcoreFactory.eINSTANCE.createEObject();
 
 		FluentAPIMarkExtension.mark(key1, val1);
 		FluentAPIMarkExtension.mark(key2, val2);
@@ -97,13 +97,11 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 
 	@Test
 	public void unmarkTest() {
-		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
-
 		var key1 = new Object();
-		var val1 = api.createNewClass();
+		var val1 = EcoreFactory.eINSTANCE.createEObject();
 
 		var key2 = new Object();
-		var val2 = api.createNewClass();
+		var val2 = EcoreFactory.eINSTANCE.createEObject();
 
 		FluentAPIMarkExtension.mark(key1, val1);
 		FluentAPIMarkExtension.mark(key2, val2);
@@ -116,13 +114,11 @@ public class FluentAPIMarkExtensionTest extends AbstractFluentAPITest {
 
 	@Test
 	public void unmarkTest_RepeatedUnmarkCall() {
-		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
-
 		var key1 = new Object();
-		var val1 = api.createNewClass();
+		var val1 = EcoreFactory.eINSTANCE.createEObject();
 
 		var key2 = new Object();
-		var val2 = api.createNewClass();
+		var val2 = EcoreFactory.eINSTANCE.createEObject();
 
 		FluentAPIMarkExtension.mark(key1, val1);
 		FluentAPIMarkExtension.mark(key2, val2);
