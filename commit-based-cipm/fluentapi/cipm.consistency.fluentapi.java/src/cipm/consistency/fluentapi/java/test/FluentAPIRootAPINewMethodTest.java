@@ -1,4 +1,4 @@
-package cipm.consistency.fluentapi.test;
+package cipm.consistency.fluentapi.java.test;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -14,6 +14,7 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.java.api.FluentAPISuperInitialisation;
+import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 public class FluentAPIRootAPINewMethodTest extends AbstractFluentAPITest {
 

@@ -1,4 +1,4 @@
-package cipm.consistency.fluentapi.test;
+package cipm.consistency.fluentapi.java.test;
 
 import org.eclipse.emf.ecore.EClass;
 import org.emftext.language.java.containers.ContainersPackage;
@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.java.api.ApiFactory;
+import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 	private static final EClass modECls = ContainersPackage.Literals.MODULE;

@@ -7,7 +7,6 @@ import cipm.consistency.fluentapi.methods.mark.FluentAPIMarkExtension;
 import cipm.consistency.fluentapi.methods.mark.FluentAPIOnceExistsExtension;
 
 public abstract class AbstractFluentAPITest {
-	// TODO Extract helpful testing methods
 	@BeforeEach
 	public void setUp() {
 		FluentAPIMarkExtension.clearAllMarks();

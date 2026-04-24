@@ -1,4 +1,4 @@
-package cipm.consistency.fluentapi.test;
+package cipm.consistency.fluentapi.java.test;
 
 import java.util.stream.Collectors;
 
@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.java.metamodel.FluentAPIJavaMetamodelPackageProvider;
+import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 public class FluentAPIRootAPITest extends AbstractFluentAPITest {
 	@Test

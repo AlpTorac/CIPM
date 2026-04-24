@@ -12,7 +12,9 @@ Export-Package: cipm.consistency.fluentapi.builder,
  cipm.consistency.fluentapi.metamodel,
  cipm.consistency.fluentapi.methods,
  cipm.consistency.fluentapi.methods.mark,
- cipm.consistency.fluentapi.postprocessor
+ cipm.consistency.fluentapi.postprocessor,
+ cipm.consistency.fluentapi.test,
+ cipm.consistency.fluentapi.test.metamodel
 Require-Bundle: junit-jupiter-api,
  junit-jupiter-engine,
  junit-jupiter-params,

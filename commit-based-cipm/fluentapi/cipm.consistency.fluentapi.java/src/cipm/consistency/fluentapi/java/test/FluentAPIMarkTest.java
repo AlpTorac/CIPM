@@ -1,10 +1,11 @@
-package cipm.consistency.fluentapi.test;
+package cipm.consistency.fluentapi.java.test;
 
 import org.emftext.language.java.classifiers.ClassifiersFactory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.java.api.ApiFactory;
+import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 /**
  * Tests marking and unmarking in the Fluent API.

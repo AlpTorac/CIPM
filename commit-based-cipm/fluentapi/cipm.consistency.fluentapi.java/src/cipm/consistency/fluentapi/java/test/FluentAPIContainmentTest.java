@@ -1,9 +1,10 @@
-package cipm.consistency.fluentapi.test;
+package cipm.consistency.fluentapi.java.test;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.java.api.ApiFactory;
+import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 /**
  * Tests the construction of models, where model elements of the same type are
