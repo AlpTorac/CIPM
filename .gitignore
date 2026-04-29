@@ -111,5 +111,5 @@ tmp/
 *.polyglot.META-INF
 
 # FluentAPI
-metamodel/
+/commit-based-cipm/fluentapi/cipm.consistency.fluentapi.*/metamodel/
 
