@@ -9,8 +9,6 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 import org.eclipse.emf.ecore.EDataType;
-import org.eclipse.emf.ecore.EModelElement;
-import org.eclipse.emf.ecore.ENamedElement;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.ETypeParameter;
@@ -132,40 +130,6 @@ public class FluentAPIGenerationContext {
 
 	public void setTargetMetamodelFeatureFilter(FluentAPITargetMetamodelFeatureFilter targetMetamodelFeatureFilter) {
 		this.targetMetamodelFeatureFilter = targetMetamodelFeatureFilter;
-	}
-
-	public <T extends EModelElement> T getModelElement(Class<T> modelElementType, String elemName) {
-		return getModelElement(modelElementType, getRootPackage(), List.of(elemName));
-	}
-
-	public <T extends EModelElement> T getModelElement(Class<T> modelElementType, List<String> elemAndContainersName) {
-		var outmostContainer = getModelElement(modelElementType, elemAndContainersName.get(0));
-		if (elemAndContainersName.size() == 1) {
-			return outmostContainer;
-		}
-		return getModelElement(modelElementType, outmostContainer,
-				elemAndContainersName.subList(1, elemAndContainersName.size()));
-	}
-
-	public <T extends EModelElement> T getModelElement(Class<T> modelElementType, EModelElement container,
-			String elemName) {
-		return getModelElement(modelElementType, container, List.of(elemName));
-	}
-
-	public <T extends EModelElement> T getModelElement(Class<T> modelElementType, EModelElement container,
-			List<String> elemAndContainersName) {
-		var it = container.eAllContents();
-		while (it.hasNext()) {
-			var currentElem = it.next();
-			if (currentElem instanceof ENamedElement) {
-				var castedElem = (ENamedElement) currentElem;
-				if (castedElem.getName().equals(elemAndContainersName.get(0))) {
-					return getModelElement(modelElementType, castedElem,
-							elemAndContainersName.subList(1, elemAndContainersName.size()));
-				}
-			}
-		}
-		return null;
 	}
 
 	/**
