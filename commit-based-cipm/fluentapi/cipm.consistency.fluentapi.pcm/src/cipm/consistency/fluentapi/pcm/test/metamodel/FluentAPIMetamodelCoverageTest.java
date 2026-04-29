@@ -12,6 +12,7 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPIMetamodelCo
 	 * hence this test is disabled
 	 */
 	@Disabled("Disabled until PCM-specific issues are dealt with")
+	@Override
 	@Test
 	public void concreteElementCoverageTest_SuperInit_xManyValuedFeature() {
 	}
@@ -22,6 +23,7 @@ public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPIMetamodelCo
 	 */
 	@Disabled("Disabled until PCM-specific issues are dealt with")
 	@Override
+	@Test
 	public void concreteElementCoverageTest_API_xManyValuedFeature() {
 	}
 }

@@ -8,6 +8,7 @@ import cipm.consistency.fluentapi.test.metamodel.AbstractFluentAPIRootAPIGenerat
 public class FluentAPIRootAPIGenerationTest extends AbstractFluentAPIRootAPIGenerationTest
 		implements IFluentPcmAPIMetamodelTest {
 	@Disabled("There are no elements with only one modifiable feature in PCM metamodel")
+	@Override
 	@Test
 	public void methodTest_API_NewX_WithParameter_SingleModifiableFeature() {
 	}
