@@ -9,7 +9,7 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated pcm-fluentapi -->
       <package
-            uri="https://CIPM-tools.github.io/metamodels/fluentapi/1.0/pcm/cipm/consistency/fluentapi/pcm/api"
+            uri="https://CIPM-tools.github.io/metamodels/fluentapi/1.0/pcm/api"
             class="cipm.consistency.fluentapi.pcm.api.ApiPackage"
             genModel="metamodel/pcm-fluentapi.genmodel"/>
    </extension>
@@ -17,7 +17,7 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated pcm-fluentapi -->
       <package
-            uri="https://CIPM-tools.github.io/metamodels/fluentapi/1.0/pcm/cipm/consistency/fluentapi/pcm/api/inits"
+            uri="https://CIPM-tools.github.io/metamodels/fluentapi/1.0/pcm/api/inits"
             class="cipm.consistency.fluentapi.pcm.api.inits.InitsPackage"
             genModel="metamodel/pcm-fluentapi.genmodel"/>
    </extension>
@@ -25,7 +25,7 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated pcm-fluentapi -->
       <package
-            uri="https://CIPM-tools.github.io/metamodels/fluentapi/1.0/pcm/cipm/consistency/fluentapi/pcm/api/placeholderTypes"
+            uri="https://CIPM-tools.github.io/metamodels/fluentapi/1.0/pcm/api/placeholderTypes"
             class="cipm.consistency.fluentapi.pcm.api.placeholderTypes.PlaceholderTypesPackage"
             genModel="metamodel/pcm-fluentapi.genmodel"/>
    </extension>

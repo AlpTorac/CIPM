@@ -17,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fluentapi.builder.FluentAPIAbstractBuilder;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerator;
+import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.pcm.metamodel.FluentAPIPcmMetamodelFeatureFilter;
@@ -36,13 +37,14 @@ public class FluentPCMAPIBuilder extends FluentAPIAbstractBuilder {
 		var context = new FluentAPIGenerationContext();
 		context.setTargetMetamodelPackageProvider(getTargetMetamodelPackageProvider());
 		context.setTargetMetamodelFeatureFilter(getTargetMetamodelFeatureFilter());
+		context.setBasePackageName(ModelConstants.BASE_PACKAGE_NAME.getFor(provider.getTargetMetamodelName()));
 
 		var modelResSet = new ResourceSetImpl();
 		var ecoreRes = modelResSet.createResource(URI.createFileURI(getEcoreModelFilePath().toString()));
 		var genModelRes = modelResSet.createResource(URI.createFileURI(getGenModelFilePath().toString()));
 
 		generateEcoreModel(ecoreRes, context);
-		generateGenModel(genModelRes, ecoreRes);
+		generateGenModel(genModelRes, ecoreRes, context);
 
 		try {
 			ecoreRes.save(null);
@@ -53,7 +55,7 @@ public class FluentPCMAPIBuilder extends FluentAPIAbstractBuilder {
 		}
 	}
 
-	private GenModel generateGenModel(Resource genModelRes, Resource ecoreRes) {
+	private GenModel generateGenModel(Resource genModelRes, Resource ecoreRes, FluentAPIGenerationContext context) {
 		var pluginName = "cipm.consistency.fluentapi.pcm";
 		var relativeModelDirPath = Path.of(pluginName, "src-gen");
 
@@ -80,6 +82,10 @@ public class FluentPCMAPIBuilder extends FluentAPIAbstractBuilder {
 		genModel.reconcile();
 
 		genModel.setCanGenerate(true);
+
+		var apiGenPac = genModel.findGenPackage(toGen);
+		apiGenPac.setBasePackage(context.getBasePackageName());
+
 		return genModel;
 	}
 
