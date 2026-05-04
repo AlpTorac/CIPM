@@ -171,12 +171,11 @@ public class ModelConstants {
 							+ ModelConstants.INITIALISATION_NAME_SUFFIX.get() + "s");
 		}
 
-		// TODO Rename to getAllSupportedClasses
-		public static class GetAllSupportedEClasses {
+		public static class GetAllSupportedClasses {
 			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(
-					getMethodName(GetAllSupportedEClasses.class));
+					getMethodName(GetAllSupportedClasses.class));
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
-					"Returns a list of all EClasses that this " + ModelConstants.FluentAPI.CLASS_NAME.getEmpty()
+					"Returns a list of all Classes that this " + ModelConstants.FluentAPI.CLASS_NAME.getEmpty()
 							+ " instance supports");
 		}
 

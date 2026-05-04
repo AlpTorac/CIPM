@@ -12,9 +12,8 @@ import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.methods.FluentEObjectAPIMethods;
 
 public class FluentAPIRootAPIGetAllSupportedClassesMethodGenerator implements IFluentAPIMethodGenerator {
-	// TODO Rename to getAllSupportedClasses
 	private static final String getAllSupportedClassesMethodBodyTemplate = FluentAPIMethodsUtil
-			.joinLOC("return " + FluentEObjectAPIMethods.class.getName() + ".getAllSupportedEClasses(this)");
+			.joinLOC("return " + FluentEObjectAPIMethods.class.getName() + ".getAllSupportedClasses(this)");
 
 	public EOperation generateGetAllSupportedClassesMethodGenerator() {
 		var javaClassType = FluentAPIGenerationUtil
@@ -27,18 +26,18 @@ public class FluentAPIRootAPIGetAllSupportedClassesMethodGenerator implements IF
 		var eListType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(EcorePackage.Literals.EE_LIST);
 		FluentAPIGenerationUtil.addTypeArgument(eListType, javaClassType);
 
-		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.GetAllSupportedEClasses.NAME.get(),
+		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.GetAllSupportedClasses.NAME.get(),
 				eListType);
 
 		FluentAPIGenerationUtil.addBody(op, getAllSupportedClassesMethodBodyTemplate);
-		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.GetAllSupportedEClasses.SUMMARY.get());
+		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.GetAllSupportedClasses.SUMMARY.get());
 
 		return op;
 	}
 
 	@Override
 	public Map<String, String> getMethodNamesToDescriptions() {
-		return Map.of(ModelConstants.FluentAPI.GetAllSupportedEClasses.NAME.get(),
-				ModelConstants.FluentAPI.GetAllSupportedEClasses.SUMMARY.get());
+		return Map.of(ModelConstants.FluentAPI.GetAllSupportedClasses.NAME.get(),
+				ModelConstants.FluentAPI.GetAllSupportedClasses.SUMMARY.get());
 	}
 }

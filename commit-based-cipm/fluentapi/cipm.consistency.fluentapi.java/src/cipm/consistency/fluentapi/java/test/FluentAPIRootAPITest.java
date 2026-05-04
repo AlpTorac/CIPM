@@ -42,7 +42,7 @@ public class FluentAPIRootAPITest extends AbstractFluentAPITest {
 	public void getAllSupportedClassesTest() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
-		var supportedClasses = api.getAllSupportedEClasses();
+		var supportedClasses = api.getAllSupportedClasses();
 		var provider = new FluentAPIJavaMetamodelPackageProvider();
 		var expectedSupportedEClasses = provider.getAllTargetMetamodelConcreteEClasses();
 		var expectedSupportedClasses = expectedSupportedEClasses.stream().map((eCls) -> eCls.getInstanceClass())

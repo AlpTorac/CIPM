@@ -186,13 +186,11 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	/**
-	 * TODO Rename to getAllSupportedClasses
-	 * 
-	 * @return A list of all EClasses that the given api instance supports the
+	 * @return A list of all classes that the given api instance supports the
 	 *         creation / modification of.
 	 */
 	@SuppressWarnings("unchecked")
-	public static EList<Class<? extends EObject>> getAllSupportedEClasses(EObject api) {
+	public static EList<Class<? extends EObject>> getAllSupportedClasses(EObject api) {
 		var result = new BasicEList<Class<? extends EObject>>();
 
 		var initsPac = api.eClass().getEPackage().getESubpackages().stream()
