@@ -39,12 +39,12 @@ public interface IFluentPcmAPIMetamodelTest extends IFluentAPIMetamodelTest {
 
 	@Override
 	public default void init_mark(EObject init, Object key) {
-		toSupInit(init).mark(key);
+		toSupInit(init).markCurrentElement(key);
 	}
 
 	@Override
 	public default EObject init_unmark(EObject init, Object key) {
-		return toSupInit(init).unmark(key);
+		return toSupInit(init).unmarkCurrentElement(key);
 	}
 
 	@Override

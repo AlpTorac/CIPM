@@ -20,7 +20,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 
 		org.emftext.language.java.members.ClassMethod met = null;
 
-		api.newX(org.emftext.language.java.members.ClassMethod.class).mark(metName);
+		api.newX(org.emftext.language.java.members.ClassMethod.class).markCurrentElement(metName);
 		met = api.getMarkedClassMethod(metName);
 
 		Assertions.assertNull(met.getTypeReference());
@@ -28,7 +28,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 				api.newClassifierReference().withTarget(api.getMarkedClass(returnTypeName)).createNow()));
 		Assertions.assertNull(met.getTypeReference());
 
-		var returnType = api.newClass().withName(returnTypeName).mark(returnTypeName).createNow();
+		var returnType = api.newClass().withName(returnTypeName).markCurrentElement(returnTypeName).createNow();
 		Assertions.assertEquals(returnType, met.getTypeReference().getPureClassifierReference().getTarget());
 
 		met = api.continueClassMethod().createNow(org.emftext.language.java.members.ClassMethod.class);
@@ -40,7 +40,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var key = new Object();
 
-		var mod = api.newX(modECls).mark(key).createNow();
+		var mod = api.newX(modECls).markCurrentElement(key).createNow();
 
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
 		Assertions.assertSame(mod, api.getMarkedX(key));
@@ -52,7 +52,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 		var key1 = new Object();
 		var key2 = new Object();
 
-		var mod = api.newX(modECls).mark(key1).mark(key2).createNow();
+		var mod = api.newX(modECls).markCurrentElement(key1).markCurrentElement(key2).createNow();
 
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
 		Assertions.assertSame(mod, api.getMarkedX(key1));
@@ -64,7 +64,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var key = new Object();
 
-		var mod = api.newX(modECls).mark(key).unmark(key).createNow();
+		var mod = api.newX(modECls).markCurrentElement(key).unmarkCurrentElement(key).createNow();
 
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
 		Assertions.assertNull(api.getMarkedX(key));
@@ -76,7 +76,8 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 		var key1 = new Object();
 		var key2 = new Object();
 
-		var mod = api.newX(modECls).mark(key1).mark(key2).unmark(key1).createNow();
+		var mod = api.newX(modECls).markCurrentElement(key1).markCurrentElement(key2).unmarkCurrentElement(key1)
+				.createNow();
 
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
 		Assertions.assertNull(api.getMarkedX(key1));

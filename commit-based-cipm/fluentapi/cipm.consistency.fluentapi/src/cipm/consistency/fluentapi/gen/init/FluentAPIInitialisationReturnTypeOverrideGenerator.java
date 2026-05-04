@@ -17,8 +17,9 @@ import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
 public class FluentAPIInitialisationReturnTypeOverrideGenerator {
 	private static final Pattern initReturnTypeOverridePattern = Pattern.compile(String.join("|",
 			new String[] { ModelConstants.SuperInitialisation.Reset.NAME.get(),
-					ModelConstants.FluentAPI.DropInitialisation.NAME.get(), ModelConstants.FluentAPI.OnceExists.NAME.get(),
-					ModelConstants.FluentAPI.Mark.NAME.get(), ModelConstants.FluentAPI.Unmark.NAME.get(), }));
+					ModelConstants.FluentAPI.DropInitialisation.NAME.get(),
+					ModelConstants.FluentAPI.OnceExists.NAME.get(), ModelConstants.SuperInitialisation.Mark.NAME.get(),
+					ModelConstants.SuperInitialisation.Unmark.NAME.get(), }));
 
 	private static final Pattern initialisedElementReturnTypeOverridePattern = Pattern
 			.compile(ModelConstants.SuperInitialisation.CreateNow.NAME.get());

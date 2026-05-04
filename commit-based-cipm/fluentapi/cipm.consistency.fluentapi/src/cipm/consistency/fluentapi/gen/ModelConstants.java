@@ -424,18 +424,22 @@ public class ModelConstants {
 					+ ModelConstants.SuperInitialisation.CLASS_NAME.get());
 		}
 
-		public static class MarkCurrent {
-			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(getMethodName(MarkCurrent.class));
+		public static class Mark extends FluentAPI.Mark {
+			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(
+					FluentAPI.Mark.NAME.get() + CurrentElement.NAME.getCapitalised());
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
-					"Delegates to " + ModelConstants.SuperInitialisation.RootAPI.NAME.get() + " and "
+					FluentAPIDocumentationUtil.appendSummaryToStart(FluentAPI.Mark.SUMMARY.get()) + "Delegates to "
+							+ ModelConstants.SuperInitialisation.RootAPI.NAME.get() + " and "
 							+ ModelConstants.FluentAPI.Mark.NAME.get() + "s "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.get());
 		}
 
-		public static class UnmarkCurrent {
-			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(getMethodName(UnmarkCurrent.class));
+		public static class Unmark extends FluentAPI.Unmark {
+			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(
+					FluentAPI.Unmark.NAME.get() + CurrentElement.NAME.getCapitalised());
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
-					"Delegates to " + ModelConstants.SuperInitialisation.RootAPI.NAME.get() + " and "
+					FluentAPIDocumentationUtil.appendSummaryToStart(FluentAPI.Unmark.SUMMARY.get()) + "Delegates to "
+							+ ModelConstants.SuperInitialisation.RootAPI.NAME.get() + " and "
 							+ ModelConstants.FluentAPI.Unmark.NAME.get() + "s "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.get());
 		}

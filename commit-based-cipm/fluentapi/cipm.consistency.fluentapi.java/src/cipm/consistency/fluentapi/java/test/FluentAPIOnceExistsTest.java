@@ -19,7 +19,7 @@ public class FluentAPIOnceExistsTest extends AbstractFluentAPITest {
 
 		api.onceExists(key, () -> onceExistsRan[0] = true);
 		Assertions.assertFalse(onceExistsRan[0]);
-		api.newModule().mark(key);
+		api.newModule().markCurrentElement(key);
 		Assertions.assertTrue(onceExistsRan[0]);
 	}
 
@@ -36,9 +36,9 @@ public class FluentAPIOnceExistsTest extends AbstractFluentAPITest {
 
 		api.onceExists(new Object[] { key1, key2 }, () -> onceExistsRan[0] = true);
 		Assertions.assertFalse(onceExistsRan[0]);
-		api.newModule().mark(key1);
+		api.newModule().markCurrentElement(key1);
 		Assertions.assertFalse(onceExistsRan[0]);
-		api.newModule().mark(key2);
+		api.newModule().markCurrentElement(key2);
 		Assertions.assertTrue(onceExistsRan[0]);
 	}
 
@@ -54,7 +54,7 @@ public class FluentAPIOnceExistsTest extends AbstractFluentAPITest {
 
 		var init = api.newModule().onceExists(key, () -> onceExistsRan[0] = true);
 		Assertions.assertFalse(onceExistsRan[0]);
-		init.mark(key);
+		init.markCurrentElement(key);
 		Assertions.assertTrue(onceExistsRan[0]);
 	}
 
@@ -73,7 +73,7 @@ public class FluentAPIOnceExistsTest extends AbstractFluentAPITest {
 		Assertions.assertFalse(onceExistsRan[0]);
 		Assertions.assertFalse(onceExistsRan[1]);
 
-		api.newModule().mark(keyOne);
+		api.newModule().markCurrentElement(keyOne);
 		Assertions.assertTrue(onceExistsRan[0]);
 		Assertions.assertTrue(onceExistsRan[1]);
 	}
@@ -94,11 +94,11 @@ public class FluentAPIOnceExistsTest extends AbstractFluentAPITest {
 		Assertions.assertFalse(onceExistsRan[0]);
 		Assertions.assertFalse(onceExistsRan[1]);
 
-		api.newModule().mark(keyTwo);
+		api.newModule().markCurrentElement(keyTwo);
 		Assertions.assertFalse(onceExistsRan[0]);
 		Assertions.assertTrue(onceExistsRan[1]);
 
-		api.newModule().mark(keyOne);
+		api.newModule().markCurrentElement(keyOne);
 		Assertions.assertTrue(onceExistsRan[0]);
 	}
 }

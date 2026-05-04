@@ -17,9 +17,10 @@ import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
 
 public class FluentAPISuperInitialisationDelegateMethodGenerator {
 	private static final Pattern methodsToDelegate = Pattern.compile(String.join("|",
-			new String[] { ModelConstants.FluentAPI.WithFeat.NAME.get(), ModelConstants.FluentAPI.WithoutFeat.NAME.get(),
-					ModelConstants.FluentAPI.WithAddedFeat.NAME.get(), ModelConstants.FluentAPI.WithRemovedFeat.NAME.get(),
-					ModelConstants.FluentAPI.CleanFeat.NAME.get(), ModelConstants.FluentAPI.DropInitialisation.NAME.get(),
+			new String[] { ModelConstants.FluentAPI.WithFeat.NAME.get(),
+					ModelConstants.FluentAPI.WithoutFeat.NAME.get(), ModelConstants.FluentAPI.WithAddedFeat.NAME.get(),
+					ModelConstants.FluentAPI.WithRemovedFeat.NAME.get(), ModelConstants.FluentAPI.CleanFeat.NAME.get(),
+					ModelConstants.FluentAPI.DropInitialisation.NAME.get(),
 					ModelConstants.FluentAPI.OnceExists.NAME.get(), ModelConstants.FluentAPI.Mark.NAME.get(),
 					ModelConstants.FluentAPI.Unmark.NAME.get() }));
 
@@ -30,7 +31,18 @@ public class FluentAPISuperInitialisationDelegateMethodGenerator {
 					ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall());
 			put(Pattern.compile(ModelConstants.GeneralParameters.MARK_VALUE_PARAMETER_NAME.get()),
 					ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall());
-			put(Pattern.compile(ModelConstants.FluentAPI.DropInitialisation.INITIALISATION_PARAMETER_NAME.get()), "this");
+			put(Pattern.compile(ModelConstants.FluentAPI.DropInitialisation.INITIALISATION_PARAMETER_NAME.get()),
+					"this");
+		}
+	};
+
+	@SuppressWarnings("serial")
+	private static final Map<Pattern, String> methodNameOverrideMap = new LinkedHashMap<>() {
+		{
+			put(Pattern.compile(ModelConstants.FluentAPI.Mark.NAME.get()),
+					ModelConstants.SuperInitialisation.Mark.NAME.get());
+			put(Pattern.compile(ModelConstants.FluentAPI.Unmark.NAME.get()),
+					ModelConstants.SuperInitialisation.Unmark.NAME.get());
 		}
 	};
 
@@ -58,6 +70,14 @@ public class FluentAPISuperInitialisationDelegateMethodGenerator {
 				var copier = new EcoreUtil.Copier();
 				var delegateOp = (EOperation) copier.copy(op);
 				copier.copyReferences();
+
+				// Adjust method name
+				for (var e : methodNameOverrideMap.entrySet()) {
+					var mnp = e.getKey();
+					if (mnp.matcher(delegateOp.getName()).matches()) {
+						delegateOp.setName(e.getValue());
+					}
+				}
 
 				// Adjust parameters
 				delegateOp.getEParameters().removeIf((p) -> parameterOverrideMap.keySet().stream()

@@ -91,4 +91,11 @@ public interface IFluentAPIFeatureTemplate extends IFluentAPITemplate {
 	public default String thisSetterCall(String param) {
 		return "this" + setterCall(param);
 	}
+
+	/**
+	 * @return {@link #get()} with the first letter capitalised.
+	 */
+	public default String getCapitalised() {
+		return StringUtils.capitalize(this.get());
+	}
 }
