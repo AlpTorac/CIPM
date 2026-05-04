@@ -17,12 +17,37 @@ public class ModelConstants {
 	 * %s: Metamodel name (lower case)
 	 */
 	public static final IFluentAPIFillableTemplate ROOT_PACKAGE_URI = new FluentAPIFillableTemplate(
-			"https://CIPM-tools.github.io/metamodels/fluentapi/1.0/%s");
+			"https://CIPM-tools.github.io/metamodels/fluentapi/1.0/%s/api");
+
 	/**
+	 * The base package name for the fluent API. Note that the base packages will
+	 * not be explicitly generated during the generation process.
+	 * <p>
 	 * %s: Metamodel name (lower case)
 	 */
-	public static final IFluentAPIFillableTemplate ROOT_PACKAGE_NAME = new FluentAPIFillableTemplate(
-			"cipm.consistency.fluentapi.%s.api");
+	public static final IFluentAPIFillableTemplate BASE_PACKAGE_NAME = new FluentAPIFillableTemplate(
+			"cipm.consistency.fluentapi.%s");
+	/**
+	 * The name of the root package of the fluent API (does not include its
+	 * namespaces). This is where the fluent API class (facade of the fluent API)
+	 * will be located.
+	 * 
+	 * @see {@link #BASE_PACKAGE_NAME}
+	 * @see {@link #FULL_ROOT_PACKAGE_NAME}
+	 */
+	public static final IFluentAPITemplate ROOT_PACKAGE_NAME = new FluentAPIFixTemplate("api");
+	/**
+	 * The name of the root package of the fluent API (includes its namespaces).
+	 * This is where the fluent API class (facade of the fluent API) will be
+	 * located.
+	 * <p>
+	 * %s: Metamodel name (lower case)
+	 * 
+	 * @see {@link #BASE_PACKAGE_NAME}
+	 * @see {@link #ROOT_PACKAGE_NAME}
+	 */
+	public static final IFluentAPIFillableTemplate FULL_ROOT_PACKAGE_NAME = new FluentAPIFillableTemplate(
+			BASE_PACKAGE_NAME.get() + "." + ROOT_PACKAGE_NAME.get());
 
 	public static final IFluentAPITemplate INITIALISATIONS_PACKAGE_NAME = new FluentAPIFixTemplate("inits");
 

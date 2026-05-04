@@ -50,7 +50,7 @@ public class FluentAPIRootAPIModifyElementMethodGenerator implements IFluentAPIM
 				ModelConstants.FluentAPI.ModifyMarked.NAME.getFor(StringUtils.capitalize(elemToInitECls.getName())),
 				initECls);
 		FluentAPIGenerationUtil.addBody(op, String.format(modifyMarkedElementMethodBodyTemplate,
-				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls),
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context, initECls),
 				ModelConstants.FluentAPI.GetMarked.NAME.getFor(StringUtils.capitalize(elemToInitECls.getName()))));
 		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.ModifyMarked.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(op, markKeyParam);
@@ -64,7 +64,7 @@ public class FluentAPIRootAPIModifyElementMethodGenerator implements IFluentAPIM
 				ModelConstants.FluentAPI.Modify.NAME.getFor(StringUtils.capitalize(elemToInitECls.getName())),
 				initECls);
 		FluentAPIGenerationUtil.addBody(op, String.format(modifyElementMethodBodyTemplate,
-				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initECls)));
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context, initECls)));
 		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.Modify.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
@@ -75,7 +75,7 @@ public class FluentAPIRootAPIModifyElementMethodGenerator implements IFluentAPIM
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.Modify.TOP_NAME.get(),
 				context.getInitSuperECls());
 		FluentAPIGenerationUtil.addBody(op, String.format(modifyElementMethodBodyTemplate,
-				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context, context.getInitSuperECls())));
 		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.Modify.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(op, param);
 		return op;
@@ -87,7 +87,7 @@ public class FluentAPIRootAPIModifyElementMethodGenerator implements IFluentAPIM
 				context.getInitSuperECls());
 		FluentAPIGenerationUtil.addBody(op,
 				String.format(modifyMarkedElementMethodBodyTemplate,
-						FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls()),
+						FluentAPIGenerationUtil.getFullyQualifiedEClassName(context, context.getInitSuperECls()),
 						ModelConstants.FluentAPI.GetMarked.TOP_NAME.get()));
 		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.ModifyMarked.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(op, param);

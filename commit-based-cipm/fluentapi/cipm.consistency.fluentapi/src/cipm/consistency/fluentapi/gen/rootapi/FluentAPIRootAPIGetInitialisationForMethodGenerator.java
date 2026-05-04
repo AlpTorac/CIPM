@@ -37,7 +37,7 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator implements IFlu
 				context.getInitSuperECls());
 
 		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationMethodBodyTemplate,
-				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls()), param.getName()));
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context, context.getInitSuperECls()), param.getName()));
 		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.GetInitialisationFor.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(op, param);
 
@@ -57,7 +57,7 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator implements IFlu
 				context.getInitSuperECls());
 
 		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationMethodBodyTemplate,
-				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls()), param.getName()));
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context, context.getInitSuperECls()), param.getName()));
 		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.GetInitialisationFor.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(op, param);
 
@@ -78,7 +78,7 @@ public class FluentAPIRootAPIGetInitialisationForMethodGenerator implements IFlu
 				context.getInitSuperECls());
 
 		FluentAPIGenerationUtil.addBody(op, String.format(getInitialisationMethodBodyTemplate,
-				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls()), param.getName()));
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context, context.getInitSuperECls()), param.getName()));
 		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.GetInitialisationFor.SUMMARY.get());
 		FluentAPIGenerationUtil.addEParameters(op, param);
 

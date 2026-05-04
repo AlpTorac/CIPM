@@ -24,7 +24,7 @@ public class FluentAPIRootAPIGetOngoingInitsMethodGenerator implements IFluentAP
 				FluentAPIGenerationUtil.generateEGenericTypeWithTypeArgument(context, java.util.List.class,
 						FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(context.getInitSuperECls())));
 		FluentAPIGenerationUtil.addBody(op, String.format(getOngoingInitsMethodBody,
-				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context.getInitSuperECls())));
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context, context.getInitSuperECls())));
 		FluentAPIGenerationUtil.addDocumentation(op, ModelConstants.FluentAPI.GetOngoingInitialisations.SUMMARY.get());
 		return op;
 	}

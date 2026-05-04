@@ -59,7 +59,8 @@ public class FluentAPIGenerationUtil {
 	 *         based on the EPackage of the given EClass and super EPackages
 	 *         thereof.
 	 */
-	public static String getFullyQualifiedEClassName(EClass eCls) {
+	public static String getFullyQualifiedEClassName(FluentAPIGenerationContext context, EClass eCls) {
+		// Attempt to get the namespaces from the potentially underlying instance class
 		if (eCls.getInstanceClass() != null)
 			return eCls.getInstanceClass().getName();
 		if (eCls.getInstanceClassName() != null)
@@ -67,13 +68,29 @@ public class FluentAPIGenerationUtil {
 		if (eCls.getInstanceTypeName() != null)
 			return eCls.getInstanceTypeName();
 
+		// Attempt to get the namespaces from super packages
 		String result = eCls.getName();
 		var pac = eCls.getEPackage();
 		while (pac != null) {
 			result = pac.getName() + "." + result;
 			pac = pac.getESuperPackage();
 		}
+
+		// Append the base package name, if set
+		if (context != null) {
+			result = context.getBasePackageName() + "." + result;
+		}
 		return result;
+	}
+
+	/**
+	 * A variant of
+	 * {@link #getFullyQualifiedEClassName(FluentAPIGenerationContext, EClass)}
+	 * without a context object. This variant is meant for EClasses that do not
+	 * belong to the fluent API.
+	 */
+	public static String getFullyQualifiedEClassName(EClass eCls) {
+		return getFullyQualifiedEClassName(null, eCls);
 	}
 
 	/**

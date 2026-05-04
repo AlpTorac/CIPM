@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EcoreFactory;
 
 import cipm.consistency.fluentapi.gen.init.FluentAPIInitialisationEClassGenerator;
 import cipm.consistency.fluentapi.gen.rootapi.FluentAPIRootAPIEClassGenerator;
@@ -23,11 +24,11 @@ import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationECla
 public class FluentAPIGenerator {
 	public List<EPackage> generateRootAPIPackages(FluentAPIGenerationContext context) {
 		// Generate fluent API packages
-		var rootPacs = generateFluentAPIRootPackage(context);
+		var rootPac = generateFluentAPIRootPackage(context);
 
 		// Add fluent API packages into context
-		context.setRootPackage(rootPacs.get(0));
-		context.setApiPackage(rootPacs.get(rootPacs.size() - 1));
+		context.setRootPackage(rootPac);
+		context.setApiPackage(rootPac);
 		context.setInitsPackage(generateInitialisationsPackage(context));
 		context.setPlaceholderEDataTypesPac(generateArrayTypesPackage(context));
 
@@ -62,15 +63,20 @@ public class FluentAPIGenerator {
 			cls.getESuperTypes().add(context.getInitSuperECls());
 		});
 
-		return rootPacs;
+		return List.of(rootPac);
 	}
 
-	private List<EPackage> generateFluentAPIRootPackage(FluentAPIGenerationContext context) {
-		return FluentAPIGenerationUtil.generatePackages(
-				URI.createURI(ModelConstants.ROOT_PACKAGE_URI
-						.getFor(context.getTargetMetamodelPackageProvider().getTargetMetamodelName())),
-				ModelConstants.ROOT_PACKAGE_NAME
-						.getFor(context.getTargetMetamodelPackageProvider().getTargetMetamodelName()));
+	private EPackage generateFluentAPIRootPackage(FluentAPIGenerationContext context) {
+		var pac = EcoreFactory.eINSTANCE.createEPackage();
+		var pacName = ModelConstants.ROOT_PACKAGE_NAME.get();
+		var pacURI = URI.createURI(ModelConstants.ROOT_PACKAGE_URI
+				.getFor(context.getTargetMetamodelPackageProvider().getTargetMetamodelName()));
+
+		pac.setName(pacName);
+		pac.setNsPrefix(pacName);
+		pac.setNsURI(pacURI.toString());
+
+		return pac;
 	}
 
 	private EPackage generateInitialisationsPackage(FluentAPIGenerationContext context) {

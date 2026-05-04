@@ -30,7 +30,7 @@ public class FluentAPIInitialisationReturnTypeOverrideGenerator {
 			"return (%s) %s");
 
 	private EOperation generateInitReturnTypeOverridingMethod(List<EOperation> overridingOps, EOperation opToOverride,
-			EClass initType) {
+			EClass initType, FluentAPIGenerationContext context) {
 		var serialisedOriginalMethodCall = "super." + opToOverride.getName() + "("
 				+ FluentAPIParameterUtil.getSerialisedParametersFor(opToOverride) + ")";
 		var copier = new EcoreUtil.Copier();
@@ -45,7 +45,7 @@ public class FluentAPIInitialisationReturnTypeOverrideGenerator {
 
 		// Adjust body
 		FluentAPIGenerationUtil.addBody(overridingOp, String.format(methodBodyTemplate,
-				FluentAPIGenerationUtil.getFullyQualifiedEClassName(initType), serialisedOriginalMethodCall));
+				FluentAPIGenerationUtil.getFullyQualifiedEClassName(context, initType), serialisedOriginalMethodCall));
 
 		return overridingOp;
 	}
@@ -79,7 +79,8 @@ public class FluentAPIInitialisationReturnTypeOverrideGenerator {
 			if (opToOverride.getEGenericType() != null && opToOverride.getEGenericType().getETypeParameter() != null)
 				continue;
 			if (initReturnTypeOverridePattern.matcher(opToOverride.getName()).matches()) {
-				overridingOps.add(generateInitReturnTypeOverridingMethod(overridingOps, opToOverride, initType));
+				overridingOps
+						.add(generateInitReturnTypeOverridingMethod(overridingOps, opToOverride, initType, context));
 			} else if (initialisedElementReturnTypeOverridePattern.matcher(opToOverride.getName()).matches()) {
 				overridingOps.add(generateInitialisedElementReturnTypeOverridingMethod(overridingOps, opToOverride,
 						initialisedElemType));

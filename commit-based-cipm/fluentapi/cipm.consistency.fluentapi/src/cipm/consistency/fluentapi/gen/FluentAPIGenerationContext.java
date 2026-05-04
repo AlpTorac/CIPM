@@ -34,6 +34,16 @@ public class FluentAPIGenerationContext {
 	private EPackage initsPackage;
 	private final Map<EClass, EClass> initEClss = new LinkedHashMap<>();
 
+	private String basePackageName;
+
+	public String getBasePackageName() {
+		return basePackageName;
+	}
+
+	public void setBasePackageName(String basePackageName) {
+		this.basePackageName = basePackageName;
+	}
+
 	public EPackage getRootPackage() {
 		return rootPackage;
 	}
