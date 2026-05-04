@@ -7,27 +7,27 @@
 <plugin>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated fluentapi -->
+      <!-- @generated java-fluentapi -->
       <package
-            uri="https://CIPM-tools.github.io/metamodels/fluentapi/1.0/java/cipm/consistency/fluentapi/java/api"
+            uri="https://CIPM-tools.github.io/metamodels/fluentapi/1.0/java/api"
             class="cipm.consistency.fluentapi.java.api.ApiPackage"
-            genModel="metamodel/java/fluentapi.genmodel"/>
+            genModel="metamodel/java-fluentapi.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated fluentapi -->
+      <!-- @generated java-fluentapi -->
       <package
-            uri="https://CIPM-tools.github.io/metamodels/fluentapi/1.0/java/cipm/consistency/fluentapi/java/api/inits"
+            uri="https://CIPM-tools.github.io/metamodels/fluentapi/1.0/java/api/inits"
             class="cipm.consistency.fluentapi.java.api.inits.InitsPackage"
-            genModel="metamodel/java/fluentapi.genmodel"/>
+            genModel="metamodel/java-fluentapi.genmodel"/>
    </extension>
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated fluentapi -->
+      <!-- @generated java-fluentapi -->
       <package
-            uri="https://CIPM-tools.github.io/metamodels/fluentapi/1.0/java/cipm/consistency/fluentapi/java/api/placeholderTypes"
+            uri="https://CIPM-tools.github.io/metamodels/fluentapi/1.0/java/api/placeholderTypes"
             class="cipm.consistency.fluentapi.java.api.placeholderTypes.PlaceholderTypesPackage"
-            genModel="metamodel/java/fluentapi.genmodel"/>
+            genModel="metamodel/java-fluentapi.genmodel"/>
    </extension>
 
 </plugin>
