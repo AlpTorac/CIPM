@@ -18,6 +18,17 @@ import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
 
+/**
+ * Encapsulates the means to generate a fluent api model for a metamodel, i.e.
+ * the ".ecore" and ".genmodel" files of the fluent api model. To keep the
+ * fluent api generation as metamodel agnostic as possible, integration of the
+ * specific metamodel is achieved via abstract methods.
+ * <p>
+ * The generation of the fluent api model is encapsulated within the
+ * {@link #generateModelFiles()} test case.
+ * 
+ * @author Alp Torac Genc
+ */
 public abstract class FluentAPIAbstractBuilder {
 	/**
 	 * The suffix all generated fluent api model files (i.e. the ecore and genmodel
@@ -49,7 +60,7 @@ public abstract class FluentAPIAbstractBuilder {
 	 * Can be overridden in concrete implementors to change how the model files are
 	 * generated. If overridden, the overriding method should have the {@code @Test}
 	 * annotation for JUnit to detect it as a test case. Otherwise, the overriding
-	 * method will not be recognised as a test method and no model files will be
+	 * method will not be recognized as a test method and no model files will be
 	 * generated.
 	 */
 	@Test
@@ -188,12 +199,41 @@ public abstract class FluentAPIAbstractBuilder {
 		return name;
 	}
 
+	/**
+	 * @return The object that grants access to the metamodel, for which the fluent
+	 *         api should be generated.
+	 */
 	protected abstract FluentAPITargetMetamodelPackageProvider getTargetMetamodelPackageProvider();
 
+	/**
+	 * @return The object that is used to filter the features of the elements of the
+	 *         metamodel.
+	 */
 	protected abstract FluentAPITargetMetamodelFeatureFilter getTargetMetamodelFeatureFilter();
 
+	/**
+	 * Generates the {@link GenModel} instance of the fluent api model from the
+	 * previously generated Ecore model
+	 * ({@link #generateEcoreModel(Resource, FluentAPIGenerationContext)}). The
+	 * return value allows access to the {@link GenModel} instance in the rest of
+	 * the fluent api generation, in order to allow further modifications to it.
+	 * 
+	 * @param genModelRes The Resource instance, in which the {@link GenModel}
+	 *                    instance will be created
+	 * @param ecoreRes    The Resource instance of the fluent api model
+	 * @param context     The object that encapsulates the context of the fluent api
+	 *                    generation
+	 * @return The {@link GenModel} instance of the fluent api model
+	 */
 	protected abstract GenModel generateGenModel(Resource genModelRes, Resource ecoreRes,
 			FluentAPIGenerationContext context);
 
+	/**
+	 * Generates the fluent api model (as Ecore model).
+	 * 
+	 * @param ecoreRes The Resource instance of the fluent api model
+	 * @param context  The object that encapsulates the context of the fluent api
+	 *                 generation
+	 */
 	protected abstract void generateEcoreModel(Resource ecoreRes, FluentAPIGenerationContext context);
 }
