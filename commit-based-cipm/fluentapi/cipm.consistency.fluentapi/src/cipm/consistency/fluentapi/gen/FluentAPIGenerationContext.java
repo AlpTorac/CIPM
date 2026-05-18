@@ -17,6 +17,12 @@ import org.eclipse.emf.ecore.EcoreFactory;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
 
+/**
+ * Holds the state and resources required during the generation of the fluent
+ * API, including generated EMF model elements.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIGenerationContext {
 	private FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider;
 	private FluentAPITargetMetamodelFeatureFilter targetMetamodelFeatureFilter;

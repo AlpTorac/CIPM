@@ -16,9 +16,10 @@ import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
 
 /*
- * Separated from FluentAPIRootAPINewMethodGenerator, since the "createNewX"
+ * createNew() generation is separated from FluentAPIRootAPINewMethodGenerator, since the "createNewX"
  * methods cannot share their name with "newX" methods, due to Java limitations.
  */
+
 public class FluentAPIRootAPICreateNewMethodGenerator implements IFluentAPIMethodGenerator {
 	private static final String createNewXMethodBodyTemplate = FluentAPIMethodsUtil
 			// %s: Fully qualified class name

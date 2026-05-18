@@ -14,6 +14,11 @@ import cipm.consistency.fluentapi.gen.FluentAPIParameterUtil;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
 
+/**
+ * Generates overridden methods with more specific return types.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIInitialisationReturnTypeOverrideGenerator {
 	private static final Pattern initReturnTypeOverridePattern = Pattern.compile(String.join("|",
 			new String[] { ModelConstants.SuperInitialisation.Reset.NAME.get(),

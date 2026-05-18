@@ -13,6 +13,11 @@ import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 
+/**
+ * Generates the EClass of the abstract Initialisation class.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPISuperInitialisationEClassGenerator {
 
 	private static final Map<String, String> summaries = new LinkedHashMap<>();

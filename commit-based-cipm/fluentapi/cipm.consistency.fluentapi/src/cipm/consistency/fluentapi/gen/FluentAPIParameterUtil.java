@@ -4,6 +4,12 @@ import java.util.List;
 
 import org.eclipse.emf.ecore.EOperation;
 
+/**
+ * Utility class for operations on EOperation parameters (EParameters) during
+ * fluent API generation.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIParameterUtil {
 	public static String getSerialisedParametersFor(EOperation op) {
 		return String.join(",", op.getEParameters().stream().map((p) -> p.getName()).toArray(String[]::new));

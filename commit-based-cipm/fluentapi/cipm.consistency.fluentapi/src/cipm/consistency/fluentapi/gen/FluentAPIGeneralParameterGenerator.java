@@ -4,6 +4,12 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EcorePackage;
 
+/**
+ * Utility class for generating recurring EParameter instances used in fluent
+ * API generation.
+ * 
+ * @author Alp Torac Genc
+ */
 public final class FluentAPIGeneralParameterGenerator {
 	public static EParameter getEObjectParamOfType(EClass type) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(

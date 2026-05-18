@@ -1,6 +1,6 @@
 /**
  * Contains the generator classes responsible for generating the EMF model
- * elements of the initialisation classes of the fluent API, i.e. the classes
+ * elements of the Initialisation classes of the fluent API, i.e. the classes
  * that facilitate the creation and modification of elements of a certain type.
  * <p>
  * <p>
@@ -18,9 +18,9 @@
  * <p>
  * In the current version, the FluentAPIInitialisationEClassGenerator class is
  * the top-most generator within this package. It is responsible for generating
- * the EClass of each initialisation class. The rest of the classes within this
+ * the EClass of each Initialisation class. The rest of the classes within this
  * package are responsible for generating EOperation instances of various
- * methods of the initialisation classes. Names of these classes denote which
+ * methods of the Initialisation classes. Names of these classes denote which
  * methods they are responsible for.
  */
 package cipm.consistency.fluentapi.gen.init;

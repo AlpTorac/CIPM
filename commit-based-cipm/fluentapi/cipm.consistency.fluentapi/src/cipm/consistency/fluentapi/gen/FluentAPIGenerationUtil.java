@@ -19,6 +19,12 @@ import org.eclipse.emf.ecore.ETypeParameter;
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.eclipse.emf.ecore.EcorePackage;
 
+/**
+ * Utility class providing static methods for generating EMF elements during
+ * fluent API code generation.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIGenerationUtil {
 	/**
 	 * A map of EClass representations of primitive types to EClass representations

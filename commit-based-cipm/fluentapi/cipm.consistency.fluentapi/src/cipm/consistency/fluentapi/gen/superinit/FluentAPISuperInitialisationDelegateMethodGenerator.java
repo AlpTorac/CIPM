@@ -15,6 +15,11 @@ import cipm.consistency.fluentapi.gen.FluentAPIParameterUtil;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
 
+/**
+ * Generates delegation methods that forward calls to the API class.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPISuperInitialisationDelegateMethodGenerator {
 	private static final Pattern methodsToDelegate = Pattern.compile(String.join("|",
 			new String[] { ModelConstants.FluentAPI.WithFeat.NAME.get(),

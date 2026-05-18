@@ -17,6 +17,11 @@ import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationGetI
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationResetOperationGenerator;
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationToAPIMethodGenerator;
 
+/**
+ * Generates EClass instances for concrete initialisation classes.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIInitialisationEClassGenerator {
 	private static final Map<String, String> summaries = new LinkedHashMap<>();
 

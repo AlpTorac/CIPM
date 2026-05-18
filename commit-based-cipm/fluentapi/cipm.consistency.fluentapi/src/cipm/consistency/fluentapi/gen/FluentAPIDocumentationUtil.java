@@ -2,6 +2,12 @@ package cipm.consistency.fluentapi.gen;
 
 import java.util.Map;
 
+/**
+ * Utility class for assembling documentation strings during fluent API code
+ * generation.
+ * 
+ * @author Alp Torac Genc
+ */
 public final class FluentAPIDocumentationUtil {
 	private static final String doNotUseFromOutsideDocumentationNote = "This method is not intended for outside use, but is generated as public because of code generation limitations.";
 	private static final String documentationParagraphSeparator = "<p><p>";

@@ -1,7 +1,7 @@
 /**
  * Contains the generator classes responsible for generating the EMF model
- * elements of the super initialisation class of the fluent API, i.e. the
- * abstract super type of all initialisation classes.
+ * elements of the super Initialisation class of the fluent API, i.e. the
+ * abstract super type of all Initialisation classes.
  * <p>
  * <p>
  * The generation-related code within the generator classes is written in a
@@ -18,9 +18,9 @@
  * <p>
  * In the current version, the FluentAPISuperInitialisationEClassGenerator class
  * is the top-most generator within this package. It is responsible for
- * generating the EClass of the super initialisation class. The rest of the
+ * generating the EClass of the super Initialisation class. The rest of the
  * classes within this package are responsible for generating EOperation
- * instances of various methods of the super initialisation class. Names of
+ * instances of various methods of the super Initialisation class. Names of
  * these classes denote which methods they are responsible for.
  */
 package cipm.consistency.fluentapi.gen.superinit;
