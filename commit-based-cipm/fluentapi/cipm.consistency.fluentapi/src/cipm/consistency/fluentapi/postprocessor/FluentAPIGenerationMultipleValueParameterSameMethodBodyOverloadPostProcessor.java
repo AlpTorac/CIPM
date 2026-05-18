@@ -30,8 +30,8 @@ public class FluentAPIGenerationMultipleValueParameterSameMethodBodyOverloadPost
 	private static final Pattern newMethodPatternToOverload = Pattern
 			.compile(ModelConstants.FluentAPI.New.NAME.getFor(".*"));
 
-	private static final Pattern onceExistsMethodPatternToOverload = Pattern
-			.compile(ModelConstants.FluentAPI.OnceExists.NAME.get());
+	private static final Pattern waitForMarkMethodPatternToOverload = Pattern
+			.compile(ModelConstants.FluentAPI.WaitForMark.NAME.get());
 
 	private static final Pattern paramNamePatternToOverload = Pattern
 			.compile(String.join("|", ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME.get(),
@@ -58,7 +58,7 @@ public class FluentAPIGenerationMultipleValueParameterSameMethodBodyOverloadPost
 				&& newMethodPatternToOverload.matcher(op.getName()).matches()
 				&& op.getEAnnotations().get(0).getDetails().get(ModelConstants.GEN_MODEL_BODY_KEY.get())
 						.contains("." + ModelConstants.Initialiation.WithAdded.NAME.getEmpty()))
-				|| (onceExistsMethodPatternToOverload.matcher(op.getName()).matches()))
+				|| (waitForMarkMethodPatternToOverload.matcher(op.getName()).matches()))
 				&& op.getEParameters().stream().anyMatch(this::shouldOverloadParameter);
 	}
 }

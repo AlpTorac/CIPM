@@ -93,12 +93,11 @@ public class ModelConstants {
 		public static final IFluentAPITemplate MARK_KEY_PARAMETER_NAME_DOC = new FluentAPIFixTemplate(
 				"The object instance (key), whose memory address is serving / will serve as a key in mark-related operations. Note that the contents of the key are fully irrelevant here, only its memory address matters.");
 
-		public static final Class<?> ONCE_EXISTS_TASK_CLASS = Runnable.class;
-		public static final IFluentAPITemplate ONCE_EXISTS_TASK_PARAMETER_NAME = new FluentAPIFixTemplate(
-				"toDoOnceExists");
-		public static final IFluentAPITemplate ONCE_EXISTS_TASK_PARAMETER_NAME_DOC = new FluentAPIFixTemplate(
+		public static final Class<?> WAIT_FOR_MARK_TASK_CLASS = Runnable.class;
+		public static final IFluentAPITemplate WAIT_FOR_MARK_TASK_PARAMETER_NAME = new FluentAPIFixTemplate("task");
+		public static final IFluentAPITemplate WAIT_FOR_MARK_TASK_PARAMETER_NAME_DOC = new FluentAPIFixTemplate(
 				"The model construction task, which will be executed upon object(s) getting marked with certain "
-						+ ONCE_EXISTS_TASK_PARAMETER_NAME + "(s).");
+						+ WAIT_FOR_MARK_TASK_PARAMETER_NAME + "(s).");
 	}
 
 	private static String getMethodName(Class<?> cls) {
@@ -297,14 +296,14 @@ public class ModelConstants {
 							+ " instance, which can be used to create an element of a certain type from scratch");
 		}
 
-		public static class OnceExists {
-			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(getMethodName(OnceExists.class));
+		public static class WaitForMark {
+			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(getMethodName(WaitForMark.class));
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
-					"Suspends certain model construction steps till certain "
-							+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get() + "(s) exist.");
+					"Postphones certain model construction steps till the given mark(s) ("
+							+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get() + ") exist.");
 			public static final IFluentAPITemplate DOC = new FluentAPIFixTemplate(
 					"Allows specifying model construction steps as a "
-							+ ModelConstants.GeneralParameters.ONCE_EXISTS_TASK_CLASS.getSimpleName()
+							+ ModelConstants.GeneralParameters.WAIT_FOR_MARK_TASK_CLASS.getSimpleName()
 							+ " instance, which this " + ModelConstants.FluentAPI.CLASS_NAME.getEmpty()
 							+ " will execute after the given "
 							+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()

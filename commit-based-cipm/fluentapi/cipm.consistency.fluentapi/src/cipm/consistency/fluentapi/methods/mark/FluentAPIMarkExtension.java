@@ -48,7 +48,7 @@ public class FluentAPIMarkExtension {
 	}
 
 	private static void elementMarked(Object markKey, EObject markVal) {
-		FluentAPIOnceExistsExtension.elementMarked(markKey, markVal);
+		FluentAPIWaitForMarkExtension.elementMarked(markKey, markVal);
 	}
 
 	public static void clearAllMarks() {

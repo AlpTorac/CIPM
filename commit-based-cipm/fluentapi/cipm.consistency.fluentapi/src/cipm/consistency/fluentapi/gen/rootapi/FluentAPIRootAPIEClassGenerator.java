@@ -64,9 +64,9 @@ public class FluentAPIRootAPIEClassGenerator {
 		context.getFluentAPIECls().getEOperations().addAll(markMetGen.generateAllMarkMethods(context));
 		summaries.putAll(markMetGen.getMethodNamesToDescriptions());
 
-		var onceExtGen = new FluentAPIRootAPIOnceExistsMethodGenerator();
-		context.getFluentAPIECls().getEOperations().add(onceExtGen.generateAllOnceExistsMethods(context));
-		summaries.putAll(onceExtGen.getMethodNamesToDescriptions());
+		var waitForMarkGen = new FluentAPIRootAPIWaitForMarkMethodGenerator();
+		context.getFluentAPIECls().getEOperations().add(waitForMarkGen.generateAllWaitForMarkMethods(context));
+		summaries.putAll(waitForMarkGen.getMethodNamesToDescriptions());
 
 		var getInitMetGen = new FluentAPIRootAPIGetInitialisationForMethodGenerator();
 		context.getFluentAPIECls().getEOperations().addAll(

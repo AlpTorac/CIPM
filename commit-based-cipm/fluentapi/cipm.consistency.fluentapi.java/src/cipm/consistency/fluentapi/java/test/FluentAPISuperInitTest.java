@@ -12,7 +12,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 	private static final EClass modECls = ContainersPackage.Literals.MODULE;
 
 	@Test
-	public void onceExistsTest() {
+	public void waitForMarkTest() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var metName = "met";
@@ -24,7 +24,7 @@ public class FluentAPISuperInitTest extends AbstractFluentAPITest {
 		met = api.getMarkedClassMethod(metName);
 
 		Assertions.assertNull(met.getTypeReference());
-		api.onceExists(returnTypeName, () -> api.continueMarkedClassMethod(metName).withTypeReference(
+		api.waitForMark(returnTypeName, () -> api.continueMarkedClassMethod(metName).withTypeReference(
 				api.newClassifierReference().withTarget(api.getMarkedClass(returnTypeName)).createNow()));
 		Assertions.assertNull(met.getTypeReference());
 

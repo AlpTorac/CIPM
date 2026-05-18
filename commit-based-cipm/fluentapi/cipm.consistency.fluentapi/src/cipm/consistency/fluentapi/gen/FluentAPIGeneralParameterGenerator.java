@@ -82,12 +82,12 @@ public final class FluentAPIGeneralParameterGenerator {
 		return param;
 	}
 
-	public static EParameter getOnceExistsTaskParam(FluentAPIGenerationContext context) {
+	public static EParameter getWaitForMarkTaskParam(FluentAPIGenerationContext context) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(context,
-				ModelConstants.GeneralParameters.ONCE_EXISTS_TASK_PARAMETER_NAME.get(),
-				ModelConstants.GeneralParameters.ONCE_EXISTS_TASK_CLASS);
+				ModelConstants.GeneralParameters.WAIT_FOR_MARK_TASK_PARAMETER_NAME.get(),
+				ModelConstants.GeneralParameters.WAIT_FOR_MARK_TASK_CLASS);
 		FluentAPIGenerationUtil.addDocumentation(param,
-				ModelConstants.GeneralParameters.ONCE_EXISTS_TASK_PARAMETER_NAME_DOC.get());
+				ModelConstants.GeneralParameters.WAIT_FOR_MARK_TASK_PARAMETER_NAME_DOC.get());
 		return param;
 	}
 

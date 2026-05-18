@@ -21,7 +21,7 @@ public class FluentAPISuperInitialisationDelegateMethodGenerator {
 					ModelConstants.FluentAPI.WithoutFeat.NAME.get(), ModelConstants.FluentAPI.WithAddedFeat.NAME.get(),
 					ModelConstants.FluentAPI.WithRemovedFeat.NAME.get(), ModelConstants.FluentAPI.CleanFeat.NAME.get(),
 					ModelConstants.FluentAPI.DropInitialisation.NAME.get(),
-					ModelConstants.FluentAPI.OnceExists.NAME.get(), ModelConstants.FluentAPI.Mark.NAME.get(),
+					ModelConstants.FluentAPI.WaitForMark.NAME.get(), ModelConstants.FluentAPI.Mark.NAME.get(),
 					ModelConstants.FluentAPI.Unmark.NAME.get() }));
 
 	@SuppressWarnings("serial")
