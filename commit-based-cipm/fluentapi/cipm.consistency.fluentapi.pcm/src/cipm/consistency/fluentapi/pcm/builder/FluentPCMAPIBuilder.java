@@ -28,7 +28,7 @@ public class FluentPCMAPIBuilder extends FluentAPIAbstractBuilder {
 		var genModel = GenModelFactory.eINSTANCE.createGenModel();
 		genModelRes.getContents().add(genModel);
 
-		genModel.setModelDirectory("/" + getModelDirectoryPath().toString());
+		genModel.setModelDirectory("/" + getGeneratedFluentAPIModelDirectoryPath().toString());
 		genModel.setOperationReflection(true);
 		genModel.setImportOrganizing(true);
 		genModel.setComplianceLevel(getJDKVersion());

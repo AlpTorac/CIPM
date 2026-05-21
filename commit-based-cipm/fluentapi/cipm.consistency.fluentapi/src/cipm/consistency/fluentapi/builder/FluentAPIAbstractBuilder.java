@@ -31,26 +31,27 @@ import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvi
  */
 public abstract class FluentAPIAbstractBuilder {
 	/**
-	 * The suffix all generated fluent api model files (i.e. the ecore and genmodel
-	 * files) should have
+	 * The (default) suffix all generated fluent api model files (i.e. the ecore and
+	 * genmodel files) should have
 	 */
 	private static final String commonModelSuffix = "fluentapi";
 	/**
-	 * The name of the directory, where the fluent api model files will be generated
+	 * The (default) name of the directory, where the fluent api model files will be
+	 * generated
 	 */
 	private static final String commonModelDirName = "metamodel";
 	/**
-	 * The name of the ecore file associated with the fluent api
+	 * The (default) name of the ecore file associated with the fluent api
 	 */
 	private static final String commonEcoreModelFileName = commonModelSuffix + ".ecore";
 	/**
-	 * The name of the genmodel file associated with the fluent api
+	 * The (default) name of the genmodel file associated with the fluent api
 	 */
 	private static final String commonGenModelFileName = commonModelSuffix + ".genmodel";
 	/**
-	 * The name of the directory, where the fluent api itself will be generated
-	 * (i.e. the classes that can be used to construct models of the targeted
-	 * metamodel)
+	 * The (default) name of the directory, where the fluent api itself will be
+	 * generated (i.e. the classes that can be used to construct models of the
+	 * targeted metamodel)
 	 */
 	private static final String modelGenerationTargetDirName = "src-gen";
 
@@ -102,7 +103,7 @@ public abstract class FluentAPIAbstractBuilder {
 	 *         API model
 	 */
 	protected Path getGenModelFilePath() {
-		return new File(getModelDirName()).getAbsoluteFile().toPath().resolve(getGenModelFileName());
+		return new File(getModelFilesDirName()).getAbsoluteFile().toPath().resolve(getGenModelFileName());
 	}
 
 	/**
@@ -117,7 +118,7 @@ public abstract class FluentAPIAbstractBuilder {
 	 *         not the path to it), where the .ecore and .genmodel file will be
 	 *         saved.
 	 */
-	protected String getModelDirName() {
+	protected String getModelFilesDirName() {
 		return commonModelDirName;
 	}
 
@@ -130,25 +131,32 @@ public abstract class FluentAPIAbstractBuilder {
 	}
 
 	/**
+	 * @return The absolute path to the directory, where the model files ("ecore"
+	 *         and "genmodel" files) fill be saved.
+	 */
+	protected Path getModelFilesPath() {
+		return new File(getModelFilesDirName()).getAbsoluteFile().toPath();
+	}
+
+	/**
 	 * @return The absolute path to the ecore model file associated with the fluent
 	 *         api
 	 */
 	protected Path getEcoreModelFilePath() {
-		return new File(getModelDirName()).getAbsoluteFile().toPath().resolve(getEcoreModelFileName());
+		return getModelFilesPath().resolve(getEcoreModelFileName());
 	}
 
 	/**
 	 * Cleans up the potential previously created model files for this builder
-	 * instance (does not delete model files created for other metamodels, just this
-	 * metamodel)
+	 * instance.
 	 */
 	protected void cleanPreviousModelFiles() {
-		var fluentAPIEcoreModelFile = getEcoreModelFilePath().toFile();
-		if (fluentAPIEcoreModelFile.exists() && fluentAPIEcoreModelFile.listFiles() != null) {
-			for (var file : fluentAPIEcoreModelFile.listFiles()) {
+		var fluentAPIModelFilesDir = getModelFilesPath().toFile();
+		if (fluentAPIModelFilesDir.exists() && fluentAPIModelFilesDir.listFiles() != null) {
+			for (var file : fluentAPIModelFilesDir.listFiles()) {
 				file.delete();
 			}
-			fluentAPIEcoreModelFile.delete();
+			fluentAPIModelFilesDir.delete();
 		}
 	}
 
@@ -184,12 +192,12 @@ public abstract class FluentAPIAbstractBuilder {
 	 * @return The value of the "model directory" property of the genmodel of fluent
 	 *         api as Path.
 	 */
-	protected Path getModelDirectoryPath() {
+	protected Path getGeneratedFluentAPIModelDirectoryPath() {
 		return Path.of(getCurrentPluginName(), modelGenerationTargetDirName);
 	}
 
 	/**
-	 * Meant to be used by {@link #getModelDirectoryPath()}.
+	 * Meant to be used by {@link #getGeneratedFluentAPIModelDirectoryPath()}.
 	 * 
 	 * @return The name of the current plug-in.
 	 */
