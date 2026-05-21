@@ -1,18 +1,12 @@
 package cipm.consistency.fluentapi.gen;
 
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EClassifier;
-import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
-import org.eclipse.emf.ecore.ETypeParameter;
-import org.eclipse.emf.ecore.EcoreFactory;
 
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
@@ -42,167 +36,201 @@ public class FluentAPIGenerationContext {
 
 	private String basePackageName;
 
+	/**
+	 * @return The name of the base package of the fluent API model
+	 */
 	public String getBasePackageName() {
 		return basePackageName;
 	}
 
+	/**
+	 * @see {@link #getBasePackageName()}
+	 */
 	public void setBasePackageName(String basePackageName) {
 		this.basePackageName = basePackageName;
 	}
 
+	/**
+	 * @return The EPackage, in which {@link #getInitsPackage()} and
+	 *         {@link #getPlaceholderEDataTypesPac()} reside
+	 */
 	public EPackage getRootPackage() {
 		return rootPackage;
 	}
 
+	/**
+	 * @see {@link #getRootPackage()}
+	 */
 	public void setRootPackage(EPackage rootPackage) {
 		this.rootPackage = rootPackage;
 	}
 
+	/**
+	 * @return The EPackage, in which the {@link #getFluentAPIECls()} resides.
+	 */
 	public EPackage getApiPackage() {
 		return apiPackage;
 	}
 
+	/**
+	 * @see {@link #getApiPackage()}
+	 */
 	public void setApiPackage(EPackage rootPackage) {
 		this.apiPackage = rootPackage;
 	}
 
+	/**
+	 * @return The EClass modelling the fluent api class
+	 */
 	public EClass getFluentAPIECls() {
 		return fluentAPIECls;
 	}
 
+	/**
+	 * @see {@link #getFluentAPIECls()}
+	 */
 	public void setFluentAPIECls(EClass fluentAPIECls) {
 		this.fluentAPIECls = fluentAPIECls;
 	}
 
+	/**
+	 * @return The EClass modelling the abstract (super) Initialisation class
+	 */
 	public EClass getInitSuperECls() {
 		return initSuperECls;
 	}
 
+	/**
+	 * @see {@link #getInitSuperECls()}
+	 */
 	public void setInitSuperECls(EClass initSuperECls) {
 		this.initSuperECls = initSuperECls;
 	}
 
+	/**
+	 * @return The EPackage, where {@link #getAllInitEClss()} reside
+	 */
 	public EPackage getInitsPackage() {
 		return initsPackage;
 	}
 
+	/**
+	 * @see {@link #getInitsPackage()}
+	 */
 	public void setInitsPackage(EPackage initsPackage) {
 		this.initsPackage = initsPackage;
 	}
 
+	/**
+	 * Adds initECls as Initialisation class for elemToInitECls
+	 * 
+	 * @param elemToInitECls A given EObject sub-type
+	 * @param initECls       A given Initialisation class for elemToInitECls
+	 */
 	public void addInitECls(EClass elemToInitECls, EClass initECls) {
 		initEClss.put(elemToInitECls, initECls);
 	}
 
+	/**
+	 * @param elemToInitECls A given EObject sub-type
+	 * @return The Initialisation class for elemToInitECls
+	 */
 	public EClass getInitEClsFor(EClass elemToInitECls) {
 		return initEClss.get(elemToInitECls);
 	}
 
+	/**
+	 * @param initECls A given Initialisation class
+	 * @return The EObject type that initECls considers
+	 */
 	public EClass getElemToInitFor(EClass initECls) {
 		return initEClss.entrySet().stream().filter((e) -> e.getValue().equals(initECls)).map((e) -> e.getKey())
 				.findFirst().orElse(null);
 	}
 
+	/**
+	 * @return An unmodifiable list of all Initialisation EClasses
+	 */
 	public List<EClass> getAllInitEClss() {
 		return List.copyOf(initEClss.values());
 	}
 
+	/**
+	 * @return The object that provides access to the metamodel the fluent api is
+	 *         meant for.
+	 */
 	public FluentAPITargetMetamodelPackageProvider getTargetMetamodelPackageProvider() {
 		return targetMetamodelPackageProvider;
 	}
 
+	/**
+	 * @return The object that filters features within the metamodel
+	 *         {@link #getTargetMetamodelPackageProvider()} during the generation of
+	 *         fluent api.
+	 */
 	public FluentAPITargetMetamodelFeatureFilter getTargetMetamodelFeatureFilter() {
 		return targetMetamodelFeatureFilter;
 	}
 
+	/**
+	 * Use this EPackage to gather all non-EMF types (such as array types).
+	 * 
+	 * @return The EPackage, which aggregates placeholder EDataTypes during fluent
+	 *         api generation.
+	 */
 	public EPackage getPlaceholderEDataTypesPac() {
 		return placeholderEDataTypesPac;
 	}
 
+	/**
+	 * @see {@link #getPlaceholderEDataTypesPac()}
+	 */
 	public void setPlaceholderEDataTypesPac(EPackage placeholderEDataTypesPac) {
 		this.placeholderEDataTypesPac = placeholderEDataTypesPac;
 	}
 
+	/**
+	 * @return The EReference in {@link #getInitSuperECls()}, which refers to the
+	 *         fluent api class ({@link #getFluentAPIECls()}) that created it.
+	 */
 	public EReference getInitSuperEClsApiReference() {
 		return initSuperEClsApiReference;
 	}
 
+	/**
+	 * @see {@link #getInitSuperEClsApiReference()}
+	 */
 	public void setInitSuperEClsApiReference(EReference initSuperEClsApiReference) {
 		this.initSuperEClsApiReference = initSuperEClsApiReference;
 	}
 
+	/**
+	 * @return The EReference in {@link #getInitSuperECls()}, which refers to the
+	 *         EObject that is currently being created / modified.
+	 */
 	public EReference getInitSuperEClsCurrentElement() {
 		return initSuperEClsCurrentElement;
 	}
 
+	/**
+	 * @see {@link #getInitSuperEClsCurrentElement()}
+	 */
 	public void setInitSuperEClsCurrentElement(EReference initSuperEClsCurrentElement) {
 		this.initSuperEClsCurrentElement = initSuperEClsCurrentElement;
 	}
 
+	/**
+	 * @see {@link #getTargetMetamodelPackageProvider()}
+	 */
 	public void setTargetMetamodelPackageProvider(
 			FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider) {
 		this.targetMetamodelPackageProvider = targetMetamodelPackageProvider;
 	}
 
+	/**
+	 * @see {@link #getTargetMetamodelFeatureFilter()}
+	 */
 	public void setTargetMetamodelFeatureFilter(FluentAPITargetMetamodelFeatureFilter targetMetamodelFeatureFilter) {
 		this.targetMetamodelFeatureFilter = targetMetamodelFeatureFilter;
-	}
-
-	/**
-	 * Adds the given amount of type parameters. Only works, if the given type does
-	 * not already have a placeholder.
-	 */
-	public EDataType createOrGetEDataType(Class<?> type, int typeParamCount) {
-		var list = new ArrayList<ETypeParameter>();
-		for (int i = 0; i < typeParamCount; i++)
-			list.add(FluentAPIGenerationUtil.generateETypeParameter("T" + i));
-		return createOrGetEDataType(type, list.toArray(ETypeParameter[]::new));
-	}
-
-	public EDataType createOrGetEDataType(Class<?> type, ETypeParameter... typeParameters) {
-		var eDataTypeName = type.getSimpleName() + ModelConstants.EDATATYPE_WRAPPER_NAME_SUFFIX.get();
-		EDataType eDataType = (EDataType) getPlaceholderEDataTypesPac().getEClassifier(eDataTypeName);
-
-		if (eDataType == null) {
-			eDataType = EcoreFactory.eINSTANCE.createEDataType();
-			eDataType.setSerializable(false);
-			eDataType.setName(eDataTypeName);
-			eDataType.setInstanceTypeName(eDataTypeName);
-			eDataType.setInstanceClassName(eDataTypeName);
-			eDataType.setInstanceClass(type);
-
-			if (typeParameters != null)
-				for (var t : typeParameters)
-					eDataType.getETypeParameters().add(t);
-
-			getPlaceholderEDataTypesPac().getEClassifiers().add(eDataType);
-		}
-
-		return eDataType;
-	}
-
-	public EDataType createOrGetEDataType(Class<?> type) {
-		// Use an empty array to avoid StackOverflowErrors, since otherwise this method
-		// will be called repeatedly
-		return createOrGetEDataType(type, new ETypeParameter[] {});
-	}
-
-	public EDataType createOrGetArrayEDataType(EClassifier type) {
-		var arrayEDataTypeName = type.getName() + ModelConstants.EDATATYPE_ARRAY_WRAPPER_NAME_SUFFIX.get();
-		var arrayTypeInstanceTypeName = type.getName() + ModelConstants.EDATATYPE_ARRAY_WRAPPER_TYPE_NAME_SUFFIX.get();
-		EDataType arrayType = (EDataType) getPlaceholderEDataTypesPac().getEClassifier(arrayEDataTypeName);
-
-		if (arrayType == null) {
-			arrayType = EcoreFactory.eINSTANCE.createEDataType();
-			arrayType.setSerializable(false);
-			arrayType.setName(arrayEDataTypeName);
-			arrayType.setInstanceTypeName(arrayTypeInstanceTypeName);
-			arrayType.setInstanceClassName(arrayTypeInstanceTypeName);
-			// Get array type this way, since cls.arrayType() is introduced in Java 12
-			arrayType.setInstanceClass(Array.newInstance(type.getInstanceClass(), 0).getClass());
-			getPlaceholderEDataTypesPac().getEClassifiers().add(arrayType);
-		}
-
-		return arrayType;
 	}
 }

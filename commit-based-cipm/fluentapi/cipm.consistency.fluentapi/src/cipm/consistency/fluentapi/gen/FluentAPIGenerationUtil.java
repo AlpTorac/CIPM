@@ -1,5 +1,6 @@
 package cipm.consistency.fluentapi.gen;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -10,6 +11,7 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAnnotation;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
+import org.eclipse.emf.ecore.EDataType;
 import org.eclipse.emf.ecore.EGenericType;
 import org.eclipse.emf.ecore.EModelElement;
 import org.eclipse.emf.ecore.EOperation;
@@ -105,7 +107,7 @@ public class FluentAPIGenerationUtil {
 	 */
 	public static EGenericType generateEGenericTypeWithTypeArgument(FluentAPIGenerationContext context,
 			Class<?> genericType, EGenericType colGenTypeArgument) {
-		var pureGenType = context.createOrGetEDataType(genericType, 1);
+		var pureGenType = createOrGetEDataType(context, genericType, 1);
 		var genType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureGenType);
 		FluentAPIGenerationUtil.addTypeArgument(genType, colGenTypeArgument);
 		return genType;
@@ -146,7 +148,7 @@ public class FluentAPIGenerationUtil {
 
 	public static EParameter generateSingleValuedEParameter(FluentAPIGenerationContext context, String name,
 			Class<?> type) {
-		return generateSingleValuedEParameter(name, context.createOrGetEDataType(type));
+		return generateSingleValuedEParameter(name, createOrGetEDataType(context, type));
 	}
 
 	public static EParameter generateSingleValuedEParameter(String name, EClassifier type) {
@@ -190,7 +192,7 @@ public class FluentAPIGenerationUtil {
 
 	public static EParameter generateArrayValuedEParameter(FluentAPIGenerationContext context, String name,
 			EClassifier type) {
-		var arrayType = context.createOrGetArrayEDataType(type);
+		var arrayType = createOrGetArrayEDataType(context, type);
 		var param = EcoreFactory.eINSTANCE.createEParameter();
 		param.setName(name);
 		param.setEType(arrayType);
@@ -334,5 +336,65 @@ public class FluentAPIGenerationUtil {
 		pac.setNsURI(nsUri.toString());
 		parentPac.getESubpackages().add(pac);
 		return pac;
+	}
+
+	/**
+	 * Adds the given amount of type parameters. Only works, if the given type does
+	 * not already have a placeholder.
+	 */
+	public static EDataType createOrGetEDataType(FluentAPIGenerationContext context, Class<?> type,
+			int typeParamCount) {
+		var list = new ArrayList<ETypeParameter>();
+		for (int i = 0; i < typeParamCount; i++)
+			list.add(FluentAPIGenerationUtil.generateETypeParameter("T" + i));
+		return createOrGetEDataType(context, type, list.toArray(ETypeParameter[]::new));
+	}
+
+	public static EDataType createOrGetEDataType(FluentAPIGenerationContext context, Class<?> type,
+			ETypeParameter... typeParameters) {
+		var eDataTypeName = type.getSimpleName() + ModelConstants.EDATATYPE_WRAPPER_NAME_SUFFIX.get();
+		EDataType eDataType = (EDataType) context.getPlaceholderEDataTypesPac().getEClassifier(eDataTypeName);
+
+		if (eDataType == null) {
+			eDataType = EcoreFactory.eINSTANCE.createEDataType();
+			eDataType.setSerializable(false);
+			eDataType.setName(eDataTypeName);
+			eDataType.setInstanceTypeName(eDataTypeName);
+			eDataType.setInstanceClassName(eDataTypeName);
+			eDataType.setInstanceClass(type);
+
+			if (typeParameters != null)
+				for (var t : typeParameters)
+					eDataType.getETypeParameters().add(t);
+
+			context.getPlaceholderEDataTypesPac().getEClassifiers().add(eDataType);
+		}
+
+		return eDataType;
+	}
+
+	public static EDataType createOrGetEDataType(FluentAPIGenerationContext context, Class<?> type) {
+		// Use an empty array to avoid StackOverflowErrors, since otherwise this method
+		// will be called repeatedly
+		return createOrGetEDataType(context, type, new ETypeParameter[] {});
+	}
+
+	public static EDataType createOrGetArrayEDataType(FluentAPIGenerationContext context, EClassifier type) {
+		var arrayEDataTypeName = type.getName() + ModelConstants.EDATATYPE_ARRAY_WRAPPER_NAME_SUFFIX.get();
+		var arrayTypeInstanceTypeName = type.getName() + ModelConstants.EDATATYPE_ARRAY_WRAPPER_TYPE_NAME_SUFFIX.get();
+		EDataType arrayType = (EDataType) context.getPlaceholderEDataTypesPac().getEClassifier(arrayEDataTypeName);
+
+		if (arrayType == null) {
+			arrayType = EcoreFactory.eINSTANCE.createEDataType();
+			arrayType.setSerializable(false);
+			arrayType.setName(arrayEDataTypeName);
+			arrayType.setInstanceTypeName(arrayTypeInstanceTypeName);
+			arrayType.setInstanceClassName(arrayTypeInstanceTypeName);
+			// Get array type this way, since cls.arrayType() is introduced in Java 12
+			arrayType.setInstanceClass(Array.newInstance(type.getInstanceClass(), 0).getClass());
+			context.getPlaceholderEDataTypesPac().getEClassifiers().add(arrayType);
+		}
+
+		return arrayType;
 	}
 }
