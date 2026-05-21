@@ -1,10 +1,8 @@
 package cipm.consistency.fluentapi.gen;
 
 import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.eclipse.emf.common.util.URI;
@@ -45,8 +43,6 @@ public class FluentAPIGenerationUtil {
 		primitiveEClsToWrapperEClsMap.put(EcorePackage.Literals.ESHORT, EcorePackage.Literals.ESHORT_OBJECT);
 		primitiveEClsToWrapperEClsMap.put(EcorePackage.Literals.ECHAR, EcorePackage.Literals.ECHARACTER_OBJECT);
 	}
-
-	// TODO Refactor these methods, extract potential constants
 
 	/**
 	 * Note: This method yields a best-effort result by looking at the EPackage
@@ -102,35 +98,44 @@ public class FluentAPIGenerationUtil {
 	}
 
 	/**
-	 * Use {@code collectionElementExtends == null} in order to generate a wildcard
-	 * type argument.
+	 * Use {@code genTypeArgument == null} in order to generate a wildcard type
+	 * argument.
+	 * 
+	 * @return An EGenericType instance representing
+	 *         {@code genericType<genTypeArgument>}
 	 */
 	public static EGenericType generateEGenericTypeWithTypeArgument(FluentAPIGenerationContext context,
-			Class<?> genericType, EGenericType colGenTypeArgument) {
-		var pureGenType = createOrGetEDataType(context, genericType, 1);
+			Class<?> genericType, EGenericType genTypeArgument) {
+		var pureGenType = createOrGetEDataType(context, genericType,
+				new ETypeParameter[] { FluentAPIGenerationUtil.generateETypeParameter("T") });
 		var genType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(pureGenType);
-		FluentAPIGenerationUtil.addTypeArgument(genType, colGenTypeArgument);
+		FluentAPIGenerationUtil.addTypeArgument(genType, genTypeArgument);
 		return genType;
 	}
 
 	/**
-	 * Use {@code collectionElementExtends == null} in order to generate a wildcard
-	 * type argument.
+	 * Use {@code colTypeArgument == null} in order to generate a wildcard type
+	 * argument.
+	 * 
+	 * @return An EGenericType instance representing
+	 *         {@code Collection<colTypeArgument>}
 	 */
 	public static EGenericType generateCollectionTypeWithTypeArgument(FluentAPIGenerationContext context,
-			EGenericType colGenTypeArgument) {
-		return generateEGenericTypeWithTypeArgument(context, Collection.class, colGenTypeArgument);
+			EGenericType colTypeArgument) {
+		return generateEGenericTypeWithTypeArgument(context, Collection.class, colTypeArgument);
 	}
 
 	/**
-	 * Use {@code collectionElementExtends == null} in order to generate a wildcard
-	 * type argument.
+	 * Use {@code colTypeArgument == null} in order to generate a wildcard type
+	 * argument.
+	 * 
+	 * @return An EGenericType instance representing
+	 *         {@code Collection<colTypeArgument>}
 	 */
 	public static EGenericType generateCollectionTypeParameter(FluentAPIGenerationContext context,
-			EClassifier collectionElementExtends) {
+			EClassifier colTypeArgument) {
 		// Wrap the given EClassifier, if it is a primitive type
-		var colExtendsType = primitiveEClsToWrapperEClsMap.getOrDefault(collectionElementExtends,
-				collectionElementExtends);
+		var colExtendsType = primitiveEClsToWrapperEClsMap.getOrDefault(colTypeArgument, colTypeArgument);
 		var colGenTypeArgument = colExtendsType != null
 				? FluentAPIGenerationUtil.generateEGenericTypeWithBounds(null,
 						FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(colExtendsType))
@@ -138,6 +143,12 @@ public class FluentAPIGenerationUtil {
 		return generateCollectionTypeWithTypeArgument(context, colGenTypeArgument);
 	}
 
+	/**
+	 * The type of the EParameter must be set separately.
+	 * 
+	 * @param name Name of the EParameter
+	 * @return An EParameter instance that considers a single object as value
+	 */
 	public static EParameter generateSingleValuedEParameter(String name) {
 		var param = EcoreFactory.eINSTANCE.createEParameter();
 		param.setName(name);
@@ -146,23 +157,48 @@ public class FluentAPIGenerationUtil {
 		return param;
 	}
 
+	/**
+	 * @param context The object encapsulating the context of fluent api generation.
+	 *                Needed to adapt the given type for EMF.
+	 * @param name    Name of the EParameter
+	 * @param type    Type of the EParameter
+	 * @return An EParameter instance that considers a single instance of the given
+	 *         type as value
+	 */
 	public static EParameter generateSingleValuedEParameter(FluentAPIGenerationContext context, String name,
 			Class<?> type) {
 		return generateSingleValuedEParameter(name, createOrGetEDataType(context, type));
 	}
 
+	/**
+	 * @param name Name of the EParameter
+	 * @param type Type of the EParameter
+	 * @return An EParameter instance that considers a single instance of the given
+	 *         type as value
+	 */
 	public static EParameter generateSingleValuedEParameter(String name, EClassifier type) {
 		var param = generateSingleValuedEParameter(name);
 		param.setEType(type);
 		return param;
 	}
 
+	/**
+	 * @param name Name of the EParameter
+	 * @param type Type of the EParameter
+	 * @return An EParameter instance that considers a single instance of the given
+	 *         type as value
+	 */
 	public static EParameter generateSingleValuedEParameter(String name, EGenericType type) {
 		var param = generateSingleValuedEParameter(name);
 		param.setEGenericType(type);
 		return param;
 	}
 
+	/**
+	 * @param elem          A given EMF element
+	 * @param documentation The documentation to add
+	 * @return elem
+	 */
 	public static <T extends EModelElement> T addDocumentation(T elem, String documentation) {
 		var anno = createOrGetEAnnotation(elem);
 		// Add the documentation
@@ -172,6 +208,12 @@ public class FluentAPIGenerationUtil {
 		return elem;
 	}
 
+	/**
+	 * @param elem      A given EMF element
+	 * @param docSource Another given EMF element, whose documentation will be
+	 *                  copied and used in elem
+	 * @return elem
+	 */
 	public static <T extends EModelElement> T useDocumentationOf(T elem, EModelElement docSource) {
 		if (!docSource.getEAnnotations().isEmpty()) {
 			var anno = docSource.getEAnnotations().get(0);
@@ -183,6 +225,11 @@ public class FluentAPIGenerationUtil {
 		return elem;
 	}
 
+	/**
+	 * @param elem       A given EMF element
+	 * @param typeParams Type parameters to add to elem
+	 * @return elem
+	 */
 	public static <T extends EOperation> T addTypeParameters(T elem, ETypeParameter... typeParams) {
 		if (typeParams != null)
 			for (var tp : typeParams)
@@ -190,6 +237,13 @@ public class FluentAPIGenerationUtil {
 		return elem;
 	}
 
+	/**
+	 * @param context The object encapsulating the context of fluent api generation.
+	 *                Needed to adapt the array type to EMF.
+	 * @param name    Name of the EParameter
+	 * @param type    Type of the EParameter
+	 * @return An EParameter that takes an array of given type
+	 */
 	public static EParameter generateArrayValuedEParameter(FluentAPIGenerationContext context, String name,
 			EClassifier type) {
 		var arrayType = createOrGetArrayEDataType(context, type);
@@ -201,12 +255,21 @@ public class FluentAPIGenerationUtil {
 		return param;
 	}
 
+	/**
+	 * @param name Name of the EOperation
+	 * @return An EOperation with the given name
+	 */
 	public static EOperation generateEOperation(String name) {
 		var op = EcoreFactory.eINSTANCE.createEOperation();
 		op.setName(name);
 		return op;
 	}
 
+	/**
+	 * @param name       Name of the EOperation
+	 * @param returnType The return type of the EOperation
+	 * @return An EOperation with the given name and return type
+	 */
 	public static EOperation generateEOperation(String name, EClassifier returnType) {
 		var op = EcoreFactory.eINSTANCE.createEOperation();
 		op.setEType(returnType);
@@ -214,6 +277,11 @@ public class FluentAPIGenerationUtil {
 		return op;
 	}
 
+	/**
+	 * @param name       Name of the EOperation
+	 * @param returnType The return type of the EOperation
+	 * @return An EOperation with the given name and return type
+	 */
 	public static EOperation generateEOperation(String name, EGenericType returnType) {
 		var op = EcoreFactory.eINSTANCE.createEOperation();
 		op.setEGenericType(returnType);
@@ -221,26 +289,39 @@ public class FluentAPIGenerationUtil {
 		return op;
 	}
 
+	/**
+	 * @param typeParameterName The name of the ETypeParameter
+	 * @return An ETypeParameter with the given name
+	 */
 	public static ETypeParameter generateETypeParameter(String typeParameterName) {
 		var typeParam = EcoreFactory.eINSTANCE.createETypeParameter();
 		typeParam.setName(typeParameterName);
 		return typeParam;
 	}
 
+	/**
+	 * @return An EGenericType instance representing
+	 *         {@code genericType<genTypeArgument>}
+	 */
 	public static EGenericType generateWildcardTypeArgument() {
 		return generateEGenericTypeWithBounds(null, null);
 	}
 
 	/**
+	 * The EClassifier ECls of the generated EGenericType must be set separately
+	 * <p>
+	 * <p>
 	 * Do not use with {@code T = eStructuralFeature.getEGenericType()}, as it will
 	 * move the type of the feature into the generated EGenericType instance. Use a
 	 * fresh EGenericType that uses T as its EClassifier instead.
-	 * 
+	 * <p>
 	 * <p>
 	 * {@code lowerBound = upperBound = null} will result in wildcard "?"
 	 * 
-	 * @param lowerBound "X" in "? super X"
-	 * @param upperBound "X" in "? extends X"
+	 * @param lowerBound "T" in "? super T"
+	 * @param upperBound "T" in "? extends T"
+	 * @return An EGenericType instance representing a bounded generic type A, which
+	 *         is between lowerBound and upperBound in its type hierarchy.
 	 */
 	public static EGenericType generateEGenericTypeWithBounds(EGenericType lowerBound, EGenericType upperBound) {
 		var genericParamTypeForJavaClass = EcoreFactory.eINSTANCE.createEGenericType();
@@ -251,6 +332,7 @@ public class FluentAPIGenerationUtil {
 
 	/**
 	 * @param genericType "Type" in "Type<...>"
+	 * @return An EGenericType instance representing {@code genericType<...>}
 	 */
 	public static EGenericType generateEGenericTypeWithClassifier(EClassifier genericType) {
 		var genericParamTypeForJavaClass = EcoreFactory.eINSTANCE.createEGenericType();
@@ -259,7 +341,11 @@ public class FluentAPIGenerationUtil {
 	}
 
 	/**
+	 * Similar to {@link #generateEGenericTypeWithClassifier(EClassifier)} but uses
+	 * ETypeParameter instead of EClassifier.
+	 * 
 	 * @param genericType "Type" in "Type<...>"
+	 * @return An EGenericType instance representing {@code genericType<...>}
 	 */
 	public static EGenericType generateEGenericTypeWithTypeParameter(ETypeParameter typeParameter) {
 		var genericParamTypeForJavaClass = EcoreFactory.eINSTANCE.createEGenericType();
@@ -267,6 +353,11 @@ public class FluentAPIGenerationUtil {
 		return genericParamTypeForJavaClass;
 	}
 
+	/**
+	 * @param genericType   "Type" in "Type<...>"
+	 * @param typeArguments "..." in "Type<...>"
+	 * @return An EGenericType representing {@code genericType<typeArguments>}
+	 */
 	public static EGenericType addTypeArgument(EGenericType genericType, EGenericType... typeArguments) {
 		if (typeArguments != null) {
 			for (var ta : typeArguments)
@@ -275,6 +366,12 @@ public class FluentAPIGenerationUtil {
 		return genericType;
 	}
 
+	/**
+	 * @param elem A given EMF element
+	 * @return Returns the EAnnotation with the source
+	 *         {@link ModelConstants.GEN_MODEL_SOURCE_URL} in elem. If non-existent,
+	 *         creates the EAnnotation first.
+	 */
 	private static EAnnotation createOrGetEAnnotation(EModelElement elem) {
 		EAnnotation anno = null;
 		var genModelSourceURL = ModelConstants.GEN_MODEL_SOURCE_URL.get();
@@ -287,6 +384,14 @@ public class FluentAPIGenerationUtil {
 		return anno;
 	}
 
+	/**
+	 * Adds the "body" key to the EAnnotation of the given elem, usually
+	 * EOperations. Using this operation on EOperations sets their method body.
+	 * 
+	 * @param elem A given EMF element
+	 * @param body The value of the "body" key
+	 * @return elem
+	 */
 	public static <T extends EModelElement> T addBody(T elem, String body) {
 		var anno = createOrGetEAnnotation(elem);
 		// Add the body
@@ -296,6 +401,13 @@ public class FluentAPIGenerationUtil {
 		return elem;
 	}
 
+	/**
+	 * Adds the given params to the given op
+	 * 
+	 * @param op     A given EOperation
+	 * @param params The EParameters of the EOperation
+	 * @return op
+	 */
 	public static EOperation addEParameters(EOperation op, EParameter... params) {
 		if (params != null) {
 			for (var param : params)
@@ -304,29 +416,13 @@ public class FluentAPIGenerationUtil {
 		return op;
 	}
 
-	public static List<EPackage> generatePackages(URI currentURI, String fullPacName) {
-		var pacs = new ArrayList<EPackage>();
-		var nss = List.of(fullPacName.split("\\."));
-		for (int i = 0; i < nss.size(); i++) {
-			var pacName = nss.get(i);
-			var pacNss = nss.subList(0, i);
-
-			var pac = EcoreFactory.eINSTANCE.createEPackage();
-			pac.setName(pacName);
-			pac.setNsPrefix(pacName);
-
-			var nsUri = currentURI.appendSegments(pacNss.toArray(String[]::new)).appendSegment(pacName);
-			pac.setNsURI(nsUri.toString());
-			pacs.add(pac);
-		}
-
-		for (int i = 1; i < pacs.size(); i++) {
-			pacs.get(i - 1).getESubpackages().add(pacs.get(i));
-		}
-
-		return pacs;
-	}
-
+	/**
+	 * @param parentPac      The parent EPackage that will contain the generated
+	 *                       EPackage
+	 * @param subPackageName The name of the EPackage to generate (not its fully
+	 *                       qualified name)
+	 * @return The generated EPackage
+	 */
 	public static EPackage generateSubPackage(EPackage parentPac, String subPackageName) {
 		var pac = EcoreFactory.eINSTANCE.createEPackage();
 		pac.setName(subPackageName);
@@ -339,19 +435,15 @@ public class FluentAPIGenerationUtil {
 	}
 
 	/**
-	 * Adds the given amount of type parameters. Only works, if the given type does
-	 * not already have a placeholder.
+	 * @param context        The object encapsulating the context of fluent api
+	 *                       generation. Needed to adapt the given type for EMF.
+	 * @param type           A given type that will be adapted for EMF
+	 * @param typeParameters ETypeParameter instances representing the type
+	 *                       parameters of the given type
+	 * @return An EDataType instance representing {@code type<typeParameters>}
 	 */
 	public static EDataType createOrGetEDataType(FluentAPIGenerationContext context, Class<?> type,
-			int typeParamCount) {
-		var list = new ArrayList<ETypeParameter>();
-		for (int i = 0; i < typeParamCount; i++)
-			list.add(FluentAPIGenerationUtil.generateETypeParameter("T" + i));
-		return createOrGetEDataType(context, type, list.toArray(ETypeParameter[]::new));
-	}
-
-	public static EDataType createOrGetEDataType(FluentAPIGenerationContext context, Class<?> type,
-			ETypeParameter... typeParameters) {
+			ETypeParameter[] typeParameters) {
 		var eDataTypeName = type.getSimpleName() + ModelConstants.EDATATYPE_WRAPPER_NAME_SUFFIX.get();
 		EDataType eDataType = (EDataType) context.getPlaceholderEDataTypesPac().getEClassifier(eDataTypeName);
 
@@ -373,12 +465,23 @@ public class FluentAPIGenerationUtil {
 		return eDataType;
 	}
 
+	/**
+	 * @param context The object encapsulating the context of fluent api generation.
+	 *                Needed to adapt the given type for EMF.
+	 * @param type    A given type that will be adapted for EMF
+	 * @return An EDataType that adapts type for EMF
+	 */
 	public static EDataType createOrGetEDataType(FluentAPIGenerationContext context, Class<?> type) {
-		// Use an empty array to avoid StackOverflowErrors, since otherwise this method
-		// will be called repeatedly
-		return createOrGetEDataType(context, type, new ETypeParameter[] {});
+		return createOrGetEDataType(context, type, null);
 	}
 
+	/**
+	 * @param context The object encapsulating the context of fluent api generation.
+	 *                Needed to adapt the array type for EMF.
+	 * @param type    A given EMF type, for which an array type will be found /
+	 *                generated
+	 * @return An EDataType that represents an array of given type
+	 */
 	public static EDataType createOrGetArrayEDataType(FluentAPIGenerationContext context, EClassifier type) {
 		var arrayEDataTypeName = type.getName() + ModelConstants.EDATATYPE_ARRAY_WRAPPER_NAME_SUFFIX.get();
 		var arrayTypeInstanceTypeName = type.getName() + ModelConstants.EDATATYPE_ARRAY_WRAPPER_TYPE_NAME_SUFFIX.get();
