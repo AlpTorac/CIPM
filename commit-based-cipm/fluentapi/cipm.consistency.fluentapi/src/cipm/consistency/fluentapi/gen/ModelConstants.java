@@ -239,7 +239,7 @@ public class ModelConstants {
 					"Removes the given " + ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()
 							+ "'s marking, does not modify the (formerly) marked object.");
 			public static final IFluentAPITemplate DOC = new FluentAPIFixTemplate(FluentAPIDocumentationUtil
-					.appendSummaryToStart(SUMMARY.get()) + "Removes any associations between the given "
+					.appendToDocumentationStart(SUMMARY.get()) + "Removes any associations between the given "
 					+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()
 					+ " and its corresponding EObject obj. Doing so unmarks obj, meaning that "
 					+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()
@@ -353,7 +353,7 @@ public class ModelConstants {
 							+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get() + ", does not modify "
 							+ ModelConstants.GeneralParameters.MARK_VALUE_PARAMETER_NAME.get() + ".");
 			public static final IFluentAPITemplate DOC = new FluentAPIFixTemplate(
-					FluentAPIDocumentationUtil.appendSummaryToStart(SUMMARY.get()) + "Associates the given "
+					FluentAPIDocumentationUtil.appendToDocumentationStart(SUMMARY.get()) + "Associates the given "
 							+ ModelConstants.GeneralParameters.MARK_VALUE_PARAMETER_NAME.get() + " with "
 							+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()
 							+ ". Doing so marks the given "
@@ -414,7 +414,7 @@ public class ModelConstants {
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
 					"Swaps to the " + ModelConstants.SuperInitialisation.RootAPI.NAME.get());
 			public static final IFluentAPITemplate DOC = new FluentAPIFixTemplate(
-					FluentAPIDocumentationUtil.appendSummaryToStart(SUMMARY.get()) + "Swaps from this to the "
+					FluentAPIDocumentationUtil.appendToDocumentationStart(SUMMARY.get()) + "Swaps from this to the "
 							+ ModelConstants.SuperInitialisation.RootAPI.NAME.get()
 							+ ". This method is currently the same as this"
 							+ ModelConstants.SuperInitialisation.RootAPI.NAME.getterCall()
@@ -441,7 +441,7 @@ public class ModelConstants {
 					"Creates a minimal instance of the targeted type within this "
 							+ ModelConstants.INITIALISATION_NAME_SUFFIX.get() + " instance.");
 			public static final IFluentAPITemplate DOC = new FluentAPIFixTemplate(FluentAPIDocumentationUtil
-					.appendSummaryToStart(SUMMARY.get())
+					.appendToDocumentationStart(SUMMARY.get())
 					+ "Creates a minimal EObject instance, without modifying any of its features, and sets it as the current element (i.e. return value of "
 					+ ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall() + ") in concrete "
 					+ ModelConstants.INITIALISATION_NAME_SUFFIX.get() + " classes. Does nothing in "
@@ -452,7 +452,7 @@ public class ModelConstants {
 			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(
 					FluentAPI.Mark.NAME.get() + CurrentElement.NAME.getCapitalised());
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
-					FluentAPIDocumentationUtil.appendSummaryToStart(FluentAPI.Mark.SUMMARY.get()) + "Delegates to "
+					FluentAPIDocumentationUtil.appendToDocumentationStart(FluentAPI.Mark.SUMMARY.get()) + "Delegates to "
 							+ ModelConstants.SuperInitialisation.RootAPI.NAME.get() + " and "
 							+ ModelConstants.FluentAPI.Mark.NAME.get() + "s "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.get());
@@ -462,7 +462,7 @@ public class ModelConstants {
 			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(
 					FluentAPI.Unmark.NAME.get() + CurrentElement.NAME.getCapitalised());
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
-					FluentAPIDocumentationUtil.appendSummaryToStart(FluentAPI.Unmark.SUMMARY.get()) + "Delegates to "
+					FluentAPIDocumentationUtil.appendToDocumentationStart(FluentAPI.Unmark.SUMMARY.get()) + "Delegates to "
 							+ ModelConstants.SuperInitialisation.RootAPI.NAME.get() + " and "
 							+ ModelConstants.FluentAPI.Unmark.NAME.get() + "s "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.get());
@@ -474,7 +474,7 @@ public class ModelConstants {
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
 					"Sets " + ModelConstants.SuperInitialisation.CurrentElement.NAME.get() + " to null");
 			public static final IFluentAPITemplate DOC = new FluentAPIFixTemplate(
-					FluentAPIDocumentationUtil.appendSummaryToStart(SUMMARY.get()) + "Discards "
+					FluentAPIDocumentationUtil.appendToDocumentationStart(SUMMARY.get()) + "Discards "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall() + ". Does not "
 							+ ModelConstants.FluentAPI.DropInitialisation.NAME.get() + " this from "
 							+ ModelConstants.SuperInitialisation.ToAPI.NAME.thisCall()
@@ -492,7 +492,7 @@ public class ModelConstants {
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
 					"Finalises and returns " + ModelConstants.SuperInitialisation.CurrentElement.NAME.get());
 			public static final IFluentAPITemplate DOC = new FluentAPIFixTemplate(
-					FluentAPIDocumentationUtil.appendSummaryToStart(SUMMARY.get()) + "Finalises the construction of "
+					FluentAPIDocumentationUtil.appendToDocumentationStart(SUMMARY.get()) + "Finalises the construction of "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall()
 							+ " and returns it. " + ModelConstants.FluentAPI.DropInitialisation.NAME.get()
 							+ "s this from " + ModelConstants.SuperInitialisation.ToAPI.NAME.thisCall()
@@ -532,10 +532,12 @@ public class ModelConstants {
 			 */
 			public static final IFluentAPIFillableTemplate DOC = new FluentAPIFillableTemplate(
 					FluentAPIDocumentationUtil
-							.appendSummaryToStart(ModelConstants.SuperInitialisation.NewElement.SUMMARY.get())
+							.appendToDocumentationStart(ModelConstants.SuperInitialisation.NewElement.SUMMARY.get())
 							+ "Creates a minimal %s instance, without modifying any of its features, and sets it as "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.inThis()
-							+ FluentAPIDocumentationUtil.appendDoNotUseFromOutsideDocNoteAtEnd());
+							+ FluentAPIDocumentationUtil.getDocParagraphSeparator()
+							+ FluentAPIDocumentationUtil.getDoNotUseFromOutsideDocNote()
+							+ FluentAPIDocumentationUtil.getDocParagraphSeparator());
 		}
 
 		public static class With {
@@ -551,7 +553,7 @@ public class ModelConstants {
 			 * %s: Feature name
 			 */
 			public static final IFluentAPIFillableTemplate DOC = new FluentAPIFillableTemplate(
-					FluentAPIDocumentationUtil.appendSummaryToStart(ModelConstants.FluentAPI.WithFeat.SUMMARY.get())
+					FluentAPIDocumentationUtil.appendToDocumentationStart(ModelConstants.FluentAPI.WithFeat.SUMMARY.get())
 							+ "Sets the value of the feature %s in "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.inThis() + " to the given value.");
 
@@ -575,7 +577,7 @@ public class ModelConstants {
 			 * %s: Feature name
 			 */
 			public static final IFluentAPIFillableTemplate DOC = new FluentAPIFillableTemplate(
-					FluentAPIDocumentationUtil.appendSummaryToStart(ModelConstants.FluentAPI.WithoutFeat.SUMMARY.get())
+					FluentAPIDocumentationUtil.appendToDocumentationStart(ModelConstants.FluentAPI.WithoutFeat.SUMMARY.get())
 							+ "Unsets the value of the feature %s in "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.inThis()
 							+ ", which sets its value to null.");
@@ -595,7 +597,7 @@ public class ModelConstants {
 			 */
 			public static final IFluentAPIFillableTemplate DOC = new FluentAPIFillableTemplate(
 					FluentAPIDocumentationUtil
-							.appendSummaryToStart(ModelConstants.FluentAPI.WithAddedFeat.SUMMARY.get())
+							.appendToDocumentationStart(ModelConstants.FluentAPI.WithAddedFeat.SUMMARY.get())
 							+ "Adds the given values to the current values of the feature %s in "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.inThis() + ".");
 
@@ -621,7 +623,7 @@ public class ModelConstants {
 			 */
 			public static final IFluentAPIFillableTemplate DOC = new FluentAPIFillableTemplate(
 					FluentAPIDocumentationUtil
-							.appendSummaryToStart(ModelConstants.FluentAPI.WithRemovedFeat.SUMMARY.get())
+							.appendToDocumentationStart(ModelConstants.FluentAPI.WithRemovedFeat.SUMMARY.get())
 							+ "Removes the given values from the current values of the feature %s in "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.inThis());
 
@@ -645,7 +647,7 @@ public class ModelConstants {
 			 * %s: Feature name
 			 */
 			public static final IFluentAPIFillableTemplate DOC = new FluentAPIFillableTemplate(
-					FluentAPIDocumentationUtil.appendSummaryToStart(ModelConstants.FluentAPI.CleanFeat.SUMMARY.get())
+					FluentAPIDocumentationUtil.appendToDocumentationStart(ModelConstants.FluentAPI.CleanFeat.SUMMARY.get())
 							+ "Clears all values of the (many-valued) feature %s in "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.inThis());
 		}
