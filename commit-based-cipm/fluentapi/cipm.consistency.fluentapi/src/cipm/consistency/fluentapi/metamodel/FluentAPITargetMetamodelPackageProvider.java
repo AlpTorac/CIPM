@@ -1,83 +1,122 @@
 package cipm.consistency.fluentapi.metamodel;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 
+/**
+ * An abstract class meant to be implemented by classes, which provide access to
+ * (EMF-based) metamodels.
+ * <p>
+ * <p>
+ * Note: Implementors of this class may or may not use the original metamodel
+ * packages, due to Eclipse limitations. Attempting to use
+ * {@code originalECls.isSuperTypeOf(givenECls)} or vice versa may result in
+ * false, due to the original EClass and the given EClass being in different
+ * Resources entirely. Instead, use their EAttributes for type-checking (such as
+ * their name); excluding {@code eCls.getInstanceClass()} and related methods,
+ * since they are not guaranteed to exist in parsed models.
+ * 
+ * @author Alp Torac Genc
+ */
 public abstract class FluentAPITargetMetamodelPackageProvider {
-	public abstract List<EPackage> getTargetMetamodelPackages();
-
+	/**
+	 * @return The name of the metamodel
+	 */
 	public abstract String getTargetMetamodelName();
 
+	/**
+	 * Considers the Resource instance(s) of the metamodel that this object is
+	 * actually using. Due to limitations, this object is not guaranteed to use the
+	 * original metamodel.
+	 * 
+	 * @return All EClasses of the metamodel (including those for abstract classes
+	 *         and interfaces)
+	 */
 	public abstract List<EClass> getAllTargetMetamodelEClasses();
 
-	public abstract List<EClass> getAllTargetMetamodelConcreteEClasses();
-
-	protected EClass getEClassIn(Collection<EClass> eClss, String eClsName, String... namespaces) {
-		var matchingClss = eClss.stream().filter((eCls) -> eCls.getName().equals(eClsName)).toArray(EClass[]::new);
-		if (matchingClss.length == 1) {
-			return matchingClss[0];
-		} else if (matchingClss.length == 0) {
-			return null;
-		} else if (namespaces == null) {
-			return null;
-		}
-
-		var nss = String.join(".", namespaces);
-
-		for (var cls : matchingClss) {
-			var instanceCls = cls.getInstanceClass();
-			var instanceClsName = cls.getInstanceClassName();
-			var instanceClsType = cls.getInstanceTypeName();
-
-			if (instanceCls != null && instanceCls.getPackageName().equals(nss))
-				return cls;
-			if (nss.equals(instanceClsName))
-				return cls;
-			if (nss.equals(instanceClsType))
-				return cls;
-		}
-
-		return null;
+	/**
+	 * Considers the Resource instance(s) of the metamodel that this object is
+	 * actually using. Due to limitations, this object is not guaranteed to use the
+	 * original metamodel.
+	 * 
+	 * @return All concrete EClasses of the metamodel, i.e. EClasses of classes
+	 *         within the metamodel that can be instantiated.
+	 */
+	public List<EClass> getAllTargetMetamodelConcreteEClasses() {
+		var topPac = getTargetMetamodelEcoreEPackages().get(0);
+		return List.copyOf(MetamodelUtil.getAllConcreteEClasses(topPac));
 	}
 
-	public EClass getEClass(String eClsName, String... namespaces) {
-		return this.getEClassIn(this.getAllTargetMetamodelEClasses(), eClsName, namespaces);
+	/**
+	 * Implemented as non-static, in order to enable implementors to override the
+	 * EClass seeking logic.
+	 * 
+	 * @param eClss    A given collection of EClasses
+	 * @param eClsName The name of the EClass to look for in eClss
+	 * @return The sought EClass in eClss, if it exists; otherwise null
+	 */
+	protected EClass getEClassIn(Collection<EClass> eClss, String eClsName) {
+		return eClss.stream().filter((eCls) -> eCls.getName().equals(eClsName)).findFirst().orElse(null);
 	}
 
-	public EClass getEClassInOriginalMetamodel(String eClsName, String... namespaces) {
-		var allEClss = getAllEClassesInOriginalMetamodel();
-		return this.getEClassIn(allEClss, eClsName, namespaces);
+	/**
+	 * @param eClsName The name of the EClass to look for in
+	 *                 {@link #getAllTargetMetamodelEClasses()}
+	 * @return The sought EClass in {@link #getAllTargetMetamodelEClasses()}, if it
+	 *         exists; otherwise null
+	 */
+	public EClass getEClass(String eClsName) {
+		return this.getEClassIn(this.getAllTargetMetamodelEClasses(), eClsName);
 	}
 
+	/**
+	 * Similar to {@link #getAllTargetMetamodelEClasses()}, but retrieves EClasses
+	 * from the original metamodel instead. Due to limitations, this object is not
+	 * guaranteed to use the original metamodel.
+	 * 
+	 * @return All EClasses of the original metamodel (including those for abstract
+	 *         classes and interfaces)
+	 */
 	public abstract List<EClass> getAllEClassesInOriginalMetamodel();
 
+	/**
+	 * Similar to {@link #getAllTargetMetamodelConcreteEClasses()}, but retrieves
+	 * concrete EClasses from the original metamodel instead. Due to limitations,
+	 * this object is not guaranteed to use the original metamodel.
+	 * 
+	 * @return All concrete EClasses of the original metamodel (including those for
+	 *         abstract classes and interfaces)
+	 */
 	public List<EClass> getAllConcreteEClassedInOriginalMetamodel() {
 		var allEClss = getAllEClassesInOriginalMetamodel();
 		return List
 				.of(allEClss.stream().filter((cls) -> !cls.isInterface() && !cls.isAbstract()).toArray(EClass[]::new));
 	}
 
-	public abstract List<EPackage> getTargetMetamodelTopLevelPackages();
-
+	/**
+	 * Meant to provide access to foreign GenModels, which must be integrated to the
+	 * GenModel of the fluent api.
+	 * <p>
+	 * <p>
+	 * Considers the Resource instance(s) of the metamodel that this object is
+	 * actually using. Due to limitations, this object is not guaranteed to use the
+	 * original metamodel.
+	 * 
+	 * @return A list of all GenModels of the metamodel, which encapsulate the means
+	 *         to generate code from the model.
+	 */
 	public abstract List<GenModel> getTargetMetamodelGenModels();
 
-	public List<EPackage> getAllTargetMetamodelPackages() {
-		var list = new ArrayList<EPackage>();
-		list.addAll(getTargetMetamodelTopLevelPackages());
-		list.addAll(getAllTargetMetamodelSubPackages());
-		return list;
-	}
-
-	public List<EPackage> getAllTargetMetamodelSubPackages() {
-		return getTargetMetamodelTopLevelPackages().stream().map(MetamodelUtil::getAllSubPackages).flatMap(List::stream)
-				.collect(Collectors.toList());
-	}
-
+	/**
+	 * Considers the Resource instance(s) of the metamodel that this object is
+	 * actually using. Due to limitations, this object is not guaranteed to use the
+	 * original metamodel.
+	 * 
+	 * @return A list of all EPackages from the ecore file(s) of the metamodel
+	 */
 	public abstract List<EPackage> getTargetMetamodelEcoreEPackages();
 }

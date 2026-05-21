@@ -28,18 +28,6 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 	private List<EClass> originalEClss;
 
 	@Override
-	public List<EPackage> getTargetMetamodelPackages() {
-		var topPac = getTargetMetamodelEcoreEPackages().get(0);
-		return MetamodelUtil.getAllSubPackages(topPac);
-	}
-
-	@Override
-	public List<EClass> getAllTargetMetamodelConcreteEClasses() {
-		var topPac = getTargetMetamodelEcoreEPackages().get(0);
-		return List.copyOf(MetamodelUtil.getAllConcreteEClasses(topPac));
-	}
-
-	@Override
 	public String getTargetMetamodelName() {
 		var topPac = getTargetMetamodelEcoreEPackages().get(0);
 		return topPac.getName();
@@ -101,11 +89,6 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 		javaGenModel.setCanGenerate(false);
 
 		return List.of(javaGenModel);
-	}
-
-	@Override
-	public List<EPackage> getTargetMetamodelTopLevelPackages() {
-		return this.getTargetMetamodelEcoreEPackages();
 	}
 
 	@Override

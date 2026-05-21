@@ -33,18 +33,6 @@ public class FluentAPIPcmMetamodelPackageProvider extends FluentAPITargetMetamod
 	}
 
 	@Override
-	public List<EPackage> getTargetMetamodelPackages() {
-		var topPac = getTargetMetamodelEcoreEPackages().get(0);
-		return MetamodelUtil.getAllSubPackages(topPac);
-	}
-
-	@Override
-	public List<EClass> getAllTargetMetamodelConcreteEClasses() {
-		var topPac = getTargetMetamodelEcoreEPackages().get(0);
-		return List.copyOf(MetamodelUtil.getAllConcreteEClasses(topPac));
-	}
-
-	@Override
 	public String getTargetMetamodelName() {
 		var topPac = getTargetMetamodelEcoreEPackages().get(0);
 		return topPac.getName();
@@ -60,11 +48,6 @@ public class FluentAPIPcmMetamodelPackageProvider extends FluentAPITargetMetamod
 	public List<EClass> getAllEClassesInOriginalMetamodel() {
 		cacheOriginalEClasses();
 		return originalEClss;
-	}
-
-	@Override
-	public List<EPackage> getTargetMetamodelTopLevelPackages() {
-		return this.getTargetMetamodelEcoreEPackages();
 	}
 
 	@Override
