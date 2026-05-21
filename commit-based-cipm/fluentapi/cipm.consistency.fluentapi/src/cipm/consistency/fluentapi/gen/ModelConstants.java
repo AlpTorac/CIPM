@@ -14,6 +14,9 @@ import org.apache.commons.lang.StringUtils;
  */
 public class ModelConstants {
 	/**
+	 * The URI of the root package of the fluent API, which contains the fluent API
+	 * class.
+	 * <p>
 	 * %s: Metamodel name (lower case)
 	 */
 	public static final IFluentAPIFillableTemplate ROOT_PACKAGE_URI = new FluentAPIFillableTemplate(
@@ -49,13 +52,37 @@ public class ModelConstants {
 	public static final IFluentAPIFillableTemplate FULL_ROOT_PACKAGE_NAME = new FluentAPIFillableTemplate(
 			BASE_PACKAGE_NAME.get() + "." + ROOT_PACKAGE_NAME.get());
 
+	/**
+	 * The name of the package, which will contain the Initialisation classes. This
+	 * package is nested under {@link #ROOT_PACKAGE_NAME}.
+	 */
 	public static final IFluentAPITemplate INITIALISATIONS_PACKAGE_NAME = new FluentAPIFixTemplate("inits");
 
+	/**
+	 * An indicator in operation names in fluent api, signaling that the method can
+	 * be used for arbitrary types of the metamodel the fluent api is meant for.
+	 */
 	public static final IFluentAPITemplate PLACEHOLDER = new FluentAPIFixTemplate("x");
+	/**
+	 * The "body" key of the EAnnotation, whose value stands for the method body in
+	 * EOperations
+	 */
 	public static final IFluentAPITemplate GEN_MODEL_BODY_KEY = new FluentAPIFixTemplate("body");
+	/**
+	 * The "documentation" key of the EAnnotation, whose value stands for the
+	 * documentation of the EMF elements of the fluent api model
+	 */
 	public static final IFluentAPITemplate GEN_MODEL_DOC_KEY = new FluentAPIFixTemplate("documentation");
+	/**
+	 * The source of the EAnnotation that is used in EMF elements of the fluent api
+	 * model
+	 */
 	public static final IFluentAPITemplate GEN_MODEL_SOURCE_URL = new FluentAPIFixTemplate(
 			"http://www.eclipse.org/emf/2002/GenModel");
+	/**
+	 * The suffix in the names of classes in fluent api, which are responsible for
+	 * creating / modifying elements of the metamodel the fluent api is meant for.
+	 */
 	public static final IFluentAPITemplate INITIALISATION_NAME_SUFFIX = new FluentAPIFixTemplate("Initialisation");
 
 	/**
@@ -66,11 +93,23 @@ public class ModelConstants {
 	 * The suffix, which type names in EDataTypes for array-types will get
 	 */
 	public static final IFluentAPITemplate EDATATYPE_ARRAY_WRAPPER_TYPE_NAME_SUFFIX = new FluentAPIFixTemplate("[]");
+	/**
+	 * The name suffix, which EDataTypes adapting non-EMF types for EMF will have
+	 */
 	public static final IFluentAPITemplate EDATATYPE_WRAPPER_NAME_SUFFIX = new FluentAPIFixTemplate(
 			"EDataTypePlaceholder");
+	/**
+	 * The name of the package, which contains the EDataTypes adapting non-EMF types
+	 * for EMF
+	 */
 	public static final IFluentAPITemplate EDATATYPE_WRAPPERS_PACKAGE_NAME = new FluentAPIFixTemplate(
 			"placeholderTypes");
 
+	/**
+	 * An inner class for recurring EParameters within the fluent api model
+	 * 
+	 * @author Alp Torac Genc
+	 */
 	public static class GeneralParameters {
 		public static final IFluentAPITemplate USED_EOBJECT_PARAMETER_NAME = new FluentAPIFixTemplate("eobj");
 		public static final IFluentAPITemplate USED_EOBJECT_PARAMETER_NAME_DOC = new FluentAPIFixTemplate(
@@ -112,6 +151,17 @@ public class ModelConstants {
 		return getMethodName(cls) + StringUtils.capitalize(ModelConstants.PLACEHOLDER.get());
 	}
 
+	/**
+	 * Aggregates constants of the fluent api class. Inner classes are the names of
+	 * the methods of the fluent api class.
+	 * <p>
+	 * <p>
+	 * The fluent api class serves as the facade of the fluent api and provides
+	 * methods to ease construction of models of the metamodel that the fluent api
+	 * is generated for.
+	 * 
+	 * @author Alp Torac Genc
+	 */
 	public static class FluentAPI {
 		/**
 		 * %s: Metamodel name (capitalised)
@@ -385,6 +435,17 @@ public class ModelConstants {
 		}
 	}
 
+	/**
+	 * Aggregates constants of the abstract (super) initialisation class. Inner
+	 * classes are the names of the methods of the abstract (super) initialisation
+	 * class.
+	 * <p>
+	 * <p>
+	 * The super initialisation class is the parent class of all initialisation
+	 * classes.
+	 * 
+	 * @author Alp Torac Genc
+	 */
 	public static class SuperInitialisation {
 		public static final IFluentAPITemplate CLASS_NAME = new FluentAPIFixTemplate("FluentAPISuperInitialisation");
 
@@ -394,6 +455,12 @@ public class ModelConstants {
 				+ " classes extend. Contains various methods that facilitate the programmatic construction of model object instances."
 				+ FluentAPIDocumentationUtil.getClassMethodOverviewIntroTemplate());
 
+		/**
+		 * Aggregates constants of the reference to the fluent api class from within the
+		 * super initialisation class.
+		 * 
+		 * @author Alp Torac Genc
+		 */
 		public static class RootAPI {
 			public static final IFluentAPIFeatureTemplate NAME = new FluentAPIFeatureTemplate(
 					getFeatureName(RootAPI.class));
@@ -401,6 +468,13 @@ public class ModelConstants {
 					"The " + ModelConstants.FluentAPI.CLASS_NAME.getEmpty() + ", which created this");
 		}
 
+		/**
+		 * Aggregates constants of the reference to the current element from within the
+		 * super initialisation class. The current element is the element, which the
+		 * (super) initialisation instance is currently creating / modifying.
+		 * 
+		 * @author Alp Torac Genc
+		 */
 		public static class CurrentElement {
 			public static final IFluentAPIFeatureTemplate NAME = new FluentAPIFeatureTemplate(
 					getFeatureName(CurrentElement.class));
@@ -452,8 +526,8 @@ public class ModelConstants {
 			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(
 					FluentAPI.Mark.NAME.get() + CurrentElement.NAME.getCapitalised());
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
-					FluentAPIDocumentationUtil.appendToDocumentationStart(FluentAPI.Mark.SUMMARY.get()) + "Delegates to "
-							+ ModelConstants.SuperInitialisation.RootAPI.NAME.get() + " and "
+					FluentAPIDocumentationUtil.appendToDocumentationStart(FluentAPI.Mark.SUMMARY.get())
+							+ "Delegates to " + ModelConstants.SuperInitialisation.RootAPI.NAME.get() + " and "
 							+ ModelConstants.FluentAPI.Mark.NAME.get() + "s "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.get());
 		}
@@ -462,8 +536,8 @@ public class ModelConstants {
 			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(
 					FluentAPI.Unmark.NAME.get() + CurrentElement.NAME.getCapitalised());
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
-					FluentAPIDocumentationUtil.appendToDocumentationStart(FluentAPI.Unmark.SUMMARY.get()) + "Delegates to "
-							+ ModelConstants.SuperInitialisation.RootAPI.NAME.get() + " and "
+					FluentAPIDocumentationUtil.appendToDocumentationStart(FluentAPI.Unmark.SUMMARY.get())
+							+ "Delegates to " + ModelConstants.SuperInitialisation.RootAPI.NAME.get() + " and "
 							+ ModelConstants.FluentAPI.Unmark.NAME.get() + "s "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.get());
 		}
@@ -492,7 +566,8 @@ public class ModelConstants {
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
 					"Finalises and returns " + ModelConstants.SuperInitialisation.CurrentElement.NAME.get());
 			public static final IFluentAPITemplate DOC = new FluentAPIFixTemplate(
-					FluentAPIDocumentationUtil.appendToDocumentationStart(SUMMARY.get()) + "Finalises the construction of "
+					FluentAPIDocumentationUtil.appendToDocumentationStart(SUMMARY.get())
+							+ "Finalises the construction of "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall()
 							+ " and returns it. " + ModelConstants.FluentAPI.DropInitialisation.NAME.get()
 							+ "s this from " + ModelConstants.SuperInitialisation.ToAPI.NAME.thisCall()
@@ -505,6 +580,16 @@ public class ModelConstants {
 		}
 	}
 
+	/**
+	 * Aggregates common constants of the initialisation classes. Inner classes are
+	 * the names of the methods of the initialisation class.
+	 * <p>
+	 * <p>
+	 * Initialisation classes aid in the creation and modification of model elements
+	 * of the metamodel that the fluent api is meant for.
+	 * 
+	 * @author Alp Torac Genc
+	 */
 	public static class Initialiation {
 		/**
 		 * %s: Class name (capitalised)
@@ -553,8 +638,8 @@ public class ModelConstants {
 			 * %s: Feature name
 			 */
 			public static final IFluentAPIFillableTemplate DOC = new FluentAPIFillableTemplate(
-					FluentAPIDocumentationUtil.appendToDocumentationStart(ModelConstants.FluentAPI.WithFeat.SUMMARY.get())
-							+ "Sets the value of the feature %s in "
+					FluentAPIDocumentationUtil.appendToDocumentationStart(
+							ModelConstants.FluentAPI.WithFeat.SUMMARY.get()) + "Sets the value of the feature %s in "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.inThis() + " to the given value.");
 
 			/**
@@ -577,7 +662,8 @@ public class ModelConstants {
 			 * %s: Feature name
 			 */
 			public static final IFluentAPIFillableTemplate DOC = new FluentAPIFillableTemplate(
-					FluentAPIDocumentationUtil.appendToDocumentationStart(ModelConstants.FluentAPI.WithoutFeat.SUMMARY.get())
+					FluentAPIDocumentationUtil
+							.appendToDocumentationStart(ModelConstants.FluentAPI.WithoutFeat.SUMMARY.get())
 							+ "Unsets the value of the feature %s in "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.inThis()
 							+ ", which sets its value to null.");
@@ -647,7 +733,8 @@ public class ModelConstants {
 			 * %s: Feature name
 			 */
 			public static final IFluentAPIFillableTemplate DOC = new FluentAPIFillableTemplate(
-					FluentAPIDocumentationUtil.appendToDocumentationStart(ModelConstants.FluentAPI.CleanFeat.SUMMARY.get())
+					FluentAPIDocumentationUtil
+							.appendToDocumentationStart(ModelConstants.FluentAPI.CleanFeat.SUMMARY.get())
 							+ "Clears all values of the (many-valued) feature %s in "
 							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.inThis());
 		}
