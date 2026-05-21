@@ -1,7 +1,7 @@
 package cipm.consistency.fluentapi.gen;
 
 /**
- * A template class that holds a fixed string value, without and string
+ * A template class that holds a fixed string value, without any string
  * formatting flags.
  * 
  * @see IFluentAPITemplate
