@@ -22,6 +22,13 @@ import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationECla
  * @author Alp Torac Genc
  */
 public class FluentAPIGenerator {
+	/**
+	 * Generates the fluent api model.
+	 * 
+	 * @param context An object that contains state information on the fluent api
+	 *                generation
+	 * @return A list of generated root packages, currently only one
+	 */
 	public List<EPackage> generateRootAPIPackages(FluentAPIGenerationContext context) {
 		// Generate fluent API packages
 		var rootPac = generateFluentAPIRootPackage(context);
@@ -30,7 +37,7 @@ public class FluentAPIGenerator {
 		context.setRootPackage(rootPac);
 		context.setApiPackage(rootPac);
 		context.setInitsPackage(generateInitialisationsPackage(context));
-		context.setPlaceholderEDataTypesPac(generateArrayTypesPackage(context));
+		context.setPlaceholderEDataTypesPac(generatePlaceholderTypesPackage(context));
 
 		// Generate the facade class (without setting it up) and add it into context
 		var rootAPIEClassGen = new FluentAPIRootAPIEClassGenerator();
@@ -66,6 +73,13 @@ public class FluentAPIGenerator {
 		return List.of(rootPac);
 	}
 
+	/**
+	 * Generates the top-most EPackage of the fluent api model.
+	 * 
+	 * @param context An object that contains state information on the fluent api
+	 *                generation
+	 * @return The root EPackage
+	 */
 	private EPackage generateFluentAPIRootPackage(FluentAPIGenerationContext context) {
 		var pac = EcoreFactory.eINSTANCE.createEPackage();
 		var pacName = ModelConstants.ROOT_PACKAGE_NAME.get();
@@ -79,12 +93,23 @@ public class FluentAPIGenerator {
 		return pac;
 	}
 
+	/**
+	 * @param context An object that contains state information on the fluent api
+	 *                generation
+	 * @return The EPackage that contains the generated Initialisation classes
+	 */
 	private EPackage generateInitialisationsPackage(FluentAPIGenerationContext context) {
 		return FluentAPIGenerationUtil.generateSubPackage(context.getApiPackage(),
 				ModelConstants.INITIALISATIONS_PACKAGE_NAME.get());
 	}
 
-	private EPackage generateArrayTypesPackage(FluentAPIGenerationContext context) {
+	/**
+	 * @param context An object that contains state information on the fluent api
+	 *                generation
+	 * @return The EPackage that contains the generated EDataTypes, which wrap
+	 *         non-EMF types and adapt them
+	 */
+	private EPackage generatePlaceholderTypesPackage(FluentAPIGenerationContext context) {
 		return FluentAPIGenerationUtil.generateSubPackage(context.getApiPackage(),
 				ModelConstants.EDATATYPE_WRAPPERS_PACKAGE_NAME.get());
 	}
