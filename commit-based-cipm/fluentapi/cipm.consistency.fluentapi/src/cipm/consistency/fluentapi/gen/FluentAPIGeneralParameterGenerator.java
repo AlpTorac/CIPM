@@ -11,6 +11,11 @@ import org.eclipse.emf.ecore.EcorePackage;
  * @author Alp Torac Genc
  */
 public final class FluentAPIGeneralParameterGenerator {
+	/**
+	 * @return An EParameter instance for
+	 *         {@link ModelConstants.GeneralParameters.USED_EOBJECT_PARAMETER_NAME}
+	 *         of the given type
+	 */
 	public static EParameter getEObjectParamOfType(EClass type) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				ModelConstants.GeneralParameters.USED_EOBJECT_PARAMETER_NAME.get(), type);
@@ -19,14 +24,19 @@ public final class FluentAPIGeneralParameterGenerator {
 		return param;
 	}
 
+	/**
+	 * @return An EParameter instance for
+	 *         {@link ModelConstants.GeneralParameters.USED_EOBJECT_PARAMETER_NAME}
+	 *         of type EObject
+	 */
 	public static EParameter getEObjectParam() {
-		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				ModelConstants.GeneralParameters.USED_EOBJECT_PARAMETER_NAME.get(), EcorePackage.Literals.EOBJECT);
-		FluentAPIGenerationUtil.addDocumentation(param,
-				ModelConstants.GeneralParameters.USED_EOBJECT_PARAMETER_NAME_DOC.get());
-		return param;
+		return getEObjectParamOfType(EcorePackage.Literals.EOBJECT);
 	}
 
+	/**
+	 * @return An EParameter instance for
+	 *         {@link ModelConstants.GeneralParameters.MODIFIED_FEATURE_PARAMETER_NAME}
+	 */
 	public static EParameter getFeatParam() {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				ModelConstants.GeneralParameters.MODIFIED_FEATURE_PARAMETER_NAME.get(),
@@ -36,6 +46,10 @@ public final class FluentAPIGeneralParameterGenerator {
 		return param;
 	}
 
+	/**
+	 * @return An EParameter instance for
+	 *         {@link ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME}
+	 */
 	public static EParameter getFeatValParam() {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME.get(),
@@ -45,6 +59,12 @@ public final class FluentAPIGeneralParameterGenerator {
 		return param;
 	}
 
+	/**
+	 * @param context An object encapsulating the fluent api generation context
+	 * @return An EParameter instance for
+	 *         {@link ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME}
+	 *         for an array type
+	 */
 	public static EParameter getFeatValArrayParam(FluentAPIGenerationContext context) {
 		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(context,
 				ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME.get(),
@@ -54,6 +74,12 @@ public final class FluentAPIGeneralParameterGenerator {
 		return param;
 	}
 
+	/**
+	 * @param context An object encapsulating the fluent api generation context
+	 * @return An EParameter instance for
+	 *         {@link ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME}
+	 *         for a collection type
+	 */
 	public static EParameter getFeatValColParam(FluentAPIGenerationContext context) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME.get(),
@@ -63,6 +89,10 @@ public final class FluentAPIGeneralParameterGenerator {
 		return param;
 	}
 
+	/**
+	 * @return An EParameter instance for
+	 *         {@link ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME}
+	 */
 	public static EParameter getMarkKeyParam() {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get(), EcorePackage.Literals.EJAVA_OBJECT);
@@ -71,6 +101,12 @@ public final class FluentAPIGeneralParameterGenerator {
 		return param;
 	}
 
+	/**
+	 * @param context An object encapsulating the fluent api generation context
+	 * @return An EParameter instance for
+	 *         {@link ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME} for
+	 *         passing a collection
+	 */
 	public static EParameter getMarkKeyColParam(FluentAPIGenerationContext context) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get(),
@@ -80,6 +116,12 @@ public final class FluentAPIGeneralParameterGenerator {
 		return param;
 	}
 
+	/**
+	 * @param context An object encapsulating the fluent api generation context
+	 * @return An EParameter instance for
+	 *         {@link ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME} for
+	 *         passing an array
+	 */
 	public static EParameter getMarkKeyArrayParam(FluentAPIGenerationContext context) {
 		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(context,
 				ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get(), EcorePackage.Literals.EJAVA_OBJECT);
@@ -88,6 +130,11 @@ public final class FluentAPIGeneralParameterGenerator {
 		return param;
 	}
 
+	/**
+	 * @param context An object encapsulating the fluent api generation context
+	 * @return An EParameter instance for
+	 *         {@link ModelConstants.GeneralParameters.WAIT_FOR_MARK_TASK_PARAMETER_NAME}
+	 */
 	public static EParameter getWaitForMarkTaskParam(FluentAPIGenerationContext context) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(context,
 				ModelConstants.GeneralParameters.WAIT_FOR_MARK_TASK_PARAMETER_NAME.get(),
@@ -97,6 +144,10 @@ public final class FluentAPIGeneralParameterGenerator {
 		return param;
 	}
 
+	/**
+	 * @return An EParameter instance for
+	 *         {@link ModelConstants.GeneralParameters.MARK_VALUE_PARAMETER_NAME}
+	 */
 	public static EParameter getMarkValParam() {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				ModelConstants.GeneralParameters.MARK_VALUE_PARAMETER_NAME.get(), EcorePackage.Literals.EOBJECT);
