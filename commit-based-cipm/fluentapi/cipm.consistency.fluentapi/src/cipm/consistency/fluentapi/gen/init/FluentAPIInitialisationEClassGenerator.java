@@ -18,13 +18,34 @@ import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationRese
 import cipm.consistency.fluentapi.gen.superinit.FluentAPISuperInitialisationToAPIMethodGenerator;
 
 /**
- * Generates EClass instances for concrete initialisation classes.
+ * The generator class responsible for generating the EClasses, which represent
+ * the parts (Initialisation classes) of the fluent api that are responsible for
+ * creating / modifying model elements of the metamodel, which the fluent api is
+ * generated for. This generator class will only generate the Initialisation
+ * classes' EClasses and their EOperations, nothing else. Therefore, this
+ * generator class alone is not enough to generate the fluent api model.
+ * <p>
+ * <p>
+ * Note that both methods
+ * {@link #generateFluentAPIInitialisationClasses(FluentAPIGenerationContext)}
+ * and
+ * {@link #setupFluentAPIInitialisationFor(EClass, EClass, FluentAPIGenerationContext)}
+ * have to be called (for each generated initialisation EClass), in order to
+ * generate the EClasses of the Initialisation classes.
  * 
  * @author Alp Torac Genc
+ * 
+ * @see {@link cipm.consistency.fluentapi.gen.FluentAPIGenerator} For more
+ *      details on the flow of the fluent api generation.
  */
 public class FluentAPIInitialisationEClassGenerator {
 	private static final Map<String, String> summaries = new LinkedHashMap<>();
 
+	/**
+	 * @param context The object encapsulating the context of fluent api generation.
+	 * @return The list of initialisation classes' EClasses generated for the model
+	 *         elements of the metamodel the fluent api is generated for.
+	 */
 	public List<EClass> generateFluentAPIInitialisationClasses(FluentAPIGenerationContext context) {
 		var initSubClss = new ArrayList<EClass>();
 
@@ -54,6 +75,16 @@ public class FluentAPIInitialisationEClassGenerator {
 		return xInitEClass;
 	}
 
+	/**
+	 * Sets up xInitEClass as EClass of the initialisation class for the given
+	 * initialisedEClass.
+	 * 
+	 * @param xInitEClass       An initialisation EClass
+	 * @param initialisedEClass The EClass of the model element, which xInitEClass
+	 *                          is meant for
+	 * @param context           The object encapsulating the context of fluent api
+	 *                          generation.
+	 */
 	public void setupFluentAPIInitialisationFor(EClass xInitEClass, EClass initialisedEClass,
 			FluentAPIGenerationContext context) {
 		xInitEClass.getEOperations().addAll(new FluentAPIInitialisationReturnTypeOverrideGenerator()

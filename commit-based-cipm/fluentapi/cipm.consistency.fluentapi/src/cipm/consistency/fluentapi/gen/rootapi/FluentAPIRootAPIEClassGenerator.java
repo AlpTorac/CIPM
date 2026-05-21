@@ -14,17 +14,29 @@ import cipm.consistency.fluentapi.gen.ModelConstants;
 
 /**
  * The generator class responsible for generating the EClass, which represents
- * the facade of the fluent API. Note that both methods
- * {@link #generateRootAPIEClass()} and
- * {@link #setupRootAPIEClass(FluentAPIGenerationContext)} have to be called in
- * that order, since model generation may require the EClass object to exist
- * before actually finalizing it.
+ * the facade of the fluent API. This generator class will only generate the
+ * fluent api's EClass and its EOperations, nothing else. Therefore, this
+ * generator class alone is not enough to generate the fluent api model.
+ * <p>
+ * <p>
+ * Note that the methods {@link #generateRootAPIEClass()} and
+ * {@link #setupRootAPIEClass(FluentAPIGenerationContext)} have to be called, in
+ * order to generate the EClass of the fluent api.
+ * 
+ * @see {@link cipm.consistency.fluentapi.gen.FluentAPIGenerator} For more
+ *      details on the flow of the fluent api generation.
  * 
  * @author Alp Torac Genc
+ * 
  */
 public class FluentAPIRootAPIEClassGenerator {
 	private static final Map<String, String> summaries = new LinkedHashMap<>();
 
+	/**
+	 * 
+	 * @param context The object encapsulating the context of fluent api generation.
+	 * @return
+	 */
 	public EClass generateRootAPIEClass(FluentAPIGenerationContext context) {
 		var fluentAPIECls = EcoreFactory.eINSTANCE.createEClass();
 		fluentAPIECls.setAbstract(false);
@@ -95,6 +107,12 @@ public class FluentAPIRootAPIEClassGenerator {
 		summaries.putAll(clrOngInitMetGen.getMethodNamesToDescriptions());
 	}
 
+	/**
+	 * Sets up the fluent api class' EClass by generating and adding its
+	 * EOperations, as well as documenting them.
+	 * 
+	 * @param context The object encapsulating the context of fluent api generation.
+	 */
 	public void setupRootAPIEClass(FluentAPIGenerationContext context) {
 		addOperations(context);
 		addEClassDoc(context);

@@ -14,9 +14,22 @@ import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 
 /**
- * Generates the EClass of the abstract Initialisation class.
+ * The generator class responsible for generating the EClass, which represents
+ * the abstract (super) initialisation class. This generator class will only
+ * generate the EClass of the super initialisation class and its EOperations,
+ * nothing else. Therefore, this generator class alone is not enough to generate
+ * the fluent api model.
+ * <p>
+ * <p>
+ * Note that the methods {@link #generateSuperInitialisationEClass()} and
+ * {@link #setupSuperInitialisationEClass(FluentAPIGenerationContext)} have to
+ * be called, in order to generate the EClass of the super initialisation class.
+ * 
+ * @see {@link cipm.consistency.fluentapi.gen.FluentAPIGenerator} For more
+ *      details on the flow of the fluent api generation.
  * 
  * @author Alp Torac Genc
+ * 
  */
 public class FluentAPISuperInitialisationEClassGenerator {
 
@@ -48,6 +61,9 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		return rootAPIRef;
 	}
 
+	/**
+	 * @return The EClass of the super initialisation class.
+	 */
 	public EClass generateSuperInitialisationEClass() {
 		var superType = EcoreFactory.eINSTANCE.createEClass();
 		superType.setAbstract(true);
@@ -97,6 +113,12 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		context.getInitSuperECls().getEOperations().addAll(delegateOpGen.generateAllDelegateMethods(context));
 	}
 
+	/**
+	 * Sets up the super initialisation class' EClass by generating and adding its
+	 * EOperations, EReferences, as well as documenting them.
+	 * 
+	 * @param context The object encapsulating the context of fluent api generation.
+	 */
 	public void setupSuperInitialisationEClass(FluentAPIGenerationContext context) {
 		addRefs(context);
 		addOperations(context);
