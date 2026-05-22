@@ -139,16 +139,19 @@ public class FluentAPIWaitForMarkExtensionTest {
 	 * triggering it, work as intended.
 	 */
 	@Test
-	public void singleKey_SingleTask() {
+	public void testAddTask_OneKeyOneTask() {
 		final var ran = new boolean[] { false };
 		var key = new Object();
 		Runnable r = () -> ran[0] = true;
 
 		assertTaskNotPending(key, r);
+
+		// Add the task, make sure it does not trigger
 		FluentAPIWaitForMarkExtension.addTask(key, r);
 		assertTaskPending(key, r);
 		Assertions.assertFalse(ran[0]);
 
+		// Add the mark, ensure task triggers
 		FluentAPIMarkExtension.mark(key, EcoreFactory.eINSTANCE.createEObject());
 		assertTaskNotPending(key, r);
 		Assertions.assertTrue(ran[0]);
@@ -159,27 +162,21 @@ public class FluentAPIWaitForMarkExtensionTest {
 	 * triggering them, work as intended.
 	 */
 	@Test
-	public void singleKey_MultipleTask() {
+	public void testAddTask_OneKeyManyTask() {
 		final var ran = new boolean[] { false, false };
 		var key = new Object();
 
 		Runnable r1 = () -> ran[0] = true;
 		Runnable r2 = () -> ran[1] = true;
 
-		assertTaskNotPending(key, r1);
-		assertTaskNotPending(key, r2);
-
+		// Add the tasks, make sure they do not trigger
 		FluentAPIWaitForMarkExtension.addTask(key, r1);
-		assertTaskPending(key, r1);
-		assertTaskNotPending(key, r2);
-		Assertions.assertFalse(ran[0]);
-		Assertions.assertFalse(ran[1]);
-
 		FluentAPIWaitForMarkExtension.addTask(key, r2);
 		assertTaskPending(key, List.of(r1, r2));
 		Assertions.assertFalse(ran[0]);
 		Assertions.assertFalse(ran[1]);
 
+		// Add the mark, ensure both tasks trigger
 		FluentAPIMarkExtension.mark(key, EcoreFactory.eINSTANCE.createEObject());
 		assertTaskNotPending(key, r1);
 		assertTaskNotPending(key, r2);
@@ -188,45 +185,48 @@ public class FluentAPIWaitForMarkExtensionTest {
 	}
 
 	/**
-	 * Ensures that adding multiple task waiting on a single markKey, as well as
-	 * triggering them, work as intended.
+	 * Ensures that unmarking an existing key and then adding a task waiting on that
+	 * key results in the task not running.
 	 */
 	@Test
-	public void singleKey_MultipleTask_UnmarkAfterFirstTask() {
+	public void testAddTask_OneKeyManyTask_UnmarkInBetween() {
 		final var ran = new boolean[] { false, false };
 		var key = new Object();
 
 		Runnable r1 = () -> ran[0] = true;
 		Runnable r2 = () -> ran[1] = true;
 
-		assertTaskNotPending(key, r1);
-		assertTaskNotPending(key, r2);
-
+		// Add first task and trigger it as usual, make sure second task does not
+		// trigger
 		FluentAPIWaitForMarkExtension.addTask(key, r1);
 		assertTaskPending(key, r1);
-		assertTaskNotPending(key, r2);
 		Assertions.assertFalse(ran[0]);
-		Assertions.assertFalse(ran[1]);
 
+		// Add the mark, ensure that the first task triggers and second task does not
 		FluentAPIMarkExtension.mark(key, EcoreFactory.eINSTANCE.createEObject());
 		Assertions.assertTrue(ran[0]);
 		Assertions.assertFalse(ran[1]);
-		assertTaskNotPending(key, r1);
-		assertTaskNotPending(key, r2);
 
+		// Unmark the mutual key
 		FluentAPIMarkExtension.unmark(key);
 
+		// Add second task and ensure it does not trigger
 		FluentAPIWaitForMarkExtension.addTask(key, r2);
 		assertTaskPending(key, r2);
 		Assertions.assertFalse(ran[1]);
 
+		// Re-add the mark and ensure the second task triggers
 		FluentAPIMarkExtension.mark(key, EcoreFactory.eINSTANCE.createEObject());
 		assertTaskNotPending(key, r2);
 		Assertions.assertTrue(ran[1]);
 	}
 
+	/**
+	 * Ensures that adding a task waiting on multiple keys, as well as triggering
+	 * it, work as intended.
+	 */
 	@Test
-	public void multipleKeys_SingleTask() {
+	public void testAddTask_ManyKeyOneTask() {
 		final var ran = new boolean[] { false };
 		var key1 = new Object();
 		var key2 = new Object();
@@ -235,21 +235,30 @@ public class FluentAPIWaitForMarkExtensionTest {
 		var keyList = List.of(key1, key2);
 
 		assertTaskNotPending(keyList, r);
+
+		// Add the task, make sure it does not trigger
 		FluentAPIWaitForMarkExtension.addTask(keyList, r);
 		assertTaskPending(keyList, r);
 		Assertions.assertFalse(ran[0]);
 
+		// Add the first mark, make sure task does not trigger
 		FluentAPIMarkExtension.mark(key1, EcoreFactory.eINSTANCE.createEObject());
 		assertTaskPending(keyList, r);
 		Assertions.assertFalse(ran[0]);
 
+		// Add the second mark, make sure task triggers
 		FluentAPIMarkExtension.mark(key2, EcoreFactory.eINSTANCE.createEObject());
 		assertTaskNotPending(keyList, r);
 		Assertions.assertTrue(ran[0]);
 	}
 
+	/**
+	 * Ensures that adding a task waiting on multiple keys, as well as triggering
+	 * it, work as intended; if one of the keys gets unmarked before all marks are
+	 * present.
+	 */
 	@Test
-	public void multipleKeys_SingleTask_UnmarkInBetween() {
+	public void testAddTask_ManyKeyOneTask_UnmarkInBetween() {
 		final var ran = new boolean[] { false };
 		var key1 = new Object();
 		var key2 = new Object();
@@ -259,24 +268,32 @@ public class FluentAPIWaitForMarkExtensionTest {
 		var keyList = List.of(key1, key2, key3);
 
 		assertTaskNotPending(keyList, r);
+
+		// Add the task, make sure it does not trigger
 		FluentAPIWaitForMarkExtension.addTask(keyList, r);
 		assertTaskPending(keyList, r);
 		Assertions.assertFalse(ran[0]);
 
+		// Add the first mark, make sure task does not trigger
 		FluentAPIMarkExtension.mark(key1, EcoreFactory.eINSTANCE.createEObject());
 		assertTaskPending(keyList, r);
 		Assertions.assertFalse(ran[0]);
 
+		// Add the second mark, make sure task does not trigger
 		FluentAPIMarkExtension.mark(key2, EcoreFactory.eINSTANCE.createEObject());
 		assertTaskPending(keyList, r);
 		Assertions.assertFalse(ran[0]);
 
+		// Remove the first mark
 		FluentAPIMarkExtension.unmark(key1);
 
+		// Add the third mark, make sure task does not trigger (since the second mark is
+		// unmarked)
 		FluentAPIMarkExtension.mark(key3, EcoreFactory.eINSTANCE.createEObject());
 		assertTaskPending(keyList, r);
 		Assertions.assertFalse(ran[0]);
 
+		// Re-add the first mark, make sure task triggers (since all marks are present)
 		FluentAPIMarkExtension.mark(key1, EcoreFactory.eINSTANCE.createEObject());
 		assertTaskNotPending(keyList, r);
 		Assertions.assertTrue(ran[0]);
@@ -287,25 +304,29 @@ public class FluentAPIWaitForMarkExtensionTest {
 	 * them trigger upon the given key getting used to mark an element.
 	 */
 	@Test
-	public void nestedTaskTest_SameKey() {
+	public void testAddTask_OneKeyOneNestedTask() {
 		var keyOne = new Object();
 		final var taskRan = new boolean[] { false, false };
-		final var innerTaskIssued = new boolean[] { false };
 
-		FluentAPIWaitForMarkExtension.addTask(keyOne, () -> {
+		/*
+		 * outerTask runs and adds innerTask during its execution (for the same key,
+		 * keyOne)
+		 */
+		Runnable innerTask = () -> taskRan[1] = true;
+		Runnable outerTask = () -> {
 			taskRan[0] = true;
-			innerTaskIssued[0] = true;
-			FluentAPIWaitForMarkExtension.addTask(keyOne, () -> taskRan[1] = true);
-		});
+			FluentAPIWaitForMarkExtension.addTask(keyOne, innerTask);
+		};
 
+		// Add the outerTask, ensure that neither it nor innerTask trigger
+		FluentAPIWaitForMarkExtension.addTask(keyOne, outerTask);
 		Assertions.assertFalse(taskRan[0]);
 		Assertions.assertFalse(taskRan[1]);
-		Assertions.assertFalse(innerTaskIssued[0]);
 
+		// Add the mark, ensure that outerTask and innerTask trigger
 		FluentAPIMarkExtension.mark(keyOne, EcoreFactory.eINSTANCE.createEObject());
 		Assertions.assertTrue(taskRan[0]);
 		Assertions.assertTrue(taskRan[1]);
-		Assertions.assertTrue(innerTaskIssued[0]);
 	}
 
 	/**
@@ -315,27 +336,33 @@ public class FluentAPIWaitForMarkExtensionTest {
 	 * re-used to mark an element.
 	 */
 	@Test
-	public void nestedTaskTest_SameKey_UnmarkInBetween() {
+	public void testAddTask_OneKeyOneNestedTask_UnmarkInBetween() {
 		var keyOne = new Object();
 		final var taskRan = new boolean[] { false, false };
-		final var innerTaskIssued = new boolean[] { false };
 
-		FluentAPIWaitForMarkExtension.addTask(keyOne, () -> {
+		/*
+		 * outerTask runs, unmarks its key (keyOne) and then adds innerTask during its
+		 * execution (for the same key, keyOne)
+		 */
+		Runnable innerTask = () -> taskRan[1] = true;
+		Runnable outerTask = () -> {
 			taskRan[0] = true;
-			innerTaskIssued[0] = true;
 			FluentAPIMarkExtension.unmark(keyOne);
-			FluentAPIWaitForMarkExtension.addTask(keyOne, () -> taskRan[1] = true);
-		});
+			FluentAPIWaitForMarkExtension.addTask(keyOne, innerTask);
+		};
 
+		// Add the outerTask, ensure that neither it nor innerTask trigger
+		FluentAPIWaitForMarkExtension.addTask(keyOne, outerTask);
 		Assertions.assertFalse(taskRan[0]);
 		Assertions.assertFalse(taskRan[1]);
-		Assertions.assertFalse(innerTaskIssued[0]);
 
+		// Add the mark, ensure that outerTask triggers but not innerTask (since
+		// outerTask unmarks keyOne)
 		FluentAPIMarkExtension.mark(keyOne, EcoreFactory.eINSTANCE.createEObject());
 		Assertions.assertTrue(taskRan[0]);
-		Assertions.assertTrue(innerTaskIssued[0]);
 		Assertions.assertFalse(taskRan[1]);
 
+		// Re-add the mark, ensure that innerTask triggers
 		FluentAPIMarkExtension.mark(keyOne, EcoreFactory.eINSTANCE.createEObject());
 		Assertions.assertTrue(taskRan[1]);
 	}
@@ -347,27 +374,33 @@ public class FluentAPIWaitForMarkExtensionTest {
 	 * inner task triggers.
 	 */
 	@Test
-	public void nestedTaskTest_DifferentKeys_TriggerInOrder() {
+	public void testAddTask_ManyKeyOneNestedTask_TriggerInOrder() {
 		var keyOne = new Object();
 		var keyTwo = new Object();
 		final var taskRan = new boolean[] { false, false };
-		final var innerTaskIssued = new boolean[] { false };
 
-		FluentAPIWaitForMarkExtension.addTask(keyOne, () -> {
+		/*
+		 * outerTask runs and adds innerTask during its execution (for a different key,
+		 * keyTwo)
+		 */
+		Runnable innerTask = () -> taskRan[1] = true;
+		Runnable outerTask = () -> {
 			taskRan[0] = true;
-			innerTaskIssued[0] = true;
-			FluentAPIWaitForMarkExtension.addTask(keyTwo, () -> taskRan[1] = true);
-		});
+			FluentAPIWaitForMarkExtension.addTask(keyTwo, innerTask);
+		};
 
+		// Add the outerTask, ensure that neither it nor innerTask trigger
+		FluentAPIWaitForMarkExtension.addTask(keyOne, outerTask);
 		Assertions.assertFalse(taskRan[0]);
 		Assertions.assertFalse(taskRan[1]);
-		Assertions.assertFalse(innerTaskIssued[0]);
 
+		// Add the first mark, ensure that outerTask triggers and that innerTask is
+		// present but does not trigger (since keyTwo is missing)
 		FluentAPIMarkExtension.mark(keyOne, EcoreFactory.eINSTANCE.createEObject());
 		Assertions.assertTrue(taskRan[0]);
 		Assertions.assertFalse(taskRan[1]);
-		Assertions.assertTrue(innerTaskIssued[0]);
 
+		// Add the second mark, ensure that innreTask triggers
 		FluentAPIMarkExtension.mark(keyTwo, EcoreFactory.eINSTANCE.createEObject());
 		Assertions.assertTrue(taskRan[1]);
 	}
@@ -381,69 +414,92 @@ public class FluentAPIWaitForMarkExtensionTest {
 	 * immediately afterward.
 	 */
 	@Test
-	public void nestedTaskTest_DifferentKeys_InnerWaitsOnOuter() {
+	public void testAddTask_ManyKeyOneNestedTask_InnerWaitsOnOuter() {
 		var keyOne = new Object();
 		var keyTwo = new Object();
 		final var taskRan = new boolean[] { false, false };
-		final var innerTaskIssued = new boolean[] { false };
 
-		FluentAPIWaitForMarkExtension.addTask(keyOne, () -> {
+		/*
+		 * outerTask runs and adds innerTask during its execution (for a different key,
+		 * keyTwo)
+		 */
+		Runnable innerTask = () -> taskRan[1] = true;
+		Runnable outerTask = () -> {
 			taskRan[0] = true;
-			innerTaskIssued[0] = true;
-			FluentAPIWaitForMarkExtension.addTask(keyTwo, () -> taskRan[1] = true);
-		});
+			FluentAPIWaitForMarkExtension.addTask(keyTwo, innerTask);
+		};
 
+		// Add the outerTask, ensure that neither it nor innerTask trigger
+		FluentAPIWaitForMarkExtension.addTask(keyOne, outerTask);
 		Assertions.assertFalse(taskRan[0]);
 		Assertions.assertFalse(taskRan[1]);
-		Assertions.assertFalse(innerTaskIssued[0]);
 
+		// Add the second mark, ensure that neither outerTask nor innerTask trigger
+		// (since keyOne is missing for outerTask and innerTask is not yet added by the
+		// outerTask)
 		FluentAPIMarkExtension.mark(keyTwo, EcoreFactory.eINSTANCE.createEObject());
 		Assertions.assertFalse(taskRan[0]);
 		Assertions.assertFalse(taskRan[1]);
-		Assertions.assertFalse(innerTaskIssued[0]);
 
+		// Add the first mark, ensure that both tasks trigger (since both keyOne and
+		// keyTwo exist)
 		FluentAPIMarkExtension.mark(keyOne, EcoreFactory.eINSTANCE.createEObject());
 		Assertions.assertTrue(taskRan[0]);
 		Assertions.assertTrue(taskRan[1]);
-		Assertions.assertTrue(innerTaskIssued[0]);
 	}
 
+	/**
+	 * Ensures that the same task can be added multiple times for the same key.
+	 */
 	@Test
-	public void duplicatedTaskTest() {
+	public void testAddTask_DuplicatedTask() {
 		final var runCount = new int[] { 0 };
 		var key = new Object();
 		Runnable r = () -> runCount[0]++;
 
 		assertTaskNotPending(key, r);
 
+		// Add the task once, ensure it does not trigger
 		FluentAPIWaitForMarkExtension.addTask(key, r);
 		assertTaskPending(key, r);
 		Assertions.assertEquals(0, runCount[0]);
 
+		// Add the task another time, ensure it does not trigger
 		FluentAPIWaitForMarkExtension.addTask(key, r);
 		assertTaskPending(key, List.of(r, r));
 		Assertions.assertEquals(0, runCount[0]);
 
+		// Add the mark, ensure the task runs twice
 		FluentAPIMarkExtension.mark(key, EcoreFactory.eINSTANCE.createEObject());
 		assertTaskNotPending(key, List.of(r, r));
 		assertTaskNotPending(key, r);
 		Assertions.assertEquals(2, runCount[0]);
 	}
 
+	/**
+	 * Ensures that the tasks are triggered immediately, if their required keys are
+	 * present.
+	 */
 	@Test
-	public void taskTest_TriggerUponAddingIfMarkExists() {
+	public void testAddTask_TriggerUponAddingIfMarkExists() {
 		final var ran = new boolean[] { false };
 		var key = new Object();
 		Runnable r = () -> ran[0] = true;
 
-		FluentAPIMarkExtension.mark(key, EcoreFactory.eINSTANCE.createEObject());
-
+		// Ensure that the task is not added and add the mark
 		assertTaskNotPending(key, r);
+		FluentAPIMarkExtension.mark(key, EcoreFactory.eINSTANCE.createEObject());
+		assertTaskNotPending(key, r);
+
+		// Add the task, ensure that it triggers immediately
 		FluentAPIWaitForMarkExtension.addTask(key, r);
 		Assertions.assertTrue(ran[0]);
 		assertTaskNotPending(key, r);
 	}
 
+	/**
+	 * Ensures that removing a task waiting on a single key works as intended.
+	 */
 	@Test
 	public void testRemoveTask_SingleKey() {
 		final var ran = new boolean[] { false };
@@ -451,17 +507,24 @@ public class FluentAPIWaitForMarkExtensionTest {
 		Runnable r = () -> ran[0] = true;
 
 		assertTaskNotPending(key, r);
+
+		// Add the task for key, ensure it does not trigger
 		FluentAPIWaitForMarkExtension.addTask(key, r);
 		assertTaskPending(key, r);
 		Assertions.assertFalse(ran[0]);
 
+		// Remove the task for key, ensure that it is neither present nor triggered
 		FluentAPIWaitForMarkExtension.removeTask(key, r);
 		assertTaskNotPending(key, r);
 		Assertions.assertFalse(ran[0]);
 	}
 
+	/**
+	 * Ensures that removing a task waiting on multiple keys (and exactly those
+	 * keys) works as intended.
+	 */
 	@Test
-	public void testRemoveTask_MultipleKeys_RemoveTaskForAllKeys() {
+	public void testRemoveTask_MultipleKeys_RemoveTaskForExactKeys() {
 		final var ran = new boolean[] { false };
 		var key1 = new Object();
 		var key2 = new Object();
@@ -469,17 +532,24 @@ public class FluentAPIWaitForMarkExtensionTest {
 		Runnable r = () -> ran[0] = true;
 
 		assertTaskNotPending(keyList, r);
+
+		// Add the task for keyList, ensure it does not trigger
 		FluentAPIWaitForMarkExtension.addTask(keyList, r);
 		assertTaskPending(keyList, r);
 		Assertions.assertFalse(ran[0]);
 
+		// Remove the task for keyList, ensure that it is neither present nor triggered
 		FluentAPIWaitForMarkExtension.removeTask(keyList, r);
 		assertTaskNotPending(keyList, r);
 		Assertions.assertFalse(ran[0]);
 	}
 
+	/**
+	 * Ensures that a task waiting on multiple keys is not removed, if it is
+	 * attempted to be removed for a strict subset of the keys.
+	 */
 	@Test
-	public void testRemoveTask_MultipleKeys_RemoveTaskForSingleKey() {
+	public void testRemoveTask_MultipleKeys_RemoveTaskForKeySubset() {
 		final var ran = new boolean[] { false };
 		var key1 = new Object();
 		var key2 = new Object();
@@ -487,17 +557,25 @@ public class FluentAPIWaitForMarkExtensionTest {
 		Runnable r = () -> ran[0] = true;
 
 		assertTaskNotPending(keyList, r);
+
+		// Add the task for keyList [key1, key2], ensure it does not trigger
 		FluentAPIWaitForMarkExtension.addTask(keyList, r);
 		assertTaskPending(keyList, r);
 		Assertions.assertFalse(ran[0]);
 
+		// Attempt to remove the task for key1, ensure it is present but does not
+		// trigger
 		FluentAPIWaitForMarkExtension.removeTask(key1, r);
 		assertTaskPending(keyList, r);
 		Assertions.assertFalse(ran[0]);
 	}
 
+	/**
+	 * Ensures that a task waiting on multiple keys is not removed, if it is
+	 * attempted to be removed for a strict superset of the keys.
+	 */
 	@Test
-	public void testRemoveTask_MultipleKeys_RemoveTaskForMoreKeys() {
+	public void testRemoveTask_MultipleKeys_RemoveTaskForKeySuperset() {
 		final var ran = new boolean[] { false };
 		var key1 = new Object();
 		var key2 = new Object();
@@ -507,10 +585,14 @@ public class FluentAPIWaitForMarkExtensionTest {
 		Runnable r = () -> ran[0] = true;
 
 		assertTaskNotPending(keyListAdd, r);
+
+		// Add the task for keyListAdd [key1, key2], ensure it does not trigger
 		FluentAPIWaitForMarkExtension.addTask(keyListAdd, r);
 		assertTaskPending(keyListAdd, r);
 		Assertions.assertFalse(ran[0]);
 
+		// Attempt to remove the task for keyListRemove [key1, key2, key3], ensure it is
+		// present but does not trigger
 		FluentAPIWaitForMarkExtension.removeTask(keyListRemove, r);
 		assertTaskPending(keyListAdd, r);
 		Assertions.assertFalse(ran[0]);
