@@ -7,6 +7,12 @@ import org.eclipse.emf.ecore.EClass;
 
 import org.junit.jupiter.api.Assertions;
 
+/**
+ * A class that computes a representative set of EClasses of the metamodel, for
+ * which the fluent api was generated.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIMutationTestRepresentativesGenerator {
 	/**
 	 * @return A minimal yet representative set of target metamodel's concrete

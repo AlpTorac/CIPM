@@ -12,6 +12,12 @@ import org.eclipse.emf.ecore.EcorePackage;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
 
+/**
+ * A singleton class for encapsulating details on the fluent api model and those
+ * of the metamodel the fluent api was generated for.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIGenerationTestSettings {
 	private static FluentAPITargetMetamodelFeatureFilter featureFilter;
 	private static FluentAPITargetMetamodelPackageProvider metamodelProvider;
