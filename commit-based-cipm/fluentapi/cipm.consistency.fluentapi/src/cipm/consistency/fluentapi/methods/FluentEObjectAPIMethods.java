@@ -52,7 +52,7 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	/**
-	 * Invokes the method using EMF-Reflection, which unsets
+	 * Invokes the method using EMF-Reflection, which sets
 	 * {@code objToModify.feat = null}. Only usable on changeable single-valued
 	 * features (feat) in objToModify.
 	 * 
@@ -74,8 +74,8 @@ public final class FluentEObjectAPIMethods {
 
 	/**
 	 * Invokes the method using EMF-Reflection, which sets
-	 * {@code objToModify.feat = [null]}. Only usable on changeable many-valued
-	 * features (feat) in objToModify.
+	 * {@code objToModify.feat = []}. Only usable on changeable many-valued features
+	 * (feat) in objToModify.
 	 * 
 	 * @return api
 	 */
@@ -162,7 +162,7 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	/**
-	 * Invokes the method using EMF-Reflection, which adds
+	 * Invokes the method using EMF-Reflection, which removes
 	 * {@code objToModify.feat -= featVal}. Only usable on changeable many-valued
 	 * features (feat) in objToModify, for featVal of a supported type.
 	 * 
@@ -215,8 +215,10 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	/**
+	 * The returned initialisation instance will not have a current element.
+	 * 
 	 * @return An initialisation instance for the given class eobjCls, which can be
-	 *         used to create / modify an instance of that type
+	 *         used to create / modify an instance of that type.
 	 */
 	public static EObject getInitialisationInstanceForX(EObject api, Class<?> eobjCls) {
 		var initsPac = api.eClass().getEPackage().getESubpackages().stream()
@@ -234,6 +236,8 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	/**
+	 * The returned initialisation instance will have a current element.
+	 * 
 	 * @return An initialisation instance for the given class eobjCls, which can be
 	 *         used to create / modify an instance of that type
 	 */
@@ -251,6 +255,8 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	/**
+	 * The returned initialisation instance will have a current element.
+	 * 
 	 * @return An initialisation instance for the given EClass eCls, which can be
 	 *         used to create / modify an instance of that type
 	 */
@@ -259,6 +265,8 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	/**
+	 * The returned initialisation instance will have a current element.
+	 * 
 	 * @return An initialisation instance for the given class eobjCls, which can be
 	 *         used to create / modify an instance of that type
 	 */
@@ -267,6 +275,8 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	/**
+	 * The returned initialisation instance will have a current element.
+	 * 
 	 * @return An initialisation instance for the given EObject eobjToInit, which
 	 *         can be used to create / modify an instance of that type
 	 */
@@ -290,8 +300,8 @@ public final class FluentEObjectAPIMethods {
 	}
 
 	/**
-	 * @return The most recent unfinished initialisation instance for the given
-	 *         class eobjCls present under {@link FluentAPIInitialisationStorage}
+	 * @return The most recent ongoing initialisation instance for the given class
+	 *         eobjCls present under {@link FluentAPIInitialisationStorage}
 	 */
 	public static EObject continueElement(Class<?> eobjCls) {
 		var initsOfMatchingType = FluentAPIInitialisationStorage.getOngoingInitialisations().stream()
