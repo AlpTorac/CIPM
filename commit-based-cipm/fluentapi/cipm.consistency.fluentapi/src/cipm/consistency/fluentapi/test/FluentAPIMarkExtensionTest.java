@@ -8,12 +8,24 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.extensions.FluentAPIMarkExtension;
 
+/**
+ * A test class meant to test {@link FluentAPIMarkExtensionTest}.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIMarkExtensionTest {
+	/**
+	 * Resets {@link FluentAPIMarkExtension}
+	 */
 	@BeforeEach
-	public void tearDown() {
+	public void setUp() {
 		FluentAPIMarkExtension.clearAllMarks();
 	}
 
+	/**
+	 * Asserts that the mark (key, val) exists and that all methods can find /
+	 * retrieve the mark.
+	 */
 	private void assertContainsMark(Object key, EObject val) {
 		Assertions.assertTrue(FluentAPIMarkExtension.hasMark(key));
 
@@ -23,6 +35,10 @@ public class FluentAPIMarkExtensionTest {
 		Assertions.assertSame(val, FluentAPIMarkExtension.getMarked(key, val.getClass()));
 	}
 
+	/**
+	 * Asserts that the mark (key, val) does not and that no method can find /
+	 * retrieve the mark.
+	 */
 	private void assertDoesNotContainMark(Object key, EObject val) {
 		Assertions.assertTrue(!FluentAPIMarkExtension.hasMark(key) || FluentAPIMarkExtension.getMarked(key) != val);
 		Assertions.assertFalse(FluentAPIMarkExtension.getAllMarks().entrySet().stream()
@@ -31,11 +47,17 @@ public class FluentAPIMarkExtensionTest {
 		Assertions.assertNotSame(val, FluentAPIMarkExtension.getMarked(key, val.getClass()));
 	}
 
+	/**
+	 * Ensures for non-existing marks that null is returned.
+	 */
 	@Test
 	public void getMarkedTest_NoMark() {
 		Assertions.assertNull(FluentAPIMarkExtension.getMarked(new Object()));
 	}
 
+	/**
+	 * Ensures that adding and retrieving a single mark works as intended.
+	 */
 	@Test
 	public void markTest_OneMark() {
 		var key = new Object();
@@ -46,6 +68,9 @@ public class FluentAPIMarkExtensionTest {
 		Assertions.assertEquals(1, FluentAPIMarkExtension.getAllMarks().size());
 	}
 
+	/**
+	 * Ensures that adding and retrieving multiple marks works as intended.
+	 */
 	@Test
 	public void markTest_MultipleMarks() {
 		var key1 = new Object();
@@ -64,6 +89,10 @@ public class FluentAPIMarkExtensionTest {
 		Assertions.assertEquals(2, FluentAPIMarkExtension.getAllMarks().size());
 	}
 
+	/**
+	 * Ensures that overriding an existing mark (key, val1) to (key, val2) works as
+	 * intended.
+	 */
 	@Test
 	public void markTest_OverridingMark() {
 		var key = new Object();
@@ -79,6 +108,9 @@ public class FluentAPIMarkExtensionTest {
 		Assertions.assertEquals(1, FluentAPIMarkExtension.getAllMarks().size());
 	}
 
+	/**
+	 * Ensures that removing all existing marks works as intended.
+	 */
 	@Test
 	public void cleanMarksTest() {
 		var key1 = new Object();
@@ -95,6 +127,9 @@ public class FluentAPIMarkExtensionTest {
 		Assertions.assertEquals(0, FluentAPIMarkExtension.getAllMarks().size());
 	}
 
+	/**
+	 * Ensures that unmarking (i.e. removing marks) works as intended.
+	 */
 	@Test
 	public void unmarkTest() {
 		var key1 = new Object();
@@ -112,6 +147,10 @@ public class FluentAPIMarkExtensionTest {
 		assertContainsMark(key2, val2);
 	}
 
+	/**
+	 * Ensures that calling unmark only has an effect for the first time and that
+	 * duplicated unmark calls do not throw exceptions.
+	 */
 	@Test
 	public void unmarkTest_RepeatedUnmarkCall() {
 		var key1 = new Object();
@@ -133,6 +172,9 @@ public class FluentAPIMarkExtensionTest {
 		assertContainsMark(key2, val2);
 	}
 
+	/**
+	 * Ensures that attempting to unmark non-existing marks works as intended.
+	 */
 	@Test
 	public void unmarkTest_NonExistingMark() {
 		Assertions.assertNull(FluentAPIMarkExtension.unmark(new Object()));
