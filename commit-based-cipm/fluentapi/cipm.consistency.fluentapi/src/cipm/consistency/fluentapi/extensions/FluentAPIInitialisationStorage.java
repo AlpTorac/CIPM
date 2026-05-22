@@ -7,14 +7,15 @@ import java.util.List;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * The class that stores Initialisation instances that are created within the
- * fluent api and are actively being used to create model elements. Since the
- * fluent api model is EMF-based, implementing static attributes in its EClasses
- * is challenging. Making the attribute containing initialisation instances
- * static is important, since all fluent api instances should have access to all
- * ongoing initialisation instances (i.e. initialisation instances that are
- * actively being used), hence the initialisation storing logic is moved to this
- * class. This class does not allow duplicated Initialisation instances.
+ * The extension class of fluent api that stores Initialisation instances that
+ * are created within the fluent api and are actively being used to create model
+ * elements. Since the fluent api model is EMF-based, implementing static
+ * attributes in its EClasses is challenging. Making the attribute containing
+ * initialisation instances static is important, since all fluent api instances
+ * should have access to all ongoing initialisation instances (i.e.
+ * initialisation instances that are actively being used), hence the
+ * initialisation storing logic is moved to this class. This class does not
+ * allow duplicated Initialisation instances.
  * <p>
  * <p>
  * The methods within this class are meant for Initialisation instances,
