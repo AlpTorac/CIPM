@@ -1,4 +1,4 @@
-package cipm.consistency.fluentapi.methods;
+package cipm.consistency.fluentapi.extensions;
 
 import java.util.Collection;
 import java.util.LinkedHashSet;

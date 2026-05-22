@@ -9,9 +9,9 @@ import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.ModelConstants;
-import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
 
 public class FluentAPISuperInitialisationCreateNowMethodGenerator implements IFluentAPIMethodGenerator {
 	private static final String createNowMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(

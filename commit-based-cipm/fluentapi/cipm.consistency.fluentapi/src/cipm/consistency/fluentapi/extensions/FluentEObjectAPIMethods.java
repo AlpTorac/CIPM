@@ -1,4 +1,4 @@
-package cipm.consistency.fluentapi.methods;
+package cipm.consistency.fluentapi.extensions;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package cipm.consistency.fluentapi.methods;
+package cipm.consistency.fluentapi.gen;
 
 /**
  * A utility class for generating method bodies for EOperations.

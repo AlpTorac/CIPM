@@ -7,8 +7,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.methods.mark.FluentAPIMarkExtension;
-import cipm.consistency.fluentapi.methods.mark.FluentAPIWaitForMarkExtension;
+import cipm.consistency.fluentapi.extensions.FluentAPIMarkExtension;
+import cipm.consistency.fluentapi.extensions.FluentAPIWaitForMarkExtension;
 
 public class FluentAPIWaitForMarkExtensionTest {
 	@BeforeEach

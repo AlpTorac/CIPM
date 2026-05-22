@@ -10,9 +10,9 @@ import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIParameterUtil;
 import cipm.consistency.fluentapi.gen.ModelConstants;
-import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
 
 /**
  * Generates overridden methods with more specific return types.

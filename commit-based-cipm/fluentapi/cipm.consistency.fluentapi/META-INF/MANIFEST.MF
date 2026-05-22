@@ -8,10 +8,9 @@ Bundle-Vendor: %providerName
 Automatic-Module-Name: cipm.consistency.fluentapi
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: cipm.consistency.fluentapi.builder,
+ cipm.consistency.fluentapi.extensions,
  cipm.consistency.fluentapi.gen,
  cipm.consistency.fluentapi.metamodel,
- cipm.consistency.fluentapi.methods,
- cipm.consistency.fluentapi.methods.mark,
  cipm.consistency.fluentapi.postprocessor,
  cipm.consistency.fluentapi.test,
  cipm.consistency.fluentapi.test.metamodel

@@ -13,9 +13,9 @@ import org.emftext.language.java.types.ClassifierReference;
 import org.emftext.language.java.types.TypesPackage;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
-import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.postprocessor.FluentAPIGenerationPostProcessor;
 
 /**

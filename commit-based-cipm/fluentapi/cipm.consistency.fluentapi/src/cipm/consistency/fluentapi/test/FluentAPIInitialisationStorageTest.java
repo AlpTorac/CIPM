@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import cipm.consistency.fluentapi.methods.FluentAPIInitialisationStorage;
+import cipm.consistency.fluentapi.extensions.FluentAPIInitialisationStorage;
 
 public class FluentAPIInitialisationStorageTest {
 	@BeforeEach

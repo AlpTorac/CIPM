@@ -11,9 +11,9 @@ import org.eclipse.emf.ecore.EOperation;
 import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.ModelConstants;
-import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
 
 public class FluentAPIRootAPIModifyElementMethodGenerator implements IFluentAPIMethodGenerator {
 	private static final String modifyElementMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(

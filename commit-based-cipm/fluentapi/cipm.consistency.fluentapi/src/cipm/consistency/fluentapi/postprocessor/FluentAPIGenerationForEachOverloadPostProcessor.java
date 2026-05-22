@@ -10,8 +10,8 @@ import org.eclipse.emf.ecore.EParameter;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.ModelConstants;
-import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
 
 /**
  * Introduces variants for certain methods that consider singular parameters,

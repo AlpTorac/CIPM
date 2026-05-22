@@ -14,7 +14,7 @@ import org.eclipse.emf.ecore.EcorePackage;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
-import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIMethodsUtil;
 
 /**
  * A post-processor that adds overloading variants of methods, which take

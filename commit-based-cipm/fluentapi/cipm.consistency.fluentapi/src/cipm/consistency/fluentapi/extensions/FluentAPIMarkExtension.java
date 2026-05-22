@@ -1,4 +1,4 @@
-package cipm.consistency.fluentapi.methods.mark;
+package cipm.consistency.fluentapi.extensions;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

@@ -9,13 +9,13 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcorePackage;
 
+import cipm.consistency.fluentapi.extensions.FluentAPIMarkExtension;
 import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
+import cipm.consistency.fluentapi.gen.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.IFluentAPIMethodGenerator;
 import cipm.consistency.fluentapi.gen.ModelConstants;
-import cipm.consistency.fluentapi.methods.FluentAPIMethodsUtil;
-import cipm.consistency.fluentapi.methods.mark.FluentAPIMarkExtension;
 
 public class FluentAPIRootAPIMarkMethodGenerator implements IFluentAPIMethodGenerator {
 	private static final String unmarkMethodBody = FluentAPIMethodsUtil.joinLOC(FluentAPIMarkExtension.class.getName()
