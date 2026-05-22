@@ -8,12 +8,24 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.extensions.FluentAPIInitialisationStorage;
 
+/**
+ * A test case for testing {@link FluentAPIInitialisationStorage}.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIInitialisationStorageTest {
+	/**
+	 * Resets {@link FluentAPIInitialisationStorage}
+	 */
 	@BeforeEach
-	public void tearDown() {
+	public void setUp() {
 		FluentAPIInitialisationStorage.clearAllOngoingInitialisations();
 	}
 
+	/**
+	 * Ensures that adding a single (supposed) initialisation instance works as
+	 * intended.
+	 */
 	@Test
 	public void testAddOngoingInitialisations_SingleInitialisation() {
 		Assertions.assertEquals(0, FluentAPIInitialisationStorage.getOngoingInitialisations().size());
@@ -25,6 +37,10 @@ public class FluentAPIInitialisationStorageTest {
 		Assertions.assertTrue(FluentAPIInitialisationStorage.getOngoingInitialisations().contains(supposedInit));
 	}
 
+	/**
+	 * Ensures that adding duplicated initialisation instances is handled
+	 * accordingly.
+	 */
 	@Test
 	public void testAddOngoingInitialisations_NoDuplicatedInitialisation() {
 		Assertions.assertEquals(0, FluentAPIInitialisationStorage.getOngoingInitialisations().size());
@@ -37,6 +53,10 @@ public class FluentAPIInitialisationStorageTest {
 		Assertions.assertTrue(FluentAPIInitialisationStorage.getOngoingInitialisations().contains(supposedInit));
 	}
 
+	/**
+	 * Ensures that adding multiple (supposed) initialisation instances works as
+	 * intended.
+	 */
 	@Test
 	public void testAddOngoingInitialisations_MultipleInitialisations() {
 		Assertions.assertEquals(0, FluentAPIInitialisationStorage.getOngoingInitialisations().size());
@@ -51,6 +71,10 @@ public class FluentAPIInitialisationStorageTest {
 		Assertions.assertTrue(FluentAPIInitialisationStorage.getOngoingInitialisations().contains(supposedInit2));
 	}
 
+	/**
+	 * Ensures that the (supposed) initialisation instances are retrieved in the
+	 * order they were added.
+	 */
 	@Test
 	public void testAddOngoingInitialisations_Order() {
 		Assertions.assertEquals(0, FluentAPIInitialisationStorage.getOngoingInitialisations().size());
@@ -65,6 +89,10 @@ public class FluentAPIInitialisationStorageTest {
 		Assertions.assertSame(supposedInit2, FluentAPIInitialisationStorage.getOngoingInitialisations().get(1));
 	}
 
+	/**
+	 * Ensures that removing a single (supposed) initialisation instance works as
+	 * intended.
+	 */
 	@Test
 	public void testDropInitialisation_SingleInitialisation() {
 		var supposedInit = EcoreFactory.eINSTANCE.createEObject();
@@ -73,6 +101,10 @@ public class FluentAPIInitialisationStorageTest {
 		Assertions.assertEquals(0, FluentAPIInitialisationStorage.getOngoingInitialisations().size());
 	}
 
+	/**
+	 * Ensures that removing multiple (supposed) initialisation instances works as
+	 * intended.
+	 */
 	@Test
 	public void testDropInitialisation_MultipleInitialisations() {
 		var supposedInit1 = EcoreFactory.eINSTANCE.createEObject();
@@ -89,6 +121,11 @@ public class FluentAPIInitialisationStorageTest {
 		Assertions.assertEquals(0, FluentAPIInitialisationStorage.getOngoingInitialisations().size());
 	}
 
+	/**
+	 * Ensures that the order of (supposed) initialisation instances are retained
+	 * when they are removed (up to the one initialisation instance that was
+	 * removed).
+	 */
 	@Test
 	public void testDropInitialisation_Order() {
 		Assertions.assertEquals(0, FluentAPIInitialisationStorage.getOngoingInitialisations().size());
@@ -110,6 +147,10 @@ public class FluentAPIInitialisationStorageTest {
 		Assertions.assertSame(supposedInit3, FluentAPIInitialisationStorage.getOngoingInitialisations().get(1));
 	}
 
+	/**
+	 * Ensures that removing all (supposed) initialisation instances works as
+	 * intended.
+	 */
 	@Test
 	public void testClear() {
 		var supposedInit1 = EcoreFactory.eINSTANCE.createEObject();
