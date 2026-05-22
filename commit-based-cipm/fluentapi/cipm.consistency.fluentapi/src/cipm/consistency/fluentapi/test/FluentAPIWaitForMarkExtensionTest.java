@@ -10,9 +10,15 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fluentapi.extensions.FluentAPIMarkExtension;
 import cipm.consistency.fluentapi.extensions.FluentAPIWaitForMarkExtension;
 
+/**
+ * A test class meant to test {@link FluentAPIWaitForMarkExtensionTest}.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIWaitForMarkExtensionTest {
 	@BeforeEach
-	public void tearDown() {
+	public void setUp() {
+		FluentAPIMarkExtension.clearAllMarks();
 		FluentAPIWaitForMarkExtension.clearAllTasks();
 	}
 
