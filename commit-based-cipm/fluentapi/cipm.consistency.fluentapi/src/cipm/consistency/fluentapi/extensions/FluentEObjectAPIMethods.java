@@ -27,10 +27,10 @@ import cipm.consistency.fluentapi.gen.ModelConstants;
  * generated code.
  * <p>
  * <p>
- * Note: Changing any name of a public member within this file (i.e. either this
- * class' name or its methods' names) requires adapting the generation of fluent
- * api. This is due to Java limitations, which do not allow dynamically
- * adjusting static elements, such as method or class names.
+ * Note: Changing any public member within this file (i.e. either this class or
+ * its methods) requires adapting the generation of fluent api. This is due to
+ * Java limitations, which do not allow dynamically adjusting static elements,
+ * such as method or class names.
  * 
  * @author Alp Torac Genc
  */
