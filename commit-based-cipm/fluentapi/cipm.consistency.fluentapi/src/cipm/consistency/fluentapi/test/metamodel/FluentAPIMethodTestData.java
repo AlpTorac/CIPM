@@ -6,6 +6,13 @@ import java.util.function.Function;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EClassifier;
 
+/**
+ * A class that encapsulates which methods the metamodel-related tests should
+ * consider. Those tests should take an instance of this class and use it as
+ * information source.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIMethodTestData {
 	private List<EClass> eClssToCheckFor;
 
