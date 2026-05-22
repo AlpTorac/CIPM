@@ -7,12 +7,32 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
 
+/**
+ * An interface that hides the concrete elements of the fluent api. Implementors
+ * can then implement the methods of this interface and re-use the tests for the
+ * generated fluent api model. Most methods within this interface hide fluent
+ * api operations (or combinations of fluent api operations), whose names denote
+ * their purpose.
+ * 
+ * @author Alp Torac Genc
+ */
 public interface IFluentAPIMetamodelTest {
 
+	/**
+	 * @return The object that grants access to the metamodel, for which the fluent
+	 *         api was generated.
+	 */
 	public FluentAPITargetMetamodelPackageProvider getProvider();
 
+	/**
+	 * @return The object that filters the features of the metamodel, for which the
+	 *         fluent api was generated.
+	 */
 	public FluentAPITargetMetamodelFeatureFilter getFilter();
 
+	/**
+	 * @return The concrete fluent api class instance
+	 */
 	public EObject getAPI();
 
 	public EObject init_getCurrentElement(EObject init);
@@ -46,7 +66,7 @@ public interface IFluentAPIMetamodelTest {
 	public void api_modifyX_xWithoutFeat(EObject obj, EStructuralFeature feat);
 
 	public EObject api_getInitialisationForX(EClass eCls);
-	
+
 	public EClass api_getInitialisationForX_getInitialisedEClass(Class<?> cls);
 
 	public EClass api_getInitialisationForX_getInitialisedEClass(EClass cls);
