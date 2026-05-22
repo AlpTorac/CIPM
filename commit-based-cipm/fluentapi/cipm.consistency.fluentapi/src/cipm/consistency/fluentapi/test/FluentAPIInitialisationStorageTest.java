@@ -26,6 +26,18 @@ public class FluentAPIInitialisationStorageTest {
 	}
 
 	@Test
+	public void testAddOngoingInitialisations_NoDuplicatedInitialisation() {
+		Assertions.assertEquals(0, FluentAPIInitialisationStorage.getOngoingInitialisations().size());
+
+		var supposedInit = EcoreFactory.eINSTANCE.createEObject();
+		FluentAPIInitialisationStorage.addOngoingInitialisation(supposedInit);
+		FluentAPIInitialisationStorage.addOngoingInitialisation(supposedInit);
+
+		Assertions.assertEquals(1, FluentAPIInitialisationStorage.getOngoingInitialisations().size());
+		Assertions.assertTrue(FluentAPIInitialisationStorage.getOngoingInitialisations().contains(supposedInit));
+	}
+
+	@Test
 	public void testAddOngoingInitialisations_MultipleInitialisations() {
 		Assertions.assertEquals(0, FluentAPIInitialisationStorage.getOngoingInitialisations().size());
 

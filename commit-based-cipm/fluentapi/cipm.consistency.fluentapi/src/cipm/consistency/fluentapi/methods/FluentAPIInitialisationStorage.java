@@ -1,6 +1,7 @@
 package cipm.consistency.fluentapi.methods;
 
-import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import org.eclipse.emf.ecore.EObject;
@@ -13,7 +14,7 @@ import org.eclipse.emf.ecore.EObject;
  * static is important, since all fluent api instances should have access to all
  * ongoing initialisation instances (i.e. initialisation instances that are
  * actively being used), hence the initialisation storing logic is moved to this
- * class.
+ * class. This class does not allow duplicated Initialisation instances.
  * <p>
  * <p>
  * The methods within this class are meant for Initialisation instances,
@@ -30,7 +31,7 @@ import org.eclipse.emf.ecore.EObject;
  * @author Alp Torac Genc
  */
 public final class FluentAPIInitialisationStorage {
-	private static final List<EObject> ongoingInits = new ArrayList<>();
+	private static final Collection<EObject> ongoingInits = new LinkedHashSet<>();
 
 	/**
 	 * @return An unmodifiable list of all ongoing initialisations.
@@ -49,7 +50,8 @@ public final class FluentAPIInitialisationStorage {
 	}
 
 	/**
-	 * Adds the given Initialisation instance to this class
+	 * Adds the given Initialisation instance to this class. Does nothing if init
+	 * has already been added previously.
 	 * 
 	 * @param init A given Initialisation instance
 	 */
