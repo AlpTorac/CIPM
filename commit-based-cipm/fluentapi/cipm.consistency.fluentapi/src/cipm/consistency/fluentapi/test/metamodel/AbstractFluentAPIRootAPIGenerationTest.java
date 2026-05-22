@@ -12,9 +12,24 @@ import org.junit.jupiter.api.TestInfo;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 
+/**
+ * An abstract test class that implements test cases for the fluent api class of
+ * the generated fluent api model, which ensure that certain fluent api clss
+ * operations are generated. Also contains a mutation test to check whether the
+ * other test cases work as intended.
+ * 
+ * @author Alp Torac Genc
+ */
 public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFluentAPITest
 		implements IFluentAPIMetamodelTest, IFluentAPIMutationTest {
 
+	/**
+	 * A mutation test to make sure that the other test cases within this class
+	 * function as intended.
+	 * 
+	 * @param info An object that contains information on the currently running test
+	 *             case
+	 */
 	@Test
 	public void mutationTest(TestInfo info) {
 		var api = getAPI();
@@ -43,6 +58,14 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 		assertTestsFailed(mutTestRes);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * <p>
+	 * AbstractFluentAPIInitialisationGenerationTest: Sets up
+	 * {@link FluentAPIGenerationTestSettings} for the current fluent api and the
+	 * metamodel it is meant for.
+	 */
 	@BeforeEach
 	public void setUp() {
 		super.setUp();
@@ -52,6 +75,10 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 		FluentAPIGenerationTestSettings.setPackageProvider(getProvider());
 	}
 
+	/**
+	 * Ensures that certain methods have been generated for the fluent api class
+	 * according to the given testData.
+	 */
 	private void methodTestTemplate(FluentAPIMethodTestData testData) {
 		Assertions.assertFalse(testData.geteClssToCheckFor().isEmpty());
 
@@ -86,7 +113,7 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 
 	/**
 	 * Checks whether{@code createNewX() : X} methods for all supported EClasses
-	 * exist in API
+	 * exist in fluent api class.
 	 */
 	@Test
 	public void methodTest_API_CreateNewX() {
@@ -99,7 +126,7 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 
 	/**
 	 * Checks whether {@code newX() : XInitialisation} methods for all supported
-	 * EClasses exist in API
+	 * EClasses exist in fluent api class.
 	 */
 	@Test
 	public void methodTest_API_NewX_WithoutParameters() {
@@ -114,7 +141,7 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 	/**
 	 * Checks whether {@code newX() : X} methods for all supported EClasses (without
 	 * any modifiable features according to the metamodel feature filter) exist in
-	 * API
+	 * fluent api class.
 	 */
 	@Test
 	public void methodTest_API_NewX_WithoutParameters_NoModifiableFeatures() {
@@ -128,7 +155,7 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 	/**
 	 * Checks whether {@code newX(Y) : X} methods for all supported EClasses (with
 	 * exactly one modifiable feature according to the metamodel feature filter)
-	 * exist in API
+	 * exist in fluent api class.
 	 */
 	@Test
 	public void methodTest_API_NewX_WithParameter_SingleModifiableFeature() {
@@ -146,7 +173,7 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 
 	/**
 	 * Checks whether {@code modifyX(X) : XInitialisation} methods for all supported
-	 * EClasses exist in API
+	 * EClasses exist in fluent api class.
 	 */
 	@Test
 	public void methodTest_API_modifyX() {
@@ -161,7 +188,7 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 
 	/**
 	 * Checks whether {@code modifyMarkedX(markKey) : XInitialisation} methods for
-	 * all supported EClasses exist in API
+	 * all supported EClasses exist in fluent api class.
 	 */
 	@Test
 	public void methodTest_API_modifyMarkedX() {
@@ -176,7 +203,7 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 
 	/**
 	 * Checks whether {@code continueX(X) : XInitialisation} methods for all
-	 * supported EClasses exist in API
+	 * supported EClasses exist in fluent api class.
 	 */
 	@Test
 	public void methodTest_API_continueX() {
@@ -189,7 +216,7 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 
 	/**
 	 * Checks whether {@code continueMarkedX(markKey) : XInitialisation} methods for
-	 * all supported EClasses exist in API
+	 * all supported EClasses exist in fluent api class.
 	 */
 	@Test
 	public void methodTest_API_continueMarkedX() {
@@ -204,7 +231,7 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 
 	/**
 	 * Checks whether {@code getMarkedX(markKey) : X} methods for all supported
-	 * EClasses exist in API
+	 * EClasses exist in fluent api class.
 	 */
 	@Test
 	public void methodTest_API_getMarkedX() {
