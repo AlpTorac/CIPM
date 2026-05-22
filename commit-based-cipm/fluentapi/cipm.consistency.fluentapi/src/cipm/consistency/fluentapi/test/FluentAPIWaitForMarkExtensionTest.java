@@ -384,4 +384,76 @@ public class FluentAPIWaitForMarkExtensionTest {
 		Assertions.assertTrue(ran[0]);
 		assertTaskNotPending(key, r);
 	}
+
+	@Test
+	public void testRemoveTask_SingleKey() {
+		final var ran = new boolean[] { false };
+		var key = new Object();
+		Runnable r = () -> ran[0] = true;
+
+		assertTaskNotPending(key, r);
+		FluentAPIWaitForMarkExtension.addTask(key, r);
+		assertTaskPending(key, r);
+		Assertions.assertFalse(ran[0]);
+
+		FluentAPIWaitForMarkExtension.removeTask(key, r);
+		assertTaskNotPending(key, r);
+		Assertions.assertFalse(ran[0]);
+	}
+
+	@Test
+	public void testRemoveTask_MultipleKeys_RemoveTaskForAllKeys() {
+		final var ran = new boolean[] { false };
+		var key1 = new Object();
+		var key2 = new Object();
+		var keyList = List.of(key1, key2);
+		Runnable r = () -> ran[0] = true;
+
+		assertTaskNotPending(keyList, r);
+		FluentAPIWaitForMarkExtension.addTask(keyList, r);
+		assertTaskPending(keyList, r);
+		Assertions.assertFalse(ran[0]);
+
+		FluentAPIWaitForMarkExtension.removeTask(keyList, r);
+		assertTaskNotPending(keyList, r);
+		Assertions.assertFalse(ran[0]);
+	}
+
+	@Test
+	public void testRemoveTask_MultipleKeys_RemoveTaskForSingleKey() {
+		final var ran = new boolean[] { false };
+		var key1 = new Object();
+		var key2 = new Object();
+		var keyList = List.of(key1, key2);
+		Runnable r = () -> ran[0] = true;
+
+		assertTaskNotPending(keyList, r);
+		FluentAPIWaitForMarkExtension.addTask(keyList, r);
+		assertTaskPending(keyList, r);
+		Assertions.assertFalse(ran[0]);
+
+		FluentAPIWaitForMarkExtension.removeTask(key1, r);
+		assertTaskPending(keyList, r);
+		Assertions.assertFalse(ran[0]);
+	}
+
+	@Test
+	public void testRemoveTask_MultipleKeys_RemoveTaskForMoreKeys() {
+		final var ran = new boolean[] { false };
+		var key1 = new Object();
+		var key2 = new Object();
+		var key3 = new Object();
+		var keyListAdd = List.of(key1, key2);
+		var keyListRemove = List.of(key1, key2, key3);
+		Runnable r = () -> ran[0] = true;
+
+		assertTaskNotPending(keyListAdd, r);
+		FluentAPIWaitForMarkExtension.addTask(keyListAdd, r);
+		assertTaskPending(keyListAdd, r);
+		Assertions.assertFalse(ran[0]);
+
+		FluentAPIWaitForMarkExtension.removeTask(keyListRemove, r);
+		assertTaskPending(keyListAdd, r);
+		Assertions.assertFalse(ran[0]);
+	}
 }
