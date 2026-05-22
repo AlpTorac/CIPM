@@ -9,6 +9,14 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
+/**
+ * An abstract test class that implements test cases for fluent api class and
+ * the abstract (super) initialisation class' methods. Their purpose is to make
+ * sure that those methods have been generated and that they can be used (for
+ * trivial input).
+ * 
+ * @author Alp Torac Genc
+ */
 public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFluentAPITest
 		implements IFluentAPIMetamodelTest {
 	/**
@@ -94,11 +102,11 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 
 	/**
 	 * Ensures that each many-valued modifiable feature of each concrete class
-	 * within the target metamodel can be modified via the api.
+	 * within the target metamodel can be modified via the api (with methods
+	 * xWithAddedFeat(), xWithRemovedFeat(), xCleanFeat()).
 	 */
 	@Test
 	public void concreteElementCoverageTest_API_xManyValuedFeature() {
-
 		var allConcreteEClss = getProvider().getAllConcreteEClassedInOriginalMetamodel();
 		for (var eCls : allConcreteEClss) {
 			var instance = (EObject) api_createNewX(eCls.getInstanceClass());
@@ -120,7 +128,8 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 
 	/**
 	 * Ensures that each modifiable feature of each concrete class within the target
-	 * metamodel can be modified via the api.
+	 * metamodel can be modified via the api (with methods xWithFeat(),
+	 * xWithoutFeat()).
 	 */
 	@Test
 	public void concreteElementCoverageTest_API_xSingleValuedFeature() {
@@ -138,8 +147,8 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 	}
 
 	/**
-	 * Ensures that marking and marking-related methods are enabled for each
-	 * concrete class of the target metamodel
+	 * Ensures that the fluent api methods getMarkedX(), mark() and unmark() are
+	 * enabled for each concrete class of the target metamodel.
 	 */
 	@Test
 	public void concreteElementCoverageTest_API_Mark() {
@@ -166,8 +175,8 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 	}
 
 	/**
-	 * Ensures that marking and marking-related methods are enabled for each
-	 * concrete class of the target metamodel
+	 * Ensures that the fluent api methods modifyMarkedX() is enabled for each
+	 * concrete class of the target metamodel.
 	 */
 	@Test
 	public void concreteElementCoverageTest_API_ModifyMarkedX() {
@@ -188,8 +197,8 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 	}
 
 	/**
-	 * Ensures that marking and marking-related methods are enabled for each
-	 * concrete class of the target metamodel
+	 * Ensures that the fluent api methods continueMarkedX() are enabled for each
+	 * concrete class of the target metamodel.
 	 */
 	@Test
 	public void concreteElementCoverageTest_API_ContinueMarkedX() {
@@ -209,7 +218,8 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 
 	/**
 	 * Ensures that each single-valued modifiable feature of each concrete class
-	 * within the target metamodel can be modified via the superInit.
+	 * within the target metamodel can be modified via the superInit (with methods
+	 * xWithFeat(), xWithoutFeat()).
 	 */
 	@Test
 	public void concreteElementCoverageTest_SuperInit_xSingleValuedFeature() {
@@ -228,7 +238,8 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 
 	/**
 	 * Ensures that each modifiable many-valued feature of each concrete class
-	 * within the target metamodel can be modified via the superInit.
+	 * within the target metamodel can be modified via the superInit (with methods
+	 * xWithAddedFeat(), xWithRemovedFeat(), xCleanFeat()).
 	 */
 	@Test
 	public void concreteElementCoverageTest_SuperInit_xManyValuedFeature() {
@@ -253,8 +264,8 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 	}
 
 	/**
-	 * Ensures that marking and marking-related methods are enabled for each
-	 * concrete class of the target metamodel
+	 * Ensures that the super initialisation methods mark() and unmark() are enabled
+	 * for each concrete class of the target metamodel
 	 */
 	@Test
 	public void concreteElementCoverageTest_SuperInit_MarkX() {
