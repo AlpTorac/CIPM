@@ -1,6 +1,7 @@
 package cipm.consistency.fluentapi.test;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EcoreFactory;
 import org.junit.jupiter.api.Assertions;
@@ -87,6 +88,22 @@ public class FluentAPIWaitForMarkExtensionTest {
 	 */
 	private void assertTaskPending(List<Object> markKey, Runnable task) {
 		assertTaskPending(markKey, List.of(task));
+	}
+
+	/**
+	 * Asserts that the given task has been added exactly duplicateCount times and
+	 * is waiting for key.
+	 * 
+	 * @param key            The markKey
+	 * @param task           The task
+	 * @param duplicateCount Amount of duplicated task occurrences
+	 */
+	private void assertPendingTaskCountEquals(Object key, Runnable task, int duplicateCount) {
+		var pendingTasks = FluentAPIWaitForMarkExtension.getPendingTasks(key);
+		var pendingDuplicatedTasks = pendingTasks != null
+				? pendingTasks.stream().filter((r) -> r == task).collect(Collectors.toList())
+				: List.of();
+		Assertions.assertEquals(duplicateCount, pendingDuplicatedTasks.size());
 	}
 
 	/**
@@ -464,14 +481,13 @@ public class FluentAPIWaitForMarkExtensionTest {
 		assertTaskPending(key, r);
 		Assertions.assertEquals(0, runCount[0]);
 
-		// Add the task another time, ensure it does not trigger
+		// Add the task another time, ensure it is present twice and does not trigger
 		FluentAPIWaitForMarkExtension.addTask(key, r);
-		assertTaskPending(key, List.of(r, r));
+		assertPendingTaskCountEquals(key, r, 2);
 		Assertions.assertEquals(0, runCount[0]);
 
 		// Add the mark, ensure the task runs twice
 		FluentAPIMarkExtension.mark(key, EcoreFactory.eINSTANCE.createEObject());
-		assertTaskNotPending(key, List.of(r, r));
 		assertTaskNotPending(key, r);
 		Assertions.assertEquals(2, runCount[0]);
 	}
@@ -596,5 +612,34 @@ public class FluentAPIWaitForMarkExtensionTest {
 		FluentAPIWaitForMarkExtension.removeTask(keyListRemove, r);
 		assertTaskPending(keyListAdd, r);
 		Assertions.assertFalse(ran[0]);
+	}
+
+	/**
+	 * Ensures that for duplicated tasks, only one occurrence is removed at a time.
+	 */
+	@Test
+	public void testRemoveTask_DuplicatedTask() {
+		final var runCount = new int[] { 0 };
+		var key = new Object();
+		Runnable r = () -> runCount[0]++;
+
+		// Add the task for key twice, ensure that it is duplicated
+		FluentAPIWaitForMarkExtension.addTask(key, r);
+		FluentAPIWaitForMarkExtension.addTask(key, r);
+		assertPendingTaskCountEquals(key, r, 2);
+		// Ensure that the task is not triggered
+		Assertions.assertEquals(0, runCount[0]);
+
+		// Remove one occurrence of task, ensure one occurrence is still present
+		FluentAPIWaitForMarkExtension.removeTask(key, r);
+		assertPendingTaskCountEquals(key, r, 1);
+		// Ensure that the task is not triggered
+		Assertions.assertEquals(0, runCount[0]);
+
+		// Remove the last occurrence of task, ensure it is no longer present
+		FluentAPIWaitForMarkExtension.removeTask(key, r);
+		assertTaskNotPending(key, r);
+		// Ensure that the task is not triggered
+		Assertions.assertEquals(0, runCount[0]);
 	}
 }
