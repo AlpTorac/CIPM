@@ -13,6 +13,11 @@ import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilte
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.test.metamodel.IFluentAPIMetamodelTest;
 
+/**
+ * An extension of {@link IFluentAPIMetamodelTest} for JaMoPP.
+ * 
+ * @author Alp Torac Genc
+ */
 public interface IFluentJavaAPIMetamodelTest extends IFluentAPIMetamodelTest {
 	static final FluentAPITargetMetamodelFeatureFilter featureFilter = new FluentAPIJavaMetamodelFeatureFilter();
 	static final FluentAPITargetMetamodelPackageProvider metamodelProvider = new FluentAPIJavaMetamodelPackageProvider();
