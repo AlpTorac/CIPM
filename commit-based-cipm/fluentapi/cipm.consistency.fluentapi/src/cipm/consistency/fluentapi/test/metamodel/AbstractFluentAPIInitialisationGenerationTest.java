@@ -17,8 +17,23 @@ import org.junit.jupiter.api.TestInfo;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
+/**
+ * An abstract test class that implements test cases for the initialisations of
+ * the generated fluent api model, which ensure that certain initialisation
+ * operations (used for modifying model elements) are generated. Also contains a
+ * mutation test to check whether the other test cases work as intended.
+ * 
+ * @author Alp Torac Genc
+ */
 public abstract class AbstractFluentAPIInitialisationGenerationTest extends AbstractFluentAPITest
 		implements IFluentAPIMetamodelTest, IFluentAPIMutationTest {
+	/**
+	 * A mutation test to make sure that the other test cases within this class
+	 * function as intended.
+	 * 
+	 * @param info An object that contains information on the currently running test
+	 *             case
+	 */
 	@Test
 	public void mutationTest(TestInfo info) {
 		var eClssToMutate = new FluentAPIMutationTestRepresentativesGenerator()
@@ -66,6 +81,14 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 		assertTestsFailed(mutTestRes);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * <p>
+	 * AbstractFluentAPIInitialisationGenerationTest: Sets up
+	 * {@link FluentAPIGenerationTestSettings} for the current fluent api and the
+	 * metamodel it is meant for.
+	 */
 	@BeforeEach
 	public void setUp() {
 		super.setUp();
@@ -75,6 +98,12 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 		FluentAPIGenerationTestSettings.setPackageProvider(getProvider());
 	}
 
+	/**
+	 * Ensures that the Initialisation EClass initECls that is meant to create and
+	 * modify instances of elemToInitECls contains certain methods. These methods
+	 * should have the mutual name prefix methodNamePrefix. There should be at least
+	 * one method for each feature in expectedFeats.
+	 */
 	private void methodTestTemplate(EClass elemToInitECls, EClass initECls, String methodNamePrefix,
 			String expectedParamName, List<EStructuralFeature> expectedFeats) {
 		for (var feature : expectedFeats) {
@@ -109,7 +138,7 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 
 	/**
 	 * Checks whether{@code withX(featVal) : XInitialisation} methods for all
-	 * supported EClasses exist in API
+	 * supported EClasses exist in XInitialisation
 	 */
 	@Test
 	public void methodTest_Initialisation_WithX() {
@@ -124,7 +153,7 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 
 	/**
 	 * Checks whether{@code withoutX() : XInitialisation} methods for all supported
-	 * EClasses exist in API
+	 * EClasses exist in XInitialisation
 	 */
 	@Test
 	public void methodTest_Initialisation_WithoutX() {
@@ -138,7 +167,7 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 
 	/**
 	 * Checks whether{@code withAddedX(featVals) : XInitialisation} methods for all
-	 * supported EClasses exist in API
+	 * supported EClasses exist in XInitialisation
 	 */
 	@Test
 	public void methodTest_Initialisation_WithAddedX() {
@@ -153,7 +182,7 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 
 	/**
 	 * Checks whether{@code withRemovedX(featVals) : XInitialisation} methods for
-	 * all supported EClasses exist in API
+	 * all supported EClasses exist in XInitialisation
 	 */
 	@Test
 	public void methodTest_Initialisation_WithRemovedX() {
@@ -168,7 +197,7 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 
 	/**
 	 * Checks whether{@code cleanX() : XInitialisation} methods for all supported
-	 * EClasses exist in API
+	 * EClasses exist in XInitialisation
 	 */
 	@Test
 	public void methodTest_Initialisation_CleanX() {
