@@ -8,8 +8,8 @@ import cipm.consistency.fluentapi.extensions.FluentAPIWaitForMarkExtension;
 
 /**
  * An abstract test case class that concrete test case classes for testing
- * fluent api should implement. The purpose of this class is to aggregate common
- * fluent api testing operations.
+ * fluent api should consider implementing. The purpose of this class is to
+ * aggregate common fluent api testing operations.
  * <p>
  * <p>
  * It is recommended to override any methods with {@code @BeforeEach} and
