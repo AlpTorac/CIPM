@@ -84,7 +84,8 @@ public class FluentAPIWaitForMarkExtension {
 
 	/**
 	 * Removes the given task from this class, which was supposed to trigger, upon
-	 * markKey being involved in a mark.
+	 * markKey being involved in a mark. Currently, it will only remove a single
+	 * occurrence of the task, if it is duplicated.
 	 * 
 	 * @param markKey The markKey, upon which task should trigger
 	 * @param task    A model building task
@@ -96,7 +97,8 @@ public class FluentAPIWaitForMarkExtension {
 
 	/**
 	 * Removes the given task from this class, which was supposed to trigger, upon
-	 * all markKeys being involved in a mark.
+	 * all markKeys being involved in a mark. Currently, it will only remove a
+	 * single occurrence of the task, if it is duplicated.
 	 * 
 	 * @param markKey A list of markKeys, upon which task should trigger
 	 * @param task    A model building task
@@ -210,6 +212,9 @@ public class FluentAPIWaitForMarkExtension {
 	 */
 	public static Map<Runnable, List<List<Object>>> getAllRequiredMarkKeys() {
 		var result = new LinkedHashMap<Runnable, List<List<Object>>>();
+
+		// Use a set as collector, since tasks cannot be duplicated in a map (as keys of
+		// the map)
 		var runnableList = taskContainer.values().stream().flatMap((rl) -> rl.stream())
 				.collect(Collectors.toUnmodifiableSet());
 		for (var r : runnableList) {
