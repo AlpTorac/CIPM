@@ -16,83 +16,128 @@ import cipm.consistency.fluentapi.extensions.FluentAPIWaitForMarkExtension;
  * @author Alp Torac Genc
  */
 public class FluentAPIWaitForMarkExtensionTest {
+	/**
+	 * Resets {@link FluentAPIMarkExtension} and
+	 * {@link FluentAPIWaitForMarkExtension}
+	 */
 	@BeforeEach
 	public void setUp() {
 		FluentAPIMarkExtension.clearAllMarks();
 		FluentAPIWaitForMarkExtension.clearAllTasks();
 	}
 
-	private boolean areAllElementsSame(List<?> fullList, List<?> subList) {
-		if (fullList == subList)
+	/**
+	 * @param list1 A list
+	 * @param list2 Another list
+	 * @return Whether all elements of the lists are reference-equal
+	 */
+	private boolean areAllElementsSame(List<?> list1, List<?> list2) {
+		if (list1 == list2)
 			return true;
-		if (fullList == null ^ subList == null)
+		if (list1 == null ^ list2 == null)
 			return false;
-		if (fullList.size() != subList.size())
+		if (list1.size() != list2.size())
 			return false;
-		return subList.stream().allMatch((sle) -> fullList.stream().anyMatch((fle) -> fle == sle));
+		return list2.stream().allMatch((sle) -> list1.stream().anyMatch((fle) -> fle == sle));
 	}
 
-	private void assertTaskPending(List<Object> keys, List<Runnable> runnables) {
+	/**
+	 * Asserts that all given tasks have been added and are waiting on exactly the
+	 * given markKeys to be involved in a mark.
+	 */
+	private void assertTaskPending(List<Object> markKeys, List<Runnable> tasks) {
 		Assertions.assertTrue(FluentAPIWaitForMarkExtension.getAllPendingTasks().entrySet().stream()
-				.anyMatch((e) -> areAllElementsSame(e.getKey(), keys) && areAllElementsSame(e.getValue(), runnables)));
-		Assertions.assertTrue(FluentAPIWaitForMarkExtension.hasPendingTasks(keys));
+				.anyMatch((e) -> areAllElementsSame(e.getKey(), markKeys) && areAllElementsSame(e.getValue(), tasks)));
+		Assertions.assertTrue(FluentAPIWaitForMarkExtension.hasPendingTasks(markKeys));
 
-		Assertions.assertTrue(areAllElementsSame(runnables, FluentAPIWaitForMarkExtension.getPendingTasks(keys)));
+		Assertions.assertTrue(areAllElementsSame(tasks, FluentAPIWaitForMarkExtension.getPendingTasks(markKeys)));
 		Assertions.assertTrue(
-				areAllElementsSame(runnables, FluentAPIWaitForMarkExtension.getPendingTasks(keys.toArray())));
+				areAllElementsSame(tasks, FluentAPIWaitForMarkExtension.getPendingTasks(markKeys.toArray())));
 
 		var allRequiredKeys = FluentAPIWaitForMarkExtension.getAllRequiredMarkKeys();
-		for (var r : runnables) {
+		for (var r : tasks) {
 			var requiredKeys = FluentAPIWaitForMarkExtension.getRequiredMarkKeysFor(r);
 			Assertions.assertTrue(allRequiredKeys.containsKey(r));
 			Assertions.assertNotEquals(0, requiredKeys.size());
 		}
 	}
 
-	private void assertTaskPending(Object key, List<Runnable> runnables) {
-		assertTaskPending(List.of(key), runnables);
+	/**
+	 * Asserts that all given tasks have been added and are waiting on exactly the
+	 * given markKey to be involved in a mark.
+	 */
+	private void assertTaskPending(Object markKey, List<Runnable> tasks) {
+		assertTaskPending(List.of(markKey), tasks);
 
-		Assertions.assertTrue(areAllElementsSame(runnables, FluentAPIWaitForMarkExtension.getPendingTasks(key)));
-		Assertions.assertTrue(FluentAPIWaitForMarkExtension.hasPendingTasks(key));
+		Assertions.assertTrue(areAllElementsSame(tasks, FluentAPIWaitForMarkExtension.getPendingTasks(markKey)));
+		Assertions.assertTrue(FluentAPIWaitForMarkExtension.hasPendingTasks(markKey));
 	}
 
-	private void assertTaskPending(Object key, Runnable runnable) {
-		assertTaskPending(key, List.of(runnable));
+	/**
+	 * Asserts that the given task has been added and is waiting on exactly the
+	 * given markKey to be involved in a mark.
+	 */
+	private void assertTaskPending(Object markKey, Runnable task) {
+		assertTaskPending(markKey, List.of(task));
 	}
 
-	private void assertTaskPending(List<Object> key, Runnable runnable) {
-		assertTaskPending(key, List.of(runnable));
+	/**
+	 * Asserts that the given task has been added and is waiting on exactly the
+	 * given markKeys to be involved in a mark.
+	 */
+	private void assertTaskPending(List<Object> markKey, Runnable task) {
+		assertTaskPending(markKey, List.of(task));
 	}
 
-	private void assertTaskNotPending(List<Object> keys, List<Runnable> runnables) {
+	/**
+	 * Asserts that none of the given tasks are added and are not waiting on
+	 * markKeys to be involved in a mark.
+	 */
+	private void assertTaskNotPending(List<Object> markKeys, List<Runnable> tasks) {
 		Assertions.assertTrue(FluentAPIWaitForMarkExtension.getAllPendingTasks().entrySet().stream()
-				.noneMatch((e) -> areAllElementsSame(e.getKey(), keys) && areAllElementsSame(e.getValue(), runnables)));
-		Assertions.assertFalse(areAllElementsSame(runnables, FluentAPIWaitForMarkExtension.getPendingTasks(keys)));
+				.noneMatch((e) -> areAllElementsSame(e.getKey(), markKeys) && areAllElementsSame(e.getValue(), tasks)));
+		Assertions.assertFalse(areAllElementsSame(tasks, FluentAPIWaitForMarkExtension.getPendingTasks(markKeys)));
 		Assertions.assertFalse(
-				areAllElementsSame(runnables, FluentAPIWaitForMarkExtension.getPendingTasks(keys.toArray())));
+				areAllElementsSame(tasks, FluentAPIWaitForMarkExtension.getPendingTasks(markKeys.toArray())));
 
 		var allRequiredKeys = FluentAPIWaitForMarkExtension.getAllRequiredMarkKeys();
-		for (var r : runnables) {
+		for (var r : tasks) {
 			var requiredKeys = FluentAPIWaitForMarkExtension.getRequiredMarkKeysFor(r);
 			Assertions.assertTrue(requiredKeys.isEmpty());
 			Assertions.assertNull(allRequiredKeys.get(r));
 		}
 	}
 
-	private void assertTaskNotPending(Object key, List<Runnable> runnables) {
-		assertTaskNotPending(List.of(key), runnables);
+	/**
+	 * Asserts that none of the given tasks are added and are not waiting on markKey
+	 * to be involved in a mark.
+	 */
+	private void assertTaskNotPending(Object markKey, List<Runnable> tasks) {
+		assertTaskNotPending(List.of(markKey), tasks);
 
-		Assertions.assertFalse(areAllElementsSame(runnables, FluentAPIWaitForMarkExtension.getPendingTasks(key)));
+		Assertions.assertFalse(areAllElementsSame(tasks, FluentAPIWaitForMarkExtension.getPendingTasks(markKey)));
 	}
 
-	private void assertTaskNotPending(Object key, Runnable runnable) {
-		assertTaskNotPending(key, List.of(runnable));
+	/**
+	 * Asserts that the given task is not added and is not waiting on markKey to be
+	 * involved in a mark.
+	 */
+	private void assertTaskNotPending(Object markKey, Runnable task) {
+		assertTaskNotPending(markKey, List.of(task));
 	}
 
-	private void assertTaskNotPending(List<Object> key, Runnable runnable) {
-		assertTaskNotPending(key, List.of(runnable));
+	/**
+	 * Asserts that the given task is not added and is not waiting on markKeys to be
+	 * involved in a mark.
+	 */
+	private void assertTaskNotPending(List<Object> markKeys, Runnable task) {
+		assertTaskNotPending(markKeys, List.of(task));
 	}
 
+	/**
+	 * Ensures that adding a single task waiting on a single markKey, as well as
+	 * triggering it, work as intended.
+	 */
 	@Test
 	public void singleKey_SingleTask() {
 		final var ran = new boolean[] { false };
@@ -109,6 +154,10 @@ public class FluentAPIWaitForMarkExtensionTest {
 		Assertions.assertTrue(ran[0]);
 	}
 
+	/**
+	 * Ensures that adding multiple task waiting on a single markKey, as well as
+	 * triggering them, work as intended.
+	 */
 	@Test
 	public void singleKey_MultipleTask() {
 		final var ran = new boolean[] { false, false };
@@ -138,6 +187,10 @@ public class FluentAPIWaitForMarkExtensionTest {
 		Assertions.assertTrue(ran[1]);
 	}
 
+	/**
+	 * Ensures that adding multiple task waiting on a single markKey, as well as
+	 * triggering them, work as intended.
+	 */
 	@Test
 	public void singleKey_MultipleTask_UnmarkAfterFirstTask() {
 		final var ran = new boolean[] { false, false };
