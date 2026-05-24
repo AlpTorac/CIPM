@@ -91,6 +91,14 @@ public class FluentAPIWaitForMarkExtensionTest {
 	}
 
 	/**
+	 * Asserts that the given task has been added and is waiting on exactly the
+	 * given markKeys to be involved in a mark.
+	 */
+	private void assertTaskPending(Object[] markKey, Runnable task) {
+		assertTaskPending(List.of(markKey), List.of(task));
+	}
+
+	/**
 	 * Asserts that the given task has been added exactly duplicateCount times and
 	 * is waiting for key.
 	 * 
@@ -149,6 +157,78 @@ public class FluentAPIWaitForMarkExtensionTest {
 	 */
 	private void assertTaskNotPending(List<Object> markKeys, Runnable task) {
 		assertTaskNotPending(markKeys, List.of(task));
+	}
+
+	/**
+	 * Asserts that adding a single task with a single key works as intended,
+	 * regardless of it being triggered.
+	 */
+	@Test
+	public void testAddTask_SingleKey() {
+		var key = new Object();
+		Runnable r = () -> {
+		};
+
+		FluentAPIWaitForMarkExtension.addTask(key, r);
+		assertTaskPending(key, r);
+		var neededKeys = FluentAPIWaitForMarkExtension.getRequiredMarkKeysFor(r);
+		Assertions.assertEquals(1, neededKeys.size());
+		Assertions.assertEquals(1, neededKeys.get(0).size());
+		Assertions.assertSame(key, neededKeys.get(0).get(0));
+	}
+
+	/**
+	 * Asserts that adding a single task with an array of keys works as intended,
+	 * regardless of it being triggered. Since
+	 * {@link FluentAPIWaitForMarkExtension#addTask(Object, Runnable)} considers
+	 * Object as its first parameter and is overloaded, ensuring that the correct
+	 * method is used becomes particularly important. Otherwise, a key array keyArr
+	 * = [key1, key2] itself can be considered as one key (so instead of key1 and
+	 * key2, keyCol itself would mark the object).
+	 */
+	@Test
+	public void testAddTask_KeyArray() {
+		var keyOne = new Object();
+		var keyTwo = new Object();
+		var key = new Object[] { keyOne, keyTwo };
+		Runnable r = () -> {
+		};
+
+		FluentAPIWaitForMarkExtension.addTask(key, r);
+		assertTaskPending(key, r);
+		var neededKeys = FluentAPIWaitForMarkExtension.getRequiredMarkKeysFor(r);
+		Assertions.assertEquals(1, neededKeys.size());
+		Assertions.assertEquals(2, neededKeys.get(0).size());
+		for (int i = 0; i < key.length; i++) {
+			Assertions.assertSame(key[i], neededKeys.get(0).get(i));
+		}
+	}
+
+	/**
+	 * Asserts that adding a single task with a collection of keys works as
+	 * intended, regardless of it being triggered. Since
+	 * {@link FluentAPIWaitForMarkExtension#addTask(Object, Runnable)} considers
+	 * Object as its first parameter and is overloaded, ensuring that the correct
+	 * method is used becomes particularly important. Otherwise, a key collection
+	 * keyCol = [key1, key2] itself can be considered as one key (so instead of key1
+	 * and key2, keyCol itself would mark the object).
+	 */
+	@Test
+	public void testAddTask_KeyCollection() {
+		var keyOne = new Object();
+		var keyTwo = new Object();
+		var key = List.of(keyOne, keyTwo);
+		Runnable r = () -> {
+		};
+
+		FluentAPIWaitForMarkExtension.addTask(key, r);
+		assertTaskPending(key, r);
+		var neededKeys = FluentAPIWaitForMarkExtension.getRequiredMarkKeysFor(r);
+		Assertions.assertEquals(1, neededKeys.size());
+		Assertions.assertEquals(2, neededKeys.get(0).size());
+		for (int i = 0; i < key.size(); i++) {
+			Assertions.assertSame(key.get(i), neededKeys.get(0).get(i));
+		}
 	}
 
 	/**

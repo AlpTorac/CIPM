@@ -1,6 +1,7 @@
 package cipm.consistency.fluentapi.extensions;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,7 +38,7 @@ public class FluentAPIWaitForMarkExtension {
 	 * @return The model building tasks that will trigger exactly when all markKeys
 	 *         exist. Tasks that require a subset of markKey are NOT included here.
 	 */
-	private static Map.Entry<List<Object>, List<Runnable>> getEntryFor(List<Object> markKey) {
+	private static Map.Entry<List<Object>, List<Runnable>> getEntryFor(Collection<? extends Object> markKey) {
 		return taskContainer.entrySet().stream()
 				.filter((e) -> e.getKey().size() == markKey.size() && e.getKey().containsAll(markKey)).findFirst()
 				.orElse(null);
@@ -64,7 +65,7 @@ public class FluentAPIWaitForMarkExtension {
 	 * @return Whether the task has been run or added (currently always returns
 	 *         true)
 	 */
-	public static boolean addTask(List<Object> markKey, Runnable task) {
+	public static boolean addTask(Collection<? extends Object> markKey, Runnable task) {
 		// Check if the issued task can trigger before adding it
 		if (checkMarkPresence(markKey)) {
 			task.run();
@@ -75,7 +76,7 @@ public class FluentAPIWaitForMarkExtension {
 		if (entry == null) {
 			var runnableList = new ArrayList<Runnable>();
 			runnableList.add(task);
-			taskContainer.put(markKey, runnableList);
+			taskContainer.put(List.copyOf(markKey), runnableList);
 		} else {
 			entry.getValue().add(task);
 		}
@@ -167,7 +168,7 @@ public class FluentAPIWaitForMarkExtension {
 	 *                {@link FluentAPIMarkExtension}
 	 * @return Whether all given markKeys are involved in marks.
 	 */
-	private static boolean checkMarkPresence(List<Object> markKey) {
+	private static boolean checkMarkPresence(Collection<? extends Object> markKey) {
 		return markKey.stream().allMatch((mk) -> FluentAPIMarkExtension.hasMark(mk));
 	}
 
