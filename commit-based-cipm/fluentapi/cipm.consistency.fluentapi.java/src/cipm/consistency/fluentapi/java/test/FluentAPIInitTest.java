@@ -21,7 +21,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.toAPI() works as intended.
 	 */
 	@Test
-	public void toAPITest() {
+	public void testToAPI() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		Assertions.assertSame(api, api.newAdditionalField().toAPI());
 	}
@@ -30,7 +30,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.reset() works as intended.
 	 */
 	@Test
-	public void resetElementTest() {
+	public void testReset() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var clsInit = api.newClass();
@@ -47,7 +47,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.createNow() works as intended.
 	 */
 	@Test
-	public void createNowTest() {
+	public void testCreateNow() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var mod = api.newModule().createNow();
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
@@ -213,5 +213,136 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 		Assertions.assertEquals(2, clsOne.getMembers().size());
 		Assertions.assertEquals(clsTwoName, clsOne.getMembers().get(0).getName());
 		Assertions.assertEquals(clsThreeName, clsOne.getMembers().get(1).getName());
+	}
+
+	/**
+	 * Checks whether init.withX(...) works as intended.
+	 */
+	@Test
+	public void testWith() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var name = "cuName";
+		var cu = api.newCompilationUnit().withName(name).createNow();
+		Assertions.assertEquals(name, cu.getName());
+	}
+
+	/**
+	 * Checks whether init.withoutX(...) works as intended.
+	 */
+	@Test
+	public void testWithout() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var name = "cuName";
+		var cu = api.newCompilationUnit().withName(name).withoutName().createNow();
+		Assertions.assertNull(cu.getName());
+	}
+
+	/**
+	 * Checks whether init.withRemovedX(val) works as intended.
+	 */
+	@Test
+	public void testWithRemoved_SingularParameter() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+
+		var ns1 = "ns1";
+		var ns2 = "ns2";
+		var ns3 = "ns3";
+
+		var nss = new String[] { ns1, ns2, ns3 };
+		var toRemove = ns1;
+
+		var cu = api.newCompilationUnit().withAddedNamespaces(nss).withRemovedNamespaces(toRemove).createNow();
+		Assertions.assertEquals(2, cu.getNamespaces().size());
+		Assertions.assertEquals(ns2, cu.getNamespaces().get(0));
+		Assertions.assertEquals(ns3, cu.getNamespaces().get(1));
+	}
+
+	/**
+	 * Checks whether init.withRemovedX(valArray) works as intended.
+	 */
+	@Test
+	public void testWithRemoved_ArrayParameter() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+
+		var ns1 = "ns1";
+		var ns2 = "ns2";
+		var ns3 = "ns3";
+
+		var nss = new String[] { ns1, ns2, ns3 };
+		var toRemove = new String[] { ns1, ns3 };
+
+		var cu = api.newCompilationUnit().withAddedNamespaces(nss).withRemovedNamespaces(toRemove).createNow();
+		Assertions.assertEquals(1, cu.getNamespaces().size());
+		Assertions.assertEquals(ns2, cu.getNamespaces().get(0));
+	}
+
+	/**
+	 * Checks whether init.withRemovedX(valCollection) works as intended.
+	 */
+	@Test
+	public void testWithRemoved_CollectionParameter() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+
+		var ns1 = "ns1";
+		var ns2 = "ns2";
+		var ns3 = "ns3";
+
+		var nss = new String[] { ns1, ns2, ns3 };
+		var toRemove = List.of(ns1, ns3);
+
+		var cu = api.newCompilationUnit().withAddedNamespaces(nss).withRemovedNamespaces(toRemove).createNow();
+		Assertions.assertEquals(1, cu.getNamespaces().size());
+		Assertions.assertEquals(ns2, cu.getNamespaces().get(0));
+	}
+
+	/**
+	 * Checks whether init.clean() works as intended.
+	 */
+	@Test
+	public void testClean() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+
+		var ns1 = "ns1";
+		var ns2 = "ns2";
+		var ns3 = "ns3";
+
+		var nss = new String[] { ns1, ns2, ns3 };
+
+		var cu = api.newCompilationUnit().withAddedNamespaces(nss).cleanNamespaces().createNow();
+		Assertions.assertEquals(0, cu.getNamespaces().size());
+	}
+
+	/**
+	 * Checks whether init.withAddedX(val) works as intended.
+	 */
+	@Test
+	public void testWithAdded_SingularParameter() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var ns = "ns";
+		var cu = api.newCompilationUnit().withAddedNamespaces(ns).createNow();
+		Assertions.assertEquals(1, cu.getNamespaces().size());
+		Assertions.assertEquals(ns, cu.getNamespaces().get(0));
+	}
+
+	/**
+	 * Checks whether init.withAddedX(valArray) works as intended.
+	 */
+	@Test
+	public void testWithAdded_ArrayParameter() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var nss = new String[] { "ns1", "ns2" };
+		var cu = api.newCompilationUnit().withAddedNamespaces(nss).createNow();
+		Assertions.assertArrayEquals(nss, cu.getNamespaces().toArray(String[]::new));
+	}
+
+	/**
+	 * Checks whether init.withAddedX(valCollection) works as intended.
+	 */
+	@Test
+	public void testWithAdded_CollectionParameter() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var nss = List.of("ns1", "ns2");
+		var cu = api.newCompilationUnit().withAddedNamespaces(nss).createNow();
+		Assertions.assertArrayEquals(nss.toArray(String[]::new), cu.getNamespaces().toArray(String[]::new));
 	}
 }
