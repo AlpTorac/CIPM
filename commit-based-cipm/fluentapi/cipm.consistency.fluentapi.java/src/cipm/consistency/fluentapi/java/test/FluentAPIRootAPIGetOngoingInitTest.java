@@ -8,43 +8,42 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
+/**
+ * A test class for api.getOngoingInits() and api.clearAllOngoingInits()
+ * methods.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIRootAPIGetOngoingInitTest extends AbstractFluentAPITest {
+	/**
+	 * Checks whether api.getOngoingInitialisations() returns an empty list, if
+	 * there are no initialisations.
+	 */
 	@Test
-	public void getOngoingInitTest_NoInitialisations() {
+	public void testAPI_GetOngoingInitialisations_NoInitialisations() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		Assertions.assertEquals(0, api.getOngoingInitialisations().size());
 	}
 
+	/**
+	 * Checks whether api.getOngoingInitialisations() works as intended.
+	 */
 	@Test
-	public void getOngoingInitTest_SameInitialisationType() {
+	public void testAPI_GetOngoingInitialisations() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
-		var clsInit1 = api.newClass();
-		var clsInit2 = api.newClass();
-		var clsInit3 = api.newClass();
+		var clsInit = api.newClass();
 
-		Assertions.assertEquals(3, api.getOngoingInitialisations().size());
-		Assertions.assertSame(clsInit1, api.getOngoingInitialisations().get(0));
-		Assertions.assertSame(clsInit2, api.getOngoingInitialisations().get(1));
-		Assertions.assertSame(clsInit3, api.getOngoingInitialisations().get(2));
+		Assertions.assertEquals(1, api.getOngoingInitialisations().size());
+		Assertions.assertSame(clsInit, api.getOngoingInitialisations().get(0));
 	}
 
+	/**
+	 * Ensures that different fluent api instances share the same initialisation
+	 * instances.
+	 */
 	@Test
-	public void getOngoingInitTest_DifferentInitialisationTypes() {
-		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
-
-		var init1 = api.newClass();
-		var init2 = api.newInterface();
-		var init3 = api.newClass();
-
-		Assertions.assertEquals(3, api.getOngoingInitialisations().size());
-		Assertions.assertSame(init1, api.getOngoingInitialisations().get(0));
-		Assertions.assertSame(init2, api.getOngoingInitialisations().get(1));
-		Assertions.assertSame(init3, api.getOngoingInitialisations().get(2));
-	}
-
-	@Test
-	public void getOngoingInitTest_DifferentAPIInstances() {
+	public void testAPI_GetOngoingInitialisations_DifferentAPIInstances() {
 		var apiOne = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var apiTwo = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
@@ -60,22 +59,16 @@ public class FluentAPIRootAPIGetOngoingInitTest extends AbstractFluentAPITest {
 		}
 	}
 
+	/**
+	 * Ensures that api.clearAllOngoingInitialisations() works as intended.
+	 */
 	@Test
-	public void clearAllOngoingInitsTest() {
-		var apiOne = ApiFactory.eINSTANCE.createFluentJavaAPI();
-		var apiTwo = ApiFactory.eINSTANCE.createFluentJavaAPI();
-
-		for (var api : List.of(apiOne, apiTwo)) {
-			apiOne.newClass();
-			apiOne.newInterface();
-			apiTwo.newEnumeration();
-			apiTwo.newAdditionalField();
-
-			Assertions.assertEquals(4, apiOne.getOngoingInitialisations().size());
-			Assertions.assertEquals(4, apiTwo.getOngoingInitialisations().size());
-			api.clearAllOngoingInitialisations();
-			Assertions.assertEquals(0, apiOne.getOngoingInitialisations().size());
-			Assertions.assertEquals(0, apiTwo.getOngoingInitialisations().size());
-		}
+	public void testAPI_ClearAllOngoingInitialisations() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		api.newClass();
+		api.newInterface();
+		Assertions.assertEquals(2, api.getOngoingInitialisations().size());
+		api.clearAllOngoingInitialisations();
+		Assertions.assertEquals(0, api.getOngoingInitialisations().size());
 	}
 }

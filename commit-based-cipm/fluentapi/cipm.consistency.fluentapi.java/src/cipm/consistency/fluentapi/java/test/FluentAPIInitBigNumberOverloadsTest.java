@@ -21,7 +21,7 @@ public class FluentAPIInitBigNumberOverloadsTest extends AbstractFluentAPITest {
 	 * Ensures that overloading methods for BigInteger are generated
 	 */
 	@Test
-	public void overloadedBigIntegerMethodsTest_SingleValue() {
+	public void testInit_OverloadedBigIntegerMethodsTest_SingleValue() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		final var lit = new DecimalIntegerLiteral[3];
@@ -56,7 +56,7 @@ public class FluentAPIInitBigNumberOverloadsTest extends AbstractFluentAPITest {
 	 * features is possible via the generated API class
 	 */
 	@Test
-	public void overloadedBigIntegerMethodsTest_OnlyOneSingleValuedModifiableFeature() {
+	public void testInit_OverloadedBigIntegerMethodsTest_OnlyOneSingleValuedModifiableFeature() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		final var obj = new DecimalIntegerLiteral[2];
 

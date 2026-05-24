@@ -21,7 +21,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.toAPI() works as intended.
 	 */
 	@Test
-	public void testToAPI() {
+	public void testInit_ToAPI() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		Assertions.assertSame(api, api.newAdditionalField().toAPI());
 	}
@@ -30,7 +30,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.reset() works as intended.
 	 */
 	@Test
-	public void testReset() {
+	public void testInit_Reset() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var clsInit = api.newClass();
@@ -47,7 +47,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.createNow() works as intended.
 	 */
 	@Test
-	public void testCreateNow() {
+	public void testInit_CreateNow() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var mod = api.newModule().createNow();
 		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
@@ -60,7 +60,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.dropInitialisation() works as intended.
 	 */
 	@Test
-	public void testDropInitialisation() {
+	public void testInit_DropInitialisation() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var clsInit = api.newClass();
 
@@ -80,7 +80,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.markCurrentElement(key) works as intended.
 	 */
 	@Test
-	public void testMarkCurrentElement() {
+	public void testInit_MarkCurrentElement() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var key = new Object();
 
@@ -95,7 +95,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.unmarkCurrentElement(key) works as intended.
 	 */
 	@Test
-	public void testUnmarkCurrentElement() {
+	public void testInit_UnmarkCurrentElement() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var key = new Object();
 
@@ -115,7 +115,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.waitForMark(singleKey, task) works as intended.
 	 */
 	@Test
-	public void testWaitForMark_SingleKey() {
+	public void testInit_WaitForMark_SingleKey() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var clsOneName = "clsOne";
 		var clsTwoName = "clsTwo";
@@ -145,7 +145,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.waitForMark(keyArray, task) works as intended.
 	 */
 	@Test
-	public void testWaitForMark_KeyArray() {
+	public void testInit_WaitForMark_KeyArray() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var clsOneName = "clsOne";
 		var clsTwoName = "clsTwo";
@@ -182,7 +182,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.waitForMark(keyCollection, task) works as intended.
 	 */
 	@Test
-	public void testWaitForMark_KeyCollection() {
+	public void testInit_WaitForMark_KeyCollection() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var clsOneName = "clsOne";
 		var clsTwoName = "clsTwo";
@@ -219,7 +219,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.withX(...) works as intended.
 	 */
 	@Test
-	public void testWith() {
+	public void testInit_With() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var name = "cuName";
 		var cu = api.newCompilationUnit().withName(name).createNow();
@@ -230,7 +230,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.withoutX(...) works as intended.
 	 */
 	@Test
-	public void testWithout() {
+	public void testInit_Without() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var name = "cuName";
 		var cu = api.newCompilationUnit().withName(name).withoutName().createNow();
@@ -241,7 +241,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.withRemovedX(val) works as intended.
 	 */
 	@Test
-	public void testWithRemoved_SingularParameter() {
+	public void testInit_WithRemoved_SingularParameter() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var ns1 = "ns1";
@@ -261,7 +261,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.withRemovedX(valArray) works as intended.
 	 */
 	@Test
-	public void testWithRemoved_ArrayParameter() {
+	public void testInit_WithRemoved_ArrayParameter() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var ns1 = "ns1";
@@ -280,7 +280,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.withRemovedX(valCollection) works as intended.
 	 */
 	@Test
-	public void testWithRemoved_CollectionParameter() {
+	public void testInit_WithRemoved_CollectionParameter() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var ns1 = "ns1";
@@ -299,7 +299,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.clean() works as intended.
 	 */
 	@Test
-	public void testClean() {
+	public void testInit_Clean() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var ns1 = "ns1";
@@ -316,7 +316,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.withAddedX(val) works as intended.
 	 */
 	@Test
-	public void testWithAdded_SingularParameter() {
+	public void testInit_WithAdded_SingularParameter() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var ns = "ns";
 		var cu = api.newCompilationUnit().withAddedNamespaces(ns).createNow();
@@ -328,7 +328,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.withAddedX(valArray) works as intended.
 	 */
 	@Test
-	public void testWithAdded_ArrayParameter() {
+	public void testInit_WithAdded_ArrayParameter() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var nss = new String[] { "ns1", "ns2" };
 		var cu = api.newCompilationUnit().withAddedNamespaces(nss).createNow();
@@ -339,7 +339,7 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 	 * Checks whether init.withAddedX(valCollection) works as intended.
 	 */
 	@Test
-	public void testWithAdded_CollectionParameter() {
+	public void testInit_WithAdded_CollectionParameter() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var nss = List.of("ns1", "ns2");
 		var cu = api.newCompilationUnit().withAddedNamespaces(nss).createNow();

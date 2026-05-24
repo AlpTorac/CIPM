@@ -6,9 +6,17 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
+/**
+ * A test class for api.continue...() methods.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
+	/**
+	 * Checks whether the api.continueX() method works as intended.
+	 */
 	@Test
-	public void continueTest_TopLevel() {
+	public void testAPI_Continue_TopLevel() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modInit = api.newModule();
@@ -25,7 +33,7 @@ public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
 	 * construction of the same element is continued.
 	 */
 	@Test
-	public void continueTest_SameElementInstance() {
+	public void testAPI_Continue_SameElementInstance() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modInit = api.newModule();
@@ -39,7 +47,7 @@ public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
 	 * construction of a different element of the same type is continued.
 	 */
 	@Test
-	public void continueTest_SameElementType() {
+	public void testAPI_Continue_SameElementType() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modInit1 = api.newModule();
@@ -53,7 +61,7 @@ public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
 	 * construction of a different element is continued.
 	 */
 	@Test
-	public void continueTest_DifferentElementType() {
+	public void testAPI_Continue_DifferentElementType() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var modInit = api.newModule();
@@ -68,14 +76,18 @@ public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
 	 * instance to be found
 	 */
 	@Test
-	public void continueTest_NoInitialisation() {
+	public void testAPI_Continue_NoInitialisation() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		Assertions.assertNull(api.continueModule());
 	}
 
+	/**
+	 * Checks whether the api.continueMarked...() method works as intended, when
+	 * there is only one Initialisation instance.
+	 */
 	@Test
-	public void continueMarkedTest_SingleInitialisation() {
+	public void testAPI_ContinueMarked_SingleInitialisation() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var modKey = new Object();
 
@@ -84,8 +96,12 @@ public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
 		Assertions.assertSame(modInit, api.continueMarkedModule(modKey));
 	}
 
+	/**
+	 * Checks whether the api.continueMarked...() method works as intended, when
+	 * there are multiple Initialisation instances.
+	 */
 	@Test
-	public void continueMarkedTest_MultipleInitialisation() {
+	public void testAPI_ContinueMarked_MultipleInitialisation() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var keyOne = new Object();
 		var keyTwo = new Object();
@@ -97,8 +113,11 @@ public class FluentAPIRootAPIContinueTest extends AbstractFluentAPITest {
 		Assertions.assertSame(modInitTwo, api.continueMarkedModule(keyTwo));
 	}
 
+	/**
+	 * Checks whether the api.continueMarkedX() method works as intended.
+	 */
 	@Test
-	public void continueMarkedTest_TopLevel() {
+	public void testAPI_ContinueMarked_TopLevel() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var keyOne = new Object();
 		var keyTwo = new Object();

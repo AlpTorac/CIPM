@@ -25,7 +25,7 @@ public class FluentAPIInitJavaOverloadsTest extends AbstractFluentAPITest {
 	 * TypeReferences and converts them into ClassifierTypeReferences.
 	 */
 	@Test
-	public void withTypeReferenceOverloadTest_SingleValued() {
+	public void testInit_WithTypeReferenceOverloadTest_SingleValued() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var cls = api.createNewClass();
@@ -40,7 +40,7 @@ public class FluentAPIInitJavaOverloadsTest extends AbstractFluentAPITest {
 	 * TypeReferences and converts them into ClassifierTypeReferences.
 	 */
 	@Test
-	public void withTypeReferenceOverloadTest_ManyValued() {
+	public void testInit_WithTypeReferenceOverloadTest_ManyValued() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var clsOne = api.createNewClass();

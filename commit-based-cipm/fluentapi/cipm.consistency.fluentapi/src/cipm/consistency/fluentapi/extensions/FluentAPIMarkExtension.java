@@ -85,7 +85,7 @@ public class FluentAPIMarkExtension {
 	 * @param markKey An object that is potentially associated with a model element
 	 *                markVal
 	 * @param cls     The class of markVal
-	 * @return markVal, if it exists and its class is cls
+	 * @return markVal, if it exists and its type is cls or cls is a super-type
 	 */
 	public static EObject getMarked(Object markKey, Class<?> cls) {
 		var markVal = markToObj.get(markKey);

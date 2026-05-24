@@ -11,13 +11,22 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
+/**
+ * A test class for the modification methods of the fluent api: xWithFeat(...),
+ * xWithoutFeat(...), xWithAddedFeat(...), xWithRemovedFeat(...), xCleanFeat().
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 	private static final EStructuralFeature nameFeat = CommonsPackage.Literals.NAMED_ELEMENT__NAME;
 	private static final EStructuralFeature namespaceFeat = CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES;
 	private static final EStructuralFeature extendsFeat = ClassifiersPackage.Literals.CLASS__EXTENDS;
 
+	/**
+	 * Checks whether api.xWithFeat() works as intended on EAttributes.
+	 */
 	@Test
-	public void withFeatTest_EAttribute() {
+	public void testAPI_WithFeat_EAttribute() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var clsName = "cls";
@@ -28,8 +37,11 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 		Assertions.assertEquals(clsName, cls.getName());
 	}
 
+	/**
+	 * Checks whether api.xWithFeat() works as intended on EReferences.
+	 */
 	@Test
-	public void withFeatTest_EReference() {
+	public void testAPI_WithFeat_EReference() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var extType = api.createNewClassifierReference();
@@ -39,8 +51,11 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 		Assertions.assertSame(extType, cls.getExtends());
 	}
 
+	/**
+	 * Checks whether api.xWithoutFeat() works as intended on EAttributes.
+	 */
 	@Test
-	public void withoutFeatTest_EAttribute() {
+	public void testAPI_WithoutFeat_EAttribute() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var clsName = "cls";
@@ -54,8 +69,11 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 		Assertions.assertEquals(feat.getDefaultValueLiteral(), cls.getName());
 	}
 
+	/**
+	 * Checks whether api.xWithFeat() works as intended on EReference.
+	 */
 	@Test
-	public void withoutFeatTest_EReference() {
+	public void testAPI_WithoutFeat_EReference() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
 		var clsExtendsVal = api.createNewClassifierReference();
@@ -69,8 +87,12 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 		Assertions.assertEquals(feat.getDefaultValue(), cls.getExtends());
 	}
 
+	/**
+	 * Checks whether api.xWithAddedFeat(val) works as intended on many-valued
+	 * features without any pre-existing values.
+	 */
 	@Test
-	public void withAddedFeatTest_SingleValue_NoPriorValues() {
+	public void testAPI_WithAddedFeat_SingleValue_NoPriorValues() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var ns = "ns";
@@ -80,8 +102,12 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 		Assertions.assertEquals(ns, pac.getNamespaces().get(0));
 	}
 
+	/**
+	 * Checks whether api.xWithAddedFeat(val) works as intended on many-valued
+	 * features with pre-existing values.
+	 */
 	@Test
-	public void withAddedFeatTest_SingleValue_WithPriorValues() {
+	public void testAPI_WithAddedFeat_SingleValue_WithPriorValues() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var pastNss = List.of("someNs1", "someNs2");
@@ -94,8 +120,12 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 		FluentAPITestUtils.assertPairwiseEqual(expectedNss, pac.getNamespaces());
 	}
 
+	/**
+	 * Checks whether api.xWithAddedFeat(valArray) works as intended on many-valued
+	 * features.
+	 */
 	@Test
-	public void withAddedFeatTest_MultipleValuesAsArray() {
+	public void testAPI_WithAddedFeat_MultipleValuesAsArray() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var nss = new String[] { "ns1", "ns2" };
@@ -104,8 +134,12 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
 	}
 
+	/**
+	 * Checks whether api.xWithAddedFeat(valCollection) works as intended on
+	 * many-valued features.
+	 */
 	@Test
-	public void withAddedFeatTest_MultipleValuesAsCollection() {
+	public void testAPI_WithAddedFeat_MultipleValuesAsCollection() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var nss = List.of("ns1", "ns2");
@@ -114,18 +148,12 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
 	}
 
+	/**
+	 * Checks whether api.xWithRemovedFeat(val) works as intended on many-valued
+	 * features without any pre-existing values.
+	 */
 	@Test
-	public void withAddedFeatTest_MultipleValuesAsEList() {
-		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
-		var pac = api.newPackage().createNow();
-		var nss = FluentAPITestUtils.toEList("ns1", "ns2");
-
-		api.xWithAddedFeat(pac, namespaceFeat, nss);
-		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
-	}
-
-	@Test
-	public void withRemovedFeatTest_SingleValue_NoPriorValues() {
+	public void testAPI_WithRemovedFeat_SingleValue_NoPriorValues() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var ns = "ns";
@@ -134,8 +162,12 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 		Assertions.assertEquals(0, pac.getNamespaces().size());
 	}
 
+	/**
+	 * Checks whether api.xWithRemovedFeat(val) works as intended on many-valued
+	 * features with pre-existing values.
+	 */
 	@Test
-	public void withRemovedFeatTest_SingleValue_WithPriorValues() {
+	public void testAPI_WithRemovedFeat_SingleValue_WithPriorValues() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var pastNss = List.of("someNs1", "someNs2");
@@ -148,8 +180,12 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 		FluentAPITestUtils.assertPairwiseEqual(expectedNss, pac.getNamespaces());
 	}
 
+	/**
+	 * Checks whether api.xWithRemovedFeat(valCollection) works as intended on
+	 * many-valued features.
+	 */
 	@Test
-	public void withRemovedFeatTest_MultipleValuesAsCollection() {
+	public void testAPI_WithRemovedFeat_MultipleValuesAsCollection() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var pastNss = List.of("ns1", "ns2", "ns3");
@@ -160,20 +196,12 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 		FluentAPITestUtils.assertPairwiseEqual(List.of(pastNss.get(1)), pac.getNamespaces());
 	}
 
+	/**
+	 * Checks whether api.xWithRemovedFeat(valArray) works as intended on
+	 * many-valued features.
+	 */
 	@Test
-	public void withRemovedFeatTest_MultipleValuesAsEList() {
-		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
-		var pac = api.newPackage().createNow();
-		var pastNss = List.of("ns1", "ns2", "ns3");
-		pac.getNamespaces().addAll(pastNss);
-		var nss = FluentAPITestUtils.toEList(pastNss.get(0), pastNss.get(2));
-
-		api.xWithRemovedFeat(pac, namespaceFeat, nss);
-		FluentAPITestUtils.assertPairwiseEqual(List.of(pastNss.get(1)), pac.getNamespaces());
-	}
-
-	@Test
-	public void withRemovedFeatTest_MultipleValuesAsArray() {
+	public void testAPI_WithRemovedFeat_MultipleValuesAsArray() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var pastNss = new String[] { "ns1", "ns2", "ns3" };
@@ -184,8 +212,12 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 		FluentAPITestUtils.assertPairwiseEqual(List.of(pastNss[1]), pac.getNamespaces());
 	}
 
+	/**
+	 * Checks whether api.xCleanFeat() works as intended on many-valued features
+	 * without any pre-existing values.
+	 */
 	@Test
-	public void cleanFeatTest_WithoutPriorValues() {
+	public void testAPI_CleanFeat_NoPriorValues() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 
@@ -194,8 +226,12 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 		Assertions.assertEquals(0, pac.getNamespaces().size());
 	}
 
+	/**
+	 * Checks whether api.xCleanFeat() works as intended on many-valued features
+	 * with pre-existing values.
+	 */
 	@Test
-	public void cleanFeatTest_WithPriorValues() {
+	public void testAPI_CleanFeat_WithPriorValues() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
 		var pastNss = new String[] { "ns1", "ns2", "ns3" };

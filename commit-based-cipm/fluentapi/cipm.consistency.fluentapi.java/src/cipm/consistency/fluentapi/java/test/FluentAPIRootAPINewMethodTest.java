@@ -3,6 +3,7 @@ package cipm.consistency.fluentapi.java.test;
 import java.math.BigInteger;
 import java.util.List;
 
+import org.emftext.language.java.containers.ContainersPackage;
 import org.emftext.language.java.expressions.AndExpression;
 import org.emftext.language.java.expressions.AndExpressionChild;
 import org.emftext.language.java.literals.DecimalIntegerLiteral;
@@ -16,14 +17,18 @@ import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.java.api.FluentAPISuperInitialisation;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
+/**
+ * A test class for api.new...() methods.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIRootAPINewMethodTest extends AbstractFluentAPITest {
-
 	/**
 	 * Ensures that direct creation methods for types with no modifiable features is
 	 * possible via the generated API
 	 */
 	@Test
-	public void noModifiableFeatures() {
+	public void testAPI_New_NoModifiableFeatures() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		final var obj = new Abstract[1];
 		Assertions.assertDoesNotThrow(() -> obj[0] = api.newAbstract());
@@ -35,7 +40,7 @@ public class FluentAPIRootAPINewMethodTest extends AbstractFluentAPITest {
 	 * features is possible via the generated API class
 	 */
 	@Test
-	public void onlyOneSingleValuedModifiableFeature_EAttribute() {
+	public void testAPI_New_OnlyOneSingleValuedModifiableFeature_EAttribute() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var val = BigInteger.valueOf(1);
 		final var obj = new DecimalIntegerLiteral[1];
@@ -49,7 +54,7 @@ public class FluentAPIRootAPINewMethodTest extends AbstractFluentAPITest {
 	 * features is possible via the generated API class
 	 */
 	@Test
-	public void onlyOneSingleValuedModifiableFeature_EReference() {
+	public void testAPI_New_OnlyOneSingleValuedModifiableFeature_EReference() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var val = api.createNewJumpLabel();
 		final var obj = new Break[1];
@@ -63,7 +68,7 @@ public class FluentAPIRootAPINewMethodTest extends AbstractFluentAPITest {
 	 * features is possible via the generated API class
 	 */
 	@Test
-	public void onlyOneManyValuedModifiableFeature_EReference_SingleValue() {
+	public void testAPI_New_OnlyOneManyValuedModifiableFeature_EReference_SingleValue() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var val = api.createNewEqualityExpression();
 		final var obj = new AndExpression[1];
@@ -77,7 +82,7 @@ public class FluentAPIRootAPINewMethodTest extends AbstractFluentAPITest {
 	 * features is possible via the generated API class
 	 */
 	@Test
-	public void onlyOneManyValuedModifiableFeature_EReference_Array() {
+	public void testAPI_New_OnlyOneManyValuedModifiableFeature_EReference_Array() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var val = new AndExpressionChild[] { api.createNewEqualityExpression(), api.createNewEqualityExpression() };
 		final var obj = new AndExpression[1];
@@ -92,7 +97,7 @@ public class FluentAPIRootAPINewMethodTest extends AbstractFluentAPITest {
 	 * features is possible via the generated API class
 	 */
 	@Test
-	public void onlyOneManyValuedModifiableFeature_EReference_Collection() {
+	public void testAPI_New_OnlyOneManyValuedModifiableFeature_EReference_Collection() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var val = List.of(api.createNewEqualityExpression(), api.createNewEqualityExpression());
 		final var obj = new AndExpression[1];
@@ -102,11 +107,59 @@ public class FluentAPIRootAPINewMethodTest extends AbstractFluentAPITest {
 		Assertions.assertSame(val.get(1), obj[0].getChildren().get(1));
 	}
 
+	/**
+	 * Ensures that instantiation of types with multiple modifiable features is
+	 * possible via Initialisation classes.
+	 */
 	@Test
-	public void multipleModifiableFeatures() {
+	public void testAPI_New_MultipleModifiableFeatures() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var init = api.newAdditionalLocalVariable();
 		Assertions.assertInstanceOf(FluentAPISuperInitialisation.class, init);
 		Assertions.assertInstanceOf(AdditionalLocalVariable.class, init.createNow());
+	}
+
+	/**
+	 * Ensures that api.newX(EClass) works as intended.
+	 */
+	@Test
+	public void testAPI_NewX_WithEClass() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var cls = ContainersPackage.Literals.MODULE.getInstanceClass();
+		var mod = api.newX(cls).createNow();
+		Assertions.assertInstanceOf(cls, mod);
+	}
+
+	/**
+	 * Ensures that api.newX(class) works as intended.
+	 */
+	@Test
+	public void testAPI_NewX_WithClass() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var cls = ContainersPackage.Literals.MODULE.getInstanceClass();
+		var mod = api.newX(cls).createNow();
+		Assertions.assertInstanceOf(cls, mod);
+	}
+
+	/**
+	 * Ensures that api.createNewX(class) works as intended.
+	 */
+	@Test
+	public void testAPI_CreateNewX() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var cls = ContainersPackage.Literals.MODULE.getInstanceClass();
+		var mod = api.createNewX(cls);
+		Assertions.assertInstanceOf(cls, mod);
+	}
+
+	/**
+	 * Ensures that api.createNewX() works as intended, where X is the type of the
+	 * model element to create.
+	 */
+	@Test
+	public void testAPI_CreateNew() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var mod = api.createNewModule();
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
 	}
 }
