@@ -7,7 +7,23 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
+/**
+ * A test class for checking whether certain methods in fluent api for Java are
+ * overloaded as expected and that the overloaded versions work as intended.
+ * <p>
+ * <p>
+ * Currently only methods that consider {@link TypeReference} as parameter.
+ * 
+ * @author Alp Torac Genc
+ * @see {@link FluentAPIGenerationJavaMetamodelPostProcessor} for more details
+ *      on overloaded methods
+ */
 public class FluentAPIJavaOverloadsTest extends AbstractFluentAPITest {
+	/**
+	 * Checks whether initialisation methods in fluent api for Java have an
+	 * overloading variant that takes (a singular) Classifier parameters instead of
+	 * TypeReferences and converts them into ClassifierTypeReferences.
+	 */
 	@Test
 	public void withTypeReferenceOverloadTest_SingleValued() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
@@ -18,6 +34,11 @@ public class FluentAPIJavaOverloadsTest extends AbstractFluentAPITest {
 		Assertions.assertSame(cls, clsMet.getTypeReference().getPureClassifierReference().getTarget());
 	}
 
+	/**
+	 * Checks whether initialisation methods in fluent api for Java have an
+	 * overloading variant that takes multiple Classifier parameters instead of
+	 * TypeReferences and converts them into ClassifierTypeReferences.
+	 */
 	@Test
 	public void withTypeReferenceOverloadTest_ManyValued() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
