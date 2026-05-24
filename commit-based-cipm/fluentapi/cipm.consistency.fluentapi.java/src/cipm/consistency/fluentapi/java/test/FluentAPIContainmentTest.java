@@ -15,13 +15,13 @@ import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
  */
 public class FluentAPIContainmentTest extends AbstractFluentAPITest {
 	/**
+	 * Tests whether model elements of the same type can be successfully nested in
+	 * one another.
+	 * <p>
+	 * <p>
 	 * Ensures that the following construction is possible and works as intended:
 	 * 
-	 * class outer {
-	 * 
-	 * class inner {}
-	 * 
-	 * }
+	 * class outer { class inner {} }
 	 */
 	@Test
 	public void testNesting() {
@@ -44,13 +44,13 @@ public class FluentAPIContainmentTest extends AbstractFluentAPITest {
 	}
 
 	/**
+	 * Tests whether it is possible to set the features of model elements to other
+	 * (nested) model elements of the same type.
+	 * <p>
+	 * <p>
 	 * Ensures that the following construction is possible and works as intended:
 	 * 
-	 * class cls1 {
-	 * 
-	 * class cls2 extends cls1 {}
-	 * 
-	 * }
+	 * class cls1 { class cls2 extends cls1 {} }
 	 */
 	@Test
 	public void testNestingAndReferencing() {
@@ -76,14 +76,18 @@ public class FluentAPIContainmentTest extends AbstractFluentAPITest {
 	}
 
 	/**
+	 * Tests whether fluent api sets the value of the correct feature of the model
+	 * element.
+	 * <p>
+	 * <p>
 	 * Ensures setting values EReferences using the same value type works as
 	 * intended, for instance:
 	 * 
 	 * <p>
 	 * PrimitiveTypeReference has the EReferences ArrayDimensionsBefore (ADB) and
-	 * ArrayDimensionsAfter (ADA), which consider ArrayDimension instances. Assuming
-	 * AD1 and AD2 are separate ArrayDimension instances, setting ADB = AD1 and ADA
-	 * = AD2 via Fluent API should not mix up ADB and ADA.
+	 * ArrayDimensionsAfter (ADA), which consider ArrayDimension instances AD1 and
+	 * AD2. Assuming AD1 and AD2 are separate ArrayDimension instances, setting ADB
+	 * = AD1 and ADA = AD2 via Fluent API should not mix up ADB and ADA.
 	 */
 	@Test
 	public void testTwoContainmentFeaturesWithSameType() {
