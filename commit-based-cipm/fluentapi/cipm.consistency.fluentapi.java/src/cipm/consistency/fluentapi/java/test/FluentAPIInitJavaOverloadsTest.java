@@ -18,7 +18,7 @@ import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
  * @see {@link FluentAPIGenerationJavaMetamodelPostProcessor} for more details
  *      on overloaded methods
  */
-public class FluentAPIJavaOverloadsTest extends AbstractFluentAPITest {
+public class FluentAPIInitJavaOverloadsTest extends AbstractFluentAPITest {
 	/**
 	 * Checks whether initialisation methods in fluent api for Java have an
 	 * overloading variant that takes (a singular) Classifier parameters instead of

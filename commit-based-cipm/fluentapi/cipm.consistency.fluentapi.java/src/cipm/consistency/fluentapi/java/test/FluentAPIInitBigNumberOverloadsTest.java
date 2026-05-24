@@ -16,7 +16,7 @@ import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
  * 
  * @author Alp Torac Genc
  */
-public class FluentAPIBigNumberOverloadsTest extends AbstractFluentAPITest {
+public class FluentAPIInitBigNumberOverloadsTest extends AbstractFluentAPITest {
 	/**
 	 * Ensures that overloading methods for BigInteger are generated
 	 */
