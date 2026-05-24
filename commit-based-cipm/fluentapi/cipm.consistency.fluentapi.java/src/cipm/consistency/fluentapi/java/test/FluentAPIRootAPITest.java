@@ -1,5 +1,6 @@
 package cipm.consistency.fluentapi.java.test;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 import org.emftext.language.java.classifiers.ClassifiersFactory;
@@ -216,5 +217,56 @@ public class FluentAPIRootAPITest extends AbstractFluentAPITest {
 		Assertions.assertEquals(originalEClasses.size(), supportedClasses.size());
 		Assertions.assertTrue(originalEClasses.stream().allMatch(
 				(orECls) -> supportedClasses.stream().anyMatch((suCls) -> orECls.getInstanceClass().equals(suCls))));
+	}
+
+	/**
+	 * Checks whether api.waitForMark(key, task) works as intended
+	 */
+	@Test
+	public void testAPI_WaitForMark_SingleKey() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var key = new Object();
+		final var waitForMarkRan = new boolean[] { false };
+
+		api.waitForMark(key, () -> waitForMarkRan[0] = true);
+		Assertions.assertFalse(waitForMarkRan[0]);
+		api.newModule().markCurrentElement(key);
+		Assertions.assertTrue(waitForMarkRan[0]);
+	}
+
+	/**
+	 * Checks whether api.waitForMark(keyArray, task) works as intended
+	 */
+	@Test
+	public void testAPI_WaitForMark_KeyArray() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var key1 = new Object();
+		var key2 = new Object();
+		final var waitForMarkRan = new boolean[] { false };
+
+		api.waitForMark(new Object[] { key1, key2 }, () -> waitForMarkRan[0] = true);
+		Assertions.assertFalse(waitForMarkRan[0]);
+		api.newModule().markCurrentElement(key1);
+		Assertions.assertFalse(waitForMarkRan[0]);
+		api.newModule().markCurrentElement(key2);
+		Assertions.assertTrue(waitForMarkRan[0]);
+	}
+
+	/**
+	 * Checks whether api.waitForMark(keyCol, task) works as intended.
+	 */
+	@Test
+	public void testAPI_WaitForMark_KeyCollection() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var key1 = new Object();
+		var key2 = new Object();
+		final var waitForMarkRan = new boolean[] { false };
+
+		api.waitForMark(List.of(key1, key2), () -> waitForMarkRan[0] = true);
+		Assertions.assertFalse(waitForMarkRan[0]);
+		api.newModule().markCurrentElement(key1);
+		Assertions.assertFalse(waitForMarkRan[0]);
+		api.newModule().markCurrentElement(key2);
+		Assertions.assertTrue(waitForMarkRan[0]);
 	}
 }
