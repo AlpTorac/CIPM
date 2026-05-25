@@ -207,9 +207,8 @@ public class FluentAPIRootAPIWithTest extends AbstractFluentAPITest {
 		var pac = api.newPackage().createNow();
 		var pastNss = new String[] { "ns1", "ns2", "ns3" };
 		pac.getNamespaces().addAll(List.of(pastNss));
-		var nss = FluentAPITestUtils.toEList(pastNss[0], pastNss[2]);
 
-		api.xWithRemovedFeat(pac, namespaceFeat, nss);
+		api.xWithRemovedFeat(pac, namespaceFeat, List.of(pastNss[0], pastNss[2]));
 		FluentAPITestUtils.assertPairwiseEqual(List.of(pastNss[1]), pac.getNamespaces());
 	}
 
