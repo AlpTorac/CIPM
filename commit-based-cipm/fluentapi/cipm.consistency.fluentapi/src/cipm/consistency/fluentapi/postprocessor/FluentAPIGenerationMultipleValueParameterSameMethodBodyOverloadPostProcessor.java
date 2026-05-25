@@ -11,14 +11,16 @@ import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 
 /**
- * Introduces variants for certain methods that consider singular parameters,
- * for convenience. These variants have the same method body as the original
- * method and take Collections or Arrays as parameters.
+ * An implementation of
+ * {@link FluentAPIGenerationMultipleValueParameterPostProcessor} that uses a
+ * the same method body as the original EOperation in the overloading
+ * EOperations' method bodies.
  * <p>
  * <p>
- * Note: Even though the variants have the same method body with the original
- * method, they may result in different behaviour, if method calls within their
- * method body are overloaded.
+ * Note: Even though the original and overloading methods have the same body,
+ * their behaviour may differ, if changing the EParameter in overloading methods
+ * results in calling different methods (despite having identical method
+ * bodies).
  * 
  * @author Alp Torac Genc
  */
@@ -42,6 +44,11 @@ public class FluentAPIGenerationMultipleValueParameterSameMethodBodyOverloadPost
 		super(context, eClsScope);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Does not modify overloadingOp, since its method body should remain the same.
+	 */
 	@Override
 	protected EOperation overloadMethodBody(EOperation overloadingOp, EParameter newParam) {
 		return overloadingOp;

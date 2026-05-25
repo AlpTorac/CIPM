@@ -15,9 +15,21 @@ import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 
 /**
- * Introduces variants for certain methods that consider singular parameters.
- * The introduced variants take Collections or Arrays as parameters, sparing
- * multiple calls to the original method.
+ * Introduces overloading methods for certain original methods that consider
+ * singular parameters: Given an EOperation op, where param is its only
+ * EParameter of type T, overloads op regarding param with 2 overloading
+ * methods: opArr with paramArr of type {@code T[]} and opCol with paramCol of
+ * type {@code Collection<? extends T>}.
+ * <p>
+ * <p>
+ * For more details on the method bodies of overloading methods, refer to the
+ * concrete implementor's documentation.
+ * <p>
+ * <p>
+ * Due to type erasure related limitations of Java, results of applying this
+ * post-processor might cause compilation errors, if there are multiple variants
+ * of a method with a Collection parameter. In such cases, the methods in this
+ * post-processor can be overridden to fix those cases.
  * 
  * @author Alp Torac Genc
  */
@@ -56,6 +68,10 @@ public abstract class FluentAPIGenerationMultipleValueParameterPostProcessor
 		return this.context;
 	}
 
+	/**
+	 * @param oldParam A given EParameter (with type T)
+	 * @return An EParameter with an array-typed version of oldParam (T[])
+	 */
 	private EParameter getArrayVersion(EParameter oldParam) {
 		var param = FluentAPIGenerationUtil.generateArrayValuedEParameter(this.getContext(), oldParam.getName(),
 				oldParam.getEType());
@@ -63,6 +79,11 @@ public abstract class FluentAPIGenerationMultipleValueParameterPostProcessor
 		return param;
 	}
 
+	/**
+	 * @param oldParam A given EParameter (with type T)
+	 * @return An EParameter with an collection-typed version of oldParam
+	 *         (Collection<? extends T>)
+	 */
 	private EParameter getColVersion(EParameter oldParam) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(oldParam.getName(),
 				FluentAPIGenerationUtil.generateCollectionTypeParameter(this.getContext(), oldParam.getEType()));
@@ -70,6 +91,15 @@ public abstract class FluentAPIGenerationMultipleValueParameterPostProcessor
 		return param;
 	}
 
+	/**
+	 * Contains the method overloading logic.Prepares overloadingOp as an
+	 * overloading EOperation of an original EOperation.
+	 * 
+	 * @param overloadingOp The EOperation, which will overload the original
+	 *                      EOperation
+	 * @param newParam      The EParameter that the overloadingOp will use
+	 * @return overloadingOp
+	 */
 	protected abstract EOperation overloadMethodBody(EOperation overloadingOp, EParameter newParam);
 
 	private EOperation createOverloadingMultipleValueMethodFor(EOperation opToOverload, EParameter paramToOverload,
@@ -92,6 +122,10 @@ public abstract class FluentAPIGenerationMultipleValueParameterPostProcessor
 		return overloadingOp;
 	}
 
+	/**
+	 * @return Whether op already has an overloading array-typed method with respect
+	 *         to EParameter p, or another method with a clashing signature
+	 */
 	private boolean hasArrayOverload(EOperation op, EParameter p) {
 		var pIdx = op.getEParameters().indexOf(p);
 		return op.getEContainingClass().getEOperations().stream().anyMatch((opTwo) -> op != opTwo
@@ -101,6 +135,10 @@ public abstract class FluentAPIGenerationMultipleValueParameterPostProcessor
 						.getEClassifier().getInstanceClass().getComponentType()));
 	}
 
+	/**
+	 * @return Whether op already has an overloading collection-typed method with
+	 *         respect to EParameter p, or another method with a clashing signature
+	 */
 	private boolean hasColOverload(EOperation op, EParameter p) {
 		var pIdx = op.getEParameters().indexOf(p);
 		return op.getEContainingClass().getEOperations().stream()
@@ -109,6 +147,15 @@ public abstract class FluentAPIGenerationMultipleValueParameterPostProcessor
 								.getEClassifier().getInstanceClass().equals(Collection.class));
 	}
 
+	/**
+	 * Given an EOperation op, where param is one of its parameters, decides whether
+	 * op should be overloaded with respect to param. For more details about how it
+	 * is overloaded, refer to the documentation of the concrete implementor.
+	 * 
+	 * @param param The EParameter of an EOperation op, for which op will
+	 *              potentially be overloaded
+	 * @return Whether op should be overloaded for param
+	 */
 	protected abstract boolean shouldOverloadParameter(EParameter param);
 
 	private List<EOperation> createOverloadingMethodsFor(EOperation opToOverload) {
@@ -125,6 +172,14 @@ public abstract class FluentAPIGenerationMultipleValueParameterPostProcessor
 		return ops;
 	}
 
+	/**
+	 * Given an EOperation op, decides whether op should be overloaded. For more
+	 * details about how it is overloaded, refer to the documentation of the
+	 * concrete implementor.
+	 * 
+	 * @param op The EOperation to potentially overload
+	 * @return Whether the given EOperation should be overloaded
+	 */
 	protected abstract boolean shouldOverloadMethod(EOperation op);
 
 	@Override

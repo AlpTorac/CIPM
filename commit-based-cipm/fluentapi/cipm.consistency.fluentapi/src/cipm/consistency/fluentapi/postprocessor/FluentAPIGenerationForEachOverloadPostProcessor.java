@@ -14,9 +14,10 @@ import cipm.consistency.fluentapi.gen.FluentAPIMethodsUtil;
 import cipm.consistency.fluentapi.gen.ModelConstants;
 
 /**
- * Introduces variants for certain methods that consider singular parameters,
- * for convenience. The introduced variants envelop the original method in a
- * for-each loop and take Collections or Arrays as parameters.
+ * An implementation of
+ * {@link FluentAPIGenerationMultipleValueParameterPostProcessor} that uses a
+ * for-each loop in overloading EOperations' method bodies, effectively calling
+ * the original EOperation for each given element in its parameter.
  * 
  * @author Alp Torac Genc
  */
@@ -50,6 +51,12 @@ public class FluentAPIGenerationForEachOverloadPostProcessor
 		super(context, eClsScope);
 	}
 
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * Uses a for-each loop in the method body of overloadingOp and calls the
+	 * original EOperation for each element in its parameter.
+	 */
 	@Override
 	protected EOperation overloadMethodBody(EOperation overloadingOp, EParameter newParam) {
 		var serialisedArguments = new ArrayList<String>();
