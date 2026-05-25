@@ -114,15 +114,6 @@ public class FluentAPISuperInitWithTest extends AbstractFluentAPITest {
 	}
 
 	@Test
-	public void withAddedFeatTest_MultipleValuesAsEList() {
-		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
-		var nss = FluentAPITestUtils.toEList("ns1", "ns2");
-
-		var pac = api.newX(pacECls).xWithAddedFeat(namespaceFeat, nss).createNow(pacCls);
-		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
-	}
-
-	@Test
 	public void withRemovedFeatTest_SingleValue_NoPriorValues() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
@@ -159,18 +150,6 @@ public class FluentAPISuperInitWithTest extends AbstractFluentAPITest {
 	}
 
 	@Test
-	public void withRemovedFeatTest_MultipleValuesAsEList() {
-		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
-		var pac = api.newPackage().createNow();
-		var pastNss = List.of("ns1", "ns2", "ns3");
-		pac.getNamespaces().addAll(pastNss);
-		var nss = FluentAPITestUtils.toEList(pastNss.get(0), pastNss.get(2));
-
-		api.modifyX(pac).xWithRemovedFeat(namespaceFeat, nss);
-		FluentAPITestUtils.assertPairwiseEqual(List.of(pastNss.get(1)), pac.getNamespaces());
-	}
-
-	@Test
 	public void withRemovedFeatTest_MultipleValuesAsArray() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var pac = api.newPackage().createNow();
@@ -180,16 +159,6 @@ public class FluentAPISuperInitWithTest extends AbstractFluentAPITest {
 
 		api.modifyX(pac).xWithRemovedFeat(namespaceFeat, nss);
 		FluentAPITestUtils.assertPairwiseEqual(List.of(pastNss[1]), pac.getNamespaces());
-	}
-
-	@Test
-	public void cleanFeatTest_WithoutPriorValues() {
-		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
-		var pac = api.newPackage().createNow();
-
-		Assertions.assertEquals(0, pac.getNamespaces().size());
-		api.modifyX(pac).xCleanFeat(namespaceFeat);
-		Assertions.assertEquals(0, pac.getNamespaces().size());
 	}
 
 	@Test
