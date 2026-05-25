@@ -42,7 +42,7 @@ public class FluentAPIRootAPIMarkMethodGenerator implements IFluentAPIMethodGene
 					+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get() + ", %s.class)");
 
 	public List<EOperation> generateAllMarkMethods(FluentAPIGenerationContext context) {
-		var allEClss = context.getTargetMetamodelPackageProvider().getAllTargetMetamodelEClasses();
+		var allEClss = context.getAllEligibleTargetMetamodelEClasses();
 		var ops = new ArrayList<EOperation>();
 		ops.add(generateUnmarkMethod(context));
 		ops.add(generateUnmarkFullMethod(context));

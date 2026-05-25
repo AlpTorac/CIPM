@@ -39,7 +39,7 @@ public class FluentAPIRootAPIContinueMethodGenerator implements IFluentAPIMethod
 					+ " == markedElem).findFirst().get()");
 
 	public List<EOperation> generateAllContinueMethods(FluentAPIGenerationContext context) {
-		var eObjEClss = context.getTargetMetamodelPackageProvider().getAllTargetMetamodelConcreteEClasses();
+		var eObjEClss = context.getAllEligibleTargetMetamodelConcreteEClasses();
 		var ops = new ArrayList<EOperation>();
 
 		ops.add(generateTopLevelContinueMethod(context));

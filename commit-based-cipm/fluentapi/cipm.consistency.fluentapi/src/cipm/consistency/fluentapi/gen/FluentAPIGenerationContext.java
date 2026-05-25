@@ -3,6 +3,7 @@ package cipm.consistency.fluentapi.gen;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
@@ -170,6 +171,30 @@ public class FluentAPIGenerationContext {
 	 */
 	public FluentAPITargetMetamodelFeatureFilter getTargetMetamodelFeatureFilter() {
 		return targetMetamodelFeatureFilter;
+	}
+
+	/**
+	 * Uses {@link #getTargetMetamodelPackageProvider()} in conjunction with
+	 * {@link #getTargetMetamodelFeatureFilter()}.
+	 * 
+	 * @return A list of all concrete EClasses of the target metamodel
+	 */
+	public List<EClass> getAllEligibleTargetMetamodelConcreteEClasses() {
+		return this.getTargetMetamodelPackageProvider().getAllTargetMetamodelConcreteEClasses().stream()
+				.filter((eCls) -> this.getTargetMetamodelFeatureFilter().isEClassEligible(eCls))
+				.collect(Collectors.toList());
+	}
+
+	/**
+	 * Uses {@link #getTargetMetamodelPackageProvider()} in conjunction with
+	 * {@link #getTargetMetamodelFeatureFilter()}.
+	 * 
+	 * @return A list of all EClasses of the target metamodel
+	 */
+	public List<EClass> getAllEligibleTargetMetamodelEClasses() {
+		return this.getTargetMetamodelPackageProvider().getAllTargetMetamodelEClasses().stream()
+				.filter((eCls) -> this.getTargetMetamodelFeatureFilter().isEClassEligible(eCls))
+				.collect(Collectors.toList());
 	}
 
 	/**

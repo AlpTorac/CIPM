@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fluentapi.extensions.FluentAPIInitialisationStorage;
 import cipm.consistency.fluentapi.extensions.FluentAPIMarkExtension;
 import cipm.consistency.fluentapi.java.api.ApiFactory;
+import cipm.consistency.fluentapi.java.metamodel.FluentAPIJavaMetamodelFeatureFilter;
 import cipm.consistency.fluentapi.java.metamodel.FluentAPIJavaMetamodelPackageProvider;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
@@ -208,12 +209,15 @@ public class FluentAPIRootAPITest extends AbstractFluentAPITest {
 
 		var supportedClasses = api.getAllSupportedClasses();
 		var provider = new FluentAPIJavaMetamodelPackageProvider();
-		var expectedSupportedEClasses = provider.getAllTargetMetamodelConcreteEClasses();
+		var filter = new FluentAPIJavaMetamodelFeatureFilter();
+		var expectedSupportedEClasses = provider.getAllTargetMetamodelConcreteEClasses().stream()
+				.filter((eCls) -> filter.isEClassEligible(eCls)).collect(Collectors.toList());
 		var expectedSupportedClasses = expectedSupportedEClasses.stream().map((eCls) -> eCls.getInstanceClass())
 				.collect(Collectors.toList());
 		Assertions.assertEquals(expectedSupportedClasses.size(), supportedClasses.size());
 		Assertions.assertTrue(supportedClasses.containsAll(expectedSupportedClasses));
-		var originalEClasses = provider.getAllConcreteEClassedInOriginalMetamodel();
+		var originalEClasses = provider.getAllConcreteEClassesInOriginalMetamodel().stream()
+				.filter((eCls) -> filter.isEClassEligible(eCls)).collect(Collectors.toList());
 		Assertions.assertEquals(originalEClasses.size(), supportedClasses.size());
 		Assertions.assertTrue(originalEClasses.stream().allMatch(
 				(orECls) -> supportedClasses.stream().anyMatch((suCls) -> orECls.getInstanceClass().equals(suCls))));

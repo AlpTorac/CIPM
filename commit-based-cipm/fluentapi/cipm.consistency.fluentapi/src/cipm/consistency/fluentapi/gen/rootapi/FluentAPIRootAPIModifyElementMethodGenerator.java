@@ -28,7 +28,7 @@ public class FluentAPIRootAPIModifyElementMethodGenerator implements IFluentAPIM
 					.thisCall("this.%s(" + ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get() + ")"));
 
 	public List<EOperation> getAllRootAPIModifyElementOperations(FluentAPIGenerationContext context) {
-		var eObjEClss = context.getTargetMetamodelPackageProvider().getAllTargetMetamodelConcreteEClasses();
+		var eObjEClss = context.getAllEligibleTargetMetamodelConcreteEClasses();
 		var ops = new ArrayList<EOperation>();
 		ops.add(getRootAPITopLevelModifyElementOperation(context));
 		ops.add(getRootAPITopLevelModifyMarkedElementOperation(context));

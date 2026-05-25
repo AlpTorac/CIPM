@@ -49,8 +49,7 @@ public class FluentAPIInitialisationEClassGenerator {
 	public List<EClass> generateFluentAPIInitialisationClasses(FluentAPIGenerationContext context) {
 		var initSubClss = new ArrayList<EClass>();
 
-		for (var initialisedEClass : context.getTargetMetamodelPackageProvider()
-				.getAllTargetMetamodelConcreteEClasses()) {
+		for (var initialisedEClass : context.getAllEligibleTargetMetamodelConcreteEClasses()) {
 			var initSubCls = generateInitialisationEClass(initialisedEClass, context);
 			context.addInitECls(initialisedEClass, initSubCls);
 			initSubClss.add(initSubCls);

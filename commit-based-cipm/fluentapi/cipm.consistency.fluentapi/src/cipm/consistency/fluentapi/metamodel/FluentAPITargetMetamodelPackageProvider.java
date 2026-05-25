@@ -9,7 +9,11 @@ import org.eclipse.emf.ecore.EPackage;
 
 /**
  * An abstract class meant to be implemented by classes, which provide access to
- * (EMF-based) metamodels.
+ * (EMF-based) metamodels. It is recommended to have the implementing classes
+ * parse the entire (or a valid subset) of the metamodel, in order to avoid
+ * potential EMF errors due to model invalidity. Instead,
+ * {@link FluentAPITargetMetamodelFeatureFilter} can be implemented and used to
+ * filter undesired EClasses and EStructuralFeatures.
  * <p>
  * <p>
  * Note: Implementors of this class may or may not use the original metamodel
@@ -91,7 +95,7 @@ public abstract class FluentAPITargetMetamodelPackageProvider {
 	 * @return All concrete EClasses of the original metamodel (including those for
 	 *         abstract classes and interfaces)
 	 */
-	public List<EClass> getAllConcreteEClassedInOriginalMetamodel() {
+	public List<EClass> getAllConcreteEClassesInOriginalMetamodel() {
 		var allEClss = getAllEClassesInOriginalMetamodel();
 		return List
 				.of(allEClss.stream().filter((cls) -> !cls.isInterface() && !cls.isAbstract()).toArray(EClass[]::new));

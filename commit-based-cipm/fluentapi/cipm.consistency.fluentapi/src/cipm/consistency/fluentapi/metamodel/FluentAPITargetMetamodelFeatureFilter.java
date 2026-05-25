@@ -8,22 +8,29 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
  * An abstract class meant to be implemented by classes, which filter the
- * features of (EMF-based) metamodels. If constraints and invariants are
- * considered within the metamodel, they have to be explicitly checked.
+ * (EMF-based) metamodels with respect to their EClasses and EStructuralFeatures
+ * thereof. If constraints and invariants are considered within the metamodel,
+ * they have to be explicitly checked.
  * <p>
  * <p>
  * Note: Do not use the original metamodel packages while type-checking or
- * filtering, because {@link FluentAPITargetMetamodelPackageProvider} does not
- * use the original metamodel packages. Attempting to use
- * {@code originalECls.isSuperTypeOf(givenECls)} or vice versa will always
- * result in false, due to the original EClass and the given EClass being in
- * different Resources entirely. Instead, use their EAttributes for
- * type-checking (such as their name); excluding {@code eCls.getInstanceClass()}
- * and related methods, since they are not guaranteed to exist in parsed models.
+ * filtering, because {@link FluentAPITargetMetamodelPackageProvider} may or may
+ * not use the original metamodel packages. Attempting to use
+ * {@code originalECls.isSuperTypeOf(givenECls)} or vice versa may result in
+ * false, due to the original EClass and the given EClass being in different
+ * Resources entirely. Instead, use their EAttributes for type-checking (such as
+ * their name); excluding {@code eCls.getInstanceClass()} and related methods,
+ * since they are not guaranteed to exist in parsed models.
  * 
  * @author Alp Torac Genc
  */
 public abstract class FluentAPITargetMetamodelFeatureFilter {
+	/**
+	 * @param eCls A given EClass
+	 * @return Whether eCls should be considered in the fluent api
+	 */
+	public abstract boolean isEClassEligible(EClass eCls);
+
 	/**
 	 * @param holderOfFeat The EClass that contains the feat. Must be specified,
 	 *                     since feat may also be declared in a super EClass.

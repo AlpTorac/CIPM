@@ -6,11 +6,40 @@ import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
 
+/**
+ * An implementation of {@link FluentAPITargetMetamodelFeatureFilter} for PCM.
+ * <p>
+ * <p>
+ * Excludes the features ( {@link EStructuralFeature} ) that are present in
+ * {@link EObject} and its super-types. All other EClasses and features under
+ * the {@link PcmPackage} are included.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIPcmMetamodelFeatureFilter extends FluentAPITargetMetamodelFeatureFilter {
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * <p>
+	 * Excludes the features ( {@link EStructuralFeature} ) that are present in
+	 * {@link EObject} and its super-types. All other features under the
+	 * {@link PcmPackage} are included.
+	 */
 	@Override
 	public boolean isFeatureEligible(EClass holderOfFeat, EStructuralFeature feat) {
 		return isFeatureChangeable(feat)
 				&& !feat.getEContainingClass().getName().equals(EcorePackage.Literals.EOBJECT.getName());
 //				!feat.getEContainingClass().getInstanceClass().isAssignableFrom(EObject.class)
+	}
+
+	/**
+	 * {@inheritDoc}
+	 * <p>
+	 * <p>
+	 * All EClasses under the {@link PcmPackage} are included.
+	 */
+	@Override
+	public boolean isEClassEligible(EClass eCls) {
+		return true;
 	}
 }

@@ -34,7 +34,7 @@ public class FluentAPIRootAPICreateNewMethodGenerator implements IFluentAPIMetho
 					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	public List<EOperation> generateAllCreateNewMethods(FluentAPIGenerationContext context) {
-		var eObjEClss = context.getTargetMetamodelPackageProvider().getAllTargetMetamodelConcreteEClasses();
+		var eObjEClss = context.getAllEligibleTargetMetamodelConcreteEClasses();
 		var ops = new ArrayList<EOperation>();
 
 		ops.add(generateGenericCreateNewMethod());

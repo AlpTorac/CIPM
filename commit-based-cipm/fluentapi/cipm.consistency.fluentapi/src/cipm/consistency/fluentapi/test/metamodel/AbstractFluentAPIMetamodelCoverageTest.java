@@ -1,8 +1,10 @@
 package cipm.consistency.fluentapi.test.metamodel;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -19,6 +21,19 @@ import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
  */
 public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFluentAPITest
 		implements IFluentAPIMetamodelTest {
+
+	/**
+	 * Uses {@link #getProvider()} to retrieve the EClasses and {@link #getFilter()}
+	 * to filter them.
+	 * 
+	 * @return A list of all eligible concrete EClasses in the metamodel the fluent
+	 *         api is generated for.
+	 */
+	private List<EClass> getAllEligibleConcreteEClss() {
+		return getProvider().getAllConcreteEClassesInOriginalMetamodel().stream()
+				.filter((eCls) -> getFilter().isEClassEligible(eCls)).collect(Collectors.toList());
+	}
+
 	/**
 	 * Ensures that each concrete class within the target metamodel can be
 	 * instantiated via api.newX().createNow().
@@ -26,7 +41,7 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 	@Test
 	public void concreteElementCoverageTest_API_NewX() {
 
-		var allConcreteEClss = getProvider().getAllConcreteEClassedInOriginalMetamodel();
+		var allConcreteEClss = getAllEligibleConcreteEClss();
 		for (var eCls : allConcreteEClss) {
 			Assertions.assertInstanceOf(eCls.getInstanceClass(), api_newX_createNow(eCls));
 			Assertions.assertInstanceOf(eCls.getInstanceClass(), api_newX_createNow(eCls.getInstanceClass()));
@@ -40,7 +55,7 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 	@Test
 	public void concreteElementCoverageTest_API_CreateNewX() {
 
-		var allConcreteEClss = getProvider().getAllConcreteEClassedInOriginalMetamodel();
+		var allConcreteEClss = getAllEligibleConcreteEClss();
 		for (var eCls : allConcreteEClss) {
 			Assertions.assertInstanceOf(eCls.getInstanceClass(), api_createNewX(eCls.getInstanceClass()));
 			Assertions.assertInstanceOf(eCls.getInstanceClass(),
@@ -55,7 +70,7 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 	@Test
 	public void concreteElementCoverageTest_API_XInitialisationExistence() {
 
-		var allConcreteEClss = getProvider().getAllConcreteEClassedInOriginalMetamodel();
+		var allConcreteEClss = getAllEligibleConcreteEClss();
 		for (var eCls : allConcreteEClss) {
 			var initEClsViaClass = api_getInitialisationForX_getInitialisedEClass(eCls.getInstanceClass());
 			var initEClsViaEClass = api_getInitialisationForX_getInitialisedEClass(eCls);
@@ -77,7 +92,7 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 	@Test
 	public void concreteElementCoverageTest_API_ModifyX() {
 
-		var allConcreteEClss = getProvider().getAllConcreteEClassedInOriginalMetamodel();
+		var allConcreteEClss = getAllEligibleConcreteEClss();
 		for (var eCls : allConcreteEClss) {
 			var init = api_newX(eCls);
 			var instance = init_createNow(init);
@@ -93,7 +108,7 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 	@Test
 	public void concreteElementCoverageTest_API_ContinueX() {
 
-		var allConcreteEClss = getProvider().getAllConcreteEClassedInOriginalMetamodel();
+		var allConcreteEClss = getAllEligibleConcreteEClss();
 		for (var eCls : allConcreteEClss) {
 			var init = api_newX(eCls);
 			Assertions.assertSame(init, api_continueX(eCls.getInstanceClass()));
@@ -107,7 +122,7 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 	 */
 	@Test
 	public void concreteElementCoverageTest_API_xManyValuedFeature() {
-		var allConcreteEClss = getProvider().getAllConcreteEClassedInOriginalMetamodel();
+		var allConcreteEClss = getAllEligibleConcreteEClss();
 		for (var eCls : allConcreteEClss) {
 			var instance = (EObject) api_createNewX(eCls.getInstanceClass());
 			for (var feat : getFilter().getModifiableFeatures(eCls)) {
@@ -134,7 +149,7 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 	@Test
 	public void concreteElementCoverageTest_API_xSingleValuedFeature() {
 
-		var allConcreteEClss = getProvider().getAllConcreteEClassedInOriginalMetamodel();
+		var allConcreteEClss = getAllEligibleConcreteEClss();
 		for (var eCls : allConcreteEClss) {
 			var instance = (EObject) api_createNewX(eCls.getInstanceClass());
 			for (var feat : getFilter().getModifiableFeatures(eCls)) {
@@ -153,7 +168,7 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 	@Test
 	public void concreteElementCoverageTest_API_Mark() {
 
-		var allConcreteEClss = getProvider().getAllConcreteEClassedInOriginalMetamodel();
+		var allConcreteEClss = getAllEligibleConcreteEClss();
 		for (var eCls : allConcreteEClss) {
 			var keyAPI = new Object();
 
@@ -181,7 +196,7 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 	@Test
 	public void concreteElementCoverageTest_API_ModifyMarkedX() {
 
-		var allConcreteEClss = getProvider().getAllConcreteEClassedInOriginalMetamodel();
+		var allConcreteEClss = getAllEligibleConcreteEClss();
 		for (var eCls : allConcreteEClss) {
 			var keyAPI = new Object();
 
@@ -203,7 +218,7 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 	@Test
 	public void concreteElementCoverageTest_API_ContinueMarkedX() {
 
-		var allConcreteEClss = getProvider().getAllConcreteEClassedInOriginalMetamodel();
+		var allConcreteEClss = getAllEligibleConcreteEClss();
 		for (var eCls : allConcreteEClss) {
 			var keyAPI = new Object();
 			var init = api_newX(eCls);
@@ -224,7 +239,7 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 	@Test
 	public void concreteElementCoverageTest_SuperInit_xSingleValuedFeature() {
 
-		var allConcreteEClss = getProvider().getAllConcreteEClassedInOriginalMetamodel();
+		var allConcreteEClss = getAllEligibleConcreteEClss();
 		for (var eCls : allConcreteEClss) {
 			var instance = (EObject) api_createNewX(eCls.getInstanceClass());
 			for (var feat : getFilter().getModifiableFeatures(eCls)) {
@@ -244,7 +259,7 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 	@Test
 	public void concreteElementCoverageTest_SuperInit_xManyValuedFeature() {
 
-		var allConcreteEClss = getProvider().getAllConcreteEClassedInOriginalMetamodel();
+		var allConcreteEClss = getAllEligibleConcreteEClss();
 		for (var eCls : allConcreteEClss) {
 			var instance = (EObject) api_createNewX(eCls.getInstanceClass());
 			for (var feat : getFilter().getModifiableFeatures(eCls)) {
@@ -270,7 +285,7 @@ public abstract class AbstractFluentAPIMetamodelCoverageTest extends AbstractFlu
 	@Test
 	public void concreteElementCoverageTest_SuperInit_MarkX() {
 
-		var allConcreteEClss = getProvider().getAllConcreteEClassedInOriginalMetamodel();
+		var allConcreteEClss = getAllEligibleConcreteEClss();
 		for (var eCls : allConcreteEClss) {
 			var keySuperInit = new Object();
 

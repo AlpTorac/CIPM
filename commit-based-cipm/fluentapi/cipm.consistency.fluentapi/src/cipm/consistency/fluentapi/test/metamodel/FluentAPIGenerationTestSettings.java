@@ -56,8 +56,9 @@ public class FluentAPIGenerationTestSettings {
 	}
 
 	private static void computeAllSupportedConcreteEClss() {
-		if (metamodelProvider != null) {
-			allSupportedConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses();
+		if (metamodelProvider != null && featureFilter != null) {
+			allSupportedConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses().stream()
+					.filter((eCls) -> featureFilter.isEClassEligible(eCls)).collect(Collectors.toList());
 		}
 		if (allSupportedConcreteEClss != null && featureFilter != null) {
 			allSupportedConcreteEClssWithModifiableFeats = allSupportedConcreteEClss.stream()

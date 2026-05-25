@@ -23,7 +23,7 @@ public class FluentAPIMutationTestRepresentativesGenerator {
 	 */
 	public Set<EClass> getRepresentativeTargetMetamodelConcreteEClasses_BasedOnModifiability() {
 		var allConcreteEClss = FluentAPIGenerationTestSettings.getMetamodelProvider()
-				.getAllConcreteEClassedInOriginalMetamodel();
+				.getAllConcreteEClassesInOriginalMetamodel();
 		var eClssToMutate = new LinkedHashSet<EClass>();
 
 		// EClass without modifiable features
