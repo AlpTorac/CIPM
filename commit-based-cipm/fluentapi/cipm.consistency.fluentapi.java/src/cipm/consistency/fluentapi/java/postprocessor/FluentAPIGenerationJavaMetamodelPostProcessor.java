@@ -60,6 +60,9 @@ public class FluentAPIGenerationJavaMetamodelPostProcessor implements FluentAPIG
 		return this.initEClss;
 	}
 
+	/**
+	 * @return The object that grants access to the JaMoPP metamodel.
+	 */
 	public FluentAPITargetMetamodelPackageProvider getTargetMetamodelPackageProvider() {
 		return provider;
 	}
