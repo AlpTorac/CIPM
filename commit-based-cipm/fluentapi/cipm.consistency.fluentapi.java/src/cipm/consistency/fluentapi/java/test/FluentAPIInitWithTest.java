@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
+import cipm.consistency.fluentapi.test.FluentAPITestUtils;
 
 /**
  * A test class containing tests for modification methods of the initialisation
