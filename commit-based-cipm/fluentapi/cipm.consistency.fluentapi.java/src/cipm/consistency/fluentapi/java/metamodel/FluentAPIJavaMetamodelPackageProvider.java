@@ -17,9 +17,9 @@ import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvi
 import cipm.consistency.fluentapi.metamodel.MetamodelUtil;
 
 /**
- * Implementation of {@link FluentAPITargetMetamodelPackageProvider} for JaMoPP.
- * Considers both {@link JavaPackage} and {@link LayoutPackage}, since both of
- * them are necessary for fluent api generation for JaMoPP.
+ * An implementation of {@link FluentAPITargetMetamodelPackageProvider} for
+ * JaMoPP. Considers both {@link JavaPackage} and {@link LayoutPackage}, since
+ * both of them are necessary for fluent api generation for JaMoPP.
  * <p>
  * <p>
  * This class internally "fixes" the Ecore and GenModel of JaMoPP that it

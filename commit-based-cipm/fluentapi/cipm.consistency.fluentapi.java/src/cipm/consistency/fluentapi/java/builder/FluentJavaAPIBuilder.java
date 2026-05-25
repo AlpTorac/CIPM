@@ -21,6 +21,12 @@ import cipm.consistency.fluentapi.postprocessor.FluentAPIGenerationBigNumberPara
 import cipm.consistency.fluentapi.postprocessor.FluentAPIGenerationForEachOverloadPostProcessor;
 import cipm.consistency.fluentapi.postprocessor.FluentAPIGenerationMultipleValueParameterSameMethodBodyOverloadPostProcessor;
 
+/**
+ * An implementation of {@link FluentAPIAbstractBuilder} for the JaMoPP
+ * metamodel.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentJavaAPIBuilder extends FluentAPIAbstractBuilder {
 	private static final FluentAPITargetMetamodelPackageProvider provider = new FluentAPIJavaMetamodelPackageProvider();
 	private static final FluentAPITargetMetamodelFeatureFilter filter = new FluentAPIJavaMetamodelFeatureFilter();
