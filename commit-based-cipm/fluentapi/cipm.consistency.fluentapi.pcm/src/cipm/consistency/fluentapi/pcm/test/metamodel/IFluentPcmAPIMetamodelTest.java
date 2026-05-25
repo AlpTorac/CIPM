@@ -4,17 +4,17 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFilter;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.pcm.api.ApiFactory;
 import cipm.consistency.fluentapi.pcm.api.FluentAPISuperInitialisation;
 import cipm.consistency.fluentapi.pcm.api.FluentPcmAPI;
-import cipm.consistency.fluentapi.pcm.metamodel.FluentAPIPcmMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.pcm.metamodel.FluentAPIPcmMetamodelFilter;
 import cipm.consistency.fluentapi.pcm.metamodel.FluentAPIPcmMetamodelPackageProvider;
 import cipm.consistency.fluentapi.test.metamodel.IFluentAPIMetamodelTest;
 
 public interface IFluentPcmAPIMetamodelTest extends IFluentAPIMetamodelTest {
-	static final FluentAPITargetMetamodelFeatureFilter featureFilter = new FluentAPIPcmMetamodelFeatureFilter();
+	static final FluentAPITargetMetamodelFilter filter = new FluentAPIPcmMetamodelFilter();
 	static final FluentAPITargetMetamodelPackageProvider metamodelProvider = new FluentAPIPcmMetamodelPackageProvider();
 	static final FluentPcmAPI api = ApiFactory.eINSTANCE.createFluentPcmAPI();
 
@@ -28,8 +28,8 @@ public interface IFluentPcmAPIMetamodelTest extends IFluentAPIMetamodelTest {
 	}
 
 	@Override
-	public default FluentAPITargetMetamodelFeatureFilter getFilter() {
-		return featureFilter;
+	public default FluentAPITargetMetamodelFilter getFilter() {
+		return filter;
 	}
 
 	@Override

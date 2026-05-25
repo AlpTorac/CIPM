@@ -73,7 +73,7 @@ public class FluentAPIRootAPINewMethodGenerator implements IFluentAPIMethodGener
 			var eObjEClass = eObjEClss.get(i);
 			var initEClass = context.getAllInitEClss().get(i);
 
-			var modifiableFeatures = context.getTargetMetamodelFeatureFilter().getModifiableFeatures(eObjEClass);
+			var modifiableFeatures = context.getTargetMetamodelFilter().getModifiableFeatures(eObjEClass);
 			var modifiableFeatureCount = modifiableFeatures.size();
 
 			if (modifiableFeatureCount == 0) {

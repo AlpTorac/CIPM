@@ -5,10 +5,10 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.emftext.commons.layout.LayoutPackage;
 import org.emftext.language.java.commons.CommonsPackage;
 
-import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFilter;
 
 /**
- * An implementation of {@link FluentAPITargetMetamodelFeatureFilter} for
+ * An implementation of {@link FluentAPITargetMetamodelFilter} for
  * JaMoPP.
  * <p>
  * <p>
@@ -19,7 +19,7 @@ import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilte
  * 
  * @author Alp Torac Genc
  */
-public class FluentAPIJavaMetamodelFeatureFilter extends FluentAPITargetMetamodelFeatureFilter {
+public class FluentAPIJavaMetamodelFilter extends FluentAPITargetMetamodelFilter {
 	/**
 	 * {@inheritDoc}
 	 * <p>

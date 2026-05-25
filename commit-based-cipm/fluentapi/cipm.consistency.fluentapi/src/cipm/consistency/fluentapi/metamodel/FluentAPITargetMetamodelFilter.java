@@ -24,7 +24,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  * 
  * @author Alp Torac Genc
  */
-public abstract class FluentAPITargetMetamodelFeatureFilter {
+public abstract class FluentAPITargetMetamodelFilter {
 	/**
 	 * @param eCls A given EClass
 	 * @return Whether eCls should be considered in the fluent api

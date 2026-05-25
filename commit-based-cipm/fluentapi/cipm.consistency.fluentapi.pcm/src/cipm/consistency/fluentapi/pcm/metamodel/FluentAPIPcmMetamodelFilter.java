@@ -4,10 +4,10 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 
-import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFilter;
 
 /**
- * An implementation of {@link FluentAPITargetMetamodelFeatureFilter} for PCM.
+ * An implementation of {@link FluentAPITargetMetamodelFilter} for PCM.
  * <p>
  * <p>
  * Excludes the features ( {@link EStructuralFeature} ) that are present in
@@ -16,7 +16,7 @@ import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilte
  * 
  * @author Alp Torac Genc
  */
-public class FluentAPIPcmMetamodelFeatureFilter extends FluentAPITargetMetamodelFeatureFilter {
+public class FluentAPIPcmMetamodelFilter extends FluentAPITargetMetamodelFilter {
 	/**
 	 * {@inheritDoc}
 	 * <p>

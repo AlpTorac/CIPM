@@ -7,9 +7,9 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.java.api.FluentAPISuperInitialisation;
 import cipm.consistency.fluentapi.java.api.FluentJavaAPI;
-import cipm.consistency.fluentapi.java.metamodel.FluentAPIJavaMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.java.metamodel.FluentAPIJavaMetamodelFilter;
 import cipm.consistency.fluentapi.java.metamodel.FluentAPIJavaMetamodelPackageProvider;
-import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFilter;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.test.metamodel.IFluentAPIMetamodelTest;
 
@@ -19,7 +19,7 @@ import cipm.consistency.fluentapi.test.metamodel.IFluentAPIMetamodelTest;
  * @author Alp Torac Genc
  */
 public interface IFluentJavaAPIMetamodelTest extends IFluentAPIMetamodelTest {
-	static final FluentAPITargetMetamodelFeatureFilter featureFilter = new FluentAPIJavaMetamodelFeatureFilter();
+	static final FluentAPITargetMetamodelFilter filter = new FluentAPIJavaMetamodelFilter();
 	static final FluentAPITargetMetamodelPackageProvider metamodelProvider = new FluentAPIJavaMetamodelPackageProvider();
 	static final FluentJavaAPI api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
@@ -33,8 +33,8 @@ public interface IFluentJavaAPIMetamodelTest extends IFluentAPIMetamodelTest {
 	}
 
 	@Override
-	public default FluentAPITargetMetamodelFeatureFilter getFilter() {
-		return featureFilter;
+	public default FluentAPITargetMetamodelFilter getFilter() {
+		return filter;
 	}
 
 	@Override

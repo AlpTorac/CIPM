@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.EPackage;
  * (EMF-based) metamodels. It is recommended to have the implementing classes
  * parse the entire (or a valid subset) of the metamodel, in order to avoid
  * potential EMF errors due to model invalidity. Instead,
- * {@link FluentAPITargetMetamodelFeatureFilter} can be implemented and used to
+ * {@link FluentAPITargetMetamodelFilter} can be implemented and used to
  * filter undesired EClasses and EStructuralFeatures.
  * <p>
  * <p>

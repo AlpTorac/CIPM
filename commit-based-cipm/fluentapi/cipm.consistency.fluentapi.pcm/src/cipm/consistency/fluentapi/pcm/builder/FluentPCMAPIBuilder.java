@@ -11,9 +11,9 @@ import org.eclipse.emf.ecore.resource.Resource;
 import cipm.consistency.fluentapi.builder.FluentAPIAbstractBuilder;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerator;
-import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFilter;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
-import cipm.consistency.fluentapi.pcm.metamodel.FluentAPIPcmMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.pcm.metamodel.FluentAPIPcmMetamodelFilter;
 import cipm.consistency.fluentapi.pcm.metamodel.FluentAPIPcmMetamodelPackageProvider;
 import cipm.consistency.fluentapi.postprocessor.FluentAPIGenerationBigNumberParameterPostProcessor;
 import cipm.consistency.fluentapi.postprocessor.FluentAPIGenerationForEachOverloadPostProcessor;
@@ -21,7 +21,7 @@ import cipm.consistency.fluentapi.postprocessor.FluentAPIGenerationMultipleValue
 
 public class FluentPCMAPIBuilder extends FluentAPIAbstractBuilder {
 	private static final FluentAPITargetMetamodelPackageProvider provider = new FluentAPIPcmMetamodelPackageProvider();
-	private static final FluentAPITargetMetamodelFeatureFilter filter = new FluentAPIPcmMetamodelFeatureFilter();
+	private static final FluentAPITargetMetamodelFilter filter = new FluentAPIPcmMetamodelFilter();
 
 	@Override
 	protected GenModel generateGenModel(Resource genModelRes, Resource ecoreRes, FluentAPIGenerationContext context) {
@@ -77,7 +77,7 @@ public class FluentPCMAPIBuilder extends FluentAPIAbstractBuilder {
 	}
 
 	@Override
-	protected FluentAPITargetMetamodelFeatureFilter getTargetMetamodelFeatureFilter() {
+	protected FluentAPITargetMetamodelFilter getTargetMetamodelFilter() {
 		return filter;
 	}
 }

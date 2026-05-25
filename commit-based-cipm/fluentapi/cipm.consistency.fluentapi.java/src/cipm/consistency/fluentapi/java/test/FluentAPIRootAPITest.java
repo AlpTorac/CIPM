@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fluentapi.extensions.FluentAPIInitialisationStorage;
 import cipm.consistency.fluentapi.extensions.FluentAPIMarkExtension;
 import cipm.consistency.fluentapi.java.api.ApiFactory;
-import cipm.consistency.fluentapi.java.metamodel.FluentAPIJavaMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.java.metamodel.FluentAPIJavaMetamodelFilter;
 import cipm.consistency.fluentapi.java.metamodel.FluentAPIJavaMetamodelPackageProvider;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
@@ -209,7 +209,7 @@ public class FluentAPIRootAPITest extends AbstractFluentAPITest {
 
 		var supportedClasses = api.getAllSupportedClasses();
 		var provider = new FluentAPIJavaMetamodelPackageProvider();
-		var filter = new FluentAPIJavaMetamodelFeatureFilter();
+		var filter = new FluentAPIJavaMetamodelFilter();
 		var expectedSupportedEClasses = provider.getAllTargetMetamodelConcreteEClasses().stream()
 				.filter((eCls) -> filter.isEClassEligible(eCls)).collect(Collectors.toList());
 		var expectedSupportedClasses = expectedSupportedEClasses.stream().map((eCls) -> eCls.getInstanceClass())

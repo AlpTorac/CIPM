@@ -71,7 +71,7 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 		super.setUp();
 		FluentAPIGenerationTestSettings.setAPI(getAPI());
 		FluentAPIGenerationTestSettings.setElemEClsToInitEClsFunc((eCls) -> api_getInitialisationForX(eCls).eClass());
-		FluentAPIGenerationTestSettings.setFeatureFilter(getFilter());
+		FluentAPIGenerationTestSettings.setFilter(getFilter());
 		FluentAPIGenerationTestSettings.setPackageProvider(getProvider());
 	}
 

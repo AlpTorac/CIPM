@@ -15,7 +15,7 @@ import org.osgi.framework.FrameworkUtil;
 
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.ModelConstants;
-import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFilter;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
 
 /**
@@ -70,7 +70,7 @@ public abstract class FluentAPIAbstractBuilder {
 
 		var context = new FluentAPIGenerationContext();
 		context.setTargetMetamodelPackageProvider(getTargetMetamodelPackageProvider());
-		context.setTargetMetamodelFeatureFilter(getTargetMetamodelFeatureFilter());
+		context.setTargetMetamodelFilter(getTargetMetamodelFilter());
 		context.setBasePackageName(
 				ModelConstants.BASE_PACKAGE_NAME.getFor(getTargetMetamodelPackageProvider().getTargetMetamodelName()));
 
@@ -214,10 +214,9 @@ public abstract class FluentAPIAbstractBuilder {
 	protected abstract FluentAPITargetMetamodelPackageProvider getTargetMetamodelPackageProvider();
 
 	/**
-	 * @return The object that is used to filter the features of the elements of the
-	 *         metamodel.
+	 * @return The object that is used to filter the elements of the metamodel.
 	 */
-	protected abstract FluentAPITargetMetamodelFeatureFilter getTargetMetamodelFeatureFilter();
+	protected abstract FluentAPITargetMetamodelFilter getTargetMetamodelFilter();
 
 	/**
 	 * Generates the {@link GenModel} instance of the fluent api model from the

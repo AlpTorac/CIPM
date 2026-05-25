@@ -12,10 +12,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import cipm.consistency.fluentapi.builder.FluentAPIAbstractBuilder;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerator;
-import cipm.consistency.fluentapi.java.metamodel.FluentAPIJavaMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.java.metamodel.FluentAPIJavaMetamodelFilter;
 import cipm.consistency.fluentapi.java.metamodel.FluentAPIJavaMetamodelPackageProvider;
 import cipm.consistency.fluentapi.java.postprocessor.FluentAPIGenerationJavaMetamodelPostProcessor;
-import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFilter;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.postprocessor.FluentAPIGenerationBigNumberParameterPostProcessor;
 import cipm.consistency.fluentapi.postprocessor.FluentAPIGenerationForEachOverloadPostProcessor;
@@ -29,7 +29,7 @@ import cipm.consistency.fluentapi.postprocessor.FluentAPIGenerationMultipleValue
  */
 public class FluentJavaAPIBuilder extends FluentAPIAbstractBuilder {
 	private static final FluentAPITargetMetamodelPackageProvider provider = new FluentAPIJavaMetamodelPackageProvider();
-	private static final FluentAPITargetMetamodelFeatureFilter filter = new FluentAPIJavaMetamodelFeatureFilter();
+	private static final FluentAPITargetMetamodelFilter filter = new FluentAPIJavaMetamodelFilter();
 
 	@Override
 	protected GenModel generateGenModel(Resource genModelRes, Resource ecoreRes, FluentAPIGenerationContext context) {
@@ -86,7 +86,7 @@ public class FluentJavaAPIBuilder extends FluentAPIAbstractBuilder {
 	}
 
 	@Override
-	protected FluentAPITargetMetamodelFeatureFilter getTargetMetamodelFeatureFilter() {
+	protected FluentAPITargetMetamodelFilter getTargetMetamodelFilter() {
 		return filter;
 	}
 }

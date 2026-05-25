@@ -4,7 +4,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFilter;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
 
 /**
@@ -25,10 +25,10 @@ public interface IFluentAPIMetamodelTest {
 	public FluentAPITargetMetamodelPackageProvider getProvider();
 
 	/**
-	 * @return The object that filters the features of the metamodel, for which the
-	 *         fluent api was generated.
+	 * @return The object that filters the metamodel, for which the fluent api was
+	 *         generated.
 	 */
-	public FluentAPITargetMetamodelFeatureFilter getFilter();
+	public FluentAPITargetMetamodelFilter getFilter();
 
 	/**
 	 * @return The concrete fluent api class instance

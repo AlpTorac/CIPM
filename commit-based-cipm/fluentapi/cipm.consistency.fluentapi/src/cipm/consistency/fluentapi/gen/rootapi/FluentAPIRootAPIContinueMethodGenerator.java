@@ -48,7 +48,7 @@ public class FluentAPIRootAPIContinueMethodGenerator implements IFluentAPIMethod
 		for (int i = 0; i < eObjEClss.size(); i++) {
 			var eObjEClass = eObjEClss.get(i);
 			var initEClass = context.getAllInitEClss().get(i);
-			if (context.getTargetMetamodelFeatureFilter().hasModifiableFeatures(eObjEClass)) {
+			if (context.getTargetMetamodelFilter().hasModifiableFeatures(eObjEClass)) {
 				ops.add(generateContinueMethod(context, eObjEClass, initEClass));
 				ops.add(generateContinueMarkedMethod(eObjEClass, initEClass, context));
 			}

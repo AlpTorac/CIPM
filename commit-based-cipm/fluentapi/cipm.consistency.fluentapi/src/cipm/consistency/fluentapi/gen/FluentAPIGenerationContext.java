@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
-import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFilter;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
 
 /**
@@ -20,7 +20,7 @@ import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvi
  */
 public class FluentAPIGenerationContext {
 	private FluentAPITargetMetamodelPackageProvider targetMetamodelPackageProvider;
-	private FluentAPITargetMetamodelFeatureFilter targetMetamodelFeatureFilter;
+	private FluentAPITargetMetamodelFilter targetMetamodelFilter;
 
 	private EPackage placeholderEDataTypesPac;
 
@@ -165,36 +165,34 @@ public class FluentAPIGenerationContext {
 	}
 
 	/**
-	 * @return The object that filters features within the metamodel
+	 * @return The object that filters the metamodel
 	 *         {@link #getTargetMetamodelPackageProvider()} during the generation of
 	 *         fluent api.
 	 */
-	public FluentAPITargetMetamodelFeatureFilter getTargetMetamodelFeatureFilter() {
-		return targetMetamodelFeatureFilter;
+	public FluentAPITargetMetamodelFilter getTargetMetamodelFilter() {
+		return targetMetamodelFilter;
 	}
 
 	/**
 	 * Uses {@link #getTargetMetamodelPackageProvider()} in conjunction with
-	 * {@link #getTargetMetamodelFeatureFilter()}.
+	 * {@link #getTargetMetamodelFilter()}.
 	 * 
 	 * @return A list of all concrete EClasses of the target metamodel
 	 */
 	public List<EClass> getAllEligibleTargetMetamodelConcreteEClasses() {
 		return this.getTargetMetamodelPackageProvider().getAllTargetMetamodelConcreteEClasses().stream()
-				.filter((eCls) -> this.getTargetMetamodelFeatureFilter().isEClassEligible(eCls))
-				.collect(Collectors.toList());
+				.filter((eCls) -> this.getTargetMetamodelFilter().isEClassEligible(eCls)).collect(Collectors.toList());
 	}
 
 	/**
 	 * Uses {@link #getTargetMetamodelPackageProvider()} in conjunction with
-	 * {@link #getTargetMetamodelFeatureFilter()}.
+	 * {@link #getTargetMetamodelFilter()}.
 	 * 
 	 * @return A list of all EClasses of the target metamodel
 	 */
 	public List<EClass> getAllEligibleTargetMetamodelEClasses() {
 		return this.getTargetMetamodelPackageProvider().getAllTargetMetamodelEClasses().stream()
-				.filter((eCls) -> this.getTargetMetamodelFeatureFilter().isEClassEligible(eCls))
-				.collect(Collectors.toList());
+				.filter((eCls) -> this.getTargetMetamodelFilter().isEClassEligible(eCls)).collect(Collectors.toList());
 	}
 
 	/**
@@ -253,9 +251,9 @@ public class FluentAPIGenerationContext {
 	}
 
 	/**
-	 * @see {@link #getTargetMetamodelFeatureFilter()}
+	 * @see {@link #getTargetMetamodelFilter()}
 	 */
-	public void setTargetMetamodelFeatureFilter(FluentAPITargetMetamodelFeatureFilter targetMetamodelFeatureFilter) {
-		this.targetMetamodelFeatureFilter = targetMetamodelFeatureFilter;
+	public void setTargetMetamodelFilter(FluentAPITargetMetamodelFilter targetMetamodelFilter) {
+		this.targetMetamodelFilter = targetMetamodelFilter;
 	}
 }

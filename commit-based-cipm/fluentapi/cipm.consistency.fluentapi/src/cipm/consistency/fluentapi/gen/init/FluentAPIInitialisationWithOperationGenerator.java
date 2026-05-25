@@ -58,7 +58,7 @@ public class FluentAPIInitialisationWithOperationGenerator implements IFluentAPI
 
 	private List<EStructuralFeature> getAllEligibleFeats(FluentAPIGenerationContext context, EClass elemToInit) {
 		return elemToInit.getEAllStructuralFeatures().stream()
-				.filter((feat) -> context.getTargetMetamodelFeatureFilter().isFeatureEligible(elemToInit, feat))
+				.filter((feat) -> context.getTargetMetamodelFilter().isFeatureEligible(elemToInit, feat))
 				.collect(Collectors.toCollection(ArrayList::new));
 	}
 

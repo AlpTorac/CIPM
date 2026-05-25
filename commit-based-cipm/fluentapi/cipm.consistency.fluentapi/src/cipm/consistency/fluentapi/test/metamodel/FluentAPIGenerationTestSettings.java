@@ -9,7 +9,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.EcorePackage;
 
-import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFeatureFilter;
+import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFilter;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
 
 /**
@@ -19,7 +19,7 @@ import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvi
  * @author Alp Torac Genc
  */
 public class FluentAPIGenerationTestSettings {
-	private static FluentAPITargetMetamodelFeatureFilter featureFilter;
+	private static FluentAPITargetMetamodelFilter metamodelFilter;
 	private static FluentAPITargetMetamodelPackageProvider metamodelProvider;
 
 	private static List<EOperation> allAPIOps;
@@ -43,8 +43,8 @@ public class FluentAPIGenerationTestSettings {
 		allAPIOps = List.copyOf(api.eClass().getEOperations());
 	}
 
-	public static void setFeatureFilter(FluentAPITargetMetamodelFeatureFilter filter) {
-		featureFilter = filter;
+	public static void setFilter(FluentAPITargetMetamodelFilter filter) {
+		metamodelFilter = filter;
 
 		computeVariantFunctions();
 		computeAllSupportedConcreteEClss();
@@ -56,15 +56,16 @@ public class FluentAPIGenerationTestSettings {
 	}
 
 	private static void computeAllSupportedConcreteEClss() {
-		if (metamodelProvider != null && featureFilter != null) {
+		if (metamodelProvider != null && metamodelFilter != null) {
 			allSupportedConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses().stream()
-					.filter((eCls) -> featureFilter.isEClassEligible(eCls)).collect(Collectors.toList());
+					.filter((eCls) -> metamodelFilter.isEClassEligible(eCls)).collect(Collectors.toList());
 		}
-		if (allSupportedConcreteEClss != null && featureFilter != null) {
+		if (allSupportedConcreteEClss != null && metamodelFilter != null) {
 			allSupportedConcreteEClssWithModifiableFeats = allSupportedConcreteEClss.stream()
-					.filter(featureFilter::hasModifiableFeatures).collect(Collectors.toList());
+					.filter(metamodelFilter::hasModifiableFeatures).collect(Collectors.toList());
 			allSupportedConcreteEClssWithOnlyOneModifiableFeat = allSupportedConcreteEClss.stream()
-					.filter((eCls) -> featureFilter.getModifiableFeatureCount(eCls) == 1).collect(Collectors.toList());
+					.filter((eCls) -> metamodelFilter.getModifiableFeatureCount(eCls) == 1)
+					.collect(Collectors.toList());
 			allSupportedConcreteEClssWithNoModifiableFeat = allSupportedConcreteEClss.stream()
 					.filter((eCls) -> !allSupportedConcreteEClssWithModifiableFeats.contains(eCls))
 					.collect(Collectors.toList());
@@ -72,17 +73,17 @@ public class FluentAPIGenerationTestSettings {
 	}
 
 	private static void computeVariantFunctions() {
-		if (featureFilter != null) {
-			multiValFunc = (eCls) -> featureFilter.getModifiableFeatures(eCls).get(0).isMany();
-			bigNumberVariantsFunc = (eCls) -> featureFilter.getModifiableFeatures(eCls).get(0).getEType()
+		if (metamodelFilter != null) {
+			multiValFunc = (eCls) -> metamodelFilter.getModifiableFeatures(eCls).get(0).isMany();
+			bigNumberVariantsFunc = (eCls) -> metamodelFilter.getModifiableFeatures(eCls).get(0).getEType()
 					.equals(EcorePackage.Literals.EBIG_INTEGER)
-					|| featureFilter.getModifiableFeatures(eCls).get(0).getEType()
+					|| metamodelFilter.getModifiableFeatures(eCls).get(0).getEType()
 							.equals(EcorePackage.Literals.EBIG_DECIMAL);
 		}
 	}
 
-	public static FluentAPITargetMetamodelFeatureFilter getFeatureFilter() {
-		return featureFilter;
+	public static FluentAPITargetMetamodelFilter getFilter() {
+		return metamodelFilter;
 	}
 
 	public static FluentAPITargetMetamodelPackageProvider getMetamodelProvider() {
@@ -129,7 +130,7 @@ public class FluentAPIGenerationTestSettings {
 		allSupportedConcreteEClssWithOnlyOneModifiableFeat = null;
 		bigNumberVariantsFunc = null;
 		elemEClsToInitEClsFunc = null;
-		featureFilter = null;
+		metamodelFilter = null;
 		metamodelProvider = null;
 		multiValFunc = null;
 	}

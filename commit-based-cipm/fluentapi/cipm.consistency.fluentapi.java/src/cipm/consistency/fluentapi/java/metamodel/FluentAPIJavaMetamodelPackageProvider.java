@@ -30,7 +30,7 @@ import cipm.consistency.fluentapi.metamodel.MetamodelUtil;
  * Note: The original JaMoPP metamodel considers both {@link JavaPackage} and
  * {@link LayoutPackage}. In order to keep the parsed metamodels valid, this
  * class parses both of them. For filtering out {@link LayoutPackage},
- * {@link FluentAPIJavaMetamodelFeatureFilter} can be used.
+ * {@link FluentAPIJavaMetamodelFilter} can be used.
  * 
  * @author Alp Torac Genc
  */
