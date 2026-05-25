@@ -2,6 +2,7 @@ package cipm.consistency.fluentapi.java.test;
 
 import java.util.List;
 
+import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -17,6 +18,16 @@ import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
  * @author Alp Torac Genc
  */
 public class FluentAPIInitTest extends AbstractFluentAPITest {
+	/**
+	 * Checks whether init.getInitialisedEClass() works as intended.
+	 */
+	@Test
+	public void testInit_getInitialisedEClass() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var eCls = ClassifiersPackage.Literals.CLASS;
+		Assertions.assertEquals(eCls, api.newX(eCls).getInitialisedEClass());
+	}
+
 	/**
 	 * Checks whether init.toAPI() works as intended.
 	 */
@@ -54,6 +65,49 @@ public class FluentAPIInitTest extends AbstractFluentAPITest {
 
 		// Ensure that createNow() removes the Initialisation instance from api
 		Assertions.assertNull(api.continueModule());
+	}
+
+	/**
+	 * Checks whether init.createNow(class) works as intended, when class is the
+	 * exact type of the created object.
+	 */
+	@Test
+	public void testInit_CreateNow_WithTypeCast_ExactType() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var mod = api.newModule().createNow(org.emftext.language.java.containers.Module.class);
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+	}
+
+	/**
+	 * Checks whether init.createNow(class) works as intended, where class is a
+	 * super-type of the created object.
+	 */
+	@Test
+	public void testInit_CreateNow_WithTypeCast_Upcasting() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var clsToCastTo = org.emftext.language.java.commons.NamedElement.class;
+		var mod = api.newModule().createNow(clsToCastTo);
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+		Assertions.assertInstanceOf(clsToCastTo, mod);
+	}
+
+	/**
+	 * Checks whether init.createNow(class) works as intended, where class is a
+	 * sub-type of the created object.
+	 */
+	@Test
+	public void testInit_CreateNow_WithTypeCast_Downcasting() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var clsToCastTo = org.emftext.language.java.containers.impl.ModuleImpl.class;
+		var mod = api.newModule().createNow(clsToCastTo);
+		Assertions.assertInstanceOf(org.emftext.language.java.containers.Module.class, mod);
+		Assertions.assertInstanceOf(clsToCastTo, mod);
+
+		// Make sure that the method basicGetOpen() in ModuleImpl is actually found
+		// during compilation (not present in
+		// org.emftext.language.java.containers.Module, which is the usual return type
+		// of api.newModule().createNow())
+		Assertions.assertDoesNotThrow(() -> mod.basicGetOpen());
 	}
 
 	/**
