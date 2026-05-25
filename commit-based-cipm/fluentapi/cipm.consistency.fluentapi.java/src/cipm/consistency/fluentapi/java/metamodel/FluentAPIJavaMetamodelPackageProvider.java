@@ -3,6 +3,7 @@ package cipm.consistency.fluentapi.java.metamodel;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.codegen.ecore.genmodel.GenModel;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
@@ -18,13 +19,15 @@ import cipm.consistency.fluentapi.metamodel.MetamodelUtil;
 
 /**
  * An implementation of {@link FluentAPITargetMetamodelPackageProvider} for
- * JaMoPP. Considers both {@link JavaPackage} and {@link LayoutPackage}, since
- * both of them are necessary for fluent api generation for JaMoPP.
+ * JaMoPP.
  * <p>
  * <p>
  * This class internally "fixes" the Ecore and GenModel of JaMoPP that it
  * parses, in order to avoid having duplicated Resource instances during fluent
- * api generation. This is due to Eclipse plug-in limitations.
+ * api generation. This is due to Eclipse plug-in limitations. This class
+ * furthermore explicitly filters out the EPackage {@link LayoutPackage} from
+ * the Ecore and GenModel that it parses, so that the generated fluent api does
+ * not include its EClasses.
  * 
  * @author Alp Torac Genc
  */
@@ -49,20 +52,19 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 	private final ResourceSet metamodelResSet = new ResourceSetImpl();
 	/**
 	 * The Resource instance containing the parsed Ecore model of JaMoPP. This is
-	 * NOT the Resource instance of {@code JavaPackage.eINSTANCE} nor
-	 * {@code LayoutPackage.eINSTANCE}.
+	 * NOT the Resource instance of {@code JavaPackage.eINSTANCE}.
 	 */
 	private Resource ecoreRes;
 	/**
 	 * The Resource instance containing the parsed GenModel of JaMoPP. This does NOT
-	 * use the Resource instance of {@code JavaPackage.eINSTANCE} nor
-	 * {@code LayoutPackage.eINSTANCE}, but {@link #ecoreRes}.
+	 * use the Resource instance of {@code JavaPackage.eINSTANCE}, but
+	 * {@link #ecoreRes}.
 	 */
 	private Resource genModelRes;
 	/**
 	 * The list containing the original JaMoPP EClasses that are available under
-	 * {@code JavaPackage.eINSTANCE} and {@code LayoutPackage.eINSTANCE}. These
-	 * EClasses are NOT the same as those in {@link #ecoreRes}.
+	 * {@code JavaPackage.eINSTANCE}. These EClasses are NOT the same as those in
+	 * {@link #ecoreRes}.
 	 */
 	private List<EClass> originalEClss;
 
@@ -80,13 +82,13 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 
 	/**
 	 * Caches the (original) EClasses found under the JaMoPP model ( under
-	 * {@code JavaPackage.eINSTANCE} and {@code LayoutPackage.eINSTANCE}) in
-	 * {@link #originalEClss}, in order to spare constantly retrieving them.
+	 * {@code JavaPackage.eINSTANCE}) in {@link #originalEClss}, in order to spare
+	 * constantly retrieving them.
 	 */
 	private void cacheOriginalEClasses() {
 		if (originalEClss == null) {
 			originalEClss = new ArrayList<EClass>(MetamodelUtil.getAllEClasses(JavaPackage.eINSTANCE));
-			originalEClss.addAll(MetamodelUtil.getAllEClasses(LayoutPackage.eINSTANCE));
+//			originalEClss.removeAll(MetamodelUtil.getAllEClasses(LayoutPackage.eINSTANCE));
 		}
 	}
 
@@ -98,14 +100,14 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 	 *                               parsed by this class.
 	 */
 	private void fixInstanceClasses(EPackage parsedJaMoPPEcoreModel) {
-		var parsedEClss = MetamodelUtil.getAllEClasses(parsedJaMoPPEcoreModel);
+		var jaMoPPParsedEClss = MetamodelUtil.getAllEClasses(parsedJaMoPPEcoreModel);
 		cacheOriginalEClasses();
 
-		if (parsedEClss.size() != originalEClss.size())
+		if (jaMoPPParsedEClss.size() != originalEClss.size())
 			throw new IllegalStateException(
 					"Parsed Java package and the actual Java package contain different amounts of EClasses");
 
-		for (var parsedECls : parsedEClss) {
+		for (var parsedECls : jaMoPPParsedEClss) {
 			var matchingActualECls = originalEClss.stream()
 					.filter((cls) -> cls.getEPackage().getName().equals(parsedECls.getEPackage().getName()))
 					.filter((cls) -> cls.getName().equals(parsedECls.getName())).toArray(EClass[]::new);
@@ -124,6 +126,7 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 		if (ecoreRes == null) {
 			ecoreRes = metamodelResSet.getResource(jaMoPPEcoreModelURI, true);
 			var parsedJaMoPPEcoreModel = (EPackage) ecoreRes.getContents().get(0);
+			parsedJaMoPPEcoreModel.getESubpackages().removeIf((pac) -> pac.getName().equals(LayoutPackage.eNAME));
 			fixInstanceClasses(parsedJaMoPPEcoreModel);
 		}
 
@@ -134,6 +137,9 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 	public List<GenModel> getTargetMetamodelGenModels() {
 		if (genModelRes == null) {
 			genModelRes = metamodelResSet.getResource(jaMoPPGenModelURI, true);
+			var parsedJaMoPPGenModel = (GenModel) genModelRes.getContents().get(0);
+			parsedJaMoPPGenModel.getGenPackages()
+					.removeIf((gp) -> gp.getPrefix().equals(StringUtils.capitalize(LayoutPackage.eNAME)));
 		}
 
 		var javaGenModel = (GenModel) genModelRes.getContents().get(0);
