@@ -12,8 +12,9 @@ import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 /**
- * A test class for the modification methods of the fluent api: xWithFeat(...),
- * xWithoutFeat(...), xWithAddedFeat(...), xWithRemovedFeat(...), xCleanFeat().
+ * A test class for the modification methods of the fluent api class:
+ * xWithFeat(...), xWithoutFeat(...), xWithAddedFeat(...),
+ * xWithRemovedFeat(...), xCleanFeat().
  * 
  * @author Alp Torac Genc
  */

@@ -2,11 +2,8 @@ package cipm.consistency.fluentapi.java.test;
 
 import java.util.List;
 
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.commons.CommonsPackage;
-import org.emftext.language.java.containers.ContainersPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -14,162 +11,318 @@ import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 public class FluentAPISuperInitWithTest extends AbstractFluentAPITest {
-	private static final EClass clsECls = ClassifiersPackage.Literals.CLASS;
-	private static final EClass pacECls = ContainersPackage.Literals.PACKAGE;
-
-	private static final Class<org.emftext.language.java.classifiers.Class> clsCls = org.emftext.language.java.classifiers.Class.class;
-	private static final Class<org.emftext.language.java.containers.Package> pacCls = org.emftext.language.java.containers.Package.class;
-
 	private static final EStructuralFeature nameFeat = CommonsPackage.Literals.NAMED_ELEMENT__NAME;
 	private static final EStructuralFeature namespaceFeat = CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES;
-	private static final EStructuralFeature extendsFeat = ClassifiersPackage.Literals.CLASS__EXTENDS;
 
+	/**
+	 * Checks whether superInit.xWithFeat(feat, val) works as intended.
+	 */
 	@Test
-	public void withFeatTest_EAttribute() {
+	public void testSuperInit_WithFeat() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var name = "cuName";
+		var cu = api.createNewCompilationUnit();
+		var init = api.modifyX(cu);
+		Assertions.assertNull(cu.getName());
 
-		var clsName = "cls";
-
-		var cls = api.newX(clsECls).xWithFeat(nameFeat, clsName).createNow(clsCls);
-		Assertions.assertEquals(clsName, cls.getName());
+		init.xWithFeat(nameFeat, name);
+		Assertions.assertEquals(name, cu.getName());
 	}
 
+	/**
+	 * Checks whether superInit.xWithoutFeat(feat, val) works as intended.
+	 */
 	@Test
-	public void withFeatTest_EReference() {
+	public void testSuperInit_WithoutFeat() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var name = "cuName";
+		var cu = api.createNewCompilationUnit();
+		cu.setName(name);
+		var init = api.modifyX(cu);
+		Assertions.assertEquals(name, cu.getName());
 
-		var extType = api.createNewClassifierReference();
-		var cls = api.newX(clsECls).xWithFeat(extendsFeat, extType).createNow(clsCls);
-		Assertions.assertSame(extType, cls.getExtends());
+		init.xWithoutFeat(nameFeat);
+		Assertions.assertNull(cu.getName());
 	}
 
+	/**
+	 * Checks whether superInit.xWithRemovedFeat(feat, val) works as intended, if
+	 * val is not an eligible value.
+	 */
 	@Test
-	public void withoutFeatTest_EAttribute() {
+	public void testSuperInit_WithRemovedFeat_RemoveNonExistentValue() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
-		var clsName = "cls";
-		var feat = nameFeat;
-		var cls = api.newClass().withName(clsName).createNow();
+		var ns1 = "ns1";
+		var ns2 = "ns2";
+		var ns3 = "ns3";
 
-		Assertions.assertEquals(clsName, cls.getName());
-		api.modifyX(cls).xWithoutFeat(feat);
-		Assertions.assertEquals(feat.getDefaultValueLiteral(), cls.getName());
+		var nss = new String[] { ns1, ns2, ns3 };
+
+		var cu = api.createNewCompilationUnit();
+		cu.getNamespaces().addAll(List.of(nss));
+		var init = api.modifyX(cu);
+		FluentAPITestUtils.assertPairwiseEqual(nss, cu.getNamespaces());
+
+		init.xWithRemovedFeat(namespaceFeat, "ns4");
+		FluentAPITestUtils.assertPairwiseEqual(nss, cu.getNamespaces());
 	}
 
+	/**
+	 * Checks whether superInit.xWithRemovedFeat(feat, val) works as intended.
+	 */
 	@Test
-	public void withoutFeatTest_EReference() {
+	public void testSuperInit_WithRemovedFeat_SingularParameter() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
-		var clsExtendsVal = api.createNewClassifierReference();
-		var cls = api.createNewClass();
-		var feat = extendsFeat;
+		var ns1 = "ns1";
+		var ns2 = "ns2";
+		var ns3 = "ns3";
 
-		cls.setExtends(clsExtendsVal);
+		var nss = new String[] { ns1, ns2, ns3 };
+		var expectedNss = List.of(ns2, ns3);
 
-		Assertions.assertSame(clsExtendsVal, cls.getExtends());
-		api.modifyX(cls).xWithoutFeat(feat);
-		Assertions.assertEquals(feat.getDefaultValue(), cls.getExtends());
+		var cu = api.createNewCompilationUnit();
+		cu.getNamespaces().addAll(List.of(nss));
+		var init = api.modifyX(cu);
+		FluentAPITestUtils.assertPairwiseEqual(nss, cu.getNamespaces());
+
+		init.xWithRemovedFeat(namespaceFeat, ns1);
+		FluentAPITestUtils.assertPairwiseEqual(expectedNss, cu.getNamespaces());
 	}
 
+	/**
+	 * Checks whether superInit.xWithRemovedFeat(feat, valArray) works as intended.
+	 */
 	@Test
-	public void withAddedFeatTest_SingleValue_NoPriorValues() {
+	public void testSuperInit_WithRemovedFeat_ArrayParameter() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+
+		var ns1 = "ns1";
+		var ns2 = "ns2";
+		var ns3 = "ns3";
+
+		var nss = new String[] { ns1, ns2, ns3 };
+		var toRemove = new String[] { ns1, ns3 };
+		var expectedNss = List.of(ns2);
+
+		var cu = api.createNewCompilationUnit();
+		cu.getNamespaces().addAll(List.of(nss));
+		var init = api.modifyX(cu);
+		FluentAPITestUtils.assertPairwiseEqual(nss, cu.getNamespaces());
+
+		init.xWithRemovedFeat(namespaceFeat, toRemove);
+		FluentAPITestUtils.assertPairwiseEqual(expectedNss, cu.getNamespaces());
+	}
+
+	/**
+	 * Checks whether superInit.xWithRemovedFeat(feat, valArray) works as intended,
+	 * if valArray were empty.
+	 */
+	@Test
+	public void testSuperInit_WithRemovedFeat_EmptyArrayParameter() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var cu = api.createNewCompilationUnit();
+		var init = api.modifyX(cu);
+		init.xWithRemovedFeat(namespaceFeat, new String[] {});
+		Assertions.assertTrue(cu.getNamespaces().isEmpty());
+	}
+
+	/**
+	 * Checks whether superInit.xWithRemovedFeat(feat, valCollection) works as
+	 * intended.
+	 */
+	@Test
+	public void testSuperInit_WithRemovedFeat_CollectionParameter() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+
+		var ns1 = "ns1";
+		var ns2 = "ns2";
+		var ns3 = "ns3";
+
+		var nss = new String[] { ns1, ns2, ns3 };
+		var toRemove = List.of(ns1, ns3);
+		var expectedNss = List.of(ns2);
+
+		var cu = api.createNewCompilationUnit();
+		cu.getNamespaces().addAll(List.of(nss));
+		var init = api.modifyX(cu);
+		FluentAPITestUtils.assertPairwiseEqual(nss, cu.getNamespaces());
+
+		init.xWithRemovedFeat(namespaceFeat, toRemove);
+		FluentAPITestUtils.assertPairwiseEqual(expectedNss, cu.getNamespaces());
+	}
+
+	/**
+	 * Checks whether superInit.xWithRemovedFeat(feat, valCollection) works as
+	 * intended, if valCollection were empty.
+	 */
+	@Test
+	public void testSuperInit_WithRemovedFeat_EmptyCollectionParameter() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var cu = api.createNewCompilationUnit();
+		var init = api.modifyX(cu);
+		init.xWithRemovedFeat(namespaceFeat, List.of());
+		Assertions.assertTrue(cu.getNamespaces().isEmpty());
+	}
+
+	/**
+	 * Checks whether superInit.xCleanFeat(feat) works as intended.
+	 */
+	@Test
+	public void testSuperInit_CleanFeat() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+
+		var ns1 = "ns1";
+		var ns2 = "ns2";
+		var ns3 = "ns3";
+
+		var nss = new String[] { ns1, ns2, ns3 };
+
+		var cu = api.createNewCompilationUnit();
+		cu.getNamespaces().addAll(List.of(nss));
+		var init = api.modifyX(cu);
+		FluentAPITestUtils.assertPairwiseEqual(nss, cu.getNamespaces());
+
+		init.xCleanFeat(namespaceFeat);
+		Assertions.assertEquals(0, cu.getNamespaces().size());
+	}
+
+	/**
+	 * Checks whether superInit.xWithAddedFeat(feat, val) works as intended, if
+	 * there were no prior values.
+	 */
+	@Test
+	public void testSuperInit_WithAddedFeat_SingularParameter_NoPriorValues() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var ns = "ns";
 
-		var pac = api.newX(pacECls).xWithAddedFeat(namespaceFeat, ns).createNow(pacCls);
-		Assertions.assertEquals(1, pac.getNamespaces().size());
-		Assertions.assertEquals(ns, pac.getNamespaces().get(0));
+		var cu = api.createNewCompilationUnit();
+		var init = api.modifyX(cu);
+		Assertions.assertTrue(cu.getNamespaces().isEmpty());
+
+		init.xWithAddedFeat(namespaceFeat, ns);
+		Assertions.assertEquals(1, cu.getNamespaces().size());
+		Assertions.assertEquals(ns, cu.getNamespaces().get(0));
 	}
 
+	/**
+	 * Checks whether superInit.xWithAddedFeat(feat, val) works as intended, if
+	 * there were prior values.
+	 */
 	@Test
-	public void withAddedFeatTest_SingleValue_WithPriorValues() {
+	public void testSuperInit_WithAddedFeat_SingularParameter_WithPriorValues() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
-		var pac = api.newPackage().createNow();
-		var pastNss = List.of("someNs1", "someNs2");
-		pac.getNamespaces().addAll(pastNss);
-		var newNs = "newNs";
+		var nss = List.of("ns1", "ns2");
+		var nsToAdd = "ns";
+		var expectedNss = List.of("ns1", "ns2", nsToAdd);
 
-		var expectedNss = List.of(pastNss.get(0), pastNss.get(1), newNs);
+		var cu = api.createNewCompilationUnit();
+		cu.getNamespaces().addAll(nss);
+		var init = api.modifyX(cu);
+		FluentAPITestUtils.assertPairwiseEqual(nss, cu.getNamespaces());
 
-		api.modifyX(pac).xWithAddedFeat(namespaceFeat, newNs);
-		FluentAPITestUtils.assertPairwiseEqual(expectedNss, pac.getNamespaces());
+		init.xWithAddedFeat(namespaceFeat, nsToAdd);
+		FluentAPITestUtils.assertPairwiseEqual(expectedNss, cu.getNamespaces());
 	}
 
+	/**
+	 * Checks whether superInit.xWithAddedFeat(feat, valArray) works as intended, if
+	 * there were no prior values.
+	 */
 	@Test
-	public void withAddedFeatTest_MultipleValuesAsArray() {
+	public void testSuperInit_WithAddedFeat_ArrayParameter_NoPriorValues() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var nss = new String[] { "ns1", "ns2" };
 
-		var pac = api.newX(pacECls).xWithAddedFeat(namespaceFeat, nss).createNow(pacCls);
-		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
+		var cu = api.createNewCompilationUnit();
+		var init = api.modifyX(cu);
+		Assertions.assertTrue(cu.getNamespaces().isEmpty());
+
+		init.xWithAddedFeat(namespaceFeat, nss);
+		FluentAPITestUtils.assertPairwiseEqual(nss, cu.getNamespaces());
 	}
 
+	/**
+	 * Checks whether superInit.xWithAddedFeat(feat, valArray) works as intended, if
+	 * there were prior values.
+	 */
 	@Test
-	public void withAddedFeatTest_MultipleValuesAsCollection() {
+	public void testSuperInit_WithAddedFeat_ArrayParameter_WithPriorValues() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var nss = List.of("ns1", "ns2");
+		var nssToAdd = new String[] { "ns3", "ns4" };
+		var expectedNss = List.of("ns1", "ns2", "ns3", "ns4");
+
+		var cu = api.createNewCompilationUnit();
+		cu.getNamespaces().addAll(nss);
+		var init = api.modifyX(cu);
+		FluentAPITestUtils.assertPairwiseEqual(nss, cu.getNamespaces());
+
+		init.xWithAddedFeat(namespaceFeat, nssToAdd);
+		FluentAPITestUtils.assertPairwiseEqual(expectedNss, cu.getNamespaces());
+	}
+
+	/**
+	 * Checks whether superInit.xWithAddedFeat(feat, valArray) works as intended, if
+	 * valArray were empty.
+	 */
+	@Test
+	public void testSuperInit_WithAddedFeat_EmptyArrayParameter() {
+		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
+		var cu = api.createNewCompilationUnit();
+		var init = api.modifyX(cu);
+		init.xWithAddedFeat(namespaceFeat, new String[] {});
+		Assertions.assertTrue(cu.getNamespaces().isEmpty());
+	}
+
+	/**
+	 * Checks whether superInit.xWithAddedFeat(feat, valCollection) works as
+	 * intended, if there were no prior values.
+	 */
+	@Test
+	public void testSuperInit_WithAddedFeat_CollectionParameter_NoPriorValues() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 		var nss = List.of("ns1", "ns2");
 
-		var pac = api.newX(pacECls).xWithAddedFeat(namespaceFeat, nss).createNow(pacCls);
-		FluentAPITestUtils.assertPairwiseEqual(nss, pac.getNamespaces());
+		var cu = api.createNewCompilationUnit();
+		var init = api.modifyX(cu);
+		Assertions.assertTrue(cu.getNamespaces().isEmpty());
+
+		init.xWithAddedFeat(namespaceFeat, nss);
+		FluentAPITestUtils.assertPairwiseEqual(nss, cu.getNamespaces());
 	}
 
+	/**
+	 * Checks whether superInit.xWithAddedFeat(feat, valCollection) works as
+	 * intended, if there were prior values.
+	 */
 	@Test
-	public void withRemovedFeatTest_SingleValue_NoPriorValues() {
+	public void testSuperInit_WithAddedFeat_CollectionParameter_WithPriorValues() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
-		var pac = api.newPackage().createNow();
-		var ns = "ns";
+		var nss = List.of("ns1", "ns2");
+		var nssToAdd = List.of("ns3", "ns4");
+		var expectedNss = List.of("ns1", "ns2", "ns3", "ns4");
 
-		api.modifyX(pac).xWithRemovedFeat(namespaceFeat, ns);
-		Assertions.assertEquals(0, pac.getNamespaces().size());
+		var cu = api.createNewCompilationUnit();
+		cu.getNamespaces().addAll(nss);
+		var init = api.modifyX(cu);
+		FluentAPITestUtils.assertPairwiseEqual(nss, cu.getNamespaces());
+
+		init.xWithAddedFeat(namespaceFeat, nssToAdd);
+		FluentAPITestUtils.assertPairwiseEqual(expectedNss, cu.getNamespaces());
 	}
 
+	/**
+	 * Checks whether superInit.xWithAddedFeat(feat, valCollection) works as
+	 * intended, if valCollection were empty.
+	 */
 	@Test
-	public void withRemovedFeatTest_SingleValue_WithPriorValues() {
+	public void testSuperInit_WithAddedFeat_EmptyCollectionParameter() {
 		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
-		var pac = api.newPackage().createNow();
-		var pastNss = List.of("someNs1", "someNs2");
-		pac.getNamespaces().addAll(pastNss);
-		var nsToBeRemoved = pastNss.get(0);
-
-		var expectedNss = List.of(pastNss.get(1));
-
-		api.modifyX(pac).xWithRemovedFeat(namespaceFeat, nsToBeRemoved);
-		FluentAPITestUtils.assertPairwiseEqual(expectedNss, pac.getNamespaces());
-	}
-
-	@Test
-	public void withRemovedFeatTest_MultipleValuesAsCollection() {
-		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
-		var pac = api.newPackage().createNow();
-		var pastNss = List.of("ns1", "ns2", "ns3");
-		pac.getNamespaces().addAll(pastNss);
-		var nss = List.of(pastNss.get(0), pastNss.get(2));
-
-		api.modifyX(pac).xWithRemovedFeat(namespaceFeat, nss);
-		FluentAPITestUtils.assertPairwiseEqual(List.of(pastNss.get(1)), pac.getNamespaces());
-	}
-
-	@Test
-	public void withRemovedFeatTest_MultipleValuesAsArray() {
-		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
-		var pac = api.newPackage().createNow();
-		var pastNss = new String[] { "ns1", "ns2", "ns3" };
-		pac.getNamespaces().addAll(List.of(pastNss));
-		var nss = FluentAPITestUtils.toEList(pastNss[0], pastNss[2]);
-
-		api.modifyX(pac).xWithRemovedFeat(namespaceFeat, nss);
-		FluentAPITestUtils.assertPairwiseEqual(List.of(pastNss[1]), pac.getNamespaces());
-	}
-
-	@Test
-	public void cleanFeatTest_WithPriorValues() {
-		var api = ApiFactory.eINSTANCE.createFluentJavaAPI();
-		var pac = api.newPackage().createNow();
-		var pastNss = new String[] { "ns1", "ns2", "ns3" };
-		pac.getNamespaces().addAll(List.of(pastNss));
-
-		FluentAPITestUtils.assertPairwiseEqual(pastNss, pac.getNamespaces());
-		api.modifyX(pac).xCleanFeat(namespaceFeat);
-		Assertions.assertEquals(0, pac.getNamespaces().size());
+		var cu = api.createNewCompilationUnit();
+		var init = api.modifyX(cu);
+		init.xWithAddedFeat(namespaceFeat, List.of());
+		Assertions.assertTrue(cu.getNamespaces().isEmpty());
 	}
 }

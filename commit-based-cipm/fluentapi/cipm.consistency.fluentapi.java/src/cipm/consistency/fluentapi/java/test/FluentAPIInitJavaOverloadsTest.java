@@ -8,8 +8,9 @@ import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 /**
- * A test class for checking whether certain methods in fluent api for Java are
- * overloaded as expected and that the overloaded versions work as intended.
+ * A test class for checking whether certain methods in initialisations within
+ * the fluent api class for Java are overloaded as expected and that the
+ * overloaded versions work as intended.
  * <p>
  * <p>
  * Currently only methods that consider {@link TypeReference} as parameter.

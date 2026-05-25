@@ -18,7 +18,8 @@ import cipm.consistency.fluentapi.java.api.FluentAPISuperInitialisation;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 /**
- * A test class for api.new...() methods.
+ * A test class for the following methods of fluent api class: new...(), newX(),
+ * createNew...(), createNewX().
  * 
  * @author Alp Torac Genc
  */

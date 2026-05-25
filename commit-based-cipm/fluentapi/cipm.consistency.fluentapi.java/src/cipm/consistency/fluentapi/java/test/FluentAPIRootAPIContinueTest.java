@@ -7,7 +7,8 @@ import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 /**
- * A test class for api.continue...() methods.
+ * A test class for the following fluent api class methods: continue...(),
+ * continueX(), continueMarked...(), continueMarkedX().
  * 
  * @author Alp Torac Genc
  */

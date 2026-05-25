@@ -9,8 +9,8 @@ import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
 /**
- * A test class for api.getOngoingInits() and api.clearAllOngoingInits()
- * methods.
+ * A test class for the following fluent api class methods: getOngoingInits(),
+ * clearAllOngoingInits().
  * 
  * @author Alp Torac Genc
  */

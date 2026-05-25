@@ -15,7 +15,6 @@ import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
  * @author Alp Torac Genc
  */
 public class FluentAPIInitWithTest extends AbstractFluentAPITest {
-
 	/**
 	 * Checks whether init.withX(...) works as intended.
 	 */
@@ -82,17 +81,15 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 		var ns3 = "ns3";
 
 		var nss = new String[] { ns1, ns2, ns3 };
-		var toRemove = ns1;
+		var expectedNss = List.of(ns2, ns3);
 
 		var cu = api.createNewCompilationUnit();
 		cu.getNamespaces().addAll(List.of(nss));
 		var init = api.modifyCompilationUnit(cu);
 		FluentAPITestUtils.assertPairwiseEqual(nss, cu.getNamespaces());
 
-		init.withRemovedNamespaces(toRemove);
-		Assertions.assertEquals(2, cu.getNamespaces().size());
-		Assertions.assertEquals(ns2, cu.getNamespaces().get(0));
-		Assertions.assertEquals(ns3, cu.getNamespaces().get(1));
+		init.withRemovedNamespaces(ns1);
+		FluentAPITestUtils.assertPairwiseEqual(expectedNss, cu.getNamespaces());
 	}
 
 	/**
@@ -108,6 +105,7 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 
 		var nss = new String[] { ns1, ns2, ns3 };
 		var toRemove = new String[] { ns1, ns3 };
+		var expectedNss = List.of(ns2);
 
 		var cu = api.createNewCompilationUnit();
 		cu.getNamespaces().addAll(List.of(nss));
@@ -115,8 +113,7 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 		FluentAPITestUtils.assertPairwiseEqual(nss, cu.getNamespaces());
 
 		init.withRemovedNamespaces(toRemove);
-		Assertions.assertEquals(1, cu.getNamespaces().size());
-		Assertions.assertEquals(ns2, cu.getNamespaces().get(0));
+		FluentAPITestUtils.assertPairwiseEqual(expectedNss, cu.getNamespaces());
 	}
 
 	/**
@@ -145,6 +142,7 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 
 		var nss = new String[] { ns1, ns2, ns3 };
 		var toRemove = List.of(ns1, ns3);
+		var expectedNss = List.of(ns2);
 
 		var cu = api.createNewCompilationUnit();
 		cu.getNamespaces().addAll(List.of(nss));
@@ -152,8 +150,7 @@ public class FluentAPIInitWithTest extends AbstractFluentAPITest {
 		FluentAPITestUtils.assertPairwiseEqual(nss, cu.getNamespaces());
 
 		init.withRemovedNamespaces(toRemove);
-		Assertions.assertEquals(1, cu.getNamespaces().size());
-		Assertions.assertEquals(ns2, cu.getNamespaces().get(0));
+		FluentAPITestUtils.assertPairwiseEqual(expectedNss, cu.getNamespaces());
 	}
 
 	/**
