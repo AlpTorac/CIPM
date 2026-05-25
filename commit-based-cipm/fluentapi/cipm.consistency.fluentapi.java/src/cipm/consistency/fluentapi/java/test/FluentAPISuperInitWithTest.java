@@ -10,6 +10,17 @@ import org.junit.jupiter.api.Test;
 import cipm.consistency.fluentapi.java.api.ApiFactory;
 import cipm.consistency.fluentapi.test.AbstractFluentAPITest;
 
+/**
+ * A test class containing tests for modification methods of the abstract
+ * (super) initialisation class within the fluent api model.
+ * <p>
+ * <p>
+ * Although those modification methods are also accessible under the concrete
+ * initialisations, they are not intended to be used from the concrete
+ * initialisations.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPISuperInitWithTest extends AbstractFluentAPITest {
 	private static final EStructuralFeature nameFeat = CommonsPackage.Literals.NAMED_ELEMENT__NAME;
 	private static final EStructuralFeature namespaceFeat = CommonsPackage.Literals.NAMESPACE_AWARE_ELEMENT__NAMESPACES;
