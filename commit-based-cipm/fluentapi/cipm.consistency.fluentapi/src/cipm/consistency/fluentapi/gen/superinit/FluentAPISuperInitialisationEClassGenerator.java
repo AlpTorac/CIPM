@@ -41,7 +41,6 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		currentElementReference.setContainment(false);
 		currentElementReference.setEType(EcorePackage.Literals.EOBJECT);
 		currentElementReference.setName(ModelConstants.SuperInitialisation.CurrentElement.NAME.get());
-		currentElementReference.setUnsettable(true);
 		currentElementReference.setLowerBound(1);
 		currentElementReference.setUpperBound(1);
 		FluentAPIGenerationUtil.addDocumentation(currentElementReference,
