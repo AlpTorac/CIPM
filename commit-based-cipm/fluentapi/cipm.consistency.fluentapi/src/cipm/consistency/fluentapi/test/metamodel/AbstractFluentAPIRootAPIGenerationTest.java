@@ -46,14 +46,14 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 		// Mutate the existing EMF model by removing the methods from above
 		var oldOps = List.copyOf(api.eClass().getEOperations());
 		api.eClass().getEOperations().removeAll(opsToRemove);
-		FluentAPIGenerationTestSettings.setAPI(api);
+		FluentAPIGenerationTestSettings.setFluentAPI(api);
 
 		var mutTestRes = performMutationTesting(info);
 
 		// Revert the mutation to EMF model
 		api.eClass().getEOperations().clear();
 		api.eClass().getEOperations().addAll(oldOps);
-		FluentAPIGenerationTestSettings.setAPI(api);
+		FluentAPIGenerationTestSettings.setFluentAPI(api);
 
 		assertTestsFailed(mutTestRes);
 	}
@@ -69,8 +69,8 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 	@BeforeEach
 	public void setUp() {
 		super.setUp();
-		FluentAPIGenerationTestSettings.setAPI(getAPI());
-		FluentAPIGenerationTestSettings.setElemEClsToInitEClsFunc((eCls) -> api_getInitialisationForX(eCls).eClass());
+		FluentAPIGenerationTestSettings.setFluentAPI(getAPI());
+		FluentAPIGenerationTestSettings.setTargetMetamodelEClsToInitEClsFunc((eCls) -> api_getInitialisationForX(eCls).eClass());
 		FluentAPIGenerationTestSettings.setMetamodelFilter(getFilter());
 		FluentAPIGenerationTestSettings.setPackageProvider(getProvider());
 	}
@@ -91,7 +91,7 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 				throw new IllegalArgumentException();
 
 			var currentEClssOpName = testData.getMethodName(eCls);
-			var currentEClssOps = FluentAPIGenerationTestSettings.getAllAPIOps().stream()
+			var currentEClssOps = FluentAPIGenerationTestSettings.getAllFluentAPIOps().stream()
 					.filter((op) -> op.getName().equals(currentEClssOpName))
 					.filter((op) -> op.getEParameters().size() == paramNames.size())
 //					.filter((op) -> op.getEType().equals(returnTypeOfOpFunc.apply(eCls))
@@ -119,7 +119,7 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 	public void methodTest_API_CreateNewX() {
 
 		var testData = new FluentAPIMethodTestData();
-		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss());
+		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssInTargetMetamodel());
 		testData.setMethodNamePrefix((eCls) -> ModelConstants.FluentAPI.CreateNew.NAME.getFor(eCls.getName()));
 		methodTestTemplate(testData);
 	}
@@ -133,8 +133,8 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 
 		var testData = new FluentAPIMethodTestData();
 		testData.setMethodNamePrefix((eCls) -> ModelConstants.FluentAPI.New.NAME.getFor(eCls.getName()));
-		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc());
-		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss());
+		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getTargetMetamodelEClsToInitEClsFunc());
+		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssInTargetMetamodel());
 		methodTestTemplate(testData);
 	}
 
@@ -148,7 +148,7 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 
 		var testData = new FluentAPIMethodTestData();
 		testData.setMethodNamePrefix((eCls) -> ModelConstants.FluentAPI.New.NAME.getFor(eCls.getName()));
-		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssWithNoModifiableFeat());
+		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssInTargetMetamodelWithNoModifiableFeat());
 		methodTestTemplate(testData);
 	}
 
@@ -161,11 +161,11 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 	public void methodTest_API_NewX_WithParameter_SingleModifiableFeature() {
 		var testData = new FluentAPIMethodTestData();
 		testData.setMethodNamePrefix((eCls) -> ModelConstants.FluentAPI.New.NAME.getFor(eCls.getName()));
-		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc());
+		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getTargetMetamodelEClsToInitEClsFunc());
 		testData.setParamNames((eCls) -> List.of(ModelConstants.GeneralParameters.FEATURE_VALUE_PARAMETER_NAME.get()));
 		testData.setParamTypes((eCls) -> List.of(eCls));
 		testData.seteClssToCheckFor(
-				FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssWithOnlyOneModifiableFeat());
+				FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssInTargetMetamodelWithOnlyOneModifiableFeat());
 		testData.setExpectMultiValueVariants(FluentAPIGenerationTestSettings.getMultiValFunc());
 		testData.setExpectBigNumberVariants(FluentAPIGenerationTestSettings.getBigNumberVariantsFunc());
 		methodTestTemplate(testData);
@@ -179,10 +179,10 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 	public void methodTest_API_modifyX() {
 		var testData = new FluentAPIMethodTestData();
 		testData.setMethodNamePrefix((eCls) -> ModelConstants.FluentAPI.Modify.NAME.getFor(eCls.getName()));
-		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc());
+		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getTargetMetamodelEClsToInitEClsFunc());
 		testData.setParamNames((eCls) -> List.of(ModelConstants.GeneralParameters.USED_EOBJECT_PARAMETER_NAME.get()));
 		testData.setParamTypes((eCls) -> List.of(eCls));
-		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss());
+		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssInTargetMetamodel());
 		methodTestTemplate(testData);
 	}
 
@@ -194,10 +194,10 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 	public void methodTest_API_modifyMarkedX() {
 		var testData = new FluentAPIMethodTestData();
 		testData.setMethodNamePrefix((eCls) -> ModelConstants.FluentAPI.ModifyMarked.NAME.getFor(eCls.getName()));
-		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc());
+		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getTargetMetamodelEClsToInitEClsFunc());
 		testData.setParamNames((eCls) -> List.of(ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()));
 		testData.setParamTypes((eCls) -> List.of(EcorePackage.Literals.EJAVA_OBJECT));
-		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss());
+		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssInTargetMetamodel());
 		methodTestTemplate(testData);
 	}
 
@@ -209,8 +209,8 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 	public void methodTest_API_continueX() {
 		var testData = new FluentAPIMethodTestData();
 		testData.setMethodNamePrefix((eCls) -> ModelConstants.FluentAPI.Continue.NAME.getFor(eCls.getName()));
-		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc());
-		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssWithModifiableFeats());
+		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getTargetMetamodelEClsToInitEClsFunc());
+		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssInTargetMetamodelWithModifiableFeats());
 		methodTestTemplate(testData);
 	}
 
@@ -222,10 +222,10 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 	public void methodTest_API_continueMarkedX() {
 		var testData = new FluentAPIMethodTestData();
 		testData.setMethodNamePrefix((eCls) -> ModelConstants.FluentAPI.ContinueMarked.NAME.getFor(eCls.getName()));
-		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc());
+		testData.setReturnTypeOfOp(FluentAPIGenerationTestSettings.getTargetMetamodelEClsToInitEClsFunc());
 		testData.setParamNames((eCls) -> List.of(ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()));
 		testData.setParamTypes((eCls) -> List.of(EcorePackage.Literals.EJAVA_OBJECT));
-		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssWithModifiableFeats());
+		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssInTargetMetamodelWithModifiableFeats());
 		methodTestTemplate(testData);
 	}
 
@@ -239,7 +239,7 @@ public abstract class AbstractFluentAPIRootAPIGenerationTest extends AbstractFlu
 		testData.setMethodNamePrefix((eCls) -> ModelConstants.FluentAPI.GetMarked.NAME.getFor(eCls.getName()));
 		testData.setParamNames((eCls) -> List.of(ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()));
 		testData.setParamTypes((eCls) -> List.of(EcorePackage.Literals.EJAVA_OBJECT));
-		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss());
+		testData.seteClssToCheckFor(FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssInTargetMetamodel());
 		methodTestTemplate(testData);
 	}
 }

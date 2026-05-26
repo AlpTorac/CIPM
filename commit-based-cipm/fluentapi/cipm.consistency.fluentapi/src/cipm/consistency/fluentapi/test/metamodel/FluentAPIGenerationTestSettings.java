@@ -19,27 +19,27 @@ import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvi
  * @author Alp Torac Genc
  */
 public class FluentAPIGenerationTestSettings {
-	private static FluentAPITargetMetamodelFilter metamodelFilter;
-	private static FluentAPITargetMetamodelPackageProvider metamodelProvider;
+	private static FluentAPITargetMetamodelFilter targetMetamodelFilter;
+	private static FluentAPITargetMetamodelPackageProvider targetMetamodelProvider;
 
-	private static List<EOperation> allAPIOps;
+	private static List<EOperation> allFluentAPIOps;
 
-	private static List<EClass> allSupportedConcreteEClss;
+	private static List<EClass> allSupportedConcreteEClssInTargetMetamodel;
 
-	private static List<EClass> allSupportedConcreteEClssWithModifiableFeats;
-	private static List<EClass> allSupportedConcreteEClssWithOnlyOneModifiableFeat;
-	private static List<EClass> allSupportedConcreteEClssWithNoModifiableFeat;
+	private static List<EClass> allSupportedConcreteEClssInTargetMetamodelWithModifiableFeats;
+	private static List<EClass> allSupportedConcreteEClssInTargetMetamodelWithOnlyOneModifiableFeat;
+	private static List<EClass> allSupportedConcreteEClssInTargetMetamodelWithNoModifiableFeat;
 
-	private static Function<EClass, EClass> elemEClsToInitEClsFunc;
+	private static Function<EClass, EClass> targetMetamodelEClsToInitEClsFunc;
 
 	private static Function<EClass, Boolean> multiValFunc;
 	private static Function<EClass, Boolean> bigNumberVariantsFunc;
 
 	/**
-	 * @see {@link #getElemEClsToInitEClsFunc()}
+	 * @see {@link #getTargetMetamodelEClsToInitEClsFunc()}
 	 */
-	public static void setElemEClsToInitEClsFunc(Function<EClass, EClass> func) {
-		elemEClsToInitEClsFunc = func;
+	public static void setTargetMetamodelEClsToInitEClsFunc(Function<EClass, EClass> func) {
+		targetMetamodelEClsToInitEClsFunc = func;
 	}
 
 	/**
@@ -48,15 +48,15 @@ public class FluentAPIGenerationTestSettings {
 	 * 
 	 * @param api The fluent api instance to be considered
 	 */
-	public static void setAPI(EObject api) {
-		allAPIOps = List.copyOf(api.eClass().getEOperations());
+	public static void setFluentAPI(EObject api) {
+		allFluentAPIOps = List.copyOf(api.eClass().getEOperations());
 	}
 
 	/**
 	 * @see {@link #getMetamodelFilter()}
 	 */
 	public static void setMetamodelFilter(FluentAPITargetMetamodelFilter filter) {
-		metamodelFilter = filter;
+		targetMetamodelFilter = filter;
 
 		computeVariantFunctions();
 		computeAllSupportedConcreteEClss();
@@ -66,34 +66,44 @@ public class FluentAPIGenerationTestSettings {
 	 * @see {@link #getMetamodelProvider()}
 	 */
 	public static void setPackageProvider(FluentAPITargetMetamodelPackageProvider provider) {
-		metamodelProvider = provider;
+		targetMetamodelProvider = provider;
 		computeAllSupportedConcreteEClss();
 	}
 
 	private static void computeAllSupportedConcreteEClss() {
-		if (metamodelProvider != null && metamodelFilter != null) {
-			allSupportedConcreteEClss = metamodelProvider.getAllTargetMetamodelConcreteEClasses().stream()
-					.filter((eCls) -> metamodelFilter.isEClassEligible(eCls)).collect(Collectors.toList());
-		}
-		if (allSupportedConcreteEClss != null && metamodelFilter != null) {
-			allSupportedConcreteEClssWithModifiableFeats = allSupportedConcreteEClss.stream()
-					.filter(metamodelFilter::hasModifiableFeatures).collect(Collectors.toList());
-			allSupportedConcreteEClssWithOnlyOneModifiableFeat = allSupportedConcreteEClss.stream()
-					.filter((eCls) -> metamodelFilter.getModifiableFeatureCount(eCls) == 1)
+		if (targetMetamodelProvider != null && targetMetamodelFilter != null) {
+			// Compute all concrete EClasses within the metamodel that the fluent api was
+			// generated for
+			allSupportedConcreteEClssInTargetMetamodel = targetMetamodelProvider.getAllTargetMetamodelConcreteEClasses()
+					.stream().filter((eCls) -> targetMetamodelFilter.isEClassEligible(eCls))
 					.collect(Collectors.toList());
-			allSupportedConcreteEClssWithNoModifiableFeat = allSupportedConcreteEClss.stream()
-					.filter((eCls) -> !allSupportedConcreteEClssWithModifiableFeats.contains(eCls))
+		}
+		if (allSupportedConcreteEClssInTargetMetamodel != null && targetMetamodelFilter != null) {
+			// Compute all concrete EClasses with modifiable features
+			allSupportedConcreteEClssInTargetMetamodelWithModifiableFeats = allSupportedConcreteEClssInTargetMetamodel
+					.stream().filter(targetMetamodelFilter::hasModifiableFeatures).collect(Collectors.toList());
+			// Compute all concrete EClasses with only one modifiable feature
+			// Re-use allSupportedConcreteEClssWithModifiableFeats
+			allSupportedConcreteEClssInTargetMetamodelWithOnlyOneModifiableFeat = allSupportedConcreteEClssInTargetMetamodelWithModifiableFeats
+					.stream().filter((eCls) -> targetMetamodelFilter.getModifiableFeatureCount(eCls) == 1)
+					.collect(Collectors.toList());
+			// Compute all concrete EClasses without any modifiable features
+			// Re-use allSupportedConcreteEClssWithModifiableFeats
+			allSupportedConcreteEClssInTargetMetamodelWithNoModifiableFeat = allSupportedConcreteEClssInTargetMetamodel
+					.stream()
+					.filter((eCls) -> !allSupportedConcreteEClssInTargetMetamodelWithModifiableFeats.contains(eCls))
 					.collect(Collectors.toList());
 		}
 	}
 
 	private static void computeVariantFunctions() {
-		if (metamodelFilter != null) {
-			multiValFunc = (eCls) -> metamodelFilter.getModifiableFeatures(eCls).get(0).isMany();
-			bigNumberVariantsFunc = (eCls) -> metamodelFilter.getModifiableFeatures(eCls).get(0).getEType()
-					.equals(EcorePackage.Literals.EBIG_INTEGER)
-					|| metamodelFilter.getModifiableFeatures(eCls).get(0).getEType()
-							.equals(EcorePackage.Literals.EBIG_DECIMAL);
+		if (targetMetamodelFilter != null) {
+			multiValFunc = (eCls) -> targetMetamodelFilter.getModifiableFeatures(eCls).stream()
+					.anyMatch((f) -> f.isMany());
+			bigNumberVariantsFunc = (eCls) -> targetMetamodelFilter.getModifiableFeatures(eCls).stream()
+					.anyMatch((f) -> f.getEType().equals(EcorePackage.Literals.EBIG_INTEGER))
+					|| targetMetamodelFilter.getModifiableFeatures(eCls).stream()
+							.anyMatch((f) -> f.getEType().equals(EcorePackage.Literals.EBIG_DECIMAL));
 		}
 	}
 
@@ -102,7 +112,7 @@ public class FluentAPIGenerationTestSettings {
 	 *         for.
 	 */
 	public static FluentAPITargetMetamodelFilter getMetamodelFilter() {
-		return metamodelFilter;
+		return targetMetamodelFilter;
 	}
 
 	/**
@@ -110,15 +120,15 @@ public class FluentAPIGenerationTestSettings {
 	 *         generated for.
 	 */
 	public static FluentAPITargetMetamodelPackageProvider getMetamodelProvider() {
-		return metamodelProvider;
+		return targetMetamodelProvider;
 	}
 
 	/**
 	 * @return A list of all EOperations that the fluent api instance has.
-	 * @see {@link #setAPI(EObject)}
+	 * @see {@link #setFluentAPI(EObject)}
 	 */
-	public static List<EOperation> getAllAPIOps() {
-		return allAPIOps;
+	public static List<EOperation> getAllFluentAPIOps() {
+		return allFluentAPIOps;
 	}
 
 	/**
@@ -128,8 +138,8 @@ public class FluentAPIGenerationTestSettings {
 	 *      supported
 	 * @see {@link #getMetamodelProvider()} for the metamodel
 	 */
-	public static List<EClass> getAllSupportedConcreteEClss() {
-		return allSupportedConcreteEClss;
+	public static List<EClass> getAllSupportedConcreteEClssInTargetMetamodel() {
+		return allSupportedConcreteEClssInTargetMetamodel;
 	}
 
 	/**
@@ -139,8 +149,8 @@ public class FluentAPIGenerationTestSettings {
 	 *      supported
 	 * @see {@link #getMetamodelProvider()} for the metamodel
 	 */
-	public static List<EClass> getAllSupportedConcreteEClssWithModifiableFeats() {
-		return allSupportedConcreteEClssWithModifiableFeats;
+	public static List<EClass> getAllSupportedConcreteEClssInTargetMetamodelWithModifiableFeats() {
+		return allSupportedConcreteEClssInTargetMetamodelWithModifiableFeats;
 	}
 
 	/**
@@ -150,8 +160,8 @@ public class FluentAPIGenerationTestSettings {
 	 *      supported
 	 * @see {@link #getMetamodelProvider()} for the metamodel
 	 */
-	public static List<EClass> getAllSupportedConcreteEClssWithOnlyOneModifiableFeat() {
-		return allSupportedConcreteEClssWithOnlyOneModifiableFeat;
+	public static List<EClass> getAllSupportedConcreteEClssInTargetMetamodelWithOnlyOneModifiableFeat() {
+		return allSupportedConcreteEClssInTargetMetamodelWithOnlyOneModifiableFeat;
 	}
 
 	/**
@@ -162,8 +172,8 @@ public class FluentAPIGenerationTestSettings {
 	 *         api was generated for and the initialisation EClasses within the
 	 *         fluent api model.
 	 */
-	public static Function<EClass, EClass> getElemEClsToInitEClsFunc() {
-		return elemEClsToInitEClsFunc;
+	public static Function<EClass, EClass> getTargetMetamodelEClsToInitEClsFunc() {
+		return targetMetamodelEClsToInitEClsFunc;
 	}
 
 	/**
@@ -203,23 +213,23 @@ public class FluentAPIGenerationTestSettings {
 	 *      supported
 	 * @see {@link #getMetamodelProvider()} for the metamodel
 	 */
-	public static List<EClass> getAllSupportedConcreteEClssWithNoModifiableFeat() {
-		return allSupportedConcreteEClssWithNoModifiableFeat;
+	public static List<EClass> getAllSupportedConcreteEClssInTargetMetamodelWithNoModifiableFeat() {
+		return allSupportedConcreteEClssInTargetMetamodelWithNoModifiableFeat;
 	}
 
 	/**
 	 * Resets all attributes of this class.
 	 */
 	public static void clear() {
-		allAPIOps = null;
-		allSupportedConcreteEClss = null;
-		allSupportedConcreteEClssWithModifiableFeats = null;
-		allSupportedConcreteEClssWithNoModifiableFeat = null;
-		allSupportedConcreteEClssWithOnlyOneModifiableFeat = null;
+		allFluentAPIOps = null;
+		allSupportedConcreteEClssInTargetMetamodel = null;
+		allSupportedConcreteEClssInTargetMetamodelWithModifiableFeats = null;
+		allSupportedConcreteEClssInTargetMetamodelWithNoModifiableFeat = null;
+		allSupportedConcreteEClssInTargetMetamodelWithOnlyOneModifiableFeat = null;
 		bigNumberVariantsFunc = null;
-		elemEClsToInitEClsFunc = null;
-		metamodelFilter = null;
-		metamodelProvider = null;
+		targetMetamodelEClsToInitEClsFunc = null;
+		targetMetamodelFilter = null;
+		targetMetamodelProvider = null;
 		multiValFunc = null;
 	}
 }

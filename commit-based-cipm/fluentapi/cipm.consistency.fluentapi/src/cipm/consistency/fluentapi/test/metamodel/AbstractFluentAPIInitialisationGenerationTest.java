@@ -38,7 +38,7 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 	public void mutationTest(TestInfo info) {
 		var eClssToMutate = new FluentAPIMutationTestRepresentativesGenerator()
 				.getRepresentativeTargetMetamodelConcreteEClasses_BasedOnModifiability().stream()
-				.map((eCls) -> FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc().apply(eCls))
+				.map((eCls) -> FluentAPIGenerationTestSettings.getTargetMetamodelEClsToInitEClsFunc().apply(eCls))
 				.collect(Collectors.toSet());
 
 		var opsToRemove = new LinkedHashMap<EClass, List<EOperation>>();
@@ -92,8 +92,8 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 	@BeforeEach
 	public void setUp() {
 		super.setUp();
-		FluentAPIGenerationTestSettings.setAPI(getAPI());
-		FluentAPIGenerationTestSettings.setElemEClsToInitEClsFunc((eCls) -> api_getInitialisationForX(eCls).eClass());
+		FluentAPIGenerationTestSettings.setFluentAPI(getAPI());
+		FluentAPIGenerationTestSettings.setTargetMetamodelEClsToInitEClsFunc((eCls) -> api_getInitialisationForX(eCls).eClass());
 		FluentAPIGenerationTestSettings.setMetamodelFilter(getFilter());
 		FluentAPIGenerationTestSettings.setPackageProvider(getProvider());
 	}
@@ -142,8 +142,8 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 	 */
 	@Test
 	public void methodTest_Initialisation_WithX() {
-		for (var eCls : FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss()) {
-			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc().apply(eCls),
+		for (var eCls : FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssInTargetMetamodel()) {
+			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getTargetMetamodelEClsToInitEClsFunc().apply(eCls),
 					ModelConstants.Initialiation.With.NAME.getFor(""),
 					ModelConstants.Initialiation.With.PARAMETER_NAME.get(),
 					FluentAPIGenerationTestSettings.getMetamodelFilter().getModifiableFeatures(eCls).stream()
@@ -157,8 +157,8 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 	 */
 	@Test
 	public void methodTest_Initialisation_WithoutX() {
-		for (var eCls : FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss()) {
-			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc().apply(eCls),
+		for (var eCls : FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssInTargetMetamodel()) {
+			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getTargetMetamodelEClsToInitEClsFunc().apply(eCls),
 					ModelConstants.Initialiation.Without.NAME.getFor(""), null,
 					FluentAPIGenerationTestSettings.getMetamodelFilter().getModifiableFeatures(eCls).stream()
 							.filter((f) -> !f.isMany()).collect(Collectors.toList()));
@@ -171,8 +171,8 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 	 */
 	@Test
 	public void methodTest_Initialisation_WithAddedX() {
-		for (var eCls : FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss()) {
-			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc().apply(eCls),
+		for (var eCls : FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssInTargetMetamodel()) {
+			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getTargetMetamodelEClsToInitEClsFunc().apply(eCls),
 					ModelConstants.Initialiation.WithAdded.NAME.getFor(""),
 					ModelConstants.Initialiation.WithAdded.PARAMETER_NAME.get(),
 					FluentAPIGenerationTestSettings.getMetamodelFilter().getModifiableFeatures(eCls).stream()
@@ -186,8 +186,8 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 	 */
 	@Test
 	public void methodTest_Initialisation_WithRemovedX() {
-		for (var eCls : FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss()) {
-			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc().apply(eCls),
+		for (var eCls : FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssInTargetMetamodel()) {
+			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getTargetMetamodelEClsToInitEClsFunc().apply(eCls),
 					ModelConstants.Initialiation.WithRemoved.NAME.getFor(""),
 					ModelConstants.Initialiation.WithRemoved.PARAMETER_NAME.get(),
 					FluentAPIGenerationTestSettings.getMetamodelFilter().getModifiableFeatures(eCls).stream()
@@ -201,8 +201,8 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 	 */
 	@Test
 	public void methodTest_Initialisation_CleanX() {
-		for (var eCls : FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss()) {
-			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc().apply(eCls),
+		for (var eCls : FluentAPIGenerationTestSettings.getAllSupportedConcreteEClssInTargetMetamodel()) {
+			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getTargetMetamodelEClsToInitEClsFunc().apply(eCls),
 					ModelConstants.Initialiation.Clean.NAME.getFor(""), null,
 					FluentAPIGenerationTestSettings.getMetamodelFilter().getModifiableFeatures(eCls).stream()
 							.filter((f) -> f.isMany()).collect(Collectors.toList()));
