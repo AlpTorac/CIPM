@@ -155,4 +155,29 @@ public final class FluentAPIGeneralParameterGenerator {
 				ModelConstants.GeneralParameters.MARK_VALUE_PARAMETER_NAME_DOC.get());
 		return param;
 	}
+
+	/**
+	 * @return An EParameter instance for
+	 *         {@link ModelConstants.FluentAPI.New.ECLASS_PARAMETER_NAME}
+	 */
+	public static EParameter getArbitraryEClassParam() {
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				ModelConstants.FluentAPI.New.ECLASS_PARAMETER_NAME.get(), EcorePackage.Literals.ECLASS);
+		FluentAPIGenerationUtil.addDocumentation(param, ModelConstants.FluentAPI.New.ECLASS_PARAMETER_DOC.get());
+		return param;
+	}
+
+	/**
+	 * @return An EParameter instance for
+	 *         {@link ModelConstants.FluentAPI.New.CLASS_PARAMETER_NAME}
+	 */
+	public static EParameter getArbitraryClassParam() {
+		var classParamType = FluentAPIGenerationUtil
+				.generateEGenericTypeWithClassifier(EcorePackage.Literals.EJAVA_CLASS);
+		FluentAPIGenerationUtil.addTypeArgument(classParamType, FluentAPIGenerationUtil.generateWildcardTypeArgument());
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
+				ModelConstants.FluentAPI.New.CLASS_PARAMETER_NAME.get(), classParamType);
+		FluentAPIGenerationUtil.addDocumentation(param, ModelConstants.FluentAPI.New.CLASS_PARAMETER_DOC.get());
+		return param;
+	}
 }

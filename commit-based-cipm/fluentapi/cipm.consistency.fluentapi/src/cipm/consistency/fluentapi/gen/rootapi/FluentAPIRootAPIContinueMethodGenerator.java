@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EOperation;
-import org.eclipse.emf.ecore.EcorePackage;
 
 import cipm.consistency.fluentapi.extensions.FluentAPIInitialisationStorage;
 import cipm.consistency.fluentapi.extensions.FluentEObjectAPIMethods;
@@ -58,11 +57,7 @@ public class FluentAPIRootAPIContinueMethodGenerator implements IFluentAPIMethod
 	}
 
 	private EOperation generateTopLevelContinueMethod(FluentAPIGenerationContext context) {
-		var paramType = FluentAPIGenerationUtil.generateEGenericTypeWithClassifier(EcorePackage.Literals.EJAVA_CLASS);
-		FluentAPIGenerationUtil.addTypeArgument(paramType, FluentAPIGenerationUtil.generateWildcardTypeArgument());
-
-		var param = FluentAPIGenerationUtil
-				.generateSingleValuedEParameter(ModelConstants.FluentAPI.New.CLASS_PARAMETER_NAME.get(), paramType);
+		var param = FluentAPIGeneralParameterGenerator.getArbitraryClassParam();
 
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.Continue.TOP_NAME.get(),
 				context.getInitSuperECls());

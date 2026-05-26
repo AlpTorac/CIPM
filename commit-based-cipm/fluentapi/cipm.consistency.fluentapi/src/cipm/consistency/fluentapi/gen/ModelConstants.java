@@ -118,7 +118,7 @@ public class ModelConstants {
 		public static final IFluentAPITemplate MODIFIED_FEATURE_PARAMETER_NAME = new FluentAPIFixTemplate(
 				"featToModify");
 		public static final IFluentAPITemplate MODIFIED_FEATURE_PARAMETER_NAME_DOC = new FluentAPIFixTemplate(
-				"The feature, whose value in " + MODIFIED_FEATURE_PARAMETER_NAME + " will be modified");
+				"The feature, whose value in " + MODIFIED_FEATURE_PARAMETER_NAME.get() + " will be modified");
 
 		public static final IFluentAPITemplate FEATURE_VALUE_PARAMETER_NAME = new FluentAPIFixTemplate("featVal");
 		public static final IFluentAPITemplate FEATURE_VALUE_PARAMETER_NAME_DOC = new FluentAPIFixTemplate(
@@ -126,17 +126,17 @@ public class ModelConstants {
 
 		public static final IFluentAPITemplate MARK_VALUE_PARAMETER_NAME = new FluentAPIFixTemplate("markVal");
 		public static final IFluentAPITemplate MARK_VALUE_PARAMETER_NAME_DOC = new FluentAPIFixTemplate(
-				"The object that is / will be marked.");
+				"The object that is / will be marked / unmarked.");
 
 		public static final IFluentAPITemplate MARK_KEY_PARAMETER_NAME = new FluentAPIFixTemplate("markKey");
 		public static final IFluentAPITemplate MARK_KEY_PARAMETER_NAME_DOC = new FluentAPIFixTemplate(
-				"The object instance (key), whose memory address is serving / will serve as a key in mark-related operations. Note that the contents of the key are fully irrelevant here, only its memory address matters.");
+				"The object instance (key), whose memory address is serving / will serve as a key in mark-related operations. Note that the contents of the key are fully irrelevant here, only its memory address matters. A key may only mark one element at a time, attempting to use the same key in multiple marks will override its previous mark. If the key is array-typed or collection-typed, it will be interpret as a container of keys and its contents will be used instead. To bypass this behaviour and use the key (the array / collection) itself, nest the key in another array or collection.");
 
 		public static final Class<?> WAIT_FOR_MARK_TASK_CLASS = Runnable.class;
 		public static final IFluentAPITemplate WAIT_FOR_MARK_TASK_PARAMETER_NAME = new FluentAPIFixTemplate("task");
 		public static final IFluentAPITemplate WAIT_FOR_MARK_TASK_PARAMETER_NAME_DOC = new FluentAPIFixTemplate(
-				"The model construction task, which will be executed upon object(s) getting marked with certain "
-						+ WAIT_FOR_MARK_TASK_PARAMETER_NAME + "(s).");
+				"The model construction task, which will be executed upon the given " + MARK_KEY_PARAMETER_NAME.get()
+						+ "(s) getting used in marks.");
 	}
 
 	private static String getMethodName(Class<?> cls) {
@@ -242,7 +242,8 @@ public class ModelConstants {
 					getMethodName(DropInitialisation.class));
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
 					"Removes the given " + INITIALISATION_PARAMETER_NAME.get() + " from the list of ongoing "
-							+ ModelConstants.INITIALISATION_NAME_SUFFIX.get() + "s");
+							+ ModelConstants.INITIALISATION_NAME_SUFFIX.get() + "s, meaning that "
+							+ INITIALISATION_PARAMETER_NAME.get() + " will no longer be retrievable from the api.");
 		}
 
 		public static class GetAllSupportedClasses {
@@ -338,8 +339,19 @@ public class ModelConstants {
 			public static final IFluentAPITemplate TOP_NAME = new FluentAPIFixTemplate(getTopMethodName(New.class));
 
 			public static final IFluentAPITemplate ECLASS_PARAMETER_NAME = new FluentAPIFixTemplate("eObjEClass");
+			public static final IFluentAPITemplate ECLASS_PARAMETER_DOC = new FluentAPIFixTemplate(
+					"The EClass of the element");
 			public static final IFluentAPITemplate CLASS_PARAMETER_NAME = new FluentAPIFixTemplate("eObjCls");
+			public static final IFluentAPITemplate CLASS_PARAMETER_DOC = new FluentAPIFixTemplate(
+					"The class of the element");
 			public static final IFluentAPITemplate FEATURE_VALUE_PARAMETER_NAME = new FluentAPIFixTemplate("featVal");
+			/**
+			 * %s: Class name
+			 * <p>
+			 * %s: Feature name
+			 */
+			public static final IFluentAPIFillableTemplate FEATURE_VALUE_PARAMETER_DOC = new FluentAPIFillableTemplate(
+					"The value of the feature '%s.%s'");
 
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
 					"Returns a matching " + ModelConstants.INITIALISATION_NAME_SUFFIX.get()
@@ -410,7 +422,12 @@ public class ModelConstants {
 							+ ModelConstants.GeneralParameters.MARK_VALUE_PARAMETER_NAME.get() + ", meaning that using "
 							+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()
 							+ " in mark-related operations will result in retrieving "
-							+ ModelConstants.GeneralParameters.MARK_VALUE_PARAMETER_NAME.get() + ".");
+							+ ModelConstants.GeneralParameters.MARK_VALUE_PARAMETER_NAME.get() + ". Note that "
+							+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()
+							+ " can only mark one object ("
+							+ ModelConstants.GeneralParameters.MARK_VALUE_PARAMETER_NAME.get() + ") at a time. Using "
+							+ ModelConstants.GeneralParameters.MARK_KEY_PARAMETER_NAME.get()
+							+ " in another mark will override its previous mark.");
 		}
 
 		public static class GetOngoingInitialisations {

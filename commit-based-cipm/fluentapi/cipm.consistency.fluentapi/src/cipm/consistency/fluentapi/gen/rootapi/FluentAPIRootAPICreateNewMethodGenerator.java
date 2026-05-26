@@ -54,7 +54,7 @@ public class FluentAPIRootAPICreateNewMethodGenerator implements IFluentAPIMetho
 				eObjEClass.getInstanceClass().getName(), eObjEClass.getInstanceClass().getName()));
 		FluentAPIGenerationUtil.addDocumentation(op,
 				ModelConstants.FluentAPI.CreateNew.SUMMARY.getFor(eObjEClass.getInstanceClass().getName(),
-						StringUtils.capitalize(eObjEClass.getInstanceClass().getName())));
+						StringUtils.capitalize(eObjEClass.getInstanceClass().getSimpleName())));
 		return op;
 	}
 
@@ -87,7 +87,7 @@ public class FluentAPIRootAPICreateNewMethodGenerator implements IFluentAPIMetho
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.CreateNew.TOP_NAME.get());
 		FluentAPIGenerationUtil.addBody(op, createNewXWithClassParamMethodBody);
 		FluentAPIGenerationUtil.addDocumentation(op,
-				ModelConstants.SuperInitialisation.CreateNow.CLASS_PARAMETER_DOC.get());
+				ModelConstants.FluentAPI.CreateNew.SUMMARY.getFor(methodParam.getName(), methodParam.getName()));
 		op.setEGenericType(methodTypeParam);
 		op.getETypeParameters().add(typeParam);
 		op.getEParameters().add(methodParam);

@@ -12,6 +12,7 @@ import org.eclipse.emf.ecore.EParameter;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.EcorePackage;
 
+import cipm.consistency.fluentapi.gen.FluentAPIGeneralParameterGenerator;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIMethodsUtil;
@@ -98,8 +99,7 @@ public class FluentAPIRootAPINewMethodGenerator implements IFluentAPIMethodGener
 	}
 
 	private EOperation getRootAPITopLevelNewOperation(FluentAPIGenerationContext context) {
-		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				ModelConstants.FluentAPI.New.ECLASS_PARAMETER_NAME.get(), EcorePackage.Literals.ECLASS);
+		var param = FluentAPIGeneralParameterGenerator.getArbitraryEClassParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.New.TOP_NAME.get(),
 				context.getInitSuperECls());
 		FluentAPIGenerationUtil.addBody(op, String.format(newXMethodBodyTemplate,
@@ -110,11 +110,7 @@ public class FluentAPIRootAPINewMethodGenerator implements IFluentAPIMethodGener
 	}
 
 	private EOperation getRootAPITopLevelNewOperationWithClassParameter(FluentAPIGenerationContext context) {
-		var classParamType = FluentAPIGenerationUtil
-				.generateEGenericTypeWithClassifier(EcorePackage.Literals.EJAVA_CLASS);
-		FluentAPIGenerationUtil.addTypeArgument(classParamType, FluentAPIGenerationUtil.generateWildcardTypeArgument());
-		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
-				ModelConstants.FluentAPI.New.CLASS_PARAMETER_NAME.get(), classParamType);
+		var param = FluentAPIGeneralParameterGenerator.getArbitraryClassParam();
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.New.TOP_NAME.get(),
 				context.getInitSuperECls());
 		FluentAPIGenerationUtil.addBody(op, String.format(newXWithClassParamMethodBodyTemplate,
@@ -175,17 +171,17 @@ public class FluentAPIRootAPINewMethodGenerator implements IFluentAPIMethodGener
 			return op;
 		};
 
-		var originalOpFeatureValParam = getSingleValuedFeatValParam(modifiableFeature);
+		var originalOpFeatureValParam = getSingleValuedFeatValParam(eObjEClass, modifiableFeature);
 		var originalOp = opGenerator.apply(originalOpFeatureValParam);
 		ops.add(originalOp);
 
 		if (originalOpFeatureValParam.getEType().equals(EcorePackage.Literals.EBIG_INTEGER)) {
-			var longOpNewFeatValParam = getSingleValuedFeatValParam(modifiableFeature);
+			var longOpNewFeatValParam = getSingleValuedFeatValParam(eObjEClass, modifiableFeature);
 			longOpNewFeatValParam.setEType(EcorePackage.Literals.ELONG);
 			var longOp = opGenerator.apply(longOpNewFeatValParam);
 			ops.add(longOp);
 
-			var intOpNewFeatValParam = getSingleValuedFeatValParam(modifiableFeature);
+			var intOpNewFeatValParam = getSingleValuedFeatValParam(eObjEClass, modifiableFeature);
 			intOpNewFeatValParam.setEType(EcorePackage.Literals.EINT);
 			var intOp = opGenerator.apply(intOpNewFeatValParam);
 			ops.add(intOp);
@@ -197,7 +193,7 @@ public class FluentAPIRootAPINewMethodGenerator implements IFluentAPIMethodGener
 			EStructuralFeature modifiableFeature, EClass initECls, FluentAPIGenerationContext context) {
 		var ops = new ArrayList<EOperation>();
 
-		var featureValParam = getSingleValuedFeatValParam(modifiableFeature);
+		var featureValParam = getSingleValuedFeatValParam(eObjEClass, modifiableFeature);
 		var listOp = FluentAPIGenerationUtil.generateEOperation(
 				ModelConstants.FluentAPI.New.NAME.getFor(StringUtils.capitalize(eObjEClass.getName())), eObjEClass);
 		FluentAPIGenerationUtil.addBody(listOp,
@@ -224,9 +220,11 @@ public class FluentAPIRootAPINewMethodGenerator implements IFluentAPIMethodGener
 		return op;
 	}
 
-	private EParameter getSingleValuedFeatValParam(EStructuralFeature feat) {
+	private EParameter getSingleValuedFeatValParam(EClass holderOfFeat, EStructuralFeature feat) {
 		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				ModelConstants.FluentAPI.New.FEATURE_VALUE_PARAMETER_NAME.get(), feat.getEType());
+		FluentAPIGenerationUtil.addDocumentation(param, ModelConstants.FluentAPI.New.FEATURE_VALUE_PARAMETER_DOC
+				.getFor(holderOfFeat.getName(), feat.getName()));
 		return param;
 	}
 
