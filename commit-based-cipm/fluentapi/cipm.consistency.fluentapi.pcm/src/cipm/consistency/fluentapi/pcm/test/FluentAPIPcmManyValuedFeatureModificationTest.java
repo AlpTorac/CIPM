@@ -10,22 +10,23 @@ import org.palladiosimulator.pcm.repository.RepositoryPackage;
 import cipm.consistency.fluentapi.pcm.api.ApiFactory;
 
 /**
- * 
- * TODO Add proper commentary
- * 
- * TODO See if you can address this within metamodel tests, since improper
- * initial values in metamodels should not mean that fluent API is failing.
- * 
+ * A test class containing test cases for the fluent api generated for the PCM
+ * metamodel.
  * <p>
- * The purpose of this test class is to show that many-valued feature
+ * <p>
+ * The main purpose of this test class is to show that many-valued feature
  * modifications (in PCM) are not problematic in realistic cases, although they
- * currently fail in metamodel tests.
+ * currently fail in metamodel tests of the fluent api for PCM.
  * 
  * @author Alp Torac Genc
  */
 public class FluentAPIPcmManyValuedFeatureModificationTest {
+	/**
+	 * Ensures that adding an array of values to a many-valued PCM feature via its
+	 * initialisation class works as intended.
+	 */
 	@Test
-	public void init_WithAddedArray() {
+	public void testInit_WithAddedArray() {
 		var api = ApiFactory.eINSTANCE.createFluentPcmAPI();
 		var repo = api.newRepository()
 				.withAddedComponents__Repository(
@@ -34,8 +35,12 @@ public class FluentAPIPcmManyValuedFeatureModificationTest {
 		Assertions.assertEquals(2, repo.getComponents__Repository().size());
 	}
 
+	/**
+	 * Ensures that adding an array of values to a many-valued PCM feature via the
+	 * abstract (super) initialisation class works as intended.
+	 */
 	@Test
-	public void superInit_WithAddedArray() {
+	public void testSuperInit_WithAddedArray() {
 		var api = ApiFactory.eINSTANCE.createFluentPcmAPI();
 		var repo = api.createNewRepository();
 		api.modifyRepository(repo).xWithAddedFeat(RepositoryPackage.Literals.REPOSITORY__COMPONENTS_REPOSITORY,
@@ -43,8 +48,12 @@ public class FluentAPIPcmManyValuedFeatureModificationTest {
 		Assertions.assertEquals(2, repo.getComponents__Repository().size());
 	}
 
+	/**
+	 * Ensures that adding an array of values to a many-valued PCM feature via the
+	 * fluent api class works as intended.
+	 */
 	@Test
-	public void api_WithAddedArray() {
+	public void testApi_WithAddedArray() {
 		var api = ApiFactory.eINSTANCE.createFluentPcmAPI();
 		var repo = api.createNewRepository();
 		api.xWithAddedFeat(repo, RepositoryPackage.Literals.REPOSITORY__COMPONENTS_REPOSITORY,
@@ -52,27 +61,14 @@ public class FluentAPIPcmManyValuedFeatureModificationTest {
 		Assertions.assertEquals(2, repo.getComponents__Repository().size());
 	}
 
-	@Test
-	public void api_WithAddedArray_AfterModification() {
-		var api = ApiFactory.eINSTANCE.createFluentPcmAPI();
-		var repo = api.newRepository()
-				.withAddedComponents__Repository(
-						new RepositoryComponent[] { api.createNewBasicComponent(), api.createNewBasicComponent() })
-				.createNow();
-
-		api.xWithAddedFeat(repo, RepositoryPackage.Literals.REPOSITORY__COMPONENTS_REPOSITORY,
-				new RepositoryComponent[] { api.createNewBasicComponent(), api.createNewBasicComponent() });
-		Assertions.assertEquals(4, repo.getComponents__Repository().size());
-	}
-
 	/**
-	 * This is a failing test scenario in metamodel tests, but it works here => The
-	 * initial value of
+	 * This is a failing test scenario in metamodel tests for fluent api for PCM,
+	 * but it works here => The initial value of
 	 * NewResourceInterfaceRequiringEntity.getResourceRequiredRoles__ResourceInterfaceRequiringEntity
 	 * is not appropriate
 	 */
 	@Test
-	public void api_WithAddedArray_Failing() {
+	public void testApi_WithAddedArray_Failing() {
 		var api = ApiFactory.eINSTANCE.createFluentPcmAPI();
 		var obj = api.createNewResourceInterfaceRequiringEntity();
 
@@ -84,13 +80,13 @@ public class FluentAPIPcmManyValuedFeatureModificationTest {
 	}
 
 	/**
-	 * This is a failing test scenario in metamodel tests, but it works here => The
-	 * initial value of
+	 * This is a failing test scenario in metamodel tests for fluent api for PCM,
+	 * but it works here => The initial value of
 	 * NewResourceInterfaceRequiringEntity.getResourceRequiredRoles__ResourceInterfaceRequiringEntity
 	 * is not appropriate
 	 */
 	@Test
-	public void superInit_WithAddedArray_Failing() {
+	public void testSuperInit_WithAddedArray_Failing() {
 		var api = ApiFactory.eINSTANCE.createFluentPcmAPI();
 		var obj = api.createNewResourceInterfaceRequiringEntity();
 

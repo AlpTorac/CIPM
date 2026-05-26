@@ -15,6 +15,16 @@ import org.palladiosimulator.pcm.PcmPackage;
 import cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelPackageProvider;
 import cipm.consistency.fluentapi.metamodel.MetamodelUtil;
 
+/**
+ * An implementation of {@link FluentAPITargetMetamodelPackageProvider} for PCM.
+ * <p>
+ * <p>
+ * This class internally "fixes" the Ecore and GenModel of JaMoPP that it
+ * parses, in order to avoid having duplicated Resource instances during fluent
+ * api generation. This is due to Eclipse plug-in limitations.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIPcmMetamodelPackageProvider extends FluentAPITargetMetamodelPackageProvider {
 	private static final URI pcmMetamodelGenModelURI = URI
 			.createURI("platform:/plugin/org.palladiosimulator.pcm/model/pcm.genmodel");

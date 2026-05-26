@@ -5,6 +5,11 @@ import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fluentapi.test.metamodel.AbstractFluentAPIMetamodelCoverageTest;
 
+/**
+ * Implementation of {@link AbstractFluentAPIMetamodelCoverageTest} for PCM.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentAPIMetamodelCoverageTest extends AbstractFluentAPIMetamodelCoverageTest
 		implements IFluentPcmAPIMetamodelTest {
 	/**

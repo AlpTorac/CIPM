@@ -13,6 +13,11 @@ import cipm.consistency.fluentapi.pcm.metamodel.FluentAPIPcmMetamodelFilter;
 import cipm.consistency.fluentapi.pcm.metamodel.FluentAPIPcmMetamodelPackageProvider;
 import cipm.consistency.fluentapi.test.metamodel.IFluentAPIMetamodelTest;
 
+/**
+ * An extension of {@link IFluentAPIMetamodelTest} for PCM.
+ * 
+ * @author Alp Torac Genc
+ */
 public interface IFluentPcmAPIMetamodelTest extends IFluentAPIMetamodelTest {
 	static final FluentAPITargetMetamodelFilter filter = new FluentAPIPcmMetamodelFilter();
 	static final FluentAPITargetMetamodelPackageProvider metamodelProvider = new FluentAPIPcmMetamodelPackageProvider();
