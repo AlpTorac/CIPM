@@ -29,7 +29,6 @@ public class FluentAPIPcmMetamodelFilter extends FluentAPITargetMetamodelFilter 
 	public boolean isFeatureEligible(EClass holderOfFeat, EStructuralFeature feat) {
 		return isFeatureChangeable(feat)
 				&& !feat.getEContainingClass().getName().equals(EcorePackage.Literals.EOBJECT.getName());
-//				!feat.getEContainingClass().getInstanceClass().isAssignableFrom(EObject.class)
 	}
 
 	/**

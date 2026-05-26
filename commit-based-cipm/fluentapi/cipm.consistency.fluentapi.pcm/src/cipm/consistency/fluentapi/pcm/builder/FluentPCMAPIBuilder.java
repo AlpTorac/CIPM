@@ -19,6 +19,11 @@ import cipm.consistency.fluentapi.postprocessor.FluentAPIGenerationBigNumberPara
 import cipm.consistency.fluentapi.postprocessor.FluentAPIGenerationForEachOverloadPostProcessor;
 import cipm.consistency.fluentapi.postprocessor.FluentAPIGenerationMultipleValueParameterSameMethodBodyOverloadPostProcessor;
 
+/**
+ * An implementation of {@link FluentAPIAbstractBuilder} for the PCM metamodel.
+ * 
+ * @author Alp Torac Genc
+ */
 public class FluentPCMAPIBuilder extends FluentAPIAbstractBuilder {
 	private static final FluentAPITargetMetamodelPackageProvider provider = new FluentAPIPcmMetamodelPackageProvider();
 	private static final FluentAPITargetMetamodelFilter filter = new FluentAPIPcmMetamodelFilter();
