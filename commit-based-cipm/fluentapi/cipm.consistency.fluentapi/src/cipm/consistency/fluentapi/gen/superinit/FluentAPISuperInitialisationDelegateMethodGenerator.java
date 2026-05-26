@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import org.eclipse.emf.ecore.EOperation;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
+import cipm.consistency.fluentapi.gen.FluentAPIDocumentationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationContext;
 import cipm.consistency.fluentapi.gen.FluentAPIGenerationUtil;
 import cipm.consistency.fluentapi.gen.FluentAPIMethodsUtil;
@@ -50,6 +51,22 @@ public class FluentAPISuperInitialisationDelegateMethodGenerator {
 					ModelConstants.SuperInitialisation.Unmark.NAME.get());
 		}
 	};
+
+	private static final String docPrefix = "Delegates to the matching method in "
+			+ ModelConstants.SuperInitialisation.RootAPI.NAME.inThis()
+			+ ". Replaces the parameters and method names as follows ('in "
+			+ ModelConstants.SuperInitialisation.RootAPI.NAME.inThis() + "' with 'in this'): "
+			+ String.join(", ",
+					parameterOverrideMap.entrySet().stream()
+							.map((e) -> String.format("'%s' with '%s'", e.getKey().toString(), e.getValue()))
+							.toArray(String[]::new))
+			+ ", "
+			+ String.join(", ",
+					methodNameOverrideMap.entrySet().stream()
+							.map((e) -> String.format("'%s' with '%s'", e.getKey().toString(), e.getValue()))
+							.toArray(String[]::new))
+			+ FluentAPIDocumentationUtil.getDocParagraphSeparator() + "Documentation from "
+			+ ModelConstants.SuperInitialisation.RootAPI.NAME.inThis() + ": ";
 
 	private static final String delegateMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Method call string (with parameters in brackets)
@@ -97,6 +114,9 @@ public class FluentAPISuperInitialisationDelegateMethodGenerator {
 				// Adjust body
 				FluentAPIGenerationUtil.addBody(delegateOp,
 						String.format(delegateMethodBodyTemplate, replaceParameters(serialisedOriginalMethodCall)));
+				var opDoc = FluentAPIGenerationUtil.getDocumentationOf(op);
+				var delegateOpDoc = opDoc != null ? docPrefix + opDoc : docPrefix;
+				FluentAPIGenerationUtil.addDocumentation(delegateOp, delegateOpDoc);
 
 				delegateOps.add(delegateOp);
 			}
