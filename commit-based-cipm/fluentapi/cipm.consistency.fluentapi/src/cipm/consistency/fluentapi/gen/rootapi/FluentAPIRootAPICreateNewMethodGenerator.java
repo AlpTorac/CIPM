@@ -28,9 +28,9 @@ public class FluentAPIRootAPICreateNewMethodGenerator implements IFluentAPIMetho
 					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	private static final String createNewXWithClassParamMethodBody = FluentAPIMethodsUtil
-			.joinLOC("return (" + ModelConstants.FluentAPI.CreateNew.TYPE_PARAMETER_NAME.get() + ") "
+			.joinLOC("return (" + ModelConstants.GeneralParameters.TYPE_PARAMETER_NAME.get() + ") "
 					+ ModelConstants.FluentAPI.GetInitialisationFor.NAME
-							.thisCall(ModelConstants.FluentAPI.CreateNew.ECLASS_PARAMETER_NAME.get())
+							.thisCall(ModelConstants.GeneralParameters.ARBITRARY_ECLASS_PARAMETER_NAME.get())
 					+ ModelConstants.SuperInitialisation.CreateNow.NAME.call());
 
 	public List<EOperation> generateAllCreateNewMethods(FluentAPIGenerationContext context) {
@@ -62,7 +62,7 @@ public class FluentAPIRootAPICreateNewMethodGenerator implements IFluentAPIMetho
 		// Goal: <T> T createNewX(Class<T> createNewXWithClassParamParamName)
 
 		var typeParam = FluentAPIGenerationUtil
-				.generateETypeParameter(ModelConstants.FluentAPI.CreateNew.TYPE_PARAMETER_NAME.get());
+				.generateETypeParameter(ModelConstants.GeneralParameters.TYPE_PARAMETER_NAME.get());
 
 		// Make sure to create 2 generic types, one for the method parameter (Class<T>)
 		// and one for the return type of the method (T)
@@ -81,7 +81,9 @@ public class FluentAPIRootAPICreateNewMethodGenerator implements IFluentAPIMetho
 		// "createNewXWithClassParamParamName" in "Class<T>
 		// createNewXWithClassParamParamName"
 		var methodParam = FluentAPIGenerationUtil
-				.generateSingleValuedEParameter(ModelConstants.FluentAPI.CreateNew.ECLASS_PARAMETER_NAME.get());
+				.generateSingleValuedEParameter(ModelConstants.GeneralParameters.ARBITRARY_ECLASS_PARAMETER_NAME.get());
+		FluentAPIGenerationUtil.addDocumentation(methodParam,
+				ModelConstants.GeneralParameters.ARBITRARY_ECLASS_PARAMETER_DOC.get());
 		methodParam.setEGenericType(methodParamType);
 
 		var op = FluentAPIGenerationUtil.generateEOperation(ModelConstants.FluentAPI.CreateNew.TOP_NAME.get());

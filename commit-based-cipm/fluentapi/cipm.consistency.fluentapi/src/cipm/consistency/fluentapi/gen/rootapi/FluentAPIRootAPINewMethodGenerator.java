@@ -22,13 +22,13 @@ import cipm.consistency.fluentapi.gen.ModelConstants;
 public class FluentAPIRootAPINewMethodGenerator implements IFluentAPIMethodGenerator {
 	private static final String newXMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Fully qualified Initialisation super type class name
-			"return (%s)" + ModelConstants.FluentAPI.GetInitialisationFor.NAME
-					.thisCall(ModelConstants.FluentAPI.New.ECLASS_PARAMETER_NAME.get() + ".getInstanceClass()"));
+			"return (%s)" + ModelConstants.FluentAPI.GetInitialisationFor.NAME.thisCall(
+					ModelConstants.GeneralParameters.ARBITRARY_ECLASS_PARAMETER_NAME.get() + ".getInstanceClass()"));
 
 	private static final String newXWithClassParamMethodBodyTemplate = FluentAPIMethodsUtil.joinLOC(
 			// %s: Fully qualified Initialisation super type class name
 			"return (%s)" + ModelConstants.FluentAPI.GetInitialisationFor.NAME
-					.thisCall(ModelConstants.FluentAPI.New.CLASS_PARAMETER_NAME.get()));
+					.thisCall(ModelConstants.GeneralParameters.ARBITRARY_CLASS_PARAMETER_NAME.get()));
 
 	private static final String newXWithModifiableFeatsMethodBodyTemplate = FluentAPIMethodsUtil
 			// %s: Fully qualified Initialisation type class name

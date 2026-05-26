@@ -122,7 +122,9 @@ public class ModelConstants {
 
 		public static final IFluentAPITemplate FEATURE_VALUE_PARAMETER_NAME = new FluentAPIFixTemplate("featVal");
 		public static final IFluentAPITemplate FEATURE_VALUE_PARAMETER_NAME_DOC = new FluentAPIFixTemplate(
-				"The value of the feature, which will be used to modify the given feature in certain ways, denoted by the method name");
+				"The value of the feature, which will be used to modify the given feature in certain ways, denoted by the method name. If "
+						+ FEATURE_VALUE_PARAMETER_NAME.get()
+						+ " is an array or collection, its contents will be used as feature values instead.");
 
 		public static final IFluentAPITemplate MARK_VALUE_PARAMETER_NAME = new FluentAPIFixTemplate("markVal");
 		public static final IFluentAPITemplate MARK_VALUE_PARAMETER_NAME_DOC = new FluentAPIFixTemplate(
@@ -137,6 +139,15 @@ public class ModelConstants {
 		public static final IFluentAPITemplate WAIT_FOR_MARK_TASK_PARAMETER_NAME_DOC = new FluentAPIFixTemplate(
 				"The model construction task, which will be executed upon the given " + MARK_KEY_PARAMETER_NAME.get()
 						+ "(s) getting used in marks.");
+
+		public static final IFluentAPITemplate ARBITRARY_ECLASS_PARAMETER_NAME = new FluentAPIFixTemplate("eObjEClass");
+		public static final IFluentAPITemplate ARBITRARY_ECLASS_PARAMETER_DOC = new FluentAPIFixTemplate(
+				"The EClass of the element");
+		public static final IFluentAPITemplate ARBITRARY_CLASS_PARAMETER_NAME = new FluentAPIFixTemplate("eObjCls");
+		public static final IFluentAPITemplate ARBITRARY_CLASS_PARAMETER_DOC = new FluentAPIFixTemplate(
+				"The class of the element");
+
+		public static final IFluentAPITemplate TYPE_PARAMETER_NAME = new FluentAPIFixTemplate("T");
 	}
 
 	private static String getMethodName(Class<?> cls) {
@@ -212,8 +223,6 @@ public class ModelConstants {
 		}
 
 		public static class CreateNew {
-			public static final IFluentAPITemplate TYPE_PARAMETER_NAME = new FluentAPIFixTemplate("T");
-			public static final IFluentAPITemplate ECLASS_PARAMETER_NAME = new FluentAPIFixTemplate("eObjCls");
 			public static final IFluentAPITemplate NAME_PREFIX = new FluentAPIFixTemplate(
 					getMethodName(CreateNew.class));
 			/**
@@ -259,9 +268,6 @@ public class ModelConstants {
 					getMethodName(GetInitialisationFor.class)
 							+ StringUtils.capitalize(ModelConstants.PLACEHOLDER.get()));
 
-			public static final IFluentAPITemplate ECLASS_PARAMETER_NAME = new FluentAPIFixTemplate("eClsToInit");
-			public static final IFluentAPITemplate CLASS_PARAMETER_NAME = new FluentAPIFixTemplate("clsToInit");
-			public static final IFluentAPITemplate EOBJECT_PARAMETER_NAME = new FluentAPIFixTemplate("eobjToInit");
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate("Returns an instance of "
 					+ ModelConstants.INITIALISATION_NAME_SUFFIX.get()
 					+ " matching the given parameter, which can be used to create or modify a certain element. Not intended to be called directly from outside under normal circumstances");
@@ -338,12 +344,6 @@ public class ModelConstants {
 					NAME_PREFIX.get() + "%s");
 			public static final IFluentAPITemplate TOP_NAME = new FluentAPIFixTemplate(getTopMethodName(New.class));
 
-			public static final IFluentAPITemplate ECLASS_PARAMETER_NAME = new FluentAPIFixTemplate("eObjEClass");
-			public static final IFluentAPITemplate ECLASS_PARAMETER_DOC = new FluentAPIFixTemplate(
-					"The EClass of the element");
-			public static final IFluentAPITemplate CLASS_PARAMETER_NAME = new FluentAPIFixTemplate("eObjCls");
-			public static final IFluentAPITemplate CLASS_PARAMETER_DOC = new FluentAPIFixTemplate(
-					"The class of the element");
 			public static final IFluentAPITemplate FEATURE_VALUE_PARAMETER_NAME = new FluentAPIFixTemplate("featVal");
 			/**
 			 * %s: Class name
@@ -351,7 +351,8 @@ public class ModelConstants {
 			 * %s: Feature name
 			 */
 			public static final IFluentAPIFillableTemplate FEATURE_VALUE_PARAMETER_DOC = new FluentAPIFillableTemplate(
-					"The value of the feature '%s.%s'");
+					"The value of the feature '%s.%s'. If " + FEATURE_VALUE_PARAMETER_NAME.get()
+							+ " is an array or collection, its contents will be used as the feature values instead.");
 
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
 					"Returns a matching " + ModelConstants.INITIALISATION_NAME_SUFFIX.get()
@@ -576,7 +577,6 @@ public class ModelConstants {
 		}
 
 		public static class CreateNow {
-			public static final IFluentAPITemplate TYPE_PARAMETER_NAME = new FluentAPIFixTemplate("T");
 			public static final IFluentAPITemplate CLASS_PARAMETER_NAME = new FluentAPIFixTemplate("returnTypeCls");
 			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(getMethodName(CreateNow.class));
 

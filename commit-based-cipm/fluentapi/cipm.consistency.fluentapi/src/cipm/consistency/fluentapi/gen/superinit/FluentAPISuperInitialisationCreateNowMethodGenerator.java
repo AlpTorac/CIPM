@@ -43,7 +43,7 @@ public class FluentAPISuperInitialisationCreateNowMethodGenerator implements IFl
 
 		// "<T>" in "<T> T createNow(...)"
 		var methodTypeParam = FluentAPIGenerationUtil
-				.generateETypeParameter(ModelConstants.SuperInitialisation.CreateNow.TYPE_PARAMETER_NAME.get());
+				.generateETypeParameter(ModelConstants.GeneralParameters.TYPE_PARAMETER_NAME.get());
 
 		// Make sure to create 2 generic types, one for the method parameter (Class<T>)
 		// and one for the return type of the method (T)
