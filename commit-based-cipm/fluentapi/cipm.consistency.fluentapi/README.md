@@ -1,6 +1,6 @@
 # Fluent API
 
-This is the base plug-in of the fluent API, which contains the elements that the fluent APIs for individual (EMF-based) metamodels require. The elements within this plug-in are mostly metamodel agnostic and must be extended with the means to access and work with concrete metamodels. It is intended to have one fluent API plug-in per concrete metamodel (or a sub-metamodel thereof).
+This is the base plug-in of the fluent API generation, which contains the elements that the generation of fluent APIs for individual (EMF-based) metamodels require. The elements within this plug-in are mostly metamodel agnostic and must be extended with the means to access and work with concrete metamodels. It is intended to have one fluent API plug-in per concrete metamodel (or a sub-metamodel thereof).
 
 This plug-in considers the same Eclipse IDE as the CIPM repository.
 
@@ -20,6 +20,7 @@ TODOs:
 
 - For the base plug-in, having 2-3 sentences about the general plug-in structure could be nice
 - Link the fluent api class and refer to it for further details
+- Test packages are optional and can be removed (if removed, must also be removed from the concrete implementors)
 
 ## Fluent API Generation
 
@@ -28,7 +29,7 @@ Under normal circumstances, the following steps should generate the fluent api c
 1) Navigate to the `"cipm.consistency.fluentapi.<someMetamodelName>.builder"` package, where `<someMetamodelName>` should be replaced with the name of the concrete metamodel
 2) Run the test case in the builder test class (currently called `Fluent<someMetamodelName>APIBuilder`), which inherits the template test case from the `cipm.consistency.fluentapi.builder.FluentAPIAbstractBuilder` class using Eclipse IDE: "Run As > JUnit Plug-in Test"
 3) Navigate to the `cipm.consistency.fluentapi.<someMetamodelName>.builder/metamodel` folder
-4) Open the `.genmodel` file (currently named `<someMetamodelName>-fluentapi.genmodel`) and generate the fluent api model using Eclipse IDE: "Right Click on the only node > Generate Model Code"
+4) Open the `.genmodel` file (currently named `<someMetamodelName>-fluentapi.genmodel`) and generate the fluent api model using Eclipse IDE: "Right Click on the only node > Generate Model Code". The fluent api files should be generated under the `src-gen` folder
 5) (Optional) Refresh and clean the plug-in, then run the tests therein (excluding the test class from 2) )
 
 ## Implementing Fluent API for Further Metamodels
