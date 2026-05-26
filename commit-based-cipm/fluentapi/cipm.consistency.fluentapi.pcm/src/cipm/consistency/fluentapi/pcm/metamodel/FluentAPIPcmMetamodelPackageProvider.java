@@ -26,16 +26,47 @@ import cipm.consistency.fluentapi.metamodel.MetamodelUtil;
  * @author Alp Torac Genc
  */
 public class FluentAPIPcmMetamodelPackageProvider extends FluentAPITargetMetamodelPackageProvider {
+	/**
+	 * The (plug-in based) URI to PCM's genmodel file
+	 */
 	private static final URI pcmMetamodelGenModelURI = URI
 			.createURI("platform:/plugin/org.palladiosimulator.pcm/model/pcm.genmodel");
+	/**
+	 * The (plug-in based) URI to PCM's ecore file
+	 */
 	private static final URI pcmMetamodelEcoreModelURI = URI
 			.createURI("platform:/plugin/org.palladiosimulator.pcm/model/pcm.ecore");
 
+	/**
+	 * The ResourceSet, which will contain the Resources of the GenModel and the
+	 * Ecore model parsed by this class ( {@link #ecoreRes} and {@link #genModelRes}
+	 * ). Note that those Resources are not the original Resources of the JaMoPP
+	 * model.
+	 */
 	private final ResourceSet metamodelResSet = new ResourceSetImpl();
+	/**
+	 * The Resource instance containing the parsed Ecore model of PCM. This is NOT
+	 * the Resource instance of {@code PcmPackage.eINSTANCE}.
+	 */
 	private Resource ecoreRes;
+	/**
+	 * The Resource instance containing the parsed GenModel of PCM. This does NOT
+	 * use the Resource instance of {@code PcmPackage.eINSTANCE}, but
+	 * {@link #ecoreRes}.
+	 */
 	private Resource genModelRes;
+	/**
+	 * The list containing the original PCM EClasses that are available under
+	 * {@code PcmPackage.eINSTANCE}. These EClasses are NOT the same as those in
+	 * {@link #ecoreRes}.
+	 */
 	private List<EClass> originalEClss;
 
+	/**
+	 * Caches the (original) EClasses found under the PCM metamodel ( under
+	 * {@code PcmPackage.eINSTANCE} ) in {@link #originalEClss}, in order to spare
+	 * constantly retrieving them from the Resource instances.
+	 */
 	private void cacheOriginalEClasses() {
 		if (originalEClss == null) {
 			originalEClss = new ArrayList<EClass>(MetamodelUtil.getAllEClasses(PcmPackage.eINSTANCE));
@@ -83,6 +114,13 @@ public class FluentAPIPcmMetamodelPackageProvider extends FluentAPITargetMetamod
 		return List.of((EPackage) ecoreRes.getContents().get(0));
 	}
 
+	/**
+	 * Changes the instance classes within the EClasses under parsedPcmPac to the
+	 * original EClasses from PCM ( {@link #originalEClss} ).
+	 * 
+	 * @param parsedPcmPac The Ecore model of PCM, which has been parsed by this
+	 *                     class.
+	 */
 	private void fixInstanceClasses(EPackage parsedPcmPac) {
 		var parsedEClss = MetamodelUtil.getAllEClasses(parsedPcmPac);
 		cacheOriginalEClasses();

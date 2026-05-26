@@ -85,9 +85,10 @@ public class FluentAPIJavaMetamodelPackageProvider extends FluentAPITargetMetamo
 	}
 
 	/**
-	 * Caches the (original) EClasses found under the JaMoPP model ( under
+	 * Caches the (original) EClasses found under the JaMoPP metamodel ( under
 	 * {@code JavaPackage.eINSTANCE} and {@code LayoutPackage.eINSTANCE}) in
-	 * {@link #originalEClss}, in order to spare constantly retrieving them.
+	 * {@link #originalEClss}, in order to spare constantly retrieving them from the
+	 * Resource instances.
 	 */
 	private void cacheOriginalEClasses() {
 		if (originalEClss == null) {
