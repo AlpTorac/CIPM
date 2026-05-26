@@ -94,7 +94,7 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 		super.setUp();
 		FluentAPIGenerationTestSettings.setAPI(getAPI());
 		FluentAPIGenerationTestSettings.setElemEClsToInitEClsFunc((eCls) -> api_getInitialisationForX(eCls).eClass());
-		FluentAPIGenerationTestSettings.setFilter(getFilter());
+		FluentAPIGenerationTestSettings.setMetamodelFilter(getFilter());
 		FluentAPIGenerationTestSettings.setPackageProvider(getProvider());
 	}
 
@@ -146,7 +146,7 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc().apply(eCls),
 					ModelConstants.Initialiation.With.NAME.getFor(""),
 					ModelConstants.Initialiation.With.PARAMETER_NAME.get(),
-					FluentAPIGenerationTestSettings.getFilter().getModifiableFeatures(eCls).stream()
+					FluentAPIGenerationTestSettings.getMetamodelFilter().getModifiableFeatures(eCls).stream()
 							.filter((f) -> !f.isMany()).collect(Collectors.toList()));
 		}
 	}
@@ -160,7 +160,7 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 		for (var eCls : FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss()) {
 			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc().apply(eCls),
 					ModelConstants.Initialiation.Without.NAME.getFor(""), null,
-					FluentAPIGenerationTestSettings.getFilter().getModifiableFeatures(eCls).stream()
+					FluentAPIGenerationTestSettings.getMetamodelFilter().getModifiableFeatures(eCls).stream()
 							.filter((f) -> !f.isMany()).collect(Collectors.toList()));
 		}
 	}
@@ -175,7 +175,7 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc().apply(eCls),
 					ModelConstants.Initialiation.WithAdded.NAME.getFor(""),
 					ModelConstants.Initialiation.WithAdded.PARAMETER_NAME.get(),
-					FluentAPIGenerationTestSettings.getFilter().getModifiableFeatures(eCls).stream()
+					FluentAPIGenerationTestSettings.getMetamodelFilter().getModifiableFeatures(eCls).stream()
 							.filter((f) -> f.isMany()).collect(Collectors.toList()));
 		}
 	}
@@ -190,7 +190,7 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc().apply(eCls),
 					ModelConstants.Initialiation.WithRemoved.NAME.getFor(""),
 					ModelConstants.Initialiation.WithRemoved.PARAMETER_NAME.get(),
-					FluentAPIGenerationTestSettings.getFilter().getModifiableFeatures(eCls).stream()
+					FluentAPIGenerationTestSettings.getMetamodelFilter().getModifiableFeatures(eCls).stream()
 							.filter((f) -> f.isMany()).collect(Collectors.toList()));
 		}
 	}
@@ -204,7 +204,7 @@ public abstract class AbstractFluentAPIInitialisationGenerationTest extends Abst
 		for (var eCls : FluentAPIGenerationTestSettings.getAllSupportedConcreteEClss()) {
 			methodTestTemplate(eCls, FluentAPIGenerationTestSettings.getElemEClsToInitEClsFunc().apply(eCls),
 					ModelConstants.Initialiation.Clean.NAME.getFor(""), null,
-					FluentAPIGenerationTestSettings.getFilter().getModifiableFeatures(eCls).stream()
+					FluentAPIGenerationTestSettings.getMetamodelFilter().getModifiableFeatures(eCls).stream()
 							.filter((f) -> f.isMany()).collect(Collectors.toList()));
 		}
 	}

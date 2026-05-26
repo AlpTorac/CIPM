@@ -35,21 +35,36 @@ public class FluentAPIGenerationTestSettings {
 	private static Function<EClass, Boolean> multiValFunc;
 	private static Function<EClass, Boolean> bigNumberVariantsFunc;
 
+	/**
+	 * @see {@link #getElemEClsToInitEClsFunc()}
+	 */
 	public static void setElemEClsToInitEClsFunc(Function<EClass, EClass> func) {
 		elemEClsToInitEClsFunc = func;
 	}
 
+	/**
+	 * Takes a fluent api instance and derives its relevant attributes. Currently
+	 * derives all EOperations in api and saves them in this class.
+	 * 
+	 * @param api The fluent api instance to be considered
+	 */
 	public static void setAPI(EObject api) {
 		allAPIOps = List.copyOf(api.eClass().getEOperations());
 	}
 
-	public static void setFilter(FluentAPITargetMetamodelFilter filter) {
+	/**
+	 * @see {@link #getMetamodelFilter()}
+	 */
+	public static void setMetamodelFilter(FluentAPITargetMetamodelFilter filter) {
 		metamodelFilter = filter;
 
 		computeVariantFunctions();
 		computeAllSupportedConcreteEClss();
 	}
 
+	/**
+	 * @see {@link #getMetamodelProvider()}
+	 */
 	public static void setPackageProvider(FluentAPITargetMetamodelPackageProvider provider) {
 		metamodelProvider = provider;
 		computeAllSupportedConcreteEClss();
@@ -82,46 +97,119 @@ public class FluentAPIGenerationTestSettings {
 		}
 	}
 
-	public static FluentAPITargetMetamodelFilter getFilter() {
+	/**
+	 * @return The object that filters the metamodel the fluent api was generated
+	 *         for.
+	 */
+	public static FluentAPITargetMetamodelFilter getMetamodelFilter() {
 		return metamodelFilter;
 	}
 
+	/**
+	 * @return The object that provides access to the metamodel the fluent api was
+	 *         generated for.
+	 */
 	public static FluentAPITargetMetamodelPackageProvider getMetamodelProvider() {
 		return metamodelProvider;
 	}
 
+	/**
+	 * @return A list of all EOperations that the fluent api instance has.
+	 * @see {@link #setAPI(EObject)}
+	 */
 	public static List<EOperation> getAllAPIOps() {
 		return allAPIOps;
 	}
 
+	/**
+	 * @return A list of all concrete EClasses within the metamodel that the fluent
+	 *         api instance was generated for.
+	 * @see {@link #getMetamodelFilter()} for what EClasses and features are
+	 *      supported
+	 * @see {@link #getMetamodelProvider()} for the metamodel
+	 */
 	public static List<EClass> getAllSupportedConcreteEClss() {
 		return allSupportedConcreteEClss;
 	}
 
+	/**
+	 * @return A list of all concrete EClasses within the metamodel that the fluent
+	 *         api was generated for, which have modifiable features.
+	 * @see {@link #getMetamodelFilter()} for what EClasses and features are
+	 *      supported
+	 * @see {@link #getMetamodelProvider()} for the metamodel
+	 */
 	public static List<EClass> getAllSupportedConcreteEClssWithModifiableFeats() {
 		return allSupportedConcreteEClssWithModifiableFeats;
 	}
 
+	/**
+	 * @return A list of all concrete EClasses within the metamodel that the fluent
+	 *         api was generated for, which have exactly one modifiable feature.
+	 * @see {@link #getMetamodelFilter()} for what EClasses and features are
+	 *      supported
+	 * @see {@link #getMetamodelProvider()} for the metamodel
+	 */
 	public static List<EClass> getAllSupportedConcreteEClssWithOnlyOneModifiableFeat() {
 		return allSupportedConcreteEClssWithOnlyOneModifiableFeat;
 	}
 
+	/**
+	 * The returned map can be used to map EClasses to their corresponding
+	 * initialisation EClass.
+	 * 
+	 * @return The mapping between the EClasses within the metamodel that the fluent
+	 *         api was generated for and the initialisation EClasses within the
+	 *         fluent api model.
+	 */
 	public static Function<EClass, EClass> getElemEClsToInitEClsFunc() {
 		return elemEClsToInitEClsFunc;
 	}
 
+	/**
+	 * The returned map can be used to determine, whether to expect overloading
+	 * modification methods (with array or collection types) in corresponding
+	 * initialisation classes for individual EClasses of the metamodel, which the
+	 * fluent api was generated for.
+	 * 
+	 * @return A map that denotes for EClasses of the metamodel, which the fluent
+	 *         api was generated for, whether any of their features should have
+	 *         overloading modification methods (with array and collection types) in
+	 *         their corresponding initialisation class.
+	 */
 	public static Function<EClass, Boolean> getMultiValFunc() {
 		return multiValFunc;
 	}
 
+	/**
+	 * The returned map can be used to determine, whether to expect overloading
+	 * modification methods (with primitive types, such as int or long) in
+	 * corresponding initialisation classes for individual EClasses of the
+	 * metamodel, which the fluent api was generated for.
+	 * 
+	 * @return A map that denotes for EClasses of the metamodel, which the fluent
+	 *         api was generated for, whether any of their features should have
+	 *         overloading modification methods (with primitive types, such as int
+	 *         or long) in their corresponding initialisation class.
+	 */
 	public static Function<EClass, Boolean> getBigNumberVariantsFunc() {
 		return bigNumberVariantsFunc;
 	}
 
+	/**
+	 * @return A list of all concrete EClasses within the metamodel that the fluent
+	 *         api was generated for, which have no modifiable features.
+	 * @see {@link #getMetamodelFilter()} for what EClasses and features are
+	 *      supported
+	 * @see {@link #getMetamodelProvider()} for the metamodel
+	 */
 	public static List<EClass> getAllSupportedConcreteEClssWithNoModifiableFeat() {
 		return allSupportedConcreteEClssWithNoModifiableFeat;
 	}
 
+	/**
+	 * Resets all attributes of this class.
+	 */
 	public static void clear() {
 		allAPIOps = null;
 		allSupportedConcreteEClss = null;

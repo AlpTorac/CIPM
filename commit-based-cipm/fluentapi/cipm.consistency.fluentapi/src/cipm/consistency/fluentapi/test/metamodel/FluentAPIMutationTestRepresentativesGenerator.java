@@ -28,23 +28,23 @@ public class FluentAPIMutationTestRepresentativesGenerator {
 
 		// EClass without modifiable features
 		allConcreteEClss.stream().filter((eCls) -> !eClssToMutate.contains(eCls)).filter(
-				(eCls) -> FluentAPIGenerationTestSettings.getFilter().getModifiableFeatureCount(eCls) == 0)
+				(eCls) -> FluentAPIGenerationTestSettings.getMetamodelFilter().getModifiableFeatureCount(eCls) == 0)
 				.limit(1).forEach(eClssToMutate::add);
 
 		// EClass with multiple modifiable features
 		allConcreteEClss.stream().filter((eCls) -> !eClssToMutate.contains(eCls)).filter(
-				(eCls) -> FluentAPIGenerationTestSettings.getFilter().getModifiableFeatureCount(eCls) > 1)
+				(eCls) -> FluentAPIGenerationTestSettings.getMetamodelFilter().getModifiableFeatureCount(eCls) > 1)
 				.limit(1).forEach(eClssToMutate::add);
 
 		// EClass with at least one single-valued modifiable feature
 		allConcreteEClss.stream().filter((eCls) -> !eClssToMutate.contains(eCls))
-				.filter((eCls) -> FluentAPIGenerationTestSettings.getFilter().getModifiableFeatures(eCls)
+				.filter((eCls) -> FluentAPIGenerationTestSettings.getMetamodelFilter().getModifiableFeatures(eCls)
 						.stream().filter((f) -> !f.isMany()).count() > 0)
 				.limit(1).forEach(eClssToMutate::add);
 
 		// EClass with at least one many-valued modifiable feature
 		allConcreteEClss.stream().filter((eCls) -> !eClssToMutate.contains(eCls))
-				.filter((eCls) -> FluentAPIGenerationTestSettings.getFilter().getModifiableFeatures(eCls)
+				.filter((eCls) -> FluentAPIGenerationTestSettings.getMetamodelFilter().getModifiableFeatures(eCls)
 						.stream().filter((f) -> f.isMany()).count() > 0)
 				.limit(1).forEach(eClssToMutate::add);
 
