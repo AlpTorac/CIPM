@@ -247,6 +247,9 @@ public class ModelConstants {
 		public static class DropInitialisation {
 			public static final IFluentAPITemplate INITIALISATION_PARAMETER_NAME = new FluentAPIFixTemplate(
 					"initToDrop");
+			public static final IFluentAPITemplate INITIALISATION_PARAMETER_DOC = new FluentAPIFixTemplate(
+					"The " + ModelConstants.INITIALISATION_NAME_SUFFIX.get() + " instance to drop from ongoing "
+							+ ModelConstants.INITIALISATION_NAME_SUFFIX.get() + "s");
 			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(
 					getMethodName(DropInitialisation.class));
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(

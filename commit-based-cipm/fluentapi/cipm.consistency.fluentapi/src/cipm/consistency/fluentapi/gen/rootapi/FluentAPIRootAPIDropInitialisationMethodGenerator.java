@@ -30,9 +30,12 @@ public class FluentAPIRootAPIDropInitialisationMethodGenerator implements IFluen
 	}
 
 	private EParameter getInitialisationParam(FluentAPIGenerationContext context) {
-		return FluentAPIGenerationUtil.generateSingleValuedEParameter(
+		var param = FluentAPIGenerationUtil.generateSingleValuedEParameter(
 				ModelConstants.FluentAPI.DropInitialisation.INITIALISATION_PARAMETER_NAME.get(),
 				context.getInitSuperECls());
+		FluentAPIGenerationUtil.addDocumentation(param,
+				ModelConstants.FluentAPI.DropInitialisation.INITIALISATION_PARAMETER_DOC.get());
+		return param;
 	}
 
 	@Override
