@@ -226,6 +226,21 @@ public class FluentAPIGenerationUtil {
 	}
 
 	/**
+	 * @param elem A given EMF element
+	 * @return The documentation of elem. If there elem has no documentation,
+	 *         returns null.
+	 */
+	public static <T extends EModelElement> String getDocumentationOf(T elem) {
+		var genModelSourceURL = ModelConstants.GEN_MODEL_SOURCE_URL.get();
+		var anno = elem.getEAnnotation(genModelSourceURL);
+		if (anno == null) {
+			return null;
+		} else {
+			return anno.getDetails().get(ModelConstants.GEN_MODEL_DOC_KEY.get());
+		}
+	}
+
+	/**
 	 * @param elem       A given EMF element
 	 * @param typeParams Type parameters to add to elem
 	 * @return elem
