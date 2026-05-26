@@ -506,12 +506,12 @@ public class ModelConstants {
 		public static class ToAPI {
 			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(getMethodName(ToAPI.class));
 
-			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate("Swaps to the "
-					+ ModelConstants.SuperInitialisation.RootAPI.NAME.get() + " that this is connected to, usually the "
-					+ ModelConstants.FluentAPI.CLASS_NAME.getEmpty() + " that created this.");
+			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
+					"Swaps to " + ModelConstants.SuperInitialisation.RootAPI.NAME.inThis() + ", usually the "
+							+ ModelConstants.FluentAPI.CLASS_NAME.getEmpty() + " that created this.");
 			public static final IFluentAPITemplate DOC = new FluentAPIFixTemplate(
-					FluentAPIDocumentationUtil.appendToDocumentationStart(SUMMARY.get()) + "Swaps from this to the "
-							+ ModelConstants.SuperInitialisation.RootAPI.NAME.get()
+					FluentAPIDocumentationUtil.appendToDocumentationStart(SUMMARY.get()) + "Swaps from this to "
+							+ ModelConstants.SuperInitialisation.RootAPI.NAME.inThis()
 							+ ". This method is currently the same as this"
 							+ ModelConstants.SuperInitialisation.RootAPI.NAME.getterCall()
 							+ ". Its purpose is to isolate the use of this"
@@ -535,13 +535,14 @@ public class ModelConstants {
 			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(getMethodName(NewElement.class));
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
 					"Creates a minimal instance of the targeted type within this "
-							+ ModelConstants.INITIALISATION_NAME_SUFFIX.get() + " instance.");
+							+ ModelConstants.INITIALISATION_NAME_SUFFIX.get() + " instance and sets it as the value of "
+							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.inThis() + ".");
 			public static final IFluentAPITemplate DOC = new FluentAPIFixTemplate(FluentAPIDocumentationUtil
 					.appendToDocumentationStart(SUMMARY.get())
-					+ "Creates a minimal EObject instance, without modifying any of its features, and sets it as the current element (i.e. return value of "
-					+ ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall() + ") in concrete "
+					+ "Creates a minimal EObject instance, without modifying any of its features, and sets it as the value of "
+					+ ModelConstants.SuperInitialisation.CurrentElement.NAME.inThis() + " in concrete "
 					+ ModelConstants.INITIALISATION_NAME_SUFFIX.get() + " classes. Does nothing in "
-					+ ModelConstants.SuperInitialisation.CLASS_NAME.get());
+					+ ModelConstants.SuperInitialisation.CLASS_NAME.get() + ".");
 		}
 
 		public static class Mark extends FluentAPI.Mark {
@@ -568,15 +569,15 @@ public class ModelConstants {
 			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(getMethodName(Reset.class));
 
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
-					"Sets " + ModelConstants.SuperInitialisation.CurrentElement.NAME.get()
+					"Sets " + ModelConstants.SuperInitialisation.CurrentElement.NAME.inThis()
 							+ " (the element that this is currently building) to null");
 			public static final IFluentAPITemplate DOC = new FluentAPIFixTemplate(
 					FluentAPIDocumentationUtil.appendToDocumentationStart(SUMMARY.get()) + "Discards "
-							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.thisGetterCall() + ". Does not "
+							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.inThis() + ". Does not "
 							+ ModelConstants.FluentAPI.DropInitialisation.NAME.get() + " this from "
-							+ ModelConstants.SuperInitialisation.ToAPI.NAME.thisCall()
+							+ ModelConstants.SuperInitialisation.RootAPI.NAME.inThis()
 							+ ", meaning that it will still be accessible via "
-							+ ModelConstants.SuperInitialisation.ToAPI.NAME.thisCall()
+							+ ModelConstants.SuperInitialisation.RootAPI.NAME.inThis()
 							+ ". This can then be re-used by calling "
 							+ ModelConstants.SuperInitialisation.NewElement.NAME.thisCall());
 		}
@@ -586,7 +587,7 @@ public class ModelConstants {
 			public static final IFluentAPITemplate NAME = new FluentAPIFixTemplate(getMethodName(CreateNow.class));
 
 			public static final IFluentAPITemplate SUMMARY = new FluentAPIFixTemplate(
-					"Finalises and returns " + ModelConstants.SuperInitialisation.CurrentElement.NAME.get());
+					"Finalises and returns " + ModelConstants.SuperInitialisation.CurrentElement.NAME.inThis());
 			public static final IFluentAPITemplate DOC = new FluentAPIFixTemplate(
 					FluentAPIDocumentationUtil.appendToDocumentationStart(SUMMARY.get())
 							+ "Finalises the construction of "
@@ -641,10 +642,7 @@ public class ModelConstants {
 					FluentAPIDocumentationUtil
 							.appendToDocumentationStart(ModelConstants.SuperInitialisation.NewElement.SUMMARY.get())
 							+ "Creates a minimal %s instance, without modifying any of its features, and sets it as "
-							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.inThis()
-							+ FluentAPIDocumentationUtil.getDocParagraphSeparator()
-							+ FluentAPIDocumentationUtil.getDoNotUseFromOutsideDocNote()
-							+ FluentAPIDocumentationUtil.getDocParagraphSeparator());
+							+ ModelConstants.SuperInitialisation.CurrentElement.NAME.inThis());
 		}
 
 		public static class With {

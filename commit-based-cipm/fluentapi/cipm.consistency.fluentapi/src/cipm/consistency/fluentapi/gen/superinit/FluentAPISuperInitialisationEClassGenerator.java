@@ -32,7 +32,8 @@ import cipm.consistency.fluentapi.gen.ModelConstants;
  * 
  */
 public class FluentAPISuperInitialisationEClassGenerator {
-
+	private static final String delegatedDoc = "Delegates to its correspondent in "
+			+ ModelConstants.SuperInitialisation.RootAPI.NAME.inThis();
 	private static final Map<String, String> summaries = new LinkedHashMap<>();
 
 	private EReference getCurrentElementReference() {
@@ -109,7 +110,9 @@ public class FluentAPISuperInitialisationEClassGenerator {
 		summaries.putAll(toAPIGen.getMethodNamesToDescriptions());
 
 		var delegateOpGen = new FluentAPISuperInitialisationDelegateMethodGenerator();
-		context.getInitSuperECls().getEOperations().addAll(delegateOpGen.generateAllDelegateMethods(context));
+		var delegateOps = delegateOpGen.generateAllDelegateMethods(context);
+		context.getInitSuperECls().getEOperations().addAll(delegateOps);
+		delegateOps.forEach((op) -> summaries.put(op.getName(), delegatedDoc));
 	}
 
 	/**
