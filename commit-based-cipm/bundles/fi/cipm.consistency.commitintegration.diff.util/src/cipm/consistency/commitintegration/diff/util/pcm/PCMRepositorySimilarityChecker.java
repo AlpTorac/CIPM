@@ -1,5 +1,6 @@
 package cipm.consistency.commitintegration.diff.util.pcm;
 
+<<<<<<< HEAD
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.ComposedSwitch;
 import org.palladiosimulator.pcm.core.PCMRandomVariable;
@@ -25,12 +26,20 @@ import org.palladiosimulator.pcm.seff.ResourceDemandingBehaviour;
 import org.palladiosimulator.pcm.seff.ResourceDemandingSEFF;
 import org.palladiosimulator.pcm.seff.util.SeffSwitch;
 import org.splevo.jamopp.diffing.similarity.SimilarityChecker;
+=======
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityRequest;
+import org.splevo.jamopp.diffing.similarity.base.ISimilarityToolbox;
+import org.splevo.jamopp.diffing.similarity.base.ecore.AbstractComposedSwitchSimilarityChecker;
+
+import cipm.consistency.commitintegration.diff.util.pcm.requests.NewPCMRepositorySimilaritySwitchRequest;
+>>>>>>> 37338820e (All newsc commits squashed)
 
 /**
  * A SimilarityChecker for PCM repository models.
  * 
  * @author Martin Armbruster
  */
+<<<<<<< HEAD
 public class PCMRepositorySimilarityChecker extends SimilarityChecker {
     @Override
     protected Boolean checkSimilarityForResolvedAndSameType(EObject element1, EObject element2,
@@ -278,4 +287,20 @@ public class PCMRepositorySimilarityChecker extends SimilarityChecker {
             return null;
         }
     }
+=======
+public class PCMRepositorySimilarityChecker extends AbstractComposedSwitchSimilarityChecker {
+	public PCMRepositorySimilarityChecker(ISimilarityToolbox st) {
+		super(st);
+	}
+    
+	@Override
+	protected PCMRepositorySimilarityComparer createSimilarityComparer(ISimilarityToolbox st) {
+		return new PCMRepositorySimilarityComparer(st);
+	}
+
+	@Override
+	protected ISimilarityRequest makeDefaultSwitchRequest() {
+		return new NewPCMRepositorySimilaritySwitchRequest(true);
+	}
+>>>>>>> 37338820e (All newsc commits squashed)
 }

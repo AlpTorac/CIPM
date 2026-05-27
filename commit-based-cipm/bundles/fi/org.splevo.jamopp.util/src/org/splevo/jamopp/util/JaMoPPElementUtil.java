@@ -412,6 +412,7 @@ public final class JaMoPPElementUtil {
         return null;
     }
 
+<<<<<<< HEAD
     /**
      * Get the position of a statement in its container. If the container is not a
      * {@link StatementListContainer} the method will always return -1.
@@ -430,6 +431,22 @@ public final class JaMoPPElementUtil {
 
         return -1;
     }
+=======
+	/**
+	 * Get the position of a statement in its container. If the container is not a
+	 * {@link StatementListContainer} the method will always return -1.
+	 * 
+	 * @param statement The statement to check the position of.
+	 * @return The position in the container's statement list.
+	 */
+	public static int getPositionInContainer(Statement statement) {
+
+		if (statement != null && statement.eContainer() instanceof StatementListContainer) {
+			StatementListContainer container = (StatementListContainer) statement.eContainer();
+			var sts = container.getStatements();
+			return sts != null ? sts.indexOf(statement) : -1;
+		}
+>>>>>>> 37338820e (All newsc commits squashed)
 
     /**
      * Get the import declaration for a type in the compilation unit of a JaMoPP element.
