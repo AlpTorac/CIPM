@@ -1,30 +1,26 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
-import org.emftext.language.java.literals.DecimalIntegerLiteral;
+import java.util.function.Supplier;
+
 import org.emftext.language.java.literals.LiteralsPackage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.initialisers.jamopp.literals.DecimalIntegerLiteralInitialiser;
 
 public class DecimalIntegerLiteralTest extends AbstractJaMoPPSimilarityTest {
-	protected DecimalIntegerLiteral initElement(int val) {
-		var init = new DecimalIntegerLiteralInitialiser();
-		var lit = init.instantiate();
-		Assertions.assertTrue(init.setDecimalValue(lit, val));
-		return lit;
-	}
+	private final Supplier<Integer> decimalValue1 = () -> Integer.valueOf(1);
+	private final Supplier<Integer> decimalValue2 = () -> Integer.valueOf(2);
 
 	@Test
 	public void testDecimalValue() {
-		this.testSimilarity(this.initElement(1), this.initElement(2),
+		this.testSimilarity(getAPI().newDecimalIntegerLiteral(decimalValue1.get()),
+				getAPI().newDecimalIntegerLiteral(decimalValue2.get()),
 				LiteralsPackage.Literals.DECIMAL_INTEGER_LITERAL__DECIMAL_VALUE);
 	}
 
 	@Test
 	public void testDecimalValueNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(1), new DecimalIntegerLiteralInitialiser(), false,
+		this.testSimilarityNullCheck(getAPI().newDecimalIntegerLiteral(decimalValue1.get()),
 				LiteralsPackage.Literals.DECIMAL_INTEGER_LITERAL__DECIMAL_VALUE);
 	}
 }

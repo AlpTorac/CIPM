@@ -3,17 +3,15 @@ package cipm.consistency.fitests.similarity.jamopp.unittests.complextests;
 import java.util.stream.Stream;
 
 import org.emftext.language.java.arrays.ArrayDimension;
+import org.emftext.language.java.members.Method;
+import org.emftext.language.java.parameters.ParametersPackage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesArrayDimensions;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesParameters;
-import cipm.consistency.initialisers.jamopp.members.IMethodInitialiser;
-import cipm.consistency.initialisers.jamopp.parameters.OrdinaryParameterInitialiser;
-import cipm.consistency.initialisers.jamopp.types.ClassifierReferenceInitialiser;
+import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
 
 /**
  * A test class to cover some interactions of similarity checking with
@@ -21,14 +19,13 @@ import cipm.consistency.initialisers.jamopp.types.ClassifierReferenceInitialiser
  * 
  * @author Alp Torac Genc
  */
-public class MethodParameterTRefTest extends AbstractJaMoPPSimilarityTest
-		implements UsesParameters, UsesArrayDimensions {
+public class MethodParameterTRefTest extends AbstractJaMoPPSimilarityTest {
 	/**
 	 * @return Parameters for the test methods in this test class. See the
 	 *         documentation of parameterized test methods.
 	 */
 	private static Stream<Arguments> getTestParams() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IMethodInitialiser.class);
+		return JaMoPPArguments.getAllConcreteClassesBySuperAsArgs(Method.class);
 	}
 
 	/**
@@ -40,15 +37,14 @@ public class MethodParameterTRefTest extends AbstractJaMoPPSimilarityTest
 	 */
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("getTestParams")
-	public void test_SimilarParameters_OneParameterNullTypeReference(IMethodInitialiser metInit, String displayName) {
-		var met1 = metInit.instantiate();
-		Assertions.assertTrue(metInit.initialise(met1));
-		var met2 = metInit.instantiate();
-		Assertions.assertTrue(metInit.initialise(met2));
+	public void test_SimilarParameters_OneParameterNullTypeReference(Class<? extends Method> metCls,
+			String displayName) {
+		var met1 = getAPI().createNewX(metCls);
+		var met2 = getAPI().createNewX(metCls);
 
-		var ordParamInit = new OrdinaryParameterInitialiser();
-		var param1 = this.createMinimalOrdParamWithClsTarget(null, "cls");
-		var param2 = ordParamInit.instantiate();
+		var param1 = getAPI().newOrdinaryParameter().withTypeReference(getAPI().newClassifierReference()
+				.withTarget(getAPI().newClass().withName("cls").createNow()).createNow()).createNow();
+		var param2 = getAPI().createNewOrdinaryParameter();
 
 		// Ensure that parameters are similar
 		this.assertSimilarityResult(param1, param2, true);
@@ -56,8 +52,8 @@ public class MethodParameterTRefTest extends AbstractJaMoPPSimilarityTest
 		// Ensure that param2 has no type reference set
 		Assertions.assertNull(param2.getTypeReference());
 
-		Assertions.assertTrue(metInit.addParameter(met1, param1));
-		Assertions.assertTrue(metInit.addParameter(met2, param2));
+		getAPI().modifyX(met1).xWithAddedFeat(ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS, param1);
+		getAPI().modifyX(met2).xWithAddedFeat(ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS, param2);
 
 		this.testSimilarity(met1, met2, false);
 	}
@@ -72,19 +68,17 @@ public class MethodParameterTRefTest extends AbstractJaMoPPSimilarityTest
 	 */
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("getTestParams")
-	public void test_SimilarParameters_SameTypeReference_DifferentArrayDimension(IMethodInitialiser metInit, String displayName) {
-		var met1 = metInit.instantiate();
-		Assertions.assertTrue(metInit.initialise(met1));
-		var met2 = metInit.instantiate();
-		Assertions.assertTrue(metInit.initialise(met2));
+	public void test_SimilarParameters_SameTypeReference_DifferentArrayDimension(Class<? extends Method> metCls,
+			String displayName) {
+		var met1 = getAPI().createNewX(metCls);
+		var met2 = getAPI().createNewX(metCls);
 
-		var clsRefInit = new ClassifierReferenceInitialiser();
-
-		var clsRef1 = clsRefInit.instantiate();
-		Assertions.assertTrue(clsRefInit.addArrayDimensionAfter(clsRef1, this.createMinimalArrayDimension()));
-		var clsRef2 = clsRefInit.instantiate();
-		Assertions.assertTrue(clsRefInit.addArrayDimensionsAfter(clsRef2,
-				new ArrayDimension[] { this.createMinimalArrayDimension(), this.createMinimalArrayDimension() }));
+		var clsRef1 = getAPI().newClassifierReference()
+				.withAddedArrayDimensionsAfter(getAPI().createNewArrayDimension()).createNow();
+		var clsRef2 = getAPI().newClassifierReference()
+				.withAddedArrayDimensionsAfter(
+						new ArrayDimension[] { getAPI().createNewArrayDimension(), getAPI().createNewArrayDimension() })
+				.createNow();
 
 		// Ensure that clsRefs are similar
 		this.assertSimilarityResult(clsRef1, clsRef2, true);
@@ -92,18 +86,14 @@ public class MethodParameterTRefTest extends AbstractJaMoPPSimilarityTest
 		// Ensure that clsRefs' array dimensions differ
 		Assertions.assertNotEquals(clsRef1.getArrayDimension(), clsRef2.getArrayDimension());
 
-		var ordParamInit = new OrdinaryParameterInitialiser();
-
-		var param1 = ordParamInit.instantiate();
-		Assertions.assertTrue(ordParamInit.setTypeReference(param1, clsRef1));
-		var param2 = ordParamInit.instantiate();
-		Assertions.assertTrue(ordParamInit.setTypeReference(param2, clsRef2));
+		var param1 = getAPI().newOrdinaryParameter().withTypeReference(clsRef1).createNow();
+		var param2 = getAPI().newOrdinaryParameter().withTypeReference(clsRef2).createNow();
 
 		// Ensure that params are similar
 		this.assertSimilarityResult(param1, param2, true);
 
-		Assertions.assertTrue(metInit.addParameter(met1, param1));
-		Assertions.assertTrue(metInit.addParameter(met2, param2));
+		getAPI().modifyX(met1).xWithAddedFeat(ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS, param1);
+		getAPI().modifyX(met2).xWithAddedFeat(ParametersPackage.Literals.PARAMETRIZABLE__PARAMETERS, param2);
 
 		this.testSimilarity(met1, met2, false);
 	}

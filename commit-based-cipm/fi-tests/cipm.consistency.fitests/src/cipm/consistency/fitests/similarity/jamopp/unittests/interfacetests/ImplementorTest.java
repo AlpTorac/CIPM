@@ -1,55 +1,53 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.interfacetests;
 
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.emftext.language.java.classifiers.ClassifiersPackage;
 import org.emftext.language.java.classifiers.Implementor;
 import org.emftext.language.java.types.TypeReference;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesTypeReferences;
-import cipm.consistency.initialisers.jamopp.classifiers.IImplementorInitialiser;
+import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
 
-public class ImplementorTest extends AbstractJaMoPPSimilarityTest implements UsesTypeReferences {
+public class ImplementorTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<TypeReference> implements1 = () -> getAPI().createNewClassifierReference();
+	private final Supplier<TypeReference> implements2 = () -> getAPI().createNewNamespaceClassifierReference();
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IImplementorInitialiser.class);
-	}
-
-	protected Implementor initElement(IImplementorInitialiser init, TypeReference[] impls) {
-		Implementor result = init.instantiate();
-		Assertions.assertTrue(init.initialise(result));
-		Assertions.assertTrue(init.addImplements(result, impls));
-		return result;
+		return JaMoPPArguments.getAllConcreteClassesBySuperAsArgs(Implementor.class);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testImplements(IImplementorInitialiser init, String displayName) {
-		var objOne = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") });
-		var objTwo = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls2") });
-
-		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
+	public void testImplements(Class<?> cls, String displayName) {
+		this.testSimilarity(
+				getAPI().newX(cls).xWithAddedFeat(ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS,
+						implements1.get()).createNow(),
+				getAPI().newX(cls).xWithAddedFeat(ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS,
+						implements2.get()).createNow(),
+				ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testImplementsSize(IImplementorInitialiser init, String displayName) {
-		var objOne = this.initElement(init,
-				new TypeReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
-		var objTwo = this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") });
-
-		this.testSimilarity(objOne, objTwo, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
+	public void testImplementsSize(Class<?> cls, String displayName) {
+		this.testSimilarity(
+				getAPI().newX(cls).xWithAddedFeat(ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS,
+						new TypeReference[] { implements1.get(), implements2.get() }).createNow(),
+				getAPI().newX(cls).xWithAddedFeat(ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS,
+						implements1.get()).createNow(),
+				ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testImplementsNullCheck(IImplementorInitialiser init, String displayName) {
-		this.testSimilarityNullCheck(this.initElement(init, new TypeReference[] { this.createMinimalClsRef("cls1") }),
-				init, true, ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
+	public void testImplementsNullCheck(Class<?> cls, String displayName) {
+		this.testSimilarityNullCheck(getAPI().newX(cls)
+				.xWithAddedFeat(ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS, implements1.get()).createNow(),
+				ClassifiersPackage.Literals.IMPLEMENTOR__IMPLEMENTS);
 	}
 }

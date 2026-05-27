@@ -14,9 +14,6 @@ import org.mockito.stubbing.Answer;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.unittests.IIdentifierReferenceTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesConcreteClassifiers;
-import cipm.consistency.initialisers.jamopp.references.IdentifierReferenceInitialiser;
-import cipm.consistency.initialisers.jamopp.references.StringReferenceInitialiser;
 
 /**
  * Contains mock tests concerning similarity checking of
@@ -27,15 +24,15 @@ import cipm.consistency.initialisers.jamopp.references.StringReferenceInitialise
  * @author Alp Torac Genc
  */
 public class IdentifierReferenceMockTest extends AbstractJaMoPPSimilarityTest
-		implements IMockTest, IIdentifierReferenceTest, UsesConcreteClassifiers {
+		implements IMockTest, IIdentifierReferenceTest {
 
 	/**
 	 * A variant of {@link #createReferenceableReferenceMock(Reference)} that uses
 	 * standard values, except for the previous reference variable.
 	 */
 	private ReferenceableElement createReferenceableReferenceMock(Reference prevRef) {
-		return this.createReferenceableReferenceMock(this.createMinimalClass(),
-				new StringReferenceInitialiser().instantiate(), prevRef);
+		return this.createReferenceableReferenceMock(getAPI().createNewClass(), getAPI().createNewStringReference(),
+				prevRef);
 	}
 
 	/**
@@ -88,18 +85,17 @@ public class IdentifierReferenceMockTest extends AbstractJaMoPPSimilarityTest
 	 */
 	@Test
 	public void test_TargetEqualsNext_InBothRefs() {
-		var objInit = new IdentifierReferenceInitialiser();
-		var objOne = objInit.instantiate();
-		var objTwo = objInit.instantiate();
+		var objOne = getAPI().createNewIdentifierReference();
+		var objTwo = getAPI().createNewIdentifierReference();
 
 		var targetOne = this.createReferenceableReferenceMock(objOne);
 		var targetTwo = this.createReferenceableReferenceMock(objTwo);
 
-		objInit.setTarget(objOne, targetOne);
-		objInit.setNext(objOne, (Reference) targetOne);
+		objOne.setTarget(targetOne);
+		objOne.setNext((Reference) targetOne);
 
-		objInit.setTarget(objTwo, targetTwo);
-		objInit.setNext(objTwo, (Reference) targetTwo);
+		objTwo.setTarget(targetTwo);
+		objTwo.setNext((Reference) targetTwo);
 
 		// Assert that the setup went as intended
 		Assertions.assertNull(objOne.eContainer());
@@ -145,25 +141,23 @@ public class IdentifierReferenceMockTest extends AbstractJaMoPPSimilarityTest
 	 */
 	@Test
 	public void test_TargetEqualsNext_InOneRef() {
-		var objInit = new IdentifierReferenceInitialiser();
-
-		var objOne = objInit.instantiate();
-		var objTwo = objInit.instantiate();
+		var objOne = getAPI().createNewIdentifierReference();
+		var objTwo = getAPI().createNewIdentifierReference();
 
 		// A 3rd IdentifierReference is needed as the temporary
 		// prev of targetTwo (see below)
-		var objThree = objInit.instantiate();
+		var objThree = getAPI().createNewIdentifierReference();
 
 		var targetOne = this.createReferenceableReferenceMock(objOne);
 		var targetTwo = this.createReferenceableReferenceMock(objTwo);
 
-		objInit.setTarget(objOne, targetOne);
-		objInit.setNext(objOne, (Reference) targetOne);
+		objOne.setTarget(targetOne);
+		objOne.setNext((Reference) targetOne);
 
 		// Only set targetTwo as target in objTwo and not also as next, since that will
 		// make objTwo its container
-		objInit.setTarget(objTwo, targetTwo);
-		objInit.setNext(objThree, (Reference) targetTwo);
+		objTwo.setTarget(targetTwo);
+		objThree.setNext((Reference) targetTwo);
 
 		// Assert that the setup went as intended
 		Assertions.assertNull(objOne.eContainer());

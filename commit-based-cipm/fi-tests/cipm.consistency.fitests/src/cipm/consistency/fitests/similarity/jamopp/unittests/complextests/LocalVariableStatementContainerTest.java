@@ -4,8 +4,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.initialisers.jamopp.members.ClassMethodInitialiser;
-import cipm.consistency.initialisers.jamopp.statements.LocalVariableStatementInitialiser;
 
 /**
  * A test class aiming to test how similarity checking interacts with containers
@@ -22,14 +20,10 @@ public class LocalVariableStatementContainerTest extends AbstractJaMoPPSimilarit
 	 */
 	@Test
 	public void testDifferentContainers() {
-		var stInit = new LocalVariableStatementInitialiser();
-		var clsMetInit = new ClassMethodInitialiser();
-		var clsMet1 = clsMetInit.instantiate();
+		var st11 = getAPI().createNewLocalVariableStatement();
+		var st21 = getAPI().createNewLocalVariableStatement();
 
-		var st11 = stInit.instantiate();
-		var st21 = stInit.instantiate();
-
-		Assertions.assertTrue(clsMetInit.setStatement(clsMet1, st11));
+		var clsMet1 = getAPI().newClassMethod().withStatement(st11).createNow();
 
 		// Ensure that the containers of both statements are different
 		Assertions.assertEquals(st11.eContainer(), clsMet1);

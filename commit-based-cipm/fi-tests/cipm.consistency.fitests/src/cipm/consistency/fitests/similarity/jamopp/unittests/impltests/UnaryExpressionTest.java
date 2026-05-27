@@ -1,57 +1,53 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
+import java.util.function.Supplier;
+
 import org.emftext.language.java.expressions.ExpressionsPackage;
-import org.emftext.language.java.expressions.UnaryExpression;
 import org.emftext.language.java.expressions.UnaryExpressionChild;
 import org.emftext.language.java.operators.UnaryOperator;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
-import cipm.consistency.initialisers.jamopp.expressions.UnaryExpressionInitialiser;
 
-public class UnaryExpressionTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions {
-	protected UnaryExpression initElement(UnaryExpressionChild child, UnaryOperator[] ops) {
-		var ueInit = new UnaryExpressionInitialiser();
-		var ue = ueInit.instantiate();
-		Assertions.assertTrue(ueInit.setChild(ue, child));
-		Assertions.assertTrue(ueInit.addOperators(ue, ops));
-		return ue;
-	}
+public class UnaryExpressionTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<UnaryExpressionChild> child1 = () -> getAPI().newDecimalIntegerLiteral(1);
+	private final Supplier<UnaryExpressionChild> child2 = () -> getAPI().newDecimalIntegerLiteral(2);
+
+	private final Supplier<UnaryOperator> operator1 = () -> getAPI().newAddition();
+	private final Supplier<UnaryOperator> operator2 = () -> getAPI().newSubtraction();
 
 	@Test
 	public void testChild() {
-		this.testSimilarity(this.initElement(this.createDecimalIntegerLiteral(1), null),
-				this.initElement(this.createDecimalIntegerLiteral(2), null),
+		this.testSimilarity(getAPI().newUnaryExpression().withChild(child1.get()).createNow(),
+				getAPI().newUnaryExpression().withChild(child2.get()).createNow(),
 				ExpressionsPackage.Literals.UNARY_EXPRESSION__CHILD);
 	}
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createDecimalIntegerLiteral(1), null),
-				new UnaryExpressionInitialiser(), false, ExpressionsPackage.Literals.UNARY_EXPRESSION__CHILD);
+		this.testSimilarityNullCheck(getAPI().newUnaryExpression().withChild(child1.get()).createNow(),
+				ExpressionsPackage.Literals.UNARY_EXPRESSION__CHILD);
 	}
 
 	@Test
 	public void testOperator() {
-		this.testSimilarity(this.initElement(null, new UnaryOperator[] { this.createAdditionOperator() }),
-				this.initElement(null, new UnaryOperator[] { this.createSubtractionOperator() }),
+		this.testSimilarity(getAPI().newUnaryExpression().withAddedOperators(operator1.get()).createNow(),
+				getAPI().newUnaryExpression().withAddedOperators(operator2.get()).createNow(),
 				ExpressionsPackage.Literals.UNARY_EXPRESSION__OPERATORS);
 	}
 
 	@Test
 	public void testOperatorSize() {
 		this.testSimilarity(
-				this.initElement(null,
-						new UnaryOperator[] { this.createAdditionOperator(), this.createSubtractionOperator() }),
-				this.initElement(null, new UnaryOperator[] { this.createAdditionOperator() }),
+				getAPI().newUnaryExpression()
+						.withAddedOperators(new UnaryOperator[] { operator1.get(), operator2.get() }).createNow(),
+				getAPI().newUnaryExpression().withAddedOperators(operator1.get()).createNow(),
 				ExpressionsPackage.Literals.UNARY_EXPRESSION__OPERATORS);
 	}
 
 	@Test
 	public void testOperatorNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(null, new UnaryOperator[] { this.createAdditionOperator() }),
-				new UnaryExpressionInitialiser(), false, ExpressionsPackage.Literals.UNARY_EXPRESSION__OPERATORS);
+		this.testSimilarityNullCheck(getAPI().newUnaryExpression().withAddedOperators(operator1.get()).createNow(),
+				ExpressionsPackage.Literals.UNARY_EXPRESSION__OPERATORS);
 	}
 }

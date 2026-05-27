@@ -1,46 +1,40 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.interfacetests;
 
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.imports.Import;
 import org.emftext.language.java.imports.ImportsPackage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesImports;
-import cipm.consistency.initialisers.jamopp.imports.IImportInitialiser;
+import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
 
-public class ImportTest extends AbstractJaMoPPSimilarityTest implements UsesImports {
+public class ImportTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<ConcreteClassifier> classifier1 = () -> getAPI().newClass().withName("cls1").createNow();
+	private final Supplier<ConcreteClassifier> classifier2 = () -> getAPI().newClass().withName("cls2").createNow();
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IImportInitialiser.class);
-	}
-
-	protected Import initElement(IImportInitialiser init, ConcreteClassifier cls) {
-		Import result = init.instantiate();
-		Assertions.assertTrue(init.initialise(result));
-		Assertions.assertTrue(init.setClassifier(result, cls));
-
-		return result;
+		return JaMoPPArguments.getAllConcreteClassesBySuperAsArgs(Import.class);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testClassifier(IImportInitialiser init, String displayName) {
-		var objOne = this.initElement(init, this.createMinimalClass("cls1Name"));
-		var objTwo = this.initElement(init, this.createMinimalClass("cls2Name"));
-
-		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.IMPORT__CLASSIFIER);
+	public void testClassifier(Class<?> cls, String displayName) {
+		this.testSimilarity(
+				getAPI().newX(cls).xWithFeat(ImportsPackage.Literals.IMPORT__CLASSIFIER, classifier1.get()).createNow(),
+				getAPI().newX(cls).xWithFeat(ImportsPackage.Literals.IMPORT__CLASSIFIER, classifier2.get()).createNow(),
+				ImportsPackage.Literals.IMPORT__CLASSIFIER);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testClassifierNullCheck(IImportInitialiser init, String displayName) {
-		this.testSimilarityNullCheck(this.initElement(init, this.createMinimalClass("cls1Name")), init, true,
+	public void testClassifierNullCheck(Class<?> cls, String displayName) {
+		this.testSimilarityNullCheck(
+				getAPI().newX(cls).xWithFeat(ImportsPackage.Literals.IMPORT__CLASSIFIER, classifier1.get()).createNow(),
 				ImportsPackage.Literals.IMPORT__CLASSIFIER);
 	}
 }

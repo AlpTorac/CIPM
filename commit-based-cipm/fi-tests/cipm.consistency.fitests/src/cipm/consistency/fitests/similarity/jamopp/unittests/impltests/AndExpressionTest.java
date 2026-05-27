@@ -1,41 +1,32 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
-import org.emftext.language.java.expressions.AndExpression;
+import java.util.function.Supplier;
+
 import org.emftext.language.java.expressions.AndExpressionChild;
 import org.emftext.language.java.expressions.ExpressionsPackage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
-import cipm.consistency.initialisers.jamopp.expressions.AndExpressionInitialiser;
 
-public class AndExpressionTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions {
-	protected AndExpression initElement(AndExpressionChild[] children) {
-		var aeInit = new AndExpressionInitialiser();
-		var ae = aeInit.instantiate();
-		Assertions.assertTrue(aeInit.addChildren(ae, children));
-		return ae;
-	}
+public class AndExpressionTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<AndExpressionChild> child1 = () -> getAPI().newDecimalIntegerLiteral(1);
+	private final Supplier<AndExpressionChild> child2 = () -> getAPI().newDecimalIntegerLiteral(2);
 
 	@Test
 	public void testChild() {
-		this.testSimilarity(this.initElement(new AndExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
-				this.initElement(new AndExpressionChild[] { this.createDecimalIntegerLiteral(2) }),
+		this.testSimilarity(getAPI().newAndExpression(child1.get()), getAPI().newAndExpression(child2.get()),
 				ExpressionsPackage.Literals.AND_EXPRESSION__CHILDREN);
 	}
 
 	@Test
 	public void testChildSize() {
-		this.testSimilarity(this.initElement(
-				new AndExpressionChild[] { this.createDecimalIntegerLiteral(1), this.createDecimalIntegerLiteral(2) }),
-				this.initElement(new AndExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
-				ExpressionsPackage.Literals.AND_EXPRESSION__CHILDREN);
+		this.testSimilarity(getAPI().newAndExpression(new AndExpressionChild[] { child1.get(), child2.get() }),
+				getAPI().newAndExpression(child1.get()), ExpressionsPackage.Literals.AND_EXPRESSION__CHILDREN);
 	}
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(new AndExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
-				new AndExpressionInitialiser(), false, ExpressionsPackage.Literals.AND_EXPRESSION__CHILDREN);
+		this.testSimilarityNullCheck(getAPI().newAndExpression(child1.get()),
+				ExpressionsPackage.Literals.AND_EXPRESSION__CHILDREN);
 	}
 }

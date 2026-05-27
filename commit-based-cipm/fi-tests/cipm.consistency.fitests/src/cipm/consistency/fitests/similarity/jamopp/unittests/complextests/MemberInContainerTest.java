@@ -8,14 +8,14 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.members.Constructor;
 import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MemberContainer;
+import org.emftext.language.java.members.MembersPackage;
 import org.emftext.language.java.members.Method;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.initialisers.jamopp.members.IMemberContainerInitialiser;
-import cipm.consistency.initialisers.jamopp.members.IMemberInitialiser;
+import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
 
 /**
  * Tests whether {@link Member} implementors' similarity is computed as
@@ -50,15 +50,13 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	private static Stream<Arguments> genTestParams() {
 		var res = new ArrayList<Arguments>();
-
-		for (var memInit : getNonAdaptedInitialisersFor(IMemberInitialiser.class)) {
-			for (var memConInit1 : getNonAdaptedInitialisersFor(IMemberContainerInitialiser.class)) {
-				for (var memConInit2 : getNonAdaptedInitialisersFor(IMemberContainerInitialiser.class)) {
-					res.add(Arguments.of(memInit, memConInit1, memConInit2,
-							String.format("%s inside different containers (%s vs %s)",
-									memInit.getInstanceClassOfInitialiser().getSimpleName(),
-									memConInit1.getInstanceClassOfInitialiser().getSimpleName(),
-									memConInit2.getInstanceClassOfInitialiser().getSimpleName())));
+		var memConClss = JaMoPPArguments.getAllConcreteClassesBySuper(MemberContainer.class);
+		for (var memCls : JaMoPPArguments.getAllConcreteClassesBySuper(Member.class)) {
+			for (var memConCls11 : memConClss) {
+				for (var memConCls2 : memConClss) {
+					res.add(Arguments.of(memCls, memConCls11, memConCls2,
+							String.format("%s inside different containers (%s vs %s)", memCls.getSimpleName(),
+									memConCls11.getSimpleName(), memConCls2.getSimpleName())));
 				}
 			}
 		}
@@ -71,16 +69,15 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@ParameterizedTest(name = "Member: {3}")
 	@MethodSource("genTestParams")
-	public void testMembersInContainers(IMemberInitialiser memInit, IMemberContainerInitialiser memConInit1,
-			IMemberContainerInitialiser memConInit2, String displayName) {
-		var member1 = memInit.instantiate();
-		var member2 = memInit.instantiate();
+	public void testMembersInContainers(Class<? extends Member> memCls, Class<? extends MemberContainer> memConCls1,
+			Class<? extends MemberContainer> memConCls2, String displayName) {
+		var member1 = getAPI().createNewX(memCls);
+		var member2 = getAPI().createNewX(memCls);
 
-		var memCon1 = memConInit1.instantiate();
-		var memCon2 = memConInit2.instantiate();
-
-		memConInit1.addMember(memCon1, member1);
-		memConInit2.addMember(memCon2, member2);
+		var memCon1 = getAPI().newX(memConCls1)
+				.xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS, member1).createNow(memConCls1);
+		var memCon2 = getAPI().newX(memConCls2)
+				.xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS, member2).createNow(memConCls2);
 
 		this.testSimilarity(member1, member2,
 				this.getExpectedSimilarityResultForMembers(member1, member2, memCon1, memCon2));
@@ -91,16 +88,18 @@ public class MemberInContainerTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@ParameterizedTest(name = "Default member: {3}")
 	@MethodSource("genTestParams")
-	public void testDefaultMembersInContainers(IMemberInitialiser memInit, IMemberContainerInitialiser memConInit1,
-			IMemberContainerInitialiser memConInit2, String displayName) {
-		var member1 = memInit.instantiate();
-		var member2 = memInit.instantiate();
+	public void testDefaultMembersInContainers(Class<? extends Member> memCls,
+			Class<? extends MemberContainer> memConCls1, Class<? extends MemberContainer> memConCls2,
+			String displayName) {
+		var member1 = getAPI().createNewX(memCls);
+		var member2 = getAPI().createNewX(memCls);
 
-		var memCon1 = memConInit1.instantiate();
-		var memCon2 = memConInit2.instantiate();
-
-		memConInit1.addDefaultMember(memCon1, member1);
-		memConInit2.addDefaultMember(memCon2, member2);
+		var memCon1 = getAPI().newX(memConCls1)
+				.xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS, member1)
+				.createNow(memConCls1);
+		var memCon2 = getAPI().newX(memConCls2)
+				.xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__DEFAULT_MEMBERS, member2)
+				.createNow(memConCls2);
 
 		this.testSimilarity(member1, member2,
 				this.getExpectedSimilarityResultForMembers(member1, member2, memCon1, memCon2));

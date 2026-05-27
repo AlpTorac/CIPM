@@ -12,13 +12,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import cipm.consistency.initialisers.IInitialiserBase;
-import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
-import cipm.consistency.initialisers.jamopp.containers.ModuleInitialiser;
-import cipm.consistency.initialisers.jamopp.containers.PackageInitialiser;
-
-import org.emftext.language.java.containers.Module;
-
 /**
  * A test class dedicated to test the general control flow of similarity
  * checking. <br>
@@ -31,35 +24,16 @@ import org.emftext.language.java.containers.Module;
  * @author Alp Torac Genc
  */
 public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
-	/**
-	 * Provides all non-adapted versions of {@link IJaMoPPEObjectInitialiser}
-	 * implementors.
-	 */
-	private static Stream<Arguments> provideNonAdaptedInitialisers() {
-		return AbstractJaMoPPSimilarityTest.getNonAdaptedInitialiserArgumentsFor(IJaMoPPEObjectInitialiser.class);
-	}
+//	private static final org.emftext.language.java.containers.Module modInstance = ContainersFactory.eINSTANCE
+//			.createModule();
+//	private static final org.emftext.language.java.containers.Package pacInstance = ContainersFactory.eINSTANCE
+//			.createPackage();
 
 	/**
-	 * Provides all adapted versions of {@link IJaMoPPEObjectInitialiser}
-	 * implementors.
+	 * Provides all versions of {@link EObjectInstantiator} implementors.
 	 */
-	private static Stream<Arguments> provideAdaptedInitialisers() {
-		return AbstractJaMoPPSimilarityTest.getAdaptedInitialiserArgumentsFor(IJaMoPPEObjectInitialiser.class);
-	}
-
-	/**
-	 * Provides all versions of {@link IJaMoPPEObjectInitialiser} implementors.
-	 */
-	private static Stream<Arguments> provideAllInitialisers() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IJaMoPPEObjectInitialiser.class);
-	}
-
-	/**
-	 * Provides one instance of each {@link IJaMoPPEObjectInitialiser} implementor.
-	 * The initialiser instance will be adapted, if possible.
-	 */
-	private static Stream<Arguments> provideEachInitialiserOnce() {
-		return AbstractJaMoPPSimilarityTest.getEachInitialiserArgumentsOnceFor(IJaMoPPEObjectInitialiser.class);
+	private static Stream<Arguments> provideArguments() {
+		return JaMoPPArguments.getAllConcreteClassesAsArgs();
 	}
 
 	/**
@@ -74,16 +48,6 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	private List<? extends EObject> toList(EObject... eos) {
 		return List.of(eos);
-	}
-
-	/**
-	 * Instantiates an object using init, initialises that object and returns it.
-	 * Asserts that the initialisation is successful.
-	 */
-	private EObject instantiateAndInitialise(IJaMoPPEObjectInitialiser init) {
-		var obj = init.instantiate();
-		Assertions.assertTrue(init.initialise(obj));
-		return obj;
 	}
 
 	/**
@@ -190,63 +154,6 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	}
 
 	/**
-	 * Ensure that the inherited {@link IJaMoPPEObjectInitialiser#newInitialiser()}
-	 * returns an initialiser instance of the same type. <br>
-	 * <br>
-	 * All versions of initialisers are included to make sure that adapting
-	 * initialisers does not break type equality of the returned initialiser.
-	 */
-	@ParameterizedTest(name = "{1}")
-	@MethodSource("provideAllInitialisers")
-	public void test_NewInitialiser_TypeCheck(IJaMoPPEObjectInitialiser initialiser, String displayName) {
-		Assertions.assertEquals(initialiser.getClass(), initialiser.newInitialiser().getClass());
-	}
-
-	/**
-	 * Ensure that the inherited {@link IJaMoPPEObjectInitialiser#newInitialiser()}
-	 * does not consider adaptation strategies.
-	 */
-	@ParameterizedTest(name = "{1}")
-	@MethodSource("provideAdaptedInitialisers")
-	public void test_NewInitialiser_AdaptationStrategiesNotCopied(IInitialiserBase initialiser, String displayName) {
-		var newInit = (IInitialiserBase) initialiser.newInitialiser();
-		Assertions.assertFalse(newInit.isAdapted());
-	}
-
-	/**
-	 * Ensure that adaptation strategies of adapted initialisers are copied for the
-	 * new initialiser instance. Also make sure that the new adaptation strategies
-	 * are not reference equal.
-	 */
-	@ParameterizedTest(name = "{1}")
-	@MethodSource("provideAdaptedInitialisers")
-	public void test_NewInitialiser_WithAdaptationStrategies(IInitialiserBase initialiser, String displayName) {
-		var newInit = initialiser.newInitialiserWithStrategies();
-
-		Assertions.assertEquals(initialiser.getClass(), newInit.getClass());
-
-		if (initialiser.isAdapted()) {
-			Assertions.assertTrue(newInit.isAdapted());
-
-			var strats = initialiser.getAdaptingStrategies();
-			var newStrats = newInit.getAdaptingStrategies();
-
-			Assertions.assertEquals(strats.size(), newStrats.size());
-
-			// Ensure that new adaptation strategies are not reference equal
-			for (var s : strats) {
-				Assertions.assertTrue(newStrats.stream().noneMatch((ns) -> ns == s));
-
-				// Approximate equality of contents by checking amount of elements of same type
-				Assertions.assertEquals(strats.stream().filter((s2) -> s2.getClass().equals(s.getClass())).count(),
-						newStrats.stream().filter((ns) -> ns.getClass().equals(s.getClass())).count());
-			}
-		} else {
-			Assertions.assertFalse(newInit.isAdapted());
-		}
-	}
-
-	/**
 	 * Checks if similarity checking causes issues, if the {@link EObject} instances
 	 * on both sides are not properly initialised. <br>
 	 * <br>
@@ -254,37 +161,21 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 * not be initialised.
 	 */
 	@ParameterizedTest(name = "{1}")
-	@MethodSource("provideNonAdaptedInitialisers")
-	public void test_IsSimilar_Uninitialised_ObjectsEqual(IJaMoPPEObjectInitialiser initialiser, String displayName) {
-		var obj1 = initialiser.instantiate();
-		var obj2 = initialiser.instantiate();
+	@MethodSource("provideArguments")
+	public void test_IsSimilar_ObjectsEqual(Class<? extends EObject> cls, String displayName) {
+		var obj1 = getAPI().createNewX(cls);
+		var obj2 = getAPI().createNewX(cls);
 
 		this.assertIsSimilar(obj1, obj2);
-	}
-
-	/**
-	 * Checks if two minimally initialised {@link EObject} instances are
-	 * similar.<br>
-	 * <br>
-	 * Only adapted initialisers are used, since the generated instances should be
-	 * initialised.
-	 */
-	@ParameterizedTest(name = "{1}")
-	@MethodSource("provideAdaptedInitialisers")
-	public void test_IsSimilar_Initialised_ObjectsEqual(IJaMoPPEObjectInitialiser initialiser, String displayName) {
-		var obj11 = this.instantiateAndInitialise(initialiser);
-		var obj12 = this.instantiateAndInitialise(initialiser);
-
-		this.assertIsSimilar(obj11, obj12);
 	}
 
 	/**
 	 * Checks if the same {@link EObject} instance is similar to itself.
 	 */
 	@ParameterizedTest(name = "{1}")
-	@MethodSource("provideAllInitialisers")
-	public void test_IsSimilar_SameReference(IJaMoPPEObjectInitialiser initialiser, String displayName) {
-		var obj11 = initialiser.instantiate();
+	@MethodSource("provideArguments")
+	public void test_IsSimilar_SameReference(Class<? extends EObject> cls, String displayName) {
+		var obj11 = getAPI().createNewX(cls);
 
 		this.assertIsSimilar(obj11, obj11);
 	}
@@ -293,9 +184,9 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 * Checks if an {@link EObject} instance is similar to its clone.
 	 */
 	@ParameterizedTest(name = "{1}")
-	@MethodSource("provideAllInitialisers")
-	public void test_IsSimilar_CloneEqual(IJaMoPPEObjectInitialiser initialiser, String displayName) {
-		var obj11 = initialiser.instantiate();
+	@MethodSource("provideArguments")
+	public void test_IsSimilar_CloneEqual(Class<? extends EObject> cls, String displayName) {
+		var obj11 = getAPI().createNewX(cls);
 		var objClone = this.cloneEObj(obj11);
 
 		this.assertIsSimilar(obj11, objClone);
@@ -306,10 +197,7 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@Test
 	public void test_IsSimilar_OneSide_Null() {
-		var initialiser = new ModuleInitialiser();
-		var obj = initialiser.instantiate();
-
-		this.assertIsSimilar(null, obj, Boolean.FALSE);
+		this.assertIsSimilar(null, getAPI().createNewModule(), Boolean.FALSE);
 	}
 
 	/**
@@ -326,10 +214,7 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@Test
 	public void test_IsSimilar_ClassMismatch() {
-		var mod = new ModuleInitialiser().instantiate();
-		var pac = new PackageInitialiser().instantiate();
-
-		this.assertIsSimilar(mod, pac, Boolean.FALSE);
+		this.assertIsSimilar(getAPI().createNewModule(), getAPI().createNewPackage(), Boolean.FALSE);
 	}
 
 	/**
@@ -341,10 +226,10 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 * not be initialised.
 	 */
 	@ParameterizedTest(name = "{1}")
-	@MethodSource("provideNonAdaptedInitialisers")
-	public void test_AreSimilar_Uninitialised_SingleObject(IJaMoPPEObjectInitialiser initialiser, String displayName) {
-		var obj1 = initialiser.instantiate();
-		var obj2 = initialiser.instantiate();
+	@MethodSource("provideArguments")
+	public void test_AreSimilar_SingleObject(Class<? extends EObject> cls, String displayName) {
+		var obj1 = getAPI().createNewX(cls);
+		var obj2 = getAPI().createNewX(cls);
 
 		this.assertAreSimilar(this.toList(obj1), this.toList(obj2));
 	}
@@ -358,49 +243,12 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 * not be initialised.
 	 */
 	@ParameterizedTest(name = "{1}")
-	@MethodSource("provideNonAdaptedInitialisers")
-	public void test_AreSimilar_Uninitialised_MultipleObjects(IJaMoPPEObjectInitialiser initialiser,
-			String displayName) {
-		var obj11 = initialiser.instantiate();
-		var obj12 = initialiser.instantiate();
-		var obj21 = initialiser.instantiate();
-		var obj22 = initialiser.instantiate();
-
-		this.assertAreSimilar(this.toList(obj11, obj12), this.toList(obj21, obj22));
-	}
-
-	/**
-	 * Checks whether similarity checking causes issues, if 2 lists each with 1
-	 * {@link EObject} instance cause issues, where the mentioned instances are not
-	 * initialised properly.<br>
-	 * <br>
-	 * Only adapted initialisers are used, since the generated instances should be
-	 * initialised.
-	 */
-	@ParameterizedTest(name = "{1}")
-	@MethodSource("provideAdaptedInitialisers")
-	public void test_AreSimilar_Initialised_SingleObject(IJaMoPPEObjectInitialiser initialiser, String displayName) {
-		var obj1 = this.instantiateAndInitialise(initialiser);
-		var obj2 = this.instantiateAndInitialise(initialiser);
-
-		this.assertAreSimilar(this.toList(obj1), this.toList(obj2));
-	}
-
-	/**
-	 * Checks if similarity checking causes issues, if 2 lists each with 2
-	 * {@link EObject} instance cause issues, where the mentioned {@link EObject}
-	 * instances are not initialised properly.<br>
-	 * <br>
-	 * Only adapted initialisers are used, since the generated instances should be
-	 * initialised.
-	 */
-	@ParameterizedTest(name = "{1}")
-	@MethodSource("provideAdaptedInitialisers")
-	public void test_AreSimilar_Initialised_MultipleObjects(IJaMoPPEObjectInitialiser initialiser, String displayName) {
-		var obj11 = this.instantiateAndInitialise(initialiser);
-		var obj12 = this.instantiateAndInitialise(initialiser);
-		var obj21 = this.instantiateAndInitialise(initialiser);
-		var obj22 = this.instantiateAndInitialise(initialiser);
+	@MethodSource("provideArguments")
+	public void test_AreSimilar_MultipleObjects(Class<? extends EObject> cls, String displayName) {
+		var obj11 = getAPI().createNewX(cls);
+		var obj12 = getAPI().createNewX(cls);
+		var obj21 = getAPI().createNewX(cls);
+		var obj22 = getAPI().createNewX(cls);
 
 		this.assertAreSimilar(this.toList(obj11, obj12), this.toList(obj21, obj22));
 	}
@@ -410,9 +258,9 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 * itself. The said list contains one {@link EObject} instance.
 	 */
 	@ParameterizedTest(name = "{1}")
-	@MethodSource("provideNonAdaptedInitialisers")
-	public void test_AreSimilar_SingleObject_SameReference(IJaMoPPEObjectInitialiser initialiser, String displayName) {
-		var obj = initialiser.instantiate();
+	@MethodSource("provideArguments")
+	public void test_AreSimilar_SingleObject_SameReference(Class<? extends EObject> cls, String displayName) {
+		var obj = getAPI().createNewX(cls);
 		var list = this.toList(obj);
 
 		this.assertAreSimilar(list, list);
@@ -423,9 +271,9 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 * another list that contains only a clone of that {@link EObject} instance.
 	 */
 	@ParameterizedTest(name = "{1}")
-	@MethodSource("provideAllInitialisers")
-	public void test_AreSimilar_SingleObject_CloneEqual(IJaMoPPEObjectInitialiser initialiser, String displayName) {
-		var obj = initialiser.instantiate();
+	@MethodSource("provideArguments")
+	public void test_AreSimilar_SingleObject_CloneEqual(Class<? extends EObject> cls, String displayName) {
+		var obj = getAPI().createNewX(cls);
 		var objCopy = this.cloneEObj(obj);
 
 		this.assertAreSimilar(this.toList(obj), this.toList(objCopy));
@@ -437,18 +285,7 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@Test
 	public void test_AreSimilar_MultipleObjects_SameReference() {
-		var modInit = new ModuleInitialiser();
-
-		var obj1 = modInit.instantiate();
-		Assertions.assertTrue(modInit.setName(obj1, "mod1"));
-
-		var obj2 = modInit.instantiate();
-		Assertions.assertTrue(modInit.setName(obj2, "mod2"));
-
-		// Make sure both objects are different
-		this.assertIsSimilar(obj1, obj2, Boolean.FALSE);
-
-		var list = this.toList(obj1, obj2);
+		var list = this.toList(getAPI().createNewModule(), getAPI().createNewPackage());
 
 		this.assertAreSimilar(list, list);
 	}
@@ -459,16 +296,8 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@Test
 	public void test_AreSimilar_MultipleObjects_CloneEqual() {
-		var initialiser = new ModuleInitialiser();
-
-		var obj1 = initialiser.instantiate();
-		Assertions.assertTrue(initialiser.setName(obj1, "mod1"));
-
-		var obj2 = initialiser.instantiate();
-		Assertions.assertTrue(initialiser.setName(obj2, "mod2"));
-
-		// Make sure both objects are different
-		this.assertIsSimilar(obj1, obj2, Boolean.FALSE);
+		var obj1 = getAPI().createNewModule();
+		var obj2 = getAPI().createNewPackage();
 
 		var obj1Copy = this.cloneEObj(obj1);
 		var obj2Copy = this.cloneEObj(obj2);
@@ -482,10 +311,7 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@Test
 	public void test_AreSimilar_OneSide_Null() {
-		var initialiser = new ModuleInitialiser();
-		var obj = initialiser.instantiate();
-
-		this.assertAreSimilar(null, this.toList(obj), Boolean.FALSE);
+		this.assertAreSimilar(null, this.toList(getAPI().createNewModule()), Boolean.FALSE);
 	}
 
 	/**
@@ -493,9 +319,9 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 * not similar.
 	 */
 	@ParameterizedTest(name = "{1}")
-	@MethodSource("provideNonAdaptedInitialisers")
-	public void test_AreSimilar_OneSide_EmptyList(IJaMoPPEObjectInitialiser initialiser, String displayName) {
-		var obj = initialiser.instantiate();
+	@MethodSource("provideArguments")
+	public void test_AreSimilar_OneSide_EmptyList(Class<? extends EObject> cls, String displayName) {
+		var obj = getAPI().createNewX(cls);
 
 		this.assertAreSimilar(this.toList(), this.toList(obj), Boolean.FALSE);
 	}
@@ -506,10 +332,8 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@Test
 	public void test_AreSimilar_OneSide_ListWithNullElement() {
-		var initialiser = new ModuleInitialiser();
-		var obj = initialiser.instantiate();
-
-		this.assertAreSimilar(this.toList(obj), this.makeListWithSingleNullElement(), Boolean.FALSE);
+		this.assertAreSimilar(this.toList(getAPI().createNewModule()), this.makeListWithSingleNullElement(),
+				Boolean.FALSE);
 	}
 
 	/**
@@ -518,16 +342,8 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@Test
 	public void test_AreSimilar_OneSide_SubList() {
-		var modInit = new ModuleInitialiser();
-
-		var obj1 = modInit.instantiate();
-		Assertions.assertTrue(modInit.setName(obj1, "mod1"));
-
-		var obj2 = modInit.instantiate();
-		Assertions.assertTrue(modInit.setName(obj2, "mod2"));
-
-		// Make sure both objects are different
-		this.assertIsSimilar(obj1, obj2, Boolean.FALSE);
+		var obj1 = getAPI().createNewModule();
+		var obj2 = getAPI().createNewPackage();
 
 		this.assertAreSimilar(this.toList(obj1), this.toList(obj1, obj2), Boolean.FALSE);
 	}
@@ -567,16 +383,8 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@Test
 	public void test_AreSimilar_SameObjectDifferentOrder() {
-		var modInit = new ModuleInitialiser();
-
-		var obj1 = modInit.instantiate();
-		Assertions.assertTrue(modInit.setName(obj1, "mod1"));
-
-		var obj2 = modInit.instantiate();
-		Assertions.assertTrue(modInit.setName(obj2, "mod2"));
-
-		// Make sure both objects are different
-		this.assertIsSimilar(obj1, obj2, Boolean.FALSE);
+		var obj1 = getAPI().createNewModule();
+		var obj2 = getAPI().createNewPackage();
 
 		this.assertAreSimilar(this.toList(obj1, obj2), this.toList(obj2, obj1), Boolean.FALSE);
 	}
@@ -587,9 +395,9 @@ public class GeneralJaMoPPSimilarityTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@Test
 	public void test_AreSimilar_ClassMismatch() {
-		var mod = new ModuleInitialiser().instantiate();
-		var pac = new PackageInitialiser().instantiate();
+		var obj1 = getAPI().createNewModule();
+		var obj2 = getAPI().createNewPackage();
 
-		this.assertAreSimilar(this.toList(mod), this.toList(pac), Boolean.FALSE);
+		this.assertAreSimilar(this.toList(obj1), this.toList(obj2), Boolean.FALSE);
 	}
 }

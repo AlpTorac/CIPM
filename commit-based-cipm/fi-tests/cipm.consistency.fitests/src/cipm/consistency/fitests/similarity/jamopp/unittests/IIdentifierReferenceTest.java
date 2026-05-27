@@ -4,10 +4,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.arrays.ArraySelector;
 import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.references.IdentifierReference;
-import org.junit.jupiter.api.Assertions;
-
-import cipm.consistency.initialisers.jamopp.instantiations.ExplicitConstructorCallInitialiser;
-import cipm.consistency.initialisers.jamopp.statements.ExpressionStatementInitialiser;
 
 /**
  * An interface that contains default methods for tests that use and make
@@ -75,28 +71,5 @@ public interface IIdentifierReferenceTest {
 		// Currently impossible to break the following conditions with actual EObject
 		// implementors
 				target1Container != ref1 && target2Container != ref2;
-	}
-
-	/**
-	 * Nests an {@link ExpressionStatement} es instance within an
-	 * {@link ExplicitConstructorCall} ecc instance and sets ref's container to ecc.
-	 * <br>
-	 * <br>
-	 * Can be used to add a container to ref (as in {@code ref.eContainer()}). <br>
-	 * <br>
-	 * <b>Note: ref's eligible container {@code this.getFirstEligibleContainer(ref)}
-	 * will be es.</b> This is ensured by assertions.
-	 */
-	public default void initialiseIdentifierReference(IdentifierReference ref) {
-		var insInit = new ExplicitConstructorCallInitialiser();
-		var ecc = insInit.instantiate();
-		Assertions.assertTrue(insInit.addArgument(ecc, ref));
-
-		var esInit = new ExpressionStatementInitialiser();
-		var es = esInit.instantiate();
-		Assertions.assertTrue(esInit.setExpression(es, ecc));
-
-		Assertions.assertEquals(ref.eContainer(), ecc);
-		Assertions.assertEquals(this.getFirstEligibleContainer(ref), es);
 	}
 }

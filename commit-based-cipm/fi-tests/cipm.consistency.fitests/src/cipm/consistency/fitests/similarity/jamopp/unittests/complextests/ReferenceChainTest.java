@@ -12,7 +12,7 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.initialisers.jamopp.references.IReferenceInitialiser;
+import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
 
 /**
  * Contains tests for cases, where {@link Reference} instances build reference
@@ -50,7 +50,7 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * @return Non-adapted initialisers for each {@link Reference} sub-types.
 	 */
 	private static Stream<Arguments> genTestParams_ForOne() {
-		return AbstractJaMoPPSimilarityTest.getNonAdaptedInitialiserArgumentsFor(IReferenceInitialiser.class);
+		return JaMoPPArguments.getAllConcreteClassesBySuperAsArgs(Reference.class);
 	}
 
 	/**
@@ -59,11 +59,11 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	private static Stream<Arguments> genTestParams_ForTwo() {
 		var params = new ArrayList<Arguments>();
-		for (var init1 : getNonAdaptedInitialisersFor(IReferenceInitialiser.class)) {
-			for (var init2 : getNonAdaptedInitialisersFor(IReferenceInitialiser.class)) {
+		var refClss = JaMoPPArguments.getAllConcreteClassesBySuper(Reference.class);
+		for (var init1 : refClss) {
+			for (var init2 : refClss) {
 				params.add(Arguments.of(init1, init2,
-						String.format("%s, %s", init1.getInstanceClassOfInitialiser().getSimpleName(),
-								init2.getInstanceClassOfInitialiser().getSimpleName())));
+						String.format("%s, %s", init1.getSimpleName(), init2.getSimpleName())));
 			}
 		}
 		return params.stream();
@@ -75,13 +75,12 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	private static Stream<Arguments> genTestParams_ForThree() {
 		var params = new ArrayList<Arguments>();
-		for (var init1 : getNonAdaptedInitialisersFor(IReferenceInitialiser.class)) {
-			for (var init2 : getNonAdaptedInitialisersFor(IReferenceInitialiser.class)) {
-				for (var init3 : getNonAdaptedInitialisersFor(IReferenceInitialiser.class)) {
-					params.add(Arguments.of(init1, init2, init3,
-							String.format("%s, %s, %s", init1.getInstanceClassOfInitialiser().getSimpleName(),
-									init2.getInstanceClassOfInitialiser().getSimpleName(),
-									init3.getInstanceClassOfInitialiser().getSimpleName())));
+		var refClss = JaMoPPArguments.getAllConcreteClassesBySuper(Reference.class);
+		for (var init1 : refClss) {
+			for (var init2 : refClss) {
+				for (var init3 : refClss) {
+					params.add(Arguments.of(init1, init2, init3, String.format("%s, %s, %s", init1.getSimpleName(),
+							init2.getSimpleName(), init3.getSimpleName())));
 				}
 			}
 		}
@@ -153,15 +152,13 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@ParameterizedTest(name = "{2}")
 	@MethodSource("genTestParams_ForTwo")
-	public void test_ReferenceCombinations_SimilarNext(IReferenceInitialiser refInit, IReferenceInitialiser nextRefInit,
-			String displayName) {
-		var ref1 = refInit.instantiate();
-		var nextRef1 = nextRefInit.instantiate();
-		refInit.setNext(ref1, nextRef1);
+	public void test_ReferenceCombinations_SimilarNext(Class<? extends Reference> refCls,
+			Class<? extends Reference> nextRefCls, String displayName) {
+		var nextRef1 = getAPI().createNewX(nextRefCls);
+		var ref1 = getAPI().newX(refCls).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, nextRef1).createNow();
 
-		var ref2 = refInit.instantiate();
-		var nextRef2 = nextRefInit.instantiate();
-		refInit.setNext(ref2, nextRef2);
+		var nextRef2 = getAPI().createNewX(nextRefCls);
+		var ref2 = getAPI().newX(refCls).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, nextRef2).createNow();
 
 		Assertions.assertTrue(this.isSimilar(ref1, ref2));
 	}
@@ -186,19 +183,19 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 */
 	@ParameterizedTest(name = "{3}")
 	@MethodSource("genTestParams_ForThree")
-	public void test_ReferenceCombinations_DifferentNext(IReferenceInitialiser refXInit,
-			IReferenceInitialiser nextRef1Init, IReferenceInitialiser nextRef2Init, String displayName) {
-		var ref1 = refXInit.instantiate();
-		var nextRef1 = nextRef1Init.instantiate();
-		refXInit.setNext(ref1, nextRef1);
+	public void test_ReferenceCombinations_DifferentNext(Class<? extends Reference> refXCls,
+			Class<? extends Reference> nextRef1Cls, Class<? extends Reference> nextRef2Cls, String displayName) {
+		var nextRef1 = getAPI().createNewX(nextRef1Cls);
+		var ref1 = getAPI().newX(refXCls).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, nextRef1)
+				.createNow(refXCls);
 
-		var ref2 = refXInit.instantiate();
-		var nextRef2 = nextRef2Init.instantiate();
-		refXInit.setNext(ref2, nextRef2);
+		var nextRef2 = getAPI().createNewX(nextRef2Cls);
+		var ref2 = getAPI().newX(refXCls).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, nextRef2)
+				.createNow(refXCls);
 
-		var nextClssSimilar = nextRef1.getClass().equals(nextRef2.getClass());
-		var breaksSimilarity = this.getExpectedSimilarityResult(ref1.getClass(),
-				ReferencesPackage.Literals.REFERENCE__NEXT);
+		var nextClssSimilar = nextRef1Cls.equals(nextRef2Cls);
+		var breaksSimilarity = this.getExpectedSimilarityResult(refXCls, ReferencesPackage.Literals.REFERENCE__NEXT);
+
 		Assertions.assertEquals(this.isSimilar(ref1, ref2), nextClssSimilar || breaksSimilarity);
 		Assertions.assertEquals(this.isSimilar(ref2, ref1), nextClssSimilar || breaksSimilarity);
 	}
@@ -212,14 +209,18 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * <br>
 	 * Performs this check for each sub-type of {@link Reference}.
 	 * 
+	 * FIXME Enable this test case once cyclic references can be handled properly
+	 * during similarity checking
+	 * 
 	 * @param refInit Initialiser of ref
 	 */
 	@Disabled("Until cycle checking mechanisms are implemented")
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("genTestParams_ForOne")
-	public void test_ReferenceCycles_OneReferenceCycle(IReferenceInitialiser refInit, String displayName) {
-		var ref = refInit.instantiate();
-		refInit.setNext(ref, ref);
+	public void test_ReferenceCycles_OneReferenceCycle(Class<? extends Reference> refCls, String displayName) {
+		var ref = getAPI().newX(refCls)
+				.xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, getAPI().createNewX(refCls)).createNow(refCls);
+
 		this.cycleAssertionsFor(new Reference[] { ref }, new Reference[] { ref });
 	}
 
@@ -233,25 +234,28 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * <br>
 	 * Performs this check for each combination of sub-type of {@link Reference}.
 	 * 
+	 * FIXME Enable this test case once cyclic references can be handled properly
+	 * during similarity checking
+	 * 
 	 * @param refX1Init Initialiser of ref11 and ref21
 	 * @param refX2Init Initialiser of ref12 and ref22
 	 */
 	@Disabled("Until cycle checking mechanisms are implemented")
 	@ParameterizedTest(name = "{2}")
 	@MethodSource("genTestParams_ForTwo")
-	public void test_ReferenceCycles_TwoReferencesCycle(IReferenceInitialiser refX1Init,
-			IReferenceInitialiser refX2Init, String displayName) {
-		var ref11 = refX1Init.instantiate();
-		var ref12 = refX2Init.instantiate();
+	public void test_ReferenceCycles_TwoReferencesCycle(Class<? extends Reference> refX1Cls,
+			Class<? extends Reference> refX2Cls, String displayName) {
+		var ref11 = getAPI().createNewX(refX1Cls);
+		var ref12 = getAPI().createNewX(refX2Cls);
 
-		refX1Init.setNext(ref11, ref12);
-		refX2Init.setNext(ref12, ref11);
+		getAPI().modifyX(ref11).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, ref12);
+		getAPI().modifyX(ref12).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, ref11);
 
-		var ref21 = refX1Init.instantiate();
-		var ref22 = refX2Init.instantiate();
+		var ref21 = getAPI().createNewX(refX1Cls);
+		var ref22 = getAPI().createNewX(refX2Cls);
 
-		refX1Init.setNext(ref21, ref22);
-		refX2Init.setNext(ref22, ref21);
+		getAPI().modifyX(ref21).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, ref22);
+		getAPI().modifyX(ref22).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, ref21);
 
 		this.cycleAssertionsFor(new Reference[] { ref11, ref12 }, new Reference[] { ref21, ref22 });
 	}
@@ -273,6 +277,9 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * <br>
 	 * Performs this check for each combination of sub-type of {@link Reference}.
 	 * 
+	 * FIXME Enable this test case once cyclic references can be handled properly
+	 * during similarity checking
+	 * 
 	 * @param refX1Init Initialiser of ref11 and ref21
 	 * @param refX2Init Initialiser of ref12 and ref22
 	 * @param refX3Init Initialiser of ref13 and ref23
@@ -280,23 +287,23 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	@Disabled("Until cycle checking mechanisms are implemented")
 	@ParameterizedTest(name = "{3}")
 	@MethodSource("genTestParams_ForThree")
-	public void test_ReferenceCycles_ThreeReferencesCycle(IReferenceInitialiser refX1Init,
-			IReferenceInitialiser refX2Init, IReferenceInitialiser refX3Init, String displayName) {
-		var ref11 = refX1Init.instantiate();
-		var ref12 = refX2Init.instantiate();
-		var ref13 = refX3Init.instantiate();
+	public void test_ReferenceCycles_ThreeReferencesCycle(Class<? extends Reference> refX1Cls,
+			Class<? extends Reference> refX2Cls, Class<? extends Reference> refX3Cls, String displayName) {
+		var ref11 = getAPI().createNewX(refX1Cls);
+		var ref12 = getAPI().createNewX(refX2Cls);
+		var ref13 = getAPI().createNewX(refX3Cls);
 
-		refX1Init.setNext(ref11, ref12);
-		refX2Init.setNext(ref12, ref13);
-		refX3Init.setNext(ref13, ref11);
+		getAPI().modifyX(ref11).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, ref12);
+		getAPI().modifyX(ref12).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, ref13);
+		getAPI().modifyX(ref13).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, ref11);
 
-		var ref21 = refX1Init.instantiate();
-		var ref22 = refX2Init.instantiate();
-		var ref23 = refX3Init.instantiate();
+		var ref21 = getAPI().createNewX(refX1Cls);
+		var ref22 = getAPI().createNewX(refX2Cls);
+		var ref23 = getAPI().createNewX(refX3Cls);
 
-		refX1Init.setNext(ref21, ref22);
-		refX2Init.setNext(ref22, ref23);
-		refX3Init.setNext(ref23, ref21);
+		getAPI().modifyX(ref21).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, ref22);
+		getAPI().modifyX(ref22).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, ref23);
+		getAPI().modifyX(ref23).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, ref21);
 
 		this.cycleAssertionsFor(new Reference[] { ref11, ref12, ref13 }, new Reference[] { ref21, ref22, ref23 });
 	}
@@ -317,6 +324,9 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	 * <br>
 	 * Performs this check for each combination of sub-type of {@link Reference}.
 	 * 
+	 * FIXME Enable this test case once cyclic references can be handled properly
+	 * during similarity checking
+	 * 
 	 * @param refX1Init Initialiser of ref11 and ref21
 	 * @param refX2Init Initialiser of ref12 and ref22
 	 * @param refX3Init Initialiser of ref13 and ref23
@@ -324,23 +334,23 @@ public class ReferenceChainTest extends AbstractJaMoPPSimilarityTest {
 	@Disabled("Until cycle checking mechanisms are implemented")
 	@ParameterizedTest(name = "{3}")
 	@MethodSource("genTestParams_ForThree")
-	public void test_ReferenceCycles_OneRefLeadingToTwoRefCycle(IReferenceInitialiser refX1Init,
-			IReferenceInitialiser refX2Init, IReferenceInitialiser refX3Init, String displayName) {
-		var ref11 = refX1Init.instantiate();
-		var ref12 = refX2Init.instantiate();
-		var ref13 = refX3Init.instantiate();
+	public void test_ReferenceCycles_OneRefLeadingToTwoRefCycle(Class<? extends Reference> refX1Cls,
+			Class<? extends Reference> refX2Cls, Class<? extends Reference> refX3Cls, String displayName) {
+		var ref11 = getAPI().createNewX(refX1Cls);
+		var ref12 = getAPI().createNewX(refX2Cls);
+		var ref13 = getAPI().createNewX(refX3Cls);
 
-		refX1Init.setNext(ref11, ref12);
-		refX2Init.setNext(ref12, ref13);
-		refX3Init.setNext(ref13, ref12);
+		getAPI().modifyX(ref11).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, ref12);
+		getAPI().modifyX(ref12).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, ref13);
+		getAPI().modifyX(ref13).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, ref12);
 
-		var ref21 = refX1Init.instantiate();
-		var ref22 = refX2Init.instantiate();
-		var ref23 = refX3Init.instantiate();
+		var ref21 = getAPI().createNewX(refX1Cls);
+		var ref22 = getAPI().createNewX(refX2Cls);
+		var ref23 = getAPI().createNewX(refX3Cls);
 
-		refX1Init.setNext(ref21, ref22);
-		refX2Init.setNext(ref22, ref23);
-		refX3Init.setNext(ref23, ref22);
+		getAPI().modifyX(ref21).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, ref22);
+		getAPI().modifyX(ref22).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, ref23);
+		getAPI().modifyX(ref23).xWithFeat(ReferencesPackage.Literals.REFERENCE__NEXT, ref22);
 
 		/*
 		 * Directly use isSimilar to avoid cloning ref, so that the underlying cloning

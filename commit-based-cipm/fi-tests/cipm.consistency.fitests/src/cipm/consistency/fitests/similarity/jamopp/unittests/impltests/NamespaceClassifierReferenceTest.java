@@ -1,66 +1,52 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
-import org.emftext.language.java.classifiers.Classifier;
+import java.util.function.Supplier;
+
 import org.emftext.language.java.types.ClassifierReference;
-import org.emftext.language.java.types.NamespaceClassifierReference;
 import org.emftext.language.java.types.TypesPackage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesTypeReferences;
-import cipm.consistency.initialisers.jamopp.types.ClassifierReferenceInitialiser;
-import cipm.consistency.initialisers.jamopp.types.NamespaceClassifierReferenceInitialiser;
 
-public class NamespaceClassifierReferenceTest extends AbstractJaMoPPSimilarityTest implements UsesTypeReferences {
-	protected NamespaceClassifierReference initElement(Classifier target, ClassifierReference[] clsRefs) {
-		var ncrInit = new NamespaceClassifierReferenceInitialiser();
-		var ncr = ncrInit.instantiate();
-		Assertions.assertTrue(ncrInit.setTarget(ncr, target));
-		Assertions.assertTrue(ncrInit.addClassifierReferences(ncr, clsRefs));
-		return ncr;
-	}
-
-	@Test
-	public void testTarget() {
-		var objOne = this.initElement(this.createMinimalClassWithCU("cls1"), null);
-		var objTwo = this.initElement(this.createMinimalClassWithCU("cls2"), null);
-
-		this.testSimilarity(objOne, objTwo, NamespaceClassifierReference.class,
-				TypesPackage.Literals.CLASSIFIER_REFERENCE__TARGET);
-	}
+/**
+ * The "target" of a NamespaceClassifierReference is stored in
+ * "NAMESPACE_CLASSIFIER_REFERENCE__CLASSIFIER_REFERENCES".
+ * <p>
+ * TypeReference.setTarget(...) does NOT belong to an actual feature, but
+ * returns a derived value.
+ */
+public class NamespaceClassifierReferenceTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<ClassifierReference> classifierReferences1 = () -> getAPI().newClassifierReference()
+			.withTarget(getAPI().newClass().withName("cls1").createNow()).createNow();
+	private final Supplier<ClassifierReference> classifierReferences2 = () -> getAPI().newClassifierReference()
+			.withTarget(getAPI().newClass().withName("cls2").createNow()).createNow();
 
 	@Test
-	public void testTargetNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createMinimalClassWithCU("cls1"), null),
-				new ClassifierReferenceInitialiser(), false, NamespaceClassifierReference.class,
-				TypesPackage.Literals.CLASSIFIER_REFERENCE__TARGET);
-	}
-
-	@Test
-	public void testClassifierReference() {
-		var objOne = this.initElement(null, new ClassifierReference[] { this.createMinimalClsRef("cls1") });
-		var objTwo = this.initElement(null, new ClassifierReference[] { this.createMinimalClsRef("cls2") });
-
-		this.testSimilarity(objOne, objTwo,
+	public void testClassifierReferences() {
+		this.testSimilarity(
+				getAPI().newNamespaceClassifierReference().withAddedClassifierReferences(classifierReferences1.get())
+						.createNow(),
+				getAPI().newNamespaceClassifierReference().withAddedClassifierReferences(classifierReferences2.get())
+						.createNow(),
 				TypesPackage.Literals.NAMESPACE_CLASSIFIER_REFERENCE__CLASSIFIER_REFERENCES);
 	}
 
 	@Test
-	public void testClassifierReferenceSize() {
-		var objOne = this.initElement(null,
-				new ClassifierReference[] { this.createMinimalClsRef("cls1"), this.createMinimalClsRef("cls2") });
-		var objTwo = this.initElement(null, new ClassifierReference[] { this.createMinimalClsRef("cls1") });
-
-		this.testSimilarity(objOne, objTwo,
+	public void testClassifierReferencesSize() {
+		this.testSimilarity(
+				getAPI().newNamespaceClassifierReference()
+						.withAddedClassifierReferences(
+								new ClassifierReference[] { classifierReferences1.get(), classifierReferences2.get() })
+						.createNow(),
+				getAPI().newNamespaceClassifierReference().withAddedClassifierReferences(classifierReferences1.get())
+						.createNow(),
 				TypesPackage.Literals.NAMESPACE_CLASSIFIER_REFERENCE__CLASSIFIER_REFERENCES);
 	}
 
 	@Test
-	public void testClassifierReferenceNullCheck() {
-		this.testSimilarityNullCheck(
-				this.initElement(null, new ClassifierReference[] { this.createMinimalClsRef("cls1") }),
-				new NamespaceClassifierReferenceInitialiser(), false,
+	public void testClassifierReferencesNullCheck() {
+		this.testSimilarityNullCheck(getAPI().newNamespaceClassifierReference()
+				.withAddedClassifierReferences(classifierReferences1.get()).createNow(),
 				TypesPackage.Literals.NAMESPACE_CLASSIFIER_REFERENCE__CLASSIFIER_REFERENCES);
 	}
 }

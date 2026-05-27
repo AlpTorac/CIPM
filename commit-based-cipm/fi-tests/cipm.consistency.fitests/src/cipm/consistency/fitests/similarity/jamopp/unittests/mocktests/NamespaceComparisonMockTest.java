@@ -35,16 +35,14 @@ public class NamespaceComparisonMockTest extends AbstractJaMoPPSimilarityTest im
 	 * 
 	 * @param cls A {@link NamespaceAwareElement} sub-type to be spied on.
 	 */
-	@SuppressWarnings("unchecked")
 	@ParameterizedTest(name = "Mocked class: {1}")
 	@MethodSource("genTestParams")
-	public <T extends NamespaceAwareElement> void testNamespaceComparison_BothSides_JustSentinel(Class<T> cls, String displayName) {
-		var init = this.getUsedInitialiserPackage().getInitialiserInstanceFor(cls);
-
-		var spy1 = this.spyEObject((T) init.instantiate());
+	public <T extends NamespaceAwareElement> void testNamespaceComparison_BothSides_JustSentinel(Class<T> cls,
+			String displayName) {
+		var spy1 = this.spyEObject(getAPI().createNewX(cls));
 		when(spy1.getNamespacesAsString()).thenReturn("$");
 
-		var spy2 = this.spyEObject((T) init.instantiate());
+		var spy2 = this.spyEObject(getAPI().createNewX(cls));
 		when(spy2.getNamespacesAsString()).thenReturn("$");
 
 		Assertions.assertTrue(this.isSimilar(spy1, spy2));
@@ -57,16 +55,14 @@ public class NamespaceComparisonMockTest extends AbstractJaMoPPSimilarityTest im
 	 * 
 	 * @param cls A {@link NamespaceAwareElement} sub-type to be spied on.
 	 */
-	@SuppressWarnings("unchecked")
 	@ParameterizedTest(name = "Mocked class: {1}")
 	@MethodSource("genTestParams")
-	public <T extends NamespaceAwareElement> void testNamespaceComparison_OneSide_JustSentinel(Class<T> cls, String displayName) {
-		var init = this.getUsedInitialiserPackage().getInitialiserInstanceFor(cls);
-
-		var spy1 = this.spyEObject((T) init.instantiate());
+	public <T extends NamespaceAwareElement> void testNamespaceComparison_OneSide_JustSentinel(Class<T> cls,
+			String displayName) {
+		var spy1 = this.spyEObject(getAPI().createNewX(cls));
 		when(spy1.getNamespacesAsString()).thenReturn("$");
 
-		var spy2 = this.spyEObject((T) init.instantiate());
+		var spy2 = this.spyEObject(getAPI().createNewX(cls));
 		when(spy2.getNamespacesAsString()).thenReturn("");
 
 		Assertions.assertEquals(this.isSimilar(spy1, spy2), this.isSimilar(spy2, spy1), "isSimilar is not symmetric");
@@ -78,16 +74,14 @@ public class NamespaceComparisonMockTest extends AbstractJaMoPPSimilarityTest im
 	 * 
 	 * @param cls A {@link NamespaceAwareElement} sub-type to be spied on.
 	 */
-	@SuppressWarnings("unchecked")
 	@ParameterizedTest(name = "Mocked class: {1}")
 	@MethodSource("genTestParams")
-	public <T extends NamespaceAwareElement> void testNamespaceComparison_BothSides_WithoutDot(Class<T> cls, String displayName) {
-		var init = this.getUsedInitialiserPackage().getInitialiserInstanceFor(cls);
-
-		var spy1 = this.spyEObject((T) init.instantiate());
+	public <T extends NamespaceAwareElement> void testNamespaceComparison_BothSides_WithoutDot(Class<T> cls,
+			String displayName) {
+		var spy1 = this.spyEObject(getAPI().createNewX(cls));
 		when(spy1.getNamespacesAsString()).thenReturn("a");
 
-		var spy2 = this.spyEObject((T) init.instantiate());
+		var spy2 = this.spyEObject(getAPI().createNewX(cls));
 		when(spy2.getNamespacesAsString()).thenReturn("a");
 
 		Assertions.assertTrue(this.isSimilar(spy1, spy2));
@@ -100,16 +94,14 @@ public class NamespaceComparisonMockTest extends AbstractJaMoPPSimilarityTest im
 	 * 
 	 * @param cls A {@link NamespaceAwareElement} sub-type to be spied on.
 	 */
-	@SuppressWarnings("unchecked")
 	@ParameterizedTest(name = "Mocked class: {1}")
 	@MethodSource("genTestParams")
-	public <T extends NamespaceAwareElement> void testNamespaceComparison_OneSide_WithoutDot(Class<T> cls, String displayName) {
-		var init = this.getUsedInitialiserPackage().getInitialiserInstanceFor(cls);
-
-		var spy1 = this.spyEObject((T) init.instantiate());
+	public <T extends NamespaceAwareElement> void testNamespaceComparison_OneSide_WithoutDot(Class<T> cls,
+			String displayName) {
+		var spy1 = this.spyEObject(getAPI().createNewX(cls));
 		when(spy1.getNamespacesAsString()).thenReturn("a");
 
-		var spy2 = this.spyEObject((T) init.instantiate());
+		var spy2 = this.spyEObject(getAPI().createNewX(cls));
 		when(spy2.getNamespacesAsString()).thenReturn(".");
 
 		Assertions.assertEquals(this.isSimilar(spy1, spy2), this.isSimilar(spy2, spy1), "isSimilar is not symmetric");

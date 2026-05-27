@@ -11,7 +11,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.statements.LocalVariableStatement;
 import org.emftext.language.java.statements.Statement;
 import org.emftext.language.java.statements.StatementListContainer;
-import org.emftext.language.java.variables.LocalVariable;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -20,8 +20,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementPositionTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
+import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementTest;
 
 /**
  * Contains tests that check whether the necessary null checks are present in
@@ -35,8 +34,7 @@ import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
  * 
  * @author Alp Torac Genc
  */
-public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
-		implements UsesStatements, IStatementPositionTest, IMockTest {
+public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest implements IStatementTest, IMockTest {
 	/**
 	 * @return Parameters for the test methods in this test class. Refer to their
 	 *         documentation for more information.
@@ -64,7 +62,8 @@ public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
 	 * @see {@link #mockEObject(Class)}
 	 * @see {@link #mockEObjectWithContainer(Class, EObject)}
 	 */
-	private LocalVariableStatement mockLVS(LocalVariable lVar, EObject container) {
+	private LocalVariableStatement mockLVS(String lvName, EObject container) {
+		var lVar = getAPI().newLocalVariable().withName(lvName).createNow();
 		var mockLVS = this.mockEObjectWithContainer(LocalVariableStatement.class, container);
 		when(mockLVS.getVariable()).thenReturn(lVar);
 		return mockLVS;
@@ -172,13 +171,13 @@ public class StatementPositionMockTest extends AbstractJaMoPPSimilarityTest
 		 * Preceding and proceeding statements should be similar, in order to cover more
 		 * cases.
 		 */
-		var pred1 = this.mockLVS(this.createMinimalLV("lv1"), slc1);
+		var pred1 = this.mockLVS("lv1", slc1);
 		var st1 = this.mockEObjectWithContainer(containeeCls, slc1);
-		var succ1 = this.mockLVS(this.createMinimalLV("lv2"), slc1);
+		var succ1 = this.mockLVS("lv2", slc1);
 
-		var pred2 = this.mockLVS(this.createMinimalLV("lv1"), slc2);
+		var pred2 = this.mockLVS("lv1", slc2);
 		var st2 = this.mockEObjectWithContainer(containeeCls, slc2);
-		var succ2 = this.mockLVS(this.createMinimalLV("lv2"), slc2);
+		var succ2 = this.mockLVS("lv2", slc2);
 
 		var sts1 = new Statement[] { pred1, st1, succ1 };
 		var sts2 = new Statement[] { pred2, st2, succ2 };

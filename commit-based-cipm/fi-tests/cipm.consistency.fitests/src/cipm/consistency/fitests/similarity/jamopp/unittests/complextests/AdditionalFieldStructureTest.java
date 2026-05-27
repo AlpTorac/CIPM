@@ -2,33 +2,34 @@ package cipm.consistency.fitests.similarity.jamopp.unittests.complextests;
 
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Assertions;
+import org.emftext.language.java.members.MemberContainer;
+import org.emftext.language.java.members.MembersPackage;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesFields;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesTypeReferences;
-import cipm.consistency.initialisers.jamopp.members.AdditionalFieldInitialiser;
-import cipm.consistency.initialisers.jamopp.members.FieldInitialiser;
-import cipm.consistency.initialisers.jamopp.members.IMemberContainerInitialiser;
+import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
 
 /**
  * Contains tests for {@link AdditionalField} instances, their {@link Field}s
  * and attributes thereof.
  * 
+ * <p>
+ * Test cases here contain some unused local variables, whose purpose is to
+ * facilitate understanding the respective scenarios under test.
+ * 
  * @author Alp Torac Genc
  */
-public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest
-		implements UsesFields, UsesTypeReferences {
+@SuppressWarnings("unused")
+public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest {
 	/**
 	 * @return Parameters for the test methods in this test class. See the
 	 *         documentation of parameterized test methods.
 	 */
-	private static Stream<Arguments> genTestParams() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(IMemberContainerInitialiser.class);
+	private static Stream<Arguments> provideArguments() {
+		return JaMoPPArguments.getAllConcreteClassesBySuperAsArgs(MemberContainer.class);
 	}
 
 	/**
@@ -47,15 +48,10 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest
 	 */
 	@Test
 	public void testDifferentContainer_OneContainer_IsNull() {
-		var afInit = new AdditionalFieldInitialiser();
-		var fieldInit = new FieldInitialiser();
+		var af1 = getAPI().createNewAdditionalField();
+		var af2 = getAPI().createNewAdditionalField();
 
-		var af1 = afInit.instantiate();
-		var af2 = afInit.instantiate();
-
-		var field1 = fieldInit.instantiate();
-
-		fieldInit.addAdditionalField(field1, af1);
+		var f1 = getAPI().newField().withAddedAdditionalFields(af1).createNow();
 
 		this.testSimilarity(af1, af2, false);
 	}
@@ -77,20 +73,14 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest
 	 */
 	@Test
 	public void testDifferentContainer_OneContainer_HasTypeReference() {
-		var tref = this.createMinimalClsRef("cls");
+		var af1 = getAPI().createNewAdditionalField();
+		var af2 = getAPI().createNewAdditionalField();
 
-		var afInit = new AdditionalFieldInitialiser();
-		var fieldInit = new FieldInitialiser();
-
-		var af1 = afInit.instantiate();
-		var af2 = afInit.instantiate();
-
-		var field1 = fieldInit.instantiate();
-		fieldInit.setTypeReference(field1, tref);
-		var field2 = fieldInit.instantiate();
-
-		fieldInit.addAdditionalField(field1, af1);
-		fieldInit.addAdditionalField(field2, af2);
+		var f1 = getAPI().newField()
+				.withTypeReference(getAPI().newClassifierReference()
+						.withTarget(getAPI().newClass().withName("memConCls").createNow()).createNow())
+				.withAddedAdditionalFields(af1).createNow();
+		var f2 = getAPI().newField().withAddedAdditionalFields(af2);
 
 		this.testSimilarity(af1, af2, false);
 	}
@@ -112,25 +102,19 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest
 	 */
 	@Test
 	public void testDifferentContainer_BothContainers_HaveDifferentTypeReference() {
-		var tref1 = this.createMinimalClsRef("cls1");
-		var tref2 = this.createMinimalClsRef("cls2");
+		var tref1 = getAPI().newClassifierReference().withTarget(getAPI().newClass().withName("cls1").createNow())
+				.createNow();
+		var tref2 = getAPI().newClassifierReference().withTarget(getAPI().newClass().withName("cls2").createNow())
+				.createNow();
 
 		// Make sure that the type references are different
 		this.assertSimilarityResult(tref1, tref2, false);
 
-		var fieldInit = new FieldInitialiser();
+		var af1 = getAPI().createNewAdditionalField();
+		var af2 = getAPI().createNewAdditionalField();
 
-		var field1 = fieldInit.instantiate();
-		fieldInit.setTypeReference(field1, tref1);
-		var field2 = fieldInit.instantiate();
-		fieldInit.setTypeReference(field2, tref2);
-
-		var afInit = new AdditionalFieldInitialiser();
-		var af1 = afInit.instantiate();
-		var af2 = afInit.instantiate();
-
-		fieldInit.addAdditionalField(field1, af1);
-		fieldInit.addAdditionalField(field2, af2);
+		var f1 = getAPI().newField().withTypeReference(tref1).withAddedAdditionalFields(af1).createNow();
+		var f2 = getAPI().newField().withTypeReference(tref2).withAddedAdditionalFields(af2).createNow();
 
 		this.testSimilarity(af1, af2, false);
 	}
@@ -153,21 +137,15 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest
 	 *             the {@link AdditionalField} instance (MC_i).
 	 */
 	@ParameterizedTest(name = "ConOfConInit = {1}")
-	@MethodSource("genTestParams")
-	public void testDifferentConOfCon_OneContainer_IsNull(IMemberContainerInitialiser init, String displayName) {
-		var afInit = new AdditionalFieldInitialiser();
-		var fieldInit = new FieldInitialiser();
+	@MethodSource("provideArguments")
+	public void testDifferentConOfCon_OneContainer_IsNull(Class<? extends MemberContainer> memConCls,
+			String displayName) {
+		var af1 = getAPI().createNewAdditionalField();
+		var af2 = getAPI().createNewAdditionalField();
 
-		var af1 = afInit.instantiate();
-		var af2 = afInit.instantiate();
+		var f1 = getAPI().newField().withAddedAdditionalFields(af1).createNow();
 
-		var field1 = fieldInit.instantiate();
-
-		fieldInit.addAdditionalField(field1, af1);
-
-		var conOfCon = init.instantiate();
-		Assertions.assertTrue(init.initialise(conOfCon));
-		init.addMember(conOfCon, field1);
+		var mc1 = getAPI().newX(memConCls).xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS, f1);
 
 		this.testSimilarity(af1, af2, false);
 	}
@@ -190,23 +168,16 @@ public class AdditionalFieldStructureTest extends AbstractJaMoPPSimilarityTest
 	 *             the {@link AdditionalField} instance (MC_i).
 	 */
 	@ParameterizedTest(name = "ConOfConInit = {1}")
-	@MethodSource("genTestParams")
-	public void testDifferentConOfCon_OneConOfCon_IsNull(IMemberContainerInitialiser init, String displayName) {
-		var afInit = new AdditionalFieldInitialiser();
-		var fieldInit = new FieldInitialiser();
+	@MethodSource("provideArguments")
+	public void testDifferentConOfCon_OneConOfCon_IsNull(Class<? extends MemberContainer> memConCls,
+			String displayName) {
+		var af1 = getAPI().createNewAdditionalField();
+		var af2 = getAPI().createNewAdditionalField();
 
-		var af1 = afInit.instantiate();
-		var af2 = afInit.instantiate();
+		var f1 = getAPI().newField().withAddedAdditionalFields(af1).createNow();
+		var f2 = getAPI().newField().withAddedAdditionalFields(af2).createNow();
 
-		var field1 = fieldInit.instantiate();
-		var field2 = fieldInit.instantiate();
-
-		fieldInit.addAdditionalField(field1, af1);
-		fieldInit.addAdditionalField(field2, af2);
-
-		var conOfCon = init.instantiate();
-		Assertions.assertTrue(init.initialise(conOfCon));
-		init.addMember(conOfCon, field1);
+		var mc1 = getAPI().newX(memConCls).xWithAddedFeat(MembersPackage.Literals.MEMBER_CONTAINER__MEMBERS, f1);
 
 		this.testSimilarity(af1, af2, false);
 	}
