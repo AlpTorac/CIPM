@@ -1,30 +1,25 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
-import org.emftext.language.java.literals.CharacterLiteral;
+import java.util.function.Supplier;
+
 import org.emftext.language.java.literals.LiteralsPackage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.initialisers.jamopp.literals.CharacterLiteralInitialiser;
 
 public class CharacterLiteralTest extends AbstractJaMoPPSimilarityTest {
-	protected CharacterLiteral initElement(String val) {
-		var init = new CharacterLiteralInitialiser();
-		var lit = init.instantiate();
-		Assertions.assertTrue(init.setValue(lit, val));
-		return lit;
-	}
+	private final Supplier<String> value1 = () -> "a";
+	private final Supplier<String> value2 = () -> "b";
 
 	@Test
 	public void testValue() {
-		this.testSimilarity(this.initElement("a"), this.initElement("b"),
+		this.testSimilarity(getAPI().newCharacterLiteral(value1.get()), getAPI().newCharacterLiteral(value2.get()),
 				LiteralsPackage.Literals.CHARACTER_LITERAL__VALUE);
 	}
 
 	@Test
 	public void testValueNullCheck() {
-		this.testSimilarityNullCheck(this.initElement("a"), new CharacterLiteralInitialiser(), false,
+		this.testSimilarityNullCheck(getAPI().newCharacterLiteral(value1.get()),
 				LiteralsPackage.Literals.CHARACTER_LITERAL__VALUE);
 	}
 }

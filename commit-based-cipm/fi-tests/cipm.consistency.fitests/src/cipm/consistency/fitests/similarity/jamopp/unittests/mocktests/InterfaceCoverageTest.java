@@ -93,14 +93,11 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 	 *            then there should be a concrete class {@code xImpl} that directly
 	 *            inherits from {@code x}.
 	 */
-	@SuppressWarnings("unchecked")
 	@ParameterizedTest(name = "Mocked class: {1}")
 	@MethodSource("genConcreteTestParams")
 	public <T extends EObject> void testInterfaceCoverage_OneSideMocked_AllMethodsDelegated(Class<T> cls,
 			String displayName) {
-		var init = this.getUsedInitialiserPackage().getInitialiserInstanceFor(cls);
-		var wrapee = (T) init.instantiate();
-		var wrapeeCls = (Class<T>) wrapee.getClass();
+		var wrapee = getAPI().createNewX(cls);
 
 		/*
 		 * Mock the concrete implementation class TImpl twice, where one of the mocks
@@ -114,7 +111,7 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 		 * though the said types seem to be the equal, mock types and actual instance
 		 * types are different and therefore not equal.
 		 */
-		var bareMock = this.mockEObjectImpl(wrapeeCls);
+		var bareMock = this.mockEObjectImpl(cls);
 		var spyMock = this.spyEObject(wrapee);
 
 		// Call isSimilar twice for both combinations to ensure that it is symmetrical
@@ -142,13 +139,11 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 	 *            then there should be a concrete class {@code xImpl} that directly
 	 *            inherits from {@code x}.
 	 */
-	@SuppressWarnings("unchecked")
 	@ParameterizedTest(name = "Mocked class: {1}")
 	@MethodSource("genConcreteTestParams")
 	public <T extends EObject> void testInterfaceCoverage_OneSideMocked_MethodsRestricted(Class<T> cls,
 			String displayName) {
-		var init = this.getUsedInitialiserPackage().getInitialiserInstanceFor(cls);
-		var wrapee = (T) init.instantiate();
+		var wrapee = getAPI().createNewX(cls);
 
 		var wrappedInstance = this.spyEObject(wrapee);
 
@@ -156,7 +151,7 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 		 * List of potentially relevant methods' names that could be used throughout
 		 * similarity checking.
 		 */
-		final var potentiallyRelevantMets = List.of(Stream.of(init.getInstanceClassOfInitialiser().getMethods())
+		final var potentiallyRelevantMets = List.of(Stream.of(cls.getMethods())
 				// Exclude methods related to structure elements to avoid exceptions
 				.filter((met) -> !EModelElement.class.isAssignableFrom(met.getReturnType()))
 				// Methods used in similarity checking must return something
@@ -187,7 +182,7 @@ public class InterfaceCoverageTest extends AbstractJaMoPPSimilarityTest implemen
 
 		while (currentLimit[0] <= 0) {
 			currentLimit[0] = startingLimit[0];
-			var modifiedWrapee = (T) init.instantiate();
+			var modifiedWrapee = getAPI().createNewX(cls);
 			var spiedInstance = mock(modifiedWrapee.getClass(),
 					withSettings().spiedInstance(modifiedWrapee).defaultAnswer(new Answer<Object>() {
 

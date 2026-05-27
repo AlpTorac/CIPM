@@ -1,35 +1,48 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
-import org.emftext.language.java.classifiers.Classifier;
+import java.util.function.Supplier;
+
 import org.emftext.language.java.types.InferableType;
+import org.emftext.language.java.types.TypeReference;
 import org.emftext.language.java.types.TypesPackage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesConcreteClassifiers;
-import cipm.consistency.initialisers.jamopp.types.InferableTypeInitialiser;
 
-public class InferableTypeTest extends AbstractJaMoPPSimilarityTest implements UsesConcreteClassifiers {
-	protected InferableType initElement(Classifier target) {
-		var init = new InferableTypeInitialiser();
-		var res = init.instantiate();
+/**
+ * The "target" of an InferableType is stored in
+ * "TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS", which is covered by the
+ * corresponding interface test. This class is here for documentation and
+ * completeness.
+ * <p>
+ * TypeReference.setTarget(...) does NOT belong to an actual feature, but
+ * returns a derived value.
+ */
+public class InferableTypeTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<TypeReference> target1 = () -> getAPI().newClassifierReference()
+			.withTarget(getAPI().newClass().withName("cls1").createNow()).createNow();
+	private final Supplier<TypeReference> target2 = () -> getAPI().newClassifierReference()
+			.withTarget(getAPI().newClass().withName("cls2").createNow()).createNow();
 
-		Assertions.assertTrue(init.setTarget(res, target));
-		return res;
+	@Test
+	public void testActualTarget() {
+		this.testSimilarity(getAPI().newInferableType().withAddedActualTargets(target1.get()).createNow(),
+				getAPI().newInferableType().withAddedActualTargets(target2.get()).createNow(), InferableType.class,
+				TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
 	}
 
 	@Test
-	public void testTarget() {
-		var objOne = this.initElement(this.createMinimalClass("cls1"));
-		var objTwo = this.initElement(this.createMinimalClass("cls2"));
-
-		this.testSimilarity(objOne, objTwo, InferableType.class, TypesPackage.Literals.CLASSIFIER_REFERENCE__TARGET);
+	public void testActualTargetSize() {
+		this.testSimilarity(
+				getAPI().newInferableType().withAddedActualTargets(new TypeReference[] { target1.get(), target2.get() })
+						.createNow(),
+				getAPI().newInferableType().withAddedActualTargets(target1.get()).createNow(), InferableType.class,
+				TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
 	}
 
 	@Test
-	public void testTargetNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createMinimalClass("cls1")), new InferableTypeInitialiser(),
-				false, InferableType.class, TypesPackage.Literals.CLASSIFIER_REFERENCE__TARGET);
+	public void testActualTargetNullCheck() {
+		this.testSimilarityNullCheck(getAPI().newInferableType().withAddedActualTargets(target1.get()).createNow(),
+				InferableType.class, TypesPackage.Literals.TYPED_ELEMENT_EXTENSION__ACTUAL_TARGETS);
 	}
 }

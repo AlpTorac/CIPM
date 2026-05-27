@@ -1,34 +1,27 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
-import org.emftext.language.java.statements.Condition;
+import java.util.function.Supplier;
+
 import org.emftext.language.java.statements.StatementsPackage;
 import org.emftext.language.java.statements.Statement;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
-import cipm.consistency.initialisers.jamopp.statements.ConditionInitialiser;
 
-public class ConditionTest extends AbstractJaMoPPSimilarityTest implements UsesStatements {
-	protected Condition initElement(Statement elseSt) {
-		var conInit = new ConditionInitialiser();
-		var con = conInit.instantiate();
-		Assertions.assertTrue(conInit.setElseStatement(con, elseSt));
-		return con;
-	}
+public class ConditionTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<Statement> elseStatement1 = () -> getAPI().createNewAssert();
+	private final Supplier<Statement> elseStatement2 = () -> getAPI().createNewEmptyStatement();
 
 	@Test
 	public void testElseStatement() {
-		var objOne = this.initElement(this.createMinimalTrivialAssert());
-		var objTwo = this.initElement(this.createMinimalNullReturn());
-
-		this.testSimilarity(objOne, objTwo, StatementsPackage.Literals.CONDITION__ELSE_STATEMENT);
+		this.testSimilarity(getAPI().newCondition().withElseStatement(elseStatement1.get()).createNow(),
+				getAPI().newCondition().withElseStatement(elseStatement2.get()).createNow(),
+				StatementsPackage.Literals.CONDITION__ELSE_STATEMENT);
 	}
 
 	@Test
 	public void testElseStatementNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createMinimalTrivialAssert()), new ConditionInitialiser(),
-				false, StatementsPackage.Literals.CONDITION__ELSE_STATEMENT);
+		this.testSimilarityNullCheck(getAPI().newCondition().withElseStatement(elseStatement1.get()).createNow(),
+				StatementsPackage.Literals.CONDITION__ELSE_STATEMENT);
 	}
 }

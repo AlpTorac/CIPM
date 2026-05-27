@@ -1,45 +1,35 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
-import org.emftext.language.java.expressions.ConditionalOrExpression;
+import java.util.function.Supplier;
+
 import org.emftext.language.java.expressions.ConditionalOrExpressionChild;
 import org.emftext.language.java.expressions.ExpressionsPackage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
-import cipm.consistency.initialisers.jamopp.expressions.ConditionalOrExpressionInitialiser;
 
-public class ConditionalOrExpressionTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions {
-	protected ConditionalOrExpression initElement(ConditionalOrExpressionChild[] children) {
-		var coeInit = new ConditionalOrExpressionInitialiser();
-		var coe = coeInit.instantiate();
-		Assertions.assertTrue(coeInit.addChildren(coe, children));
-		return coe;
-	}
+public class ConditionalOrExpressionTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<ConditionalOrExpressionChild> child1 = () -> getAPI().newDecimalIntegerLiteral(1);
+	private final Supplier<ConditionalOrExpressionChild> child2 = () -> getAPI().newDecimalIntegerLiteral(2);
 
 	@Test
 	public void testChild() {
-		this.testSimilarity(
-				this.initElement(new ConditionalOrExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
-				this.initElement(new ConditionalOrExpressionChild[] { this.createDecimalIntegerLiteral(2) }),
+		this.testSimilarity(getAPI().newConditionalOrExpression(child1.get()),
+				getAPI().newConditionalOrExpression(child2.get()),
 				ExpressionsPackage.Literals.CONDITIONAL_OR_EXPRESSION__CHILDREN);
 	}
 
 	@Test
 	public void testChildSize() {
 		this.testSimilarity(
-				this.initElement(new ConditionalOrExpressionChild[] { this.createDecimalIntegerLiteral(1),
-						this.createDecimalIntegerLiteral(2) }),
-				this.initElement(new ConditionalOrExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
+				getAPI().newConditionalOrExpression(new ConditionalOrExpressionChild[] { child1.get(), child2.get() }),
+				getAPI().newConditionalOrExpression(child1.get()),
 				ExpressionsPackage.Literals.CONDITIONAL_OR_EXPRESSION__CHILDREN);
 	}
 
 	@Test
 	public void testChildNullCheck() {
-		this.testSimilarityNullCheck(
-				this.initElement(new ConditionalOrExpressionChild[] { this.createDecimalIntegerLiteral(1) }),
-				new ConditionalOrExpressionInitialiser(), false,
+		this.testSimilarityNullCheck(getAPI().newConditionalOrExpression(child1.get()),
 				ExpressionsPackage.Literals.CONDITIONAL_OR_EXPRESSION__CHILDREN);
 	}
 }

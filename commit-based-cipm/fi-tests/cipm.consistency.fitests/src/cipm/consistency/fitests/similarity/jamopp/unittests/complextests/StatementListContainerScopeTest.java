@@ -1,12 +1,11 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.complextests;
 
 import java.util.ArrayList;
-import java.util.List;
+
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.emftext.language.java.statements.BlockContainer;
 import org.emftext.language.java.statements.Statement;
-import org.emftext.language.java.statements.StatementContainer;
 import org.emftext.language.java.statements.StatementListContainer;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
@@ -15,39 +14,49 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesStatements;
-import cipm.consistency.initialisers.jamopp.IJaMoPPEObjectInitialiser;
-import cipm.consistency.initialisers.jamopp.statements.BlockInitialiser;
-import cipm.consistency.initialisers.jamopp.statements.IStatementInitialiser;
-import cipm.consistency.initialisers.jamopp.statements.IStatementListContainerInitialiser;
+import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
+import cipm.consistency.fitests.similarity.jamopp.unittests.IStatementTest;
 
 /**
  * Tests whether similarity checking detects differences originating from
  * changes to validity scopes, such as those concerning
  * {@link LocalVariableStatement}.
  * 
+ * <p>
+ * The test case within reproduces the bug in LocalVariableStatement comparison
+ * during TeaStore propagation test (between TeaStore commits
+ * b0d046e178dbaab7e045de57c01795ce5d1dac92 and
+ * 77733d9c6ab6680c6cc460c631cd408a588a595c, where the class LogReaderDaemon
+ * gets try-block changes that move LocalVariableStatements, which corrupts
+ * their IdentifierReferences in the model file and cause exceptions). This
+ * issue was addressed in the CIPM commit
+ * fd6d6e83e3909e30f9dfd23667bf4cf72931665f.
+ * 
+ * <p>
+ * FIXME: Enable this test case once all combinations of StatementListContainer
+ * and Statement instances (wrt. being nested in one another) are handled
+ * properly in similarity checking.
+ * 
  * @author Alp Torac Genc
  */
 @Disabled("Until these scenarios are properly addressed")
-public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTest implements UsesStatements {
+public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTest implements IStatementTest {
 
 	/**
-	 * Generates all possible combinations (nestedConInit, placeholderConInit). <br>
+	 * Generates all possible combinations (nestedConCls, placeholderConCls). <br>
 	 * <br>
 	 * Check other test methods' commentary for more information.
 	 */
 	private static Stream<Arguments> genTestParams() {
 		var args = new ArrayList<Arguments>();
-		var nestedConInits = List
-				.of(AbstractJaMoPPSimilarityTest.getNonAdaptedInitialisersFor(IStatementListContainerInitialiser.class)
-						.stream().filter((i) -> IStatementInitialiser.class.isAssignableFrom(i.getClass()))
-						.toArray(IJaMoPPEObjectInitialiser[]::new));
-		var placeholderConInits = AbstractJaMoPPSimilarityTest
-				.getNonAdaptedInitialisersFor(IStatementListContainerInitialiser.class);
-		for (var nestedCon : nestedConInits) {
-			var displayName = nestedCon.getClass().getSimpleName() + " (nestedCon) in ";
-			for (var placeholderCon : placeholderConInits) {
-				args.add(Arguments.of(nestedCon, placeholderCon, displayName + placeholderCon.getClass().getSimpleName() + " (placeholderCon)"));
+		var slcClss = JaMoPPArguments.getAllConcreteClassesBySuper(StatementListContainer.class);
+		var nestedConClss = slcClss.stream().filter((slcCls) -> Statement.class.isAssignableFrom(slcCls))
+				.collect(Collectors.toList());
+		for (var nestedConCls : nestedConClss) {
+			var displayName = nestedConCls.getSimpleName() + " (nestedCon) in ";
+			for (var placeholderConCls : slcClss) {
+				args.add(Arguments.of(nestedConCls, placeholderConCls,
+						displayName + placeholderConCls.getSimpleName() + " (placeholderCon)"));
 			}
 		}
 		return args.stream();
@@ -61,7 +70,7 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 		var sts = new Statement[count];
 
 		for (int i = 0; i < sts.length; i++) {
-			sts[i] = this.createMinimalLVS("lvs" + i);
+			sts[i] = getAPI().newLocalVariableStatement(getAPI().newLocalVariable().withName("lvs" + i).createNow());
 		}
 
 		for (int i = 0; i < sts.length; i++) {
@@ -71,37 +80,6 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 		}
 
 		return sts;
-	}
-
-	/**
-	 * Adds a {@link Block} instance to slc, so that multiple statements can be
-	 * added to it. Does nothing if there already is a block in slc.
-	 */
-	private void addBlockIfNecessary(StatementListContainer slc, IStatementListContainerInitialiser slcInit) {
-		if (!slcInit.canContainStatements(slc)) {
-			var block = new BlockInitialiser().instantiate();
-			if (slc instanceof StatementContainer) {
-				((StatementContainer) slc).setStatement(block);
-			} else if (slc instanceof BlockContainer) {
-				((BlockContainer) slc).setBlock(block);
-			}
-		}
-	}
-
-	/**
-	 * Adds statements in sts within the range [start, end) (start included, end
-	 * excluded) to slc. <br>
-	 * <br>
-	 * Adds a block to slc first, if statements cannot be added to it in its current
-	 * form.
-	 */
-	private void addStatementsInRange(StatementListContainer slc, IStatementListContainerInitialiser slcInit,
-			Statement[] sts, int start, int end) {
-		this.addBlockIfNecessary(slc, slcInit);
-		for (int i = start; i < end; i++) {
-			slcInit.addStatement(slc, sts[i]);
-		}
-		Assertions.assertEquals(end - start, slc.getStatements().size());
 	}
 
 	/**
@@ -117,16 +95,16 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 	 * {@code sts[0] ... sts[nestedConStart-1] nestedCon sts[nestedConEnd] ... sts[stsLen]}
 	 * </ul>
 	 */
-	private Statement[] setupForTest(IStatementListContainerInitialiser placeholderConInit,
-			IStatementListContainerInitialiser nestedConInit, int nestedConStart, int nestedConEnd, int stsLen) {
+	private Statement[] setupForTest(Class<? extends StatementListContainer> placeholderConCls,
+			Class<? extends StatementListContainer> nestedConCls, int nestedConStart, int nestedConEnd, int stsLen) {
 
-		var placeholderCon = placeholderConInit.instantiate();
-		this.addBlockIfNecessary(placeholderCon, placeholderConInit);
+		var placeholderCon = getAPI().createNewX(placeholderConCls);
+		this.addBlockIfNecessary(placeholderCon);
 
 		// Only generate nestedCon, if any statements are to be in its scope
 		StatementListContainer nestedCon = null;
 		if (nestedConEnd - nestedConStart > 0) {
-			nestedCon = nestedConInit.instantiate();
+			nestedCon = getAPI().createNewX(nestedConCls);
 		}
 
 		var sts = this.createDistinctSts(stsLen);
@@ -138,14 +116,14 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 		 * up the intended ordering.
 		 */
 		for (int i = 0; i < nestedConStart; i++) {
-			placeholderConInit.addStatement(placeholderCon, sts[i]);
+			addStatement(placeholderCon, sts[i]);
 		}
 		if (nestedCon != null) {
-			placeholderConInit.addStatement(placeholderCon, (Statement) nestedCon);
-			this.addStatementsInRange(nestedCon, nestedConInit, sts, nestedConStart, nestedConEnd);
+			addStatement(placeholderCon, (Statement) nestedCon);
+			this.addStatementsInRange(nestedCon, nestedConCls, sts, nestedConStart, nestedConEnd);
 		}
 		for (int i = nestedConEnd; i < stsLen; i++) {
-			placeholderConInit.addStatement(placeholderCon, sts[i]);
+			addStatement(placeholderCon, sts[i]);
 		}
 
 		// Make sure that the statements are in the correct container
@@ -212,27 +190,27 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 	 * statement position checks, this construction covers all possible ways
 	 * statements can be nested within one another.
 	 * 
-	 * @param displayName        The name of the tests' display
-	 * @param nestedConInit      The initialiser responsible for instantiating the
-	 *                           nestedCon. <b>Must also implement
-	 *                           {@link IStatementInitialiser}, because nestedCon
-	 *                           itself will also be used as a Statement and nested
-	 *                           within placeholderCon.</b>
-	 * @param placeholderConInit The initialiser responsible for instantiating the
-	 *                           placeholderCon
+	 * @param displayName       The name of the tests' display
+	 * @param nestedConCls      The initialiser responsible for instantiating the
+	 *                          nestedCon. <b>Must also implement
+	 *                          {@link IStatementInitialiser}, because nestedCon
+	 *                          itself will also be used as a Statement and nested
+	 *                          within placeholderCon.</b>
+	 * @param placeholderConCls The initialiser responsible for instantiating the
+	 *                          placeholderCon
 	 */
 	@ParameterizedTest(name = "{2}")
 	@MethodSource("genTestParams")
-	public void testStatementListContainingStatementScope(IStatementListContainerInitialiser nestedConInit,
-			IStatementListContainerInitialiser placeholderConInit, String displayName) {
+	public void testStatementListContainingStatementScope(Class<? extends StatementListContainer> nestedConCls,
+			Class<? extends StatementListContainer> placeholderConCls, String displayName) {
 
 		/*
 		 * Block causes issues, because block instances are always assumed to be
 		 * similar. Fixing the scope issue of LocalVariableStatement should fix these
 		 * cases too.
 		 * 
-		 * If types of nestedConInit and placeholderConInit are equal test fails,
-		 * because the containers (on their own) are similar. Fixing the scope issue of
+		 * If types of nestedConCls and placeholderConCls are equal test fails, because
+		 * the containers (on their own) are similar. Fixing the scope issue of
 		 * LocalVariableStatement should fix these cases too.
 		 */
 
@@ -245,12 +223,12 @@ public class StatementListContainerScopeTest extends AbstractJaMoPPSimilarityTes
 		for (int nestedCon1Start = 0; nestedCon1Start <= stsLen; nestedCon1Start++) {
 			for (int nestedCon1End = nestedCon1Start; nestedCon1End <= stsLen; nestedCon1End++) {
 
-				var sts1 = this.setupForTest(placeholderConInit, nestedConInit, nestedCon1Start, nestedCon1End, stsLen);
+				var sts1 = this.setupForTest(placeholderConCls, nestedConCls, nestedCon1Start, nestedCon1End, stsLen);
 
 				for (int nestedCon2Start = 0; nestedCon2Start <= stsLen; nestedCon2Start++) {
 					for (int nestedCon2End = nestedCon2Start; nestedCon2End <= stsLen; nestedCon2End++) {
 
-						var sts2 = this.setupForTest(placeholderConInit, nestedConInit, nestedCon2Start, nestedCon2End,
+						var sts2 = this.setupForTest(placeholderConCls, nestedConCls, nestedCon2Start, nestedCon2End,
 								stsLen);
 
 						for (int i = 0; i < stsLen; i++) {

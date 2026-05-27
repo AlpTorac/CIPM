@@ -8,7 +8,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.initialisers.jamopp.literals.BinaryIntegerLiteralInitialiser;
 
 /**
  * Contains tests using mock objects, which check the robustness of similarity
@@ -36,9 +35,8 @@ public class AsymmetricEqualsMockTest extends AbstractJaMoPPSimilarityTest imple
 	@SuppressWarnings({ "unlikely-arg-type", "serial" })
 	@Test
 	public void testAsymmetricEqualsMethod() {
-		var init = new BinaryIntegerLiteralInitialiser();
-		var eqFalseWrapee = init.instantiate();
-		var eqTrueWrapee = init.instantiate();
+		var eqFalseWrapee = getAPI().createNewBinaryIntegerLiteral();
+		var eqTrueWrapee = getAPI().createNewBinaryIntegerLiteral();
 
 		/*
 		 * Construct anonymous BigInteger extensions and override the equals method, in

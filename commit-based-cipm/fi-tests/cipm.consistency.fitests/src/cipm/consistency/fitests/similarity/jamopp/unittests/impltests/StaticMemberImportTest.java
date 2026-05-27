@@ -1,45 +1,40 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
+import java.util.function.Supplier;
+
 import org.emftext.language.java.imports.ImportsPackage;
-import org.emftext.language.java.imports.StaticMemberImport;
 import org.emftext.language.java.references.ReferenceableElement;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesMethods;
-import cipm.consistency.initialisers.jamopp.imports.StaticMemberImportInitialiser;
 
-public class StaticMemberImportTest extends AbstractJaMoPPSimilarityTest implements UsesMethods {
-	protected StaticMemberImport initElement(ReferenceableElement[] staticMems) {
-		var smiInit = new StaticMemberImportInitialiser();
-		var smi = smiInit.instantiate();
-		Assertions.assertTrue(smiInit.addStaticMembers(smi, staticMems));
-		return smi;
-	}
+public class StaticMemberImportTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<ReferenceableElement> staticMember1 = () -> getAPI().newClassMethod().withName("met1")
+			.createNow();
+	private final Supplier<ReferenceableElement> staticMember2 = () -> getAPI().newClassMethod().withName("met2")
+			.createNow();
 
 	@Test
 	public void testStaticMember() {
-		var objOne = this.initElement(new ReferenceableElement[] { this.createMinimalClsMethodWithNullReturn("met1") });
-		var objTwo = this.initElement(new ReferenceableElement[] { this.createMinimalClsMethodWithNullReturn("met2") });
-
-		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.STATIC_MEMBER_IMPORT__STATIC_MEMBERS);
+		this.testSimilarity(getAPI().newStaticMemberImport().withAddedStaticMembers(staticMember1.get()).createNow(),
+				getAPI().newStaticMemberImport().withAddedStaticMembers(staticMember2.get()).createNow(),
+				ImportsPackage.Literals.STATIC_MEMBER_IMPORT__STATIC_MEMBERS);
 	}
 
 	@Test
 	public void testStaticMemberSize() {
-		var objOne = this.initElement(new ReferenceableElement[] { this.createMinimalClsMethodWithNullReturn("met1"),
-				this.createMinimalClsMethodWithNullReturn("met2") });
-		var objTwo = this.initElement(new ReferenceableElement[] { this.createMinimalClsMethodWithNullReturn("met1") });
-
-		this.testSimilarity(objOne, objTwo, ImportsPackage.Literals.STATIC_MEMBER_IMPORT__STATIC_MEMBERS);
+		this.testSimilarity(
+				getAPI().newStaticMemberImport()
+						.withAddedStaticMembers(new ReferenceableElement[] { staticMember1.get(), staticMember2.get() })
+						.createNow(),
+				getAPI().newStaticMemberImport().withAddedStaticMembers(staticMember1.get()).createNow(),
+				ImportsPackage.Literals.STATIC_MEMBER_IMPORT__STATIC_MEMBERS);
 	}
 
 	@Test
 	public void testStaticMemberNullCheck() {
 		this.testSimilarityNullCheck(
-				this.initElement(new ReferenceableElement[] { this.createMinimalClsMethodWithNullReturn("met1") }),
-				new StaticMemberImportInitialiser(), false,
+				getAPI().newStaticMemberImport().withAddedStaticMembers(staticMember1.get()).createNow(),
 				ImportsPackage.Literals.STATIC_MEMBER_IMPORT__STATIC_MEMBERS);
 	}
 }

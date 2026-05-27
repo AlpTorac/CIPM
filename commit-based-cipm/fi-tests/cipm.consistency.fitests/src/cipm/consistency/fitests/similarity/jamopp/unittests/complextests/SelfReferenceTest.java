@@ -4,14 +4,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.IStructuralFeatureTest;
-import cipm.consistency.initialisers.eobject.IEObjectInitialiser;
+import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
 
 /**
  * A test class that checks the robustness of similarity checking against cyclic
@@ -24,12 +24,28 @@ import cipm.consistency.initialisers.eobject.IEObjectInitialiser;
  * references (T from above) will be kept constant, meaning that other possible
  * types that could cause similar cyclic references will not be considered.
  * 
+ * <p>
+ * FIXME: Enable this test case once similarity checking can handle cyclic
+ * references
+ * 
  * @author Alp Torac Genc
  */
 @Disabled("Until cycle checking mechanisms are implemented")
-public class SelfReferenceTest extends AbstractJaMoPPSimilarityTest implements IStructuralFeatureTest {
+public class SelfReferenceTest extends AbstractJaMoPPSimilarityTest {
 	/**
-	 * Scans the object type generated with {@code init} for references
+	 * Sets the value of the given EStructuralFeature of the given EObject to the
+	 * given value.
+	 */
+	private void setValueOf(EObject obj, EStructuralFeature feat, Object val) {
+		if (feat.isMany()) {
+			getAPI().modifyX(obj).xWithAddedFeat(feat, val);
+		} else {
+			getAPI().modifyX(obj).xWithFeat(feat, val);
+		}
+	}
+
+	/**
+	 * Scans the object type generated with {@code eObjCls} for references
 	 * ({@link EReference}) {@code Ref}, which can point at the object containing
 	 * it. Then sets {@code Ref} to the object containing it, which results in the
 	 * said object referencing itself. Then constructs 2 similar reference chains
@@ -55,12 +71,11 @@ public class SelfReferenceTest extends AbstractJaMoPPSimilarityTest implements I
 	 *                    here will result in the generated reference chain to only
 	 *                    have the cycle and no elements leading to it.
 	 */
-	private Collection<DynamicTest> initialiseCyclicFeatures(IEObjectInitialiser init, int cycleLength,
+	private Collection<DynamicTest> initialiseCyclicFeatures(Class<? extends EObject> eObjCls, int cycleLength,
 			int cycleOffset) {
 		var tests = new ArrayList<DynamicTest>();
 
-		var obj = init.instantiate();
-		var objCls = init.getInstanceClassOfInitialiser();
+		var obj = getAPI().createNewX(eObjCls);
 
 		for (var attr : obj.eClass().getEAllStructuralFeatures()) {
 			if (attr.isChangeable()) {
@@ -71,18 +86,18 @@ public class SelfReferenceTest extends AbstractJaMoPPSimilarityTest implements I
 				 * Make sure to not clone those objects, since cloning method itself may cause
 				 * an endless recursion.
 				 */
-				if (attrType.isAssignableFrom(objCls)) {
+				if (attrType.isAssignableFrom(eObjCls)) {
 					var objs1 = new ArrayList<EObject>();
 					var objs2 = new ArrayList<EObject>();
 
 					// First objects
-					objs1.add(init.instantiate());
-					objs2.add(init.instantiate());
+					objs1.add(getAPI().createNewX(eObjCls));
+					objs2.add(getAPI().createNewX(eObjCls));
 
 					// Add objects leading to the cycle
 					for (int offset = 0; offset < cycleOffset; offset++) {
-						this.setValueOf(objs1.get(objs1.size() - 1), attr, init.instantiate());
-						this.setValueOf(objs2.get(objs2.size() - 1), attr, init.instantiate());
+						this.setValueOf(objs1.get(objs1.size() - 1), attr, getAPI().createNewX(eObjCls));
+						this.setValueOf(objs2.get(objs2.size() - 1), attr, getAPI().createNewX(eObjCls));
 					}
 
 					var objs1CycleStart = objs1.get(objs1.size() - 1);
@@ -90,8 +105,8 @@ public class SelfReferenceTest extends AbstractJaMoPPSimilarityTest implements I
 
 					// Add objects within the cycle
 					for (int cLen = 0; cLen < cycleLength; cLen++) {
-						this.setValueOf(objs1.get(objs1.size() - 1), attr, init.instantiate());
-						this.setValueOf(objs2.get(objs2.size() - 1), attr, init.instantiate());
+						this.setValueOf(objs1.get(objs1.size() - 1), attr, getAPI().createNewX(eObjCls));
+						this.setValueOf(objs2.get(objs2.size() - 1), attr, getAPI().createNewX(eObjCls));
 					}
 
 					// Close the cycle
@@ -99,7 +114,7 @@ public class SelfReferenceTest extends AbstractJaMoPPSimilarityTest implements I
 					this.setValueOf(objs2.get(objs2.size() - 1), attr, objs2CycleStart);
 
 					tests.add(DynamicTest.dynamicTest(String.format("%s.%s cyclic with (length=%d, offset=%d)",
-							objCls.getSimpleName(), attr.getName(), cycleLength, cycleOffset), () -> {
+							eObjCls.getSimpleName(), attr.getName(), cycleLength, cycleOffset), () -> {
 								for (int i = 0; i < objs1.size(); i++) {
 									final var idx = i;
 									Assertions.assertDoesNotThrow(() -> this.isSimilar(objs1.get(idx), objs2.get(idx)));
@@ -123,10 +138,10 @@ public class SelfReferenceTest extends AbstractJaMoPPSimilarityTest implements I
 	@TestFactory
 	public Collection<DynamicTest> testSelfReference() {
 		var tests = new ArrayList<DynamicTest>();
-		for (var init : this.getUsedInitialiserPackage().getAllInitialiserInstances()) {
+		for (var eObjCls : JaMoPPArguments.getAllConcreteClasses()) {
 			for (int length = 0; length < 4; length++) {
 				for (int offset = 0; offset < 3; offset++) {
-					tests.addAll(this.initialiseCyclicFeatures((IEObjectInitialiser) init, length, offset));
+					tests.addAll(this.initialiseCyclicFeatures(eObjCls, length, offset));
 				}
 			}
 		}

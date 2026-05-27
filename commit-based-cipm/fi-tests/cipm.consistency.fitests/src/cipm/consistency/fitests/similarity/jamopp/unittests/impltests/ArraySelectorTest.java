@@ -1,34 +1,27 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
-import org.emftext.language.java.arrays.ArraySelector;
+import java.util.function.Supplier;
+
 import org.emftext.language.java.arrays.ArraysPackage;
 import org.emftext.language.java.expressions.Expression;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesExpressions;
-import cipm.consistency.initialisers.jamopp.arrays.ArraySelectorInitialiser;
 
-public class ArraySelectorTest extends AbstractJaMoPPSimilarityTest implements UsesExpressions {
-	protected ArraySelector initElement(Expression pos) {
-		var asInit = new ArraySelectorInitialiser();
-		var as = asInit.instantiate();
-		Assertions.assertTrue(asInit.setPosition(as, pos));
-		return as;
-	}
+public class ArraySelectorTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<Expression> position1 = () -> getAPI().newDecimalIntegerLiteral(1);
+	private final Supplier<Expression> position2 = () -> getAPI().newDecimalIntegerLiteral(2);
 
 	@Test
 	public void testPosition() {
-		var objOne = this.initElement(this.createDecimalIntegerLiteral(1));
-		var objTwo = this.initElement(this.createDecimalIntegerLiteral(2));
-
-		this.testSimilarity(objOne, objTwo, ArraysPackage.Literals.ARRAY_SELECTOR__POSITION);
+		this.testSimilarity(getAPI().newArraySelector().withPosition(position1.get()).createNow(),
+				getAPI().newArraySelector().withPosition(position2.get()).createNow(),
+				ArraysPackage.Literals.ARRAY_SELECTOR__POSITION);
 	}
 
 	@Test
 	public void testPositionNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createDecimalIntegerLiteral(1)),
-				new ArraySelectorInitialiser(), false, ArraysPackage.Literals.ARRAY_SELECTOR__POSITION);
+		this.testSimilarityNullCheck(getAPI().newArraySelector().withPosition(position1.get()).createNow(),
+				ArraysPackage.Literals.ARRAY_SELECTOR__POSITION);
 	}
 }

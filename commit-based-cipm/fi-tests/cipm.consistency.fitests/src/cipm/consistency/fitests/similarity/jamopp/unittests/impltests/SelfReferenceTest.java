@@ -1,34 +1,27 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
+import java.util.function.Supplier;
+
 import org.emftext.language.java.literals.Self;
-import org.emftext.language.java.references.SelfReference;
 import org.emftext.language.java.references.ReferencesPackage;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.fitests.similarity.jamopp.unittests.UsesLiterals;
-import cipm.consistency.initialisers.jamopp.references.SelfReferenceInitialiser;
 
-public class SelfReferenceTest extends AbstractJaMoPPSimilarityTest implements UsesLiterals {
-	protected SelfReference initElement(Self self) {
-		var srInit = new SelfReferenceInitialiser();
-		var sr = srInit.instantiate();
-		Assertions.assertTrue(srInit.setSelf(sr, self));
-		return sr;
-	}
+public class SelfReferenceTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<Self> self1 = () -> getAPI().newThis();
+	private final Supplier<Self> self2 = () -> getAPI().newSuper();
 
 	@Test
 	public void testSelf() {
-		var objOne = this.initElement(this.createThis());
-		var objTwo = this.initElement(this.createSuper());
-
-		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.SELF_REFERENCE__SELF);
+		this.testSimilarity(getAPI().newSelfReference().withSelf(self1.get()).createNow(),
+				getAPI().newSelfReference().withSelf(self2.get()).createNow(),
+				ReferencesPackage.Literals.SELF_REFERENCE__SELF);
 	}
 
 	@Test
 	public void testSelfNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(this.createThis()), new SelfReferenceInitialiser(), false,
+		this.testSimilarityNullCheck(getAPI().newSelfReference().withSelf(self1.get()).createNow(),
 				ReferencesPackage.Literals.SELF_REFERENCE__SELF);
 	}
 }

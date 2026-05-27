@@ -1,43 +1,39 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.interfacetests;
 
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import org.emftext.language.java.commons.CommonsPackage;
 import org.emftext.language.java.commons.NamedElement;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.initialisers.jamopp.commons.INamedElementInitialiser;
+import cipm.consistency.fitests.similarity.jamopp.JaMoPPArguments;
 
 public class NamedElementTest extends AbstractJaMoPPSimilarityTest {
+	private final Supplier<String> name1 = () -> "a";
+	private final Supplier<String> name2 = () -> "b";
 
 	private static Stream<Arguments> provideArguments() {
-		return AbstractJaMoPPSimilarityTest.getAllInitialiserArgumentsFor(INamedElementInitialiser.class);
-	}
-
-	protected NamedElement initElement(INamedElementInitialiser init, String name) {
-		NamedElement result = init.instantiate();
-		Assertions.assertTrue(init.initialise(result));
-		Assertions.assertEquals(init.canSetName(result) || name == null, init.setName(result, name));
-		return result;
+		return JaMoPPArguments.getAllConcreteClassesBySuperAsArgs(NamedElement.class);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testName(INamedElementInitialiser init, String displayName) {
-		var objOne = this.initElement(init, "name11");
-		var objTwo = this.initElement(init, "name22");
-
-		this.testSimilarity(objOne, objTwo, CommonsPackage.Literals.NAMED_ELEMENT__NAME);
+	public void testName(Class<?> cls, String displayName) {
+		this.testSimilarity(
+				getAPI().newX(cls).xWithFeat(CommonsPackage.Literals.NAMED_ELEMENT__NAME, name1.get()).createNow(),
+				getAPI().newX(cls).xWithFeat(CommonsPackage.Literals.NAMED_ELEMENT__NAME, name2.get()).createNow(),
+				CommonsPackage.Literals.NAMED_ELEMENT__NAME);
 	}
 
 	@ParameterizedTest(name = "{1}")
 	@MethodSource("provideArguments")
-	public void testNameNullCheck(INamedElementInitialiser init, String displayName) {
-		this.testSimilarityNullCheck(this.initElement(init, "name11"), init, true,
+	public void testNameNullCheck(Class<?> cls, String displayName) {
+		this.testSimilarityNullCheck(
+				getAPI().newX(cls).xWithFeat(CommonsPackage.Literals.NAMED_ELEMENT__NAME, name1.get()).createNow(),
 				CommonsPackage.Literals.NAMED_ELEMENT__NAME);
 	}
 }

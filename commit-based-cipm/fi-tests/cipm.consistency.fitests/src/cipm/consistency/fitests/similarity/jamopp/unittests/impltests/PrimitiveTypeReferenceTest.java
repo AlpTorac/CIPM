@@ -1,36 +1,28 @@
 package cipm.consistency.fitests.similarity.jamopp.unittests.impltests;
 
-import org.emftext.language.java.references.PrimitiveTypeReference;
+import java.util.function.Supplier;
+
 import org.emftext.language.java.references.ReferencesPackage;
 import org.emftext.language.java.types.PrimitiveType;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.AbstractJaMoPPSimilarityTest;
-import cipm.consistency.initialisers.jamopp.references.PrimitiveTypeReferenceInitialiser;
-import cipm.consistency.initialisers.jamopp.types.BooleanInitialiser;
-import cipm.consistency.initialisers.jamopp.types.IntInitialiser;
 
 public class PrimitiveTypeReferenceTest extends AbstractJaMoPPSimilarityTest {
-	protected PrimitiveTypeReference initElement(PrimitiveType pType) {
-		var ptInit = new PrimitiveTypeReferenceInitialiser();
-		var pt = ptInit.instantiate();
-		Assertions.assertTrue(ptInit.setPrimitiveType(pt, pType));
-		return pt;
-	}
+	private final Supplier<PrimitiveType> primitiveType1 = () -> getAPI().createNewBoolean();
+	private final Supplier<PrimitiveType> primitiveType2 = () -> getAPI().createNewInt();
 
 	@Test
 	public void testPrimitiveType() {
-		var objOne = this.initElement(new BooleanInitialiser().instantiate());
-		var objTwo = this.initElement(new IntInitialiser().instantiate());
-
-		this.testSimilarity(objOne, objTwo, ReferencesPackage.Literals.PRIMITIVE_TYPE_REFERENCE__PRIMITIVE_TYPE);
+		this.testSimilarity(getAPI().newPrimitiveTypeReference().withPrimitiveType(primitiveType1.get()).createNow(),
+				getAPI().newPrimitiveTypeReference().withPrimitiveType(primitiveType2.get()).createNow(),
+				ReferencesPackage.Literals.PRIMITIVE_TYPE_REFERENCE__PRIMITIVE_TYPE);
 	}
 
 	@Test
 	public void testPrimitiveTypeNullCheck() {
-		this.testSimilarityNullCheck(this.initElement(new BooleanInitialiser().instantiate()),
-				new PrimitiveTypeReferenceInitialiser(), false,
+		this.testSimilarityNullCheck(
+				getAPI().newPrimitiveTypeReference().withPrimitiveType(primitiveType1.get()).createNow(),
 				ReferencesPackage.Literals.PRIMITIVE_TYPE_REFERENCE__PRIMITIVE_TYPE);
 	}
 }
