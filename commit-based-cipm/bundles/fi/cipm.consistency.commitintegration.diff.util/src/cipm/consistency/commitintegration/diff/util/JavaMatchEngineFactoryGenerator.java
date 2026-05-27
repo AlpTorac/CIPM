@@ -11,35 +11,22 @@ import org.splevo.jamopp.diffing.similarity.base.MapSimilarityToolboxFactory;
  * @author Martin Armbruster
  */
 public final class JavaMatchEngineFactoryGenerator {
-    private JavaMatchEngineFactoryGenerator() {
-    }
+	private JavaMatchEngineFactoryGenerator() {
+	}
 
-<<<<<<< HEAD
-    /**
-     * Generates the HierarchicalMatchEngineFactory.
-     * 
-     * @return the generated factory.
-     */
-    public static HierarchicalMatchEngineFactory generateMatchEngineFactory() {
-        return HierarchicalMatchEngineFactoryGenerator.generateMatchEngineFactory(new SimilarityChecker(), "javaxmi");
-    }
-=======
 	/**
 	 * Generates the HierarchicalMatchEngineFactory.
 	 * 
 	 * @return the generated factory.
 	 */
 	public static HierarchicalMatchEngineFactory generateMatchEngineFactory() {
-        var builder = new JavaSimilarityToolboxBuilder();
-        builder.setSimilarityToolboxFactory(new MapSimilarityToolboxFactory());
-        
-        var toolbox = builder.instantiate()
-        	.buildNewSimilaritySwitchHandler()
-        	.buildNormalizationHandlers()
-        	.buildComparisonHandlers()
-        	.build();
-		
-		return HierarchicalMatchEngineFactoryGenerator.generateMatchEngineFactory(new JavaSimilarityChecker(toolbox), "javaxmi");
+		var builder = new JavaSimilarityToolboxBuilder();
+		builder.setSimilarityToolboxFactory(new MapSimilarityToolboxFactory());
+
+		var toolbox = builder.instantiate().buildNewSimilaritySwitchHandler().buildNormalizationHandlers()
+				.buildComparisonHandlers().build();
+
+		return HierarchicalMatchEngineFactoryGenerator.generateMatchEngineFactory(new JavaSimilarityChecker(toolbox),
+				"javaxmi");
 	}
->>>>>>> 37338820e (All newsc commits squashed)
 }
