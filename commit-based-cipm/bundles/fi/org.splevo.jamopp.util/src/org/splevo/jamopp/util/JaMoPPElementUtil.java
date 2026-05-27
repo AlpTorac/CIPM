@@ -99,8 +99,11 @@ public final class JaMoPPElementUtil {
 	 * @return The first matching container, which can be null as well.
 	 */
 	private static EObject getTransitiveContainerForPredicate(Commentable element, Predicate<EObject> predicate) {
+		if (element == null)
+			return null;
+
 		EObject container = element.eContainer();
-		while (!predicate.apply(container)) {
+		while (container != null && !predicate.apply(container)) {
 			container = container.eContainer();
 		}
 		return container;
