@@ -13,7 +13,11 @@ Export-Package: cipm.consistency.fluentapi.pcm.api,
  cipm.consistency.fluentapi.pcm.api.inits.util,
  cipm.consistency.fluentapi.pcm.api.placeholderTypes,
  cipm.consistency.fluentapi.pcm.api.placeholderTypes.impl,
- cipm.consistency.fluentapi.pcm.api.util
+ cipm.consistency.fluentapi.pcm.api.util,
+ cipm.consistency.fluentapi.pcm.builder,
+ cipm.consistency.fluentapi.pcm.metamodel,
+ cipm.consistency.fluentapi.pcm.test,
+ cipm.consistency.fluentapi.pcm.test.metamodel
 Automatic-Module-Name: cipm.consistency.fluentapi.pcm
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: cipm.consistency.fluentapi,
