@@ -4,7 +4,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.instantiations.NewConstructorCall;
 
 import cipm.consistency.fitests.similarity.eobject.IEObjectAdaptationStrategy;
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 
 /**
  * Adds a {@link TypeReference} to the created {@link NewConstructorCall}
@@ -29,8 +29,8 @@ public class NewConstructorCallInitialiserAdapter implements IEObjectAdaptationS
 		var castedO = (NewConstructorCall) obj;
 
 		if (castedO.getTypeReference() == null) {
-			var cls = ApiFactory.eINSTANCE.createFluentEObjectAPI().createNewClass();
-			var tref = ApiFactory.eINSTANCE.createFluentEObjectAPI().newClassifierReference().withTarget(cls)
+			var cls = ApiFactory.eINSTANCE.createFluentJavaAPI().createNewClass();
+			var tref = ApiFactory.eINSTANCE.createFluentJavaAPI().newClassifierReference().withTarget(cls)
 					.createNow();
 
 			castedO.setTypeReference(tref);

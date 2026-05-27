@@ -7,8 +7,8 @@ import cipm.consistency.fitests.similarity.base.JavaSimilarityCheckerContainer;
 import cipm.consistency.fitests.similarity.eobject.AbstractEObjectSimilarityTest;
 import cipm.consistency.fitests.similarity.jamopp.params.JaMoPPSimilarityValues;
 import cipm.consistency.fitests.similarity.params.InitialiserTestSettingsProvider;
-import cipm.consistency.fluentapi.api.ApiFactory;
-import cipm.consistency.fluentapi.api.FluentEObjectAPI;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.FluentJavaAPI;
 
 /**
  * An abstract test class that extends {@link AbstractEObjectSimilarityTest}
@@ -19,8 +19,8 @@ import cipm.consistency.fluentapi.api.FluentEObjectAPI;
  * @author Alp Torac Genc
  */
 public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimilarityTest {
-	protected FluentEObjectAPI getAPI() {
-		return ApiFactory.eINSTANCE.createFluentEObjectAPI();
+	protected FluentJavaAPI getAPI() {
+		return ApiFactory.eINSTANCE.createFluentJavaAPI();
 	}
 
 	@Override

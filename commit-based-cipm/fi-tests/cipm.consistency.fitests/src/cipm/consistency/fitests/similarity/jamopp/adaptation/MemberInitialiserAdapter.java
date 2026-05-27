@@ -5,7 +5,7 @@ import org.emftext.language.java.members.Member;
 import org.emftext.language.java.members.MemberContainer;
 
 import cipm.consistency.fitests.similarity.eobject.IEObjectAdaptationStrategy;
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 
 /**
  * Adds the created {@link Member} to a {@link MemberContainer}. Does not modify
@@ -21,7 +21,7 @@ public class MemberInitialiserAdapter implements IEObjectAdaptationStrategy {
 		var castedO = (Member) obj;
 
 		if (castedO.eContainer() == null) {
-			var mc = ApiFactory.eINSTANCE.createFluentEObjectAPI().createNewClass();
+			var mc = ApiFactory.eINSTANCE.createFluentJavaAPI().createNewClass();
 			mc.getMembers().add(castedO);
 			return castedO.eContainer() == mc;
 		}

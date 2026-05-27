@@ -5,7 +5,7 @@ import org.emftext.language.java.classifiers.ConcreteClassifier;
 import org.emftext.language.java.containers.CompilationUnit;
 
 import cipm.consistency.fitests.similarity.eobject.IEObjectAdaptationStrategy;
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 
 /**
  * Adds the {@link ConcreteClassifier} instance to a {@link CompilationUnit}.
@@ -22,7 +22,7 @@ public class ConcreteClassifierInitialiserAdapter implements IEObjectAdaptationS
 		var castedO = (ConcreteClassifier) obj;
 
 		if (castedO.getContainingCompilationUnit() == null) {
-			var cu = ApiFactory.eINSTANCE.createFluentEObjectAPI().createNewCompilationUnit();
+			var cu = ApiFactory.eINSTANCE.createFluentJavaAPI().createNewCompilationUnit();
 			cu.getClassifiers().add(castedO);
 			return castedO.eContainer() == cu;
 		}

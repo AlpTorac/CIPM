@@ -6,7 +6,7 @@ import org.emftext.language.java.expressions.Expression;
 import org.emftext.language.java.references.IdentifierReference;
 
 import cipm.consistency.fitests.similarity.eobject.IEObjectAdaptationStrategy;
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 
 /**
  * Let <b>IR</b> be an {@link IdentifierReference} instance.
@@ -48,10 +48,10 @@ public class IdentifierReferenceInitialiserAdapter implements IEObjectAdaptation
 		var firstEligibleContainer = this.getFirstEligibleContainer(castedO);
 
 		if (firstEligibleContainer == null) {
-			var ecc = ApiFactory.eINSTANCE.createFluentEObjectAPI().createNewExplicitConstructorCall();
+			var ecc = ApiFactory.eINSTANCE.createFluentJavaAPI().createNewExplicitConstructorCall();
 			ecc.getArguments().add(castedO);
 
-			var es = ApiFactory.eINSTANCE.createFluentEObjectAPI().createNewExpressionStatement();
+			var es = ApiFactory.eINSTANCE.createFluentJavaAPI().createNewExpressionStatement();
 			es.setExpression(ecc);
 
 			return this.getFirstEligibleContainer(castedO) == es;

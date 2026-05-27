@@ -4,7 +4,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.statements.BlockContainer;
 
 import cipm.consistency.fitests.similarity.eobject.IEObjectAdaptationStrategy;
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 
 /**
  * Adds a {@link Block} to the {@link BlockContainer}. If the
@@ -21,7 +21,7 @@ public class BlockContainerInitialiserAdapter implements IEObjectAdaptationStrat
 		var castedO = (BlockContainer) obj;
 
 		if (castedO.getBlock() == null) {
-			var block = ApiFactory.eINSTANCE.createFluentEObjectAPI().createNewBlock();
+			var block = ApiFactory.eINSTANCE.createFluentJavaAPI().createNewBlock();
 			castedO.setBlock(block);
 			return block.eContainer() == castedO;
 		}

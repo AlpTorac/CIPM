@@ -4,7 +4,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.emftext.language.java.members.ClassMethod;
 
 import cipm.consistency.fitests.similarity.eobject.IEObjectAdaptationStrategy;
-import cipm.consistency.fluentapi.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
 
 /**
  * Adds a {@link Block} instance to the {@link ClassMethod} via
@@ -35,7 +35,7 @@ public class ClassMethodInitialiserAdapter implements IEObjectAdaptationStrategy
 		if (castedO.getBlock() == null) {
 			var formerSt = castedO.getStatement();
 
-			var block = ApiFactory.eINSTANCE.createFluentEObjectAPI().createNewBlock();
+			var block = ApiFactory.eINSTANCE.createFluentJavaAPI().createNewBlock();
 			castedO.setStatement(block);
 
 			if (formerSt != null) {

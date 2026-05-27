@@ -8,15 +8,14 @@ import java.util.stream.Stream;
 import org.eclipse.emf.ecore.EObject;
 import org.junit.jupiter.params.provider.Arguments;
 
-import cipm.consistency.fluentapi.api.ApiFactory;
-import cipm.consistency.fluentapi.api.FluentEObjectAPI;
+import cipm.consistency.fluentapi.java.api.ApiFactory;
+import cipm.consistency.fluentapi.java.api.FluentJavaAPI;
 
 public final class JaMoPPArguments {
-	private static final FluentEObjectAPI api = ApiFactory.eINSTANCE.createFluentEObjectAPI();
-	@SuppressWarnings("unchecked")
-	private static final List<Class<?>> supportedClasses = api.getAllSupportedClasses();
+	private static final FluentJavaAPI api = ApiFactory.eINSTANCE.createFluentJavaAPI();
 
-	@SuppressWarnings("unchecked")
+	private static final List<Class<? extends EObject>> supportedClasses = api.getAllSupportedClasses();
+
 	public static List<Class<? extends EObject>> getAllConcreteClasses() {
 		return supportedClasses.stream().map((cls) -> (Class<? extends EObject>) cls).collect(Collectors.toList());
 	}
