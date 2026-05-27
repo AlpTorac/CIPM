@@ -2,9 +2,7 @@
 
 This is the base plug-in of the fluent API generation, which contains the elements that the generation of fluent APIs for individual (EMF-based) metamodels require. The elements within this plug-in are mostly metamodel agnostic and must be extended with the means to access and work with concrete metamodels. It is intended to have one fluent API plug-in per concrete metamodel (or a sub-metamodel thereof).
 
-This plug-in considers the same Eclipse IDE as the CIPM repository.
-
-TODO: Link to the README.md of the CIPM Repository
+This plug-in considers the same setup as the [CIPM repository](../../../README.md).
 
 ## Introduction
 
@@ -16,11 +14,19 @@ Exemplary usage of the fluent API are present under test packages within the plu
 
 ## Plug-in Structure
 
-TODOs:
+This plug-in, as well as those of the extending plug-ins, have a package-based structure with the base package having the same name as the plug-in `cipm.consistency.fluentapi.<someMetamodelName>`, where `<someMetamodelName>` should be replaced with the name of the concrete metamodel, or be left out for the base plug-in.
 
-- For the base plug-in, having 2-3 sentences about the general plug-in structure could be nice
-- Link the fluent api class and refer to it for further details
-- Test packages are optional and can be removed (if removed, must also be removed from the concrete implementors)
+The fluent api generation code is inside the packages within the [src](./src) directory:
+
+- `cipm.consistency.fluentapi.<someMetamodelName>.builder`: Contains the test class that generates the fluent api model
+- `cipm.consistency.fluentapi.<someMetamodelName>.extensions`: Contains some static classes with functions that the generated fluent api code uses (extension classes)
+- `cipm.consistency.fluentapi.<someMetamodelName>.gen.*`: Contains the logic to generate the fluent api model. Currently only present in the base plug-in.
+- `cipm.consistency.fluentapi.<someMetamodelName>.metamodel`: Contains the means to access and work with concrete (EMF-based) metamodels
+- `cipm.consistency.fluentapi.<someMetamodelName>.postprocessor`: Contains classes that can be used to post-process the generated fluent api model, which adjust the generated fluent api model after its generation
+- `cipm.consistency.fluentapi.<someMetamodelName>.test`: Contains tests for the extension classes and/or the generated fluent api code. This is an optional package and can be removed.
+- `cipm.consistency.fluentapi.<someMetamodelName>.test.metamodel`: Contains tests that analyse the generated fluent api model code regarding its generated elements (such as the methods). This is an optional package and can be removed.
+
+The fluent api code will be generated within the [src-gen](./src-gen) directory, following the typical EMF code generation scheme. In most cases, only the `cipm.consistency.fluentapi.<someMetamodelName>.api` package is relevant from outside. It contains the fluent api class `Fluent<someMetamodelName>API`, which is the class that should be used as a facade of the fluent api.
 
 ## Fluent API Generation
 
@@ -40,9 +46,8 @@ Under normal circumstances, the following steps should suffice to implement the 
 2) Add `"cipm.consistency.fluentapi"` as a required bundle, as well as other plug-ins that are needed for the concrete metamodel
 3) Extend the classes `cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelFilter` and `cipm.consistency.fluentapi.metamodel.FluentAPITargetMetamodelProvider` accordingly
 4) Extend the test class `cipm.consistency.fluentapi.builder.FluentAPIAbstractBuilder` accordingly
-5) (Optional) Write tests for the generated fluent API code, similar to those under ... TODO: Link test package in the base plug-in
 
-If certain fluent API methods should be generated specifically for the concrete metamodel (such as convenience methods), consider implementing post-processors and using them in the test class from 4). Exemplary post-processors can be found under ... TODO: Link post-processors package
+If certain fluent API methods should be generated specifically for the concrete metamodel (such as convenience methods), consider implementing post-processors and using them in the test class from 4).
 
 ## Limitations
 
