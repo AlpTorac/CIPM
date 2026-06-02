@@ -291,7 +291,7 @@ public class PcmToJavaChangePropagationTest {
 		// Propagate PCM changes
 		PcmUserInteractionTimeStatistics.getInstance().startPropagationTimeMeasurement();
 		
-//		ChangeUtil.fixAllCacheIDs(changeList);
+		ChangeUtil.fixAllCacheIDs(changeList);
 		
 		var pcmToJavaProp = this.propagateChangesToResource(newPcmRepoRes, changeList);
 		PcmUserInteractionTimeStatistics.getInstance().endPropagationTimeMeasurement();
