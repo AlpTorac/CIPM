@@ -157,4 +157,21 @@ public final class ChangeUtil {
 		if (change instanceof EObjectSubtractedEChange)
 			((EObjectSubtractedEChange<?>) change).setOldValueID(newID);
 	}
+
+	public static void fixAllCacheIDs(List<EChange> changes) {
+		for (var c : changes) {
+			var aID = getAffectedEObjectID(c);
+			if (aID != null && aID.startsWith(cacheIDPrefix)) {
+				setAffectedEObjectID(c, cacheIDPrefix + "0");
+			}
+			var oID = getOldValueID(c);
+			if (oID != null && oID.startsWith(cacheIDPrefix)) {
+				setOldValueID(c, cacheIDPrefix + "0");
+			}
+			var nID = getNewValueID(c);
+			if (nID != null && nID.startsWith(cacheIDPrefix)) {
+				setNewValueID(c, cacheIDPrefix + "0");
+			}
+		}
+	}
 }

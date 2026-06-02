@@ -13,7 +13,7 @@ import cipm.consistency.models.code.CodeModelDirLayout;
  * @author Martin Armbruster
  */
 public class JavaFileSystemLayout extends ModelDirLayoutImpl implements CodeModelDirLayout {
-    private static final String javaModelFileName = "Java.javaxmi";
+    private static final String javaModelFileName = "vsum.code.xmi";
 
     private static final String moduleConfigurationFileName = "module-configuration.properties";
 
