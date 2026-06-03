@@ -131,6 +131,13 @@ public final class ChangeUtil {
 		return null;
 	}
 
+	public static Resource getRootChangeResource(EChange change) {
+		if (change instanceof RootEChange) {
+			return ((RootEChange) change).getResource();
+		}
+		return null;
+	}
+
 	public static void setRootChangeURI(EChange change, String newURI) {
 		if (change instanceof RootEChange) {
 			((RootEChange) change).setUri(newURI);
@@ -218,9 +225,9 @@ public final class ChangeUtil {
 		return null;
 	}
 
-	public static EClass getCreatedEObjectType(EChange change) {
-		if (change instanceof CreateEObject)
-			return ((CreateEObject<?>) change).getAffectedEObjectType();
+	public static EClass getEObjectType(EChange change) {
+		if (change instanceof EObjectExistenceEChange)
+			return ((EObjectExistenceEChange<?>) change).getAffectedEObjectType();
 		return null;
 	}
 
@@ -296,11 +303,6 @@ public final class ChangeUtil {
 		if (change instanceof FeatureEChange)
 			return ((FeatureEChange<?, ?>) change).getAffectedEObject();
 		return null;
-	}
-
-	public static boolean createsEObjectOfType(EChange change, EClass eCls) {
-		return change instanceof CreateEObject
-				&& eCls.getInstanceClass().isAssignableFrom(getCreatedEObjectType(change).getInstanceClass());
 	}
 
 	public static boolean involvesFeature(EChange change, EStructuralFeature feat) {
@@ -477,5 +479,19 @@ public final class ChangeUtil {
 				setNewValueID(c, cacheIDPrefix + "0");
 			}
 		}
+	}
+
+	public static int getRootIndex(EChange change) {
+		if (change instanceof RootEChange) {
+			return ((RootEChange) change).getIndex();
+		}
+		return -1;
+	}
+
+	public static int getIndex(EChange change) {
+		if (change instanceof UpdateSingleListEntryEChange) {
+			return ((UpdateSingleListEntryEChange<?,?>) change).getIndex();
+		}
+		return -1;
 	}
 }
