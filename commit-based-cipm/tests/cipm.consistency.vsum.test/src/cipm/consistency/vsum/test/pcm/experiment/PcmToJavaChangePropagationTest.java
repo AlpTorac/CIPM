@@ -27,6 +27,7 @@ import cipm.consistency.cpr.pcmjava.JavaModelAccess;
 import cipm.consistency.cpr.pcmjava.logger.PcmToJavaChangePropagationLogger;
 import cipm.consistency.cpr.pcmjava.logger.PcmUserInteractionAutomaticityStatistics;
 import cipm.consistency.cpr.pcmjava.logger.PcmUserInteractionTimeStatistics;
+import cipm.consistency.cpr.pcmjava.preprocessing.ChangeUtil;
 import cipm.consistency.cpr.pcmjava.userinteraction.AutomatingConflictResolutionStrategy;
 import cipm.consistency.cpr.pcmjava.userinteraction.GenericParameterConflictResolutionStrategy;
 import cipm.consistency.cpr.pcmjava.userinteraction.NamespaceConflictResolutionStrategy;
@@ -276,9 +277,9 @@ public class PcmToJavaChangePropagationTest {
 	 */
 	public void pcmToJavaChangePropagationTestTemplate(PcmToJavaChangePropagationDirLayout dirLayout) {
 		this.initialiseResources(dirLayout);
-
-//		var changeList = getPcmChanges(resWrapper.getPropagatedPcmChanges());
-		var changeList = preprocessPCMchanges();
+		
+		var changeList = getPcmChanges(resWrapper.getPropagatedPcmChanges());
+//		var changeList = preprocessPCMchanges();
 
 		var newPcmRepoRes = pcmFacade.getResources().stream()
 				.filter((r) -> r.getURI().lastSegment()
@@ -289,6 +290,9 @@ public class PcmToJavaChangePropagationTest {
 
 		// Propagate PCM changes
 		PcmUserInteractionTimeStatistics.getInstance().startPropagationTimeMeasurement();
+		
+		ChangeUtil.fixAllCacheIDs(changeList);
+		
 		var pcmToJavaProp = this.propagateChangesToResource(newPcmRepoRes, changeList);
 		PcmUserInteractionTimeStatistics.getInstance().endPropagationTimeMeasurement();
 		PcmUserInteractionTimeStatistics.getInstance().finaliseTimeMeasurement();
@@ -390,8 +394,8 @@ public class PcmToJavaChangePropagationTest {
 		LoggingSetup.setMinLogLevel(Level.DEBUG);
 		var targetDirName = "target";
 
-		pcmToJavaChangePropagationTestTemplate(new PcmToJavaChangePropagationDirLayout(null,
-				new JavaToPcmPropagationDirLayout(Paths.get(targetDirName, "TEAMMATESCITest-1-6484257")),
-				Path.of(targetDirName, "Teammates-Experiment-" + 1).toAbsolutePath()));
+		pcmToJavaChangePropagationTestTemplate(new PcmToJavaChangePropagationDirLayout(new JavaToPcmPropagationDirLayout(Paths.get(targetDirName, "TEAMMATESCITest-1-6484257")),
+				new JavaToPcmPropagationDirLayout(Paths.get(targetDirName, "TEAMMATESCITest-2-48b67ba")),
+				Path.of(targetDirName, "Teammates-Experiment-" + 2).toAbsolutePath()));
 	}
 }
