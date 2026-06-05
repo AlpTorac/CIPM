@@ -8,12 +8,14 @@ import java.util.Map;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
-import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.palladiosimulator.pcm.core.entity.EntityPackage;
 
+import de.uka.ipd.sdq.identifier.IdentifierPackage;
 import tools.vitruv.change.atomic.EChange;
 import tools.vitruv.change.atomic.eobject.CreateEObject;
 import tools.vitruv.change.atomic.eobject.DeleteEObject;
+import tools.vitruv.change.atomic.eobject.EObjectExistenceEChange;
 import tools.vitruv.change.atomic.eobject.EobjectPackage;
 import tools.vitruv.change.atomic.feature.FeaturePackage;
 import tools.vitruv.change.atomic.feature.UnsetFeature;
@@ -36,14 +38,13 @@ import tools.vitruv.change.atomic.root.RootEChange;
  * URI is "cache:/0"
  * </ul>
  */
-public class EObjectWrapper extends EObjectImpl {
-	private static final String cachedEObjectURIPrefix = "cache:/";
-	private static final String cachedEObjectURI = cachedEObjectURIPrefix + 0;
-
+public class EObjectDependencyTracker {
 	private Resource resource;
 	private String resourceUri;
-	private EObject replacedEObject;
+//	private EObject replacedEObject;
 	private EClass eobjectType;
+
+	private IDAdjustingStrategy idStrat;
 
 	/**
 	 * The change sequence to operate on
@@ -61,16 +62,16 @@ public class EObjectWrapper extends EObjectImpl {
 	 * after the individual changes happen, hence {@link #currentID} is used.
 	 */
 	private final Map<EChange, String> changeToIDMap = new LinkedHashMap<>();
-	/**
-	 * Index of the wrapped EObject in individual changes
-	 */
-	private final Map<EChange, Integer> changeToIndexMap = new LinkedHashMap<>();
+//	/**
+//	 * Index of the wrapped EObject in individual changes
+//	 */
+//	private final Map<EChange, Integer> changeToIndexMap = new LinkedHashMap<>();
 	/**
 	 * The feature of the individual changes that hold the wrapped EObject
 	 */
 	private final Map<EChange, EStructuralFeature> changeToFeatMap = new LinkedHashMap<>();
 
-	public EObjectWrapper() {
+	public EObjectDependencyTracker() {
 		super();
 		/*
 		 * TODO Alternative (potentially easier) approach, similar idea as RIS model
@@ -86,7 +87,47 @@ public class EObjectWrapper extends EObjectImpl {
 		 * "preview" / "pre-computation of the model"
 		 */
 	}
-	
+
+	public Resource getResource() {
+		return resource;
+	}
+
+	public String getResourceUri() {
+		return resourceUri;
+	}
+
+//	public EObject getReplacedEObject() {
+//		return replacedEObject;
+//	}
+
+	public EClass getEobjectType() {
+		return eobjectType;
+	}
+
+	public IDAdjustingStrategy getIdStrat() {
+		return idStrat;
+	}
+
+	public List<EChange> getChangeSequence() {
+		return changeSequence;
+	}
+
+	public void setIDAdjustingStrategy(IDAdjustingStrategy idStrat) {
+		this.idStrat = idStrat;
+	}
+
+	public String getIDInChange(EChange change) {
+		return this.changeToIDMap.getOrDefault(change, null);
+	}
+
+	public EStructuralFeature getContainingFeatInChange(EChange change) {
+		return this.changeToFeatMap.getOrDefault(change, null);
+	}
+
+//	public Integer getIndexInChange(EChange change) {
+//		return this.changeToIndexMap.getOrDefault(change, null);
+//	}
+
 	/**
 	 * Marks the first occurrence (within the changeSequence) of the EObject to be
 	 * wrapped. Assumes that the EObject to be wrapped does not occur prior to the
@@ -109,139 +150,166 @@ public class EObjectWrapper extends EObjectImpl {
 
 		// No need to add if-blocks for these attributes, since they will be null if
 		// change is not eligible
-		this.eobjectType = ChangeUtil.getEObjectType(initialChange);
-		this.resourceUri = ChangeUtil.getRootChangeURI(initialChange);
-		this.resource = ChangeUtil.getRootChangeResource(initialChange);
+		setEObjectType(initialChange);
+		setResource(initialChange);
 
-		this.changeToFeatMap.put(initialChange, changeFeat);
+		reportChangeToFeatMapping(initialChange, changeFeat);
 
 		if (changeFeat == EobjectPackage.Literals.EOBJECT_EXISTENCE_ECHANGE__AFFECTED_EOBJECT) {
 			// Created / Deleted EObject
-			this.replacedEObject = ChangeUtil.getAffectedEObject(initialChange);
-			this.changeToIDMap.put(initialChange, ChangeUtil.getAffectedEObjectID(initialChange));
+//			this.replacedEObject = ChangeUtil.getAffectedEObject(initialChange);
+			reportChangeToIDMapping(initialChange, ChangeUtil.getAffectedEObjectID(initialChange));
 		}
 		if (changeFeat == FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT) {
 			// EObject whose feature is changed
-			this.replacedEObject = ChangeUtil.getAffectedEObject(initialChange);
-			this.changeToIDMap.put(initialChange, ChangeUtil.getAffectedEObjectID(initialChange));
+//			this.replacedEObject = ChangeUtil.getAffectedEObject(initialChange);
+			reportChangeToIDMapping(initialChange, ChangeUtil.getAffectedEObjectID(initialChange));
 		}
 		if (changeFeat == EobjectPackage.Literals.EOBJECT_ADDED_ECHANGE__NEW_VALUE) {
 			// EObject as new value to an EReference
-			this.replacedEObject = (EObject) ChangeUtil.getNewValue(initialChange);
-			this.changeToIDMap.put(initialChange, ChangeUtil.getNewValueID(initialChange));
+//			this.replacedEObject = (EObject) ChangeUtil.getNewValue(initialChange);
+			reportChangeToIDMapping(initialChange, ChangeUtil.getNewValueID(initialChange));
 		}
 		if (changeFeat == EobjectPackage.Literals.EOBJECT_SUBTRACTED_ECHANGE__OLD_VALUE) {
 			// EObject as old value of an EReference
-			this.replacedEObject = (EObject) ChangeUtil.getOldValue(initialChange);
-			this.changeToIDMap.put(initialChange, ChangeUtil.getOldValueID(initialChange));
+//			this.replacedEObject = (EObject) ChangeUtil.getOldValue(initialChange);
+			reportChangeToIDMapping(initialChange, ChangeUtil.getOldValueID(initialChange));
 		}
 
 		this.currentID = this.changeToIDMap.get(initialChange);
 
 		// Get root indices, i.e. at which index in a Resource the EObject is to be put
 		if (initialChange instanceof RootEChange) {
-			this.changeToIndexMap.put(initialChange, ChangeUtil.getRootIndex(initialChange));
+//			reportChangeToIndexMapping(initialChange, ChangeUtil.getRootIndex(initialChange));
 		}
 
 		// Get the list index, i.e. at which index in an EList the EObject is to be put
 		if (initialChange instanceof UpdateSingleListEntryEChange) {
-			this.changeToIndexMap.put(initialChange, ChangeUtil.getIndex(initialChange));
+//			reportChangeToIndexMapping(initialChange, ChangeUtil.getIndex(initialChange));
 		}
 
-		replaceEObjectWithWrapperIn(initialChange, changeFeat);
-		adjustForChange(initialChange, changeFeat);
+		trackDependencies(initialChange, changeFeat);
 	}
 
-	private void replaceEObjectWithWrapperIn(EChange change, EStructuralFeature changeFeat) {
-		change.eSet(changeFeat, this);
+	private void setResource(EChange change) {
+		this.resourceUri = ChangeUtil.getRootChangeURI(change);
+		this.resource = ChangeUtil.getRootChangeResource(change);
 	}
 
-	public void undoWrapper() {
-		// TODO Change the EChanges back
+	private void setEObjectType(EChange change) {
+		this.eobjectType = ChangeUtil.getEObjectType(change);
 	}
-
+	
 	/**
 	 * Identify occurrences of the same EObject this wrapper is supposed to wrap,
 	 * then put the wrapper into the individual changes.
 	 */
-	private void adjustForChange(EChange initialChange, EStructuralFeature changeFeat) {
+	private void trackDependencies(EChange initialChange, EStructuralFeature changeFeat) {
 		var changeIdxInSequence = this.changeSequence.indexOf(initialChange);
 
 		// Adjust following EChanges
 		for (int i = changeIdxInSequence + 1; i < this.changeSequence.size(); i++) {
 			var currentChange = this.changeSequence.get(i);
-			adjustForChangeSequence(currentChange);
+			if (!trackDependencies(currentChange)) return;
+			if (!this.changeToIDMap.containsKey(currentChange))
+				reportChangeToIDMapping(currentChange, currentID);
 		}
 	}
 
-	private void adjustForChangeSequence(EChange change) {
+	private boolean trackDependencies(EChange change) {
 		if (change instanceof CreateEObject)
-			adjustForChangeSequence((CreateEObject<?>) change);
+			return trackDependencies((CreateEObject<?>) change);
 		else if (change instanceof DeleteEObject)
-			adjustForChangeSequence((DeleteEObject<?>) change);
+			return trackDependencies((DeleteEObject<?>) change);
 		else if (change instanceof InsertRootEObject)
-			adjustForChangeSequence((InsertRootEObject<?>) change);
+			return trackDependencies((InsertRootEObject<?>) change);
 		else if (change instanceof RemoveRootEObject)
-			adjustForChangeSequence((RemoveRootEObject<?>) change);
+			return trackDependencies((RemoveRootEObject<?>) change);
 		else if (change instanceof UnsetFeature)
-			adjustForChangeSequence((UnsetFeature<?, ?>) change);
+			return trackDependencies((UnsetFeature<?, ?>) change);
 		else if (change instanceof InsertEAttributeValue)
-			adjustForChangeSequence((InsertEAttributeValue<?, ?>) change);
+			return trackDependencies((InsertEAttributeValue<?, ?>) change);
 		else if (change instanceof RemoveEAttributeValue)
-			adjustForChangeSequence((RemoveEAttributeValue<?, ?>) change);
+			return trackDependencies((RemoveEAttributeValue<?, ?>) change);
 		else if (change instanceof InsertEReference)
-			adjustForChangeSequence((InsertEReference<?, ?>) change);
+			return trackDependencies((InsertEReference<?, ?>) change);
 		else if (change instanceof RemoveEReference)
-			adjustForChangeSequence((RemoveEReference<?, ?>) change);
+			return trackDependencies((RemoveEReference<?, ?>) change);
 		else if (change instanceof ReplaceSingleValuedEAttribute)
-			adjustForChangeSequence((ReplaceSingleValuedEAttribute<?, ?>) change);
+			return trackDependencies((ReplaceSingleValuedEAttribute<?, ?>) change);
 		else if (change instanceof ReplaceSingleValuedEReference)
-			adjustForChangeSequence((ReplaceSingleValuedEReference<?, ?>) change);
+			return trackDependencies((ReplaceSingleValuedEReference<?, ?>) change);
 		else {
 			throw new IllegalArgumentException("Unknown change type: " + change.getClass().getName());
 		}
 	}
 
-	private void adjustForChangeSequence(CreateEObject<?> change) {
+	private void reportChangeToFeatMapping(EChange change, EStructuralFeature feat) {
+		this.changeToFeatMap.put(change, feat);
+	}
+
+	private void reportChangeToIDMapping(EChange change, String idInChange) {
+		this.changeToIDMap.put(change, idInChange);
+	}
+
+//	private void reportChangeToIndexMapping(EChange change, int index) {
+//		this.changeToIndexMap.put(change, index);
+//	}
+
+	private boolean trackDependencies(CreateEObject<?> change) {
 		if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Creates object: Existential Affected ID
-			replaceEObjectWithWrapperIn(change, EobjectPackage.Literals.EOBJECT_EXISTENCE_ECHANGE__AFFECTED_EOBJECT);
-			this.currentID = cachedEObjectURI;
+			setEObjectType(change);
+			reportChangeToFeatMapping(change, EobjectPackage.Literals.EOBJECT_EXISTENCE_ECHANGE__AFFECTED_EOBJECT);
+			reportChangeToIDMapping(change, this.currentID);
+			this.currentID = idStrat.moveToStagedArea(currentID);
 		}
+		return true;
 	}
 
-	private void adjustForChangeSequence(DeleteEObject<?> change) {
+	private boolean trackDependencies(DeleteEObject<?> change) {
 		if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Deletes object: Existential Affected ID
-			replaceEObjectWithWrapperIn(change, EobjectPackage.Literals.EOBJECT_EXISTENCE_ECHANGE__AFFECTED_EOBJECT);
-			this.currentID = null;
+			reportChangeToFeatMapping(change, EobjectPackage.Literals.EOBJECT_EXISTENCE_ECHANGE__AFFECTED_EOBJECT);
+			reportChangeToIDMapping(change, this.currentID);
+			this.currentID = idStrat.deleteFromStagedArea(currentID);
+			return false;
 		}
+		return true;
 	}
 
-	private void adjustForChangeSequence(InsertRootEObject<?> change) {
+	private boolean trackDependencies(InsertRootEObject<?> change) {
 		if (change.getNewValueID().equals(this.currentID)) {
 			// Inserts object to resource: From newID (cache:/X) to resourceURI/idx
-			replaceEObjectWithWrapperIn(change, EobjectPackage.Literals.EOBJECT_ADDED_ECHANGE__NEW_VALUE);
 			// TODO Properly append the index
-			this.currentID = change.getUri() + change.getIndex();
+			setResource(change);
+			reportChangeToFeatMapping(change, EobjectPackage.Literals.EOBJECT_ADDED_ECHANGE__NEW_VALUE);
+			reportChangeToIDMapping(change, this.currentID);
+//			reportChangeToIndexMapping(change, change.getIndex());
+			this.currentID = idStrat.addToResource(change.getUri(), change.getIndex());
 		} else if (change.getNewValueID().startsWith(this.currentID)) {
 			// Inserts another object to resource at smaller index: From resourceURI/idx to
 			// resourceURI/idx+1
 			// TODO Properly adjust the index in currentID
 		}
+		return true;
 	}
 
-	private void adjustForChangeSequence(RemoveRootEObject<?> change) {
+	private boolean trackDependencies(RemoveRootEObject<?> change) {
 		if (change.getOldValueID().equals(this.currentID)) {
 			// Removes object from resource: From oldID (resourceURI/idx) to cache:/X
-			replaceEObjectWithWrapperIn(change, EobjectPackage.Literals.EOBJECT_SUBTRACTED_ECHANGE__OLD_VALUE);
+			setResource(change);
+			reportChangeToFeatMapping(change, EobjectPackage.Literals.EOBJECT_SUBTRACTED_ECHANGE__OLD_VALUE);
+			reportChangeToIDMapping(change, this.currentID);
+//			reportChangeToIndexMapping(change, change.getIndex());
 			// TODO Properly append the index
-			this.currentID = cachedEObjectURI;
+			this.currentID = idStrat.moveToStagedArea(currentID);
 		} else if (modifiesSmallerIndexInCommonParent(change.getOldValueID())) {
 			// Removes another object from resource at a smaller index: From resourceURI/idx
 			// to resourceURI/idx-1
 			// TODO Properly adjust the index in currentID
 		}
+		return true;
 	}
 
 	private boolean modifiesSmallerIndexInCommonParent(String targetID) {
@@ -252,79 +320,105 @@ public class EObjectWrapper extends EObjectImpl {
 		return false;
 	}
 
-	private void adjustForChangeSequence(UnsetFeature<?, ?> change) {
+	private boolean trackDependencies(UnsetFeature<?, ?> change) {
 		if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Unsets object's feature: Affected ID
-			replaceEObjectWithWrapperIn(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
+			reportChangeToFeatMapping(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
+			reportChangeToIDMapping(change, this.currentID);
 		}
+		return true;
 	}
 
-	private void adjustForChangeSequence(InsertEAttributeValue<?, ?> change) {
+	private boolean trackDependencies(InsertEAttributeValue<?, ?> change) {
 		if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Inserts a primitive to object's feature: Affected ID
-			replaceEObjectWithWrapperIn(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
+			reportChangeToFeatMapping(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
+			reportChangeToIDMapping(change, this.currentID);
 		}
+		return true;
 	}
 
-	private void adjustForChangeSequence(RemoveEAttributeValue<?, ?> change) {
+	private boolean trackDependencies(RemoveEAttributeValue<?, ?> change) {
 		if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Removes a primitive to object's feature: Affected ID
-			replaceEObjectWithWrapperIn(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
+			reportChangeToFeatMapping(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
+			reportChangeToIDMapping(change, this.currentID);
 		}
+		return true;
 	}
 
-	private void adjustForChangeSequence(InsertEReference<?, ?> change) {
+	private boolean trackDependencies(InsertEReference<?, ?> change) {
 		if (change.getNewValueID().equals(this.currentID)) {
 			// Inserts object to parent: From newID to parent.feat/idx
-			replaceEObjectWithWrapperIn(change, EobjectPackage.Literals.EOBJECT_ADDED_ECHANGE__NEW_VALUE);
+			reportChangeToFeatMapping(change, EobjectPackage.Literals.EOBJECT_ADDED_ECHANGE__NEW_VALUE);
+			reportChangeToIDMapping(change, this.currentID);
+//			reportChangeToIndexMapping(change, change.getIndex());
 			// TODO Properly append the index
-			this.currentID = change.getAffectedEObjectID() + change.getAffectedFeature().getName() + change.getIndex();
+			this.currentID = idStrat.insertIntoFeature(change.getAffectedEObjectID(), change.getAffectedFeature(),
+					change.getIndex());
 		} else if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Inserts another object to object's feature: Affected ID
-			replaceEObjectWithWrapperIn(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
+			reportChangeToFeatMapping(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
+			reportChangeToIDMapping(change, this.currentID);
 		} else if (modifiesSmallerIndexInCommonParent(change.getNewValueID())) {
 			// Inserts another object to parent at smaller index: From parent.feat/idx to
 			// parent.feat/idx+1
 			// TODO Properly adjust the index
 		}
+		return true;
 	}
 
-	private void adjustForChangeSequence(RemoveEReference<?, ?> change) {
+	private boolean trackDependencies(RemoveEReference<?, ?> change) {
 		if (change.getOldValueID().equals(this.currentID)) {
 			// Removes object from parent: From oldID to cache:/X
-			replaceEObjectWithWrapperIn(change, EobjectPackage.Literals.EOBJECT_SUBTRACTED_ECHANGE__OLD_VALUE);
-			this.currentID = cachedEObjectURI;
+			reportChangeToFeatMapping(change, EobjectPackage.Literals.EOBJECT_SUBTRACTED_ECHANGE__OLD_VALUE);
+			reportChangeToIDMapping(change, this.currentID);
+//			reportChangeToIndexMapping(change, change.getIndex());
+			this.currentID = idStrat.moveToStagedArea(currentID);
 		} else if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Removes another object from object's feature: Affected ID
-			replaceEObjectWithWrapperIn(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
+			reportChangeToFeatMapping(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
+			reportChangeToIDMapping(change, this.currentID);
 		} else if (modifiesSmallerIndexInCommonParent(change.getOldValueID())) {
 			// Removes another object from parent at smaller index: From parent.feat/idx to
 			// parent.feat/idx-1
 			// TODO Properly adjust the index
 		}
+		return true;
 	}
 
-	private void adjustForChangeSequence(ReplaceSingleValuedEAttribute<?, ?> change) {
+	private boolean trackDependencies(ReplaceSingleValuedEAttribute<?, ?> change) {
 		if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Sets objects's feature: Affected ID
-			replaceEObjectWithWrapperIn(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
+			reportChangeToFeatMapping(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
+			reportChangeToIDMapping(change, this.currentID);
+			// FIXME Enable once fixed
+//			if (change.getAffectedFeature() == IdentifierPackage.Literals.IDENTIFIER__ID) {
+//				// Sets object's ID
+//				this.currentID = (String) change.getNewValue();
+//			}
 		}
+		return true;
 	}
 
-	private void adjustForChangeSequence(ReplaceSingleValuedEReference<?, ?> change) {
+	private boolean trackDependencies(ReplaceSingleValuedEReference<?, ?> change) {
 		if (change.getNewValueID().equals(this.currentID)) {
 			// Sets object as parent's feature: From newID to parent.feat
-			replaceEObjectWithWrapperIn(change, EobjectPackage.Literals.EOBJECT_ADDED_ECHANGE__NEW_VALUE);
+			reportChangeToFeatMapping(change, EobjectPackage.Literals.EOBJECT_ADDED_ECHANGE__NEW_VALUE);
+			reportChangeToIDMapping(change, this.currentID);
 			// TODO Properly append feature name
-			this.currentID = change.getAffectedEObjectID() + change.getAffectedFeature().getName();
+			this.currentID = idStrat.setAsValueOfFeature(change.getAffectedEObjectID(), change.getAffectedFeature());
 		} else if (change.getOldValueID().equals(this.currentID)) {
 			// Unsets object as parent's feature: From oldID to cache:/X
-			replaceEObjectWithWrapperIn(change, EobjectPackage.Literals.EOBJECT_SUBTRACTED_ECHANGE__OLD_VALUE);
-			this.currentID = cachedEObjectURI;
+			reportChangeToFeatMapping(change, EobjectPackage.Literals.EOBJECT_SUBTRACTED_ECHANGE__OLD_VALUE);
+			reportChangeToIDMapping(change, this.currentID);
+			this.currentID = idStrat.moveToStagedArea(currentID);
 		} else if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Sets another object as object's feature: Affected ID
-			replaceEObjectWithWrapperIn(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
+			reportChangeToFeatMapping(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
+			reportChangeToIDMapping(change, this.currentID);
 		}
+		return true;
 	}
 
 //	private String getIDForChange(EChange change) {
