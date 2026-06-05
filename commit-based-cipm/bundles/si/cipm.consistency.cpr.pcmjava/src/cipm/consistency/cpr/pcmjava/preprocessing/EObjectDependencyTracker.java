@@ -2,8 +2,10 @@ package cipm.consistency.cpr.pcmjava.preprocessing;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -50,6 +52,10 @@ public class EObjectDependencyTracker {
 	 * The change sequence to operate on
 	 */
 	private List<EChange> changeSequence;
+	/**
+	 * The changes that depend on the wrapped EObject (in order)
+	 */
+	private final Set<EChange> dependentChanges = new LinkedHashSet<EChange>();
 
 	/**
 	 * The current ID of the wrapped EObject as the wrapped EObject is being used as
@@ -124,6 +130,10 @@ public class EObjectDependencyTracker {
 		return this.changeToFeatMap.getOrDefault(change, null);
 	}
 
+	public List<EChange> getDependentChanges() {
+		return List.copyOf(this.dependentChanges);
+	}
+	
 //	public Integer getIndexInChange(EChange change) {
 //		return this.changeToIndexMap.getOrDefault(change, null);
 //	}
@@ -146,6 +156,8 @@ public class EObjectDependencyTracker {
 		if (!changeSequence.contains(initialChange))
 			throw new IllegalArgumentException("The given change sequence does not contain the given change");
 
+		reportDependentChange(initialChange);
+		
 		this.changeSequence = new ArrayList<>(changeSequence);
 
 		// No need to add if-blocks for these attributes, since they will be null if
@@ -198,6 +210,10 @@ public class EObjectDependencyTracker {
 
 	private void setEObjectType(EChange change) {
 		this.eobjectType = ChangeUtil.getEObjectType(change);
+	}
+	
+	private void reportDependentChange(EChange change) {
+		this.dependentChanges.add(change);
 	}
 	
 	/**
@@ -259,6 +275,7 @@ public class EObjectDependencyTracker {
 	private boolean trackDependencies(CreateEObject<?> change) {
 		if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Creates object: Existential Affected ID
+			reportDependentChange(change);
 			setEObjectType(change);
 			reportChangeToFeatMapping(change, EobjectPackage.Literals.EOBJECT_EXISTENCE_ECHANGE__AFFECTED_EOBJECT);
 			reportChangeToIDMapping(change, this.currentID);
@@ -270,6 +287,7 @@ public class EObjectDependencyTracker {
 	private boolean trackDependencies(DeleteEObject<?> change) {
 		if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Deletes object: Existential Affected ID
+			reportDependentChange(change);
 			reportChangeToFeatMapping(change, EobjectPackage.Literals.EOBJECT_EXISTENCE_ECHANGE__AFFECTED_EOBJECT);
 			reportChangeToIDMapping(change, this.currentID);
 			this.currentID = idStrat.deleteFromStagedArea(currentID);
@@ -282,12 +300,14 @@ public class EObjectDependencyTracker {
 		if (change.getNewValueID().equals(this.currentID)) {
 			// Inserts object to resource: From newID (cache:/X) to resourceURI/idx
 			// TODO Properly append the index
+			reportDependentChange(change);
 			setResource(change);
 			reportChangeToFeatMapping(change, EobjectPackage.Literals.EOBJECT_ADDED_ECHANGE__NEW_VALUE);
 			reportChangeToIDMapping(change, this.currentID);
 //			reportChangeToIndexMapping(change, change.getIndex());
 			this.currentID = idStrat.addToResource(change.getUri(), change.getIndex());
 		} else if (change.getNewValueID().startsWith(this.currentID)) {
+			reportDependentChange(change);
 			// Inserts another object to resource at smaller index: From resourceURI/idx to
 			// resourceURI/idx+1
 			// TODO Properly adjust the index in currentID
@@ -298,6 +318,7 @@ public class EObjectDependencyTracker {
 	private boolean trackDependencies(RemoveRootEObject<?> change) {
 		if (change.getOldValueID().equals(this.currentID)) {
 			// Removes object from resource: From oldID (resourceURI/idx) to cache:/X
+			reportDependentChange(change);
 			setResource(change);
 			reportChangeToFeatMapping(change, EobjectPackage.Literals.EOBJECT_SUBTRACTED_ECHANGE__OLD_VALUE);
 			reportChangeToIDMapping(change, this.currentID);
@@ -305,6 +326,7 @@ public class EObjectDependencyTracker {
 			// TODO Properly append the index
 			this.currentID = idStrat.moveToStagedArea(currentID);
 		} else if (modifiesSmallerIndexInCommonParent(change.getOldValueID())) {
+			reportDependentChange(change);
 			// Removes another object from resource at a smaller index: From resourceURI/idx
 			// to resourceURI/idx-1
 			// TODO Properly adjust the index in currentID
@@ -323,6 +345,7 @@ public class EObjectDependencyTracker {
 	private boolean trackDependencies(UnsetFeature<?, ?> change) {
 		if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Unsets object's feature: Affected ID
+			reportDependentChange(change);
 			reportChangeToFeatMapping(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
 			reportChangeToIDMapping(change, this.currentID);
 		}
@@ -332,6 +355,7 @@ public class EObjectDependencyTracker {
 	private boolean trackDependencies(InsertEAttributeValue<?, ?> change) {
 		if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Inserts a primitive to object's feature: Affected ID
+			reportDependentChange(change);
 			reportChangeToFeatMapping(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
 			reportChangeToIDMapping(change, this.currentID);
 		}
@@ -341,6 +365,7 @@ public class EObjectDependencyTracker {
 	private boolean trackDependencies(RemoveEAttributeValue<?, ?> change) {
 		if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Removes a primitive to object's feature: Affected ID
+			reportDependentChange(change);
 			reportChangeToFeatMapping(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
 			reportChangeToIDMapping(change, this.currentID);
 		}
@@ -350,6 +375,7 @@ public class EObjectDependencyTracker {
 	private boolean trackDependencies(InsertEReference<?, ?> change) {
 		if (change.getNewValueID().equals(this.currentID)) {
 			// Inserts object to parent: From newID to parent.feat/idx
+			reportDependentChange(change);
 			reportChangeToFeatMapping(change, EobjectPackage.Literals.EOBJECT_ADDED_ECHANGE__NEW_VALUE);
 			reportChangeToIDMapping(change, this.currentID);
 //			reportChangeToIndexMapping(change, change.getIndex());
@@ -358,6 +384,7 @@ public class EObjectDependencyTracker {
 					change.getIndex());
 		} else if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Inserts another object to object's feature: Affected ID
+			reportDependentChange(change);
 			reportChangeToFeatMapping(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
 			reportChangeToIDMapping(change, this.currentID);
 		} else if (modifiesSmallerIndexInCommonParent(change.getNewValueID())) {
@@ -371,15 +398,18 @@ public class EObjectDependencyTracker {
 	private boolean trackDependencies(RemoveEReference<?, ?> change) {
 		if (change.getOldValueID().equals(this.currentID)) {
 			// Removes object from parent: From oldID to cache:/X
+			reportDependentChange(change);
 			reportChangeToFeatMapping(change, EobjectPackage.Literals.EOBJECT_SUBTRACTED_ECHANGE__OLD_VALUE);
 			reportChangeToIDMapping(change, this.currentID);
 //			reportChangeToIndexMapping(change, change.getIndex());
 			this.currentID = idStrat.moveToStagedArea(currentID);
 		} else if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Removes another object from object's feature: Affected ID
+			reportDependentChange(change);
 			reportChangeToFeatMapping(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
 			reportChangeToIDMapping(change, this.currentID);
 		} else if (modifiesSmallerIndexInCommonParent(change.getOldValueID())) {
+			reportDependentChange(change);
 			// Removes another object from parent at smaller index: From parent.feat/idx to
 			// parent.feat/idx-1
 			// TODO Properly adjust the index
@@ -390,6 +420,7 @@ public class EObjectDependencyTracker {
 	private boolean trackDependencies(ReplaceSingleValuedEAttribute<?, ?> change) {
 		if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Sets objects's feature: Affected ID
+			reportDependentChange(change);
 			reportChangeToFeatMapping(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
 			reportChangeToIDMapping(change, this.currentID);
 			// FIXME Enable once fixed
@@ -404,17 +435,20 @@ public class EObjectDependencyTracker {
 	private boolean trackDependencies(ReplaceSingleValuedEReference<?, ?> change) {
 		if (change.getNewValueID().equals(this.currentID)) {
 			// Sets object as parent's feature: From newID to parent.feat
+			reportDependentChange(change);
 			reportChangeToFeatMapping(change, EobjectPackage.Literals.EOBJECT_ADDED_ECHANGE__NEW_VALUE);
 			reportChangeToIDMapping(change, this.currentID);
 			// TODO Properly append feature name
 			this.currentID = idStrat.setAsValueOfFeature(change.getAffectedEObjectID(), change.getAffectedFeature());
 		} else if (change.getOldValueID().equals(this.currentID)) {
 			// Unsets object as parent's feature: From oldID to cache:/X
+			reportDependentChange(change);
 			reportChangeToFeatMapping(change, EobjectPackage.Literals.EOBJECT_SUBTRACTED_ECHANGE__OLD_VALUE);
 			reportChangeToIDMapping(change, this.currentID);
 			this.currentID = idStrat.moveToStagedArea(currentID);
 		} else if (change.getAffectedEObjectID().equals(this.currentID)) {
 			// Sets another object as object's feature: Affected ID
+			reportDependentChange(change);
 			reportChangeToFeatMapping(change, FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT);
 			reportChangeToIDMapping(change, this.currentID);
 		}
