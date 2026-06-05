@@ -43,7 +43,7 @@ import tools.vitruv.change.atomic.root.RootEChange;
 public class EObjectDependencyTracker {
 	private Resource resource;
 	private String resourceUri;
-//	private EObject replacedEObject;
+	private EObject trackedEObject;
 	private EClass eobjectType;
 
 	private IDAdjustingStrategy idStrat;
@@ -94,6 +94,10 @@ public class EObjectDependencyTracker {
 		 */
 	}
 
+	public EObject getTrackedEObject() {
+		return trackedEObject;
+	}
+	
 	public Resource getResource() {
 		return resource;
 	}
@@ -133,7 +137,7 @@ public class EObjectDependencyTracker {
 	public List<EChange> getDependentChanges() {
 		return List.copyOf(this.dependentChanges);
 	}
-	
+
 //	public Integer getIndexInChange(EChange change) {
 //		return this.changeToIndexMap.getOrDefault(change, null);
 //	}
@@ -157,7 +161,7 @@ public class EObjectDependencyTracker {
 			throw new IllegalArgumentException("The given change sequence does not contain the given change");
 
 		reportDependentChange(initialChange);
-		
+
 		this.changeSequence = new ArrayList<>(changeSequence);
 
 		// No need to add if-blocks for these attributes, since they will be null if
@@ -169,22 +173,22 @@ public class EObjectDependencyTracker {
 
 		if (changeFeat == EobjectPackage.Literals.EOBJECT_EXISTENCE_ECHANGE__AFFECTED_EOBJECT) {
 			// Created / Deleted EObject
-//			this.replacedEObject = ChangeUtil.getAffectedEObject(initialChange);
+			this.trackedEObject = ChangeUtil.getAffectedEObject(initialChange);
 			reportChangeToIDMapping(initialChange, ChangeUtil.getAffectedEObjectID(initialChange));
 		}
 		if (changeFeat == FeaturePackage.Literals.FEATURE_ECHANGE__AFFECTED_EOBJECT) {
 			// EObject whose feature is changed
-//			this.replacedEObject = ChangeUtil.getAffectedEObject(initialChange);
+			this.trackedEObject = ChangeUtil.getAffectedEObject(initialChange);
 			reportChangeToIDMapping(initialChange, ChangeUtil.getAffectedEObjectID(initialChange));
 		}
 		if (changeFeat == EobjectPackage.Literals.EOBJECT_ADDED_ECHANGE__NEW_VALUE) {
 			// EObject as new value to an EReference
-//			this.replacedEObject = (EObject) ChangeUtil.getNewValue(initialChange);
+			this.trackedEObject = (EObject) ChangeUtil.getNewValue(initialChange);
 			reportChangeToIDMapping(initialChange, ChangeUtil.getNewValueID(initialChange));
 		}
 		if (changeFeat == EobjectPackage.Literals.EOBJECT_SUBTRACTED_ECHANGE__OLD_VALUE) {
 			// EObject as old value of an EReference
-//			this.replacedEObject = (EObject) ChangeUtil.getOldValue(initialChange);
+			this.trackedEObject = (EObject) ChangeUtil.getOldValue(initialChange);
 			reportChangeToIDMapping(initialChange, ChangeUtil.getOldValueID(initialChange));
 		}
 
@@ -211,11 +215,11 @@ public class EObjectDependencyTracker {
 	private void setEObjectType(EChange change) {
 		this.eobjectType = ChangeUtil.getEObjectType(change);
 	}
-	
+
 	private void reportDependentChange(EChange change) {
 		this.dependentChanges.add(change);
 	}
-	
+
 	/**
 	 * Identify occurrences of the same EObject this wrapper is supposed to wrap,
 	 * then put the wrapper into the individual changes.
@@ -226,7 +230,8 @@ public class EObjectDependencyTracker {
 		// Adjust following EChanges
 		for (int i = changeIdxInSequence + 1; i < this.changeSequence.size(); i++) {
 			var currentChange = this.changeSequence.get(i);
-			if (!trackDependencies(currentChange)) return;
+			if (!trackDependencies(currentChange))
+				return;
 			if (!this.changeToIDMap.containsKey(currentChange))
 				reportChangeToIDMapping(currentChange, currentID);
 		}

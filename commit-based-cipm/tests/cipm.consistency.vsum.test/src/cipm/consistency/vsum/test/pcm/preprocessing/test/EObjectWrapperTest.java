@@ -5,10 +5,13 @@ import java.util.List;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.palladiosimulator.pcm.repository.RepositoryFactory;
+import org.palladiosimulator.pcm.repository.RepositoryPackage;
 
 import cipm.consistency.cpr.pcmjava.preprocessing.EObjectDependencyTracker;
+import cipm.consistency.cpr.pcmjava.preprocessing.StructuralIDAdjustingStrategy;
 import cipm.consistency.cpr.pcmjava.preprocessing.UUIDAdjustingStrategy;
 import cipm.consistency.vsum.test.pcm.cprunittests.ChangeComputer;
 import tools.vitruv.change.atomic.EChange;
@@ -17,6 +20,7 @@ import tools.vitruv.change.atomic.eobject.DeleteEObject;
 import tools.vitruv.change.atomic.eobject.EobjectPackage;
 import tools.vitruv.change.atomic.feature.FeaturePackage;
 import tools.vitruv.change.atomic.feature.attribute.ReplaceSingleValuedEAttribute;
+import tools.vitruv.change.atomic.feature.reference.InsertEReference;
 import tools.vitruv.change.atomic.root.InsertRootEObject;
 import tools.vitruv.change.atomic.root.RemoveRootEObject;
 
@@ -49,10 +53,12 @@ public class EObjectWrapperTest {
 	}
 
 	/**
+	 * Track repo in:
+	 * <p>
 	 * Create repo -> Delete repo
 	 */
 	@Test
-	public void createDeleteTest() {
+	public void createDeleteRootTest() {
 		var wrapper = new EObjectDependencyTracker();
 		wrapper.setIDAdjustingStrategy(new UUIDAdjustingStrategy());
 		final var repo = RepositoryFactory.eINSTANCE.createRepository();
@@ -80,11 +86,13 @@ public class EObjectWrapperTest {
 	}
 
 	/**
+	 * Track repo in:
+	 * <p>
 	 * Create repo -> Insert repo as root -> Replace repo.ID -> Remove repo as root
 	 * -> Delete repo
 	 */
 	@Test
-	public void fullLifecycleTest() {
+	public void fullRootLifecycleTest() {
 
 		// TODO Check how change IDs actually are in PCM changes and adjust if needed
 
@@ -149,5 +157,68 @@ public class EObjectWrapperTest {
 		assertTrackerAttributes(deleteChange, wrapper, expectedCacheID, existentialAffectedEObj);
 
 		assertDependentChangesSame(changes, wrapper);
+	}
+
+	/**
+	 * Track cmp in:
+	 * <p>
+	 * Create repo -> Insert repo as root -> Replace repo.ID -> Create cmp -> Insert
+	 * cmp to repo -> Replace cmp.ID
+	 */
+	@Test
+	public void singleChildInManyValuedFeatureTest() {
+		var wrapper = new EObjectDependencyTracker();
+		wrapper.setIDAdjustingStrategy(new StructuralIDAdjustingStrategy());
+		final var repo = RepositoryFactory.eINSTANCE.createRepository();
+		final var cmp = RepositoryFactory.eINSTANCE.createBasicComponent();
+
+		var cmpsFeat = RepositoryPackage.Literals.REPOSITORY__COMPONENTS_REPOSITORY;
+
+		var changes = cc.getEChangesFor(List.of(ChangePreprocessingTestModifications.addRootToResourceAction(repo),
+				ChangePreprocessingTestModifications.addToManyValuedFeatAction(repo, cmpsFeat, cmp)));
+
+		Assertions.assertEquals(6, changes.size());
+
+		var insertRootChange = (InsertRootEObject<?>) changes.get(1);
+		var createChange = (CreateEObject<?>) changes.get(3);
+		var insertRefChange = (InsertEReference<?, ?>) changes.get(4);
+		var replaceIDChange = (ReplaceSingleValuedEAttribute<?, ?>) changes.get(5);
+
+		wrapper.setInitialChange(changes, createChange, existentialAffectedEObj);
+		var expectedCacheID = "cache:/0";
+		var expectedType = createChange.getAffectedEObjectType();
+		var expectedRes = insertRootChange.getResource();
+		Assertions.assertEquals(expectedType, wrapper.getEobjectType());
+
+		assertTrackerAttributes(createChange, wrapper, expectedCacheID, existentialAffectedEObj);
+		assertTrackerAttributes(insertRefChange, wrapper, expectedCacheID, newVal);
+
+		// res#/0/@components__Repository.0
+		var expectedIDAfterInsert = expectedRes.getURI().appendFragment("/0/@components__Repository.0").toString();
+		assertTrackerAttributes(replaceIDChange, wrapper, expectedIDAfterInsert, featureAffectedEObj);
+
+		assertDependentChangesSame(List.of(createChange, insertRefChange, replaceIDChange), wrapper);
+	}
+
+	@Disabled("Fix dependency scoping and enable")
+	@Test
+	public void dependencyScopeTest() {
+		// TODO Implement a way to combine EObjectDependencyTrackers' findings
+
+		var cmpWrapper = new EObjectDependencyTracker();
+		cmpWrapper.setIDAdjustingStrategy(new StructuralIDAdjustingStrategy());
+		final var repo = RepositoryFactory.eINSTANCE.createRepository();
+		final var cmp = RepositoryFactory.eINSTANCE.createBasicComponent();
+
+		var cmpsFeat = RepositoryPackage.Literals.REPOSITORY__COMPONENTS_REPOSITORY;
+
+		var changes = cc.getEChangesFor(List.of(ChangePreprocessingTestModifications.addRootToResourceAction(repo),
+				ChangePreprocessingTestModifications.addToManyValuedFeatAction(repo, cmpsFeat, cmp)));
+
+		var repoWrapper = new EObjectDependencyTracker();
+		repoWrapper.setIDAdjustingStrategy(new UUIDAdjustingStrategy());
+		repoWrapper.setInitialChange(changes, changes.get(0), existentialAffectedEObj);
+
+		assertDependentChangesSame(changes.subList(0, 5), repoWrapper);
 	}
 }

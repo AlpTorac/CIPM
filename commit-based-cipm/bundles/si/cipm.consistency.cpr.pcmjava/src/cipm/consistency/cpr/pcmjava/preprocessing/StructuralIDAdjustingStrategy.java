@@ -29,8 +29,7 @@ public class StructuralIDAdjustingStrategy extends IDAdjustingStrategy {
 	@Override
 	public String insertIntoFeature(String currentID, EStructuralFeature toBeContainingManyValuedFeature,
 			int indexValue) {
-		// TODO Auto-generated method stub
-		return null;
+		return currentID + "/@" + toBeContainingManyValuedFeature.getName() + "." + indexValue;
 	}
 
 }
