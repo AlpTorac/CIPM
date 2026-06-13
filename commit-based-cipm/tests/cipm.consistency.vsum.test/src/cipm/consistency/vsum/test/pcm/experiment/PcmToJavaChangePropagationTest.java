@@ -291,7 +291,7 @@ public class PcmToJavaChangePropagationTest {
 		// Propagate PCM changes
 		PcmUserInteractionTimeStatistics.getInstance().startPropagationTimeMeasurement();
 		
-		ChangeUtil.fixAllCacheIDs(changeList);
+//		ChangeUtil.fixAllCacheIDs(changeList);
 		
 		var pcmToJavaProp = this.propagateChangesToResource(newPcmRepoRes, changeList);
 		PcmUserInteractionTimeStatistics.getInstance().endPropagationTimeMeasurement();
@@ -394,6 +394,9 @@ public class PcmToJavaChangePropagationTest {
 		LoggingSetup.setMinLogLevel(Level.DEBUG);
 		var targetDirName = "target";
 
+//		pcmToJavaChangePropagationTestTemplate(new PcmToJavaChangePropagationDirLayout(null,
+//				new JavaToPcmPropagationDirLayout(Paths.get(targetDirName, "TEAMMATESCITest-1-6484257")),
+//				Path.of(targetDirName, "Teammates-Experiment-" + 1).toAbsolutePath()));
 		pcmToJavaChangePropagationTestTemplate(new PcmToJavaChangePropagationDirLayout(new JavaToPcmPropagationDirLayout(Paths.get(targetDirName, "TEAMMATESCITest-1-6484257")),
 				new JavaToPcmPropagationDirLayout(Paths.get(targetDirName, "TEAMMATESCITest-2-48b67ba")),
 				Path.of(targetDirName, "Teammates-Experiment-" + 2).toAbsolutePath()));
