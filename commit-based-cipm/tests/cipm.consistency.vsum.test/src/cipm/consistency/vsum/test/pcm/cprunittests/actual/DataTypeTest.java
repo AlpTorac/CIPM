@@ -49,6 +49,8 @@ public class DataTypeTest extends AbstractClassifierTest {
 			rRepoEObj.getDataTypes__Repository().add(dt);
 			dataType[0] = dt;
 		});
+		
+		this.saveEChanges(javaResource.getResourceSet().createResource(javaResource.getURI().trimSegments(1).appendSegment("pcmChanges.changes")), changes);
 
 		var dataTypeFragment = dataType[0].eResource().getURIFragment(dataType[0]);
 
