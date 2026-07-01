@@ -115,17 +115,21 @@ public class PCMJavaTestBody {
 	}
 
 	private void addCRSs() {
-		// Order of adding CRSs matters here
-
 		// Realistic CRS that prevents creation of Java ConcreteClassifiers for generic
 		// parameters
 		var genericCRS = new GenericParameterConflictResolutionStrategy((s) -> s.length() < 2);
 		PcmUserInteractionManager.addConflictResolutionStrategy(genericCRS);
 
 		// Oracle CRS that looks up namespaces from target Java code model, in order to
-		// automate experiment with valid input
+		// fully automate the test case
 		var namespaceCRS = new NamespaceConflictResolutionStrategy(resWrapper.getTargetJavaModel());
 		PcmUserInteractionManager.addConflictResolutionStrategy(namespaceCRS);
+
+		// Oracle CRS that looks up correspondences from target correspondence model, in
+		// order to fully automate the test case
+		var corCRS = new CorrespondenceConflictResolutionStrategy(resWrapper.getTargetCorrespondences(),
+				resWrapper.getPropagatedJavaModel());
+		PcmUserInteractionManager.addConflictResolutionStrategy(corCRS);
 	}
 
 	/**
