@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:attribute="http://vitruv.tools/metamodels/change/atomic/feature/attribute/1.0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:eobject="http://vitruv.tools/metamodels/change/atomic/eobject/1.0" xmlns:reference="http://vitruv.tools/metamodels/change/atomic/feature/reference/1.0" xmlns:repository="http://palladiosimulator.org/PalladioComponentModel/Repository/5.2">
+  <eobject:CreateEObject idAttributeValue="__0S0UHVnEfGxN5_l2Di6ng" affectedEObjectID="cache:/0">
+    <affectedEObject xsi:type="repository:CompositeDataType" href="Repository.repository#__0S0UHVnEfGxN5_l2Di6ng"/>
+    <affectedEObjectType href="http://palladiosimulator.org/PalladioComponentModel/5.2#//repository/CompositeDataType"/>
+  </eobject:CreateEObject>
+  <reference:InsertEReference affectedEObjectID="file:/C:/Users/atora/CIPM/commit-based-cipm/tests/cipm.consistency.vsum.test/target/PcmCprTest/propagatedModels/Repository.repository#/0" newValueID="cache:/0">
+    <affectedFeature xsi:type="ecore:EReference" href="http://palladiosimulator.org/PalladioComponentModel/5.2#//repository/Repository/dataTypes__Repository"/>
+    <affectedEObject xsi:type="repository:Repository" href="Repository.repository#__1DpUnVnEfGxN5_l2Di6ng"/>
+    <newValue xsi:type="repository:CompositeDataType" href="Repository.repository#__0S0UHVnEfGxN5_l2Di6ng"/>
+  </reference:InsertEReference>
+  <attribute:ReplaceSingleValuedEAttribute affectedEObjectID="file:/C:/Users/atora/CIPM/commit-based-cipm/tests/cipm.consistency.vsum.test/target/PcmCprTest/propagatedModels/Repository.repository#/0/@dataTypes__Repository.0" newValue="ACED00057400175F5F3053305548566E456647784E355F6C324469366E67">
+    <affectedFeature xsi:type="ecore:EAttribute" href="http://sdq.ipd.uka.de/Identifier/2.1#//Identifier/id"/>
+    <affectedEObject xsi:type="repository:CompositeDataType" href="Repository.repository#__0S0UHVnEfGxN5_l2Di6ng"/>
+  </attribute:ReplaceSingleValuedEAttribute>
+  <attribute:ReplaceSingleValuedEAttribute affectedEObjectID="file:/C:/Users/atora/CIPM/commit-based-cipm/tests/cipm.consistency.vsum.test/target/PcmCprTest/propagatedModels/Repository.repository#/0/@dataTypes__Repository.0" newValue="ACED000574000941727261794C697374" oldValue="ACED0005740005614E616D65">
+    <affectedFeature xsi:type="ecore:EAttribute" href="http://palladiosimulator.org/PalladioComponentModel/5.2#//core/entity/NamedElement/entityName"/>
+    <affectedEObject xsi:type="repository:CompositeDataType" href="Repository.repository#__0S0UHVnEfGxN5_l2Di6ng"/>
+  </attribute:ReplaceSingleValuedEAttribute>
+</xmi:XMI>
