@@ -5,10 +5,13 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
+import org.apache.log4j.Level;
 import org.junit.jupiter.api.DynamicContainer;
 import org.junit.jupiter.api.DynamicNode;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
+
+import cipm.consistency.vsum.test.appspace.LoggingSetup;
 
 public class PCMJavaCPRTests {
 	private static final String testRootDirName = "pcmjava-testmodels";
@@ -31,6 +34,7 @@ public class PCMJavaCPRTests {
 
 	@TestFactory
 	public Stream<DynamicNode> test() {
+		LoggingSetup.setMinLogLevel(Level.DEBUG);
 		return discoverTests(new File(testRootDirName));
 	}
 }
