@@ -128,6 +128,16 @@ public abstract class AbstractPcmJavaCprTest extends AbstractPcmCprTest {
 		return changes;
 	}
 
+	protected void saveEChanges(Resource changeRes, List<EChange> changes) {
+		changeRes.getContents().addAll(changes);
+		try {
+			changeRes.save(null);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	@Override
 	protected List<ModelFacade> getVsumFacadeModels() {
 		var list = super.getVsumFacadeModels();
