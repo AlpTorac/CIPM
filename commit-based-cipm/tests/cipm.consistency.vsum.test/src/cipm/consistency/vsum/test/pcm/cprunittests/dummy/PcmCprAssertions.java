@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import org.apache.log4j.Logger;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
@@ -20,6 +21,8 @@ import org.junit.jupiter.api.Assertions;
 import cipm.consistency.cpr.pcmjava.userinteraction.CorrespondenceEntry;
 import cipm.consistency.cpr.pcmjava.userinteraction.PcmUserInteractionManager;
 import cipm.consistency.vsum.test.pcm.PcmVsumFacade;
+import tools.vitruv.change.correspondence.Correspondence;
+import tools.vitruv.change.correspondence.Correspondences;
 
 public final class PcmCprAssertions {
 	private static final Logger LOGGER = Logger.getLogger(PcmCprAssertions.class);
@@ -107,9 +110,83 @@ public final class PcmCprAssertions {
 			if (it1.hasNext() ^ it2.hasNext())
 				Assertions.fail("Given resources have differing eAllContents size");
 
-			Assertions.assertTrue(EcoreUtil.equals(it1.next(), it2.next()),
+			var obj1 = it1.next();
+			var obj2 = it2.next();
+
+			Assertions.assertTrue(EcoreUtil.equals(obj1, obj2),
 					"Given resources eAllContents differ at iteration: " + idx);
 			idx++;
+		}
+	}
+
+	/**
+	 * Ensures that the correspondences saved in the given Resources are pairwise
+	 * equal. Considers the order of the correspondences as well. Only compares the
+	 * URI fragments within the correspondences, since the correspondences in tests
+	 * are partially copied from other propagations. That makes EObject URIs within
+	 * the actual and expected correspondences different.
+	 */
+	public static void assertCorrespondencesEqual(Resource corRes1, Resource corRes2) {
+		var cors1 = (Correspondences) corRes1.getContents().get(0);
+		var cors2 = (Correspondences) corRes2.getContents().get(0);
+		assertCorrespondencesEqual(cors1, cors2);
+	}
+
+	/**
+	 * Ensures that the correspondences inside the given Correspondences instances
+	 * are pairwise equal. Considers the order of the correspondences as well. Only
+	 * compares the URI fragments within the correspondences, since the
+	 * correspondences in tests are partially copied from other propagations. That
+	 * makes EObject URIs within the actual and expected correspondences different.
+	 */
+	public static void assertCorrespondencesEqual(Correspondences cors1, Correspondences cors2) {
+		var corList1 = cors1.getCorrespondences();
+		var corList2 = cors2.getCorrespondences();
+
+		if (corList1.size() != corList2.size())
+			Assertions.fail("Given Correspondences contain different amounts of correspondences");
+
+		for (int i = 0; i < corList1.size(); i++) {
+			var cor1 = corList1.get(i);
+			var cor2 = corList2.get(i);
+			assertCorrespondencesEqual(cor1, cor2);
+		}
+	}
+
+	/**
+	 * Ensures that the given correspondences are equal in terms of the EObjects,
+	 * whose correspondence it represents. Only compares the URI fragments within
+	 * the correspondences, since the correspondences in tests are partially copied
+	 * from other propagations. That makes EObject URIs within the actual and
+	 * expected correspondences different.
+	 */
+	public static void assertCorrespondencesEqual(Correspondence cor1, Correspondence cor2) {
+		var cor1Left = cor1.getLeftEObjects();
+		var cor1Right = cor1.getRightEObjects();
+
+		var cor2Left = cor2.getLeftEObjects();
+		var cor2Right = cor2.getRightEObjects();
+
+		for (var corSides : List.of(List.of(cor1Left, cor2Left), List.of(cor1Right, cor2Right))) {
+			var corObjs1 = corSides.get(0);
+			var corObjs2 = corSides.get(1);
+
+			if (corObjs1.size() != corObjs2.size())
+				Assertions.fail("Different amounts of EObjects");
+
+			for (int i = 0; i < corObjs1.size(); i++) {
+				var obj1 = corObjs1.get(i);
+				var obj2 = corObjs2.get(i);
+
+				if (obj1.eIsProxy() && obj2.eIsProxy()) {
+					Assertions.assertEquals(((InternalEObject) obj1).eProxyURI().fragment(),
+							((InternalEObject) obj2).eProxyURI().fragment());
+				} else if (obj1.eIsProxy() ^ obj2.eIsProxy()) {
+					Assertions.fail("One side is not proxy, while the other side is");
+				} else {
+					Assertions.assertTrue(EcoreUtil.equals(obj1, obj2));
+				}
+			}
 		}
 	}
 

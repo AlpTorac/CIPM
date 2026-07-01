@@ -37,9 +37,10 @@ import tools.vitruv.framework.vsum.internal.InternalVirtualModel;
 public class PcmVsumFacadeImpl implements PcmVsumFacade {
 	private static final Logger LOGGER = Logger.getLogger(PcmVsumFacadeImpl.class.getName());
 
+	private Path rootPath;
 	private VsumDirLayout dirLayout;
 	private List<ChangePropagationSpecification> changeSpecs;
-	private final InternalVirtualModel vsum;
+	private InternalVirtualModel vsum;
 
 	private List<ModelFacade> models;
 
@@ -51,17 +52,30 @@ public class PcmVsumFacadeImpl implements PcmVsumFacade {
 
 	public PcmVsumFacadeImpl(Path rootPath, List<ModelFacade> models,
 			List<ChangePropagationSpecification> changeSpecs) {
+		this.rootPath = rootPath;
+		this.changeSpecs = changeSpecs;
+		this.models = models;
+	}
+
+	public void initialise() {
 		dirLayout = new VsumDirLayout();
 
 		dirLayout.initialize(rootPath);
-		this.changeSpecs = changeSpecs;
-		var vsumBuilder = getVsumBuilder();
+		initialise(dirLayout.getRootDirPath());
+	}
 
+	/**
+	 * @param storageFolderDir The storage folder path that will be given to the
+	 *                         {@link VirtualModelBuilder}
+	 */
+	public void initialise(Path storageFolderDir) {
+		var vsumBuilder = new VirtualModelBuilder().withStorageFolder(storageFolderDir)
+				.withUserInteractor(UserInteractionFactory.instance.createDialogUserInteractor())
+				.withChangePropagationSpecifications(changeSpecs);
 		LOGGER.info("Loading VSUM");
 		vsum = vsumBuilder.buildAndInitialize();
 		getChangeAcceptingView();
 
-		this.models = models;
 		loadModels(models, false);
 	}
 
@@ -134,12 +148,6 @@ public class PcmVsumFacadeImpl implements PcmVsumFacade {
 		viewSelector.getSelectableElements().forEach(ele -> viewSelector.setSelected(ele, true));
 
 		return viewSelector.createView().withChangeRecordingTrait();
-	}
-
-	private VirtualModelBuilder getVsumBuilder() {
-		return new VirtualModelBuilder().withStorageFolder(dirLayout.getRootDirPath())
-				.withUserInteractor(UserInteractionFactory.instance.createDialogUserInteractor())
-				.withChangePropagationSpecifications(changeSpecs);
 	}
 
 	private void checkResourceForProxies(Resource res) {

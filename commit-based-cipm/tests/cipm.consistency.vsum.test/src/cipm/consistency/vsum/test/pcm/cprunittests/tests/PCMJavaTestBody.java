@@ -1,13 +1,16 @@
 package cipm.consistency.vsum.test.pcm.cprunittests.tests;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.junit.jupiter.api.Assertions;
 
 import cipm.consistency.cpr.pcmjava.CommitIntegrationPCMJavaChangePropagationSpecification;
@@ -19,6 +22,7 @@ import cipm.consistency.cpr.pcmjava.userinteraction.PcmUserInteractionManager;
 import cipm.consistency.vsum.Propagation;
 import cipm.consistency.vsum.test.pcm.PcmVsumFacade;
 import cipm.consistency.vsum.test.pcm.PcmVsumFacadeImpl;
+import cipm.consistency.vsum.test.pcm.cprunittests.dummy.PcmCprAssertions;
 import tools.vitruv.change.atomic.EChange;
 import tools.vitruv.change.propagation.ChangePropagationSpecification;
 
@@ -69,6 +73,15 @@ public class PCMJavaTestBody {
 		vsumFacade.close();
 
 		resWrapper.close();
+
+		for (var dir : testDir.listFiles(
+				(f) -> f.isDirectory() && (f.getName().equals("consistencymetadata") || f.getName().equals("vsum")))) {
+			try {
+				FileUtils.deleteDirectory(dir);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private MinimalPCMFacade setupPcmFacade() {
@@ -88,8 +101,10 @@ public class PCMJavaTestBody {
 	 * @return The VSUM facade for the PCM that will be used in this test.
 	 */
 	private PcmVsumFacade setupVsumFacade() {
-		return new PcmVsumFacadeImpl(testDir.getAbsoluteFile().toPath(), List.of(pcmFacade, javaFacade),
+		var vsumFacade = new PcmVsumFacadeImpl(testDir.getAbsoluteFile().toPath(), List.of(pcmFacade, javaFacade),
 				this.getCPRs());
+		vsumFacade.initialise(testDir.getAbsoluteFile().toPath());
+		return vsumFacade;
 	}
 
 	private List<EChange> getPcmChanges(Resource res) {
@@ -136,8 +151,11 @@ public class PCMJavaTestBody {
 
 		resWrapper.reloadPropagatedResources();
 
-		// TODO Assert that old resources are equal to new resources (Java, PCM,
-		// correspondences)
+		PcmCprAssertions.assertAllContentsEqual(resWrapper.getPropagatedJavaModel(), resWrapper.getTargetJavaModel());
+		PcmCprAssertions.assertAllContentsEqual(resWrapper.getPropagatedPcmRepository(),
+				resWrapper.getPropagatedPcmRepository());
+		PcmCprAssertions.assertCorrespondencesEqual(resWrapper.getPropagatedCorrespondences(),
+				resWrapper.getTargetCorrespondences());
 
 		this.tearDown();
 	}

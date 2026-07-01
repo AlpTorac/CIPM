@@ -186,7 +186,9 @@ public abstract class AbstractPcmCprTest {
 	 * @return The VSUM facade for the PCM that will be used in this test.
 	 */
 	protected PcmVsumFacade setupVsumFacade() {
-		return new PcmVsumFacadeImpl(this.getRootPath(), this.getVsumFacadeModels(), this.getCPRs());
+		var vsumFacade = new PcmVsumFacadeImpl(this.getRootPath(), this.getVsumFacadeModels(), this.getCPRs());
+		vsumFacade.initialise();
+		return vsumFacade;
 	}
 
 	/**

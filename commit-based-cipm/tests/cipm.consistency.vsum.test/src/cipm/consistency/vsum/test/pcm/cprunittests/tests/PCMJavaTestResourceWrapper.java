@@ -7,6 +7,7 @@ import java.util.List;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import cipm.consistency.cpr.pcmjava.preprocessing.ChangeUtil;
 import cipm.consistency.vsum.test.pcm.experiment.PcmToJavaChangePropagationDirLayoutConstants;
@@ -27,7 +28,7 @@ public class PCMJavaTestResourceWrapper {
 	private static final String propagatedPCMChangesName = "propPCMChanges.changes";
 	private static final String propagatedPCMResourceName = "propPCM.repository";
 	private static final String propagatedJavaResourceName = "propJava.javaxmi";
-	private static final String propagatedPCMJavaCorrespondencesName = "propCors.correspondence";
+	private static final String propagatedPCMJavaCorrespondencesName = "correspondences.correspondence";
 
 	private final URI testDirURI;
 	private final File testDir;
@@ -105,7 +106,7 @@ public class PCMJavaTestResourceWrapper {
 		propagatedPcmRepository = ResourceOperationsUtil.copyAndSaveResource(resSet, initialPcmRepository,
 				testDirURI.appendSegment(propagatedPCMResourceName));
 		propagatedCorrespondences = ResourceOperationsUtil.copyAndSaveResource(resSet, initialCorrespondences,
-				testDirURI.appendSegment(propagatedPCMJavaCorrespondencesName));
+				testDirURI.appendSegment("vsum").appendSegment(propagatedPCMJavaCorrespondencesName));
 		propagatedPcmChanges = ResourceOperationsUtil.copyAndSaveResource(resSet, originalPcmChanges,
 				testDirURI.appendSegment(propagatedPCMChangesName));
 	}

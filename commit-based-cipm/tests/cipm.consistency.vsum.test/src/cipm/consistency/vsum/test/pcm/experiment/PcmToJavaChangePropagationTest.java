@@ -168,8 +168,10 @@ public class PcmToJavaChangePropagationTest {
 	 * @return The VSUM facade for the PCM that will be used in this test.
 	 */
 	protected PcmVsumFacade setupVsumFacade() {
-		return new PcmVsumFacadeImpl(getDirLayout().getPropagatedDirLayout().getVsumDirPath(),
+		var vsumFacade = new PcmVsumFacadeImpl(getDirLayout().getPropagatedDirLayout().getVsumDirPath(),
 				List.of(pcmFacade, imFacade, javaFacade), this.getCPRs());
+		vsumFacade.initialise();
+		return vsumFacade;
 	}
 
 	private List<EChange> getPcmChanges(Resource res) {
