@@ -43,6 +43,8 @@ public class InterfaceTest extends AbstractClassifierTest {
 			opIfc[0] = ifc;
 		});
 
+		this.saveEChanges(javaResource.getResourceSet().createResource(javaResource.getURI().trimSegments(1).appendSegment("pcmChanges.changes")), changes);
+
 		var opIfcFragment = opIfc[0].eResource().getURIFragment(opIfc[0]);
 
 		if (createdOpIfcToStratFunc != null) {
