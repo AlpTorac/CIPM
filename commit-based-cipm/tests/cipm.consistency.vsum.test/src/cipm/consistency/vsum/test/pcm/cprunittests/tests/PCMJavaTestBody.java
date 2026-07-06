@@ -80,6 +80,8 @@ public class PCMJavaTestBody {
 				e.printStackTrace();
 			}
 		}
+
+		PcmUserInteractionManager.reset();
 	}
 
 	private MinimalPCMFacade setupPcmFacade() {
@@ -124,7 +126,7 @@ public class PCMJavaTestBody {
 	 */
 	public void testBody() {
 		this.initialiseResources();
-		
+
 		var changeList = getPcmChanges(resWrapper.getPropagatedPcmChanges());
 
 		var newPcmRepoRes = pcmFacade.getResources().stream()
