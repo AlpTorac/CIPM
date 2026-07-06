@@ -4,16 +4,16 @@
     <affectedEObject xsi:type="repository:CompositeDataType" href="Repository.repository#_86CpgHVCEfGiDP0juVyzSg"/>
     <affectedEObjectType href="http://palladiosimulator.org/PalladioComponentModel/5.2#//repository/CompositeDataType"/>
   </eobject:CreateEObject>
-  <reference:InsertEReference affectedEObjectID="file:/C:/Users/atora/CIPM/commit-based-cipm/tests/cipm.consistency.vsum.test/target/PcmCprTest/propagatedModels/Repository.repository#/0" newValueID="cache:/0">
+  <reference:InsertEReference affectedEObjectID="./oldPCM.repository#/0" newValueID="cache:/0">
     <affectedFeature xsi:type="ecore:EReference" href="http://palladiosimulator.org/PalladioComponentModel/5.2#//repository/Repository/dataTypes__Repository"/>
     <affectedEObject xsi:type="repository:Repository" href="Repository.repository#_864XAXVCEfGiDP0juVyzSg"/>
     <newValue xsi:type="repository:CompositeDataType" href="Repository.repository#_86CpgHVCEfGiDP0juVyzSg"/>
   </reference:InsertEReference>
-  <attribute:ReplaceSingleValuedEAttribute affectedEObjectID="file:/C:/Users/atora/CIPM/commit-based-cipm/tests/cipm.consistency.vsum.test/target/PcmCprTest/propagatedModels/Repository.repository#/0/@dataTypes__Repository.0" newValue="ACED00057400175F3836437067485643456647694450306A7556797A5367">
+  <attribute:ReplaceSingleValuedEAttribute affectedEObjectID="./oldPCM.repository#/0/@dataTypes__Repository.0" newValue="ACED00057400175F3836437067485643456647694450306A7556797A5367">
     <affectedFeature xsi:type="ecore:EAttribute" href="http://sdq.ipd.uka.de/Identifier/2.1#//Identifier/id"/>
     <affectedEObject xsi:type="repository:CompositeDataType" href="Repository.repository#_86CpgHVCEfGiDP0juVyzSg"/>
   </attribute:ReplaceSingleValuedEAttribute>
-  <attribute:ReplaceSingleValuedEAttribute affectedEObjectID="file:/C:/Users/atora/CIPM/commit-based-cipm/tests/cipm.consistency.vsum.test/target/PcmCprTest/propagatedModels/Repository.repository#/0/@dataTypes__Repository.0" newValue="ACED000574000670636D496663" oldValue="ACED0005740005614E616D65">
+  <attribute:ReplaceSingleValuedEAttribute affectedEObjectID="./oldPCM.repository#/0/@dataTypes__Repository.0" newValue="ACED000574000670636D496663" oldValue="ACED0005740005614E616D65">
     <affectedFeature xsi:type="ecore:EAttribute" href="http://palladiosimulator.org/PalladioComponentModel/5.2#//core/entity/NamedElement/entityName"/>
     <affectedEObject xsi:type="repository:CompositeDataType" href="Repository.repository#_86CpgHVCEfGiDP0juVyzSg"/>
   </attribute:ReplaceSingleValuedEAttribute>
