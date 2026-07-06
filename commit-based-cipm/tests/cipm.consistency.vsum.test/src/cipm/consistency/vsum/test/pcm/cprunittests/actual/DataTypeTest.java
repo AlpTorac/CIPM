@@ -110,7 +110,7 @@ public class DataTypeTest extends AbstractClassifierTest {
 
 	@Test
 	public void withoutExistingJavaClass() {
-		var dtName = "pcmIfc";
+		var dtName = "pcmDT";
 		var nss = List.of("ns1", "ns2");
 
 		forEachDataType((d) -> {
@@ -196,7 +196,7 @@ public class DataTypeTest extends AbstractClassifierTest {
 
 	@Test
 	public void withExistingPackages() {
-		var dtName = "pcmIfc";
+		var dtName = "pcmDT";
 		var nss = List.of("ns1", "ns2");
 
 		forEachDataType((d) -> {
@@ -234,7 +234,7 @@ public class DataTypeTest extends AbstractClassifierTest {
 
 	@Test
 	public void withExistingParentPackage() {
-		var dtName = "pcmIfc";
+		var dtName = "pcmDT";
 		var nss = List.of("ns1", "ns2");
 
 		forEachDataType((d) -> {
@@ -269,7 +269,7 @@ public class DataTypeTest extends AbstractClassifierTest {
 
 	@Test
 	public void withExistingModule() {
-		var dtName = "pcmIfc";
+		var dtName = "pcmDT";
 		var nss = List.of("ns1", "ns2");
 
 		forEachDataType((d) -> {
