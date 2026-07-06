@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ASCII"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:classifiers="http://www.emftext.org/java/classifiers" xmlns:containers="http://www.emftext.org/java/containers">
+  <containers:Package name="">
+    <namespaces>ns1</namespaces>
+  </containers:Package>
+  <containers:Package name="">
+    <namespaces>ns1</namespaces>
+    <namespaces>ns2</namespaces>
+  </containers:Package>
+  <containers:CompilationUnit name="pcmIfc">
+    <namespaces>ns1</namespaces>
+    <namespaces>ns2</namespaces>
+    <classifiers xsi:type="classifiers:Interface" name="pcmIfc" package="/1"/>
+  </containers:CompilationUnit>
+</xmi:XMI>
