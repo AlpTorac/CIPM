@@ -13,7 +13,7 @@
     <affectedFeature xsi:type="ecore:EAttribute" href="http://sdq.ipd.uka.de/Identifier/2.1#//Identifier/id"/>
     <affectedEObject xsi:type="repository:CompositeDataType" href="Repository.repository#_86CpgHVCEfGiDP0juVyzSg"/>
   </attribute:ReplaceSingleValuedEAttribute>
-  <attribute:ReplaceSingleValuedEAttribute affectedEObjectID="./oldPCM.repository#/0/@dataTypes__Repository.0" newValue="ACED000574000670636D496663" oldValue="ACED0005740005614E616D65">
+  <attribute:ReplaceSingleValuedEAttribute affectedEObjectID="./oldPCM.repository#/0/@dataTypes__Repository.0" newValue="ACED000574000570636D4454" oldValue="ACED0005740005614E616D65">
     <affectedFeature xsi:type="ecore:EAttribute" href="http://palladiosimulator.org/PalladioComponentModel/5.2#//core/entity/NamedElement/entityName"/>
     <affectedEObject xsi:type="repository:CompositeDataType" href="Repository.repository#_86CpgHVCEfGiDP0juVyzSg"/>
   </attribute:ReplaceSingleValuedEAttribute>

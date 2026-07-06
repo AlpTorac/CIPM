@@ -7,9 +7,9 @@
     <namespaces>ns1</namespaces>
     <namespaces>ns2</namespaces>
   </containers:Package>
-  <containers:CompilationUnit name="pcmIfc">
+  <containers:CompilationUnit name="pcmDT">
     <namespaces>ns1</namespaces>
     <namespaces>ns2</namespaces>
-    <classifiers xsi:type="classifiers:Class" name="pcmIfc" package="/1"/>
+    <classifiers xsi:type="classifiers:Class" name="pcmDT" package="/1"/>
   </containers:CompilationUnit>
 </xmi:XMI>
