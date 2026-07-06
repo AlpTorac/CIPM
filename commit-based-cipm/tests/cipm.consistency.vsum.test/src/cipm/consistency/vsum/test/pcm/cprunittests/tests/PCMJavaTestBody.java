@@ -13,8 +13,6 @@ import org.junit.jupiter.api.Assertions;
 
 import cipm.consistency.cpr.pcmjava.CommitIntegrationPCMJavaChangePropagationSpecification;
 import cipm.consistency.cpr.pcmjava.JavaModelAccess;
-import cipm.consistency.cpr.pcmjava.userinteraction.GenericParameterConflictResolutionStrategy;
-import cipm.consistency.cpr.pcmjava.userinteraction.NamespaceConflictResolutionStrategy;
 import cipm.consistency.cpr.pcmjava.userinteraction.PcmUserInteractionManager;
 
 import cipm.consistency.vsum.Propagation;
@@ -25,6 +23,7 @@ import tools.vitruv.change.atomic.EChange;
 import tools.vitruv.change.propagation.ChangePropagationSpecification;
 
 public class PCMJavaTestBody {
+	private CRSConfig crsConfig;
 	private File testDir;
 
 	private PcmVsumFacade vsumFacade;
@@ -33,7 +32,8 @@ public class PCMJavaTestBody {
 
 	private PCMJavaTestResourceWrapper resWrapper;
 
-	public PCMJavaTestBody(File testDir) {
+	public PCMJavaTestBody(CRSConfig crsConfig, File testDir) {
+		this.crsConfig = crsConfig;
 		this.testDir = testDir;
 	}
 
@@ -115,21 +115,8 @@ public class PCMJavaTestBody {
 	}
 
 	private void addCRSs() {
-		// Realistic CRS that prevents creation of Java ConcreteClassifiers for generic
-		// parameters
-		var genericCRS = new GenericParameterConflictResolutionStrategy((s) -> s.length() < 2);
-		PcmUserInteractionManager.addConflictResolutionStrategy(genericCRS);
-
-		// Oracle CRS that looks up namespaces from target Java code model, in order to
-		// fully automate the test case
-		var namespaceCRS = new NamespaceConflictResolutionStrategy(resWrapper.getTargetJavaModel());
-		PcmUserInteractionManager.addConflictResolutionStrategy(namespaceCRS);
-
-		// Oracle CRS that looks up correspondences from target correspondence model, in
-		// order to fully automate the test case
-		var corCRS = new CorrespondenceConflictResolutionStrategy(resWrapper.getTargetCorrespondences(),
-				resWrapper.getPropagatedJavaModel());
-		PcmUserInteractionManager.addConflictResolutionStrategy(corCRS);
+		this.crsConfig.setWrapper(resWrapper);
+		this.crsConfig.getCRSs().forEach((crs) -> PcmUserInteractionManager.addConflictResolutionStrategy(crs));
 	}
 
 	/**
@@ -137,7 +124,7 @@ public class PCMJavaTestBody {
 	 */
 	public void testBody() {
 		this.initialiseResources();
-
+		
 		var changeList = getPcmChanges(resWrapper.getPropagatedPcmChanges());
 
 		var newPcmRepoRes = pcmFacade.getResources().stream()
