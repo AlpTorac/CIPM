@@ -46,6 +46,9 @@ Require-Bundle: cipm.consistency.commitintegration,
  jamopp.resource,
  cipm.consistency.cpr.pcmjava,
  edu.kit.ipd.sdq.commons.util.emf,
- edu.kit.ipd.sdq.activextendannotations
+ edu.kit.ipd.sdq.activextendannotations,
+ org.eclipse.emf.henshin.model,
+ org.eclipse.emf.henshin.interpreter,
+ org.eclipse.emf.henshin.examples
 Export-Package: cipm.consistency.vsum.test
 Bundle-RequiredExecutionEnvironment: JavaSE-11

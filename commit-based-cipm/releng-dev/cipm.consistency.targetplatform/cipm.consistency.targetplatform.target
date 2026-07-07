@@ -84,5 +84,14 @@
             <repository location="https://cipm-tools.github.io/updatesite/archive/cipm-0.1.1/"/>
 			<unit id="cipm.consistency.models.instrumentation" version="0.0.0"/>
 		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="false" type="InstallableUnit">
+			<repository location="http://download.eclipse.org/modeling/emft/henshin/updates/1.8.0"/>
+			<unit id="org.eclipse.emf.henshin.sdk.feature.group" version="1.8.0.202302121610"/>
+			<unit id="org.eclipse.emf.henshin.sdk.ocl2ac.feature.group" version="1.8.0.202302121610"/>
+			<unit id="org.eclipse.emf.henshin.sdk.ocl2ac.source.feature.group" version="1.8.0.202302121610"/>
+			<unit id="org.eclipse.emf.henshin.sdk.source.feature.group" version="1.8.0.202302121610"/>
+			<unit id="org.eclipse.emf.henshin.sdk.variability.feature.group" version="1.8.0.202302121610"/>
+			<unit id="org.eclipse.emf.henshin.sdk.variability.source.feature.group" version="1.8.0.202302121610"/>
+		</location>
 	</locations>
 </target>
