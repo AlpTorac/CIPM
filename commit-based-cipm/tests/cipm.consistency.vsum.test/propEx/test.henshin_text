@@ -1,0 +1,19 @@
+ePackageImport atomic
+ePackageImport atomic.eobject
+ePackageImport atomic.feature
+ePackageImport atomic.feature.reference
+    
+rule test(VAR ccAID:EString, VAR icAID:EString) {
+	conditions[ccAID == icAID]
+	graph {
+		preserve node cc:CreateEObject {
+			preserve affectedEObjectID = ccAID
+		}
+		
+		preserve node ic:InsertEReference {
+			preserve EObjectAddedEChange.newValueID = icAID
+		}
+
+		create node uc:UnsetFeature
+	}
+}

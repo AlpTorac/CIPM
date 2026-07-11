@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_paHlsH1cEfGoodqh4Jxvyg" name="HenshinDSL">
+  <imports href="../../tools.vitruv.change.atomic/metamodel/atomicModelChange.ecore#/"/>
+  <imports href="../../tools.vitruv.change.atomic/metamodel/atomicModelChange.ecore#//eobject"/>
+  <imports href="../../tools.vitruv.change.atomic/metamodel/atomicModelChange.ecore#//feature"/>
+  <imports href="../../tools.vitruv.change.atomic/metamodel/atomicModelChange.ecore#//feature/reference"/>
+  <units xsi:type="henshin:Rule" xmi:id="_paHlsX1cEfGoodqh4Jxvyg" name="test">
+    <parameters xmi:id="_paHlsn1cEfGoodqh4Jxvyg" name="ccAID" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_paHls31cEfGoodqh4Jxvyg" name="icAID" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <lhs xmi:id="_paHltH1cEfGoodqh4Jxvyg" name="test_LHS">
+      <nodes xmi:id="_paHltX1cEfGoodqh4Jxvyg" name="cc">
+        <type href="../../tools.vitruv.change.atomic/metamodel/atomicModelChange.ecore#//eobject/CreateEObject"/>
+        <attributes xmi:id="_paHltn1cEfGoodqh4Jxvyg" value="ccAID">
+          <type href="../../tools.vitruv.change.atomic/metamodel/atomicModelChange.ecore#//eobject/EObjectExistenceEChange/affectedEObjectID"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_paHlt31cEfGoodqh4Jxvyg" name="ic">
+        <type href="../../tools.vitruv.change.atomic/metamodel/atomicModelChange.ecore#//feature/reference/InsertEReference"/>
+        <attributes xmi:id="_paHluH1cEfGoodqh4Jxvyg" value="icAID">
+          <type href="../../tools.vitruv.change.atomic/metamodel/atomicModelChange.ecore#//eobject/EObjectAddedEChange/newValueID"/>
+        </attributes>
+      </nodes>
+    </lhs>
+    <rhs xmi:id="_paHluX1cEfGoodqh4Jxvyg" name="test_RHS">
+      <nodes xmi:id="_paHlun1cEfGoodqh4Jxvyg" name="cc">
+        <type href="../../tools.vitruv.change.atomic/metamodel/atomicModelChange.ecore#//eobject/CreateEObject"/>
+        <attributes xmi:id="_paHlu31cEfGoodqh4Jxvyg" value="ccAID">
+          <type href="../../tools.vitruv.change.atomic/metamodel/atomicModelChange.ecore#//eobject/EObjectExistenceEChange/affectedEObjectID"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_paHlvH1cEfGoodqh4Jxvyg" name="ic">
+        <type href="../../tools.vitruv.change.atomic/metamodel/atomicModelChange.ecore#//feature/reference/InsertEReference"/>
+        <attributes xmi:id="_paHlvX1cEfGoodqh4Jxvyg" value="icAID">
+          <type href="../../tools.vitruv.change.atomic/metamodel/atomicModelChange.ecore#//eobject/EObjectAddedEChange/newValueID"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_paHlvn1cEfGoodqh4Jxvyg" name="uc">
+        <type href="../../tools.vitruv.change.atomic/metamodel/atomicModelChange.ecore#//feature/UnsetFeature"/>
+      </nodes>
+    </rhs>
+    <attributeConditions xmi:id="_paHlv31cEfGoodqh4Jxvyg" conditionText="ccAID==icAID"/>
+    <mappings xmi:id="_paHlwH1cEfGoodqh4Jxvyg" origin="_paHltX1cEfGoodqh4Jxvyg" image="_paHlun1cEfGoodqh4Jxvyg"/>
+    <mappings xmi:id="_paHlwX1cEfGoodqh4Jxvyg" origin="_paHlt31cEfGoodqh4Jxvyg" image="_paHlvH1cEfGoodqh4Jxvyg"/>
+  </units>
+</henshin:Module>

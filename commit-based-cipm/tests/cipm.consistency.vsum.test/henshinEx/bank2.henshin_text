@@ -1,0 +1,18 @@
+ePackageImport bank
+
+rule addBonus(VAR name:EString, VAR currentCredit:EDouble) {
+    graph {
+        preserve node client:Client {
+            name = name
+        }
+        
+        preserve node account:Account {
+            credit = currentCredit
+            set credit = 100000
+        }
+        
+        edges [
+            (client -> account:accounts)
+        ]
+    }
+}

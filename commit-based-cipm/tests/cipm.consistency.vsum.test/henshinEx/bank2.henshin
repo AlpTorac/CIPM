@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ASCII"?>
+<henshin:Module xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:henshin="http://www.eclipse.org/emf/2011/Henshin" xmi:id="_ZdCssH1WEfGoodqh4Jxvyg" name="HenshinDSL">
+  <imports href="bank.ecore#/"/>
+  <units xsi:type="henshin:Rule" xmi:id="_ZdCssX1WEfGoodqh4Jxvyg" name="addBonus">
+    <parameters xmi:id="_ZdCssn1WEfGoodqh4Jxvyg" name="name" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </parameters>
+    <parameters xmi:id="_ZdCss31WEfGoodqh4Jxvyg" name="currentCredit" kind="VAR">
+      <type xsi:type="ecore:EDataType" href="http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </parameters>
+    <lhs xmi:id="_ZdCstH1WEfGoodqh4Jxvyg" name="addBonus_LHS">
+      <nodes xmi:id="_ZdCstX1WEfGoodqh4Jxvyg" name="client" outgoing="_ZdCsuX1WEfGoodqh4Jxvyg">
+        <type href="bank.ecore#//Client"/>
+        <attributes xmi:id="_ZdCstn1WEfGoodqh4Jxvyg" value="name">
+          <type href="bank.ecore#//Person/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_ZdCst31WEfGoodqh4Jxvyg" name="account" incoming="_ZdCsuX1WEfGoodqh4Jxvyg">
+        <type href="bank.ecore#//Account"/>
+        <attributes xmi:id="_ZdCsuH1WEfGoodqh4Jxvyg" value="currentCredit">
+          <type href="bank.ecore#//Account/credit"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_ZdCsuX1WEfGoodqh4Jxvyg" source="_ZdCstX1WEfGoodqh4Jxvyg" target="_ZdCst31WEfGoodqh4Jxvyg">
+        <type href="bank.ecore#//Client/accounts"/>
+      </edges>
+    </lhs>
+    <rhs xmi:id="_ZdCsun1WEfGoodqh4Jxvyg" name="addBonus_RHS">
+      <nodes xmi:id="_ZdCsu31WEfGoodqh4Jxvyg" name="client" outgoing="_ZdCsv31WEfGoodqh4Jxvyg">
+        <type href="bank.ecore#//Client"/>
+        <attributes xmi:id="_ZdCsvH1WEfGoodqh4Jxvyg" value="name">
+          <type href="bank.ecore#//Person/name"/>
+        </attributes>
+      </nodes>
+      <nodes xmi:id="_ZdCsvX1WEfGoodqh4Jxvyg" name="account" incoming="_ZdCsv31WEfGoodqh4Jxvyg">
+        <type href="bank.ecore#//Account"/>
+        <attributes xmi:id="_ZdCsvn1WEfGoodqh4Jxvyg" value="100000">
+          <type href="bank.ecore#//Account/credit"/>
+        </attributes>
+      </nodes>
+      <edges xmi:id="_ZdCsv31WEfGoodqh4Jxvyg" source="_ZdCsu31WEfGoodqh4Jxvyg" target="_ZdCsvX1WEfGoodqh4Jxvyg">
+        <type href="bank.ecore#//Client/accounts"/>
+      </edges>
+    </rhs>
+    <mappings xmi:id="_ZdCswH1WEfGoodqh4Jxvyg" origin="_ZdCstX1WEfGoodqh4Jxvyg" image="_ZdCsu31WEfGoodqh4Jxvyg"/>
+    <mappings xmi:id="_ZdCswX1WEfGoodqh4Jxvyg" origin="_ZdCst31WEfGoodqh4Jxvyg" image="_ZdCsvX1WEfGoodqh4Jxvyg"/>
+  </units>
+</henshin:Module>
