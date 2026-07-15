@@ -5,9 +5,9 @@ import java.util.stream.Collectors;
 
 import tools.vitruv.change.atomic.EChange;
 
-public class BaseAddElementChangeTest extends AbstractCompositeChangeTest {
+public class DeleteSimpleElementChangeTest extends AbstractCompositeChangeTest{
 	protected List<ICompositeChangeMatcher> getMatches(List<EChange> changes) {
-		List<ICompositeChangeMatcher> matches = changes.stream().map((c) -> new BaseAddElementChangeMatcher(c, changes))
+		List<ICompositeChangeMatcher> matches = changes.stream().map((c) -> new DeleteSimpleElementMatcher(c, changes))
 				.collect(Collectors.toList());
 		return matches;
 	}

@@ -11,7 +11,7 @@ import tools.vitruv.change.atomic.eobject.CreateEObject;
 import tools.vitruv.change.atomic.feature.attribute.ReplaceSingleValuedEAttribute;
 import tools.vitruv.change.atomic.feature.reference.AdditiveReferenceEChange;
 
-public class BaseAddElementChangeMatcher {
+public class BaseAddElementChangeMatcher implements ICompositeChangeMatcher {
 	private List<EChange> changeSeq;
 
 	private CreateEObject cc;
@@ -50,8 +50,8 @@ public class BaseAddElementChangeMatcher {
 			if (castedAR.getNewValueID().equals(cc.getAffectedEObjectID())
 					&& type.isSuperTypeOf(cc.getAffectedEObjectType())) {
 				this.ar = castedAR;
+				return true;
 			}
-			return true;
 		}
 		return false;
 	}
@@ -62,8 +62,8 @@ public class BaseAddElementChangeMatcher {
 			if (castedRSVA.getAffectedFeature().getName().equals(IdentifierPackage.Literals.IDENTIFIER__ID.getName())
 					&& castedRSVA.getNewValue().equals(cc.getIdAttributeValue())) {
 				this.rsva = castedRSVA;
+				return true;
 			}
-			return true;
 		}
 		return false;
 	}
