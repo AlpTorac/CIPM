@@ -25,6 +25,10 @@ public class BaseAddElementChangeMatcher implements ICompositeChangeMatcher {
 		}
 	}
 
+	public EClass getAddedElementType() {
+		return cc != null ? cc.getAffectedEObjectType() : null;
+	}
+	
 	public List<EChange> getAtomicChanges() {
 		var list = new ArrayList<EChange>();
 		if (cc != null)
