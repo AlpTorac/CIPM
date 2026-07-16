@@ -55,14 +55,16 @@ public abstract class AbstractCompositeChangeTest {
 	@BeforeAll
 	public static void setUpBeforeAll() {
 		for (var res : resSet.getResources()) {
-			try {
-				res.load(null);
-			} catch (IOException e) {
-				e.printStackTrace();
-				Assertions.fail(e);
+			if (!res.isLoaded()) {
+				try {
+					res.load(null);
+				} catch (IOException e) {
+					e.printStackTrace();
+					Assertions.fail(e);
+				}
+				
+				PCM_CHANGES.add(getChanges(res));
 			}
-			
-			PCM_CHANGES.add(getChanges(res));
 		}
 	}
 
