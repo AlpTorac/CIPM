@@ -12,9 +12,9 @@ import tools.vitruv.change.atomic.feature.attribute.ReplaceSingleValuedEAttribut
 public class AddTypeMatcher implements ICompositeChangeMatcher {
 	private List<EChange> changeSeq;
 
-	private BaseAddElementChangeMatcher dataTypeCreation;
+	private BaseAddElementPCMChangeMatcher dataTypeCreation;
 	private ReplaceSingleValuedEAttribute renameDataType;
-	private BaseAddElementChangeMatcher interfaceCreation;
+	private BaseAddElementPCMChangeMatcher interfaceCreation;
 	private ReplaceSingleValuedEAttribute renameInterface;
 
 	private int idx;
@@ -69,7 +69,7 @@ public class AddTypeMatcher implements ICompositeChangeMatcher {
 		return false;
 	}
 
-	private boolean lookForNameChange(BaseAddElementChangeMatcher match) {
+	private boolean lookForNameChange(BaseAddElementPCMChangeMatcher match) {
 		while (!matchNameSet(match) && idx < changeSeq.size()) {
 			idx++;
 		}
@@ -80,7 +80,7 @@ public class AddTypeMatcher implements ICompositeChangeMatcher {
 		if (dataTypeCreation != null)
 			return false;
 
-		var addElem = new BaseAddElementChangeMatcher(changeSeq.get(idx), changeSeq);
+		var addElem = new BaseAddElementPCMChangeMatcher(changeSeq.get(idx), changeSeq);
 		if (addElem.match()) {
 			var type = addElem.getAddedElementType();
 			if (RepositoryPackage.Literals.DATA_TYPE.isSuperTypeOf(type)) {
@@ -95,7 +95,7 @@ public class AddTypeMatcher implements ICompositeChangeMatcher {
 		if (interfaceCreation != null)
 			return false;
 
-		var addElem = new BaseAddElementChangeMatcher(changeSeq.get(idx), changeSeq);
+		var addElem = new BaseAddElementPCMChangeMatcher(changeSeq.get(idx), changeSeq);
 		if (addElem.match()) {
 			var type = addElem.getAddedElementType();
 			if (RepositoryPackage.Literals.INTERFACE.isSuperTypeOf(type)) {
@@ -106,7 +106,7 @@ public class AddTypeMatcher implements ICompositeChangeMatcher {
 		return false;
 	}
 
-	private boolean matchNameSet(BaseAddElementChangeMatcher match) {
+	private boolean matchNameSet(BaseAddElementPCMChangeMatcher match) {
 		if (idx >= changeSeq.size()) {
 			return false;
 		}

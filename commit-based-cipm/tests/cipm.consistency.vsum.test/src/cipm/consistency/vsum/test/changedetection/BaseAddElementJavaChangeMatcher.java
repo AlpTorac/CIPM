@@ -11,14 +11,14 @@ import tools.vitruv.change.atomic.eobject.CreateEObject;
 import tools.vitruv.change.atomic.feature.attribute.ReplaceSingleValuedEAttribute;
 import tools.vitruv.change.atomic.feature.reference.AdditiveReferenceEChange;
 
-public class BaseAddElementChangeMatcher implements ICompositeChangeMatcher {
+public class BaseAddElementJavaChangeMatcher implements ICompositeChangeMatcher {
 	private List<EChange> changeSeq;
 
 	private CreateEObject cc;
 	private AdditiveReferenceEChange ar;
 	private ReplaceSingleValuedEAttribute rsva;
 
-	public BaseAddElementChangeMatcher(EChange cc, List<EChange> changeSeq) {
+	public BaseAddElementJavaChangeMatcher(EChange cc, List<EChange> changeSeq) {
 		this.changeSeq = changeSeq;
 		if (cc instanceof CreateEObject) {
 			this.cc = (CreateEObject) cc;
@@ -28,7 +28,7 @@ public class BaseAddElementChangeMatcher implements ICompositeChangeMatcher {
 	public EClass getAddedElementType() {
 		return cc != null ? cc.getAffectedEObjectType() : null;
 	}
-	
+
 	public List<EChange> getAtomicChanges() {
 		var list = new ArrayList<EChange>();
 		if (cc != null)
@@ -61,6 +61,10 @@ public class BaseAddElementChangeMatcher implements ICompositeChangeMatcher {
 	}
 
 	private boolean matchIDChange(EChange rsva) {
+		if (!IdentifierPackage.Literals.IDENTIFIER.isSuperTypeOf(cc.getAffectedEObjectType()))
+			// No ID feature set change to look for
+			return true;
+
 		if (rsva instanceof ReplaceSingleValuedEAttribute) {
 			var castedRSVA = (ReplaceSingleValuedEAttribute) rsva;
 			if (castedRSVA.getAffectedFeature().getName().equals(IdentifierPackage.Literals.IDENTIFIER__ID.getName())

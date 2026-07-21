@@ -9,13 +9,13 @@ import tools.vitruv.change.atomic.EChange;
 import tools.vitruv.change.atomic.eobject.DeleteEObject;
 import tools.vitruv.change.atomic.feature.reference.SubtractiveReferenceEChange;
 
-public class DeleteSimpleElementMatcher implements ICompositeChangeMatcher {
+public class DeleteSimpleElementJavaChangeMatcher implements ICompositeChangeMatcher {
 	private List<EChange> changeSeq;
 
 	private SubtractiveReferenceEChange sr;
 	private DeleteEObject dc;
 
-	public DeleteSimpleElementMatcher(EChange sr, List<EChange> changeSeq) {
+	public DeleteSimpleElementJavaChangeMatcher(EChange sr, List<EChange> changeSeq) {
 		this.changeSeq = changeSeq;
 		if (sr instanceof SubtractiveReferenceEChange) {
 			this.sr = (SubtractiveReferenceEChange) sr;
@@ -41,8 +41,7 @@ public class DeleteSimpleElementMatcher implements ICompositeChangeMatcher {
 			var castedDC = (DeleteEObject) dc;
 			var type = (EClass) sr.getAffectedFeature().getEType();
 
-			if (castedDC.getAffectedEObjectID().equals(sr.getOldValueID())
-					&& type.isSuperTypeOf(castedDC.getAffectedEObjectType())) {
+			if (type.isSuperTypeOf(castedDC.getAffectedEObjectType())) {
 				this.dc = castedDC;
 				return true;
 			}
