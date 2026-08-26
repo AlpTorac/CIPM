@@ -6,8 +6,6 @@ Bundle-Version: 0.2.0.qualifier
 Bundle-Vendor: www.splevo.org
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Require-Bundle: org.splevo.extraction,
- org.emftext.language.java,
- jamopp.resource,
  org.eclipse.emf.ecore.xmi,
  org.apache.commons.io,
  org.apache.log4j,

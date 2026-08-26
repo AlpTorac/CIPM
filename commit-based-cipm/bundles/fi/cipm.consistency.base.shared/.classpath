@@ -6,7 +6,11 @@
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry excluding="**/*.xcore|**/*.ecore|**/*.genmodel" kind="src" output="bin/main" path="src/main/resources"/>
+	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="dep-gen/org.cache2k.cache2k-api-1.2.4.Final.jar"/>
 	<classpathentry kind="lib" path="dep-gen/org.cache2k.cache2k-core-1.2.4.Final.jar"/>
 	<classpathentry kind="lib" path="dep-gen/org.pcm.headless.api-0.6.3.jar"/>
