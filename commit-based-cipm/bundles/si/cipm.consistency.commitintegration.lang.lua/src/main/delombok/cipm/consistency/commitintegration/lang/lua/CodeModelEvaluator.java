@@ -33,7 +33,7 @@ import org.eclipse.xtext.xbase.lib.Functions.Function0;
 import org.eclipse.xtext.xbase.lib.InputOutput;
 import org.xtext.lua.LuaStandaloneSetup;
 
-@SuppressWarnings("all")
+/* @InjectWith(/* name is null */) */@SuppressWarnings("all")
 public class CodeModelEvaluator {
   @Inject
   @Extension
