@@ -47,6 +47,10 @@
 			<artifactId>edu.kit.ipd.sdq.commons.util.emf</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>tools.vitruv</groupId>
+			<artifactId>edu.kit.ipd.sdq.activextendannotations</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>cipm.consistency</groupId>
 			<artifactId>org.splevo.diffing</artifactId>
 		</dependency>
