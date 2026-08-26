@@ -10,15 +10,8 @@ Require-Bundle: org.apache.log4j,
  org.eclipse.xtend.lib,
  org.eclipse.xtend.lib.macro,
  org.eclipse.emf.ecore,
- org.emftext.language.java,
  org.palladiosimulator.pcm,
- org.somox.sourcecodedecorator,
- tools.vitruv.change.interaction,
- tools.vitruv.change.correspondence,
- tools.vitruv.change.atomic,
- tools.vitruv.applications.pcmjava.seffstatements,
- tools.vitruv.change.propagation,
- tools.vitruv.dsls.reactions.runtime
+ tools.vitruv.applications.pcmjava.seffstatements
 Export-Package: tools.cipm.seff.pojotransformations,
  tools.cipm.seff.pojotransformations.code2seff
 Automatic-Module-Name: tools.vitruv.applications.pcmjava.seffstatements.pojotransformations
