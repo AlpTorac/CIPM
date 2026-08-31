@@ -6,13 +6,3 @@ Bundle-Version: 0.3.0.qualifier
 Automatic-Module-Name: cipm.consistency.commitintegration.lang.java
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Export-Package: cipm.consistency.commitintegration.lang.java
-Require-Bundle: org.apache.commons.io,
- cipm.consistency.models,
- org.apache.log4j,
- org.splevo.diffing,
- org.eclipse.emf.edit,
- cipm.consistency.commitintegration,
- cipm.consistency.tools.evaluation.data,
- cipm.consistency.commitintegration.settings,
- org.eclipse.xtext.xbase.lib,
- cipm.consistency.commitintegration.diff.util
