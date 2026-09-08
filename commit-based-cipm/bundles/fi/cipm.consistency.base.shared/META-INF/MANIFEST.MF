@@ -5,7 +5,6 @@ Bundle-SymbolicName: cipm.consistency.base.shared;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Automatic-Module-Name: cipm.consistency.base.shared
 Bundle-RequiredExecutionEnvironment: JavaSE-11
-Require-Bundle: org.palladiosimulator.pcm
 Export-Package: cipm.consistency.base.shared,
  cipm.consistency.base.shared.json,
  cipm.consistency.base.shared.pcm,

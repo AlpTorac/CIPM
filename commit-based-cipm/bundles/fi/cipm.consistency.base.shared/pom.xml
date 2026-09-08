@@ -30,12 +30,34 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.palladiosimulator.commons</groupId>
+			<artifactId>de.uka.ipd.sdq.stoex</artifactId>
+			<version>5.0.0.202102051655</version>
+		</dependency>
+		<dependency>
+			<groupId>org.palladiosimulator.commons</groupId>
+			<artifactId>de.uka.ipd.sdq.identifier</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>tools.vitruv</groupId>
 			<artifactId>tools.vitruv.framework.vsum</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.emf</groupId>
 			<artifactId>org.eclipse.emf.ecore.xmi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.common</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf</groupId>
+			<artifactId>org.eclipse.emf.ecore</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.emf.cdo</groupId>
+			<artifactId>org.eclipse.emf.cdo</artifactId>
+			<version>4.19.0.v20220907-1437</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
