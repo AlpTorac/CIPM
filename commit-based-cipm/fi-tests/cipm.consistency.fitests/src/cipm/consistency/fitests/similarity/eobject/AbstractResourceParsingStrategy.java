@@ -133,9 +133,7 @@ public abstract class AbstractResourceParsingStrategy {
 	 * Parses a ResourceSet for the model at given path.
 	 * 
 	 * @param modelSourceFileDirPath The path to a given model source file
-	 *                               directory. Refer to the concrete implementation
-	 *                               for more information on where this path is
-	 *                               supposed to point at.
+	 *                               directory.
 	 * @return A ResourceSet that contains all parsed Resource instances for the
 	 *         given model source file directory path.
 	 */
