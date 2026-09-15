@@ -12,10 +12,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.fitests.similarity.jamopp.parser.FileUtil;
-import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.DefaultTimeMeasurementDataStructure;
-import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.GSONLoadingStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.GSONPersistingStrategy;
-import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.GeneralTimeMeasurementTag;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ITimeMeasurementDataStructure;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ITimeMeasurementLoadingStrategy;
 import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ITimeMeasurementPersistingStrategy;
@@ -36,10 +33,7 @@ import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ParserT
 public class GSONTest {
 	private static final DateTimeFormatter fileContentTimePattern = DateTimeFormatter.ISO_DATE_TIME;
 
-	@SuppressWarnings("unchecked")
-	private static final ITimeMeasurementLoadingStrategy loadingStrat = new GSONLoadingStrategy(fileContentTimePattern,
-			DefaultTimeMeasurementDataStructure.class,
-			new Class[] { GeneralTimeMeasurementTag.class, RepoTimeMeasurementTag.class });
+	private static final ITimeMeasurementLoadingStrategy loadingStrat = new DefaultGSONLoadingStrategy();
 	private static final ITimeMeasurementPersistingStrategy persistingStrat = new GSONPersistingStrategy(
 			fileContentTimePattern);
 
