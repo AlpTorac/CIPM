@@ -86,7 +86,9 @@ public abstract class AbstractJaMoPPParserSimilarityTest extends AbstractJaMoPPS
 	 * Computed here as a static final variable, so that the current test run uses
 	 * the same folder across all concrete test classes
 	 */
-	private static final int previousTimeMeasurementCount = timeMeasurementsSaveRootPath.toFile().list().length + 1;
+	private static final int previousTimeMeasurementCount = timeMeasurementsSaveRootPath.toFile().exists()
+			? timeMeasurementsSaveRootPath.toFile().list().length + 1
+			: 1;
 	/**
 	 * @see {@link ParserTestFileLayout#getTimeMeasurementFileExtension()}
 	 */
