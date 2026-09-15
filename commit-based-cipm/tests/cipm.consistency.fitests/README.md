@@ -2,7 +2,25 @@
 
 cipm.consistency.fitests ("fitests" for short) plug-in contains tests for various aspects of similarity checking and model comparison. fitests is structured in a way that minimises dependencies to outside plug-ins. To this end, there are several abstract test classes that extend one another. This way, many different parts of fitests can be re-used in the future to implement further tests for EMF-based models. The "package-info.java" files under packages of fitests contain more information on their respective packages.
 
+# Package Structure
+
+The overview of the individual packages within this plug-in are as follows:
+
+- cipm.consistency.fitests.similarity, cipm.consistency.fitests.similarity.eobject, cipm.consistency.fitests.similarity.jamopp: Contain abstract test classes, test options and utility classes for model resources.
+
+- cipm.consistency.fitests.similarity.jamopp.parser: Contains an abstract test class extension for similarity checking tests that parse model resource instances and utility classes for caching model resources and file operations.
+
+- cipm.consistency.fitests.similarity.jamopp.parser.resultprovider: Contains classes to compute expected similarity checking results, based on the parsed model resources.
+
+- cipm.consistency.fitests.similarity.jamopp.parser.testfactory: Contains dynamic test generation logic for concrete tests.
+
+- cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement: Contains the means to take time measurements, data structures for time measurements, persisting taken time measurements, loading previous time measurements.
+
+Each package additionally has its own `package-info.java` file, which describes it further.
+
 # Contained Tests
+
+There are different kinds of tests within this plug-in, which are described below.
 
 ## Unittests
 
