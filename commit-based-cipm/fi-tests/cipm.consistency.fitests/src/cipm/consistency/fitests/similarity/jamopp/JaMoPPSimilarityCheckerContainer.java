@@ -14,7 +14,7 @@ import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
  * 
  * @author Alp Torac Genc
  */
-public class JaMoPPSimilarityCheckerContainer implements ISimilarityCheckerContainer {
+public class JaMoPPSimilarityCheckerContainer implements ISimilarityCheckerContainer<EObject> {
 	private SimilarityChecker sc;
 
 	private SimilarityChecker getSimilarityChecker() {
@@ -30,13 +30,12 @@ public class JaMoPPSimilarityCheckerContainer implements ISimilarityCheckerConta
 	}
 
 	@Override
-	public Boolean isSimilar(Object element1, Object element2) {
-		return this.getSimilarityChecker().isSimilar((EObject) element1, (EObject) element2);
+	public Boolean isSimilar(EObject element1, EObject element2) {
+		return this.getSimilarityChecker().isSimilar(element1, element2);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
-	public Boolean areSimilar(Collection<?> elements1, Collection<?> elements2) {
+	public Boolean areSimilar(Collection<EObject> elements1, Collection<EObject> elements2) {
 		return this.getSimilarityChecker().areSimilar((List<EObject>) elements1, (List<EObject>) elements2);
 	}
 }

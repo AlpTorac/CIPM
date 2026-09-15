@@ -1,5 +1,7 @@
 package cipm.consistency.fitests.similarity.jamopp;
 
+import org.eclipse.emf.ecore.EObject;
+
 import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
 import cipm.consistency.fitests.similarity.eobject.AbstractEObjectSimilarityTest;
 
@@ -11,7 +13,7 @@ import cipm.consistency.fitests.similarity.eobject.AbstractEObjectSimilarityTest
  */
 public abstract class AbstractJaMoPPSimilarityTest extends AbstractEObjectSimilarityTest {
 	@Override
-	protected ISimilarityCheckerContainer initSCC() {
+	protected ISimilarityCheckerContainer<EObject> initSCC() {
 		return new JaMoPPSimilarityCheckerContainer();
 	}
 

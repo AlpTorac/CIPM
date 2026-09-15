@@ -18,7 +18,7 @@ import cipm.consistency.fitests.similarity.ISimilarityCheckerContainer;
  * @author Alp Torac Genc
  */
 public class ResourceContentSimilarityResultProvider implements IExpectedSimilarityResultProvider {
-	private ISimilarityCheckerContainer scc;
+	private ISimilarityCheckerContainer<EObject> scc;
 	/**
 	 * @see {@link #ResourceContentSimilarityResultProvider(ISimilarityCheckerContainer, boolean)}
 	 */
@@ -30,7 +30,7 @@ public class ResourceContentSimilarityResultProvider implements IExpectedSimilar
 	 * @param contentOrderMatters Whether the order of the contents of the model
 	 *                            resources should be accounted for
 	 */
-	public ResourceContentSimilarityResultProvider(ISimilarityCheckerContainer scc, boolean contentOrderMatters) {
+	public ResourceContentSimilarityResultProvider(ISimilarityCheckerContainer<EObject> scc, boolean contentOrderMatters) {
 		this.scc = scc;
 		this.contentOrderMatters = contentOrderMatters;
 	}

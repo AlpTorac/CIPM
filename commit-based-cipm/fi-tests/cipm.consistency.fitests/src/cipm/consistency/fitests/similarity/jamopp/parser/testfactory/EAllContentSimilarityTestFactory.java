@@ -25,9 +25,9 @@ import cipm.consistency.fitests.similarity.jamopp.parser.timemeasurement.ParserT
 public class EAllContentSimilarityTestFactory extends AbstractJaMoPPParserSimilarityTestFactory {
 	private static final String description = "areSimilar on eAllContents";
 
-	private ISimilarityCheckerContainer scc;
+	private ISimilarityCheckerContainer<EObject> scc;
 
-	public EAllContentSimilarityTestFactory(ISimilarityCheckerContainer scc) {
+	public EAllContentSimilarityTestFactory(ISimilarityCheckerContainer<EObject> scc) {
 		this.scc = scc;
 	}
 

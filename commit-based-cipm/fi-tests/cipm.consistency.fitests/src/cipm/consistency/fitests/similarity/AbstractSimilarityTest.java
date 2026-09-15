@@ -9,12 +9,14 @@ import org.junit.jupiter.api.BeforeEach;
  * An abstract class for similarity checking tests to extend.
  * 
  * @author Alp Torac Genc
+ * 
+ * @param <T> The type of the elements that will be similarity checked.
  */
-public abstract class AbstractSimilarityTest {
+public abstract class AbstractSimilarityTest<T> {
 	/**
 	 * @see {@link #getSCC()}
 	 */
-	private ISimilarityCheckerContainer scc;
+	private ISimilarityCheckerContainer<T> scc;
 
 	/**
 	 * Sets up the necessary variables before tests are run. <br>
@@ -63,7 +65,7 @@ public abstract class AbstractSimilarityTest {
 	 * @return The {@link ISimilarityCheckerContainer} (SCC) that will be used to
 	 *         store the similarity checker under test.
 	 */
-	protected ISimilarityCheckerContainer getSCC() {
+	protected ISimilarityCheckerContainer<T> getSCC() {
 		return this.scc;
 	}
 
@@ -83,7 +85,7 @@ public abstract class AbstractSimilarityTest {
 	 * If necessary, it can be overridden in tests to change the said similarity
 	 * checker during set up.
 	 */
-	protected abstract ISimilarityCheckerContainer initSCC();
+	protected abstract ISimilarityCheckerContainer<T> initSCC();
 
 	/**
 	 * Sets the used {@link ISimilarityCheckerContainer} to the given one. <br>
@@ -94,7 +96,7 @@ public abstract class AbstractSimilarityTest {
 	 * @see {@link #initSCC()} for setting the {@link ISimilarityCheckerContainer}
 	 *      during set up.
 	 */
-	protected void setSCC(ISimilarityCheckerContainer scc) {
+	protected void setSCC(ISimilarityCheckerContainer<T> scc) {
 		this.scc = scc;
 	}
 
@@ -102,7 +104,7 @@ public abstract class AbstractSimilarityTest {
 	 * Delegates similarity checking to the underlying
 	 * {@link ISimilarityCheckerContainer}.
 	 */
-	public Boolean isSimilar(Object element1, Object element2) {
+	public Boolean isSimilar(T element1, T element2) {
 		return this.getSCC().isSimilar(element1, element2);
 	}
 
@@ -110,7 +112,7 @@ public abstract class AbstractSimilarityTest {
 	 * Delegates similarity checking to the underlying
 	 * {@link ISimilarityCheckerContainer}.
 	 */
-	public Boolean areSimilar(Collection<?> elements1, Collection<?> elements2) {
+	public Boolean areSimilar(Collection<T> elements1, Collection<T> elements2) {
 		return this.getSCC().areSimilar(elements1, elements2);
 	}
 

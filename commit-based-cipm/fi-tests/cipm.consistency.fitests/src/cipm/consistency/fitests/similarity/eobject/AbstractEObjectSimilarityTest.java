@@ -1,5 +1,6 @@
 package cipm.consistency.fitests.similarity.eobject;
 
+import org.eclipse.emf.ecore.EObject;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -10,7 +11,7 @@ import cipm.consistency.fitests.similarity.AbstractSimilarityTest;
  * 
  * @author Alp Torac Genc
  */
-public abstract class AbstractEObjectSimilarityTest extends AbstractSimilarityTest {
+public abstract class AbstractEObjectSimilarityTest extends AbstractSimilarityTest<EObject> {
 	/**
 	 * @see {@link #getResourceParsingStrategy()}
 	 */

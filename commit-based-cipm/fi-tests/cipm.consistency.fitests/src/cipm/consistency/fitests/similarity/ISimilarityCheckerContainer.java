@@ -12,13 +12,16 @@ import java.util.Collection;
  * re-usability. <br>
  * <br>
  * The underlying similarity checking mechanism(s) can be reset by using the
- * {@link #resetSimilarityChecker()} method. The similarity checking mechanism(s)
- * are not automatically re-created upon calling similarity checking methods in
- * this interface, because it might be desirable to keep using them.
+ * {@link #resetSimilarityChecker()} method. The similarity checking
+ * mechanism(s) are not automatically re-created upon calling similarity
+ * checking methods in this interface, because it might be desirable to keep
+ * using them.
+ * 
+ * @param <T> The type of the elements that will be similarity checked.
  * 
  * @author Alp Torac Genc
  */
-public interface ISimilarityCheckerContainer {
+public interface ISimilarityCheckerContainer<T> {
 	/**
 	 * If there are no similarity checking mechanism(s) present, this method creates
 	 * and sets them up. Otherwise, replaces the currently stored similarity
@@ -32,15 +35,15 @@ public interface ISimilarityCheckerContainer {
 
 	/**
 	 * Delegates similarity checking to the similarity checking mechanism(s) within.
-	 * Calls {@link #resetSimilarityChecker()} beforehand, if there are no similarity
-	 * checking mechanism(s) present.
+	 * Calls {@link #resetSimilarityChecker()} beforehand, if there are no
+	 * similarity checking mechanism(s) present.
 	 */
-	public Boolean isSimilar(Object element1, Object element2);
+	public Boolean isSimilar(T element1, T element2);
 
 	/**
 	 * Delegates similarity checking to the similarity checking mechanism(s) within.
-	 * Calls {@link #resetSimilarityChecker()} beforehand, if there are no similarity
-	 * checking mechanism(s) present.
+	 * Calls {@link #resetSimilarityChecker()} beforehand, if there are no
+	 * similarity checking mechanism(s) present.
 	 */
-	public Boolean areSimilar(Collection<?> elements1, Collection<?> elements2);
+	public Boolean areSimilar(Collection<T> elements1, Collection<T> elements2);
 }
