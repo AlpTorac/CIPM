@@ -5,8 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 /**
- * A test class for {@link RepoTestSimilarityResultCache}, which ensures that it works as
- * expected and that its properties hold.
+ * A test class for {@link RepoTestSimilarityResultCache}, which ensures that it
+ * works as expected and that its properties hold.
  * 
  * @author Alp Torac Genc
  */
@@ -257,7 +257,7 @@ public class RepoTestResultCacheTest {
 			for (int j = 0; j < commitIDs.length; j++) {
 				var areCommitIDsAdjadent = i == j + 1 || j == i + 1;
 
-				this.testIsInCache(commitIDs[i], commitIDs[j], i == j + 1 || j == i + 1);
+				this.testIsInCache(commitIDs[i], commitIDs[j], areCommitIDsAdjadent);
 				this.testCacheResult(commitIDs[i], commitIDs[j], (areCommitIDsAdjadent || i == j) ? Boolean.TRUE : null,
 						Boolean.TRUE);
 			}
