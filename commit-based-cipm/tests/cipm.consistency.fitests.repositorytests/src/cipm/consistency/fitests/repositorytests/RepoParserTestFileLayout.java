@@ -76,22 +76,15 @@ public class RepoParserTestFileLayout extends ParserTestFileLayout {
 	 * @return The URI, at which the parsed commit's model resource will point at.
 	 */
 	public URI getModelResourceSaveURIForCommit(String commitID) {
-		return URI.createFileURI(this.getModelResourceSaveRootDirectory().toString()).appendSegment(this.repoName)
-				.appendSegment(commitID).appendFileExtension(this.getModelResourceFileExtension());
+		return URI.createFileURI(this.getModelResourceSavePathForCommit(commitID).toString());
 	}
 
 	/**
-	 * @return The path, where the given commit should be cloned
+	 * @return The path, at which the parsed commit's model resource will point at.
 	 */
-	public Path getRepoClonePathForCommit(String commitID) {
-		return this.getModelSourceParentRootDirPath().resolve(commitID);
-	}
-
-	/**
-	 * @return The URI to the folder, where the given commit should be cloned
-	 */
-	public URI getRepoCloneURIForCommit(String commitID) {
-		return URI.createFileURI(this.getRepoClonePathForCommit(commitID).toString());
+	public Path getModelResourceSavePathForCommit(String commitID) {
+		return this.getModelResourceSaveRootDirectory().resolve(this.repoName)
+				.resolve(commitID + "." + this.getModelResourceFileExtension());
 	}
 
 	/**

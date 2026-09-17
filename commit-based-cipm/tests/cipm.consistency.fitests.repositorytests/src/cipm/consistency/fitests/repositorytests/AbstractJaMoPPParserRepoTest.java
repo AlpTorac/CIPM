@@ -483,7 +483,7 @@ public abstract class AbstractJaMoPPParserRepoTest extends AbstractJaMoPPParserS
 
 			SimilarityTestLogger.logDebugMsg(String.format("Caching resource for: %s", commitID), this.getClass());
 
-			var targetPath = this.getTestFileLayout().getRepoClonePathForCommit(commitID);
+			var targetPath = this.getTestFileLayout().getModelResourceSavePathForCommit(commitID);
 			IModelResourceWrapper commitRes = null;
 
 			/*
