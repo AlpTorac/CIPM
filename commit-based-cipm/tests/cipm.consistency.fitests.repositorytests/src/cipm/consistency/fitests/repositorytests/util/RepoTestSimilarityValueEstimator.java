@@ -9,9 +9,14 @@ import java.util.List;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
+import org.eclipse.jgit.diff.Edit;
+import org.eclipse.jgit.diff.EditList;
+import org.eclipse.jgit.diff.RawText;
+import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
 import org.eclipse.jgit.treewalk.filter.PathSuffixFilter;
+import org.eclipse.jgit.util.StringUtils;
 
 import cipm.consistency.fitests.repositorytests.util.commentremoval.QuickCommentRemover;
 import cipm.consistency.fitests.repositorytests.util.difffilter.DiffFilter;
@@ -33,74 +38,6 @@ public class RepoTestSimilarityValueEstimator {
 	private int contextLineCount = defaultContextLineCount;
 
 	/**
-	 * @param os          The {@link OutputStream} used by df
-	 * @param df          The {@link DiffFormatter} that created diffEntries
-	 * @param diffEntries A list of {@link DiffEntry} instances from diffing 2
-	 *                    commits C1 and C2
-	 * @return Whether model resources parsed from C1 and C2 are similar according
-	 *         to this instance
-	 */
-	public boolean getExpectedSimilarityValueFor(OutputStream os, DiffFormatter df, List<DiffEntry> diffEntries) {
-		try (var outputStream = os; var diffFormatter = df) {
-			for (var e : diffEntries) {
-				diffFormatter.format(e);
-				// Adapt all new lines to the current system
-				var code = this
-						.getEffectiveLines(outputStream.toString().replaceAll("\\r?\\n", System.lineSeparator()));
-				var expectedSimVal = this.computeExpectedSimilarityValue(code);
-				if (!expectedSimVal)
-					return false;
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new IllegalStateException("IOException occured while computing expected similarity result", e);
-		}
-
-		return true;
-	}
-
-	/**
-	 * @param diffEntries A list of {@link DiffEntry} instances from diffing 2
-	 *                    commits C1 and C2
-	 * @return Whether model resources parsed from C1 and C2 are similar according
-	 *         to this instance
-	 */
-	public boolean getExpectedSimilarityValueFor(List<DiffEntry> diffEntries) {
-		try (var os = new ByteArrayOutputStream()) {
-			return this.getExpectedSimilarityValueFor(os, new DiffFormatter(os), diffEntries);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new IllegalStateException("IOException occured while computing expected similarity result", e);
-		}
-	}
-
-	/**
-	 * A variant of {@link #getExpectedSimilarityValueFor(Git, String, String)},
-	 * where the commit parameters are replaced with their corresponding
-	 * {@link AbstractTreeIterator}.
-	 * 
-	 * @param git         The object enclosing the GIT-repository that contains the
-	 *                    given commits
-	 * @param oldTreeIter A tree iterator from a commit from git
-	 * @param newTreeIter A tree iterator from another commit from git
-	 */
-	public boolean getExpectedSimilarityValueFor(Git git, AbstractTreeIterator oldTreeIter,
-			AbstractTreeIterator newTreeIter) {
-		try (var os = new ByteArrayOutputStream(); var df = new DiffFormatter(os)) {
-			df.setRepository(git.getRepository());
-			df.setContext(this.getContextLineCount());
-			df.setPathFilter(PathSuffixFilter.create(".java"));
-
-			var entries = df.scan(oldTreeIter, newTreeIter);
-
-			return this.getExpectedSimilarityValueFor(os, df, entries);
-		} catch (IOException e) {
-			e.printStackTrace();
-			throw new IllegalStateException("IOException occured while computing expected similarity result", e);
-		}
-	}
-
-	/**
 	 * @param git       The object enclosing the GIT-repository that contains the
 	 *                  given commits
 	 * @param commitID1 A commit from git
@@ -109,7 +46,14 @@ public class RepoTestSimilarityValueEstimator {
 	 *         according to this instance
 	 */
 	public boolean getExpectedSimilarityValueFor(Git git, String commitID1, String commitID2) {
-		try (var reader = git.getRepository().newObjectReader()) {
+		try (var reader = git.getRepository().newObjectReader();
+				var os = new ByteArrayOutputStream();
+				var df = new DiffFormatter(os)) {
+
+			df.setRepository(git.getRepository());
+			df.setContext(this.getContextLineCount());
+			df.setPathFilter(PathSuffixFilter.create(".java"));
+
 			var oldTreeIter = new CanonicalTreeParser();
 			var oldTree = git.getRepository().resolve(commitID1 + treeIDSuffix);
 			oldTreeIter.reset(reader, oldTree);
@@ -118,65 +62,58 @@ public class RepoTestSimilarityValueEstimator {
 			var newTree = git.getRepository().resolve(commitID2 + treeIDSuffix);
 			newTreeIter.reset(reader, newTree);
 
-			return this.getExpectedSimilarityValueFor(git, oldTreeIter, newTreeIter);
+			var diffEntries = df.scan(oldTreeIter, newTreeIter);
+
+			List<String> removedLines = new ArrayList<>();
+			List<String> addedLines = new ArrayList<>();
+
+			for (var entry : diffEntries) {
+				FileHeader header = df.toFileHeader(entry);
+				EditList edits = header.toEditList();
+
+				var abbrOldObjId = entry.getOldId();
+				var abbrNewObjId = entry.getNewId();
+
+				var oldObjId = abbrOldObjId != null ? abbrOldObjId.toObjectId() : null;
+				var newObjId = abbrNewObjId != null ? abbrNewObjId.toObjectId() : null;
+
+				var oldObj = reader.has(oldObjId) ? reader.open(oldObjId) : null;
+				var newObj = reader.has(newObjId) ? reader.open(newObjId) : null;
+
+				RawText oldText = oldObj != null ? new RawText(oldObj.getBytes()) : null;
+				RawText newText = newObj != null ? new RawText(newObj.getBytes()) : null;
+
+				for (Edit edit : edits) {
+					// Removed lines (old side) -> '-' prefix
+					if (oldText != null) {
+						for (int i = edit.getBeginA(); i < edit.getEndA(); i++) {
+							String line = oldText.getString(i).trim();
+							if (!line.isBlank())
+								removedLines.add(line);
+						}
+					}
+					// Added lines (new side) -> '+' prefix
+					if (newText != null) {
+						for (int i = edit.getBeginB(); i < edit.getEndB(); i++) {
+							String line = newText.getString(i).trim();
+							if (!line.isBlank())
+								addedLines.add(line);
+						}
+					}
+				}
+			}
+
+			var filter = new DiffFilter();
+			var cr = new QuickCommentRemover();
+
+			var added = StringUtils.join(filter.splitLines(cr.removeComments(filter.concatLines(addedLines))), "");
+			var removed = StringUtils.join(filter.splitLines(cr.removeComments(filter.concatLines(removedLines))), "");
+
+			return added.equals(removed);
 		} catch (IOException e) {
 			e.printStackTrace();
 			throw new IllegalStateException("IOException occured while computing expected similarity result", e);
 		}
-	}
-
-	/**
-	 * @param text A diff patch (or a snippet thereof) as string
-	 * @return All non-blank lines from the given diff patch, which contain actual
-	 *         changes to the text.
-	 */
-	public List<String> getEffectiveLines(String text) {
-		var filter = new DiffFilter();
-		var cr = new QuickCommentRemover();
-
-		var result = cr.removeComments(text);
-		var lines = filter.splitLines(result);
-		lines = filter.removeContextLines(lines);
-		lines = filter.removeNonPatchScript(lines);
-		lines = filter.removeBlankLines(lines);
-
-		return lines;
-	}
-
-	/**
-	 * Computes whether applying the changes in the given diff DOES NOT introduce
-	 * any changes to the effective code, i.e. code without commentary and without
-	 * whitespaces. This is the case, if all inserting lines combined and all
-	 * removing lines combined are textually equal, such that applying the diff
-	 * patch results in the same effective code. <br>
-	 * <br>
-	 * Assuming the given diff is computed by comparing the commits oldCommit and
-	 * newCommit:
-	 * <ul>
-	 * <li>true: oldCommit is still similar to newCommit, without applying the diff
-	 * patch script on oldCommit
-	 * <li>false: The diff patch introduces changes to the effective code, meaning
-	 * that oldCommit and newCommit are not similar
-	 * </ul>
-	 * 
-	 * @param lines The effective code lines from a given diff patch script, without
-	 *              any metadata
-	 */
-	public boolean computeExpectedSimilarityValue(List<String> lines) {
-		var added = new ArrayList<String>();
-		var removed = new ArrayList<String>();
-
-		lines.stream().forEach((l) -> {
-			if (l.startsWith("+"))
-				added.add(l.substring(1).replaceAll("\\s", ""));
-			if (l.startsWith("-"))
-				removed.add(l.substring(1).replaceAll("\\s", ""));
-		});
-
-		var allAdded = added.stream().reduce("", (t1, t2) -> t1 + t2);
-		var allRemoved = removed.stream().reduce("", (t1, t2) -> t1 + t2);
-
-		return allAdded.equals(allRemoved);
 	}
 
 	/**
