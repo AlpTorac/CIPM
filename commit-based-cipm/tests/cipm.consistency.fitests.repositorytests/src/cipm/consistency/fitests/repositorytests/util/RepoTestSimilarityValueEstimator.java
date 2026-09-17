@@ -28,6 +28,7 @@ import cipm.consistency.fitests.repositorytests.util.difffilter.DiffFilter;
  * @author Alp Torac Genc
  */
 public class RepoTestSimilarityValueEstimator {
+	private static final String treeIDSuffix = "^{tree}";
 	private static final int defaultContextLineCount = 3;
 	private int contextLineCount = defaultContextLineCount;
 
@@ -110,11 +111,11 @@ public class RepoTestSimilarityValueEstimator {
 	public boolean getExpectedSimilarityValueFor(Git git, String commitID1, String commitID2) {
 		try (var reader = git.getRepository().newObjectReader()) {
 			var oldTreeIter = new CanonicalTreeParser();
-			var oldTree = git.getRepository().resolve(commitID1 + "^{tree}");
+			var oldTree = git.getRepository().resolve(commitID1 + treeIDSuffix);
 			oldTreeIter.reset(reader, oldTree);
 
 			var newTreeIter = new CanonicalTreeParser();
-			var newTree = git.getRepository().resolve(commitID2 + "^{tree}");
+			var newTree = git.getRepository().resolve(commitID2 + treeIDSuffix);
 			newTreeIter.reset(reader, newTree);
 
 			return this.getExpectedSimilarityValueFor(git, oldTreeIter, newTreeIter);
