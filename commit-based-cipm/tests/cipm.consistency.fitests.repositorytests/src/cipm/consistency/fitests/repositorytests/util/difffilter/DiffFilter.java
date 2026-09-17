@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.eclipse.jgit.util.StringUtils;
+
 /**
  * A class that can filter out the non-script parts of a given diff patch.
  * 
@@ -108,17 +110,10 @@ public class DiffFilter {
 	 * @return All lines as one String. Returns empty String if lines is null.
 	 */
 	public String concatLines(String... lines) {
-		var result = "";
-
 		if (lines == null)
-			return result;
+			return "";
 
-		for (int i = 0; i < lines.length - 1; i++)
-			result += lines[i] + lineSeparator;
-
-		result += lines[lines.length - 1];
-
-		return result;
+		return this.concatLines(List.of(lines));
 	}
 
 	/**
@@ -131,7 +126,7 @@ public class DiffFilter {
 		if (lines == null)
 			return "";
 
-		return this.concatLines(lines.toArray(String[]::new));
+		return StringUtils.join(lines, lineSeparator);
 	}
 
 	/**
