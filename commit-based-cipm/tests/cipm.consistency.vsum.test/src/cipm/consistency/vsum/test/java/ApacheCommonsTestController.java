@@ -140,6 +140,28 @@ public class ApacheCommonsTestController {
 
 	@Test
 	public void testApacheCommons() {
+		/*
+		 * TODO Fix
+		 * tools.vitruv.applications.util.temporary.JavaTypeUtil.hasSameTargetReference(
+		 * TypeReference, TypeReference)
+		 * 
+		 * Currently, there are 2 scenarios that lead to NullPointerExceptions:
+		 * 
+		 * 1) reference1 == null ^ reference2 == null
+		 * 
+		 * 2) target1 == null ^ target2 == null
+		 * 
+		 * In the case of 1) or 2), the method should return false. The fix is not
+		 * included, since the Vitruvius packages come from a GIT submodule. Hence it
+		 * currently has to be fixed manually by editing JavaTypeUtil.xtend and then
+		 * re-generating the corresponding .java files.
+		 * 
+		 * After fixing the above-mentioned bug, the change propagation of the Apache
+		 * repositories at the given commits runs successfully. Note that this is a
+		 * commit integration test case, meaning that the models (Java, PCM, IM) will be
+		 * build from scratch.
+		 */
+
 		var result = this.apacheCommonsController.propagateCurrentCheckout();
 		System.out.println(result.get());
 	}
