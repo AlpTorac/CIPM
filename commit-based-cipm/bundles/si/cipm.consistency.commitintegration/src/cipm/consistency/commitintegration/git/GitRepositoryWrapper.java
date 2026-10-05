@@ -834,4 +834,30 @@ public class GitRepositoryWrapper {
         currentCheckoutCommit = commit;
         return commit;
     }
+
+    /**
+     * Checks whether a submodule is currently checked out at the given commit,
+     * i.e. whether its HEAD resolves to that commit.
+     * 
+     * The id may be a full SHA, an abbreviated (short) SHA, a branch name, or
+     * a ref expression. If a branch name is given, the check compares against
+     * the commit the branch currently points to (not the branch name itself).
+     * 
+     * @param submodulePath path of the submodule relative to the root directory.
+     * @param id the commit id or branch to check against.
+     * @return true if the submodule's HEAD resolves to the given commit.
+     * @exception RefNotFoundException if the given id cannot be resolved to any commit.
+     * @exception IOException if a submodule repository cannot be opened or read.
+     */
+    public boolean isSubmoduleCheckedOutAt(String submodulePath, String id)
+            throws RefNotFoundException, IOException {
+        try (Git submodule = openSubmodule(submodulePath, new File(this.repoDir, submodulePath))) {
+            ObjectId expected = submodule.getRepository().resolve(id);
+            if (expected == null) {
+                throw new RefNotFoundException(id);
+            }
+            ObjectId headId = submodule.getRepository().resolve(Constants.HEAD);
+            return expected.equals(headId);
+        }
+    }
 }
