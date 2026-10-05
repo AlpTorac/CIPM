@@ -4,10 +4,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jgit.api.Git;
@@ -29,13 +32,17 @@ import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.CorruptObjectException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.RepositoryBuilder;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.submodule.SubmoduleStatus;
 import org.eclipse.jgit.submodule.SubmoduleWalk;
 import org.eclipse.jgit.treewalk.AbstractTreeIterator;
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
@@ -96,12 +103,13 @@ public class GitRepositoryWrapper {
         return this;
     }
 
+    private void readInitialState() throws NoHeadException, GitAPIException {
+        git.log().setMaxCount(1).call().forEach(c -> currentCheckoutCommit = c);
+    }
+    
     public GitRepositoryWrapper initialize() throws NoHeadException, GitAPIException {
 //        defaultBranch = repository.getBranch();
-        git.log()
-            .setMaxCount(1)
-            .call()
-            .forEach(c -> currentCheckoutCommit = c);
+    	readInitialState();
         return this;
     }
 
@@ -547,5 +555,283 @@ public class GitRepositoryWrapper {
     public String getCurrentCommitHash() {
         return currentCheckoutCommit.getId()
             .getName();
+    }
+    
+    /**
+     * Initializes a single existing submodule and clones its content, i.e. performs
+     * the {@code git submodule init <path>} and {@code git submodule update <path>}
+     * commands for the given submodule.
+     * 
+     * @param submodulePath path of the submodule relative to the root directory.
+     * @exception GitAPIException if unable to compute a result.
+     * @exception IOException if the submodule repository cannot be initialized.
+     */
+    public void initAndCloneSubmodule(String submodulePath) throws GitAPIException, IOException {
+        git.submoduleInit().addPath(submodulePath).call();
+        git.submoduleUpdate().addPath(submodulePath).call();
+        ensureSubmoduleGitFiles();
+    }
+
+    /**
+     * Initializes all existing submodules and clones their content,
+     * i.e. performs the {@code git submodule init} and {@code git submodule update}
+     * commands. Submodules which are already initialized and up-to-date are left untouched.
+     * 
+     * @exception GitAPIException if unable to compute a result.
+     * @exception IOException if a submodule repository cannot be initialized.
+     */
+    public void initAndCloneSubmodules() throws GitAPIException, IOException {
+        git.submoduleInit().call();
+        git.submoduleUpdate().call();
+        ensureSubmoduleGitFiles();
+    }
+    
+    /**
+     * Adds a new submodule to the repository, i.e. performs the
+     * {@code git submodule add} command. The submodule is registered in the
+     * index and {@code .gitmodules}, and its content is cloned into the given
+     * path inside the repository.
+     * 
+     * @param uriToSubmoduleRepository URI to the remote repository of the submodule.
+     * @param path path relative to the root directory at which the submodule is stored.
+     * @return the {@link Repository} of the newly added submodule.
+     * @exception InvalidRemoteException thrown when the remote repository is invalid.
+     * @exception TransportException thrown when the transport operation failed.
+     * @exception GitAPIException if unable to compute a result.
+     * @exception IOException if the submodule repository cannot be read or registered.
+     */
+    public Repository addSubmodule(String uriToSubmoduleRepository, String path)
+            throws InvalidRemoteException, TransportException, GitAPIException, IOException {
+        Repository submoduleRepository = git.submoduleAdd().setURI(uriToSubmoduleRepository).setPath(path).call();
+        ensureSubmoduleGitFiles();
+        return submoduleRepository;
+    }
+    
+    /**
+     * Stages the gitlink of a single submodule and commits it in the parent
+     * repository, i.e. records the submodule's current HEAD as the state
+     * associated with the parent commit. Useful after checkout operations
+     * inside a submodule.
+     * 
+     * @param submodulePath path of the submodule relative to the root directory.
+     * @param commitMessage message for the commit in the parent repository.
+     * @return the created commit.
+     * @exception GitAPIException if the staging or the commit fails, or the
+     *            repository has no head yet.
+     */
+    public RevCommit commitSubmoduleChange(String submodulePath, String commitMessage) throws GitAPIException {
+        git.add().addFilepattern(submodulePath).call();
+        RevCommit commit = git.commit().setMessage(commitMessage).call();
+        currentCheckoutCommit = commit;
+        return commit;
+    }
+    
+    /**
+     * Ensures that the {@code .git} gitfiles of all submodules exist, i.e. one-line files
+     * containing {@code gitdir: <path to the repository>} inside each submodule directory.
+     * JGit does not always create these files when cloning submodules, which makes the
+     * submodule working trees unopenable as repositories (in contrast to the git CLI).
+     * 
+     * @exception IOException if a gitfile cannot be read or written.
+     */
+    private void ensureSubmoduleGitFiles() throws IOException, GitAPIException {
+        Map<String, SubmoduleStatus> statuses = git.submoduleStatus().call();
+        for (String submodulePath : statuses.keySet()) {
+            File submoduleDirectory = new File(this.repoDir, submodulePath);
+            File gitFile = new File(submoduleDirectory, ".git");
+            if (gitFile.exists()) {
+                continue;
+            }
+            // JGit stores the cloned submodule repository under <parent>/.git/modules/<submodulePath>.
+            File moduleRepositoryDirectory = new File(git.getRepository().getDirectory(),"modules/" +  submodulePath);
+            if (new File(moduleRepositoryDirectory, "HEAD").exists()) {
+                Path gitDirPath = Paths.get(submoduleDirectory.getAbsolutePath())
+                        .relativize(Paths.get(moduleRepositoryDirectory.getAbsolutePath()));
+                FileUtils.writeStringToFile(gitFile,
+                        "gitdir: " + gitDirPath.toString() + System.lineSeparator(), StandardCharsets.UTF_8);
+            }
+        }
+    }
+    
+    /**
+     * Returns the paths of all submodules registered in the repository.
+     * 
+     * @return the list of all submodule paths relative to the root directory.
+     * @exception GitAPIException if unable to compute a result.
+     * @exception IOException if the repository cannot be read.
+     */
+    public List<String> getSubmodulePaths() throws GitAPIException, IOException {
+        List<String> submodulePaths = new ArrayList<>();
+        Map<String, SubmoduleStatus> statuses = git.submoduleStatus().call();
+        statuses.forEach((path, status) -> submodulePaths.add(path));
+        return submodulePaths;
+    }
+    
+    /**
+     * Performs the git checkout command inside a single submodule, i.e. checks out
+     * a commit id or branch in the submodule repository.
+     * 
+     * @param submodulePath path of the submodule relative to the root directory.
+     * @param id the commit id or branch to checkout in the submodule.
+     * @exception RefAlreadyExistsException thrown when trying to create a Ref with the same name as an existing one.
+     * @exception RefNotFoundException thrown when a Ref cannot be resolved.
+     * @exception InvalidRefNameException thrown when an invalid Ref name was encountered.
+     * @exception CheckoutConflictException thrown when a command cannot succeed because of unresolved conflicts.
+     * @exception GitAPIException if unable to compute a result.
+     * @exception IOException if the submodule repository cannot be read.
+     */
+    public void checkoutInSubmodule(String submodulePath, String id)
+            throws RefAlreadyExistsException, RefNotFoundException, InvalidRefNameException,
+            CheckoutConflictException, GitAPIException, IOException {
+        File submoduleDirectory = new File(this.repoDir, submodulePath);
+        Git submodule = openSubmodule(submodulePath, submoduleDirectory);
+        try {
+        	ensureBornHead(submodule.getRepository(), id);
+            submodule.checkout().setName(id).call();
+        } finally {
+            submodule.close();
+        }
+    }
+    
+    /**
+     * Ensures that the HEAD of the given repository can be resolved to a commit.
+     * If HEAD is unborn (a symbolic reference to a non-existing branch), HEAD is
+     * detached to the commit the given id resolves to. Without this, JGit's
+     * checkout refuses with {@code Cannot check out from unborn branch}, whereas
+     * the git CLI would perform the checkout.
+     * 
+     * @param repository the repository whose HEAD is checked and repaired.
+     * @param id the commit id or branch the subsequent checkout targets.
+     * @exception RefNotFoundException if the id cannot be resolved in the repository.
+     * @exception GitAPIException if a Git operation cannot be performed.
+     * @exception IOException if the repository cannot be read or written.
+     */
+    private void ensureBornHead(Repository repository, String id) throws RefNotFoundException,
+            GitAPIException, IOException {
+        var head = repository.exactRef(Constants.HEAD);
+        if (head != null && head.getObjectId() != null) {
+            return;
+        }
+        ObjectId target = repository.resolve(id);
+        if (target == null) {
+            throw new RefNotFoundException(id);
+        }
+        // Update the HEAD file itself (deref=false), turning the unborn symref
+        // into a detached HEAD at the target commit.
+        var headUpdate = repository.updateRef(Constants.HEAD, false);
+        headUpdate.disableRefLog();
+        headUpdate.setNewObjectId(target);
+        headUpdate.update();
+    }
+    
+    /**
+     * Opens the repository of a submodule. If the submodule directory cannot be opened
+     * directly (e.g. because JGit did not create its {@code .git} gitfile), the repository
+     * is opened from JGit's module storage under {@code <parent>/.git/modules/<submodulePath>}
+     * with the submodule directory as work tree.
+     * 
+     * @param submodulePath path of the submodule relative to the root directory.
+     * @param submoduleDirectory directory of the submodule in the file system.
+     * @return the {@link Git} instance of the submodule repository.
+     * @exception IOException if the submodule repository cannot be opened.
+     */
+    private Git openSubmodule(String submodulePath, File submoduleDirectory) throws IOException {
+        try {
+            return Git.open(submoduleDirectory);
+        } catch (RepositoryNotFoundException e) {
+            File moduleRepositoryDirectory = new File(git.getRepository().getDirectory(), "modules/" + submodulePath);
+            Repository submoduleRepository = new RepositoryBuilder()
+                    .setGitDir(moduleRepositoryDirectory)
+                    .setWorkTree(submoduleDirectory)
+                    .build();
+            return Git.wrap(submoduleRepository);
+        }
+    }
+    
+    /**
+     * Performs a git checkout command inside a single submodule at the commit which
+     * is recorded for the submodule in the current commit of the parent repository
+     * (i.e. the gitlink entry). This aligns the submodule with the state expected
+     * by the current commit of the parent repository.
+     * 
+     * @param submodulePath path of the submodule relative to the root directory.
+     * @exception RefAlreadyExistsException thrown when trying to create a Ref with the same name as an existing one.
+     * @exception RefNotFoundException thrown when a Ref cannot be resolved.
+     * @exception InvalidRefNameException thrown when an invalid Ref name was encountered.
+     * @exception CheckoutConflictException thrown when a command cannot succeed because of unresolved conflicts.
+     * @exception GitAPIException if unable to compute a result.
+     * @exception IOException if a repository cannot be read.
+     */
+    public void checkoutSubmoduleAtRecordedCommit(String submodulePath)
+            throws RefAlreadyExistsException, RefNotFoundException, InvalidRefNameException,
+            CheckoutConflictException, GitAPIException, IOException {
+        ObjectId gitlinkId = git.getRepository().resolve(Constants.HEAD + ":" + submodulePath);
+        if (gitlinkId != null) {
+            checkoutInSubmodule(submodulePath, gitlinkId.getName());
+        }
+    }
+    
+    /**
+     * Performs a git checkout command in all submodules at the commits which are
+     * recorded for them in the current commit of the parent repository.
+     * Submodules whose content has not been initialized or cloned yet are initialized first.
+     * 
+     * @exception GitAPIException if unable to compute a result.
+     * @exception IOException if a repository cannot be read.
+     */
+    public void checkoutAllSubmodulesAtRecordedCommits() throws GitAPIException, IOException {
+        Map<String, SubmoduleStatus> statuses = git.submoduleStatus().call();
+        for (String submodulePath : statuses.keySet()) {
+            // Ensure the submodule content exists before a checkout can be performed in it.
+            initAndCloneSubmodule(submodulePath);
+            checkoutSubmoduleAtRecordedCommit(submodulePath);
+        }
+    }
+    
+    /**
+     * Initializes a brand new empty Git repository in the root directory,
+     * i.e. performs the {@code git init} command. If the root directory does
+     * not exist yet, it is created. An existing Git repository in the root
+     * directory is left untouched (i.e. re-initializing is a no-op, just as
+     * for the git CLI command).
+     * 
+     * @exception GitAPIException if the repository cannot be created.
+     * @exception IOException if the repository cannot be read after its creation.
+     */
+    public void initNewRepository(File repoDir) throws GitAPIException, IOException {
+        FileUtils.forceMkdir(repoDir);
+        this.git = Git.init().setDirectory(repoDir).call();
+        this.repository = this.git.getRepository();
+        this.repoDir = repoDir;
+    }
+
+    /**
+     * Stages the gitlinks of all submodules whose current state differs from
+     * the state recorded in the index and commits the changes in the parent
+     * repository. This finalizes both adding submodules and checkout
+     * operations on submodules. If no submodule state has changed, no commit
+     * is created and the current latest commit is returned.
+     * 
+     * @param commitMessage message for the commit in the parent repository.
+     * @return the created commit, or the current latest commit if there was nothing to commit.
+     * @exception GitAPIException if the staging or the commit fails, or the
+     *            repository has no head yet.
+     * @exception IOException if the repository cannot be read.
+     */
+    public RevCommit commitAllSubmoduleChanges(String commitMessage) throws GitAPIException, IOException {
+        Map<String, SubmoduleStatus> statuses = git.submoduleStatus().call();
+        var addCommand = git.add();
+        for (Map.Entry<String, SubmoduleStatus> entry : statuses.entrySet()) {
+            // A gitlink differs if the submodule's HEAD does not match the id recorded in the index,
+            // or if the submodule is registered but not staged in the index at all.
+            if (entry.getValue().getHeadId().equals(entry.getValue().getIndexId())) {
+                addCommand.addFilepattern(entry.getKey());
+            }
+        }
+        // Stage .gitmodules as well, in case a submodule was added since the last commit.
+        addCommand.addFilepattern(".gitmodules").call();
+        RevCommit commit = git.commit().setMessage(commitMessage).call();
+        currentCheckoutCommit = commit;
+        return commit;
     }
 }
