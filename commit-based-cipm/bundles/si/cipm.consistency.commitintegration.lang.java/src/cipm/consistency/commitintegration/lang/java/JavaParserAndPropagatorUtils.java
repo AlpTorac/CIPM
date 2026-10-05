@@ -13,6 +13,7 @@ import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.emftext.language.java.JavaClasspath;
 import org.emftext.language.java.LogicalJavaURIGenerator;
 import org.emftext.language.java.classifiers.ConcreteClassifier;
+import org.emftext.language.java.commons.Commentable;
 import org.emftext.language.java.containers.CompilationUnit;
 import org.emftext.language.java.containers.JavaRoot;
 import org.emftext.language.java.containers.Origin;
@@ -123,7 +124,7 @@ public final class JavaParserAndPropagatorUtils {
 			targetResource.getContents().add(mod);
 			// For every compilation unit in the module, the module of its package is set to
 			// the newly created module.
-			v.stream().map(resource -> resource.getContents().get(0)).map(obj -> (CompilationUnit) obj)
+			v.stream().map(resource -> resource.getContents().get(0)).map(obj -> (Commentable) obj)
 					.map(cu -> cu.getChildrenByType(ConcreteClassifier.class)).flatMap(cc -> cc.stream())
 					.map(cc -> cc.getPackage()).filter(p -> p != null).forEach(p -> p.setModule(mod));
 		});
