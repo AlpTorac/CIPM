@@ -30,115 +30,104 @@ public class ApacheCommonsTestController {
 	private static final Logger LOGGER = Logger.getLogger(ApacheCommonsTestController.class);
 	private CommitIntegrationState<JavaModelFacade> state;
 	private ApacheCommonsCommitIntegration apacheCommonsController;
-	
+
 	private Path localRepositoriesDir = Paths.get("target", "apache-commons");
-	private Map<String, String> repoIdToRemoteRepository;
-	private Map<String, String> repoIdToCommitId;
+	private Map<String, RepoEntry> repoIdToEntry;
 	private Path rootPath = Paths.get("target", "ApacheCommonsTest");
 
-    /**
-     * 
-     * @param overwrite
-     *            Are existing files (models, etc.) to be deleted before initializing the commit
-     *            integration state?
-     * @throws GitAPIException
-     * @throws IOException
-     * @throws org.eclipse.jgit.api.errors.TransportException
-     * @throws InvalidRemoteException
-     */
-    protected void setup(boolean overwrite) {
-    	if (this.repoIdToRemoteRepository == null) {
-    		this.repoIdToRemoteRepository = new HashMap<>();
-    		this.repoIdToRemoteRepository.put("commons-csv", "https://github.com/apache/commons-csv");
-    		this.repoIdToRemoteRepository.put("commons-exec", "https://github.com/apache/commons-exec");
-    		this.repoIdToRemoteRepository.put("commons-cli", "https://github.com/apache/commons-cli");
-    		this.repoIdToRemoteRepository.put("commons-statistics", "https://github.com/apache/commons-statistics");
-    		this.repoIdToCommitId = new HashMap<>();
-    		this.repoIdToCommitId.put("commons-csv", "e14ef8");
-    		this.repoIdToCommitId.put("commons-exec", "3ee697");
-    		this.repoIdToCommitId.put("commons-cli", "d74613");
-    		this.repoIdToCommitId.put("commons-statistics", "2937eb");
-    	}
-        // Create new empty state
-        this.apacheCommonsController = new ApacheCommonsCommitIntegration(this.rootPath);
+	private static class RepoEntry {
+		public final String repoId;
+		public final String remoteRepoURI;
+		public final String commitId;
 
-        // overwrite existing files?
-        try {
-        	CommitIntegrationSettingsContainer.initialize(Paths.get("apache-commons-exec-files", "settings.properties"));
-        	this.apacheCommonsController.initialize(this.apacheCommonsController);
-        	this.state = this.apacheCommonsController.getState();        	
-            // state.initialize(this.teammatesController, this.teammatesController.getRootPath(), overwrite);
-            if (Files.exists(this.localRepositoriesDir)) {
-            	// Initialize the repositories within this directory.
-            } else {
-            	// Initialize the repositories with the remote repository locations.
-            }
-        } catch (IOException | GitAPIException e) {
-            e.printStackTrace();
-            failTest("Unable to setup commit integration state");
-        }
-    }
-
-    @BeforeEach
-    public void setup() {
-        LoggingSetup.setMinLogLevel(Level.DEBUG);
-        setup(false);
-    }
-
-    @BeforeAll
-    public static void setupStatic() {
-    	Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("java", new JavaResource2Factory());
-    	Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("javaxmi", new JavaResource2Factory());
-    	InstrumentationModelPackage.eINSTANCE.eClass();
-    }
-
-    @AfterEach
-    public void cleanupAfterTest() {
-        state.dispose();
-    }
-
-    protected void failTest(String msg) {
-        LOGGER.error(msg);
-        Assert.fail(msg);
-    }
-    
-    private void prepareAllRepositories() {
-    	// The following things should be handled by the multi-repository support.
-    	this.repoIdToRemoteRepository.entrySet().forEach(entry -> {
-    		var targetDir = this.localRepositoriesDir.resolve(entry.getKey());
-    		try {
-    			Git git;
-    			if (Files.notExists(targetDir)) {
-					Files.createDirectories(targetDir);
-					git = Git
-			    		.cloneRepository()
-			    		.setDirectory(targetDir.toFile())
-			    		.setURI(entry.getValue())
-			    		.call();
-    			} else {
-    				git = Git.open(targetDir.toFile());
-    			}
-				git.checkout().setName(this.repoIdToCommitId.get(entry.getKey())).call();
-		    	git.getRepository().close();
-		    	git.close();
-		    	
-			} catch (IOException | GitAPIException e) {
-				this.failTest(e.getMessage());
-			}
-    	});
-    	var targetDir = this.localRepositoriesDir.resolve(this.repoIdToRemoteRepository.keySet().stream().findAny().get());
-    	try {
-			this.state.getGitRepositoryWrapper().withLocalDirectory(targetDir);
-			this.state.getGitRepositoryWrapper().initialize();
-		} catch (IOException | GitAPIException e) {
-			this.failTest(e.getMessage());
+		private RepoEntry(String repoId, String remoteRepoURI, String commitId) {
+			this.repoId = repoId;
+			this.remoteRepoURI = remoteRepoURI;
+			this.commitId = commitId;
 		}
-    }
+	}
 
-    @Test
-    public void testApacheCommons() {
-    	this.prepareAllRepositories();
-    	var result = this.apacheCommonsController.propagateCurrentCheckout();
-    	System.out.println(result.get());
-    }
+	/**
+	 * 
+	 * @param overwrite Are existing files (models, etc.) to be deleted before
+	 *                  initializing the commit integration state?
+	 * @throws GitAPIException
+	 * @throws IOException
+	 * @throws org.eclipse.jgit.api.errors.TransportException
+	 * @throws InvalidRemoteException
+	 */
+	protected void setup(boolean overwrite) {
+		if (this.repoIdToEntry == null) {
+			this.repoIdToEntry = new HashMap<>();
+			this.repoIdToEntry.put("commons-csv",
+					new RepoEntry("commons-csv", "https://github.com/apache/commons-csv", "e14ef8"));
+			this.repoIdToEntry.put("commons-exec",
+					new RepoEntry("commons-exec", "https://github.com/apache/commons-exec", "3ee697"));
+			this.repoIdToEntry.put("commons-cli",
+					new RepoEntry("commons-cli", "https://github.com/apache/commons-cli", "d74613"));
+			this.repoIdToEntry.put("commons-statistics",
+					new RepoEntry("commons-statistics", "https://github.com/apache/commons-statistics", "2937eb"));
+		}
+		// Create new empty state
+		this.apacheCommonsController = new ApacheCommonsCommitIntegration(this.rootPath);
+
+		// overwrite existing files?
+		try {
+			CommitIntegrationSettingsContainer
+					.initialize(Paths.get("apache-commons-exec-files", "settings.properties"));
+			this.apacheCommonsController.initialize(this.apacheCommonsController);
+			this.state = this.apacheCommonsController.getState();
+			var wrapper = this.state.getGitRepositoryWrapper();
+			// state.initialize(this.teammatesController,
+			// this.teammatesController.getRootPath(), overwrite);
+			if (Files.exists(this.localRepositoriesDir)) {
+				// Initialize the repositories within this directory.
+			} else {
+				// Initialize the container repository
+				wrapper.initNewRepository(this.localRepositoriesDir.toFile());
+
+				// Setup each submodule
+				for (var e : this.repoIdToEntry.entrySet()) {
+					var relativeSubmodulePath = e.getKey();
+					wrapper.addSubmodule(e.getValue().remoteRepoURI, relativeSubmodulePath);
+					wrapper.commitAllSubmoduleChanges("Added submodules");
+					wrapper.initAndCloneSubmodule(relativeSubmodulePath);
+					wrapper.checkoutInSubmodule(relativeSubmodulePath, e.getValue().commitId);
+					wrapper.commitSubmoduleChange(relativeSubmodulePath, "Checked out submodule");
+				}
+			}
+		} catch (IOException | GitAPIException e) {
+			e.printStackTrace();
+			failTest("Unable to setup commit integration state");
+		}
+	}
+
+	@BeforeEach
+	public void setup() {
+		LoggingSetup.setMinLogLevel(Level.DEBUG);
+		setup(false);
+	}
+
+	@BeforeAll
+	public static void setupStatic() {
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("java", new JavaResource2Factory());
+		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("javaxmi", new JavaResource2Factory());
+		InstrumentationModelPackage.eINSTANCE.eClass();
+	}
+
+	@AfterEach
+	public void cleanupAfterTest() {
+		state.dispose();
+	}
+
+	protected void failTest(String msg) {
+		LOGGER.error(msg);
+		Assert.fail(msg);
+	}
+
+	@Test
+	public void testApacheCommons() {
+		var result = this.apacheCommonsController.propagateCurrentCheckout();
+		System.out.println(result.get());
+	}
 }
