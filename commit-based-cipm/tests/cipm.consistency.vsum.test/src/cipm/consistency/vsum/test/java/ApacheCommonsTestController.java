@@ -82,6 +82,7 @@ public class ApacheCommonsTestController {
 			// this.teammatesController.getRootPath(), overwrite);
 			if (Files.exists(this.localRepositoriesDir)) {
 				// Initialize the repositories within this directory.
+				wrapper.withLocalDirectory(this.localRepositoriesDir.resolve(".git")).initialize();
 			} else {
 				// Initialize the container repository
 				LOGGER.debug("Initialising a container repository");
@@ -105,7 +106,7 @@ public class ApacheCommonsTestController {
 					wrapper.commitSubmoduleChange(relativeSubmodulePath, "Checked out submodule");
 					LOGGER.debug("Committed " + e.getKey() + " being checked out at " + e.getValue().commitId);
 				}
-				
+
 				LOGGER.debug("Initialised the container repository");
 			}
 		} catch (IOException | GitAPIException e) {
