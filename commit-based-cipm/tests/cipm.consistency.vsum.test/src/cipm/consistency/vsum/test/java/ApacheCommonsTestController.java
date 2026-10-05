@@ -84,17 +84,29 @@ public class ApacheCommonsTestController {
 				// Initialize the repositories within this directory.
 			} else {
 				// Initialize the container repository
+				LOGGER.debug("Initialising a container repository");
 				wrapper.initNewRepository(this.localRepositoriesDir.toFile());
 
 				// Setup each submodule
 				for (var e : this.repoIdToEntry.entrySet()) {
 					var relativeSubmodulePath = e.getKey();
+					LOGGER.debug("Adding " + e.getKey() + " as a submodule");
 					wrapper.addSubmodule(e.getValue().remoteRepoURI, relativeSubmodulePath);
+					LOGGER.debug("Committing " + e.getKey() + " being added as a submodule");
 					wrapper.commitAllSubmoduleChanges("Added submodules");
+					LOGGER.debug("Committed " + e.getKey() + " being added as a submodule");
+					LOGGER.debug("Initialising and cloning " + e.getKey());
 					wrapper.initAndCloneSubmodule(relativeSubmodulePath);
+					LOGGER.debug("Initialised and cloned " + e.getKey());
+					LOGGER.debug("Checking out " + e.getKey());
 					wrapper.checkoutInSubmodule(relativeSubmodulePath, e.getValue().commitId);
+					LOGGER.debug("Checked out " + e.getKey());
+					LOGGER.debug("Committing " + e.getKey() + " being checked out at " + e.getValue().commitId);
 					wrapper.commitSubmoduleChange(relativeSubmodulePath, "Checked out submodule");
+					LOGGER.debug("Committed " + e.getKey() + " being checked out at " + e.getValue().commitId);
 				}
+				
+				LOGGER.debug("Initialised the container repository");
 			}
 		} catch (IOException | GitAPIException e) {
 			e.printStackTrace();
