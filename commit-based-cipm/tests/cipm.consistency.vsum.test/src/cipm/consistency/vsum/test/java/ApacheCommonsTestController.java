@@ -19,9 +19,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import cipm.consistency.commitintegration.CommitIntegrationState;
+import cipm.consistency.commitintegration.git.GitRepositoryWrapper;
 import cipm.consistency.commitintegration.lang.java.JavaModelFacade;
 import cipm.consistency.commitintegration.settings.CommitIntegrationSettingsContainer;
 import cipm.consistency.vsum.test.appspace.LoggingSetup;
+import cipm.consistency.vsum.test.java.ApacheCommonsRepoEntries.RepoEntry;
 import jamopp.resource.JavaResource2Factory;
 import cipm.consistency.base.models.instrumentation.InstrumentationModel.InstrumentationModelPackage;
 
@@ -53,52 +55,96 @@ public class ApacheCommonsTestController {
 
 	private Path localRepositoriesDir = Paths.get("target", "apache-commons");
 
-	private Map<String, RepoEntry> integrationRepoIdToEntry = new HashMap<>() {
-		{
-
-			// "rel/commons-csv-1.14.1"
-			put("commons-csv", new RepoEntry("commons-csv", "https://github.com/apache/commons-csv", "e14ef8"));
-
-			// "rel/commons-exec-1.6.0"
-			put("commons-exec", new RepoEntry("commons-exec", "https://github.com/apache/commons-exec", "3ee697"));
-
-			// "commons-cli-1.11.0-RC1 rel/commons-cli-1.11.0"
-			put("commons-cli", new RepoEntry("commons-cli", "https://github.com/apache/commons-cli", "d74613"));
-
-			// "commons-statistics-1.3-RC1 rel/commons-statistics-1.3"
-			put("commons-statistics",
-					new RepoEntry("commons-statistics", "https://github.com/apache/commons-statistics", "2937eb"));
-		}
-	};
-
-	private Map<String, RepoEntry> propagationRepoIdToEntry = new HashMap<>() {
-		{
-			// "commons-csv-1.14.0-RC1 rel/commons-csv-1.14.0"
-			put("commons-csv", new RepoEntry("commons-csv", "https://github.com/apache/commons-csv", "969d42"));
-
-			// "commons-exec-1.5.0-RC1 rel/commons-exec-1.5.0"
-			put("commons-exec", new RepoEntry("commons-exec", "https://github.com/apache/commons-exec", "59c60c"));
-
-			// "commons-cli-1.10.0-RC1 rel/commons-cli-1.10.0"
-			put("commons-cli", new RepoEntry("commons-cli", "https://github.com/apache/commons-cli", "045811"));
-
-			// No tag
-			put("commons-statistics",
-					new RepoEntry("commons-statistics", "https://github.com/apache/commons-statistics", "9334ef"));
-		}
-	};
-
 	private Path rootPath = Paths.get("target", "ApacheCommonsTest");
 
-	private static class RepoEntry {
-		public final String repoId;
-		public final String remoteRepoURI;
-		public final String commitId;
+	private void initContainerRepo(GitRepositoryWrapper wrapper) throws GitAPIException, IOException {
+		if (Files.exists(this.localRepositoriesDir)) {
+			// Initialize the repositories within this directory.
+			LOGGER.debug("Initialising a pre-existing container repository");
+			wrapper.withLocalDirectory(this.localRepositoriesDir).initialize();
+			LOGGER.debug("Initialised a pre-existing container repository");
+		} else {
+			// Initialize the container repository
+			LOGGER.debug("Initialising a new container repository");
+			wrapper.initNewRepository(this.localRepositoriesDir.toFile());
+			LOGGER.debug("Initialised the new container repository");
+		}
+	}
 
-		private RepoEntry(String repoId, String remoteRepoURI, String commitId) {
-			this.repoId = repoId;
-			this.remoteRepoURI = remoteRepoURI;
-			this.commitId = commitId;
+	private void ensureSubmoduleConfiguration(GitRepositoryWrapper wrapper, Map<String, RepoEntry> repoMap)
+			throws GitAPIException, IOException {
+		boolean submodulesChanged = false;
+
+		for (var e : repoMap.entrySet()) {
+			var relativeSubmodulePath = e.getKey();
+			var commitId = e.getValue().commitId;
+
+			// Add the submodule, if it is not registered yet
+			//
+			// "git submodule add"
+			if (!wrapper.isSubmoduleRegistered(relativeSubmodulePath)) {
+				LOGGER.debug(relativeSubmodulePath + " is missing as a submodule");
+				LOGGER.debug("Adding " + relativeSubmodulePath + " as a submodule");
+				wrapper.addSubmodule(e.getValue().remoteRepoURI, relativeSubmodulePath);
+				LOGGER.debug("Added " + relativeSubmodulePath + " as a submodule");
+
+//				LOGGER.debug("Committing " + relativeSubmodulePath + " being added as a submodule");
+//				wrapper.commitAllSubmoduleChanges("Added submodule: " + relativeSubmodulePath);
+//				LOGGER.debug("Committed " + relativeSubmodulePath + " being added as a submodule");
+
+				submodulesChanged = true;
+			} else {
+				LOGGER.debug(relativeSubmodulePath + " is already registered");
+			}
+
+			// Initialise and clone the submodule, if it does not physically exist
+			//
+			// "git submodule init submodule_name"
+			// "git submodule update submodule_name"
+			if (!wrapper.isSubmodulePhysicallyPresent(relativeSubmodulePath)) {
+				LOGGER.debug(relativeSubmodulePath + " is not physically present");
+				LOGGER.debug("Initialising and cloning " + e.getKey());
+				wrapper.initAndCloneSubmodule(relativeSubmodulePath);
+				LOGGER.debug("Initialised and cloned " + e.getKey());
+
+				// Note: Initialising and cloning the contents of a submodule does not result in
+				// any changes to the container repository
+			} else {
+				LOGGER.debug(relativeSubmodulePath + " is already physically present");
+			}
+
+			// Checkout submodule to the given commitId, if the submodule is not already
+			// checked out there
+			if (!wrapper.isSubmoduleCheckedOutAt(relativeSubmodulePath, commitId)) {
+				LOGGER.debug(relativeSubmodulePath + " is not checked out at " + commitId);
+				LOGGER.debug("Checking out " + relativeSubmodulePath + " at " + commitId);
+				wrapper.checkoutInSubmodule(relativeSubmodulePath, commitId);
+				LOGGER.debug("Checked out " + relativeSubmodulePath + " at " + commitId);
+
+				submodulesChanged = true;
+			} else {
+				LOGGER.debug(relativeSubmodulePath + " is already checked out at " + commitId);
+			}
+
+//			LOGGER.debug("Committing " + e.getKey() + " being checked out at " + e.getValue().commitId);
+//			wrapper.commitSubmoduleChange(relativeSubmodulePath, "Checked out submodule");
+//			LOGGER.debug("Committed " + e.getKey() + " being checked out at " + e.getValue().commitId);
+		}
+
+		// TODO Check for submodules that should be removed and deal with them
+
+		// Commit all submodule changes at once, in order to keep the commit history of
+		// the parent repository clean and to make sure that each test case has exactly
+		// one commit. Only commit, if the submodules changed at all
+		if (submodulesChanged) {
+			// TODO Add more information about the test case to the commit message, so that
+			// which tests run and what happens is clear
+
+			LOGGER.debug("Committing all submodule changes");
+			wrapper.commitAllSubmoduleChanges("Set submodule configuration");
+			LOGGER.debug("Committed all submodule changes");
+		} else {
+			LOGGER.debug("No submodule changes to commit");
 		}
 	}
 
@@ -124,55 +170,9 @@ public class ApacheCommonsTestController {
 			var wrapper = this.state.getGitRepositoryWrapper();
 			// state.initialize(this.teammatesController,
 			// this.teammatesController.getRootPath(), overwrite);
-			if (Files.exists(this.localRepositoriesDir)) {
-				// Initialize the repositories within this directory.
-				LOGGER.debug("Initialising a pre-existing container repository");
-				wrapper.withLocalDirectory(this.localRepositoriesDir.resolve(".git")).initialize();
 
-				var checkedOutAtCorrectCommits = true;
-
-				// Ensure that the submodules are checked out at the correct commits
-				LOGGER.debug("Checking submodule HEAD locations");
-				for (var e : repoMap.entrySet()) {
-					if (!wrapper.isSubmoduleCheckedOutAt(e.getKey(), e.getValue().commitId)) {
-						LOGGER.debug("Mismatching HEAD location detected in submodule " + e.getKey());
-						checkedOutAtCorrectCommits = false;
-						LOGGER.debug("Checking out " + e.getKey() + " at " + e.getValue().commitId);
-						wrapper.checkoutInSubmodule(e.getKey(), e.getValue().commitId);
-					}
-				}
-
-				// Commit the desired HEAD configuration in the container repository
-				if (!checkedOutAtCorrectCommits) {
-					LOGGER.debug("Committing the desired submodule HEAD locations");
-					wrapper.commitAllSubmoduleChanges("Adjusted submodule HEAD locations");
-				}
-			} else {
-				// Initialize the container repository
-				LOGGER.debug("Initialising a container repository");
-				wrapper.initNewRepository(this.localRepositoriesDir.toFile());
-
-				// Setup each submodule
-				for (var e : repoMap.entrySet()) {
-					var relativeSubmodulePath = e.getKey();
-					LOGGER.debug("Adding " + e.getKey() + " as a submodule");
-					wrapper.addSubmodule(e.getValue().remoteRepoURI, relativeSubmodulePath);
-					LOGGER.debug("Committing " + e.getKey() + " being added as a submodule");
-					wrapper.commitAllSubmoduleChanges("Added submodules");
-					LOGGER.debug("Committed " + e.getKey() + " being added as a submodule");
-					LOGGER.debug("Initialising and cloning " + e.getKey());
-					wrapper.initAndCloneSubmodule(relativeSubmodulePath);
-					LOGGER.debug("Initialised and cloned " + e.getKey());
-					LOGGER.debug("Checking out " + e.getKey());
-					wrapper.checkoutInSubmodule(relativeSubmodulePath, e.getValue().commitId);
-					LOGGER.debug("Checked out " + e.getKey());
-					LOGGER.debug("Committing " + e.getKey() + " being checked out at " + e.getValue().commitId);
-					wrapper.commitSubmoduleChange(relativeSubmodulePath, "Checked out submodule");
-					LOGGER.debug("Committed " + e.getKey() + " being checked out at " + e.getValue().commitId);
-				}
-
-				LOGGER.debug("Initialised the container repository");
-			}
+			initContainerRepo(wrapper);
+			ensureSubmoduleConfiguration(wrapper, repoMap);
 		} catch (IOException | GitAPIException e) {
 			e.printStackTrace();
 			failTest("Unable to setup commit integration state");
@@ -203,7 +203,9 @@ public class ApacheCommonsTestController {
 
 	@Test
 	public void testApacheCommonsIntegration() {
-		setup(false, integrationRepoIdToEntry);
+		// TODO Run both integration and propagation test cases
+
+		setup(false, ApacheCommonsRepoEntries.getCaseVitruvTestCase());
 
 		var result = this.apacheCommonsController.propagateCurrentCheckout();
 		System.out.println(result.get());
@@ -211,7 +213,7 @@ public class ApacheCommonsTestController {
 
 	@Test
 	public void testApacheCommonsPropagation() {
-		setup(false, propagationRepoIdToEntry);
+		setup(false, ApacheCommonsRepoEntries.getMinimalPropagationTestCase());
 
 		var result = this.apacheCommonsController.propagateCurrentCheckout();
 		System.out.println(result.get());
