@@ -75,6 +75,30 @@ public class ApacheCommonsTestController {
 			throws GitAPIException, IOException {
 		boolean submodulesChanged = false;
 
+		// Check whether there are any submodules that should not be there
+		for (var submodulePath : wrapper.getSubmodulePaths()) {
+
+			// De-register and remove the submodule physically, if it is not supposed to be
+			// considered
+			//
+			// Assume that the submodulePath is the same as repoId
+			//
+			if (!repoMap.keySet().contains(submodulePath)) {
+				LOGGER.debug(submodulePath + " is not supposed to be considered");
+				LOGGER.debug("De-registering " + submodulePath);
+				wrapper.deregisterSubmodule(submodulePath);
+				LOGGER.debug("De-registered " + submodulePath);
+				LOGGER.debug("Removing " + submodulePath + " physically");
+				wrapper.removeSubmodulePhysically(submodulePath);
+				LOGGER.debug("Removed " + submodulePath + " physically");
+
+				submodulesChanged = true;
+			} else {
+				LOGGER.debug(submodulePath + " is considered and is already registered");
+			}
+		}
+
+		// Check the configuration of each specified submodule
 		for (var e : repoMap.entrySet()) {
 			var relativeSubmodulePath = e.getKey();
 			var commitId = e.getValue().commitId;
@@ -87,10 +111,6 @@ public class ApacheCommonsTestController {
 				LOGGER.debug("Adding " + relativeSubmodulePath + " as a submodule");
 				wrapper.addSubmodule(e.getValue().remoteRepoURI, relativeSubmodulePath);
 				LOGGER.debug("Added " + relativeSubmodulePath + " as a submodule");
-
-//				LOGGER.debug("Committing " + relativeSubmodulePath + " being added as a submodule");
-//				wrapper.commitAllSubmoduleChanges("Added submodule: " + relativeSubmodulePath);
-//				LOGGER.debug("Committed " + relativeSubmodulePath + " being added as a submodule");
 
 				submodulesChanged = true;
 			} else {
@@ -108,7 +128,8 @@ public class ApacheCommonsTestController {
 				LOGGER.debug("Initialised and cloned " + e.getKey());
 
 				// Note: Initialising and cloning the contents of a submodule does not result in
-				// any changes to the container repository
+				// any changes to the container repository, hence submodulesChanged remains
+				// false
 			} else {
 				LOGGER.debug(relativeSubmodulePath + " is already physically present");
 			}
@@ -125,13 +146,7 @@ public class ApacheCommonsTestController {
 			} else {
 				LOGGER.debug(relativeSubmodulePath + " is already checked out at " + commitId);
 			}
-
-//			LOGGER.debug("Committing " + e.getKey() + " being checked out at " + e.getValue().commitId);
-//			wrapper.commitSubmoduleChange(relativeSubmodulePath, "Checked out submodule");
-//			LOGGER.debug("Committed " + e.getKey() + " being checked out at " + e.getValue().commitId);
 		}
-
-		// TODO Check for submodules that should be removed and deal with them
 
 		// Commit all submodule changes at once, in order to keep the commit history of
 		// the parent repository clean and to make sure that each test case has exactly
@@ -203,8 +218,6 @@ public class ApacheCommonsTestController {
 
 	@Test
 	public void testApacheCommonsIntegration() {
-		// TODO Run both integration and propagation test cases
-
 		setup(false, ApacheCommonsRepoEntries.getCaseVitruvTestCase());
 
 		var result = this.apacheCommonsController.propagateCurrentCheckout();
@@ -212,8 +225,24 @@ public class ApacheCommonsTestController {
 	}
 
 	@Test
-	public void testApacheCommonsPropagation() {
+	public void testApacheCommonsPropagation_NewSubmodule() {
 		setup(false, ApacheCommonsRepoEntries.getMinimalPropagationTestCase());
+
+		var result = this.apacheCommonsController.propagateCurrentCheckout();
+		System.out.println(result.get());
+	}
+
+	@Test
+	public void testApacheCommonsPropagation_RemovedSubmodule() {
+		setup(false, ApacheCommonsRepoEntries.getMinimalPropagationTestCase2());
+
+		var result = this.apacheCommonsController.propagateCurrentCheckout();
+		System.out.println(result.get());
+	}
+
+	@Test
+	public void testApacheCommonsPropagation_RemovedSubmodules() {
+		setup(false, Map.of());
 
 		var result = this.apacheCommonsController.propagateCurrentCheckout();
 		System.out.println(result.get());

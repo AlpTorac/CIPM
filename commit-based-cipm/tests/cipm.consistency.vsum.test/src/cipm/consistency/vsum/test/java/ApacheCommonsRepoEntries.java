@@ -16,23 +16,25 @@ public class ApacheCommonsRepoEntries {
 		}
 	}
 
+	private static final String APACHE_URL_PREFIX = "https://github.com/apache/";
+
 	private static final String COMMONS_CSV_ID = "commons-csv";
-	private static final String COMMONS_CSV_URL = "https://github.com/apache/" + COMMONS_CSV_ID;
+	private static final String COMMONS_CSV_URL = APACHE_URL_PREFIX + COMMONS_CSV_ID;
 
 	private static final String COMMONS_EXEC_ID = "commons-exec";
-	private static final String COMMONS_EXEC_URL = "https://github.com/apache/" + COMMONS_EXEC_ID;
+	private static final String COMMONS_EXEC_URL = APACHE_URL_PREFIX + COMMONS_EXEC_ID;
 
 	private static final String COMMONS_CLI_ID = "commons-cli";
-	private static final String COMMONS_CLI_URL = "https://github.com/apache/" + COMMONS_CLI_ID;
+	private static final String COMMONS_CLI_URL = APACHE_URL_PREFIX + COMMONS_CLI_ID;
 
 	private static final String COMMONS_STATISTICS_ID = "commons-statistics";
-	private static final String COMMONS_STATISTICS_URL = "https://github.com/apache/" + COMMONS_STATISTICS_ID;
+	private static final String COMMONS_STATISTICS_URL = APACHE_URL_PREFIX + COMMONS_STATISTICS_ID;
 
-	private static final String COMMONS_BCEL_ID = "commons-bcel";
-	private static final String COMMONS_BCEL_URL = "https://github.com/apache/" + COMMONS_BCEL_ID;
+	private static final String COMMONS_CODEC_ID = "commons-codec";
+	private static final String COMMONS_CODEC_URL = APACHE_URL_PREFIX + COMMONS_CODEC_ID;
 
 	private static Map<String, RepoEntry> getTestCaseMap(String csvCommit, String execCommit, String cliCommit,
-			String statisticsCommit, String bcelCommit) {
+			String statisticsCommit, String codecCommit) {
 		var map = new HashMap<String, RepoEntry>();
 
 		if (csvCommit != null)
@@ -48,11 +50,16 @@ public class ApacheCommonsRepoEntries {
 			map.put(COMMONS_STATISTICS_ID,
 					new RepoEntry(COMMONS_STATISTICS_ID, COMMONS_STATISTICS_URL, statisticsCommit));
 
-		if (bcelCommit != null)
-			map.put(COMMONS_BCEL_ID, new RepoEntry(COMMONS_BCEL_ID, COMMONS_BCEL_URL, bcelCommit));
+		if (codecCommit != null)
+			map.put(COMMONS_CODEC_ID, new RepoEntry(COMMONS_CODEC_ID, COMMONS_CODEC_URL, codecCommit));
 		return map;
 	}
 
+	/**
+	 * Apache test case from the "case-vitruv" branch.
+	 * <p>
+	 * Results in about 285 source files and 0 classpath entries parsed
+	 */
 	public static Map<String, RepoEntry> getCaseVitruvTestCase() {
 		// "rel/commons-csv-1.14.1"
 		// "rel/commons-exec-1.6.0"
@@ -61,22 +68,13 @@ public class ApacheCommonsRepoEntries {
 		return getTestCaseMap("e14ef8", "3ee697", "d74613", "2937eb", null);
 	}
 
-	/**
-	 * @return A submodule configuration, where only one submodule changes w.r.t
-	 *         {@link #getCaseVitruvTestCase()}
-	 */
 	public static Map<String, RepoEntry> getMinimalPropagationTestCase() {
-		return getTestCaseMap("c3844a2", "3ee697", "d74613", "2937eb", null);
+		// "rel/commons-codec-1.19.0"
+		return getTestCaseMap("e14ef8", "3ee697", "d74613", "2937eb", "351cb22");
 	}
-
-	public static Map<String, RepoEntry> getPracticeTestCase6() {
-		return getTestCaseMap("c3844a2", "92d9943", "c9e543d", "d390942", "1fcbc87");
-	}
-
-	/**
-	 * Large test case, there are 1238 source files and 0 classpath entries
-	 */
-	public static Map<String, RepoEntry> getPracticeTestCase7() {
-		return getTestCaseMap("d9b9f06", "92d9943", "0a68ae0", "d390942", "1fcbc87");
+	
+	public static Map<String, RepoEntry> getMinimalPropagationTestCase2() {
+		// "rel/commons-codec-1.19.0"
+		return getTestCaseMap("e14ef8", "3ee697", "d74613", null, null);
 	}
 }

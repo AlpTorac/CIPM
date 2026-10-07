@@ -30,6 +30,7 @@ import org.eclipse.jgit.diff.EditList;
 import org.eclipse.jgit.diff.RawText;
 import org.eclipse.jgit.diff.RenameDetector;
 import org.eclipse.jgit.dircache.DirCache;
+import org.eclipse.jgit.dircache.DirCacheBuilder;
 import org.eclipse.jgit.dircache.DirCacheEntry;
 import org.eclipse.jgit.errors.AmbiguousObjectException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -46,6 +47,7 @@ import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.RepositoryBuilder;
+import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.submodule.SubmoduleStatus;
@@ -505,6 +507,108 @@ public class GitRepositoryWrapper {
 	//
 
 	/**
+	 * Physically removes a submodule from the file system, i.e. deletes its working
+	 * tree directory in the root directory and its repository metadata under
+	 * {@code .git/modules/<submodulePath>}. The submodule's registration
+	 * ({@code .gitmodules} entry, repository config, and index gitlink) is not
+	 * touched; use {@link #deregisterSubmodule(String)} for that.
+	 * 
+	 * @param submodulePath path of the submodule relative to the root directory.
+	 * @exception IllegalStateException if the wrapper is not initialized.
+	 * @exception IOException           if a directory cannot be deleted.
+	 */
+	public void removeSubmodulePhysically(String submodulePath) throws IOException {
+		if (!isInitialized()) {
+			throw new IllegalStateException("The repository wrapper is not initialized.");
+		}
+		// Delete the submodule's working tree.
+		File submoduleDirectory = new File(this.repoDir, submodulePath);
+		if (submoduleDirectory.isDirectory()) {
+			FileUtils.deleteDirectory(submoduleDirectory);
+		}
+		// Delete the submodule's repository metadata (cloned object database and refs).
+		File moduleRepositoryDirectory = new File(git.getRepository().getDirectory(), "modules/" + submodulePath);
+		if (moduleRepositoryDirectory.isDirectory()) {
+			FileUtils.deleteDirectory(moduleRepositoryDirectory);
+		}
+	}
+
+	/**
+	 * De-registers a submodule, i.e. removes its entry from the {@code .gitmodules}
+	 * file, its config section from the repository config, and its gitlink from the
+	 * index of the parent repository. The submodule's working tree and stored
+	 * repository are not touched; use {@link #removeSubmodulePhysically(String)}
+	 * for that.
+	 * 
+	 * The changes are staged but not committed; call
+	 * {@link #commitAllSubmoduleChanges(String)} afterwards to record the
+	 * de-registration in a commit.
+	 * 
+	 * @param submodulePath path of the submodule relative to the root directory.
+	 * @exception IOException if a file or the index cannot be read or written.
+	 */
+	public void deregisterSubmodule(String submodulePath) throws IOException {
+		if (!isInitialized()) {
+			throw new IllegalStateException("The repository wrapper is not initialized.");
+		}
+		// 1. Determine the submodule's name from its path entry in .gitmodules.
+		String submodulePathToUse = submodulePath;
+		File modulesFile = new File(this.repoDir, ".gitmodules");
+		Config modulesConfig = new Config();
+		if (modulesFile.isFile()) {
+			try {
+				modulesConfig.fromText(Files.readString(modulesFile.toPath(), StandardCharsets.UTF_8));
+			} catch (ConfigInvalidException e) {
+				throw new IOException("Invalid .gitmodules file in " + this.repoDir, e);
+			}
+		}
+		String submoduleUrl = null;
+		for (String name : modulesConfig.getSubsections("submodule")) {
+			String entryPath = modulesConfig.getString("submodule", name, "path");
+			if (submodulePathToUse.equals(entryPath)) {
+				submoduleUrl = modulesConfig.getString("submodule", name, "url");
+				modulesConfig.unsetSection("submodule", name);
+			}
+		}
+		// 2. Rewrite or remove the .gitmodules file.
+		if (modulesConfig.getSubsections("submodule").isEmpty()) {
+			Files.deleteIfExists(modulesFile.toPath());
+		} else if (modulesFile.isFile()) {
+			Files.writeString(modulesFile.toPath(), modulesConfig.toText(), StandardCharsets.UTF_8);
+		}
+		// 3. Remove the config section initialized by submodule init/add
+		// (submodule.<name>.url, .fetch, .branch), keyed by the URL in .gitmodules.
+		if (submoduleUrl != null) {
+			StoredConfig repositoryConfig = git.getRepository().getConfig();
+			for (String name : repositoryConfig.getSubsections("submodule")) {
+				if (submoduleUrl.equals(repositoryConfig.getString("submodule", name, "url"))) {
+					repositoryConfig.unsetSection("submodule", name);
+				}
+			}
+			repositoryConfig.save();
+		}
+		// 4. Remove the gitlink entry from the index (staged change).
+		Repository repository = git.getRepository();
+		DirCache dirCache = repository.lockDirCache();
+		boolean committed = false;
+		try {
+			DirCacheBuilder builder = dirCache.builder();
+			for (int i = 0; i < dirCache.getEntryCount(); i++) {
+				DirCacheEntry entry = dirCache.getEntry(i);
+				if (!submodulePathToUse.equals(entry.getPathString())) {
+					builder.add(entry);
+				}
+			}
+			builder.commit();
+			committed = true;
+		} finally {
+			if (!committed) {
+				dirCache.unlock();
+			}
+		}
+	}
+
+	/**
 	 * Checks whether a submodule is registered in the {@code .gitmodules} file,
 	 * i.e. whether a {@code git submodule add} recorded a submodule entry whose
 	 * path matches the given path. This is independent of the index and of the
@@ -581,16 +685,22 @@ public class GitRepositoryWrapper {
 		if (!submoduleDirectory.isDirectory()) {
 			return false;
 		}
-		String[] entries = submoduleDirectory.list();
-		if (entries == null || entries.length == 0) {
-			return false;
-		}
-		for (String entry : entries) {
-			if (!entry.equals(".git")) {
-				return true;
-			}
-		}
-		return false;
+
+		// Best effort result, looks for a file / folder with a name that does not start
+		// with ".". Since most GIT-related files' names start with a dot ".", this
+		// should make sure that there are non-GIT metadata files present. In that case,
+		// assume that the submodule is physically present.
+		return submoduleDirectory.listFiles((f) -> !f.getName().startsWith(".")).length > 0;
+//		String[] entries = submoduleDirectory.list();
+//		if (entries == null || entries.length == 0) {
+//			return false;
+//		}
+//		for (String entry : entries) {
+//			if (!entry.equals(".git")) {
+//				return true;
+//			}
+//		}
+//		return false;
 	}
 
 	/**
@@ -647,23 +757,23 @@ public class GitRepositoryWrapper {
 		return submoduleRepository;
 	}
 
-	/**
-	 * Stages the gitlink of a single submodule and commits it in the parent
-	 * repository, i.e. records the submodule's current HEAD as the state associated
-	 * with the parent commit. Useful after checkout operations inside a submodule.
-	 * 
-	 * @param submodulePath path of the submodule relative to the root directory.
-	 * @param commitMessage message for the commit in the parent repository.
-	 * @return the created commit.
-	 * @exception GitAPIException if the staging or the commit fails, or the
-	 *                            repository has no head yet.
-	 */
-	public RevCommit commitSubmoduleChange(String submodulePath, String commitMessage) throws GitAPIException {
-		git.add().addFilepattern(submodulePath).call();
-		RevCommit commit = git.commit().setMessage(commitMessage).call();
-		currentCheckoutCommit = commit;
-		return commit;
-	}
+//	/**
+//	 * Stages the gitlink of a single submodule and commits it in the parent
+//	 * repository, i.e. records the submodule's current HEAD as the state associated
+//	 * with the parent commit. Useful after checkout operations inside a submodule.
+//	 * 
+//	 * @param submodulePath path of the submodule relative to the root directory.
+//	 * @param commitMessage message for the commit in the parent repository.
+//	 * @return the created commit.
+//	 * @exception GitAPIException if the staging or the commit fails, or the
+//	 *                            repository has no head yet.
+//	 */
+//	public RevCommit commitSubmoduleChange(String submodulePath, String commitMessage) throws GitAPIException {
+//		git.add().addFilepattern(submodulePath).call();
+//		RevCommit commit = git.commit().setMessage(commitMessage).call();
+//		currentCheckoutCommit = commit;
+//		return commit;
+//	}
 
 	// TODO: Extract magic strings as constants / re-use potentially existing
 	// constants from JGIT
@@ -877,18 +987,15 @@ public class GitRepositoryWrapper {
 	public RevCommit commitAllSubmoduleChanges(String commitMessage) throws GitAPIException, IOException {
 		Map<String, SubmoduleStatus> statuses = git.submoduleStatus().call();
 		var addCommand = git.add();
-		for (Map.Entry<String, SubmoduleStatus> entry : statuses.entrySet()) {
-			// A gitlink differs if the submodule's HEAD does not match the id recorded in
-			// the index,
-			// or if the submodule is registered but not staged in the index at all.
-			if (entry.getValue().getHeadId().equals(entry.getValue().getIndexId())) {
-				addCommand.addFilepattern(entry.getKey());
-			}
-		}
+
+		// Assume submodulePaths are equal to the name of the submodule repository
+		statuses.keySet().forEach(addCommand::addFilepattern);
+
 		// Stage .gitmodules as well, in case a submodule was added since the last
 		// commit.
 		addCommand.addFilepattern(".gitmodules").call();
 		RevCommit commit = git.commit().setMessage(commitMessage).call();
+		// FIXME: Commit submodule versions too "git add submodulePath"
 		currentCheckoutCommit = commit;
 		return commit;
 	}
