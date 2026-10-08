@@ -72,9 +72,4 @@ public class ApacheCommonsRepoEntries {
 		// "rel/commons-codec-1.19.0"
 		return getTestCaseMap("e14ef8", "3ee697", "d74613", "2937eb", "351cb22");
 	}
-	
-	public static Map<String, RepoEntry> getMinimalPropagationTestCase2() {
-		// "rel/commons-codec-1.19.0"
-		return getTestCaseMap("e14ef8", "3ee697", "d74613", null, null);
-	}
 }
