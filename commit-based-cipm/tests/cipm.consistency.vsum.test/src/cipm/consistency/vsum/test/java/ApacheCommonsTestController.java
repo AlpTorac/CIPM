@@ -53,7 +53,8 @@ import cipm.consistency.base.models.instrumentation.InstrumentationModel.Instrum
  * <p>
  * Note that the submodule checks within this class may not cover cases, where
  * submodule contents are manually modified (e.g. submodule files are
- * hand-modified and committed)
+ * hand-modified and committed). Therefore, this test class assumes that the
+ * submodules are not manually adjusted.
  */
 public class ApacheCommonsTestController {
 	private static final Logger LOGGER = Logger.getLogger(ApacheCommonsTestController.class);
@@ -245,22 +246,6 @@ public class ApacheCommonsTestController {
 	@Test
 	public void testApacheCommonsPropagation_NewSubmodule() {
 		setup(false, ApacheCommonsRepoEntries.getMinimalPropagationTestCase());
-
-		var result = this.apacheCommonsController.propagateCurrentCheckout();
-		System.out.println(result.get());
-	}
-
-	@Test
-	public void testApacheCommonsPropagation_RemovedSubmodule() {
-		setup(false, ApacheCommonsRepoEntries.getMinimalPropagationTestCase2());
-
-		var result = this.apacheCommonsController.propagateCurrentCheckout();
-		System.out.println(result.get());
-	}
-
-	@Test
-	public void testApacheCommonsPropagation_RemovedSubmodules() {
-		setup(false, Map.of());
 
 		var result = this.apacheCommonsController.propagateCurrentCheckout();
 		System.out.println(result.get());
