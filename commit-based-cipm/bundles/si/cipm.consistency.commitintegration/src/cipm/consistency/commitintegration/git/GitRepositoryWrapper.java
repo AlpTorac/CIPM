@@ -649,31 +649,6 @@ public class GitRepositoryWrapper {
 		return false;
 	}
 
-//	/**
-//	 * Checks whether the index of the parent repository contains a gitlink entry
-//	 * for the given path, i.e. whether the submodule is staged/recorded as a
-//	 * submodule at that path (independently of its {@code .gitmodules} entry).
-//	 * 
-//	 * @param submodulePath path of the submodule relative to the root directory.
-//	 * @return true if the index contains a gitlink entry at the given path.
-//	 * @exception IOException if the repository or index cannot be read.
-//	 */
-//	public boolean isSubmoduleRecordedInIndex(String submodulePath) throws IOException {
-//		DirCache dirCache = git.getRepository().readDirCache();
-//		DirCacheEntry entry = dirCache.getEntry(submodulePath);
-//		return entry != null && entry.getFileMode() == FileMode.GITLINK;
-//	}
-//
-//	public boolean isSubmoduleCheckedOutAtRecordedCommit(String submodulePath) throws GitAPIException, IOException {
-//		Map<String, SubmoduleStatus> statuses = git.submoduleStatus().addPath(submodulePath).call();
-//		SubmoduleStatus status = statuses.get(submodulePath);
-//		if (status == null) {
-//			// No submodule registered at the given path.
-//			return false;
-//		}
-//		return status.getIndexId() != null && status.getIndexId().equals(status.getHeadId());
-//	}
-
 	/**
 	 * Checks whether a submodule is physically present, i.e. whether its working
 	 * tree directory exists in the repository's root directory and contains
@@ -748,20 +723,6 @@ public class GitRepositoryWrapper {
 		ensureSubmoduleGitFiles();
 	}
 
-//	/**
-//	 * Initializes all existing submodules and clones their content, i.e. performs
-//	 * the {@code git submodule init} and {@code git submodule update} commands.
-//	 * Submodules which are already initialized and up-to-date are left untouched.
-//	 * 
-//	 * @exception GitAPIException if unable to compute a result.
-//	 * @exception IOException     if a submodule repository cannot be initialized.
-//	 */
-//	public void initAndCloneSubmodules() throws GitAPIException, IOException {
-//		git.submoduleInit().call();
-//		git.submoduleUpdate().call();
-//		ensureSubmoduleGitFiles();
-//	}
-
 	/**
 	 * Adds a new submodule to the repository, i.e. performs the
 	 * {@code git submodule add} command. The submodule is registered in the index
@@ -786,24 +747,6 @@ public class GitRepositoryWrapper {
 		ensureSubmoduleGitFiles();
 		return submoduleRepository;
 	}
-
-//	/**
-//	 * Stages the gitlink of a single submodule and commits it in the parent
-//	 * repository, i.e. records the submodule's current HEAD as the state associated
-//	 * with the parent commit. Useful after checkout operations inside a submodule.
-//	 * 
-//	 * @param submodulePath path of the submodule relative to the root directory.
-//	 * @param commitMessage message for the commit in the parent repository.
-//	 * @return the created commit.
-//	 * @exception GitAPIException if the staging or the commit fails, or the
-//	 *                            repository has no head yet.
-//	 */
-//	public RevCommit commitSubmoduleChange(String submodulePath, String commitMessage) throws GitAPIException {
-//		git.add().addFilepattern(submodulePath).call();
-//		RevCommit commit = git.commit().setMessage(commitMessage).call();
-//		currentCheckoutCommit = commit;
-//		return commit;
-//	}
 
 	/**
 	 * Ensures that the {@code .git} gitfiles of all submodules exist, i.e. one-line
@@ -934,48 +877,6 @@ public class GitRepositoryWrapper {
 			return Git.wrap(submoduleRepository);
 		}
 	}
-
-	/**
-	 * Performs a git checkout command inside a single submodule at the commit which
-	 * is recorded for the submodule in the current commit of the parent repository
-	 * (i.e. the gitlink entry). This aligns the submodule with the state expected
-	 * by the current commit of the parent repository.
-	 * 
-	 * @param submodulePath path of the submodule relative to the root directory.
-	 * @exception RefAlreadyExistsException thrown when trying to create a Ref with
-	 *                                      the same name as an existing one.
-	 * @exception RefNotFoundException      thrown when a Ref cannot be resolved.
-	 * @exception InvalidRefNameException   thrown when an invalid Ref name was
-	 *                                      encountered.
-	 * @exception CheckoutConflictException thrown when a command cannot succeed
-	 *                                      because of unresolved conflicts.
-	 * @exception GitAPIException           if unable to compute a result.
-	 * @exception IOException               if a repository cannot be read.
-	 */
-	public void checkoutSubmoduleAtRecordedCommit(String submodulePath) throws RefAlreadyExistsException,
-			RefNotFoundException, InvalidRefNameException, CheckoutConflictException, GitAPIException, IOException {
-		ObjectId gitlinkId = git.getRepository().resolve(Constants.HEAD + ":" + submodulePath);
-		if (gitlinkId != null) {
-			checkoutInSubmodule(submodulePath, gitlinkId.getName());
-		}
-	}
-
-//	/**
-//	 * Performs a git checkout command in all submodules at the commits which are
-//	 * recorded for them in the current commit of the parent repository. Submodules
-//	 * whose content has not been initialized or cloned yet are initialized first.
-//	 * 
-//	 * @exception GitAPIException if unable to compute a result.
-//	 * @exception IOException     if a repository cannot be read.
-//	 */
-//	public void checkoutAllSubmodulesAtRecordedCommits() throws GitAPIException, IOException {
-//		Map<String, SubmoduleStatus> statuses = git.submoduleStatus().call();
-//		for (String submodulePath : statuses.keySet()) {
-//			// Ensure the submodule content exists before a checkout can be performed in it.
-//			initAndCloneSubmodule(submodulePath);
-//			checkoutSubmoduleAtRecordedCommit(submodulePath);
-//		}
-//	}
 
 	/**
 	 * Initializes a brand new empty Git repository in the root directory, i.e.
