@@ -48,6 +48,13 @@ import cipm.consistency.base.models.instrumentation.InstrumentationModel.Instrum
  * commit integration test case, meaning that the models (Java, PCM, IM) will be
  * build from scratch.
  */
+
+/**
+ * <p>
+ * Note that the submodule checks within this class may not cover cases, where
+ * submodule contents are manually modified (e.g. submodule files are
+ * hand-modified and committed)
+ */
 public class ApacheCommonsTestController {
 	private static final Logger LOGGER = Logger.getLogger(ApacheCommonsTestController.class);
 	private CommitIntegrationState<JavaModelFacade> state;
@@ -123,6 +130,17 @@ public class ApacheCommonsTestController {
 			// "git submodule update submodule_name"
 			if (!wrapper.isSubmodulePhysicallyPresent(relativeSubmodulePath)) {
 				LOGGER.debug(relativeSubmodulePath + " is not physically present");
+
+				// If submodule metadata files are present, remove them first,
+				// so that initialising and cloning the submodule does not
+				// throw exceptions
+				if (!wrapper.canInitAndCloneSubmodule(relativeSubmodulePath)) {
+					LOGGER.debug(relativeSubmodulePath + " metadata files exist");
+					LOGGER.debug("Deleting the metadata of " + relativeSubmodulePath);
+					wrapper.removeSubmodulePhysically(relativeSubmodulePath);
+					LOGGER.debug("Deleted the metadata of " + relativeSubmodulePath);
+				}
+
 				LOGGER.debug("Initialising and cloning " + e.getKey());
 				wrapper.initAndCloneSubmodule(relativeSubmodulePath);
 				LOGGER.debug("Initialised and cloned " + e.getKey());
