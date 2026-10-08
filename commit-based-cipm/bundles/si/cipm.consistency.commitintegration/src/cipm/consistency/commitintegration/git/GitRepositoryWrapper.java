@@ -40,8 +40,8 @@ import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.errors.RevisionSyntaxException;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.ConfigConstants;
 import org.eclipse.jgit.lib.Constants;
-import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -527,7 +527,8 @@ public class GitRepositoryWrapper {
 			FileUtils.deleteDirectory(submoduleDirectory);
 		}
 		// Delete the submodule's repository metadata (cloned object database and refs).
-		File moduleRepositoryDirectory = new File(git.getRepository().getDirectory(), "modules/" + submodulePath);
+		File moduleRepositoryDirectory = new File(git.getRepository().getDirectory(),
+				Paths.get(Constants.MODULES, submodulePath).toString());
 		if (moduleRepositoryDirectory.isDirectory()) {
 			FileUtils.deleteDirectory(moduleRepositoryDirectory);
 		}
@@ -553,7 +554,7 @@ public class GitRepositoryWrapper {
 		}
 		// 1. Determine the submodule's name from its path entry in .gitmodules.
 		String submodulePathToUse = submodulePath;
-		File modulesFile = new File(this.repoDir, ".gitmodules");
+		File modulesFile = new File(this.repoDir, Constants.DOT_GIT_MODULES);
 		Config modulesConfig = new Config();
 		if (modulesFile.isFile()) {
 			try {
@@ -563,15 +564,17 @@ public class GitRepositoryWrapper {
 			}
 		}
 		String submoduleUrl = null;
-		for (String name : modulesConfig.getSubsections("submodule")) {
-			String entryPath = modulesConfig.getString("submodule", name, "path");
+		for (String name : modulesConfig.getSubsections(ConfigConstants.CONFIG_SUBMODULE_SECTION)) {
+			String entryPath = modulesConfig.getString(ConfigConstants.CONFIG_SUBMODULE_SECTION, name,
+					ConfigConstants.CONFIG_KEY_PATH);
 			if (submodulePathToUse.equals(entryPath)) {
-				submoduleUrl = modulesConfig.getString("submodule", name, "url");
-				modulesConfig.unsetSection("submodule", name);
+				submoduleUrl = modulesConfig.getString(ConfigConstants.CONFIG_SUBMODULE_SECTION, name,
+						ConfigConstants.CONFIG_KEY_URL);
+				modulesConfig.unsetSection(ConfigConstants.CONFIG_SUBMODULE_SECTION, name);
 			}
 		}
 		// 2. Rewrite or remove the .gitmodules file.
-		if (modulesConfig.getSubsections("submodule").isEmpty()) {
+		if (modulesConfig.getSubsections(ConfigConstants.CONFIG_SUBMODULE_SECTION).isEmpty()) {
 			Files.deleteIfExists(modulesFile.toPath());
 		} else if (modulesFile.isFile()) {
 			Files.writeString(modulesFile.toPath(), modulesConfig.toText(), StandardCharsets.UTF_8);
@@ -580,9 +583,10 @@ public class GitRepositoryWrapper {
 		// (submodule.<name>.url, .fetch, .branch), keyed by the URL in .gitmodules.
 		if (submoduleUrl != null) {
 			StoredConfig repositoryConfig = git.getRepository().getConfig();
-			for (String name : repositoryConfig.getSubsections("submodule")) {
-				if (submoduleUrl.equals(repositoryConfig.getString("submodule", name, "url"))) {
-					repositoryConfig.unsetSection("submodule", name);
+			for (String name : repositoryConfig.getSubsections(ConfigConstants.CONFIG_SUBMODULE_SECTION)) {
+				if (submoduleUrl.equals(repositoryConfig.getString(ConfigConstants.CONFIG_SUBMODULE_SECTION, name,
+						ConfigConstants.CONFIG_KEY_URL))) {
+					repositoryConfig.unsetSection(ConfigConstants.CONFIG_SUBMODULE_SECTION, name);
 				}
 			}
 			repositoryConfig.save();
@@ -625,7 +629,7 @@ public class GitRepositoryWrapper {
 	 *                        invalid.
 	 */
 	public boolean isSubmoduleRegistered(String submodulePath) throws IOException {
-		File modulesFile = new File(this.repoDir, ".gitmodules");
+		File modulesFile = new File(this.repoDir, Constants.DOT_GIT_MODULES);
 		if (!modulesFile.isFile()) {
 			return false;
 		}
@@ -635,8 +639,10 @@ public class GitRepositoryWrapper {
 		} catch (ConfigInvalidException e) {
 			throw new IOException("Invalid .gitmodules file in " + this.repoDir, e);
 		}
-		for (String name : modulesConfig.getSubsections("submodule")) {
-			if (submodulePath.equals(modulesConfig.getString("submodule", name, "path"))) {
+
+		for (String name : modulesConfig.getSubsections(ConfigConstants.CONFIG_SUBMODULE_SECTION)) {
+			if (submodulePath.equals(modulesConfig.getString(ConfigConstants.CONFIG_SUBMODULE_SECTION, name,
+					ConfigConstants.CONFIG_KEY_PATH))) {
 				return true;
 			}
 		}
@@ -674,13 +680,20 @@ public class GitRepositoryWrapper {
 	 * checked-out content. A submodule that is registered but not yet initialized
 	 * or cloned is not physically present.
 	 * 
+	 * <p>
 	 * Assumes trivial submodule paths, i.e. single-segment path names such as
 	 * {@code mySubmodule}.
 	 * 
+	 * <p>
+	 * Note that this method returns a best effort result: It only checks whether
+	 * the submodule directory has any non-GIT-metadata files or directories.
+	 * 
 	 * @param submodulePath path of the submodule relative to the root directory.
-	 * @return true if the submodule directory exists and contains content.
+	 * @return true if the submodule directory exists and contains non-GIT-metadata
+	 *         content.
 	 */
 	public boolean isSubmodulePhysicallyPresent(String submodulePath) {
+		// Reviewed TODO Remove comment before pushing
 		File submoduleDirectory = new File(this.repoDir, submodulePath);
 		if (!submoduleDirectory.isDirectory()) {
 			return false;
@@ -688,19 +701,36 @@ public class GitRepositoryWrapper {
 
 		// Best effort result, looks for a file / folder with a name that does not start
 		// with ".". Since most GIT-related files' names start with a dot ".", this
-		// should make sure that there are non-GIT metadata files present. In that case,
-		// assume that the submodule is physically present.
+		// should help decide whether there are non-GIT metadata files present. In that
+		// case, assume that the submodule is physically present.
 		return submoduleDirectory.listFiles((f) -> !f.getName().startsWith(".")).length > 0;
-//		String[] entries = submoduleDirectory.list();
-//		if (entries == null || entries.length == 0) {
-//			return false;
-//		}
-//		for (String entry : entries) {
-//			if (!entry.equals(".git")) {
-//				return true;
-//			}
-//		}
-//		return false;
+	}
+
+	/**
+	 * Checks whether the metadata associated with the given submodule physically
+	 * exists.
+	 * 
+	 * @param submodulePath path of the submodule relative to the root directory.
+	 * @return true if the module directory of the submodule exists (
+	 *         {@code mainRepo/.git/modules/submodulePath} )
+	 */
+	public boolean isSubmoduleMetadataPhysicallyPresent(String submodulePath) {
+		// Implemented by me TODO Remove comment before pushing
+		var submoduleModuleFolder = this.repoDir.toPath().resolve(Constants.DOT_GIT).resolve(Constants.MODULES)
+				.resolve(submodulePath).toFile();
+		return submoduleModuleFolder.exists();
+	}
+
+	/**
+	 * Checks whether there are any physical submodule content, which could cause
+	 * issues while initialising and cloning the submodule.
+	 * 
+	 * @param submodulePath path of the submodule relative to the root directory.
+	 * @return true if the given submodule can be initialised and cloned
+	 */
+	public boolean canInitAndCloneSubmodule(String submodulePath) {
+		// Implemented by me TODO Remove comment before pushing
+		return !isSubmodulePhysicallyPresent(submodulePath) && !isSubmoduleMetadataPhysicallyPresent(submodulePath);
 	}
 
 	/**
@@ -718,19 +748,19 @@ public class GitRepositoryWrapper {
 		ensureSubmoduleGitFiles();
 	}
 
-	/**
-	 * Initializes all existing submodules and clones their content, i.e. performs
-	 * the {@code git submodule init} and {@code git submodule update} commands.
-	 * Submodules which are already initialized and up-to-date are left untouched.
-	 * 
-	 * @exception GitAPIException if unable to compute a result.
-	 * @exception IOException     if a submodule repository cannot be initialized.
-	 */
-	public void initAndCloneSubmodules() throws GitAPIException, IOException {
-		git.submoduleInit().call();
-		git.submoduleUpdate().call();
-		ensureSubmoduleGitFiles();
-	}
+//	/**
+//	 * Initializes all existing submodules and clones their content, i.e. performs
+//	 * the {@code git submodule init} and {@code git submodule update} commands.
+//	 * Submodules which are already initialized and up-to-date are left untouched.
+//	 * 
+//	 * @exception GitAPIException if unable to compute a result.
+//	 * @exception IOException     if a submodule repository cannot be initialized.
+//	 */
+//	public void initAndCloneSubmodules() throws GitAPIException, IOException {
+//		git.submoduleInit().call();
+//		git.submoduleUpdate().call();
+//		ensureSubmoduleGitFiles();
+//	}
 
 	/**
 	 * Adds a new submodule to the repository, i.e. performs the
@@ -775,9 +805,6 @@ public class GitRepositoryWrapper {
 //		return commit;
 //	}
 
-	// TODO: Extract magic strings as constants / re-use potentially existing
-	// constants from JGIT
-
 	/**
 	 * Ensures that the {@code .git} gitfiles of all submodules exist, i.e. one-line
 	 * files containing {@code gitdir: <path to the repository>} inside each
@@ -791,17 +818,18 @@ public class GitRepositoryWrapper {
 		Map<String, SubmoduleStatus> statuses = git.submoduleStatus().call();
 		for (String submodulePath : statuses.keySet()) {
 			File submoduleDirectory = new File(this.repoDir, submodulePath);
-			File gitFile = new File(submoduleDirectory, ".git");
+			File gitFile = new File(submoduleDirectory, Constants.DOT_GIT);
 			if (gitFile.exists()) {
 				continue;
 			}
 			// JGit stores the cloned submodule repository under
 			// <parent>/.git/modules/<submodulePath>.
-			File moduleRepositoryDirectory = new File(git.getRepository().getDirectory(), "modules/" + submodulePath);
-			if (new File(moduleRepositoryDirectory, "HEAD").exists()) {
+			File moduleRepositoryDirectory = new File(git.getRepository().getDirectory(),
+					Paths.get(Constants.MODULES, submodulePath).toString());
+			if (new File(moduleRepositoryDirectory, Constants.HEAD).exists()) {
 				Path gitDirPath = Paths.get(submoduleDirectory.getAbsolutePath())
 						.relativize(Paths.get(moduleRepositoryDirectory.getAbsolutePath()));
-				FileUtils.writeStringToFile(gitFile, "gitdir: " + gitDirPath.toString() + System.lineSeparator(),
+				FileUtils.writeStringToFile(gitFile, Constants.GITDIR + gitDirPath.toString() + System.lineSeparator(),
 						StandardCharsets.UTF_8);
 			}
 		}
@@ -882,8 +910,6 @@ public class GitRepositoryWrapper {
 		headUpdate.update();
 	}
 
-	// TODO: Check "Constants.HEAD" for JGIT constants that are re-usable here
-
 	/**
 	 * Opens the repository of a submodule. If the submodule directory cannot be
 	 * opened directly (e.g. because JGit did not create its {@code .git} gitfile),
@@ -901,7 +927,8 @@ public class GitRepositoryWrapper {
 		try {
 			return Git.open(submoduleDirectory);
 		} catch (RepositoryNotFoundException e) {
-			File moduleRepositoryDirectory = new File(git.getRepository().getDirectory(), "modules/" + submodulePath);
+			File moduleRepositoryDirectory = new File(git.getRepository().getDirectory(),
+					Paths.get(Constants.MODULES, submodulePath).toString());
 			Repository submoduleRepository = new RepositoryBuilder().setGitDir(moduleRepositoryDirectory)
 					.setWorkTree(submoduleDirectory).build();
 			return Git.wrap(submoduleRepository);
@@ -933,25 +960,22 @@ public class GitRepositoryWrapper {
 		}
 	}
 
-	// TODO: Try accessing "modules/" via "modules" instead to make it platform
-	// independent
-
-	/**
-	 * Performs a git checkout command in all submodules at the commits which are
-	 * recorded for them in the current commit of the parent repository. Submodules
-	 * whose content has not been initialized or cloned yet are initialized first.
-	 * 
-	 * @exception GitAPIException if unable to compute a result.
-	 * @exception IOException     if a repository cannot be read.
-	 */
-	public void checkoutAllSubmodulesAtRecordedCommits() throws GitAPIException, IOException {
-		Map<String, SubmoduleStatus> statuses = git.submoduleStatus().call();
-		for (String submodulePath : statuses.keySet()) {
-			// Ensure the submodule content exists before a checkout can be performed in it.
-			initAndCloneSubmodule(submodulePath);
-			checkoutSubmoduleAtRecordedCommit(submodulePath);
-		}
-	}
+//	/**
+//	 * Performs a git checkout command in all submodules at the commits which are
+//	 * recorded for them in the current commit of the parent repository. Submodules
+//	 * whose content has not been initialized or cloned yet are initialized first.
+//	 * 
+//	 * @exception GitAPIException if unable to compute a result.
+//	 * @exception IOException     if a repository cannot be read.
+//	 */
+//	public void checkoutAllSubmodulesAtRecordedCommits() throws GitAPIException, IOException {
+//		Map<String, SubmoduleStatus> statuses = git.submoduleStatus().call();
+//		for (String submodulePath : statuses.keySet()) {
+//			// Ensure the submodule content exists before a checkout can be performed in it.
+//			initAndCloneSubmodule(submodulePath);
+//			checkoutSubmoduleAtRecordedCommit(submodulePath);
+//		}
+//	}
 
 	/**
 	 * Initializes a brand new empty Git repository in the root directory, i.e.
@@ -993,9 +1017,8 @@ public class GitRepositoryWrapper {
 
 		// Stage .gitmodules as well, in case a submodule was added since the last
 		// commit.
-		addCommand.addFilepattern(".gitmodules").call();
+		addCommand.addFilepattern(Constants.DOT_GIT_MODULES).call();
 		RevCommit commit = git.commit().setMessage(commitMessage).call();
-		// FIXME: Commit submodule versions too "git add submodulePath"
 		currentCheckoutCommit = commit;
 		return commit;
 	}
