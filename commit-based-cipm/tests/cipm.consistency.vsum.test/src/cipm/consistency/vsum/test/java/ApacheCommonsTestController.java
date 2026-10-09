@@ -206,8 +206,6 @@ public class ApacheCommonsTestController {
 			this.apacheCommonsController.initialize(this.apacheCommonsController);
 			this.state = this.apacheCommonsController.getState();
 			var wrapper = this.state.getGitRepositoryWrapper();
-			// state.initialize(this.teammatesController,
-			// this.teammatesController.getRootPath(), overwrite);
 
 			initContainerRepo(wrapper);
 			ensureSubmoduleConfiguration(wrapper, repoMap);
@@ -226,6 +224,8 @@ public class ApacheCommonsTestController {
 	public static void setupStatic() {
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("java", new JavaResource2Factory());
 		Resource.Factory.Registry.INSTANCE.getExtensionToFactoryMap().put("javaxmi", new JavaResource2Factory());
+		// This method call is important for the tests to run as intended, as it makes
+		// sure that the InstrumentationModel can be found later on
 		InstrumentationModelPackage.eINSTANCE.eClass();
 	}
 
