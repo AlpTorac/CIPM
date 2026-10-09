@@ -49,11 +49,16 @@ import cipm.consistency.base.models.instrumentation.InstrumentationModel.Instrum
  */
 
 /**
+ * Contains integration and propagation tests for the Apache commons repository.
+ * The integration test case is from the "case-vitruv" branch.
+ * 
  * <p>
  * Note that the submodule checks within this class may not cover cases, where
  * submodule contents are manually modified (e.g. submodule files are
  * hand-modified and committed). Therefore, this test class assumes that the
- * submodules are not manually adjusted.
+ * submodules are not manually adjusted. This especially includes <b><i>
+ * deleting the submodule repositories and/or their GIT-metadata by
+ * hand.</i></b>
  */
 public class ApacheCommonsTestController {
 	private static final Logger LOGGER = Logger.getLogger(ApacheCommonsTestController.class);

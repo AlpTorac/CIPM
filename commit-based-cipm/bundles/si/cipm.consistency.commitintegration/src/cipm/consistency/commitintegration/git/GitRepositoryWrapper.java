@@ -74,6 +74,9 @@ public class GitRepositoryWrapper {
 	private Repository repository;
 	private RevCommit currentCheckoutCommit;
 
+	// TODO: Keep track of submodule Git and Repository instances too and close them
+	// as well
+
 //    private String defaultBranch;
 	private String sourceFileExt;
 	private boolean detectRenames;
@@ -500,12 +503,6 @@ public class GitRepositoryWrapper {
 		return currentCheckoutCommit.getId().getName();
 	}
 
-	//
-	// AI Generated
-	//
-	// TODO: Review below before pushing
-	//
-
 	/**
 	 * Physically removes a submodule from the file system, i.e. deletes its working
 	 * tree directory in the root directory and its repository metadata under
@@ -668,7 +665,6 @@ public class GitRepositoryWrapper {
 	 *         content.
 	 */
 	public boolean isSubmodulePhysicallyPresent(String submodulePath) {
-		// Reviewed TODO Remove comment before pushing
 		File submoduleDirectory = new File(this.repoDir, submodulePath);
 		if (!submoduleDirectory.isDirectory()) {
 			return false;
@@ -690,7 +686,6 @@ public class GitRepositoryWrapper {
 	 *         {@code mainRepo/.git/modules/submodulePath} )
 	 */
 	public boolean isSubmoduleMetadataPhysicallyPresent(String submodulePath) {
-		// Implemented by me TODO Remove comment before pushing
 		var submoduleModuleFolder = this.repoDir.toPath().resolve(Constants.DOT_GIT).resolve(Constants.MODULES)
 				.resolve(submodulePath).toFile();
 		return submoduleModuleFolder.exists();
@@ -704,7 +699,6 @@ public class GitRepositoryWrapper {
 	 * @return true if the given submodule can be initialised and cloned
 	 */
 	public boolean canInitAndCloneSubmodule(String submodulePath) {
-		// Implemented by me TODO Remove comment before pushing
 		return !isSubmodulePhysicallyPresent(submodulePath) && !isSubmoduleMetadataPhysicallyPresent(submodulePath);
 	}
 
