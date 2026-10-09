@@ -24,7 +24,7 @@ import cipm.consistency.commitintegration.settings.CommitIntegrationSettingsCont
 import cipm.consistency.vsum.test.appspace.LoggingSetup;
 import cipm.consistency.vsum.test.java.ApacheCommonsRepoEntries.RepoEntry;
 import jamopp.resource.JavaResource2Factory;
-import cipm.consistency.base.models.instrumentation.InstrumentationModel.InstrumentationModelPackage;
+import tools.cipm.models.instrumentation.InstrumentationModel.InstrumentationModelPackage;
 
 /*
  * TODO Fix
